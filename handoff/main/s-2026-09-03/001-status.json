@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "main",
+  "session": "s-2026-09-03",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-03T20:35:06+08:00",
+  "status": "Fresh clone of gorgojs/medusa-dtc-starter@48902c6 (2026-08-31), installed: DB upready_store (pg 5433), backend :9022, storefront :8027, seeded 11 products/241 regions, admin admin@upready.dev"
+}

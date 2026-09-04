@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "main",
+  "session": "s-2026-09-04",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-04T05:22:56+08:00",
+  "status": "storefront dev-сервер дважды падал с [killed] без явной причины (не порт-конфликт) в сессии 09cc8800; перезапущен, сейчас :8000 и :9022 живы"
+}

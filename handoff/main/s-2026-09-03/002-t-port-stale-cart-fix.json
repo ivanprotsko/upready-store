@@ -1,0 +1,22 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "main",
+  "session": "s-2026-09-03",
+  "index": 2,
+  "action": "task-add",
+  "ts": "2026-09-03T20:35:07+08:00",
+  "status": "Fresh clone of gorgojs/medusa-dtc-starter@48902c6 (2026-08-31), installed: DB upready_store (pg 5433), backend :9022, storefront :8027, seeded 11 products/241 regions, admin admin@upready.dev",
+  "task": {
+    "id": "t-port-stale-cart-fix",
+    "title": "Port stale-cart-cookie fix from cherkashino aeffa62 (updateLocale/updateRegion 404 → drop cookie; middleware skips cookie writes on next-action) — localhost cookies are shared across ports, so a cart id from :8017/:8007 breaks region/locale switch here",
+    "state": "backlog",
+    "priority": "high",
+    "tags": [
+      "bug",
+      "upstream-candidate"
+    ],
+    "created": "2026-09-03T20:35:06+08:00",
+    "updated": "2026-09-03T20:35:06+08:00"
+  }
+}
