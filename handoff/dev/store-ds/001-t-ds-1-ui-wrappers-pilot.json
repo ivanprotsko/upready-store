@@ -1,0 +1,29 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 1,
+  "action": "task-add",
+  "ts": "2026-09-06T05:51:20+08:00",
+  "status": "backend уже работал (:9022, up с 3 сент), storefront перезапущен и жив на :8000; отдельный вопрос сессии — найден sessionId a9d170f3-c48f-4bd5-8ecb-253437c92b0c (проект lab) для WB API sandbox research, уже задокументирован в memory/wb-api-sandbox-and-antibot.md",
+  "task": {
+    "id": "t-ds-1-ui-wrappers-pilot",
+    "title": "Phase 1 wrappers pilot: icon+badge+tooltip, select+otp-input, date-picker, dropdown-menu behind src/ui wrappers with contract/matrix/golden and gallery tests (orchestrator store-ui-a, Opus, ultracode)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Proposed goal: the seven pilot components are imported only through @ui/<name>, each with contract.json, matrix.json, golden.json and a gallery page, and the pilot's pitfalls are documented with evidence. Proposed acceptance: (1) :8000 on dev looks unchanged to Ivan on /en/store sort, badges, account menu; (2) next lint warns on a direct @medusajs/ui import outside src/ui; (3) /en/ui-lab/select renders in dev and is 404 in a production build; (4) pnpm ui-lab:test green in Docker and one broken token gives red (count copied); (5) specs/design-system/ui-inventory.json totals equal 00-program section 2; (6) docs/design-system/pitfalls-2026-09.md has one section per component with evidence. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+      "docs/design-system/00-program-2026-09-06.md",
+      "specs/design-system/wrapper-contract.schema.json"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "phase-1"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T05:51:20+08:00"
+  }
+}

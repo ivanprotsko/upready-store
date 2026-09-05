@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready.ui-inventory/v0",
+  "title": "Storefront UI inventory (v0)",
+  "description": "Output of apps/storefront/scripts/ui-inventory.mjs, committed at specs/design-system/ui-inventory.json. Every JSX call site of a component that comes from a UI package (or from src/ui) with directory, file, line and column, plus the props written at that site. Built with a parser (TypeScript compiler API or @babel/parser with the jsx+typescript plugins), never with grep. The totals are the gate of every migration wave: `directImportsOutsideUi` must reach 0 before the ESLint rule flips to error. Architect, 2026-09-06.",
+  "type": "object",
+  "required": ["schema", "generatedAt", "root", "tool", "totals", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.ui-inventory/v0" },
+    "generatedAt": { "type": "string" },
+    "root": { "type": "string", "description": "Scanned directory relative to the repo (apps/storefront/src)." },
+    "tool": {
+      "type": "object",
+      "required": ["name", "parser", "commit"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "parser": { "type": "string" },
+        "commit": { "type": "string" }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["files", "filesScanned", "occurrences", "byComponent", "byPackage", "directImportsOutsideUi"],
+      "additionalProperties": false,
+      "properties": {
+        "files": { "type": "integer", "description": "Files with at least one entry." },
+        "filesScanned": { "type": "integer" },
+        "occurrences": { "type": "integer" },
+        "byComponent": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["files", "occurrences"],
+            "additionalProperties": false,
+            "properties": {
+              "files": { "type": "integer" },
+              "occurrences": { "type": "integer" }
+            }
+          },
+          "description": "Key \"<package>:<Component>\" (e.g. \"@medusajs/ui:Select.Trigger\")."
+        },
+        "byPackage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["files", "occurrences", "imports"],
+            "additionalProperties": false,
+            "properties": {
+              "files": { "type": "integer" },
+              "occurrences": { "type": "integer" },
+              "imports": { "type": "integer", "description": "Import statements (one per file per package)." }
+            }
+          }
+        },
+        "directImportsOutsideUi": {
+          "type": "integer",
+          "description": "Import statements of @medusajs/ui or @medusajs/icons in files outside src/ui/**. The wave gate."
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": ["package", "component", "file", "line", "col", "props", "clientComponent"],
+      "additionalProperties": false,
+      "properties": {
+        "package": {
+          "type": "string",
+          "description": "@medusajs/ui | @medusajs/icons | @headlessui/react | @ariakit/react | @radix-ui/<pkg> | @ui (our wrappers) | local (a src/modules component)."
+        },
+        "component": { "type": "string", "description": "Name as exported by the package (Select, Select.Trigger, ChevronDown)." },
+        "importedAs": { "type": "string", "description": "Local binding when renamed." },
+        "kind": { "enum": ["jsx", "call", "type"], "default": "jsx", "description": "jsx = used as a tag; call = called as a function (clx); type = type-only import." },
+        "file": { "type": "string", "description": "Path relative to the repo root." },
+        "dir": { "type": "string" },
+        "line": { "type": "integer", "minimum": 1 },
+        "col": { "type": "integer", "minimum": 0 },
+        "props": {
+          "type": "object",
+          "additionalProperties": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }, { "type": "null" }] },
+          "description": "Literal prop values as written; a non-literal expression is recorded as the string \"<expr>\"; a spread as \"<spread>\"."
+        },
+        "parent": { "type": "string", "description": "Nearest enclosing JSX tag name, when any." },
+        "clientComponent": { "type": "boolean", "description": "File starts with the \"use client\" directive." },
+        "route": { "type": "string", "description": "For files under src/app: the route segment path." }
+      }
+    }
+  }
+}

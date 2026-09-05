@@ -1,0 +1,23 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 3,
+  "action": "task-add",
+  "ts": "2026-09-06T05:51:20+08:00",
+  "status": "backend уже работал (:9022, up с 3 сент), storefront перезапущен и жив на :8000; отдельный вопрос сессии — найден sessionId a9d170f3-c48f-4bd5-8ecb-253437c92b0c (проект lab) для WB API sandbox research, уже задокументирован в memory/wb-api-sandbox-and-antibot.md",
+  "task": {
+    "id": "t-ds-2-own-components",
+    "title": "Phase 2: own implementations behind the wrappers in waves of 2-4 components by usage, golden tests of phase 1 unchanged; starts after phase 1.3 (0 direct imports) and the F1 decision",
+    "state": "backlog",
+    "priority": "med",
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "phase-2"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T05:51:20+08:00"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready.store-ui-contract/v0",
+  "title": "Storefront UI wrapper contract (v0)",
+  "description": "One file per wrapper at apps/storefront/src/ui/<name>/contract.json. It freezes the JSON face of a component while the implementation behind the wrapper changes (Medusa UI today, our own later). `props` lists JSON-serializable props only; anything that is a function or a ReactNode goes to `nonSerializable` with a plan, because that is the seam the JSON renderer (app-shell AppUISpec v0: `on`, `slot`) will need. Architect, 2026-09-06.",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "name",
+    "kind",
+    "source",
+    "wrapper",
+    "props",
+    "nonSerializable",
+    "variants",
+    "states",
+    "subcomponents",
+    "usage",
+    "tests",
+    "pitfalls",
+    "appShell"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.store-ui-contract/v0" },
+    "id": {
+      "type": "string",
+      "pattern": "^ui/[a-z0-9][a-z0-9-]*$",
+      "description": "Stable id, same shape as app-shell contract ids (ui/select). Becomes the `use` value of a JSON node later."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$",
+      "description": "Exported React name (Select)."
+    },
+    "kind": {
+      "enum": ["primitive", "component", "compound"],
+      "description": "compound = has subcomponents whose states multiply with the root's (Select.Trigger, DatePicker calendar…)."
+    },
+    "source": {
+      "type": "object",
+      "required": ["package", "importName", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "package": { "enum": ["@medusajs/ui", "@medusajs/icons", "local"] },
+        "importName": { "type": "string" },
+        "version": { "type": "string", "description": "Exact installed version at contract time (4.2.1). Drift is caught by the golden tests, not by this field." },
+        "docs": { "type": "string", "format": "uri", "description": "https://docs.medusajs.com/ui/components/<name>" },
+        "upstreamPath": { "type": "string", "description": "node_modules path of the implementation read for this contract." }
+      }
+    },
+    "wrapper": {
+      "type": "object",
+      "required": ["path", "exports"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "pattern": "^apps/storefront/src/ui/[a-z0-9-]+/index\\.tsx$" },
+        "exports": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "props": {
+      "$ref": "#/$defs/propsSchema",
+      "description": "JSON Schema (object) of the serializable props of the root component. Enumerate every union literally; `default` is mandatory when the implementation has one."
+    },
+    "nonSerializable": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonSerializableProp" },
+      "description": "Every prop that is a function or ReactNode, with the plan for the JSON layer. Empty array is a claim, not an omission."
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+      "description": "Axis → closed value set (variant: [primary, secondary…], size: [small, base…]). The matrix must cover the cartesian product unless a case is marked excluded with a reason."
+    },
+    "states": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/state" },
+      "uniqueItems": true,
+      "description": "States of the root that change the rendering."
+    },
+    "subcomponents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/subcomponent" },
+      "description": "Dotted members (Select.Trigger). Empty for primitives."
+    },
+    "slots": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Named children positions the JSON node may fill (children, trigger, content…)."
+    },
+    "a11y": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "role": { "type": "string" },
+        "keyboard": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "effect"],
+            "additionalProperties": false,
+            "properties": { "key": { "type": "string" }, "effect": { "type": "string" } }
+          }
+        },
+        "aria": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^--[a-z0-9-]+$" },
+      "description": "CSS variables the implementation reads (--button-inverted, --borders-focus…). Feeds phase 2 (own implementation must consume the same tokens)."
+    },
+    "usage": {
+      "type": "object",
+      "required": ["files", "callSites", "measuredAt", "tool"],
+      "additionalProperties": false,
+      "properties": {
+        "files": { "type": "integer", "minimum": 0 },
+        "callSites": { "type": "integer", "minimum": 0 },
+        "measuredAt": { "type": "string" },
+        "tool": { "type": "string", "description": "ui-inventory.mjs <version|commit>. Numbers are copied from its output, never typed by hand." }
+      }
+    },
+    "tests": {
+      "type": "object",
+      "required": ["matrix", "golden"],
+      "additionalProperties": false,
+      "properties": {
+        "matrix": { "type": "string", "description": "Path to matrix.json (upready.ui-variant-matrix/v0)." },
+        "golden": { "type": "string", "description": "Path to golden.json (upready.ui-golden/v0)." },
+        "spec": { "type": "string", "description": "Path to a component-specific Playwright spec, when the generic runner is not enough (keyboard flows of compounds)." }
+      }
+    },
+    "pitfalls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^p-[a-z0-9-]+$" },
+          "text": { "type": "string" },
+          "evidence": { "type": "string", "description": "File:line, screenshot path or command output that proves it. A pitfall without evidence is a guess." }
+        }
+      }
+    },
+    "appShell": {
+      "type": "object",
+      "required": ["mapping"],
+      "additionalProperties": false,
+      "properties": {
+        "contractId": { "type": "string", "pattern": "^(ui|prim|block|screen|code)/[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)*$" },
+        "mapping": { "enum": ["1:1", "adapter", "none", "tbd"], "description": "How this wrapper maps onto the app-shell registry entry: 1:1 same props; adapter = a documented prop translation; none = no counterpart yet; tbd = not decided." },
+        "note": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "state": {
+      "enum": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled",
+        "loading",
+        "open",
+        "closed",
+        "checked",
+        "unchecked",
+        "indeterminate",
+        "invalid",
+        "readonly",
+        "selected",
+        "empty",
+        "error",
+        "rtl"
+      ]
+    },
+    "propsSchema": {
+      "type": "object",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": { "const": "object" },
+        "properties": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/prop" }
+        },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "additionalProperties": { "type": "boolean" }
+      }
+    },
+    "prop": {
+      "type": "object",
+      "properties": {
+        "type": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+        "enum": { "type": "array" },
+        "const": {},
+        "default": {},
+        "items": { "$ref": "#/$defs/prop" },
+        "properties": { "type": "object", "additionalProperties": { "$ref": "#/$defs/prop" } },
+        "description": { "type": "string" },
+        "x-ts": { "type": "string", "description": "The TypeScript type as written in the source." },
+        "x-from": { "type": "string", "description": "Package that declares the prop when it is not the component's own (radix, DOM)." }
+      }
+    },
+    "nonSerializableProp": {
+      "type": "object",
+      "required": ["name", "kind", "plan"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "kind": { "enum": ["function", "reactnode", "ref", "other"] },
+        "plan": {
+          "enum": ["action", "slot", "drop", "keep-tsx"],
+          "description": "action = becomes an `on` event name in JSON; slot = becomes a named child; drop = not exposed by the wrapper; keep-tsx = stays TSX-only, named as a limit."
+        },
+        "note": { "type": "string" }
+      }
+    },
+    "subcomponent": {
+      "type": "object",
+      "required": ["name", "path", "props", "states"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "path": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9]*(\\.[A-Z][A-Za-z0-9]*)+$", "description": "Dotted access path (Select.Trigger)." },
+        "props": { "$ref": "#/$defs/propsSchema" },
+        "nonSerializable": { "type": "array", "items": { "$ref": "#/$defs/nonSerializableProp" } },
+        "states": { "type": "array", "items": { "$ref": "#/$defs/state" }, "uniqueItems": true },
+        "required": { "type": "boolean", "description": "true when the root cannot render without it." },
+        "multiplies": {
+          "type": "boolean",
+          "description": "true when this subcomponent's states combine with the root's (Select.Content open × Select.Item selected). Drives the matrix size."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready.ui-golden/v0",
+  "title": "UI golden measurements (v0)",
+  "description": "One file per wrapper at apps/storefront/src/ui/<name>/golden.json, written by the runner in --update-golden mode and compared in the default mode. Keys are \"<viewport>/<case>\". Every value is what the browser reported (getComputedStyle / boundingBox), never edited by hand. Two uses, as Ivan asked: after a change — 'nothing crumbled' (all dimensions equal); for a feature — 'this specific dimension is now X' (the test asserts a named dimension). Architect, 2026-09-06.",
+  "type": "object",
+  "required": ["schema", "component", "recordedAt", "runner", "browser", "cases"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.ui-golden/v0" },
+    "component": { "type": "string", "pattern": "^ui/[a-z0-9][a-z0-9-]*$" },
+    "recordedAt": { "type": "string" },
+    "runner": {
+      "type": "object",
+      "required": ["playwright", "image"],
+      "additionalProperties": false,
+      "properties": {
+        "playwright": { "type": "string", "description": "@playwright/test version" },
+        "image": { "type": "string", "description": "Docker image tag used (mcr.microsoft.com/playwright:v<same version>-jammy)" },
+        "commit": { "type": "string" }
+      }
+    },
+    "browser": { "enum": ["chromium", "firefox", "webkit"] },
+    "cases": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9-]+/[a-z0-9][a-z0-9-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/measurements" }
+    }
+  },
+  "$defs": {
+    "rgba": { "type": "string", "pattern": "^rgba?\\([0-9., ]+\\)$" },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "type": "object",
+          "required": ["w", "h"],
+          "additionalProperties": false,
+          "properties": { "w": { "type": "number" }, "h": { "type": "number" } }
+        },
+        "color": { "$ref": "#/$defs/rgba" },
+        "background": { "$ref": "#/$defs/rgba" },
+        "border": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "width": { "type": "string" },
+            "style": { "type": "string" },
+            "color": { "$ref": "#/$defs/rgba" }
+          }
+        },
+        "radius": { "type": "string" },
+        "shadow": { "type": "string", "description": "computed box-shadow, 'none' when absent" },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fontFamily": { "type": "string" },
+            "fontSize": { "type": "string" },
+            "fontWeight": { "type": "string" },
+            "lineHeight": { "type": "string" },
+            "letterSpacing": { "type": "string" }
+          }
+        },
+        "opacity": { "type": "string" },
+        "spacing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "padding": { "type": "string" },
+            "margin": { "type": "string" },
+            "gap": { "type": "string" }
+          }
+        },
+        "outline": { "type": "string" },
+        "visible": { "type": "boolean" },
+        "screenshot": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "path": { "type": "string" },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          }
+        }
+      }
+    }
+  }
+}

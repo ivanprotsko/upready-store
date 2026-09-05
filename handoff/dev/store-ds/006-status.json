@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 6,
+  "action": "status-set",
+  "ts": "2026-09-06T05:51:21+08:00",
+  "status": "architect store-ds 05:5x WITA: program 'UI from JSON' designed: decision docs/design-system/00-program-2026-09-06.md, 4 schemas + app-shell subscription in specs/design-system/, briefs for orchestrators store-ui-a (Opus) and store-seams-b (Fable) in docs/prompts/, measurements artifacts/docs/2026-09-06-ui-inventory-measurements.md. dev branch created in the main checkout (:8000 = dev). 5 backlog tasks + q-ds-target-library wait for Ivan's approve; orchestrators not started (rule 3c: architect hands off)."
+}

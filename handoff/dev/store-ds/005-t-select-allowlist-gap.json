@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 5,
+  "action": "task-add",
+  "ts": "2026-09-06T05:51:20+08:00",
+  "status": "backend уже работал (:9022, up с 3 сент), storefront перезапущен и жив на :8000; отдельный вопрос сессии — найден sessionId a9d170f3-c48f-4bd5-8ecb-253437c92b0c (проект lab) для WB API sandbox research, уже задокументирован в memory/wb-api-sandbox-and-antibot.md",
+  "task": {
+    "id": "t-select-allowlist-gap",
+    "title": "Select imported in sort-products but absent from the Tailwind allowlist (tailwind.config.js has 14 globs, no select): verify live render on :8000, fix inside pilot A2 with the glob and a before/after screenshot",
+    "state": "backlog",
+    "priority": "high",
+    "files": [
+      "apps/storefront/src/modules/store/components/refinement-list/sort-products/index.tsx",
+      "apps/storefront/tailwind.config.js"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "bug"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T05:51:20+08:00"
+  }
+}

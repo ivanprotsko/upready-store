@@ -1,0 +1,27 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 2,
+  "action": "task-add",
+  "ts": "2026-09-06T05:51:20+08:00",
+  "status": "backend уже работал (:9022, up с 3 сент), storefront перезапущен и жив на :8000; отдельный вопрос сессии — найден sessionId a9d170f3-c48f-4bd5-8ecb-253437c92b0c (проект lab) для WB API sandbox research, уже задокументирован в memory/wb-api-sandbox-and-antibot.md",
+  "task": {
+    "id": "t-ds-1-seam-tests",
+    "title": "Seam tests: human-interface (Playwright in Docker), interface-server (jest backend + vitest lib/data + middleware), documented dtc-starter/gorgojs bugs mapped to regression tests (orchestrator store-seams-b, Fable, ultracode)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Proposed goal: every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore. Proposed acceptance: (1) seam-map.md rows = measured count; (2) artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence; (3) backend custom routes covered by test:integration:http (count copied); (4) vitest for lib/data and middleware green; (5) Playwright funnel from landing to payment step with one screenshot per step; (6) coverage numbers copied from the tools. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "tests",
+      "phase-1"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T05:51:20+08:00"
+  }
+}

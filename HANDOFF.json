@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-04T05:22:56+08:00",
-  "status": "storefront dev-сервер дважды падал с [killed] без явной причины (не порт-конфликт) в сессии 09cc8800; перезапущен, сейчас :8000 и :9022 живы",
+  "updated": "2026-09-06T05:51:21+08:00",
+  "status": "architect store-ds 05:5x WITA: program 'UI from JSON' designed: decision docs/design-system/00-program-2026-09-06.md, 4 schemas + app-shell subscription in specs/design-system/, briefs for orchestrators store-ui-a (Opus) and store-seams-b (Fable) in docs/prompts/, measurements artifacts/docs/2026-09-06-ui-inventory-measurements.md. dev branch created in the main checkout (:8000 = dev). 5 backlog tasks + q-ds-target-library wait for Ivan's approve; orchestrators not started (rule 3c: architect hands off).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -15,6 +15,95 @@
       ],
       "created": "2026-09-03T20:35:06+08:00",
       "updated": "2026-09-03T20:35:06+08:00"
+    },
+    {
+      "id": "t-ds-1-ui-wrappers-pilot",
+      "title": "Phase 1 wrappers pilot: icon+badge+tooltip, select+otp-input, date-picker, dropdown-menu behind src/ui wrappers with contract/matrix/golden and gallery tests (orchestrator store-ui-a, Opus, ultracode)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Proposed goal: the seven pilot components are imported only through @ui/<name>, each with contract.json, matrix.json, golden.json and a gallery page, and the pilot's pitfalls are documented with evidence. Proposed acceptance: (1) :8000 on dev looks unchanged to Ivan on /en/store sort, badges, account menu; (2) next lint warns on a direct @medusajs/ui import outside src/ui; (3) /en/ui-lab/select renders in dev and is 404 in a production build; (4) pnpm ui-lab:test green in Docker and one broken token gives red (count copied); (5) specs/design-system/ui-inventory.json totals equal 00-program section 2; (6) docs/design-system/pitfalls-2026-09.md has one section per component with evidence. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+      "files": [
+        "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+        "docs/design-system/00-program-2026-09-06.md",
+        "specs/design-system/wrapper-contract.schema.json"
+      ],
+      "session": "store-ds",
+      "tags": [
+        "design-system",
+        "phase-1"
+      ],
+      "created": "2026-09-06T05:51:20+08:00",
+      "updated": "2026-09-06T05:51:20+08:00"
+    },
+    {
+      "id": "t-ds-1-seam-tests",
+      "title": "Seam tests: human-interface (Playwright in Docker), interface-server (jest backend + vitest lib/data + middleware), documented dtc-starter/gorgojs bugs mapped to regression tests (orchestrator store-seams-b, Fable, ultracode)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Proposed goal: every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore. Proposed acceptance: (1) seam-map.md rows = measured count; (2) artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence; (3) backend custom routes covered by test:integration:http (count copied); (4) vitest for lib/data and middleware green; (5) Playwright funnel from landing to payment step with one screenshot per step; (6) coverage numbers copied from the tools. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md",
+      "files": [
+        "docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md"
+      ],
+      "session": "store-ds",
+      "tags": [
+        "tests",
+        "phase-1"
+      ],
+      "created": "2026-09-06T05:51:20+08:00",
+      "updated": "2026-09-06T05:51:20+08:00"
+    },
+    {
+      "id": "t-ds-2-own-components",
+      "title": "Phase 2: own implementations behind the wrappers in waves of 2-4 components by usage, golden tests of phase 1 unchanged; starts after phase 1.3 (0 direct imports) and the F1 decision",
+      "state": "backlog",
+      "priority": "med",
+      "session": "store-ds",
+      "tags": [
+        "design-system",
+        "phase-2"
+      ],
+      "created": "2026-09-06T05:51:20+08:00",
+      "updated": "2026-09-06T05:51:20+08:00"
+    },
+    {
+      "id": "t-ds-3-json-render",
+      "title": "Phase 3: render storefront pages from JSON via @ivanprotsko-org/renderer + AppUISpec, one page at a time; depends on app-shell roadmap slice 4 (whole screens from JSON)",
+      "state": "backlog",
+      "priority": "med",
+      "session": "store-ds",
+      "tags": [
+        "design-system",
+        "phase-3"
+      ],
+      "created": "2026-09-06T05:51:20+08:00",
+      "updated": "2026-09-06T05:51:20+08:00"
+    },
+    {
+      "id": "t-select-allowlist-gap",
+      "title": "Select imported in sort-products but absent from the Tailwind allowlist (tailwind.config.js has 14 globs, no select): verify live render on :8000, fix inside pilot A2 with the glob and a before/after screenshot",
+      "state": "backlog",
+      "priority": "high",
+      "files": [
+        "apps/storefront/src/modules/store/components/refinement-list/sort-products/index.tsx",
+        "apps/storefront/tailwind.config.js"
+      ],
+      "session": "store-ds",
+      "tags": [
+        "bug"
+      ],
+      "created": "2026-09-06T05:51:20+08:00",
+      "updated": "2026-09-06T05:51:20+08:00"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-ds-target-library",
+      "question": "F1, phase 2 target library: what do our own components become? (a) adopt @ivanprotsko-org/ui from app-shell (shadcn, Tailwind v4) and extend it with store components [recommended: the renderer already depends on it; cost: a Tailwind v3 to v4 wave]; (b) own package @ivanprotsko-org/store-ui on Tailwind v3 [no Tailwind migration; a third library, contracts mapped twice]; (c) ui-kit per frontend-component-doctrine (custom elements) [workspace canon; the React storefront and the renderer do not consume it directly]. Blocks phase 2 only, not the pilot.",
+      "asked": "2026-09-06",
+      "audience": "ivan",
+      "blocks": [
+        "t-ds-2-own-components"
+      ]
     }
   ]
 }

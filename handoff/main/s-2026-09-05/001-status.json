@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "main",
+  "session": "s-2026-09-05",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-05T23:33:27+08:00",
+  "status": "backend уже работал (:9022, up с 3 сент), storefront перезапущен и жив на :8000; отдельный вопрос сессии — найден sessionId a9d170f3-c48f-4bd5-8ecb-253437c92b0c (проект lab) для WB API sandbox research, уже задокументирован в memory/wb-api-sandbox-and-antibot.md"
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready.ui-variant-matrix/v0",
+  "title": "UI variant matrix (v0)",
+  "description": "One file per wrapper at apps/storefront/src/ui/<name>/matrix.json. The gallery route /[locale]/ui-lab/<name> renders every case inside a container carrying data-case=\"<viewport>/<id>\"; the generic Playwright runner measures each case one dimension at a time and compares against golden.json. Cases are JSON only: a case IS a proto JSON-UI node, so the matrix doubles as the first corpus for phase 3. Architect, 2026-09-06.",
+  "type": "object",
+  "required": ["schema", "component", "viewports", "cases"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.ui-variant-matrix/v0" },
+    "component": { "type": "string", "pattern": "^ui/[a-z0-9][a-z0-9-]*$" },
+    "viewports": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "width", "height"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "width": { "type": "integer", "minimum": 320 },
+          "height": { "type": "integer", "minimum": 320 },
+          "dir": { "enum": ["ltr", "rtl"], "default": "ltr" }
+        }
+      },
+      "description": "Default pair: desktop 1280×800 and mobile 375×812. RTL viewport (dir: rtl) is mandatory for any component with horizontal layout, because ar and he are live locales."
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["combination", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "combination": { "type": "object" },
+          "reason": { "type": "string" }
+        }
+      },
+      "description": "Cartesian-product combinations deliberately not covered, each with a reason (e.g. loading × disabled is the same rendering). The completeness check counts variants × states minus these."
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["use"],
+      "additionalProperties": false,
+      "properties": {
+        "use": { "type": "string", "description": "Root name or dotted subcomponent (Select, Select.Trigger, Icon)." },
+        "props": { "type": "object" },
+        "children": {
+          "type": "array",
+          "items": { "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/node" }] }
+        }
+      }
+    },
+    "case": {
+      "type": "object",
+      "required": ["id", "render", "measure"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "title": { "type": "string" },
+        "covers": {
+          "type": "object",
+          "description": "Which variant values and states this case covers (variant: primary, size: base, state: hover). Used by the completeness check against contract.json.",
+          "additionalProperties": { "type": "string" }
+        },
+        "render": { "$ref": "#/$defs/node" },
+        "interaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hover": { "type": "boolean" },
+            "focus": { "type": "boolean" },
+            "active": { "type": "boolean", "description": "mouse down held on the target" },
+            "open": { "type": "boolean", "description": "click the trigger before measuring (compounds)" },
+            "keys": { "type": "array", "items": { "type": "string" }, "description": "Key presses in order after focus (ArrowDown, Enter, Escape…)." },
+            "waitFor": { "type": "string", "description": "CSS selector that must be visible before measuring (portal content)." }
+          }
+        },
+        "target": {
+          "type": "string",
+          "description": "CSS selector inside the case container (or document for portals) to measure. Default: first element child of the container."
+        },
+        "measure": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "size",
+              "color",
+              "background",
+              "border",
+              "radius",
+              "shadow",
+              "typography",
+              "opacity",
+              "spacing",
+              "outline",
+              "visible",
+              "screenshot"
+            ]
+          },
+          "description": "Dimensions to record and compare, each independently. `screenshot` stores a PNG as evidence and is compared only when the case asks for it."
+        },
+        "tolerance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "px": { "type": "number", "minimum": 0, "default": 1 },
+            "colorDelta": { "type": "number", "minimum": 0, "default": 0, "description": "Max per-channel difference in rgba." }
+          }
+        }
+      }
+    }
+  }
+}

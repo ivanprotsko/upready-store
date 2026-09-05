@@ -1,0 +1,54 @@
+{
+  "schema": "upready.release-subscription/v0",
+  "description": "Subscription of upready-store to the JSON-UI engine developed in app-shell. app-shell has no release-updates channel as of 2026-09-06: a release is a package publish to GitHub Packages with a provenance git tag @ivanprotsko-org/<pkg>@<version> (app-shell CLAUDE.md, Publish policy) and the only plan document is docs/ROADMAP-JSON-UI.md. This record is what the architect of upready-store checks at the start of every session; the delta goes into the HANDOFF status and lastSeen is updated in the same turn.",
+  "consumer": {
+    "project": "upready-store",
+    "role": "architect store-ds",
+    "consumes": ["@ivanprotsko-org/renderer", "@ivanprotsko-org/ui", "AppUISpec v0", "upready.component-contract/v0"],
+    "backChannel": "~/upready/memory/upready-store-design-system-program-2026-09-06.md"
+  },
+  "producer": {
+    "project": "app-shell",
+    "path": "/Users/ivanprotsko/upready/projects/app-shell",
+    "roadmap": "docs/ROADMAP-JSON-UI.md",
+    "publishPolicy": "CLAUDE.md § Publish policy — publish is NOT a gate (Ivan, 2026-09-05)"
+  },
+  "watch": {
+    "tags": "@ivanprotsko-org/*@*",
+    "paths": [
+      "docs/ROADMAP-JSON-UI.md",
+      "docs/APPUISPEC.md",
+      "specs/component-contracts/contract.schema.json",
+      "packages/renderer/package.json",
+      "packages/upready-ui/package.json",
+      "packages/block-gen/package.json"
+    ]
+  },
+  "lastSeen": {
+    "checkedAt": "2026-09-06",
+    "commit": "502179a",
+    "branch": "feat/component-library",
+    "tags": [
+      "@ivanprotsko-org/block-gen@1.0.0",
+      "@ivanprotsko-org/block-gen@1.0.1",
+      "@ivanprotsko-org/block-gen@1.1.0",
+      "@ivanprotsko-org/block-gen@1.1.1",
+      "@ivanprotsko-org/block-gen@1.1.2",
+      "@ivanprotsko-org/block-gen@1.2.0",
+      "@ivanprotsko-org/block-gen@1.2.1",
+      "@ivanprotsko-org/renderer@1.0.0",
+      "@ivanprotsko-org/renderer@1.0.1",
+      "@ivanprotsko-org/renderer@1.0.2",
+      "@ivanprotsko-org/renderer@1.0.3"
+    ],
+    "roadmapSlices": { "done": [0, 1, 2, 3], "next": 4, "note": "slice 4 = whole app screens from JSON; phase 3 of the store program depends on it" }
+  },
+  "check": {
+    "commands": [
+      "git -C /Users/ivanprotsko/upready/projects/app-shell fetch --tags --quiet 2>/dev/null; git -C /Users/ivanprotsko/upready/projects/app-shell tag | sort > /tmp/as-tags.txt; node -e 'const s=require(\"/Users/ivanprotsko/upready/projects/upready-store/specs/design-system/app-shell-subscription.json\");console.log(s.lastSeen.tags.sort().join(\"\\n\"))' | diff - /tmp/as-tags.txt && echo 'tags: no new'",
+      "git -C /Users/ivanprotsko/upready/projects/app-shell log --oneline 502179a..HEAD -- docs/ROADMAP-JSON-UI.md docs/APPUISPEC.md specs/component-contracts/contract.schema.json packages/renderer/package.json packages/upready-ui/package.json packages/block-gen/package.json",
+      "grep -n '^| [0-9] |' /Users/ivanprotsko/upready/projects/app-shell/docs/ROADMAP-JSON-UI.md"
+    ],
+    "then": "Delta present → one line in `handoff.mjs status set`, update lastSeen (commit, tags, checkedAt) in this file, and if the contract schema or AppUISpec changed → re-validate specs/design-system/wrapper-contract.schema.json mapping (field appShell.mapping of every contract)."
+  }
+}
