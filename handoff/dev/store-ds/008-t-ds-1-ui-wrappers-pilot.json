@@ -1,0 +1,32 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 8,
+  "action": "task-update",
+  "ts": "2026-09-06T06:05:30+08:00",
+  "status": "architect store-ds 05:5x WITA: program 'UI from JSON' designed: decision docs/design-system/00-program-2026-09-06.md, 4 schemas + app-shell subscription in specs/design-system/, briefs for orchestrators store-ui-a (Opus) and store-seams-b (Fable) in docs/prompts/, measurements artifacts/docs/2026-09-06-ui-inventory-measurements.md. dev branch created in the main checkout (:8000 = dev). 5 backlog tasks + q-ds-target-library wait for Ivan's approve; orchestrators not started (rule 3c: architect hands off).",
+  "task": {
+    "id": "t-ds-1-ui-wrappers-pilot",
+    "title": "Phase 1 wrappers pilot: icon+badge+tooltip, select+otp-input, date-picker, dropdown-menu behind src/ui wrappers with contract/matrix/golden and gallery tests (orchestrator store-ui-a, Opus, ultracode)",
+    "state": "blocked",
+    "priority": "high",
+    "details": "Proposed goal: the seven pilot components are imported only through @ui/<name>, each with contract.json, matrix.json, golden.json and a gallery page, and the pilot's pitfalls are documented with evidence. Proposed acceptance: (1) :8000 on dev looks unchanged to Ivan on /en/store sort, badges, account menu; (2) next lint warns on a direct @medusajs/ui import outside src/ui; (3) /en/ui-lab/select renders in dev and is 404 in a production build; (4) pnpm ui-lab:test green in Docker and one broken token gives red (count copied); (5) specs/design-system/ui-inventory.json totals equal 00-program section 2; (6) docs/design-system/pitfalls-2026-09.md has one section per component with evidence. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md\n\nRevision 2026-09-06 (app-shell review, Ivan's order): starts after t-ds-0-foundation; agent groups are cut from the registry by descending frequency (Text, Button, Heading, Container, Checkbox, Badge, RadioGroup, Label, Input, Table, StatusBadge, IconButton, IconBadge + clx + 30 icons), NOT from the icon/badge/tooltip groups of the first brief; multiplying compounds (Select, DropdownMenu, Table) = second wave; wrapper API in app-shell axes (variant/size/tone/slots), forwards className/data-*/aria-*/ref, checked against AppUISpec via a file before the first wave. See 00-program section 10 and the brief's Revision block.",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+      "docs/design-system/00-program-2026-09-06.md",
+      "specs/design-system/wrapper-contract.schema.json"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "phase-1"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T06:05:30+08:00",
+    "blockers": [
+      "t-ds-0-foundation"
+    ]
+  }
+}

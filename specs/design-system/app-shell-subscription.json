@@ -45,7 +45,9 @@
   },
   "check": {
     "commands": [
-      "git -C /Users/ivanprotsko/upready/projects/app-shell fetch --tags --quiet 2>/dev/null; git -C /Users/ivanprotsko/upready/projects/app-shell tag | sort > /tmp/as-tags.txt; node -e 'const s=require(\"/Users/ivanprotsko/upready/projects/upready-store/specs/design-system/app-shell-subscription.json\");console.log(s.lastSeen.tags.sort().join(\"\\n\"))' | diff - /tmp/as-tags.txt && echo 'tags: no new'",
+      "git ls-remote --tags $(git -C /Users/ivanprotsko/upready/projects/app-shell remote get-url origin) '@ivanprotsko-org/*' | sed 's/.*refs\\/tags\\///; s/\\^{}$//' | sort -u > /tmp/as-tags.txt; node -e 'const s=require(\"/Users/ivanprotsko/upready/projects/upready-store/specs/design-system/app-shell-subscription.json\");console.log(s.lastSeen.tags.sort().join(\"\\n\"))' | diff - /tmp/as-tags.txt && echo 'tags: no new'",
+      "grep -hoE '\"@ivanprotsko-org/[a-z-]+\": *\"[^\"]+\"' /Users/ivanprotsko/upready/projects/upready-store/apps/storefront/package.json /Users/ivanprotsko/upready/projects/upready-store/package.json 2>/dev/null || echo 'pins: none yet (step 0 T0g installs the first)'",
+      "git -C /Users/ivanprotsko/upready/projects/app-shell log --oneline 502179a..HEAD -- docs/RENDERER-PACKAGE-PLAN.md",
       "git -C /Users/ivanprotsko/upready/projects/app-shell log --oneline 502179a..HEAD -- docs/ROADMAP-JSON-UI.md docs/APPUISPEC.md specs/component-contracts/contract.schema.json packages/renderer/package.json packages/upready-ui/package.json packages/block-gen/package.json",
       "grep -n '^| [0-9] |' /Users/ivanprotsko/upready/projects/app-shell/docs/ROADMAP-JSON-UI.md"
     ],

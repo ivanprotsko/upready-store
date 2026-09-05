@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 9,
+  "action": "status-set",
+  "ts": "2026-09-06T06:05:30+08:00",
+  "status": "architect store-ds 06:3x WITA: plan rebuilt per app-shell review §11 (00-program §10): step 0 = t-ds-0-foundation (stage, tooling, registry with propsUsed, v3 baseline, Tailwind v4, token map, Next smoke) BEFORE agents; pilot waits on it, agent sets from the registry. First engine request: artifacts/deliverables/app-shell-requests/2026-09-06-01-next-smoke-changelog-extract.md. Open to Ivan: q-ds-visual-canon (Geist vs Medusa, blocks phase 2), q-ds-target-library, q-store-remote (origin = public gorgojs fork, dev not pushed). Orchestrators not started."
+}

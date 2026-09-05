@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-06T05:51:21+08:00",
-  "status": "architect store-ds 05:5x WITA: program 'UI from JSON' designed: decision docs/design-system/00-program-2026-09-06.md, 4 schemas + app-shell subscription in specs/design-system/, briefs for orchestrators store-ui-a (Opus) and store-seams-b (Fable) in docs/prompts/, measurements artifacts/docs/2026-09-06-ui-inventory-measurements.md. dev branch created in the main checkout (:8000 = dev). 5 backlog tasks + q-ds-target-library wait for Ivan's approve; orchestrators not started (rule 3c: architect hands off).",
+  "updated": "2026-09-06T06:05:30+08:00",
+  "status": "architect store-ds 06:3x WITA: plan rebuilt per app-shell review §11 (00-program §10): step 0 = t-ds-0-foundation (stage, tooling, registry with propsUsed, v3 baseline, Tailwind v4, token map, Next smoke) BEFORE agents; pilot waits on it, agent sets from the registry. First engine request: artifacts/deliverables/app-shell-requests/2026-09-06-01-next-smoke-changelog-extract.md. Open to Ivan: q-ds-visual-canon (Geist vs Medusa, blocks phase 2), q-ds-target-library, q-store-remote (origin = public gorgojs fork, dev not pushed). Orchestrators not started.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -19,9 +19,9 @@
     {
       "id": "t-ds-1-ui-wrappers-pilot",
       "title": "Phase 1 wrappers pilot: icon+badge+tooltip, select+otp-input, date-picker, dropdown-menu behind src/ui wrappers with contract/matrix/golden and gallery tests (orchestrator store-ui-a, Opus, ultracode)",
-      "state": "backlog",
+      "state": "blocked",
       "priority": "high",
-      "details": "Proposed goal: the seven pilot components are imported only through @ui/<name>, each with contract.json, matrix.json, golden.json and a gallery page, and the pilot's pitfalls are documented with evidence. Proposed acceptance: (1) :8000 on dev looks unchanged to Ivan on /en/store sort, badges, account menu; (2) next lint warns on a direct @medusajs/ui import outside src/ui; (3) /en/ui-lab/select renders in dev and is 404 in a production build; (4) pnpm ui-lab:test green in Docker and one broken token gives red (count copied); (5) specs/design-system/ui-inventory.json totals equal 00-program section 2; (6) docs/design-system/pitfalls-2026-09.md has one section per component with evidence. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
+      "details": "Proposed goal: the seven pilot components are imported only through @ui/<name>, each with contract.json, matrix.json, golden.json and a gallery page, and the pilot's pitfalls are documented with evidence. Proposed acceptance: (1) :8000 on dev looks unchanged to Ivan on /en/store sort, badges, account menu; (2) next lint warns on a direct @medusajs/ui import outside src/ui; (3) /en/ui-lab/select renders in dev and is 404 in a production build; (4) pnpm ui-lab:test green in Docker and one broken token gives red (count copied); (5) specs/design-system/ui-inventory.json totals equal 00-program section 2; (6) docs/design-system/pitfalls-2026-09.md has one section per component with evidence. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md\n\nRevision 2026-09-06 (app-shell review, Ivan's order): starts after t-ds-0-foundation; agent groups are cut from the registry by descending frequency (Text, Button, Heading, Container, Checkbox, Badge, RadioGroup, Label, Input, Table, StatusBadge, IconButton, IconBadge + clx + 30 icons), NOT from the icon/badge/tooltip groups of the first brief; multiplying compounds (Select, DropdownMenu, Table) = second wave; wrapper API in app-shell axes (variant/size/tone/slots), forwards className/data-*/aria-*/ref, checked against AppUISpec via a file before the first wave. See 00-program section 10 and the brief's Revision block.",
       "files": [
         "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md",
         "docs/design-system/00-program-2026-09-06.md",
@@ -33,7 +33,10 @@
         "phase-1"
       ],
       "created": "2026-09-06T05:51:20+08:00",
-      "updated": "2026-09-06T05:51:20+08:00"
+      "updated": "2026-09-06T06:05:30+08:00",
+      "blockers": [
+        "t-ds-0-foundation"
+      ]
     },
     {
       "id": "t-ds-1-seam-tests",
@@ -93,12 +96,45 @@
       ],
       "created": "2026-09-06T05:51:20+08:00",
       "updated": "2026-09-06T05:51:20+08:00"
+    },
+    {
+      "id": "t-ds-0-foundation",
+      "title": "Step 0 foundation before any agent hand-out (app-shell review §11): stage branch + push dev (after q-store-remote), Playwright+vitest, JSON component registry with propsUsed via TS compiler API, v3 golden baseline, Tailwind 3.4.19→v4 with screenshot acceptance, token map ui-*→canon (26 classes), Next smoke renderer+block-gen product-grid on the live backend (orchestrator store-ui-a, Opus, ultracode)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Proposed goal: the storefront can consume app-shell engine packages (Tailwind v4, Next seams proven by a rendered product-grid) and every later wave is measurable (registry with propsUsed, golden baseline, token map). Proposed acceptance: (1) stage exists; dev pushed once q-store-remote is answered; (2) Docker Playwright summary + vitest run copied; (3) specs/design-system/ui-inventory.json valid, totals equal 00-program section 2, propsUsed rollup present; (4) golden baseline on v3 for 16 exports + 30 icons recorded; (5) after Tailwind v4: golden equal within tolerance and toHaveScreenshot green on every matrix page, counts copied; preset compatibility finding in docs/design-system/tailwind-v4-migration.md with command outputs; (6) specs/design-system/token-map.json with 26 rows and usageCount; (7) product-grid rendered from @ivanprotsko-org/renderer + block-gen on live products, screenshot + seams list; engine-side needs written to artifacts/deliverables/app-shell-requests/.",
+      "files": [
+        "docs/design-system/00-program-2026-09-06.md",
+        "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md"
+      ],
+      "session": "store-ds",
+      "tags": [
+        "design-system",
+        "step-0"
+      ],
+      "created": "2026-09-06T06:05:30+08:00",
+      "updated": "2026-09-06T06:05:30+08:00"
     }
   ],
   "questions": [
     {
       "id": "q-ds-target-library",
       "question": "F1, phase 2 target library: what do our own components become? (a) adopt @ivanprotsko-org/ui from app-shell (shadcn, Tailwind v4) and extend it with store components [recommended: the renderer already depends on it; cost: a Tailwind v3 to v4 wave]; (b) own package @ivanprotsko-org/store-ui on Tailwind v3 [no Tailwind migration; a third library, contracts mapped twice]; (c) ui-kit per frontend-component-doctrine (custom elements) [workspace canon; the React storefront and the renderer do not consume it directly]. Blocks phase 2 only, not the pilot.",
+      "asked": "2026-09-06",
+      "audience": "ivan",
+      "blocks": [
+        "t-ds-2-own-components"
+      ]
+    },
+    {
+      "id": "q-store-remote",
+      "question": "Git remote: origin of upready-store points at https://github.com/gorgojs/medusa-dtc-starter.git (the upstream fork, public). dev (21e7ae1) is NOT pushed. Proposal: create a private repo (rule 5a), set it as origin, rename the gorgojs remote to upstream; deploy Action notify-deploy.yml triggers on main only, so dev pushes are deploy-safe once the remote is private. OK to create ivanprotsko/upready-store private and repoint?",
+      "asked": "2026-09-06",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-ds-visual-canon",
+      "question": "F7, visual canon of the storefront (app-shell review §4, rule 18d): (a) move the storefront to the Geist canon (rule 27 'Geist everywhere') [both architects recommend: one token vocabulary, a JSON theme generates values for one dictionary]; (b) keep the Medusa visual identity on our own tokens [halves nothing: phase 2 doubles because two dictionaries stay alive]. Blocks phase 2 (t-ds-2-own-components) and the token VALUES of token-map.json; token NAMES and the rest of step 0 proceed.",
       "asked": "2026-09-06",
       "audience": "ivan",
       "blocks": [

@@ -7,6 +7,16 @@ Task id: `t-ds-1-seam-tests`. Architect: session `store-ds`, main checkout `/Use
 
 Goal, in Ivan's words: study the project, all its inputs and outputs, types and interfaces, tests, and the documented bugs of medusajs and gorgojs, then cover the code with tests at the seams: (2.1) human — interface, (2.2) interface — server, (2.3) whatever else you find necessary and can justify by a measurement.
 
+## Revision 2026-09-06, additions from the app-shell architect's review (§7)
+
+Read `~/upready/projects/app-shell/artifacts/deliverables/storefront-json-ui-brief-review-2026-09-06.md` §6–§7 and `docs/design-system/00-program-2026-09-06.md` §10.4. Overrides:
+
+- Seam interface — server = Medusa v2 store API through `@medusajs/js-sdk` 2.19: contract tests on recorded responses AND e2e on the live shared backend, entering each flow at its start.
+- The documented-bugs deliverable is a JSON registry, not prose: `artifacts/research/dtc-starter-known-bugs.json` with per-row `coveredByTest: "yes"|"no"|"<path>"`; the Markdown report is a rendering of it.
+- `t-port-stale-cart-fix` is a class, not an incident (rule 20): a client-held id (cookie, session, URL) is a cache of foreign state; every dereference must survive "gone", and silence must surface in the log and in the channel where someone waits. Write the regression for the class, not for one call site.
+- Every check carries a reverse run (remove the guard → red, count copied). Hidden UI is accepted from data, not from the DOM.
+- Test tooling (Playwright in Docker, vitest) is installed by orchestrator A in step 0 (`t-ds-0-foundation`, T0b), before the Tailwind v4 migration; rebase on `dev` after that merge, and expect your Playwright runs to be re-baselined after T0e lands.
+
 ## Read first, in this order
 
 1. `AGENTS.md`: conventions, the two apps' gates, "Things That Break Silently", Localization, Relationship to Upstream.

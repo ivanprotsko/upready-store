@@ -1,0 +1,28 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 7,
+  "action": "task-add",
+  "ts": "2026-09-06T06:05:30+08:00",
+  "status": "architect store-ds 05:5x WITA: program 'UI from JSON' designed: decision docs/design-system/00-program-2026-09-06.md, 4 schemas + app-shell subscription in specs/design-system/, briefs for orchestrators store-ui-a (Opus) and store-seams-b (Fable) in docs/prompts/, measurements artifacts/docs/2026-09-06-ui-inventory-measurements.md. dev branch created in the main checkout (:8000 = dev). 5 backlog tasks + q-ds-target-library wait for Ivan's approve; orchestrators not started (rule 3c: architect hands off).",
+  "task": {
+    "id": "t-ds-0-foundation",
+    "title": "Step 0 foundation before any agent hand-out (app-shell review §11): stage branch + push dev (after q-store-remote), Playwright+vitest, JSON component registry with propsUsed via TS compiler API, v3 golden baseline, Tailwind 3.4.19→v4 with screenshot acceptance, token map ui-*→canon (26 classes), Next smoke renderer+block-gen product-grid on the live backend (orchestrator store-ui-a, Opus, ultracode)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Proposed goal: the storefront can consume app-shell engine packages (Tailwind v4, Next seams proven by a rendered product-grid) and every later wave is measurable (registry with propsUsed, golden baseline, token map). Proposed acceptance: (1) stage exists; dev pushed once q-store-remote is answered; (2) Docker Playwright summary + vitest run copied; (3) specs/design-system/ui-inventory.json valid, totals equal 00-program section 2, propsUsed rollup present; (4) golden baseline on v3 for 16 exports + 30 icons recorded; (5) after Tailwind v4: golden equal within tolerance and toHaveScreenshot green on every matrix page, counts copied; preset compatibility finding in docs/design-system/tailwind-v4-migration.md with command outputs; (6) specs/design-system/token-map.json with 26 rows and usageCount; (7) product-grid rendered from @ivanprotsko-org/renderer + block-gen on live products, screenshot + seams list; engine-side needs written to artifacts/deliverables/app-shell-requests/.",
+    "files": [
+      "docs/design-system/00-program-2026-09-06.md",
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "step-0"
+    ],
+    "created": "2026-09-06T06:05:30+08:00",
+    "updated": "2026-09-06T06:05:30+08:00"
+  }
+}
