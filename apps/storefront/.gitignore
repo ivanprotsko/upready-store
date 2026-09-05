@@ -1,0 +1,6 @@
+# Playwright run artefacts. The recorded goldens and reference screenshots under
+# tests/ui-lab are tracked on purpose; only run output is ignored.
+test-results/
+playwright-report/
+blob-report/
+.playwright/
