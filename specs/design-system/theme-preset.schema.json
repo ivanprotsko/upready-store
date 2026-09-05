@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://upready.dev/schemas/upready-store/theme-preset.schema.json",
+  "title": "upready-store theme preset: canon token values per mode (upready.theme-preset/v0)",
+  "description": "One preset = one visual identity of the storefront written in the canon token vocabulary (names of ~/upready/packages/geist-kit/theme.css). modes.<mode>.tokens mirrors modes.<mode>.tokens of theme-configurator's theme-output.schema.json, so a generated theme imports into this shape without a format change. Decision: docs/design-system/00-program-2026-09-06.md section 11.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "label", "dictionary", "source", "modes"],
+  "properties": {
+    "schema": { "const": "upready.theme-preset/v0" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "value of <html data-theme>; file name is <id>.theme.json" },
+    "label": { "type": "string", "minLength": 1, "description": "plain-language name shown in the settings panel (rule 18e: no raw ids on screen)" },
+    "description": { "type": "string" },
+    "dictionary": {
+      "type": "string",
+      "const": "geist-kit/theme.css",
+      "description": "the canon vocabulary the token names come from; a second dictionary is a program decision, not a preset field"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "where the VALUES were read from, with a version or commit: '@medusajs/ui-preset@2.19.0 dist/index.js :root/.dark', 'geist-kit/theme.css@<commit>', 'theme-configurator@<semver> configHash <hash>'"
+    },
+    "generator": { "type": "string", "description": "theme-configurator@<semver>; present only for generated presets (mirrors theme-output.generator)" },
+    "configHash": { "type": "string", "pattern": "^[a-f0-9]{12,64}$", "description": "mirrors theme-output.configHash; present only for generated presets" },
+    "modes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["light", "dark"],
+      "properties": {
+        "light": { "$ref": "#/$defs/mode" },
+        "dark": { "$ref": "#/$defs/mode" }
+      }
+    }
+  },
+  "$defs": {
+    "mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokens"],
+      "properties": {
+        "tokens": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "pattern": "^--[a-z][a-z0-9-]*$" },
+          "additionalProperties": { "type": "string", "minLength": 1 },
+          "description": "token name -> CSS value string, exactly as emitted into [data-theme=<id>][data-mode=<mode>]; the key set must be identical across both modes and across every preset (checked by the build script, not by this schema)"
+        }
+      }
+    }
+  }
+}

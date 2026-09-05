@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-06T06:05:30+08:00",
-  "status": "architect store-ds 06:3x WITA: plan rebuilt per app-shell review §11 (00-program §10): step 0 = t-ds-0-foundation (stage, tooling, registry with propsUsed, v3 baseline, Tailwind v4, token map, Next smoke) BEFORE agents; pilot waits on it, agent sets from the registry. First engine request: artifacts/deliverables/app-shell-requests/2026-09-06-01-next-smoke-changelog-extract.md. Open to Ivan: q-ds-visual-canon (Geist vs Medusa, blocks phase 2), q-ds-target-library, q-store-remote (origin = public gorgojs fork, dev not pushed). Orchestrators not started.",
+  "updated": "2026-09-06T07:16:37+08:00",
+  "status": "2026-09-06 architect session 2: t-ds-0-foundation + t-ds-1-seam-tests in_progress (Ivan's approval); F1=a, F7=a with Ivan's order (medusa preset → geist → presets switch → hidden panel); origin = private ivanprotsko/upready-store (dev pushed, gorgojs = upstream); 00-program §11 + brief theme-presets-panel + theme-preset.schema.json on dev; t-ds-0b-theme-presets-panel proposed in backlog; orchestrator A live in worktree feat/ds-foundation",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -41,9 +41,9 @@
     {
       "id": "t-ds-1-seam-tests",
       "title": "Seam tests: human-interface (Playwright in Docker), interface-server (jest backend + vitest lib/data + middleware), documented dtc-starter/gorgojs bugs mapped to regression tests (orchestrator store-seams-b, Fable, ultracode)",
-      "state": "backlog",
+      "state": "in_progress",
       "priority": "high",
-      "details": "Proposed goal: every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore. Proposed acceptance: (1) seam-map.md rows = measured count; (2) artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence; (3) backend custom routes covered by test:integration:http (count copied); (4) vitest for lib/data and middleware green; (5) Playwright funnel from landing to payment step with one screenshot per step; (6) coverage numbers copied from the tools. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md",
+      "details": "Proposed goal: every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore. Proposed acceptance: (1) seam-map.md rows = measured count; (2) artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence; (3) backend custom routes covered by test:integration:http (count copied); (4) vitest for lib/data and middleware green; (5) Playwright funnel from landing to payment step with one screenshot per step; (6) coverage numbers copied from the tools. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md\n\nS0 927c099 (feat/seam-tests, worktree ~/upready/worktrees/upready-store/feat/seam-tests, :8002): seam map registry docs/testing/seam-map.json rendered to seam-map.md, 54 rows (H-I 19, I-S 22, S-S 9, X 4), entry points checked by docs/testing/render-seam-map.mjs (0 problems). Measured: 24 pages, 5 layouts, 2 api routes, 14 lib/data files with 65 exports, 11 getCartId() sites, 2 backend custom routes, 11 subscribers, 0 workflows/jobs/links, 11 email templates, 0 existing tests. DB (17b): jest.config.js:2 loadEnv(test) falls back to .env (upready_store) but @medusajs/test-utils medusa-test-runner-utils/config.js:20 overrides databaseUrl with a temp DB medusa-<name>-integration-<worker> from DB_HOST/DB_PORT/DB_USERNAME (database.js:22-29); defaults are localhost:5432, ours is 127.0.0.1:5433, so suites run with those exported inline; dev DB never used. Note: task state in HANDOFF.json is backlog (task show) though the launch message said approved; left as is (22j).",
       "files": [
         "docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md"
       ],
@@ -53,7 +53,17 @@
         "phase-1"
       ],
       "created": "2026-09-06T05:51:20+08:00",
-      "updated": "2026-09-06T05:51:20+08:00"
+      "updated": "2026-09-06T07:14:22+08:00",
+      "goal": "Every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore.",
+      "acceptance": [
+        "seam-map.md rows = measured count",
+        "artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence",
+        "backend custom routes covered by test:integration:http (count copied)",
+        "vitest for lib/data and middleware green",
+        "Playwright funnel from landing to payment step with one screenshot per step",
+        "coverage numbers copied from the tools"
+      ],
+      "approved": "2026-09-06T07:05:29+08:00"
     },
     {
       "id": "t-ds-2-own-components",
@@ -100,7 +110,7 @@
     {
       "id": "t-ds-0-foundation",
       "title": "Step 0 foundation before any agent hand-out (app-shell review §11): stage branch + push dev (after q-store-remote), Playwright+vitest, JSON component registry with propsUsed via TS compiler API, v3 golden baseline, Tailwind 3.4.19→v4 with screenshot acceptance, token map ui-*→canon (26 classes), Next smoke renderer+block-gen product-grid on the live backend (orchestrator store-ui-a, Opus, ultracode)",
-      "state": "backlog",
+      "state": "in_progress",
       "priority": "high",
       "details": "Proposed goal: the storefront can consume app-shell engine packages (Tailwind v4, Next seams proven by a rendered product-grid) and every later wave is measurable (registry with propsUsed, golden baseline, token map). Proposed acceptance: (1) stage exists; dev pushed once q-store-remote is answered; (2) Docker Playwright summary + vitest run copied; (3) specs/design-system/ui-inventory.json valid, totals equal 00-program section 2, propsUsed rollup present; (4) golden baseline on v3 for 16 exports + 30 icons recorded; (5) after Tailwind v4: golden equal within tolerance and toHaveScreenshot green on every matrix page, counts copied; preset compatibility finding in docs/design-system/tailwind-v4-migration.md with command outputs; (6) specs/design-system/token-map.json with 26 rows and usageCount; (7) product-grid rendered from @ivanprotsko-org/renderer + block-gen on live products, screenshot + seams list; engine-side needs written to artifacts/deliverables/app-shell-requests/.",
       "files": [
@@ -113,33 +123,62 @@
         "step-0"
       ],
       "created": "2026-09-06T06:05:30+08:00",
-      "updated": "2026-09-06T06:05:30+08:00"
+      "updated": "2026-09-06T07:04:51+08:00",
+      "goal": "Storefront can consume app-shell engine packages (Tailwind v4 + proven Next seams, product-grid rendered live) and every later wave is measurable: registry with propsUsed, v3 golden baseline carried across the migration, token map ui-*→canon.",
+      "acceptance": [
+        "stage branch exists locally; dev push held until q-store-remote is answered (origin is the public gorgojs fork)",
+        "Docker Playwright summary and vitest run copied from output into the report (rule 17a)",
+        "specs/design-system/ui-inventory.json validates against ui-inventory.schema.json, totals equal 00-program section 2, totals.propsUsedByComponent rollup present",
+        "v3 golden baseline recorded for the 16 @medusajs/ui exports and 30 icons from the registry, cases = propsUsed combinations + contract minimum from the .d.ts",
+        "after Tailwind 3.4.19 to v4: every golden equal within tolerance and toHaveScreenshot green on every matrix page, both counts copied; @medusajs/ui-preset 2.19 compatibility finding written to docs/design-system/tailwind-v4-migration.md with the command outputs it came from",
+        "specs/design-system/token-map.json holds the 26 ui-* classes with canon token NAMES, per-row usageCount from the registry and status one of mapped/diverged/open",
+        "product-grid rendered by @ivanprotsko-org/renderer + block-gen on live products from the shared backend :9022, screenshot taken, integration seams listed, engine-side needs filed under artifacts/deliverables/app-shell-requests/",
+        "HUMAN EYES: after the merge into dev Ivan opens http://localhost:8000 and the storefront looks as it did before the Tailwind v4 migration (rule 27d)"
+      ],
+      "approved": "2026-09-06T07:04:51+08:00"
+    },
+    {
+      "id": "t-ds-0b-theme-presets-panel",
+      "title": "Theme presets medusa+geist on the canon dictionary (geist-kit/theme.css) with an 88-row bridge for ui-* classes, pre-paint data-theme/data-mode, four-page compatibility test, then the hidden settings panel on the storefront: hold the brand 2 s → password → floating button bottom-left → popover (preset, mode, reset) — Ivan's goal for 2026-09-06 (orchestrator A, T0h/T0i)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Proposed goal: the storefront's whole look is a preset (medusa today, geist as the target) switched by <html data-theme>/<data-mode>, default medusa/light looks exactly as before, and Ivan can open a hidden settings panel on :8000 by holding the logo 2 s and entering the password. Proposed acceptance: (1) medusa.theme.json + geist.theme.json valid against theme-preset.schema.json, same key set in both modes, 'N keys, 0 missing' copied; (2) token-map.json bridge covers 88/88 preset variables with mapped/diverged/open counts copied; (3) four-page screenshots home/listing/PDP/cart: medusa/light pixel delta <= 0.1 % per page vs the pre-change baseline, numbers copied; geist light+dark with zero open fallbacks; (4) mock-up artifacts/docs/2026-09-06-theme-panel-mockup.md written BEFORE code, shows hold → dialog → button → popover → flips → reload; (5) Playwright in Docker: hold 1.5 s navigates, 2 s opens dialog, wrong password error + no cookie, right password cookie + button, preset flip changes --background, reload has data-theme before first paint, visitor HTML has no panel; reverse runs red; (6) next build green; (7) HUMAN EYES on :8000 after merge into dev: looks as before, hold logo 2 s → password → small button bottom-left → popover flips medusa/geist and light/dark live, back to medusa/light = old look, reload does not flash. Sequence: right after T0a/T0b, before T0c–T0g (00-program §11.2). WIP <= 2: approve as a third task or fold into t-ds-0-foundation (Ivan's call).",
+      "files": [
+        "docs/prompts/initial-prompt-2026-09-06-orchestrator-theme-presets-panel.md",
+        "docs/design-system/00-program-2026-09-06.md",
+        "specs/design-system/theme-preset.schema.json"
+      ],
+      "session": "store-ds",
+      "tags": [
+        "design-system",
+        "step-0",
+        "theme"
+      ],
+      "created": "2026-09-06T07:16:36+08:00",
+      "updated": "2026-09-06T07:16:36+08:00"
     }
   ],
   "questions": [
     {
-      "id": "q-ds-target-library",
-      "question": "F1, phase 2 target library: what do our own components become? (a) adopt @ivanprotsko-org/ui from app-shell (shadcn, Tailwind v4) and extend it with store components [recommended: the renderer already depends on it; cost: a Tailwind v3 to v4 wave]; (b) own package @ivanprotsko-org/store-ui on Tailwind v3 [no Tailwind migration; a third library, contracts mapped twice]; (c) ui-kit per frontend-component-doctrine (custom elements) [workspace canon; the React storefront and the renderer do not consume it directly]. Blocks phase 2 only, not the pilot.",
+      "id": "q-ds-inventory-rollup-schema",
+      "question": "Schema bump for ui-inventory.schema.json (upready.ui-inventory/v0): totals.additionalProperties is false, so the propsUsed rollup that t-ds-0-foundation acceptance demands cannot be added without a bump. Proposed patch, minimal: add to totals.properties -> \"propsUsedByComponent\": {\"type\":\"object\",\"additionalProperties\":{\"type\":\"object\",\"additionalProperties\":{\"type\":\"integer\",\"minimum\":1}}} = per component, prop name -> number of call sites that pass it. Per-entry propsUsed needs nothing: $defs.entry.props already carries the literal props of each call site. OK to bump to v0 in place (no consumer exists yet) or do you want upready.ui-inventory/v1? Orchestrator A proceeds meanwhile: the registry is built schema-valid without the rollup and the rollup is added the moment you answer.",
       "asked": "2026-09-06",
-      "audience": "ivan",
+      "audience": "architect",
       "blocks": [
-        "t-ds-2-own-components"
+        "t-ds-0-foundation"
       ]
-    },
+    }
+  ],
+  "sessions": [
     {
-      "id": "q-store-remote",
-      "question": "Git remote: origin of upready-store points at https://github.com/gorgojs/medusa-dtc-starter.git (the upstream fork, public). dev (21e7ae1) is NOT pushed. Proposal: create a private repo (rule 5a), set it as origin, rename the gorgojs remote to upstream; deploy Action notify-deploy.yml triggers on main only, so dev pushes are deploy-safe once the remote is private. OK to create ivanprotsko/upready-store private and repoint?",
-      "asked": "2026-09-06",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-ds-visual-canon",
-      "question": "F7, visual canon of the storefront (app-shell review §4, rule 18d): (a) move the storefront to the Geist canon (rule 27 'Geist everywhere') [both architects recommend: one token vocabulary, a JSON theme generates values for one dictionary]; (b) keep the Medusa visual identity on our own tokens [halves nothing: phase 2 doubles because two dictionaries stay alive]. Blocks phase 2 (t-ds-2-own-components) and the token VALUES of token-map.json; token NAMES and the rest of step 0 proceed.",
-      "asked": "2026-09-06",
-      "audience": "ivan",
-      "blocks": [
-        "t-ds-2-own-components"
-      ]
+      "date": "2026-09-06",
+      "label": "store-ds-2",
+      "task_ids": [
+        "t-ds-0-foundation",
+        "t-ds-1-seam-tests",
+        "t-ds-0b-theme-presets-panel"
+      ],
+      "summary": "Approved and started t-ds-0-foundation and t-ds-1-seam-tests; resolved q-ds-target-library (a), q-ds-visual-canon (a), q-store-remote (private repo created, origin repointed, dev pushed over SSH after HTTPS 400); wrote 00-program §11, theme presets + hidden panel brief, theme-preset.schema.json; memory + knowledge-index updated (memory 826f9f7)"
     }
   ]
 }

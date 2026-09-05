@@ -1,0 +1,40 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-06",
+  "index": 2,
+  "action": "task-approve",
+  "ts": "2026-09-06T07:04:51+08:00",
+  "status": "architect store-ds 06:3x WITA: plan rebuilt per app-shell review §11 (00-program §10): step 0 = t-ds-0-foundation (stage, tooling, registry with propsUsed, v3 baseline, Tailwind v4, token map, Next smoke) BEFORE agents; pilot waits on it, agent sets from the registry. First engine request: artifacts/deliverables/app-shell-requests/2026-09-06-01-next-smoke-changelog-extract.md. Open to Ivan: q-ds-visual-canon (Geist vs Medusa, blocks phase 2), q-ds-target-library, q-store-remote (origin = public gorgojs fork, dev not pushed). Orchestrators not started.",
+  "task": {
+    "id": "t-ds-0-foundation",
+    "title": "Step 0 foundation before any agent hand-out (app-shell review §11): stage branch + push dev (after q-store-remote), Playwright+vitest, JSON component registry with propsUsed via TS compiler API, v3 golden baseline, Tailwind 3.4.19→v4 with screenshot acceptance, token map ui-*→canon (26 classes), Next smoke renderer+block-gen product-grid on the live backend (orchestrator store-ui-a, Opus, ultracode)",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Proposed goal: the storefront can consume app-shell engine packages (Tailwind v4, Next seams proven by a rendered product-grid) and every later wave is measurable (registry with propsUsed, golden baseline, token map). Proposed acceptance: (1) stage exists; dev pushed once q-store-remote is answered; (2) Docker Playwright summary + vitest run copied; (3) specs/design-system/ui-inventory.json valid, totals equal 00-program section 2, propsUsed rollup present; (4) golden baseline on v3 for 16 exports + 30 icons recorded; (5) after Tailwind v4: golden equal within tolerance and toHaveScreenshot green on every matrix page, counts copied; preset compatibility finding in docs/design-system/tailwind-v4-migration.md with command outputs; (6) specs/design-system/token-map.json with 26 rows and usageCount; (7) product-grid rendered from @ivanprotsko-org/renderer + block-gen on live products, screenshot + seams list; engine-side needs written to artifacts/deliverables/app-shell-requests/.",
+    "files": [
+      "docs/design-system/00-program-2026-09-06.md",
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-ui-wrappers.md"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "step-0"
+    ],
+    "created": "2026-09-06T06:05:30+08:00",
+    "updated": "2026-09-06T07:04:51+08:00",
+    "goal": "Storefront can consume app-shell engine packages (Tailwind v4 + proven Next seams, product-grid rendered live) and every later wave is measurable: registry with propsUsed, v3 golden baseline carried across the migration, token map ui-*→canon.",
+    "acceptance": [
+      "stage branch exists locally; dev push held until q-store-remote is answered (origin is the public gorgojs fork)",
+      "Docker Playwright summary and vitest run copied from output into the report (rule 17a)",
+      "specs/design-system/ui-inventory.json validates against ui-inventory.schema.json, totals equal 00-program section 2, totals.propsUsedByComponent rollup present",
+      "v3 golden baseline recorded for the 16 @medusajs/ui exports and 30 icons from the registry, cases = propsUsed combinations + contract minimum from the .d.ts",
+      "after Tailwind 3.4.19 to v4: every golden equal within tolerance and toHaveScreenshot green on every matrix page, both counts copied; @medusajs/ui-preset 2.19 compatibility finding written to docs/design-system/tailwind-v4-migration.md with the command outputs it came from",
+      "specs/design-system/token-map.json holds the 26 ui-* classes with canon token NAMES, per-row usageCount from the registry and status one of mapped/diverged/open",
+      "product-grid rendered by @ivanprotsko-org/renderer + block-gen on live products from the shared backend :9022, screenshot taken, integration seams listed, engine-side needs filed under artifacts/deliverables/app-shell-requests/",
+      "HUMAN EYES: after the merge into dev Ivan opens http://localhost:8000 and the storefront looks as it did before the Tailwind v4 migration (rule 27d)"
+    ],
+    "approved": "2026-09-06T07:04:51+08:00"
+  }
+}

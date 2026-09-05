@@ -1,0 +1,30 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 10,
+  "action": "task-add",
+  "ts": "2026-09-06T07:16:36+08:00",
+  "status": "architect store-ds 06:3x WITA: plan rebuilt per app-shell review §11 (00-program §10): step 0 = t-ds-0-foundation (stage, tooling, registry with propsUsed, v3 baseline, Tailwind v4, token map, Next smoke) BEFORE agents; pilot waits on it, agent sets from the registry. First engine request: artifacts/deliverables/app-shell-requests/2026-09-06-01-next-smoke-changelog-extract.md. Open to Ivan: q-ds-visual-canon (Geist vs Medusa, blocks phase 2), q-ds-target-library, q-store-remote (origin = public gorgojs fork, dev not pushed). Orchestrators not started.",
+  "task": {
+    "id": "t-ds-0b-theme-presets-panel",
+    "title": "Theme presets medusa+geist on the canon dictionary (geist-kit/theme.css) with an 88-row bridge for ui-* classes, pre-paint data-theme/data-mode, four-page compatibility test, then the hidden settings panel on the storefront: hold the brand 2 s → password → floating button bottom-left → popover (preset, mode, reset) — Ivan's goal for 2026-09-06 (orchestrator A, T0h/T0i)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Proposed goal: the storefront's whole look is a preset (medusa today, geist as the target) switched by <html data-theme>/<data-mode>, default medusa/light looks exactly as before, and Ivan can open a hidden settings panel on :8000 by holding the logo 2 s and entering the password. Proposed acceptance: (1) medusa.theme.json + geist.theme.json valid against theme-preset.schema.json, same key set in both modes, 'N keys, 0 missing' copied; (2) token-map.json bridge covers 88/88 preset variables with mapped/diverged/open counts copied; (3) four-page screenshots home/listing/PDP/cart: medusa/light pixel delta <= 0.1 % per page vs the pre-change baseline, numbers copied; geist light+dark with zero open fallbacks; (4) mock-up artifacts/docs/2026-09-06-theme-panel-mockup.md written BEFORE code, shows hold → dialog → button → popover → flips → reload; (5) Playwright in Docker: hold 1.5 s navigates, 2 s opens dialog, wrong password error + no cookie, right password cookie + button, preset flip changes --background, reload has data-theme before first paint, visitor HTML has no panel; reverse runs red; (6) next build green; (7) HUMAN EYES on :8000 after merge into dev: looks as before, hold logo 2 s → password → small button bottom-left → popover flips medusa/geist and light/dark live, back to medusa/light = old look, reload does not flash. Sequence: right after T0a/T0b, before T0c–T0g (00-program §11.2). WIP <= 2: approve as a third task or fold into t-ds-0-foundation (Ivan's call).",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-theme-presets-panel.md",
+      "docs/design-system/00-program-2026-09-06.md",
+      "specs/design-system/theme-preset.schema.json"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "step-0",
+      "theme"
+    ],
+    "created": "2026-09-06T07:16:36+08:00",
+    "updated": "2026-09-06T07:16:36+08:00"
+  }
+}
