@@ -1,0 +1,37 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-06",
+  "index": 8,
+  "action": "task-update",
+  "ts": "2026-09-06T07:28:49+08:00",
+  "status": "store-seams-b (Fable, ultracode): t-ds-1-seam-tests S0 done (927c099, 54 seams), raw research committed (efa5d8e), S1 registry + S2 backend unit tests running in Workflow wf_f7f0fad1-25a (3 Sonnet), http spec for custom routes running on a temp DB; storefront vitest/Playwright wait for A's T0b merge into dev (playwright 1.63.0 image pulled). store-ds architect: step 0 with A in progress.",
+  "task": {
+    "id": "t-ds-1-seam-tests",
+    "title": "Seam tests: human-interface (Playwright in Docker), interface-server (jest backend + vitest lib/data + middleware), documented dtc-starter/gorgojs bugs mapped to regression tests (orchestrator store-seams-b, Fable, ultracode)",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Proposed goal: every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore. Proposed acceptance: (1) seam-map.md rows = measured count; (2) artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence; (3) backend custom routes covered by test:integration:http (count copied); (4) vitest for lib/data and middleware green; (5) Playwright funnel from landing to payment step with one screenshot per step; (6) coverage numbers copied from the tools. Brief: docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md\n\nS0 927c099 (feat/seam-tests, worktree ~/upready/worktrees/upready-store/feat/seam-tests, :8002): seam map registry docs/testing/seam-map.json rendered to seam-map.md, 54 rows (H-I 19, I-S 22, S-S 9, X 4), entry points checked by docs/testing/render-seam-map.mjs (0 problems). Measured: 24 pages, 5 layouts, 2 api routes, 14 lib/data files with 65 exports, 11 getCartId() sites, 2 backend custom routes, 11 subscribers, 0 workflows/jobs/links, 11 email templates, 0 existing tests. DB (17b): jest.config.js:2 loadEnv(test) falls back to .env (upready_store) but @medusajs/test-utils medusa-test-runner-utils/config.js:20 overrides databaseUrl with a temp DB medusa-<name>-integration-<worker> from DB_HOST/DB_PORT/DB_USERNAME (database.js:22-29); defaults are localhost:5432, ours is 127.0.0.1:5433, so suites run with those exported inline; dev DB never used. Note: task state in HANDOFF.json is backlog (task show) though the launch message said approved; left as is (22j).\n\nS2 backend (partial): integration-tests/http/custom-routes.spec.ts green 4/4 on a temp DB (run 5), covers both custom routes (count 2: store/custom, admin/custom) with a publishable key from Modules.API_KEY and an admin token via register → link auth identity to a user (Modules.AUTH updateAuthIdentities app_metadata.user_id) → login, because POST /admin/users refuses a registration token with 401 in 2.19. Test-infra defects fixed in jest.config.js (not product): transform and moduleFileExtensions lacked tsx, so no jest suite could boot the app (emails are .tsx); the runner needs DB_HOST=localhost literally (test-utils config.js:24 turns SSL on for any other host) and PORT unset (.env PORT=9022 collides with the shared backend; spec passes env {PORT: ''}). Command: PORT= DB_HOST=localhost DB_PORT=5433 DB_USERNAME=ivanprotsko DB_PASSWORD= corepack pnpm test:integration:http. tsc 0 errors, medusa lint exit 0. Reverse run (store route 200→204) in progress at save time. Workflow wf_f7f0fad1-25a (S1 registry, subscriber unit tests, emails/smtp/config/seed unit tests) still running.\n\nS2 backend http committed e64be7e; reverse run store route 200→204: Tests 1 failed, 3 passed (copied), route restored clean.",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-seam-tests.md"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "tests",
+      "phase-1"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T07:28:49+08:00",
+    "goal": "Every seam of the storefront and backend named in docs/testing/seam-map.md has a test, and the known upstream bugs that apply here are red-or-green tests, not folklore.",
+    "acceptance": [
+      "seam-map.md rows = measured count",
+      "artifacts/research/2026-09-dtc-starter-known-bugs.md with applies-here evidence",
+      "backend custom routes covered by test:integration:http (count copied)",
+      "vitest for lib/data and middleware green",
+      "Playwright funnel from landing to payment step with one screenshot per step",
+      "coverage numbers copied from the tools"
+    ],
+    "approved": "2026-09-06T07:05:29+08:00"
+  }
+}

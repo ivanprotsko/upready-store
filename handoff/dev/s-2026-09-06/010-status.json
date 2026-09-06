@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-06",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-06T07:31:45+08:00",
+  "status": "store-ui-a (Opus, ultracode): t-ds-0-foundation ACTIVE. T0a+T0b done on feat/ds-foundation, commit 5c4c6d2, gates green (tsc 0, next lint clean, ui-lab:test \"2 passed (5.1s)\", vitest exit 0) — READY TO FAST-FORWARD INTO dev, and orchestrator B is blocked on exactly that merge; A will not do it, \"never the main checkout\" is a hard stop in A brief, so the architect fast-forwards dev (ed335b8 -> 5c4c6d2, no rewrite) and restarts Ivan instance. stage created from dev; dev NOT pushed (q-store-remote). Step 0 remainder = workflow wf_1ff5aaa5-c9b, 6 agents: registry + Next smoke, then ui-lab v3 baseline + token map, then Tailwind v4, then adversarial verify; reports land in artifacts/docs/step0/. New question q-ds-inventory-rollup-schema (ui-inventory.schema.json totals.additionalProperties=false blocks the propsUsed rollup; patch proposed in the question). | store-seams-b (Fable, ultracode): t-ds-1-seam-tests S0 done (927c099, 54 seams), raw research committed (efa5d8e), S1 registry + S2 backend unit tests running in Workflow wf_f7f0fad1-25a (3 Sonnet), http spec for custom routes running on a temp DB; storefront vitest/Playwright wait for A T0b merge into dev (playwright 1.63.0 image pulled). | store-ds architect: step 0 with A in progress."
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-seams-b",
+  "index": 1,
+  "action": "task-add",
+  "ts": "2026-09-06T07:41:25+08:00",
+  "status": "store-ui-a (Opus, ultracode): t-ds-0-foundation ACTIVE on feat/ds-foundation (cut from ed335b8, one commit BEHIND dev - the addendum 0853824 is not in it yet, rebase before merging). T0a+T0b done, commit 5c4c6d2, gates green (tsc 0, next lint clean, ui-lab:test \"2 passed (5.1s)\", vitest exit 0); stage created from dev; dev push is the architect job per the addendum, not mine. READY TO FAST-FORWARD 5c4c6d2 INTO dev and orchestrator B is blocked on exactly that; A will not touch the main checkout (hard stop in the A brief), so the architect fast-forwards ed335b8 -> 5c4c6d2 and restarts Ivan instance. Step 0 remainder running as workflow wf_1ff5aaa5-c9b, 6 agents: T0c registry + T0g Next smoke, then T0d ui-lab v3 baseline + T0f token map, then T0e Tailwind v4, then adversarial verify; reports land as JSON in artifacts/docs/step0/. READ BY A, NOT YET ACTED ON: the addendum inserts T0h theme presets and T0i hidden panel right after T0a/T0b, i.e. BEFORE the five items now running. A did not kill the workflow: every running item is still required and T0f token map is a direct input to T0h, so killing to reorder would burn live work and still leave T0h waiting. A launches T0h/T0i next, after reading the theme-presets brief and 00-program section 11. Open from A: q-ds-inventory-rollup-schema (ui-inventory.schema.json totals.additionalProperties=false blocks the propsUsed rollup; patch proposed inside the question; sidecar file used meanwhile). | store-seams-b (Fable, ultracode): t-ds-1-seam-tests S0 done (927c099, 54 seams), raw research committed (efa5d8e), S1 registry + S2 backend unit tests running in Workflow wf_f7f0fad1-25a (3 Sonnet), http spec for custom routes running on a temp DB; storefront vitest/Playwright wait for A T0b merge into dev (playwright 1.63.0 image pulled). | store-ds architect: step 0 with A in progress.",
+  "task": {
+    "id": "t-revalidate-product-type-gap",
+    "title": "Revalidation gap: backend subscriber product-updated.ts emits product-type.updated/created/deleted (apps/backend/src/subscribers/product-updated.ts:41-43) but storefront POST /api/revalidate has no branch for product-type.* (apps/storefront/src/app/api/revalidate/route.ts:16-37), so a product type change never busts the products cache; guarded by it.failing in apps/backend/src/__tests__/subscribers/product-updated.unit.spec.ts (turns red when fixed)",
+    "state": "backlog",
+    "priority": "med",
+    "files": [
+      "apps/backend/src/subscribers/product-updated.ts",
+      "apps/storefront/src/app/api/revalidate/route.ts"
+    ],
+    "session": "store-seams-b",
+    "tags": [
+      "bug",
+      "tests",
+      "seam"
+    ],
+    "created": "2026-09-06T07:41:25+08:00",
+    "updated": "2026-09-06T07:41:25+08:00"
+  }
+}

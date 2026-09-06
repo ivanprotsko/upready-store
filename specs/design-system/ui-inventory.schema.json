@@ -22,7 +22,7 @@
     },
     "totals": {
       "type": "object",
-      "required": ["files", "filesScanned", "occurrences", "byComponent", "byPackage", "directImportsOutsideUi"],
+      "required": ["files", "filesScanned", "occurrences", "byComponent", "byPackage", "propsUsedByComponent", "directImportsOutsideUi"],
       "additionalProperties": false,
       "properties": {
         "files": { "type": "integer", "description": "Files with at least one entry." },
@@ -40,6 +40,14 @@
             }
           },
           "description": "Key \"<package>:<Component>\" (e.g. \"@medusajs/ui:Select.Trigger\")."
+        },
+        "propsUsedByComponent": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "integer", "minimum": 1 }
+          },
+          "description": "Rollup over entries: key \"<package>:<Component>\" (the SAME key as byComponent, so the two objects join) -> prop name -> number of call sites that write that prop. Spreads count under the key \"<spread>\". This is the input of the golden-baseline case matrix: a prop that no call site writes gets a case only from the .d.ts contract minimum. Added 2026-09-06 by the architect (q-ds-inventory-rollup-schema); bumped in place because no consumer of v0 existed yet."
         },
         "byPackage": {
           "type": "object",
