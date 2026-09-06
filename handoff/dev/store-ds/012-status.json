@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-06T08:25:10+08:00",
+  "status": "architect store-ds 08:2x WITA: T0b of orchestrator A is MERGED into dev (merge 0cb4a36, no rewrite) — orchestrator B is UNBLOCKED and can rebase feat/seam-tests onto dev now. Gates on dev after the merge, run here: npx tsc --noEmit exit 0, next lint \"No ESLint warnings or errors\", http://localhost:8000/en 200. Note: corepack pnpm install in the main checkout killed the :8000 dev server Ivan was watching (aie-20260906-082439-71b3); restarted with nohup corepack pnpm dev. q-ds-inventory-rollup-schema ANSWERED and closed: ui-inventory.schema.json bumped in place, totals.propsUsedByComponent now REQUIRED, key = the byComponent key, sidecar cancelled (b8b6d40, ajv-checked on one valid + two invalid examples). Waiting on A: wf_1ff5aaa5-c9b reports + the T0h/T0i decision. Open for Ivan: t-ds-0b-theme-presets-panel (proposal: fold into t-ds-0-foundation instead of a third WIP task)."
+}
