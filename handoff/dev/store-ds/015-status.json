@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 15,
+  "action": "status-set",
+  "ts": "2026-09-06T08:33:44+08:00",
+  "status": "architect store-ds (session bf3cf7/fc4f021b, Ivan's single window) 08:4x WITA: Ivan's goal of the day = new components + card variants + image treatments + colour presets → 00-program §12 + brief addendum T0j/T0k on dev 00c8d17 (pushed, guard fixed to read flow-style branches). Order for orchestrator A: T0h → T0i → T0j/T0k, T0e after. A is mid-run (wf_1ff5aaa5-c9b: 3/6 reports in, T0d recording goldens 08:3x), reached via orchestrator.mjs emit (two architect events) — its session address is unknown. B unblocked, rebasing feat/seam-tests onto dev. Parallel architect session d3 stood down (its merge 0cb4a36 accepted); :8000 is a nohup next dev started by d3. Protocol: Ivan talks only to this session, relays nothing; sessions talk via SendMessage + emit."
+}
