@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-06",
+  "index": 21,
+  "action": "status-set",
+  "ts": "2026-09-06T22:38:39+08:00",
+  "status": "store-ds-6: локальный стенд поднят и ОТВЯЗАН от харнесса — backend :9022 (pid 39270, medusa develop, admin /app 200) и storefront :8027 (pid 39223, next dev turbopack, /ru 200) подняты через nohup+disown, логи в scratchpad сессии 3defda58; первый запуск через run_in_background был выкошен жнецом на 49-й минуте (замер дописан в memory/claude-code-background-shell-reaper.md). Postgres 16 :5433/upready_store, 11 товаров; redis :6379 жив, но Medusa пишет 'fake redis'. Скрипт storefront dev жёстко держит порт 8000, весь проект живёт на 8027 — расхождение не чинил. Код не менялся, dev запушен (0e2d6ef), feat/ds-foundation и feat/seam-tests по-прежнему не влиты."
+}

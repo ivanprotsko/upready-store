@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-06T21:47:25+08:00",
-  "status": "store-ds-6: локальный стенд поднят на этой машине — backend :9022 (Medusa 2.19.0, admin /app 200), storefront :8027 (Next 15.5.21 turbopack, / → /en 200, /ru и /ru/store 200), Postgres 16 на 5433/upready_store с 11 товарами, redis :6379 живой но Medusa пишет 'fake redis' (REDIS_URL модулями не подхвачен). Код не менялся, дерево чистое, worktrees feat/ds-foundation и feat/seam-tests на месте.",
+  "updated": "2026-09-06T22:38:39+08:00",
+  "status": "store-ds-6: локальный стенд поднят и ОТВЯЗАН от харнесса — backend :9022 (pid 39270, medusa develop, admin /app 200) и storefront :8027 (pid 39223, next dev turbopack, /ru 200) подняты через nohup+disown, логи в scratchpad сессии 3defda58; первый запуск через run_in_background был выкошен жнецом на 49-й минуте (замер дописан в memory/claude-code-background-shell-reaper.md). Postgres 16 :5433/upready_store, 11 товаров; redis :6379 жив, но Medusa пишет 'fake redis'. Скрипт storefront dev жёстко держит порт 8000, весь проект живёт на 8027 — расхождение не чинил. Код не менялся, dev запушен (0e2d6ef), feat/ds-foundation и feat/seam-tests по-прежнему не влиты.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
