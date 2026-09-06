@@ -1,0 +1,30 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 17,
+  "action": "task-add",
+  "ts": "2026-09-06T16:55:13+08:00",
+  "status": "store-ds-4 (status read-out 16:2x WITA): both orchestrators are DEAD — no A/B/bb in ListAgents, last worktree activity 09:13-09:14, :8002 not listening. Results UNCOMMITTED in both worktrees: A (feat/ds-foundation) ui-lab/ui-smoke/scripts/tailwind.config.js/specs+4 green step0 reports in artifacts/docs/step0; B (feat/seam-tests) vitest.config.ts + ~30 storefront tests, agent-reported 709 passed/18 expected-fail, e2e 0/17 verified (:8002 died mid-run). Day goal T0h/T0i/T0j/T0k not started. Next: commit both worktrees, own verification run, then the day goal — agents only on Ivan's OK.",
+  "task": {
+    "id": "t-e2e-funnel-unblock",
+    "title": "Fix the four e2e test defects and get the funnel past the store sort control to the payment step",
+    "state": "backlog",
+    "priority": "high",
+    "details": "From my own run on 2026-09-06 (6 failed, 11 passed): (1) pages/account.ts — getByLabel with exact:true against labels whose accessible name is Email-star, the required marker is a span inside the label; same for Password, First name, Last name. (2) pages/store.ts:31 — selectOption() needs a native select and the sort control is a Radix button role=combobox; click the trigger then the option. This one blocks the whole funnel, so product, cart, checkout and the payment step have never run. (3) locale-redirect.spec.ts — extraHTTPHeaders loses to the Chromium Accept-Language (probed: it sends en-US); use newContext({locale}). (4) locale-redirect.spec.ts cookies — _medusa_locale and _medusa_country are Secure and the container reaches the app over plain http on host.docker.internal, so assert on the Set-Cookie headers of the response instead. switches.spec.ts also asks for a name matching two lowercase letters while the trigger reads EN, and it needs t-header-not-a-landmark first.",
+    "files": [
+      "apps/storefront/tests/e2e"
+    ],
+    "session": "store-ds",
+    "blockers": [
+      "t-ds-1-seam-tests"
+    ],
+    "tags": [
+      "testing",
+      "storefront"
+    ],
+    "created": "2026-09-06T16:55:13+08:00",
+    "updated": "2026-09-06T16:55:13+08:00"
+  }
+}

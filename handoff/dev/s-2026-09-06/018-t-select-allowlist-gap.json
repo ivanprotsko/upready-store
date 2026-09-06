@@ -1,0 +1,27 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-06",
+  "index": 18,
+  "action": "task-update",
+  "ts": "2026-09-06T16:54:51+08:00",
+  "status": "store-ds-4 (status read-out 16:2x WITA): both orchestrators are DEAD — no A/B/bb in ListAgents, last worktree activity 09:13-09:14, :8002 not listening. Results UNCOMMITTED in both worktrees: A (feat/ds-foundation) ui-lab/ui-smoke/scripts/tailwind.config.js/specs+4 green step0 reports in artifacts/docs/step0; B (feat/seam-tests) vitest.config.ts + ~30 storefront tests, agent-reported 709 passed/18 expected-fail, e2e 0/17 verified (:8002 died mid-run). Day goal T0h/T0i/T0j/T0k not started. Next: commit both worktrees, own verification run, then the day goal — agents only on Ivan's OK.",
+  "task": {
+    "id": "t-select-allowlist-gap",
+    "title": "Select imported in sort-products but absent from the Tailwind allowlist (tailwind.config.js has 14 globs, no select): verify live render on :8000, fix inside pilot A2 with the glob and a before/after screenshot",
+    "state": "backlog",
+    "priority": "high",
+    "files": [
+      "apps/storefront/src/modules/store/components/refinement-list/sort-products/index.tsx",
+      "apps/storefront/tailwind.config.js"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "bug"
+    ],
+    "created": "2026-09-06T05:51:20+08:00",
+    "updated": "2026-09-06T16:54:51+08:00",
+    "details": "2026-09-06: FIXED on feat/ds-foundation in commit 096f7f9 (T0d). tailwind.config.js now carries 16 component globs — select and hint were added — and the ui-lab suite measured what the gap cost: with the select glob removed, 12 dimensions across 12 of the 15 select case-viewports move (placeholder rendered in body colour instead of muted, disabled Select looked enabled, the open listbox 23px narrower and 30px taller). Two things still to do before this can be closed: apps/storefront/tests/unit/tailwind-allowlist.test.ts on feat/seam-tests holds the gap open with it.fails and will turn into an unexpected pass the moment the branches meet — it has to flip to a plain it() in the same merge; and rule 27d human eyes on the live storefront."
+  }
+}

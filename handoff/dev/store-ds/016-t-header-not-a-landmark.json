@@ -1,0 +1,27 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 16,
+  "action": "task-add",
+  "ts": "2026-09-06T16:55:13+08:00",
+  "status": "store-ds-4 (status read-out 16:2x WITA): both orchestrators are DEAD — no A/B/bb in ListAgents, last worktree activity 09:13-09:14, :8002 not listening. Results UNCOMMITTED in both worktrees: A (feat/ds-foundation) ui-lab/ui-smoke/scripts/tailwind.config.js/specs+4 green step0 reports in artifacts/docs/step0; B (feat/seam-tests) vitest.config.ts + ~30 storefront tests, agent-reported 709 passed/18 expected-fail, e2e 0/17 verified (:8002 died mid-run). Day goal T0h/T0i/T0j/T0k not started. Next: commit both worktrees, own verification run, then the day goal — agents only on Ivan's OK.",
+  "task": {
+    "id": "t-header-not-a-landmark",
+    "title": "Storefront header sits inside <main>, so the page exposes no banner landmark (getByRole banner count 0 against one real <header> in the served HTML; <main> opens at byte 81001, <header> at 83241)",
+    "state": "backlog",
+    "priority": "med",
+    "details": "Found 2026-09-06 by the e2e run on :8002 while diagnosing switches.spec.ts, not by reading code. A <header> that is a descendant of <main> loses its implicit banner role, so a screen reader has no header landmark to jump to and <main> claims the site chrome as main content. Evidence and the probe output: artifacts/docs/2026-09-06-e2e-first-real-run.md, failure 6. Fixing it also unblocks the getByRole(banner) scoping that switches.spec.ts uses.",
+    "files": [
+      "apps/storefront/src/app"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "a11y",
+      "storefront"
+    ],
+    "created": "2026-09-06T16:55:13+08:00",
+    "updated": "2026-09-06T16:55:13+08:00"
+  }
+}
