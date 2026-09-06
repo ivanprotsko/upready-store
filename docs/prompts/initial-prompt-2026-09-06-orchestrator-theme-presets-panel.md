@@ -47,3 +47,34 @@ No new UI library, no `@ivanprotsko-org/theme-configurator` dependency yet, no e
 ## Reporting
 
 `orchestrator.mjs emit` after each of T0h.5, the mock-up, T0i.4; the final report is thin JSON: file list, the counts named above, the four pixel deltas, the reverse-run results, open bridge rows, and the exact commands that produced each number. Questions to the architect go to `artifacts/deliverables/app-shell-requests/` only when the engine is involved; otherwise `qa.mjs ask` with the task id `t-ds-0b-theme-presets-panel` (or `t-ds-0-foundation` if Ivan folds it in).
+
+## Addendum 2026-09-06 08:3x — Ivan's goal of the day: card variants and image treatments (T0j, T0k)
+
+Ivan's words this morning: "several new components in the interface and several stylings with different product images, different cards, different colouring". Colouring = T0h + T0i above. Cards and images = the two items below. Program: `docs/design-system/00-program-2026-09-06.md` §12. Order of the day: **T0h → T0i → T0j/T0k**. **T0e (Tailwind v3→v4) moves AFTER the day's goal** unless it is already green when T0j starts: it has no visible value today and rewrites classes across `src/**`, which is exactly the cards zone. T0c/T0d/T0f/T0g keep running, their zones do not touch the cards.
+
+### T0j. Product card variants (design stage first, then one Opus agent ≤100k; the four variants may be two Sonnet agents in parallel once the frame exists)
+
+**Design stage (rule 27d, mandatory before wiring).** Canon `~/upready/packages/geist-kit/AGENTS.md`. Write `artifacts/docs/2026-09-06-card-variants-mockup.md`: an ASCII mock-up of the four cards **showing the states** (rest → hover → second image → quick-add button), one frame per state, and bring up a gallery route `/ui-lab/cards` on `:8001` with live products from `:9022` showing all four variants × the three aspect treatments on one screen. The architect accepts the gallery before you wire anything into the listing.
+
+**One component, four variants** of `apps/storefront/src/modules/products/components/product-preview` (today 106 lines + `thumbnail` 81 + `price` 24):
+
+| variant | image | text block | extras |
+|---|---|---|---|
+| `classic` | 1:1, as today | title left, price right, options row | none — pixel-identical to the current card |
+| `editorial` | 4:5 | title and price stacked, muted category line | no options row |
+| `compact` | 1:1, hairline border, `--radius` md | title and price on one line, ellipsis | `product-badge` top-left |
+| `showcase` | `--muted` background, hover → second image | title, price, `color-swatches` under the title | `quick-add-button` on hover (always visible on touch) |
+
+**New components, exactly what the variants need (rule 32a):** `product-badge` (new / sale / sold out from product data: `created_at` within 30 days, a variant with a `calculated_price` below `original_price`, no variant with stock), `color-swatches` (extract the inline block from `product-preview`), `quick-add-button` (one variant → add to cart via the existing cart action; several → navigate to the PDP; never a second cart implementation), `price-block` (from / sale with the old price struck through), `image-frame` (aspect / fit / radius / hover). All under `apps/storefront/src/modules/products/components/`, on the canon tokens through the bridge; nothing goes to `@ivanprotsko-org/ui` today.
+
+### T0k. Image treatments (same agent as T0j, or one Sonnet ≤60k once `image-frame` exists)
+
+An independent axis of `image-frame`, selectable in the panel: aspect `1:1 | 4:5 | 3:4`; fit `cover | contain` (contain sits on `--muted`); radius `none | md | lg` (canon `--radius*`); hover `none | second-image | zoom`. Data check done by the architect: the 11 live products all carry ≥ 2 images (max 4), so `second-image` works without new assets. The second image is requested lazily and only when that treatment is active.
+
+**Switching mechanics (both T0j and T0k):** the same module as the presets, `src/lib/theme/` — `data-card` and `data-image` attributes on `<html>`, allow-listed in the pre-paint script, persisted in localStorage, applied through `apply*()`; two new sections in the T0i popover (labels in plain language, never raw ids; rule 18e). Listing pages stay static: no `cookies()` or `headers()` in the card render path. Default `classic` + `1:1 / cover / none / none` = the current look.
+
+**Tests (Playwright in Docker on `:8001`, `tests/ui-lab/cards.spec.ts`):** each `data-card` value changes the card DOM/CSS (one assertion per variant); `second-image` on hover swaps `src` to the product's second image; `quick-add` raises the cart count by 1; defaults give ≤ 0.1 % pixel delta against the T0h.5 baselines; switching variants produces zero layout shift (`PerformanceObserver` on `layout-shift` = 0); at 360 px width no title or price is clipped in any variant. Every check with its reverse run, counts copied.
+
+**Acceptance.** Machine: the list above green, reverse runs red, `next build` green. **Ivan on `:8000` after the merge:** the panel switches the card variant and the image treatment instantly on the home page and in the catalogue; the default is the old look; hover shows the second photo; quick-add puts the product in the cart; titles and prices read without clipping on a phone width.
+
+**Reporting:** `orchestrator.mjs emit` after the mock-up, after the gallery, after the listing wiring; report envelope as in "Reporting" above. Questions to the architect: `SendMessage` to session `upready-store-bb` plus the emit — Ivan relays nothing between windows any more.
