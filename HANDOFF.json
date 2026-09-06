@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-06T16:55:28+08:00",
-  "status": "store-ds-5 rescued both orchestrators solo: feat/ds-foundation has T0c/T0d/T0f/T0g in 6 commits rebased onto dev@552de62 with every gate re-run here (ui-lab 19 passed, 353 case-viewports, 0 dimensions differ; ui-smoke 1 passed on the live backend), T0e Tailwind v4 kept as a patch because it does not survive pnpm install; feat/seam-tests has vitest (25 files, 709 passed + 18 expected fail, statements 92.93 percent) and e2e (11 passed, 6 failed) with a per-failure cause report. Nothing pushed, nothing merged.",
+  "updated": "2026-09-06T21:47:25+08:00",
+  "status": "store-ds-6: локальный стенд поднят на этой машине — backend :9022 (Medusa 2.19.0, admin /app 200), storefront :8027 (Next 15.5.21 turbopack, / → /en 200, /ru и /ru/store 200), Postgres 16 на 5433/upready_store с 11 товарами, redis :6379 живой но Medusa пишет 'fake redis' (REDIS_URL модулями не подхвачен). Код не менялся, дерево чистое, worktrees feat/ds-foundation и feat/seam-tests на месте.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
