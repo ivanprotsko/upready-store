@@ -1,0 +1,87 @@
+{
+  "name": "Deutsch",
+  "translations": {
+    "terms": {
+      "colour": "Farbe",
+      "ivory": "Elfenbein",
+      "ink": "Tinte",
+      "clay": "Ton",
+      "sage": "Salbei"
+    },
+    "categories": {
+      "clothing": "Kleidung",
+      "dresses": "Kleider",
+      "knitwear": "Strickwaren",
+      "shirtsAndBlouses": "Hemden und Blusen",
+      "trousersAndSkirts": "Hosen und Röcke",
+      "outerwear": "Oberbekleidung",
+      "coatsAndJackets": "Mäntel und Jacken"
+    },
+    "collections": {
+      "autumnEdit": "Die Herbstauswahl",
+      "essentials": "Alltagsbasics"
+    },
+    "products": {
+      "ondineSlipDress": {
+        "title": "Ondine Slipkleid im Schrägschnitt",
+        "subtitle": "Seidencrêpe im Schrägschnitt, Wasserfallausschnitt, verstellbare Träger, Midilänge",
+        "description": "Das Ondine ist aus einem 19-Momme-Seidencrêpe im echten Schrägschnitt gearbeitet, und genau deshalb fällt es in gerader Linie von der Schulter, statt an der Hüfte zu hängen. Der Ausschnitt ist ein flacher Wasserfall, tief genug, um weich aufzuliegen, und flach genug, um ihn unter einer Strickjacke ins Büro zu tragen. Die Träger lassen sich über einen flachen Schieber am Rücken verstellen, sodass die Länge einmal eingestellt und dann vergessen werden kann. Es gibt keinen Reißverschluss; der Schrägschnitt gibt genug nach, um hineinzusteigen. Die Nähte sind französisch gefasst, die Innenseite ist also so sauber wie die Außenseite und nichts kratzt am Schulterblatt. Maschinenwäsche kalt, liegend trocknen, und es kommt ohne Bügeln wieder in Form. Die Midilänge misst in Größe M 122 cm ab der Schulter."
+      },
+      "perrinKnitDress": {
+        "title": "Perrin Rippstrickkleid",
+        "subtitle": "Feines Merinorippstrick, hoher Kragen, langer Ärmel, gerade Linie bis zum Knöchel",
+        "description": "Ein langes, gerade geschnittenes Kleid, in 2x2-Rippe aus extrafeiner Merinowolle gestrickt, sodass es die Linie hält, ohne aufzutragen oder anzuliegen. Der Kragen steht etwa vier Zentimeter hoch und wird einmal umgeschlagen; die Ärmel sind schmal gearbeitet und enden am Handgelenkknochen. Weil die Rippe fein und nicht grob ist, lässt sie sich ohne Volumen an der Schulter unter einem Mantel tragen, was der eigentliche Sinn eines Strickkleides im November ist. Der Saum sitzt am Knöchel und hat einen Seitenschlitz von 14 cm, damit der Schritt nicht verkürzt wird. Die Merinowolle hat 18,5 Mikron, also die Feinheit, bei der die meisten Menschen Wolle am Hals nicht mehr als kratzig empfinden. Handwäsche oder Wollprogramm, liegend trocknen; Bügeln ist nicht nötig."
+      },
+      "sevreWrapDress": {
+        "title": "Sèvre Wickelkleid in Midilänge",
+        "subtitle": "Gewaschener Viskoseköper, echte Wickelform, Bindegürtel, Dreiviertelärmel",
+        "description": "Ein echter Wickel, keine Attrappe: Der Rock überkreuzt vollständig und wird durch eine eingefasste Öffnung in der Seitennaht gebunden, sodass der Verschluss auch im Sitzen hält. Der Stoff ist ein gewaschener Viskoseköper mit trockenem Griff und matter Oberfläche, im Fadenlauf geschnitten, damit der Rock schwingt statt anzuliegen. Der Ärmel endet auf Dreiviertellänge, was ihn aus dem Spülbecken und von der Tastatur fernhält. Der Taillengürtel ist aus dem eigenen Stoff, 4 cm breit und lang genug, um ihn vorne zweimal oder hinten einmal zu knoten. Die Länge beträgt in Größe M 118 cm ab der Schulter, und am Ausschnitt sitzt ein verdeckter Druckknopf für die Tage, an denen man nicht darüber nachdenken möchte."
+      },
+      "aubinMerinoCrew": {
+        "title": "Aubin Merinopullover mit Rundhals",
+        "subtitle": "Mittelfeine Merinowolle, eingesetzter Ärmel, gerippte Bündchen und Saum",
+        "description": "Ein schlichter Rundhalspullover aus mittelfeiner Merinowolle, in Teilen gestrickt und an der Schulter maschenfest zusammengefügt statt überwendlich vernäht — deshalb liegt die Naht unter einem Mantel flach. Die Halsrippe ist doppelt gearbeitet, damit sie hinten nicht ausleiert; Bündchen und Saum sind dieselbe Rippe, tief genug, um sie über den Unterarm zu schieben, wo sie dann auch bleibt. Der Körper ist gerade geschnitten mit leicht abfallender Schulter, wirkt also entspannt, ohne geliehen auszusehen. Merinowolle in dieser Feinheit wärmt bei 18 Grad und ist bei 24 Grad noch tragbar. Es ist der Pullover, von dem wir erwarten, dass man ihn zweimal kauft, deshalb führen wir die Farben mindestens drei Saisons lang und verkaufen ein Stopfset für den Ellenbogen."
+      },
+      "vauxLonglineCardigan": {
+        "title": "Vaux lange Strickjacke",
+        "subtitle": "Lammwolle, lange Strickjacke, aufgesetzte Taschen, Knöpfe in Hornoptik",
+        "description": "Eine schwere, lange Strickjacke, die am oberen Oberschenkel endet, gestrickt aus einer Lammwolle, die mit genug Drall gesponnen ist, um am Ärmel nicht zu pillen. Fünf Knöpfe laufen über die gesamte Vorderkante; sie sind aus mattem Harz in Hornoptik und mit einem Stiel angenäht, damit die Vorderkante beim Schließen keine Falten wirft. Zwei tiefe aufgesetzte Taschen sitzen niedrig genug, um die Hände hineinzustecken, ohne die Schultern zu heben. Der Rücken ist ein einziges Teil ohne Mittelnaht, und der Saum hat eine 10 cm hohe Rippe, die Gewicht gibt, damit das Ganze hängt statt zu flattern. Sie wärmt genug, um bis zur richtigen Kälte die äußere Schicht zu sein, und ist dünn genug, um danach unter einen Mantel zu passen."
+      },
+      "orneWoolScarf": {
+        "title": "Orne übergroßer Wollschal",
+        "subtitle": "Gebürstete Lammwolle, eine Größe, 200 x 70 cm, handgeknüpfte Fransen",
+        "description": "Ein großer Schal aus gebürsteter Lammwolle, 200 mal 70 Zentimeter, breit genug, um ihn als Tuch über einem Mantel zu tragen, und lang genug, um ihn doppelt zu legen und zu schlingen, ohne zu würgen. Die Bindung ist ein einfacher Köper in einem einzigen naturfarbenen Creme, beidseitig gebürstet, sodass er schon beim Auspacken weich am Hals liegt und nicht erst nach drei Wintern. Die Fransen sind von Hand geknüpft statt geschnitten, und das ist das Detail, das darüber entscheidet, ob ein Schal nach einem Jahr noch wie er selbst aussieht. Er kommt bewusst in einer Größe und einer Farbe: Das ist das Stück, über das wir keine Entscheidungen treffen wollen. Chemisch reinigen oder kalt mit Wollwaschmittel von Hand waschen und fern von der Heizung liegend trocknen."
+      },
+      "mazanSilkShirt": {
+        "title": "Mazan Seidenhemd",
+        "subtitle": "Sandgewaschene Seide, spitzer Kragen, tiefe Schulter, abgerundeter Saum",
+        "description": "Ein lässiges Hemd aus sandgewaschener Seide, also Seide, der man den Glanz genommen hat, sodass sie als Alltagshemd und nicht als Abendgarderobe gelesen wird. Der Kragen ist ein weicher Spitzkragen ohne Einlage, so geschnitten, dass er flach liegt, ob bis zum Hals geschlossen oder offen getragen. Die Schulter ist zwei Zentimeter abgesenkt und der Ärmel läuft weit bis zu einer schlichten Manschette mit einem Knopf. Der Saum ist gerundet, hinten länger und mit einer 6 mm schmalen Rollnaht gefasst, damit er über der Hose oder hineingesteckt getragen werden kann, ohne aufzutragen. Die Knöpfe sind aus Corozonuss, farblich abgestimmt gefärbt. Sandgewaschene Seide knittert; sie verliert die meisten dieser Falten aber wieder, wenn man sie über Nacht aufhängt, und das sagen wir lieber, als es zu verschweigen."
+      },
+      "carreSilkSquare": {
+        "title": "Carré bedrucktes Seidentuch",
+        "subtitle": "Seidenköper, 90 x 90 cm, handrollierter Saum, eine Größe",
+        "description": "Ein quadratisches Seidenköpertuch von 90 Zentimetern, bedruckt mit unserem eigenen gezeichneten Muster aus sich überlagernden Tuschelinien auf cremefarbenem Grund, von Hand gesäumt. Ein handrollierter Saum ist der Grund, warum ein quadratisches Tuch einen Knoten hält und in einem weichen Kegel fällt statt als flaches Blatt; er ist auch der Grund, warum dies kein Fünfzehn-Dollar-Tuch ist. Der Druck ist ein Siebdruck in vier Durchgängen, damit die Linien an den Kreuzungen scharf bleiben, statt ineinander zu verlaufen. Man bindet es am Hals, am Griff einer Tasche oder ins Haar, und es ist das eine Stück im Laden, das jedem passt. Eine Größe, eine Farbe, keine Entscheidungen."
+      },
+      "tilleWideTrouser": {
+        "title": "Tille gerade Bundfaltenhose",
+        "subtitle": "Wollmischgewebe, hohe Taille, gebügelte Bügelfalte, knöchelfrei",
+        "description": "Eine hoch sitzende Hose mit geradem Bein aus einem Wollmischgewebe mit trockenem, mattem Griff und genug Gewicht, um eine gebügelte Falte den Tag über zu halten. Der Bund ist 4 cm breit, unterlegt statt elastisch, und sitzt in der natürlichen Taille; zwei flache vordere Bundfalten öffnen sich ins Bein. Die Taschen sind echte Seitennahttaschen, tief genug für ein Telefon und mit Baumwolle unterlegt, damit sie sich nicht abzeichnen. Das Bein misst 21 cm an der Saumweite und endet knapp über dem Knöchelknochen, geht also über einen Stiefel und bricht nicht über einem flachen Schuh. Haken- und Stangenverschluss mit verdecktem Reißverschluss, außen keinerlei sichtbare Hardware."
+      },
+      "noyerBiasSkirt": {
+        "title": "Noyer Midirock im Schrägschnitt",
+        "subtitle": "Satin mit Seidenanteil, matte Seite außen, hinten elastischer Bund, Midilänge",
+        "description": "Ein Midirock im Schrägschnitt aus einem Satin mit Seidenanteil, mit der matten Seite nach außen verarbeitet, sodass er die Bewegung von Satin hat, ohne dessen Glanz. Weil er schräg geschnitten ist, weitet er sich ohne Raffung ab der Hüfte, und einen Reißverschluss gibt es nicht: Die hintere Hälfte des Bundes ist ein eingefasstes Gummiband, das heißt, man zieht ihn an und von vorn sieht er trotzdem aus wie ein maßgeschneiderter Bund. Der Saum liegt 88 cm unter der Taille und ist mit einer schmalen, maschinell rollierten Kante gefasst, die das Gewicht unten hält, damit der Rock in Bewegung bleibt. Es ist das Stück, das die meisten im Studio besitzen, meist mit dem Aubin-Rundhalspullover darüber und einem Paar flacher Stiefel."
+      },
+      "belairWoolOvercoat": {
+        "title": "Bel-Air Wollmantel",
+        "subtitle": "Doubleface-Wolle, ungefüttert, ein Knopf, knieumspielend",
+        "description": "Ein langer Mantel aus einer Doubleface-Wolle, also zwei gewebten Stoffen, die verbunden und dann an jeder Kante getrennt und von Hand verstochen werden, sodass der Mantel kein Futter braucht und innen wie außen denselben Stoff zeigt. Diese Konstruktion ist der Grund, warum er für seine Wärme leicht ist und warum die Nähte als feine Stichlinie sichtbar sind statt verdeckt. Er schließt mit einem einzelnen verdeckten Knopf an der Taille und fällt gerade von einer leicht verlängerten Schulter bis knapp unter das Knie. Zwei Paspeltaschen, in einem Winkel gesetzt, den man tatsächlich erreicht. Er ist das teuerste Stück, das wir machen, und das, bei dem wir am ehesten erwarten, es repariert statt ersetzt zu sehen; der Stich lässt sich neu setzen."
+      },
+      "quessantQuiltedJacket": {
+        "title": "Quessant Steppjacke",
+        "subtitle": "Steppung mit recyceltem Daunenfutter, hüftlang, Stehkragen, Druckknöpfe",
+        "description": "Eine kurze Steppjacke für die Wochen zwischen Strickjacke und Mantel. Das Obermaterial ist ein mattes recyceltes Polyamid mit trockenem Griff, in 6 cm breiten Bahnen über einer recycelten Daunenfüllung abgesteppt, sodass sie sich etwa auf die Größe eines Brotlaibs zusammenlegen lässt. Der Kragen steht und schließt vollständig; vorn läuft ein Zweiwege-Reißverschluss hinter einer Druckknopfleiste, sodass sie am Saum offen und an der Brust geschlossen getragen werden kann. Die Bündchen sind nur innen elastisch, was den Ärmel von außen sauber hält. Zwei Eingrifftaschen mit Reißverschluss, eine innen liegende Einstecktasche. Sie ist hüftlang und so geschnitten, dass sie über einem Strick sitzt, ohne beim Ausstrecken der Arme hochzurutschen."
+      }
+    }
+  }
+}

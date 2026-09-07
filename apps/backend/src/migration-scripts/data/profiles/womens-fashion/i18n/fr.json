@@ -1,0 +1,87 @@
+{
+  "name": "Français",
+  "translations": {
+    "terms": {
+      "colour": "Couleur",
+      "ivory": "Ivoire",
+      "ink": "Encre",
+      "clay": "Argile",
+      "sage": "Sauge"
+    },
+    "categories": {
+      "clothing": "Vêtements",
+      "dresses": "Robes",
+      "knitwear": "Maille",
+      "shirtsAndBlouses": "Chemises et blouses",
+      "trousersAndSkirts": "Pantalons et jupes",
+      "outerwear": "Vêtements d'extérieur",
+      "coatsAndJackets": "Manteaux et vestes"
+    },
+    "collections": {
+      "autumnEdit": "La sélection d'automne",
+      "essentials": "Les essentiels du quotidien"
+    },
+    "products": {
+      "ondineSlipDress": {
+        "title": "Robe nuisette Ondine coupée en biais",
+        "subtitle": "Crêpe de soie coupé en biais, col bénitier, bretelles réglables, longueur midi",
+        "description": "L'Ondine est coupée en plein biais dans un crêpe de soie de 19 mommes, et c'est pour cela qu'elle tombe droit depuis l'épaule au lieu de s'accrocher aux hanches. L'encolure est un bénitier peu profond, assez creusé pour se poser doucement et assez sage pour aller au bureau sous un cardigan. Les bretelles se règlent par un passant plat dans le dos, de sorte que la longueur se fixe une fois pour toutes. Il n'y a pas de fermeture éclair ; le biais donne assez d'élasticité pour l'enfiler. Les coutures sont anglaises, l'intérieur est donc aussi net que l'extérieur et rien ne gratte à l'omoplate. Lavage en machine à froid, séchage à plat, et elle retrouve sa forme sans repassage. La longueur midi mesure 122 cm depuis l'épaule en taille M."
+      },
+      "perrinKnitDress": {
+        "title": "Robe colonne côtelée Perrin",
+        "subtitle": "Côte de mérinos fin, col montant, manches longues, ligne colonne jusqu'à la cheville",
+        "description": "Une longue robe colonne tricotée en côte 2x2 dans un mérinos extra-fin, qui tient une ligne droite sans mouler. Le col monte d'environ quatre centimètres et se replie une fois ; les manches sont étroites et s'arrêtent à l'os du poignet. Parce que la côte est fine et non épaisse, elle se superpose sous un manteau sans épaisseur à l'épaule, ce qui est tout l'intérêt d'une robe en maille en novembre. L'ourlet tombe à la cheville et une fente latérale de 14 cm évite de raccourcir la foulée. Le mérinos fait 18,5 microns, le titre à partir duquel la plupart des gens ne trouvent plus la laine irritante au cou. Lavage à la main ou programme laine, séchage à plat ; aucun repassage ne sera nécessaire."
+      },
+      "sevreWrapDress": {
+        "title": "Robe portefeuille midi Sèvre",
+        "subtitle": "Sergé de viscose lavé, vrai portefeuille, ceinture à nouer, manches trois-quarts",
+        "description": "Un vrai portefeuille, pas un faux : la jupe croise entièrement et se noue par une ouverture gansée dans la couture de côté, si bien que la fermeture tient quand on s'assoit. Le tissu est un sergé de viscose lavé, à la main sèche et à l'endroit mat, coupé droit fil pour que la jupe balance au lieu de coller. La manche s'arrête aux trois-quarts, ce qui la tient à l'écart d'un évier et d'un clavier. La ceinture est dans le tissu même, large de 4 cm, assez longue pour nouer deux fois devant ou une fois dans le dos. La longueur est de 118 cm depuis l'épaule en taille M, et une pression dissimulée à l'encolure existe pour les jours où l'on ne veut pas y penser."
+      },
+      "aubinMerinoCrew": {
+        "title": "Pull col rond Aubin en mérinos",
+        "subtitle": "Mérinos de jauge moyenne, manches montées, poignets et bas côtelés",
+        "description": "Un col rond tout simple en mérinos de jauge moyenne, tricoté en panneaux et remaillé à l'épaule plutôt que surjeté, ce qui explique que la couture reste plate sous un manteau. La côte d'encolure est doublée pour ne pas se détendre à l'arrière ; les poignets et le bas sont dans la même côte, assez profonds pour être remontés sur l'avant-bras et y rester. Le corps est droit avec une légère tombée d'épaule, il paraît donc décontracté sans avoir l'air emprunté. Le mérinos à ce titre tient chaud à 18 degrés et reste portable à 24. C'est le pull que nous nous attendons à voir acheter deux fois, alors nous gardons les coloris au moins trois saisons et nous vendons un kit de reprisage pour le coude."
+      },
+      "vauxLonglineCardigan": {
+        "title": "Cardigan long Vaux",
+        "subtitle": "Lambswool, coupe longue, poches plaquées, boutons aspect corne",
+        "description": "Un cardigan long et lourd qui s'arrête en haut de la cuisse, tricoté dans un lambswool filé avec assez de torsion pour résister au boulochage à la manche. Cinq boutons courent sur toute la hauteur du devant ; ils sont en résine mate d'aspect corne, cousus sur tige pour que le devant ne godille pas une fois fermé. Deux poches plaquées profondes sont placées assez bas pour y glisser les mains sans lever les épaules. Le dos est d'un seul tenant, sans couture milieu, et l'ourlet reçoit une côte de 10 cm qui lui donne du poids pour que l'ensemble tombe au lieu de flotter. Il tient assez chaud pour servir de couche extérieure jusqu'au vrai froid, et reste assez fin pour passer sous un manteau ensuite."
+      },
+      "orneWoolScarf": {
+        "title": "Écharpe oversize en laine Orne",
+        "subtitle": "Lambswool gratté, taille unique, 200 x 70 cm, franges nouées à la main",
+        "description": "Une grande écharpe en lambswool gratté, de 200 sur 70 centimètres, assez large pour se porter en étole par-dessus un manteau et assez longue pour être doublée et bouclée sans étrangler. L'armure est un sergé uni dans un seul crème naturel, gratté sur les deux faces, de sorte qu'elle est douce au cou dès la sortie de la boîte et non après trois hivers. Les franges sont nouées à la main plutôt que coupées, et c'est le détail qui décide si une écharpe se ressemble encore au bout d'un an. Elle vient en une seule taille et un seul coloris, à dessein : c'est la pièce sur laquelle nous ne voulons pas avoir à décider. Nettoyage à sec, ou lavage à la main à froid avec une lessive laine et séchage à plat, loin d'un radiateur."
+      },
+      "mazanSilkShirt": {
+        "title": "Chemise en soie Mazan",
+        "subtitle": "Soie sablée, col pointu, épaule tombante, base arrondie",
+        "description": "Une chemise ample en soie sablée, c'est-à-dire une soie dont on a retiré le brillant, si bien qu'elle se lit comme une chemise de tous les jours et non comme une tenue de soirée. Le col est un col pointu souple, sans entoilage, coupé pour rester plat qu'il soit boutonné jusqu'au cou ou laissé ouvert. L'épaule est descendue de deux centimètres et la manche est ample jusqu'à un poignet simple à un bouton. La base est arrondie, plus longue dans le dos, et finie par un ourlet roulé de 6 mm afin de pouvoir être portée sortie ou rentrée sans surépaisseur. Les boutons sont en corozo, teints ton sur ton. La soie sablée se froisse ; elle perd aussi l'essentiel de ces plis si on la suspend une nuit, et nous préférons le dire plutôt que de faire semblant."
+      },
+      "carreSilkSquare": {
+        "title": "Carré de soie imprimé",
+        "subtitle": "Sergé de soie, 90 x 90 cm, ourlet roulotté main, taille unique",
+        "description": "Un carré de sergé de soie de 90 centimètres, imprimé de notre propre motif dessiné de lignes d'encre entrecroisées sur fond crème, ourlé à la main. Un ourlet roulotté main est la raison pour laquelle un carré tient un nœud et retombe en cône souple au lieu de faire une feuille plate ; c'est aussi la raison pour laquelle ce n'est pas un foulard à quinze dollars. L'impression est une sérigraphie en quatre passages, de sorte que les lignes restent nettes aux croisements au lieu de se brouiller. Il se noue au cou, à l'anse d'un sac ou dans les cheveux, et c'est la seule chose de la boutique qui aille à tout le monde. Taille unique, un coloris, aucune décision."
+      },
+      "tilleWideTrouser": {
+        "title": "Pantalon droit à pinces Tille",
+        "subtitle": "Tissu de costume mélangé laine, taille haute, pli marqué, coupe cheville",
+        "description": "Un pantalon taille haute à jambe droite dans un tissu de costume mélangé laine, au fini mat et sec et d'un poids suffisant pour tenir un pli marqué toute une journée. La ceinture fait 4 cm, doublée plutôt qu'élastiquée, et se pose à la taille naturelle ; deux plis plats sur le devant se libèrent dans la jambe. Les poches sont de vraies poches dans la couture de côté, assez profondes pour un téléphone, doublées de coton pour ne pas marquer. La jambe mesure 21 cm de largeur au bas et s'arrête juste au-dessus de la malléole, elle passe donc au-dessus d'une botte et ne casse pas sur une chaussure plate. Agrafe-barrette et fermeture éclair dissimulée, aucune quincaillerie visible à l'extérieur."
+      },
+      "noyerBiasSkirt": {
+        "title": "Jupe midi coupée en biais Noyer",
+        "subtitle": "Satin mélangé soie, envers mat en surface, taille élastiquée au dos, longueur midi",
+        "description": "Une jupe midi coupée en biais dans un satin mélangé soie utilisé côté mat, qui a donc le mouvement du satin sans son brillant. Parce qu'elle est coupée en biais, elle s'évase depuis la hanche sans fronces, et il n'y a pas de fermeture éclair : la moitié arrière de la ceinture est un élastique gainé, ce qui veut dire qu'elle s'enfile et ressemble malgré tout, de face, à une ceinture de tailleur. L'ourlet est à 88 cm de la taille et se termine par un bord roulotté à la machine qui garde le poids en bas pour que la jupe continue de bouger. C'est la pièce que la plupart des gens de l'atelier possèdent, généralement avec le col rond Aubin par-dessus et une paire de bottes plates."
+      },
+      "belairWoolOvercoat": {
+        "title": "Manteau en laine Bel-Air",
+        "subtitle": "Laine double face, non doublé, un bouton, sous le genou",
+        "description": "Un long manteau dans une laine double face, c'est-à-dire deux étoffes tissées contrecollées puis dédoublées et cousues à la main sur chaque bord, si bien que le manteau n'a besoin d'aucune doublure et montre le même drap dedans comme dehors. Cette construction explique qu'il soit léger pour sa chaleur et que les coutures se voient sous forme d'une fine ligne de point plutôt que d'être cachées. Il se ferme par un unique bouton recouvert à la taille et tombe droit depuis une épaule légèrement prolongée jusqu'à juste sous le genou. Deux poches passepoilées, posées à un angle que l'on atteint vraiment. C'est la chose la plus chère que nous fabriquions et celle que nous nous attendons le plus à voir réparée plutôt que remplacée ; le point peut être refait."
+      },
+      "quessantQuiltedJacket": {
+        "title": "Veste matelassée Quessant",
+        "subtitle": "Matelassage en duvet recyclé, longueur hanche, col montant, pressions",
+        "description": "Une veste matelassée courte pensée pour les semaines entre un cardigan et un manteau. La coque est un polyamide recyclé mat à la main sèche, matelassé en canaux de 6 cm sur un garnissage en duvet recyclé, si bien qu'elle se comprime à peu près à la taille d'une miche. Le col monte et se ferme entièrement ; le devant reçoit une fermeture éclair à double curseur derrière une patte à pressions, de sorte que la veste peut s'ouvrir en bas tout en restant fermée sur la poitrine. Les poignets sont élastiqués à l'intérieur seulement, ce qui garde la manche nette de l'extérieur. Deux poches de main zippées, une poche intérieure plaquée. Elle arrive à la hanche, coupée pour se poser sur une maille sans remonter quand on tend les bras."
+      }
+    }
+  }
+}

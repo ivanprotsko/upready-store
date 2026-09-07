@@ -1,0 +1,87 @@
+{
+  "name": "Español",
+  "translations": {
+    "terms": {
+      "colour": "Color",
+      "ivory": "Marfil",
+      "ink": "Tinta",
+      "clay": "Arcilla",
+      "sage": "Salvia"
+    },
+    "categories": {
+      "clothing": "Ropa",
+      "dresses": "Vestidos",
+      "knitwear": "Punto",
+      "shirtsAndBlouses": "Camisas y blusas",
+      "trousersAndSkirts": "Pantalones y faldas",
+      "outerwear": "Prendas de abrigo",
+      "coatsAndJackets": "Abrigos y chaquetas"
+    },
+    "collections": {
+      "autumnEdit": "La selección de otoño",
+      "essentials": "Básicos de diario"
+    },
+    "products": {
+      "ondineSlipDress": {
+        "title": "Vestido lencero Ondine al bies",
+        "subtitle": "Crepé de seda al bies, cuello drapeado, tirantes regulables, largo midi",
+        "description": "El Ondine está cortado al bies verdadero sobre un crepé de seda de 19 mommes, y por eso cae en línea recta desde el hombro en lugar de colgar de la cadera. El escote es un drapeado poco profundo, lo bastante hondo para asentarse con suavidad y lo bastante discreto para llevarlo a la oficina bajo una chaqueta de punto. Los tirantes se regulan con una hebilla plana en la espalda, así que el largo se ajusta una vez y se olvida. No lleva cremallera; el bies da la elasticidad suficiente para entrar en él. Las costuras van rematadas a la francesa, de modo que el interior está tan limpio como el exterior y nada roza en el omóplato. Se lava a máquina en frío, se seca en plano y recupera la forma sin plancha. El largo midi mide 122 cm desde el hombro en la talla M."
+      },
+      "perrinKnitDress": {
+        "title": "Vestido columna de canalé Perrin",
+        "subtitle": "Canalé de merino fino, cuello alto, manga larga, línea columna hasta el tobillo",
+        "description": "Un vestido largo de línea columna tejido en canalé 2x2 con merino extrafino, de modo que mantiene la línea recta sin marcar el cuerpo. El cuello mide unos cuatro centímetros y se dobla una vez; las mangas son estrechas y terminan en el hueso de la muñeca. Como el canalé es fino y no grueso, se lleva bajo un abrigo sin volumen en el hombro, que es justo el sentido de un vestido de punto en noviembre. El bajo queda a la altura del tobillo y tiene una abertura lateral de 14 cm para no acortar la zancada. El merino es de 18,5 micras, el grado a partir del cual la mayoría deja de notar la lana áspera en el cuello. Lavar a mano o en programa de lana y secar en plano; no necesitará plancha."
+      },
+      "sevreWrapDress": {
+        "title": "Vestido midi cruzado Sèvre",
+        "subtitle": "Sarga de viscosa lavada, cruce real, cinturón anudado, manga tres cuartos",
+        "description": "Un cruzado de verdad, no simulado: la falda cruza por completo y se ata a través de una abertura ribeteada en la costura lateral, así que el cierre aguanta al sentarse. El tejido es una sarga de viscosa lavada de tacto seco y cara mate, cortada al hilo para que la falda se mueva en lugar de pegarse. La manga se detiene a los tres cuartos, lo que la mantiene lejos del fregadero y del teclado. El cinturón es del mismo tejido, de 4 cm de ancho y lo bastante largo para anudarlo dos veces delante o una vez detrás. El largo es de 118 cm desde el hombro en la talla M, y hay un automático oculto en el escote para los días en que uno no quiere pensar en ello."
+      },
+      "aubinMerinoCrew": {
+        "title": "Jersey de cuello redondo Aubin en merino",
+        "subtitle": "Merino de galga media, manga montada, puños y bajo de canalé",
+        "description": "Un jersey liso de cuello redondo en merino de galga media, tejido por paneles y rematado en el hombro punto a punto en lugar de con remalladora, y por eso la costura queda plana bajo un abrigo. El canalé del cuello va doblado para que no pierda la forma por detrás; los puños y el bajo son del mismo canalé, lo bastante anchos para subirlos por el antebrazo y que se queden ahí. El cuerpo es recto con una ligera caída de hombro, así que resulta holgado sin parecer prestado. El merino de este grado abriga a 18 grados y aún se puede llevar a 24. Es el jersey que esperamos que la gente compre dos veces, así que mantenemos los colores al menos tres temporadas y vendemos un kit de zurcido para el codo."
+      },
+      "vauxLonglineCardigan": {
+        "title": "Chaqueta de punto larga Vaux",
+        "subtitle": "Lana de cordero, corte largo, bolsillos de parche, botones tipo asta",
+        "description": "Una chaqueta de punto larga y pesada que termina en la parte alta del muslo, tejida con una lana de cordero hilada con suficiente torsión para no formar bolitas en la manga. Cinco botones recorren todo el delantero; son de resina mate con aspecto de asta y van cosidos con pie para que el delantero no frunza al abrocharse. Dos bolsillos de parche profundos están colocados a la altura justa para meter las manos sin levantar los hombros. La espalda es un único panel sin costura central, y el bajo lleva un canalé de 10 cm que le da peso para que el conjunto caiga en lugar de ondear. Abriga lo suficiente para ser la capa exterior hasta que llega el frío de verdad, y es lo bastante fina para ir bajo un abrigo después."
+      },
+      "orneWoolScarf": {
+        "title": "Bufanda de lana oversize Orne",
+        "subtitle": "Lana de cordero cepillada, talla única, 200 x 70 cm, flecos anudados a mano",
+        "description": "Una bufanda grande de lana de cordero cepillada, de 200 por 70 centímetros, lo bastante ancha para llevarla como chal sobre un abrigo y lo bastante larga para doblarla y pasarla sin ahogar. El tejido es una sarga simple en un único crudo natural, cepillada por las dos caras, así que resulta suave en el cuello nada más sacarla de la caja y no después de tres inviernos. Los flecos van anudados a mano en vez de cortados, y ese es el detalle que decide si una bufanda sigue pareciéndose a sí misma al cabo de un año. Viene en una sola talla y un solo color a propósito: esta es la prenda sobre la que no queremos tomar decisiones. Limpieza en seco, o lavado a mano en frío con detergente para lana y secado en plano lejos de un radiador."
+      },
+      "mazanSilkShirt": {
+        "title": "Camisa de seda Mazan",
+        "subtitle": "Seda lavada a la arena, cuello de punta, hombro caído, bajo curvo",
+        "description": "Una camisa holgada en seda lavada a la arena, es decir, seda a la que se le ha quitado el brillo, de modo que se lee como una camisa de diario y no como ropa de noche. El cuello es un cuello de punta blando y sin entretela, cortado para quedar plano tanto abotonado hasta arriba como abierto. El hombro está caído dos centímetros y la manga es amplia hasta un puño liso de un solo botón. El bajo es curvo, más largo por detrás, y va rematado con un dobladillo enrollado de 6 mm para poder llevarlo por fuera o por dentro sin marcar un bulto. Los botones son de nuez de corozo, teñidos a juego. La seda lavada a la arena se arruga; también suelta casi todas esas arrugas si se cuelga durante la noche, y preferimos decirlo a fingir lo contrario."
+      },
+      "carreSilkSquare": {
+        "title": "Pañuelo cuadrado de seda estampado Carré",
+        "subtitle": "Sarga de seda, 90 x 90 cm, dobladillo enrollado a mano, talla única",
+        "description": "Un cuadrado de sarga de seda de 90 centímetros, estampado con un dibujo propio de líneas de tinta superpuestas sobre fondo crudo y rematado a mano. Un dobladillo enrollado a mano es la razón por la que un pañuelo cuadrado sostiene un nudo y cae en un cono suave en lugar de como una lámina plana; también es la razón por la que este no es un pañuelo de quince dólares. El estampado es una serigrafía a cuatro pasadas, de modo que las líneas se mantienen nítidas en los cruces en vez de mezclarse. Se ata al cuello, al asa de un bolso o al pelo, y es lo único de la tienda que le sienta bien a todo el mundo. Talla única, un solo color, ninguna decisión."
+      },
+      "tilleWideTrouser": {
+        "title": "Pantalón recto de pinzas Tille",
+        "subtitle": "Tejido de traje con mezcla de lana, tiro alto, raya marcada, tobillero",
+        "description": "Un pantalón de tiro alto y pierna recta en un tejido de traje con mezcla de lana, de acabado mate y seco y con peso suficiente para mantener la raya marcada durante todo el día. La cinturilla mide 4 cm, va forrada en lugar de elástica y se sitúa en la cintura natural; hay dos pinzas planas delanteras que se abren hacia la pierna. Los bolsillos son bolsillos de costura lateral de verdad, hondos para un teléfono y forrados en algodón para que no se transparenten. La pierna mide 21 cm de ancho en el bajo y termina justo por encima del hueso del tobillo, así que despeja una bota y no quiebra sobre un zapato plano. Cierre de gancho y barra con cremallera oculta, sin ningún herraje visible por fuera."
+      },
+      "noyerBiasSkirt": {
+        "title": "Falda midi al bies Noyer",
+        "subtitle": "Satén con mezcla de seda, cara mate, cintura elástica detrás, largo midi",
+        "description": "Una falda midi cortada al bies en un satén con mezcla de seda usado por la cara mate, de modo que tiene el movimiento del satén sin su brillo. Como está cortada al bies, se abre desde la cadera sin frunces, y no lleva cremallera: la mitad trasera de la cinturilla es un elástico forrado, lo que significa que se pone tirando de ella y desde delante sigue pareciendo una cinturilla de sastrería. El bajo queda a 88 cm de la cintura y va rematado con un dobladillo enrollado a máquina que mantiene el peso abajo para que la falda siga moviéndose. Es la prenda que más gente del estudio tiene, casi siempre con el jersey Aubin encima y un par de botas planas."
+      },
+      "belairWoolOvercoat": {
+        "title": "Abrigo de lana Bel-Air",
+        "subtitle": "Lana doble faz, sin forro, un botón, por debajo de la rodilla",
+        "description": "Un abrigo largo en lana doble faz, que son dos tejidos unidos y después separados y cosidos a mano en cada borde, de manera que el abrigo no necesita forro y muestra el mismo paño por dentro y por fuera. Esa construcción es la razón de que sea ligero para lo que abriga y de que las costuras se vean como una fina línea de puntada en vez de quedar ocultas. Se cierra con un único botón forrado a la altura de la cintura y cae recto desde un hombro ligeramente prolongado hasta justo por debajo de la rodilla. Dos bolsillos de vivo, colocados en un ángulo al que de verdad se llega. Es lo más caro que hacemos y aquello que más esperamos ver reparado en lugar de sustituido; la puntada se puede rehacer."
+      },
+      "quessantQuiltedJacket": {
+        "title": "Chaqueta acolchada Quessant",
+        "subtitle": "Acolchado de plumón reciclado, largo a la cadera, cuello alto, automáticos",
+        "description": "Una chaqueta acolchada corta pensada para las semanas que hay entre una chaqueta de punto y un abrigo. El exterior es una poliamida reciclada mate de tacto seco, acolchada en canales de 6 cm sobre un relleno de plumón reciclado, así que se comprime hasta el tamaño aproximado de una hogaza. El cuello es alto y cierra por completo; el delantero lleva una cremallera de doble carro tras una tapeta de automáticos, de modo que puede llevarse abierta por el bajo y cerrada en el pecho. Los puños son elásticos solo por dentro, lo que mantiene la manga limpia por fuera. Dos bolsillos de mano con cremallera y un bolsillo interior de plastrón. Llega a la cadera y está cortada para quedar sobre un punto sin subirse al estirar los brazos."
+      }
+    }
+  }
+}
