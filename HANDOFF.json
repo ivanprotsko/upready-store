@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T02:16:27+08:00",
-  "status": "Night 02:25 — T-fix worktree now has node_modules (pnpm install 40 s), so the repaint can finally be rendered. Ivan's revised night scope: FOUR profiles, and the 3x3 grid makes images affordable. Prices measured tonight on fal.ai model pages: nano-banana $0.039/image, nano-banana-pro $0.15 standard / $0.30 at 4K; Replicate's nano-banana-2 still unpublished. Mixed plan: grids on the cheap model, hero + one showcase frame on the pro = ~$0.57 per theme, $2.28 for four, $5.13 for nine — inside the $9.07. Blocked on q-night-four-profiles-consent (orchestrate from this window, ceiling, provider, four themes, cause E).",
+  "updated": "2026-09-08T02:21:31+08:00",
+  "status": "02:50 — Ivan asleep, launch prompts handed out: docs/prompts/2026-09-08-orchestrator-a-foundation.md (render the repaint, decide cause E at the bridge, write the computed-style coverage gate, merge repaint+tooling into dev) and -b-wave-four.md (four themes supplements/electronics/womens-fashion/home-goods, fal.ai grid strategy, ceiling $4). Measured tonight: fal nano-banana $0.039, nano-banana-pro $0.15/$0.30 at 4K, Replicate nano-banana-2 unpublished; grid cuts a theme from 19 renders to ~$0.42-0.57, nine themes ~$5 of the $9.07. Nine orchestrators are not faster than two: the machine holds two building processes, 8.9 GB disk free. All five night decisions are architect defaults, marked DECIDED inside the prompts; Ivan confirmed none in words.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
