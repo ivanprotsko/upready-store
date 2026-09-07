@@ -1,0 +1,29 @@
+[
+  {
+    "handle": "new-arrivals",
+    "title": "New arrivals",
+    "products": [
+      "gutter-low",
+      "sett-low",
+      "gantry-high",
+      "stanchion-high",
+      "camber-runner",
+      "towpath-runner",
+      "cattle-grid-trail",
+      "round-waxed-laces"
+    ]
+  },
+  {
+    "handle": "bestsellers",
+    "title": "Bestsellers",
+    "products": [
+      "gutter-low",
+      "flagstone-low",
+      "bollard-high",
+      "verge-runner",
+      "culvert-trail",
+      "care-kit",
+      "flat-waxed-laces"
+    ]
+  }
+]

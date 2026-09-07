@@ -1,0 +1,3070 @@
+[
+  {
+    "handle": "gutter-low",
+    "title": "Gutter low · Tar black",
+    "subtitle": "Low top, full-grain leather, cupsole, acid heel tab",
+    "description": "The Gutter is the low top we make the most of. The upper is full-grain leather with a suede toe wrap, stitched rather than bonded at the toe, so the panel that scuffs first can be replaced by a cobbler instead of thrown out. Underneath is a moulded cupsole with a 10 mm heel-to-toe drop and a black rubber outsole cut in a shallow herringbone that clears wet pavement. The lining is unbleached cotton twill and the footbed is removable, so an orthotic drops straight in. It fits true to size; if you are between sizes, take the smaller one. Wipe the leather with a damp cloth, let it dry away from heat, and feed it twice a year.",
+    "status": "published",
+    "category": "low-tops",
+    "collections": [
+      "new-arrivals",
+      "bestsellers"
+    ],
+    "weight": 1100,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-GUTTERLOW",
+      "specs": {
+        "Upper material": "Full-grain leather with a suede toe wrap",
+        "Lining": "Unbleached cotton twill",
+        "Midsole": "Moulded EVA, cupsole construction",
+        "Outsole": "Solid rubber, shallow herringbone tread",
+        "Heel-to-toe drop": "10 mm",
+        "Closure": "Six eyelets, flat waxed lace",
+        "Sizing": "EU 38 to 46, true to size",
+        "Weight": "410 g per shoe in EU 42",
+        "Made in": "Portugal",
+        "Care": "Damp cloth, air dry, leather food twice a year"
+      }
+    },
+    "images": [
+      "media/gutter-low-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Tar black",
+        "sku": "SNK-GUTTERLOW-38-TARBLACK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 39 · Tar black",
+        "sku": "SNK-GUTTERLOW-39-TARBLACK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-GUTTERLOW-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-GUTTERLOW-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-GUTTERLOW-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-GUTTERLOW-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-GUTTERLOW-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-GUTTERLOW-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 46 · Tar black",
+        "sku": "SNK-GUTTERLOW-46-TARBLACK",
+        "options": {
+          "Size": "46",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 38 · Sulphur",
+        "sku": "SNK-GUTTERLOW-38-SULPHUR",
+        "options": {
+          "Size": "38",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 39 · Sulphur",
+        "sku": "SNK-GUTTERLOW-39-SULPHUR",
+        "options": {
+          "Size": "39",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "EU 40 · Sulphur",
+        "sku": "SNK-GUTTERLOW-40-SULPHUR",
+        "options": {
+          "Size": "40",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Sulphur",
+        "sku": "SNK-GUTTERLOW-41-SULPHUR",
+        "options": {
+          "Size": "41",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Sulphur",
+        "sku": "SNK-GUTTERLOW-42-SULPHUR",
+        "options": {
+          "Size": "42",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Sulphur",
+        "sku": "SNK-GUTTERLOW-43-SULPHUR",
+        "options": {
+          "Size": "43",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Sulphur",
+        "sku": "SNK-GUTTERLOW-44-SULPHUR",
+        "options": {
+          "Size": "44",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Sulphur",
+        "sku": "SNK-GUTTERLOW-45-SULPHUR",
+        "options": {
+          "Size": "45",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 46 · Sulphur",
+        "sku": "SNK-GUTTERLOW-46-SULPHUR",
+        "options": {
+          "Size": "46",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 38 · Concrete",
+        "sku": "SNK-GUTTERLOW-38-CONCRETE",
+        "options": {
+          "Size": "38",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 39 · Concrete",
+        "sku": "SNK-GUTTERLOW-39-CONCRETE",
+        "options": {
+          "Size": "39",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "EU 40 · Concrete",
+        "sku": "SNK-GUTTERLOW-40-CONCRETE",
+        "options": {
+          "Size": "40",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 41 · Concrete",
+        "sku": "SNK-GUTTERLOW-41-CONCRETE",
+        "options": {
+          "Size": "41",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 42 · Concrete",
+        "sku": "SNK-GUTTERLOW-42-CONCRETE",
+        "options": {
+          "Size": "42",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 43 · Concrete",
+        "sku": "SNK-GUTTERLOW-43-CONCRETE",
+        "options": {
+          "Size": "43",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 44 · Concrete",
+        "sku": "SNK-GUTTERLOW-44-CONCRETE",
+        "options": {
+          "Size": "44",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 45 · Concrete",
+        "sku": "SNK-GUTTERLOW-45-CONCRETE",
+        "options": {
+          "Size": "45",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 46 · Concrete",
+        "sku": "SNK-GUTTERLOW-46-CONCRETE",
+        "options": {
+          "Size": "46",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 139,
+        "inventory_quantity": 20
+      }
+    ],
+    "imageBrief": {
+      "subject": "A low-top leather sneaker with a deep black full-grain leather upper, a black suede toe wrap, black flat waxed laces through six dark metal eyelets, a small acid yellow-green heel tab, an off-white moulded cupsole midsole and a black rubber outsole with a shallow herringbone tread.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the acid heel tab and the cupsole edge both readable in the frame."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "sett-low",
+    "title": "Sett low · Chalk",
+    "subtitle": "Low top, canvas and suede, vulcanised sole",
+    "description": "A sett is the small granite block a road used to be paved with, and this is the plainest shoe we make. Twelve-ounce cotton canvas upper, suede on the toe and the heel counter where a canvas shoe gives out first, and a vulcanised rubber sole bonded in a mould rather than glued in a press. The drop is 8 mm and the sole is thin on purpose: you feel the pavement through it. Chalk is an undyed off-white that marks in the first week and then settles down. The Tar black is piece-dyed after cutting. It runs about a half size large, so take the smaller size if you are between. Machine washable at 30 degrees with the insole out.",
+    "status": "published",
+    "category": "low-tops",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 980,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-SETTLOW",
+      "specs": {
+        "Upper material": "12 oz cotton canvas, suede toe and heel counter",
+        "Lining": "Cotton drill",
+        "Midsole": "Vulcanised rubber, no foam wedge",
+        "Outsole": "Vulcanised rubber, diamond tread",
+        "Heel-to-toe drop": "8 mm",
+        "Closure": "Seven eyelets, flat cotton lace",
+        "Sizing": "EU 38 to 45, runs a half size large",
+        "Weight": "340 g per shoe in EU 42",
+        "Made in": "Portugal",
+        "Care": "Machine wash 30 °C with the insole out, air dry"
+      }
+    },
+    "images": [
+      "media/sett-low-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Chalk",
+        "sku": "SNK-SETTLOW-38-CHALK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 39 · Chalk",
+        "sku": "SNK-SETTLOW-39-CHALK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 40 · Chalk",
+        "sku": "SNK-SETTLOW-40-CHALK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 41 · Chalk",
+        "sku": "SNK-SETTLOW-41-CHALK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 20
+      },
+      {
+        "title": "EU 42 · Chalk",
+        "sku": "SNK-SETTLOW-42-CHALK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 43 · Chalk",
+        "sku": "SNK-SETTLOW-43-CHALK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 44 · Chalk",
+        "sku": "SNK-SETTLOW-44-CHALK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 45 · Chalk",
+        "sku": "SNK-SETTLOW-45-CHALK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 38 · Tar black",
+        "sku": "SNK-SETTLOW-38-TARBLACK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 39 · Tar black",
+        "sku": "SNK-SETTLOW-39-TARBLACK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-SETTLOW-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-SETTLOW-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-SETTLOW-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-SETTLOW-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-SETTLOW-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-SETTLOW-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 119,
+        "inventory_quantity": 16
+      }
+    ],
+    "imageBrief": {
+      "subject": "A low-top canvas sneaker with an undyed off-white cotton canvas upper, off-white suede at the toe and heel counter, off-white flat cotton laces through seven eyelets, a cream vulcanised rubber foxing tape running around the sole and a pale rubber outsole with a diamond tread.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the foxing tape and the suede toe patch both clearly separated from the canvas."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "flagstone-low",
+    "title": "Flagstone low · Concrete",
+    "subtitle": "Low top, oiled nubuck and mesh, wide last",
+    "description": "The Flagstone is the wide one. The last is 4 mm broader across the ball of the foot than the Gutter, which is the difference between a shoe you tolerate at hour eight and one you forget about. The upper is oiled nubuck with a mesh panel behind the eyestay for airflow, and the collar is padded with closed-cell foam that does not soak up rain. The sole unit is a two-density EVA midsole over a rubber outsole, 12 mm drop, 26 mm stack at the heel. Concrete is a mid grey that hides city dirt, Oxblood is a dark red-brown, Chalk is off-white. Brush the nubuck dry, never wet, and re-proof it at the end of the winter.",
+    "status": "published",
+    "category": "low-tops",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 1040,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-FLAGSTONELOW",
+      "specs": {
+        "Upper material": "Oiled nubuck with a mesh eyestay panel",
+        "Lining": "Brushed polyester",
+        "Midsole": "Two-density EVA, 26 mm heel stack",
+        "Outsole": "Rubber, radial tread",
+        "Heel-to-toe drop": "12 mm",
+        "Fit": "Wide last, 4 mm broader at the ball of the foot",
+        "Closure": "Six eyelets, round waxed lace",
+        "Weight": "395 g per shoe in EU 42",
+        "Made in": "Portugal",
+        "Care": "Dry brush only, re-proof once a season"
+      }
+    },
+    "images": [
+      "media/flagstone-low-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 39 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-39-CONCRETE",
+        "options": {
+          "Size": "39",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 40 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-40-CONCRETE",
+        "options": {
+          "Size": "40",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 41 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-41-CONCRETE",
+        "options": {
+          "Size": "41",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 42 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-42-CONCRETE",
+        "options": {
+          "Size": "42",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 43 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-43-CONCRETE",
+        "options": {
+          "Size": "43",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 44 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-44-CONCRETE",
+        "options": {
+          "Size": "44",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 45 · Concrete",
+        "sku": "SNK-FLAGSTONELOW-45-CONCRETE",
+        "options": {
+          "Size": "45",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 39 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-39-OXBLOOD",
+        "options": {
+          "Size": "39",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 40 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-40-OXBLOOD",
+        "options": {
+          "Size": "40",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-41-OXBLOOD",
+        "options": {
+          "Size": "41",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-42-OXBLOOD",
+        "options": {
+          "Size": "42",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-43-OXBLOOD",
+        "options": {
+          "Size": "43",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-44-OXBLOOD",
+        "options": {
+          "Size": "44",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Oxblood",
+        "sku": "SNK-FLAGSTONELOW-45-OXBLOOD",
+        "options": {
+          "Size": "45",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 39 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-39-CHALK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 40 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-40-CHALK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 41 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-41-CHALK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 20
+      },
+      {
+        "title": "EU 42 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-42-CHALK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 43 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-43-CHALK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 44 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-44-CHALK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 45 · Chalk",
+        "sku": "SNK-FLAGSTONELOW-45-CHALK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 4
+      }
+    ],
+    "imageBrief": {
+      "subject": "A wide low-top sneaker with a mid-grey oiled nubuck upper, a darker grey mesh panel behind the eyestay, a padded grey collar, grey round waxed laces through six eyelets, a light grey two-density EVA midsole with a visible 26 mm heel stack and a black rubber outsole with a radial tread.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the wide toe box and the two midsole densities both visible."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "bollard-high",
+    "title": "Bollard high · Tar black",
+    "subtitle": "High top, full-grain leather, padded collar",
+    "description": "A high top that holds the ankle without stiffening it. The upper is 1.6 mm full-grain leather over a leather-lined collar padded to about 12 mm, and the ankle panel is one piece, so no seam sits where the ankle bone does. Eight eyelets and two speed hooks let you lace it loose to the ankle and tight above it. The sole is a cupsole with a 10 mm drop, a moulded EVA wedge and a solid rubber outsole. Tar black is the house colour with a Sulphur heel tab, Diesel is a dark green-grey, and the Sulphur colourway takes the acid across the whole upper. The leather stretches about a half size in the first month. Feed it twice a year and dry it away from radiators.",
+    "status": "published",
+    "category": "high-tops",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 1250,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-BOLLARDHIGH",
+      "specs": {
+        "Upper material": "1.6 mm full-grain leather",
+        "Lining": "Leather at the collar, cotton twill through the vamp",
+        "Collar padding": "12 mm closed-cell foam",
+        "Midsole": "Moulded EVA, cupsole construction",
+        "Outsole": "Solid rubber, herringbone tread",
+        "Heel-to-toe drop": "10 mm",
+        "Closure": "Eight eyelets and two speed hooks",
+        "Weight": "520 g per shoe in EU 42",
+        "Made in": "Portugal",
+        "Care": "Damp cloth, leather food twice a year"
+      }
+    },
+    "images": [
+      "media/bollard-high-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-38-TARBLACK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 39 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-39-TARBLACK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 46 · Tar black",
+        "sku": "SNK-BOLLARDHIGH-46-TARBLACK",
+        "options": {
+          "Size": "46",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 38 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-38-DIESEL",
+        "options": {
+          "Size": "38",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 39 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-39-DIESEL",
+        "options": {
+          "Size": "39",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 40 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-40-DIESEL",
+        "options": {
+          "Size": "40",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 41 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-41-DIESEL",
+        "options": {
+          "Size": "41",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 42 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-42-DIESEL",
+        "options": {
+          "Size": "42",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 43 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-43-DIESEL",
+        "options": {
+          "Size": "43",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 44 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-44-DIESEL",
+        "options": {
+          "Size": "44",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 45 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-45-DIESEL",
+        "options": {
+          "Size": "45",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 46 · Diesel",
+        "sku": "SNK-BOLLARDHIGH-46-DIESEL",
+        "options": {
+          "Size": "46",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 38 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-38-SULPHUR",
+        "options": {
+          "Size": "38",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 39 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-39-SULPHUR",
+        "options": {
+          "Size": "39",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 40 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-40-SULPHUR",
+        "options": {
+          "Size": "40",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-41-SULPHUR",
+        "options": {
+          "Size": "41",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-42-SULPHUR",
+        "options": {
+          "Size": "42",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-43-SULPHUR",
+        "options": {
+          "Size": "43",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-44-SULPHUR",
+        "options": {
+          "Size": "44",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-45-SULPHUR",
+        "options": {
+          "Size": "45",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 46 · Sulphur",
+        "sku": "SNK-BOLLARDHIGH-46-SULPHUR",
+        "options": {
+          "Size": "46",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 159,
+        "inventory_quantity": 17
+      }
+    ],
+    "imageBrief": {
+      "subject": "A high-top leather sneaker with a deep black full-grain leather upper, a one-piece black ankle panel, a padded black leather collar, eight dark eyelets and two speed hooks, black flat laces, a small acid yellow-green heel tab, a black moulded cupsole and a black rubber herringbone outsole.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the collar height and the speed hooks readable against the dark upper."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "gantry-high",
+    "title": "Gantry high · Diesel",
+    "subtitle": "High top, waxed canvas, water resistant",
+    "description": "Waxed cotton canvas, fourteen ounces, proofed with paraffin at the mill rather than sprayed after cutting, so the water resistance is in the cloth and comes back when you re-wax it. The collar sits 15 mm lower than the Bollard: it clears the ankle bone and stays out of the way when you ride. The rubber toe bumper is stitched as well as cemented. The sole is vulcanised, 8 mm drop, with a lug deep enough for wet cobbles. Diesel is a dark green-grey, Concrete is mid grey. Waxed canvas creases and lightens where it folds, which is the material and not a fault. Re-wax the toe and the flex line once a year and keep it out of the washing machine.",
+    "status": "published",
+    "category": "high-tops",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 1180,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-GANTRYHIGH",
+      "specs": {
+        "Upper material": "14 oz paraffin-waxed cotton canvas",
+        "Toe": "Rubber bumper, stitched and cemented",
+        "Lining": "Cotton drill",
+        "Midsole": "Vulcanised rubber",
+        "Outsole": "Vulcanised rubber, 3 mm lugs",
+        "Heel-to-toe drop": "8 mm",
+        "Closure": "Seven eyelets and two speed hooks",
+        "Weight": "470 g per shoe in EU 42",
+        "Made in": "Portugal",
+        "Care": "Re-wax the toe and flex line once a year, no machine wash"
+      }
+    },
+    "images": [
+      "media/gantry-high-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 39 · Diesel",
+        "sku": "SNK-GANTRYHIGH-39-DIESEL",
+        "options": {
+          "Size": "39",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 40 · Diesel",
+        "sku": "SNK-GANTRYHIGH-40-DIESEL",
+        "options": {
+          "Size": "40",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 41 · Diesel",
+        "sku": "SNK-GANTRYHIGH-41-DIESEL",
+        "options": {
+          "Size": "41",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 42 · Diesel",
+        "sku": "SNK-GANTRYHIGH-42-DIESEL",
+        "options": {
+          "Size": "42",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 43 · Diesel",
+        "sku": "SNK-GANTRYHIGH-43-DIESEL",
+        "options": {
+          "Size": "43",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 44 · Diesel",
+        "sku": "SNK-GANTRYHIGH-44-DIESEL",
+        "options": {
+          "Size": "44",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 45 · Diesel",
+        "sku": "SNK-GANTRYHIGH-45-DIESEL",
+        "options": {
+          "Size": "45",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 46 · Diesel",
+        "sku": "SNK-GANTRYHIGH-46-DIESEL",
+        "options": {
+          "Size": "46",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 39 · Concrete",
+        "sku": "SNK-GANTRYHIGH-39-CONCRETE",
+        "options": {
+          "Size": "39",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 40 · Concrete",
+        "sku": "SNK-GANTRYHIGH-40-CONCRETE",
+        "options": {
+          "Size": "40",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 41 · Concrete",
+        "sku": "SNK-GANTRYHIGH-41-CONCRETE",
+        "options": {
+          "Size": "41",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 42 · Concrete",
+        "sku": "SNK-GANTRYHIGH-42-CONCRETE",
+        "options": {
+          "Size": "42",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 43 · Concrete",
+        "sku": "SNK-GANTRYHIGH-43-CONCRETE",
+        "options": {
+          "Size": "43",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 44 · Concrete",
+        "sku": "SNK-GANTRYHIGH-44-CONCRETE",
+        "options": {
+          "Size": "44",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 45 · Concrete",
+        "sku": "SNK-GANTRYHIGH-45-CONCRETE",
+        "options": {
+          "Size": "45",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 46 · Concrete",
+        "sku": "SNK-GANTRYHIGH-46-CONCRETE",
+        "options": {
+          "Size": "46",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 20
+      }
+    ],
+    "imageBrief": {
+      "subject": "A mid-high canvas sneaker with a dark green-grey waxed cotton canvas upper showing soft wax creases along the flex line, a black stitched rubber toe bumper, seven eyelets and two speed hooks, dark laces, a black vulcanised rubber foxing strip and a black lugged rubber outsole.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the wax creasing at the flex line and the stitched toe bumper both visible."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "stanchion-high",
+    "title": "Stanchion high · Oxblood",
+    "subtitle": "High top, vegetable-tanned leather, stitched down",
+    "description": "The Stanchion is stitched down: the upper is turned out at the feather edge and sewn through to the midsole, so the sole can be replaced twice without touching the upper. That construction is why it is the heaviest and the dearest shoe on this page. The upper is vegetable-tanned leather that starts stiff and takes about three weeks of walking to sit right, and the collar and heel tab are a darker temper of the same hide. The drop is 12 mm over a stacked leather and rubber midsole with a lugged rubber outsole. Oxblood is a dark red-brown that deepens with wear, Tar black stays black. It is cut in one size grade only, EU 40 to 45. Feed it before the first winter.",
+    "status": "published",
+    "category": "high-tops",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 1300,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-STANCHIONHIGH",
+      "specs": {
+        "Upper material": "Vegetable-tanned full-grain leather",
+        "Construction": "Stitched down through the midsole, resoleable twice",
+        "Lining": "Vegetable-tanned leather",
+        "Midsole": "Stacked leather and rubber",
+        "Outsole": "Rubber, 4 mm lugs",
+        "Heel-to-toe drop": "12 mm",
+        "Closure": "Eight eyelets and three speed hooks",
+        "Sizing": "EU 40 to 45 only",
+        "Weight": "610 g per shoe in EU 42",
+        "Care": "Three weeks to break in, feed before the first winter"
+      }
+    },
+    "images": [
+      "media/stanchion-high-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 40 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-40-OXBLOOD",
+        "options": {
+          "Size": "40",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-41-OXBLOOD",
+        "options": {
+          "Size": "41",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-42-OXBLOOD",
+        "options": {
+          "Size": "42",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-43-OXBLOOD",
+        "options": {
+          "Size": "43",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-44-OXBLOOD",
+        "options": {
+          "Size": "44",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Oxblood",
+        "sku": "SNK-STANCHIONHIGH-45-OXBLOOD",
+        "options": {
+          "Size": "45",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-STANCHIONHIGH-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 16
+      }
+    ],
+    "imageBrief": {
+      "subject": "A high-top leather sneaker with a dark red-brown vegetable-tanned leather upper, a darker collar and heel tab, visible stitching turned out at the feather edge into a stacked leather and rubber midsole, eight eyelets and three speed hooks, dark brown laces and a black lugged rubber outsole.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the stitch line at the feather edge and the stacked midsole layers both readable."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "verge-runner",
+    "title": "Verge runner · Chalk",
+    "subtitle": "Runner, engineered mesh, supercritical foam",
+    "description": "A city runner built for pavement, not for a track. The upper is a single piece of engineered mesh with denser yarn where the foot flexes and an open weave over the toes, so it breathes without a separate vent panel. There is no plastic heel counter: a moulded foam clip does the same job at a third of the weight. The midsole is supercritical foam, 32 mm at the heel and 24 mm at the forefoot, so the drop is 8 mm, and rubber is fitted only under the heel and the ball, which is where a shoe actually wears out. Chalk is off-white, Sulphur is the acid, Tar black is black on black. Hand wash cold and air dry: heat collapses the foam.",
+    "status": "published",
+    "category": "runners",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 900,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-VERGERUNNER",
+      "specs": {
+        "Upper material": "One-piece engineered mesh",
+        "Heel": "Moulded foam clip, no plastic counter",
+        "Midsole": "Supercritical foam, 32 mm heel and 24 mm forefoot",
+        "Outsole": "Rubber under the heel and forefoot only",
+        "Heel-to-toe drop": "8 mm",
+        "Closure": "Six eyelets, flat lace with a lace garage",
+        "Weight": "265 g per shoe in EU 42",
+        "Made in": "Vietnam",
+        "Care": "Hand wash cold, air dry, never tumble dry"
+      }
+    },
+    "images": [
+      "media/verge-runner-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Chalk",
+        "sku": "SNK-VERGERUNNER-38-CHALK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 39 · Chalk",
+        "sku": "SNK-VERGERUNNER-39-CHALK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 40 · Chalk",
+        "sku": "SNK-VERGERUNNER-40-CHALK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 41 · Chalk",
+        "sku": "SNK-VERGERUNNER-41-CHALK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 20
+      },
+      {
+        "title": "EU 42 · Chalk",
+        "sku": "SNK-VERGERUNNER-42-CHALK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 43 · Chalk",
+        "sku": "SNK-VERGERUNNER-43-CHALK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 44 · Chalk",
+        "sku": "SNK-VERGERUNNER-44-CHALK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 45 · Chalk",
+        "sku": "SNK-VERGERUNNER-45-CHALK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 46 · Chalk",
+        "sku": "SNK-VERGERUNNER-46-CHALK",
+        "options": {
+          "Size": "46",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 38 · Sulphur",
+        "sku": "SNK-VERGERUNNER-38-SULPHUR",
+        "options": {
+          "Size": "38",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 39 · Sulphur",
+        "sku": "SNK-VERGERUNNER-39-SULPHUR",
+        "options": {
+          "Size": "39",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 40 · Sulphur",
+        "sku": "SNK-VERGERUNNER-40-SULPHUR",
+        "options": {
+          "Size": "40",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Sulphur",
+        "sku": "SNK-VERGERUNNER-41-SULPHUR",
+        "options": {
+          "Size": "41",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Sulphur",
+        "sku": "SNK-VERGERUNNER-42-SULPHUR",
+        "options": {
+          "Size": "42",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Sulphur",
+        "sku": "SNK-VERGERUNNER-43-SULPHUR",
+        "options": {
+          "Size": "43",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Sulphur",
+        "sku": "SNK-VERGERUNNER-44-SULPHUR",
+        "options": {
+          "Size": "44",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Sulphur",
+        "sku": "SNK-VERGERUNNER-45-SULPHUR",
+        "options": {
+          "Size": "45",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 46 · Sulphur",
+        "sku": "SNK-VERGERUNNER-46-SULPHUR",
+        "options": {
+          "Size": "46",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 38 · Tar black",
+        "sku": "SNK-VERGERUNNER-38-TARBLACK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 39 · Tar black",
+        "sku": "SNK-VERGERUNNER-39-TARBLACK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-VERGERUNNER-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-VERGERUNNER-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-VERGERUNNER-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-VERGERUNNER-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-VERGERUNNER-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-VERGERUNNER-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 46 · Tar black",
+        "sku": "SNK-VERGERUNNER-46-TARBLACK",
+        "options": {
+          "Size": "46",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 23
+      }
+    ],
+    "imageBrief": {
+      "subject": "A running shoe with a one-piece off-white engineered mesh upper, denser off-white yarn at the flex points and an open weave over the toes, a moulded off-white foam heel clip, flat off-white laces with a lace garage on the tongue, a thick off-white supercritical foam midsole and black rubber pads under the heel and forefoot.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the full midsole stack and the two rubber pads visible along the ground line."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "camber-runner",
+    "title": "Camber runner · Sulphur",
+    "subtitle": "Runner, knit upper, everyday trainer",
+    "description": "The cheapest shoe we make and the one we sell most of. A knit upper with a stretch collar you can pull on without untying, a compression-moulded EVA midsole with a 10 mm drop, and rubber on the wear pads. It is a walking and standing shoe: thirty to sixty minutes at a time, all day on your feet, not a marathon. The knit gives a little in the first week and then holds its shape. Sulphur is the acid colourway and it shows dirt, which is the honest trade for that colour. Diesel is a dark green-grey that does not. Machine wash at 30 degrees in a bag with the insole out, and dry it in the room rather than on a radiator.",
+    "status": "published",
+    "category": "runners",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 860,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-CAMBERRUNNER",
+      "specs": {
+        "Upper material": "Circular-knit polyester with a stretch collar",
+        "Lining": "None, the knit is the lining",
+        "Midsole": "Compression-moulded EVA",
+        "Outsole": "Rubber wear pads at heel and forefoot",
+        "Heel-to-toe drop": "10 mm",
+        "Closure": "Five eyelets, flat lace, elastic gusset",
+        "Weight": "240 g per shoe in EU 42",
+        "Made in": "Vietnam",
+        "Care": "Machine wash 30 °C in a bag, insole out, air dry"
+      }
+    },
+    "images": [
+      "media/camber-runner-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-38-SULPHUR",
+        "options": {
+          "Size": "38",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 39 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-39-SULPHUR",
+        "options": {
+          "Size": "39",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 40 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-40-SULPHUR",
+        "options": {
+          "Size": "40",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-41-SULPHUR",
+        "options": {
+          "Size": "41",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-42-SULPHUR",
+        "options": {
+          "Size": "42",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-43-SULPHUR",
+        "options": {
+          "Size": "43",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Sulphur",
+        "sku": "SNK-CAMBERRUNNER-44-SULPHUR",
+        "options": {
+          "Size": "44",
+          "Colourway": "Sulphur"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 38 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-38-DIESEL",
+        "options": {
+          "Size": "38",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 39 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-39-DIESEL",
+        "options": {
+          "Size": "39",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 40 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-40-DIESEL",
+        "options": {
+          "Size": "40",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 41 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-41-DIESEL",
+        "options": {
+          "Size": "41",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 42 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-42-DIESEL",
+        "options": {
+          "Size": "42",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 43 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-43-DIESEL",
+        "options": {
+          "Size": "43",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 44 · Diesel",
+        "sku": "SNK-CAMBERRUNNER-44-DIESEL",
+        "options": {
+          "Size": "44",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 99,
+        "inventory_quantity": 22
+      }
+    ],
+    "imageBrief": {
+      "subject": "A knit running shoe with an acid yellow-green circular-knit upper, a matching stretch collar with no tongue seam, five eyelets with flat acid yellow-green laces, a white compression-moulded EVA midsole and black rubber wear pads under the heel and forefoot.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the knit texture and the seamless collar both readable at the ankle."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "towpath-runner",
+    "title": "Towpath runner · Concrete",
+    "subtitle": "Runner, mesh and suede, wet-grip outsole",
+    "description": "Built for the surface a towpath actually has: wet grit, loose gravel and long flat miles. The upper is a closed mesh with suede overlays at the toe and the eyestay, which keeps stones out of the weave, and the tongue is gusseted on both sides. The outsole compound is softer than the one on the Verge. It grips better on wet stone and it wears out faster, and we would rather you knew that now than found out in a year. Full-length rubber, 3 mm lugs, 10 mm drop over a dual-density EVA midsole. Concrete is mid grey, Tar black is black, Chalk is off-white. Rinse the outsole under a tap after a gravel day and brush the suede dry, never wet.",
+    "status": "published",
+    "category": "runners",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 940,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-TOWPATHRUNNER",
+      "specs": {
+        "Upper material": "Closed mesh with suede toe and eyestay overlays",
+        "Tongue": "Gusseted on both sides",
+        "Lining": "Brushed polyester",
+        "Midsole": "Dual-density EVA",
+        "Outsole": "Soft-compound rubber, full length, 3 mm lugs",
+        "Heel-to-toe drop": "10 mm",
+        "Closure": "Six eyelets, round lace",
+        "Weight": "310 g per shoe in EU 42",
+        "Made in": "Vietnam",
+        "Care": "Rinse the outsole after gravel, brush the suede dry"
+      }
+    },
+    "images": [
+      "media/towpath-runner-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-38-CONCRETE",
+        "options": {
+          "Size": "38",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 39 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-39-CONCRETE",
+        "options": {
+          "Size": "39",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 40 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-40-CONCRETE",
+        "options": {
+          "Size": "40",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 41 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-41-CONCRETE",
+        "options": {
+          "Size": "41",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 42 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-42-CONCRETE",
+        "options": {
+          "Size": "42",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 43 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-43-CONCRETE",
+        "options": {
+          "Size": "43",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 44 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-44-CONCRETE",
+        "options": {
+          "Size": "44",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 45 · Concrete",
+        "sku": "SNK-TOWPATHRUNNER-45-CONCRETE",
+        "options": {
+          "Size": "45",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 38 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-38-TARBLACK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 39 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-39-TARBLACK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-TOWPATHRUNNER-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 38 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-38-CHALK",
+        "options": {
+          "Size": "38",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 39 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-39-CHALK",
+        "options": {
+          "Size": "39",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 40 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-40-CHALK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 13
+      },
+      {
+        "title": "EU 41 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-41-CHALK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 20
+      },
+      {
+        "title": "EU 42 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-42-CHALK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 43 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-43-CHALK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 44 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-44-CHALK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 45 · Chalk",
+        "sku": "SNK-TOWPATHRUNNER-45-CHALK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 4
+      }
+    ],
+    "imageBrief": {
+      "subject": "A running shoe with a mid-grey closed mesh upper, darker grey suede overlays at the toe and eyestay, a gusseted grey tongue, six eyelets with grey round laces, a light grey dual-density EVA midsole and a full-length black rubber outsole with 3 mm lugs.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the suede overlays and the full-length lugged outsole both clearly separated from the mesh."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "culvert-trail",
+    "title": "Culvert trail · Diesel",
+    "subtitle": "Trail shoe, membrane lined, 5 mm lugs",
+    "description": "The Culvert is the shoe for the end of the pavement. A waterproof, breathable membrane is bonded to the mesh upper rather than dropped in as a bootie, so it does not bunch, and the seams are taped. A moulded rubber rand runs the whole way round the shoe at the midsole line, which is what stops a trail shoe dying at the toe. The outsole carries 5 mm directional lugs in a sticky compound with a heel brake for descents. The drop is 8 mm over a rock plate whose absence you would feel on flint. Diesel is a dark green-grey, Oxblood is a dark red-brown. A membrane shoe dries slowly: take the insole out and stand it up, and never dry it on a radiator, which delaminates the membrane.",
+    "status": "published",
+    "category": "trail",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 1400,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-CULVERTTRAIL",
+      "specs": {
+        "Upper material": "Mesh with a bonded waterproof breathable membrane",
+        "Seams": "Taped",
+        "Rand": "Full moulded rubber rand at the midsole line",
+        "Underfoot": "TPU rock plate",
+        "Midsole": "EVA, 8 mm heel-to-toe drop",
+        "Outsole": "Sticky rubber, 5 mm directional lugs, heel brake",
+        "Closure": "Six eyelets and one speed hook, lace garage",
+        "Weight": "395 g per shoe in EU 42",
+        "Made in": "Vietnam",
+        "Care": "Insole out to dry, never on a radiator"
+      }
+    },
+    "images": [
+      "media/culvert-trail-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 38 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-38-DIESEL",
+        "options": {
+          "Size": "38",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 39 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-39-DIESEL",
+        "options": {
+          "Size": "39",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 40 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-40-DIESEL",
+        "options": {
+          "Size": "40",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 41 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-41-DIESEL",
+        "options": {
+          "Size": "41",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "EU 42 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-42-DIESEL",
+        "options": {
+          "Size": "42",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "EU 43 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-43-DIESEL",
+        "options": {
+          "Size": "43",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 15
+      },
+      {
+        "title": "EU 44 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-44-DIESEL",
+        "options": {
+          "Size": "44",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 45 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-45-DIESEL",
+        "options": {
+          "Size": "45",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 46 · Diesel",
+        "sku": "SNK-CULVERTTRAIL-46-DIESEL",
+        "options": {
+          "Size": "46",
+          "Colourway": "Diesel"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 38 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-38-OXBLOOD",
+        "options": {
+          "Size": "38",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 5
+      },
+      {
+        "title": "EU 39 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-39-OXBLOOD",
+        "options": {
+          "Size": "39",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "EU 40 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-40-OXBLOOD",
+        "options": {
+          "Size": "40",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-41-OXBLOOD",
+        "options": {
+          "Size": "41",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-42-OXBLOOD",
+        "options": {
+          "Size": "42",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-43-OXBLOOD",
+        "options": {
+          "Size": "43",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-44-OXBLOOD",
+        "options": {
+          "Size": "44",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-45-OXBLOOD",
+        "options": {
+          "Size": "45",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 46 · Oxblood",
+        "sku": "SNK-CULVERTTRAIL-46-OXBLOOD",
+        "options": {
+          "Size": "46",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 17
+      }
+    ],
+    "imageBrief": {
+      "subject": "A trail shoe with a dark green-grey mesh upper bonded to a membrane, taped seams, a black moulded rubber rand running the whole way round at the midsole line, six eyelets and one speed hook with a lace garage, a dark grey EVA midsole and a black sticky rubber outsole with 5 mm directional lugs and a heel brake.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the rubber rand running unbroken around the toe and the 5 mm lugs at the ground line."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "cattle-grid-trail",
+    "title": "Cattle grid trail · Oxblood",
+    "subtitle": "Trail shoe, unlined, drains and dries fast",
+    "description": "The same last as the Culvert with the membrane left out. That is a deliberate choice and not a cheaper one: an unlined shoe wets through in the first ten minutes and then dries on your foot, which is the better answer on a warm day or a wet crossing. The upper is an open, abrasion-resistant mesh with welded TPU overlays and drainage ports through the midsole. The lugs are 5 mm in the same sticky compound as the Culvert, the drop is 8 mm and the rock plate is the same one. Oxblood is a dark red-brown, Tar black is black, Concrete is mid grey. Rinse it out after mud, take the insole out and let it dry in the room.",
+    "status": "published",
+    "category": "trail",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 1360,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-CATTLEGRIDTRAIL",
+      "specs": {
+        "Upper material": "Open abrasion-resistant mesh with welded TPU overlays",
+        "Drainage": "Ports through the midsole",
+        "Lining": "None",
+        "Underfoot": "TPU rock plate",
+        "Midsole": "EVA, 8 mm heel-to-toe drop",
+        "Outsole": "Sticky rubber, 5 mm directional lugs",
+        "Closure": "Six eyelets and one speed hook",
+        "Sizing": "EU 40 to 45 only",
+        "Weight": "340 g per shoe in EU 42",
+        "Care": "Rinse after mud, insole out, dry in the room"
+      }
+    },
+    "images": [
+      "media/cattle-grid-trail-hero.webp"
+    ],
+    "options": [
+      "Size",
+      "Colourway"
+    ],
+    "variants": [
+      {
+        "title": "EU 40 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-40-OXBLOOD",
+        "options": {
+          "Size": "40",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "EU 41 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-41-OXBLOOD",
+        "options": {
+          "Size": "41",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "EU 42 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-42-OXBLOOD",
+        "options": {
+          "Size": "42",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 11
+      },
+      {
+        "title": "EU 43 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-43-OXBLOOD",
+        "options": {
+          "Size": "43",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "EU 44 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-44-OXBLOOD",
+        "options": {
+          "Size": "44",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 45 · Oxblood",
+        "sku": "SNK-CATTLEGRIDTRAIL-45-OXBLOOD",
+        "options": {
+          "Size": "45",
+          "Colourway": "Oxblood"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 40 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-40-TARBLACK",
+        "options": {
+          "Size": "40",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 25
+      },
+      {
+        "title": "EU 41 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-41-TARBLACK",
+        "options": {
+          "Size": "41",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "EU 42 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-42-TARBLACK",
+        "options": {
+          "Size": "42",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "EU 43 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-43-TARBLACK",
+        "options": {
+          "Size": "43",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "EU 44 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-44-TARBLACK",
+        "options": {
+          "Size": "44",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "EU 45 · Tar black",
+        "sku": "SNK-CATTLEGRIDTRAIL-45-TARBLACK",
+        "options": {
+          "Size": "45",
+          "Colourway": "Tar black"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 16
+      },
+      {
+        "title": "EU 40 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-40-CONCRETE",
+        "options": {
+          "Size": "40",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 22
+      },
+      {
+        "title": "EU 41 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-41-CONCRETE",
+        "options": {
+          "Size": "41",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "EU 42 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-42-CONCRETE",
+        "options": {
+          "Size": "42",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "EU 43 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-43-CONCRETE",
+        "options": {
+          "Size": "43",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "EU 44 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-44-CONCRETE",
+        "options": {
+          "Size": "44",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 6
+      },
+      {
+        "title": "EU 45 · Concrete",
+        "sku": "SNK-CATTLEGRIDTRAIL-45-CONCRETE",
+        "options": {
+          "Size": "45",
+          "Colourway": "Concrete"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 13
+      }
+    ],
+    "imageBrief": {
+      "subject": "A trail shoe with a dark red-brown open mesh upper, welded dark TPU overlays across the midfoot, visible drainage ports through the midsole, no lining at the collar, six eyelets and one speed hook, a dark grey EVA midsole and a black sticky rubber outsole with 5 mm directional lugs.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, three-quarter front, lateral side to camera, the open weave of the mesh and the drainage ports in the midsole both visible."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "care-kit",
+    "title": "Care kit · three piece",
+    "subtitle": "Brush, cleaner and cloth for leather, canvas and mesh",
+    "description": "Three things, which is all a shoe needs. A double-ended brush with horsehair at one end for leather and a crepe and brass head at the other for suede and nubuck. A 100 ml water-based cleaner with no solvent in it, which means it will not strip a dye or soften a cement line. A 40 by 40 cm microfibre cloth, hemmed, that survives the wash. The cleaner does leather, canvas, mesh and knit; use the crepe head dry on suede and nubuck and keep water off them entirely. One kit is enough for roughly twenty cleans of one pair. It is not a waterproofer: proofing spray is a separate thing and we do not sell one yet.",
+    "status": "published",
+    "category": "care-and-spares",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 420,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-CAREKIT",
+      "specs": {
+        "Contents": "Double-ended brush, 100 ml cleaner, microfibre cloth",
+        "Brush": "Horsehair at one end, crepe and brass at the other",
+        "Cleaner": "Water-based, solvent free, 100 ml",
+        "Cloth": "Microfibre, 40 × 40 cm, hemmed",
+        "Suitable for": "Leather, canvas, mesh and knit",
+        "Not suitable for": "Wet cleaning of suede or nubuck",
+        "Coverage": "About twenty cleans of one pair",
+        "Made in": "Germany"
+      }
+    },
+    "images": [
+      "media/care-kit-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "Three piece",
+        "sku": "SNK-CAREKIT-OS-NEUTRAL",
+        "options": {},
+        "price_usd": 29,
+        "inventory_quantity": 180
+      }
+    ],
+    "imageBrief": {
+      "subject": "A three piece shoe care kit: a wooden double-ended brush with pale horsehair bristles at one end and a dark crepe and brass suede head at the other, a 100 ml clear plastic bottle of pale amber cleaner with a plain black cap, and a folded charcoal grey microfibre cloth.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot of the three items together on the same concrete-grey ground: brush behind, bottle centred, folded cloth in front, seen from the same low camera."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "flat-waxed-laces",
+    "title": "Flat waxed laces · Tar black",
+    "subtitle": "8 mm flat waxed cotton, 140 cm, one pair",
+    "description": "One pair of flat waxed cotton laces, 8 mm wide and 140 cm long, which is the length the Gutter, the Sett and the Flagstone ship with. The wax is paraffin worked into the cotton rather than coated onto it, so the lace holds a knot through a wet day and does not creep loose in the eyelets. The aglets are rolled brass, unlacquered, and they dull to a dark gold inside a year. 140 cm suits six or seven eyelet pairs; the high tops want a longer lace than this one. The flat cut is made in Tar black only. Wash them by hand if they get muddy and dry them flat.",
+    "status": "published",
+    "category": "care-and-spares",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 60,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-FLATLACES",
+      "specs": {
+        "Material": "Waxed cotton, paraffin worked through the fibre",
+        "Width": "8 mm, flat",
+        "Length": "140 cm",
+        "Aglets": "Rolled unlacquered brass",
+        "Fits": "Six to seven eyelet pairs",
+        "Contents": "One pair",
+        "Made in": "Italy",
+        "Care": "Hand wash, dry flat"
+      }
+    },
+    "images": [
+      "media/flat-waxed-laces-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "140 cm · Tar black",
+        "sku": "SNK-FLATLACES-140-TARBLACK",
+        "options": {},
+        "price_usd": 9,
+        "inventory_quantity": 400
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of flat black waxed cotton shoelaces, eight millimetres wide, coiled loosely into a flat spiral with the four ends lying across the coil, dull rolled brass aglets and a low sheen from the wax.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot of the coiled pair on the same concrete-grey ground, seen from the same low camera, the brass aglets and the flat weave both readable."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "round-waxed-laces",
+    "title": "Round waxed laces · three colours",
+    "subtitle": "4 mm round waxed cotton, 120 cm, one pair",
+    "description": "One pair of round waxed cotton laces, 4 mm across and 120 cm long, cut for the Flagstone and the Towpath and for anyone who wants a thinner lace in a low top. Round waxed cotton holds a bow harder than flat does, so you will work the knot loose rather than pull it, and it runs through a round eyelet with less friction. The wax is paraffin worked through the fibre and the aglets are rolled brass. Three colours: Tar black, the Sulphur acid, and Chalk off-white, which will not stay off-white and is not meant to. Wash them by hand and dry them flat.",
+    "status": "published",
+    "category": "care-and-spares",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 70,
+    "metadata": {
+      "brand": "Kerbstone",
+      "mpn": "KRB-ROUNDLACES",
+      "specs": {
+        "Material": "Waxed cotton, paraffin worked through the fibre",
+        "Width": "4 mm, round",
+        "Length": "120 cm",
+        "Aglets": "Rolled unlacquered brass",
+        "Fits": "Five to six eyelet pairs",
+        "Colours": "Tar black, Sulphur, Chalk",
+        "Contents": "One pair",
+        "Made in": "Italy",
+        "Care": "Hand wash, dry flat"
+      }
+    },
+    "images": [
+      "media/round-waxed-laces-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "120 cm · Tar black",
+        "sku": "SNK-ROUNDLACES-120-TARBLACK",
+        "options": {
+          "Colour": "Tar black"
+        },
+        "price_usd": 12,
+        "inventory_quantity": 105
+      },
+      {
+        "title": "120 cm · Sulphur",
+        "sku": "SNK-ROUNDLACES-120-SULPHUR",
+        "options": {
+          "Colour": "Sulphur"
+        },
+        "price_usd": 12,
+        "inventory_quantity": 95
+      },
+      {
+        "title": "120 cm · Chalk",
+        "sku": "SNK-ROUNDLACES-120-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 12,
+        "inventory_quantity": 85
+      }
+    ],
+    "imageBrief": {
+      "subject": "Three pairs of round waxed cotton shoelaces, four millimetres across, each coiled into its own loose spiral and set side by side: one deep black, one acid yellow-green, one chalk off-white, all with dull rolled brass aglets, a visible cord twist and a low wax sheen.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot of the three coils side by side on the same concrete-grey ground, seen from the same low camera, the cord twist readable in each."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame",
+        "a tread pattern, heel-tab shape or side-panel device copied from an existing model",
+        "human faces, hands, feet, mannequins or foot forms",
+        "a pair, a second shoe or a left shoe",
+        "props, plinths, boxes, tissue paper, gravel or foliage",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  }
+]

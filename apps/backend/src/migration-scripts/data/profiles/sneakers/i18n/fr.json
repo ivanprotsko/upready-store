@@ -1,0 +1,111 @@
+{
+  "name": "Français",
+  "translations": {
+    "categories": {
+      "accessories": "Accessoires",
+      "careAndSpares": "Entretien et pièces",
+      "footwear": "Chaussures",
+      "highTops": "Montantes",
+      "lowTops": "Basses",
+      "runners": "Running",
+      "trail": "Trail"
+    },
+    "collections": {
+      "bestsellers": "Meilleures ventes",
+      "newArrivals": "Nouveautés"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Couleur",
+        "values": {
+          "tarBlack": "Noir goudron",
+          "sulphur": "Soufre",
+          "chalk": "Craie"
+        }
+      },
+      "colourway": {
+        "title": "Coloris",
+        "values": {
+          "tarBlack": "Noir goudron",
+          "sulphur": "Soufre",
+          "concrete": "Béton",
+          "oxblood": "Sang de bœuf",
+          "chalk": "Craie",
+          "diesel": "Diesel"
+        }
+      },
+      "size": {
+        "title": "Taille (EU)",
+        "values": {
+          "38": "38",
+          "39": "39",
+          "40": "40",
+          "41": "41",
+          "42": "42",
+          "43": "43",
+          "44": "44",
+          "45": "45",
+          "46": "46"
+        }
+      }
+    },
+    "products": {
+      "bollardHigh": {
+        "description": "Une montante qui tient la cheville sans la raidir. La tige est en cuir pleine fleur de 1,6 mm sur un col doublé cuir et rembourré sur environ 12 mm; le panneau de cheville est coupé d'une seule pièce, aucune couture ne tombe donc sur la malléole. Huit œillets et deux crochets permettent de lacer souple sous la cheville et serré au-dessus. La semelle est une cup, drop de 10 mm, avec un coin EVA moulé et une semelle d'usure en caoutchouc massif. Le Noir goudron est la couleur maison, avec une languette de talon Soufre; le Diesel est un vert-gris sombre; le coloris Soufre étend l'acide à toute la tige. Le cuir se détend d'environ une demi-pointure le premier mois. Nourrissez-le deux fois par an et ne le séchez pas sur un radiateur.",
+        "title": "Bollard High · Noir goudron"
+      },
+      "camberRunner": {
+        "description": "La chaussure la moins chère que nous fabriquons, et celle que nous vendons le plus. Une tige tricotée avec un col élastique dans lequel on entre sans délacer, une intercalaire EVA moulée par compression avec un drop de 10 mm, et du caoutchouc sur les zones d'usure. C'est une chaussure pour marcher et pour rester debout: trente à soixante minutes d'affilée, toute une journée sur les pieds, mais pas un marathon. Le tricot se détend un peu la première semaine puis garde sa forme. Soufre est le coloris acide et il marque, ce qui est le prix honnête de cette couleur; le Diesel, vert-gris sombre, ne marque pas. Lavez à 30 degrés en filet, première de propreté retirée, et séchez dans la pièce plutôt que sur un radiateur.",
+        "title": "Camber Runner · Soufre"
+      },
+      "careKit": {
+        "description": "Trois objets, c'est tout ce dont une chaussure a besoin. Une brosse à deux têtes, crin de cheval d'un côté pour le cuir, crêpe et laiton de l'autre pour le daim et le nubuck. Un nettoyant à base d'eau de 100 ml, sans solvant, qui ne dégorge donc pas une teinture et ne ramollit pas une ligne de collage. Un chiffon microfibre ourlé de 40 sur 40 cm, qui survit au lavage. Le nettoyant convient au cuir, à la toile, au mesh et au tricot; sur le daim et le nubuck, n'utilisez que la tête crêpe à sec et tenez l'eau à distance. Un kit suffit pour une vingtaine de nettoyages d'une paire. Ce n'est pas un imperméabilisant: le spray de protection est autre chose et nous n'en vendons pas encore.",
+        "title": "Kit d'entretien · trois pièces"
+      },
+      "cattleGridTrail": {
+        "description": "La même forme que la Culvert, sans la membrane. C'est un choix délibéré et non une économie: une chaussure non doublée est trempée dans les dix premières minutes puis sèche sur le pied, ce qui est la meilleure réponse par temps chaud ou à un gué. La tige est en mesh ouvert résistant à l'abrasion, avec des renforts en TPU soudés et des orifices de drainage à travers l'intercalaire. Les crampons font 5 mm dans la même gomme adhérente que la Culvert, le drop est de 8 mm et la plaque de protection est la même. Sang de bœuf est un brun rouge sombre, Noir goudron du noir, Béton un gris moyen. Rincez-la après la boue, retirez la première de propreté et laissez-la sécher dans la pièce.",
+        "title": "Cattle Grid Trail · Sang de bœuf"
+      },
+      "culvertTrail": {
+        "description": "La Culvert est la chaussure du bout du trottoir. Une membrane imperméable et respirante est contrecollée à la tige en mesh au lieu d'être posée en chausson, elle ne fait donc pas de plis, et les coutures sont thermosoudées. Un pare-pierre en caoutchouc moulé fait tout le tour de la chaussure à la hauteur de l'intercalaire, et c'est lui qui empêche une chaussure de trail de mourir par la pointe. La semelle porte des crampons directionnels de 5 mm dans une gomme adhérente et un frein de talon pour les descentes. Le drop est de 8 mm sur une plaque de protection dont on sentirait l'absence sur du silex. Diesel est un vert-gris sombre, Sang de bœuf un brun rouge sombre. Une chaussure à membrane sèche lentement: retirez la première de propreté, mettez-la debout, jamais sur un radiateur.",
+        "title": "Culvert Trail · Diesel"
+      },
+      "flagstoneLow": {
+        "description": "La Flagstone est la large. La forme est 4 mm plus large à l'avant-pied que celle de la Gutter, et c'est toute la différence entre une chaussure que l'on supporte à la huitième heure et une chaussure que l'on oublie. La tige est en nubuck huilé avec un empiècement en mesh derrière la rangée d'œillets pour la circulation d'air; le col est rembourré d'une mousse à cellules fermées qui ne se gorge pas de pluie. L'ensemble semelle réunit une intercalaire EVA à deux densités et une semelle d'usure en caoutchouc, drop de 12 mm, 26 mm de hauteur au talon. Béton est un gris moyen qui avale la poussière urbaine, Sang de bœuf un brun rouge sombre, Craie un blanc cassé. Brossez le nubuck à sec, jamais mouillé, et réimperméabilisez-le à la fin de l'hiver.",
+        "title": "Flagstone Low · Béton"
+      },
+      "flatWaxedLaces": {
+        "description": "Une paire de lacets plats en coton ciré, 8 mm de large et 140 cm de long, soit la longueur livrée avec la Gutter, la Sett et la Flagstone. La cire est de la paraffine travaillée dans le coton et non déposée dessus: le lacet tient son nœud toute une journée de pluie et ne file pas dans les œillets. Les ferrets sont en laiton roulé non verni et prennent une teinte or sombre en un an. 140 cm conviennent à six ou sept paires d'œillets; les montantes demandent un lacet plus long. La coupe plate n'existe qu'en Noir goudron. Lavez-les à la main s'ils sont boueux et laissez-les sécher à plat.",
+        "title": "Lacets plats cirés · Noir goudron"
+      },
+      "gantryHigh": {
+        "description": "Toile de coton cirée de 475 g/m², paraffinée à la filature et non pulvérisée après la coupe: la résistance à l'eau est dans le tissu et revient quand on recire. Le col descend 15 mm plus bas que celui de la Bollard, il dégage la malléole et ne gêne pas à vélo. Le pare-pierre en caoutchouc de la pointe est cousu en plus d'être collé. La semelle est vulcanisée, drop de 8 mm, avec des crampons assez profonds pour les pavés mouillés. Diesel est un vert-gris sombre, Béton un gris moyen. La toile cirée se casse et s'éclaircit aux plis: c'est la matière, pas un défaut. Recirez la pointe et la ligne de flexion une fois par an, et ne la passez pas en machine.",
+        "title": "Gantry High · Diesel"
+      },
+      "gutterLow": {
+        "description": "La Gutter est la basse dont nous fabriquons le plus d'exemplaires. La tige est en cuir pleine fleur avec un renfort en daim sur la pointe, cousu et non collé, si bien que la pièce qui s'éraille en premier peut être remplacée par un cordonnier au lieu d'envoyer la chaussure à la poubelle. Dessous se trouve une semelle cup moulée, avec un drop de 10 mm et une semelle d'usure en caoutchouc noir dessinée en chevrons plats qui évacue l'eau du trottoir. La doublure est en sergé de coton écru et la première de propreté est amovible, une semelle orthopédique s'y glisse donc directement. Le chaussant est fidèle; entre deux pointures, prenez la plus petite. Essuyez le cuir avec un chiffon humide, laissez sécher loin d'une source de chaleur et nourrissez-le deux fois par an.",
+        "title": "Gutter Low · Noir goudron"
+      },
+      "roundWaxedLaces": {
+        "description": "Une paire de lacets ronds en coton ciré, 4 mm de diamètre et 120 cm de long, coupés pour la Flagstone et la Towpath et pour qui veut un lacet plus fin sur une basse. Le coton ciré rond tient la boucle plus fermement que le plat: on desserre le nœud au lieu de le tirer, et il glisse dans un œillet rond avec moins de frottement. La cire est de la paraffine travaillée dans la fibre, les ferrets sont en laiton roulé. Trois coloris: Noir goudron, l'acide Soufre, et Craie, un blanc cassé qui ne restera pas blanc cassé et qui n'est pas fait pour cela. Lavez à la main et séchez à plat.",
+        "title": "Lacets ronds cirés · trois coloris"
+      },
+      "settLow": {
+        "description": "Un sett est le petit pavé de granit dont on pavait autrefois les rues, et c'est la chaussure la plus simple de la collection. Tige en toile de coton de 340 g/m², daim sur la pointe et le contrefort, là où une chaussure en toile lâche en premier, et semelle en caoutchouc vulcanisé, liée dans un moule plutôt que collée sous presse. Le drop est de 8 mm et la semelle est fine à dessein: on sent le trottoir dessous. Craie est un blanc cassé non teint qui se marque la première semaine puis se calme. Le Noir goudron est teint en pièce après la coupe. Le modèle taille une demi-pointure au-dessus, prenez donc la plus petite si vous hésitez. Lavable à 30 degrés, première de propreté retirée.",
+        "title": "Sett Low · Craie"
+      },
+      "stanchionHigh": {
+        "description": "La Stanchion est montée en cousu: la tige est rabattue vers l'extérieur au bord et cousue à travers l'intercalaire, si bien que la semelle peut être refaite deux fois sans toucher à la tige. C'est ce montage qui en fait la chaussure la plus lourde et la plus chère de cette page. La tige est en cuir à tannage végétal, raide au départ, qui demande environ trois semaines de marche pour se faire; le col et la languette de talon sont taillés dans la même peau, corroyée plus sombre. Le drop est de 12 mm sur une intercalaire en cuir et caoutchouc empilés, avec une semelle d'usure crantée. Sang de bœuf est un brun rouge sombre qui fonce à l'usage, Noir goudron reste noir. Disponible uniquement du 40 au 45. Nourrissez-la avant le premier hiver.",
+        "title": "Stanchion High · Sang de bœuf"
+      },
+      "towpathRunner": {
+        "description": "Faite pour ce qu'est vraiment un chemin de halage: gravillon mouillé, cailloux qui roulent et longs kilomètres plats. La tige est en mesh fermé avec des renforts en daim sur la pointe et la rangée d'œillets, qui empêchent les cailloux d'entrer dans la maille; la languette est soufflée des deux côtés. Le mélange de la semelle d'usure est plus tendre que celui de la Verge. Il accroche mieux sur la pierre mouillée et il s'use plus vite, et nous préférons que vous le sachiez maintenant plutôt que dans un an. Caoutchouc pleine longueur, crampons de 3 mm, drop de 10 mm sur une intercalaire EVA à deux densités. Béton est un gris moyen, Noir goudron du noir, Craie un blanc cassé. Rincez la semelle après une journée de gravier et brossez le daim à sec, jamais mouillé.",
+        "title": "Towpath Runner · Béton"
+      },
+      "vergeRunner": {
+        "description": "Une chaussure de course faite pour le bitume, pas pour la piste. La tige est en mesh ingénieré d'une seule pièce: fil dense aux zones de flexion, maille ouverte sur les orteils, elle respire donc sans panneau d'aération rapporté. Il n'y a pas de contrefort plastique; un clip en mousse moulée fait le même travail pour un tiers du poids. L'intercalaire est en mousse supercritique, 32 mm au talon et 24 mm à l'avant-pied, soit un drop de 8 mm; le caoutchouc n'est posé que sous le talon et l'avant-pied, là où une chaussure s'use réellement. Craie est un blanc cassé, Soufre l'acide, Noir goudron du noir sur noir. Lavez à la main à l'eau froide et séchez à l'air: la chaleur écrase la mousse.",
+        "title": "Verge Runner · Craie"
+      }
+    }
+  }
+}

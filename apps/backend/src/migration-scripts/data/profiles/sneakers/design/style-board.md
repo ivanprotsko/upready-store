@@ -877,7 +877,7 @@ clearance — this is a fictional portfolio store, and no registry (USPTO/EUIPO)
 
 ### 9(c) For the merchandiser
 
-Assortment rationale (filled in at S3): ___
+Assortment rationale (filled in at S3): two roots — `footwear`, holding the four home-tile leaves `low-tops`, `high-tops`, `runners` and `trail`, and `accessories`, holding the single leaf `care-and-spares` — because the care kit and the two lace cuts are not shoes and must not sit in a footwear leaf that a home tile links to; 14 products across five leaves, 11 footwear and 3 accessories.
 
 ### 9(d) Copy-length script and its raw output
 
