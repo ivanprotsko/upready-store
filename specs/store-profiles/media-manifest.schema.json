@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "upready.store-media-manifest/v0",
   "title": "Store profile media manifest",
-  "description": "media/manifest.json of a store profile: one entry per render that reached disk, accepted or rejected. The bytes are re-hosted immediately after generation (rule 17d) — provider URLs never enter this file or any seed JSON. Raw renders stay forever under artifacts/media/<profile>/raw/ (paid media is never deleted). Prices per render are copied from the provider's billing, never predicted.",
+  "description": "media/manifest.json of a store profile: one entry per render that reached disk, accepted, flagged for the second pass, or rejected. The bytes are re-hosted immediately after generation (rule 17d) — provider URLs never enter this file or any seed JSON. Raw renders stay forever under artifacts/media/<profile>/raw/ (paid media is never deleted). Prices per render are copied from the provider's billing, never predicted.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -134,11 +134,14 @@
           "status": {
             "enum": [
               "accepted",
+              "flagged",
               "rejected"
-            ]
+            ],
+            "description": "accepted = passes the checklist; flagged = used in the catalog but queued for the second pass (pilot: no regenerations in the first run, Ivan 2026-09-07); rejected = replaced by a second-pass render."
           },
           "rejectReason": {
-            "type": "string"
+            "type": "string",
+            "description": "Why the frame is flagged or rejected; required for both."
           },
           "createdAt": {
             "type": "string",
@@ -150,19 +153,22 @@
             "if": {
               "properties": {
                 "status": {
-                  "const": "rejected"
+                  "enum": [
+                    "flagged",
+                    "rejected"
+                  ]
                 }
               }
             },
             "then": {
-              "required": [
-                "rejectReason"
-              ],
               "properties": {
                 "rejectReason": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "rejectReason"
+              ]
             }
           },
           {
@@ -258,6 +264,10 @@
         },
         "costUsd": {
           "type": "number",
+          "minimum": 0
+        },
+        "flagged": {
+          "type": "integer",
           "minimum": 0
         }
       }
