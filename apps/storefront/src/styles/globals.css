@@ -261,3 +261,36 @@
   --contrast-fg-primary: var(--primary-foreground);
   --contrast-fg-secondary: color-mix(in srgb, var(--primary-foreground) 70%, var(--primary));
 }
+
+/*
+ * The disabled ink follows the SURFACE it is written on, not the mode.
+ *
+ * @medusajs/ui pairs `disabled:bg-ui-bg-disabled` with `disabled:text-ui-fg-disabled` on
+ * Button, Input and Select, so on those elements --fg-disabled is read on --bg-disabled
+ * (bridged to the canon --accent). Everywhere else the same variable is read on the page:
+ * checkout's payment note, the filter combobox's unavailable rows, the radio dot.
+ *
+ * Those two surfaces pull apart, and on a preset whose accent is chromatic they pull apart
+ * far enough that NO single colour serves both. Measured on womens-fashion light: clearing
+ * 4.5:1 on the terracotta button needs relative luminance >= 0.576, clearing it on the cream
+ * page needs <= 0.159 — disjoint, so the fixed 70%-of-foreground blend that served the five
+ * near-neutral presets measured 1.04:1 on the button (six failing nodes, both viewports,
+ * both modes). A seventh preset would have broken it again from the other direction.
+ *
+ * So there are two inks now, both solved per preset per mode by scripts/build-themes.mjs
+ * against a contrast target rather than a percentage: --fg-disabled-on-page (read on
+ * --background / --card / --popover / --secondary / --muted) and --fg-disabled-on-surface
+ * (read on --accent). The bridge hands --fg-disabled the page ink; this rule re-points it
+ * to the surface ink on exactly the elements that paint --bg-disabled underneath it. Custom
+ * properties inherit, so nothing about the vendor class or the bridge changes — the same
+ * call-site trick as .bg-ui-button-inverted above.
+ *
+ * Guarded by :root:not([data-theme-bridge="off"]) because the solved variables live in the
+ * bridge's own generated blocks: with the bridge off there is nothing to point at, and the
+ * control side of the compatibility proof must keep rendering the raw vendor value.
+ */
+:root:not([data-theme-bridge="off"]) [class*="bg-ui-bg-disabled"]:disabled,
+:root:not([data-theme-bridge="off"]) [class~="bg-ui-bg-disabled"],
+:root:not([data-theme-bridge="off"]) [class~="!bg-ui-bg-disabled"] {
+  --fg-disabled: var(--fg-disabled-on-surface);
+}

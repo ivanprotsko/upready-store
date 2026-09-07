@@ -146,6 +146,8 @@ function main() {
   out.push("}")
   out.push("")
 
+  out.push(...emitContrastTargets(tokenMap, presets))
+
   mkdirSync(dirname(OUT), { recursive: true })
   writeFileSync(OUT, out.join("\n"))
   console.log(`wrote ${OUT} (${out.length} lines)`)
@@ -157,6 +159,152 @@ function main() {
   const open = tokenMap.rows.filter((r) => r.status === "open").map((r) => r.variable)
   console.log(`open rows (no canon counterpart): ${open.join(" ")}`)
 }
+
+/* ------------------------------------------------------------------------- *
+ * contrast-targeted rows
+ *
+ * A row whose derivation is `contrast-target` carries no percentage. It names a WCAG
+ * ratio and, per ink, the canon anchors it may start from, the surface it is pulled
+ * TOWARD, and the surfaces it is read ON. This script is the only one that holds every
+ * preset file open at once, so it is where the numbers are solved.
+ *
+ * The walk starts at the anchor with the best worst-case contrast over the ink's surface
+ * set and steps toward the surface colour, keeping the LAST step whose whole run still
+ * clears the ratio. That direction matters: the answer is the MOST MUTED colour that
+ * passes, not the most legible one. Disabled text lifted to 16:1 reads as enabled, which
+ * trades a usability bug for an accessibility number.
+ *
+ * Output goes into per-preset blocks of specificity (0,3,0), which beats the bridge's
+ * (0,2,0) while still collapsing under [data-theme-bridge="off"].
+ * ------------------------------------------------------------------------- */
+
+function emitContrastTargets(tokenMap, presets) {
+  const rows = tokenMap.rows.filter((r) => r.derivation?.kind === "contrast-target")
+  if (rows.length === 0) return []
+
+  const out = ["/* contrast-targeted inks, solved per preset per mode — see token-map.json */"]
+  for (const row of rows) {
+    out.push(`/* ${row.variable}: ${row.derivation.ratio}:1 minimum, most muted colour that clears it */`)
+  }
+  const table = []
+  for (const preset of presets) {
+    for (const mode of ["light", "dark"]) {
+      const tokens = preset.modes[mode].tokens
+      const decls = []
+      for (const row of rows) {
+        for (const ink of row.derivation.solve) {
+          const solved = solveContrast(ink, row.derivation.ratio, tokens, `${preset.id}/${mode}`)
+          decls.push(`  ${ink.variable}: ${rgbStr(solved.colour)};`)
+          table.push({ preset: preset.id, mode, ink: ink.variable, ratio: solved.worst, ceiling: solved.ceiling, short: solved.short })
+        }
+      }
+      const selectors = [`[data-theme="${preset.id}"][data-mode="${mode}"]:not([data-theme-bridge="off"])`]
+      if (preset.id === DEFAULT_ALIAS_OF) selectors.push(`[data-theme="default"][data-mode="${mode}"]:not([data-theme-bridge="off"])`)
+      out.push(`${selectors.join(",\n")} {`)
+      out.push(...decls)
+      out.push("}")
+      out.push("")
+    }
+  }
+
+  // the run IS the measurement: print what every cell reached, and fail loudly on a cell
+  // no colour on the anchor-to-surface line can reach.
+  const inks = [...new Set(table.map((t) => t.ink))]
+  console.log("")
+  console.log(`contrast targets (minimum ${rows.map((r) => r.derivation.ratio).join("/")}:1, most muted colour that clears it):`)
+  console.log(`  ${"preset".padEnd(16)}${"mode".padEnd(7)}${inks.map((i) => i.replace(/^--/, "").padEnd(24)).join("")}`)
+  for (const preset of presets) {
+    for (const mode of ["light", "dark"]) {
+      const cells = inks.map((i) => {
+        const c = table.find((t) => t.preset === preset.id && t.mode === mode && t.ink === i)
+        return `${c.ratio.toFixed(2)}:1 (ceiling ${c.ceiling.toFixed(2)})`.padEnd(24)
+      })
+      console.log(`  ${preset.id.padEnd(16)}${mode.padEnd(7)}${cells.join("")}`)
+    }
+  }
+  const short = table.filter((t) => t.short)
+  if (short.length) {
+    fail(
+      "contrast target unreachable:\n  " +
+        short.map((t) => `${t.preset}/${t.mode} ${t.ink}: best possible ${t.ceiling.toFixed(2)}:1`).join("\n  ")
+    )
+  }
+  return out
+}
+
+/** One ink, one preset, one mode. Returns the colour and the ratio it actually reached. */
+function solveContrast(ink, ratio, tokens, where) {
+  const surfaces = ink.surfaces.map((k) => needColour(tokens, k, where))
+  const toward = needColour(tokens, ink.toward, where)
+  const worstOn = (c) => Math.min(...surfaces.map((s) => contrast(c, s)))
+
+  let anchor = null
+  for (const key of ink.anchors) {
+    const c = needColour(tokens, key, where)
+    const worst = worstOn(c)
+    if (!anchor || worst > anchor.worst) anchor = { colour: c, worst }
+  }
+
+  // step toward the surface, keeping the last colour of the contiguous passing run
+  let keep = { colour: anchor.colour, worst: anchor.worst }
+  for (let pct = 100; pct >= 0; pct -= 0.5) {
+    const c = mixSrgb(anchor.colour, toward, pct)
+    const worst = worstOn(c)
+    if (worst + 1e-9 < ratio) break
+    keep = { colour: c, worst }
+  }
+  return { ...keep, ceiling: anchor.worst, short: anchor.worst + 1e-9 < ratio }
+}
+
+function needColour(tokens, key, where) {
+  const c = parseColour(tokens[key])
+  if (!c) fail(`${where}: ${key} is missing or is not a colour ("${tokens[key]}")`)
+  return c
+}
+
+function parseColour(value) {
+  const v = String(value ?? "").trim()
+  let m = /^#([0-9a-fA-F]{6})$/.exec(v)
+  if (m) {
+    const n = parseInt(m[1], 16)
+    return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 }
+  }
+  m = /^#([0-9a-fA-F]{3})$/.exec(v)
+  if (m) {
+    const h = m[1]
+    return { r: parseInt(h[0] + h[0], 16), g: parseInt(h[1] + h[1], 16), b: parseInt(h[2] + h[2], 16) }
+  }
+  m = /^rgba?\(([^)]+)\)$/i.exec(v)
+  if (m) {
+    const p = m[1].split(/[,\s/]+/).filter(Boolean).map(Number)
+    if (p.length >= 3 && p.slice(0, 3).every((n) => Number.isFinite(n))) return { r: p[0], g: p[1], b: p[2] }
+  }
+  return null
+}
+
+/** color-mix(in srgb, A pct%, B), rounded exactly as the browser hands it back. */
+function mixSrgb(A, B, pct) {
+  const f = (a, b) => Math.round((a * pct + b * (100 - pct)) / 100)
+  return { r: f(A.r, B.r), g: f(A.g, B.g), b: f(A.b, B.b) }
+}
+
+/** WCAG 2.1 relative luminance and contrast ratio. */
+function channel(c) {
+  const s = c / 255
+  return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4)
+}
+
+function luminance(c) {
+  return 0.2126 * channel(c.r) + 0.7152 * channel(c.g) + 0.0722 * channel(c.b)
+}
+
+function contrast(a, b) {
+  const la = luminance(a)
+  const lb = luminance(b)
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
+}
+
+const rgbStr = (c) => `rgb(${c.r}, ${c.g}, ${c.b})`
 
 /**
  * The allow-list the pre-paint script and the panel narrow against, generated from the

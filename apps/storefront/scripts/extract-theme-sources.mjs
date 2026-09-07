@@ -175,6 +175,10 @@ const STOREFRONT_OVERRIDE = {
  *   { canon, exact }     follow the canon token verbatim even though the vendor value
  *                        differs; `exact` is the reason, and it is recorded on the row
  *   { open: reason }     no canon counterpart; the row keeps the vendor value
+ *   { canon, contrastTarget }
+ *                        no fixed percentage: build-themes solves one or more inks per
+ *                        preset per mode against a WCAG ratio on the surfaces named in
+ *                        `solve`, and the bridge points at the solved variable
  */
 const BRIDGE = {
   /* --- surfaces ------------------------------------------------------------- */
@@ -212,7 +216,49 @@ const BRIDGE = {
   // same colour. Restoring a third step means lifting --fg-subtle toward --foreground
   // (contrast can only rise), which is a design call, not an accessibility one.
   "--fg-muted": { canon: "--muted-foreground", exact: "AA on the preset background: the fitted blend reproduced Medusa's #71717a, measured 4.28:1 light / 3.65:1 dark on the sneakers stand 2026-09-08" },
-  "--fg-disabled": { canon: "--muted-foreground", with: "bg" },
+  // d-11, second pass. --fg-disabled is read on TWO surfaces, and they pull in opposite
+  // directions: the disabled Button paints --bg-disabled (= --accent) under it, while every
+  // other disabled label (checkout's payment note, the filter combobox rows) sits on the page.
+  // A single fixed percentage off --foreground serves the page and abandons the button the
+  // moment a preset's --accent stops being a near-neutral: womens-fashion measured 1.04:1 on
+  // its terracotta, worse than the muted-foreground blend the first pass replaced. Nor can one
+  // colour serve both — on womens-fashion light the button demands luminance >= 0.576 and the
+  // page demands <= 0.159, disjoint windows, so no percentage of anything exists. So the row
+  // stops naming a percentage and names a CONTRAST TARGET instead: build-themes solves each
+  // ink per preset per mode against the surfaces it is actually read on, and globals.css
+  // re-points --fg-disabled to the on-surface ink at the call site (custom properties inherit,
+  // the same trick .bg-ui-button-inverted already uses for --contrast-fg-*).
+  "--fg-disabled": {
+    canon: "--foreground",
+    contrastTarget: {
+      ratio: 4.6,
+      fallback: "color-mix(in srgb, var(--foreground) 70%, var(--background))",
+      solve: [
+        {
+          variable: "--fg-disabled-on-page",
+          anchors: ["--foreground"],
+          toward: "--background",
+          surfaces: ["--background", "--card", "--popover", "--secondary", "--muted"],
+        },
+        {
+          variable: "--fg-disabled-on-surface",
+          anchors: ["--foreground", "--background"],
+          toward: "--accent",
+          surfaces: ["--accent"],
+        },
+      ],
+    },
+    reason:
+      "d-11. --fg-disabled is read on two surfaces that pull apart: the disabled Button paints " +
+      "--bg-disabled (= --accent), every other disabled label sits on the page. Mixed from " +
+      "--muted-foreground the button measured 1.95-2.28:1 light / 1.70-1.97:1 dark; re-mixed from " +
+      "--foreground at a fixed 70/65% it cleared 5.25:1 on the five near-neutral presets and then " +
+      "measured 1.04:1 on womens-fashion, whose --accent is a terracotta. One colour cannot serve " +
+      "both surfaces there — light needs luminance >= 0.576 for the button and <= 0.159 for the " +
+      "page — so the percentage is gone: each ink is solved per preset per mode against the " +
+      "surfaces it is read on, taking the MOST muted colour that still clears the target, so a " +
+      "disabled control stays visibly disabled instead of being lifted to enabled contrast.",
+  },
   "--fg-on-color": { canon: "--destructive-foreground" },
   "--fg-on-inverted": { canon: "--primary-foreground" },
   "--fg-interactive": { canon: "--link" },
@@ -424,6 +470,26 @@ function main() {
     if (spec.open) {
       rows.push({ variable: name, canonToken: null, status: "open", bridge: null, vendor, effective, reason: spec.open })
       counts.open++
+      continue
+    }
+
+    // a contrast-targeted row carries no percentage of its own: the numbers are per preset
+    // and are solved by build-themes, which is the only script that reads every preset file.
+    if (spec.contrastTarget) {
+      const ct = spec.contrastTarget
+      rows.push({
+        variable: name,
+        canonToken: spec.canon,
+        status: "diverged",
+        bridge: `${name}: var(${ct.solve[0].variable}, ${ct.fallback});`,
+        bridgeDark: null,
+        derivation: { kind: "contrast-target", space: "srgb", canon: spec.canon, ...ct },
+        vendor,
+        effective,
+        storefrontOverride: overridden || undefined,
+        reason: spec.reason,
+      })
+      counts.diverged++
       continue
     }
 
