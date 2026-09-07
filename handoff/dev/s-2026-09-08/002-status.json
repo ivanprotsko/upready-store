@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-08T01:19:40+08:00",
+  "status": "upready-store-cb (main checkout, dev): question session with Ivan about the overnight run. Ivan ruled at ~01:20, verbatim, \"картинки нужны\" — variant A (nine themes over the sneakers catalogue, $0) is REJECTED, we go B, the full W0-W10 cycle per profile. Recount given to him: tact 0 (2-4h) + wave 5h20m = 7h20m-9h20m, so 6-8 themes of nine by 08:00, not nine. Two levers applied without a separate decision: narrow tact 0 to the four portfolio screens, and measure the 3x3 grid (grid-experiment.mjs, committed in d5020c1, ~$0.12, dry by default). Correction issued: only ONE of the two critique BLOCKERs is avoided (C-01); C-02 is about F1 = T-fix itself and is fixed by a brief edit, not avoided. Found this session: the four t-theme-* tasks the wave programme calls \"already created\" do NOT exist in HANDOFF, and the category trees of the nine themes are NOT defined (only the frame: 12-16 products, 3-5 categories over two levels, 2 collections — W2 builds them per theme). STILL WAITING on four decisions from Ivan: OK to orchestrate (3b), spend ceiling ($20 covers the top estimate plus the measurement), skip-a-stalled-theme, subscription plan and Sonnet fallback. Conversation thread saved to .ai/resume/upready-store.md."
+}
