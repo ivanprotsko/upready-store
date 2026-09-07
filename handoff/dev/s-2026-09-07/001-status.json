@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-07",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-07T18:12:38+08:00",
+  "status": "store-ds-7: локальный стенд живой — backend :9022 (pid 39270, с прошлой сессии) + storefront :8027 (pid 30378, перезапущен эту сессию после того как прошлый процесс умер между сессиями), pg :5433. Код не менялся, dev на c02c495, feat/ds-foundation и feat/seam-tests по-прежнему не влиты."
+}

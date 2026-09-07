@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-07",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-07T18:57:15+08:00",
+  "status": "store-ds-8: по просьбе Ивана отключён hero-баннер на главной (apps/storefront/src/app/[locale]/(main)/page.tsx, коммит 2d0069e на dev) — импорт и рендер <Hero /> убраны, сам компонент modules/home/components/hero и переводы Hero.* в messages/*.json НЕ тронуты (можно вернуть одной строкой). tsc чистый, живой стенд :8027 подтвердил: <h1> баннера пропал. Также обсуждали (без изменений кода): где лежат пропорции карточек товара — aspect-[9/16]/aspect-[11/18]/aspect-[1/1] в thumbnail/index.tsx, aspect-[29/34] в image-gallery/index.tsx и в skeleton-заглушках, значения захардкожены как Tailwind arbitrary values прямо в TSX, единого токена нет; объяснено Ивану поведение при загрузке квадратных 1:1 фото (object-fit: cover обрежет под портретную рамку везде, кроме size=square в order/item и account/order-card, и кроме лайтбокса zoomable-image, где object-fit: contain). Стенд backend :9022 (pid 39270) + storefront :8027 живы с прошлой сессии."
+}
