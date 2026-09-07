@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T02:28:09+08:00",
-  "status": "02:27 — night approved, nothing launched yet (Ivan asked to /clear first). Binding: orchestrate from the architect window, subagents report <=15 lines and never commit; EIGHT themes (supplements, electronics, womens-fashion, home-goods, kids-toys, skincare, accessories, stationery); fal.ai, hard ceiling $6.00 of $7.10 with regenerations inside it, every prediction ledgered to artifacts/wave/spend.json; cause E decided by the architect (bridgeDark in token-map.json, drop the globals.css patch). Phase 1 = docs/prompts/2026-09-08-orchestrator-a-foundation.md (first render of the repaint ever - node_modules installed tonight - cause E, computed-style coverage gate red-before/green-after, prepare the dev merge of repaint + profile tooling), phase 2 = -b-wave-four.md. Ivan asleep 9-10 h, back on schedule around 12:00.",
+  "updated": "2026-09-08T02:43:58+08:00",
+  "status": "02:52 — phase 1 running (orch-a-foundation, Opus, worktree feat/store-theme-surface, deadline 07:00). Architect window: role-scope-guard fixed for the merged role phrase (81648061 in ~/.claude, 24/24), wave registries + $6.00 ceiling as code committed to dev (89dca0f), ledger $0.000/0 renders. Next after A reports: commit A's tree, merge repaint + feat/store-profiles into dev, then phase 2 (eight themes).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
