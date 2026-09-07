@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.queue/v1",
-  "updatedAt": "2026-09-08T04:41:30+08:00",
+  "updatedAt": "2026-09-08T05:08:46+08:00",
   "concurrency": 2,
   "themes": [
     {
@@ -53,11 +53,11 @@
       "order": 4,
       "mode": null,
       "why": "Wide catalog, plain options — the low-risk middle of the queue.",
-      "state": "queued",
-      "agent": null,
-      "startedAt": null,
+      "state": "running",
+      "agent": "theme-home-goods",
+      "startedAt": "2026-09-08T05:08:46+08:00",
       "finishedAt": null,
-      "stage": null,
+      "stage": "W1",
       "handoverPath": null,
       "costUsd": null,
       "tokens": null,

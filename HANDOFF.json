@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T04:42:23+08:00",
-  "status": "05:00 — dev ae7f836 pushed pending. supplements DONE and LIVE: storefront http://localhost:8070/en, backend :9051, 19 media all 200, gate 4 failing nodes against the foundation's 8 (theme introduced nothing; one group, text-rose-500 on account, light only). W8: it reads as a supplements store. Of the 14 classes, 3 recurred — d-11 confirmed WORSE than predicted (2.00:1 light, 1.79:1 dark), d-14 recurred HARD at 1.00:1 (mobile menu links invisible in both modes: the panel is painted with a semi-transparent token), d-03/d-04 half (labels fixed at 16.4:1, browser-blue focus ring returned). The gate catches neither d-14 nor focus rings — it never opens the drawer. Free slot went to foundation-d14-region (IDR pricing, d-14, d-11, gate extension) rather than a fourth theme, deadline 07:00; theme-womens-fashion still running (07:00). Ledger $1.617 of $6.00. Open questions: 7.",
+  "updated": "2026-09-08T05:09:51+08:00",
+  "status": "05:17 — dev aeb21b7 pushed. Foundation fixed a second time and VERIFIED BY ME on the live stand: prices were rendering in Indonesian rupiah on every stand (ip-api outranked NEXT_PUBLIC_DEFAULT_REGION and wrote a year-long cookie) — supplements :8070 now prints $17.99, measured by my own curl, media 200. d-14 mobile menu 1.08 -> 16.91:1 dark (panel was painted with a token whose alpha is 0.72/0.4); audit found 15 alpha tokens and 13 surface call sites, 5 left named. d-11 disabled pair 1.74 -> 6.12:1 dark, re-derived from --foreground because --muted-foreground cannot reach AA at any percentage. The gate now opens the drawer and Tab-walks focus: drawer 6 -> 0 nodes, browser-blue rings 12 -> 0. NEW HONEST BASELINE: 4 contrast nodes / 0 drawer / 18 focus failures across 242 controls (5 distinct defects the gate can now see, unfixed). Three stands live: supplements 8070/9051, electronics 8061/9041, womens-fashion 8081/9061. Running: theme-womens-fashion (07:00), theme-home-goods (08:00) — the fourth and last theme this night can hold. Ledger $1.617 of $6.00. Open questions: 8.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -399,6 +399,12 @@
       "blocks": [
         "t-store-profiles-pilot"
       ]
+    },
+    {
+      "id": "q-pnpm-store-49gb",
+      "question": "Disk pressure tonight came from one place: the global pnpm store is 49 GB (~/Library/pnpm/store), against 0.7-1.9 GB of .next caches per worktree and 4.4 GB free at 05:17. Every wave worktree hardlinks into it, so worktree node_modules cost almost nothing in real space and deleting them frees almost nothing. 'pnpm store prune' would drop entries no lockfile references any more; existing installs keep working because their hardlinks hold the inodes, and future installs re-download what was pruned. Not run autonomously: it is a machine-wide action affecting every project, taken at 05:00 while other sessions have live installs. Run it, or leave the store alone and keep pruning .next caches instead?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
     }
   ],
   "sessions": [
