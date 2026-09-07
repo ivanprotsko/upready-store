@@ -1,0 +1,113 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "sneakers",
+  "vertical": "streetwear sneakers",
+  "audience": {
+    "region": "EU and US cities",
+    "persona": "Alex, 24, lives car-free in Berlin or Chicago, walks or rides everywhere, buys two pairs a year and wears them until the midsole gives out; judges a shoe by its outsole, not its marketing."
+  },
+  "brand": {
+    "name": "Kerbstone",
+    "tagline": "Street-built sneakers for the long way home",
+    "wordmark": {
+      "text": "KERBSTONE",
+      "style": "wordmark"
+    },
+    "legalName": "Kerbstone Footwear Ltd."
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "ru"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "theme": {
+    "presetId": "sneakers",
+    "file": "theme.json",
+    "defaultMode": "dark",
+    "typography": {
+      "display": "Space Grotesk",
+      "body": "Inter"
+    },
+    "radius": "md"
+  },
+  "layout": {
+    "cardVariant": "classic",
+    "imageTreatment": {
+      "aspect": "1:1",
+      "fit": "cover",
+      "radius": "md",
+      "hover": "none"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "Made for the kerb, not the catwalk",
+      "subheadline": "Ink-black silhouettes with one acid detail. Cut for city miles, built to be worn out.",
+      "cta": {
+        "label": "Shop the drop",
+        "href": "/store"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      {
+        "categoryHandle": "low-tops",
+        "label": "Low tops",
+        "image": "media/tile-low-tops.webp"
+      },
+      {
+        "categoryHandle": "high-tops",
+        "label": "High tops",
+        "image": "media/tile-high-tops.webp"
+      },
+      {
+        "categoryHandle": "runners",
+        "label": "Runners",
+        "image": "media/tile-runners.webp"
+      },
+      {
+        "categoryHandle": "trail",
+        "label": "Trail",
+        "image": "media/tile-trail.webp"
+      }
+    ],
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free shipping over $120 · 30-day returns · every pair ships in 48 hours"
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 14,
+      "variants": 225,
+      "images": 14
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-07T13:52:36.199Z",
+  "generatedBy": "store-profiles pilot S6a, assembled from design/style-board.md"
+}

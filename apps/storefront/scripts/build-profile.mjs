@@ -42,6 +42,7 @@ export const DEFAULT_PROFILE = {
   id: "default",
   source: "default",
   brand: null,
+  theme: null,
   home: { hero: null, categoryTiles: [], promoStrip: null },
   layout: { imageTreatment: null },
   i18n: {},
@@ -60,12 +61,20 @@ function readJson(path) {
  * Joins a media ref ("media/hero.webp") onto the configured base. With no base the ref
  * becomes an absolute path on the storefront's own origin, which keeps next/image happy
  * (a bare relative src throws) without inventing a host.
+ *
+ * STORE_MEDIA_BASE_URL names the directory the profile's media is SERVED from, and the
+ * files land there flat: store-profile-up.mjs copies media/*.webp into
+ * static/store-profiles/<id>/, and the backend seed drops the "media/" segment when it
+ * prefixes (its own unit test says so by name). The hero and the tiles have to resolve
+ * the same way as the product images or half the home page 404s, so the segment is
+ * dropped here too — it names a directory in the profile, not one on the host.
  */
 export function mediaUrl(ref, baseUrl) {
   if (!ref) return null
   if (/^https?:\/\//.test(ref)) return ref
   if (!baseUrl) return `/${ref.replace(/^\/+/, "")}`
-  return `${baseUrl.replace(/\/+$/, "")}/${ref.replace(/^\/+/, "")}`
+  const file = ref.replace(/^\/+/, "").replace(/^media\//, "")
+  return `${baseUrl.replace(/\/+$/, "")}/${file}`
 }
 
 /**
@@ -120,6 +129,7 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl }) {
   const tiles = Array.isArray(raw?.home?.categoryTiles) ? raw.home.categoryTiles : []
   const promo = raw?.home?.promoStrip
   const treatment = raw?.layout?.imageTreatment
+  const theme = raw?.theme
 
   return {
     schema: DEFAULT_PROFILE.schema,
@@ -130,6 +140,17 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl }) {
           name: raw.brand.name,
           tagline: raw.brand.tagline ?? null,
           wordmark: raw.brand.wordmark ?? null,
+        }
+      : null,
+    // src/lib/theme/profile.ts reads presetId and defaultMode for <html data-theme
+    // data-mode>, and typography for the font pair themes:build instantiates. Without
+    // this block the storefront renders the fallback preset however the profile is set.
+    theme: theme
+      ? {
+          presetId: theme.presetId ?? null,
+          defaultMode: theme.defaultMode ?? null,
+          typography: theme.typography ?? null,
+          radius: theme.radius ?? null,
         }
       : null,
     home: {

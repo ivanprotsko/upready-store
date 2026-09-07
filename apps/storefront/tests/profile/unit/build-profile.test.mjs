@@ -70,7 +70,7 @@ describe("build-profile · generated shape", () => {
       headline: "Built for the long way home",
       subheadline: "Cushioned trail runners for pavement that turns to dirt",
       cta: { label: "Shop the drop", href: "/store" },
-      image: "https://media.test/testshop/media/hero.webp",
+      image: "https://media.test/testshop/hero.webp",
     })
   })
 
@@ -79,7 +79,7 @@ describe("build-profile · generated shape", () => {
     expect(profile.home.categoryTiles[0]).toEqual({
       categoryHandle: "trail-runners",
       label: "Trail runners",
-      image: "https://media.test/testshop/media/tile-trail.webp",
+      image: "https://media.test/testshop/tile-trail.webp",
     })
     expect(profile.home.categoryTiles.map((t) => t.categoryHandle)).toEqual([
       "trail-runners",
@@ -108,7 +108,7 @@ describe("build-profile · generated shape", () => {
 
   it("emits only the keys the storefront renders", () => {
     expect(Object.keys(profile).sort()).toEqual(
-      ["brand", "generatedAt", "home", "i18n", "id", "layout", "schema", "source"].sort()
+      ["brand", "generatedAt", "home", "i18n", "id", "layout", "schema", "source", "theme"].sort()
     )
   })
 })
@@ -129,15 +129,19 @@ describe("build-profile · locale overrides", () => {
 })
 
 describe("build-profile · media urls", () => {
-  it("prefixes a relative ref with the configured base", () => {
+  // "media/" names a directory inside the PROFILE, not one on the media host: the up
+  // script copies the files flat into static/store-profiles/<id>/ and the backend seed
+  // drops the segment when it prefixes. The storefront has to agree or the hero and the
+  // category tiles 404 while the product images on the same page load.
+  it("prefixes a relative ref with the configured base, dropping the media/ segment", () => {
     expect(mediaUrl("media/hero.webp", "https://cdn.test/p")).toBe(
-      "https://cdn.test/p/media/hero.webp"
+      "https://cdn.test/p/hero.webp"
     )
   })
 
   it("collapses duplicated slashes at the join", () => {
     expect(mediaUrl("/media/hero.webp", "https://cdn.test/p/")).toBe(
-      "https://cdn.test/p/media/hero.webp"
+      "https://cdn.test/p/hero.webp"
     )
   })
 

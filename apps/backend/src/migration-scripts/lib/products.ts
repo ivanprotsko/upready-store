@@ -102,6 +102,10 @@ export const seedProductOptions = async (container: MedusaContainer) => {
   });
 };
 
+/** Medusa's own names for the option a single-variant product gets when it has none. */
+const DEFAULT_OPTION_TITLE = "Default option";
+const DEFAULT_OPTION_VALUE = "Default option value";
+
 export const seedProducts = async (container: MedusaContainer) => {
   const shippingProfile = await getShippingProfile(container);
   const salesChannel = await getSalesChannel(container);
@@ -118,6 +122,12 @@ export const seedProducts = async (container: MedusaContainer) => {
           );
         }
 
+        // A product with no options is a legitimate catalog shape — a care kit has
+        // nothing to choose — but Medusa rejects it ("Product options are not
+        // provided for: …"). Its own admin answers this with a single default
+        // option, so the seed does the same rather than inventing a variation.
+        const hasOptions = product.options.length > 0;
+
         return {
           title: product.title,
           handle: product.handle,
@@ -131,19 +141,23 @@ export const seedProducts = async (container: MedusaContainer) => {
           category_ids: [categoryId],
           shipping_profile_id: shippingProfile.id,
           images: product.images.map((url) => ({ url })),
-          options: product.options.map((title) => {
-            const optionId = optionIdsByTitle.get(title);
-            if (!optionId) {
-              throw new Error(
-                `Unknown product option "${title}" for product "${product.handle}".`,
-              );
-            }
-            return { id: optionId };
-          }),
+          options: hasOptions
+            ? product.options.map((title) => {
+                const optionId = optionIdsByTitle.get(title);
+                if (!optionId) {
+                  throw new Error(
+                    `Unknown product option "${title}" for product "${product.handle}".`,
+                  );
+                }
+                return { id: optionId };
+              })
+            : [{ title: DEFAULT_OPTION_TITLE, values: [DEFAULT_OPTION_VALUE] }],
           variants: product.variants.map((variant) => ({
             title: variant.title,
             sku: variant.sku,
-            options: variant.options,
+            options: hasOptions
+              ? variant.options
+              : { [DEFAULT_OPTION_TITLE]: DEFAULT_OPTION_VALUE },
             // A profile prices each variant once in USD and the regional
             // amounts are derived; the demo data prices a product per region.
             prices:
