@@ -59,16 +59,25 @@ const SideMenu = () => {
                 leaveFrom="opacity-100 backdrop-blur-2xl"
                 leaveTo="opacity-0"
               >
-                <PopoverPanel className="flex flex-col fixed inset-0 sm:end-auto sm:w-1/3 2xl:w-1/4 sm:min-w-min z-[51] text-sm text-ui-fg-on-color m-2 rounded-rounded backdrop-blur-2xl">
+                {/*
+                  The panel is a SURFACE, not a scrim: it has to cover the page
+                  behind it. --bg-overlay is semi-transparent (0.4 light, 0.72
+                  dark), so painting the panel with it left the page showing
+                  through and the links at 2.53:1 light / 1.08:1 dark (d-14).
+                  An opaque --bg-base carries --fg-base, the one pair every
+                  preset's palette gate proves.
+                */}
+                <PopoverPanel className="flex flex-col fixed inset-0 sm:end-auto sm:w-1/3 2xl:w-1/4 sm:min-w-min z-[51] text-sm text-ui-fg-base m-2 rounded-rounded">
                   <div
                     data-testid="nav-menu-popup"
-                    className="flex flex-col h-full bg-ui-bg-overlay rounded-rounded justify-between p-6"
+                    className="flex flex-col h-full bg-ui-bg-base border border-ui-border-base shadow-elevation-flyout rounded-rounded justify-between p-6"
                   >
                     <div className="flex justify-end" id="xmark">
                       <button
                         data-testid="close-menu-button"
                         aria-label={t("Common.close")}
                         onClick={close}
+                        className="rounded-rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)]"
                       >
                         <XMark />
                       </button>
@@ -78,7 +87,7 @@ const SideMenu = () => {
                         <li key={key}>
                           <Link
                             href={href}
-                            className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                            className="text-3xl leading-10 hover:text-ui-fg-interactive"
                             onClick={close}
                             data-testid={`${key}-link`}
                           >
