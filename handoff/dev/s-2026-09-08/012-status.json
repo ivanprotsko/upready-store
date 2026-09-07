@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-08T04:25:44+08:00",
+  "status": "04:32 — dev 3d55331 pushed. supplements built (15 products, 53 variants, 7 categories, 5 locales, 19 WebP from 3 predictions, validator rc 0) but was UNVERIFIED ON SCREEN, so the free slot went to theme-supplements-finish: stand + coverage gate + W8, deadline 06:00. theme-electronics still running (06:40). Ledger $1.617 of $6.00, of which $0.30 lost to a dynamic import that executed a render script (aie-20260908-042252-ff23). Schema fixed: media manifest provider was pinned to replicate, now an enum with fal.ai. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour, q-media-and-registry-in-history."
+}

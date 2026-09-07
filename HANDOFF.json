@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T03:44:49+08:00",
-  "status": "03:53 — dev 3f1c339 pushed. Grid measurement done: VERDICT GRID at nano-banana-pro 4K, $0.033 per usable product image (9 cells of 1365x1024 for one $0.30 prediction), condition = read the panel count off the image (a 3x3 was ordered, a 3x4 came back). Alpha does not survive. Ledger $0.378 of $6.00, verified by me (spend show + validate rc 0). Foundation gate at 8 nodes. Two themes running: supplements (deadline 06:30) and electronics (06:40), six queued. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour.",
+  "updated": "2026-09-08T04:25:44+08:00",
+  "status": "04:32 — dev 3d55331 pushed. supplements built (15 products, 53 variants, 7 categories, 5 locales, 19 WebP from 3 predictions, validator rc 0) but was UNVERIFIED ON SCREEN, so the free slot went to theme-supplements-finish: stand + coverage gate + W8, deadline 06:00. theme-electronics still running (06:40). Ledger $1.617 of $6.00, of which $0.30 lost to a dynamic import that executed a render script (aie-20260908-042252-ff23). Schema fixed: media manifest provider was pinned to replicate, now an enum with fal.ai. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour, q-media-and-registry-in-history.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -366,6 +366,15 @@
       "question": "A2 surfaced two design decisions instead of taking them. (1) In LIGHT mode the primary CTA text was white and is now lime, because that is what the preset declares (--primary-foreground: #d6ff3b) — following the preset is correct, wanting white back is one line in the theme preset. (2) --fg-subtle and --fg-muted now resolve to the same colour: Medusa's three ink levels landed on two canonical ones; restoring a third step means lifting --fg-subtle toward --foreground, which only raises contrast. Both are design calls, not accessibility ones. Keep as landed, or adjust before the eight themes are generated?",
       "asked": "2026-09-08",
       "audience": "ivan"
+    },
+    {
+      "id": "q-media-and-registry-in-history",
+      "question": "Neither the delivered images nor the prompt registry reach git history. The 19 WebP of supplements (448 KB total) are ignored by apps/backend/.gitignore:32 (profiles/*/media/*.webp), and the prompt registry that directive §3.2 makes mandatory — so one cell can be rebuilt at full size without rereading the whole text — sits under artifacts/media/<theme>/ ignored by .gitignore:73. Consequence: a theme is not reproducible from a fresh clone, and the prompts that cost real money exist only in a worktree. Options: (a) keep the WebP in history — 448 KB per theme, about 3.6 MB for eight; (b) keep only the prompt registry, moving it to artifacts/wave/prompts/<theme>.json which is not ignored; (c) keep both out and accept that themes are reproducible only from the ledger plus a re-render. Which?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
     }
   ],
   "sessions": [
