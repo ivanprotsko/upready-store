@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready-store/wave/queue.schema.json",
+  "title": "Wave 2 theme queue",
+  "description": "Queue state of the night wave, on disk so a dead orchestrator window is resumed from the file instead of from memory. One row per theme; the orchestrator holds nothing else about a theme in its own context.",
+  "type": "object",
+  "required": ["schema", "updatedAt", "concurrency", "themes"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.wave.queue/v1" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "concurrency": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Hard cap on theme agents alive at once. 2 — the machine holds two building processes (16 GB, next build + medusa develop + Playwright at 1-2 GB each). A third would queue on hardware anyway."
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["theme", "order", "state"],
+        "additionalProperties": false,
+        "properties": {
+          "theme": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "order": { "type": "integer", "minimum": 1 },
+          "mode": {
+            "enum": ["light", "dark", null],
+            "description": "The mode the theme is DESIGNED around. null = the theme agent decides and writes it back."
+          },
+          "why": { "type": "string", "description": "Why this theme sits at this place in the order." },
+          "state": { "enum": ["queued", "running", "done", "skipped", "blocked"] },
+          "agent": { "type": ["string", "null"] },
+          "startedAt": { "type": ["string", "null"], "format": "date-time" },
+          "finishedAt": { "type": ["string", "null"], "format": "date-time" },
+          "stage": {
+            "type": ["string", "null"],
+            "description": "Last stage the theme reached: W1 board, W2 catalog, W3 images, W5 copy, W6 assembly, W8 visual gate."
+          },
+          "handoverPath": {
+            "type": ["string", "null"],
+            "description": "Repo-relative path of the theme's own report. The orchestrator references it and never reads it whole."
+          },
+          "costUsd": {
+            "type": ["number", "null"],
+            "description": "Dollars actually spent on this theme, summed from spend.json. null means NOT MEASURED — the pilot wrote 0 for that and it must not happen twice."
+          },
+          "tokens": { "type": ["integer", "null"], "description": "Agent token cost; the pilot never recorded it for five of seven agents." },
+          "reason": { "type": ["string", "null"], "description": "Required when state is skipped or blocked." }
+        }
+      }
+    }
+  }
+}

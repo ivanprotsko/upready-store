@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "upready-store/wave/spend.schema.json",
+  "title": "Wave 2 image-generation ledger",
+  "description": "Every render is appended here at the moment it is requested, with its price — before the image comes back, so a crash cannot lose the dollar. Ivan's rule after the pilot wrote costUsd: 0 meaning 'not measured'.",
+  "type": "object",
+  "required": ["schema", "updatedAt", "provider", "currency", "balanceAtStartUsd", "ceilingUsd", "softStopUsd", "renders", "totals"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "upready.wave.spend/v1" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "provider": { "const": "fal.ai" },
+    "currency": { "const": "USD" },
+    "balanceAtStartUsd": { "type": "number", "description": "Read from the fal.ai dashboard at 02:20 WITA 2026-09-08." },
+    "ceilingUsd": { "type": "number", "description": "HARD stop. Ivan: $6.00 out of $7.10, leaving $1.10 untouched." },
+    "softStopUsd": { "type": "number", "description": "Above this, generate nothing that is not a reshoot of a rejected frame." },
+    "renders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "at", "theme", "model", "kind", "priceUsd", "purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "at": { "type": "string", "format": "date-time" },
+          "theme": { "type": "string" },
+          "model": { "enum": ["fal-ai/nano-banana", "fal-ai/nano-banana-pro"] },
+          "kind": { "enum": ["single", "grid-3x3"] },
+          "resolution": { "enum": ["2K", "4K", null] },
+          "priceUsd": { "type": "number", "description": "Price of THIS call, from the model page: nano-banana $0.039, nano-banana-pro $0.15 at 2K, $0.30 at 4K." },
+          "purpose": { "enum": ["grid-measurement", "product-grid", "category-tiles", "hero", "showcase", "reshoot"] },
+          "promptSha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$", "description": "sha256 of the prompt ACTUALLY sent, so one cell can be rebuilt at full size without rereading the whole text." },
+          "reshootOf": { "type": ["string", "null"], "description": "id of the render this one replaces; a reshoot counts against the ceiling like any other." },
+          "accepted": { "type": ["boolean", "null"], "description": "null = not judged yet. false = rejected by the creative-director gate (W8)." }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["spentUsd", "renderCount"],
+      "additionalProperties": false,
+      "properties": {
+        "spentUsd": { "type": "number", "description": "Sum of renders[].priceUsd. A PREDICTION from the price list — the morning number Ivan reads comes from the fal.ai dashboard, not from here." },
+        "renderCount": { "type": "integer" },
+        "dashboardUsd": { "type": ["number", "null"], "description": "The dashboard figure, filled in at the end of the wave. Until then: null, never a guess." }
+      }
+    }
+  }
+}

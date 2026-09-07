@@ -1,0 +1,15 @@
+{
+  "schema": "upready.wave.spend/v1",
+  "updatedAt": "2026-09-08T02:38:49+08:00",
+  "provider": "fal.ai",
+  "currency": "USD",
+  "balanceAtStartUsd": 7.1,
+  "ceilingUsd": 6,
+  "softStopUsd": 5,
+  "renders": [],
+  "totals": {
+    "spentUsd": 0,
+    "renderCount": 0,
+    "dashboardUsd": null
+  }
+}
