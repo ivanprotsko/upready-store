@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds-10",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-07T20:04:40+08:00",
+  "status": "store-ds-10: launch prompt for the store-profiles orchestrator restored from the transcript and recorded verbatim in the brief (section Launch prompt); worktree feat/store-profiles fast-forwarded to dev so the brief, program and schemas exist there; orchestrator not yet launched by Ivan"
+}
