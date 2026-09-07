@@ -214,3 +214,30 @@
  * `pnpm themes:build`; do not re-add a patch here.
  */
 
+
+/*
+ * The primary CTA's ink follows the ACCENT, not the mode.
+ *
+ * @medusajs/ui's Button variant="primary" paints `bg-ui-button-inverted` — bridged to the
+ * canon --primary, i.e. the preset's accent — and writes on it with
+ * `text-ui-contrast-fg-primary`, which belongs to the inverted-surface ramp and is fixed
+ * near-white in BOTH modes because --contrast-bg-base is a fixed dark surface (cause E,
+ * see the note above). On a light accent the two meet: Sulphur #d6ff3b under white-at-88%
+ * measured 1.13:1 on 2026-09-08 — "Войти", "Оформить заказ", "Перейти в корзину".
+ *
+ * The canon already owns the polarity-aware answer: --primary-foreground is declared per
+ * preset per mode (#0a0a0a on the lime accent in dark, the lime on ink in light). So the
+ * correction belongs at the CALL SITE — the elements whose surface IS the accent — and
+ * not on the --contrast-* rows, which must stay white for the surfaces that really are
+ * fixed dark in both modes (promo banner, cart count badge, tooltips). Custom properties
+ * inherit, so re-declaring the pair on the button re-points the vendor utility without
+ * touching the vendor class or the bridge.
+ *
+ * Nine presets, nine accents: each gets its own on-accent ink from this one rule. The
+ * disabled state is untouched — `disabled:text-ui-fg-disabled` sets `color` directly and
+ * never reads these two variables.
+ */
+.bg-ui-button-inverted {
+  --contrast-fg-primary: var(--primary-foreground);
+  --contrast-fg-secondary: color-mix(in srgb, var(--primary-foreground) 70%, var(--primary));
+}
