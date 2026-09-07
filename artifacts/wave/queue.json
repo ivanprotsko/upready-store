@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.queue/v1",
-  "updatedAt": "2026-09-08T03:40:08+08:00",
+  "updatedAt": "2026-09-08T03:44:14+08:00",
   "concurrency": 2,
   "themes": [
     {
@@ -23,11 +23,11 @@
       "order": 2,
       "mode": "dark",
       "why": "Dark control: proves the repaint did not break what already worked.",
-      "state": "queued",
-      "agent": null,
-      "startedAt": null,
+      "state": "running",
+      "agent": "theme-electronics",
+      "startedAt": "2026-09-08T03:44:14+08:00",
       "finishedAt": null,
-      "stage": null,
+      "stage": "W1",
       "handoverPath": null,
       "costUsd": null,
       "tokens": null,

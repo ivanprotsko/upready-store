@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T03:40:50+08:00",
-  "status": "03:46 — foundation done and in dev (43fe368, pushed). Coverage gate 198 pre-repaint -> 64 after -> 8 after A2's token fixes; the parent re-ran it independently (8 nodes, 6 cells, allow-list 0, body 20/20). Remaining 8 are component-level: 4 text-rose-500, 4 disabled-button. Two agents alive: theme-supplements (worktree feat/store/supplements from 43fe368, deadline 06:30) and wave-grid-measure (fal.ai port + 3 measurement renders, decides grid-vs-single-frames). Ledger $0.000 of $6.00. Queue: supplements running, 7 queued. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour.",
+  "updated": "2026-09-08T03:44:49+08:00",
+  "status": "03:53 — dev 3f1c339 pushed. Grid measurement done: VERDICT GRID at nano-banana-pro 4K, $0.033 per usable product image (9 cells of 1365x1024 for one $0.30 prediction), condition = read the panel count off the image (a 3x3 was ordered, a 3x4 came back). Alpha does not survive. Ledger $0.378 of $6.00, verified by me (spend show + validate rc 0). Foundation gate at 8 nodes. Two themes running: supplements (deadline 06:30) and electronics (06:40), six queued. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
