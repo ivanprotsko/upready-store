@@ -14,10 +14,19 @@
       "evidence": {
         "measured": "computed styles on :8028 — html carries data-theme=sneakers data-mode=dark, --background #0a0a0a, --foreground #ededed, --fg-base #ededed (the bridge works), yet every h1/h2 probed returns color rgb(0,0,0) on bg rgb(10,10,10); document.body backgroundColor is rgba(0,0,0,0)",
         "source": "grep for a body{} rule across apps/storefront/src/styles/*.css returns zero matches; src/app/layout.tsx:33 renders <body> with no className",
-        "pages": ["/en/cart", "/en/reset-password", "/en/categories/high-tops"]
+        "pages": [
+          "/en/cart",
+          "/en/reset-password",
+          "/en/categories/high-tops"
+        ]
       },
       "consequence": "Any text that inherits its colour instead of naming a token falls back to the browser default black on the ink-black page. This is one CSS rule, not thirteen bugs.",
-      "coversImages": [6, 10, 17, 19],
+      "coversImages": [
+        6,
+        10,
+        17,
+        19
+      ],
       "fix": "body { background: var(--background); color: var(--foreground) } in globals.css, applied for every preset, plus a regression check that reads computed colour of a heading on four pages"
     },
     {
@@ -26,10 +35,28 @@
       "severity": "critical",
       "evidence": {
         "measured": "grep of apps/storefront/src: 42 files carry bg-/text-/border- with white|black|neutral-N|gray-N|grey-N|zinc-N. Occurrence counts: bg-gray-100 x53, bg-gray-200 x21, bg-white x18, text-white x10, bg-black x9, text-zinc-600 x7, border-gray-200 x7",
-        "byArea": {"skeletons": "12 files, 79 occurrences", "layout/components": "5 files, 13", "products": "3 files, 13", "home": "2 files, 13", "common": "4 files, 7", "account": "3 files, 7", "checkout": "6 files, 6", "layout/templates": "2 files, 2", "cart": "1 file, 1", "app/ pages": "4 files"}
+        "byArea": {
+          "skeletons": "12 files, 79 occurrences",
+          "layout/components": "5 files, 13",
+          "products": "3 files, 13",
+          "home": "2 files, 13",
+          "common": "4 files, 7",
+          "account": "3 files, 7",
+          "checkout": "6 files, 6",
+          "layout/templates": "2 files, 2",
+          "cart": "1 file, 1",
+          "app/ pages": "4 files"
+        }
       },
       "consequence": "These surfaces stay white or light grey under every theme preset. They are invisible to the theme bridge by construction.",
-      "coversImages": [7, 12, 13, 14, 16, 18],
+      "coversImages": [
+        7,
+        12,
+        13,
+        14,
+        16,
+        18
+      ],
       "fix": "Replace literal colours with canon tokens or ui-* tokens, file by file, with a lint rule that fails the build on a new literal colour class outside an allow-list"
     },
     {
@@ -41,25 +68,124 @@
         "note": "themes.css defines --ring per preset (sneakers dark #d6ff3b, light #4c6600), so a token exists and is unused"
       },
       "consequence": "Keyboard and click focus falls back to the browser default blue, which belongs to no palette. Visible in the size and colourway dropdowns.",
-      "coversImages": [8, 9],
+      "coversImages": [
+        8,
+        9
+      ],
       "fix": "Every interactive element that clears the outline must set focus-visible:ring-2 ring-[var(--ring)]; audit all 18 outline-none sites"
     }
   ],
   "defects": [
-    {"id": "d-01", "image": 6, "surface": "cart page", "symptom": "heading Cart and body copy render black on the ink page, only the Sulphur link is visible", "cause": "A-body-unstyled", "measured": "h1 color rgb(0,0,0) on bg rgb(10,10,10)"},
-    {"id": "d-02", "image": 7, "surface": "skeletons, all pages", "symptom": "light grey placeholder blocks on the dark page", "cause": "B-hardcoded-tailwind", "measured": "src/modules/skeletons: bg-gray-100 x52, bg-gray-200 x20, bg-gray-50 x1 across 12 files"},
-    {"id": "d-03", "image": 8, "surface": "product listing, Colourway dropdown", "symptom": "browser-blue focus ring; option labels near-black on dark panel", "cause": "C-focus-unstyled + A-body-unstyled"},
-    {"id": "d-04", "image": 9, "surface": "product listing, Size dropdown", "symptom": "same blue focus ring, size numbers near-black", "cause": "C-focus-unstyled + A-body-unstyled"},
-    {"id": "d-05", "image": 10, "surface": "category page heading", "symptom": "High tops renders black on black", "cause": "A-body-unstyled", "measured": "h1.h3-webs color rgb(0,0,0) on bg rgb(10,10,10)"},
-    {"id": "d-06", "image": 11, "surface": "PDP, rule between price and options", "symptom": "white hairline instead of --border #262626", "cause": "B-hardcoded-tailwind", "status": "to confirm — Ivan flagged it as possibly intended"},
-    {"id": "d-07", "image": 12, "surface": "site header", "symptom": "white bar with grey wordmark over the dark page", "cause": "B-hardcoded-tailwind", "measured": "modules/layout/templates/nav/index.tsx:24 className carries bg-white"},
-    {"id": "d-08", "image": 13, "surface": "site footer", "symptom": "white block, grey column headings", "cause": "B-hardcoded-tailwind", "measured": "modules/layout/templates/footer/index.tsx:18 carries bg-white"},
-    {"id": "d-09", "image": 14, "surface": "cart drawer, empty state", "symptom": "white panel, grey Cart heading; only the CTA is themed", "cause": "B-hardcoded-tailwind", "measured": "cart-dropdown/index.tsx:247 carries bg-white border-gray-200"},
-    {"id": "d-10", "image": 16, "surface": "cart drawer with items + count badge", "symptom": "white panel; the count badge is bg-black text-white", "cause": "B-hardcoded-tailwind", "measured": "cart-dropdown/index.tsx:227 bg-black text-white, :307 bg-gray-900 text-white"},
-    {"id": "d-11", "image": 15, "surface": "PDP add-to-cart, disabled and loading", "symptom": "disabled button and its spinner are near-invisible on the card", "cause": "B-hardcoded-tailwind", "status": "needs its own measurement of the disabled token pair"},
-    {"id": "d-12", "image": 17, "surface": "reset password", "symptom": "RESET PASSWORD heading black on black", "cause": "A-body-unstyled", "measured": "h2.text-large-semi color rgb(0,0,0) on bg rgb(10,10,10)"},
-    {"id": "d-13", "image": 18, "surface": "checkout", "symptom": "right summary column white; Total amount invisible; sign-in prompt a white block; Select a payment method unreadable", "cause": "B-hardcoded-tailwind + A-body-unstyled", "measured": "sign-in-prompt:9, payment:112, shipping:159, review:27 all carry bg-white"},
-    {"id": "d-14", "image": 19, "surface": "mobile navigation drawer", "symptom": "black-to-white gradient panel, Store/Account/Cart invisible", "cause": "A-body-unstyled + B-hardcoded-tailwind", "measured": "side-menu/index.tsx:46 carries bg-black/0 with a gradient"}
+    {
+      "id": "d-01",
+      "image": 6,
+      "surface": "cart page",
+      "symptom": "heading Cart and body copy render black on the ink page, only the Sulphur link is visible",
+      "cause": "A-body-unstyled",
+      "measured": "h1 color rgb(0,0,0) on bg rgb(10,10,10)"
+    },
+    {
+      "id": "d-02",
+      "image": 7,
+      "surface": "skeletons, all pages",
+      "symptom": "light grey placeholder blocks on the dark page",
+      "cause": "B-hardcoded-tailwind",
+      "measured": "src/modules/skeletons: bg-gray-100 x52, bg-gray-200 x20, bg-gray-50 x1 across 12 files"
+    },
+    {
+      "id": "d-03",
+      "image": 8,
+      "surface": "product listing, Colourway dropdown",
+      "symptom": "browser-blue focus ring; option labels near-black on dark panel",
+      "cause": "C-focus-unstyled + A-body-unstyled"
+    },
+    {
+      "id": "d-04",
+      "image": 9,
+      "surface": "product listing, Size dropdown",
+      "symptom": "same blue focus ring, size numbers near-black",
+      "cause": "C-focus-unstyled + A-body-unstyled"
+    },
+    {
+      "id": "d-05",
+      "image": 10,
+      "surface": "category page heading",
+      "symptom": "High tops renders black on black",
+      "cause": "A-body-unstyled",
+      "measured": "h1.h3-webs color rgb(0,0,0) on bg rgb(10,10,10)"
+    },
+    {
+      "id": "d-06",
+      "image": 11,
+      "surface": "PDP, rule between price and options",
+      "symptom": "white hairline instead of --border #262626",
+      "cause": "B-hardcoded-tailwind",
+      "status": "to confirm — Ivan flagged it as possibly intended"
+    },
+    {
+      "id": "d-07",
+      "image": 12,
+      "surface": "site header",
+      "symptom": "white bar with grey wordmark over the dark page",
+      "cause": "B-hardcoded-tailwind",
+      "measured": "modules/layout/templates/nav/index.tsx:24 className carries bg-white"
+    },
+    {
+      "id": "d-08",
+      "image": 13,
+      "surface": "site footer",
+      "symptom": "white block, grey column headings",
+      "cause": "B-hardcoded-tailwind",
+      "measured": "modules/layout/templates/footer/index.tsx:18 carries bg-white"
+    },
+    {
+      "id": "d-09",
+      "image": 14,
+      "surface": "cart drawer, empty state",
+      "symptom": "white panel, grey Cart heading; only the CTA is themed",
+      "cause": "B-hardcoded-tailwind",
+      "measured": "cart-dropdown/index.tsx:247 carries bg-white border-gray-200"
+    },
+    {
+      "id": "d-10",
+      "image": 16,
+      "surface": "cart drawer with items + count badge",
+      "symptom": "white panel; the count badge is bg-black text-white",
+      "cause": "B-hardcoded-tailwind",
+      "measured": "cart-dropdown/index.tsx:227 bg-black text-white, :307 bg-gray-900 text-white"
+    },
+    {
+      "id": "d-11",
+      "image": 15,
+      "surface": "PDP add-to-cart, disabled and loading",
+      "symptom": "disabled button and its spinner are near-invisible on the card",
+      "cause": "B-hardcoded-tailwind",
+      "status": "needs its own measurement of the disabled token pair"
+    },
+    {
+      "id": "d-12",
+      "image": 17,
+      "surface": "reset password",
+      "symptom": "RESET PASSWORD heading black on black",
+      "cause": "A-body-unstyled",
+      "measured": "h2.text-large-semi color rgb(0,0,0) on bg rgb(10,10,10)"
+    },
+    {
+      "id": "d-13",
+      "image": 18,
+      "surface": "checkout",
+      "symptom": "right summary column white; Total amount invisible; sign-in prompt a white block; Select a payment method unreadable",
+      "cause": "B-hardcoded-tailwind + A-body-unstyled",
+      "measured": "sign-in-prompt:9, payment:112, shipping:159, review:27 all carry bg-white"
+    },
+    {
+      "id": "d-14",
+      "image": 19,
+      "surface": "mobile navigation drawer",
+      "symptom": "black-to-white gradient panel, Store/Account/Cart invisible",
+      "cause": "A-body-unstyled + B-hardcoded-tailwind",
+      "measured": "side-menu/index.tsx:46 carries bg-black/0 with a gradient"
+    }
   ],
   "notChecked": [
     "account area (dashboard, orders, addresses, profile)",
@@ -87,6 +213,13 @@
       "title": "The creative director's final integrity check was never run",
       "detail": "Programme section 6 assigns a final check over the contact sheet and screenshots to the creative director. The orchestrator did not run it, so the first human to see the rendered store was Ivan.",
       "carryTo": "the visual gate is a blocking stage with a named owner, not a closing courtesy"
+    },
+    {
+      "id": "p-04",
+      "title": "The orchestrator fix of a cross-zone blocker became the next blocker, and its own record called it a success",
+      "detail": "S1b was blocked by 11 top-level :global(html[...]) rules in a *.module.css compiled in PURE mode. The orchestrator split the global half into a plain stylesheet image-frame.globals.css but KEPT the :global() wrapper; a plain stylesheet has no CSS-modules compiler, so Turbopack rejected the file outright and the routes fell over again. S1c fixed it and records so in its own report at lines 271-276. The orchestrator entry in .ai/progress.md reads: zero :global left in the module, :8033/en -> 200 — true about the module, silent about the wrapper it had just carried into a new file. Two documents about one fix, and the third state exists in neither.",
+      "measuredBy": "retro-execution agent; confirmed by the orchestrator against artifacts/docs/2026-09-07-s1c-profile-blocks-report.md lines 271-276 and .ai/progress.md",
+      "carryTo": "a cross-zone fix by the orchestrator is itself a change and must be verified by a build, not by the route that happened to recover; and the record of a fix states what was measured AFTER it on the artefact the fix PRODUCED, not on the one it left behind"
     }
   ]
 }
