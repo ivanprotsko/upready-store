@@ -34,13 +34,23 @@ Fix it so that body takes background from --background and colour from --foregro
 both modes, without overriding a surface that names its own token. Prove it by reading computed colour on
 those three routes before and after; copy both numbers into your report.
 
-CLASS B. 42 files paint with literal Tailwind colours: bg-gray-100 x53, bg-gray-200 x21, bg-white x18,
-text-white x10, bg-black x9, text-zinc-600 x7, border-gray-200 x7 and a tail. By area: skeletons 12 files
-/79 occurrences, layout/components 5/13, products 3/13, home 2/13, common 4/7, account 3/7, checkout 6/6,
-layout/templates 2/2, cart 1/1, plus 4 files under app/. Replace each with the token that carries the same
+CLASS B. 44 files paint with literal Tailwind colours, 176 occurrences. Command that produced these two
+numbers, re-run it yourself before you start: grep -rEl and grep -rEoh over apps/storefront/src for
+(bg|text|border|ring|fill|stroke|from|to|via)-(white|black|neutral-N|gray-N|grey-N|zinc-N|slate-N|stone-N).
+Top: bg-gray-100 x53, bg-gray-200 x21, bg-white x18, text-white x10, bg-black x9, text-zinc-600 x7,
+border-gray-200 x7. By area: skeletons 12 files/79, modules/shipping 1/18, layout/components 5/13,
+products 3/13, home 2/13, common 4/7, account 3/7, checkout 6/6, layout/templates 2/2, cart 1/1, app/ 4 files. Replace each with the token that carries the same
 MEANING — a placeholder block is a muted surface, a panel is a card, a drawer is a popover, a badge on a
 button is primary. Do not invent a colour: every replacement names a token that exists in themes.css.
 Where the meaning is genuinely ambiguous, list it in your report instead of guessing.
+
+CLASS D, AND IT IS A TRAP FOR YOU, NOT A DEFECT ON SCREEN. tailwind.config.js:4 sets darkMode: "class",
+nothing in src carries a `dark` class, there are ZERO dark: utilities, and themes.css switches on data-mode
+with 9 selectors. So a dark: utility you write while repainting compiles to CSS that NEVER applies. Either
+repaint with tokens that resolve per data-mode and use no dark: utility at all, or switch the config to
+darkMode: ["selector", "[data-mode=dark]"] FIRST and prove the switch with a utility that actually applies.
+State which of the two you chose and why, at the top of your report. The S1b agent already wrote this up at
+artifacts/docs/2026-09-07-s1b-theme-bridge-report.md:464 and no gate had a slot to receive it.
 
 CLASS C. 18 `outline-none` sites against 4 focus rings. themes.css already defines --ring per preset and
 nothing uses it. Every element that clears its outline must set a visible focus-visible ring on var(--ring).

@@ -31,10 +31,10 @@
     },
     {
       "id": "B-hardcoded-tailwind",
-      "title": "42 files paint with literal Tailwind colours instead of tokens",
+      "title": "44 files paint with literal Tailwind colours instead of tokens",
       "severity": "critical",
       "evidence": {
-        "measured": "grep of apps/storefront/src: 42 files carry bg-/text-/border- with white|black|neutral-N|gray-N|grey-N|zinc-N. Occurrence counts: bg-gray-100 x53, bg-gray-200 x21, bg-white x18, text-white x10, bg-black x9, text-zinc-600 x7, border-gray-200 x7",
+        "measured": "grep of apps/storefront/src for bg-/text-/border-/ring-/fill-/stroke-/from-/to-/via- against white|black|neutral-N|gray-N|grey-N|zinc-N|slate-N|stone-N returns 44 FILES and 176 occurrences. The narrower first count (42 files) omitted slate and stone and the non-background properties. Top: bg-gray-100 x53, bg-gray-200 x21, bg-white x18, text-white x10, bg-black x9, text-zinc-600 x7, border-gray-200 x7",
         "byArea": {
           "skeletons": "12 files, 79 occurrences",
           "layout/components": "5 files, 13",
@@ -45,7 +45,8 @@
           "checkout": "6 files, 6",
           "layout/templates": "2 files, 2",
           "cart": "1 file, 1",
-          "app/ pages": "4 files"
+          "app/ pages": "4 files",
+          "modules/shipping": "1 file, 18 occurrences — free-shipping-price-nudge, missed by the first pass"
         }
       },
       "consequence": "These surfaces stay white or light grey under every theme preset. They are invisible to the theme bridge by construction.",
@@ -73,6 +74,19 @@
         9
       ],
       "fix": "Every interactive element that clears the outline must set focus-visible:ring-2 ring-[var(--ring)]; audit all 18 outline-none sites"
+    },
+    {
+      "id": "D-darkmode-selector-mismatch",
+      "title": "Tailwind is configured for darkMode class while the theme switches on data-mode, so every dark: utility would be dead CSS",
+      "severity": "high",
+      "evidence": {
+        "measured": "apps/storefront/tailwind.config.js:4 is darkMode: \"class\"; grep finds ZERO elements carrying a `dark` class and ZERO dark: utilities in src; themes.css switches on data-mode with 9 selectors",
+        "reportedEarlier": "the S1b agent wrote this up at artifacts/docs/2026-09-07-s1b-theme-bridge-report.md:464 and the S1 gate had no slot that would accept it",
+        "foundBy": "retro-brief agent, verified by the orchestrator"
+      },
+      "consequence": "This is a trap for the repaint, not a defect on screen today. Any engineer fixing class B who reaches for dark:bg-... writes CSS that never applies, because nothing sets the class the config listens for. The repaint must use tokens that resolve per data-mode, never dark: utilities — or the config must be switched to selector mode on [data-mode=dark] first.",
+      "coversImages": [],
+      "fix": "Decide one of the two and write it into the brief: either the repaint never uses dark: utilities, or tailwind.config.js switches to darkMode: [\"selector\", \"[data-mode=dark]\"] and the change is proved by a utility that actually applies"
     }
   ],
   "defects": [
@@ -220,6 +234,20 @@
       "detail": "S1b was blocked by 11 top-level :global(html[...]) rules in a *.module.css compiled in PURE mode. The orchestrator split the global half into a plain stylesheet image-frame.globals.css but KEPT the :global() wrapper; a plain stylesheet has no CSS-modules compiler, so Turbopack rejected the file outright and the routes fell over again. S1c fixed it and records so in its own report at lines 271-276. The orchestrator entry in .ai/progress.md reads: zero :global left in the module, :8033/en -> 200 — true about the module, silent about the wrapper it had just carried into a new file. Two documents about one fix, and the third state exists in neither.",
       "measuredBy": "retro-execution agent; confirmed by the orchestrator against artifacts/docs/2026-09-07-s1c-profile-blocks-report.md lines 271-276 and .ai/progress.md",
       "carryTo": "a cross-zone fix by the orchestrator is itself a change and must be verified by a build, not by the route that happened to recover; and the record of a fix states what was measured AFTER it on the artefact the fix PRODUCED, not on the one it left behind"
+    },
+    {
+      "id": "p-05",
+      "title": "The requirement that would have prevented cause A existed on disk and was cut when the brief was carried over",
+      "detail": "The preceding brief docs/prompts/initial-prompt-2026-09-06-orchestrator-theme-presets-panel.md line 23 demanded three checks in T0h.5, the third of them verbatim: \"...flips, and that `body` background follows.\" The store-profiles brief line 29 kept only the pixel half of T0h.5 and dropped the body clause. Cause A is therefore not an oversight of thought — it is a loss in transcription. The same line 14 copied three counters from the predecessor and dropped the fourth fact standing beside them, that the code has zero dark: utilities, which is cause D.",
+      "measuredBy": "retro-brief agent; both lines read and confirmed by the orchestrator",
+      "carryTo": "when a brief is derived from an earlier brief, the derivation is a DIFF that is reviewed clause by clause, and every dropped clause is dropped on purpose with a reason written next to it"
+    },
+    {
+      "id": "p-06",
+      "title": "Zones covered 20 files out of 302, and two parenthetical narrowings made the hole",
+      "detail": "A find across every declared zone of S1b and S1c covers 20 files of the 302 in the storefront source. Two qualifiers did the damage: `app/layout.tsx` head only fenced off line 33 where <body> stands, and `modules/products/components/thumbnail` for the aspect only admitted a component while explicitly excluding its colour. promo-banner was 1 of 11 siblings in modules/layout/components; cart-dropdown, side-menu, nav and footer belonged to nobody. In a 92-line brief the words footer, nav, skeleton, account, drawer and side-menu appear ZERO times, header appears once as headers(), and body appears once as --font-body — while line 70 states Ivan's acceptance as the palette being one and the same on home, listing, product and cart.",
+      "measuredBy": "retro-brief agent; word counts and the zone find re-run by the orchestrator",
+      "carryTo": "the stage zones of a wave must be proved to COVER the source tree: a script sums the declared zones and reports the uncovered files, and a brief whose acceptance names a surface must have a stage that owns it"
     }
   ]
 }
