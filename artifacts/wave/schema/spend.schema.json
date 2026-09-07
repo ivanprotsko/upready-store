@@ -25,7 +25,7 @@
           "at": { "type": "string", "format": "date-time" },
           "theme": { "type": "string" },
           "model": { "enum": ["fal-ai/nano-banana", "fal-ai/nano-banana-pro"] },
-          "kind": { "enum": ["single", "grid-3x3"] },
+          "kind": { "type": "string", "pattern": "^(single|grid-[0-9]{1,2}x[0-9]{1,2})$", "description": "single, or grid-<cols>x<rows>. The panel count is DESCRIPTIVE: a grid is priced by model and resolution, never by how many cells were asked for. A fixed grid-3x3 forced electronics (14 products bought as one 4x4) to choose between a second $0.30 prediction and a false ledger row." },
           "resolution": { "enum": ["2K", "4K", null] },
           "priceUsd": { "type": "number", "description": "Price of THIS call, from the model page: nano-banana $0.039, nano-banana-pro $0.15 at 2K, $0.30 at 4K." },
           "purpose": { "enum": ["grid-measurement", "product-grid", "category-tiles", "hero", "showcase", "reshoot"] },

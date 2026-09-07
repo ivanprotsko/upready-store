@@ -115,8 +115,12 @@ async function cmdValidate() {
   let bad = 0;
   for (const [name, file] of [['queue', QUEUE], ['spend', SPEND]]) {
     const schema = readJson(path.join(DIR, `schema/${name}.schema.json`));
-    const ok = ajv.compile(schema)(readJson(file));
-    if (!ok) { bad++; console.log(`${name}.json INVALID: ${JSON.stringify(ajv.errors)}`); }
+    const check = ajv.compile(schema);
+    const ok = check(readJson(file));
+    // ajv.errors belongs to the INSTANCE and a compiled validator never sets it, so this
+    // printed "INVALID: null" and named nothing. A report that cannot name the fault is
+    // not a report (rule 18e). Errors live on the compiled function.
+    if (!ok) { bad++; for (const e of check.errors || []) console.log(`  ${name}.json ${e.instancePath || "/"} ${e.message}`); }
     else console.log(`${name}.json valid`);
   }
   // the sums are part of the contract too, and no schema can check them
