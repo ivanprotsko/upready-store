@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-theme-repaint",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-08T01:44:56+08:00",
+  "status": "T-fix repaint in flight: workflow wf_30353b7f-901, six zones on feat/store-theme-surface (e50f05a, no node_modules there). Gate written and smoke-run; on return — one gate pass, eye-read of diff-shape flags, one commit, no push. Ivan back ~02:45 for four open decisions."
+}

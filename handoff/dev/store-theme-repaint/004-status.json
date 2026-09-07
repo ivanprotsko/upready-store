@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-theme-repaint",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-08T01:50:56+08:00",
+  "status": "T-fix repaint DONE: feat/store-theme-surface 5be7487+4dc8ccd, 52 files, 176 literal colours -> 0, 18 focus rings, body painted, cause E (invisible text on inverted surfaces in dark mode) found and patched. Gate green, but NOTHING rendered — no stand built from this branch. Open: q-cause-e-the-contrast-foreground (token-map fix touches all nine themes). Ivan back ~02:45 for the four night decisions."
+}
