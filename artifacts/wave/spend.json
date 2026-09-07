@@ -1,15 +1,55 @@
 {
   "schema": "upready.wave.spend/v1",
-  "updatedAt": "2026-09-08T02:38:49+08:00",
+  "updatedAt": "2026-09-08T03:38:09+08:00",
   "provider": "fal.ai",
   "currency": "USD",
   "balanceAtStartUsd": 7.1,
   "ceilingUsd": 6,
   "softStopUsd": 5,
-  "renders": [],
+  "renders": [
+    {
+      "id": "r-06cb8818",
+      "at": "2026-09-08T03:32:15+08:00",
+      "theme": "_measurement",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "grid-measurement",
+      "promptSha256": "c4a1dd68dc9b239cdb853365909edc6615f9baa84ec8c9772f7639dbcc0bb32b",
+      "reshootOf": null,
+      "accepted": true
+    },
+    {
+      "id": "r-72cf825a",
+      "at": "2026-09-08T03:33:18+08:00",
+      "theme": "_measurement",
+      "model": "fal-ai/nano-banana",
+      "kind": "grid-3x3",
+      "resolution": null,
+      "priceUsd": 0.039,
+      "purpose": "grid-measurement",
+      "promptSha256": "1469c989a26072659ab95da4754ad2be54aec91ad16206eaddd6d74271d19528",
+      "reshootOf": null,
+      "accepted": true
+    },
+    {
+      "id": "r-1d9e686c",
+      "at": "2026-09-08T03:33:30+08:00",
+      "theme": "_measurement",
+      "model": "fal-ai/nano-banana",
+      "kind": "single",
+      "resolution": null,
+      "priceUsd": 0.039,
+      "purpose": "grid-measurement",
+      "promptSha256": "a8d2b54558a38e4fb6489571d256ce9852c6b4adbc7ce1252b0c17b22ca837b1",
+      "reshootOf": null,
+      "accepted": false
+    }
+  ],
   "totals": {
-    "spentUsd": 0,
-    "renderCount": 0,
+    "spentUsd": 0.378,
+    "renderCount": 3,
     "dashboardUsd": null
   }
 }
