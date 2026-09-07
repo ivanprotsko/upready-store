@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "upready.store-profile-products/v0",
+  "title": "Store profile catalog products",
+  "description": "catalog/products.json of a store profile. Same shape the seed reads today (apps/backend/src/migration-scripts/data/products/index.ts SeedProduct) plus: relative image refs, price_usd per variant (regional prices are derived at seed time from the demo ratio table), specs in metadata, and the image brief the image producer works from and the merchandiser reconciles against.",
+  "type": "array",
+  "minItems": 10,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["handle", "title", "description", "status", "category", "collections", "weight", "metadata", "images", "options", "variants", "imageBrief"],
+    "properties": {
+      "handle": { "$ref": "#/definitions/handle" },
+      "title": { "type": "string", "minLength": 6, "maxLength": 70 },
+      "subtitle": { "type": "string", "maxLength": 90 },
+      "description": { "type": "string", "minLength": 300, "maxLength": 1400, "description": "Merchant voice, plain paragraphs, no markdown, no claims a real shop could not make." },
+      "status": { "const": "published" },
+      "category": { "$ref": "#/definitions/handle", "description": "A leaf handle from catalog/categories.json." },
+      "collections": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/definitions/handle" } },
+      "weight": { "type": "integer", "minimum": 1, "description": "Grams." },
+      "metadata": {
+        "type": "object",
+        "required": ["brand", "mpn", "specs"],
+        "properties": {
+          "brand": { "type": "string", "minLength": 2, "maxLength": 32 },
+          "mpn": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9-]{3,31}$" },
+          "specs": {
+            "type": "object",
+            "minProperties": 4,
+            "maxProperties": 12,
+            "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 120 },
+            "description": "Characteristics rendered in the product tabs: key = plain-language label in English (e.g. 'Upper material'), value = plain text with units."
+          }
+        }
+      },
+      "images": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 8,
+        "uniqueItems": true,
+        "items": { "$ref": "#/definitions/mediaRef" },
+        "description": "First entry becomes the thumbnail. Every file must be an accepted entry of media/manifest.json."
+      },
+      "options": { "type": "array", "maxItems": 3, "uniqueItems": true, "items": { "type": "string", "minLength": 2, "maxLength": 24 }, "description": "Option titles present in catalog/product-options.json. Empty array = single-variant product." },
+      "variants": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 40,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["title", "sku", "options", "price_usd"],
+          "properties": {
+            "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+            "sku": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9-]{3,39}$" },
+            "options": { "type": "object", "additionalProperties": { "type": "string" } },
+            "price_usd": { "type": "number", "minimum": 1, "maximum": 20000, "multipleOf": 0.01 },
+            "inventory_quantity": { "type": "integer", "minimum": 0 }
+          }
+        }
+      },
+      "imageBrief": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["subject", "shots", "doNotShow"],
+        "properties": {
+          "subject": { "type": "string", "minLength": 20, "maxLength": 400, "description": "What the product physically is: form, materials, colours, distinguishing details. The image producer renders this, the merchandiser reconciles the copy against the renders." },
+          "shots": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role", "description"],
+              "properties": {
+                "role": { "enum": ["hero", "angle", "detail", "lifestyle", "colorway"] },
+                "description": { "type": "string", "minLength": 10, "maxLength": 300 },
+                "colorway": { "type": "string", "description": "Option value this shot depicts; required when role = colorway." }
+              }
+            }
+          },
+          "doNotShow": { "type": "array", "items": { "type": "string" }, "description": "Always includes real logos and legible text unless the profile's style board says otherwise." }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "handle": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "mediaRef": { "type": "string", "pattern": "^media/[a-z0-9][a-z0-9-]*\\.(webp|png|jpg)$" }
+  }
+}

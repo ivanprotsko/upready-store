@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-07T18:57:15+08:00",
-  "status": "store-ds-8: по просьбе Ивана отключён hero-баннер на главной (apps/storefront/src/app/[locale]/(main)/page.tsx, коммит 2d0069e на dev) — импорт и рендер <Hero /> убраны, сам компонент modules/home/components/hero и переводы Hero.* в messages/*.json НЕ тронуты (можно вернуть одной строкой). tsc чистый, живой стенд :8027 подтвердил: <h1> баннера пропал. Также обсуждали (без изменений кода): где лежат пропорции карточек товара — aspect-[9/16]/aspect-[11/18]/aspect-[1/1] в thumbnail/index.tsx, aspect-[29/34] в image-gallery/index.tsx и в skeleton-заглушках, значения захардкожены как Tailwind arbitrary values прямо в TSX, единого токена нет; объяснено Ивану поведение при загрузке квадратных 1:1 фото (object-fit: cover обрежет под портретную рамку везде, кроме size=square в order/item и account/order-card, и кроме лайтбокса zoomable-image, где object-fit: contain). Стенд backend :9022 (pid 39270) + storefront :8027 живы с прошлой сессии.",
+  "updated": "2026-09-07T19:40:47+08:00",
+  "status": "store-ds-9: программа «Профили магазина» (10 витрин-образцов для портфолио) спроектирована архитектором: решения docs/store-profiles/00-program-2026-09-07.md, схемы specs/store-profiles/*.schema.json (Ajv strict ok), бриф оркестратору docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md (пилот sneakers, S0–S8, стенд :9023/:8028, worktree feat/store-profiles создан от dev@901ac66), оценки est-store-profiles-pilot-sneakers / est-store-profiles-wave2-nine. Задача t-store-profiles-pilot в backlog — ждёт апрува Ивана и решения q-store-profiles-wip (WIP=2 занят). Стенд :9022/:8027 не тронут; в основном checkout остался спайк apps/backend/static/probe-static.txt (rm-guard заблокировал удаление).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -247,6 +247,30 @@
       ],
       "created": "2026-09-06T16:55:13+08:00",
       "updated": "2026-09-06T16:55:13+08:00"
+    },
+    {
+      "id": "t-store-profiles-pilot",
+      "title": "Store profiles for the portfolio: pilot profile sneakers end to end (profile format + seed switch + price ratio table + theme bridge T0h + profile home blocks + Replicate images with a consistency gate + catalog copy in 5 locales + fresh-DB verify on :9023/:8028), then nine more profiles (orchestrator store-profiles, Opus, ultracode)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Ivan's directive 2026-09-07 (verbatim in docs/prompts/2026-09-07-ivan-directive-ten-store-versions.md): ten store versions with their own photos, colour theme, graphics and catalog copy as portfolio examples; role subagents on Opus or higher; quality over cost; autonomous to the result; first one version → Ivan's eyes → the other nine. Architect's decisions: docs/store-profiles/00-program-2026-09-07.md (F1 one DB per profile, F2 nano-banana-2 primary / flux-2-pro fallback / flux-1.1-pro-ultra raw for lifestyle, F3 bytes re-hosted to apps/backend/static + raw archive never deleted, F4 preset on the canon dictionary with the 88-variable bridge, F5 classic card in wave 1, F6 pilot = sneakers, F7 en+de/fr/es/ru, F8 stand :9023/:8028 in worktree feat/store-profiles). Proposed goal: the storefront on http://localhost:8028/en reads as a real sneaker brand's shop seeded from data/profiles/sneakers (14 products, sizes × colourways, ≥3 generated images each, copy matching the renders, own theme, hero and category tiles), verified from a fresh DB. Proposed acceptance (machine): store-profile:validate sneakers green with counts | seed into a fresh DB prints N products / M variants / K images | every image URL 200 | tsc, next lint, next build green | seed and storefront unit tests + Playwright profile specs green with reverse runs red | T0h.5 four-page pixel delta ≤ 0.1 % on medusa/light | verify report artifacts/docs/2026-09-07-store-profile-sneakers-verify.json with every check and its reverse run, counts copied. Proposed acceptance (Ivan's eyes on :8028): home reads as a sneaker brand's shop (photo banner + headline + button, four category tiles, product shelf) | one product's four photos show the same shoe and the swatches match the photos | every title names what its photo shows | descriptions read as written by a shop | size and colourway selectable, price changes | one palette on home, listing, product, cart | no clipped title or price at phone width. Orchestrator brief: docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md. Estimates: est-store-profiles-pilot-sneakers, est-store-profiles-wave2-nine (@upready/estimation). Wave 2 (nine profiles, T0j card variants, T0i panel) starts only after Ivan accepts the pilot.",
+      "files": [
+        "docs/store-profiles/00-program-2026-09-07.md",
+        "docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md",
+        "docs/prompts/2026-09-07-ivan-directive-ten-store-versions.md",
+        "specs/store-profiles/store-profile.schema.json",
+        "specs/store-profiles/catalog-products.schema.json",
+        "specs/store-profiles/media-manifest.schema.json"
+      ],
+      "session": "store-ds-9",
+      "tags": [
+        "store-profiles",
+        "portfolio",
+        "images",
+        "theme"
+      ],
+      "created": "2026-09-07T19:40:46+08:00",
+      "updated": "2026-09-07T19:40:46+08:00"
     }
   ],
   "questions": [
@@ -267,6 +291,21 @@
       "blocks": [
         "t-ds-1-ui-wrappers-pilot"
       ]
+    },
+    {
+      "id": "q-store-profiles-wip",
+      "question": "WIP is 2 (t-ds-0-foundation, t-ds-1-seam-tests); activating t-store-profiles-pilot needs one of them parked. Recommendation: freeze t-ds-0-foundation — T0h moves into the pilot, T0e is parked by the 2026-09-06 decision, and the merge of T0c/T0d/T0f/T0g from feat/ds-foundation does not depend on the task's state. Freeze t-ds-0-foundation, freeze t-ds-1-seam-tests instead, or raise the WIP limit for this program?",
+      "asked": "2026-09-07",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
+    },
+    {
+      "id": "q-store-profiles-deploy-topology",
+      "question": "How should the ten store versions be shown in the portfolio after the pilot: ten backend+storefront pairs (one DB each, the pilot's topology, simplest and honest) or one host running ten backend processes against ten DBs behind one reverse proxy? Also: media host for deployment — verify the R2_BACKUP_* keys or mint a separate media bucket. Not blocking the pilot.",
+      "asked": "2026-09-07",
+      "audience": "ivan"
     }
   ],
   "sessions": [
@@ -307,6 +346,14 @@
         "t-select-allowlist-gap"
       ],
       "summary": "Solo, no agents. feat/ds-foundation: committed T0c (dc439f6), T0f (a0e5a67) plus the excludes fix (7c1a2d7), T0d (096f7f9), T0g ui-smoke (a0ac356) and the T0e not-accepted note (1afb627), rebased onto dev@552de62, conflict on ui-inventory.schema.json resolved in favour of the architect version already on dev (b8b6d40). All gates re-run by me: tsc 0, next lint clean, next build 0, ui-lab:test 19 passed (1.2m) with 353 case-viewports and 0 dimensions differ, ui-smoke tsc/build 0 and 1 passed against the shared backend on 9022. Three worker defects fixed with evidence: the missing propsUsedByComponent rollup, two damaged cells in token-map.json, and T0d tailwind globs overwritten by the T0e migration. T0e itself not committed as code — it reached the app as symlinks in node_modules and dies on pnpm install; kept as a patch plus a status note. feat/seam-tests: vitest 25 files / 709 passed + 18 expected fail / coverage statements 92.93 percent, e2e on :8002 in docker 11 passed and 6 failed, every failure traced to a measured cause — four test defects, one harness limit (Secure cookies over plain http on host.docker.internal), one real product defect (header inside main, no banner landmark). Funnel acceptance NOT met. Two questions and two backlog tasks opened."
+    },
+    {
+      "date": "2026-09-07",
+      "label": "store-ds-9",
+      "task_ids": [
+        "t-store-profiles-pilot"
+      ],
+      "summary": "Architect only, no agents. Ivan's ten-store-versions directive → prompt-features extraction (14 features, validate ok), program with 8 forks decided and 10 profiles specified, 3 JSON schemas (Ajv strict), English orchestrator brief S0–S8 for the sneakers pilot, worktree feat/store-profiles, two estimates. Measured: backend static serving 200, seed price/translation structure, Replicate model pages (nano-banana-2 14 refs, flux-2-pro 8 refs, flux-1.1-pro-ultra 0.06 USD; nano-banana-2/flux-2-pro prices not visible). Two questions opened (WIP, deploy topology)."
     }
   ]
 }

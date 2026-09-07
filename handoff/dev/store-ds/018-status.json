@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-07T19:40:47+08:00",
+  "status": "store-ds-9: программа «Профили магазина» (10 витрин-образцов для портфолио) спроектирована архитектором: решения docs/store-profiles/00-program-2026-09-07.md, схемы specs/store-profiles/*.schema.json (Ajv strict ok), бриф оркестратору docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md (пилот sneakers, S0–S8, стенд :9023/:8028, worktree feat/store-profiles создан от dev@901ac66), оценки est-store-profiles-pilot-sneakers / est-store-profiles-wave2-nine. Задача t-store-profiles-pilot в backlog — ждёт апрува Ивана и решения q-store-profiles-wip (WIP=2 занят). Стенд :9022/:8027 не тронут; в основном checkout остался спайк apps/backend/static/probe-static.txt (rm-guard заблокировал удаление)."
+}
