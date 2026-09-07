@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-08T05:49:53+08:00",
+  "status": "05:56 — dev 6d33d73 pushed. FOUR themes done, four live stands: supplements (storefront port 8070, backend 9051), electronics (8061/9041), womens-fashion (8081/9061), home-goods (8110/9110). home-goods: 12 products, 38 variants, 6 categories, 5 locales, 2 predictions $0.600, gate contrast 4 / drawer 0 / focus 8 of 254 — only the focus-ring class recurred; d-01, d-02 and d-05..d-14 did not. It closed the one-product-row trap on purpose (collections carry 7 and 9). Ledger $2.667 of $6.00, 12 renders. Two new foundation findings: the full-bleed hero subheadline computes to --foreground on a dark photo because Tailwind's /80 cannot compose against an already-alpha token (affects electronics too), and nothing reads NEXT_PUBLIC_SITE_NAME so a REJECTED brand name shipped to a live stand. Running: foundation-disabled-pair (07:30) and wave-contact-sheet (24 shots + one HTML grid, 08:00). No fifth theme — disk under 2 GB. Open questions: 11."
+}

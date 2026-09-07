@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T05:38:02+08:00",
-  "status": "05:41 — dev fc1c29b pushed. THREE themes done with live stands: supplements (storefront port 8070, backend 9051), electronics (8061 / 9041), womens-fashion (8081 / 9061, now five locales and a reseeded catalogue). womens-fashion's finisher found that its en.json keys were kebab-case while the lookup camelCases them, so 12 of 12 product keys were dead before the four missing locales were even written; supplements and electronics have zero such keys. Verified by me: 50 leaf keys in each of five files, identical sets. Also learned: a reseed mints a NEW publishable key, so any DROP-and-reseed needs .env.local rewritten or the storefront comes back broken. NEW DEFECT: the disabled pair is not preset-independent — womens-fashion measures 1.04:1, worse than the 2.07:1 tonight's fix cured, because that fix computed its worst case over the presets that existed then. foundation-disabled-pair is deriving it against a contrast target instead, deadline 07:30. theme-home-goods still running (08:00). NO fifth theme: disk is at 1.9 GB and the real consumer is the 49 GB pnpm store. Ledger $2.067 of $6.00. Open questions: 9.",
+  "updated": "2026-09-08T05:49:53+08:00",
+  "status": "05:56 — dev 6d33d73 pushed. FOUR themes done, four live stands: supplements (storefront port 8070, backend 9051), electronics (8061/9041), womens-fashion (8081/9061), home-goods (8110/9110). home-goods: 12 products, 38 variants, 6 categories, 5 locales, 2 predictions $0.600, gate contrast 4 / drawer 0 / focus 8 of 254 — only the focus-ring class recurred; d-01, d-02 and d-05..d-14 did not. It closed the one-product-row trap on purpose (collections carry 7 and 9). Ledger $2.667 of $6.00, 12 renders. Two new foundation findings: the full-bleed hero subheadline computes to --foreground on a dark photo because Tailwind's /80 cannot compose against an already-alpha token (affects electronics too), and nothing reads NEXT_PUBLIC_SITE_NAME so a REJECTED brand name shipped to a live stand. Running: foundation-disabled-pair (07:30) and wave-contact-sheet (24 shots + one HTML grid, 08:00). No fifth theme — disk under 2 GB. Open questions: 11.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -414,6 +414,21 @@
       "blocks": [
         "t-store-profiles-pilot"
       ]
+    },
+    {
+      "id": "q-fullbleed-subheadline-opacity",
+      "question": "A foundation defect that belongs to the wave, found by home-goods and confirmed to affect electronics too: the full-bleed hero's subheadline computes to rgb(36,28,22) — that is --foreground, dark ink on a dark photograph — because Tailwind's /80 opacity modifier cannot compose against --contrast-fg-primary, which is already rgba(255,255,255,.88) and is one of the 31 open bridge rows. Every full-bleed profile carries it and no edit to a hero can fix it. Either --contrast-fg-primary stops carrying its own alpha (so modifiers can compose), or full-bleed heroes stop using an opacity modifier and get an explicit second token for the subheadline. The first is one bridge row and touches every surface using that token; the second is a component change and touches only heroes. Which?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
+    },
+    {
+      "id": "q-site-name-unchecked",
+      "question": "Nothing in the pipeline reads NEXT_PUBLIC_SITE_NAME, so home-goods' live stand shipped the wordmark QUERNSTONE — a brand name its own W1 style board had explicitly REJECTED. It was caught by a human looking at a screenshot and by nothing else. Every gate the wave has measures colour, contrast, focus and HTTP codes; none checks that the name on the screen is the name the theme decided on. Add a check that the rendered wordmark equals the approved name in the profile, or accept that naming stays a human-eyes item?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
     }
   ],
   "sessions": [
