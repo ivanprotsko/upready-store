@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact sheet — four store themes</title>
+<style>
+  :root {
+    --bg:#fbfbfa; --fg:#101010; --dim:#6b6b6b; --line:#e4e2dd;
+    --card:#fff; --ok:#1a7f4b; --bad:#b3261e; --accent:#3b3b3b;
+  }
+  * { box-sizing:border-box }
+  body {
+    margin:0; padding:28px 24px 64px;
+    font:14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:var(--bg); color:var(--fg);
+  }
+  header { max-width:1680px; margin:0 auto 22px }
+  h1 { font-size:20px; margin:0 0 6px; letter-spacing:-.01em }
+  .sub { color:var(--dim); font-size:13px; margin:0 }
+  .sub b { color:var(--fg); font-weight:600 }
+  main { max-width:1680px; margin:0 auto }
+
+  .colhead { display:grid; grid-template-columns:repeat(6,1fr); gap:10px;
+              position:sticky; top:0; z-index:5; background:var(--bg);
+              padding:8px 0 8px 0; border-bottom:1px solid var(--line); margin-bottom:14px }
+  .colhead div { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+                  color:var(--dim); text-align:center }
+  .colhead .light { color:#8a6d1f }
+  .colhead .dark  { color:#3d4f7a }
+
+  .row { margin:0 0 26px }
+  .rowhead { display:flex; align-items:baseline; gap:10px; margin:0 0 8px; font-size:15px }
+  .rowhead .name { font-weight:650; letter-spacing:-.01em }
+  .rowhead .port { color:var(--dim); font-size:12px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace }
+  .ok  { color:var(--ok);  font-size:11px; text-transform:uppercase; letter-spacing:.08em }
+  .bad { color:var(--bad); font-size:11px; text-transform:uppercase; letter-spacing:.08em }
+
+  .tiles { display:grid; grid-template-columns:repeat(6,1fr); gap:10px }
+  .tile { margin:0; background:var(--card); border:1px solid var(--line); border-radius:8px;
+           overflow:hidden; display:flex; flex-direction:column }
+  .tile a { display:block; line-height:0 }
+  .tile img { width:100%; height:auto; display:block; background:#f2f1ee }
+  figcaption { padding:7px 8px 8px; font-size:11px; display:flex; flex-wrap:wrap;
+                align-items:center; gap:4px; border-top:1px solid var(--line) }
+  .t-th { font-weight:600 }
+  .t-sep { color:#c9c6c0 }
+  .t-md-light { color:#8a6d1f }
+  .t-md-dark  { color:#3d4f7a }
+  .t-pg { color:var(--dim) }
+  .meta { flex-basis:100%; color:#9a9791; font-size:10px;
+           font-family:ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-word }
+  .flag { background:#fff3d6; color:#7a5b00; border:1px solid #eadfb8;
+           border-radius:3px; padding:0 4px; font-size:10px }
+
+  .tile-down, .tile-missing { background:#fdf6f5; border-color:#f0d9d6 }
+  .miss { aspect-ratio:1440/1200; display:flex; flex-direction:column; align-items:center;
+           justify-content:center; gap:6px; text-align:center; padding:14px;
+           color:var(--bad); font-size:12px }
+  .miss span { color:#8a6560; font-size:10px; line-height:1.4 }
+
+  table { border-collapse:collapse; width:100%; margin-top:8px; background:var(--card);
+           border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:13px }
+  caption { text-align:left; font-size:15px; font-weight:650; padding:24px 0 8px }
+  th, td { padding:9px 12px; text-align:left; border-bottom:1px solid var(--line) }
+  thead th { font-size:11px; text-transform:uppercase; letter-spacing:.07em;
+              color:var(--dim); font-weight:600; background:#f6f5f2 }
+  tbody th { font-weight:600 }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom:none }
+  td.num { font-family:ui-monospace,SFMono-Regular,Menlo,monospace }
+  td.na { color:#9a9791; font-style:italic }
+  .foot { color:var(--dim); font-size:12px; margin-top:10px; line-height:1.6 }
+  .foot code { background:#f0efec; padding:1px 4px; border-radius:3px; font-size:11px }
+</style>
+</head>
+<body>
+<header>
+  <h1>Contact sheet — four store themes</h1>
+  <p class="sub"><b>24 of 24</b> cells shot at the <b>1440</b> viewport (1440x1200, deviceScaleFactor 1),
+  0 not shot. 4 themes x 2 modes x 3 pages. Mode forced through <code>localStorage["upready-store.mode"]</code>
+  before first paint and the landed <code>data-mode</code> asserted after load — the same mechanism
+  <code>theme-coverage-gate.mjs</code> uses. Shot 2026-09-08, 05:53:04-05:55:33 WITA. Click any tile for the full PNG.</p>
+</header>
+<main>
+  <div class="colhead">
+    <div class="light">light · home</div><div class="light">light · category</div><div class="light">light · product</div>
+    <div class="dark">dark · home</div><div class="dark">dark · category</div><div class="dark">dark · product</div>
+  </div>
+  <section class="row"><h2 class="rowhead"><span class="name">supplements</span><span class="port">localhost:8070</span><span class="ok">live</span></h2><div class="tiles"><figure class="tile"><a href="shots/supplements-light-home.png" target="_blank" rel="noreferrer"><img src="shots/supplements-light-home.png" alt="supplements light home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=light · 11 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/supplements-light-category.png" target="_blank" rel="noreferrer"><img src="shots/supplements-light-category.png" alt="supplements light category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=light · 10 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/supplements-light-pdp.png" target="_blank" rel="noreferrer"><img src="shots/supplements-light-pdp.png" alt="supplements light pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=light · 16 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/supplements-dark-home.png" target="_blank" rel="noreferrer"><img src="shots/supplements-dark-home.png" alt="supplements dark home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=dark · 11 img, 0 broken · bg rgb(10, 19, 16)</span></figcaption></figure><figure class="tile"><a href="shots/supplements-dark-category.png" target="_blank" rel="noreferrer"><img src="shots/supplements-dark-category.png" alt="supplements dark category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=dark · 10 img, 0 broken · bg rgb(10, 19, 16)</span></figcaption></figure><figure class="tile"><a href="shots/supplements-dark-pdp.png" target="_blank" rel="noreferrer"><img src="shots/supplements-dark-pdp.png" alt="supplements dark pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">supplements</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=dark · 16 img, 0 broken · bg rgb(10, 19, 16)</span></figcaption></figure></div></section><section class="row"><h2 class="rowhead"><span class="name">electronics</span><span class="port">localhost:8061</span><span class="ok">live</span></h2><div class="tiles"><figure class="tile"><a href="shots/electronics-light-home.png" target="_blank" rel="noreferrer"><img src="shots/electronics-light-home.png" alt="electronics light home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=light · 16 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/electronics-light-category.png" target="_blank" rel="noreferrer"><img src="shots/electronics-light-category.png" alt="electronics light category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=light · 5 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/electronics-light-pdp.png" target="_blank" rel="noreferrer"><img src="shots/electronics-light-pdp.png" alt="electronics light pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=light · 11 img, 0 broken · bg rgb(255, 255, 255)</span></figcaption></figure><figure class="tile"><a href="shots/electronics-dark-home.png" target="_blank" rel="noreferrer"><img src="shots/electronics-dark-home.png" alt="electronics dark home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=dark · 16 img, 0 broken · bg rgb(13, 16, 19)</span></figcaption></figure><figure class="tile"><a href="shots/electronics-dark-category.png" target="_blank" rel="noreferrer"><img src="shots/electronics-dark-category.png" alt="electronics dark category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=dark · 5 img, 0 broken · bg rgb(13, 16, 19)</span></figcaption></figure><figure class="tile"><a href="shots/electronics-dark-pdp.png" target="_blank" rel="noreferrer"><img src="shots/electronics-dark-pdp.png" alt="electronics dark pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">electronics</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=dark · 11 img, 0 broken · bg rgb(13, 16, 19)</span></figcaption></figure></div></section><section class="row"><h2 class="rowhead"><span class="name">womens-fashion</span><span class="port">localhost:8081</span><span class="ok">live</span></h2><div class="tiles"><figure class="tile"><a href="shots/womens-fashion-light-home.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-light-home.png" alt="womens-fashion light home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=light · 24 img, 0 broken · bg rgb(247, 242, 233)</span></figcaption></figure><figure class="tile"><a href="shots/womens-fashion-light-category.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-light-category.png" alt="womens-fashion light category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=light · 6 img, 0 broken · bg rgb(247, 242, 233)</span></figcaption></figure><figure class="tile"><a href="shots/womens-fashion-light-pdp.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-light-pdp.png" alt="womens-fashion light pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=light · 16 img, 0 broken · bg rgb(247, 242, 233)</span></figcaption></figure><figure class="tile"><a href="shots/womens-fashion-dark-home.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-dark-home.png" alt="womens-fashion dark home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=dark · 24 img, 0 broken · bg rgb(20, 17, 13)</span></figcaption></figure><figure class="tile"><a href="shots/womens-fashion-dark-category.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-dark-category.png" alt="womens-fashion dark category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=dark · 6 img, 0 broken · bg rgb(20, 17, 13)</span></figcaption></figure><figure class="tile"><a href="shots/womens-fashion-dark-pdp.png" target="_blank" rel="noreferrer"><img src="shots/womens-fashion-dark-pdp.png" alt="womens-fashion dark pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">womens-fashion</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=dark · 16 img, 0 broken · bg rgb(20, 17, 13)</span></figcaption></figure></div></section><section class="row"><h2 class="rowhead"><span class="name">home-goods</span><span class="port">localhost:8110</span><span class="ok">live</span></h2><div class="tiles"><figure class="tile"><a href="shots/home-goods-light-home.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-light-home.png" alt="home-goods light home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=light · 14 img, 0 broken · bg rgb(253, 251, 247)</span></figcaption></figure><figure class="tile"><a href="shots/home-goods-light-category.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-light-category.png" alt="home-goods light category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=light · 11 img, 0 broken · bg rgb(253, 251, 247)</span></figcaption></figure><figure class="tile"><a href="shots/home-goods-light-pdp.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-light-pdp.png" alt="home-goods light pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-light">light</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=light · 13 img, 0 broken · bg rgb(253, 251, 247)</span></figcaption></figure><figure class="tile"><a href="shots/home-goods-dark-home.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-dark-home.png" alt="home-goods dark home" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">home</span><span class="meta">200 · data-mode=dark · 14 img, 0 broken · bg rgb(26, 21, 18)</span></figcaption></figure><figure class="tile"><a href="shots/home-goods-dark-category.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-dark-category.png" alt="home-goods dark category" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">category</span><span class="meta">200 · data-mode=dark · 11 img, 0 broken · bg rgb(26, 21, 18)</span></figcaption></figure><figure class="tile"><a href="shots/home-goods-dark-pdp.png" target="_blank" rel="noreferrer"><img src="shots/home-goods-dark-pdp.png" alt="home-goods dark pdp" loading="lazy" width="1440" height="1200"></a><figcaption><span class="t-th">home-goods</span><span class="t-sep">·</span><span class="t-md t-md-dark">dark</span><span class="t-sep">·</span><span class="t-pg">product</span><span class="meta">200 · data-mode=dark · 13 img, 0 broken · bg rgb(26, 21, 18)</span></figcaption></figure></div></section>
+
+  <table>
+    <caption>Catalogue and spend, per theme</caption>
+    <thead><tr>
+      <th scope="col">theme</th><th scope="col">products</th><th scope="col">variants</th>
+      <th scope="col">categories</th><th scope="col">locales</th><th scope="col">images</th>
+      <th scope="col">fal.ai spend</th>
+    </tr></thead>
+    <tbody><tr><th scope="row">supplements</th><td class="">15</td><td class="">53</td><td class="na">not measured</td><td class="">5</td><td class="">15 refs / 19 files</td><td class="num">$0.939</td></tr><tr><th scope="row">electronics</th><td class="">14</td><td class="">34</td><td class="">7</td><td class="">5</td><td class="">14 refs / 22 files</td><td class="num">$0.300</td></tr><tr><th scope="row">womens-fashion</th><td class="">12</td><td class="">87</td><td class="">7</td><td class="">1 of 5 declared</td><td class="">24 refs / 30 files</td><td class="num">$0.450</td></tr><tr><th scope="row">home-goods</th><td class="">12</td><td class="">38</td><td class="">6</td><td class="">5</td><td class="">12 refs / 17 files</td><td class="num">$0.600</td></tr></tbody>
+  </table>
+  <p class="foot">
+    Products, variants, categories, locales and images are copied from each theme's
+    <code>artifacts/docs/2026-09-08-wave-&lt;theme&gt;.md</code>; nothing here was re-counted.
+    Spend is the per-theme sum of <code>artifacts/wave/spend.json</code>, which agrees with
+    <code>costUsd</code> in <code>artifacts/wave/queue.json</code> for all four; the four together are
+    $2.289 of the ledger's $2.667 total, the remaining $0.378 being the <code>_measurement</code> renders
+    that belong to no theme. <b>Images</b> reads "refs / files": catalogue image references, then files
+    delivered. <b>Categories for supplements is "not measured"</b> — that theme's handover states products,
+    variants, locales and image refs but no category count, and the brief forbids a guess.
+    <b>womens-fashion locales</b> is "1 of 5 declared": its handover records that only <code>en.json</code>
+    was ever written while <code>profile.json</code> declares five <code>catalogLocales</code>.
+  </p>
+</main>
+</body>
+</html>
