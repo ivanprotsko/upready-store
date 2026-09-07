@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-08T04:42:23+08:00",
+  "status": "05:00 — dev ae7f836 pushed pending. supplements DONE and LIVE: storefront http://localhost:8070/en, backend :9051, 19 media all 200, gate 4 failing nodes against the foundation's 8 (theme introduced nothing; one group, text-rose-500 on account, light only). W8: it reads as a supplements store. Of the 14 classes, 3 recurred — d-11 confirmed WORSE than predicted (2.00:1 light, 1.79:1 dark), d-14 recurred HARD at 1.00:1 (mobile menu links invisible in both modes: the panel is painted with a semi-transparent token), d-03/d-04 half (labels fixed at 16.4:1, browser-blue focus ring returned). The gate catches neither d-14 nor focus rings — it never opens the drawer. Free slot went to foundation-d14-region (IDR pricing, d-14, d-11, gate extension) rather than a fourth theme, deadline 07:00; theme-womens-fashion still running (07:00). Ledger $1.617 of $6.00. Open questions: 7."
+}

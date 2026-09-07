@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.queue/v1",
-  "updatedAt": "2026-09-08T04:36:58+08:00",
+  "updatedAt": "2026-09-08T04:41:30+08:00",
   "concurrency": 2,
   "themes": [
     {
@@ -8,10 +8,10 @@
       "order": 1,
       "mode": "light",
       "why": "Light theme first: the mirrored white-on-white defect class shows up here before anywhere else.",
-      "state": "running",
+      "state": "done",
       "agent": "theme-supplements-finish",
       "startedAt": "2026-09-08T03:40:08+08:00",
-      "finishedAt": null,
+      "finishedAt": "2026-09-08T04:41:30+08:00",
       "stage": "W8",
       "handoverPath": "artifacts/docs/2026-09-08-wave-supplements.md",
       "costUsd": 0.939,

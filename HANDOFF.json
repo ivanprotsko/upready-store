@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T04:37:43+08:00",
-  "status": "04:47 — dev 8c00f9e pushed. electronics DONE (14 products, 34 variants, 5 locales, 1 prediction $0.300 = 22 files at $0.019/image, gate 10 nodes = foundation kinds only, dark control: nothing regressed). It found three foundation bugs, all of which were blocking every other theme: the coverage gate crashed with no verdict on a pure-white probe (would have killed every light theme), hero+5 tiles 404 as a silent blank, and the manifest schema pinned to replicate. Wave finding: a 4x4 grid holds far worse than 3x3 (luma spread 59.2 vs 7.8) — next themes buy 3x3. Fixed two defects in my own ledger tool: schema refused grid-4x4, and validate printed 'INVALID: null' because ajv.errors lives on the compiled validator. Ledger $1.617 of $6.00, validate rc 0. Running: theme-supplements-finish (stand+gate+W8, 06:00) and theme-womens-fashion (07:00). Queue: 2 done-ish, 1 running, 5 queued. Disk 5.8 GB after dropping a merged branch's .next. Open questions: 6.",
+  "updated": "2026-09-08T04:42:23+08:00",
+  "status": "05:00 — dev ae7f836 pushed pending. supplements DONE and LIVE: storefront http://localhost:8070/en, backend :9051, 19 media all 200, gate 4 failing nodes against the foundation's 8 (theme introduced nothing; one group, text-rose-500 on account, light only). W8: it reads as a supplements store. Of the 14 classes, 3 recurred — d-11 confirmed WORSE than predicted (2.00:1 light, 1.79:1 dark), d-14 recurred HARD at 1.00:1 (mobile menu links invisible in both modes: the panel is painted with a semi-transparent token), d-03/d-04 half (labels fixed at 16.4:1, browser-blue focus ring returned). The gate catches neither d-14 nor focus rings — it never opens the drawer. Free slot went to foundation-d14-region (IDR pricing, d-14, d-11, gate extension) rather than a fourth theme, deadline 07:00; theme-womens-fashion still running (07:00). Ledger $1.617 of $6.00. Open questions: 7.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -385,6 +385,15 @@
     {
       "id": "q-accent-never-reaches-the-screen",
       "question": "electronics' single accent never reaches the screen: the price and the hero CTA are painted by unmapped contrast-* bridge rows, so 'graphite + electric blue' renders graphite-only. --primary is correct both in theme.json and in the generated themes.css, so this is a bridge or component fix, not a token one. It will hit every theme whose identity rests on one accent — which is most of the remaining six. Fix the bridge rows before the next themes are generated, or accept accent-less renders tonight and fix once afterwards?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
+    },
+    {
+      "id": "q-white-backdrop-in-dark-mode",
+      "question": "supplements is on screen and it reads as a supplements store, but W8 named two things that no gate can catch and that will repeat in every theme. (1) The home collection 'The foundation' renders ONE product in a four-column grid — 75% of the row empty, which in dark mode is a black hole mid-page. Either the collection needs a minimum product count, or the grid needs to collapse below a threshold. (2) All product photography is shot on a white studio background, so in dark mode every card is a blinding white rectangle on near-black: the theme reads as a light store forced into a dark one. Fixing that means shooting product frames on a mid-grey or per-mode background, which changes the image brief for all eight themes and costs a reshoot. Decide before the remaining themes buy their images, or accept it for the wave and fix once afterwards?",
       "asked": "2026-09-08",
       "audience": "ivan",
       "blocks": [
