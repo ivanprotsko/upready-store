@@ -1,0 +1,112 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "womens-fashion",
+  "vertical": "women's clothing",
+  "audience": {
+    "region": "EU and US, city wardrobes with cold winters",
+    "persona": "Claire, 41, buys four or five things a year and expects to still be wearing them in five; reads the fibre content before the price and keeps a tailor."
+  },
+  "brand": {
+    "name": "Larchant",
+    "tagline": "Clothes that outlast the season",
+    "wordmark": {
+      "text": "LARCHANT",
+      "style": "wordmark"
+    },
+    "legalName": "Larchant Atelier Ltd."
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": ["de", "en", "es", "fr", "ru"]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "theme": {
+    "presetId": "womens-fashion",
+    "file": "theme.json",
+    "defaultMode": "light",
+    "typography": {
+      "display": "Playfair Display",
+      "body": "Inter"
+    },
+    "radius": "sm"
+  },
+  "layout": {
+    "cardVariant": "classic",
+    "imageTreatment": {
+      "aspect": "4:5",
+      "fit": "cover",
+      "radius": "none",
+      "hover": "second-image"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "The four things you wear all winter",
+      "subheadline": "Bias-cut silk, Scottish lambswool and double-faced wool, cut long and made to be repaired. Fewer pieces, kept longer.",
+      "cta": {
+        "label": "See the autumn edit",
+        "href": "/collections/autumn-edit"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      {
+        "categoryHandle": "dresses",
+        "label": "Dresses",
+        "image": "media/tile-dresses.webp"
+      },
+      {
+        "categoryHandle": "knitwear",
+        "label": "Knitwear",
+        "image": "media/tile-knitwear.webp"
+      },
+      {
+        "categoryHandle": "shirts-and-blouses",
+        "label": "Shirts and blouses",
+        "image": "media/tile-shirts-and-blouses.webp"
+      },
+      {
+        "categoryHandle": "trousers-and-skirts",
+        "label": "Trousers and skirts",
+        "image": "media/tile-trousers-and-skirts.webp"
+      },
+      {
+        "categoryHandle": "coats-and-jackets",
+        "label": "Coats and jackets",
+        "image": "media/tile-coats-and-jackets.webp"
+      }
+    ],
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free alterations on trousers and coats · Repairs for the life of the piece"
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 12,
+      "variants": 87,
+      "images": 24
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-07T21:00:00.000Z",
+  "generatedBy": "wave 2 theme agent womens-fashion (W1-W8), 2026-09-08 WITA"
+}

@@ -1,0 +1,1436 @@
+{
+  "schema": "upready.store-media-manifest/v0",
+  "profileId": "womens-fashion",
+  "provider": "fal.ai",
+  "generatedAt": "2026-09-07T20:51:13.598Z",
+  "entries": [
+    {
+      "file": "media/ondine-slip-dress-hero.webp",
+      "role": "hero",
+      "productHandle": "ondine-slip-dress",
+      "sha256": "e2dbbff06f6a5735b76c4a299d3b2858b383e9ea7151f28176393fb0986b9264",
+      "width": 900,
+      "height": 1125,
+      "bytes": 12004,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na midi-length bias-cut slip dress in warm ivory silk crepe with a shallow cowl neckline, thin adjustable shoulder straps and a narrow hem, worn on an invisible form so the fabric falls in soft vertical folds. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1176,
+          1182
+        ],
+        "windowInCell": [
+          114,
+          0,
+          1055,
+          1176
+        ],
+        "backdropLuma": 207.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/perrin-knit-dress-hero.webp",
+      "role": "hero",
+      "productHandle": "perrin-knit-dress",
+      "sha256": "d8b7cbdb31a1156702f00fbd3e341495e81e48d915269cdfcfefa487edb47cec",
+      "width": 900,
+      "height": 1125,
+      "bytes": 19768,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na full-length ribbed knit column dress in deep near-black ink merino with a short stand collar, narrow long sleeves and a straight hem at the ankle, worn on an invisible form with the vertical ribs clearly visible. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "cropBox": [
+          1192,
+          6,
+          2380,
+          1182
+        ],
+        "windowInCell": [
+          124,
+          0,
+          1065,
+          1176
+        ],
+        "backdropLuma": 210.4,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/sevre-wrap-dress-hero.webp",
+      "role": "hero",
+      "productHandle": "sevre-wrap-dress",
+      "sha256": "2c5f7bd8f97e36bdc810d694e565e7495dd9090b6b4fb877deaa13e8abba0a0e",
+      "width": 900,
+      "height": 1125,
+      "bytes": 19230,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na wrap midi dress in soft clay-brown washed viscose twill with a deep V crossover front, a wide self-fabric tie knotted at the waist and three-quarter sleeves, worn on an invisible form with the skirt falling open in a soft diagonal. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "cropBox": [
+          2396,
+          6,
+          3578,
+          1182
+        ],
+        "windowInCell": [
+          120,
+          0,
+          1061,
+          1176
+        ],
+        "backdropLuma": 208,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/aubin-merino-crew-hero.webp",
+      "role": "hero",
+      "productHandle": "aubin-merino-crew",
+      "sha256": "1436185ca1feb3c9d48514673aec8885f4c4b948ba7db3f0654708e916a9611f",
+      "width": 900,
+      "height": 1125,
+      "bytes": 19870,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na plain mid-gauge merino crewneck sweater in warm ivory with a doubled ribbed neckband, set-in sleeves, deep ribbed cuffs and a ribbed hem, worn on an invisible form so the body hangs straight. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 3,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "cropBox": [
+          6,
+          1198,
+          1176,
+          2384
+        ],
+        "windowInCell": [
+          110,
+          0,
+          1059,
+          1186
+        ],
+        "backdropLuma": 211.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/vaux-longline-cardigan-hero.webp",
+      "role": "hero",
+      "productHandle": "vaux-longline-cardigan",
+      "sha256": "6e227c004729e69d6fd06b2a4fab887761b0b8de9f5406b39d79f47ecfe621a1",
+      "width": 900,
+      "height": 1125,
+      "bytes": 18994,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na knee-length open lambswool cardigan in dark ink brown-black with seven matte buttons down the front, two large low patch pockets and a deep ribbed hem, worn on an invisible form hanging open and straight. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1192,
+          1198,
+          2380,
+          2384
+        ],
+        "windowInCell": [
+          120,
+          0,
+          1069,
+          1186
+        ],
+        "backdropLuma": 210.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/orne-wool-scarf-hero.webp",
+      "role": "hero",
+      "productHandle": "orne-wool-scarf",
+      "sha256": "f4bbe9ec1a295e23a1b6deaec3e9c80198241cbb69827de7a13cbe56aa5407d3",
+      "width": 900,
+      "height": 1125,
+      "bytes": 24800,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na very large brushed lambswool scarf in natural cream, folded lengthwise and looped once so the twill weave and the hand-knotted fringe at both ends are clearly visible, hanging vertically against the backdrop. Template variant V-drape: no mannequin. The scarf hangs vertically, folded once lengthwise and looped, filling the panel height, both fringed ends visible.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "cropBox": [
+          2396,
+          1198,
+          3578,
+          2384
+        ],
+        "windowInCell": [
+          116,
+          0,
+          1065,
+          1186
+        ],
+        "backdropLuma": 210.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/mazan-silk-shirt-hero.webp",
+      "role": "hero",
+      "productHandle": "mazan-silk-shirt",
+      "sha256": "d09b58f13bd775a118e06a06c47e5d4fc92d3674935e466d41e93735adba7e00",
+      "width": 900,
+      "height": 1125,
+      "bytes": 17600,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na relaxed sandwashed silk shirt in warm ivory with a soft open camp collar, dropped shoulders, full long sleeves with single-button cuffs and a curved hem, worn on an invisible form with the front buttoned to the second button. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 6,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2400,
+          1176,
+          3589
+        ],
+        "windowInCell": [
+          110,
+          0,
+          1061,
+          1189
+        ],
+        "backdropLuma": 209.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/carre-silk-square-hero.webp",
+      "role": "hero",
+      "productHandle": "carre-silk-square",
+      "sha256": "3c9efd57e97546b45ebe9f616abacbc3209a6af5deb04ce9b34d4574bb9ce551",
+      "width": 900,
+      "height": 1125,
+      "bytes": 31640,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na large square silk twill scarf in cream printed with fine overlapping dark ink lines, loosely folded into a soft triangle and draped so the hand-rolled edge and the printed pattern are both visible against the backdrop. Template variant V-drape: no mannequin. The square is folded into a soft triangle and draped over an invisible support so it hangs as a cone, the rolled edge visible along the front.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 7,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "cropBox": [
+          1192,
+          2400,
+          2380,
+          3589
+        ],
+        "windowInCell": [
+          118,
+          0,
+          1069,
+          1189
+        ],
+        "backdropLuma": 209.7,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/tille-wide-trouser-hero.webp",
+      "role": "hero",
+      "productHandle": "tille-wide-trouser",
+      "sha256": "131c4153b04d586132d79106ff29e03836b59cc6ff29e72f0c4ede0eec91551d",
+      "width": 900,
+      "height": 1125,
+      "bytes": 14088,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na pair of high-waisted wide-leg tailored trousers in deep ink charcoal wool suiting with two flat front pleats, a faced waistband and a sharp pressed crease running down each leg, worn on an invisible lower form. Template variant V-lower: the invisible form is a lower-body form only, from the waist down, the trouser hanging full length to the floor.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "cropBox": [
+          2396,
+          2400,
+          3578,
+          3589
+        ],
+        "windowInCell": [
+          116,
+          0,
+          1067,
+          1189
+        ],
+        "backdropLuma": 209.6,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/noyer-bias-skirt-hero.webp",
+      "role": "hero",
+      "productHandle": "noyer-bias-skirt",
+      "sha256": "e959e2ec3c07a9ae2990d2cacada432ba018717b23dca68e6da45df55b9a334c",
+      "width": 900,
+      "height": 1125,
+      "bytes": 14404,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na bias-cut midi skirt in muted sage-green matte satin with a plain narrow waistband and a hem that flares gently, worn on an invisible lower form so the fabric hangs in soft diagonal folds. Template variant V-lower: the invisible form is a lower-body form only, from the waist down, the skirt hanging full length.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 9,
+        "cellRowCol": [
+          4,
+          1
+        ],
+        "cropBox": [
+          6,
+          3605,
+          1176,
+          4794
+        ],
+        "windowInCell": [
+          110,
+          0,
+          1061,
+          1189
+        ],
+        "backdropLuma": 209,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/belair-wool-overcoat-hero.webp",
+      "role": "hero",
+      "productHandle": "belair-wool-overcoat",
+      "sha256": "b3bce3b21de5023d41665dba965982601e2d17764e5e49db6088a62d54c62136",
+      "width": 900,
+      "height": 1125,
+      "bytes": 16356,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na long straight-cut unlined overcoat in warm ivory double-faced wool with a notch lapel, one covered button at the waist, two angled welt pockets and visible fine hand stitching along every edge, worn on an invisible form. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 10,
+        "cellRowCol": [
+          4,
+          2
+        ],
+        "cropBox": [
+          1192,
+          3605,
+          2380,
+          4794
+        ],
+        "windowInCell": [
+          118,
+          0,
+          1069,
+          1189
+        ],
+        "backdropLuma": 206.3,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/quessant-quilted-jacket-hero.webp",
+      "role": "hero",
+      "productHandle": "quessant-quilted-jacket",
+      "sha256": "e8bb3cdcb8325a6a7efc07299e8ddcea2e644f37fbdd587dddd9a7fb06a8a11b",
+      "width": 900,
+      "height": 1125,
+      "bytes": 20366,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na hip-length quilted jacket in deep ink navy-black matte technical fabric with wide horizontal quilted channels, a full stand collar, a covered press-stud front placket and two zipped hand pockets, worn on an invisible form. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 11,
+        "cellRowCol": [
+          4,
+          3
+        ],
+        "cropBox": [
+          2396,
+          3605,
+          3578,
+          4794
+        ],
+        "windowInCell": [
+          116,
+          0,
+          1067,
+          1189
+        ],
+        "backdropLuma": 208.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0.025,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/ondine-slip-dress-detail.webp",
+      "role": "detail",
+      "productHandle": "ondine-slip-dress",
+      "sha256": "1031145e31fbedf07e6b7f4682e9a294b01adca57eb505169a2fedd7a2084afd",
+      "width": 800,
+      "height": 1000,
+      "bytes": 9888,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na midi-length bias-cut slip dress in warm ivory silk crepe with a shallow cowl neckline, thin adjustable shoulder straps and a narrow hem, worn on an invisible form so the fabric falls in soft vertical folds. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1176,
+          1182
+        ],
+        "windowInCell": [
+          185,
+          0,
+          985,
+          1000
+        ],
+        "backdropLuma": 207.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/ondine-slip-dress-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/perrin-knit-dress-detail.webp",
+      "role": "detail",
+      "productHandle": "perrin-knit-dress",
+      "sha256": "0c74857a63910ea91650a50244806e2072c88cc8b56ba8b07e18d016ca8d3ed9",
+      "width": 800,
+      "height": 1000,
+      "bytes": 17588,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na full-length ribbed knit column dress in deep near-black ink merino with a short stand collar, narrow long sleeves and a straight hem at the ankle, worn on an invisible form with the vertical ribs clearly visible. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "cropBox": [
+          1192,
+          6,
+          2380,
+          1182
+        ],
+        "windowInCell": [
+          194,
+          0,
+          994,
+          1000
+        ],
+        "backdropLuma": 210.4,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/perrin-knit-dress-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/sevre-wrap-dress-detail.webp",
+      "role": "detail",
+      "productHandle": "sevre-wrap-dress",
+      "sha256": "97e1f5b88327fc57955bc0369ae92803a52b1b26ffeecca10ab68f875972e9f8",
+      "width": 800,
+      "height": 1000,
+      "bytes": 18200,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na wrap midi dress in soft clay-brown washed viscose twill with a deep V crossover front, a wide self-fabric tie knotted at the waist and three-quarter sleeves, worn on an invisible form with the skirt falling open in a soft diagonal. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "cropBox": [
+          2396,
+          6,
+          3578,
+          1182
+        ],
+        "windowInCell": [
+          191,
+          0,
+          991,
+          1000
+        ],
+        "backdropLuma": 208,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/sevre-wrap-dress-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/aubin-merino-crew-detail.webp",
+      "role": "detail",
+      "productHandle": "aubin-merino-crew",
+      "sha256": "d6c5c38fe64b27dd2b3ada1051f5889387892d90e34d425fa0321da25dc44ea9",
+      "width": 800,
+      "height": 1000,
+      "bytes": 19134,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na plain mid-gauge merino crewneck sweater in warm ivory with a doubled ribbed neckband, set-in sleeves, deep ribbed cuffs and a ribbed hem, worn on an invisible form so the body hangs straight. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 3,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "cropBox": [
+          6,
+          1198,
+          1176,
+          2384
+        ],
+        "windowInCell": [
+          185,
+          0,
+          985,
+          1000
+        ],
+        "backdropLuma": 211.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/aubin-merino-crew-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/vaux-longline-cardigan-detail.webp",
+      "role": "detail",
+      "productHandle": "vaux-longline-cardigan",
+      "sha256": "aa0549358a03581049001081073f90a996da4546f994141e4e686b26d4d7d1c1",
+      "width": 800,
+      "height": 1000,
+      "bytes": 18390,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na knee-length open lambswool cardigan in dark ink brown-black with seven matte buttons down the front, two large low patch pockets and a deep ribbed hem, worn on an invisible form hanging open and straight. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1192,
+          1198,
+          2380,
+          2384
+        ],
+        "windowInCell": [
+          194,
+          0,
+          994,
+          1000
+        ],
+        "backdropLuma": 210.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/vaux-longline-cardigan-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/orne-wool-scarf-detail.webp",
+      "role": "detail",
+      "productHandle": "orne-wool-scarf",
+      "sha256": "03502327ee07087bbb47194f9946f6ad9fa90d8ca7de67d06f2070dd48bcf93f",
+      "width": 800,
+      "height": 1000,
+      "bytes": 23598,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na very large brushed lambswool scarf in natural cream, folded lengthwise and looped once so the twill weave and the hand-knotted fringe at both ends are clearly visible, hanging vertically against the backdrop. Template variant V-drape: no mannequin. The scarf hangs vertically, folded once lengthwise and looped, filling the panel height, both fringed ends visible.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "cropBox": [
+          2396,
+          1198,
+          3578,
+          2384
+        ],
+        "windowInCell": [
+          191,
+          0,
+          991,
+          1000
+        ],
+        "backdropLuma": 210.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/orne-wool-scarf-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/mazan-silk-shirt-detail.webp",
+      "role": "detail",
+      "productHandle": "mazan-silk-shirt",
+      "sha256": "08beeb32a36812f795d97612411341800db2a0b3d39084885c196a9d5e5d3c42",
+      "width": 800,
+      "height": 1000,
+      "bytes": 16040,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na relaxed sandwashed silk shirt in warm ivory with a soft open camp collar, dropped shoulders, full long sleeves with single-button cuffs and a curved hem, worn on an invisible form with the front buttoned to the second button. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 6,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2400,
+          1176,
+          3589
+        ],
+        "windowInCell": [
+          185,
+          0,
+          985,
+          1000
+        ],
+        "backdropLuma": 209.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/mazan-silk-shirt-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/carre-silk-square-detail.webp",
+      "role": "detail",
+      "productHandle": "carre-silk-square",
+      "sha256": "0e7a1485376fefcca4272df37354f143ab030ac745f9e2eae0203e569a5ae22f",
+      "width": 800,
+      "height": 1000,
+      "bytes": 32694,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na large square silk twill scarf in cream printed with fine overlapping dark ink lines, loosely folded into a soft triangle and draped so the hand-rolled edge and the printed pattern are both visible against the backdrop. Template variant V-drape: no mannequin. The square is folded into a soft triangle and draped over an invisible support so it hangs as a cone, the rolled edge visible along the front.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 7,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "cropBox": [
+          1192,
+          2400,
+          2380,
+          3589
+        ],
+        "windowInCell": [
+          194,
+          0,
+          994,
+          1000
+        ],
+        "backdropLuma": 209.7,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/carre-silk-square-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/tille-wide-trouser-detail.webp",
+      "role": "detail",
+      "productHandle": "tille-wide-trouser",
+      "sha256": "1696fdd1a811486023461e37bcef222f2884a51480e9e5845b4056902463b185",
+      "width": 800,
+      "height": 1000,
+      "bytes": 11838,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na pair of high-waisted wide-leg tailored trousers in deep ink charcoal wool suiting with two flat front pleats, a faced waistband and a sharp pressed crease running down each leg, worn on an invisible lower form. Template variant V-lower: the invisible form is a lower-body form only, from the waist down, the trouser hanging full length to the floor.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "cropBox": [
+          2396,
+          2400,
+          3578,
+          3589
+        ],
+        "windowInCell": [
+          191,
+          0,
+          991,
+          1000
+        ],
+        "backdropLuma": 209.6,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/tille-wide-trouser-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/noyer-bias-skirt-detail.webp",
+      "role": "detail",
+      "productHandle": "noyer-bias-skirt",
+      "sha256": "b99feef4762fa36219bb2b4143ee0074d742ae456cdfff2fedcce8943cbdc224",
+      "width": 800,
+      "height": 1000,
+      "bytes": 14060,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na bias-cut midi skirt in muted sage-green matte satin with a plain narrow waistband and a hem that flares gently, worn on an invisible lower form so the fabric hangs in soft diagonal folds. Template variant V-lower: the invisible form is a lower-body form only, from the waist down, the skirt hanging full length.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 9,
+        "cellRowCol": [
+          4,
+          1
+        ],
+        "cropBox": [
+          6,
+          3605,
+          1176,
+          4794
+        ],
+        "windowInCell": [
+          185,
+          0,
+          985,
+          1000
+        ],
+        "backdropLuma": 209,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/noyer-bias-skirt-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/belair-wool-overcoat-detail.webp",
+      "role": "detail",
+      "productHandle": "belair-wool-overcoat",
+      "sha256": "f9e907a5507abbd2b9d5e39994caec52dab5d97669ad4c93d09e2c63f48651b9",
+      "width": 800,
+      "height": 1000,
+      "bytes": 14256,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na long straight-cut unlined overcoat in warm ivory double-faced wool with a notch lapel, one covered button at the waist, two angled welt pockets and visible fine hand stitching along every edge, worn on an invisible form. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 10,
+        "cellRowCol": [
+          4,
+          2
+        ],
+        "cropBox": [
+          1192,
+          3605,
+          2380,
+          4794
+        ],
+        "windowInCell": [
+          194,
+          0,
+          994,
+          1000
+        ],
+        "backdropLuma": 206.3,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/belair-wool-overcoat-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/quessant-quilted-jacket-detail.webp",
+      "role": "detail",
+      "productHandle": "quessant-quilted-jacket",
+      "sha256": "0865b291a58d1af2c85dd8d1ebdfa39add3c0b40521ccd40b074cacb54f9b227",
+      "width": 800,
+      "height": 1000,
+      "bytes": 20584,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na hip-length quilted jacket in deep ink navy-black matte technical fabric with wide horizontal quilted channels, a full stand collar, a covered press-stud front placket and two zipped hand pockets, worn on an invisible form. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 11,
+        "cellRowCol": [
+          4,
+          3
+        ],
+        "cropBox": [
+          2396,
+          3605,
+          3578,
+          4794
+        ],
+        "windowInCell": [
+          191,
+          0,
+          991,
+          1000
+        ],
+        "backdropLuma": 208.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/quessant-quilted-jacket-hero.webp",
+        "note": "tighter window of the same paid cell; the frame `hover: second-image` swaps to. No separate prediction, no separate dollar."
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    },
+    {
+      "file": "media/tile-dresses.webp",
+      "role": "category-tile",
+      "sha256": "7f40141f1c24d0c63c3630899c1b39dc55463afe5f86ff166afd82101a56fb38",
+      "width": 800,
+      "height": 1000,
+      "bytes": 10076,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na midi-length bias-cut slip dress in warm ivory silk crepe with a shallow cowl neckline, thin adjustable shoulder straps and a narrow hem, worn on an invisible form so the fabric falls in soft vertical folds. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1176,
+          1182
+        ],
+        "windowInCell": [
+          114,
+          0,
+          1055,
+          1176
+        ],
+        "backdropLuma": 207.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/ondine-slip-dress-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z",
+      "categoryHandle": "dresses"
+    },
+    {
+      "file": "media/tile-knitwear.webp",
+      "role": "category-tile",
+      "sha256": "0193dff41e396d5c589f63a00efb5ca0ef60fe966c761f1813f96e54adc84f15",
+      "width": 800,
+      "height": 1000,
+      "bytes": 15690,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na knee-length open lambswool cardigan in dark ink brown-black with seven matte buttons down the front, two large low patch pockets and a deep ribbed hem, worn on an invisible form hanging open and straight. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1192,
+          1198,
+          2380,
+          2384
+        ],
+        "windowInCell": [
+          120,
+          0,
+          1069,
+          1186
+        ],
+        "backdropLuma": 210.9,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/vaux-longline-cardigan-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z",
+      "categoryHandle": "knitwear"
+    },
+    {
+      "file": "media/tile-shirts-and-blouses.webp",
+      "role": "category-tile",
+      "sha256": "8dbb1478798975c002c0f00cc7dbee75fe2f961b3ff19e42b4b54ec29e8ae115",
+      "width": 800,
+      "height": 1000,
+      "bytes": 14366,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na relaxed sandwashed silk shirt in warm ivory with a soft open camp collar, dropped shoulders, full long sleeves with single-button cuffs and a curved hem, worn on an invisible form with the front buttoned to the second button. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 6,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2400,
+          1176,
+          3589
+        ],
+        "windowInCell": [
+          110,
+          0,
+          1061,
+          1189
+        ],
+        "backdropLuma": 209.5,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/mazan-silk-shirt-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z",
+      "categoryHandle": "shirts-and-blouses"
+    },
+    {
+      "file": "media/tile-trousers-and-skirts.webp",
+      "role": "category-tile",
+      "sha256": "0c0c24a02c7f9f457ae3c2edaff3231203ced7a2ad6b3267d2a3eca1b2e8ac13",
+      "width": 800,
+      "height": 1000,
+      "bytes": 11718,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na pair of high-waisted wide-leg tailored trousers in deep ink charcoal wool suiting with two flat front pleats, a faced waistband and a sharp pressed crease running down each leg, worn on an invisible lower form. Template variant V-lower: the invisible form is a lower-body form only, from the waist down, the trouser hanging full length to the floor.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "cropBox": [
+          2396,
+          2400,
+          3578,
+          3589
+        ],
+        "windowInCell": [
+          116,
+          0,
+          1067,
+          1189
+        ],
+        "backdropLuma": 209.6,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/tille-wide-trouser-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z",
+      "categoryHandle": "trousers-and-skirts"
+    },
+    {
+      "file": "media/tile-coats-and-jackets.webp",
+      "role": "category-tile",
+      "sha256": "544d1b1c3c5e9516352f49040a816b22abf20d721507528991ff437a5f6333c2",
+      "width": 800,
+      "height": 1000,
+      "bytes": 13568,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d9f-25ea-75c3-b372-65146a64c607",
+      "prompt": "The image is a grid of twelve separate photographs in four rows and three columns, all of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The twelve panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nEditorial studio fashion photography contact sheet. Every panel shares one identical setup: seamless matte warm cream cyclorama background, flat pale sand tone, half a stop lighter at the top, no seam between floor and wall, no horizon line. One very large softbox key at 40 degrees camera-left and 25 degrees above, one full-height white bounce camera-right lifting the shadow side, neutral 5200K daylight, soft low-contrast light, no coloured light. 85mm lens at f/8, camera at the chest height of the garment so the piece is seen straight on and hangs true, no perspective tilt. In every panel the garment is worn by an invisible mannequin so it holds a human shape with nobody inside it, is centred, square to camera, shown full length within the panel, fills 78 percent of the panel height, has clear space above and below, and carries exactly one soft feathered contact shadow directly beneath the hem, no cast side shadow, no reflection, matte floor. Sharp focus front to back, weave and knit texture clearly visible, matte fabrics stay matte, silk reads soft and not shiny.\n\na long straight-cut unlined overcoat in warm ivory double-faced wool with a notch lapel, one covered button at the waist, two angled welt pockets and visible fine hand stitching along every edge, worn on an invisible form. Template variant V-form: the garment is worn by a full invisible mannequin, square to camera, arms slightly away from the body so the silhouette reads.",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "3:4",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "womens-fashion-grid-3x4",
+        "gridKind": "grid-3x4",
+        "cellIndex": 10,
+        "cellRowCol": [
+          4,
+          2
+        ],
+        "cropBox": [
+          1192,
+          3605,
+          2380,
+          4794
+        ],
+        "windowInCell": [
+          118,
+          0,
+          1069,
+          1189
+        ],
+        "backdropLuma": 206.3,
+        "ledgerRow": "r-e7254dd4",
+        "fullGridPromptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+        "derivedFrom": "media/belair-wool-overcoat-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-grid-3x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z",
+      "categoryHandle": "coats-and-jackets"
+    },
+    {
+      "file": "media/home-hero.webp",
+      "role": "banner",
+      "sha256": "9a7b90036578361798e248a162468ca23b336c12e2b01c26f7b9b8979457e035",
+      "width": 1920,
+      "height": 900,
+      "bytes": 96152,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07da0-4c71-7bc0-a3a8-2d4f97b96863",
+      "prompt": "Editorial fashion campaign photograph, full bleed, wide horizontal frame. A single figure stands in a bare plastered room with warm cream walls, photographed from behind and slightly to the side so no face and no head are visible — the frame is cropped at the shoulder line, showing the garment and the room, never the person. She wears a long bias-cut ivory silk slip dress that falls in soft vertical folds to the ankle, with a large brushed cream wool scarf held loosely over one forearm. Late afternoon daylight rakes in from a tall window at the left, throwing one long soft shadow across a bare pale floor; the right of the frame falls away into deep shadow so a headline can sit on it. 50mm lens at f/4, camera at chest height, the figure placed on the left third, the right half of the frame empty wall and shadow. Muted warm palette of cream, sand and near-black, low contrast, matte film grain, no colour cast.\n\nDo not include: real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "negativePrompt": "real logos, brand marks, monograms or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on labels, tags, buttons and hardware, a cut, print or hardware detail copied from an existing fashion house, human faces, heads, hands or bare skin, a person wearing the garment, hangers, rails, visible mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating garment, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "16:9",
+        "resolution": "2K",
+        "output_format": "png",
+        "num_images": 1,
+        "ledgerRow": "r-e5490056",
+        "sourcePx": [
+          2752,
+          1536
+        ],
+        "cropBox": [
+          0,
+          123,
+          2752,
+          1413
+        ],
+        "note": "the one full-size frame kept outside the grid (Ivan directives 3.1); cropped to 1920x900, then mirrored and ramped into --background at the bottom-left so the headline has a surface (gate measured 2.20:1 before, style board section 6 requires the darkening to live in the photograph). No second prediction; same ledger row.",
+        "postProcess": {
+          "mirror": "horizontal",
+          "ramp": {
+            "to": "#14110d",
+            "from": "bottom-left",
+            "widthPct": 97,
+            "heightPct": 60,
+            "maxAlpha": 0.95
+          },
+          "headlineBoxPx": [
+            76,
+            648,
+            826,
+            198
+          ],
+          "worstBgLuminance": 0.0107,
+          "ratioAgainstBrightestPixel": 15.76
+        }
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/womens-fashion/raw/womens-fashion-hero.png",
+      "costUsd": 0.15,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:51:13.598Z"
+    }
+  ],
+  "totals": {
+    "renders": 2,
+    "accepted": 30,
+    "rejected": 0,
+    "flagged": 0,
+    "costUsd": 0.45
+  }
+}

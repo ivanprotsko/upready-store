@@ -200,6 +200,28 @@ const main = () => {
        || ' categories, ' || (SELECT count(*) FROM region WHERE deleted_at IS NULL) || ' regions'`,
   );
 
+  // A seed that seeded NOTHING must not report success. Measured in the pilot: this script
+  // exited 0 with zero products in the database and the stand came up empty, which is the
+  // most expensive kind of green. The counts are read back from the database, not from the
+  // seed's own log, and a zero in products or variants is a failure of this command.
+  const seededProducts = Number(
+    query("SELECT count(*) FROM product WHERE deleted_at IS NULL"),
+  );
+  const seededVariants = Number(
+    query("SELECT count(*) FROM product_variant WHERE deleted_at IS NULL"),
+  );
+  if (!Number.isFinite(seededProducts) || seededProducts === 0) {
+    throw new Error(
+      `seed produced ${seededProducts} products in ${databaseName}: a seed that seeds nothing is a failure, not a success. ` +
+        `Check STORE_PROFILE=${args.id} and ${profileDir}/catalog/products.json.`,
+    );
+  }
+  if (!Number.isFinite(seededVariants) || seededVariants === 0) {
+    throw new Error(
+      `seed produced ${seededProducts} products but ${seededVariants} variants in ${databaseName}: a product nobody can buy is not seeded.`,
+    );
+  }
+
   console.log("\n--- store profile up ---");
   console.log(`profile:            ${args.id}`);
   console.log(`profile directory:  ${profileDir}`);

@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Size",
+    "values": [
+      {
+        "value": "XS"
+      },
+      {
+        "value": "S"
+      },
+      {
+        "value": "M"
+      },
+      {
+        "value": "L"
+      },
+      {
+        "value": "XL"
+      }
+    ]
+  },
+  {
+    "title": "Colour",
+    "values": [
+      {
+        "value": "Ivory",
+        "metadata": {
+          "hex": "#EADCCD"
+        }
+      },
+      {
+        "value": "Ink",
+        "metadata": {
+          "hex": "#1B1920"
+        }
+      },
+      {
+        "value": "Clay",
+        "metadata": {
+          "hex": "#A78272"
+        }
+      },
+      {
+        "value": "Sage",
+        "metadata": {
+          "hex": "#726B59"
+        }
+      }
+    ]
+  }
+]
