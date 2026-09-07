@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T02:43:58+08:00",
-  "status": "02:52 — phase 1 running (orch-a-foundation, Opus, worktree feat/store-theme-surface, deadline 07:00). Architect window: role-scope-guard fixed for the merged role phrase (81648061 in ~/.claude, 24/24), wave registries + $6.00 ceiling as code committed to dev (89dca0f), ledger $0.000/0 renders. Next after A reports: commit A's tree, merge repaint + feat/store-profiles into dev, then phase 2 (eight themes).",
+  "updated": "2026-09-08T03:29:08+08:00",
+  "status": "03:47 — phase 1 landed in dev (6a95b98, pushed; pnpm build rc=0). Gate honestly RED after the repaint: 198 pre -> 64 post, all 64 walked and real. Two agents alive (the hardware cap): orch-a2-tokens fixing --primary-foreground polarity (1.13:1 on every primary CTA) and --fg-muted (54 of the 64), deadline 04:40; wave-grid-measure porting store-media to fal.ai and buying the 3 measurement renders that decide grid-vs-single-frames for all eight themes, deadline 04:45. Ledger $0.000 of $6.00. Themes start after both report. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -345,6 +345,21 @@
       "blocks": [
         "t-store-profiles-pilot"
       ]
+    },
+    {
+      "id": "q-cause-e-unbridged",
+      "question": "Cause E landed by the opposite mechanism to the one ordered: instead of adding bridgeDark rows, orchestrator A removed --contrast-fg-primary/-fg-secondary/-border-base FROM the bridge (canonToken null, status open, diverged 59->56 / open 28->31) because --contrast-bg-base is fixed dark in both modes, so a foreground derived from a mode-flipping canon token is wrong by construction. Measured result is good (1.30->11.84, 1.00->5.70). Keep the un-bridged form, or restore the bridge with explicit bridgeDark values?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
+    },
+    {
+      "id": "q-lockfile-rewrite-26k",
+      "question": "pnpm install in the feat/store-theme-surface worktree at 02:15 rewrote pnpm-lock.yaml by 26554 lines (10961 insertions / 15593 deletions) — a pnpm version difference, not a dependency change. Left dirty and uncommitted on that branch. Every fresh worktree in the wave will rewrite it the same way. Regenerate the lockfile on the current pnpm and commit it once, or pin the old pnpm version?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
     }
   ],
   "sessions": [
