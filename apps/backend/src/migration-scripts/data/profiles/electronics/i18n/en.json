@@ -1,0 +1,110 @@
+{
+  "name": "English",
+  "translations": {
+    "categories": {
+      "audio": "Audio",
+      "headphones": "Headphones",
+      "earbuds": "Earbuds",
+      "speakers": "Speakers",
+      "powerAndParts": "Power and parts",
+      "powerBanks": "Power banks",
+      "cablesAndChargers": "Cables and chargers"
+    },
+    "collections": {
+      "newArrivals": "New arrivals",
+      "bestsellers": "Bestsellers"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Colour",
+        "values": {
+          "graphite": "Graphite",
+          "chalk": "Chalk",
+          "signalBlue": "Signal blue"
+        }
+      },
+      "capacity": {
+        "title": "Capacity",
+        "values": {
+          "10000Mah": "10 000 mAh",
+          "20000Mah": "20 000 mAh",
+          "5000Mah": "5 000 mAh",
+          "26800Mah": "26 800 mAh",
+          "54000Mah": "54 000 mAh"
+        }
+      }
+    },
+    "products": {
+      "benchOverEar": {
+        "title": "Bench 1 · over-ear headphones",
+        "subtitle": "Over-ear, 40 mm dynamic, 34 hours, pads off with a twist",
+        "description": "The Bench 1 is the pair we build everything else around. A 40 mm dynamic driver in a graphite-glass housing, 34 hours on a charge with the radio on, 8 hours from a ten-minute charge. The earpads come off with a quarter twist and go back on the same way, no tool and no glue; a fresh set is $29 and we stock it for five years after the model is discontinued. The headband is steel under the wrap, so the adjustment holds where you left it. The cable port is USB-C and the 3.5 mm socket is real, not a dongle. Weight is 268 g on our scale, measured with the pads fitted. Twelve screws hold it together and none of them is hidden under a sticker."
+      },
+      "benchStudio": {
+        "title": "Bench S · closed-back studio headphones",
+        "subtitle": "Wired only, 45 mm, 250 ohm, one detachable cable",
+        "description": "The Bench S has no battery, no radio and no app. It has a 45 mm driver, a 250 ohm coil that wants a real headphone output, and a detachable cable on a locking mini-XLR so the part that fails first is the part you can replace for $19. The cups are closed and deep enough that your ear does not touch the driver, which is why this pair weighs 340 g and the Bench 1 does not. Pads are velour and swap by hand. We tune it flat between 40 Hz and 12 kHz and we publish the curve on the product page rather than describing it with an adjective. If you are looking for bass that arrives before the note does, this is not the pair."
+      },
+      "padSet": {
+        "title": "Pad set · replaceable earpads for Bench",
+        "subtitle": "One pair, twist-lock, fits Bench 1 and Bench S",
+        "description": "A pair of replacement earpads with the twist-lock ring already fitted. They go on either Bench model in about fifteen seconds: line up the flat, press, quarter turn clockwise. The foam is a slow-recovery memory foam under a perforated protein-leather face and a velour inner wall, which is the combination that keeps the seal without cooking your ears in an hour. Pads are the part of a headphone that wears out first, usually in eighteen months to three years, and a pair that cannot be re-padded is a pair with an expiry date. We stock these for five years after the headphone they fit leaves the catalogue. Sold as a pair because you will not want one new pad and one flat one."
+      },
+      "pinEarbuds": {
+        "title": "Pin · in-ear buds",
+        "subtitle": "In-ear, 11 mm, 7 hours plus 28 in the case",
+        "description": "Pin is small enough to forget and loud enough not to. An 11 mm driver in each bud, 7 hours playing and 28 more in the case, which charges over USB-C and sits flat on a desk instead of rolling. The case lid has a metal hinge rated to 30 000 cycles, because the hinge is what usually kills a set of buds long before the drivers do. Four ear-tip sizes in the box and the tips are a standard 4.9 mm bore, so any third-party tip you already like will fit. Each bud is IP54: rain and sweat, not swimming. The battery in the case is a named cell we will sell you, and the case opens with two screws."
+      },
+      "pinOpen": {
+        "title": "Pin Open · open-ear clips",
+        "subtitle": "Open-ear clip, 16.5 mm, nothing in the ear canal",
+        "description": "Pin Open clips over the outside of the ear and puts a 16.5 mm driver next to the canal without going into it. You hear the room, the bike behind you and the person at the counter, which is the entire point; it is also why these are quieter than Pin at the same volume setting and why we do not claim bass we cannot deliver. The clip is a nickel-titanium wire in a silicone sleeve, bendable to fit and springy enough to stay put through a run. 10 hours a charge, IP55, and a case that charges them but does not pretend to be a battery bank. If you wear glasses, the clip sits under the arm, not on it."
+      },
+      "slabPortable": {
+        "title": "Slab · portable speaker",
+        "subtitle": "Two 52 mm drivers, one passive radiator, 20 hours",
+        "description": "Slab is a brick of a speaker with two 52 mm drivers firing forward and a passive radiator on the back doing the work a bigger box would do. 20 hours at the volume people actually use, which is about 60 percent, and 9 hours flat out. The grille is powder-coated steel and it unclips, so when it takes a dent you replace the grille and not the speaker. IP67, which means it survives a dropped-in-the-sink event and a day at the beach. It charges over USB-C at 18 W and it will charge your phone back out of the same port at 7.5 W, slowly, which is the honest number. Two of them pair into a stereo pair and stay paired."
+      },
+      "shelfMonitor": {
+        "title": "Shelf 4 · powered monitors, pair",
+        "subtitle": "Pair, 4 inch woofer, 1 inch dome, 50 W a side",
+        "description": "Shelf 4 is a pair of powered monitors for a desk or a shelf, not a room. Four-inch paper woofer, one-inch silk dome, 50 watts a side from an amplifier that lives in the left cabinet. The right cabinet takes a single speaker cable, so there is one mains lead in the room and not two. Inputs are USB-C, RCA and 3.5 mm, and the volume knob is a detented analogue potentiometer on the front, where your hand already is. The cabinets are 15 mm MDF with an internal brace, which is why they weigh 3.2 kg each and why they do not buzz at the bottom of a bass line. Ports are rear-firing; leave 10 cm behind them."
+      },
+      "puckSpeaker": {
+        "title": "Puck · pocket speaker",
+        "subtitle": "One 40 mm driver, 12 hours, fits a coat pocket",
+        "description": "Puck is a 40 mm driver, a small passive radiator and a battery in an aluminium disc the size of a beer mat. It is not a party speaker and we will not tell you it is. It is the speaker you put on a kitchen shelf or a hotel desk so a podcast is not coming out of a phone, and at that job it is better than anything the phone can do. 12 hours a charge, USB-C, IP66. There is a lanyard loop machined into the body rather than glued on, and a real mechanical mute switch on the edge that cuts the microphone with a click you can feel. The bottom is a single sheet of grippy silicone that stops it walking across a counter."
+      },
+      "brickPack": {
+        "title": "Brick · power bank",
+        "subtitle": "100 W out, two USB-C, a display that shows watts",
+        "description": "Brick puts the number on the outside. A small monochrome display shows watts in, watts out and the charge left as a percentage that comes from the cells rather than from four dots and an optimistic guess. Two USB-C ports, 100 W from the first one, enough for a laptop and not only a phone. The cells are named on the spec sheet and on a label inside the case, and the case opens with four screws rather than ultrasonic welding, so a dead pack is a recycling problem and not a landfill one. The corners are moulded TPU because a power bank lives in the bottom of a bag with keys. Airline-safe at both capacities."
+      },
+      "slipPack": {
+        "title": "Slip · magnetic pack",
+        "subtitle": "Magnetic, 15 W wireless, flat enough for a pocket",
+        "description": "Slip sticks to the back of a phone and charges it at 15 W without a cable, or at 20 W with one through the USB-C port on the edge. The magnet array is the strong kind: it holds the phone through a case and it does not slide down when you put the phone in a coat pocket. It is 11 mm thick at 5 000 mAh and 15 mm at 10 000, and we print both numbers because a magnetic pack that turns a phone into a brick is a pack you stop carrying. The face is a soft-touch silicone that does not scratch a phone back. There is a small folding kickstand under the magnet ring that props the phone at 60 degrees for video."
+      },
+      "crateStation": {
+        "title": "Crate · desk power station",
+        "subtitle": "Desk station, six ports, one mains lead for the room",
+        "description": "Crate sits under a monitor and replaces the pile of chargers behind it. Six ports: four USB-C, two USB-A, 140 W from the top-left port and 210 W across the whole thing, with a display that tells you what each port is actually delivering rather than what it could deliver in a laboratory. It runs from mains and holds a battery, so a power cut gives you a few hours of laptop rather than a saved-file panic. The fan is temperature-controlled and does not spin below 90 W, which for most desks means never. The case is aluminium, the feet are silicone, and the whole thing weighs enough to stay where you put it when you pull a cable out."
+      },
+      "stackCharger": {
+        "title": "Stack 65 · GaN wall charger",
+        "subtitle": "65 W, two USB-C, folding pins",
+        "description": "Stack 65 is a wall charger that does not block the socket next to it. Gallium nitride internals mean 65 watts out of a body about the size of a matchbox, and the pins fold flat so it goes in a bag without tearing the lining. Two USB-C ports: 65 W from one, or 45 and 18 when both are in use, and the split is printed on the underside of the charger where you can read it rather than buried in a manual. It runs warm, not hot, and the case is a flame-rated polycarbonate with no vents, so nothing gets inside it. Interchangeable pin heads for UK, EU and US are sold separately at $9 and clip on without a tool."
+      },
+      "braidCable": {
+        "title": "Braid · USB-C cable, 2 m",
+        "subtitle": "240 W, 40 Gbps, braided, strain relief you can see",
+        "description": "A cable is the part that fails, so this one is built at the ends. The strain relief is a 22 mm moulded boot over an internal anchor, not a shrink sleeve, and the braid is a double-weave nylon over a TPE core that does not take a memory kink. 240 W and 40 Gbps, which means it will charge a laptop and carry a display at the same time, and the ratings are laser-etched into the shell so they are still readable in two years. Two metres, because 1 metre never reaches and 3 metres always tangles. It is rated to 25 000 bends at 180 degrees, we test to that number, and if it fails before the two years are out we replace it."
+      },
+      "hubDock": {
+        "title": "Hub 7 · desk dock",
+        "subtitle": "Seven ports, one cable to the laptop, 100 W back",
+        "description": "One cable to the laptop, seven ports on the desk. Two HDMI at 4K 60, three USB-A, an SD reader and a USB-C that pushes 100 W back up the same cable that carries the video, so the laptop charges from the dock and the dock runs from the wall. The body is machined aluminium and it acts as the heatsink, which is why there is no fan in it and why it is warm rather than silent-and-then-throttling. The captive cable is 25 cm, long enough to reach round a laptop and short enough not to loop on the desk. There are no drivers to install and no app; it is a hub, and a hub that needs software is a hub that stops working when the software does."
+      }
+    }
+  }
+}

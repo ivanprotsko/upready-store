@@ -1,0 +1,110 @@
+{
+  "name": "Français",
+  "translations": {
+    "categories": {
+      "audio": "Audio",
+      "headphones": "Casques",
+      "earbuds": "Écouteurs",
+      "speakers": "Enceintes",
+      "powerAndParts": "Alimentation et pièces",
+      "powerBanks": "Batteries externes",
+      "cablesAndChargers": "Câbles et chargeurs"
+    },
+    "collections": {
+      "newArrivals": "Nouveautés",
+      "bestsellers": "Meilleures ventes"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Couleur",
+        "values": {
+          "graphite": "Graphite",
+          "chalk": "Craie",
+          "signalBlue": "Bleu signal"
+        }
+      },
+      "capacity": {
+        "title": "Capacité",
+        "values": {
+          "10000Mah": "10 000 mAh",
+          "20000Mah": "20 000 mAh",
+          "5000Mah": "5 000 mAh",
+          "26800Mah": "26 800 mAh",
+          "54000Mah": "54 000 mAh"
+        }
+      }
+    },
+    "products": {
+      "benchOverEar": {
+        "title": "Bench 1 · casque circum-aural",
+        "subtitle": "Circum-aural, 40 mm dynamique, 34 heures, coussinets qui se retirent d'un quart de tour",
+        "description": "Le Bench 1 est le modèle autour duquel nous construisons tout le reste. Un transducteur dynamique de 40 mm dans une coque en verre graphite, 34 heures sur une charge avec la radio allumée, 8 heures après dix minutes de charge. Les coussinets se retirent d'un quart de tour et se remettent de la même façon, sans outil et sans colle ; une paire neuve coûte $29 et nous la gardons en stock cinq ans après l'arrêt du modèle. L'arceau a une âme en acier sous le revêtement, si bien que le réglage reste là où on l'a laissé. Le port est en USB-C et la prise 3,5 mm est une vraie prise, pas un adaptateur. Le poids est de 268 g sur notre balance, mesuré avec les coussinets montés. Douze vis le maintiennent assemblé et aucune n'est cachée sous un autocollant."
+      },
+      "benchStudio": {
+        "title": "Bench S · casque de studio fermé",
+        "subtitle": "Filaire uniquement, 45 mm, 250 ohms, un câble détachable",
+        "description": "Le Bench S n'a ni batterie, ni radio, ni application. Il a un transducteur de 45 mm, une bobine de 250 ohms qui exige une vraie sortie casque, et un câble détachable sur mini-XLR à verrouillage, si bien que la pièce qui lâche en premier est celle qu'on peut remplacer pour $19. Les coques sont fermées et assez profondes pour que l'oreille ne touche pas le transducteur, ce qui explique que cette paire pèse 340 g, contrairement au Bench 1. Les coussinets sont en velours et se changent à la main. Nous le calibrons à plat entre 40 Hz et 12 kHz et publions la courbe sur la fiche produit plutôt que de la décrire avec un adjectif. Si vous cherchez des graves qui arrivent avant la note, ce n'est pas ce modèle."
+      },
+      "padSet": {
+        "title": "Pad set · coussinets de rechange pour Bench",
+        "subtitle": "Une paire, verrouillage à quart de tour, compatible Bench 1 et Bench S",
+        "description": "Une paire de coussinets de rechange avec la bague de verrouillage à quart de tour déjà montée. Ils se posent sur l'un ou l'autre modèle Bench en une quinzaine de secondes : aligner le repère, presser, tourner d'un quart de tour dans le sens horaire. La mousse est une mousse à mémoire de forme à récupération lente sous une face en similicuir perforé et une paroi intérieure en velours, la combinaison qui préserve l'étanchéité acoustique sans faire cuire les oreilles au bout d'une heure. Les coussinets sont la pièce d'un casque qui s'use en premier, en général entre dix-huit mois et trois ans, et une paire qu'on ne peut pas rechanger est une paire à date de péremption. Nous les gardons en stock cinq ans après que le casque correspondant a quitté le catalogue. Vendus par paire, car personne ne veut un coussinet neuf et un coussinet affaissé."
+      },
+      "pinEarbuds": {
+        "title": "Pin · écouteurs intra-auriculaires",
+        "subtitle": "Intra-auriculaire, 11 mm, 7 heures plus 28 dans le boîtier",
+        "description": "Pin est assez petit pour se faire oublier et assez fort pour se faire entendre. Un transducteur de 11 mm dans chaque écouteur, 7 heures d'écoute et 28 de plus dans le boîtier, qui se charge en USB-C et repose à plat sur un bureau au lieu de rouler. Le couvercle du boîtier a une charnière métallique garantie pour 30 000 cycles, car la charnière est en général ce qui met fin à une paire d'écouteurs bien avant les transducteurs. Quatre tailles d'embouts sont fournies, et les embouts ont un diamètre standard de 4,9 mm, si bien que n'importe quel embout tiers déjà apprécié s'adaptera. Chaque écouteur est certifié IP54 : pluie et transpiration, pas la natation. La batterie du boîtier est une cellule identifiée que nous vendons séparément, et le boîtier s'ouvre avec deux vis."
+      },
+      "pinOpen": {
+        "title": "Pin Open · clips à conduction ouverte",
+        "subtitle": "Clip à oreille ouverte, 16,5 mm, rien dans le conduit auditif",
+        "description": "Pin Open se fixe sur l'extérieur de l'oreille et place un transducteur de 16,5 mm à côté du conduit auditif sans y pénétrer. On entend la pièce, le vélo qui arrive derrière et la personne au comptoir, ce qui est précisément le but ; c'est aussi pourquoi ces écouteurs sont plus discrets que Pin au même niveau de volume, et pourquoi nous ne promettons pas des graves que nous ne pouvons pas livrer. Le clip est un fil en nickel-titane dans un manchon en silicone, souple pour s'ajuster et assez ferme pour rester en place pendant une course. 10 heures par charge, IP55, et un boîtier qui les recharge sans se prétendre batterie externe. Pour les porteurs de lunettes, le clip se place sous la branche, pas dessus."
+      },
+      "slabPortable": {
+        "title": "Slab · enceinte portable",
+        "subtitle": "Deux transducteurs de 52 mm, un radiateur passif, 20 heures",
+        "description": "Slab est une enceinte massive avec deux transducteurs de 52 mm orientés vers l'avant et un radiateur passif à l'arrière qui fait le travail d'un caisson plus grand. 20 heures au volume réellement utilisé, soit environ 60 pour cent, et 9 heures à pleine puissance. La grille est en acier peint par poudrage et se déclipse, si bien qu'en cas de bosse on remplace la grille et non l'enceinte. IP67, ce qui signifie qu'elle survit à une chute dans l'évier et à une journée à la plage. Elle se charge en USB-C à 18 W et recharge un téléphone via le même port à 7,5 W, lentement, ce qui est le chiffre honnête. Deux unités s'appairent en stéréo et restent appairées."
+      },
+      "shelfMonitor": {
+        "title": "Shelf 4 · moniteurs amplifiés, la paire",
+        "subtitle": "Paire, woofer 4 pouces, dôme 1 pouce, 50 W par voie",
+        "description": "Shelf 4 est une paire de moniteurs amplifiés pour un bureau ou une étagère, pas pour une pièce. Woofer papier de quatre pouces, dôme soie d'un pouce, 50 watts par voie fournis par un amplificateur logé dans le caisson gauche. Le caisson droit reçoit un simple câble haut-parleur, si bien qu'il n'y a qu'un cordon secteur dans la pièce et non deux. Les entrées sont USB-C, RCA et 3,5 mm, et le bouton de volume est un potentiomètre analogique crantée en façade, là où la main se trouve déjà. Les caissons sont en MDF de 15 mm avec renfort interne, ce qui explique qu'ils pèsent 3,2 kg chacun et qu'ils ne vibrent pas sur une ligne de basses. Les évents sont orientés vers l'arrière ; laissez 10 cm libres derrière."
+      },
+      "puckSpeaker": {
+        "title": "Puck · enceinte de poche",
+        "subtitle": "Un transducteur de 40 mm, 12 heures, tient dans une poche de manteau",
+        "description": "Puck, c'est un transducteur de 40 mm, un petit radiateur passif et une batterie dans un disque en aluminium de la taille d'un dessous de verre. Ce n'est pas une enceinte de fête, et nous ne prétendrons pas le contraire. C'est l'enceinte qu'on pose sur une étagère de cuisine ou un bureau d'hôtel pour qu'un podcast ne sorte pas du téléphone, et pour cet usage elle fait mieux que n'importe quel téléphone. 12 heures par charge, USB-C, IP66. Une boucle pour la dragonne est usinée dans le corps plutôt que collée, et un vrai bouton de coupure mécanique sur la tranche coupe le micro avec un clic qu'on sent. La base est une seule pièce de silicone antidérapant qui l'empêche de se déplacer sur un comptoir."
+      },
+      "brickPack": {
+        "title": "Brick · batterie externe",
+        "subtitle": "100 W en sortie, deux USB-C, un écran qui affiche les watts",
+        "description": "Brick affiche le chiffre à l'extérieur. Un petit écran monochrome indique les watts entrants, les watts sortants et la charge restante en pourcentage calculé à partir des cellules plutôt qu'à partir de quatre points et d'une estimation optimiste. Deux ports USB-C, 100 W sur le premier, assez pour un ordinateur portable et pas seulement un téléphone. Les cellules sont identifiées sur la fiche technique et sur une étiquette à l'intérieur du boîtier, et le boîtier s'ouvre avec quatre vis plutôt que par soudure ultrasonique, si bien qu'une batterie hors service est un problème de recyclage et non de décharge. Les coins sont en TPU moulé, car une batterie externe vit au fond d'un sac avec des clés. Autorisée en avion pour les deux capacités."
+      },
+      "slipPack": {
+        "title": "Slip · pack magnétique",
+        "subtitle": "Magnétique, 15 W sans fil, assez plat pour une poche",
+        "description": "Slip se colle au dos d'un téléphone et le recharge à 15 W sans câble, ou à 20 W avec un câble via le port USB-C sur la tranche. L'anneau magnétique est du type puissant : il retient le téléphone même avec une coque et ne glisse pas quand le téléphone est mis dans une poche de manteau. Il mesure 11 mm d'épaisseur en 5 000 mAh et 15 mm en 10 000 mAh, et nous indiquons les deux chiffres, car un pack magnétique qui transforme un téléphone en brique est un pack qu'on arrête d'emporter. La face est en silicone doux au toucher qui ne raye pas le dos du téléphone. Sous l'anneau magnétique se trouve un petit support pliant qui incline le téléphone à 60 degrés pour la vidéo."
+      },
+      "crateStation": {
+        "title": "Crate · station d'alimentation de bureau",
+        "subtitle": "Station de bureau, six ports, un seul cordon secteur pour la pièce",
+        "description": "Crate se pose sous un moniteur et remplace la pile de chargeurs qui traînait derrière. Six ports : quatre USB-C, deux USB-A, 140 W sur le port supérieur gauche et 210 W sur l'ensemble, avec un écran qui indique ce que chaque port fournit réellement plutôt que ce qu'il pourrait fournir en laboratoire. Elle fonctionne sur secteur et conserve une batterie, si bien qu'une coupure de courant offre quelques heures d'ordinateur portable au lieu d'une panique de fichier non enregistré. Le ventilateur est asservi à la température et ne tourne pas sous 90 W, ce qui, pour la plupart des bureaux, veut dire jamais. Le boîtier est en aluminium, les pieds sont en silicone, et l'ensemble pèse suffisamment lourd pour rester en place quand on débranche un câble."
+      },
+      "stackCharger": {
+        "title": "Stack 65 · chargeur secteur GaN",
+        "subtitle": "65 W, deux USB-C, broches pliables",
+        "description": "Stack 65 est un chargeur secteur qui ne bloque pas la prise voisine. L'électronique en nitrure de gallium permet de sortir 65 watts d'un boîtier de la taille d'une boîte d'allumettes, et les broches se replient pour tenir dans un sac sans déchirer la doublure. Deux ports USB-C : 65 W sur l'un seul, ou 45 et 18 W quand les deux sont utilisés, et la répartition est imprimée sous le chargeur, là où on peut la lire, plutôt qu'enfouie dans une notice. Il chauffe, sans devenir brûlant, et le boîtier est en polycarbonate ignifuge sans aération, si bien que rien n'y pénètre. Des embouts de broches interchangeables pour le Royaume-Uni, l'Union européenne et les États-Unis sont vendus séparément à $9 et se clipsent sans outil."
+      },
+      "braidCable": {
+        "title": "Braid · câble USB-C, 2 m",
+        "subtitle": "240 W, 40 Gbit/s, tressé, renfort anti-arrachement visible",
+        "description": "Un câble, c'est la pièce qui lâche, alors celui-ci est renforcé aux extrémités. Le renfort anti-arrachement est un manchon moulé de 22 mm sur une ancre interne, pas une gaine thermorétractable, et le tressage est un nylon à double tissage sur une âme en TPE qui ne prend pas de pli permanent. 240 W et 40 Gbit/s, ce qui veut dire qu'il recharge un ordinateur portable tout en transportant un signal vidéo, et les valeurs sont gravées au laser sur la gaine, si bien qu'elles restent lisibles deux ans plus tard. Deux mètres, parce qu'un mètre n'atteint jamais et que trois mètres s'emmêlent toujours. Il est garanti pour 25 000 flexions à 180 degrés, nous testons exactement à ce chiffre, et s'il tombe en panne avant la fin des deux ans, nous le remplaçons."
+      },
+      "hubDock": {
+        "title": "Hub 7 · station d'accueil de bureau",
+        "subtitle": "Sept ports, un câble vers l'ordinateur portable, 100 W en retour",
+        "description": "Un câble vers l'ordinateur portable, sept ports sur le bureau. Deux HDMI en 4K 60 Hz, trois USB-A, un lecteur SD et un USB-C qui renvoie 100 W par le même câble qui transporte la vidéo, si bien que l'ordinateur portable se charge depuis la station et que la station fonctionne depuis le secteur. Le corps est en aluminium usiné et sert de dissipateur thermique, ce qui explique l'absence de ventilateur et pourquoi elle chauffe plutôt que d'être silencieuse puis de brider. Le câble captif mesure 25 cm, assez long pour contourner un ordinateur portable et assez court pour ne pas s'enrouler sur le bureau. Il n'y a aucun pilote à installer ni application ; c'est une station d'accueil, et une station d'accueil qui a besoin d'un logiciel est une station qui s'arrête de fonctionner quand le logiciel s'arrête."
+      }
+    }
+  }
+}

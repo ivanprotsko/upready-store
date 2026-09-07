@@ -1,0 +1,45 @@
+[
+  {
+    "title": "Colour",
+    "values": [
+      {
+        "value": "Graphite",
+        "metadata": {
+          "hex": "#686769"
+        }
+      },
+      {
+        "value": "Chalk",
+        "metadata": {
+          "hex": "#E6E7E9"
+        }
+      },
+      {
+        "value": "Signal blue",
+        "metadata": {
+          "hex": "#3D7BE8"
+        }
+      }
+    ]
+  },
+  {
+    "title": "Capacity",
+    "values": [
+      {
+        "value": "10 000 mAh"
+      },
+      {
+        "value": "20 000 mAh"
+      },
+      {
+        "value": "5 000 mAh"
+      },
+      {
+        "value": "26 800 mAh"
+      },
+      {
+        "value": "54 000 mAh"
+      }
+    ]
+  }
+]

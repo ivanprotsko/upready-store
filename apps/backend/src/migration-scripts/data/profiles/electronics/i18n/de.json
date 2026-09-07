@@ -1,0 +1,110 @@
+{
+  "name": "Deutsch",
+  "translations": {
+    "categories": {
+      "audio": "Audio",
+      "headphones": "Kopfhörer",
+      "earbuds": "In-Ears",
+      "speakers": "Lautsprecher",
+      "powerAndParts": "Strom und Zubehör",
+      "powerBanks": "Powerbanks",
+      "cablesAndChargers": "Kabel und Ladegeräte"
+    },
+    "collections": {
+      "newArrivals": "Neuheiten",
+      "bestsellers": "Bestseller"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Farbe",
+        "values": {
+          "graphite": "Graphit",
+          "chalk": "Kreide",
+          "signalBlue": "Signalblau"
+        }
+      },
+      "capacity": {
+        "title": "Kapazität",
+        "values": {
+          "10000Mah": "10.000 mAh",
+          "20000Mah": "20.000 mAh",
+          "5000Mah": "5.000 mAh",
+          "26800Mah": "26.800 mAh",
+          "54000Mah": "54.000 mAh"
+        }
+      }
+    },
+    "products": {
+      "benchOverEar": {
+        "title": "Bench 1 · Over-Ear-Kopfhörer",
+        "subtitle": "Over-Ear, 40 mm dynamisch, 34 Stunden, Polster mit einer Drehung ab",
+        "description": "Der Bench 1 ist das Modell, um das herum wir alles andere bauen. Ein dynamischer 40-mm-Treiber in einem Graphit-Glas-Gehäuse, 34 Stunden mit einer Ladung bei laufendem Radio, 8 Stunden nach nur zehn Minuten am Kabel. Die Ohrpolster lassen sich mit einer Vierteldrehung abnehmen und genauso wieder aufsetzen, ohne Werkzeug und ohne Kleber; ein neues Paar kostet $29, und wir führen es fünf Jahre lang nach, nachdem das Modell aus dem Sortiment genommen wurde. Das Kopfband hat einen Stahlkern unter dem Bezug, sodass die Einstellung dort bleibt, wo man sie gelassen hat. Der Kabelanschluss ist USB-C, und die 3,5-mm-Buchse ist eine echte Buchse, kein Adapter. Das Gewicht liegt bei 268 g auf unserer Waage, gemessen mit aufgesetzten Polstern. Zwölf Schrauben halten ihn zusammen, und keine davon versteckt sich unter einem Aufkleber."
+      },
+      "benchStudio": {
+        "title": "Bench S · geschlossener Studiokopfhörer",
+        "subtitle": "Nur kabelgebunden, 45 mm, 250 Ohm, ein abnehmbares Kabel",
+        "description": "Der Bench S hat keinen Akku, kein Radio und keine App. Er hat einen 45-mm-Treiber, eine 250-Ohm-Spule, die einen echten Kopfhörerausgang verlangt, und ein abnehmbares Kabel mit verriegelndem Mini-XLR-Stecker, sodass das Teil, das zuerst ausfällt, das Teil ist, das man für $19 ersetzen kann. Die Ohrmuscheln sind geschlossen und tief genug, dass das Ohr den Treiber nicht berührt, weshalb dieses Paar 340 g wiegt und der Bench 1 nicht. Die Polster sind aus Velours und werden von Hand gewechselt. Wir stimmen ihn linear zwischen 40 Hz und 12 kHz ab und veröffentlichen die Kurve auf der Produktseite, statt sie mit einem Adjektiv zu beschreiben. Wer einen Bass sucht, der vor der Note ankommt, ist bei diesem Paar falsch."
+      },
+      "padSet": {
+        "title": "Pad set · austauschbare Ohrpolster für Bench",
+        "subtitle": "Ein Paar, Drehverschluss, passend für Bench 1 und Bench S",
+        "description": "Ein Paar Ersatz-Ohrpolster mit bereits montiertem Drehverschlussring. Sie passen auf beide Bench-Modelle in etwa fünfzehn Sekunden: Nase ausrichten, andrücken, eine Vierteldrehung im Uhrzeigersinn. Der Schaumstoff ist ein langsam rückstellender Memory-Schaum unter einer perforierten Kunstleder-Außenseite und einer Innenwand aus Velours, und genau diese Kombination hält die Abdichtung, ohne die Ohren nach einer Stunde zu erhitzen. Polster sind das Teil eines Kopfhörers, das als Erstes verschleißt, meist nach achtzehn Monaten bis drei Jahren, und ein Paar, das sich nicht neu bepolstern lässt, ist ein Paar mit Verfallsdatum. Wir führen diese fünf Jahre lang nach, nachdem der passende Kopfhörer aus dem Katalog genommen wurde. Im Doppelpack, denn ein neues Polster und ein plattes Polster will niemand."
+      },
+      "pinEarbuds": {
+        "title": "Pin · In-Ear-Kopfhörer",
+        "subtitle": "In-Ear, 11 mm, 7 Stunden plus 28 im Case",
+        "description": "Pin ist klein genug, um ihn zu vergessen, und laut genug, um nicht überhört zu werden. Ein 11-mm-Treiber in jedem Ohrstöpsel, 7 Stunden Wiedergabe und 28 weitere im Ladecase, das über USB-C lädt und flach auf dem Tisch liegt, statt wegzurollen. Der Deckel des Case hat ein Metallscharnier mit 30.000 Zyklen Belastbarkeit, denn das Scharnier ist meist das, was ein Paar Ohrstöpsel zuerst ruiniert, lange bevor die Treiber schlappmachen. Vier Größen an Ohrpassstücken liegen bei, und die Passstücke haben einen genormten Innendurchmesser von 4,9 mm, sodass jedes Fremdpassstück, das man schon mag, passt. Jeder Ohrstöpsel ist nach IP54 geschützt: Regen und Schweiß, kein Schwimmen. Der Akku im Case ist eine benannte Zelle, die wir separat verkaufen, und das Case öffnet sich mit zwei Schrauben."
+      },
+      "pinOpen": {
+        "title": "Pin Open · Open-Ear-Clips",
+        "subtitle": "Open-Ear-Clip, 16,5 mm, nichts im Gehörgang",
+        "description": "Pin Open klemmt außen am Ohr und platziert einen 16,5-mm-Treiber neben dem Gehörgang, ohne hineinzuragen. Man hört den Raum, das Fahrrad hinter einem und die Person am Tresen, und genau darum geht es; deshalb sind diese auch leiser als Pin bei gleicher Lautstärkeeinstellung, und deshalb versprechen wir keinen Bass, den wir nicht liefern können. Der Clip ist ein Nickel-Titan-Draht in einer Silikonhülle, biegsam zur Anpassung und straff genug, um beim Laufen an Ort und Stelle zu bleiben. 10 Stunden pro Ladung, IP55, und ein Case, das lädt, aber sich nicht als Powerbank ausgibt. Wer eine Brille trägt: Der Clip liegt unter dem Bügel, nicht darauf."
+      },
+      "slabPortable": {
+        "title": "Slab · portabler Lautsprecher",
+        "subtitle": "Zwei 52-mm-Treiber, ein Passivmembran, 20 Stunden",
+        "description": "Slab ist ein Backstein von Lautsprecher mit zwei nach vorn strahlenden 52-mm-Treibern und einer Passivmembran auf der Rückseite, die die Arbeit einer größeren Box übernimmt. 20 Stunden bei der Lautstärke, die man tatsächlich nutzt, also etwa 60 Prozent, und 9 Stunden bei voller Leistung. Das Gitter ist pulverbeschichteter Stahl und lässt sich abnehmen, sodass man bei einer Delle das Gitter ersetzt und nicht den Lautsprecher. IP67, das heißt, er übersteht einen Sturz ins Spülbecken und einen Tag am Strand. Er lädt über USB-C mit 18 W, und er lädt das Handy über denselben Port mit 7,5 W zurück, langsam, was die ehrliche Zahl ist. Zwei Stück koppeln sich zu einem Stereopaar und bleiben gekoppelt."
+      },
+      "shelfMonitor": {
+        "title": "Shelf 4 · aktive Regallautsprecher, Paar",
+        "subtitle": "Paar, 4-Zoll-Tieftöner, 1-Zoll-Kalotte, 50 W pro Seite",
+        "description": "Shelf 4 ist ein Paar aktiver Regallautsprecher für einen Schreibtisch oder ein Regal, nicht für einen Raum. Ein 4-Zoll-Papier-Tieftöner, eine 1-Zoll-Seidenkalotte, 50 Watt pro Seite aus einem Verstärker, der im linken Gehäuse sitzt. Das rechte Gehäuse bekommt ein einzelnes Lautsprecherkabel, sodass nur ein Netzkabel im Raum liegt und nicht zwei. Eingänge sind USB-C, Cinch und 3,5 mm, und der Lautstärkeregler ist ein gerasteter analoger Potentiometer an der Front, wo die Hand ohnehin schon liegt. Die Gehäuse bestehen aus 15-mm-MDF mit interner Verstrebung, weshalb sie je 3,2 kg wiegen und bei einer Basslinie nicht scheppern. Die Bassreflexöffnungen zeigen nach hinten; 10 cm Abstand dahinter lassen."
+      },
+      "puckSpeaker": {
+        "title": "Puck · Taschenlautsprecher",
+        "subtitle": "Ein 40-mm-Treiber, 12 Stunden, passt in eine Manteltasche",
+        "description": "Puck ist ein 40-mm-Treiber, eine kleine Passivmembran und ein Akku in einer Aluminiumscheibe von der Größe eines Bierdeckels. Er ist kein Partylautsprecher, und das behaupten wir auch nicht. Er ist der Lautsprecher, den man auf ein Küchenregal oder einen Hotelschreibtisch stellt, damit ein Podcast nicht aus dem Handy kommt, und für diesen Job ist er besser als alles, was das Handy kann. 12 Stunden pro Ladung, USB-C, IP66. Eine Öse für die Trageschlaufe ist ins Gehäuse gefräst statt aufgeklebt, und ein echter mechanischer Mute-Schalter am Rand kappt das Mikrofon mit einem spürbaren Klick. Die Unterseite ist eine einzige Schicht griffiges Silikon, das ein Wandern über die Theke verhindert."
+      },
+      "brickPack": {
+        "title": "Brick · Powerbank",
+        "subtitle": "100 W Ausgang, zwei USB-C, ein Display, das Watt anzeigt",
+        "description": "Brick zeigt die Zahl außen an. Ein kleines Monochrom-Display zeigt Watt rein, Watt raus und die verbleibende Ladung als Prozentzahl, die aus den Zellen kommt und nicht aus vier Punkten und einer optimistischen Schätzung. Zwei USB-C-Ports, 100 W am ersten, genug für einen Laptop und nicht nur für ein Handy. Die Zellen sind auf dem Datenblatt und auf einem Etikett im Gehäuseinneren benannt, und das Gehäuse öffnet sich mit vier Schrauben statt mit Ultraschallschweißung, sodass eine defekte Powerbank ein Recyclingproblem ist und kein Deponieproblem. Die Ecken sind aus geformtem TPU, denn eine Powerbank liegt im Rucksackboden zusammen mit Schlüsseln. Flugtauglich bei beiden Kapazitäten."
+      },
+      "slipPack": {
+        "title": "Slip · Magnetpack",
+        "subtitle": "Magnetisch, 15 W kabellos, flach genug für eine Tasche",
+        "description": "Slip haftet an der Rückseite eines Handys und lädt es mit 15 W ohne Kabel, oder mit 20 W über den USB-C-Port am Rand mit Kabel. Der Magnetring ist die starke Ausführung: Er hält das Handy auch durch eine Hülle hindurch und rutscht nicht ab, wenn man das Handy in eine Manteltasche steckt. Bei 5.000 mAh ist er 11 mm dünn, bei 10.000 mAh 15 mm, und wir nennen beide Zahlen, weil ein Magnetpack, das ein Handy zum Ziegelstein macht, ein Pack ist, das man bald nicht mehr mitnimmt. Die Oberfläche ist ein weiches Soft-Touch-Silikon, das die Handyrückseite nicht zerkratzt. Unter dem Magnetring sitzt ein kleiner Klappständer, der das Handy für Videos in 60 Grad aufstellt."
+      },
+      "crateStation": {
+        "title": "Crate · Schreibtisch-Powerstation",
+        "subtitle": "Schreibtischstation, sechs Ports, ein Netzkabel für den ganzen Raum",
+        "description": "Crate sitzt unter einem Monitor und ersetzt den Stapel Ladegeräte dahinter. Sechs Ports: vier USB-C, zwei USB-A, 140 W am oberen linken Port und 210 W über das gesamte Gerät, mit einem Display, das anzeigt, was jeder Port tatsächlich liefert, statt was er im Labor liefern könnte. Sie läuft am Netz und hält einen Akku bereit, sodass ein Stromausfall ein paar Stunden Laptopbetrieb bringt statt einer Panik um ungespeicherte Dateien. Der Lüfter ist temperaturgeregelt und dreht sich unter 90 W nicht, was für die meisten Schreibtische nie bedeutet. Das Gehäuse ist aus Aluminium, die Füße sind aus Silikon, und das ganze Gerät wiegt genug, um dort stehen zu bleiben, wo man es hingestellt hat, wenn man ein Kabel herauszieht."
+      },
+      "stackCharger": {
+        "title": "Stack 65 · GaN-Netzteil",
+        "subtitle": "65 W, zwei USB-C, klappbare Steckerstifte",
+        "description": "Stack 65 ist ein Netzteil, das die Steckdose daneben nicht blockiert. Galliumnitrid-Technik im Inneren bedeutet 65 Watt aus einem Gehäuse von der Größe einer Streichholzschachtel, und die Steckerstifte klappen flach, damit es in eine Tasche passt, ohne das Futter aufzureißen. Zwei USB-C-Ports: 65 W an einem allein, oder 45 und 18 W, wenn beide belegt sind, und die Aufteilung steht auf der Unterseite des Netzteils, wo man sie lesen kann, statt in einem Handbuch vergraben zu sein. Es wird warm, nicht heiß, und das Gehäuse ist ein flammfestes Polycarbonat ohne Lüftungsschlitze, sodass nichts hineingelangt. Austauschbare Steckerköpfe für UK, EU und US werden separat für $9 verkauft und rasten ohne Werkzeug ein."
+      },
+      "braidCable": {
+        "title": "Braid · USB-C-Kabel, 2 m",
+        "subtitle": "240 W, 40 Gbit/s, geflochten, sichtbare Zugentlastung",
+        "description": "Ein Kabel ist das Teil, das ausfällt, deshalb ist dieses an den Enden besonders robust gebaut. Die Zugentlastung ist eine 22-mm-Formtülle über einem internen Anker, kein Schrumpfschlauch, und das Geflecht ist ein doppelt gewebtes Nylon über einem TPE-Kern, der keinen bleibenden Knick annimmt. 240 W und 40 Gbit/s, das heißt, es lädt einen Laptop und überträgt gleichzeitig ein Displaysignal, und die Angaben sind ins Gehäuse lasergraviert, sodass sie auch nach zwei Jahren noch lesbar sind. Zwei Meter, denn 1 Meter reicht nie, und 3 Meter verheddern sich immer. Es ist für 25.000 Biegungen bei 180 Grad ausgelegt, wir testen genau auf diese Zahl, und sollte es vor Ablauf der zwei Jahre ausfallen, ersetzen wir es."
+      },
+      "hubDock": {
+        "title": "Hub 7 · Schreibtisch-Dock",
+        "subtitle": "Sieben Ports, ein Kabel zum Laptop, 100 W zurück",
+        "description": "Ein Kabel zum Laptop, sieben Ports auf dem Schreibtisch. Zwei HDMI mit 4K bei 60 Hz, drei USB-A, ein SD-Kartenleser und ein USB-C, der 100 W über dasselbe Kabel zurückschickt, das auch das Videosignal trägt, sodass der Laptop vom Dock lädt und das Dock von der Steckdose läuft. Das Gehäuse ist gefrästes Aluminium und dient als Kühlkörper, weshalb kein Lüfter verbaut ist und weshalb es warm wird, statt erst leise zu sein und dann zu drosseln. Das fest verbaute Kabel ist 25 cm lang, lang genug, um um einen Laptop herumzureichen, und kurz genug, um sich nicht auf dem Schreibtisch zu ringeln. Es gibt keine Treiber zu installieren und keine App; es ist ein Hub, und ein Hub, der Software braucht, ist ein Hub, der ausfällt, sobald die Software es tut."
+      }
+    }
+  }
+}

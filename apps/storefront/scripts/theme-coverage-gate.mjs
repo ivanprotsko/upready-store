@@ -437,8 +437,15 @@ function pixelStats(png) {
       }
       sr += px.r; sg += px.g; sb += px.b; n++
       const L = lum(px)
-      if (L < minL) { minL = L; minC = px }
-      if (L > maxL) { maxL = L; maxC = px }
+      // `|| minC === null` is not belt-and-braces: minL starts at 1 and maxL at 0, so a crop
+      // that is uniformly pure white never satisfies `L < 1` and leaves minC null, and a
+      // uniformly pure black one leaves maxC null. refineOverMedia then hands that null to
+      // ratioOf and the whole gate dies with an OPERATIONAL ERROR instead of returning a
+      // verdict. Pure white is not a corner case: a light preset whose --background, --card
+      // and --popover are all #ffffff produces it on the first probe. Found by the
+      // electronics theme, 2026-09-08.
+      if (L < minL || minC === null) { minL = L; minC = px }
+      if (L > maxL || maxC === null) { maxL = L; maxC = px }
     }
   }
   if (!n) return null
