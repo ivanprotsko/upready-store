@@ -223,9 +223,9 @@ const BRIDGE = {
   "--contrast-bg-subtle": { open: "inverted-surface ramp, see --contrast-bg-base" },
   "--contrast-border-top": { open: "inverted-surface ramp, see --contrast-bg-base" },
   "--contrast-border-bot": { open: "inverted-surface ramp, see --contrast-bg-base" },
-  "--contrast-border-base": { canon: "--destructive-foreground", with: "transparent" },
-  "--contrast-fg-primary": { canon: "--destructive-foreground", with: "transparent" },
-  "--contrast-fg-secondary": { canon: "--destructive-foreground", with: "transparent" },
+  "--contrast-border-base": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
+  "--contrast-fg-primary": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
+  "--contrast-fg-secondary": { open: "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)" },
 
   /* --- button fills --------------------------------------------------------- */
   "--button-inverted": { canon: "--primary" },

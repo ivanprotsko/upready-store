@@ -6,8 +6,8 @@
   "counts": {
     "presetVariables": 113,
     "mapped": 26,
-    "diverged": 59,
-    "open": 28
+    "diverged": 56,
+    "open": 31
   },
   "canonTokens": [
     "--radius",
@@ -287,25 +287,9 @@
     },
     {
       "variable": "--contrast-fg-primary",
-      "canonToken": "--destructive-foreground",
-      "status": "diverged",
-      "bridge": "--contrast-fg-primary: color-mix(in srgb, var(--destructive-foreground) 88%, transparent);",
-      "bridgeDark": null,
-      "derivation": {
-        "kind": "color-mix",
-        "space": "srgb",
-        "canon": "--destructive-foreground",
-        "light": {
-          "canon": "--destructive-foreground",
-          "pct": 88,
-          "with": "transparent"
-        },
-        "dark": {
-          "canon": "--destructive-foreground",
-          "pct": 88,
-          "with": "transparent"
-        }
-      },
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
       "vendor": {
         "light": "rgba(255, 255, 255, 0.88)",
         "dark": "rgba(255, 255, 255, 0.88)"
@@ -314,10 +298,7 @@
         "light": "rgba(255, 255, 255, 0.88)",
         "dark": "rgba(255, 255, 255, 0.88)"
       },
-      "medusaResidual": {
-        "light": 0,
-        "dark": 0
-      }
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
     },
     {
       "variable": "--bg-switch-off",
@@ -555,25 +536,9 @@
     },
     {
       "variable": "--contrast-border-base",
-      "canonToken": "--destructive-foreground",
-      "status": "diverged",
-      "bridge": "--contrast-border-base: color-mix(in srgb, var(--destructive-foreground) 15%, transparent);",
-      "bridgeDark": "--contrast-border-base: color-mix(in srgb, var(--destructive-foreground) 16%, transparent);",
-      "derivation": {
-        "kind": "color-mix",
-        "space": "srgb",
-        "canon": "--destructive-foreground",
-        "light": {
-          "canon": "--destructive-foreground",
-          "pct": 15,
-          "with": "transparent"
-        },
-        "dark": {
-          "canon": "--destructive-foreground",
-          "pct": 16,
-          "with": "transparent"
-        }
-      },
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
       "vendor": {
         "light": "rgba(255, 255, 255, 0.15)",
         "dark": "rgba(255, 255, 255, 0.16)"
@@ -582,10 +547,7 @@
         "light": "rgba(255, 255, 255, 0.15)",
         "dark": "rgba(255, 255, 255, 0.16)"
       },
-      "medusaResidual": {
-        "light": 0,
-        "dark": 0
-      }
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
     },
     {
       "variable": "--bg-field",
@@ -768,25 +730,9 @@
     },
     {
       "variable": "--contrast-fg-secondary",
-      "canonToken": "--destructive-foreground",
-      "status": "diverged",
-      "bridge": "--contrast-fg-secondary: color-mix(in srgb, var(--destructive-foreground) 56%, transparent);",
-      "bridgeDark": null,
-      "derivation": {
-        "kind": "color-mix",
-        "space": "srgb",
-        "canon": "--destructive-foreground",
-        "light": {
-          "canon": "--destructive-foreground",
-          "pct": 56,
-          "with": "transparent"
-        },
-        "dark": {
-          "canon": "--destructive-foreground",
-          "pct": 56,
-          "with": "transparent"
-        }
-      },
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
       "vendor": {
         "light": "rgba(255, 255, 255, 0.56)",
         "dark": "rgba(255, 255, 255, 0.56)"
@@ -795,10 +741,7 @@
         "light": "rgba(255, 255, 255, 0.56)",
         "dark": "rgba(255, 255, 255, 0.56)"
       },
-      "medusaResidual": {
-        "light": 0,
-        "dark": 0
-      }
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
     },
     {
       "variable": "--tag-red-bg",

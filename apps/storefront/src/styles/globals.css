@@ -205,29 +205,12 @@
 }
 
 /*
- * Bridge correction, cause E, measured 2026-09-08 while accepting the T-fix repaint.
- *
- * --contrast-bg-base is a FIXED dark surface in both modes (rgba(24,24,27) light,
- * rgba(39,39,42) dark), but its foreground rows are derived from
- * --destructive-foreground, which FLIPS: #ffffff in light, #0a0a0a in sneakers and
- * geist dark. token-map.json gives --contrast-fg-primary / -fg-secondary a `bridge`
- * row and no `bridgeDark`, so the dark block never corrects them. Result in dark
- * mode: color-mix(in srgb, #0a0a0a 88%, transparent) = rgba(10,10,10,0.88) on
- * rgba(39,39,42) — computed contrast ~1.0:1, i.e. invisible text on every inverted
- * surface (side-menu panel, free-shipping popup, cart badges, hero CTA).
- *
- * The surface is fixed, so its foreground must be fixed too — which is what
- * @medusajs/ui-preset itself ships (rgba(255,255,255,1)). Light mode already
- * resolves to white and is left alone; only the dark block is corrected here.
- *
- * This is a PATCH ON A GENERATED SHEET. The real fix is the `bridgeDark` rows in
- * specs/design-system/token-map.json plus `pnpm themes:build`, which could not run
- * in this worktree (no node_modules, so the generator's ajv import fails). It is
- * written with one element more than the generated selector so it wins on
- * SPECIFICITY, not on order — same reasoning as the note at the top of this file.
+ * Cause E used to be patched here as a dark-mode-scoped override of
+ * --contrast-fg-primary / -fg-secondary / -border-base. It is fixed at the source now:
+ * the three rows joined the --contrast-* family that scripts/extract-theme-sources.mjs
+ * marks `open` (specs/design-system/token-map.json), because --contrast-bg-base is a
+ * FIXED dark surface in both modes and a foreground derived from --destructive-foreground
+ * flips to the preset ink and disappears. Regenerate with `pnpm themes:extract` +
+ * `pnpm themes:build`; do not re-add a patch here.
  */
-html[data-mode="dark"]:not([data-theme-bridge="off"]) {
-  --contrast-fg-primary: color-mix(in srgb, #ffffff 88%, transparent);
-  --contrast-fg-secondary: color-mix(in srgb, #ffffff 56%, transparent);
-  --contrast-border-base: color-mix(in srgb, #ffffff 16%, transparent);
-}
+
