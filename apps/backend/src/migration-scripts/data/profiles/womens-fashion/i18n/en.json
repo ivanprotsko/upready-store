@@ -1,66 +1,85 @@
 {
   "name": "English",
   "translations": {
+    "terms": {
+      "colour": "Colour",
+      "ivory": "Ivory",
+      "ink": "Ink",
+      "clay": "Clay",
+      "sage": "Sage"
+    },
     "categories": {
       "clothing": "Clothing",
       "dresses": "Dresses",
       "knitwear": "Knitwear",
-      "shirts-and-blouses": "Shirts and blouses",
-      "trousers-and-skirts": "Trousers and skirts",
+      "shirtsAndBlouses": "Shirts and blouses",
+      "trousersAndSkirts": "Trousers and skirts",
       "outerwear": "Outerwear",
-      "coats-and-jackets": "Coats and jackets"
+      "coatsAndJackets": "Coats and jackets"
     },
     "collections": {
-      "autumn-edit": "The Autumn Edit",
+      "autumnEdit": "The Autumn Edit",
       "essentials": "Everyday essentials"
     },
     "products": {
-      "ondine-slip-dress": {
+      "ondineSlipDress": {
         "title": "Ondine bias-cut slip dress",
+        "subtitle": "Bias-cut silk crepe, cowl neck, adjustable straps, midi length",
         "description": "The Ondine is cut on the true bias from a 19-momme silk crepe, which is why it falls in a straight line from the shoulder instead of hanging from the hips. The neckline is a shallow cowl, deep enough to sit softly and shallow enough to wear to work under a cardigan. Straps adjust through a flat slider at the back so the length can be set once and left. There is no zip; the bias gives enough stretch to step into. Seams are French-finished, so the inside is as clean as the outside and nothing scratches at the shoulder blade. It is a machine wash on cold, flat dry, and it comes back to shape without pressing. Midi length measures 122 cm from the shoulder in size M."
       },
-      "perrin-knit-dress": {
+      "perrinKnitDress": {
         "title": "Perrin ribbed column dress",
+        "subtitle": "Fine merino rib, high neck, long sleeve, column line to the ankle",
         "description": "A long column dress knitted in a 2x2 rib from extra-fine merino, so it holds a straight line without clinging. The neck stands about four centimetres and folds once; the sleeves are set narrow and finish at the wrist bone. Because the rib is fine rather than chunky it layers under a coat without bulk at the shoulder, which is the whole point of a knitted dress in November. The hem sits at the ankle and has a side vent of 14 cm so the stride is not shortened. Merino is 18.5 micron, which is the grade that stops most people finding wool itchy at the neck. Hand wash or wool cycle, dry flat; it will not need pressing."
       },
-      "sevre-wrap-dress": {
+      "sevreWrapDress": {
         "title": "Sèvre wrap midi dress",
+        "subtitle": "Washed viscose twill, true wrap, tie waist, three-quarter sleeve",
         "description": "A true wrap, not a mock one: the skirt crosses fully and ties through a bound opening at the side seam, so the closure holds when you sit down. The fabric is a washed viscose twill with a dry hand and a matte face, cut on the straight grain so the skirt swings rather than clings. The sleeve stops at three-quarter length, which keeps it out of a sink and out of a keyboard. The waist tie is self-fabric, 4 cm wide, long enough to knot twice at the front or once at the back. Length is 118 cm from the shoulder in size M, and there is a hidden press stud at the neckline for the days you do not want to think about it."
       },
-      "aubin-merino-crew": {
+      "aubinMerinoCrew": {
         "title": "Aubin merino crewneck",
+        "subtitle": "Mid-gauge merino, set-in sleeve, ribbed cuff and hem",
         "description": "A plain crewneck in mid-gauge merino, knitted in panels and linked at the shoulder rather than overlocked, which is why the seam lies flat under a coat. The neck rib is doubled so it will not lose its shape at the back; the cuffs and hem are the same rib, deep enough to push up the forearm and stay. The body is cut straight with a slight drop at the shoulder, so it reads relaxed without looking borrowed. Merino at this grade is warm at 18 degrees and still wearable at 24. It is the sweater we expect people to buy twice, so we stock the colours for at least three seasons and sell a darning kit for the elbow."
       },
-      "vaux-longline-cardigan": {
+      "vauxLonglineCardigan": {
         "title": "Vaux longline cardigan",
+        "subtitle": "Lambswool, longline cardigan, patch pockets, horn-look buttons",
         "description": "A heavy longline cardigan that finishes at the top of the thigh, knitted from a lambswool spun with enough twist to resist pilling at the sleeve. Five buttons run the length of the front; they are a matte horn-look resin, sewn with a shank so the front does not pucker when it is fastened. Two deep patch pockets are set low enough to put your hands in without lifting your shoulders. The back is a single panel with no centre seam, and the hem has a 10 cm rib to give it weight so the whole thing hangs rather than flaps. It is warm enough to be the outer layer until it is properly cold, and thin enough to sit under a coat after that."
       },
-      "orne-wool-scarf": {
+      "orneWoolScarf": {
         "title": "Orne oversized wool scarf",
+        "subtitle": "Brushed lambswool, one size, 200 x 70 cm, hand-knotted fringe",
         "description": "A large brushed lambswool scarf, 200 by 70 centimetres, which is wide enough to be worn as a wrap over a coat and long enough to double and loop without strangling. The weave is a plain twill in a single natural cream, brushed on both faces so it is soft against the neck straight out of the box, not after three winters. The fringe is hand-knotted rather than cut, which is the detail that decides whether a scarf still looks like itself after a year. It comes in one size and one colourway on purpose: this is the piece we do not want to make decisions about. Dry clean, or hand wash cold in wool detergent and dry flat away from a radiator."
       },
-      "mazan-silk-shirt": {
+      "mazanSilkShirt": {
         "title": "Mazan silk shirt",
+        "subtitle": "Sandwashed silk, point collar, dropped shoulder, curved hem",
         "description": "A relaxed shirt in sandwashed silk, which is silk with the shine taken off it, so it reads as an everyday shirt rather than as evening wear. The collar is a soft point collar with no interlining, cut to sit flat whether it is buttoned to the neck or left open. The shoulder is dropped two centimetres and the sleeve is full to a plain single-button cuff. The hem is curved, longer at the back, and finished with a 6 mm rolled edge so it can be worn out or tucked without a ridge. Buttons are corozo nut, dyed to match. Sandwashed silk creases; it also drops most of those creases if you hang it overnight, and we would rather tell you that than pretend otherwise."
       },
-      "carre-silk-square": {
+      "carreSilkSquare": {
         "title": "Carré printed silk square",
+        "subtitle": "Twill silk, 90 x 90 cm, hand-rolled hem, one size",
         "description": "A 90 centimetre silk twill square, printed in our own drawn pattern of overlapping ink lines on a cream ground, hemmed by hand. A hand-rolled hem is the reason a square scarf holds a knot and hangs in a soft cone instead of a flat sheet; it is also the reason this is not a fifteen dollar scarf. The print is a screen print in four passes, so the lines stay crisp at the crossings rather than blurring into each other. It ties at the neck, at the handle of a bag, or in the hair, and it is the one thing in the shop that fits everybody. One size, one colourway, no decisions."
       },
-      "tille-wide-trouser": {
+      "tilleWideTrouser": {
         "title": "Tille pleated straight trouser",
+        "subtitle": "Wool-blend suiting, high rise, pressed crease, cropped at the ankle",
         "description": "A high-rise straight-leg trouser in a wool-blend suiting with a dry matte finish and enough weight to keep a pressed crease through a day. The waistband is 4 cm, faced rather than elasticated, and sits at the natural waist; there are two flat front pleats that release into the leg. Pockets are proper side-seam pockets, deep enough for a phone, bagged in cotton so they do not print through. The leg is 21 cm across the hem and finishes just above the ankle bone, so it clears a boot and does not break over a flat shoe. Hook-and-bar and concealed zip, no visible hardware anywhere on the outside."
       },
-      "noyer-bias-skirt": {
+      "noyerBiasSkirt": {
         "title": "Noyer bias-cut midi skirt",
+        "subtitle": "Silk-blend satin, matte face, elastic-backed waist, midi",
         "description": "A bias-cut midi skirt in a silk-blend satin used matte side out, so it has the movement of satin without the shine. Because it is cut on the bias it flares from the hip without gathers, and there is no zip: the back half of the waistband is a covered elastic, which means it pulls on and still looks like a tailored waistband from the front. The hem is 88 cm from the waist and is finished with a narrow machine-rolled edge that keeps the weight low so the skirt keeps moving. It is the piece most people in the studio own, usually with the Aubin crewneck on top and a pair of flat boots."
       },
-      "belair-wool-overcoat": {
+      "belairWoolOvercoat": {
         "title": "Bel-Air wool overcoat",
+        "subtitle": "Double-faced wool, unlined, single button, below the knee",
         "description": "A long overcoat in a double-faced wool, which is two woven cloths bonded and then split and hand-stitched at every edge, so the coat needs no lining and shows the same cloth inside and out. That construction is why it is light for its warmth and why the seams are visible as a fine stitch line rather than hidden. It closes with a single covered button at the waist and falls straight from a slightly extended shoulder to just below the knee. Two welt pockets, set at an angle you can actually reach. It is the most expensive thing we make and the one we most expect to see repaired rather than replaced; the stitch can be redone."
       },
-      "quessant-quilted-jacket": {
+      "quessantQuiltedJacket": {
         "title": "Quessant quilted jacket",
+        "subtitle": "Recycled-down quilt, hip length, stand collar, press studs",
         "description": "A short quilted jacket built for the weeks between a cardigan and a coat. The shell is a matte recycled polyamide with a dry hand, quilted in 6 cm channels over a recycled down fill so it packs down to about the size of a loaf. The collar stands and closes fully; the front is a two-way zip behind a press-stud placket, so it can be worn open at the hem while still closed at the chest. Cuffs are elasticated on the inside only, which keeps the sleeve clean from the outside. Two zipped hand pockets, one internal drop pocket. It is hip length, cut to sit over a knit without riding up when you put your arms out."
       }
     }
