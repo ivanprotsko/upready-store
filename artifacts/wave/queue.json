@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.queue/v1",
-  "updatedAt": "2026-09-08T02:38:49+08:00",
+  "updatedAt": "2026-09-08T03:40:08+08:00",
   "concurrency": 2,
   "themes": [
     {
@@ -8,11 +8,11 @@
       "order": 1,
       "mode": "light",
       "why": "Light theme first: the mirrored white-on-white defect class shows up here before anywhere else.",
-      "state": "queued",
-      "agent": null,
-      "startedAt": null,
+      "state": "running",
+      "agent": "theme-supplements",
+      "startedAt": "2026-09-08T03:40:08+08:00",
       "finishedAt": null,
-      "stage": null,
+      "stage": "W1",
       "handoverPath": null,
       "costUsd": null,
       "tokens": null,

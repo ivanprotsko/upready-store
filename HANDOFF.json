@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T03:29:08+08:00",
-  "status": "03:47 — phase 1 landed in dev (6a95b98, pushed; pnpm build rc=0). Gate honestly RED after the repaint: 198 pre -> 64 post, all 64 walked and real. Two agents alive (the hardware cap): orch-a2-tokens fixing --primary-foreground polarity (1.13:1 on every primary CTA) and --fg-muted (54 of the 64), deadline 04:40; wave-grid-measure porting store-media to fal.ai and buying the 3 measurement renders that decide grid-vs-single-frames for all eight themes, deadline 04:45. Ledger $0.000 of $6.00. Themes start after both report. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k.",
+  "updated": "2026-09-08T03:40:50+08:00",
+  "status": "03:46 — foundation done and in dev (43fe368, pushed). Coverage gate 198 pre-repaint -> 64 after -> 8 after A2's token fixes; the parent re-ran it independently (8 nodes, 6 cells, allow-list 0, body 20/20). Remaining 8 are component-level: 4 text-rose-500, 4 disabled-button. Two agents alive: theme-supplements (worktree feat/store/supplements from 43fe368, deadline 06:30) and wave-grid-measure (fal.ai port + 3 measurement renders, decides grid-vs-single-frames). Ledger $0.000 of $6.00. Queue: supplements running, 7 queued. Open: q-cause-e-unbridged, q-lockfile-rewrite-26k, q-ink-levels-and-cta-colour.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -358,6 +358,12 @@
     {
       "id": "q-lockfile-rewrite-26k",
       "question": "pnpm install in the feat/store-theme-surface worktree at 02:15 rewrote pnpm-lock.yaml by 26554 lines (10961 insertions / 15593 deletions) — a pnpm version difference, not a dependency change. Left dirty and uncommitted on that branch. Every fresh worktree in the wave will rewrite it the same way. Regenerate the lockfile on the current pnpm and commit it once, or pin the old pnpm version?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-ink-levels-and-cta-colour",
+      "question": "A2 surfaced two design decisions instead of taking them. (1) In LIGHT mode the primary CTA text was white and is now lime, because that is what the preset declares (--primary-foreground: #d6ff3b) — following the preset is correct, wanting white back is one line in the theme preset. (2) --fg-subtle and --fg-muted now resolve to the same colour: Medusa's three ink levels landed on two canonical ones; restoring a third step means lifting --fg-subtle toward --foreground, which only raises contrast. Both are design calls, not accessibility ones. Keep as landed, or adjust before the eight themes are generated?",
       "asked": "2026-09-08",
       "audience": "ivan"
     }
