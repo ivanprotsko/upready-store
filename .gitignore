@@ -66,4 +66,11 @@ apps/backend/static/
 apps/backend/src/migration-scripts/data/profiles/*/media/*.webp
 apps/backend/src/migration-scripts/data/profiles/*/media/*.png
 apps/backend/src/migration-scripts/data/profiles/*/media/*.jpg
-artifacts/media/
+artifacts/media/*
+# Re-enter the profile dirs, then re-ignore everything one level deeper, so raw
+# renders and contact sheets stay out of history (rule 21f: no binaries in git).
+!artifacts/media/*/
+artifacts/media/*/*
+# ...except the second-pass list, which is a DOCUMENT: it is the only record of
+# which paid frames still owe a re-render. Losing it would lose the decision.
+!artifacts/media/*/second-pass.json

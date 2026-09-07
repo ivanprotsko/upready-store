@@ -1,0 +1,75 @@
+{
+  "schema": "upready.store-media-second-pass/v0",
+  "profileId": "sneakers",
+  "createdAt": "2026-09-07",
+  "origin": "Stage S4 of the store-profiles pilot. Ivan's rule for this run: exactly 19 renders, no regenerations. Every frame below shipped into the catalog with status \"flagged\"; none was re-rendered. This file is the ORDER for a separate second pass, which is Ivan's to place.",
+  "budgetIfAllApproved": 4,
+  "frames": [
+    {
+      "file": "media/gutter-low-hero.webp",
+      "key": "hero-gutter-low",
+      "productHandle": "gutter-low",
+      "sourceFile": "artifacts/media/sneakers/raw/hero-gutter-low-1.png",
+      "reason": "Mirrored against style-board §5.1. The shoe is shown from its MEDIAL (inner) side, toe at frame-right, heel at frame-left; §5.1 requires the outer lateral side to camera with the heel at frame-right. It is a right shoe, so §5.6(4) is not breached — the camera clause is. This was the smoke render and it used packshot template v1.",
+      "severity": "high",
+      "whyItMatters": "It is the only one of the fourteen product frames that faces right. On the contact sheet the whole grid points left and this frame points the other way, so it reads as an error before a reader has looked at anything else.",
+      "suggestedPromptChange": "No new wording needed — re-run this frame with the CURRENT template (packshot v2, already in apps/backend/scripts/store-media/prompts.mjs). v2 replaced the abstract lens-axis sentence with frame coordinates (\"The shoe points to the left: the toe is at the left of the frame and the heel is at the right of the frame\"), named the outer side in plain words, and forbade the arch cut-away. It produced the correct direction on all ten footwear frames rendered after it.",
+      "confidence": "high — the fix is already measured on ten subsequent frames"
+    },
+    {
+      "file": "media/care-kit-hero.webp",
+      "key": "hero-care-kit",
+      "productHandle": "care-kit",
+      "sourceFile": "artifacts/media/sneakers/raw/hero-care-kit-1.png",
+      "reason": "Subject count. The brief specifies a THREE piece kit whose first item is 'a wooden double-ended brush with pale horsehair bristles at one end and a dark crepe and brass suede head at the other'. The render shows TWO separate brushes, so four objects appear for a kit the product copy calls three pieces.",
+      "severity": "high",
+      "whyItMatters": "The image contradicts the product title and description, which is the one kind of image error a customer can point at.",
+      "suggestedPromptChange": "In the {subject} clause, make the single-body constraint explicit and countable: 'a shoe care kit of exactly three objects: ONE single wooden brush with two working ends on one shared handle — pale horsehair bristles at one end of that same handle and a dark crepe and brass suede head at the opposite end of that same handle — plus one 100 ml clear plastic bottle …, plus one folded charcoal grey microfibre cloth. Exactly three objects in total; the brush is one object, not two.' Add to the negative clause: 'two brushes, second brush, pair of brushes, four objects'.",
+      "confidence": "medium — countable-object constraints are the weakest thing a text-to-image model honours"
+    },
+    {
+      "file": "media/cattle-grid-trail-hero.webp",
+      "key": "hero-cattle-grid-trail",
+      "productHandle": "cattle-grid-trail",
+      "sourceFile": "artifacts/media/sneakers/raw/hero-cattle-grid-trail-1.png",
+      "reason": "Background hue, against §5.1 ('flat mid-grey', 'no gradient into another hue') and §5.6(6). Measured on a 300x300 patch of empty cyclorama at (60,60): mean RGB 147/139/136, warm bias R-B = 10.6. The other thirteen product frames measure R-B 0.0 to 5.0, median 0.1.",
+      "severity": "medium",
+      "whyItMatters": "The background's stated job is to be the same room in every frame. A warm-tinted card is visible in a grid of neutral ones, and this shoe is red-brown, so the warm ground also flattens the separation between product and background.",
+      "suggestedPromptChange": "Add an explicit neutrality constraint to the background sentence: 'Seamless matte concrete-grey cyclorama background, flat NEUTRAL mid-grey with equal red, green and blue — no warm, brown, beige or sepia tint …'. Add to the negative clause: 'warm grey, beige background, brown background, sepia tone, colour cast'.",
+      "confidence": "high"
+    },
+    {
+      "file": "media/tile-low-tops.webp",
+      "key": "tile-low-tops",
+      "categoryHandle": "low-tops",
+      "sourceFile": "artifacts/media/sneakers/raw/tile-low-tops-1.png",
+      "reason": "Crop rule. The head, hood and both shoulders are in frame. §5.5 states 'The frame is cropped below the shoulders', §5.6(3) forbids an identifiable person, and §6.2 tile 1 specifies a chest crop. No face is visible — the subject is hooded, turned away and in shadow — so the identifiability rule is not breached, but the crop rule is.",
+      "severity": "medium",
+      "whyItMatters": "The crop rule is what keeps a person out of the frame by construction rather than by luck. This frame is safe only because the hood happened to fall the right way, which is not a control.",
+      "suggestedPromptChange": "Put the crop first in the {subject} clause and state it as a frame boundary rather than a body part: 'the top edge of the frame cuts across the chest — the head, hood, neck and shoulders are entirely outside the frame and no part of them appears — a seated figure on a kerb, feet flat on the asphalt and knees up …'. Add to the negative clause: 'head, hood, hooded figure, shoulders, neck, torso above the chest'.",
+      "confidence": "medium — the three other tiles obeyed their crop lines with no extra wording, so the template is not systematically at fault"
+    }
+  ],
+  "notFlaggedButRecorded": [
+    {
+      "file": "media/home-hero.webp",
+      "observation": "The camera sits near ground level; §5.5 says 'from standing eye height'. §5.5 and §6.1 are in tension — a standing-eye-height 35mm frame cut at the hips cannot also fill the frame with the shoes — and §6.1 won. Deliberately NOT queued: the frame meets every §6.1 requirement including the quiet left third for display type, and re-rendering risks losing it.",
+      "action": "none unless Ivan disagrees"
+    },
+    {
+      "file": "media/flagstone-low-hero.webp",
+      "observation": "Brief asks for round waxed laces; the render shows flat laces. Every other briefed feature is present.",
+      "action": "none — too small to spend a render on"
+    },
+    {
+      "file": "media/culvert-trail-hero.webp",
+      "observation": "The rubber rand runs unbroken around the toe as briefed; the outsole lugs read shallower than the briefed 5 mm.",
+      "action": "none — too small to spend a render on"
+    },
+    {
+      "scope": "all 14 product frames",
+      "observation": "Background luminance across the set runs from mean 133 (verge-runner) to 182 (care-kit) on the same empty-cyclorama patch — a 49-level spread. Every frame is still a neutral mid-grey that separates its product in both UI modes, which is the background's stated job in §5.1, so no frame is flagged for it. Worth pinning with an explicit value if a wave 2 ever re-shoots the set.",
+      "action": "none in the pilot"
+    }
+  ]
+}
