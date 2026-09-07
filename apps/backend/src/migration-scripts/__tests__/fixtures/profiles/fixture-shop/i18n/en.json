@@ -1,0 +1,12 @@
+{
+  "translations": {
+    "categories": { "runners": "Runners" },
+    "collections": { "fixtureDrop": "Fixture Drop" },
+    "products": {
+      "fixtureRunner": {
+        "title": "Fixture Runner",
+        "description": "A fixture product used by the unit tests."
+      }
+    }
+  }
+}

@@ -2,6 +2,12 @@ import categories from "./json/categories.json";
 import collections from "./json/collections.json";
 import productOptions from "./json/product-options.json";
 import products from "./json/products.json";
+import {
+  getStoreProfile,
+  readProfileJson,
+  toMediaUrl,
+  type StoreProfileContext,
+} from "../store-profile";
 
 export type SeedCategory = {
   handle: string;
@@ -23,11 +29,18 @@ export type SeedProductVariant = {
   title: string;
   sku: string;
   options: Record<string, string>;
+  /**
+   * Profiles price a variant once, in USD; the regional amounts are derived at
+   * seed time from the demo ratio table (see `lib/prices.ts`). The default seed
+   * data has no such field and keeps its per-product regional prices.
+   */
+  price_usd?: number;
 };
 
 export type SeedProduct = {
   handle: string;
   title: string;
+  subtitle?: string;
   description: string;
   status: string;
   category: string;
@@ -44,7 +57,49 @@ export type SeedCollection = {
   products: string[];
 };
 
-export const SEED_CATEGORIES: SeedCategory[] = categories;
-export const SEED_PRODUCT_OPTIONS: SeedProductOption[] = productOptions;
-export const SEED_PRODUCTS: SeedProduct[] = products;
-export const SEED_COLLECTIONS: SeedCollection[] = collections;
+/** `catalog/products.json` of a profile: the seed shape plus the fields the
+ * pilot adds (see `specs/store-profiles/catalog-products.schema.json`). */
+type ProfileProduct = SeedProduct & {
+  collections?: string[];
+  imageBrief?: unknown;
+};
+
+const toSeedProduct = (
+  product: ProfileProduct,
+  profile: StoreProfileContext,
+): SeedProduct => {
+  // `collections` and `imageBrief` are authoring data: collection membership is
+  // seeded from catalog/collections.json, the brief is for the image producer.
+  const { collections: _collections, imageBrief: _imageBrief, ...rest } = product;
+
+  return {
+    ...rest,
+    images: product.images.map((ref) => toMediaUrl(ref, profile.mediaBaseUrl)),
+  };
+};
+
+const loadProfileCatalog = (profile: StoreProfileContext) => {
+  const files = profile.profile.catalog.files;
+
+  return {
+    categories: readProfileJson<SeedCategory[]>(profile.dir, files.categories),
+    productOptions: readProfileJson<SeedProductOption[]>(
+      profile.dir,
+      files.productOptions,
+    ),
+    products: readProfileJson<ProfileProduct[]>(profile.dir, files.products).map(
+      (product) => toSeedProduct(product, profile),
+    ),
+    collections: readProfileJson<SeedCollection[]>(profile.dir, files.collections),
+  };
+};
+
+const profile = getStoreProfile();
+const catalog = profile
+  ? loadProfileCatalog(profile)
+  : { categories, productOptions, products, collections };
+
+export const SEED_CATEGORIES: SeedCategory[] = catalog.categories;
+export const SEED_PRODUCT_OPTIONS: SeedProductOption[] = catalog.productOptions;
+export const SEED_PRODUCTS: SeedProduct[] = catalog.products;
+export const SEED_COLLECTIONS: SeedCollection[] = catalog.collections;

@@ -14,6 +14,7 @@ import {
   SEED_PRODUCT_OPTIONS,
 } from "../data/products";
 import { getShippingProfile } from "./fulfillment";
+import { getVariantPrices } from "./prices";
 import { getProductPrices } from "./regions";
 import { getSalesChannel } from "./store";
 import { getQuery } from "./utils";
@@ -120,6 +121,9 @@ export const seedProducts = async (container: MedusaContainer) => {
         return {
           title: product.title,
           handle: product.handle,
+          // Only profiles carry a subtitle; spreading keeps the default seed's
+          // workflow input byte-for-byte what it was.
+          ...(product.subtitle ? { subtitle: product.subtitle } : {}),
           description: product.description,
           status: productStatus(product.status),
           weight: product.weight,
@@ -140,7 +144,12 @@ export const seedProducts = async (container: MedusaContainer) => {
             title: variant.title,
             sku: variant.sku,
             options: variant.options,
-            prices: getProductPrices(product.handle),
+            // A profile prices each variant once in USD and the regional
+            // amounts are derived; the demo data prices a product per region.
+            prices:
+              variant.price_usd === undefined
+                ? getProductPrices(product.handle)
+                : getVariantPrices(variant.price_usd),
           })),
           sales_channels: [{ id: salesChannel.id }],
         };

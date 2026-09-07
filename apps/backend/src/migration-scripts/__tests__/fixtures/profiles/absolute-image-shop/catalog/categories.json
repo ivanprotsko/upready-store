@@ -1,0 +1,7 @@
+[
+  {
+    "handle": "footwear",
+    "name": "Footwear",
+    "children": [{ "handle": "runners", "name": "Runners" }]
+  }
+]
