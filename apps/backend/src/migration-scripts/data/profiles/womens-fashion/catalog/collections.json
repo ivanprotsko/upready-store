@@ -1,0 +1,28 @@
+[
+  {
+    "handle": "autumn-edit",
+    "title": "The Autumn Edit",
+    "products": [
+      "ondine-slip-dress",
+      "perrin-knit-dress",
+      "vaux-longline-cardigan",
+      "orne-wool-scarf",
+      "tille-wide-trouser",
+      "noyer-bias-skirt",
+      "belair-wool-overcoat"
+    ]
+  },
+  {
+    "handle": "essentials",
+    "title": "Everyday essentials",
+    "products": [
+      "ondine-slip-dress",
+      "sevre-wrap-dress",
+      "aubin-merino-crew",
+      "mazan-silk-shirt",
+      "carre-silk-square",
+      "tille-wide-trouser",
+      "quessant-quilted-jacket"
+    ]
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "clothing",
+    "name": "Clothing",
+    "children": [
+      {
+        "handle": "dresses",
+        "name": "Dresses"
+      },
+      {
+        "handle": "knitwear",
+        "name": "Knitwear"
+      },
+      {
+        "handle": "shirts-and-blouses",
+        "name": "Shirts and blouses"
+      },
+      {
+        "handle": "trousers-and-skirts",
+        "name": "Trousers and skirts"
+      }
+    ]
+  },
+  {
+    "handle": "outerwear",
+    "name": "Outerwear",
+    "children": [
+      {
+        "handle": "coats-and-jackets",
+        "name": "Coats and jackets"
+      }
+    ]
+  }
+]

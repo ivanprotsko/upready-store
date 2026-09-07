@@ -1,0 +1,1536 @@
+[
+  {
+    "handle": "ondine-slip-dress",
+    "title": "Ondine bias-cut slip dress",
+    "subtitle": "Bias-cut silk crepe, cowl neck, adjustable straps, midi length",
+    "description": "The Ondine is cut on the true bias from a 19-momme silk crepe, which is why it falls in a straight line from the shoulder instead of hanging from the hips. The neckline is a shallow cowl, deep enough to sit softly and shallow enough to wear to work under a cardigan. Straps adjust through a flat slider at the back so the length can be set once and left. There is no zip; the bias gives enough stretch to step into. Seams are French-finished, so the inside is as clean as the outside and nothing scratches at the shoulder blade. It is a machine wash on cold, flat dry, and it comes back to shape without pressing. Midi length measures 122 cm from the shoulder in size M.",
+    "status": "published",
+    "category": "dresses",
+    "collections": [
+      "autumn-edit",
+      "essentials"
+    ],
+    "weight": 260,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-ONDINE",
+      "specs": {
+        "Fabric": "100% silk crepe de chine, 19 momme",
+        "Cut": "True bias, no zip",
+        "Neckline": "Shallow cowl, 8 cm drop",
+        "Straps": "Adjustable, flat slider at the back",
+        "Length": "122 cm from shoulder, size M",
+        "Seams": "French-finished throughout",
+        "Care": "Machine wash cold, flat dry, no tumble",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/ondine-slip-dress-hero.webp",
+      "media/ondine-slip-dress-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ivory / XS",
+        "sku": "LRC-ONDISLIPDRES-IVORY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ivory"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ivory / S",
+        "sku": "LRC-ONDISLIPDRES-IVORY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ivory"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / M",
+        "sku": "LRC-ONDISLIPDRES-IVORY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ivory"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / L",
+        "sku": "LRC-ONDISLIPDRES-IVORY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ivory"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / XL",
+        "sku": "LRC-ONDISLIPDRES-IVORY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ivory"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XS",
+        "sku": "LRC-ONDISLIPDRES-INK-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ink"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ink / S",
+        "sku": "LRC-ONDISLIPDRES-INK-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ink"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / M",
+        "sku": "LRC-ONDISLIPDRES-INK-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ink"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / L",
+        "sku": "LRC-ONDISLIPDRES-INK-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ink"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XL",
+        "sku": "LRC-ONDISLIPDRES-INK-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ink"
+        },
+        "price_usd": 289,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A midi-length bias-cut slip dress in warm ivory silk crepe with a shallow cowl neckline, thin adjustable shoulder straps and a narrow hem, worn on an invisible form so the fabric falls in soft vertical folds.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "perrin-knit-dress",
+    "title": "Perrin ribbed column dress",
+    "subtitle": "Fine merino rib, high neck, long sleeve, column line to the ankle",
+    "description": "A long column dress knitted in a 2x2 rib from extra-fine merino, so it holds a straight line without clinging. The neck stands about four centimetres and folds once; the sleeves are set narrow and finish at the wrist bone. Because the rib is fine rather than chunky it layers under a coat without bulk at the shoulder, which is the whole point of a knitted dress in November. The hem sits at the ankle and has a side vent of 14 cm so the stride is not shortened. Merino is 18.5 micron, which is the grade that stops most people finding wool itchy at the neck. Hand wash or wool cycle, dry flat; it will not need pressing.",
+    "status": "published",
+    "category": "dresses",
+    "collections": [
+      "autumn-edit"
+    ],
+    "weight": 480,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-PERRIN",
+      "specs": {
+        "Fabric": "100% extra-fine merino wool, 18.5 micron",
+        "Knit": "2x2 rib, fine gauge",
+        "Neck": "Stand collar, 4 cm, single fold",
+        "Length": "Ankle, 138 cm from shoulder, size M",
+        "Vent": "14 cm side vent",
+        "Weight": "480 g in size M",
+        "Care": "Hand wash or wool cycle, dry flat",
+        "Made in": "Italy"
+      }
+    },
+    "images": [
+      "media/perrin-knit-dress-hero.webp",
+      "media/perrin-knit-dress-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ink / XS",
+        "sku": "LRC-PERRKNITDRES-INK-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ink"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ink / S",
+        "sku": "LRC-PERRKNITDRES-INK-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ink"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / M",
+        "sku": "LRC-PERRKNITDRES-INK-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ink"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / L",
+        "sku": "LRC-PERRKNITDRES-INK-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ink"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XL",
+        "sku": "LRC-PERRKNITDRES-INK-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ink"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XS",
+        "sku": "LRC-PERRKNITDRES-SAGE-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Sage"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Sage / S",
+        "sku": "LRC-PERRKNITDRES-SAGE-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Sage"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / M",
+        "sku": "LRC-PERRKNITDRES-SAGE-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Sage"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / L",
+        "sku": "LRC-PERRKNITDRES-SAGE-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Sage"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XL",
+        "sku": "LRC-PERRKNITDRES-SAGE-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Sage"
+        },
+        "price_usd": 245,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A full-length ribbed knit column dress in deep near-black ink merino with a short stand collar, narrow long sleeves and a straight hem at the ankle, worn on an invisible form with the vertical ribs clearly visible.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "sevre-wrap-dress",
+    "title": "Sèvre wrap midi dress",
+    "subtitle": "Washed viscose twill, true wrap, tie waist, three-quarter sleeve",
+    "description": "A true wrap, not a mock one: the skirt crosses fully and ties through a bound opening at the side seam, so the closure holds when you sit down. The fabric is a washed viscose twill with a dry hand and a matte face, cut on the straight grain so the skirt swings rather than clings. The sleeve stops at three-quarter length, which keeps it out of a sink and out of a keyboard. The waist tie is self-fabric, 4 cm wide, long enough to knot twice at the front or once at the back. Length is 118 cm from the shoulder in size M, and there is a hidden press stud at the neckline for the days you do not want to think about it.",
+    "status": "published",
+    "category": "dresses",
+    "collections": [
+      "essentials"
+    ],
+    "weight": 340,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-SEVRE",
+      "specs": {
+        "Fabric": "100% washed viscose twill, matte face",
+        "Closure": "True wrap, self tie through a bound side opening",
+        "Extra": "Hidden press stud at the neckline",
+        "Sleeve": "Three-quarter, 42 cm from the shoulder seam",
+        "Length": "118 cm from shoulder, size M",
+        "Care": "Machine wash cold, line dry, warm iron",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/sevre-wrap-dress-hero.webp",
+      "media/sevre-wrap-dress-detail.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "XS",
+        "sku": "LRC-SEVRWRAPDRES-XS",
+        "options": {
+          "Size": "XS"
+        },
+        "price_usd": 215,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "S",
+        "sku": "LRC-SEVRWRAPDRES-S",
+        "options": {
+          "Size": "S"
+        },
+        "price_usd": 215,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "M",
+        "sku": "LRC-SEVRWRAPDRES-M",
+        "options": {
+          "Size": "M"
+        },
+        "price_usd": 215,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "L",
+        "sku": "LRC-SEVRWRAPDRES-L",
+        "options": {
+          "Size": "L"
+        },
+        "price_usd": 215,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "XL",
+        "sku": "LRC-SEVRWRAPDRES-XL",
+        "options": {
+          "Size": "XL"
+        },
+        "price_usd": 215,
+        "inventory_quantity": 4
+      }
+    ],
+    "imageBrief": {
+      "subject": "A wrap midi dress in soft clay-brown washed viscose twill with a deep V crossover front, a wide self-fabric tie knotted at the waist and three-quarter sleeves, worn on an invisible form with the skirt falling open in a soft diagonal.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "aubin-merino-crew",
+    "title": "Aubin merino crewneck",
+    "subtitle": "Mid-gauge merino, set-in sleeve, ribbed cuff and hem",
+    "description": "A plain crewneck in mid-gauge merino, knitted in panels and linked at the shoulder rather than overlocked, which is why the seam lies flat under a coat. The neck rib is doubled so it will not lose its shape at the back; the cuffs and hem are the same rib, deep enough to push up the forearm and stay. The body is cut straight with a slight drop at the shoulder, so it reads relaxed without looking borrowed. Merino at this grade is warm at 18 degrees and still wearable at 24. It is the sweater we expect people to buy twice, so we stock the colours for at least three seasons and sell a darning kit for the elbow.",
+    "status": "published",
+    "category": "knitwear",
+    "collections": [
+      "essentials"
+    ],
+    "weight": 320,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-AUBIN",
+      "specs": {
+        "Fabric": "100% merino wool, 19 micron, mid gauge",
+        "Construction": "Fully fashioned panels, linked shoulder seam",
+        "Neck": "Doubled 3 cm rib",
+        "Cuffs and hem": "6 cm rib",
+        "Fit": "Straight body, slight shoulder drop",
+        "Weight": "320 g in size M",
+        "Care": "Wool cycle at 30, dry flat",
+        "Made in": "Italy"
+      }
+    },
+    "images": [
+      "media/aubin-merino-crew-hero.webp",
+      "media/aubin-merino-crew-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ivory / XS",
+        "sku": "LRC-AUBIMERICREW-IVORY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ivory"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ivory / S",
+        "sku": "LRC-AUBIMERICREW-IVORY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ivory"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / M",
+        "sku": "LRC-AUBIMERICREW-IVORY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ivory"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / L",
+        "sku": "LRC-AUBIMERICREW-IVORY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ivory"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / XL",
+        "sku": "LRC-AUBIMERICREW-IVORY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ivory"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XS",
+        "sku": "LRC-AUBIMERICREW-SAGE-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Sage"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Sage / S",
+        "sku": "LRC-AUBIMERICREW-SAGE-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Sage"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / M",
+        "sku": "LRC-AUBIMERICREW-SAGE-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Sage"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / L",
+        "sku": "LRC-AUBIMERICREW-SAGE-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Sage"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XL",
+        "sku": "LRC-AUBIMERICREW-SAGE-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Sage"
+        },
+        "price_usd": 145,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A plain mid-gauge merino crewneck sweater in warm ivory with a doubled ribbed neckband, set-in sleeves, deep ribbed cuffs and a ribbed hem, worn on an invisible form so the body hangs straight.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "vaux-longline-cardigan",
+    "title": "Vaux longline cardigan",
+    "subtitle": "Lambswool, longline cardigan, patch pockets, horn-look buttons",
+    "description": "A heavy longline cardigan that finishes at the top of the thigh, knitted from a lambswool spun with enough twist to resist pilling at the sleeve. Five buttons run the length of the front; they are a matte horn-look resin, sewn with a shank so the front does not pucker when it is fastened. Two deep patch pockets are set low enough to put your hands in without lifting your shoulders. The back is a single panel with no centre seam, and the hem has a 10 cm rib to give it weight so the whole thing hangs rather than flaps. It is warm enough to be the outer layer until it is properly cold, and thin enough to sit under a coat after that.",
+    "status": "published",
+    "category": "knitwear",
+    "collections": [
+      "autumn-edit"
+    ],
+    "weight": 720,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-VAUX",
+      "specs": {
+        "Fabric": "100% lambswool, high-twist yarn",
+        "Length": "Top of the thigh, 82 cm size M",
+        "Buttons": "Five, matte horn-look resin, shank sewn",
+        "Pockets": "Two patch, 18 x 20 cm",
+        "Hem": "10 cm rib",
+        "Weight": "720 g in size M",
+        "Care": "Wool cycle at 30, dry flat, do not hang",
+        "Made in": "Scotland"
+      }
+    },
+    "images": [
+      "media/vaux-longline-cardigan-hero.webp",
+      "media/vaux-longline-cardigan-detail.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "XS",
+        "sku": "LRC-VAUXLONGCARD-XS",
+        "options": {
+          "Size": "XS"
+        },
+        "price_usd": 235,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "S",
+        "sku": "LRC-VAUXLONGCARD-S",
+        "options": {
+          "Size": "S"
+        },
+        "price_usd": 235,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "M",
+        "sku": "LRC-VAUXLONGCARD-M",
+        "options": {
+          "Size": "M"
+        },
+        "price_usd": 235,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "L",
+        "sku": "LRC-VAUXLONGCARD-L",
+        "options": {
+          "Size": "L"
+        },
+        "price_usd": 235,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "XL",
+        "sku": "LRC-VAUXLONGCARD-XL",
+        "options": {
+          "Size": "XL"
+        },
+        "price_usd": 235,
+        "inventory_quantity": 4
+      }
+    ],
+    "imageBrief": {
+      "subject": "A knee-length open lambswool cardigan in dark ink brown-black with seven matte buttons down the front, two large low patch pockets and a deep ribbed hem, worn on an invisible form hanging open and straight.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "orne-wool-scarf",
+    "title": "Orne oversized wool scarf",
+    "subtitle": "Brushed lambswool, one size, 200 x 70 cm, hand-knotted fringe",
+    "description": "A large brushed lambswool scarf, 200 by 70 centimetres, which is wide enough to be worn as a wrap over a coat and long enough to double and loop without strangling. The weave is a plain twill in a single natural cream, brushed on both faces so it is soft against the neck straight out of the box, not after three winters. The fringe is hand-knotted rather than cut, which is the detail that decides whether a scarf still looks like itself after a year. It comes in one size and one colourway on purpose: this is the piece we do not want to make decisions about. Dry clean, or hand wash cold in wool detergent and dry flat away from a radiator.",
+    "status": "published",
+    "category": "knitwear",
+    "collections": [
+      "autumn-edit"
+    ],
+    "weight": 380,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-ORNE",
+      "specs": {
+        "Fabric": "100% lambswool, brushed both faces",
+        "Size": "200 x 70 cm, one size",
+        "Weave": "Plain twill",
+        "Fringe": "Hand-knotted, 6 cm",
+        "Weight": "380 g",
+        "Care": "Dry clean, or hand wash cold and dry flat",
+        "Made in": "Scotland"
+      }
+    },
+    "images": [
+      "media/orne-wool-scarf-hero.webp",
+      "media/orne-wool-scarf-detail.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "One size",
+        "sku": "LRC-ORNEWOOLSCAR-OS",
+        "options": {},
+        "price_usd": 95,
+        "inventory_quantity": 20
+      }
+    ],
+    "imageBrief": {
+      "subject": "A very large brushed lambswool scarf in natural cream, folded lengthwise and looped once so the twill weave and the hand-knotted fringe at both ends are clearly visible, hanging vertically against the backdrop.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "mazan-silk-shirt",
+    "title": "Mazan silk shirt",
+    "subtitle": "Sandwashed silk, point collar, dropped shoulder, curved hem",
+    "description": "A relaxed shirt in sandwashed silk, which is silk with the shine taken off it, so it reads as an everyday shirt rather than as evening wear. The collar is a soft point collar with no interlining, cut to sit flat whether it is buttoned to the neck or left open. The shoulder is dropped two centimetres and the sleeve is full to a plain single-button cuff. The hem is curved, longer at the back, and finished with a 6 mm rolled edge so it can be worn out or tucked without a ridge. Buttons are corozo nut, dyed to match. Sandwashed silk creases; it also drops most of those creases if you hang it overnight, and we would rather tell you that than pretend otherwise.",
+    "status": "published",
+    "category": "shirts-and-blouses",
+    "collections": [
+      "essentials"
+    ],
+    "weight": 180,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-MAZAN",
+      "specs": {
+        "Fabric": "100% sandwashed silk, 16 momme",
+        "Collar": "Soft point collar, no interlining",
+        "Shoulder": "Dropped 2 cm",
+        "Cuff": "Single button, plain placket",
+        "Hem": "Curved, rolled 6 mm edge",
+        "Buttons": "Corozo nut, tonal",
+        "Care": "Hand wash cold or silk cycle, cool iron inside out",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/mazan-silk-shirt-hero.webp",
+      "media/mazan-silk-shirt-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ivory / XS",
+        "sku": "LRC-MAZASILKSHIR-IVORY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ivory"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ivory / S",
+        "sku": "LRC-MAZASILKSHIR-IVORY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ivory"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / M",
+        "sku": "LRC-MAZASILKSHIR-IVORY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ivory"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / L",
+        "sku": "LRC-MAZASILKSHIR-IVORY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ivory"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / XL",
+        "sku": "LRC-MAZASILKSHIR-IVORY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ivory"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / XS",
+        "sku": "LRC-MAZASILKSHIR-CLAY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Clay"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Clay / S",
+        "sku": "LRC-MAZASILKSHIR-CLAY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Clay"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / M",
+        "sku": "LRC-MAZASILKSHIR-CLAY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Clay"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / L",
+        "sku": "LRC-MAZASILKSHIR-CLAY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Clay"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / XL",
+        "sku": "LRC-MAZASILKSHIR-CLAY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Clay"
+        },
+        "price_usd": 225,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A relaxed sandwashed silk shirt in warm ivory with a soft open camp collar, dropped shoulders, full long sleeves with single-button cuffs and a curved hem, worn on an invisible form with the front buttoned to the second button.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "carre-silk-square",
+    "title": "Carré printed silk square",
+    "subtitle": "Twill silk, 90 x 90 cm, hand-rolled hem, one size",
+    "description": "A 90 centimetre silk twill square, printed in our own drawn pattern of overlapping ink lines on a cream ground, hemmed by hand. A hand-rolled hem is the reason a square scarf holds a knot and hangs in a soft cone instead of a flat sheet; it is also the reason this is not a fifteen dollar scarf. The print is a screen print in four passes, so the lines stay crisp at the crossings rather than blurring into each other. It ties at the neck, at the handle of a bag, or in the hair, and it is the one thing in the shop that fits everybody. One size, one colourway, no decisions.",
+    "status": "published",
+    "category": "shirts-and-blouses",
+    "collections": [
+      "essentials"
+    ],
+    "weight": 65,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-CARRE",
+      "specs": {
+        "Fabric": "100% silk twill, 14 momme",
+        "Size": "90 x 90 cm, one size",
+        "Print": "Four-pass screen print, drawn in house",
+        "Hem": "Hand-rolled",
+        "Weight": "65 g",
+        "Care": "Dry clean, or hand wash cold and cool iron",
+        "Made in": "Italy"
+      }
+    },
+    "images": [
+      "media/carre-silk-square-hero.webp",
+      "media/carre-silk-square-detail.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "One size",
+        "sku": "LRC-CARRSILKSQUA-OS",
+        "options": {},
+        "price_usd": 120,
+        "inventory_quantity": 20
+      }
+    ],
+    "imageBrief": {
+      "subject": "A large square silk twill scarf in cream printed with fine overlapping dark ink lines, loosely folded into a soft triangle and draped so the hand-rolled edge and the printed pattern are both visible against the backdrop.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "tille-wide-trouser",
+    "title": "Tille pleated straight trouser",
+    "subtitle": "Wool-blend suiting, high rise, pressed crease, cropped at the ankle",
+    "description": "A high-rise straight-leg trouser in a wool-blend suiting with a dry matte finish and enough weight to keep a pressed crease through a day. The waistband is 4 cm, faced rather than elasticated, and sits at the natural waist; there are two flat front pleats that release into the leg. Pockets are proper side-seam pockets, deep enough for a phone, bagged in cotton so they do not print through. The leg is 21 cm across the hem and finishes just above the ankle bone, so it clears a boot and does not break over a flat shoe. Hook-and-bar and concealed zip, no visible hardware anywhere on the outside.",
+    "status": "published",
+    "category": "trousers-and-skirts",
+    "collections": [
+      "essentials",
+      "autumn-edit"
+    ],
+    "weight": 460,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-TILLE",
+      "specs": {
+        "Fabric": "68% wool, 30% polyester, 2% elastane suiting",
+        "Rise": "High, natural waist, 4 cm faced waistband",
+        "Front": "Two flat pleats, released into the leg",
+        "Pockets": "Side seam, cotton bagged",
+        "Leg": "21 cm hem width, cropped just above the ankle",
+        "Closure": "Hook and bar, concealed zip",
+        "Care": "Dry clean, or cold wool cycle and warm press",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/tille-wide-trouser-hero.webp",
+      "media/tille-wide-trouser-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ink / XS",
+        "sku": "LRC-TILLWIDETROU-INK-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ink"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ink / S",
+        "sku": "LRC-TILLWIDETROU-INK-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ink"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / M",
+        "sku": "LRC-TILLWIDETROU-INK-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ink"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / L",
+        "sku": "LRC-TILLWIDETROU-INK-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ink"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XL",
+        "sku": "LRC-TILLWIDETROU-INK-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ink"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XS",
+        "sku": "LRC-TILLWIDETROU-SAGE-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Sage"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Sage / S",
+        "sku": "LRC-TILLWIDETROU-SAGE-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Sage"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / M",
+        "sku": "LRC-TILLWIDETROU-SAGE-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Sage"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / L",
+        "sku": "LRC-TILLWIDETROU-SAGE-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Sage"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Sage / XL",
+        "sku": "LRC-TILLWIDETROU-SAGE-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Sage"
+        },
+        "price_usd": 195,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of high-waisted wide-leg tailored trousers in deep ink charcoal wool suiting with two flat front pleats, a faced waistband and a sharp pressed crease running down each leg, worn on an invisible lower form.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "noyer-bias-skirt",
+    "title": "Noyer bias-cut midi skirt",
+    "subtitle": "Silk-blend satin, matte face, elastic-backed waist, midi",
+    "description": "A bias-cut midi skirt in a silk-blend satin used matte side out, so it has the movement of satin without the shine. Because it is cut on the bias it flares from the hip without gathers, and there is no zip: the back half of the waistband is a covered elastic, which means it pulls on and still looks like a tailored waistband from the front. The hem is 88 cm from the waist and is finished with a narrow machine-rolled edge that keeps the weight low so the skirt keeps moving. It is the piece most people in the studio own, usually with the Aubin crewneck on top and a pair of flat boots.",
+    "status": "published",
+    "category": "trousers-and-skirts",
+    "collections": [
+      "autumn-edit"
+    ],
+    "weight": 240,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-NOYER",
+      "specs": {
+        "Fabric": "55% silk, 45% viscose satin, matte face out",
+        "Cut": "True bias, no zip",
+        "Waist": "Front faced, back covered elastic, 3 cm",
+        "Length": "88 cm from waist",
+        "Hem": "Narrow machine-rolled edge",
+        "Care": "Hand wash cold or silk cycle, hang dry",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/noyer-bias-skirt-hero.webp",
+      "media/noyer-bias-skirt-detail.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "XS",
+        "sku": "LRC-NOYEBIASSKIR-XS",
+        "options": {
+          "Size": "XS"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "S",
+        "sku": "LRC-NOYEBIASSKIR-S",
+        "options": {
+          "Size": "S"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "M",
+        "sku": "LRC-NOYEBIASSKIR-M",
+        "options": {
+          "Size": "M"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "L",
+        "sku": "LRC-NOYEBIASSKIR-L",
+        "options": {
+          "Size": "L"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "XL",
+        "sku": "LRC-NOYEBIASSKIR-XL",
+        "options": {
+          "Size": "XL"
+        },
+        "price_usd": 175,
+        "inventory_quantity": 4
+      }
+    ],
+    "imageBrief": {
+      "subject": "A bias-cut midi skirt in muted sage-green matte satin with a plain narrow waistband and a hem that flares gently, worn on an invisible lower form so the fabric hangs in soft diagonal folds.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "belair-wool-overcoat",
+    "title": "Bel-Air wool overcoat",
+    "subtitle": "Double-faced wool, unlined, single button, below the knee",
+    "description": "A long overcoat in a double-faced wool, which is two woven cloths bonded and then split and hand-stitched at every edge, so the coat needs no lining and shows the same cloth inside and out. That construction is why it is light for its warmth and why the seams are visible as a fine stitch line rather than hidden. It closes with a single covered button at the waist and falls straight from a slightly extended shoulder to just below the knee. Two welt pockets, set at an angle you can actually reach. It is the most expensive thing we make and the one we most expect to see repaired rather than replaced; the stitch can be redone.",
+    "status": "published",
+    "category": "coats-and-jackets",
+    "collections": [
+      "autumn-edit"
+    ],
+    "weight": 1450,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-BELAIR",
+      "specs": {
+        "Fabric": "Double-faced wool, 620 g/m, bonded and split",
+        "Lining": "None; edges hand-stitched",
+        "Closure": "Single covered button at the waist",
+        "Length": "Below the knee, 112 cm size M",
+        "Pockets": "Two angled welt",
+        "Shoulder": "Slightly extended, no pad",
+        "Care": "Dry clean only",
+        "Made in": "Italy"
+      }
+    },
+    "images": [
+      "media/belair-wool-overcoat-hero.webp",
+      "media/belair-wool-overcoat-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ivory / XS",
+        "sku": "LRC-BELAWOOLOVER-IVORY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ivory"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ivory / S",
+        "sku": "LRC-BELAWOOLOVER-IVORY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ivory"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / M",
+        "sku": "LRC-BELAWOOLOVER-IVORY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ivory"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / L",
+        "sku": "LRC-BELAWOOLOVER-IVORY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ivory"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ivory / XL",
+        "sku": "LRC-BELAWOOLOVER-IVORY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ivory"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XS",
+        "sku": "LRC-BELAWOOLOVER-INK-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ink"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ink / S",
+        "sku": "LRC-BELAWOOLOVER-INK-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ink"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / M",
+        "sku": "LRC-BELAWOOLOVER-INK-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ink"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / L",
+        "sku": "LRC-BELAWOOLOVER-INK-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ink"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XL",
+        "sku": "LRC-BELAWOOLOVER-INK-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ink"
+        },
+        "price_usd": 595,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A long straight-cut unlined overcoat in warm ivory double-faced wool with a notch lapel, one covered button at the waist, two angled welt pockets and visible fine hand stitching along every edge, worn on an invisible form.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "quessant-quilted-jacket",
+    "title": "Quessant quilted jacket",
+    "subtitle": "Recycled-down quilt, hip length, stand collar, press studs",
+    "description": "A short quilted jacket built for the weeks between a cardigan and a coat. The shell is a matte recycled polyamide with a dry hand, quilted in 6 cm channels over a recycled down fill so it packs down to about the size of a loaf. The collar stands and closes fully; the front is a two-way zip behind a press-stud placket, so it can be worn open at the hem while still closed at the chest. Cuffs are elasticated on the inside only, which keeps the sleeve clean from the outside. Two zipped hand pockets, one internal drop pocket. It is hip length, cut to sit over a knit without riding up when you put your arms out.",
+    "status": "published",
+    "category": "coats-and-jackets",
+    "collections": [
+      "essentials"
+    ],
+    "weight": 640,
+    "metadata": {
+      "brand": "Larchant",
+      "mpn": "LRC-QUESSANT",
+      "specs": {
+        "Shell": "Recycled polyamide, matte, water repellent",
+        "Fill": "Recycled down, 6 cm quilted channels",
+        "Collar": "Stand, closes fully",
+        "Front": "Two-way zip behind a press-stud placket",
+        "Pockets": "Two zipped hand, one internal drop",
+        "Length": "Hip, 66 cm size M",
+        "Care": "Machine wash cold, tumble low with dryer balls",
+        "Made in": "Vietnam"
+      }
+    },
+    "images": [
+      "media/quessant-quilted-jacket-hero.webp",
+      "media/quessant-quilted-jacket-detail.webp"
+    ],
+    "options": [
+      "Size",
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Ink / XS",
+        "sku": "LRC-QUESQUILJACK-INK-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Ink"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Ink / S",
+        "sku": "LRC-QUESQUILJACK-INK-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Ink"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / M",
+        "sku": "LRC-QUESQUILJACK-INK-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Ink"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / L",
+        "sku": "LRC-QUESQUILJACK-INK-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Ink"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Ink / XL",
+        "sku": "LRC-QUESQUILJACK-INK-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Ink"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / XS",
+        "sku": "LRC-QUESQUILJACK-CLAY-XS",
+        "options": {
+          "Size": "XS",
+          "Colour": "Clay"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 4
+      },
+      {
+        "title": "Clay / S",
+        "sku": "LRC-QUESQUILJACK-CLAY-S",
+        "options": {
+          "Size": "S",
+          "Colour": "Clay"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / M",
+        "sku": "LRC-QUESQUILJACK-CLAY-M",
+        "options": {
+          "Size": "M",
+          "Colour": "Clay"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / L",
+        "sku": "LRC-QUESQUILJACK-CLAY-L",
+        "options": {
+          "Size": "L",
+          "Colour": "Clay"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 10
+      },
+      {
+        "title": "Clay / XL",
+        "sku": "LRC-QUESQUILJACK-CLAY-XL",
+        "options": {
+          "Size": "XL",
+          "Colour": "Clay"
+        },
+        "price_usd": 295,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A hip-length quilted jacket in deep ink navy-black matte technical fabric with wide horizontal quilted channels, a full stand collar, a covered press-stud front placket and two zipped hand pockets, worn on an invisible form.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-form: the garment worn by an invisible form, centred in the panel, square to camera, full length in frame, on the standard cream cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks, monograms or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on labels, tags, buttons and hardware",
+        "a cut, print or hardware detail copied from an existing fashion house",
+        "human faces, heads, hands or bare skin; the garment is worn by an invisible form, never by a person",
+        "hangers, rails, mannequin stands, plinths, boxes, tissue paper, furniture, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating garment",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  }
+]
