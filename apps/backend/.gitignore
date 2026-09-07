@@ -25,3 +25,11 @@ build
 
 .medusa
 **/.DS_Store
+
+# Store profiles (t-store-profiles-pilot): generated media bytes never enter git.
+# Must sit AFTER `!src/**` above, which would otherwise re-include them
+# (measured with `git check-ignore -v`). media/manifest.json stays tracked.
+src/migration-scripts/data/profiles/*/media/*.webp
+src/migration-scripts/data/profiles/*/media/*.png
+src/migration-scripts/data/profiles/*/media/*.jpg
+static/

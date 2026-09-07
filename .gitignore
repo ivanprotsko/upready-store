@@ -58,3 +58,11 @@ tsconfig.tsbuildinfo
 
 # Claude Code local settings (per-developer, never committed)
 .claude/settings.local.json
+
+# Store profiles (t-store-profiles-pilot): generated media never enters git.
+# Manifests and catalog JSON DO stay in git; only the bytes are ignored.
+apps/backend/static/
+apps/backend/src/migration-scripts/data/profiles/*/media/*.webp
+apps/backend/src/migration-scripts/data/profiles/*/media/*.png
+apps/backend/src/migration-scripts/data/profiles/*/media/*.jpg
+artifacts/media/
