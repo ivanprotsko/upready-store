@@ -2,6 +2,8 @@ import { Container, clx } from "@medusajs/ui"
 import Image from "next/image"
 import type React from "react"
 
+import ImageFrame from "@lib/profile/image-frame"
+import { imageTreatment } from "@lib/profile"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
@@ -15,6 +17,9 @@ type ThumbnailProps = {
   "data-testid"?: string
 }
 
+const SIZES =
+  "(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+
 const Thumbnail: React.FC<ThumbnailProps> = ({
   thumbnail,
   images,
@@ -26,6 +31,35 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   "data-testid": dataTestid,
 }) => {
   const initialImage = thumbnail || images?.[0]?.url
+
+  // A profile that declares layout.imageTreatment owns the shape of the card image: the
+  // aspect comes from the profile instead of from the fixed 9:16 / 11:18 crops below. With
+  // no treatment — the `default` profile — nothing here changes and the card is byte for
+  // byte what the storefront renders today.
+  if (imageTreatment && initialImage) {
+    return (
+      <ImageFrame
+        src={initialImage}
+        alt={alt ?? ""}
+        treatment={imageTreatment}
+        secondSrc={images?.[1]?.url ?? null}
+        priority={priority}
+        quality={50}
+        sizes={SIZES}
+        data-testid={dataTestid}
+        className={clx(
+          "bg-ui-bg-subtle",
+          {
+            "w-[180px]": size === "small",
+            "w-[290px]": size === "medium",
+            "w-[440px]": size === "large",
+            "w-full": size === "full",
+          },
+          className
+        )}
+      />
+    )
+  }
 
   return (
     <Container
@@ -68,7 +102,7 @@ const ImageOrPlaceholder = ({
       draggable={false}
       quality={50}
       priority={priority}
-      sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+      sizes={SIZES}
       fill
     />
   ) : (

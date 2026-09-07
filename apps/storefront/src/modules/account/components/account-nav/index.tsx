@@ -145,7 +145,7 @@ const AccountNav = () => {
                   {t("orders")}
                 </AccountNavLink>
               </li>
-              <li className="text-grey-700">
+              <li className="text-ui-fg-subtle">
                 <button
                   type="button"
                   onClick={handleLogout}

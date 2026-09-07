@@ -1,0 +1,42 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "absolute-image-shop",
+  "vertical": "unit-test fixture",
+  "brand": {
+    "name": "Absolute Image Shop",
+    "tagline": "A fixture, not a shop",
+    "wordmark": {
+      "text": "FIXTURE",
+      "style": "wordmark"
+    }
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "en",
+      "de"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 1,
+      "variants": 2,
+      "images": 1
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  }
+}

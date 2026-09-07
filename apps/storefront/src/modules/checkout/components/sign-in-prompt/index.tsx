@@ -6,7 +6,7 @@ const SignInPrompt = async () => {
   const t = await getTranslations("SignInPrompt")
   return (
     <>
-      <div className="bg-white flex items-center justify-between">
+      <div className="bg-ui-bg-base flex items-center justify-between">
         <div>
           <h2 className="h2-docs">{t("heading")}</h2>
           <p className="txt-medium text-ui-fg-muted">{t("description")}</p>

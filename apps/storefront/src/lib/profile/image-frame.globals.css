@@ -1,0 +1,59 @@
+/*
+ * Global half of image-frame, split out of image-frame.module.css on 2026-09-07.
+ *
+ * Why the split: css-loader compiles a *.module.css in PURE mode, so every top-level rule
+ * must carry a local class or id and a bare `html[data-image-aspect="1-1"]` rule fails the
+ * build with "Selector ... is not pure".
+ *
+ * Why no `:global()` here: this is a plain stylesheet, not a CSS module, and `:global` is a
+ * CSS-modules pseudo-class that only the modules compiler understands. Turbopack rejects it
+ * outright — "'global' is not recognized as a valid pseudo-class" — which took every route to
+ * 500 (measured on port 8033: GET /en -> 500). A plain stylesheet is already global, so the
+ * wrapper is not merely unnecessary, it is a parse error. Keep these selectors bare, and keep
+ * local classes in the .module.css next to this file.
+ *
+ * Semantics are unchanged: these rules give meaning to the data-image-* attributes the
+ * pre-paint script writes on <html>. Every property also has a fallback baked inline from
+ * profile.generated.json by imageTreatmentStyle(), so the frame works with no attributes at all.
+ */
+
+html[data-image-aspect="1-1"] {
+  --image-aspect: 1 / 1;
+}
+
+html[data-image-aspect="4-5"] {
+  --image-aspect: 4 / 5;
+}
+
+html[data-image-aspect="3-4"] {
+  --image-aspect: 3 / 4;
+}
+
+html[data-image-fit="cover"] {
+  --image-fit: cover;
+}
+
+html[data-image-fit="contain"] {
+  --image-fit: contain;
+}
+
+html[data-image-radius="none"] {
+  --image-radius: 0px;
+}
+
+html[data-image-radius="md"] {
+  --image-radius: 0.5rem;
+}
+
+html[data-image-radius="lg"] {
+  --image-radius: 0.75rem;
+}
+
+html[data-image-hover="none"],
+html[data-image-hover="second-image"] {
+  --image-hover-scale: 1;
+}
+
+html[data-image-hover="zoom"] {
+  --image-hover-scale: 1.04;
+}

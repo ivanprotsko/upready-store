@@ -49,7 +49,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             placeholder=" "
             required={required}
-            className="pt-4 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover"
+            className="pt-4 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover text-ui-fg-base placeholder:text-ui-fg-muted focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
             {...props}
             ref={inputRef}
           />
@@ -67,7 +67,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               onClick={() => setShowPassword(!showPassword)}
               aria-label={t(showPassword ? "hidePassword" : "showPassword")}
               aria-pressed={showPassword}
-              className="text-ui-fg-subtle px-4 flex items-center justify-center focus:outline-none transition-all duration-150 outline-none focus:text-ui-fg-base absolute end-0 inset-y-0"
+              className="text-ui-fg-subtle px-4 flex items-center justify-center focus:outline-none transition-all duration-150 outline-none focus:text-ui-fg-base absolute end-0 inset-y-0 focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
             >
               {showPassword ? <Eye /> : <EyeOff />}
             </button>

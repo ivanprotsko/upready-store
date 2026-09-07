@@ -59,7 +59,7 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             defaultValue={defaultValue}
             aria-label={resolvedPlaceholder}
             {...props}
-            className="appearance-none flex-1 bg-transparent border-none px-2 py-1 transition-colors duration-150 outline-none "
+            className="appearance-none flex-1 bg-transparent border-none px-2 py-1 transition-colors duration-150 outline-none text-ui-fg-base focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           >
             <option disabled value="">
               {resolvedPlaceholder}

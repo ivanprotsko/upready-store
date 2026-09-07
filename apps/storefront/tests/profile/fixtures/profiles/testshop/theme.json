@@ -1,0 +1,5 @@
+{
+  "schema": "upready.theme-preset/v0",
+  "id": "testshop",
+  "note": "Fixture only. The theme build is not exercised by these tests (SKIP_THEME_BUILD=1)."
+}

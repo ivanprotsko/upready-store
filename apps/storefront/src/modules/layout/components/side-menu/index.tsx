@@ -35,7 +35,7 @@ const SideMenu = () => {
                 <PopoverButton
                   aria-label={t("SideMenu.menuButton")}
                   data-testid="nav-menu-button"
-                  className="relative h-full flex gap-1 items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base txt-compact-xsmall"
+                  className="relative h-full flex gap-1 items-center transition-all ease-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] hover:text-ui-fg-base txt-compact-xsmall"
                 >
                   <BarsThree />
                 </PopoverButton>
@@ -43,7 +43,7 @@ const SideMenu = () => {
 
               {open && (
                 <div
-                  className="fixed inset-0 z-[50] bg-black/0 pointer-events-auto"
+                  className="fixed inset-0 z-[50] bg-ui-bg-overlay/0 pointer-events-auto"
                   onClick={close}
                   data-testid="side-menu-backdrop"
                 />
@@ -62,7 +62,7 @@ const SideMenu = () => {
                 <PopoverPanel className="flex flex-col fixed inset-0 sm:end-auto sm:w-1/3 2xl:w-1/4 sm:min-w-min z-[51] text-sm text-ui-fg-on-color m-2 rounded-rounded backdrop-blur-2xl">
                   <div
                     data-testid="nav-menu-popup"
-                    className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6"
+                    className="flex flex-col h-full bg-ui-bg-overlay rounded-rounded justify-between p-6"
                   >
                     <div className="flex justify-end" id="xmark">
                       <button

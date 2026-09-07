@@ -38,6 +38,10 @@ const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
  */
 const nextConfig = {
   output: "standalone",
+  // Two agents work the storefront in the same worktree during the store-profile
+  // build-out; a shared .next/ makes their builds clobber each other. NEXT_DIST_DIR
+  // gives each its own output tree and is unset (so ".next") everywhere else.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // Next streams metadata by default, which lands <title>, the description,
   // the canonical and every hreflang in the body instead of the head. React
   // never hoists them, so Google ignores a canonical it finds there and

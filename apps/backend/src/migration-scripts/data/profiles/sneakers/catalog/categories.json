@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "footwear",
+    "name": "Footwear",
+    "children": [
+      {
+        "handle": "low-tops",
+        "name": "Low tops"
+      },
+      {
+        "handle": "high-tops",
+        "name": "High tops"
+      },
+      {
+        "handle": "runners",
+        "name": "Runners"
+      },
+      {
+        "handle": "trail",
+        "name": "Trail"
+      }
+    ]
+  },
+  {
+    "handle": "accessories",
+    "name": "Accessories",
+    "children": [
+      {
+        "handle": "care-and-spares",
+        "name": "Care and spares"
+      }
+    ]
+  }
+]

@@ -1,0 +1,111 @@
+{
+  "name": "Deutsch",
+  "translations": {
+    "categories": {
+      "accessories": "Zubehör",
+      "careAndSpares": "Pflege und Ersatz",
+      "footwear": "Schuhe",
+      "highTops": "High Tops",
+      "lowTops": "Low Tops",
+      "runners": "Runner",
+      "trail": "Trail"
+    },
+    "collections": {
+      "bestsellers": "Bestseller",
+      "newArrivals": "Neuheiten"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Farbe",
+        "values": {
+          "tarBlack": "Teerschwarz",
+          "sulphur": "Schwefel",
+          "chalk": "Kreide"
+        }
+      },
+      "colourway": {
+        "title": "Farbstellung",
+        "values": {
+          "tarBlack": "Teerschwarz",
+          "sulphur": "Schwefel",
+          "concrete": "Beton",
+          "oxblood": "Ochsenblut",
+          "chalk": "Kreide",
+          "diesel": "Diesel"
+        }
+      },
+      "size": {
+        "title": "Größe (EU)",
+        "values": {
+          "38": "38",
+          "39": "39",
+          "40": "40",
+          "41": "41",
+          "42": "42",
+          "43": "43",
+          "44": "44",
+          "45": "45",
+          "46": "46"
+        }
+      }
+    },
+    "products": {
+      "bollardHigh": {
+        "description": "Ein High Top, der den Knöchel hält, ohne ihn zu versteifen. Das Obermaterial ist 1,6 mm starkes Vollrindleder über einem lederfütterten Schaftrand mit rund 12 mm Polsterung; der Knöchelbereich ist einteilig geschnitten, sodass keine Naht auf dem Knöchel liegt. Acht Ösen und zwei Haken erlauben es, unten locker und oberhalb des Knöchels fest zu schnüren. Die Sohle ist eine Cupsole mit 10 mm Sprengung, gegossenem EVA-Keil und massiver Gummilaufsohle. Teerschwarz ist die Hausfarbe mit schwefelgelber Fersenlasche, Diesel ein dunkles Grüngrau, und die Farbstellung Schwefel zieht das Säuregelb über den ganzen Schaft. Das Leder weitet sich im ersten Monat um etwa eine halbe Größe. Zweimal im Jahr fetten und nicht an der Heizung trocknen.",
+        "title": "Bollard High · Teerschwarz"
+      },
+      "camberRunner": {
+        "description": "Der günstigste Schuh, den wir bauen, und der, von dem wir die meisten verkaufen. Ein Strickschaft mit elastischem Bund, in den man ohne Aufschnüren hineinsteigt, eine formgepresste EVA-Zwischensohle mit 10 mm Sprengung und Gummi auf den Verschleißzonen. Er ist ein Geh- und Stehschuh: dreißig bis sechzig Minuten am Stück, den ganzen Tag auf den Beinen, aber kein Marathon. Das Gestrick gibt in der ersten Woche etwas nach und hält danach seine Form. Schwefel ist die Säurefarbe und zeigt Schmutz, was der ehrliche Preis für diese Farbe ist; Diesel, ein dunkles Grüngrau, tut das nicht. Bei 30 Grad im Wäschenetz und ohne Einlegesohle waschen und im Zimmer trocknen, nicht auf der Heizung.",
+        "title": "Camber Runner · Schwefel"
+      },
+      "careKit": {
+        "description": "Drei Dinge, mehr braucht ein Schuh nicht. Eine doppelseitige Bürste, an einem Ende Rosshaar für Leder, am anderen ein Kopf aus Krepp und Messing für Velours und Nubuk. Ein wasserbasierter Reiniger mit 100 ml Inhalt und ohne Lösungsmittel, der also keine Farbe auszieht und keine Klebenaht anlöst. Ein gesäumtes Mikrofasertuch, 40 mal 40 cm, das die Wäsche übersteht. Der Reiniger ist für Leder, Canvas, Mesh und Gestrick gedacht; auf Velours und Nubuk nur den trockenen Kreppkopf verwenden und Wasser vollständig fernhalten. Ein Set reicht für etwa zwanzig Reinigungen eines Paars. Es ist keine Imprägnierung; ein Imprägnierspray ist etwas anderes, und wir führen noch keines.",
+        "title": "Pflegeset · dreiteilig"
+      },
+      "cattleGridTrail": {
+        "description": "Derselbe Leisten wie beim Culvert, nur ohne Membran. Das ist eine bewusste Entscheidung und keine billigere: Ein ungefütterter Schuh ist in den ersten zehn Minuten durchnässt und trocknet danach am Fuß, was an einem warmen Tag oder bei einer Furt die bessere Antwort ist. Der Schaft besteht aus offenem, abriebfestem Mesh mit aufgeschweißten TPU-Besätzen und Drainageöffnungen durch die Zwischensohle. Die Stollen sind 5 mm hoch, in derselben haftenden Mischung wie beim Culvert, die Sprengung beträgt 8 mm, die Steinschutzplatte ist dieselbe. Ochsenblut ist ein dunkles Rotbraun, Teerschwarz schwarz, Beton mittleres Grau. Nach Schlamm ausspülen, Einlegesohle heraus und im Zimmer trocknen lassen.",
+        "title": "Cattle Grid Trail · Ochsenblut"
+      },
+      "culvertTrail": {
+        "description": "Der Culvert ist der Schuh für das Ende des Gehwegs. Eine wasserdichte, atmungsaktive Membran ist mit dem Meshschaft verklebt und nicht als Bootie eingelegt, sodass sie keine Falten wirft; die Nähte sind verschweißt. Ein umlaufender Gummirand sitzt auf Höhe der Zwischensohle rund um den Schuh, und genau der verhindert, dass ein Trailschuh an der Spitze zuerst stirbt. Die Laufsohle trägt 5 mm tiefe, gerichtete Stollen in einer haftenden Mischung und eine Fersenbremse für Abstiege. Die Sprengung beträgt 8 mm über einer Steinschutzplatte, deren Fehlen man auf Feuerstein sofort merken würde. Diesel ist ein dunkles Grüngrau, Ochsenblut ein dunkles Rotbraun. Ein Membranschuh trocknet langsam: Einlegesohle heraus, aufrecht hinstellen und nie auf die Heizung.",
+        "title": "Culvert Trail · Diesel"
+      },
+      "flagstoneLow": {
+        "description": "Der Flagstone ist der breite Schuh. Der Leisten ist im Ballenbereich 4 mm breiter als beim Gutter, und das ist der Unterschied zwischen einem Schuh, den man in der achten Stunde erträgt, und einem, den man vergisst. Das Obermaterial ist geöltes Nubukleder mit einem Meshfeld hinter der Schnürung für den Luftaustausch; der Schaftrand ist mit geschlossenzelligem Schaum gepolstert, der sich bei Regen nicht vollsaugt. Die Sohleneinheit besteht aus einer EVA-Zwischensohle in zwei Dichten über einer Gummilaufsohle, 12 mm Sprengung, 26 mm Aufbau an der Ferse. Beton ist ein mittleres Grau, das Stadtschmutz schluckt, Ochsenblut ein dunkles Rotbraun, Kreide ein Off-White. Das Nubuk nur trocken bürsten und am Ende des Winters neu imprägnieren.",
+        "title": "Flagstone Low · Beton"
+      },
+      "flatWaxedLaces": {
+        "description": "Ein Paar flache gewachste Baumwollschnürsenkel, 8 mm breit und 140 cm lang, also genau die Länge, mit der Gutter, Sett und Flagstone ausgeliefert werden. Das Wachs ist Paraffin, in die Baumwolle eingearbeitet und nicht aufgetragen, deshalb hält der Senkel einen Knoten durch einen nassen Tag und rutscht in den Ösen nicht nach. Die Nadeln sind aus gerolltem, unlackiertem Messing und werden innerhalb eines Jahres dunkel golden. 140 cm passen zu sechs oder sieben Ösenpaaren; die High Tops brauchen einen längeren Senkel. Den flachen Schnitt gibt es nur in Teerschwarz. Bei Schlamm von Hand waschen und flach liegend trocknen.",
+        "title": "Flache Wachsschnürsenkel · Teerschwarz"
+      },
+      "gantryHigh": {
+        "description": "Gewachster Baumwoll-Canvas mit 475 g/m², bereits in der Weberei mit Paraffin behandelt und nicht nach dem Zuschnitt aufgesprüht: Der Wasserschutz steckt im Gewebe und kehrt beim Nachwachsen zurück. Der Schaftrand sitzt 15 mm tiefer als beim Bollard, gibt den Knöchel frei und stört beim Radfahren nicht. Die Gummikappe an der Spitze ist genäht und zusätzlich verklebt. Die Sohle ist vulkanisiert, 8 mm Sprengung, mit einem Profil, das auf nassem Kopfsteinpflaster greift. Diesel ist ein dunkles Grüngrau, Beton ein mittleres Grau. Gewachster Canvas bricht und hellt an den Falten auf; das ist das Material und kein Mangel. Spitze und Beugefalte einmal im Jahr nachwachsen, nicht in die Waschmaschine geben.",
+        "title": "Gantry High · Diesel"
+      },
+      "gutterLow": {
+        "description": "Der Gutter ist der Low Top, von dem wir die meisten bauen. Das Obermaterial ist Vollrindleder mit einer Wildlederkappe über der Spitze, an der Spitze genäht statt verklebt: Die Partie, die zuerst aufscheuert, kann ein Schuhmacher ersetzen, statt dass der ganze Schuh weggeworfen wird. Darunter sitzt eine gegossene Cupsole mit 10 mm Sprengung und einer schwarzen Gummilaufsohle im flachen Fischgrätprofil, das nassen Asphalt ableitet. Das Futter ist ungebleichter Baumwollköper, die Einlegesohle ist herausnehmbar, eine orthopädische Einlage passt also direkt hinein. Der Schuh fällt normal aus; wer zwischen zwei Größen liegt, nimmt die kleinere. Das Leder mit einem feuchten Tuch abwischen, fern von der Heizung trocknen und zweimal im Jahr fetten.",
+        "title": "Gutter Low · Teerschwarz"
+      },
+      "roundWaxedLaces": {
+        "description": "Ein Paar runde gewachste Baumwollschnürsenkel, 4 mm stark und 120 cm lang, geschnitten für Flagstone und Towpath und für alle, die im Low Top einen dünneren Senkel wollen. Runde Wachsbaumwolle hält die Schleife fester als flache: Man löst den Knoten, statt ihn aufzuziehen, und sie läuft mit weniger Reibung durch runde Ösen. Das Wachs ist Paraffin, in die Faser eingearbeitet, die Nadeln sind aus gerolltem Messing. Drei Farben: Teerschwarz, das Säuregelb Schwefel und Kreide, ein Off-White, das nicht off-white bleiben wird und das auch nicht soll. Von Hand waschen und flach liegend trocknen.",
+        "title": "Runde Wachsschnürsenkel · drei Farben"
+      },
+      "settLow": {
+        "description": "Ein Sett ist der kleine Granitstein, mit dem Straßen früher gepflastert wurden, und dies ist der schlichteste Schuh in unserem Programm. Obermaterial aus Baumwoll-Canvas mit 340 g/m², Wildleder an Spitze und Fersenkappe, also dort, wo ein Canvasschuh zuerst nachgibt, und eine vulkanisierte Gummisohle, die in der Form gebunden und nicht in der Presse verklebt wird. Die Sprengung beträgt 8 mm, und die Sohle ist bewusst dünn: Man spürt den Gehweg darunter. Kreide ist ein ungefärbtes Off-White, das in der ersten Woche Flecken annimmt und sich danach beruhigt. Teerschwarz wird nach dem Zuschnitt stückgefärbt. Der Schuh fällt eine halbe Nummer größer aus, wer zwischen zwei Größen liegt, nimmt also die kleinere. Bei 30 Grad ohne Einlegesohle waschbar.",
+        "title": "Sett Low · Kreide"
+      },
+      "stanchionHigh": {
+        "description": "Der Stanchion ist durchgenäht: Das Obermaterial wird am Rand nach außen gelegt und durch die Zwischensohle vernäht, sodass die Sohle zweimal erneuert werden kann, ohne den Schaft anzurühren. Diese Machart ist der Grund, warum er der schwerste und teuerste Schuh auf dieser Seite ist. Der Schaft besteht aus pflanzlich gegerbtem Leder, das anfangs steif ist und rund drei Wochen Gehen braucht, bis es sitzt; Schaftrand und Fersenlasche sind aus derselben, dunkler zugerichteten Haut. Die Sprengung beträgt 12 mm über einer Zwischensohle aus geschichtetem Leder und Gummi mit profilierter Gummilaufsohle. Ochsenblut ist ein dunkles Rotbraun, das mit dem Tragen tiefer wird, Teerschwarz bleibt schwarz. Es gibt ihn nur in den Größen 40 bis 45. Vor dem ersten Winter fetten.",
+        "title": "Stanchion High · Ochsenblut"
+      },
+      "towpathRunner": {
+        "description": "Gebaut für den Untergrund, den ein Treidelpfad wirklich hat: nasser Splitt, loser Kies und lange flache Kilometer. Der Schaft ist ein geschlossenes Mesh mit Wildlederbesätzen an Spitze und Schnürung, die Steinchen aus dem Gewebe halten; die Zunge ist beidseitig eingenäht. Die Laufsohlenmischung ist weicher als die des Verge. Sie greift besser auf nassem Stein und verschleißt schneller, und das sollten Sie jetzt wissen und nicht erst in einem Jahr. Durchgehend Gummi, 3 mm Stollen, 10 mm Sprengung über einer EVA-Zwischensohle in zwei Dichten. Beton ist mittleres Grau, Teerschwarz schwarz, Kreide Off-White. Nach einem Tag im Kies die Laufsohle unter dem Wasserhahn abspülen und das Wildleder trocken bürsten, niemals nass.",
+        "title": "Towpath Runner · Beton"
+      },
+      "vergeRunner": {
+        "description": "Ein Laufschuh für die Straße, nicht für die Bahn. Der Schaft besteht aus einem einzigen Stück technischem Mesh: dichteres Garn dort, wo der Fuß abrollt, offenes Garn über den Zehen, sodass er ohne separates Lüftungsfeld atmet. Es gibt keine Fersenkappe aus Kunststoff; eine geformte Schaumspange übernimmt dieselbe Aufgabe bei einem Drittel des Gewichts. Die Zwischensohle aus superkritisch geschäumtem Material misst 32 mm an der Ferse und 24 mm im Vorfuß, die Sprengung beträgt also 8 mm; Gummi liegt nur unter Ferse und Ballen, dort, wo ein Schuh tatsächlich verschleißt. Kreide ist Off-White, Schwefel das Säuregelb, Teerschwarz schwarz auf schwarz. Kalt von Hand waschen und an der Luft trocknen: Hitze zerstört den Schaum.",
+        "title": "Verge Runner · Kreide"
+      }
+    }
+  }
+}

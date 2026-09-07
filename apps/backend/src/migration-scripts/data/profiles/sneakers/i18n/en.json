@@ -1,0 +1,111 @@
+{
+  "name": "English",
+  "translations": {
+    "categories": {
+      "accessories": "Accessories",
+      "careAndSpares": "Care and spares",
+      "footwear": "Footwear",
+      "highTops": "High tops",
+      "lowTops": "Low tops",
+      "runners": "Runners",
+      "trail": "Trail"
+    },
+    "collections": {
+      "bestsellers": "Bestsellers",
+      "newArrivals": "New arrivals"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Colour",
+        "values": {
+          "tarBlack": "Tar black",
+          "sulphur": "Sulphur",
+          "chalk": "Chalk"
+        }
+      },
+      "colourway": {
+        "title": "Colourway",
+        "values": {
+          "tarBlack": "Tar black",
+          "sulphur": "Sulphur",
+          "concrete": "Concrete",
+          "oxblood": "Oxblood",
+          "chalk": "Chalk",
+          "diesel": "Diesel"
+        }
+      },
+      "size": {
+        "title": "Size (EU)",
+        "values": {
+          "38": "38",
+          "39": "39",
+          "40": "40",
+          "41": "41",
+          "42": "42",
+          "43": "43",
+          "44": "44",
+          "45": "45",
+          "46": "46"
+        }
+      }
+    },
+    "products": {
+      "bollardHigh": {
+        "description": "A high top that holds the ankle without stiffening it. The upper is 1.6 mm full-grain leather over a leather-lined collar padded to about 12 mm, and the ankle panel is one piece, so no seam sits where the ankle bone does. Eight eyelets and two speed hooks let you lace it loose to the ankle and tight above it. The sole is a cupsole with a 10 mm drop, a moulded EVA wedge and a solid rubber outsole. Tar black is the house colour with a Sulphur heel tab, Diesel is a dark green-grey, and the Sulphur colourway takes the acid across the whole upper. The leather stretches about a half size in the first month. Feed it twice a year and dry it away from radiators.",
+        "title": "Bollard high · Tar black"
+      },
+      "camberRunner": {
+        "description": "The cheapest shoe we make and the one we sell most of. A knit upper with a stretch collar you can pull on without untying, a compression-moulded EVA midsole with a 10 mm drop, and rubber on the wear pads. It is a walking and standing shoe: thirty to sixty minutes at a time, all day on your feet, not a marathon. The knit gives a little in the first week and then holds its shape. Sulphur is the acid colourway and it shows dirt, which is the honest trade for that colour. Diesel is a dark green-grey that does not. Machine wash at 30 degrees in a bag with the insole out, and dry it in the room rather than on a radiator.",
+        "title": "Camber runner · Sulphur"
+      },
+      "careKit": {
+        "description": "Three things, which is all a shoe needs. A double-ended brush with horsehair at one end for leather and a crepe and brass head at the other for suede and nubuck. A 100 ml water-based cleaner with no solvent in it, which means it will not strip a dye or soften a cement line. A 40 by 40 cm microfibre cloth, hemmed, that survives the wash. The cleaner does leather, canvas, mesh and knit; use the crepe head dry on suede and nubuck and keep water off them entirely. One kit is enough for roughly twenty cleans of one pair. It is not a waterproofer: proofing spray is a separate thing and we do not sell one yet.",
+        "title": "Care kit · three piece"
+      },
+      "cattleGridTrail": {
+        "description": "The same last as the Culvert with the membrane left out. That is a deliberate choice and not a cheaper one: an unlined shoe wets through in the first ten minutes and then dries on your foot, which is the better answer on a warm day or a wet crossing. The upper is an open, abrasion-resistant mesh with welded TPU overlays and drainage ports through the midsole. The lugs are 5 mm in the same sticky compound as the Culvert, the drop is 8 mm and the rock plate is the same one. Oxblood is a dark red-brown, Tar black is black, Concrete is mid grey. Rinse it out after mud, take the insole out and let it dry in the room.",
+        "title": "Cattle grid trail · Oxblood"
+      },
+      "culvertTrail": {
+        "description": "The Culvert is the shoe for the end of the pavement. A waterproof, breathable membrane is bonded to the mesh upper rather than dropped in as a bootie, so it does not bunch, and the seams are taped. A moulded rubber rand runs the whole way round the shoe at the midsole line, which is what stops a trail shoe dying at the toe. The outsole carries 5 mm directional lugs in a sticky compound with a heel brake for descents. The drop is 8 mm over a rock plate whose absence you would feel on flint. Diesel is a dark green-grey, Oxblood is a dark red-brown. A membrane shoe dries slowly: take the insole out and stand it up, and never dry it on a radiator, which delaminates the membrane.",
+        "title": "Culvert trail · Diesel"
+      },
+      "flagstoneLow": {
+        "description": "The Flagstone is the wide one. The last is 4 mm broader across the ball of the foot than the Gutter, which is the difference between a shoe you tolerate at hour eight and one you forget about. The upper is oiled nubuck with a mesh panel behind the eyestay for airflow, and the collar is padded with closed-cell foam that does not soak up rain. The sole unit is a two-density EVA midsole over a rubber outsole, 12 mm drop, 26 mm stack at the heel. Concrete is a mid grey that hides city dirt, Oxblood is a dark red-brown, Chalk is off-white. Brush the nubuck dry, never wet, and re-proof it at the end of the winter.",
+        "title": "Flagstone low · Concrete"
+      },
+      "flatWaxedLaces": {
+        "description": "One pair of flat waxed cotton laces, 8 mm wide and 140 cm long, which is the length the Gutter, the Sett and the Flagstone ship with. The wax is paraffin worked into the cotton rather than coated onto it, so the lace holds a knot through a wet day and does not creep loose in the eyelets. The aglets are rolled brass, unlacquered, and they dull to a dark gold inside a year. 140 cm suits six or seven eyelet pairs; the high tops want a longer lace than this one. The flat cut is made in Tar black only. Wash them by hand if they get muddy and dry them flat.",
+        "title": "Flat waxed laces · Tar black"
+      },
+      "gantryHigh": {
+        "description": "Waxed cotton canvas, fourteen ounces, proofed with paraffin at the mill rather than sprayed after cutting, so the water resistance is in the cloth and comes back when you re-wax it. The collar sits 15 mm lower than the Bollard: it clears the ankle bone and stays out of the way when you ride. The rubber toe bumper is stitched as well as cemented. The sole is vulcanised, 8 mm drop, with a lug deep enough for wet cobbles. Diesel is a dark green-grey, Concrete is mid grey. Waxed canvas creases and lightens where it folds, which is the material and not a fault. Re-wax the toe and the flex line once a year and keep it out of the washing machine.",
+        "title": "Gantry high · Diesel"
+      },
+      "gutterLow": {
+        "description": "The Gutter is the low top we make the most of. The upper is full-grain leather with a suede toe wrap, stitched rather than bonded at the toe, so the panel that scuffs first can be replaced by a cobbler instead of thrown out. Underneath is a moulded cupsole with a 10 mm heel-to-toe drop and a black rubber outsole cut in a shallow herringbone that clears wet pavement. The lining is unbleached cotton twill and the footbed is removable, so an orthotic drops straight in. It fits true to size; if you are between sizes, take the smaller one. Wipe the leather with a damp cloth, let it dry away from heat, and feed it twice a year.",
+        "title": "Gutter low · Tar black"
+      },
+      "roundWaxedLaces": {
+        "description": "One pair of round waxed cotton laces, 4 mm across and 120 cm long, cut for the Flagstone and the Towpath and for anyone who wants a thinner lace in a low top. Round waxed cotton holds a bow harder than flat does, so you will work the knot loose rather than pull it, and it runs through a round eyelet with less friction. The wax is paraffin worked through the fibre and the aglets are rolled brass. Three colours: Tar black, the Sulphur acid, and Chalk off-white, which will not stay off-white and is not meant to. Wash them by hand and dry them flat.",
+        "title": "Round waxed laces · three colours"
+      },
+      "settLow": {
+        "description": "A sett is the small granite block a road used to be paved with, and this is the plainest shoe we make. Twelve-ounce cotton canvas upper, suede on the toe and the heel counter where a canvas shoe gives out first, and a vulcanised rubber sole bonded in a mould rather than glued in a press. The drop is 8 mm and the sole is thin on purpose: you feel the pavement through it. Chalk is an undyed off-white that marks in the first week and then settles down. The Tar black is piece-dyed after cutting. It runs about a half size large, so take the smaller size if you are between. Machine washable at 30 degrees with the insole out.",
+        "title": "Sett low · Chalk"
+      },
+      "stanchionHigh": {
+        "description": "The Stanchion is stitched down: the upper is turned out at the feather edge and sewn through to the midsole, so the sole can be replaced twice without touching the upper. That construction is why it is the heaviest and the dearest shoe on this page. The upper is vegetable-tanned leather that starts stiff and takes about three weeks of walking to sit right, and the collar and heel tab are a darker temper of the same hide. The drop is 12 mm over a stacked leather and rubber midsole with a lugged rubber outsole. Oxblood is a dark red-brown that deepens with wear, Tar black stays black. It is cut in one size grade only, EU 40 to 45. Feed it before the first winter.",
+        "title": "Stanchion high · Oxblood"
+      },
+      "towpathRunner": {
+        "description": "Built for the surface a towpath actually has: wet grit, loose gravel and long flat miles. The upper is a closed mesh with suede overlays at the toe and the eyestay, which keeps stones out of the weave, and the tongue is gusseted on both sides. The outsole compound is softer than the one on the Verge. It grips better on wet stone and it wears out faster, and we would rather you knew that now than found out in a year. Full-length rubber, 3 mm lugs, 10 mm drop over a dual-density EVA midsole. Concrete is mid grey, Tar black is black, Chalk is off-white. Rinse the outsole under a tap after a gravel day and brush the suede dry, never wet.",
+        "title": "Towpath runner · Concrete"
+      },
+      "vergeRunner": {
+        "description": "A city runner built for pavement, not for a track. The upper is a single piece of engineered mesh with denser yarn where the foot flexes and an open weave over the toes, so it breathes without a separate vent panel. There is no plastic heel counter: a moulded foam clip does the same job at a third of the weight. The midsole is supercritical foam, 32 mm at the heel and 24 mm at the forefoot, so the drop is 8 mm, and rubber is fitted only under the heel and the ball, which is where a shoe actually wears out. Chalk is off-white, Sulphur is the acid, Tar black is black on black. Hand wash cold and air dry: heat collapses the foam.",
+        "title": "Verge runner · Chalk"
+      }
+    }
+  }
+}

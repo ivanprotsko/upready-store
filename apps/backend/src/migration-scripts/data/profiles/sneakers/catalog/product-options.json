@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Size",
+    "values": [
+      {
+        "value": "38"
+      },
+      {
+        "value": "39"
+      },
+      {
+        "value": "40"
+      },
+      {
+        "value": "41"
+      },
+      {
+        "value": "42"
+      },
+      {
+        "value": "43"
+      },
+      {
+        "value": "44"
+      },
+      {
+        "value": "45"
+      },
+      {
+        "value": "46"
+      }
+    ]
+  },
+  {
+    "title": "Colourway",
+    "values": [
+      {
+        "value": "Tar black",
+        "metadata": {
+          "hex": "#0A0A0A"
+        }
+      },
+      {
+        "value": "Sulphur",
+        "metadata": {
+          "hex": "#D6FF3B"
+        }
+      },
+      {
+        "value": "Concrete",
+        "metadata": {
+          "hex": "#8A8A8A"
+        }
+      },
+      {
+        "value": "Oxblood",
+        "metadata": {
+          "hex": "#4A1418"
+        }
+      },
+      {
+        "value": "Chalk",
+        "metadata": {
+          "hex": "#E8E4DC"
+        }
+      },
+      {
+        "value": "Diesel",
+        "metadata": {
+          "hex": "#1F2A2E"
+        }
+      }
+    ]
+  },
+  {
+    "title": "Colour",
+    "values": [
+      {
+        "value": "Tar black",
+        "metadata": {
+          "hex": "#0A0A0A"
+        }
+      },
+      {
+        "value": "Sulphur",
+        "metadata": {
+          "hex": "#D6FF3B"
+        }
+      },
+      {
+        "value": "Chalk",
+        "metadata": {
+          "hex": "#E8E4DC"
+        }
+      }
+    ]
+  }
+]

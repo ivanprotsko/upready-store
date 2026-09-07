@@ -1,0 +1,12 @@
+{
+  "translations": {
+    "terms": { "black": "Tiefschwarz" },
+    "categories": { "runners": "Laufschuhe", "clothing": "Sneaker-Bekleidung" },
+    "products": {
+      "fixtureRunner": {
+        "title": "Fixture Runner",
+        "description": "Ein Testprodukt der Unit-Tests."
+      }
+    }
+  }
+}

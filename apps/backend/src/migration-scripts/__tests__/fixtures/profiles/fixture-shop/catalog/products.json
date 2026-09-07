@@ -1,0 +1,28 @@
+[
+  {
+    "handle": "fixture-runner",
+    "title": "Fixture Runner",
+    "subtitle": "The only shoe in the fixture",
+    "description": "A fixture product used by the unit tests of the store-profile loader.",
+    "status": "published",
+    "category": "runners",
+    "collections": ["fixture-drop"],
+    "weight": 700,
+    "metadata": {
+      "brand": "Fixture Shop",
+      "mpn": "FIX-0001",
+      "specs": { "Upper material": "Fixture mesh", "Sole": "Fixture foam" }
+    },
+    "images": ["media/fixture-runner-hero.webp"],
+    "options": ["Size"],
+    "variants": [
+      { "title": "41", "sku": "FIX-0001-41", "options": { "Size": "41" }, "price_usd": 129 },
+      { "title": "42", "sku": "FIX-0001-42", "options": { "Size": "42" }, "price_usd": 129 }
+    ],
+    "imageBrief": {
+      "subject": "A fixture running shoe that exists only in the test suite.",
+      "shots": [{ "role": "hero", "description": "Three-quarter studio shot" }],
+      "doNotShow": ["real logos"]
+    }
+  }
+]

@@ -15,7 +15,7 @@ export default async function Footer() {
   const { collections } = await listCollections()
 
   return (
-    <footer className="border-t border-ui-border-base w-full bg-white">
+    <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">
       <div className="content-container flex flex-col w-full">
         <div className="flex flex-col gap-y-8 md:flex-row md:items-start md:justify-between py-10 lg:py-20">
           <div>

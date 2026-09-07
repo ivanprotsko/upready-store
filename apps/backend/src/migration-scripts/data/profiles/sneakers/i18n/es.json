@@ -1,0 +1,111 @@
+{
+  "name": "Español",
+  "translations": {
+    "categories": {
+      "accessories": "Accesorios",
+      "careAndSpares": "Cuidado y repuestos",
+      "footwear": "Calzado",
+      "highTops": "Altas",
+      "lowTops": "Bajas",
+      "runners": "Running",
+      "trail": "Trail"
+    },
+    "collections": {
+      "bestsellers": "Más vendidos",
+      "newArrivals": "Novedades"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Color",
+        "values": {
+          "tarBlack": "Negro alquitrán",
+          "sulphur": "Azufre",
+          "chalk": "Tiza"
+        }
+      },
+      "colourway": {
+        "title": "Combinación de color",
+        "values": {
+          "tarBlack": "Negro alquitrán",
+          "sulphur": "Azufre",
+          "concrete": "Hormigón",
+          "oxblood": "Sangre de toro",
+          "chalk": "Tiza",
+          "diesel": "Diesel"
+        }
+      },
+      "size": {
+        "title": "Talla (EU)",
+        "values": {
+          "38": "38",
+          "39": "39",
+          "40": "40",
+          "41": "41",
+          "42": "42",
+          "43": "43",
+          "44": "44",
+          "45": "45",
+          "46": "46"
+        }
+      }
+    },
+    "products": {
+      "bollardHigh": {
+        "description": "Una zapatilla alta que sujeta el tobillo sin agarrotarlo. El corte es de piel flor entera de 1,6 mm sobre un cuello forrado de piel y acolchado unos 12 mm; el panel del tobillo está cortado de una sola pieza, así que ninguna costura cae sobre el maléolo. Ocho ojales y dos ganchos permiten atar flojo por debajo del tobillo y firme por encima. La suela es una cup con drop de 10 mm, cuña de EVA moldeada y piso de caucho macizo. El Negro alquitrán es el color de la casa, con la lengüeta del talón en Azufre; el Diesel es un verde gris oscuro; la combinación Azufre lleva el ácido a todo el corte. La piel cede alrededor de medio número el primer mes. Nútrela dos veces al año y no la seques sobre un radiador.",
+        "title": "Bollard High · Negro alquitrán"
+      },
+      "camberRunner": {
+        "description": "La zapatilla más barata que hacemos y la que más vendemos. Corte de punto con cuello elástico en el que entras sin desatar, entresuela de EVA moldeada por compresión con drop de 10 mm y caucho en las zonas de desgaste. Es una zapatilla para andar y para estar de pie: de treinta a sesenta minutos seguidos, todo el día en pie, pero no un maratón. El punto cede un poco la primera semana y después mantiene la forma. Azufre es la combinación ácida y marca la suciedad, que es el precio honesto de ese color; el Diesel, verde gris oscuro, no la marca. Lávala a 30 grados en bolsa y sin la plantilla, y sécala en la habitación y no sobre el radiador.",
+        "title": "Camber Runner · Azufre"
+      },
+      "careKit": {
+        "description": "Tres cosas, que es todo lo que necesita un zapato. Un cepillo de dos cabezas, crin de caballo en un extremo para la piel y crepé y latón en el otro para el ante y el nobuk. Un limpiador al agua de 100 ml, sin disolventes, que por tanto no descarga un tinte ni reblandece una línea de encolado. Un paño de microfibra dobladillado de 40 por 40 cm que aguanta el lavado. El limpiador sirve para piel, lona, malla y punto; sobre ante y nobuk usa solo la cabeza de crepé en seco y mantén el agua bien lejos. Un kit da para unas veinte limpiezas de un par. No es un impermeabilizante: el spray protector es otra cosa y todavía no lo vendemos.",
+        "title": "Kit de cuidado · tres piezas"
+      },
+      "cattleGridTrail": {
+        "description": "La misma horma que la Culvert, sin la membrana. Es una decisión deliberada y no una más barata: una zapatilla sin forro se cala en los primeros diez minutos y después seca en el pie, que es la mejor respuesta en un día caluroso o en un vado. El corte es de malla abierta resistente a la abrasión, con refuerzos de TPU soldados y orificios de drenaje a través de la entresuela. Los tacos son de 5 mm en el mismo compuesto adherente que la Culvert, el drop es de 8 mm y la placa antipiedras es la misma. Sangre de toro es un marrón rojizo oscuro, Negro alquitrán negro y Hormigón gris medio. Enjuágala después del barro, saca la plantilla y déjala secar en la habitación.",
+        "title": "Cattle Grid Trail · Sangre de toro"
+      },
+      "culvertTrail": {
+        "description": "La Culvert es la zapatilla para donde se acaba la acera. Una membrana impermeable y transpirable va laminada al corte de malla en lugar de metida como calcetín, así que no hace bolsas, y las costuras van selladas. Un ribete de caucho moldeado rodea la zapatilla entera a la altura de la entresuela, y es lo que evita que una zapatilla de trail muera por la puntera. El piso lleva tacos direccionales de 5 mm en un compuesto adherente y un freno de talón para las bajadas. El drop es de 8 mm sobre una placa antipiedras cuya ausencia notarías sobre el sílex. Diesel es un verde gris oscuro y Sangre de toro un marrón rojizo oscuro. Una zapatilla con membrana seca despacio: saca la plantilla, ponla de pie y nunca sobre el radiador.",
+        "title": "Culvert Trail · Diesel"
+      },
+      "flagstoneLow": {
+        "description": "La Flagstone es la ancha. La horma es 4 mm más ancha en la zona del metatarso que la de la Gutter, y esa es la diferencia entre una zapatilla que soportas a la octava hora y otra que olvidas. El corte es de nobuk engrasado con un panel de malla detrás de la fila de ojales para que circule el aire; el cuello lleva espuma de celda cerrada que no se empapa con la lluvia. El conjunto de suela combina una entresuela de EVA de dos densidades y un piso de caucho, drop de 12 mm y 26 mm de altura en el talón. Hormigón es un gris medio que se traga la suciedad urbana, Sangre de toro un marrón rojizo oscuro y Tiza un blanco roto. Cepilla el nobuk en seco, nunca mojado, y vuelve a impermeabilizarlo al final del invierno.",
+        "title": "Flagstone Low · Hormigón"
+      },
+      "flatWaxedLaces": {
+        "description": "Un par de cordones planos de algodón encerado, 8 mm de ancho y 140 cm de largo, que es el largo con el que salen la Gutter, la Sett y la Flagstone. La cera es parafina trabajada dentro del algodón y no depositada encima: el cordón aguanta el nudo un día entero de lluvia y no se afloja en los ojales. Los herretes son de latón laminado sin lacar y en un año toman un tono dorado oscuro. 140 cm valen para seis o siete pares de ojales; las altas piden un cordón más largo. El corte plano se hace solo en Negro alquitrán. Lávalos a mano si se embarran y déjalos secar en plano.",
+        "title": "Cordones planos encerados · Negro alquitrán"
+      },
+      "gantryHigh": {
+        "description": "Lona de algodón encerada de 475 g/m², parafinada en la fábrica textil y no pulverizada después del corte: la resistencia al agua está en el tejido y vuelve cuando la enceras de nuevo. El cuello queda 15 mm más bajo que el de la Bollard, deja libre el maléolo y no estorba en bicicleta. El tope de caucho de la puntera va cosido además de encolado. La suela es vulcanizada, con drop de 8 mm y un taqueado suficiente para el adoquín mojado. Diesel es un verde gris oscuro y Hormigón un gris medio. La lona encerada se quiebra y aclara en los pliegues: eso es el material, no un defecto. Encera la puntera y la línea de flexión una vez al año y no la metas en la lavadora.",
+        "title": "Gantry High · Diesel"
+      },
+      "gutterLow": {
+        "description": "La Gutter es la zapatilla baja de la que más pares fabricamos. El corte es de piel flor entera con un refuerzo de serraje sobre la puntera, cosido y no encolado, de manera que la pieza que primero se raspa la puede sustituir un zapatero en lugar de tirar la zapatilla entera. Debajo va una suela cup moldeada, con un drop de 10 mm y un piso de caucho negro dibujado en espiga baja que despeja el agua de la acera. El forro es de sarga de algodón cruda y la plantilla es extraíble, así que una plantilla ortopédica entra directamente. La horma es fiel; si estás entre dos tallas, elige la menor. Limpia la piel con un paño húmedo, déjala secar lejos del calor y nútrela dos veces al año.",
+        "title": "Gutter Low · Negro alquitrán"
+      },
+      "roundWaxedLaces": {
+        "description": "Un par de cordones redondos de algodón encerado, 4 mm de grosor y 120 cm de largo, cortados para la Flagstone y la Towpath y para quien quiera un cordón más fino en una zapatilla baja. El algodón encerado redondo sujeta el lazo con más fuerza que el plano: aflojas el nudo en lugar de tirar de él, y corre por un ojal redondo con menos rozamiento. La cera es parafina trabajada en la fibra y los herretes son de latón laminado. Tres colores: Negro alquitrán, el ácido Azufre y Tiza, un blanco roto que no se va a quedar blanco roto y que tampoco pretende hacerlo. Lávalos a mano y sécalos en plano.",
+        "title": "Cordones redondos encerados · tres colores"
+      },
+      "settLow": {
+        "description": "Un sett es el pequeño adoquín de granito con el que antes se empedraban las calles, y esta es la zapatilla más sencilla que hacemos. Corte de lona de algodón de 340 g/m², serraje en la puntera y en el contrafuerte, que es donde una zapatilla de lona cede primero, y suela de caucho vulcanizado, unida en molde en lugar de encolada en prensa. El drop es de 8 mm y la suela es fina a propósito: se nota la acera debajo. Tiza es un blanco roto sin teñir que se marca la primera semana y luego se asienta. El Negro alquitrán se tiñe en pieza después del corte. Calza medio número grande, así que en la duda elige la talla menor. Lavable a 30 grados sin la plantilla.",
+        "title": "Sett Low · Tiza"
+      },
+      "stanchionHigh": {
+        "description": "La Stanchion va montada en cosido: el corte se vuelve hacia fuera en el borde y se cose a través de la entresuela, de modo que la suela puede rehacerse dos veces sin tocar el corte. Ese montaje es la razón de que sea la zapatilla más pesada y más cara de esta página. El corte es de piel de curtición vegetal, rígida al principio, que pide unas tres semanas de camino hasta asentarse; el cuello y la lengüeta del talón salen de la misma piel, acabada más oscura. El drop es de 12 mm sobre una entresuela de piel y caucho apilados, con piso de caucho taqueado. Sangre de toro es un marrón rojizo oscuro que se oscurece con el uso y Negro alquitrán se queda negro. Solo de la 40 a la 45. Nútrela antes del primer invierno.",
+        "title": "Stanchion High · Sangre de toro"
+      },
+      "towpathRunner": {
+        "description": "Hecha para lo que de verdad es un camino de sirga: gravilla mojada, piedra suelta y kilómetros largos y llanos. El corte es de malla cerrada con refuerzos de serraje en la puntera y en la fila de ojales, que impiden que entren piedras en el tejido; la lengua va fuelleada por los dos lados. El compuesto del piso es más blando que el de la Verge. Agarra mejor sobre piedra mojada y se gasta antes, y preferimos que lo sepas ahora y no dentro de un año. Caucho a toda la longitud, tacos de 3 mm y drop de 10 mm sobre una entresuela de EVA de dos densidades. Hormigón es gris medio, Negro alquitrán negro y Tiza blanco roto. Enjuaga el piso bajo el grifo después de un día de grava y cepilla el serraje en seco, nunca mojado.",
+        "title": "Towpath Runner · Hormigón"
+      },
+      "vergeRunner": {
+        "description": "Una zapatilla de correr hecha para el asfalto, no para la pista. El corte es una sola pieza de malla técnica: hilo más denso donde el pie flexiona y tejido abierto sobre los dedos, así que respira sin panel de ventilación añadido. No lleva contrafuerte de plástico; un clip de espuma moldeada hace el mismo trabajo con un tercio del peso. La entresuela es de espuma supercrítica, 32 mm en el talón y 24 mm en el antepié, es decir un drop de 8 mm; el caucho va solo bajo el talón y la planta, que es donde una zapatilla se gasta de verdad. Tiza es un blanco roto, Azufre el ácido y Negro alquitrán negro sobre negro. Lávala a mano en frío y sécala al aire: el calor aplasta la espuma.",
+        "title": "Verge Runner · Tiza"
+      }
+    }
+  }
+}

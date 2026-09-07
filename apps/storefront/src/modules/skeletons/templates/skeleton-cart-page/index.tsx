@@ -10,36 +10,36 @@ const SkeletonCartPage = () => {
     <div className="py-12">
       <div className="content-container">
         <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
-          <div className="flex flex-col bg-white p-6 gap-y-6">
-            <div className="bg-white flex items-start justify-between">
+          <div className="flex flex-col bg-ui-bg-base p-6 gap-y-6">
+            <div className="bg-ui-bg-base flex items-start justify-between">
               <div className="flex flex-col gap-y-2">
-                <div className="w-60 h-8 bg-gray-200 animate-pulse" />
-                <div className="w-48 h-6 bg-gray-200 animate-pulse" />
+                <div className="w-60 h-8 bg-ui-bg-component-hover animate-pulse" />
+                <div className="w-48 h-6 bg-ui-bg-component-hover animate-pulse" />
               </div>
               <div>
-                <div className="w-14 h-8 bg-gray-200 animate-pulse" />
+                <div className="w-14 h-8 bg-ui-bg-component-hover animate-pulse" />
               </div>
             </div>
             <div>
               <div className="pb-3 flex items-center">
-                <div className="w-20 h-12 bg-gray-200 animate-pulse" />
+                <div className="w-20 h-12 bg-ui-bg-component-hover animate-pulse" />
               </div>
               <Table>
                 <Table.Header className="border-t-0">
                   <Table.Row>
                     <Table.HeaderCell className="!ps-0">
-                      <div className="w-10 h-6 bg-gray-200 animate-pulse" />
+                      <div className="w-10 h-6 bg-ui-bg-component-hover animate-pulse" />
                     </Table.HeaderCell>
                     <Table.HeaderCell></Table.HeaderCell>
                     <Table.HeaderCell>
-                      <div className="w-16 h-6 bg-gray-200 animate-pulse" />
+                      <div className="w-16 h-6 bg-ui-bg-component-hover animate-pulse" />
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                      <div className="w-12 h-6 bg-gray-200 animate-pulse" />
+                      <div className="w-12 h-6 bg-ui-bg-component-hover animate-pulse" />
                     </Table.HeaderCell>
                     <Table.HeaderCell className="!pe-0">
                       <div className="flex justify-end">
-                        <div className="w-12 h-6 bg-gray-200 animate-pulse" />
+                        <div className="w-12 h-6 bg-ui-bg-component-hover animate-pulse" />
                       </div>
                     </Table.HeaderCell>
                   </Table.Row>

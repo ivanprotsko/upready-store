@@ -107,7 +107,7 @@ const ZoomableImage = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/85" />
+            <div className="fixed inset-0 bg-ui-bg-overlay" />
           </Transition.Child>
 
           <div className="fixed inset-0 flex items-center justify-center" onClick={close} onWheel={(e) => { if (!e.ctrlKey) close() }}>
@@ -124,7 +124,7 @@ const ZoomableImage = ({
                 <button
                   type="button"
                   onClick={close}
-                  className="pointer-events-auto absolute top-4 end-4 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="pointer-events-auto absolute top-4 end-4 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-ui-button-inverted hover:bg-ui-button-inverted-hover text-ui-fg-on-inverted transition-colors"
                   aria-label={t("Common.close")}
                 >
                   <X size={18} />

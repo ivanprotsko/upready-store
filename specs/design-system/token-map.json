@@ -1,0 +1,2820 @@
+{
+  "schema": "upready.token-map/v0",
+  "dictionary": "geist-kit/theme.css",
+  "source": "@medusajs/ui-preset@2.19.0 dist/index.js :root + @media (prefers-color-scheme: dark) :root",
+  "generatedBy": "apps/storefront/scripts/extract-theme-sources.mjs",
+  "counts": {
+    "presetVariables": 113,
+    "mapped": 26,
+    "diverged": 56,
+    "open": 31
+  },
+  "canonTokens": [
+    "--radius",
+    "--background",
+    "--foreground",
+    "--card",
+    "--card-foreground",
+    "--popover",
+    "--popover-foreground",
+    "--primary",
+    "--primary-foreground",
+    "--secondary",
+    "--secondary-foreground",
+    "--muted",
+    "--muted-foreground",
+    "--accent",
+    "--accent-foreground",
+    "--destructive",
+    "--destructive-foreground",
+    "--border",
+    "--input",
+    "--ring",
+    "--link",
+    "--success",
+    "--warning",
+    "--chart-1",
+    "--chart-2",
+    "--chart-3",
+    "--chart-4",
+    "--chart-5",
+    "--shadow-card",
+    "--shadow-float",
+    "--shadow-modal"
+  ],
+  "canonFromMedusa": {
+    "--radius": {
+      "literal": "0.5rem"
+    },
+    "--background": "--bg-base",
+    "--foreground": "--fg-base",
+    "--card": "--bg-base",
+    "--card-foreground": "--fg-base",
+    "--popover": "--bg-base",
+    "--popover-foreground": "--fg-base",
+    "--primary": "--button-inverted",
+    "--primary-foreground": "--fg-on-inverted",
+    "--secondary": "--bg-subtle",
+    "--secondary-foreground": "--fg-base",
+    "--muted": "--bg-base-hover",
+    "--muted-foreground": "--fg-subtle",
+    "--accent": "--bg-base-hover",
+    "--accent-foreground": "--fg-base",
+    "--destructive": "--fg-error",
+    "--destructive-foreground": "--fg-on-color",
+    "--border": "--border-base",
+    "--input": "--border-base",
+    "--ring": "--border-interactive",
+    "--link": {
+      "light": "rgba(37, 99, 235, 1)",
+      "dark": "@--fg-interactive"
+    },
+    "--success": "--tag-green-text",
+    "--warning": "--tag-orange-text",
+    "--chart-1": "--tag-blue-icon",
+    "--chart-2": "--tag-green-icon",
+    "--chart-3": "--tag-purple-icon",
+    "--chart-4": "--tag-red-icon",
+    "--chart-5": "--tag-orange-icon",
+    "--shadow-card": "--elevation-card-rest",
+    "--shadow-float": "--elevation-flyout",
+    "--shadow-modal": "--elevation-modal"
+  },
+  "rows": [
+    {
+      "variable": "--tag-neutral-border",
+      "canonToken": "--border",
+      "status": "diverged",
+      "bridge": "--tag-neutral-border: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "bridgeDark": "--tag-neutral-border: color-mix(in srgb, var(--border) 75%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--border",
+        "light": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 75,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.06)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.06)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--tag-neutral-icon",
+      "canonToken": "--muted-foreground",
+      "status": "diverged",
+      "bridge": "--tag-neutral-icon: color-mix(in srgb, var(--muted-foreground) 53%, var(--background));",
+      "bridgeDark": "--tag-neutral-icon: color-mix(in srgb, var(--muted-foreground) 63.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--muted-foreground",
+        "light": {
+          "canon": "--muted-foreground",
+          "pct": 53,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--muted-foreground",
+          "pct": 63.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(161, 161, 170, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "effective": {
+        "light": "rgba(161, 161, 170, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "medusaResidual": {
+        "light": 2.31,
+        "dark": 1.28
+      }
+    },
+    {
+      "variable": "--bg-switch-off-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-switch-off-hover: color-mix(in srgb, var(--accent) 86%, var(--foreground));",
+      "bridgeDark": "--bg-switch-off-hover: color-mix(in srgb, var(--accent) 77.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 86,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--accent",
+          "pct": 77.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(212, 212, 216, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "effective": {
+        "light": "rgba(212, 212, 216, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.52,
+        "dark": 3.33
+      }
+    },
+    {
+      "variable": "--border-menu-bot",
+      "canonToken": "--background",
+      "status": "diverged",
+      "bridge": "--border-menu-bot: color-mix(in srgb, var(--background) 100%, transparent);",
+      "bridgeDark": "--border-menu-bot: color-mix(in srgb, var(--border) 100%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--background",
+        "light": {
+          "canon": "--background",
+          "pct": 100,
+          "with": "transparent"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--border-menu-top",
+      "canonToken": "--border",
+      "status": "diverged",
+      "bridge": "--border-menu-top: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "bridgeDark": "--border-menu-top: color-mix(in srgb, var(--border) 0%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--border",
+        "light": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 0,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--bg-subtle-hover",
+      "canonToken": "--secondary",
+      "status": "diverged",
+      "bridge": "--bg-subtle-hover: color-mix(in srgb, var(--secondary) 97.5%, var(--foreground));",
+      "bridgeDark": "--bg-subtle-hover: color-mix(in srgb, var(--secondary) 0%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--secondary",
+        "light": {
+          "canon": "--secondary",
+          "pct": 97.5,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--secondary",
+          "pct": 0,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "medusaResidual": {
+        "light": 0.57,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--contrast-fg-primary",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0.88)",
+        "dark": "rgba(255, 255, 255, 0.88)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0.88)",
+        "dark": "rgba(255, 255, 255, 0.88)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
+    },
+    {
+      "variable": "--bg-switch-off",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-switch-off: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--bg-switch-off: color-mix(in srgb, var(--accent) 87.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--accent",
+          "pct": 87.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 2.63
+      }
+    },
+    {
+      "variable": "--contrast-bg-base-pressed",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(63, 63, 70, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "effective": {
+        "light": "rgba(63, 63, 70, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base"
+    },
+    {
+      "variable": "--bg-field-component-hover",
+      "canonToken": "--secondary",
+      "status": "diverged",
+      "bridge": "--bg-field-component-hover: color-mix(in srgb, var(--secondary) 100%, var(--background));",
+      "bridgeDark": "--bg-field-component-hover: color-mix(in srgb, var(--secondary) 93%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--secondary",
+        "light": {
+          "canon": "--secondary",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--secondary",
+          "pct": 93,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0.4
+      }
+    },
+    {
+      "variable": "--bg-base-pressed",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-base-pressed: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--bg-base-pressed: color-mix(in srgb, var(--accent) 87.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--accent",
+          "pct": 87.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 2.63
+      }
+    },
+    {
+      "variable": "--tag-neutral-text",
+      "canonToken": "--muted-foreground",
+      "status": "diverged",
+      "bridge": "--tag-neutral-text: color-mix(in srgb, var(--muted-foreground) 100%, var(--foreground));",
+      "bridgeDark": "--tag-neutral-text: color-mix(in srgb, var(--muted-foreground) 38.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--muted-foreground",
+        "light": {
+          "canon": "--muted-foreground",
+          "pct": 100,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--muted-foreground",
+          "pct": 38.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(212, 212, 216, 1)"
+      },
+      "effective": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(212, 212, 216, 1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0.13
+      }
+    },
+    {
+      "variable": "--tag-red-text",
+      "canonToken": "--chart-4",
+      "status": "diverged",
+      "bridge": "--tag-red-text: color-mix(in srgb, var(--destructive) 63%, var(--foreground));",
+      "bridgeDark": "--tag-red-text: color-mix(in srgb, var(--chart-4) 64.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-4",
+        "light": {
+          "canon": "--destructive",
+          "pct": 63,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--chart-4",
+          "pct": 64.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(159, 18, 57, 1)",
+        "dark": "rgba(253, 164, 175, 1)"
+      },
+      "effective": {
+        "light": "rgba(159, 18, 57, 1)",
+        "dark": "rgba(253, 164, 175, 1)"
+      },
+      "medusaResidual": {
+        "light": 9.15,
+        "dark": 4.5
+      }
+    },
+    {
+      "variable": "--contrast-bg-base",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "reason": "inverted-surface ramp: dark in BOTH modes, canon --primary flips polarity"
+    },
+    {
+      "variable": "--border-strong",
+      "canonToken": "--border",
+      "status": "diverged",
+      "bridge": "--border-strong: color-mix(in srgb, var(--border) 92.5%, var(--foreground));",
+      "bridgeDark": "--border-strong: color-mix(in srgb, var(--border) 93.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--border",
+        "light": {
+          "canon": "--border",
+          "pct": 92.5,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 93.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(212, 212, 216, 1)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "effective": {
+        "light": "rgba(212, 212, 216, 1)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "medusaResidual": {
+        "light": 0.7,
+        "dark": 5.15
+      }
+    },
+    {
+      "variable": "--contrast-border-base",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0.15)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0.15)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
+    },
+    {
+      "variable": "--bg-field",
+      "canonToken": "--secondary",
+      "status": "diverged",
+      "bridge": "--bg-field: color-mix(in srgb, var(--secondary) 100%, var(--background));",
+      "bridgeDark": "--bg-field: color-mix(in srgb, var(--border) 50%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--secondary",
+        "light": {
+          "canon": "--secondary",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 50,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "effective": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--tag-blue-text",
+      "canonToken": "--chart-1",
+      "status": "diverged",
+      "bridge": "--tag-blue-text: color-mix(in srgb, var(--chart-1) 51.5%, var(--foreground));",
+      "bridgeDark": "--tag-blue-text: color-mix(in srgb, var(--chart-1) 65.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-1",
+        "light": {
+          "canon": "--chart-1",
+          "pct": 51.5,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--chart-1",
+          "pct": 65.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(30, 64, 175, 1)",
+        "dark": "rgba(147, 197, 253, 1)"
+      },
+      "effective": {
+        "light": "rgba(30, 64, 175, 1)",
+        "dark": "rgba(147, 197, 253, 1)"
+      },
+      "medusaResidual": {
+        "light": 33.16,
+        "dark": 4.75
+      }
+    },
+    {
+      "variable": "--button-inverted-pressed",
+      "canonToken": "--primary",
+      "status": "diverged",
+      "bridge": "--button-inverted-pressed: color-mix(in srgb, var(--primary) 78.5%, var(--background));",
+      "bridgeDark": "--button-inverted-pressed: color-mix(in srgb, var(--primary) 50%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--primary",
+        "light": {
+          "canon": "--primary",
+          "pct": 78.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--primary",
+          "pct": 50,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(161, 161, 170, 1)"
+      },
+      "effective": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(161, 161, 170, 1)"
+      },
+      "medusaResidual": {
+        "light": 3.44,
+        "dark": 2
+      }
+    },
+    {
+      "variable": "--border-interactive",
+      "canonToken": "--ring",
+      "status": "mapped",
+      "bridge": "--border-interactive: var(--ring);",
+      "vendor": {
+        "light": "rgba(59, 130, 246, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      },
+      "effective": {
+        "light": "rgba(59, 130, 246, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      }
+    },
+    {
+      "variable": "--bg-base-hover",
+      "canonToken": "--accent",
+      "status": "mapped",
+      "bridge": "--bg-base-hover: var(--accent);",
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      }
+    },
+    {
+      "variable": "--contrast-bg-subtle",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "effective": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base"
+    },
+    {
+      "variable": "--bg-highlight",
+      "canonToken": "--link",
+      "status": "diverged",
+      "bridge": "--bg-highlight: color-mix(in srgb, var(--link) 6.5%, var(--background));",
+      "bridgeDark": "--bg-highlight: color-mix(in srgb, var(--link) 14%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--link",
+        "light": {
+          "canon": "--link",
+          "pct": 6.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--link",
+          "pct": 14,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(239, 246, 255, 1)",
+        "dark": "rgba(23, 37, 84, 1)"
+      },
+      "effective": {
+        "light": "rgba(239, 246, 255, 1)",
+        "dark": "rgba(23, 37, 84, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.83,
+        "dark": 18.82
+      }
+    },
+    {
+      "variable": "--contrast-fg-secondary",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0.56)",
+        "dark": "rgba(255, 255, 255, 0.56)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0.56)",
+        "dark": "rgba(255, 255, 255, 0.56)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base: the surface is FIXED dark in both modes, so its foreground must be fixed too — following canon --destructive-foreground makes it flip to the preset ink and vanish (cause E, measured 2026-09-08)"
+    },
+    {
+      "variable": "--tag-red-bg",
+      "canonToken": "--chart-4",
+      "status": "diverged",
+      "bridge": "--tag-red-bg: color-mix(in srgb, var(--chart-4) 14.5%, var(--background));",
+      "bridgeDark": "--tag-red-bg: color-mix(in srgb, var(--chart-4) 5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-4",
+        "light": {
+          "canon": "--chart-4",
+          "pct": 14.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-4",
+          "pct": 5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(255, 228, 230, 1)",
+        "dark": "rgba(76, 5, 25, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 228, 230, 1)",
+        "dark": "rgba(76, 5, 25, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.66,
+        "dark": 32.1
+      }
+    },
+    {
+      "variable": "--button-transparent",
+      "canonToken": "--background",
+      "status": "diverged",
+      "bridge": "--button-transparent: color-mix(in srgb, var(--background) 0.5%, transparent);",
+      "bridgeDark": "--button-transparent: color-mix(in srgb, var(--border) 0.5%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--background",
+        "light": {
+          "canon": "--background",
+          "pct": 0.5,
+          "with": "transparent"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 0.5,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0)",
+        "dark": "rgba(255, 255, 255, 0)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0)",
+        "dark": "rgba(255, 255, 255, 0)"
+      },
+      "medusaResidual": {
+        "light": 1.28,
+        "dark": 0.1
+      }
+    },
+    {
+      "variable": "--button-danger-pressed",
+      "canonToken": "--destructive",
+      "status": "diverged",
+      "bridge": "--button-danger-pressed: color-mix(in srgb, var(--destructive) 72.5%, #000);",
+      "bridgeDark": "--button-danger-pressed: color-mix(in srgb, var(--destructive) 70%, #000);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--destructive",
+        "light": {
+          "canon": "--destructive",
+          "pct": 72.5,
+          "with": "#000"
+        },
+        "dark": {
+          "canon": "--destructive",
+          "pct": 70,
+          "with": "#000"
+        }
+      },
+      "vendor": {
+        "light": "rgba(159, 18, 57, 1)",
+        "dark": "rgba(225, 29, 72, 1)"
+      },
+      "effective": {
+        "light": "rgba(159, 18, 57, 1)",
+        "dark": "rgba(225, 29, 72, 1)"
+      },
+      "medusaResidual": {
+        "light": 4.8,
+        "dark": 50.1
+      }
+    },
+    {
+      "variable": "--fg-on-color",
+      "canonToken": "--destructive-foreground",
+      "status": "mapped",
+      "bridge": "--fg-on-color: var(--destructive-foreground);",
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 1)"
+      }
+    },
+    {
+      "variable": "--button-inverted-hover",
+      "canonToken": "--primary",
+      "status": "diverged",
+      "bridge": "--button-inverted-hover: color-mix(in srgb, var(--primary) 88%, var(--background));",
+      "bridgeDark": "--button-inverted-hover: color-mix(in srgb, var(--primary) 80.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--primary",
+        "light": {
+          "canon": "--primary",
+          "pct": 88,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--primary",
+          "pct": 80.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(63, 63, 70, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "effective": {
+        "light": "rgba(63, 63, 70, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "medusaResidual": {
+        "light": 2.44,
+        "dark": 0.97
+      }
+    },
+    {
+      "variable": "--bg-field-component",
+      "canonToken": "--background",
+      "status": "mapped",
+      "bridge": "--bg-field-component: var(--background);",
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      }
+    },
+    {
+      "variable": "--tag-orange-text",
+      "canonToken": "--warning",
+      "status": "mapped",
+      "bridge": "--tag-orange-text: var(--warning);",
+      "vendor": {
+        "light": "rgba(154, 52, 18, 1)",
+        "dark": "rgba(253, 186, 116, 1)"
+      },
+      "effective": {
+        "light": "rgba(154, 52, 18, 1)",
+        "dark": "rgba(253, 186, 116, 1)"
+      }
+    },
+    {
+      "variable": "--tag-green-icon",
+      "canonToken": "--chart-2",
+      "status": "mapped",
+      "bridge": "--tag-green-icon: var(--chart-2);",
+      "vendor": {
+        "light": "rgba(16, 185, 129, 1)",
+        "dark": "rgba(16, 185, 129, 1)"
+      },
+      "effective": {
+        "light": "rgba(16, 185, 129, 1)",
+        "dark": "rgba(16, 185, 129, 1)"
+      }
+    },
+    {
+      "variable": "--border-base",
+      "canonToken": "--border",
+      "status": "mapped",
+      "bridge": "--border-base: var(--border);",
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      }
+    },
+    {
+      "variable": "--bg-base",
+      "canonToken": "--background",
+      "status": "mapped",
+      "bridge": "--bg-base: var(--background);",
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      }
+    },
+    {
+      "variable": "--tag-orange-border",
+      "canonToken": "--chart-5",
+      "status": "diverged",
+      "bridge": "--tag-orange-border: color-mix(in srgb, var(--chart-5) 33.5%, var(--background));",
+      "bridgeDark": "--tag-orange-border: color-mix(in srgb, var(--chart-5) 30.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-5",
+        "light": {
+          "canon": "--chart-5",
+          "pct": 33.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-5",
+          "pct": 30.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(254, 215, 170, 1)",
+        "dark": "rgba(124, 45, 18, 1)"
+      },
+      "effective": {
+        "light": "rgba(254, 215, 170, 1)",
+        "dark": "rgba(124, 45, 18, 1)"
+      },
+      "medusaResidual": {
+        "light": 6.95,
+        "dark": 25.32
+      }
+    },
+    {
+      "variable": "--tag-red-border",
+      "canonToken": "--chart-4",
+      "status": "diverged",
+      "bridge": "--tag-red-border: color-mix(in srgb, var(--chart-4) 26.5%, var(--background));",
+      "bridgeDark": "--tag-red-border: color-mix(in srgb, var(--chart-4) 30%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-4",
+        "light": {
+          "canon": "--chart-4",
+          "pct": 26.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-4",
+          "pct": 30,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(254, 205, 211, 1)",
+        "dark": "rgba(136, 19, 55, 1)"
+      },
+      "effective": {
+        "light": "rgba(254, 205, 211, 1)",
+        "dark": "rgba(136, 19, 55, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.92,
+        "dark": 38
+      }
+    },
+    {
+      "variable": "--tag-green-border",
+      "canonToken": "--chart-2",
+      "status": "diverged",
+      "bridge": "--tag-green-border: color-mix(in srgb, var(--chart-2) 32.5%, var(--background));",
+      "bridgeDark": "--tag-green-border: color-mix(in srgb, var(--chart-2) 42.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-2",
+        "light": {
+          "canon": "--chart-2",
+          "pct": 32.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-2",
+          "pct": 42.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(167, 243, 208, 1)",
+        "dark": "rgba(6, 78, 59, 1)"
+      },
+      "effective": {
+        "light": "rgba(167, 243, 208, 1)",
+        "dark": "rgba(6, 78, 59, 1)"
+      },
+      "medusaResidual": {
+        "light": 10.75,
+        "dark": 19.77
+      }
+    },
+    {
+      "variable": "--tag-green-text",
+      "canonToken": "--success",
+      "status": "mapped",
+      "bridge": "--tag-green-text: var(--success);",
+      "vendor": {
+        "light": "rgba(6, 95, 70, 1)",
+        "dark": "rgba(52, 211, 153, 1)"
+      },
+      "effective": {
+        "light": "rgba(6, 95, 70, 1)",
+        "dark": "rgba(52, 211, 153, 1)"
+      }
+    },
+    {
+      "variable": "--button-neutral",
+      "canonToken": "--background",
+      "status": "diverged",
+      "bridge": "--button-neutral: color-mix(in srgb, var(--background) 0%, var(--background));",
+      "bridgeDark": "--button-neutral: color-mix(in srgb, var(--border) 50%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--background",
+        "light": {
+          "canon": "--background",
+          "pct": 0,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 50,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(255, 255, 255, 0.04)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--tag-blue-border",
+      "canonToken": "--chart-1",
+      "status": "diverged",
+      "bridge": "--tag-blue-border: color-mix(in srgb, var(--chart-1) 40%, var(--background));",
+      "bridgeDark": "--tag-blue-border: color-mix(in srgb, var(--chart-1) 36%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-1",
+        "light": {
+          "canon": "--chart-1",
+          "pct": 40,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-1",
+          "pct": 36,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(191, 219, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "effective": {
+        "light": "rgba(191, 219, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "medusaResidual": {
+        "light": 1,
+        "dark": 25.68
+      }
+    },
+    {
+      "variable": "--fg-interactive-hover",
+      "canonToken": "--link",
+      "status": "diverged",
+      "bridge": "--fg-interactive-hover: color-mix(in srgb, var(--link) 86%, var(--foreground));",
+      "bridgeDark": "--fg-interactive-hover: color-mix(in srgb, var(--link) 65.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--link",
+        "light": {
+          "canon": "--link",
+          "pct": 86,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--link",
+          "pct": 65.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(37, 99, 235, 1)",
+        "dark": "rgba(147, 197, 253, 1)"
+      },
+      "effective": {
+        "light": "rgba(29, 78, 216, 1)",
+        "dark": "rgba(147, 197, 253, 1)"
+      },
+      "storefrontOverride": true,
+      "medusaResidual": {
+        "light": 10.5,
+        "dark": 4.75
+      }
+    },
+    {
+      "variable": "--tag-orange-icon",
+      "canonToken": "--chart-5",
+      "status": "mapped",
+      "bridge": "--tag-orange-icon: var(--chart-5);",
+      "vendor": {
+        "light": "rgba(249, 115, 22, 1)",
+        "dark": "rgba(251, 146, 60, 1)"
+      },
+      "effective": {
+        "light": "rgba(249, 115, 22, 1)",
+        "dark": "rgba(251, 146, 60, 1)"
+      }
+    },
+    {
+      "variable": "--button-neutral-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--button-neutral-hover: color-mix(in srgb, var(--accent) 100%, var(--background));",
+      "bridgeDark": "--button-neutral-hover: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--fg-interactive",
+      "canonToken": "--link",
+      "status": "mapped",
+      "bridge": "--fg-interactive: var(--link);",
+      "vendor": {
+        "light": "rgba(59, 130, 246, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      },
+      "effective": {
+        "light": "rgba(37, 99, 235, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      },
+      "storefrontOverride": true
+    },
+    {
+      "variable": "--bg-component-pressed",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-component-pressed: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--bg-component-pressed: color-mix(in srgb, var(--foreground) 12%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--foreground",
+          "pct": 12,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.16)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 11
+      }
+    },
+    {
+      "variable": "--tag-purple-bg",
+      "canonToken": "--chart-3",
+      "status": "diverged",
+      "bridge": "--tag-purple-bg: color-mix(in srgb, var(--chart-3) 19.5%, var(--background));",
+      "bridgeDark": "--tag-purple-bg: color-mix(in srgb, var(--chart-3) 15%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-3",
+        "light": {
+          "canon": "--chart-3",
+          "pct": 19.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-3",
+          "pct": 15,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(237, 233, 254, 1)",
+        "dark": "rgba(46, 16, 101, 1)"
+      },
+      "effective": {
+        "light": "rgba(237, 233, 254, 1)",
+        "dark": "rgba(46, 16, 101, 1)"
+      },
+      "medusaResidual": {
+        "light": 0.84,
+        "dark": 32.9
+      }
+    },
+    {
+      "variable": "--contrast-bg-base-hover",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "effective": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(63, 63, 70, 1)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base"
+    },
+    {
+      "variable": "--bg-component",
+      "canonToken": "--secondary",
+      "status": "diverged",
+      "bridge": "--bg-component: color-mix(in srgb, var(--secondary) 100%, var(--background));",
+      "bridgeDark": "--bg-component: color-mix(in srgb, var(--secondary) 93%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--secondary",
+        "light": {
+          "canon": "--secondary",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--secondary",
+          "pct": 93,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0.4
+      }
+    },
+    {
+      "variable": "--bg-subtle",
+      "canonToken": "--secondary",
+      "status": "mapped",
+      "bridge": "--bg-subtle: var(--secondary);",
+      "vendor": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(24, 24, 27, 1)"
+      },
+      "effective": {
+        "light": "rgba(250, 250, 250, 1)",
+        "dark": "rgba(24, 24, 27, 1)"
+      }
+    },
+    {
+      "variable": "--tag-purple-text",
+      "canonToken": "--chart-3",
+      "status": "diverged",
+      "bridge": "--tag-purple-text: color-mix(in srgb, var(--chart-3) 48.5%, var(--foreground));",
+      "bridgeDark": "--tag-purple-text: color-mix(in srgb, var(--chart-3) 64.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-3",
+        "light": {
+          "canon": "--chart-3",
+          "pct": 48.5,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--chart-3",
+          "pct": 64.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(91, 33, 182, 1)",
+        "dark": "rgba(196, 181, 253, 1)"
+      },
+      "effective": {
+        "light": "rgba(91, 33, 182, 1)",
+        "dark": "rgba(196, 181, 253, 1)"
+      },
+      "medusaResidual": {
+        "light": 46.85,
+        "dark": 4.78
+      }
+    },
+    {
+      "variable": "--contrast-border-bot",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0.1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0.1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base"
+    },
+    {
+      "variable": "--button-inverted",
+      "canonToken": "--primary",
+      "status": "mapped",
+      "bridge": "--button-inverted: var(--primary);",
+      "vendor": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "effective": {
+        "light": "rgba(39, 39, 42, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      }
+    },
+    {
+      "variable": "--tag-red-icon",
+      "canonToken": "--chart-4",
+      "status": "mapped",
+      "bridge": "--tag-red-icon: var(--chart-4);",
+      "vendor": {
+        "light": "rgba(244, 63, 94, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      },
+      "effective": {
+        "light": "rgba(244, 63, 94, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      }
+    },
+    {
+      "variable": "--button-transparent-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--button-transparent-hover: color-mix(in srgb, var(--accent) 100%, var(--background));",
+      "bridgeDark": "--button-transparent-hover: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--button-neutral-pressed",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--button-neutral-pressed: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--button-neutral-pressed: color-mix(in srgb, var(--foreground) 8%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--foreground",
+          "pct": 8,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 11
+      }
+    },
+    {
+      "variable": "--tag-purple-icon",
+      "canonToken": "--chart-3",
+      "status": "mapped",
+      "bridge": "--tag-purple-icon: var(--chart-3);",
+      "vendor": {
+        "light": "rgba(167, 139, 250, 1)",
+        "dark": "rgba(167, 139, 250, 1)"
+      },
+      "effective": {
+        "light": "rgba(167, 139, 250, 1)",
+        "dark": "rgba(167, 139, 250, 1)"
+      }
+    },
+    {
+      "variable": "--bg-field-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-field-hover: color-mix(in srgb, var(--accent) 100%, var(--background));",
+      "bridgeDark": "--bg-field-hover: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--fg-on-inverted",
+      "canonToken": "--primary-foreground",
+      "status": "mapped",
+      "bridge": "--fg-on-inverted: var(--primary-foreground);",
+      "vendor": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(24, 24, 27, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 1)",
+        "dark": "rgba(24, 24, 27, 1)"
+      }
+    },
+    {
+      "variable": "--bg-interactive",
+      "canonToken": "--ring",
+      "status": "mapped",
+      "bridge": "--bg-interactive: var(--ring);",
+      "vendor": {
+        "light": "rgba(59, 130, 246, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      },
+      "effective": {
+        "light": "rgba(59, 130, 246, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      }
+    },
+    {
+      "variable": "--border-danger",
+      "canonToken": "--destructive",
+      "status": "diverged",
+      "bridge": "--border-danger: color-mix(in srgb, var(--destructive) 82%, #000);",
+      "bridgeDark": "--border-danger: color-mix(in srgb, var(--destructive) 57%, #000);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--destructive",
+        "light": {
+          "canon": "--destructive",
+          "pct": 82,
+          "with": "#000"
+        },
+        "dark": {
+          "canon": "--destructive",
+          "pct": 57,
+          "with": "#000"
+        }
+      },
+      "vendor": {
+        "light": "rgba(190, 18, 60, 1)",
+        "dark": "rgba(190, 18, 60, 1)"
+      },
+      "effective": {
+        "light": "rgba(190, 18, 60, 1)",
+        "dark": "rgba(190, 18, 60, 1)"
+      },
+      "medusaResidual": {
+        "light": 5.78,
+        "dark": 46.93
+      }
+    },
+    {
+      "variable": "--button-transparent-pressed",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--button-transparent-pressed: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--button-transparent-pressed: color-mix(in srgb, var(--foreground) 8%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--foreground",
+          "pct": 8,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 11
+      }
+    },
+    {
+      "variable": "--tag-purple-border",
+      "canonToken": "--chart-3",
+      "status": "diverged",
+      "bridge": "--tag-purple-border: color-mix(in srgb, var(--chart-3) 36.5%, var(--background));",
+      "bridgeDark": "--tag-purple-border: color-mix(in srgb, var(--chart-3) 45.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-3",
+        "light": {
+          "canon": "--chart-3",
+          "pct": 36.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-3",
+          "pct": 45.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(221, 214, 254, 1)",
+        "dark": "rgba(91, 33, 182, 1)"
+      },
+      "effective": {
+        "light": "rgba(221, 214, 254, 1)",
+        "dark": "rgba(91, 33, 182, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.88,
+        "dark": 48.63
+      }
+    },
+    {
+      "variable": "--bg-highlight-hover",
+      "canonToken": "--link",
+      "status": "diverged",
+      "bridge": "--bg-highlight-hover: color-mix(in srgb, var(--link) 15.5%, var(--background));",
+      "bridgeDark": "--bg-highlight-hover: color-mix(in srgb, var(--link) 36%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--link",
+        "light": {
+          "canon": "--link",
+          "pct": 15.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--link",
+          "pct": 36,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(219, 234, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "effective": {
+        "light": "rgba(219, 234, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "medusaResidual": {
+        "light": 3.18,
+        "dark": 25.68
+      }
+    },
+    {
+      "variable": "--border-error",
+      "canonToken": "--destructive",
+      "status": "mapped",
+      "bridge": "--border-error: var(--destructive);",
+      "vendor": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      },
+      "effective": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      }
+    },
+    {
+      "variable": "--button-danger",
+      "canonToken": "--destructive",
+      "status": "diverged",
+      "bridge": "--button-danger: color-mix(in srgb, var(--destructive) 100%, var(--background));",
+      "bridgeDark": "--button-danger: color-mix(in srgb, var(--destructive) 37.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--destructive",
+        "light": {
+          "canon": "--destructive",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--destructive",
+          "pct": 37.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(159, 18, 57, 1)"
+      },
+      "effective": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(159, 18, 57, 1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 45
+      }
+    },
+    {
+      "variable": "--tag-blue-bg",
+      "canonToken": "--chart-1",
+      "status": "diverged",
+      "bridge": "--tag-blue-bg: color-mix(in srgb, var(--chart-1) 23%, var(--background));",
+      "bridgeDark": "--tag-blue-bg: color-mix(in srgb, var(--chart-1) 14%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-1",
+        "light": {
+          "canon": "--chart-1",
+          "pct": 23,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-1",
+          "pct": 14,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(219, 234, 254, 1)",
+        "dark": "rgba(23, 37, 84, 1)"
+      },
+      "effective": {
+        "light": "rgba(219, 234, 254, 1)",
+        "dark": "rgba(23, 37, 84, 1)"
+      },
+      "medusaResidual": {
+        "light": 0.57,
+        "dark": 18.82
+      }
+    },
+    {
+      "variable": "--border-transparent",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(255, 255, 255, 0)",
+        "dark": "rgba(255, 255, 255, 0)"
+      },
+      "effective": {
+        "light": "rgba(255, 255, 255, 0)",
+        "dark": "rgba(255, 255, 255, 0)"
+      },
+      "reason": "a literal zero-alpha colour, not a themeable value"
+    },
+    {
+      "variable": "--button-danger-hover",
+      "canonToken": "--destructive",
+      "status": "diverged",
+      "bridge": "--button-danger-hover: color-mix(in srgb, var(--destructive) 82%, #000);",
+      "bridgeDark": "--button-danger-hover: color-mix(in srgb, var(--destructive) 57%, #000);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--destructive",
+        "light": {
+          "canon": "--destructive",
+          "pct": 82,
+          "with": "#000"
+        },
+        "dark": {
+          "canon": "--destructive",
+          "pct": 57,
+          "with": "#000"
+        }
+      },
+      "vendor": {
+        "light": "rgba(190, 18, 60, 1)",
+        "dark": "rgba(190, 18, 60, 1)"
+      },
+      "effective": {
+        "light": "rgba(190, 18, 60, 1)",
+        "dark": "rgba(190, 18, 60, 1)"
+      },
+      "medusaResidual": {
+        "light": 5.78,
+        "dark": 46.93
+      }
+    },
+    {
+      "variable": "--bg-subtle-pressed",
+      "canonToken": "--secondary",
+      "status": "diverged",
+      "bridge": "--bg-subtle-pressed: color-mix(in srgb, var(--secondary) 91%, var(--foreground));",
+      "bridgeDark": "--bg-subtle-pressed: color-mix(in srgb, var(--secondary) 93%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--secondary",
+        "light": {
+          "canon": "--secondary",
+          "pct": 91,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--secondary",
+          "pct": 93,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.66,
+        "dark": 0.4
+      }
+    },
+    {
+      "variable": "--fg-error",
+      "canonToken": "--destructive",
+      "status": "mapped",
+      "bridge": "--fg-error: var(--destructive);",
+      "vendor": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      },
+      "effective": {
+        "light": "rgba(225, 29, 72, 1)",
+        "dark": "rgba(251, 113, 133, 1)"
+      }
+    },
+    {
+      "variable": "--bg-component-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--bg-component-hover: color-mix(in srgb, var(--accent) 100%, var(--background));",
+      "bridgeDark": "--bg-component-hover: color-mix(in srgb, var(--border) 98.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 98.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.1)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 1.76
+      }
+    },
+    {
+      "variable": "--bg-disabled",
+      "canonToken": "--accent",
+      "status": "mapped",
+      "bridge": "--bg-disabled: var(--accent);",
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(39, 39, 42, 1)"
+      }
+    },
+    {
+      "variable": "--tag-blue-icon",
+      "canonToken": "--chart-1",
+      "status": "mapped",
+      "bridge": "--tag-blue-icon: var(--chart-1);",
+      "vendor": {
+        "light": "rgba(96, 165, 250, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      },
+      "effective": {
+        "light": "rgba(96, 165, 250, 1)",
+        "dark": "rgba(96, 165, 250, 1)"
+      }
+    },
+    {
+      "variable": "--fg-subtle",
+      "canonToken": "--muted-foreground",
+      "status": "mapped",
+      "bridge": "--fg-subtle: var(--muted-foreground);",
+      "vendor": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(161, 161, 170, 1)"
+      },
+      "effective": {
+        "light": "rgba(82, 82, 91, 1)",
+        "dark": "rgba(161, 161, 170, 1)"
+      }
+    },
+    {
+      "variable": "--tag-orange-bg-hover",
+      "canonToken": "--chart-5",
+      "status": "diverged",
+      "bridge": "--tag-orange-bg-hover: color-mix(in srgb, var(--chart-5) 33.5%, var(--background));",
+      "bridgeDark": "--tag-orange-bg-hover: color-mix(in srgb, var(--chart-5) 30.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-5",
+        "light": {
+          "canon": "--chart-5",
+          "pct": 33.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-5",
+          "pct": 30.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(254, 215, 170, 1)",
+        "dark": "rgba(124, 45, 18, 1)"
+      },
+      "effective": {
+        "light": "rgba(254, 215, 170, 1)",
+        "dark": "rgba(124, 45, 18, 1)"
+      },
+      "medusaResidual": {
+        "light": 6.95,
+        "dark": 25.32
+      }
+    },
+    {
+      "variable": "--tag-green-bg-hover",
+      "canonToken": "--chart-2",
+      "status": "diverged",
+      "bridge": "--tag-green-bg-hover: color-mix(in srgb, var(--chart-2) 32.5%, var(--background));",
+      "bridgeDark": "--tag-green-bg-hover: color-mix(in srgb, var(--chart-2) 42.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-2",
+        "light": {
+          "canon": "--chart-2",
+          "pct": 32.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-2",
+          "pct": 42.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(167, 243, 208, 1)",
+        "dark": "rgba(6, 78, 59, 1)"
+      },
+      "effective": {
+        "light": "rgba(167, 243, 208, 1)",
+        "dark": "rgba(6, 78, 59, 1)"
+      },
+      "medusaResidual": {
+        "light": 10.75,
+        "dark": 19.77
+      }
+    },
+    {
+      "variable": "--tag-red-bg-hover",
+      "canonToken": "--chart-4",
+      "status": "diverged",
+      "bridge": "--tag-red-bg-hover: color-mix(in srgb, var(--chart-4) 26.5%, var(--background));",
+      "bridgeDark": "--tag-red-bg-hover: color-mix(in srgb, var(--chart-4) 30%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-4",
+        "light": {
+          "canon": "--chart-4",
+          "pct": 26.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-4",
+          "pct": 30,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(254, 205, 211, 1)",
+        "dark": "rgba(136, 19, 55, 1)"
+      },
+      "effective": {
+        "light": "rgba(254, 205, 211, 1)",
+        "dark": "rgba(136, 19, 55, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.92,
+        "dark": 38
+      }
+    },
+    {
+      "variable": "--tag-purple-bg-hover",
+      "canonToken": "--chart-3",
+      "status": "diverged",
+      "bridge": "--tag-purple-bg-hover: color-mix(in srgb, var(--chart-3) 36.5%, var(--background));",
+      "bridgeDark": "--tag-purple-bg-hover: color-mix(in srgb, var(--chart-3) 45.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-3",
+        "light": {
+          "canon": "--chart-3",
+          "pct": 36.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-3",
+          "pct": 45.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(221, 214, 254, 1)",
+        "dark": "rgba(91, 33, 182, 1)"
+      },
+      "effective": {
+        "light": "rgba(221, 214, 254, 1)",
+        "dark": "rgba(91, 33, 182, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.88,
+        "dark": 48.63
+      }
+    },
+    {
+      "variable": "--tag-neutral-bg-hover",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--tag-neutral-bg-hover: color-mix(in srgb, var(--accent) 93%, var(--foreground));",
+      "bridgeDark": "--tag-neutral-bg-hover: color-mix(in srgb, var(--foreground) 8%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 93,
+          "with": "var(--foreground)"
+        },
+        "dark": {
+          "canon": "--foreground",
+          "pct": 8,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "effective": {
+        "light": "rgba(228, 228, 231, 1)",
+        "dark": "rgba(255, 255, 255, 0.12)"
+      },
+      "medusaResidual": {
+        "light": 1.26,
+        "dark": 11
+      }
+    },
+    {
+      "variable": "--tag-blue-bg-hover",
+      "canonToken": "--chart-1",
+      "status": "diverged",
+      "bridge": "--tag-blue-bg-hover: color-mix(in srgb, var(--chart-1) 40%, var(--background));",
+      "bridgeDark": "--tag-blue-bg-hover: color-mix(in srgb, var(--chart-1) 36%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-1",
+        "light": {
+          "canon": "--chart-1",
+          "pct": 40,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-1",
+          "pct": 36,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(191, 219, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "effective": {
+        "light": "rgba(191, 219, 254, 1)",
+        "dark": "rgba(30, 58, 138, 1)"
+      },
+      "medusaResidual": {
+        "light": 1,
+        "dark": 25.68
+      }
+    },
+    {
+      "variable": "--tag-green-bg",
+      "canonToken": "--chart-2",
+      "status": "diverged",
+      "bridge": "--tag-green-bg: color-mix(in srgb, var(--chart-2) 16.5%, var(--background));",
+      "bridgeDark": "--tag-green-bg: color-mix(in srgb, var(--chart-2) 24.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-2",
+        "light": {
+          "canon": "--chart-2",
+          "pct": 16.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-2",
+          "pct": 24.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(209, 250, 229, 1)",
+        "dark": "rgba(2, 44, 34, 1)"
+      },
+      "effective": {
+        "light": "rgba(209, 250, 229, 1)",
+        "dark": "rgba(2, 44, 34, 1)"
+      },
+      "medusaResidual": {
+        "light": 6.56,
+        "dark": 26.84
+      }
+    },
+    {
+      "variable": "--tag-neutral-bg",
+      "canonToken": "--accent",
+      "status": "diverged",
+      "bridge": "--tag-neutral-bg: color-mix(in srgb, var(--accent) 100%, var(--background));",
+      "bridgeDark": "--tag-neutral-bg: color-mix(in srgb, var(--border) 100%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--accent",
+        "light": {
+          "canon": "--accent",
+          "pct": 100,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 100,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "effective": {
+        "light": "rgba(244, 244, 245, 1)",
+        "dark": "rgba(255, 255, 255, 0.08)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 0
+      }
+    },
+    {
+      "variable": "--tag-orange-bg",
+      "canonToken": "--chart-5",
+      "status": "diverged",
+      "bridge": "--tag-orange-bg: color-mix(in srgb, var(--chart-5) 16%, var(--background));",
+      "bridgeDark": "--tag-orange-bg: color-mix(in srgb, var(--chart-5) 2.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--chart-5",
+        "light": {
+          "canon": "--chart-5",
+          "pct": 16,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--chart-5",
+          "pct": 2.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(255, 237, 213, 1)",
+        "dark": "rgba(67, 20, 7, 1)"
+      },
+      "effective": {
+        "light": "rgba(255, 237, 213, 1)",
+        "dark": "rgba(67, 20, 7, 1)"
+      },
+      "medusaResidual": {
+        "light": 4.72,
+        "dark": 29.6
+      }
+    },
+    {
+      "variable": "--fg-base",
+      "canonToken": "--foreground",
+      "status": "mapped",
+      "bridge": "--fg-base: var(--foreground);",
+      "vendor": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(244, 244, 245, 1)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(244, 244, 245, 1)"
+      }
+    },
+    {
+      "variable": "--contrast-border-top",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 1)",
+        "dark": "rgba(33, 33, 36, 1)"
+      },
+      "reason": "inverted-surface ramp, see --contrast-bg-base"
+    },
+    {
+      "variable": "--bg-overlay",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "rgba(24, 24, 27, 0.4)",
+        "dark": "rgba(24, 24, 27, 0.72)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 0.4)",
+        "dark": "rgba(24, 24, 27, 0.72)"
+      },
+      "reason": "a scrim that stays dark in both modes; canon has no scrim token"
+    },
+    {
+      "variable": "--fg-disabled",
+      "canonToken": "--muted-foreground",
+      "status": "diverged",
+      "bridge": "--fg-disabled: color-mix(in srgb, var(--muted-foreground) 53%, var(--background));",
+      "bridgeDark": "--fg-disabled: color-mix(in srgb, var(--muted-foreground) 39.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--muted-foreground",
+        "light": {
+          "canon": "--muted-foreground",
+          "pct": 53,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--muted-foreground",
+          "pct": 39.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(161, 161, 170, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "effective": {
+        "light": "rgba(161, 161, 170, 1)",
+        "dark": "rgba(82, 82, 91, 1)"
+      },
+      "medusaResidual": {
+        "light": 2.31,
+        "dark": 2.07
+      }
+    },
+    {
+      "variable": "--fg-muted",
+      "canonToken": "--muted-foreground",
+      "status": "diverged",
+      "bridge": "--fg-muted: color-mix(in srgb, var(--muted-foreground) 81.5%, var(--background));",
+      "bridgeDark": "--fg-muted: color-mix(in srgb, var(--muted-foreground) 63.5%, var(--background));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--muted-foreground",
+        "light": {
+          "canon": "--muted-foreground",
+          "pct": 81.5,
+          "with": "var(--background)"
+        },
+        "dark": {
+          "canon": "--muted-foreground",
+          "pct": 63.5,
+          "with": "var(--background)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(113, 113, 122, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "effective": {
+        "light": "rgba(113, 113, 122, 1)",
+        "dark": "rgba(113, 113, 122, 1)"
+      },
+      "medusaResidual": {
+        "light": 1.01,
+        "dark": 1.28
+      }
+    },
+    {
+      "variable": "--alpha-250",
+      "canonToken": "--foreground",
+      "status": "diverged",
+      "bridge": "--alpha-250: color-mix(in srgb, var(--foreground) 10%, transparent);",
+      "bridgeDark": "--alpha-250: color-mix(in srgb, var(--border) 98.5%, var(--foreground));",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--foreground",
+        "light": {
+          "canon": "--foreground",
+          "pct": 10,
+          "with": "transparent"
+        },
+        "dark": {
+          "canon": "--border",
+          "pct": 98.5,
+          "with": "var(--foreground)"
+        }
+      },
+      "vendor": {
+        "light": "rgba(24, 24, 27, 0.1)",
+        "dark": "rgba(255, 255, 255, 0.1)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 0.1)",
+        "dark": "rgba(255, 255, 255, 0.1)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 1.76
+      }
+    },
+    {
+      "variable": "--alpha-400",
+      "canonToken": "--foreground",
+      "status": "diverged",
+      "bridge": "--alpha-400: color-mix(in srgb, var(--foreground) 24%, transparent);",
+      "bridgeDark": "--alpha-400: color-mix(in srgb, var(--foreground) 20%, transparent);",
+      "derivation": {
+        "kind": "color-mix",
+        "space": "srgb",
+        "canon": "--foreground",
+        "light": {
+          "canon": "--foreground",
+          "pct": 24,
+          "with": "transparent"
+        },
+        "dark": {
+          "canon": "--foreground",
+          "pct": 20,
+          "with": "transparent"
+        }
+      },
+      "vendor": {
+        "light": "rgba(24, 24, 27, 0.24)",
+        "dark": "rgba(255, 255, 255, 0.24)"
+      },
+      "effective": {
+        "light": "rgba(24, 24, 27, 0.24)",
+        "dark": "rgba(255, 255, 255, 0.24)"
+      },
+      "medusaResidual": {
+        "light": 0,
+        "dark": 11
+      }
+    },
+    {
+      "variable": "--buttons-danger-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(190, 18, 60, 0.4), 0px 0px 0px 1px rgba(190, 18, 60, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.16), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(159, 18, 57, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "effective": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(190, 18, 60, 0.4), 0px 0px 0px 1px rgba(190, 18, 60, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.16), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(159, 18, 57, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "reason": "button shadow stack, see --buttons-neutral"
+    },
+    {
+      "variable": "--details-contrast-on-bg-interactive",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.6)",
+        "dark": "0px 1px 2px 0px rgba(30, 58, 138, 0.6)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.6)",
+        "dark": "0px 1px 2px 0px rgba(30, 58, 138, 0.6)"
+      },
+      "reason": "switch shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--borders-error",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(225, 29, 72, 1), 0px 0px 0px 3px rgba(225, 29, 72, 0.15)",
+        "dark": "0px 0px 0px 1px rgba(244, 63, 94, 1), 0px 0px 0px 3px rgba(225, 29, 72, 0.25)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(225, 29, 72, 1), 0px 0px 0px 3px rgba(225, 29, 72, 0.15)",
+        "dark": "0px 0px 0px 1px rgba(244, 63, 94, 1), 0px 0px 0px 3px rgba(225, 29, 72, 0.25)"
+      },
+      "reason": "focus/border shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--borders-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1), 0px 0px 0px 3px rgba(59, 130, 246, 0.6)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 3px rgba(96, 165, 250, 0.8)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1), 0px 0px 0px 3px rgba(59, 130, 246, 0.6)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 3px rgba(96, 165, 250, 0.8)"
+      },
+      "reason": "focus/border shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--buttons-danger",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(190, 18, 60, 0.4), 0px 0px 0px 1px rgba(190, 18, 60, 1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.16), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(159, 18, 57, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "effective": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(190, 18, 60, 0.4), 0px 0px 0px 1px rgba(190, 18, 60, 1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.16), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(159, 18, 57, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "reason": "button shadow stack, see --buttons-neutral"
+    },
+    {
+      "variable": "--buttons-inverted-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(0, 0, 0, 0.4), 0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(82, 82, 91, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "effective": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(0, 0, 0, 0.4), 0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(82, 82, 91, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "reason": "button shadow stack, see --buttons-neutral"
+    },
+    {
+      "variable": "--elevation-card-hover",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 4px 0px rgba(0, 0, 0, 0.48), 0px 2px 8px 0px rgba(0, 0, 0, 0.48)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 4px 0px rgba(0, 0, 0, 0.48), 0px 2px 8px 0px rgba(0, 0, 0, 0.48)"
+      },
+      "reason": "multi-layer shadow stack; canon carries three shadows, not seven"
+    },
+    {
+      "variable": "--details-switch-handle",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 2px 1px rgba(255, 255, 255, 1) inset, 0px 1px 0px 0px rgba(255, 255, 255, 1) inset, 0px 0px 0px 0.5px rgba(0, 0, 0, 0.02), 0px 5px 4px 0px rgba(0, 0, 0, 0.02), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 1px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 2px 1px rgba(255, 255, 255, 1) inset, 0px 1px 0px 0px rgba(255, 255, 255, 1) inset, 0px 0px 0px 0.5px rgba(0, 0, 0, 0.16), 0px 5px 4px 0px rgba(0, 0, 0, 0.1), 0px 3px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1), 0px 0px 1px 0px rgba(0, 0, 0, 0.1)"
+      },
+      "effective": {
+        "light": "0px 0px 2px 1px rgba(255, 255, 255, 1) inset, 0px 1px 0px 0px rgba(255, 255, 255, 1) inset, 0px 0px 0px 0.5px rgba(0, 0, 0, 0.02), 0px 5px 4px 0px rgba(0, 0, 0, 0.02), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 1px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 2px 1px rgba(255, 255, 255, 1) inset, 0px 1px 0px 0px rgba(255, 255, 255, 1) inset, 0px 0px 0px 0.5px rgba(0, 0, 0, 0.16), 0px 5px 4px 0px rgba(0, 0, 0, 0.1), 0px 3px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.1), 0px 0px 1px 0px rgba(0, 0, 0, 0.1)"
+      },
+      "reason": "switch shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--buttons-neutral",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "reason": "button shadow stack with a baked hairline; canon has no button elevation"
+    },
+    {
+      "variable": "--borders-base",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "reason": "focus/border shadow stack with a baked focus blue; canon has no focus ring stack"
+    },
+    {
+      "variable": "--elevation-card-rest",
+      "canonToken": "--shadow-card",
+      "status": "mapped",
+      "bridge": "--elevation-card-rest: var(--shadow-card);",
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 2px 0px rgba(0, 0, 0, 0.32), 0px 2px 4px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 2px 0px rgba(0, 0, 0, 0.32), 0px 2px 4px 0px rgba(0, 0, 0, 0.32)"
+      }
+    },
+    {
+      "variable": "--buttons-neutral-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.6)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "reason": "button shadow stack, see --buttons-neutral"
+    },
+    {
+      "variable": "--details-switch-background-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1), 0px 0px 0px 3px rgba(59, 130, 246, 0.6), 0px 1px 1px 0px rgba(0, 0, 0, 0.04) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04) inset, 0px 0px 0px 0.75px rgba(0, 0, 0, 0.06) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.02) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 3px rgba(96, 165, 250, 0.8), 0px 1px 1px 0px rgba(0, 0, 0, 0.1) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.1) inset, 0px 0px 0px 0.75px rgba(255, 255, 255, 0.12) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.1) inset"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1), 0px 0px 0px 3px rgba(59, 130, 246, 0.6), 0px 1px 1px 0px rgba(0, 0, 0, 0.04) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04) inset, 0px 0px 0px 0.75px rgba(0, 0, 0, 0.06) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.02) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1), 0px 0px 0px 3px rgba(96, 165, 250, 0.8), 0px 1px 1px 0px rgba(0, 0, 0, 0.1) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.1) inset, 0px 0px 0px 0.75px rgba(255, 255, 255, 0.12) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.1) inset"
+      },
+      "reason": "switch shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--details-switch-background",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 1px 0px rgba(0, 0, 0, 0.04) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04) inset, 0px 0px 0px 0.75px rgba(0, 0, 0, 0.06) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.02) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px 1px 1px 0px rgba(0, 0, 0, 0.1) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.1) inset, 0px 0px 0px 0.75px rgba(255, 255, 255, 0.12) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.1) inset"
+      },
+      "effective": {
+        "light": "0px 1px 1px 0px rgba(0, 0, 0, 0.04) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04) inset, 0px 0px 0px 0.75px rgba(0, 0, 0, 0.06) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.02) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+        "dark": "0px 1px 1px 0px rgba(0, 0, 0, 0.1) inset, 0px 2px 4px 0px rgba(0, 0, 0, 0.1) inset, 0px 0px 0px 0.75px rgba(255, 255, 255, 0.12) inset, 0px 0px 8px 0px rgba(0, 0, 0, 0.1) inset"
+      },
+      "reason": "switch shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--elevation-flyout",
+      "canonToken": "--shadow-float",
+      "status": "mapped",
+      "bridge": "--elevation-flyout: var(--shadow-float);",
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      }
+    },
+    {
+      "variable": "--elevation-tooltip",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 2px 4px 0px rgba(0, 0, 0, 0.32), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 2px 4px 0px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 2px 4px 0px rgba(0, 0, 0, 0.32), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "reason": "multi-layer shadow stack, see --elevation-card-hover"
+    },
+    {
+      "variable": "--elevation-modal",
+      "canonToken": "--shadow-modal",
+      "status": "mapped",
+      "bridge": "--elevation-modal: var(--shadow-modal);",
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1) inset, 0px 0px 0px 1.5px rgba(228, 228, 231, 0.6) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 32px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.5px rgba(255, 255, 255, 0.06) inset, 0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(255, 255, 255, 1) inset, 0px 0px 0px 1.5px rgba(228, 228, 231, 0.6) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 32px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 0px 1px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.5px rgba(255, 255, 255, 0.06) inset, 0px -1px 0px 0px rgba(255, 255, 255, 0.04), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      }
+    },
+    {
+      "variable": "--elevation-code-block",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 1px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.5px rgba(255, 255, 255, 0.2) inset",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 2px 0px rgba(0, 0, 0, 0.32), 0px 2px 4px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 1px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.5px rgba(255, 255, 255, 0.2) inset",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(255, 255, 255, 0.06), 0px 0px 0px 1px rgba(39, 39, 42, 1), 0px 1px 2px 0px rgba(0, 0, 0, 0.32), 0px 2px 4px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "reason": "multi-layer shadow stack, see --elevation-card-hover"
+    },
+    {
+      "variable": "--buttons-inverted",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(0, 0, 0, 0.4), 0px 0px 0px 1px rgba(24, 24, 27, 1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 0px 0px 1px rgba(82, 82, 91, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "effective": {
+        "light": "0px 0.75px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px 0px rgba(0, 0, 0, 0.4), 0px 0px 0px 1px rgba(24, 24, 27, 1)",
+        "dark": "0px -1px 0px 0px rgba(255, 255, 255, 0.12), 0px 0px 0px 1px rgba(255, 255, 255, 0.1), 0px 0px 0px 1px rgba(82, 82, 91, 1), 0px 0px 1px 1.5px rgba(0, 0, 0, 0.24), 0px 2px 2px 0px rgba(0, 0, 0, 0.24)"
+      },
+      "reason": "button shadow stack, see --buttons-neutral"
+    },
+    {
+      "variable": "--elevation-commandbar",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 0.75px rgba(39, 39, 42, 1) inset, 0px 0px 0px 1.25px rgba(255, 255, 255, 0.3) inset, 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 32px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 0px 0.75px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.25px rgba(255, 255, 255, 0.1) inset, 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 0.75px rgba(39, 39, 42, 1) inset, 0px 0px 0px 1.25px rgba(255, 255, 255, 0.3) inset, 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 32px 0px rgba(0, 0, 0, 0.08)",
+        "dark": "0px 0px 0px 0.75px rgba(24, 24, 27, 1) inset, 0px 0px 0px 1.25px rgba(255, 255, 255, 0.1) inset, 0px 4px 8px 0px rgba(0, 0, 0, 0.32), 0px 8px 16px 0px rgba(0, 0, 0, 0.32)"
+      },
+      "reason": "multi-layer shadow stack, see --elevation-card-hover"
+    },
+    {
+      "variable": "--borders-interactive-with-focus",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.5), 0px 0px 0px 1px rgba(37, 99, 235, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(37, 99, 235, 0.6)",
+        "dark": "0px -1px 2px 0px rgba(219, 234, 254, 0.5), 0px 0px 0px 1px rgba(96, 165, 250, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.5), 0px 0px 0px 1px rgba(37, 99, 235, 1), 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(37, 99, 235, 0.6)",
+        "dark": "0px -1px 2px 0px rgba(219, 234, 254, 0.5), 0px 0px 0px 1px rgba(96, 165, 250, 1), 0px 0px 0px 2px rgba(24, 24, 27, 1), 0px 0px 0px 4px rgba(96, 165, 250, 0.8)"
+      },
+      "reason": "focus/border shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--borders-interactive-with-shadow",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.5), 0px 0px 0px 1px rgba(37, 99, 235, 1)",
+        "dark": "0px -1px 2px 0px rgba(219, 234, 254, 0.5), 0px 0px 0px 1px rgba(96, 165, 250, 1)"
+      },
+      "effective": {
+        "light": "0px 1px 2px 0px rgba(30, 58, 138, 0.5), 0px 0px 0px 1px rgba(37, 99, 235, 1)",
+        "dark": "0px -1px 2px 0px rgba(219, 234, 254, 0.5), 0px 0px 0px 1px rgba(96, 165, 250, 1)"
+      },
+      "reason": "focus/border shadow stack, see --borders-base"
+    },
+    {
+      "variable": "--borders-interactive-with-active",
+      "canonToken": null,
+      "status": "open",
+      "bridge": null,
+      "vendor": {
+        "light": "0px 0px 0px 4px rgba(37, 99, 235, 0.2), 0px 0px 0px 1px rgba(37, 99, 235, 1)",
+        "dark": "0px 0px 0px 1px rgba(96, 165, 250, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.25)"
+      },
+      "effective": {
+        "light": "0px 0px 0px 4px rgba(37, 99, 235, 0.2), 0px 0px 0px 1px rgba(37, 99, 235, 1)",
+        "dark": "0px 0px 0px 1px rgba(96, 165, 250, 1), 0px 0px 0px 4px rgba(59, 130, 246, 0.25)"
+      },
+      "reason": "focus/border shadow stack, see --borders-base"
+    }
+  ]
+}

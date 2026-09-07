@@ -337,7 +337,7 @@ export default function CheckoutShippingSection({
                   <RadioGroup.Item
                     value={option.id}
                     aria-label={option.name}
-                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-md bg-transparent outline-none [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-md bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
                   />
                   <span className="txt-compact-medium-plus text-ui-fg-base">
                     {option.name}

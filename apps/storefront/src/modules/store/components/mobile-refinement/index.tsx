@@ -138,7 +138,7 @@ const MobileRefinement = ({
             leaveTo="opacity-0"
           >
             <div
-              className="fixed inset-0 bg-black/25 backdrop-blur-[2px]"
+              className="fixed inset-0 bg-ui-bg-overlay backdrop-blur-[2px]"
               aria-hidden="true"
             />
           </TransitionChild>

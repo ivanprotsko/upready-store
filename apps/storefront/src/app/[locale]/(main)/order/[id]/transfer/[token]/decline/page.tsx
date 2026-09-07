@@ -31,15 +31,15 @@ export default async function TransferPage({
       <div className="flex flex-col gap-y-3 w-full min-w-0">
         {success ? (
           <>
-            <Heading level="h1" className="!text-lg text-zinc-900">
+            <Heading level="h1" className="!text-lg text-ui-fg-base">
               {t("declinedHeading")}
             </Heading>
-            <Text className="!text-sm text-zinc-600 break-words">
+            <Text className="!text-sm text-ui-fg-subtle break-words">
               {t("declinedBody", { id })}
             </Text>
           </>
         ) : (
-          <Text className="!text-sm text-zinc-600">{t("declineError")}</Text>
+          <Text className="!text-sm text-ui-fg-subtle">{t("declineError")}</Text>
         )}
       </div>
     </div>
