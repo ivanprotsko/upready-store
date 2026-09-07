@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-07T19:56:35+08:00",
-  "status": "store-ds-9: Иван одобрил программу «Профили магазина» и пилот sneakers: t-ds-0-foundation заморожена, t-store-profiles-pilot одобрена (todo) с goal+acceptance, q-store-profiles-wip закрыт. Промпт запуска оркестратора выдан Ивану; оркестратор работает в worktree feat/store-profiles (:9023/:8028), архитектор принимает через emit/SendMessage (upready-store-47). Пилот: один ракурс на товар, ровно 19 рендеров, без перегенераций.",
+  "updated": "2026-09-07T20:04:40+08:00",
+  "status": "store-ds-10: launch prompt for the store-profiles orchestrator restored from the transcript and recorded verbatim in the brief (section Launch prompt); worktree feat/store-profiles fast-forwarded to dev so the brief, program and schemas exist there; orchestrator not yet launched by Ivan",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
