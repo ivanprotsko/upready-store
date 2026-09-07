@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T00:50:45+08:00",
-  "status": "store-profiles orchestrator: SESSION HANDOVER (Ivan switching subscription). The author/critic pair Ivan ordered in 6.1 is done and committed: 8dfe5fa the five-module process, 9a5cf8a the 475-line critique whose verdict is that the process is NOT executable by an orchestrator who was not in the pilot — 2 BLOCKERs (six scripts and an artefacts tree named by the handover contract but created by no step; F1/F2 breaking the document's own compilation-closure rule and re-scheduling the pilot's hour-long block) plus 9 SERIOUS. The author was NOT resumed: the revision pass is the next session's first move, by SendMessage to process-author while it is idle. Also committed: d5020c1 the 3x3 grid and transparency measurement, dry by default, --spend only on Ivan's word. Branch 22 ahead of origin/dev, NOT pushed. Stand live :8028/:9023. Still owed: fold the gates-retro findings into the defect registry. Still Ivan's to launch: orchestrator A in worktree feat/store-theme-surface.",
+  "updated": "2026-09-08T01:04:09+08:00",
+  "status": "upready-store-cb (main checkout, dev): Ivan asked at 01:01 what he must decide so the theme generation can run autonomously overnight and be viewable in the morning. Answered with the arithmetic and a fork recorded as q-wave2-night-scope: nine THEMES on one stand (4-6h, $0, fits) vs nine full STOREFRONTS as designed (8-15h, does not fit). Measured this session: themes switch at runtime on <html data-theme>, presets come from specs/design-system/themes/*.theme.json via pnpm themes:build, so nine themes cost one build, not nine stands. Nothing built or started; the pilot stand :9023/:8028 was only probed with curl. d36fa1b committed the previous orchestrator handover state and its scoped journal. WAITING on Ivan: pick A or B, OK to orchestrate (3b), spend ceiling for B, subscription plan and Sonnet fallback, skip-a-stalled-theme rule, morning acceptance form.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -324,6 +324,15 @@
       "id": "q-github-switch-to-push-pr",
       "question": "GitHub: switch to push + PR flow? Measured 2026-09-07: origin = github.com/ivanprotsko/upready-store (PRIVATE, default branch dev, dev already fully pushed); upstream = public gorgojs/medusa-dtc-starter. gh authorised as ivanprotsko, scopes repo+workflow. Only two workflows exist: notify-deploy.yml triggers ONLY on push to main (paths apps/**, package.json, pnpm-lock.yaml); update.yaml is a daily cron plus manual. So a PR from feat/* into dev runs NO workflow and spends NO Actions minutes; minutes are only spent when something reaches main, which is the deploy that needs an explicit order (21b/21c). Actions BALANCE COULD NOT BE READ: the billing API needs the 'user' scope and the token has gist/read:org/repo/workflow — Ivan runs 'gh auth refresh -h github.com -s user' or reads github.com/settings/billing. Awaiting Ivan's explicit word before pushing feat/store-profiles (7 commits ahead of origin/dev), feat/ds-foundation and feat/seam-tests.",
       "asked": "2026-09-07",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
+    },
+    {
+      "id": "q-wave2-night-scope",
+      "question": "Night run of 2026-09-08, asked by Ivan at 01:01: what has to be ready by morning. Measured this session: themes switch at RUNTIME on the <html> attribute data-theme, presets are built by pnpm themes:build from specs/design-system/themes/*.theme.json (three today: geist, medusa, sneakers), so NINE new themes = nine JSON files + ONE next build + one stand with the panel — no per-theme DB, no catalogue, no Replicate spend. Fork: (A) nine THEMES on one stand over the sneakers catalogue — T-fix 2-4h in parallel with 9 style boards/theme.json ~2h + build and a 36-screen contact sheet ~1h = 4-6h, fits the 7h window, and it sidesteps both BLOCKERs of the process critique because the wave tooling is needed by nine PROFILES, not by nine JSON themes; (B) nine full STOREFRONTS as designed = F0 tooling and process revision 1-2h + T-fix/T-gate 2-4h + wave 5h20m-9h15m (13h if W7 behaves like S1b) = 8-15h, so 2-4 of nine by 08:00. Recommendation: A tonight, B next. Also needed from Ivan before an autonomous night: explicit OK to orchestrate (rule 3b), a dollar ceiling for B (171 renders = $4.28/$6.84/$15.39 at $0.025/$0.04/$0.09; nano-banana-2 price is unpublished) plus ~$0.12 for the 3x3 grid measurement, the current subscription plan and whether roles may drop to Sonnet on a limit, a yes to skipping a stalled theme instead of waiting, and the morning acceptance form (contact sheet + one stand, verdict by the creative-director agent).",
+      "asked": "2026-09-08",
+      "audience": "ivan",
       "blocks": [
         "t-store-profiles-pilot"
       ]

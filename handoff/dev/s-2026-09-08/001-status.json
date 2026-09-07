@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-08T01:04:09+08:00",
+  "status": "upready-store-cb (main checkout, dev): Ivan asked at 01:01 what he must decide so the theme generation can run autonomously overnight and be viewable in the morning. Answered with the arithmetic and a fork recorded as q-wave2-night-scope: nine THEMES on one stand (4-6h, $0, fits) vs nine full STOREFRONTS as designed (8-15h, does not fit). Measured this session: themes switch at runtime on <html data-theme>, presets come from specs/design-system/themes/*.theme.json via pnpm themes:build, so nine themes cost one build, not nine stands. Nothing built or started; the pilot stand :9023/:8028 was only probed with curl. d36fa1b committed the previous orchestrator handover state and its scoped journal. WAITING on Ivan: pick A or B, OK to orchestrate (3b), spend ceiling for B, subscription plan and Sonnet fallback, skip-a-stalled-theme rule, morning acceptance form."
+}
