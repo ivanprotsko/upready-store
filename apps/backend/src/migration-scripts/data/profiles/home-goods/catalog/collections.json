@@ -1,0 +1,30 @@
+[
+  {
+    "handle": "the-morning-table",
+    "title": "The morning table",
+    "products": [
+      "braiser",
+      "skillet",
+      "dinner-plates",
+      "mug",
+      "waffle-towels",
+      "table-runner",
+      "candle-holder"
+    ]
+  },
+  {
+    "handle": "made-to-be-used",
+    "title": "Made to be used",
+    "products": [
+      "braiser",
+      "bean-pot",
+      "skillet",
+      "dinner-plates",
+      "serving-board",
+      "waffle-towels",
+      "cross-back-apron",
+      "canister",
+      "hook-rail"
+    ]
+  }
+]

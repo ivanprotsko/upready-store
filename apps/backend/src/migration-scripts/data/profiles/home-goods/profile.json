@@ -1,0 +1,113 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "home-goods",
+  "vertical": "kitchen and home goods",
+  "audience": {
+    "region": "EU and US",
+    "persona": "Hana, 41, Rotterdam, cooks five nights a week in a rented kitchen she cannot renovate, has replaced the same non-stick pan three times, and now reads the weight in grams before she reads the price."
+  },
+  "brand": {
+    "name": "Long Morning",
+    "tagline": "Things that earn their shelf",
+    "wordmark": {
+      "text": "LONG MORNING",
+      "style": "wordmark"
+    },
+    "legalName": "Long Morning Goods B.V."
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "ru"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "theme": {
+    "presetId": "home-goods",
+    "file": "theme.json",
+    "defaultMode": "light",
+    "typography": {
+      "display": "Fraunces",
+      "body": "DM Sans"
+    },
+    "radius": "md"
+  },
+  "layout": {
+    "cardVariant": "editorial",
+    "imageTreatment": {
+      "aspect": "4:5",
+      "fit": "contain",
+      "radius": "md",
+      "hover": "zoom"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "Kitchen things that outlive the kitchen",
+      "subheadline": "Cast iron, stoneware and linen for a rented kitchen you cook in every night. Weight, diameter and care notes on every page.",
+      "cta": {
+        "label": "Shop the kitchen",
+        "href": "/store"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      {
+        "categoryHandle": "cookware",
+        "label": "Cookware",
+        "image": "media/tile-cookware.webp"
+      },
+      {
+        "categoryHandle": "tableware",
+        "label": "Tableware",
+        "image": "media/tile-tableware.webp"
+      },
+      {
+        "categoryHandle": "kitchen-textiles",
+        "label": "Kitchen textiles",
+        "image": "media/tile-kitchen-textiles.webp"
+      },
+      {
+        "categoryHandle": "storage-and-light",
+        "label": "Storage and light",
+        "image": "media/tile-storage-and-light.webp"
+      }
+    ],
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free shipping over $60 · care notes on every page · 60-day returns"
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 12,
+      "variants": 38,
+      "images": 12
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-08T21:55:00.000Z",
+  "generatedBy": "store-profiles wave 2, home-goods W1/W2/W6, assembled from design/style-board.md"
+}

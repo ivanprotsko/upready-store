@@ -1,0 +1,98 @@
+{
+  "name": "Deutsch",
+  "translations": {
+    "categories": {
+      "theKitchen": "Die Küche",
+      "cookware": "Kochgeschirr",
+      "tableware": "Geschirr",
+      "kitchenTextiles": "Küchentextilien",
+      "theHouse": "Das Haus",
+      "storageAndLight": "Aufbewahrung und Licht"
+    },
+    "collections": {
+      "theMorningTable": "Der Morgentisch",
+      "madeToBeUsed": "Zum Benutzen gemacht"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Farbe",
+        "values": {
+          "terracotta": "Terrakotta",
+          "oat": "Hafer",
+          "clay": "Ton",
+          "slate": "Schiefer"
+        }
+      },
+      "size": {
+        "title": "Größe",
+        "values": {
+          "small": "Klein",
+          "medium": "Mittel",
+          "large": "Groß"
+        }
+      }
+    },
+    "products": {
+      "braiser": {
+        "title": "Schmortopf · emaillierter Gusseisen",
+        "subtitle": "Flach, weit und bis 260 °C ofenfest; 3,4 kg in der Neun-Zoll-Größe",
+        "description": "Ein Schmortopf ist flach, und genau darin liegt der Sinn: Der Boden ist so weit, dass sechs Hähnchenschenkel in einer Lage liegen statt in drei übereinander zu schmoren. Der Korpus ist in einem Stück gegossen und innen wie außen emailliert, es gibt also nichts einzubrennen und nichts, was rosten kann. Das matte sandfarbene Innere zeigt, wie dunkel der Bratensatz geworden ist — bei schwarzem Email sieht man das nicht. Zwei ehrliche Nachteile: Er wiegt 3,4 kg, das ist ein Griff mit beiden Händen aus dem Ofen, und das Email schlägt ab, wenn er gegen den Wasserhahn stößt. Nicht spülmaschinenfest, das Reinigungsmittel macht die Außenemaille binnen eines Jahres stumpf."
+      },
+      "beanPot": {
+        "title": "Bohnentopf · unglasierter Ton",
+        "subtitle": "Wird eingeweicht, bevor er kocht — deshalb schmecken Bohnen aus Ton anders",
+        "description": "Ein Bohnentopf ist absichtlich langsam. Die dicken unglasierten Steingutwände halten Wasser, das über den ganzen Garvorgang zu Dampf wird und die oberste Bohnenschicht davor bewahrt, zu Häuten einzutrocknen. Innen ist er glasiert, damit der Topf nicht den Knoblauch von gestern behält. Zwei Regeln sind nicht verhandelbar: Er kommt in den kalten Ofen und heizt mit ihm auf — in einen heißen gestellt, reißt er durch den Temperaturschock, und das ist kein Mangel. Und er muss vor dem ersten Gebrauch zwei Stunden in kaltem Wasser liegen, danach vor jedem Gebrauch zwanzig Minuten. Spülen Sie ihn ohne Spülmittel: unglasierter Ton nimmt Seife auf und gibt sie ans Essen zurück."
+      },
+      "skillet": {
+        "title": "Pfanne · sandpolierter Gusseisen",
+        "subtitle": "Poliert statt genarbt: eine glatte Fläche brennt in etwa vier Gängen ein",
+        "description": "Die meisten Gusseisenpfannen verlassen die Form mit genarbter Bratfläche, weil Polieren ein zweiter Arbeitsgang ist und Geld kostet. Diese ist poliert, und der Unterschied zeigt sich nach etwa vier Mal Kochen: Eine glatte Fläche nimmt die Patina gleichmäßig an, statt die Poren zu füllen, Eier kleben früher nicht mehr an, und die Pfanne wird schwarz statt grau. Sie kommt mit drei Schichten Leinöl vorgebrannt an — das ist ein Anfang, kein Abschluss. Der Griff ist mit dem Korpus in einem Stück gegossen: darum ist er stabil und darum wird er heiß. Lassen Sie sie nass über Nacht stehen, ist sie am Morgen rostig; abschrubben, neu einölen, weitermachen."
+      },
+      "dinnerPlates": {
+        "title": "Essteller, Viererset",
+        "subtitle": "Gesprenkeltes Steinzeug, stapelbar und wirklich spülmaschinenfest",
+        "description": "Vier Teller, verkauft als vier, weil ein Teller keine brauchbare Menge ist und acht eine Vermutung über Ihren Tisch. Der Scherben ist bei 1260 °C gebranntes, verglastes Steinzeug — die Temperatur, bei der Ton aufhört, saugfähig zu sein, ein über Nacht stehen gelassener Teller mit Tomatensoße bleibt also fleckenfrei. Die Sprenkel sind Eisen im Ton, das durch die Glasur kommt, kein aufgedrucktes Muster: Keine zwei Teller sind gleich und nichts nutzt sich ab. Der Rand ist gerollt statt geschnitten, denn am Rand schlägt ein Teller zuerst ab, und ein gerollter hat dort mehr Material. Vier Teller stapeln 7 cm hoch, was zählt, wenn Ihr Schrank 30 cm hat."
+      },
+      "mug": {
+        "title": "Becher · Griff mit Daumenmulde",
+        "subtitle": "350 ml, und der Griff hat eine flache Mulde, die der Daumen von selbst findet",
+        "description": "Ein Becher ist schwer interessant zu machen, und wir haben es nicht versucht. Was dieser hat, ist ein von Hand gezogener statt gegossener Griff mit einer flachen Mulde obenauf, die der Daumen ungefragt findet — das ist das ganze Argument. Er fasst 350 ml bis zum Rand, also 300 ml Kaffee und einen Zentimeter Luft, damit Sie ihn die Treppe hinauftragen können. Der Scherben ist dasselbe verglaste gesprenkelte Steinzeug wie bei den Tellern, aus derselben Fabrik, die Glasuren passen also auf dem Tisch zusammen. Die Wände sind dicker als bei einem Café-Becher: er wärmt ein paar Sekunden länger durch und hält die Hitze dann etwa acht Minuten länger."
+      },
+      "servingBoard": {
+        "title": "Servierbrett · Olivenholz",
+        "subtitle": "Ein Stück Olive, geölt statt lackiert, keines wie das andere",
+        "description": "Aus einem Stück Olive geschnitten, nicht aus Leisten verleimt — darum steigt der Preis mit der Länge so steil: Ein Brett von 48 cm braucht ein fehlerfreies Stammstück von 48 cm. Olive ist dicht und schließt sich über Messerspuren besser als Buche, und sie ist so stark gemasert, dass drei Bretter auf einem Foto nie wie dasselbe Produkt aussehen — Ihres wird dem auf dieser Seite nicht gleichen, und das ist das Material, kein Fehler. Die Oberfläche ist lebensmittelechtes Mineralöl: Nach einem Monat sieht sie blass und durstig aus, und Sie ölen sie in zwei Minuten mit einem Tuch nach. Niemals in die Spülmaschine — ein einseitig durchnässtes Massivbrett schüsselt und reißt."
+      },
+      "waffleTowels": {
+        "title": "Waffeltücher, Dreierset",
+        "subtitle": "Baumwollwaffel, 500 g/m²; trocknet eine nasse Pfanne, statt Wasser zu verteilen",
+        "description": "Waffelbindung, weil eine Leinwandbindung das Wasser in der Pfanne nur herumschiebt und Frottee Fusseln auf Glas hinterlässt. Die Waffelzellen nehmen das Wasser stattdessen auf — deshalb trocknet ein Tuch mit 500 g/m² eine Bratform, die ein schwereres Frotteetuch nur verschmiert. Drei im Set, weil die ehrliche Zahl gleichzeitig benutzter Küchentücher drei ist: eines an der Ofentür, eines am Spülbecken, eines in der Wäsche. Sie kommen vorgewaschen, die 50 × 70 cm auf dem Etikett sind also das Maß nach der ersten Wäsche. Waschen Sie bei 60 °C. Niemals Weichspüler: er umhüllt die Baumwolle, und ein umhülltes Tuch saugt nicht mehr."
+      },
+      "crossBackApron": {
+        "title": "Kreuzrücken-Schürze · gewaschener Leinen",
+        "subtitle": "Kein Nackenband, also zieht vier Stunden lang nichts am Nacken",
+        "description": "Die Träger kreuzen sich hinten, statt um den Nacken zu laufen, und das ist der eigentliche Grund, diese statt der billigeren Sorte zu kaufen. Ein Nackenband hängt das Gewicht nassen Leinens an vier Zentimeter Halswirbelsäule, und nach drei Stunden Kochen spüren Sie genau, wo. Ein Kreuzrücken verteilt es auf beide Schultern, und Sie merken es nicht mehr. Das Leinen wird vor dem Zuschnitt gewaschen: Es kommt weich an und schrumpft an Ihnen nicht zu einem anderen Kleidungsstück. Zwei aufgesetzte Taschen, die rechte mittig geteilt, damit ein Thermometer aufrecht steht. Zwei Größen, großzügig überlappend; im Zweifel die kleinere, die Träger haben 12 cm Spiel."
+      },
+      "tableRunner": {
+        "title": "Tischläufer · schwerer Leinen",
+        "subtitle": "45 × 200 cm aus 300 g/m² Leinen; er liegt flach, statt zu wandern",
+        "description": "Die meisten Tischläufer haben 180 g/m² und wandern: Stellen Sie an einem Ende eine Schüssel ab, rutscht das ganze Tuch zwei Zentimeter darauf zu. Dieser hat 300 g/m², fast das Gewicht von Polsterleinen, und 620 g Stoff bleiben, wo Sie sie hinlegen. Zweihundert Zentimeter decken einen Sechser-Tisch mit 15 cm Überhang je Ende, und dieser Überhang wirkt absichtlich statt zu kurz. Die Ecken sind auf Gehrung, der Saum zweifach auf 2 cm umgeschlagen, damit die Kante gerade fällt statt sich zu rollen. Er ist vorgewaschen und bewegt sich beim ersten Waschen noch etwa 2 %, was innerhalb der oben genannten Toleranz liegt."
+      },
+      "canister": {
+        "title": "Vorratsdose · Steinzeug mit Korkdeckel",
+        "subtitle": "Der Kork dichtet, das Steinzeug hält das Licht draußen",
+        "description": "Glasgefäße sind billiger und für Kaffee, Chiliflocken und alles andere, was auf einem sonnigen Regal seine Farbe verliert, das falsche Behältnis: Licht schadet diesen Dingen mehr als Luft. Steinzeug ist undurchsichtig und schwer genug, um beim Abziehen des Deckels nicht über die Arbeitsplatte zu rutschen. Der Deckel ist ein massiver Korkstopfen mit einem Silikonring in der Nut; drücken Sie ihn fest, ist das Gefäß luftdicht, und Sie hören es. Drei Größen; nützlich zu wissen: 1,4 l fassen ein Kilo Mehl, 0,7 l eine 500-g-Packung Kaffeebohnen. Der Korpus darf in die Spülmaschine, der Korkdeckel nicht — gekochter Kork wird binnen weniger Gänge brüchig."
+      },
+      "candleHolder": {
+        "title": "Kerzenhalter · gedrechselte Eiche",
+        "subtitle": "Ein Stück Eiche, gedrechselt und gewachst; nimmt eine normale Stabkerze",
+        "description": "Aus einem Stück europäischer Eiche gedrechselt statt verleimt, sodass die Maserung vom Fuß bis zur Lippe durchläuft und das Stück keine Fuge hat, die in einer trockenen Wohnung aufgehen könnte. Die Kerze sitzt in einer herausnehmbaren Messingtülle, und das ist der entscheidende Teil: Wachs, das in eine blanke Holzfassung läuft, muss mit dem Messer herausgekratzt werden, eine Tülle hebt man heraus und hält sie unter warmes Wasser. Er nimmt eine normale Stabkerze mit 22 mm. Der Fuß misst 9 cm und hat unten einen Filzgleiter — breit genug, dass er nicht kippt, wenn sich jemand über den Tisch lehnt. Das ist die einzige Sicherheitsaussage, die wir zu einem Gegenstand mit offener Flamme machen."
+      },
+      "hookRail": {
+        "title": "Hakenleiste · brünierter Stahl",
+        "subtitle": "Fünf Haken, 60 cm, Befestigung liegt bei",
+        "description": "Eine Leiste mit fünf angeschweißten Haken — etwas, das jede Küche braucht und jede Küche schlecht mit Klebestreifen improvisiert, die im August versagen. Der Stab ist 4 mm Stahl, brüniert und danach lackiert, die Farbe ist also chemisch erzeugt und keine Lackschicht, die zuerst an den Haken abplatzt. Jeder Haken ist geschweißt, nicht geschraubt, und mit 8 kg belastbar, was einer vollen gusseisernen Pfanne mit Reserve entspricht; die ganze Leiste trägt 25 kg. Zwei Befestigungen mit Mauerdübeln liegen bei, denn das sind die üblichen Wände. Bei Gipskarton brauchen Sie Hohlraumanker, die wir nicht mitliefern — besser in einen Ständer schrauben."
+      }
+    }
+  }
+}

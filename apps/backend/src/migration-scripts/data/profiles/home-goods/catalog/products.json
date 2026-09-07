@@ -1,0 +1,971 @@
+[
+  {
+    "handle": "braiser",
+    "title": "Braiser · enamelled cast iron",
+    "subtitle": "Shallow, wide and oven-safe to 260 °C; 3.4 kg in the nine-inch",
+    "description": "A braiser is a shallow casserole, and shallow is the whole point: the base is wide enough that six chicken thighs sit in one layer instead of stewing in three. The body is sand-cast in one piece and enamelled inside and out, so there is nothing to season and nothing to rust, and the matte sand-coloured interior lets you see how dark a fond has gone, which a black interior does not. The lid is cast iron too and sits heavy enough to hold steam without being clamped. Two honest drawbacks. It weighs 3.4 kg in the nine-inch and 4.9 kg in the eleven, which is a two-handed lift out of an oven, and the enamel will chip if you knock it against a tap. It is not dishwasher safe: the detergent dulls the exterior enamel within a year. Wash it warm, dry it on the hob for thirty seconds, and it will outlast the kitchen you bought it for.",
+    "status": "published",
+    "category": "cookware",
+    "collections": [
+      "the-morning-table",
+      "made-to-be-used"
+    ],
+    "weight": 3400,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-BRAISER",
+      "specs": {
+        "Body": "Enamelled cast iron, sand-cast in a single piece",
+        "Interior": "Sand-coloured matte enamel, no seasoning needed",
+        "Diameter": "24 cm (nine inch) or 28 cm (eleven inch)",
+        "Capacity": "2.6 L (nine inch) or 4.1 L (eleven inch)",
+        "Weight with lid": "3.4 kg (nine inch) or 4.9 kg (eleven inch)",
+        "Oven": "Safe to 260 °C, lid included",
+        "Hob": "Gas, electric, ceramic, induction",
+        "Care": "Hand wash, dry warm; not dishwasher safe",
+        "Made in": "France"
+      }
+    },
+    "images": [
+      "media/braiser-hero.webp"
+    ],
+    "options": [
+      "Colour",
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "Terracotta · 9 inch",
+        "sku": "HG-BRAISER-TER-S",
+        "options": {
+          "Colour": "Terracotta",
+          "Size": "Small"
+        },
+        "price_usd": 96.0,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "Terracotta · 11 inch",
+        "sku": "HG-BRAISER-TER-M",
+        "options": {
+          "Colour": "Terracotta",
+          "Size": "Medium"
+        },
+        "price_usd": 128.0,
+        "inventory_quantity": 12
+      },
+      {
+        "title": "Oat · 9 inch",
+        "sku": "HG-BRAISER-OAT-S",
+        "options": {
+          "Colour": "Oat",
+          "Size": "Small"
+        },
+        "price_usd": 96.0,
+        "inventory_quantity": 18
+      },
+      {
+        "title": "Oat · 11 inch",
+        "sku": "HG-BRAISER-OAT-M",
+        "options": {
+          "Colour": "Oat",
+          "Size": "Medium"
+        },
+        "price_usd": 128.0,
+        "inventory_quantity": 9
+      },
+      {
+        "title": "Slate · 9 inch",
+        "sku": "HG-BRAISER-SLA-S",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Small"
+        },
+        "price_usd": 96.0,
+        "inventory_quantity": 7
+      },
+      {
+        "title": "Slate · 11 inch",
+        "sku": "HG-BRAISER-SLA-M",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Medium"
+        },
+        "price_usd": 128.0,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A wide shallow round braising pan of enamelled cast iron about 24 cm across and 9 cm tall, glossy deep terracotta orange-brown enamel on the outside and matte sand-cream enamel inside, with two short integral cast side handles and a heavy domed lid in the same terracotta enamel carrying a small dark bronze knob.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — lid on, three-quarter front from its left, one side handle towards the camera"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "bean-pot",
+    "title": "Bean pot · unglazed clay",
+    "subtitle": "Soaks before it cooks; the reason beans taste different out of clay",
+    "description": "This is a bean pot, which means it is slow on purpose. The walls are thick unglazed earthenware and they hold water; that water turns to steam through the whole cook and keeps the top layer of beans from drying into skins. The inside is glazed so the pot does not hold yesterday's garlic. Two things you must know before you buy it, because they are not optional. It goes into a cold oven and heats with the oven — put it into a hot one and the thermal shock will crack it, and that is not a fault. And it must be soaked in cold water for two hours before its first use, and for twenty minutes before every use after that. Wash it with hot water and a brush and no detergent, because unglazed clay absorbs soap and gives it back to your food. If those three rules sound like too much, buy the braiser instead; it is a better pot for a hurried week.",
+    "status": "published",
+    "category": "cookware",
+    "collections": [
+      "made-to-be-used"
+    ],
+    "weight": 1900,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-BEANPOT",
+      "specs": {
+        "Body": "Unglazed red earthenware, glazed interior",
+        "Capacity": "2 L or 4 L",
+        "Height with lid": "16 cm (2 L) or 21 cm (4 L)",
+        "Oven": "Safe to 220 °C from a cold oven only",
+        "Hob": "Not hob safe; oven and table only",
+        "Before first use": "Soak the whole pot in cold water for two hours",
+        "Care": "Hand wash without detergent; clay takes on soap",
+        "Made in": "Spain"
+      }
+    },
+    "images": [
+      "media/bean-pot-hero.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "2 litre",
+        "sku": "HG-BEANPOT-S",
+        "options": {
+          "Size": "Small"
+        },
+        "price_usd": 48.0,
+        "inventory_quantity": 31
+      },
+      {
+        "title": "4 litre",
+        "sku": "HG-BEANPOT-M",
+        "options": {
+          "Size": "Medium"
+        },
+        "price_usd": 64.0,
+        "inventory_quantity": 22
+      }
+    ],
+    "imageBrief": {
+      "subject": "A bulbous lidded cooking pot of unglazed natural red-brown terracotta clay about 20 cm tall with a visibly porous matte surface, faint horizontal throwing rings from the wheel, two small pinched lug handles at the shoulder, and a shallow domed clay lid with a flat disc knob.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — lid on, three-quarter front from its left, both lug handles visible"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "skillet",
+    "title": "Skillet · sand-polished cast iron",
+    "subtitle": "Polished, not pebbled: a smooth surface seasons in about four cooks",
+    "description": "Most cast-iron skillets leave the mould with a pebbled cooking face, because polishing is a second machining step and it costs money. This one is polished, and the difference shows up in about four cooks: a smooth face takes a seasoning layer evenly instead of filling the pits, so eggs stop sticking sooner and the pan looks black rather than grey. It arrives pre-seasoned with three coats of flaxseed oil, which is a start and not a finish; the pan gets better for a year. The handle is cast in one piece with the body, which is why it is strong and why it is hot. Use a cloth. Wash it in hot water with a stiff brush, dry it on the hob rather than in the rack, and wipe a film of oil over the face while it is still warm. Leave it wet overnight and it will rust by morning; scrub the rust off, re-oil, and carry on, because rust on cast iron is a chore and not a death.",
+    "status": "published",
+    "category": "cookware",
+    "collections": [
+      "the-morning-table",
+      "made-to-be-used"
+    ],
+    "weight": 2600,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-SKILLET",
+      "specs": {
+        "Body": "Cast iron, machine sand-polished cooking face",
+        "Diameter": "26 cm (ten inch) or 30 cm (twelve inch)",
+        "Weight": "2.6 kg (ten inch) or 3.5 kg (twelve inch)",
+        "Seasoning": "Pre-seasoned with flaxseed oil, three coats",
+        "Handle": "Integral cast iron, gets hot; use a cloth",
+        "Oven": "Safe to any oven temperature",
+        "Care": "Hot water, stiff brush, dry on the hob, wipe with oil",
+        "Made in": "Poland"
+      }
+    },
+    "images": [
+      "media/skillet-hero.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "10 inch",
+        "sku": "HG-SKILLET-M",
+        "options": {
+          "Size": "Medium"
+        },
+        "price_usd": 74.0,
+        "inventory_quantity": 28
+      },
+      {
+        "title": "12 inch",
+        "sku": "HG-SKILLET-L",
+        "options": {
+          "Size": "Large"
+        },
+        "price_usd": 92.0,
+        "inventory_quantity": 15
+      }
+    ],
+    "imageBrief": {
+      "subject": "A round cast-iron frying pan about 26 cm across with a smooth polished dark charcoal-grey cooking face showing a faint satin machining sheen, gently flared sides, a small pouring lip on each side, and a long integral cast-iron handle with an oval hanging hole at its end.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — three-quarter front from its left, handle running back to the right, cooking face visible"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "dinner-plates",
+    "title": "Dinner plates, set of four",
+    "subtitle": "Speckled stoneware, stackable, and genuinely dishwasher safe",
+    "description": "Four plates, sold as four because one plate is not a useful quantity and eight is a guess about your table. The body is vitrified stoneware fired to 1260 °C, which is the temperature at which the clay stops being absorbent, so a plate left with tomato sauce overnight does not stain. The speckle is iron in the clay body coming through the glaze, not a printed pattern, so no two plates are identical and none of them will wear off. The rim is rolled rather than cut, because a rim is where a plate chips and a rolled one has more material in it. Dishwasher safe on either rack, microwave safe, and safe under a grill for the thirty seconds it takes to melt cheese. They stack to 7 cm for four, which matters if your cupboard is 30 cm tall, as rented kitchens tend to be.",
+    "status": "published",
+    "category": "tableware",
+    "collections": [
+      "the-morning-table",
+      "made-to-be-used"
+    ],
+    "weight": 2800,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-PLATES4",
+      "specs": {
+        "Body": "Speckled stoneware, vitrified, fired to 1260 °C",
+        "In the set": "Four plates",
+        "Diameter": "27 cm (dinner) or 21 cm (side)",
+        "Stack height": "Four plates stack to 7 cm",
+        "Dishwasher": "Yes, top and bottom rack",
+        "Microwave": "Yes; no metallic glaze anywhere",
+        "Chip resistance": "Rolled rim, the part that chips first",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/dinner-plates-hero.webp"
+    ],
+    "options": [
+      "Colour",
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "Oat · dinner",
+        "sku": "HG-PLATES-OAT-M",
+        "options": {
+          "Colour": "Oat",
+          "Size": "Medium"
+        },
+        "price_usd": 88.0,
+        "inventory_quantity": 40
+      },
+      {
+        "title": "Oat · side",
+        "sku": "HG-PLATES-OAT-S",
+        "options": {
+          "Colour": "Oat",
+          "Size": "Small"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 36
+      },
+      {
+        "title": "Clay · dinner",
+        "sku": "HG-PLATES-CLA-M",
+        "options": {
+          "Colour": "Clay",
+          "Size": "Medium"
+        },
+        "price_usd": 88.0,
+        "inventory_quantity": 21
+      },
+      {
+        "title": "Clay · side",
+        "sku": "HG-PLATES-CLA-S",
+        "options": {
+          "Colour": "Clay",
+          "Size": "Small"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 19
+      },
+      {
+        "title": "Slate · dinner",
+        "sku": "HG-PLATES-SLA-M",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Medium"
+        },
+        "price_usd": 88.0,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Slate · side",
+        "sku": "HG-PLATES-SLA-S",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Small"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 11
+      }
+    ],
+    "imageBrief": {
+      "subject": "A stack of four round speckled stoneware dinner plates about 27 cm across in a warm oat-cream satin glaze flecked with small dark iron specks, each plate with a wide flat well and a rolled rim, the top plate of the stack tilted up slightly against the others so its face and its rim profile are both visible.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-stack — three plates stacked flat and the fourth leaning upright behind them, face towards the camera"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "mug",
+    "title": "Mug · thumb-notch handle",
+    "subtitle": "350 ml, and the handle has a flat notch your thumb finds by itself",
+    "description": "A mug is a hard thing to make interesting and we have not tried. What this one has is a handle pulled by hand rather than cast, with a flat notch across the top that your thumb finds without being told, and that is the entire design argument. It holds 350 ml to the brim, which is 300 ml of coffee and a centimetre of air so you can carry it upstairs. The body is the same vitrified speckled stoneware as the plates, fired in the same factory, so the glazes match on the table and the mug will not stain from tea. Dishwasher and microwave safe. The walls are thicker than a café mug, which means it takes a few seconds longer to warm through and then holds the heat about eight minutes longer than a thin one, which is the trade most people want at home and the wrong trade in a café.",
+    "status": "published",
+    "category": "tableware",
+    "collections": [
+      "the-morning-table"
+    ],
+    "weight": 420,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-MUG",
+      "specs": {
+        "Body": "Speckled stoneware, vitrified",
+        "Capacity": "350 ml to the brim, 300 ml comfortable",
+        "Height": "9.5 cm",
+        "Handle": "Pulled by hand, flat thumb notch on the top",
+        "Dishwasher": "Yes",
+        "Microwave": "Yes",
+        "Care": "Nothing special; it is a mug",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/mug-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Terracotta",
+        "sku": "HG-MUG-TER",
+        "options": {
+          "Colour": "Terracotta"
+        },
+        "price_usd": 26.0,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "Oat",
+        "sku": "HG-MUG-OAT",
+        "options": {
+          "Colour": "Oat"
+        },
+        "price_usd": 26.0,
+        "inventory_quantity": 58
+      },
+      {
+        "title": "Clay",
+        "sku": "HG-MUG-CLA",
+        "options": {
+          "Colour": "Clay"
+        },
+        "price_usd": 26.0,
+        "inventory_quantity": 47
+      },
+      {
+        "title": "Slate",
+        "sku": "HG-MUG-SLA",
+        "options": {
+          "Colour": "Slate"
+        },
+        "price_usd": 26.0,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A straight-sided speckled stoneware mug about 9.5 cm tall in a soft terracotta orange satin glaze flecked with dark iron specks, with a thick hand-pulled loop handle that has a flat pressed notch across the top of the handle where a thumb rests, and an unglazed raw clay foot ring at the base.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — three-quarter front from its left, handle to the right, thumb notch clearly visible"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "serving-board",
+    "title": "Serving board · olive wood",
+    "subtitle": "One piece of olive, oiled not lacquered, no two the same",
+    "description": "Cut from one piece of olive, not glued up from strips, which is why the price rises steeply with the length: a 48 cm board needs a 48 cm trunk section without a flaw in it. Olive is dense and closes over knife marks better than beech, and it is figured so strongly that the three boards in a photograph never look like the same product — the one you receive will not match the one on this page, and that is the material rather than a mistake. The finish is food-safe mineral oil, which means it will go pale and thirsty-looking after a month and you re-oil it in two minutes with a cloth. It is not lacquered, so nothing can flake into food. Never put it in a dishwasher: a solid board that is soaked on one face and dried on the other will cup and then split, and there is no repair for that.",
+    "status": "published",
+    "category": "tableware",
+    "collections": [
+      "made-to-be-used"
+    ],
+    "weight": 1100,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-BOARD",
+      "specs": {
+        "Body": "One piece of olive wood, not laminated",
+        "Length": "28 cm, 38 cm or 48 cm",
+        "Thickness": "2 cm",
+        "Finish": "Food-safe mineral oil, no lacquer",
+        "Grain": "Every board differs; olive is wildly figured",
+        "Dishwasher": "No, and it will split if you try",
+        "Care": "Wipe, dry upright, re-oil monthly",
+        "Made in": "Tunisia"
+      }
+    },
+    "images": [
+      "media/serving-board-hero.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "28 cm",
+        "sku": "HG-BOARD-S",
+        "options": {
+          "Size": "Small"
+        },
+        "price_usd": 42.0,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "38 cm",
+        "sku": "HG-BOARD-M",
+        "options": {
+          "Size": "Medium"
+        },
+        "price_usd": 64.0,
+        "inventory_quantity": 20
+      },
+      {
+        "title": "48 cm",
+        "sku": "HG-BOARD-L",
+        "options": {
+          "Size": "Large"
+        },
+        "price_usd": 96.0,
+        "inventory_quantity": 6
+      }
+    ],
+    "imageBrief": {
+      "subject": "A rectangular chopping and serving board cut from one piece of olive wood about 38 cm long and 2 cm thick, with strongly figured golden-brown grain and dark wandering streaks, softly rounded long edges, and a round finger hole near one short end.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — lying flat but seen from two-thirds height so the grain and the 2 cm edge both read"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "waffle-towels",
+    "title": "Waffle towels, set of three",
+    "subtitle": "Cotton waffle, 500 g/m²; dries a wet pan without pushing water around",
+    "description": "Waffle weave, because a flat weave pushes water around a pan and a terry one leaves lint on glass. The waffle cells hold the water instead, which is why a 500 g/m² waffle towel dries a roasting tin that a heavier terry towel only smears. Three to a set, because the honest number of kitchen towels in use at once is three: one on the oven door, one at the sink, one in the wash. They come pre-shrunk, so the 50 by 70 cm on the label is the size after the first wash rather than before it. Wash at 60 °C — kitchen towels are the one textile in the house that actually needs it — and tumble low or line dry. They will feel stiff for the first two washes and then soften and stay soft. No fabric conditioner, ever: it coats the cotton and a coated towel stops absorbing, which is the only job a towel has.",
+    "status": "published",
+    "category": "kitchen-textiles",
+    "collections": [
+      "the-morning-table",
+      "made-to-be-used"
+    ],
+    "weight": 540,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-TOWELS3",
+      "specs": {
+        "Fabric": "100 % cotton waffle weave",
+        "Weight": "500 g/m²",
+        "In the set": "Three towels",
+        "Size": "50 x 70 cm each",
+        "Hanging": "Sewn cotton loop, long side",
+        "Wash": "60 °C, tumble dry low",
+        "First wash": "Shrinks about 4 %; the sizes above are post-shrink",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/waffle-towels-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Terracotta",
+        "sku": "HG-TOWELS-TER",
+        "options": {
+          "Colour": "Terracotta"
+        },
+        "price_usd": 34.0,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "Oat",
+        "sku": "HG-TOWELS-OAT",
+        "options": {
+          "Colour": "Oat"
+        },
+        "price_usd": 34.0,
+        "inventory_quantity": 61
+      },
+      {
+        "title": "Clay",
+        "sku": "HG-TOWELS-CLA",
+        "options": {
+          "Colour": "Clay"
+        },
+        "price_usd": 34.0,
+        "inventory_quantity": 29
+      }
+    ],
+    "imageBrief": {
+      "subject": "A stack of three folded cotton waffle-weave kitchen towels in warm terracotta orange, the deep square waffle cells casting visible shadow across the surface, each towel with a narrow flat hem and a small sewn hanging loop of the same cloth, the top towel folded so one hemmed edge and the loop face the camera.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-stack — three folded towels stacked square, the top one turned slightly so the loop shows"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "cross-back-apron",
+    "title": "Cross-back apron · washed linen",
+    "subtitle": "No neck strap, so nothing pulls on your neck for four hours",
+    "description": "The strap crosses behind your back rather than looping around your neck, which is the whole reason to buy this rather than the cheaper kind. A neck loop hangs the weight of wet linen off four centimetres of cervical spine, and after three hours of cooking you can feel exactly where. A cross-back hangs it off both shoulders and you stop noticing it. The linen is washed before it is cut, so it arrives soft and it will not shrink into a different garment on you. Two patch pockets, and the right-hand one is split down the middle so a thermometer stands up instead of lying flat. Two sizes rather than four, and they overlap generously; if you are between them, take the smaller, because the straps have 12 cm of adjustment and a long apron on a short cook is a trip hazard at the oven door.",
+    "status": "published",
+    "category": "kitchen-textiles",
+    "collections": [
+      "made-to-be-used"
+    ],
+    "weight": 380,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-APRON",
+      "specs": {
+        "Fabric": "Washed European linen, 240 g/m²",
+        "Cut": "Cross-back; the straps cross behind, no neck loop",
+        "Fit": "Small fits 155-172 cm, Large fits 172-190 cm",
+        "Pockets": "Two patch pockets, 18 cm wide, split on the right",
+        "Length": "88 cm (Small) or 96 cm (Large)",
+        "Wash": "40 °C, line dry; do not tumble",
+        "Ironing": "Optional and slightly beside the point",
+        "Made in": "Lithuania"
+      }
+    },
+    "images": [
+      "media/cross-back-apron-hero.webp"
+    ],
+    "options": [
+      "Colour",
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "Terracotta · S/M",
+        "sku": "HG-APRON-TER-S",
+        "options": {
+          "Colour": "Terracotta",
+          "Size": "Small"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 26
+      },
+      {
+        "title": "Terracotta · L/XL",
+        "sku": "HG-APRON-TER-L",
+        "options": {
+          "Colour": "Terracotta",
+          "Size": "Large"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 17
+      },
+      {
+        "title": "Slate · S/M",
+        "sku": "HG-APRON-SLA-S",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Small"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 23
+      },
+      {
+        "title": "Slate · L/XL",
+        "sku": "HG-APRON-SLA-L",
+        "options": {
+          "Colour": "Slate",
+          "Size": "Large"
+        },
+        "price_usd": 68.0,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A cross-back cook's apron of washed slate blue-grey linen shown laid flat and neatly arranged, the two shoulder straps crossing over each other above the bib, two square patch pockets across the front with the right-hand pocket divided by a vertical seam, visible soft creasing in the linen and a narrow topstitched hem all round.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — laid flat and square to the camera, straps crossed above the bib, both pockets visible"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "table-runner",
+    "title": "Table runner · heavy linen",
+    "subtitle": "45 x 200 cm of 300 g/m² linen; it lies flat instead of creeping",
+    "description": "Most table runners are 180 g/m² and they creep: put a bowl down at one end and the whole thing walks two centimetres toward it. This one is 300 g/m², which is nearly the weight of upholstery linen, and 620 g of cloth stays where you put it. Two hundred centimetres covers a six-seat table with 15 cm hanging at each end, which is the drop that reads as deliberate rather than short. The corners are mitred and the hem is double-turned at 2 cm, so the edge has enough weight to fall straight instead of curling. It is washed before cutting and will move about another 2 % on its first wash, which is inside the tolerance of the size above. Iron it damp if you like a flat table; leave it rumpled if you do not. Linen looks intentional either way, which is the reason we sell linen.",
+    "status": "published",
+    "category": "kitchen-textiles",
+    "collections": [
+      "the-morning-table"
+    ],
+    "weight": 620,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-RUNNER",
+      "specs": {
+        "Fabric": "Washed European linen, 300 g/m²",
+        "Size": "45 x 200 cm",
+        "Hem": "Mitred corners, 2 cm double-turned",
+        "Weight": "620 g; heavy enough to stay put",
+        "Wash": "40 °C, line dry, iron damp if you want it flat",
+        "Shrinkage": "Pre-washed; about 2 % remains",
+        "Made in": "Lithuania"
+      }
+    },
+    "images": [
+      "media/table-runner-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Oat",
+        "sku": "HG-RUNNER-OAT",
+        "options": {
+          "Colour": "Oat"
+        },
+        "price_usd": 58.0,
+        "inventory_quantity": 37
+      },
+      {
+        "title": "Clay",
+        "sku": "HG-RUNNER-CLA",
+        "options": {
+          "Colour": "Clay"
+        },
+        "price_usd": 58.0,
+        "inventory_quantity": 24
+      },
+      {
+        "title": "Slate",
+        "sku": "HG-RUNNER-SLA",
+        "options": {
+          "Colour": "Slate"
+        },
+        "price_usd": 58.0,
+        "inventory_quantity": 18
+      }
+    ],
+    "imageBrief": {
+      "subject": "A long rectangular table runner of heavy washed oat-cream linen shown loosely folded into a wide flat band about three folds deep, the weave clearly visible with slubs and thick threads, a crisp double-turned hem with a mitred corner at the near end, and soft natural creases across the folds.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — folded into a wide flat band, near end squared to the camera so the mitred corner reads"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "canister",
+    "title": "Canister · stoneware with cork lid",
+    "subtitle": "The cork seals; the stoneware keeps the light out",
+    "description": "Glass jars are cheaper and they are the wrong container for coffee, chilli flakes or anything else that loses its colour on a sunny shelf, because light does more damage to those than air does. Stoneware is opaque and it is heavy enough not to skate across a worktop when you pull the lid. The lid is a solid cork plug with a silicone ring seated in a groove; press it home and the jar is airtight, and you can hear it. Three sizes, and the useful ones to know are that 1.4 L takes a kilo of flour and 0.7 L takes a 500 g bag of coffee beans with room to get a scoop in. The body goes in the dishwasher. The lid does not — cork boiled in detergent goes crumbly at the edge within a few cycles. Wash it under the tap, stand it up to dry, and re-seat the ring before you push it back in.",
+    "status": "published",
+    "category": "storage-and-light",
+    "collections": [
+      "made-to-be-used"
+    ],
+    "weight": 900,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-CANISTER",
+      "specs": {
+        "Body": "Speckled stoneware, glazed inside and out",
+        "Lid": "Natural cork with a silicone sealing ring",
+        "Capacity": "0.7 L, 1.4 L or 2.2 L",
+        "Height": "11 cm, 16 cm or 21 cm",
+        "Seal": "Airtight when the ring is seated; check it after washing",
+        "Opaque": "Yes; light degrades coffee and spices faster than air",
+        "Dishwasher": "Body yes, cork lid no",
+        "Made in": "Portugal"
+      }
+    },
+    "images": [
+      "media/canister-hero.webp"
+    ],
+    "options": [
+      "Size"
+    ],
+    "variants": [
+      {
+        "title": "0.7 litre",
+        "sku": "HG-CANISTER-S",
+        "options": {
+          "Size": "Small"
+        },
+        "price_usd": 32.0,
+        "inventory_quantity": 44
+      },
+      {
+        "title": "1.4 litre",
+        "sku": "HG-CANISTER-M",
+        "options": {
+          "Size": "Medium"
+        },
+        "price_usd": 44.0,
+        "inventory_quantity": 38
+      },
+      {
+        "title": "2.2 litre",
+        "sku": "HG-CANISTER-L",
+        "options": {
+          "Size": "Large"
+        },
+        "price_usd": 56.0,
+        "inventory_quantity": 25
+      }
+    ],
+    "imageBrief": {
+      "subject": "A straight-sided cylindrical stoneware storage jar about 16 cm tall in a warm oat-cream speckled satin glaze with dark iron flecks, its mouth closed by a thick natural cork plug lid that stands about 2 cm proud of the rim, the pale cork grain clearly visible against the glaze.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — lid seated, three-quarter front from its left, cork proud of the rim and clearly readable"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "candle-holder",
+    "title": "Candle holder · turned oak",
+    "subtitle": "One piece of oak, turned and waxed; takes a standard dinner candle",
+    "description": "Turned from one piece of European oak rather than glued up, so the grain runs continuously from the base to the lip and the piece has no seam to open up in a dry flat. The candle sits in a removable brass cup, which is the part that matters: wax that runs down inside a bare wooden socket has to be dug out with a knife, and a cup lifts out and gets warmed under a tap instead. It takes a standard 22 mm dinner candle. The base is 9 cm across with a felt pad underneath, wide enough that the thing does not tip when someone leans across the table, which is the only safety claim we will make about an object with an open flame on top of it. The finish is hard wax oil, matte, and it will look dry after a year of dusting; a thin coat of the same wax brings it back in ten minutes.",
+    "status": "published",
+    "category": "storage-and-light",
+    "collections": [
+      "the-morning-table"
+    ],
+    "weight": 340,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-CANDLE",
+      "specs": {
+        "Body": "Solid European oak, turned from one piece",
+        "Finish": "Hard wax oil, matte",
+        "Takes": "Standard 22 mm dinner candle",
+        "Height": "14 cm",
+        "Base": "9 cm; felt pad underneath",
+        "Insert": "Brass cup, removable for cleaning out wax",
+        "Care": "Wipe; re-wax once a year if it looks dry",
+        "Made in": "Denmark"
+      }
+    },
+    "images": [
+      "media/candle-holder-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "Turned oak",
+        "sku": "HG-CANDLE-STD",
+        "options": {},
+        "price_usd": 38.0,
+        "inventory_quantity": 41
+      }
+    ],
+    "imageBrief": {
+      "subject": "A turned solid oak candle holder about 14 cm tall with a wide round disc base, a slim waisted stem and a flared cup at the top, pale honey-coloured oak with straight visible grain and a matte waxed finish, with a small polished brass candle cup seated in the top and no candle in it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — three-quarter front from its left, brass cup empty and visible at the top"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  },
+  {
+    "handle": "hook-rail",
+    "title": "Hook rail · blackened steel",
+    "subtitle": "Five hooks, 60 cm, and the fixings are in the box",
+    "description": "A rail with five welded hooks, which is a thing every kitchen needs and every kitchen improvises badly with adhesive strips that fail in August. The bar is 4 mm steel, blackened and then lacquered so the finish is a chemical colour rather than paint that chips off the hooks first. Each hook is welded, not screwed, and rated at 8 kg, which is a full cast-iron skillet with room to spare; the whole rail takes 25 kg. Two fixings are in the box with masonry plugs, because that is what most walls are. If your wall is plasterboard you need toggle anchors we do not supply, and you should hit a stud rather than trust them with 25 kg of pans. It sits 12 mm off the wall, which is enough clearance to hook a pan on one-handed and not so much that the rail casts a shadow line down the tiles.",
+    "status": "published",
+    "category": "storage-and-light",
+    "collections": [
+      "made-to-be-used"
+    ],
+    "weight": 1250,
+    "metadata": {
+      "brand": "Long Morning",
+      "mpn": "LM-HOOKRAIL",
+      "specs": {
+        "Body": "4 mm steel bar, blackened and lacquered",
+        "Length": "60 cm",
+        "Hooks": "Five, welded, 45 mm deep",
+        "Load": "8 kg per hook, 25 kg across the rail",
+        "Fixings": "Two wall plugs and screws included, for masonry",
+        "Projection": "Sits 12 mm off the wall",
+        "Finish": "Blackened then lacquered; it will not rust indoors",
+        "Made in": "Germany"
+      }
+    },
+    "images": [
+      "media/hook-rail-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "60 cm",
+        "sku": "HG-HOOKRAIL-60",
+        "options": {},
+        "price_usd": 54.0,
+        "inventory_quantity": 30
+      }
+    ],
+    "imageBrief": {
+      "subject": "A horizontal wall rail of blackened matte dark grey steel bar about 60 cm long, with five identical J-shaped hooks welded along its length at even spacing, each hook curving forward and up, and a flat drilled mounting plate at each end of the bar.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "V-single — seen straight on and very slightly from above, all five hooks evenly spaced and readable"
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks",
+        "legible text, letters or numbers",
+        "human hands, faces or bodies",
+        "food, drink or steam",
+        "props, plinths or worktops",
+        "a second shadow, a reflection or a glossy floor"
+      ]
+    }
+  }
+]
