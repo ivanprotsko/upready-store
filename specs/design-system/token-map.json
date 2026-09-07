@@ -5,8 +5,8 @@
   "generatedBy": "apps/storefront/scripts/extract-theme-sources.mjs",
   "counts": {
     "presetVariables": 113,
-    "mapped": 26,
-    "diverged": 56,
+    "mapped": 27,
+    "diverged": 55,
     "open": 31
   },
   "canonTokens": [
@@ -2375,24 +2375,8 @@
     {
       "variable": "--fg-muted",
       "canonToken": "--muted-foreground",
-      "status": "diverged",
-      "bridge": "--fg-muted: color-mix(in srgb, var(--muted-foreground) 81.5%, var(--background));",
-      "bridgeDark": "--fg-muted: color-mix(in srgb, var(--muted-foreground) 63.5%, var(--background));",
-      "derivation": {
-        "kind": "color-mix",
-        "space": "srgb",
-        "canon": "--muted-foreground",
-        "light": {
-          "canon": "--muted-foreground",
-          "pct": 81.5,
-          "with": "var(--background)"
-        },
-        "dark": {
-          "canon": "--muted-foreground",
-          "pct": 63.5,
-          "with": "var(--background)"
-        }
-      },
+      "status": "mapped",
+      "bridge": "--fg-muted: var(--muted-foreground);",
       "vendor": {
         "light": "rgba(113, 113, 122, 1)",
         "dark": "rgba(113, 113, 122, 1)"
@@ -2401,10 +2385,7 @@
         "light": "rgba(113, 113, 122, 1)",
         "dark": "rgba(113, 113, 122, 1)"
       },
-      "medusaResidual": {
-        "light": 1.01,
-        "dark": 1.28
-      }
+      "exact": "AA on the preset background: the fitted blend reproduced Medusa's #71717a, measured 4.28:1 light / 3.65:1 dark on the sneakers stand 2026-09-08"
     },
     {
       "variable": "--alpha-250",

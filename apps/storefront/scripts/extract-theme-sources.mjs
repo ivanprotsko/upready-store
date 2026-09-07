@@ -120,7 +120,9 @@ const CANON_FROM_MEDUSA = {
   // and the canon has two. The second anchor goes to the one that is used most, because
   // the residual of a diverged ink row lands on every antialiased glyph edge it paints:
   // measured in src/**, text-ui-fg-base 167 call sites, text-ui-fg-subtle 117,
-  // text-ui-fg-muted 39. So --fg-subtle is exact and --fg-muted carries the residual.
+  // text-ui-fg-muted 39. So --fg-subtle is exact. --fg-muted USED to carry the residual
+  // as a blend toward the page; it is exact too now, for the AA reason written on its
+  // BRIDGE row below.
   "--muted-foreground": "--fg-subtle",
   "--accent": "--bg-base-hover",
   "--accent-foreground": "--fg-base",
@@ -170,6 +172,8 @@ const STOREFRONT_OVERRIDE = {
  *                        values are already identical in both modes, otherwise the
  *                        script blends it with `with` and calls the row `diverged`
  *   { canon, with }      blend partner: 'bg' | 'fg' | 'transparent' | 'black' | 'white'
+ *   { canon, exact }     follow the canon token verbatim even though the vendor value
+ *                        differs; `exact` is the reason, and it is recorded on the row
  *   { open: reason }     no canon counterpart; the row keeps the vendor value
  */
 const BRIDGE = {
@@ -198,7 +202,16 @@ const BRIDGE = {
   /* --- ink ------------------------------------------------------------------ */
   "--fg-base": { canon: "--foreground" },
   "--fg-subtle": { canon: "--muted-foreground" },
-  "--fg-muted": { canon: "--muted-foreground", with: "bg" },
+  // NOT blended toward the background any more. The fit reproduced Medusa's own
+  // #71717a, and that grey is below AA on the preset palettes: measured 2026-09-08 on
+  // the sneakers stand, 4.28:1 light and 3.65:1 dark against --background, 54 of the 64
+  // failing text nodes of the coverage gate. Any percentage under 100 can only move the
+  // ink TOWARD the page, so no global blend is safe across nine presets — the only
+  // theme-proof foreground is the one the preset itself chose. This collapses Medusa's
+  // three ink levels onto the canon's two: --fg-subtle and --fg-muted now resolve to the
+  // same colour. Restoring a third step means lifting --fg-subtle toward --foreground
+  // (contrast can only rise), which is a design call, not an accessibility one.
+  "--fg-muted": { canon: "--muted-foreground", exact: "AA on the preset background: the fitted blend reproduced Medusa's #71717a, measured 4.28:1 light / 3.65:1 dark on the sneakers stand 2026-09-08" },
   "--fg-disabled": { canon: "--muted-foreground", with: "bg" },
   "--fg-on-color": { canon: "--destructive-foreground" },
   "--fg-on-inverted": { canon: "--primary-foreground" },
@@ -416,7 +429,11 @@ function main() {
 
     const canonValue = { light: medusaCanon.light[spec.canon], dark: medusaCanon.dark[spec.canon] }
     const identical = canonValue.light === effective.light && canonValue.dark === effective.dark
-    if (identical) {
+    // `exact` follows the canon token even where the vendor value differs — a deliberate
+    // break with Medusa's palette, and the row records why. The reproduce-the-vendor rule
+    // is the default because it keeps today's look; it is not a rule worth reproducing a
+    // WCAG failure for.
+    if (identical || spec.exact) {
       rows.push({
         variable: name,
         canonToken: spec.canon,
@@ -425,6 +442,7 @@ function main() {
         vendor,
         effective,
         storefrontOverride: overridden || undefined,
+        exact: spec.exact || undefined,
       })
       counts.mapped++
       continue
