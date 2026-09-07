@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.spend/v1",
-  "updatedAt": "2026-09-08T04:47:31+08:00",
+  "updatedAt": "2026-09-08T05:23:48+08:00",
   "provider": "fal.ai",
   "currency": "USD",
   "balanceAtStartUsd": 7.1,
@@ -136,11 +136,37 @@
       "promptSha256": "c1a515b7e375c0b39af349f81d94ed8aa8dd6f7d982ed1a3a46a9ebcbfc5fc95",
       "reshootOf": null,
       "accepted": null
+    },
+    {
+      "id": "r-9e8d90f3",
+      "at": "2026-09-08T05:22:59+08:00",
+      "theme": "home-goods",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-92215e05",
+      "at": "2026-09-08T05:23:48+08:00",
+      "theme": "home-goods",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+      "reshootOf": null,
+      "accepted": null
     }
   ],
   "totals": {
-    "spentUsd": 2.067,
-    "renderCount": 10,
+    "spentUsd": 2.667,
+    "renderCount": 12,
     "dashboardUsd": null
   }
 }
