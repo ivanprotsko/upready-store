@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T05:58:58+08:00",
-  "status": "06:00 — dev b93d0c2 pushed. FOUR stands verified BY PAGE CONTENT, not by a status code: http://localhost:8070/en/store (supplements, first price $28.99), :8061/en/store (electronics, $188.99), :8081/en/store (womens-fashion, $294.99), :8110/en/store (home-goods, $95.99) — 200 after redirects, 60 price tags each, all in dollars. electronics was BROKEN (HTTP 500 on every page, getRegionMap 400) and I had been calling it live for three turns because I read a 302 redirect as health — journal aie-20260908-055816-722e. Root cause measured: its backend process ran with DATABASE_URL on the shared upready_store while the storefront presented a key from upready_store_electronics; key, sales-channel link, 14 products and 241 regions were all correct in the right DB. Fixed by restarting the backend from its own directory, and its worktree fast-forwarded to dev so it now carries the foundation fixes it lacked. Verdict on all 14 defect classes + money summary written: artifacts/docs/2026-09-08-wave-defect-verdict.md (10 closed, 2 half, 2 open). Ledger $2.667 of $6.00. Running: foundation-disabled-pair (07:30), wave-contact-sheet (08:00). Open questions: 11.",
+  "updated": "2026-09-08T06:04:44+08:00",
+  "status": "06:10 — dev 3c78f27 pushed. FOUR stands verified by page body (60 price tags each, dollars): http://localhost:8070/en/store · :8061/en/store · :8081/en/store · :8110/en/store. d-11 CLOSED per preset: the percentage is gone, the generator solves two colours per preset per mode against 4.6:1 and takes the most muted that clears it; live on :8081 contrast went 10 -> 4 nodes, the six disabled-button nodes gone, four baseline text-rose-500 left. I recomputed contrast myself from the generated CSS: 12 of 14 preset x mode readings, worst 4.60:1, all clearing AA (medusa's two not claimed — its background is not a plain colour). Two silent-loss traps caught: the d-11 fix lived only in token-map.json which themes:extract regenerates in full (one run would have wiped it — now in the extractor), and home-goods had NO disabled colours because the generating worktree predated it. RULE NOW: generate themes.css and presets.generated.ts only from dev, then check git diff. Remaining: wave-contact-sheet (24 shots + HTML grid, 08:00), then append the disabled-pair result to the verdict. Ledger $2.667 of $6.00. Open questions: 12.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -429,6 +429,15 @@
       "question": "Nothing in the pipeline reads NEXT_PUBLIC_SITE_NAME, so home-goods' live stand shipped the wordmark QUERNSTONE — a brand name its own W1 style board had explicitly REJECTED. It was caught by a human looking at a screenshot and by nothing else. Every gate the wave has measures colour, contrast, focus and HTTP codes; none checks that the name on the screen is the name the theme decided on. Add a check that the rendered wordmark equals the approved name in the profile, or accept that naming stays a human-eyes item?",
       "asked": "2026-09-08",
       "audience": "ivan"
+    },
+    {
+      "id": "q-bg-disabled-is-the-accent",
+      "question": "The disabled BUTTON still does not read as disabled on womens-fashion, and the cause is not the ink. The ink is now honestly muted and measured (4.60:1, the most muted colour that clears AA — deliberately not the most readable, since a disabled control at 16:1 reads as enabled). But the button is a solid terracotta block, BRIGHTER than the enabled CTA beside it, because --bg-disabled is mapped to --accent and this theme's accent is its brand colour. Any theme whose accent is saturated will have a disabled control that shouts louder than its live one. Either --bg-disabled stops following --accent and gets its own derivation (muted toward the page), or a preset is expected to set it explicitly. The first keeps themes cheap to author; the second gives the designer control and one more thing to get wrong. Which?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
     }
   ],
   "sessions": [

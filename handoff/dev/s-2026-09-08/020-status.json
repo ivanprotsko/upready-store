@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 20,
+  "action": "status-set",
+  "ts": "2026-09-08T06:04:44+08:00",
+  "status": "06:10 — dev 3c78f27 pushed. FOUR stands verified by page body (60 price tags each, dollars): http://localhost:8070/en/store · :8061/en/store · :8081/en/store · :8110/en/store. d-11 CLOSED per preset: the percentage is gone, the generator solves two colours per preset per mode against 4.6:1 and takes the most muted that clears it; live on :8081 contrast went 10 -> 4 nodes, the six disabled-button nodes gone, four baseline text-rose-500 left. I recomputed contrast myself from the generated CSS: 12 of 14 preset x mode readings, worst 4.60:1, all clearing AA (medusa's two not claimed — its background is not a plain colour). Two silent-loss traps caught: the d-11 fix lived only in token-map.json which themes:extract regenerates in full (one run would have wiped it — now in the extractor), and home-goods had NO disabled colours because the generating worktree predated it. RULE NOW: generate themes.css and presets.generated.ts only from dev, then check git diff. Remaining: wave-contact-sheet (24 shots + HTML grid, 08:00), then append the disabled-pair result to the verdict. Ledger $2.667 of $6.00. Open questions: 12."
+}
