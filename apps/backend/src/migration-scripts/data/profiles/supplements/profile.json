@@ -1,0 +1,108 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "supplements",
+  "vertical": "vitamins and supplements",
+  "audience": {
+    "region": "EU and US",
+    "persona": "Nadia, 38, reads the supplement-facts panel before the front label, was once sold a proprietary blend that was mostly rice flour, and wants the elemental dose and a batch certificate, not a promise."
+  },
+  "brand": {
+    "name": "Scruple",
+    "tagline": "The apothecary's smallest measure",
+    "wordmark": {
+      "text": "SCRUPLE",
+      "style": "wordmark"
+    },
+    "legalName": "Scruple Nutrition B.V."
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "ru"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "theme": {
+    "presetId": "supplements",
+    "file": "theme.json",
+    "defaultMode": "light",
+    "typography": {
+      "display": "Manrope",
+      "body": "Inter"
+    },
+    "radius": "md"
+  },
+  "layout": {
+    "cardVariant": "compact",
+    "imageTreatment": {
+      "aspect": "4:5",
+      "fit": "contain",
+      "radius": "md",
+      "hover": "none"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "split",
+      "headline": "Doses you can check, on labels you can read",
+      "subheadline": "Third-party tested vitamins at everyday doses, with the batch certificate published against its number. No proprietary blends.",
+      "cta": {
+        "label": "Shop the foundation",
+        "href": "/store"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      {
+        "categoryHandle": "multivitamins",
+        "label": "Multivitamins",
+        "image": "media/tile-multivitamins.webp"
+      },
+      {
+        "categoryHandle": "sleep-and-calm",
+        "label": "Sleep and calm",
+        "image": "media/tile-sleep-and-calm.webp"
+      },
+      {
+        "categoryHandle": "gut-health",
+        "label": "Gut health",
+        "image": "media/tile-gut-health.webp"
+      }
+    ],
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free shipping over $45 · batch certificate on every product page · 60-day returns"
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 15,
+      "variants": 53,
+      "images": 15
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-07T20:19:27.082Z",
+  "generatedBy": "store-profiles wave 2, supplements W6, assembled from design/style-board.md"
+}

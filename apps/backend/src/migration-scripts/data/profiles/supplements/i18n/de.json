@@ -1,0 +1,113 @@
+{
+  "name": "Deutsch",
+  "translations": {
+    "categories": {
+      "dailyFoundations": "Tägliche Grundlagen",
+      "multivitamins": "Multivitamine",
+      "vitaminsAndMinerals": "Vitamine und Mineralstoffe",
+      "targetedSupport": "Gezielte Unterstützung",
+      "sleepAndCalm": "Schlaf und Ruhe",
+      "jointsAndMobility": "Gelenke und Beweglichkeit",
+      "gutHealth": "Darmgesundheit"
+    },
+    "collections": {
+      "theFoundation": "Die Grundlage",
+      "thirdPartyTested": "Unabhängig geprüft"
+    },
+    "productOptions": {
+      "count": {
+        "title": "Anzahl",
+        "values": {
+          "60": "60",
+          "120": "120",
+          "180": "180"
+        }
+      },
+      "flavour": {
+        "title": "Geschmack",
+        "values": {
+          "unflavoured": "Neutral",
+          "vanilla": "Vanille",
+          "cocoa": "Kakao"
+        }
+      }
+    },
+    "products": {
+      "baselineDaily": {
+        "title": "Baseline Daily · Multivitamin",
+        "subtitle": "Dreiundzwanzig Nährstoffe in Alltagsdosierung, zwei Kapseln täglich",
+        "description": "Baseline Daily ist das Multivitamin, das wir selbst nehmen würden – also ein unauffälliges. Es enthält dreiundzwanzig Vitamine und Mineralstoffe in Dosierungen nahe der täglichen Referenzmenge und nicht in dem Vielfachen, das die Branche gern groß auf die Vorderseite der Dose druckt. Folat liegt in methylierter Form vor, B12 als Methylcobalamin, und die Mineralstoffe sind Aminosäurechelate, weil sie auf nüchternen Magen verträglicher sind als Oxide. Es gibt keine Kräutermischung, keine proprietäre Matrix und keinen Inhaltsstoff in einer Dosis, die zu klein ist, um irgendetwas zu bewirken – das ist der übliche Grund, warum ein Etikett lang wird. Zwei Kapseln täglich zu einer Mahlzeit. Es gibt Ihnen keine Energie, für die Sie nicht geschlafen haben, und es ersetzt keine Ernährung, die Gemüse enthält. Was es tut, ist die kleinen Lücken zu schließen, die eine normale Woche hinterlässt. Jede Charge wird von einem externen Labor auf Identität, Gehalt und Schwermetalle geprüft; das Zertifikat zu Ihrer Chargennummer finden Sie auf der Produktseite."
+      },
+      "baselineFiftyPlus": {
+        "title": "Baseline 50+ · Multivitamin",
+        "subtitle": "Die Baseline-Rezeptur mit mehr B12 und D, ohne zugesetztes Eisen",
+        "description": "Baseline 50+ ist dieselbe Rezeptur wie Baseline Daily, mit vier bewussten Änderungen. B12 steigt auf 100 µg, weil die Aufnahme aus der Nahrung mit dem Alter sinkt, so wie die Magensäure sinkt. Vitamin D steigt auf 25 µg. Vitamin K2 kommt mit 75 µg hinzu, in der Form MK-7, weil sie die längste Halbwertszeit im Blut hat. Eisen entfällt vollständig: Nach der Lebensmitte verlieren die meisten Menschen kein Eisen mehr im Monatsrhythmus, und eine unnötige Eisendosis ist der häufigste Einzelgrund dafür, dass ein Multivitamin auf den Magen schlägt. Alles Übrige bleibt unverändert, einschließlich der Dosierungen, die ohnehin ausreichend waren. Zwei Kapseln täglich zu einer Mahlzeit. Wir haben keine Gelenk-, Gedächtnis- oder Augenmischung ergänzt, denn in den Dosen, die neben dreiundzwanzig anderen Nährstoffen noch Platz finden, würde keine davon etwas bewirken. Wer sie möchte, kauft sie separat in einer Dosis, die wirkt. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft, mit dem Zertifikat zu Ihrer Chargennummer."
+      },
+      "baselinePrenatal": {
+        "title": "Baseline Prenatal · Multivitamin",
+        "subtitle": "Methyliertes Folat mit 600 µg DFE, Eisen mit 18 mg, Cholin enthalten",
+        "description": "Baseline Prenatal enthält die Nährstoffe, die in den Empfehlungen für die Schwangerschaft tatsächlich genannt werden, in genau den dort genannten Dosierungen. Folat: 600 µg DFE als L-5-Methyltetrahydrofolat. Eisen: 18 mg als Bisglycinat, eine Form, die deutlich magenfreundlicher ist als Sulfat – Verstopfung ist der häufigste Grund, ein Schwangerschaftspräparat wieder abzusetzen. Cholin: 300 mg, mehr als in den meisten dieser Präparate und immer noch weniger als die Referenzmenge von 450 mg, denn Cholin trägt auf und der Rest passte in keine Kapsel, die jemand schlucken möchte; gleichen Sie die Differenz mit Eiern aus. Jod, Vitamin D, B12 und Zink sind in Referenzdosierung enthalten. Vitamin A als Retinol ist nicht enthalten. Drei Kapseln täglich zu einer Mahlzeit; sie lassen sich über den Tag verteilen, wenn drei auf einmal bei Übelkeit unangenehm sind. Das ist ein Nahrungsergänzungsmittel und keine Schwangerschaftsvorsorge: Nehmen Sie es begleitend zu Ihrer Hebamme oder Ihrer Ärztin, nicht an deren Stelle. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "starterFortnight": {
+        "title": "The Starter Fortnight",
+        "subtitle": "Vierzehn Tagessachets mit den vier Mitteln, mit denen wir anfangen würden",
+        "description": "Vierzehn Papiersachets, eines für jeden Morgen, jedes mit einer Tagesration Baseline Daily, Vitamin D3 + K2, Magnesiumglycinat und Omega-3. Es gibt sie, weil die ehrliche Antwort auf die Frage „Welches davon soll ich nehmen?“ lautet: Vier davon decken das meiste ab, was eine normale Ernährung auslässt – und vier volle Dosen zu kaufen, nur um das herauszufinden, kostet rund hundert Dollar. Das hier kostet neunzehn und geht mit Absicht zur Neige. Es hängt kein Abonnement daran und es verlängert sich nicht. Nach den zwei Wochen wissen Sie, ob Sie fünf Kapseln vor dem Frühstück tatsächlich dauerhaft schlucken werden – die einzige Variable, auf die es ankommt, und die einzige, die keine Rezeptur verbessern kann. Wenn nicht, ist es uns lieber, Sie haben das für neunzehn Dollar herausgefunden. Ein Sachet jeden Morgen zu einer Mahlzeit. Nach demselben Standard von einem unabhängigen Labor geprüft wie die Dosen, aus denen die Sachets abgefüllt werden, mit Zertifikaten zu jeder Chargennummer."
+      },
+      "vitaminD3K2": {
+        "title": "Vitamin D3 + K2",
+        "subtitle": "50 µg D3 mit 100 µg K2 als MK-7, eine kleine Kapsel",
+        "description": "Fünfzig Mikrogramm Vitamin D3, das sind zweitausend internationale Einheiten, mit hundert Mikrogramm K2 in der Form MK-7. Die beiden reisen zusammen, weil beide fettlöslich sind und weil in diesen Dosierungen mehr für die Kombination spricht als für jedes von beiden allein. Die Kapsel ist klein und enthält etwas Olivenöl, sodass sie zu jeder Mahlzeit passt, die etwas Fett enthält, statt eine bestimmte zu verlangen. Der Vitamin-D-Status ist eines der wenigen Dinge in diesem Shop, die sich zu messen lohnen, statt sie zu schätzen: Ein Bluttest kostet weniger als ein Jahr Kapseln und sagt Ihnen, ob Sie das hier überhaupt brauchen, ob Sie das Doppelte brauchen oder ob Sie es weglassen können. Fragen Sie nach 25-Hydroxy-Vitamin D. Eine Kapsel täglich zu einer Mahlzeit. Wenn Sie ein Antikoagulans einnehmen: K2 wechselwirkt damit, sprechen Sie also vor Beginn mit der Ärztin oder dem Arzt, die es verordnen. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "magnesiumGlycinate": {
+        "title": "Magnesiumglycinat",
+        "subtitle": "200 mg elementares Magnesium, vollständig chelatiert, zwei Kapseln",
+        "description": "Zweihundert Milligramm elementares Magnesium, an Glycin gebunden, in zwei Kapseln. Die Zahl, auf die es bei einem Magnesium-Etikett ankommt, ist der elementare Gehalt, und genau den verstecken die meisten Etiketten: Eine Dose, die mit 1000 mg Magnesiumglycinat wirbt, wirbt mit dem Gewicht der ganzen Verbindung, von der das Magnesium etwa ein Siebtel ausmacht. Bei uns stehen 200 mg, denn das ist das Magnesium. Glycinat steht hier, weil Oxid billig ist, schlecht aufgenommen wird und zuverlässig den Darm lockert – deshalb wirken die billigen Dosen als Abführmittel und sonst kaum. Zwei Kapseln am Abend, mit oder ohne Mahlzeit. Magnesium nützt wirklich etwas, wenn es Ihnen fehlt, und tut sehr wenig, wenn nicht; die üblichen Anzeichen eines Mangels sind Krämpfe und schlechter Schlaf, beide nicht spezifisch. Es wird Sie nicht sedieren und es ist kein Schlafmittel. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft, Zertifikat je Charge veröffentlicht."
+      },
+      "zincPicolinate": {
+        "title": "Zinkpicolinat",
+        "subtitle": "15 mg elementares Zink, eine Kapsel, ohne zugesetztes Kupfer",
+        "description": "Fünfzehn Milligramm elementares Zink als Picolinat, in einer kleinen Kapsel. Fünfzehn liegt nahe an der täglichen Referenzmenge und deutlich unter der tolerierbaren Höchstmenge von vierzig, was bei Zink mehr zählt als bei den meisten Mineralstoffen: Dauerhaft hohe Dosen stören die Kupferaufnahme, und der daraus folgende Kupfermangel ist ein echtes, langsam entstehendes Problem. Das ist auch der Grund, warum wir der Kapsel kein Kupfer beigefügt haben. Bei 15 mg brauchen Sie es nicht, und ein festes Zink-Kupfer-Verhältnis wäre eine Vermutung über Ihre Ernährung, die wir nicht anstellen können. Wer auf ärztlichen Rat über längere Zeit hoch dosiertes Zink nimmt, ist in der Situation, in die Kupfer gehört – und zwar in der Dosis, die diese Person festlegt. Eine Kapsel täglich zu einer Mahlzeit; auf nüchternen Magen verursacht Zink bei nicht wenigen Menschen Übelkeit. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "vitaminD3Drops": {
+        "title": "Vitamin-D3-Tropfen · 15 ml",
+        "subtitle": "25 µg pro Tropfen in Olivenöl, für alle, die keine Kapseln schlucken",
+        "description": "Eine Fünfzehn-Milliliter-Flasche aus Braunglas mit Vitamin D3 in nativem Olivenöl extra, 25 Mikrogramm – tausend internationale Einheiten – in einem einzigen Tropfen. Es gibt sie für die zwei Gruppen, denen Kapseln nicht dienen: Kinder, deren Dosierungen kleiner sind und sich mit dem Wachstum ändern, und Erwachsene, die eine Kapsel nicht schlucken können oder wollen. Ein Tropfen kommt auf einen Löffel, in den Joghurt oder direkt auf die Zunge; er muss nicht in Wasser abgemessen werden und sollte nicht in ein heißes Getränk getropft werden, denn Hitze und Licht sind die beiden Dinge, die ihn abbauen. Bewahren Sie die Flasche verschlossen auf, vor Sonne geschützt, im Schrank und nicht auf der Fensterbank. Fünfzehn Milliliter sind rund vierhundertfünfzig Tropfen, bei einem am Tag reicht das weit über ein Jahr – länger, als wir einem Öl zumuten möchten, gut zu bleiben: Prüfen Sie das Datum auf dem Boden, bevor Sie eine zweite kaufen. Eine Flasche, eine Größe. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "nightLedger": {
+        "title": "Night Ledger · Schlafformel",
+        "subtitle": "Magnesium, Glycin und L-Theanin. Kein Melatonin, kein Baldrian",
+        "description": "Drei Inhaltsstoffe in Dosierungen, hinter denen etwas steht: 200 mg elementares Magnesium als Glycinat, 3 g Glycin und 200 mg L-Theanin. Glycin in einer Menge von etwa drei Gramm vor dem Schlafengehen ist auf die Schlafqualität hin untersucht worden und ist der Grund, warum eine Portion aus vier Kapseln besteht und nicht aus einer – drei Gramm von irgendetwas passen in weniger nicht hinein. Es enthält kein Melatonin: Das ist ein Hormon und kein Nährstoff, in weiten Teilen Europas verschreibungspflichtig und eher für Jetlag und Schichtarbeit geeignet als für gewöhnlich schlechten Schlaf. Es enthält keinen Baldrian, weil die Studien klein und widersprüchlich sind und der Geruch wirklich unangenehm ist. Das hier ist kein Sedativum und es wird Sie nicht einschlafen lassen. Belegt ist ein moderater Effekt darauf, wie schnell Menschen zur Ruhe kommen und wie erholt sie sich fühlen – zusätzlich zur Schlafhygiene, die die eigentliche Arbeit leistet. Vier Kapseln eine halbe Stunde vor dem Schlafengehen. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "ashwagandhaKsm": {
+        "title": "Ashwagandha KSM-66",
+        "subtitle": "600 mg des standardisierten Wurzelextrakts, zwei Kapseln",
+        "description": "Sechshundert Milligramm KSM-66, ein reiner Wurzelextrakt aus Ashwagandha, standardisiert auf fünf Prozent Withanolide. Der Extrakt steht namentlich auf dem Etikett, weil bei einer Pflanze der Extrakt das Produkt ist: Die Studien, die zu Ashwagandha zitiert werden, wurden mit bestimmten standardisierten Extrakten durchgeführt, und eine Dose, auf der nur „Ashwagandha-Wurzelpulver“ steht, ist nicht das, was dort geprüft wurde. Auch dass nur die Wurzel verwendet wird, zählt: Blattmaterial hat ein anderes Withanolid-Profil und ist billiger zu beschaffen. Die Datenlage ist hier dünner als bei den Mineralstoffen in diesem Shop und betrifft überwiegend selbstberichtete Stresswerte über acht bis zwölf Wochen; sie ist ein Hinweis, kein Beweis, und das sagen wir lieber deutlich. Zwei Kapseln täglich zu einer Mahlzeit. Nehmen Sie es nicht ein, wenn Sie schwanger sind. Es kann mit Schilddrüsenmedikamenten und mit Beruhigungsmitteln wechselwirken – klären Sie das vorher ab, wenn Sie eines von beidem einnehmen. Von einem unabhängigen Labor auf Identität, Gehalt und Schwermetalle geprüft."
+      },
+      "eveningCalm": {
+        "title": "Evening Calm · Magnesiumgetränk",
+        "subtitle": "Ein Pulver aus Magnesium und Glycin zum Einrühren in warmes Wasser",
+        "description": "Die Rezeptur von Night Ledger als Pulver, für alle, die um zehn Uhr abends lieber etwas Warmes trinken, als vier Kapseln zu schlucken. Ein Messlöffel enthält 200 mg elementares Magnesium als Glycinat und 3 g Glycin, eingerührt in etwa 200 ml warmes Wasser. Glycin schmeckt für sich genommen leicht süß – deshalb schmeckt die neutrale Variante nach etwas und nicht nach nichts, und deshalb haben wir kein Süßungsmittel zugesetzt. Vanille ist die schlichteste der drei. Kakao ist die vollste und diejenige, die die mineralische Kante, die Magnesium immer hat, am besten überdeckt; mit warmer Milch zubereitet ist es ein Abendkakao, in dem zufällig die Rezeptur steckt. Keine der drei enthält Zucker, Sucralose oder Stevia. Die Zahl auf dem Etikett steht für Messlöffel, nicht für Kapseln – eine 60 sind also zwei Monate Abende. Ein Messlöffel in warmem Wasser, eine halbe Stunde vor dem Schlafengehen; er löst sich unter Rühren in etwa zwanzig Sekunden und bleibt leicht trüb, das ist das Glycin und soll so sein."
+      },
+      "omega3Rtg": {
+        "title": "Omega-3 · rTG",
+        "subtitle": "1000 mg EPA und DHA pro Portion in re-veresterter Triglyceridform",
+        "description": "Tausend Milligramm EPA und DHA zusammen in zwei Weichkapseln, in re-veresterter Triglyceridform. Diese Form ist der ganze Sinn des Produkts und der Grund, warum es mehr kostet als das Fischöl daneben im Regal: Billiges Fischöl ist meist ein Ethylester – dazu wird das Öl beim Aufkonzentrieren –, und der Rückveresterungsschritt, der es zurückverwandelt, ist ein Schritt, den Hersteller weglassen können. Die Zahl, die man zwischen zwei Dosen vergleicht, ist EPA plus DHA und nicht das Gewicht des Öls; eine 1000-mg-Fischölkapsel enthält üblicherweise etwa 300 mg der beiden. Unsere enthält 500 mg je Weichkapsel. Das Öl stammt von Sardelle und Sardine und wird nicht nur auf Schwermetalle, sondern auch auf Oxidation geprüft, denn ranziges Fischöl ist häufig, durch die Weichkapsel nicht zu sehen und der Grund für den Nachgeschmack, den man mit dieser Produktgruppe verbindet. Zwei Weichkapseln täglich zu einer Mahlzeit. Nach dem Öffnen im Kühlschrank aufbewahren."
+      },
+      "collagenPeptides": {
+        "title": "Kollagenpeptide",
+        "subtitle": "10 g hydrolysiertes Rinderkollagen pro Messlöffel, mit 50 mg Vitamin C",
+        "description": "Zehn Gramm hydrolysierte Rinderkollagenpeptide pro Messlöffel, dazu 50 mg Vitamin C, weil Vitamin C ein notwendiger Kofaktor für die körpereigene Kollagenbildung ist und billig genug, dass es wegzulassen kleinlich wäre und nicht prinzipientreu. Zehn Gramm liegen am unteren Ende dessen, was in Studien eingesetzt wurde, und am oberen Ende dessen, was sich in einer normalen Tasse Kaffee klar auflöst. Zur Wirkung: Die Belege für Gelenkkomfort und Hautelastizität über acht bis zwölf Wochen existieren und sind mittelmäßig, überwiegend von den Rohstoffherstellern finanziert, und der Mechanismus ist nicht der naheliegende – gegessenes Kollagen wird wie jedes andere Eiweiß in Aminosäuren zerlegt und wandert nicht als Kollagen ins Knie. Nehmen Sie es, weil die Studien zeigen, was sie zeigen, nicht weil die Geschichte hübsch ist. Neutral löst sich klar auf und schmeckt nach fast nichts. Vanille ist für Milch, Kakao für Haferbrei. Ein Messlöffel in jede beliebige Flüssigkeit, heiß oder kalt."
+      },
+      "probiotic12Strain": {
+        "title": "Probiotikum · 12 Stämme",
+        "subtitle": "30 Milliarden CFU am Ende der Haltbarkeit, nicht bei der Herstellung",
+        "description": "Dreißig Milliarden koloniebildende Einheiten aus zwölf Stämmen – und die Zahl ist die Keimzahl zum aufgedruckten Mindesthaltbarkeitsdatum, nicht die zum Zeitpunkt der Herstellung. Dieser Unterschied ist der einzige Teil eines Probiotikum-Etiketts, den man genau lesen sollte: Lebende Kulturen sterben bei der Lagerung stetig ab, und eine Dose, die fünfzig Milliarden bei der Herstellung angibt, enthält womöglich nur noch einen Bruchteil davon, wenn sie in einer Küche ankommt. Die Zahl am Ende der Haltbarkeit zu garantieren bedeutet, überzufüllen – deshalb kostet das hier, was es kostet. Jeder Stamm ist bis zur Unterart und mit seiner Hinterlegungsnummer benannt, denn die Forschung hängt an Stämmen und nicht an Gattungen, und ein Etikett, auf dem nur „Lactobacillus“ steht, sagt Ihnen fast nichts. Die Kapsel ist magensaftresistent, damit der Inhalt den Darm erreicht und nicht den Magen. Eine Kapsel täglich, zu jeder Zeit, mit oder ohne Mahlzeit. Kühlung ist nicht nötig. Bei geschwächtem Immunsystem fragen Sie vor der Einnahme lebender Kulturen eine Ärztin oder einen Arzt."
+      },
+      "digestiveEnzymes": {
+        "title": "Verdauungsenzyme",
+        "subtitle": "Eine breite Enzymmischung für Mahlzeiten, die Ihnen nicht bekommen",
+        "description": "Eine breite Mischung aus Protease, Amylase, Lipase, Lactase, Cellulase und Alpha-Galactosidase, dosiert in Aktivitätseinheiten statt in Milligramm, denn Milligramm eines Enzyms sagen nichts darüber, ob es wirkt. Aktivitätseinheiten sind der Standard, den die Branche meist nicht abdruckt, und die einzige Angabe, mit der sich zwei Dosen vergleichen lassen. Das hier ist ein gezieltes Produkt und kein tägliches. Die meisten Menschen verdauen die meisten Mahlzeiten ohne Hilfe; gedacht ist es für die eine bestimmte Mahlzeit, die verlässlich nicht bekommt – meist eine mit viel Milchprodukten, Hülsenfrüchten oder Ballaststoffen, wo Lactase beziehungsweise Alpha-Galactosidase eine klare und gut verstandene Aufgabe haben. Es zu jeder Mahlzeit zu nehmen ist nicht schädlich und größtenteils Geldverschwendung. Eine Kapsel zu Beginn der betreffenden Mahlzeit, nicht danach – Enzyme arbeiten, solange das Essen im Magen ist, und eine Kapsel danach kommt zu spät. Anhaltende Verdauungsbeschwerden sind ein Grund, zur Ärztin oder zum Arzt zu gehen, und nicht, das hier zu kaufen."
+      }
+    }
+  }
+}

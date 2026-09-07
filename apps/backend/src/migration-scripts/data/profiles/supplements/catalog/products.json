@@ -1,0 +1,1370 @@
+[
+  {
+    "handle": "baseline-daily",
+    "title": "Baseline Daily · multivitamin",
+    "subtitle": "Twenty-three nutrients at everyday doses, two capsules a day",
+    "description": "Baseline Daily is the multivitamin we would take ourselves, which is to say an unremarkable one. It carries twenty-three vitamins and minerals at doses near the daily reference intake rather than at the multiples the category likes to print on the front of a bottle. Folate is the methylated form, B12 is methylcobalamin, and the minerals are amino-acid chelates because they are easier on an empty stomach than oxides. There is no herbal blend, no proprietary matrix and no ingredient present at a dose too small to do anything, which is the usual reason a label runs long. Two capsules a day with food. It will not give you energy you have not slept for, and it is not a substitute for a diet that includes vegetables. What it does is close the small gaps that a normal week leaves. Every batch is tested by an outside laboratory for identity, potency and heavy metals, and the certificate for your batch number is on the product page.",
+    "status": "published",
+    "category": "multivitamins",
+    "collections": [
+      "the-foundation",
+      "third-party-tested"
+    ],
+    "weight": 210,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-BASELINEDAILY",
+      "specs": {
+        "Serving size": "Two capsules",
+        "Servings per bottle": "30, 60 or 90 by count",
+        "Nutrients": "23 vitamins and minerals",
+        "Folate form": "L-5-methyltetrahydrofolate, 400 mcg DFE",
+        "B12 form": "Methylcobalamin, 25 mcg",
+        "Mineral form": "Amino-acid chelate",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "Contains": "No gluten, dairy, soy or added sugar",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/baseline-daily-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-BASELINEDAILY-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 29,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-BASELINEDAILY-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-BASELINEDAILY-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte mint-green cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with three pale sand-coloured oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred with the three capsules grouped low and right of it, cap and label band both clearly readable in the frame."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "baseline-fifty-plus",
+    "title": "Baseline 50+ · multivitamin",
+    "subtitle": "The Baseline formula with more B12 and D, and no added iron",
+    "description": "Baseline 50+ is the same formula as Baseline Daily with four deliberate changes. B12 goes up to 100 mcg because absorption from food falls with age as stomach acid does. Vitamin D goes up to 25 mcg. Vitamin K2 is added at 75 mcg, in the MK-7 form, because it is the form with the longest half-life in blood. Iron comes out entirely: past middle age most people are not losing iron monthly, and an unnecessary iron dose is the single most common reason a multivitamin upsets a stomach. Everything else is unchanged, including the doses that were already adequate. Two capsules a day with food. We have not added a joint blend, a memory blend or an eye blend, because at the doses that fit alongside twenty-three other nutrients none of them would be doing anything. If you want those, buy them separately at a dose that works. Third-party tested for identity, potency and heavy metals, with the certificate published against your batch number.",
+    "status": "published",
+    "category": "multivitamins",
+    "collections": [
+      "third-party-tested"
+    ],
+    "weight": 210,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-BASELINEFIFTYPLUS",
+      "specs": {
+        "Serving size": "Two capsules",
+        "Servings per bottle": "30, 60 or 90 by count",
+        "Nutrients": "23 vitamins and minerals, iron-free",
+        "Vitamin B12": "Methylcobalamin, 100 mcg",
+        "Vitamin D3": "25 mcg (1000 IU)",
+        "Vitamin K2": "MK-7, 75 mcg",
+        "Iron": "None added",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/baseline-fifty-plus-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-BASELINEFIFTYPLUS-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 32,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-BASELINEFIFTYPLUS-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-BASELINEFIFTYPLUS-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 79,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte deep-mint cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with three pale sand-coloured oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred with the three capsules grouped low and right of it, the deeper green of the bottle clearly distinct from the white cap."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "baseline-prenatal",
+    "title": "Baseline Prenatal · multivitamin",
+    "subtitle": "Methylated folate at 600 mcg DFE, iron at 18 mg, choline included",
+    "description": "Baseline Prenatal carries the nutrients that prenatal guidance actually names, at the doses it names them. Folate is 600 mcg DFE as L-5-methyltetrahydrofolate. Iron is 18 mg as bisglycinate, a form chosen because it is markedly gentler than sulphate and constipation is the reason most people stop taking a prenatal. Choline is 300 mg, which is more than most prenatals carry and still short of the 450 mg reference intake, because choline is bulky and the rest would not fit in a capsule anyone would swallow; make the difference up with eggs. Iodine, vitamin D, B12 and zinc are all present at reference doses. There is no vitamin A as retinol. Three capsules a day with food, and they can be split across the day if morning sickness makes three at once unwelcome. This is a supplement and not antenatal care: take it alongside your midwife or doctor, not instead of them. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "multivitamins",
+    "collections": [
+      "third-party-tested"
+    ],
+    "weight": 210,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-BASELINEPRENATAL",
+      "specs": {
+        "Serving size": "Three capsules",
+        "Servings per bottle": "20, 40 or 60 by count",
+        "Folate": "L-5-methyltetrahydrofolate, 600 mcg DFE",
+        "Iron": "Bisglycinate, 18 mg",
+        "Choline": "300 mg",
+        "Iodine": "150 mcg",
+        "Vitamin D3": "25 mcg (1000 IU)",
+        "Retinol": "None; beta-carotene only",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/baseline-prenatal-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-BASELINEPRENATAL-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 34,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-BASELINEPRENATAL-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-BASELINEPRENATAL-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 79,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte pale-mint cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with three off-white oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the pale mint reading as clearly lighter than the white cap rather than blending into it."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "starter-fortnight",
+    "title": "The Starter Fortnight",
+    "subtitle": "Fourteen daily sachets of the four we would start with",
+    "description": "Fourteen paper sachets, one for each morning, each holding a day of Baseline Daily, Vitamin D3 + K2, Magnesium Glycinate and Omega-3. It exists because the honest answer to \"which of these should I take\" is that four of them cover most of what a normal diet misses, and buying four full bottles to find that out costs about a hundred dollars. This costs nineteen and runs out on purpose. There is no subscription attached to it and it does not renew. At the end of the fortnight you will know whether swallowing five capsules before breakfast is something you will actually keep doing, which is the only variable that matters and the one no formula can improve. If it is not, we would rather you found out for nineteen dollars. One sachet each morning with food. Third-party tested to the same standard as the bottles the sachets are filled from, with the certificates published against each batch number.",
+    "status": "published",
+    "category": "multivitamins",
+    "collections": [
+      "the-foundation"
+    ],
+    "weight": 160,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-STARTERFORTNIGHT",
+      "specs": {
+        "Contents": "14 daily sachets",
+        "Each sachet": "Baseline Daily x2, D3+K2 x1, Magnesium x2, Omega-3 x1",
+        "Capsules per sachet": "Six",
+        "Duration": "Fourteen days",
+        "Subscription": "None; single purchase, does not renew",
+        "Sachet material": "Paper-based, home compostable",
+        "Contains": "Fish oil (anchovy)",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/starter-fortnight-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "One size",
+        "sku": "SUP-STARTERFORTNIGHT-OS",
+        "options": {},
+        "price_usd": 19,
+        "inventory_quantity": 120
+      }
+    ],
+    "imageBrief": {
+      "subject": "A flat white rectangular carton about 14 cm wide with a broad mint-green band across its lower third and a plain unprinted white upper face, lying face-up, with two small kraft-paper sachets fanned out beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, low three-quarter angle, the carton face and the mint band both readable, the two kraft sachets overlapping at the lower right."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "vitamin-d3-k2",
+    "title": "Vitamin D3 + K2",
+    "subtitle": "50 mcg D3 with 100 mcg K2 as MK-7, one small capsule",
+    "description": "Fifty micrograms of vitamin D3, which is two thousand international units, with a hundred micrograms of K2 in the MK-7 form. The two travel together because both are fat-soluble and because the case for pairing them is better than the case for either alone at these doses. The capsule is small and carries a little olive oil, so it can be taken with any meal that has some fat in it rather than requiring a particular one. Vitamin D status is one of the few things in this shop worth measuring rather than guessing: a blood test costs less than a year of capsules and tells you whether you need this at all, whether you need twice as much, or whether you can stop. Ask for 25-hydroxyvitamin D. One capsule a day with food. If you take an anticoagulant, K2 interacts with it, so speak to whoever prescribes it before starting. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "vitamins-and-minerals",
+    "collections": [
+      "the-foundation",
+      "third-party-tested"
+    ],
+    "weight": 140,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-VITAMIND3K2",
+      "specs": {
+        "Serving size": "One capsule",
+        "Servings per bottle": "60, 120 or 180 by count",
+        "Vitamin D3": "50 mcg (2000 IU), cholecalciferol",
+        "Vitamin K2": "100 mcg, menaquinone-7",
+        "Carrier": "Extra virgin olive oil",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "D3 source": "Lichen, vegan",
+        "Interaction": "K2 interacts with warfarin and similar anticoagulants",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/vitamin-d3-k2-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-VITAMIND3K2-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 22,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-VITAMIND3K2-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 39,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-VITAMIND3K2-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte mint-green cylindrical supplement bottle about 9 cm tall, shorter and narrower than the multivitamin bottles, with a smooth white screw cap and a plain unprinted white label band, standing upright, with two small clear amber oil capsules beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the small bottle centred, the two amber capsules catching enough light to read as translucent oil rather than solid beads."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "magnesium-glycinate",
+    "title": "Magnesium Glycinate",
+    "subtitle": "200 mg elemental magnesium, fully chelated, two capsules",
+    "description": "Two hundred milligrams of elemental magnesium, bound to glycine, in two capsules. The number that matters on a magnesium label is the elemental figure and it is the one most labels bury: a bottle advertising 1000 mg of magnesium glycinate is advertising the weight of the whole compound, of which the magnesium is roughly a seventh. Ours says 200 mg because that is the magnesium. Glycinate is here because oxide is cheap, poorly absorbed and reliably loosens the bowel, which is why the cheap bottles work as laxatives and not much else. Two capsules in the evening, with or without food. Magnesium is genuinely useful if you are short of it and does very little if you are not; the common signs of being short are cramp and poor sleep, neither of them specific. This will not sedate you and it is not a sleeping tablet. Third-party tested for identity, potency and heavy metals, certificate published by batch.",
+    "status": "published",
+    "category": "vitamins-and-minerals",
+    "collections": [
+      "the-foundation",
+      "third-party-tested"
+    ],
+    "weight": 320,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-MAGNESIUMGLYCINATE",
+      "specs": {
+        "Serving size": "Two capsules",
+        "Servings per bottle": "30, 60 or 90 by count",
+        "Elemental magnesium": "200 mg",
+        "Compound": "Magnesium bisglycinate, fully chelated",
+        "Compound weight": "1430 mg per serving",
+        "Oxide content": "None",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "Contains": "No gluten, dairy, soy or added sugar",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/magnesium-glycinate-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-MAGNESIUMGLYCINATE-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 26,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-MAGNESIUMGLYCINATE-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-MAGNESIUMGLYCINATE-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte mint-green cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with three plain white oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the white capsules separated from the white surface by their cast shadow rather than by outline."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "zinc-picolinate",
+    "title": "Zinc Picolinate",
+    "subtitle": "15 mg elemental zinc, one capsule, no copper added",
+    "description": "Fifteen milligrams of elemental zinc as picolinate, in one small capsule. Fifteen is close to the daily reference intake and well under the tolerable upper limit of forty, which matters more with zinc than with most minerals: sustained high doses interfere with copper absorption, and the resulting copper deficiency is a real and slow-moving problem. That is also why we have not added copper to the capsule. At 15 mg you do not need it, and a fixed zinc-copper ratio is a guess about your diet that we are not in a position to make. If you are taking zinc at a high dose for a long period on someone’s advice, that is the situation where copper belongs, and it belongs at a dose that person chooses. One capsule a day, with food; on an empty stomach zinc causes nausea in a fair number of people. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "vitamins-and-minerals",
+    "collections": [
+      "third-party-tested"
+    ],
+    "weight": 120,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-ZINCPICOLINATE",
+      "specs": {
+        "Serving size": "One capsule",
+        "Servings per bottle": "60, 120 or 180 by count",
+        "Elemental zinc": "15 mg",
+        "Compound": "Zinc picolinate",
+        "Copper": "None added",
+        "Daily reference intake": "110 to 136 per cent depending on jurisdiction",
+        "Upper limit": "40 mg per day from all sources",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/zinc-picolinate-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-ZINCPICOLINATE-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 18,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-ZINCPICOLINATE-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 29,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-ZINCPICOLINATE-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 39,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte pale-mint cylindrical supplement bottle about 9 cm tall, short and narrow, with a smooth white screw cap and a plain unprinted white label band, standing upright, with two plain white round capsules beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the short bottle centred, its pale mint reading as clearly tinted against the white ground rather than as white."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "vitamin-d3-drops",
+    "title": "Vitamin D3 Drops · 15 ml",
+    "subtitle": "25 mcg per drop in olive oil, for people who do not swallow capsules",
+    "description": "A fifteen millilitre amber glass bottle of vitamin D3 in extra virgin olive oil, delivering 25 micrograms — a thousand international units — in a single drop. It exists for the two groups capsules do not serve: children, whose doses are smaller and change as they grow, and adults who cannot or will not swallow a capsule. A drop goes onto a spoon, into yoghurt, or straight onto the tongue; it does not need to be measured into water and it should not be dripped into a hot drink, because heat and light are the two things that degrade it. Keep the bottle closed, out of the sun, and in a cupboard rather than a windowsill. Fifteen millilitres is roughly four hundred and fifty drops, so at one a day it lasts well over a year, which is longer than we would ask any oil to stay good — check the date on the base before you buy a second. One bottle, one size. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "vitamins-and-minerals",
+    "collections": [],
+    "weight": 90,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-VITAMIND3DROPS",
+      "specs": {
+        "Volume": "15 ml",
+        "Per drop": "25 mcg (1000 IU) vitamin D3",
+        "Drops per bottle": "Approximately 450",
+        "Carrier": "Extra virgin olive oil",
+        "D3 source": "Lichen, vegan",
+        "Bottle": "Amber glass with a glass pipette",
+        "Storage": "Closed, below 25 C, away from direct light",
+        "Contains": "No alcohol, sugar or flavouring",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/vitamin-d3-drops-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "One size",
+        "sku": "SUP-VITAMIND3DROPS-OS",
+        "options": {},
+        "price_usd": 24,
+        "inventory_quantity": 120
+      }
+    ],
+    "imageBrief": {
+      "subject": "A small amber glass dropper bottle about 7 cm tall with a black rubber-bulb pipette cap and a plain unprinted white label band, standing upright, with the glass pipette lying on the surface beside it showing a bead of pale yellow oil at its tip.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the amber glass lit so the oil inside reads as translucent, the loose pipette angled across the lower right of the frame."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "night-ledger",
+    "title": "Night Ledger · sleep formula",
+    "subtitle": "Magnesium, glycine and L-theanine. No melatonin, no valerian",
+    "description": "Three ingredients at doses with something behind them: 200 mg elemental magnesium as glycinate, 3 g of glycine, and 200 mg of L-theanine. Glycine at around three grams before bed has been studied for sleep quality and is the reason the serving is four capsules rather than one — three grams of anything will not fit in less. There is no melatonin, which is a hormone rather than a nutrient, is prescription-only across much of Europe, and is better matched to jet lag and shift work than to ordinary poor sleep. There is no valerian, because the trials are small and inconsistent and the smell is genuinely unpleasant. This is not a sedative and it will not put you to sleep. What the evidence supports is a modest effect on how quickly people settle and how rested they report feeling, on top of the sleep hygiene that does the heavy lifting. Four capsules half an hour before bed. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "sleep-and-calm",
+    "collections": [],
+    "weight": 190,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-NIGHTLEDGER",
+      "specs": {
+        "Serving size": "Four capsules",
+        "Servings per bottle": "15, 30 or 45 by count",
+        "Elemental magnesium": "200 mg as bisglycinate",
+        "Glycine": "3000 mg",
+        "L-theanine": "200 mg",
+        "Melatonin": "None",
+        "Valerian, hops or kava": "None",
+        "Capsule shell": "Hypromellose, plant-derived",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/night-ledger-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-NIGHTLEDGER-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 28,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-NIGHTLEDGER-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-NIGHTLEDGER-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte deep-mint cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with four slate-grey oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the four grey capsules grouped low and right, dark enough to read clearly against the white surface."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "ashwagandha-ksm",
+    "title": "Ashwagandha KSM-66",
+    "subtitle": "600 mg of the standardised root extract, two capsules",
+    "description": "Six hundred milligrams of KSM-66, a root-only ashwagandha extract standardised to five per cent withanolides. The extract is named on the label because with a botanical the extract is the product: the trials that people cite for ashwagandha were run on specific standardised extracts, and a bottle that says only \"ashwagandha root powder\" is not the thing those trials tested. Root-only matters too, since leaf material carries a different withanolide profile and is cheaper to source. The evidence here is thinner than for the minerals in this shop and mostly concerns self-reported stress scores over eight to twelve weeks; it is suggestive, not settled, and we would rather say so. Two capsules a day with food. Do not take it if you are pregnant. It can interact with thyroid medication and with sedatives, so check first if you take either. Third-party tested for identity, potency and heavy metals.",
+    "status": "published",
+    "category": "sleep-and-calm",
+    "collections": [],
+    "weight": 180,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-ASHWAGANDHAKSM",
+      "specs": {
+        "Serving size": "Two capsules",
+        "Servings per bottle": "30, 60 or 90 by count",
+        "Extract": "KSM-66, 600 mg",
+        "Standardisation": "5 per cent withanolides",
+        "Plant part": "Root only",
+        "Evidence": "Suggestive; 8 to 12 week self-reported stress scores",
+        "Not for": "Pregnancy",
+        "Interactions": "Thyroid medication, sedatives",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/ashwagandha-ksm-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-ASHWAGANDHAKSM-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 27,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-ASHWAGANDHAKSM-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-ASHWAGANDHAKSM-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte pale-mint cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with three tan-coloured oval capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the tan capsules warm enough to separate from both the white surface and the pale mint bottle."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "evening-calm",
+    "title": "Evening Calm · magnesium drink",
+    "subtitle": "A magnesium and glycine powder to stir into warm water",
+    "description": "The Night Ledger formula as a powder, for people who would rather drink something warm at ten in the evening than swallow four capsules. One scoop carries 200 mg of elemental magnesium as glycinate and 3 g of glycine, stirred into about 200 ml of warm water. Glycine is faintly sweet on its own, which is why the unflavoured version tastes of something rather than of nothing and why we have not added a sweetener to it. Vanilla is the plainest of the three. Cocoa is the fullest, and the one that best hides the mineral edge magnesium always has; made with warm milk it is a bedtime cocoa that happens to carry the formula. None of them contain sugar, sucralose or stevia. The count on the label is scoops, not capsules, so a 60 is two months of evenings. One scoop in warm water, half an hour before bed; it dissolves in about twenty seconds with stirring and will stay slightly cloudy, which is the glycine and is meant to be there.",
+    "status": "published",
+    "category": "sleep-and-calm",
+    "collections": [],
+    "weight": 400,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-EVENINGCALM",
+      "specs": {
+        "Serving size": "One 5 g scoop",
+        "Servings per tub": "60, 120 or 180 by count",
+        "Elemental magnesium": "200 mg as bisglycinate",
+        "Glycine": "3000 mg",
+        "Sweetener": "None; no sugar, sucralose or stevia",
+        "Flavours": "Unflavoured, Vanilla, Cocoa",
+        "Preparation": "One scoop in 200 ml warm water",
+        "Dissolves": "About 20 seconds, stays slightly cloudy",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/evening-calm-hero.webp"
+    ],
+    "options": [
+      "Count",
+      "Flavour"
+    ],
+    "variants": [
+      {
+        "title": "60 count · Unflavoured",
+        "sku": "SUP-EVENINGCALM-60-UNFLAVOURED",
+        "options": {
+          "Count": "60",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 31,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "60 count · Vanilla",
+        "sku": "SUP-EVENINGCALM-60-VANILLA",
+        "options": {
+          "Count": "60",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 31,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "60 count · Cocoa",
+        "sku": "SUP-EVENINGCALM-60-COCOA",
+        "options": {
+          "Count": "60",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 31,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "120 count · Unflavoured",
+        "sku": "SUP-EVENINGCALM-120-UNFLAVOURED",
+        "options": {
+          "Count": "120",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "120 count · Vanilla",
+        "sku": "SUP-EVENINGCALM-120-VANILLA",
+        "options": {
+          "Count": "120",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "120 count · Cocoa",
+        "sku": "SUP-EVENINGCALM-120-COCOA",
+        "options": {
+          "Count": "120",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "180 count · Unflavoured",
+        "sku": "SUP-EVENINGCALM-180-UNFLAVOURED",
+        "options": {
+          "Count": "180",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "180 count · Vanilla",
+        "sku": "SUP-EVENINGCALM-180-VANILLA",
+        "options": {
+          "Count": "180",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "180 count · Cocoa",
+        "sku": "SUP-EVENINGCALM-180-COCOA",
+        "options": {
+          "Count": "180",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A wide matte white cylindrical powder tub about 11 cm tall and 10 cm across with a smooth mint-green screw lid and a plain unprinted white label band, standing upright, with a small white measuring scoop of pale cream powder resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, slightly above label height so the mint lid reads as a disc, the tub centred, the filled scoop angled at the lower right with the powder visible in it."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "omega-3-rtg",
+    "title": "Omega-3 · rTG",
+    "subtitle": "1000 mg EPA and DHA per serving in re-esterified triglyceride form",
+    "description": "A thousand milligrams of combined EPA and DHA in two softgels, in the re-esterified triglyceride form. That form is the whole point of the product and the reason it costs more than the fish oil next to it on a shelf: most cheap fish oil is an ethyl ester, which is what the oil becomes during concentration, and the re-esterification step that converts it back is a step manufacturers can skip. The number to compare between bottles is EPA plus DHA, not the weight of the oil, and a 1000 mg fish-oil capsule commonly holds around 300 mg of the two. Ours holds 500 mg per softgel. The oil is from anchovy and sardine, tested for oxidation as well as for heavy metals, because rancid fish oil is common, is not visible through the softgel and is the reason for the aftertaste people associate with the category. Two softgels a day with a meal. Keep the bottle in the fridge once opened.",
+    "status": "published",
+    "category": "joints-and-mobility",
+    "collections": [
+      "the-foundation",
+      "third-party-tested"
+    ],
+    "weight": 280,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-OMEGA3RTG",
+      "specs": {
+        "Serving size": "Two softgels",
+        "Servings per bottle": "30, 60 or 90 by count",
+        "EPA + DHA": "1000 mg per serving",
+        "Form": "Re-esterified triglyceride (rTG)",
+        "EPA": "600 mg",
+        "DHA": "400 mg",
+        "Source": "Anchovy and sardine",
+        "Oxidation": "TOTOX tested, below 10",
+        "Storage": "Refrigerate after opening",
+        "Third-party tested": "Identity, potency, heavy metals, oxidation"
+      }
+    },
+    "images": [
+      "media/omega-3-rtg-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-OMEGA3RTG-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 33,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-OMEGA3RTG-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-OMEGA3RTG-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 79,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte deep-mint cylindrical supplement bottle about 12 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with two clear gold oil softgels resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the two gold softgels lit so the oil inside reads as translucent and slightly domed."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "collagen-peptides",
+    "title": "Collagen Peptides",
+    "subtitle": "10 g of hydrolysed bovine collagen per scoop, with 50 mg vitamin C",
+    "description": "Ten grams of hydrolysed bovine collagen peptides per scoop, with 50 mg of vitamin C alongside, because vitamin C is a required cofactor for the body making its own collagen and is cheap enough that leaving it out would be mean rather than principled. Ten grams is at the low end of what trials have used and the high end of what dissolves cleanly in a normal cup of coffee. On what it does: the evidence for joint comfort and skin elasticity over eight to twelve weeks exists and is moderate, funded largely by the ingredient suppliers, and the mechanism is not the intuitive one — eaten collagen is broken into amino acids like any other protein, and does not travel to a knee as collagen. Take it because the trials show what they show, not because the story is neat. Unflavoured dissolves clear and tastes of almost nothing. Vanilla and Cocoa are for milk and for oats respectively. One scoop in any liquid, hot or cold.",
+    "status": "published",
+    "category": "joints-and-mobility",
+    "collections": [
+      "third-party-tested"
+    ],
+    "weight": 450,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-COLLAGENPEPTIDES",
+      "specs": {
+        "Serving size": "One 11 g scoop",
+        "Servings per tub": "60, 120 or 180 by count",
+        "Collagen peptides": "10 g, hydrolysed bovine",
+        "Vitamin C": "50 mg",
+        "Peptide weight": "Average 2000 daltons",
+        "Source": "Grass-fed bovine hide",
+        "Flavours": "Unflavoured, Vanilla, Cocoa",
+        "Evidence": "Moderate; 8 to 12 week joint and skin endpoints",
+        "Dissolves": "Clear in hot or cold liquid",
+        "Third-party tested": "Identity, potency, heavy metals"
+      }
+    },
+    "images": [
+      "media/collagen-peptides-hero.webp"
+    ],
+    "options": [
+      "Count",
+      "Flavour"
+    ],
+    "variants": [
+      {
+        "title": "60 count · Unflavoured",
+        "sku": "SUP-COLLAGENPEPTIDES-60-UNFLAVOURED",
+        "options": {
+          "Count": "60",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 36,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "60 count · Vanilla",
+        "sku": "SUP-COLLAGENPEPTIDES-60-VANILLA",
+        "options": {
+          "Count": "60",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 36,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "60 count · Cocoa",
+        "sku": "SUP-COLLAGENPEPTIDES-60-COCOA",
+        "options": {
+          "Count": "60",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 36,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "120 count · Unflavoured",
+        "sku": "SUP-COLLAGENPEPTIDES-120-UNFLAVOURED",
+        "options": {
+          "Count": "120",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "120 count · Vanilla",
+        "sku": "SUP-COLLAGENPEPTIDES-120-VANILLA",
+        "options": {
+          "Count": "120",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "120 count · Cocoa",
+        "sku": "SUP-COLLAGENPEPTIDES-120-COCOA",
+        "options": {
+          "Count": "120",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "180 count · Unflavoured",
+        "sku": "SUP-COLLAGENPEPTIDES-180-UNFLAVOURED",
+        "options": {
+          "Count": "180",
+          "Flavour": "Unflavoured"
+        },
+        "price_usd": 89,
+        "inventory_quantity": 52
+      },
+      {
+        "title": "180 count · Vanilla",
+        "sku": "SUP-COLLAGENPEPTIDES-180-VANILLA",
+        "options": {
+          "Count": "180",
+          "Flavour": "Vanilla"
+        },
+        "price_usd": 89,
+        "inventory_quantity": 33
+      },
+      {
+        "title": "180 count · Cocoa",
+        "sku": "SUP-COLLAGENPEPTIDES-180-COCOA",
+        "options": {
+          "Count": "180",
+          "Flavour": "Cocoa"
+        },
+        "price_usd": 89,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A tall matte white cylindrical powder tub about 15 cm tall and 10 cm across with a smooth mint-green screw lid and a plain unprinted white label band, standing upright, with a small white measuring scoop of fine off-white powder resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, slightly above label height so the mint lid reads as a disc, the tall tub centred, the filled scoop angled at the lower right with the powder visible in it."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "probiotic-12-strain",
+    "title": "Probiotic · 12 strain",
+    "subtitle": "30 billion CFU at the end of shelf life, not at manufacture",
+    "description": "Thirty billion colony-forming units across twelve strains, and the number is the count at the printed expiry date rather than at the moment of manufacture. That distinction is the only part of a probiotic label worth reading closely: live cultures die steadily in storage, and a bottle claiming fifty billion at manufacture may hold a small fraction of that by the time it reaches a kitchen. Guaranteeing the end-of-life figure means overfilling, which is why this costs what it does. Every strain is named to its subspecies and its deposit number, because the research attaches to strains and not to genera, and a label that says only \"Lactobacillus\" is telling you almost nothing. The capsule is acid-resistant so the contents reach the intestine rather than the stomach. One capsule a day, any time, with or without food. It does not need refrigeration. If you are immunocompromised, ask a doctor before starting any live culture.",
+    "status": "published",
+    "category": "gut-health",
+    "collections": [
+      "the-foundation",
+      "third-party-tested"
+    ],
+    "weight": 150,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-PROBIOTIC12STRAIN",
+      "specs": {
+        "Serving size": "One capsule",
+        "Servings per bottle": "60, 120 or 180 by count",
+        "CFU": "30 billion at expiry, not at manufacture",
+        "Strains": "Twelve, each named to subspecies and deposit number",
+        "Capsule": "Acid-resistant, delayed release",
+        "Refrigeration": "Not required",
+        "Allergens": "No dairy carrier",
+        "Caution": "Ask a doctor if immunocompromised",
+        "Third-party tested": "Identity, potency, heavy metals",
+        "Made in": "Netherlands"
+      }
+    },
+    "images": [
+      "media/probiotic-12-strain-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-PROBIOTIC12STRAIN-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 38,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-PROBIOTIC12STRAIN-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-PROBIOTIC12STRAIN-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 89,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte mint-green cylindrical supplement bottle about 10 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with two plain white capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the two white capsules separated from the white surface by their cast shadow rather than by outline."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  },
+  {
+    "handle": "digestive-enzymes",
+    "title": "Digestive Enzymes",
+    "subtitle": "A broad enzyme blend for meals that do not agree with you",
+    "description": "A broad blend of protease, amylase, lipase, lactase, cellulase and alpha-galactosidase, dosed in activity units rather than in milligrams, because milligrams of an enzyme tell you nothing about whether it works. Activity units are the standard the industry mostly avoids printing and the only figure that lets you compare two bottles. This is a targeted product rather than a daily one. Most people digest most meals without help; the situation this is for is a specific meal that reliably disagrees, most often one heavy in dairy, in beans or in fibre, where lactase and alpha-galactosidase respectively have a clear and well-understood job. Taking it with every meal is not harmful and is mostly a waste of money. One capsule at the start of the meal in question, not after it — enzymes work while food is in the stomach, and a capsule taken afterwards has missed. Persistent digestive trouble is a reason to see a doctor rather than to buy this.",
+    "status": "published",
+    "category": "gut-health",
+    "collections": [],
+    "weight": 130,
+    "metadata": {
+      "brand": "Scruple",
+      "mpn": "SCR-DIGESTIVEENZYMES",
+      "specs": {
+        "Serving size": "One capsule",
+        "Servings per bottle": "60, 120 or 180 by count",
+        "Protease": "40000 HUT",
+        "Amylase": "10000 DU",
+        "Lipase": "2000 FIP",
+        "Lactase": "2000 ALU",
+        "Alpha-galactosidase": "300 GalU",
+        "Cellulase": "600 CU",
+        "When to take": "At the start of the meal, not after",
+        "Third-party tested": "Identity, potency, heavy metals"
+      }
+    },
+    "images": [
+      "media/digestive-enzymes-hero.webp"
+    ],
+    "options": [
+      "Count"
+    ],
+    "variants": [
+      {
+        "title": "60 count",
+        "sku": "SUP-DIGESTIVEENZYMES-60",
+        "options": {
+          "Count": "60"
+        },
+        "price_usd": 25,
+        "inventory_quantity": 64
+      },
+      {
+        "title": "120 count",
+        "sku": "SUP-DIGESTIVEENZYMES-120",
+        "options": {
+          "Count": "120"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 41
+      },
+      {
+        "title": "180 count",
+        "sku": "SUP-DIGESTIVEENZYMES-180",
+        "options": {
+          "Count": "180"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A matte pale-mint cylindrical supplement bottle about 10 cm tall with a smooth white screw cap and a plain unprinted white label band around its middle, standing upright, with two off-white capsules resting on the surface beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, straight-on at label height, the bottle centred, the off-white capsules warm enough to separate from the cooler white of the surface."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters, numbers or supplement-facts panels anywhere in the frame",
+        "medical or health claims rendered as graphics, seals, badges or award marks",
+        "human faces, hands, mouths or bodies",
+        "loose capsules or powder spilled outside the vessel unless the brief asks for them",
+        "pills arranged as a face, a heart, a smile or any pictogram",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "fruit, leaves, flowers, mortar and pestle or any wellness-stock prop"
+      ]
+    }
+  }
+]

@@ -1,0 +1,113 @@
+{
+  "name": "Español",
+  "translations": {
+    "categories": {
+      "dailyFoundations": "Base diaria",
+      "multivitamins": "Multivitamínicos",
+      "vitaminsAndMinerals": "Vitaminas y minerales",
+      "targetedSupport": "Apoyo específico",
+      "sleepAndCalm": "Sueño y calma",
+      "jointsAndMobility": "Articulaciones y movilidad",
+      "gutHealth": "Salud intestinal"
+    },
+    "collections": {
+      "theFoundation": "La base",
+      "thirdPartyTested": "Analizado por laboratorios independientes"
+    },
+    "productOptions": {
+      "count": {
+        "title": "Cantidad",
+        "values": {
+          "60": "60",
+          "120": "120",
+          "180": "180"
+        }
+      },
+      "flavour": {
+        "title": "Sabor",
+        "values": {
+          "unflavoured": "Neutro",
+          "vanilla": "Vainilla",
+          "cocoa": "Cacao"
+        }
+      }
+    },
+    "products": {
+      "baselineDaily": {
+        "title": "Baseline Daily · multivitamínico",
+        "subtitle": "Veintitrés nutrientes en dosis de uso diario, dos cápsulas al día",
+        "description": "Baseline Daily es el multivitamínico que tomaríamos nosotros, es decir, uno sin nada llamativo. Lleva veintitrés vitaminas y minerales en dosis cercanas a la ingesta de referencia diaria, y no en los múltiplos que a esta categoría le gusta imprimir en la parte delantera del bote. El folato está en forma metilada, la B12 es metilcobalamina y los minerales son quelatos de aminoácidos porque sientan mejor con el estómago vacío que los óxidos. No hay mezcla de hierbas, ni matriz patentada, ni ningún ingrediente presente en una dosis demasiado pequeña para hacer nada, que es la razón habitual de que una etiqueta se alargue. Dos cápsulas al día con comida. No le dará una energía que no haya dormido, y no sustituye a una dieta que incluya verduras. Lo que hace es cerrar los pequeños huecos que deja una semana normal. Cada lote se analiza en un laboratorio externo para comprobar identidad, potencia y metales pesados, y el certificado de su número de lote está en la página del producto."
+      },
+      "baselineFiftyPlus": {
+        "title": "Baseline 50+ · multivitamínico",
+        "subtitle": "La fórmula Baseline con más B12 y D, y sin hierro añadido",
+        "description": "Baseline 50+ es la misma fórmula que Baseline Daily con cuatro cambios deliberados. La B12 sube a 100 mcg porque la absorción a partir de los alimentos baja con la edad, igual que baja el ácido del estómago. La vitamina D sube a 25 mcg. Se añade vitamina K2 a 75 mcg, en forma MK-7, por ser la forma con la vida media más larga en sangre. El hierro desaparece por completo: pasada la mediana edad la mayoría de la gente ya no pierde hierro cada mes, y una dosis innecesaria de hierro es el motivo más frecuente de que un multivitamínico siente mal al estómago. Todo lo demás queda igual, incluidas las dosis que ya eran suficientes. Dos cápsulas al día con comida. No hemos añadido una mezcla para las articulaciones, ni para la memoria, ni para la vista, porque en las dosis que caben junto a otros veintitrés nutrientes ninguna de ellas haría nada. Si las quiere, cómprelas aparte y en una dosis que funcione. Analizado por un laboratorio independiente para identidad, potencia y metales pesados, con el certificado publicado frente a su número de lote."
+      },
+      "baselinePrenatal": {
+        "title": "Baseline Prenatal · multivitamínico",
+        "subtitle": "Folato metilado a 600 mcg DFE, hierro a 18 mg, con colina",
+        "description": "Baseline Prenatal lleva los nutrientes que las recomendaciones del embarazo nombran de verdad, en las dosis en las que los nombran. El folato son 600 mcg DFE como L-5-metiltetrahidrofolato. El hierro son 18 mg en forma de bisglicinato, elegida porque es bastante más suave que el sulfato y porque el estreñimiento es la razón por la que la mayoría deja de tomar un prenatal. La colina son 300 mg, más de lo que llevan casi todos los prenatales y todavía por debajo de la ingesta de referencia de 450 mg, porque la colina ocupa mucho y el resto no cabría en una cápsula que alguien quisiera tragar; complete la diferencia con huevos. El yodo, la vitamina D, la B12 y el zinc están presentes en dosis de referencia. No lleva vitamina A como retinol. Tres cápsulas al día con comida, y pueden repartirse a lo largo del día si tomar tres de golpe resulta desagradable con las náuseas. Esto es un complemento y no atención prenatal: tómelo junto a su matrona o su médico, no en lugar de ellos. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "starterFortnight": {
+        "title": "The Starter Fortnight",
+        "subtitle": "Catorce sobres diarios con los cuatro por los que empezaríamos",
+        "description": "Catorce sobres de papel, uno para cada mañana, cada uno con un día de Baseline Daily, Vitamina D3 + K2, Glicinato de Magnesio y Omega-3. Existe porque la respuesta honesta a «¿cuál de estos debería tomar?» es que cuatro de ellos cubren casi todo lo que una dieta normal deja fuera, y comprar cuatro botes enteros para averiguarlo cuesta unos cien dólares. Esto cuesta diecinueve y se acaba a propósito. No lleva ninguna suscripción asociada y no se renueva. Al final de las dos semanas sabrá si tragar cinco cápsulas antes del desayuno es algo que va a mantener de verdad, que es la única variable que importa y la única que ninguna fórmula puede mejorar. Si no lo es, preferimos que lo haya descubierto por diecinueve dólares. Un sobre cada mañana con comida. Analizado por un laboratorio independiente con el mismo criterio que los botes de los que se llenan los sobres, con los certificados publicados frente a cada número de lote."
+      },
+      "vitaminD3K2": {
+        "title": "Vitamina D3 + K2",
+        "subtitle": "50 mcg de D3 con 100 mcg de K2 como MK-7, una cápsula pequeña",
+        "description": "Cincuenta microgramos de vitamina D3, que son dos mil unidades internacionales, con cien microgramos de K2 en forma MK-7. Las dos viajan juntas porque ambas son liposolubles y porque, a estas dosis, el argumento a favor de combinarlas es mejor que el argumento a favor de cualquiera de las dos por separado. La cápsula es pequeña y lleva un poco de aceite de oliva, así que puede tomarse con cualquier comida que tenga algo de grasa, en lugar de exigir una en concreto. El nivel de vitamina D es una de las pocas cosas de esta tienda que merece la pena medir en vez de suponer: un análisis de sangre cuesta menos que un año de cápsulas y le dice si necesita esto siquiera, si necesita el doble o si puede dejarlo. Pida la 25-hidroxivitamina D. Una cápsula al día con comida. Si toma un anticoagulante, la K2 interacciona con él, así que hable con quien se lo receta antes de empezar. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "magnesiumGlycinate": {
+        "title": "Glicinato de Magnesio",
+        "subtitle": "200 mg de magnesio elemental, totalmente quelado, dos cápsulas",
+        "description": "Doscientos miligramos de magnesio elemental, unido a glicina, en dos cápsulas. La cifra que importa en la etiqueta de un magnesio es la del magnesio elemental, y es la que casi todas las etiquetas entierran: un bote que anuncia 1000 mg de glicinato de magnesio anuncia el peso del compuesto entero, del que el magnesio es más o menos una séptima parte. El nuestro dice 200 mg porque eso es el magnesio. El glicinato está aquí porque el óxido es barato, se absorbe mal y afloja el intestino sin fallar, que es la razón por la que los botes baratos funcionan como laxantes y poco más. Dos cápsulas por la noche, con o sin comida. El magnesio sirve de verdad si le falta y hace muy poco si no le falta; los signos habituales de que falta son los calambres y el mal sueño, y ninguno de los dos es específico. Esto no le va a sedar y no es un somnífero. Analizado por un laboratorio independiente para identidad, potencia y metales pesados, con certificado publicado por lote."
+      },
+      "zincPicolinate": {
+        "title": "Picolinato de Zinc",
+        "subtitle": "15 mg de zinc elemental, una cápsula, sin cobre añadido",
+        "description": "Quince miligramos de zinc elemental en forma de picolinato, en una cápsula pequeña. Quince está cerca de la ingesta de referencia diaria y bastante por debajo del límite superior tolerable de cuarenta, algo que con el zinc importa más que con casi cualquier otro mineral: las dosis altas mantenidas en el tiempo interfieren en la absorción del cobre, y la deficiencia de cobre que resulta de ahí es un problema real y de instauración lenta. Esa es también la razón por la que no hemos añadido cobre a la cápsula. A 15 mg no hace falta, y una proporción fija de zinc y cobre es una suposición sobre su dieta que no estamos en condiciones de hacer. Si toma zinc a dosis alta durante un periodo largo por consejo de alguien, esa sí es la situación en la que el cobre tiene sentido, y a la dosis que decida esa persona. Una cápsula al día, con comida; con el estómago vacío el zinc provoca náuseas en bastante gente. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "vitaminD3Drops": {
+        "title": "Vitamina D3 en Gotas · 15 ml",
+        "subtitle": "25 mcg por gota en aceite de oliva, para quien no traga cápsulas",
+        "description": "Un frasco de vidrio ámbar de quince mililitros con vitamina D3 en aceite de oliva virgen extra, que aporta 25 microgramos —mil unidades internacionales— en una sola gota. Existe para los dos grupos a los que las cápsulas no sirven: los niños, cuyas dosis son más pequeñas y cambian según crecen, y los adultos que no pueden o no quieren tragar una cápsula. La gota va en una cuchara, en el yogur o directamente sobre la lengua; no hace falta medirla en agua y no debe echarse en una bebida caliente, porque el calor y la luz son las dos cosas que la degradan. Guarde el frasco cerrado, lejos del sol y en un armario, no en el alféizar de una ventana. Quince mililitros son unas cuatrocientas cincuenta gotas, así que a una al día dura bastante más de un año, más de lo que le pediríamos a ningún aceite para seguir en buen estado: mire la fecha de la base antes de comprar el segundo. Un frasco, un tamaño. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "nightLedger": {
+        "title": "Night Ledger · fórmula para dormir",
+        "subtitle": "Magnesio, glicina y L-teanina. Sin melatonina, sin valeriana",
+        "description": "Tres ingredientes en dosis que tienen algo detrás: 200 mg de magnesio elemental como glicinato, 3 g de glicina y 200 mg de L-teanina. La glicina en torno a los tres gramos antes de acostarse se ha estudiado para la calidad del sueño y es la razón de que la toma sean cuatro cápsulas y no una: tres gramos de cualquier cosa no caben en menos. No lleva melatonina, que es una hormona y no un nutriente, que en buena parte de Europa solo se vende con receta y que encaja mejor con el desfase horario y el trabajo por turnos que con dormir mal a secas. No lleva valeriana, porque los ensayos son pequeños e inconsistentes y el olor es francamente desagradable. Esto no es un sedante y no le va a dormir. Lo que respaldan las pruebas es un efecto modesto sobre lo rápido que uno se acomoda y lo descansado que dice sentirse, por encima de una higiene del sueño que es la que hace el trabajo de fondo. Cuatro cápsulas media hora antes de acostarse. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "ashwagandhaKsm": {
+        "title": "Ashwagandha KSM-66",
+        "subtitle": "600 mg del extracto de raíz estandarizado, dos cápsulas",
+        "description": "Seiscientos miligramos de KSM-66, un extracto de ashwagandha hecho solo con la raíz y estandarizado al cinco por ciento de witanólidos. El extracto figura con su nombre en la etiqueta porque, en una planta, el extracto es el producto: los ensayos que se citan sobre la ashwagandha se hicieron con extractos estandarizados concretos, y un bote que solo dice «polvo de raíz de ashwagandha» no es lo que aquellos ensayos probaron. Que sea solo de raíz también importa, porque la hoja tiene un perfil distinto de witanólidos y sale más barata. Las pruebas aquí son más flojas que las de los minerales de esta tienda y se refieren sobre todo a puntuaciones de estrés declaradas por los propios participantes a lo largo de ocho a doce semanas; son indicativas, no concluyentes, y preferimos decirlo. Dos cápsulas al día con comida. No lo tome si está embarazada. Puede interaccionar con la medicación tiroidea y con los sedantes, así que consulte antes si toma alguno de los dos. Analizado por un laboratorio independiente para identidad, potencia y metales pesados."
+      },
+      "eveningCalm": {
+        "title": "Evening Calm · bebida de magnesio",
+        "subtitle": "Un polvo de magnesio y glicina para disolver en agua caliente",
+        "description": "La fórmula de Night Ledger en polvo, para quien a las diez de la noche prefiere beber algo caliente antes que tragar cuatro cápsulas. Un cacito lleva 200 mg de magnesio elemental como glicinato y 3 g de glicina, removidos en unos 200 ml de agua caliente. La glicina es ligeramente dulce por sí sola, y por eso la versión neutra sabe a algo en lugar de a nada, y por eso no le hemos añadido edulcorante. La de vainilla es la más sobria de las tres. La de cacao es la más redonda y la que mejor tapa el filo mineral que el magnesio siempre tiene; hecha con leche caliente es un cacao de antes de dormir que además lleva la fórmula. Ninguna de las tres contiene azúcar, sucralosa ni estevia. La cifra de la etiqueta son cacitos, no cápsulas, así que un 60 son dos meses de noches. Un cacito en agua caliente, media hora antes de acostarse; se disuelve en unos veinte segundos removiendo y queda algo turbio, que es la glicina y tiene que estar ahí."
+      },
+      "omega3Rtg": {
+        "title": "Omega-3 · rTG",
+        "subtitle": "1000 mg de EPA y DHA por toma en forma de triglicérido reesterificado",
+        "description": "Mil miligramos de EPA y DHA combinados en dos perlas, en forma de triglicérido reesterificado. Esa forma es todo el sentido del producto y la razón de que cueste más que el aceite de pescado que tiene al lado en el lineal: el aceite de pescado barato suele ser un éster etílico, que es en lo que se convierte el aceite durante la concentración, y el paso de reesterificación que lo devuelve a su forma original es un paso que el fabricante puede saltarse. La cifra que hay que comparar entre botes es EPA más DHA, no el peso del aceite, y una cápsula de aceite de pescado de 1000 mg suele llevar unos 300 mg de los dos. La nuestra lleva 500 mg por perla. El aceite procede de anchoa y de sardina, y se analiza tanto la oxidación como los metales pesados, porque el aceite de pescado rancio es frecuente, no se ve a través de la perla y es la causa del regusto que la gente asocia a esta categoría. Dos perlas al día con una comida. Guarde el bote en la nevera una vez abierto."
+      },
+      "collagenPeptides": {
+        "title": "Péptidos de Colágeno",
+        "subtitle": "10 g de colágeno bovino hidrolizado por cacito, con 50 mg de vitamina C",
+        "description": "Diez gramos de péptidos de colágeno bovino hidrolizado por cacito, con 50 mg de vitamina C al lado, porque la vitamina C es un cofactor necesario para que el cuerpo fabrique su propio colágeno y es lo bastante barata como para que omitirla resultara mezquino y no riguroso. Diez gramos están en el extremo bajo de lo que han usado los ensayos y en el extremo alto de lo que se disuelve limpio en una taza normal de café. Sobre lo que hace: las pruebas de confort articular y elasticidad de la piel a lo largo de ocho a doce semanas existen y son moderadas, financiadas en buena parte por los proveedores del ingrediente, y el mecanismo no es el intuitivo: el colágeno que se come se rompe en aminoácidos como cualquier otra proteína y no viaja hasta una rodilla en forma de colágeno. Tómelo porque los ensayos dicen lo que dicen, no porque la historia quede bonita. El neutro se disuelve transparente y no sabe casi a nada. La vainilla es para la leche y el cacao para la avena. Un cacito en cualquier líquido, frío o caliente."
+      },
+      "probiotic12Strain": {
+        "title": "Probiótico · 12 cepas",
+        "subtitle": "30 mil millones de CFU al final de la vida útil, no en la fabricación",
+        "description": "Treinta mil millones de unidades formadoras de colonias repartidas en doce cepas, y la cifra es el recuento en la fecha de caducidad impresa, no en el momento de la fabricación. Esa distinción es la única parte de la etiqueta de un probiótico que merece leerse con atención: los cultivos vivos van muriendo sin parar durante el almacenamiento, y un bote que declara cincuenta mil millones en fábrica puede llevar una fracción pequeña de eso cuando llega a una cocina. Garantizar la cifra del final de la vida útil obliga a sobrellenar, y por eso esto cuesta lo que cuesta. Cada cepa está nombrada hasta la subespecie y con su número de depósito, porque la investigación se refiere a cepas y no a géneros, y una etiqueta que solo dice «Lactobacillus» no le está contando casi nada. La cápsula es resistente al ácido, de modo que el contenido llega al intestino y no se queda en el estómago. Una cápsula al día, a cualquier hora, con o sin comida. No necesita frío. Si está inmunodeprimido, pregunte a un médico antes de empezar con cualquier cultivo vivo."
+      },
+      "digestiveEnzymes": {
+        "title": "Enzimas Digestivas",
+        "subtitle": "Una mezcla amplia de enzimas para las comidas que le sientan mal",
+        "description": "Una mezcla amplia de proteasa, amilasa, lipasa, lactasa, celulasa y alfa-galactosidasa, dosificada en unidades de actividad y no en miligramos, porque los miligramos de una enzima no dicen nada sobre si funciona. Las unidades de actividad son el estándar que el sector suele evitar imprimir y la única cifra que permite comparar dos botes. Esto es un producto puntual y no de uso diario. La mayoría de la gente digiere la mayoría de las comidas sin ayuda; la situación para la que sirve es esa comida concreta que siempre sienta mal, casi siempre una cargada de lácteos, de legumbres o de fibra, donde la lactasa y la alfa-galactosidasa tienen respectivamente un trabajo claro y bien entendido. Tomarlo en cada comida no es dañino y es sobre todo tirar el dinero. Una cápsula al principio de la comida en cuestión, no después: las enzimas trabajan mientras la comida está en el estómago, y una cápsula tomada después ya ha llegado tarde. Un problema digestivo persistente es motivo para ir al médico, no para comprar esto."
+      }
+    }
+  }
+}
