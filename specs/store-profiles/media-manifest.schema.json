@@ -22,7 +22,8 @@
       "pattern": "^[a-z][a-z0-9-]{2,31}$"
     },
     "provider": {
-      "const": "replicate"
+      "enum": ["replicate", "fal.ai"],
+      "description": "The wave of 2026-09-08 runs on fal.ai because Replicate never published a price for the model. Replicate stays as the reserve, so both are legal."
     },
     "generatedAt": {
       "type": "string",
