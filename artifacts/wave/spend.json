@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.spend/v1",
-  "updatedAt": "2026-09-08T03:38:09+08:00",
+  "updatedAt": "2026-09-08T04:47:31+08:00",
   "provider": "fal.ai",
   "currency": "USD",
   "balanceAtStartUsd": 7.1,
@@ -45,11 +45,102 @@
       "promptSha256": "a8d2b54558a38e4fb6489571d256ce9852c6b4adbc7ce1252b0c17b22ca837b1",
       "reshootOf": null,
       "accepted": false
+    },
+    {
+      "id": "r-98092622",
+      "at": "2026-09-08T04:06:37+08:00",
+      "theme": "electronics",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-4x4",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-63166da7",
+      "at": "2026-09-08T04:13:40+08:00",
+      "theme": "supplements",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "85b92f610f4ca16a3e9bbb99f256ad6043618459c384793486af1ca6fbad18d8",
+      "reshootOf": null,
+      "accepted": false
+    },
+    {
+      "id": "r-43641bf4",
+      "at": "2026-09-08T04:14:07+08:00",
+      "theme": "supplements",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "85b92f610f4ca16a3e9bbb99f256ad6043618459c384793486af1ca6fbad18d8",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-1112e13b",
+      "at": "2026-09-08T04:15:00+08:00",
+      "theme": "supplements",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x3",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "5c4461a46da8e125b7352d60dfd4484ea24114b28c7e1529af7c646bb6948cd3",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-54a2fbb8",
+      "at": "2026-09-08T04:19:20+08:00",
+      "theme": "supplements",
+      "model": "fal-ai/nano-banana",
+      "kind": "single",
+      "resolution": null,
+      "priceUsd": 0.039,
+      "purpose": "hero",
+      "promptSha256": "6a55154178b886c968fe4581cf0806a88c2df493e40a9815baab4b060f322b4e",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-e7254dd4",
+      "at": "2026-09-08T04:46:16+08:00",
+      "theme": "womens-fashion",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-3x4",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "fec22f7101b18e4e756c33684cfdf6d2493493ae36f0c2f953ebe3c88eb6dc32",
+      "reshootOf": null,
+      "accepted": null
+    },
+    {
+      "id": "r-e5490056",
+      "at": "2026-09-08T04:47:31+08:00",
+      "theme": "womens-fashion",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "single",
+      "resolution": "2K",
+      "priceUsd": 0.15,
+      "purpose": "hero",
+      "promptSha256": "c1a515b7e375c0b39af349f81d94ed8aa8dd6f7d982ed1a3a46a9ebcbfc5fc95",
+      "reshootOf": null,
+      "accepted": null
     }
   ],
   "totals": {
-    "spentUsd": 0.378,
-    "renderCount": 3,
+    "spentUsd": 2.067,
+    "renderCount": 10,
     "dashboardUsd": null
   }
 }
