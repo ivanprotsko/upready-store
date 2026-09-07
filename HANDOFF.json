@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-07T19:52:42+08:00",
-  "status": "store-ds-9: программа «Профили магазина» спроектирована (docs/store-profiles/00-program-2026-09-07.md, схемы specs/store-profiles, бриф оркестратору пилота sneakers, worktree feat/store-profiles, оценки). Решение Ивана: в пилоте один кадр на товар (19 рендеров, до 57) — внесено в бриф/программу/схемы/оценку. t-store-profiles-pilot в backlog, ждёт апрува и q-store-profiles-wip. Стенд :9022/:8027 не тронут; спайк apps/backend/static/probe-static.txt в основном checkout не удалён (rm-guard).",
+  "updated": "2026-09-07T19:56:35+08:00",
+  "status": "store-ds-9: Иван одобрил программу «Профили магазина» и пилот sneakers: t-ds-0-foundation заморожена, t-store-profiles-pilot одобрена (todo) с goal+acceptance, q-store-profiles-wip закрыт. Промпт запуска оркестратора выдан Ивану; оркестратор работает в worktree feat/store-profiles (:9023/:8028), архитектор принимает через emit/SendMessage (upready-store-47). Пилот: один ракурс на товар, ровно 19 рендеров, без перегенераций.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -111,7 +111,7 @@
     {
       "id": "t-ds-0-foundation",
       "title": "Step 0 foundation before any agent hand-out (app-shell review §11): stage branch + push dev (after q-store-remote), Playwright+vitest, JSON component registry with propsUsed via TS compiler API, v3 golden baseline, Tailwind 3.4.19→v4 with screenshot acceptance, token map ui-*→canon (26 classes), Next smoke renderer+block-gen product-grid on the live backend (orchestrator store-ui-a, Opus, ultracode)",
-      "state": "in_progress",
+      "state": "frozen",
       "priority": "high",
       "details": "Proposed goal: the storefront can consume app-shell engine packages (Tailwind v4, Next seams proven by a rendered product-grid) and every later wave is measurable (registry with propsUsed, golden baseline, token map). Proposed acceptance: (1) stage exists; dev pushed once q-store-remote is answered; (2) Docker Playwright summary + vitest run copied; (3) specs/design-system/ui-inventory.json valid, totals equal 00-program section 2, propsUsed rollup present; (4) golden baseline on v3 for 16 exports + 30 icons recorded; (5) after Tailwind v4: golden equal within tolerance and toHaveScreenshot green on every matrix page, counts copied; preset compatibility finding in docs/design-system/tailwind-v4-migration.md with command outputs; (6) specs/design-system/token-map.json with 26 rows and usageCount; (7) product-grid rendered from @ivanprotsko-org/renderer + block-gen on live products, screenshot + seams list; engine-side needs written to artifacts/deliverables/app-shell-requests/.\n\nT0a+T0b 5c4c6d2 (orchestrator A, worktree feat/ds-foundation from dev@ed335b8): stage branch created from dev, dev NOT pushed (q-store-remote open, origin is the public gorgojs fork). Toolchain verified on this machine before any agent prompt (25i): corepack pnpm 10.11.1 is mandatory (bare pnpm on PATH is 8.12.0, refuses lockfile v9); Playwright 1.63.0 + image v1.63.0-noble -> \"corepack pnpm ui-lab:test\" printed \"2 passed (5.1s)\"; container reaches host.docker.internal:9022/health 200 and :8000/en 200; vitest 4.1.11 -> \"No test files found\" exit 0 (pinned to 4.1.11 not 5.0.0 because 5.0.0 needs @types/node ^22 and the workspace is on ^20.19.0); npx tsc --noEmit exit 0, next lint clean; GitHub Packages readable, renderer 1.0.3 / block-gen 1.2.1 (note: \"set -a; . ~/upready/.env.keys\" yields an EMPTY token, the working form is grep -m1 + cut). Confirmed known risk: @medusajs/ui 4.2.1 peer react ^18.3.1 vs installed react 19.0.5, reproduced by this install. package.json and pnpm-lock.yaml are orchestrator-only for this task so parallel agents cannot collide on them. Step 0 remainder is running as workflow wf_1ff5aaa5-c9b: registry (Sonnet) + Next smoke (Opus) in parallel, then ui-lab harness/v3 baseline (Opus) + token map (Sonnet), then Tailwind v4 (Opus), then an adversarial verifier (Opus); agent reports land as JSON in artifacts/docs/step0/ and only thin envelopes come back (25h). Open: q-ds-inventory-rollup-schema (totals.additionalProperties is false, so the propsUsed rollup needs a schema bump; written to a sidecar file meanwhile).\n\nARCHITECT ANSWER to q-ds-inventory-rollup-schema (2026-09-06, closed): bump upready.ui-inventory/v0 IN PLACE, no v1 — the registry does not exist yet, so there is no consumer to break. totals.propsUsedByComponent is now a REQUIRED property of totals: key = the SAME \"<package>:<Component>\" string as totals.byComponent (so the two objects join on one key), value = prop name -> number of call sites writing that prop, spreads counted under \"<spread>\". Schema-valid therefore MEANS rollup-present, one gate instead of two. The sidecar specs/design-system/ui-inventory-props-rollup.json is CANCELLED: the rollup lives inside specs/design-system/ui-inventory.json, do not commit the sidecar. Per-entry props stay as they are ($defs.entry.props already holds the literal props of each call site).\n\n2026-09-06 08:4x architect (revision 3, 00-program §12): Ivan's goal of the day folded in as T0h presets → T0i hidden panel → T0j four product-card variants → T0k image treatments; T0e Tailwind v4 moves after the day's goal unless already green. Acceptance icons count 30→33 per the TS-parser registry (t0c-ui-inventory.json). Merge of T0b into dev = 0cb4a36 (second architect session, accepted).\n\n2026-09-06 16:5x session store-ds-5 (solo, no agents). Rescued the orchestrator output from feat/ds-foundation and rebased it onto dev@552de62 — 6 commits, dev-only 0 / branch-only 6. T0c dc439f6, T0f a0e5a67 + fix 7c1a2d7, T0d 096f7f9, T0g a0ac356, T0e note 1afb627. Every gate re-run by me, nothing copied from the worker reports: tsc exit 0; next lint clean; next build exit 0 with both ui-lab routes emitted at 158 B/103 kB and 15 kB/169 kB; corepack pnpm ui-lab:test in docker = 19 passed (1.2m), 353 case-viewports, 0 dimensions differ; apps/ui-smoke tsc 0, build 0, ui-smoke:test = 1 passed (4.6s) against the shared backend on 9022. Three defects fixed while committing, all measured first: (1) T0c never applied the architect answer to q-ds-inventory-rollup-schema, so the rollup went into totals.propsUsedByComponent and the cancelled sidecar is not committed (dev already carried the schema bump as b8b6d40 — resolved in favour of the architect version during the rebase); (2) token-map.json had two damaged cells, rows[0] ui-fg-base with no status and rows[1] ui-fg-subtle with usageCount as the string a-lot, both repaired from my own re-measurement which reproduces the whole report exactly; (3) T0d had its tailwind.config.js edit overwritten by the T0e migration, so the three globs hint, select and src/ui-lab are restored in v3 form. T0e Tailwind v4 is NOT committed as code: package.json still declares tailwindcss ^3.0.23, the storefront importer of the lockfile was never touched, and v4 reached the app only as symlinks written straight into apps/storefront/node_modules at 09:09 — it does not survive pnpm install. The five-file diff and the reason are in artifacts/docs/step0/t0e-tailwind-v4-not-accepted.patch and t0e-tailwind-v4-status.md. NOT pushed and NOT merged into dev.\n\nstore-ds-7 (solo, только запуск стенда, код не трогал): pid 39270 backend (medusa start, :9022, uptime 19.5h) пережил разрыв сессии — жив без изменений, health 200, /app 200. pid 39223 storefront (из store-ds-6, nohup+disown) к этой сессии УЖЕ был мёртв (lsof :8027 пусто, лог storefront-dev.log обрывается на 01:14 без ошибки — похоже на тот же жнец, что и в store-ds-6, см. memory/claude-code-background-shell-reaper.md). Перезапустил storefront: npx next dev --turbopack -p 8027 из apps/storefront, nohup+disown, новый pid 30378, лог в scratchpad сессии 864d1ec3 (не 3defda58 — та сессия закрыта). Ready in 1315ms, GET /ru 200 (первый запрос ждал ~20s на прогрев turbopack, это норма, не завис). Открытый риск: и backend, и storefront запущены через nohup+disown вне харнесса — переживут конец ЭТОЙ сессии, но если жнец бьёт по чему-то кроме run_in_background (см. memory), могут снова упасть между сессиями; следующая сессия должна ПРОВЕРИТЬ lsof/curl перед тем как считать стенд живым, не доверять HANDOFF на слово.",
       "files": [
@@ -124,7 +124,7 @@
         "step-0"
       ],
       "created": "2026-09-06T06:05:30+08:00",
-      "updated": "2026-09-07T18:12:46+08:00",
+      "updated": "2026-09-07T19:56:35+08:00",
       "goal": "Storefront can consume app-shell engine packages (Tailwind v4 + proven Next seams, product-grid rendered live) and every later wave is measurable: registry with propsUsed, v3 golden baseline carried across the migration, token map ui-*→canon.",
       "acceptance": [
         "stage branch exists locally; dev pushed to the private origin ivanprotsko/upready-store (q-store-remote answered 2026-09-06)",
@@ -251,7 +251,7 @@
     {
       "id": "t-store-profiles-pilot",
       "title": "Store profiles for the portfolio: pilot profile sneakers end to end (profile format + seed switch + price ratio table + theme bridge T0h + profile home blocks + Replicate images with a consistency gate + catalog copy in 5 locales + fresh-DB verify on :9023/:8028), then nine more profiles (orchestrator store-profiles, Opus, ultracode)",
-      "state": "backlog",
+      "state": "todo",
       "priority": "high",
       "details": "Ivan's directive 2026-09-07 (verbatim in docs/prompts/2026-09-07-ivan-directive-ten-store-versions.md): ten store versions with their own photos, colour theme, graphics and catalog copy as portfolio examples; role subagents on Opus or higher; quality over cost; autonomous to the result; first one version → Ivan's eyes → the other nine. Architect's decisions: docs/store-profiles/00-program-2026-09-07.md (F1 one DB per profile, F2 nano-banana-2 primary / flux-2-pro fallback / flux-1.1-pro-ultra raw for lifestyle, F3 bytes re-hosted to apps/backend/static + raw archive never deleted, F4 preset on the canon dictionary with the 88-variable bridge, F5 classic card in wave 1, F6 pilot = sneakers, F7 en+de/fr/es/ru, F8 stand :9023/:8028 in worktree feat/store-profiles). Proposed goal: the storefront on http://localhost:8028/en reads as a real sneaker brand's shop seeded from data/profiles/sneakers (14 products, sizes × colourways, ≥3 generated images each, copy matching the renders, own theme, hero and category tiles), verified from a fresh DB. Proposed acceptance (machine): store-profile:validate sneakers green with counts | seed into a fresh DB prints N products / M variants / K images | every image URL 200 | tsc, next lint, next build green | seed and storefront unit tests + Playwright profile specs green with reverse runs red | T0h.5 four-page pixel delta ≤ 0.1 % on medusa/light | verify report artifacts/docs/2026-09-07-store-profile-sneakers-verify.json with every check and its reverse run, counts copied. Proposed acceptance (Ivan's eyes on :8028): home reads as a sneaker brand's shop (photo banner + headline + button, four category tiles, product shelf) | one product's four photos show the same shoe and the swatches match the photos | every title names what its photo shows | descriptions read as written by a shop | size and colourway selectable, price changes | one palette on home, listing, product, cart | no clipped title or price at phone width. Orchestrator brief: docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md. Estimates: est-store-profiles-pilot-sneakers, est-store-profiles-wave2-nine (@upready/estimation). Wave 2 (nine profiles, T0j card variants, T0i panel) starts only after Ivan accepts the pilot.\n\nIvan 2026-09-07 (after the cost breakdown): «давай пока только по 1 кадру все» → the pilot renders ONE frame per product (hero shot only; no angle, detail, lifestyle or colourway shots), one hero banner render, one render per category tile = 19 renders, at most 57 with regenerations (was 90–160). Acceptance lines replaced accordingly: 'every product has ≥1 image that loads' and 'on a product page the photo shows the shoe and the colourway named by the title and swatch'; layout hover = none. Brief S2/S3/S4/S5/S7, program F9/§5/§7/§8/§9, schemas (images minItems 1, shots minItems 1, counts.images min 10) and the estimate (tokens $16–47, renders 19–57) updated in the same turn.\n\nIvan 2026-09-07, second clarification: «по 1 кадру на изображение, т.е. по 1 ракурсу; перегенерации можно потом сделать вторым проходом, если будут ошибки» → exactly 19 renders in the pilot run, NO regenerations; a frame failing the checklist stays in the catalog marked flagged (manifest status accepted|flagged|rejected) and is listed in artifacts/media/sneakers/second-pass.json; the second pass is a separate order from Ivan. Brief S4, program F9/§9, media-manifest schema and the estimate notes updated.",
       "files": [
@@ -270,7 +270,25 @@
         "theme"
       ],
       "created": "2026-09-07T19:40:46+08:00",
-      "updated": "2026-09-07T19:52:42+08:00"
+      "updated": "2026-09-07T19:56:35+08:00",
+      "goal": "The storefront on http://localhost:8028/en reads as a real sneaker brand's shop seeded from data/profiles/sneakers (14 products, sizes × colourways, one hero image each, copy matching the renders, own theme, hero banner and category tiles), verified from a fresh DB.",
+      "acceptance": [
+        "Machine: store-profile:validate sneakers green with counts",
+        "Seed into a fresh DB prints N products / M variants / K images",
+        "Every image URL answers 200",
+        "tsc, next lint, next build green",
+        "Seed and storefront unit tests + Playwright profile specs green, reverse runs red",
+        "T0h.5 four-page pixel delta ≤ 0.1 % on medusa/light",
+        "Verify report artifacts/docs/2026-09-07-store-profile-sneakers-verify.json with every check and its reverse run, counts copied",
+        "Exactly 19 renders, no regenerations, flagged frames listed in second-pass.json",
+        "Ivan's eyes on :8028: home reads as a sneaker brand's shop (photo banner + headline + button, four category tiles, product shelf)",
+        "Ivan's eyes: on a product page the photo shows the shoe and the colourway named by the title and swatch",
+        "Ivan's eyes: every title names what its photo shows and descriptions read as written by a shop",
+        "Ivan's eyes: size and colourway selectable, price changes",
+        "Ivan's eyes: one palette on home, listing, product, cart",
+        "Ivan's eyes: no clipped title or price at phone width"
+      ],
+      "approved": "2026-09-07T19:56:35+08:00"
     }
   ],
   "questions": [
@@ -290,15 +308,6 @@
       "audience": "architect",
       "blocks": [
         "t-ds-1-ui-wrappers-pilot"
-      ]
-    },
-    {
-      "id": "q-store-profiles-wip",
-      "question": "WIP is 2 (t-ds-0-foundation, t-ds-1-seam-tests); activating t-store-profiles-pilot needs one of them parked. Recommendation: freeze t-ds-0-foundation — T0h moves into the pilot, T0e is parked by the 2026-09-06 decision, and the merge of T0c/T0d/T0f/T0g from feat/ds-foundation does not depend on the task's state. Freeze t-ds-0-foundation, freeze t-ds-1-seam-tests instead, or raise the WIP limit for this program?",
-      "asked": "2026-09-07",
-      "audience": "ivan",
-      "blocks": [
-        "t-store-profiles-pilot"
       ]
     },
     {

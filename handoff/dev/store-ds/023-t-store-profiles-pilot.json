@@ -1,0 +1,52 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 23,
+  "action": "task-approve",
+  "ts": "2026-09-07T19:56:35+08:00",
+  "status": "store-ds-9: программа «Профили магазина» спроектирована (docs/store-profiles/00-program-2026-09-07.md, схемы specs/store-profiles, бриф оркестратору пилота sneakers, worktree feat/store-profiles, оценки). Решение Ивана: в пилоте один кадр на товар (19 рендеров, до 57) — внесено в бриф/программу/схемы/оценку. t-store-profiles-pilot в backlog, ждёт апрува и q-store-profiles-wip. Стенд :9022/:8027 не тронут; спайк apps/backend/static/probe-static.txt в основном checkout не удалён (rm-guard).",
+  "task": {
+    "id": "t-store-profiles-pilot",
+    "title": "Store profiles for the portfolio: pilot profile sneakers end to end (profile format + seed switch + price ratio table + theme bridge T0h + profile home blocks + Replicate images with a consistency gate + catalog copy in 5 locales + fresh-DB verify on :9023/:8028), then nine more profiles (orchestrator store-profiles, Opus, ultracode)",
+    "state": "todo",
+    "priority": "high",
+    "details": "Ivan's directive 2026-09-07 (verbatim in docs/prompts/2026-09-07-ivan-directive-ten-store-versions.md): ten store versions with their own photos, colour theme, graphics and catalog copy as portfolio examples; role subagents on Opus or higher; quality over cost; autonomous to the result; first one version → Ivan's eyes → the other nine. Architect's decisions: docs/store-profiles/00-program-2026-09-07.md (F1 one DB per profile, F2 nano-banana-2 primary / flux-2-pro fallback / flux-1.1-pro-ultra raw for lifestyle, F3 bytes re-hosted to apps/backend/static + raw archive never deleted, F4 preset on the canon dictionary with the 88-variable bridge, F5 classic card in wave 1, F6 pilot = sneakers, F7 en+de/fr/es/ru, F8 stand :9023/:8028 in worktree feat/store-profiles). Proposed goal: the storefront on http://localhost:8028/en reads as a real sneaker brand's shop seeded from data/profiles/sneakers (14 products, sizes × colourways, ≥3 generated images each, copy matching the renders, own theme, hero and category tiles), verified from a fresh DB. Proposed acceptance (machine): store-profile:validate sneakers green with counts | seed into a fresh DB prints N products / M variants / K images | every image URL 200 | tsc, next lint, next build green | seed and storefront unit tests + Playwright profile specs green with reverse runs red | T0h.5 four-page pixel delta ≤ 0.1 % on medusa/light | verify report artifacts/docs/2026-09-07-store-profile-sneakers-verify.json with every check and its reverse run, counts copied. Proposed acceptance (Ivan's eyes on :8028): home reads as a sneaker brand's shop (photo banner + headline + button, four category tiles, product shelf) | one product's four photos show the same shoe and the swatches match the photos | every title names what its photo shows | descriptions read as written by a shop | size and colourway selectable, price changes | one palette on home, listing, product, cart | no clipped title or price at phone width. Orchestrator brief: docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md. Estimates: est-store-profiles-pilot-sneakers, est-store-profiles-wave2-nine (@upready/estimation). Wave 2 (nine profiles, T0j card variants, T0i panel) starts only after Ivan accepts the pilot.\n\nIvan 2026-09-07 (after the cost breakdown): «давай пока только по 1 кадру все» → the pilot renders ONE frame per product (hero shot only; no angle, detail, lifestyle or colourway shots), one hero banner render, one render per category tile = 19 renders, at most 57 with regenerations (was 90–160). Acceptance lines replaced accordingly: 'every product has ≥1 image that loads' and 'on a product page the photo shows the shoe and the colourway named by the title and swatch'; layout hover = none. Brief S2/S3/S4/S5/S7, program F9/§5/§7/§8/§9, schemas (images minItems 1, shots minItems 1, counts.images min 10) and the estimate (tokens $16–47, renders 19–57) updated in the same turn.\n\nIvan 2026-09-07, second clarification: «по 1 кадру на изображение, т.е. по 1 ракурсу; перегенерации можно потом сделать вторым проходом, если будут ошибки» → exactly 19 renders in the pilot run, NO regenerations; a frame failing the checklist stays in the catalog marked flagged (manifest status accepted|flagged|rejected) and is listed in artifacts/media/sneakers/second-pass.json; the second pass is a separate order from Ivan. Brief S4, program F9/§9, media-manifest schema and the estimate notes updated.",
+    "files": [
+      "docs/store-profiles/00-program-2026-09-07.md",
+      "docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md",
+      "docs/prompts/2026-09-07-ivan-directive-ten-store-versions.md",
+      "specs/store-profiles/store-profile.schema.json",
+      "specs/store-profiles/catalog-products.schema.json",
+      "specs/store-profiles/media-manifest.schema.json"
+    ],
+    "session": "store-ds-9",
+    "tags": [
+      "store-profiles",
+      "portfolio",
+      "images",
+      "theme"
+    ],
+    "created": "2026-09-07T19:40:46+08:00",
+    "updated": "2026-09-07T19:56:35+08:00",
+    "goal": "The storefront on http://localhost:8028/en reads as a real sneaker brand's shop seeded from data/profiles/sneakers (14 products, sizes × colourways, one hero image each, copy matching the renders, own theme, hero banner and category tiles), verified from a fresh DB.",
+    "acceptance": [
+      "Machine: store-profile:validate sneakers green with counts",
+      "Seed into a fresh DB prints N products / M variants / K images",
+      "Every image URL answers 200",
+      "tsc, next lint, next build green",
+      "Seed and storefront unit tests + Playwright profile specs green, reverse runs red",
+      "T0h.5 four-page pixel delta ≤ 0.1 % on medusa/light",
+      "Verify report artifacts/docs/2026-09-07-store-profile-sneakers-verify.json with every check and its reverse run, counts copied",
+      "Exactly 19 renders, no regenerations, flagged frames listed in second-pass.json",
+      "Ivan's eyes on :8028: home reads as a sneaker brand's shop (photo banner + headline + button, four category tiles, product shelf)",
+      "Ivan's eyes: on a product page the photo shows the shoe and the colourway named by the title and swatch",
+      "Ivan's eyes: every title names what its photo shows and descriptions read as written by a shop",
+      "Ivan's eyes: size and colourway selectable, price changes",
+      "Ivan's eyes: one palette on home, listing, product, cart",
+      "Ivan's eyes: no clipped title or price at phone width"
+    ],
+    "approved": "2026-09-07T19:56:35+08:00"
+  }
+}

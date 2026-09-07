@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-ds",
+  "index": 24,
+  "action": "status-set",
+  "ts": "2026-09-07T19:56:35+08:00",
+  "status": "store-ds-9: Иван одобрил программу «Профили магазина» и пилот sneakers: t-ds-0-foundation заморожена, t-store-profiles-pilot одобрена (todo) с goal+acceptance, q-store-profiles-wip закрыт. Промпт запуска оркестратора выдан Ивану; оркестратор работает в worktree feat/store-profiles (:9023/:8028), архитектор принимает через emit/SendMessage (upready-store-47). Пилот: один ракурс на товар, ровно 19 рендеров, без перегенераций."
+}
