@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T02:21:31+08:00",
-  "status": "02:50 — Ivan asleep, launch prompts handed out: docs/prompts/2026-09-08-orchestrator-a-foundation.md (render the repaint, decide cause E at the bridge, write the computed-style coverage gate, merge repaint+tooling into dev) and -b-wave-four.md (four themes supplements/electronics/womens-fashion/home-goods, fal.ai grid strategy, ceiling $4). Measured tonight: fal nano-banana $0.039, nano-banana-pro $0.15/$0.30 at 4K, Replicate nano-banana-2 unpublished; grid cuts a theme from 19 renders to ~$0.42-0.57, nine themes ~$5 of the $9.07. Nine orchestrators are not faster than two: the machine holds two building processes, 8.9 GB disk free. All five night decisions are architect defaults, marked DECIDED inside the prompts; Ivan confirmed none in words.",
+  "updated": "2026-09-08T02:26:24+08:00",
+  "status": "03:15 — Ivan approved the night and went to sleep (9-10 h, back ~12:00). Binding: orchestrate from the architect window with subagents reporting <=15 lines and never committing; EIGHT themes (supplements, electronics, womens-fashion, home-goods, kids-toys, skincare, accessories, stationery); provider fal.ai, hard ceiling $6.00 of the $7.10 balance with regenerations included and every prediction ledgered to artifacts/wave/spend.json; cause E decided by the architect (fix bridgeDark in token-map.json, drop the globals.css patch). Phase 1 = docs/prompts/2026-09-08-orchestrator-a-foundation.md (render the repaint for the first time, cause E, computed-style coverage gate red-before/green-after, prepare the dev merge), phase 2 = -b-wave-four.md. Nothing launched yet: Ivan asked to /clear first.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -340,15 +340,6 @@
     {
       "id": "q-cause-e-the-contrast-foreground",
       "question": "Cause E — the contrast foreground rows of the bridge are wrong in dark mode (--contrast-fg-primary/-fg-secondary/-border-base derive from --destructive-foreground, which flips to #0a0a0a in sneakers and geist dark, while --contrast-bg-base stays fixed dark; computed ~1.0:1 on every inverted surface). Patched in globals.css scoped to dark mode, but the real fix is bridgeDark rows in specs/design-system/token-map.json + pnpm themes:build, which changes the bridge for ALL NINE themes of the night wave. Do I make that change on the wave's shared foundation before the wave starts, or does the scoped globals.css patch carry the night and the token-map fix wait for after?",
-      "asked": "2026-09-08",
-      "audience": "ivan",
-      "blocks": [
-        "t-store-profiles-pilot"
-      ]
-    },
-    {
-      "id": "q-night-four-profiles-consent",
-      "question": "Night of 2026-09-08, 02:20: Ivan's revised scope — FOUR profiles instead of nine, and the grid strategy makes images affordable after all (fal.ai publishes nano-banana at $0.039/image, measured tonight on the model page; Replicate's nano-banana-2 price is still unpublished). Five renders per theme (two 3x3 product grids + one category-tile grid + hero + one full-size showcase frame) instead of 19: four themes = 20 renders = $0.78 at the fal price, nine themes = 45 = $1.76, so the $9.07 across both accounts covers the whole wave twice over. What I need from Ivan before he sleeps: (1) explicit OK to orchestrate from THIS window (rule 3b) — he is asleep and cannot open orchestrator windows himself, so without it the night is solo tact-0 only; (2) a dollar ceiling (proposed: $4 tonight); (3) provider — port to fal.ai (price known, $7.10) or stay on Replicate (working code, $1.97, price unknown); (4) the four themes (proposed: supplements, electronics, womens-fashion, home-goods); (5) may I decide q-cause-e myself (proposed: fix bridgeDark in token-map before the wave). Estimate: tact 0 to ~04:30, four stands by ~07:30, three of four guaranteed.",
       "asked": "2026-09-08",
       "audience": "ivan",
       "blocks": [
