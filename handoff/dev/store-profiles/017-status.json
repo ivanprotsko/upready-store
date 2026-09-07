@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 17,
+  "action": "status-set",
+  "ts": "2026-09-08T00:23:24+08:00",
+  "status": "store-profiles orchestrator: Ivan chose SPLIT for the business process (q-process-doc-shape resolved). process-author resumed by name from idle — writing five files under artifacts/docs/process/: theme-creation-process.md as the index (scope + module list + the numbering mapping table), 00-roles-and-zones, 01-steps, 02-gates-and-handover, 03-failures-and-economics (the last one carrying its nine open questions verbatim for the critic to attack). No guard escape armed. Its zone arithmetic was re-run by me and holds exactly: storefront src .ts/.tsx/.css = 307 of 313 files, backend src = 429. Next after it returns: launch process-critic (Fable) per Ivan's directive 6.1, then fold the gates-retro findings into artifacts/registries/theme-surface-defects.json. Still waiting on Ivan: the three-render grid/transparency measurement, and launching orchestrator A himself in worktree feat/store-theme-surface (fast-forwarded to e50f05a). Repo last commit e50f05a, 19 ahead of origin/dev, NOT pushed. Stand live :8028/:9023."
+}

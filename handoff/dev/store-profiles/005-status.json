@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-07T20:59:06+08:00",
+  "status": "store-profiles orchestrator: S0, S0.5 and S2 done (last commit f66076f); S1a/S1b/S1c/S3 running as Opus subagents, their work uncommitted in the worktree by design until gate S1. Storefront 500 blocker fixed (themes.css import order) and the specificity of the bridge re-measured in the served CSS. Next: gate S1 (tsc/lint/build, tests with reverse runs, T0h.5 <= 0.1%, validator exit-code fix), then S4 (19 renders, no regenerations), S5-S8. No push by order; Stop gate 2 = Ivan's eyes on http://localhost:8028/en."
+}

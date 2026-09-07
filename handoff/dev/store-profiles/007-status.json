@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-07T21:09:08+08:00",
+  "status": "store-profiles orchestrator: S1a (3d67e11), S2 (f66076f), S3 (616b09e) closed and re-verified; S1b and S1c still running. Next: gate S1 once both land (tsc/lint/next build, T0h.5 <= 0.1%, Playwright reverse runs), then S4 with the still-life template fix, S5-S8. Branch feat/store-profiles is 7 commits ahead of origin/dev and NOT pushed by order."
+}

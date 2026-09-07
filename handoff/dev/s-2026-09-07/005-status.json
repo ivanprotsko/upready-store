@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-07",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-07T22:39:49+08:00",
+  "status": "store-profiles: пилот на паузе после S6a, стенд ЖИВОЙ (:8028/:9023). Собрана таблица прогонов агентов (fb07051). Следующее — пропущенный визуальный гейт: скриншоты 1280x800 и 390x844 против style board, Playwright локально, Docker не нужен."
+}

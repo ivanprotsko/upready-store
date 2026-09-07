@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-07T20:38:17+08:00",
+  "status": "store-profiles orchestrator: S0 + baseline stand done (commits 183ea30, ffd9df7, 98a496a); backend :9023 live on medusa develop with the demo catalog; four Opus subagents running S1a (backend seed profile), S1b (theme bridge :8031/.next-theme), S1c (storefront blocks :8033/.next-profile), S2 (style board). Next gate: S1 (tsc/lint/build + tests with reverse runs + T0h.5 <= 0.1%), then S3-S8. No push by order."
+}

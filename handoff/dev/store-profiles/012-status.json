@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-07T22:18:59+08:00",
+  "status": "store-profiles orchestrator: paused for /clear with everything on disk. Stand LIVE at http://localhost:8028/en (backend pid 16604 :9023, storefront pid 40384 :8028). Done: S0, S1a, S1b, S1c, S2, S3, S4, S6a — last commit 7eee2e3, 12 commits ahead of origin/dev, not pushed. Remaining, in order, per artifacts/docs/2026-09-07-remaining-work.md: (1) the VISUAL GATE the orchestrator skipped — screenshots at 1280x800 and 390x844 to the creative director for a verdict against his own style board; (2) S5 copy-vs-render reconcile; (3) fix store-profile:up, which exits 0 on a failed seed with 0 products; (4) S7 adversarial verify from a dropped DB; (5) S8 handover. Open for Ivan: q-github-switch-to-push-pr, the second pass over 4 flagged frames, the unmeasured render cost, the deploy media host, and the merge into dev after his eyes."
+}

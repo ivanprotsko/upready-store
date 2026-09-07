@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-07T21:59:32+08:00",
+  "status": "store-profiles orchestrator: S4 finished generating 19/19 raw renders (WebP, manifest, contact sheet, report still pending); s6a-theme-assembly running to raise the theme stand on :9023/:8028 WITHOUT waiting for images, at Ivan's request. Verified by running build-profile.mjs: profile.generated.json is live sneakers/Kerbstone, dark, 4 tiles, Space Grotesk/Inter, themes.css 415 lines, 26 mapped/59 diverged/28 open, 83 dark-only redeclarations. Wave-2 orchestration plan committed as ef1a927. :9023 and :8028 had been killed by an unscoped pkill; s6a brings them back. Branch 10 commits ahead of origin/dev, NOT pushed; the upstream remote to gorgojs was REMOVED so a PR can only target ivanprotsko/upready-store; merge target is dev, never main (notify-deploy triggers there)."
+}

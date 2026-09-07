@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "store-profiles",
+  "index": 20,
+  "action": "status-set",
+  "ts": "2026-09-08T00:50:45+08:00",
+  "status": "store-profiles orchestrator: SESSION HANDOVER (Ivan switching subscription). The author/critic pair Ivan ordered in 6.1 is done and committed: 8dfe5fa the five-module process, 9a5cf8a the 475-line critique whose verdict is that the process is NOT executable by an orchestrator who was not in the pilot — 2 BLOCKERs (six scripts and an artefacts tree named by the handover contract but created by no step; F1/F2 breaking the document's own compilation-closure rule and re-scheduling the pilot's hour-long block) plus 9 SERIOUS. The author was NOT resumed: the revision pass is the next session's first move, by SendMessage to process-author while it is idle. Also committed: d5020c1 the 3x3 grid and transparency measurement, dry by default, --spend only on Ivan's word. Branch 22 ahead of origin/dev, NOT pushed. Stand live :8028/:9023. Still owed: fold the gates-retro findings into the defect registry. Still Ivan's to launch: orchestrator A in worktree feat/store-theme-surface."
+}
