@@ -43,7 +43,7 @@ if (args.help === "true" || args.h === "true") {
   console.log(
     "usage: theme-coverage-gate.mjs --url <base> [--json <path>] [--modes light,dark]\n" +
       "       [--viewports 390,1440] [--pages home,category,pdp,cart,account] [--locale ru]\n" +
-      "       [--timeout 30000] [--headed]",
+      "       [--timeout 30000] [--headed] [--focus-probes 24] [--skip-drawer] [--skip-focus]",
   )
   process.exit(0)
 }
@@ -62,6 +62,12 @@ const NAV_TIMEOUT = Number(args.timeout || 30000)
 const HEADLESS = args.headed !== "true"
 // Per cell, at most this many failing nodes get the pixel re-measurement of stage 2.
 const MAX_PIXEL_PROBES = Number(args["pixel-probes"] || 60)
+// Per cell, how many elements the focus walk visits in tab order.
+const FOCUS_PROBES = Number(args["focus-probes"] || 24)
+const CHECK_DRAWER = args["skip-drawer"] !== "true"
+const CHECK_FOCUS = args["skip-focus"] !== "true"
+// Ring contrast bar: WCAG 2.1 1.4.11 non-text contrast.
+const RING_MIN_RATIO = 3.0
 const JSON_OUT = args.json && args.json !== "true" ? resolvePath(args.json) : null
 
 // Theme axes, mirrored from apps/storefront/src/lib/theme/attributes.ts. The pre-paint
@@ -110,7 +116,7 @@ async function loadChromium() {
 // 3. The in-page probe. Everything below runs INSIDE the browser; it must be
 //    self-contained (no closures over module scope).
 // ---------------------------------------------------------------------------
-function inPageProbe() {
+function inPageProbe(rootSelector) {
   // --- colour parsing: the browser always normalises computed colours to
   //     rgb()/rgba()/color(srgb ...), so a narrow parser is enough.
   function parseColor(str) {
@@ -244,7 +250,16 @@ function inPageProbe() {
   const findings = []
   let examined = 0
 
-  for (const el of document.querySelectorAll("*")) {
+  // A scoped run (the mobile drawer) walks one subtree; the background chain and the
+  // canvas are still resolved against the whole document, because that is what the
+  // browser composites.
+  const root = rootSelector ? document.querySelector(rootSelector) : null
+  if (rootSelector && !root) {
+    return { findings, examined, bodyBg: null, scopeMissing: rootSelector, mode: document.documentElement.getAttribute("data-mode"), theme: document.documentElement.getAttribute("data-theme"), canvas: rgbStr(canvas) }
+  }
+  const scope = root ? [root, ...root.querySelectorAll("*")] : document.querySelectorAll("*")
+
+  for (const el of scope) {
     if (SKIP_TAGS.has(el.tagName)) continue
     // the node must render its OWN text: a direct, non-blank text-node child
     let ownText = ""
@@ -301,7 +316,7 @@ function inPageProbe() {
   //     Its absence from an earlier brief is a recorded process failure; it is a check
   //     in its own right, not a side effect of the contrast pass.
   let bodyBg = null
-  {
+  if (!root) {
     const probe = document.createElement("div")
     probe.setAttribute("style", "position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;background-color:var(--background)")
     document.documentElement.appendChild(probe)
@@ -504,6 +519,206 @@ async function refineOverMedia(page, findings) {
 }
 
 // ---------------------------------------------------------------------------
+// 3c. Stage 3 — the two states the walk of stage 1 can never reach on its own.
+//
+//   Stage 1 walks the page AS SERVED. Two surfaces are therefore invisible to it, and
+//   both are surfaces where a theme has already broken twice:
+//
+//     * the mobile navigation drawer, which exists only after a click. d-14 came back
+//       unseen because of this: the panel was painted with --bg-overlay (alpha 0.4 in
+//       light, 0.72 in dark), so it never covered the page and its links measured
+//       2.53:1 / 1.08:1 — and no gate run ever opened it.
+//     * the focus ring, which exists only under keyboard focus. A control with no
+//       themed ring falls back to the browser's own `outline: auto 1px rgb(0,95,204)`,
+//       a fixed blue that follows no preset and does not change between modes.
+//
+//   A check nobody runs at a gate is not a check, so both are run here.
+//
+//   The helpers below are a second, smaller copy of the colour maths in inPageProbe.
+//   That is deliberate: stage 1 is a proved check with a measured node count behind it,
+//   and this window is not the place to refactor it.
+// ---------------------------------------------------------------------------
+function installProbeLib() {
+  const parseColor = (str) => {
+    if (!str) return null
+    const s = str.trim()
+    if (s === "transparent") return { r: 0, g: 0, b: 0, a: 0 }
+    let m = s.match(/^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:\s*[,/]\s*([\d.%]+))?\s*\)$/i)
+    if (m) {
+      const a = m[4] === undefined ? 1 : m[4].endsWith("%") ? parseFloat(m[4]) / 100 : parseFloat(m[4])
+      return { r: +m[1], g: +m[2], b: +m[3], a: isFinite(a) ? a : 1 }
+    }
+    m = s.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/i)
+    if (m) return { r: +m[1] * 255, g: +m[2] * 255, b: +m[3] * 255, a: m[4] === undefined ? 1 : +m[4] }
+    return null
+  }
+  const over = (fg, bg) => ({
+    r: fg.r * fg.a + bg.r * (1 - fg.a),
+    g: fg.g * fg.a + bg.g * (1 - fg.a),
+    b: fg.b * fg.a + bg.b * (1 - fg.a),
+    a: 1,
+  })
+  const luminance = (c) => {
+    const ch = (v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4) }
+    return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b)
+  }
+  const contrast = (a, b) => {
+    const la = luminance(a), lb = luminance(b)
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
+  }
+  const rgbStr = (c) => `rgb(${Math.round(c.r)}, ${Math.round(c.g)}, ${Math.round(c.b)})`
+  const canvasColor = () => {
+    for (const el of [document.documentElement, document.body]) {
+      if (!el) continue
+      const c = parseColor(getComputedStyle(el).backgroundColor)
+      if (c && c.a >= 1) return c
+    }
+    return { r: 255, g: 255, b: 255, a: 1 }
+  }
+  // The ring is painted OUTSIDE the element, so the background it must be seen against
+  // is the one behind the element's PARENT, not the element's own fill.
+  const backgroundBehind = (el) => {
+    const canvas = canvasColor()
+    const layers = []
+    for (let n = el; n; n = n.parentElement) {
+      const c = parseColor(getComputedStyle(n).backgroundColor)
+      if (c && c.a > 0) { layers.push(c); if (c.a >= 1) break }
+    }
+    let out = layers.length && layers[layers.length - 1].a >= 1 ? layers.pop() : canvas
+    for (let i = layers.length - 1; i >= 0; i--) out = over(layers[i], out)
+    return out
+  }
+  const selectorFor = (el) => {
+    const bits = []
+    let node = el, depth = 0
+    while (node && node.nodeType === 1 && depth < 3) {
+      let part = node.tagName.toLowerCase()
+      const testid = node.getAttribute("data-testid")
+      if (testid) { bits.unshift(`${part}[data-testid="${testid}"]`); break }
+      if (node.id) { bits.unshift(part + "#" + node.id); break }
+      const cls = (node.getAttribute("class") || "").trim().split(/\s+/).filter(Boolean)
+      if (cls.length) part += "." + cls.slice(0, 4).join(".")
+      bits.unshift(part)
+      node = node.parentElement
+      depth++
+    }
+    return bits.join(" > ")
+  }
+  // box-shadow computes to a comma-separated list; a segment is a RING when its colour
+  // is not fully transparent and at least one of its lengths is non-zero.
+  const shadowRings = (value) => {
+    if (!value || value === "none") return []
+    const parts = []
+    let depth = 0, cur = ""
+    for (const ch of value) {
+      if (ch === "(") depth++
+      if (ch === ")") depth--
+      if (ch === "," && depth === 0) { parts.push(cur); cur = "" } else cur += ch
+    }
+    if (cur.trim()) parts.push(cur)
+    const out = []
+    for (const raw of parts) {
+      const seg = raw.trim()
+      const colourMatch = seg.match(/(rgba?\([^)]*\)|color\(srgb[^)]*\))/i)
+      const colour = colourMatch ? parseColor(colourMatch[1]) : null
+      const lengths = (seg.replace(/(rgba?\([^)]*\)|color\(srgb[^)]*\))/gi, "").match(/-?[\d.]+px/g) || []).map(parseFloat)
+      if (colour && colour.a > 0.01 && lengths.some((n) => Math.abs(n) > 0.01)) out.push({ colour, seg })
+    }
+    return out
+  }
+  window.__tg = { parseColor, over, contrast, rgbStr, backgroundBehind, selectorFor, shadowRings }
+
+  // --- the verdict for whatever currently has focus.
+  window.__tgFocus = () => {
+    const el = document.activeElement
+    if (!el || el === document.body || el === document.documentElement) return null
+    const cs = getComputedStyle(el)
+    if (cs.display === "none" || cs.visibility === "hidden") return null
+    const rect = el.getBoundingClientRect()
+    const bg = backgroundBehind(el.parentElement || el)
+    const outlineColour = parseColor(cs.outlineColor)
+    const outlineVisible =
+      cs.outlineStyle !== "none" && cs.outlineStyle !== "auto" &&
+      parseFloat(cs.outlineWidth) > 0.01 && !!outlineColour && outlineColour.a > 0.01
+    const rings = shadowRings(cs.boxShadow)
+    const uaRing = cs.outlineStyle === "auto"
+
+    let ringColour = null, ringFrom = null
+    if (outlineVisible) { ringColour = over(outlineColour, bg); ringFrom = `outline ${cs.outlineWidth} ${cs.outlineStyle}` }
+    else if (rings.length) { ringColour = over(rings[0].colour, bg); ringFrom = "box-shadow" }
+
+    const ratio = ringColour ? contrast(ringColour, bg) : 0
+    let reason = null
+    if (uaRing) reason = "browser default ring (outline-style:auto) — a fixed blue that follows no preset and does not change between modes"
+    else if (!ringColour) reason = "no focus ring at all"
+    else if (ratio + 1e-9 < RING_MIN_RATIO_IN_PAGE) reason = "ring below the non-text contrast bar"
+
+    return {
+      selector: selectorFor(el),
+      tag: el.tagName,
+      label: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 30),
+      offscreen: rect.width <= 0 || rect.height <= 0,
+      outline: `${cs.outlineStyle} ${cs.outlineWidth} ${cs.outlineColor}`,
+      boxShadow: cs.boxShadow === "none" ? "none" : cs.boxShadow.slice(0, 90),
+      ringFrom, ring: ringColour ? rgbStr(ringColour) : null, bg: rgbStr(bg),
+      ratio: Math.round(ratio * 100) / 100,
+      ok: !reason, reason,
+    }
+  }
+}
+
+// Tab through the page and judge every control the keyboard actually reaches. The ring
+// is only painted under :focus-visible, and Chromium grants that on a real Tab, not on
+// a programmatic .focus() — so the walk uses the keyboard.
+async function focusWalk(page) {
+  await page.evaluate(
+    ({ ringMin }) => { window.RING_MIN_RATIO_IN_PAGE = ringMin },
+    { ringMin: RING_MIN_RATIO },
+  )
+  await page.evaluate(installProbeLib)
+  await page.evaluate(() => {
+    // start from the top of the document so the tab order is deterministic
+    document.body.setAttribute("tabindex", "-1")
+    document.body.focus()
+    document.body.removeAttribute("tabindex")
+  })
+  const seen = new Map()
+  let checked = 0
+  for (let i = 0; i < FOCUS_PROBES; i++) {
+    await page.keyboard.press("Tab")
+    const r = await page.evaluate(() => (window.__tgFocus ? window.__tgFocus() : null)).catch(() => null)
+    if (!r || r.offscreen) continue
+    checked++
+    if (!seen.has(r.selector)) seen.set(r.selector, r)
+  }
+  const results = [...seen.values()]
+  return { checked, distinct: results.length, failures: results.filter((r) => !r.ok) }
+}
+
+// The drawer exists only after a click. Opening it is part of the walk, not a nicety.
+const DRAWER_BUTTON = '[data-testid="nav-menu-button"]'
+const DRAWER_PANEL = '[data-testid="nav-menu-popup"]'
+
+async function openDrawer(page) {
+  const btn = page.locator(DRAWER_BUTTON).first()
+  if ((await btn.count()) === 0) return { opened: false, why: "no menu button in the DOM" }
+  if (!(await btn.isVisible().catch(() => false))) return { opened: false, why: "menu button not visible at this viewport" }
+  try {
+    await btn.click({ timeout: 5000 })
+    await page.locator(DRAWER_PANEL).first().waitFor({ state: "visible", timeout: 5000 })
+    await page.waitForTimeout(350)   // the panel transitions for 150ms; measure it settled
+    return { opened: true, why: null }
+  } catch (e) {
+    return { opened: false, why: `click/wait failed: ${e.message.split("\n")[0]}` }
+  }
+}
+
+async function closeDrawer(page) {
+  await page.keyboard.press("Escape").catch(() => {})
+  await page.locator(DRAWER_PANEL).first().waitFor({ state: "hidden", timeout: 3000 }).catch(() => {})
+}
+
+// ---------------------------------------------------------------------------
 // 4. Route discovery — never hardcode a slug that has not been proven to answer 200.
 // ---------------------------------------------------------------------------
 async function discoverRoutes(page) {
@@ -618,6 +833,40 @@ try {
         const grouped = [...groups.values()].sort((a, b) => a.ratio - b.ratio)
         const nodes = grouped.reduce((n, g) => n + g.count, 0)
 
+        // --- stage 3a: the mobile navigation drawer, which only exists after a click
+        let drawer = { attempted: false, opened: false, why: "not attempted", examined: 0, failingNodes: 0, groups: [] }
+        if (CHECK_DRAWER) {
+          drawer.attempted = true
+          const open = await openDrawer(page)
+          drawer.opened = open.opened
+          drawer.why = open.why
+          if (open.opened) {
+            const dProbe = await page.evaluate(inPageProbe, DRAWER_PANEL)
+            await refineOverMedia(page, dProbe.findings)
+            const dGroups = new Map()
+            for (const f of dProbe.findings) {
+              if (f.resolvedByPixel) continue
+              if (allowed(f.selector)) { suppressed++; continue }
+              delete f.fgRaw
+              const key = `${f.selector}|${f.fg}|${f.bg}`
+              const g = dGroups.get(key)
+              if (g) { g.count++; if (f.ratio < g.ratio) g.ratio = f.ratio }
+              else dGroups.set(key, { ...f, count: 1 })
+            }
+            drawer.examined = dProbe.examined
+            drawer.groups = [...dGroups.values()].sort((a, b) => a.ratio - b.ratio)
+            drawer.failingNodes = drawer.groups.reduce((n, g) => n + g.count, 0)
+            drawer.scopeMissing = dProbe.scopeMissing || null
+            await closeDrawer(page)
+          }
+        }
+
+        // --- stage 3b: the focus ring, which only exists under keyboard focus
+        let focus = { attempted: false, checked: 0, distinct: 0, failures: [] }
+        if (CHECK_FOCUS) {
+          focus = { attempted: true, ...(await focusWalk(page)) }
+        }
+
         cells.push({
           page: kind, url, mode, viewport: `${width}x${height}`,
           status, examined: probe.examined, canvas: probe.canvas,
@@ -626,7 +875,14 @@ try {
           pixelPass: pixel,
           bodyBg: probe.bodyBg,
           modeApplied,
-          failed: nodes > 0 || !probe.bodyBg.ok || !modeApplied,
+          drawer, focus,
+          // A drawer that the viewport shows but the gate could not open is a FAILURE,
+          // not a skip: "we never looked" is exactly how d-14 came back.
+          drawerUnreachable: drawer.attempted && !drawer.opened && drawer.why !== "menu button not visible at this viewport" && drawer.why !== "no menu button in the DOM",
+          failed:
+            nodes > 0 || !probe.bodyBg.ok || !modeApplied ||
+            drawer.failingNodes > 0 || focus.failures.length > 0 ||
+            (drawer.attempted && !drawer.opened && drawer.why !== "menu button not visible at this viewport" && drawer.why !== "no menu button in the DOM"),
         })
       }
       await context.close()
@@ -640,6 +896,13 @@ try {
   const bodyBgFails = cells.filter((c) => !c.bodyBg.ok)
   const overImageNodes = cells.reduce(
     (n, c) => n + c.groups.filter((g) => g.mediaBehind).reduce((m, g) => m + g.count, 0), 0)
+  const drawerCells = cells.filter((c) => c.drawer.attempted)
+  const drawerOpened = drawerCells.filter((c) => c.drawer.opened)
+  const drawerNodes = cells.reduce((n, c) => n + c.drawer.failingNodes, 0)
+  const drawerUnreachable = cells.filter((c) => c.drawerUnreachable)
+  const focusCells = cells.filter((c) => c.focus.attempted)
+  const focusChecked = cells.reduce((n, c) => n + c.focus.distinct, 0)
+  const focusFails = cells.reduce((n, c) => n + c.focus.failures.length, 0)
   const pixMeasured = cells.reduce((n, c) => n + c.pixelPass.measured, 0)
   const pixResolved = cells.reduce((n, c) => n + c.pixelPass.resolved, 0)
   const pixFailed = cells.reduce((n, c) => n + c.pixelPass.failedToMeasure, 0)
@@ -670,6 +933,34 @@ try {
       )
     }
     if (c.groups.length > 12) console.log(`      … ${c.groups.length - 12} more distinct failures (see --json)`)
+
+    if (c.drawer.attempted) {
+      const d = c.drawer
+      const state = d.opened
+        ? `opened, examined=${d.examined}, failing nodes=${d.failingNodes} (${d.groups.length} distinct)`
+        : `NOT OPENED — ${d.why}`
+      console.log(`      drawer   : ${state}`)
+      for (const g of d.groups.slice(0, 6)) {
+        console.log(
+          `        ${g.ratio.toFixed(2)} < ${g.threshold.toFixed(1)}  ${g.fg} on ${g.bg}  x${g.count}\n` +
+            `          ${g.selector}\n          "${g.text}"`,
+        )
+      }
+      if (d.groups.length > 6) console.log(`        … ${d.groups.length - 6} more (see --json)`)
+    }
+    if (c.focus.attempted) {
+      console.log(
+        `      focus    : ${c.focus.distinct} distinct controls reached by Tab (${c.focus.checked} stops), ` +
+          `${c.focus.failures.length} without a themed ring`,
+      )
+      for (const f of c.focus.failures.slice(0, 6)) {
+        console.log(
+          `        ${f.reason}${f.ring ? `  ring ${f.ring} on ${f.bg} = ${f.ratio.toFixed(2)}:1 (bar ${RING_MIN_RATIO.toFixed(1)})` : ""}\n` +
+            `          ${f.selector}  "${f.label}"\n          outline: ${f.outline}   box-shadow: ${f.boxShadow}`,
+        )
+      }
+      if (c.focus.failures.length > 6) console.log(`        … ${c.focus.failures.length - 6} more (see --json)`)
+    }
   }
 
   console.log(`\n== summary =========================================================`)
@@ -684,6 +975,9 @@ try {
   const paintSrc = [...new Set(cells.map((c) => c.bodyBg.paintedBy))].join(", ")
   const ownOpaque = cells.filter((c) => c.bodyBg.bodyOwnIsOpaque).length
   console.log(`  background painted by      : <${paintSrc}>  (body carries its own opaque rule on ${ownOpaque}/${cells.length} cells)`)
+  console.log(`mobile drawer              : opened on ${drawerOpened.length}/${drawerCells.length} cells, ${drawerNodes} failing nodes` +
+    (drawerUnreachable.length ? `, UNREACHABLE on ${drawerUnreachable.length} cells` : ""))
+  console.log(`focus rings                : ${focusChecked} distinct controls over ${focusCells.length} cells, ${focusFails} without a themed ring`)
   console.log(`allow-list entries         : ${ALLOW_LIST.length} (suppressed ${suppressed} nodes)`)
   console.log(`elapsed                    : ${((Date.now() - started) / 1000).toFixed(1)}s`)
 
@@ -702,6 +996,9 @@ try {
           totals: {
             cells: cells.length, failingCells: failingCells.length,
             failingNodes: totalNodes, failingGroups: totalGroups,
+            drawerCells: drawerCells.length, drawerOpened: drawerOpened.length,
+            drawerFailingNodes: drawerNodes, drawerUnreachableCells: drawerUnreachable.length,
+            focusControls: focusChecked, focusFailures: focusFails,
             overMediaNodes: overImageNodes, bodyBgFailingCells: bodyBgFails.length,
             pixelMeasured: pixMeasured, pixelResolved: pixResolved, pixelUnmeasurable: pixFailed,
           },

@@ -29,6 +29,26 @@
  * blue-700 as its hover. It is an ordinary bridge row now, not a special case.
  */
 @layer utilities {
+  /*
+   * Keyboard focus, app-wide.
+   *
+   * A control with no focus style of its own falls back to the browser's ring —
+   * `outline: auto 1px rgb(0, 95, 204)` in Chromium. That blue is fixed: it follows no
+   * preset, it does not change between light and dark, and it was on 6 of the 9
+   * controls the keyboard reaches on the home page (footer links, product cards, the
+   * "see all" link, the region button, the promo-banner close). The Medusa-UI buttons
+   * looked fine, which is exactly why nobody noticed.
+   *
+   * :where() carries zero specificity, so a component that paints its own ring — the
+   * Medusa buttons, the header CTAs — keeps winning, and this only fills the gaps.
+   * Written against --ring, the token that exists for this.
+   */
+  :where(a[href], button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
   html,
   body {
     background: var(--background);

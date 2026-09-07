@@ -2340,22 +2340,23 @@
     },
     {
       "variable": "--fg-disabled",
-      "canonToken": "--muted-foreground",
+      "canonToken": "--foreground",
       "status": "diverged",
-      "bridge": "--fg-disabled: color-mix(in srgb, var(--muted-foreground) 53%, var(--background));",
-      "bridgeDark": "--fg-disabled: color-mix(in srgb, var(--muted-foreground) 39.5%, var(--background));",
+      "bridge": "--fg-disabled: color-mix(in srgb, var(--foreground) 70%, var(--background));",
+      "bridgeDark": "--fg-disabled: color-mix(in srgb, var(--foreground) 65%, var(--background));",
+      "reason": "d-11. --fg-disabled is read on --bg-disabled (= --accent), which is the worst background for it in BOTH modes: in light --accent is darker than --background, in dark it is lighter. Mixed from --muted-foreground the pair measured 1.95-2.28:1 light and 1.70:1.97:1 dark across the five presets — below 4.5:1 everywhere, and unreachable from --muted-foreground at any percentage because --muted-foreground itself is only 4.28:1 light / 3.65:1 dark on --background. Mixing from --foreground instead reaches 4.5:1: the smallest percentages that clear it on every preset are 65.5% light and 59.5% dark, and 70/65 is chosen for margin (worst 5.25:1 light on supplements, 5.27:1 dark on electronics). Disabled text stays visibly muted against enabled copy, which sits near 14:1.",
       "derivation": {
         "kind": "color-mix",
         "space": "srgb",
-        "canon": "--muted-foreground",
+        "canon": "--foreground",
         "light": {
-          "canon": "--muted-foreground",
-          "pct": 53,
+          "canon": "--foreground",
+          "pct": 70,
           "with": "var(--background)"
         },
         "dark": {
-          "canon": "--muted-foreground",
-          "pct": 39.5,
+          "canon": "--foreground",
+          "pct": 65,
           "with": "var(--background)"
         }
       },

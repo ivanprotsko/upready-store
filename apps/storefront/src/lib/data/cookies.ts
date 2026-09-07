@@ -1,4 +1,5 @@
 import "server-only"
+import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
 import { cookies as nextCookies } from "next/headers"
 
 export const getAuthHeaders = async (): Promise<
@@ -108,12 +109,17 @@ export const getCountryCode = async (): Promise<string | null> => {
 
 export const setCountryCode = async (countryCode: string) => {
   const cookies = await nextCookies()
-  cookies.set("_medusa_country", countryCode, {
+  const options = {
     maxAge: 60 * 60 * 24 * 365,
     httpOnly: false,
     // "lax" so the cookie is still sent on top-level navigations coming from
     // another site (payment provider redirects) — see middleware.ts.
-    sameSite: "lax",
+    sameSite: "lax" as const,
     secure: process.env.NODE_ENV === "production",
-  })
+  }
+  cookies.set("_medusa_country", countryCode, options)
+  // This setter is reached only from updateRegion(), i.e. the visitor picked the
+  // country. The marker tells middleware to keep it even when the deployment
+  // pins a default region (@lib/geolocation, REGION_PIN).
+  cookies.set(COUNTRY_CHOICE_COOKIE, "1", options)
 }
