@@ -707,6 +707,16 @@
   --fg-disabled-on-surface: rgb(136, 136, 136);
 }
 
+[data-theme="home-goods"][data-mode="light"]:not([data-theme-bridge="off"]) {
+  --fg-disabled-on-page: rgb(110, 104, 99);
+  --fg-disabled-on-surface: rgb(107, 98, 89);
+}
+
+[data-theme="home-goods"][data-mode="dark"]:not([data-theme-bridge="off"]) {
+  --fg-disabled-on-page: rgb(143, 137, 130);
+  --fg-disabled-on-surface: rgb(153, 145, 138);
+}
+
 [data-theme="medusa"][data-mode="light"]:not([data-theme-bridge="off"]),
 [data-theme="default"][data-mode="light"]:not([data-theme-bridge="off"]) {
   --fg-disabled-on-page: rgb(109, 109, 111);
