@@ -29,8 +29,10 @@
  * blue-700 as its hover. It is an ordinary bridge row now, not a special case.
  */
 @layer utilities {
-  html {
-    @apply bg-ui-bg-base;
+  html,
+  body {
+    background: var(--background);
+    color: var(--foreground);
   }
 
   /* Chrome, Safari and Opera */
@@ -65,9 +67,9 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid #212121;
-    -webkit-text-fill-color: #212121;
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    border: 1px solid var(--input);
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg-field) inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -94,8 +96,8 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: var(--colors-ui-bg-base, #fff);
-  border: 1px solid var(--colors-ui-border-base, #e5e7eb);
+  background: var(--bg-base, #fff);
+  border: 1px solid var(--border-base, #e5e7eb);
   border-radius: 6px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   margin-top: 2px;
@@ -107,12 +109,12 @@
   padding: 8px 12px;
   font-size: 0.8125rem;
   line-height: 1.25rem;
-  color: var(--colors-ui-fg-base, #1a1a1a);
+  color: var(--fg-base, #1a1a1a);
   cursor: pointer;
 }
 .react-dadata-container .react-dadata__suggestion:hover,
 .react-dadata-container .react-dadata__suggestion--current {
-  background: var(--colors-ui-bg-field-hover, #f4f4f5);
+  background: var(--bg-field-hover, #f4f4f5);
 }
 .react-dadata-container .react-dadata__suggestion mark {
   background: transparent;
@@ -126,7 +128,7 @@
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-4 py-2 border border-ui-border-strong rounded-full hover:bg-ui-contrast-bg-base hover:text-ui-contrast-fg-primary transition-colors duration-200 ease-in;
   }
 
   .txt-compact-2xsmall-plus {
@@ -200,4 +202,32 @@
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
   }
+}
+
+/*
+ * Bridge correction, cause E, measured 2026-09-08 while accepting the T-fix repaint.
+ *
+ * --contrast-bg-base is a FIXED dark surface in both modes (rgba(24,24,27) light,
+ * rgba(39,39,42) dark), but its foreground rows are derived from
+ * --destructive-foreground, which FLIPS: #ffffff in light, #0a0a0a in sneakers and
+ * geist dark. token-map.json gives --contrast-fg-primary / -fg-secondary a `bridge`
+ * row and no `bridgeDark`, so the dark block never corrects them. Result in dark
+ * mode: color-mix(in srgb, #0a0a0a 88%, transparent) = rgba(10,10,10,0.88) on
+ * rgba(39,39,42) — computed contrast ~1.0:1, i.e. invisible text on every inverted
+ * surface (side-menu panel, free-shipping popup, cart badges, hero CTA).
+ *
+ * The surface is fixed, so its foreground must be fixed too — which is what
+ * @medusajs/ui-preset itself ships (rgba(255,255,255,1)). Light mode already
+ * resolves to white and is left alone; only the dark block is corrected here.
+ *
+ * This is a PATCH ON A GENERATED SHEET. The real fix is the `bridgeDark` rows in
+ * specs/design-system/token-map.json plus `pnpm themes:build`, which could not run
+ * in this worktree (no node_modules, so the generator's ajv import fails). It is
+ * written with one element more than the generated selector so it wins on
+ * SPECIFICITY, not on order — same reasoning as the note at the top of this file.
+ */
+html[data-mode="dark"]:not([data-theme-bridge="off"]) {
+  --contrast-fg-primary: color-mix(in srgb, #ffffff 88%, transparent);
+  --contrast-fg-secondary: color-mix(in srgb, #ffffff 56%, transparent);
+  --contrast-border-base: color-mix(in srgb, #ffffff 16%, transparent);
 }

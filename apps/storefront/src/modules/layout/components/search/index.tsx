@@ -106,7 +106,7 @@ const Search = ({
       </button>
 
       <Dialog open={open} onClose={close} className="relative z-[100]">
-        <DialogBackdrop className="fixed inset-0 bg-black/30" />
+        <DialogBackdrop className="fixed inset-0 bg-ui-bg-overlay" />
         <div className="fixed inset-0 flex items-start justify-center p-4 pt-[12vh]">
           <DialogPanel className="w-full max-w-xl overflow-hidden rounded-xl border border-ui-border-base bg-ui-bg-base shadow-lg">
             <div className="flex items-center gap-2 border-b border-ui-border-base px-4">
@@ -116,7 +116,7 @@ const Search = ({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("placeholder")}
-                className="h-12 w-full bg-transparent txt-compact-medium text-base text-ui-fg-base outline-none placeholder:text-ui-fg-muted"
+                className="h-12 w-full bg-transparent txt-compact-medium text-base text-ui-fg-base outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] placeholder:text-ui-fg-muted"
               />
               {query && (
                 <button

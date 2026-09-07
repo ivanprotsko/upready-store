@@ -101,7 +101,7 @@ const FilterComboboxImpl = (
               event.preventDefault()
               onChange([])
             }}
-            className="bg-ui-bg-base hover:bg-ui-bg-base-hover txt-compact-small-plus text-ui-fg-subtle focus-within:border-ui-fg-interactive transition-fg absolute start-0.5 top-0.5 z-[1] flex h-[28px] items-center rounded-[4px] border py-[3px] pe-1 ps-1.5 outline-none"
+            className="bg-ui-bg-base hover:bg-ui-bg-base-hover txt-compact-small-plus text-ui-fg-subtle focus-within:border-ui-fg-interactive transition-fg absolute start-0.5 top-0.5 z-[1] flex h-[28px] items-center rounded-[4px] border py-[3px] pe-1 ps-1.5 outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           >
             <span className="tabular-nums">{value.length}</span>
             <XMarkMini className="text-ui-fg-muted" />
@@ -130,7 +130,7 @@ const FilterComboboxImpl = (
             value=""
             onFocus={() => setOpen(true)}
             className={clx(
-              "txt-compact-small text-ui-fg-base transition-fg size-full cursor-pointer bg-transparent pe-8 ps-2 outline-none",
+              "txt-compact-small text-ui-fg-base transition-fg size-full cursor-pointer bg-transparent pe-8 ps-2 outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]",
               "hover:bg-ui-bg-base-hover opacity-0",
               {
                 "ps-2": !hasValue,
@@ -149,7 +149,7 @@ const FilterComboboxImpl = (
                 {...props}
                 type="button"
                 aria-label={label}
-                className="text-ui-fg-muted transition-fg hover:bg-ui-bg-base-hover absolute end-0 flex size-8 items-center justify-center rounded-e outline-none"
+                className="text-ui-fg-muted transition-fg hover:bg-ui-bg-base-hover absolute end-0 flex size-8 items-center justify-center rounded-e outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
               >
                 <ChevronDown
                   className={clx("transition-transform duration-200", {

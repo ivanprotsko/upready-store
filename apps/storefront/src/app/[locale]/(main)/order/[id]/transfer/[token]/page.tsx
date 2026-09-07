@@ -27,16 +27,16 @@ export default async function TransferPage({
     <div className="flex flex-col gap-y-6 items-start w-full max-w-xl mx-auto px-4 py-12 md:py-16">
       <TransferImage />
       <div className="flex flex-col gap-y-5 w-full min-w-0">
-        <Heading level="h1" className="!text-xl text-zinc-900 break-words">
+        <Heading level="h1" className="!text-xl text-ui-fg-base break-words">
           {t("requestHeading", { id })}
         </Heading>
-        <Text className="!text-sm text-zinc-600 break-words">
+        <Text className="!text-sm text-ui-fg-subtle break-words">
           {t("requestIntro", { id })}
         </Text>
-        <div className="w-full h-px bg-zinc-200" />
-        <Text className="!text-sm text-zinc-600">{t("acceptInfo")}</Text>
-        <Text className="!text-sm text-zinc-600">{t("noAction")}</Text>
-        <div className="w-full h-px bg-zinc-200" />
+        <div className="w-full h-px bg-ui-bg-component-hover" />
+        <Text className="!text-sm text-ui-fg-subtle">{t("acceptInfo")}</Text>
+        <Text className="!text-sm text-ui-fg-subtle">{t("noAction")}</Text>
+        <div className="w-full h-px bg-ui-bg-component-hover" />
         <TransferActions id={id} token={token} />
       </div>
     </div>

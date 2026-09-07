@@ -265,7 +265,7 @@ const RegionSelect = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25" aria-hidden="true" />
+            <div className="fixed inset-0 bg-ui-bg-overlay" aria-hidden="true" />
           </TransitionChild>
 
           <div className="fixed inset-0 flex justify-end">

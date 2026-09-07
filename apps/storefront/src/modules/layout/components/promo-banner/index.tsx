@@ -46,7 +46,7 @@ function PromoBanner(props: { dismissed: boolean }) {
 
   return (
     <div
-      className="relative text-neutral-50 bg-neutral-900 text-sm"
+      className="relative text-ui-contrast-fg-primary bg-ui-contrast-bg-base text-sm"
       data-testid="promo-banner"
       data-promo-source={profileMessage ? "profile" : "messages"}
     >
@@ -78,7 +78,7 @@ function PromoBanner(props: { dismissed: boolean }) {
           type="button"
           onClick={handleClose}
           aria-label={t("close")}
-          className="shrink-0 text-neutral-400 hover:text-neutral-50 transition-colors"
+          className="shrink-0 text-ui-contrast-fg-secondary hover:text-ui-contrast-fg-primary transition-colors"
         >
           <XMark />
         </button>

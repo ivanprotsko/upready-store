@@ -97,7 +97,7 @@ const Hero = async () => {
                   )}
                   {feature.badge && (
                     <span
-                      className="ms-2 items-center rounded-full border px-2 py-0.5 text-[12px] uppercase leading-none text-white"
+                      className="ms-2 items-center rounded-full border px-2 py-0.5 text-[12px] uppercase leading-none text-ui-fg-on-color"
                       style={newBadgeStyle}
                     >
                       {feature.badge}

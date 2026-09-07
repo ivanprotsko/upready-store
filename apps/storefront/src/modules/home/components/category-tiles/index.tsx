@@ -40,7 +40,7 @@ export default function CategoryTiles({ heading }: { heading?: string }) {
               href={`/categories/${tile.categoryHandle}`}
               data-testid="category-tile"
               data-category-handle={tile.categoryHandle}
-              className={`${styles.tile} group block overflow-hidden rounded-lg border border-ui-border-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive`}
+              className={`${styles.tile} group block overflow-hidden rounded-lg border border-ui-border-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive focus-visible:ring-2 focus-visible:ring-[var(--ring)]`}
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-ui-bg-subtle">
                 {tile.image ? (

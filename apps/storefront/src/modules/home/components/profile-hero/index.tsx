@@ -32,10 +32,10 @@ function Cta({ onImage }: { onImage: boolean }) {
       data-testid="profile-hero-cta"
       className={
         "inline-flex h-11 items-center justify-center rounded-full px-6 text-base font-medium " +
-        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive " +
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive focus-visible:ring-2 focus-visible:ring-[var(--ring)] " +
         (onImage
-          ? "w-full bg-white text-neutral-950 hover:bg-neutral-200 small:w-auto"
-          : "w-full bg-neutral-950 text-white hover:bg-neutral-800 small:w-auto")
+          ? "w-full bg-ui-bg-base text-ui-fg-base hover:bg-ui-bg-component-hover small:w-auto"
+          : "w-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover small:w-auto")
       }
     >
       {hero.cta.label}
@@ -65,18 +65,18 @@ function FullBleedHero() {
           desktop where it is anchored to the left — see frames 1 and 3. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent small:bg-gradient-to-r small:from-black/60 small:via-black/25 small:to-transparent"
+        className="absolute inset-0 bg-gradient-to-t from-[var(--foreground)]/70 via-[var(--foreground)]/20 to-transparent small:bg-gradient-to-r small:from-[var(--foreground)]/60 small:via-[var(--foreground)]/25 small:to-transparent"
       />
       <div className="content-container relative flex h-full flex-col justify-end pb-10 small:justify-center small:pb-0">
         <div className="max-w-[620px]">
           <h1
             data-testid="profile-hero-headline"
-            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-white small:text-[48px] small:tracking-[-0.04em]"
+            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-contrast-fg-primary small:text-[48px] small:tracking-[-0.04em]"
           >
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-4 text-sm leading-relaxed text-white/80 small:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-ui-contrast-fg-primary/80 small:text-base">
               {hero.subheadline}
             </p>
           ) : null}
