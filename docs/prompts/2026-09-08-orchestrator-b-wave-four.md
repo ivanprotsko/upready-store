@@ -1,8 +1,9 @@
-# Orchestrator B — wave of FOUR profiles, grid image strategy, ceiling $4
+# Orchestrator B — wave of profiles, one agent owns one theme, grid image strategy, ceiling $5
 
-Written 2026-09-08 02:45 WITA. Starts ONLY after orchestrator A reports that repaint + tooling are in
-`dev` and the coverage gate is green there. Until then you have nothing to build on: the profile tooling
-lives on `feat/store-profiles` and the repaint on `feat/store-theme-surface`; A merges both.
+Written 2026-09-08 02:55 WITA, revised after Ivan said he sleeps 9–10 hours (so the window ends around
+12:00, not 08:00) and that the pilot burned 300k+ context on ONE theme — which is the failure this brief
+is built to prevent. Starts ONLY after orchestrator A reports repaint + tooling in `dev` with the coverage
+gate green.
 
 ## Launch
 
@@ -10,67 +11,88 @@ lives on `feat/store-profiles` and the repaint on `feat/store-theme-surface`; A 
 [DIR: /Users/ivanprotsko/upready/projects/upready-store]
 ```
 
-Read first — every path verified to exist when this file was written, all inside
+Read first — verified to exist when this file was written, in
 `/Users/ivanprotsko/upready/worktrees/upready-store/feat/store-profiles/` until A's merge lands them in `dev`:
 
-1. `artifacts/docs/2026-09-08-wave2-program.md` — the nine themes (§1), the stages W0–W10 (§2), the branch
-   topology (§4), the schedule and where it breaks (§5). You run four of the nine, not all nine.
-2. `artifacts/docs/2026-09-08-wave2-stage-prompts.md` — the per-stage prompts, already written.
-3. `artifacts/docs/2026-09-08-ivan-directives-image-strategy.md` §2, §3.1, §3.2 — the grid strategy and
-   the prompt registry format Ivan requires.
-4. `artifacts/registries/theme-surface-defects.json` — every stage gets the section that applies to it.
-5. `artifacts/docs/process/01-steps.md` and `02-gates-and-handover.md` — the executable process.
+1. `artifacts/docs/2026-09-08-wave2-program.md` §1 (the nine themes), §2 (stages W0–W10), §4 (branches), §5 (schedule).
+2. `artifacts/docs/2026-09-08-wave2-stage-prompts.md` — per-stage prompts, already written.
+3. `artifacts/docs/2026-09-08-ivan-directives-image-strategy.md` §2, §3.1, §3.2 — grid strategy, prompt registry.
+4. `artifacts/registries/theme-surface-defects.json` — 14 defects, 6 process failures; each stage gets its section.
+5. `artifacts/docs/process/01-steps.md`, `02-gates-and-handover.md` — the executable process.
 
-## Scope, decided while Ivan slept
+Read nothing else whole. Everything below about your own context is a hard rule, not advice.
 
-**Four themes, in this order:** `supplements` (light — the mirrored defect class, white on white, shows up
-here first), `electronics` (dark — control that the repaint did not break what worked), `womens-fashion`,
-`home-goods`. Nine will not fit the night: the heavy lane takes 52 min per profile and holds one at a time.
+## The shape: one agent owns one theme, at most two alive
 
-**Images — the grid strategy Ivan ordered (§3.1), prices measured tonight on the fal.ai model pages:**
+The pilot ran a stage per agent and the orchestrator collected every report into its own window: 300k+
+tokens for one theme, re-read on every turn, at long-context prices. Do not repeat it.
+
+- **One subagent owns one theme end to end** (W1 style board → W2 catalog → W3 images → W5 copy reconcile
+  → W6 assembly). It is the only reader of its own intermediate work.
+- **At most TWO theme agents alive at once.** Not because of tokens — because the machine holds two
+  building processes (16 GB measured, `next build` + `medusa develop` + Playwright at 1–2 GB each).
+  A third agent would queue on hardware anyway.
+- **Your own window stays under ~60k.** You hold: the queue, one line of status per theme, the dollar
+  ledger. You never read an agent's full report; the agent writes it to
+  `artifacts/docs/2026-09-08-wave-<theme>.md` and returns you at most 15 lines: state, counts, cost,
+  the path, blockers.
+- **Each theme agent stays under ~150k.** Tell it so in its prompt, and tell it what to do at the limit:
+  write its handover file and stop, so the NEXT agent resumes the same theme from disk instead of
+  inheriting a bloated window. Resuming from a file is cheap; carrying 300k is not.
+- Ban wide reads in the agent prompts: no repo-wide grep, no reading `node_modules`, no re-reading the
+  program document in full — the stage prompt carries what the stage needs.
+- Queue state lives on disk (`artifacts/wave/queue.json`), not in your head: theme, stage, agent, started,
+  finished, cost, handover path. If you die, the next window continues from that file.
+
+## Scope
+
+Window is now ~9 hours, so the queue is **six themes, in this order**, and finishing four is a good night:
+
+`supplements` (light — the mirrored white-on-white defect class shows up here first), `electronics`
+(dark — control that the repaint did not break what worked), `womens-fashion`, `home-goods`,
+`kids-toys`, `skincare`. Remaining three (`accessories`, `stationery`, `pet-supplies`) stay for the day.
+
+**An unfinished theme is not a failure — a stalled theme that holds the queue is.** Skip it, write why,
+move on. Never wait on a stuck agent (rule 5h: no busy-wait; one check by deadline).
+
+## Images — Ivan's grid strategy, prices measured 2026-09-08 02:25 on the fal.ai model pages
 
 | What | Model | Price | Per theme |
 |---|---|---|---|
 | 2 product grids 3x3 + 1 category-tile grid | `fal-ai/nano-banana` | $0.039/image | $0.12 |
 | hero of the home page, full frame | `fal-ai/nano-banana-pro` | $0.15 (2K) | $0.15 |
-| ONE showcase frame: the single product page that goes in the portfolio | `fal-ai/nano-banana-pro` | $0.15 at 2K, $0.30 at 4K | $0.15–0.30 |
+| ONE showcase frame — the single product page that goes in the portfolio | `fal-ai/nano-banana-pro` | $0.15 (2K) / $0.30 (4K) | $0.15–0.30 |
 
-≈ $0.42–0.57 per theme, $1.70–2.30 for four. **Hard ceiling for this night: $4.** If you reach it, stop
-generating, finish everything that costs nothing, and write a question in HANDOFF.
+≈ $0.42–0.57 per theme; six themes $2.50–3.40. **Hard ceiling for the night: $5.** At the ceiling you stop
+generating, finish what costs nothing, and write a HANDOFF question.
 
-Replicate's `nano-banana-2` price is published NOWHERE (checked three times over two days) — that is why
-the wave moves to fal.ai, where the number is on the page. Key `FAL_KEY` is in `~/upready/.env.keys`;
-$7.10 on the account, plus $1.97 left on Replicate as reserve.
+Replicate's `nano-banana-2` price is published nowhere (checked three times over two days), which is why
+the wave moves to fal.ai where the number is on the page. `FAL_KEY` is in `~/upready/.env.keys`; $7.10
+there, $1.97 left on Replicate as reserve.
 
-**Measure before you spend the wave.** Three renders, ~$0.25, using the script that already exists
-(`apps/backend/scripts/store-media/grid-experiment.mjs`, dry by default): does the model hold one light,
-one background and one camera height across nine cells, and do the cell borders land where arithmetic says
-they do. Slice on FOUND borders, never on thirds. If the answer is no, the grid strategy dies and you fall
-back to full frames for the showcase product only, four themes, and you say so in the handover.
+**Measure before you spend the wave:** three renders, ~$0.25, with the script that already exists
+(`apps/backend/scripts/store-media/grid-experiment.mjs`, dry by default). Does the model hold one light,
+one background, one camera height across nine cells, and do the cell borders land where arithmetic says?
+Slice on FOUND borders, never on thirds. If the answer is no, the grid dies: fall back to a full frame for
+the showcase product only, note it, and keep going.
 
 **Prompt registry is mandatory** (§3.2): shared preamble and per-cell subject clause stored SEPARATELY,
-`kind: "single" | "grid-3x3"`, `cropBox` per cell, sha256 of the full prompt sent. Ivan must be able to
-rebuild a single large render of one cell without rereading the whole text.
+`kind: "single" | "grid-3x3"`, `cropBox` per cell, sha256 of the prompt actually sent — so Ivan can rebuild
+one cell at full size without rereading the whole text.
 
-## How to run it
+## Branches and hardware
 
-Pipeline, one worker per role, NOT four agents per stage — the retro measured that the tact is set by the
-slowest role, not by the agent count (§5). Light lane W1 → W2 → W3 → W5 costs nothing in hardware; heavy
-lane W6 → W7 holds ONE profile at a time (16 GB, two building processes measured). Prefer variant B: W6
-has priority over W7, so a stand is visible as early as possible.
+One worktree per theme (`feat/store/<theme>`), merged into `feat/store-profiles-wave2`. Disk: 8.9 GB free
+— `pnpm` hardlinks make a worktree cheap, but each `.next` is ~100 MB and real; check `df` before the
+fourth worktree and drop a finished theme's `.next` before creating the next.
 
-One worktree per theme (`feat/store/<theme>`), a branch each, merged into `feat/store-profiles-wave2`.
-Disk: 8.9 GB free — check it before creating the fourth worktree, `pnpm` hardlinks from the store so a
-worktree costs far less than `du` suggests, but `.next` is ~100 MB each and real.
+Every `git commit` carries `IVAN_OK=1`. Subagents never commit — you do. No push, no deploy (21b/21c).
 
-Every `git commit` carries `IVAN_OK=1`. Subagents never commit. No push, no deploy.
+## What Ivan sees when he wakes (~12:00)
 
-## What Ivan sees when he wakes
-
-- Four live stands, or fewer with a written reason per missing theme.
-- A contact sheet: each theme, both modes, home + category + PDP, so he can judge in one screen.
-- The visual gate W8 run by a creative director per theme — the pilot skipped it (`p-03`), you do not.
-- The verdict per theme against `theme-surface-defects.json`: which of the 14 defect classes recur.
-- The dollar total actually spent, from the fal.ai dashboard, not from an estimate.
-
-Stop and record a question rather than inventing an answer: a theme that stalls is skipped, not waited for.
+- Live stands for the finished themes, or a written reason per missing one.
+- A contact sheet: each theme, both modes, home + category + PDP, judged in one screen.
+- W8 visual gate run by a creative director per theme — the pilot skipped it (`p-03`), you do not.
+- Per theme: which of the 14 defect classes recurred, from `theme-surface-defects.json`.
+- The dollar total actually spent, read from the fal.ai dashboard, not estimated.
+- Token cost per theme, from the agent reports — the number the pilot never recorded for five of seven agents.

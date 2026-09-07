@@ -90,3 +90,11 @@ Every `git commit` carries the `IVAN_OK=1` prefix. Do not push, do not deploy (2
 Budget: this is Opus work; agents are allowed for A1 (walking the defect list) and A3 (writing the gate),
 at most two at a time, disjoint file zones, English prompts. Downgrade to Sonnet on a subscription limit
 rather than stalling. Spend zero dollars — no image generation happens in this window.
+
+## Context economy (added 02:55, Ivan's explicit concern)
+
+The pilot burned 300k+ context on one theme because the orchestrator collected full agent reports into its
+own window and re-read them every turn, at long-context prices. In this window: your agents write their
+reports to files under `artifacts/docs/` and return you at most 15 lines each (state, counts, path,
+blockers). You never read an agent's report whole. Keep your own window under ~60k; if you approach it,
+write the handover and stop rather than carrying the weight forward.
