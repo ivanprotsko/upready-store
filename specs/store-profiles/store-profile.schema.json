@@ -5,49 +5,115 @@
   "description": "One store version for the portfolio: a directory apps/backend/src/migration-scripts/data/profiles/<id>/ holding profile.json (this document), catalog/*.json (seed shape plus price_usd and image briefs, see catalog-products.schema.json), theme.json (upready.theme-preset/v0), media/manifest.json (upready.store-media-manifest/v0) with the re-hosted renders next to it, design/style-board.md (design stage), i18n/<locale>.json (catalog translations in the seed shape). The backend seed selects it with STORE_PROFILE, the storefront build with NEXT_PUBLIC_STORE_PROFILE, image URLs are prefixed with STORE_MEDIA_BASE_URL at seed time. Written by the architect 2026-09-07, program docs/store-profiles/00-program-2026-09-07.md.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "id", "vertical", "brand", "locale", "currency", "theme", "layout", "home", "catalog", "media", "design", "generatedAt"],
+  "required": [
+    "schema",
+    "id",
+    "vertical",
+    "brand",
+    "locale",
+    "currency",
+    "theme",
+    "layout",
+    "home",
+    "catalog",
+    "media",
+    "design",
+    "generatedAt"
+  ],
   "properties": {
-    "schema": { "const": "upready.store-profile/v0" },
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,31}$", "description": "Directory name, theme preset id, DB suffix (upready_store_<id> with dashes turned into underscores)." },
-    "vertical": { "type": "string", "minLength": 3, "maxLength": 80, "description": "What the store sells, plain language, e.g. 'streetwear sneakers'." },
+    "schema": {
+      "const": "upready.store-profile/v0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,31}$",
+      "description": "Directory name, theme preset id, DB suffix (upready_store_<id> with dashes turned into underscores)."
+    },
+    "vertical": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80,
+      "description": "What the store sells, plain language, e.g. 'streetwear sneakers'."
+    },
     "audience": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "region": { "type": "string" },
-        "persona": { "type": "string", "maxLength": 200 }
+        "region": {
+          "type": "string"
+        },
+        "persona": {
+          "type": "string",
+          "maxLength": 200
+        }
       }
     },
     "brand": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "tagline", "wordmark"],
+      "required": [
+        "name",
+        "tagline",
+        "wordmark"
+      ],
       "properties": {
-        "name": { "type": "string", "minLength": 2, "maxLength": 32, "description": "Invented brand, must not be a registered trademark." },
-        "tagline": { "type": "string", "minLength": 8, "maxLength": 90 },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 32,
+          "description": "Invented brand, must not be a registered trademark."
+        },
+        "tagline": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 90
+        },
         "wordmark": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["text", "style"],
+          "required": [
+            "text",
+            "style"
+          ],
           "properties": {
-            "text": { "type": "string", "minLength": 1, "maxLength": 32 },
-            "style": { "enum": ["wordmark", "monogram"] }
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "style": {
+              "enum": [
+                "wordmark",
+                "monogram"
+              ]
+            }
           }
         },
-        "legalName": { "type": "string", "maxLength": 80 }
+        "legalName": {
+          "type": "string",
+          "maxLength": 80
+        }
       }
     },
     "locale": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["default", "catalogLocales"],
+      "required": [
+        "default",
+        "catalogLocales"
+      ],
       "properties": {
-        "default": { "const": "en" },
+        "default": {
+          "const": "en"
+        },
         "catalogLocales": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "pattern": "^[a-z]{2}$" },
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2}$"
+          },
           "description": "Locales that carry catalog translations under i18n/. Every other storefront locale falls back to the English base fields."
         }
       }
@@ -55,47 +121,128 @@
     "currency": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["base", "rounding"],
+      "required": [
+        "base",
+        "rounding"
+      ],
       "properties": {
-        "base": { "const": "usd" },
-        "rounding": { "enum": ["charm", "round"], "description": "charm = x.99 / x9 endings, round = whole tens; applied per currency after the ratio table derived from the demo seed." }
+        "base": {
+          "const": "usd"
+        },
+        "rounding": {
+          "enum": [
+            "charm",
+            "round"
+          ],
+          "description": "charm = x.99 / x9 endings, round = whole tens; applied per currency after the ratio table derived from the demo seed."
+        }
       }
     },
     "theme": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["presetId", "file", "defaultMode", "typography", "radius"],
+      "required": [
+        "presetId",
+        "file",
+        "defaultMode",
+        "typography",
+        "radius"
+      ],
       "properties": {
-        "presetId": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,31}$", "description": "Equals id; the value of <html data-theme>." },
-        "file": { "const": "theme.json" },
-        "defaultMode": { "enum": ["light", "dark"] },
+        "presetId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{2,31}$",
+          "description": "Equals id; the value of <html data-theme>."
+        },
+        "file": {
+          "const": "theme.json"
+        },
+        "defaultMode": {
+          "enum": [
+            "light",
+            "dark"
+          ]
+        },
         "typography": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["display", "body"],
+          "required": [
+            "display",
+            "body"
+          ],
           "properties": {
-            "display": { "$ref": "#/definitions/font" },
-            "body": { "$ref": "#/definitions/font" }
+            "display": {
+              "$ref": "#/definitions/font"
+            },
+            "body": {
+              "$ref": "#/definitions/font"
+            }
           }
         },
-        "radius": { "enum": ["none", "sm", "md", "lg"] }
+        "radius": {
+          "enum": [
+            "none",
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
       }
     },
     "layout": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["cardVariant", "imageTreatment"],
+      "required": [
+        "cardVariant",
+        "imageTreatment"
+      ],
       "properties": {
-        "cardVariant": { "enum": ["classic", "editorial", "compact", "showcase"], "description": "Wave 1 ships classic only; the other three arrive with T0j in wave 2." },
+        "cardVariant": {
+          "enum": [
+            "classic",
+            "editorial",
+            "compact",
+            "showcase"
+          ],
+          "description": "Wave 1 ships classic only; the other three arrive with T0j in wave 2."
+        },
         "imageTreatment": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["aspect", "fit", "radius", "hover"],
+          "required": [
+            "aspect",
+            "fit",
+            "radius",
+            "hover"
+          ],
           "properties": {
-            "aspect": { "enum": ["1:1", "4:5", "3:4"] },
-            "fit": { "enum": ["cover", "contain"] },
-            "radius": { "enum": ["none", "md", "lg"] },
-            "hover": { "enum": ["none", "second-image", "zoom"] }
+            "aspect": {
+              "enum": [
+                "1:1",
+                "4:5",
+                "3:4"
+              ]
+            },
+            "fit": {
+              "enum": [
+                "cover",
+                "contain"
+              ]
+            },
+            "radius": {
+              "enum": [
+                "none",
+                "md",
+                "lg"
+              ]
+            },
+            "hover": {
+              "enum": [
+                "none",
+                "second-image",
+                "zoom"
+              ]
+            }
           }
         }
       }
@@ -103,26 +250,60 @@
     "home": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["hero", "categoryTiles", "promoStrip"],
+      "required": [
+        "hero",
+        "categoryTiles",
+        "promoStrip"
+      ],
       "properties": {
         "hero": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["layout", "headline", "subheadline", "cta", "image"],
+          "required": [
+            "layout",
+            "headline",
+            "subheadline",
+            "cta",
+            "image"
+          ],
           "properties": {
-            "layout": { "enum": ["full-bleed", "split"] },
-            "headline": { "type": "string", "minLength": 8, "maxLength": 70 },
-            "subheadline": { "type": "string", "maxLength": 160 },
+            "layout": {
+              "enum": [
+                "full-bleed",
+                "split"
+              ]
+            },
+            "headline": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 70
+            },
+            "subheadline": {
+              "type": "string",
+              "maxLength": 160
+            },
             "cta": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["label", "href"],
+              "required": [
+                "label",
+                "href"
+              ],
               "properties": {
-                "label": { "type": "string", "minLength": 2, "maxLength": 30 },
-                "href": { "type": "string", "pattern": "^/(store|categories|collections|products)(/[a-z0-9-]+)*$" }
+                "label": {
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 30
+                },
+                "href": {
+                  "type": "string",
+                  "pattern": "^/(store|categories|collections|products)(/[a-z0-9-]+)*$"
+                }
               }
             },
-            "image": { "$ref": "#/definitions/mediaRef" }
+            "image": {
+              "$ref": "#/definitions/mediaRef"
+            }
           }
         },
         "categoryTiles": {
@@ -132,21 +313,41 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["categoryHandle", "label", "image"],
+            "required": [
+              "categoryHandle",
+              "label",
+              "image"
+            ],
             "properties": {
-              "categoryHandle": { "$ref": "#/definitions/handle" },
-              "label": { "type": "string", "minLength": 2, "maxLength": 30 },
-              "image": { "$ref": "#/definitions/mediaRef" }
+              "categoryHandle": {
+                "$ref": "#/definitions/handle"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 30
+              },
+              "image": {
+                "$ref": "#/definitions/mediaRef"
+              }
             }
           }
         },
         "promoStrip": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["enabled", "text"],
+          "required": [
+            "enabled",
+            "text"
+          ],
           "properties": {
-            "enabled": { "type": "boolean" },
-            "text": { "type": "string", "maxLength": 90 }
+            "enabled": {
+              "type": "boolean"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 90
+            }
           }
         }
       }
@@ -154,28 +355,57 @@
     "catalog": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["files", "counts"],
+      "required": [
+        "files",
+        "counts"
+      ],
       "properties": {
         "files": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["categories", "productOptions", "products", "collections"],
+          "required": [
+            "categories",
+            "productOptions",
+            "products",
+            "collections"
+          ],
           "properties": {
-            "categories": { "const": "catalog/categories.json" },
-            "productOptions": { "const": "catalog/product-options.json" },
-            "products": { "const": "catalog/products.json" },
-            "collections": { "const": "catalog/collections.json" }
+            "categories": {
+              "const": "catalog/categories.json"
+            },
+            "productOptions": {
+              "const": "catalog/product-options.json"
+            },
+            "products": {
+              "const": "catalog/products.json"
+            },
+            "collections": {
+              "const": "catalog/collections.json"
+            }
           }
         },
         "counts": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["products", "variants", "images"],
+          "required": [
+            "products",
+            "variants",
+            "images"
+          ],
           "description": "Recomputed by the validator from the files; a mismatch fails validation.",
           "properties": {
-            "products": { "type": "integer", "minimum": 10 },
-            "variants": { "type": "integer", "minimum": 10 },
-            "images": { "type": "integer", "minimum": 30 }
+            "products": {
+              "type": "integer",
+              "minimum": 10
+            },
+            "variants": {
+              "type": "integer",
+              "minimum": 10
+            },
+            "images": {
+              "type": "integer",
+              "minimum": 10
+            }
           }
         }
       }
@@ -183,30 +413,73 @@
     "media": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["dir", "manifest", "baseUrlEnv"],
+      "required": [
+        "dir",
+        "manifest",
+        "baseUrlEnv"
+      ],
       "properties": {
-        "dir": { "const": "media" },
-        "manifest": { "const": "media/manifest.json" },
-        "baseUrlEnv": { "const": "STORE_MEDIA_BASE_URL" }
+        "dir": {
+          "const": "media"
+        },
+        "manifest": {
+          "const": "media/manifest.json"
+        },
+        "baseUrlEnv": {
+          "const": "STORE_MEDIA_BASE_URL"
+        }
       }
     },
     "design": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["styleBoard", "canon"],
+      "required": [
+        "styleBoard",
+        "canon"
+      ],
       "properties": {
-        "styleBoard": { "const": "design/style-board.md" },
-        "canon": { "const": "~/upready/packages/geist-kit/AGENTS.md" }
+        "styleBoard": {
+          "const": "design/style-board.md"
+        },
+        "canon": {
+          "const": "~/upready/packages/geist-kit/AGENTS.md"
+        }
       }
     },
-    "generatedAt": { "type": "string", "format": "date-time" },
-    "generatedBy": { "type": "string", "maxLength": 120 }
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generatedBy": {
+      "type": "string",
+      "maxLength": 120
+    }
   },
   "definitions": {
-    "handle": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-    "mediaRef": { "type": "string", "pattern": "^media/[a-z0-9][a-z0-9-]*\\.(webp|png|jpg)$", "description": "Relative to the profile directory; the seed prefixes STORE_MEDIA_BASE_URL." },
+    "handle": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "mediaRef": {
+      "type": "string",
+      "pattern": "^media/[a-z0-9][a-z0-9-]*\\.(webp|png|jpg)$",
+      "description": "Relative to the profile directory; the seed prefixes STORE_MEDIA_BASE_URL."
+    },
     "font": {
-      "enum": ["Geist", "Inter", "Manrope", "DM Sans", "Space Grotesk", "Playfair Display", "Fraunces", "Cormorant Garamond", "Nunito", "Sora", "IBM Plex Sans", "IBM Plex Mono"],
+      "enum": [
+        "Geist",
+        "Inter",
+        "Manrope",
+        "DM Sans",
+        "Space Grotesk",
+        "Playfair Display",
+        "Fraunces",
+        "Cormorant Garamond",
+        "Nunito",
+        "Sora",
+        "IBM Plex Sans",
+        "IBM Plex Mono"
+      ],
       "description": "Allow-list wired through next/font in the storefront; a name outside it has no font files and fails the build."
     }
   }
