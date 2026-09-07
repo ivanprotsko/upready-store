@@ -34,7 +34,8 @@
     "profile:build": "node scripts/build-profile.mjs",
     "predev": "node scripts/build-profile.mjs",
     "prebuild": "node scripts/build-profile.mjs",
-    "test:profile": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e PROFILE_URL mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/profile/playwright.config.ts"
+    "test:profile": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e PROFILE_URL mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/profile/playwright.config.ts",
+    "themes:extract": "node scripts/extract-theme-sources.mjs"
   },
   "dependencies": {
     "@ariakit/react": "^0.4.32",
