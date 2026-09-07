@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 16,
+  "action": "status-set",
+  "ts": "2026-09-08T05:15:06+08:00",
+  "status": "05:37 — dev d8928b6 pushed. THREE themes built, three stands live: supplements (storefront port 8070, backend 9051), electronics (8061 / 9041), womens-fashion (8081 / 9061). womens-fashion is the grid's best run — background luma spread 2.9 against 7.8 on the original 3x3 measurement and 59.2 on electronics' 4x4; 12 products, 87 variants, 7 categories; gate 4 contrast nodes, one group, no new kind. Its two gaps went to theme-womens-fashion-finish (four missing locales; the W5 copy is on disk but not in the DB because the reseed short-circuited on 'Store already seeded'), deadline 07:30. theme-home-goods still running (08:00) — the fourth and last theme. Ledger $2.067 of $6.00 across 10 renders, validate rc 0. Gate baseline: 4 contrast / 0 drawer / 18 focus failures across 242 controls. Open questions: 8. Remaining window after home-goods goes to the contact sheet, the 14-class verdict and the money summary, not a fifth theme."
+}

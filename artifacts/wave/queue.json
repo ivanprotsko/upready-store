@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.queue/v1",
-  "updatedAt": "2026-09-08T05:08:46+08:00",
+  "updatedAt": "2026-09-08T05:14:30+08:00",
   "concurrency": 2,
   "themes": [
     {
@@ -39,12 +39,12 @@
       "mode": null,
       "why": "Highest editorial demand — image strategy is tested here while there is still budget for a reshoot.",
       "state": "running",
-      "agent": "theme-womens-fashion",
+      "agent": "theme-womens-fashion-finish",
       "startedAt": "2026-09-08T04:36:58+08:00",
       "finishedAt": null,
-      "stage": "W1",
-      "handoverPath": null,
-      "costUsd": null,
+      "stage": "W5",
+      "handoverPath": "artifacts/docs/2026-09-08-wave-womens-fashion.md",
+      "costUsd": 0.45,
       "tokens": null,
       "reason": null
     },
