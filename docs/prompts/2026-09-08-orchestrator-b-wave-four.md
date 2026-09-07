@@ -96,3 +96,16 @@ Every `git commit` carries `IVAN_OK=1`. Subagents never commit — you do. No pu
 - Per theme: which of the 14 defect classes recurred, from `theme-surface-defects.json`.
 - The dollar total actually spent, read from the fal.ai dashboard, not estimated.
 - Token cost per theme, from the agent reports — the number the pilot never recorded for five of seven agents.
+
+## Revision 03:10 — Ivan's answers, binding
+
+1. **Eight themes, not six**: `supplements`, `electronics`, `womens-fashion`, `home-goods`, `kids-toys`,
+   `skincare`, `accessories`, `stationery`. Order as listed (light first, dark second, then by risk).
+   `pet-supplies` stays out — it has three option axes and is the most likely to stall.
+2. **Budget is the whole fal.ai balance, $7.10, and it must cover regenerations.** Plan at $0.42–0.57 per
+   theme = $3.4–4.6 for eight, plus $0.25 for the grid measurement, plus a 20 % reserve for reshoots
+   ≈ $0.9. **Hard ceiling $6.00**, leaving $1.10 untouched. Ledger every prediction with its price into
+   `artifacts/wave/spend.json` as you go — the pilot's `costUsd: 0` meant "not measured" and that must not
+   happen twice. At $5.00 spent, stop generating anything that is not a reshoot of a rejected frame.
+3. **Provider: fal.ai** (`FAL_KEY` in `~/upready/.env.keys`). Replicate stays untouched as reserve.
+4. Subagents never commit; the parent window commits. Report ≤15 lines per theme agent.

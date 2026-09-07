@@ -98,3 +98,17 @@ own window and re-read them every turn, at long-context prices. In this window: 
 reports to files under `artifacts/docs/` and return you at most 15 lines each (state, counts, path,
 blockers). You never read an agent's report whole. Keep your own window under ~60k; if you approach it,
 write the handover and stop rather than carrying the weight forward.
+
+## Revision 03:10 — you are a SUBAGENT of the night window, not a session of your own
+
+Ivan approved orchestration from the architect's window on one condition: it stays cheap. So you run as a
+subagent. Two consequences, both binding:
+
+- **You do not commit.** Rule 21: subagents never commit. Do the work, leave the tree dirty, and name in
+  your report the exact literal paths you touched; the parent window commits them.
+- **Your report to the parent is at most 20 lines**: per-defect verdict counts, cause-E decision with the
+  measured ratios, gate red/green evidence, the paths you wrote, blockers. Everything longer goes into
+  `artifacts/docs/2026-09-08-tfix-visual-verdict.md` and is referenced by path, never pasted.
+
+You may spawn your own agents for A1 and A3 (at most two alive, disjoint file zones, English prompts,
+each returning ≤15 lines). Merging into `dev` (A4) is the parent's job — you prepare it and say so.
