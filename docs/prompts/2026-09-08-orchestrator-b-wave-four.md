@@ -1,6 +1,6 @@
 # Orchestrator B — wave of profiles, one agent owns one theme, grid image strategy, ceiling $5
 
-Written 2026-09-08 02:55 WITA, revised after Ivan said he sleeps 9–10 hours (so the window ends around
+Written 2026-09-08 02:24 WITA, revised after Ivan said he sleeps 9–10 hours (so the window ends around
 12:00, not 08:00) and that the pilot burned 300k+ context on ONE theme — which is the failure this brief
 is built to prevent. Starts ONLY after orchestrator A reports repaint + tooling in `dev` with the coverage
 gate green.
@@ -55,7 +55,7 @@ Window is now ~9 hours, so the queue is **six themes, in this order**, and finis
 **An unfinished theme is not a failure — a stalled theme that holds the queue is.** Skip it, write why,
 move on. Never wait on a stuck agent (rule 5h: no busy-wait; one check by deadline).
 
-## Images — Ivan's grid strategy, prices measured 2026-09-08 02:25 on the fal.ai model pages
+## Images — Ivan's grid strategy, prices measured 2026-09-08 02:20 on the fal.ai model pages
 
 | What | Model | Price | Per theme |
 |---|---|---|---|
@@ -88,7 +88,7 @@ fourth worktree and drop a finished theme's `.next` before creating the next.
 
 Every `git commit` carries `IVAN_OK=1`. Subagents never commit — you do. No push, no deploy (21b/21c).
 
-## What Ivan sees when he wakes (~12:00)
+## What Ivan sees when he wakes (schedule: back around 12:00)
 
 - Live stands for the finished themes, or a written reason per missing one.
 - A contact sheet: each theme, both modes, home + category + PDP, judged in one screen.
@@ -97,7 +97,7 @@ Every `git commit` carries `IVAN_OK=1`. Subagents never commit — you do. No pu
 - The dollar total actually spent, read from the fal.ai dashboard, not estimated.
 - Token cost per theme, from the agent reports — the number the pilot never recorded for five of seven agents.
 
-## Revision 03:10 — Ivan's answers, binding
+## Revision 02:26 — Ivan's answers, binding
 
 1. **Eight themes, not six**: `supplements`, `electronics`, `womens-fashion`, `home-goods`, `kids-toys`,
    `skincare`, `accessories`, `stationery`. Order as listed (light first, dark second, then by risk).

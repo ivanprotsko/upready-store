@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T02:26:24+08:00",
-  "status": "03:15 — Ivan approved the night and went to sleep (9-10 h, back ~12:00). Binding: orchestrate from the architect window with subagents reporting <=15 lines and never committing; EIGHT themes (supplements, electronics, womens-fashion, home-goods, kids-toys, skincare, accessories, stationery); provider fal.ai, hard ceiling $6.00 of the $7.10 balance with regenerations included and every prediction ledgered to artifacts/wave/spend.json; cause E decided by the architect (fix bridgeDark in token-map.json, drop the globals.css patch). Phase 1 = docs/prompts/2026-09-08-orchestrator-a-foundation.md (render the repaint for the first time, cause E, computed-style coverage gate red-before/green-after, prepare the dev merge), phase 2 = -b-wave-four.md. Nothing launched yet: Ivan asked to /clear first.",
+  "updated": "2026-09-08T02:28:09+08:00",
+  "status": "02:27 — night approved, nothing launched yet (Ivan asked to /clear first). Binding: orchestrate from the architect window, subagents report <=15 lines and never commit; EIGHT themes (supplements, electronics, womens-fashion, home-goods, kids-toys, skincare, accessories, stationery); fal.ai, hard ceiling $6.00 of $7.10 with regenerations inside it, every prediction ledgered to artifacts/wave/spend.json; cause E decided by the architect (bridgeDark in token-map.json, drop the globals.css patch). Phase 1 = docs/prompts/2026-09-08-orchestrator-a-foundation.md (first render of the repaint ever - node_modules installed tonight - cause E, computed-style coverage gate red-before/green-after, prepare the dev merge of repaint + profile tooling), phase 2 = -b-wave-four.md. Ivan asleep 9-10 h, back on schedule around 12:00.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

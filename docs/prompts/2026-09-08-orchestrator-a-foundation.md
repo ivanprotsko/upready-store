@@ -1,6 +1,6 @@
 # Orchestrator A — foundation: render the repaint, decide cause E, write the coverage gate, land it in `dev`
 
-Written 2026-09-08 02:40 WITA. Ivan is asleep; he approved nothing beyond the scope in this file.
+Written 2026-09-08 02:20 WITA. Ivan is asleep; he approved nothing beyond the scope in this file.
 Everything marked DECIDED here is the architect's default, taken because Ivan asked for launch prompts
 and went to bed. Anything not covered: record a question in HANDOFF, do NOT wake him, do NOT guess wider.
 
@@ -91,7 +91,7 @@ Budget: this is Opus work; agents are allowed for A1 (walking the defect list) a
 at most two at a time, disjoint file zones, English prompts. Downgrade to Sonnet on a subscription limit
 rather than stalling. Spend zero dollars — no image generation happens in this window.
 
-## Context economy (added 02:55, Ivan's explicit concern)
+## Context economy (added 02:25, Ivan's explicit concern)
 
 The pilot burned 300k+ context on one theme because the orchestrator collected full agent reports into its
 own window and re-read them every turn, at long-context prices. In this window: your agents write their
@@ -99,7 +99,7 @@ reports to files under `artifacts/docs/` and return you at most 15 lines each (s
 blockers). You never read an agent's report whole. Keep your own window under ~60k; if you approach it,
 write the handover and stop rather than carrying the weight forward.
 
-## Revision 03:10 — you are a SUBAGENT of the night window, not a session of your own
+## Revision 02:26 — you are a SUBAGENT of the night window, not a session of your own
 
 Ivan approved orchestration from the architect's window on one condition: it stays cheap. So you run as a
 subagent. Two consequences, both binding:
