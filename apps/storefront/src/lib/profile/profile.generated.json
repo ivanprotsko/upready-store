@@ -1,0 +1,16 @@
+{
+  "schema": "upready.storefront-profile/v0",
+  "id": "default",
+  "source": "default",
+  "brand": null,
+  "home": {
+    "hero": null,
+    "categoryTiles": [],
+    "promoStrip": null
+  },
+  "layout": {
+    "imageTreatment": null
+  },
+  "i18n": {},
+  "generatedAt": "2026-09-07T13:11:13.365Z"
+}

@@ -1,0 +1,133 @@
+import Image from "next/image"
+
+import { Link } from "@i18n/navigation"
+import { hero } from "@lib/profile"
+
+/**
+ * The home hero, driven entirely by home.hero of the store profile. Two layouts, drawn as
+ * frames 1-4 of artifacts/docs/2026-09-07-profile-home-mockup.md:
+ *
+ *   full-bleed — the photograph is the full width of the viewport and the copy sits on it
+ *                under a horizontal scrim, so the copy switches to on-image whites;
+ *   split      — copy on the page background in --fg/--muted, image in the other half,
+ *                the two separated by a hairline; stacks image-first below 1024px.
+ *
+ * No hero in the profile means no markup at all — not an empty band, not a placeholder.
+ * Server component with no request-scoped input, so the page stays statically renderable.
+ */
+export default function ProfileHero() {
+  if (!hero || !hero.image) {
+    return null
+  }
+
+  return hero.layout === "split" ? <SplitHero /> : <FullBleedHero />
+}
+
+function Cta({ onImage }: { onImage: boolean }) {
+  if (!hero?.cta) return null
+
+  return (
+    <Link
+      href={hero.cta.href}
+      data-testid="profile-hero-cta"
+      className={
+        "inline-flex h-11 items-center justify-center rounded-full px-6 text-base font-medium " +
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive " +
+        (onImage
+          ? "w-full bg-white text-neutral-950 hover:bg-neutral-200 small:w-auto"
+          : "w-full bg-neutral-950 text-white hover:bg-neutral-800 small:w-auto")
+      }
+    >
+      {hero.cta.label}
+    </Link>
+  )
+}
+
+function FullBleedHero() {
+  if (!hero?.image) return null
+
+  return (
+    <section
+      data-testid="profile-hero"
+      data-hero-layout="full-bleed"
+      className="relative isolate h-[440px] w-full overflow-hidden small:h-[560px]"
+    >
+      <Image
+        src={hero.image}
+        alt=""
+        fill
+        priority
+        quality={70}
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      {/* Vertical scrim on mobile where the copy is anchored to the bottom, horizontal on
+          desktop where it is anchored to the left — see frames 1 and 3. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent small:bg-gradient-to-r small:from-black/60 small:via-black/25 small:to-transparent"
+      />
+      <div className="content-container relative flex h-full flex-col justify-end pb-10 small:justify-center small:pb-0">
+        <div className="max-w-[620px]">
+          <h1
+            data-testid="profile-hero-headline"
+            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-white small:text-[48px] small:tracking-[-0.04em]"
+          >
+            {hero.headline}
+          </h1>
+          {hero.subheadline ? (
+            <p className="mt-4 text-sm leading-relaxed text-white/80 small:text-base">
+              {hero.subheadline}
+            </p>
+          ) : null}
+          <div className="mt-8">
+            <Cta onImage />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SplitHero() {
+  if (!hero?.image) return null
+
+  return (
+    <section
+      data-testid="profile-hero"
+      data-hero-layout="split"
+      className="grid w-full grid-cols-1 border-b border-ui-border-base small:h-[560px] small:grid-cols-2"
+    >
+      {/* Image first in the DOM so the mobile stack needs no order override. */}
+      <div className="relative order-first aspect-[4/5] w-full small:order-last small:aspect-auto small:h-full small:border-l small:border-ui-border-base">
+        <Image
+          src={hero.image}
+          alt=""
+          fill
+          priority
+          quality={70}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="content-container flex flex-col justify-center border-t border-ui-border-base py-10 small:border-t-0 small:py-0">
+        <div className="max-w-[520px]">
+          <h1
+            data-testid="profile-hero-headline"
+            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-fg-base small:text-[44px] small:tracking-[-0.04em]"
+          >
+            {hero.headline}
+          </h1>
+          {hero.subheadline ? (
+            <p className="mt-4 text-sm leading-relaxed text-ui-fg-subtle small:text-base">
+              {hero.subheadline}
+            </p>
+          ) : null}
+          <div className="mt-8">
+            <Cta onImage={false} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

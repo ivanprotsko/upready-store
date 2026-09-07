@@ -1,0 +1,46 @@
+/*
+ * Tile hover, frame 8 of the mock-up: the image scales inside the clipped card, the hairline
+ * border goes from --border to --ring and the arrow fades in. Nothing outside the image moves
+ * and there is no shadow — the canon puts elevation in borders, not in drop shadows.
+ *
+ * The branch is attached only for a fine pointer, so at 390 it does not exist at all rather
+ * than existing invisibly.
+ */
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 200ms ease-out;
+}
+
+.arrow {
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    border-color: var(--image-frame-ring, #9a9a9a);
+  }
+
+  .tile:hover .image {
+    transform: scale(1.04);
+  }
+
+  .tile:hover .arrow {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .arrow {
+    transition: none;
+  }
+
+  .tile:hover .image {
+    transform: none;
+  }
+}

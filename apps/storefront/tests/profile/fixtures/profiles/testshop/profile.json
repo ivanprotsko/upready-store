@@ -1,0 +1,64 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "testshop",
+  "vertical": "fixture footwear",
+  "audience": {
+    "region": "US",
+    "persona": "A fixture, not a real audience."
+  },
+  "brand": {
+    "name": "Testshop",
+    "tagline": "A fixture profile, not a store",
+    "wordmark": { "text": "TESTSHOP", "style": "wordmark" },
+    "legalName": "Testshop Fixture Ltd"
+  },
+  "locale": { "default": "en", "catalogLocales": ["de"] },
+  "currency": { "base": "usd", "rounding": "charm" },
+  "theme": {
+    "presetId": "testshop",
+    "file": "theme.json",
+    "defaultMode": "light",
+    "typography": { "display": "Geist", "body": "Geist" },
+    "radius": "md"
+  },
+  "layout": {
+    "cardVariant": "classic",
+    "imageTreatment": { "aspect": "3:4", "fit": "cover", "radius": "lg", "hover": "zoom" }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "Built for the long way home",
+      "subheadline": "Cushioned trail runners for pavement that turns to dirt",
+      "cta": { "label": "Shop the drop", "href": "/store" },
+      "image": "media/hero.webp"
+    },
+    "categoryTiles": [
+      { "categoryHandle": "trail-runners", "label": "Trail runners", "image": "media/tile-trail.webp" },
+      { "categoryHandle": "road", "label": "Road", "image": "media/tile-road.webp" },
+      { "categoryHandle": "recovery-slides", "label": "Recovery slides", "image": "media/tile-slides.webp" },
+      { "categoryHandle": "apparel", "label": "Apparel", "image": "media/tile-apparel.webp" }
+    ],
+    "promoStrip": { "enabled": true, "text": "Free shipping over $120 · 30-day returns" }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": { "products": 11, "variants": 36, "images": 30 }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-07T00:00:00.000Z",
+  "generatedBy": "S1c fixture, hand-written"
+}

@@ -1,0 +1,48 @@
+/*
+ * Maps the <html> data-image-* attributes onto the custom properties the frame reads.
+ * The attributes are set before first paint (theme agent's pre-paint script); this file is
+ * what gives them meaning, and it lives next to its only consumer rather than in the shared
+ * stylesheet so the two agents' files do not overlap.
+ *
+ * Every property has a two-step fallback: the html-level value, then the value baked into
+ * profile.generated.json and written inline by imageTreatmentStyle(). With neither, the
+ * frame behaves exactly as the storefront did before profiles existed.
+ */
+
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: var(--image-fit, var(--image-fit-fallback, cover));
+  object-position: center;
+  transition: transform 200ms ease-out, opacity 200ms ease-out;
+}
+
+.secondary {
+  opacity: 0;
+}
+
+/* Hover lives on the frame, which is the whole image target inside the card link. */
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover .image {
+    transform: scale(var(--image-hover-scale, var(--image-hover-scale-fallback, 1)));
+  }
+
+  .frame:hover .secondary {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: none;
+  }
+
+  .frame:hover .image {
+    transform: none;
+  }
+}
