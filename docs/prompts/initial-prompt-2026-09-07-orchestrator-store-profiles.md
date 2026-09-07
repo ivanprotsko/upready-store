@@ -80,3 +80,13 @@ No edits in the main checkout or under `node_modules`; no `pnpm install` outside
 ## Reporting
 
 `orchestrator.mjs emit --task t-store-profiles-pilot` after S0, after each S1 zone, after the style board, after the consistency gate, after the batch, after S6 and after S7; `blocked` only from S4 step 2. Questions that only the architect can answer → `SendMessage` to `upready-store-47` plus the emit; Ivan relays nothing between windows. `.ai/progress.md` in the worktree holds the running state for a resumed session.
+
+## Launch prompt (Ivan pastes this into a NEW Claude Code session on Opus opened in the worktree)
+
+Final revision 2026-09-07 19:57 WITA, issued after Ivan's approval (`57624b3`) and both of his render clarifications. Kept here because the resume held only the fact «prompt issued», not the text.
+
+```
+[AGENT: orchestrator store-profiles] [MODEL: opus] [DIR: /Users/ivanprotsko/upready/worktrees/upready-store/feat/store-profiles] ultracode. Read docs/prompts/initial-prompt-2026-09-07-orchestrator-store-profiles.md first, then docs/store-profiles/00-program-2026-09-07.md and specs/store-profiles/*.schema.json. Ivan has approved t-store-profiles-pilot (state todo, goal and acceptance already in HANDOFF; t-ds-0-foundation is frozen) and orders the orchestration with this message: set the task in_progress with the two-call unlock of rule 22j, take the orchestration consent (touch "$TMPDIR/claude-orch-ok-<sid>" as its own call), then run stages S0–S8 for the pilot profile `sneakers` autonomously to the end. Pilot rules from Ivan: one angle per product, exactly 19 renders, no regenerations — flagged frames go to second-pass.json for a later pass. Every subagent on Opus or higher, prompts in English, commits per path with the IVAN_OK=1 prefix, no push, never touch :9022, :8027 or the main checkout. Report by orchestrator.mjs emit and SendMessage to the architect session upready-store-47; hand over when http://localhost:8028/en is ready for Ivan's eyes.
+```
+
+Precondition checked by the architect before handing this out: `feat/store-profiles` is fast-forwarded to `dev`, so the three documents named in the first sentence exist inside the worktree.
