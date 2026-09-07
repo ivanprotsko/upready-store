@@ -134,7 +134,15 @@ function cmdSpendAdd(a) {
   const resolution = a.resolution ?? null;
   if (!theme || typeof theme !== 'string') die('--theme is required');
   if (!PRICES[model]) die(`--model must be one of ${Object.keys(PRICES).join(', ')} (got ${model})`);
-  if (!['single', 'grid-3x3'].includes(kind)) die('--kind must be single or grid-3x3');
+  // A grid's price is set by the model and the resolution, never by how many panels the
+  // prompt asks for, so the panel count is DESCRIPTIVE metadata and the shape is what is
+  // validated. electronics has 14 products and buys them as one 4x4 at 4K; a fixed
+  // `grid-3x3` enum would have forced either a second $0.30 prediction or a false entry
+  // in the ledger, and a ledger that lies is the defect this tool exists to prevent.
+  // `kind` is stored and never branched on by `spend show` / `validate`, so widening it
+  // cannot change any figure already written.
+  if (!(kind === 'single' || /^grid-\d{1,2}x\d{1,2}$/.test(kind)))
+    die('--kind must be single or grid-<cols>x<rows>, e.g. grid-3x3 or grid-4x4');
   if (!PURPOSES.includes(purpose)) die(`--purpose must be one of ${PURPOSES.join(', ')}`);
   if (resolution !== null && !['2K', '4K'].includes(resolution)) die('--resolution must be 2K or 4K');
   if (a['prompt-sha'] && !/^[0-9a-f]{64}$/.test(a['prompt-sha'])) die('--prompt-sha must be 64 hex chars');

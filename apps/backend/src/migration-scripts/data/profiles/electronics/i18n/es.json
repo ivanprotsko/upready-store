@@ -1,0 +1,110 @@
+{
+  "name": "Español",
+  "translations": {
+    "categories": {
+      "audio": "Audio",
+      "headphones": "Auriculares de diadema",
+      "earbuds": "Auriculares intraaurales",
+      "speakers": "Altavoces",
+      "powerAndParts": "Energía y piezas",
+      "powerBanks": "Baterías externas",
+      "cablesAndChargers": "Cables y cargadores"
+    },
+    "collections": {
+      "newArrivals": "Novedades",
+      "bestsellers": "Más vendidos"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Color",
+        "values": {
+          "graphite": "Grafito",
+          "chalk": "Tiza",
+          "signalBlue": "Azul señal"
+        }
+      },
+      "capacity": {
+        "title": "Capacidad",
+        "values": {
+          "10000Mah": "10.000 mAh",
+          "20000Mah": "20.000 mAh",
+          "5000Mah": "5.000 mAh",
+          "26800Mah": "26.800 mAh",
+          "54000Mah": "54.000 mAh"
+        }
+      }
+    },
+    "products": {
+      "benchOverEar": {
+        "title": "Bench 1 · auriculares de diadema",
+        "subtitle": "De diadema, dinámico de 40 mm, 34 horas, almohadillas que salen con un giro",
+        "description": "El Bench 1 es el modelo alrededor del cual construimos todo lo demás. Un altavoz dinámico de 40 mm en una carcasa de vidrio grafito, 34 horas con una carga con la radio encendida, 8 horas tras diez minutos de carga. Las almohadillas se quitan con un cuarto de giro y se colocan igual, sin herramientas y sin pegamento; un juego nuevo cuesta $29 y lo mantenemos en stock cinco años después de que el modelo se descatalogue. La diadema lleva un núcleo de acero bajo el forro, así que el ajuste se mantiene donde lo dejaste. El puerto es USB-C y la clavija de 3,5 mm es real, no un adaptador. El peso es de 268 g en nuestra báscula, medido con las almohadillas puestas. Doce tornillos lo mantienen unido y ninguno está escondido bajo una pegatina."
+      },
+      "benchStudio": {
+        "title": "Bench S · auriculares de estudio cerrados",
+        "subtitle": "Solo con cable, 45 mm, 250 ohmios, un cable desmontable",
+        "description": "El Bench S no tiene batería, ni radio ni aplicación. Tiene un altavoz de 45 mm, una bobina de 250 ohmios que exige una salida de auriculares real, y un cable desmontable con conector mini-XLR de bloqueo, así que la pieza que falla primero es la que puedes cambiar por $19. Las conchas son cerradas y suficientemente profundas para que el oído no toque el altavoz, por eso este modelo pesa 340 g y el Bench 1 no. Las almohadillas son de terciopelo y se cambian a mano. Lo afinamos plano entre 40 Hz y 12 kHz y publicamos la curva en la página del producto en vez de describirla con un adjetivo. Si buscas graves que llegan antes que la nota, este no es tu modelo."
+      },
+      "padSet": {
+        "title": "Pad set · almohadillas de repuesto para Bench",
+        "subtitle": "Un par, cierre de rosca, compatible con Bench 1 y Bench S",
+        "description": "Un par de almohadillas de repuesto con el aro de cierre de rosca ya montado. Encajan en cualquiera de los dos modelos Bench en unos quince segundos: alinear la muesca, presionar, girar un cuarto de vuelta en sentido horario. La espuma es de memoria de recuperación lenta bajo una cara de piel sintética perforada y una pared interior de terciopelo, la combinación que mantiene el sellado sin cocinarte las orejas en una hora. Las almohadillas son la pieza de un auricular que se desgasta primero, normalmente entre dieciocho meses y tres años, y un par que no se puede reemplazar es un par con fecha de caducidad. Las mantenemos en stock cinco años después de que el auricular al que corresponden salga del catálogo. Se venden en pareja porque nadie quiere una almohadilla nueva y otra aplastada."
+      },
+      "pinEarbuds": {
+        "title": "Pin · auriculares intraaurales",
+        "subtitle": "Intraaural, 11 mm, 7 horas más 28 en el estuche",
+        "description": "Pin es lo bastante pequeño para olvidarlo y lo bastante potente para no pasar desapercibido. Un altavoz de 11 mm en cada auricular, 7 horas de reproducción y 28 más en el estuche, que se carga por USB-C y se apoya plano sobre una mesa en vez de rodar. La tapa del estuche tiene una bisagra metálica homologada para 30.000 ciclos, porque la bisagra suele ser lo que acaba primero con unos auriculares, mucho antes que los altavoces. Cuatro tamaños de almohadillas en la caja, y las almohadillas tienen un diámetro estándar de 4,9 mm, así que cualquier almohadilla de terceros que ya te guste encajará. Cada auricular es IP54: lluvia y sudor, no natación. La batería del estuche es una celda con marca que vendemos por separado, y el estuche se abre con dos tornillos."
+      },
+      "pinOpen": {
+        "title": "Pin Open · clips de oído abierto",
+        "subtitle": "Clip de oído abierto, 16,5 mm, nada dentro del canal auditivo",
+        "description": "Pin Open se sujeta por fuera de la oreja y coloca un altavoz de 16,5 mm junto al canal auditivo sin entrar en él. Oyes la sala, la bicicleta que viene detrás y a la persona en el mostrador, que es justamente el objetivo; también por eso suenan más bajo que Pin al mismo nivel de volumen, y por eso no prometemos graves que no podemos dar. El clip es un alambre de níquel-titanio dentro de una funda de silicona, moldeable para ajustarse y con suficiente resorte para quedarse en su sitio durante una carrera. 10 horas por carga, IP55, y un estuche que los carga pero no finge ser una batería externa. Si usas gafas, el clip queda debajo de la patilla, no encima."
+      },
+      "slabPortable": {
+        "title": "Slab · altavoz portátil",
+        "subtitle": "Dos altavoces de 52 mm, un radiador pasivo, 20 horas",
+        "description": "Slab es un ladrillo de altavoz con dos altavoces de 52 mm apuntando hacia delante y un radiador pasivo en la parte trasera que hace el trabajo de una caja más grande. 20 horas al volumen que la gente usa de verdad, es decir, alrededor del 60 por ciento, y 9 horas a tope. La rejilla es acero con pintura en polvo y se desmonta, así que si se abolla cambias la rejilla y no el altavoz. IP67, lo que significa que sobrevive a caer en el fregadero y a un día de playa. Se carga por USB-C a 18 W y carga tu teléfono a través del mismo puerto a 7,5 W, despacio, que es la cifra honesta. Dos unidades se emparejan como estéreo y se mantienen emparejadas."
+      },
+      "shelfMonitor": {
+        "title": "Shelf 4 · monitores amplificados, par",
+        "subtitle": "Par, woofer de 4 pulgadas, domo de 1 pulgada, 50 W por canal",
+        "description": "Shelf 4 es un par de monitores amplificados para un escritorio o una estantería, no para una sala. Woofer de papel de cuatro pulgadas, domo de seda de una pulgada, 50 vatios por canal desde un amplificador alojado en el gabinete izquierdo. El gabinete derecho recibe un único cable de altavoz, así que en la habitación hay un solo cable de red y no dos. Las entradas son USB-C, RCA y 3,5 mm, y el mando de volumen es un potenciómetro analógico con clics en el frontal, donde ya tienes la mano. Los gabinetes son de MDF de 15 mm con refuerzo interno, por eso pesan 3,2 kg cada uno y por eso no vibran en la línea de graves. Los puertos bass-reflex disparan hacia atrás; deja 10 cm libres detrás."
+      },
+      "puckSpeaker": {
+        "title": "Puck · altavoz de bolsillo",
+        "subtitle": "Un altavoz de 40 mm, 12 horas, cabe en el bolsillo de un abrigo",
+        "description": "Puck es un altavoz de 40 mm, un pequeño radiador pasivo y una batería dentro de un disco de aluminio del tamaño de un posavasos. No es un altavoz de fiesta y no vamos a decir que lo sea. Es el altavoz que pones en la balda de la cocina o en el escritorio de un hotel para que un pódcast no salga del teléfono, y para ese trabajo es mejor que cualquier cosa que haga el teléfono. 12 horas por carga, USB-C, IP66. Tiene un ojal para la anilla mecanizado en el cuerpo en lugar de pegado, y un interruptor mecánico real de silencio en el borde que corta el micrófono con un clic que se nota. La base es una única lámina de silicona antideslizante que evita que se desplace por la encimera."
+      },
+      "brickPack": {
+        "title": "Brick · batería externa",
+        "subtitle": "100 W de salida, dos USB-C, una pantalla que muestra vatios",
+        "description": "Brick pone la cifra por fuera. Una pequeña pantalla monocroma muestra los vatios de entrada, los vatios de salida y la carga restante como porcentaje calculado a partir de las celdas y no a partir de cuatro puntos y una suposición optimista. Dos puertos USB-C, 100 W desde el primero, suficiente para un portátil y no solo para un teléfono. Las celdas están identificadas en la ficha técnica y en una etiqueta dentro de la carcasa, y la carcasa se abre con cuatro tornillos en lugar de soldadura ultrasónica, así que una batería estropeada es un problema de reciclaje y no de vertedero. Las esquinas son de TPU moldeado porque una batería externa vive en el fondo de una mochila junto a las llaves. Apta para vuelo en ambas capacidades."
+      },
+      "slipPack": {
+        "title": "Slip · pack magnético",
+        "subtitle": "Magnético, 15 W inalámbrico, lo bastante plano para un bolsillo",
+        "description": "Slip se adhiere a la parte trasera del teléfono y lo carga a 15 W sin cable, o a 20 W con uno a través del puerto USB-C del borde. El anillo magnético es del tipo fuerte: sujeta el teléfono incluso con funda y no se desliza cuando metes el teléfono en el bolsillo de un abrigo. Mide 11 mm de grosor con 5.000 mAh y 15 mm con 10.000 mAh, y damos ambas cifras porque un pack magnético que convierte el teléfono en un ladrillo es un pack que dejas de llevar encima. La superficie es de silicona suave al tacto que no raya la parte trasera del teléfono. Bajo el anillo magnético hay un pequeño soporte plegable que inclina el teléfono a 60 grados para ver vídeos."
+      },
+      "crateStation": {
+        "title": "Crate · estación de energía de escritorio",
+        "subtitle": "Estación de escritorio, seis puertos, un solo cable de red para la habitación",
+        "description": "Crate se coloca bajo un monitor y sustituye la pila de cargadores que hay detrás. Seis puertos: cuatro USB-C, dos USB-A, 140 W desde el puerto superior izquierdo y 210 W en conjunto, con una pantalla que indica lo que cada puerto entrega en realidad y no lo que podría entregar en un laboratorio. Funciona desde la red eléctrica y mantiene una batería, así que un corte de luz te da unas horas de portátil en vez de pánico por archivos sin guardar. El ventilador está controlado por temperatura y no gira por debajo de 90 W, lo que en la mayoría de escritorios significa nunca. La carcasa es de aluminio, las patas son de silicona, y el conjunto pesa lo suficiente para quedarse donde lo pones cuando tiras de un cable."
+      },
+      "stackCharger": {
+        "title": "Stack 65 · cargador de pared GaN",
+        "subtitle": "65 W, dos USB-C, clavijas plegables",
+        "description": "Stack 65 es un cargador de pared que no tapa el enchufe de al lado. El interior de nitruro de galio permite sacar 65 vatios de un cuerpo del tamaño de una caja de cerillas, y las clavijas se pliegan para caber en una bolsa sin romper el forro. Dos puertos USB-C: 65 W desde uno solo, o 45 y 18 W cuando se usan ambos, y el reparto está impreso en la parte inferior del cargador, donde se puede leer, en vez de enterrado en un manual. Se calienta, no arde, y la carcasa es de policarbonato ignífugo sin rejillas de ventilación, así que nada entra dentro. Los cabezales de clavija intercambiables para Reino Unido, la Unión Europea y Estados Unidos se venden por separado a $9 y encajan sin herramientas."
+      },
+      "braidCable": {
+        "title": "Braid · cable USB-C, 2 m",
+        "subtitle": "240 W, 40 Gbps, trenzado, protección antitirones visible",
+        "description": "Un cable es la pieza que falla, así que este está reforzado en los extremos. La protección antitirones es una funda moldeada de 22 mm sobre un anclaje interno, no un termorretráctil, y el trenzado es un nailon de doble tejido sobre un núcleo de TPE que no coge memoria de dobleces. 240 W y 40 Gbps, lo que significa que carga un portátil y transporta una señal de vídeo al mismo tiempo, y las cifras están grabadas con láser en la carcasa, así que siguen siendo legibles dos años después. Dos metros, porque 1 metro nunca llega y 3 metros siempre se enredan. Está homologado para 25.000 flexiones a 180 grados, lo comprobamos con esa cifra exacta, y si falla antes de que pasen los dos años, lo reemplazamos."
+      },
+      "hubDock": {
+        "title": "Hub 7 · dock de escritorio",
+        "subtitle": "Siete puertos, un cable al portátil, 100 W de vuelta",
+        "description": "Un cable al portátil, siete puertos sobre la mesa. Dos HDMI a 4K 60 Hz, tres USB-A, un lector de tarjetas SD y un USB-C que devuelve 100 W por el mismo cable que lleva el vídeo, así que el portátil se carga desde el dock y el dock funciona desde la pared. El cuerpo es de aluminio mecanizado y actúa como disipador, por eso no lleva ventilador y por eso se calienta en lugar de estar en silencio y luego bajar de rendimiento. El cable integrado mide 25 cm, suficiente para rodear un portátil y bastante corto para no enroscarse sobre la mesa. No hay controladores que instalar ni aplicación; es un hub, y un hub que necesita software es un hub que deja de funcionar cuando el software falla."
+      }
+    }
+  }
+}

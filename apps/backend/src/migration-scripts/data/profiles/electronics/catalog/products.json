@@ -1,0 +1,1119 @@
+[
+  {
+    "handle": "bench-over-ear",
+    "title": "Bench 1 · over-ear headphones",
+    "subtitle": "Over-ear, 40 mm dynamic, 34 hours, pads off with a twist",
+    "description": "The Bench 1 is the pair we build everything else around. A 40 mm dynamic driver in a graphite-glass housing, 34 hours on a charge with the radio on, 8 hours from a ten-minute charge. The earpads come off with a quarter twist and go back on the same way, no tool and no glue; a fresh set is $29 and we stock it for five years after the model is discontinued. The headband is steel under the wrap, so the adjustment holds where you left it. The cable port is USB-C and the 3.5 mm socket is real, not a dongle. Weight is 268 g on our scale, measured with the pads fitted. Twelve screws hold it together and none of them is hidden under a sticker.",
+    "status": "published",
+    "category": "headphones",
+    "collections": [
+      "new-arrivals",
+      "bestsellers"
+    ],
+    "weight": 320,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-BENCH1",
+      "specs": {
+        "Driver": "40 mm dynamic, PET diaphragm",
+        "Frequency response": "18 Hz - 22 kHz",
+        "Impedance": "32 ohm",
+        "Battery life": "34 hours, ANC on; 46 hours, ANC off",
+        "Charge": "USB-C, 2.0 h full, 10 min for 8 hours",
+        "Wired": "3.5 mm analogue, works with the battery flat",
+        "Bluetooth": "5.4, SBC / AAC / aptX Adaptive",
+        "Weight": "268 g with pads fitted",
+        "Replaceable parts": "Earpads, headband cushion, USB-C port board",
+        "Warranty": "2 years, parts stocked 5 years"
+      }
+    },
+    "images": [
+      "media/bench-over-ear-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-BENCHOVEREAR-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-BENCHOVEREAR-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-BENCHOVEREAR-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A closed-back over-ear headphone with a matte graphite glass-filled nylon earcup, a brushed graphite aluminium yoke, a steel headband under a matte woven wrap, a dark grey memory-foam earpad with a twist-lock ring, and one USB-C port and one 3.5 mm socket on the lower edge of the left cup.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "bench-studio",
+    "title": "Bench S · closed-back studio headphones",
+    "subtitle": "Wired only, 45 mm, 250 ohm, one detachable cable",
+    "description": "The Bench S has no battery, no radio and no app. It has a 45 mm driver, a 250 ohm coil that wants a real headphone output, and a detachable cable on a locking mini-XLR so the part that fails first is the part you can replace for $19. The cups are closed and deep enough that your ear does not touch the driver, which is why this pair weighs 340 g and the Bench 1 does not. Pads are velour and swap by hand. We tune it flat between 40 Hz and 12 kHz and we publish the curve on the product page rather than describing it with an adjective. If you are looking for bass that arrives before the note does, this is not the pair.",
+    "status": "published",
+    "category": "headphones",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 380,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-BENCHS",
+      "specs": {
+        "Driver": "45 mm dynamic, cellulose-blend diaphragm",
+        "Frequency response": "10 Hz - 30 kHz",
+        "Impedance": "250 ohm",
+        "Sensitivity": "96 dB SPL / mW",
+        "Cable": "Detachable, locking mini-XLR to 3.5 mm, 3 m",
+        "Adapter": "6.35 mm screw-on, included",
+        "Isolation": "Closed back, 18 dB passive",
+        "Weight": "340 g without cable",
+        "Replaceable parts": "Cable, earpads, headband cushion, driver capsule",
+        "Warranty": "2 years, parts stocked 5 years"
+      }
+    },
+    "images": [
+      "media/bench-studio-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-BENCHSTUDIO-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 239,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-BENCHSTUDIO-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 239,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A closed-back studio headphone with deep matte graphite earcups in glass-filled nylon, a visible steel headband slider with printed detents, dark grey velour earpads, and a locking mini-XLR socket on the lower face of the left cup with a black fabric-sleeved cable plugged into it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "pad-set",
+    "title": "Pad set · replaceable earpads for Bench",
+    "subtitle": "One pair, twist-lock, fits Bench 1 and Bench S",
+    "description": "A pair of replacement earpads with the twist-lock ring already fitted. They go on either Bench model in about fifteen seconds: line up the flat, press, quarter turn clockwise. The foam is a slow-recovery memory foam under a perforated protein-leather face and a velour inner wall, which is the combination that keeps the seal without cooking your ears in an hour. Pads are the part of a headphone that wears out first, usually in eighteen months to three years, and a pair that cannot be re-padded is a pair with an expiry date. We stock these for five years after the headphone they fit leaves the catalogue. Sold as a pair because you will not want one new pad and one flat one.",
+    "status": "published",
+    "category": "headphones",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 60,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-PADSET",
+      "specs": {
+        "Fits": "Bench 1, Bench S",
+        "Quantity": "One pair",
+        "Face material": "Perforated protein leather",
+        "Inner wall": "Velour",
+        "Foam": "Slow-recovery memory foam, 22 mm",
+        "Mount": "Twist-lock ring, pre-fitted",
+        "Fitting time": "About 15 seconds per side, no tool",
+        "Weight": "54 g the pair",
+        "Stocked": "5 years after the model is discontinued"
+      }
+    },
+    "images": [
+      "media/pad-set-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "Pad set",
+        "sku": "FRT-PADSET",
+        "options": {},
+        "price_usd": 29,
+        "inventory_quantity": 14
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of circular headphone earpads lying side by side, each with a perforated dark grey protein-leather outer face, a lighter grey velour inner wall, a thick memory-foam cushion, and a black plastic twist-lock mounting ring visible on the underside of the near pad.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-pair: two identical objects, the near one three-quarter front from its left, the far one behind-left and slightly turned away, both on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "pin-earbuds",
+    "title": "Pin · in-ear buds",
+    "subtitle": "In-ear, 11 mm, 7 hours plus 28 in the case",
+    "description": "Pin is small enough to forget and loud enough not to. An 11 mm driver in each bud, 7 hours playing and 28 more in the case, which charges over USB-C and sits flat on a desk instead of rolling. The case lid has a metal hinge rated to 30 000 cycles, because the hinge is what usually kills a set of buds long before the drivers do. Four ear-tip sizes in the box and the tips are a standard 4.9 mm bore, so any third-party tip you already like will fit. Each bud is IP54: rain and sweat, not swimming. The battery in the case is a named cell we will sell you, and the case opens with two screws.",
+    "status": "published",
+    "category": "earbuds",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 45,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-PIN",
+      "specs": {
+        "Driver": "11 mm dynamic per bud",
+        "Battery life": "7 hours per bud, 35 hours with the case",
+        "Case battery": "520 mAh, replaceable, named cell",
+        "Charge": "USB-C, 1.5 h; 10 min for 2 hours",
+        "Bluetooth": "5.4, multipoint two devices",
+        "Water resistance": "IP54 buds, IPX2 case",
+        "Ear tips": "Four sizes, 4.9 mm standard bore",
+        "Weight": "4.6 g per bud, 41 g the case",
+        "Hinge": "Steel, rated 30 000 cycles",
+        "Warranty": "2 years, parts stocked 5 years"
+      }
+    },
+    "images": [
+      "media/pin-earbuds-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-PINEARBUDS-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-PINEARBUDS-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-PINEARBUDS-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of small in-ear earbuds in matte graphite with short stems and dark grey silicone tips, standing upright beside their open rounded-rectangle charging case, the case lid tilted back on a visible metal hinge and a USB-C port on the case rear edge.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-pair: two identical objects, the near one three-quarter front from its left, the far one behind-left and slightly turned away, both on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "pin-open",
+    "title": "Pin Open · open-ear clips",
+    "subtitle": "Open-ear clip, 16.5 mm, nothing in the ear canal",
+    "description": "Pin Open clips over the outside of the ear and puts a 16.5 mm driver next to the canal without going into it. You hear the room, the bike behind you and the person at the counter, which is the entire point; it is also why these are quieter than Pin at the same volume setting and why we do not claim bass we cannot deliver. The clip is a nickel-titanium wire in a silicone sleeve, bendable to fit and springy enough to stay put through a run. 10 hours a charge, IP55, and a case that charges them but does not pretend to be a battery bank. If you wear glasses, the clip sits under the arm, not on it.",
+    "status": "published",
+    "category": "earbuds",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 55,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-PINOPEN",
+      "specs": {
+        "Driver": "16.5 mm dynamic, open-ear",
+        "Battery life": "10 hours per clip, 30 hours with the case",
+        "Charge": "USB-C, 1.5 h; 10 min for 3 hours",
+        "Bluetooth": "5.4, multipoint two devices",
+        "Water resistance": "IP55",
+        "Clip": "Nickel-titanium wire in silicone, bendable",
+        "Weight": "6.8 g per clip, 52 g the case",
+        "Leakage": "-24 dB at 1 m, measured at 70 dB SPL at the ear",
+        "Warranty": "2 years, parts stocked 5 years"
+      }
+    },
+    "images": [
+      "media/pin-open-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-PINOPEN-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-PINOPEN-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 149,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of open-ear clip earbuds in matte graphite, each a flat oval driver pod joined to a small battery pod by a thin curved silicone-sleeved wire that forms a C-shaped clip, lying with the near clip standing on its edge and the far one flat.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-pair: two identical objects, the near one three-quarter front from its left, the far one behind-left and slightly turned away, both on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "slab-portable",
+    "title": "Slab · portable speaker",
+    "subtitle": "Two 52 mm drivers, one passive radiator, 20 hours",
+    "description": "Slab is a brick of a speaker with two 52 mm drivers firing forward and a passive radiator on the back doing the work a bigger box would do. 20 hours at the volume people actually use, which is about 60 percent, and 9 hours flat out. The grille is powder-coated steel and it unclips, so when it takes a dent you replace the grille and not the speaker. IP67, which means it survives a dropped-in-the-sink event and a day at the beach. It charges over USB-C at 18 W and it will charge your phone back out of the same port at 7.5 W, slowly, which is the honest number. Two of them pair into a stereo pair and stay paired.",
+    "status": "published",
+    "category": "speakers",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 780,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-SLAB",
+      "specs": {
+        "Drivers": "Two 52 mm full-range plus one 78 x 52 mm passive radiator",
+        "Output": "2 x 15 W RMS",
+        "Frequency response": "58 Hz - 20 kHz",
+        "Battery life": "20 hours at 60 percent volume, 9 hours at full",
+        "Battery": "5 200 mAh, replaceable",
+        "Charge": "USB-C 18 W in, 7.5 W out",
+        "Water resistance": "IP67, 30 min at 1 m",
+        "Pairing": "Stereo pair with a second Slab",
+        "Weight": "760 g",
+        "Replaceable parts": "Grille, battery, USB-C port board, strap"
+      }
+    },
+    "images": [
+      "media/slab-portable-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-SLABPORTABLE-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-SLABPORTABLE-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-SLABPORTABLE-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 169,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A rectangular portable speaker standing on its long edge, with a matte graphite powder-coated perforated steel front grille, moulded dark grey rubberised end caps, a row of five raised control buttons along the top face, and a short woven grey carry strap looped through the right end cap.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "shelf-monitor",
+    "title": "Shelf 4 · powered monitors, pair",
+    "subtitle": "Pair, 4 inch woofer, 1 inch dome, 50 W a side",
+    "description": "Shelf 4 is a pair of powered monitors for a desk or a shelf, not a room. Four-inch paper woofer, one-inch silk dome, 50 watts a side from an amplifier that lives in the left cabinet. The right cabinet takes a single speaker cable, so there is one mains lead in the room and not two. Inputs are USB-C, RCA and 3.5 mm, and the volume knob is a detented analogue potentiometer on the front, where your hand already is. The cabinets are 15 mm MDF with an internal brace, which is why they weigh 3.2 kg each and why they do not buzz at the bottom of a bass line. Ports are rear-firing; leave 10 cm behind them.",
+    "status": "published",
+    "category": "speakers",
+    "collections": [],
+    "weight": 6400,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-SHELF4",
+      "specs": {
+        "Woofer": "4 inch treated paper",
+        "Tweeter": "1 inch silk dome, ferrofluid cooled",
+        "Amplifier": "2 x 50 W class D, in the left cabinet",
+        "Frequency response": "52 Hz - 22 kHz",
+        "Inputs": "USB-C audio, RCA stereo, 3.5 mm",
+        "Volume": "Front analogue detented potentiometer",
+        "Cabinet": "15 mm MDF, internally braced, rear port",
+        "Weight": "3.2 kg each, 6.4 kg the pair",
+        "Placement": "Leave 10 cm behind the port",
+        "Warranty": "2 years, parts stocked 5 years"
+      }
+    },
+    "images": [
+      "media/shelf-monitor-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-SHELFMONITOR-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 429,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-SHELFMONITOR-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 429,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A pair of small bookshelf monitor speakers standing side by side, each a matte graphite MDF cabinet with a visible four-inch paper woofer and a one-inch dome tweeter on the exposed baffle, a small round metal volume knob low on the front of the near cabinet, and a speaker terminal pair on the rear edge of the far cabinet.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-pair: two identical objects, the near one three-quarter front from its left, the far one behind-left and slightly turned away, both on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "puck-speaker",
+    "title": "Puck · pocket speaker",
+    "subtitle": "One 40 mm driver, 12 hours, fits a coat pocket",
+    "description": "Puck is a 40 mm driver, a small passive radiator and a battery in an aluminium disc the size of a beer mat. It is not a party speaker and we will not tell you it is. It is the speaker you put on a kitchen shelf or a hotel desk so a podcast is not coming out of a phone, and at that job it is better than anything the phone can do. 12 hours a charge, USB-C, IP66. There is a lanyard loop machined into the body rather than glued on, and a real mechanical mute switch on the edge that cuts the microphone with a click you can feel. The bottom is a single sheet of grippy silicone that stops it walking across a counter.",
+    "status": "published",
+    "category": "speakers",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 210,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-PUCK",
+      "specs": {
+        "Driver": "40 mm full-range plus 45 mm passive radiator",
+        "Output": "8 W RMS",
+        "Frequency response": "90 Hz - 20 kHz",
+        "Battery life": "12 hours at 60 percent volume",
+        "Battery": "2 600 mAh, replaceable",
+        "Charge": "USB-C, 2 h",
+        "Water resistance": "IP66",
+        "Microphone": "One, with a mechanical mute switch",
+        "Body": "Machined aluminium with a moulded silicone base",
+        "Weight": "196 g"
+      }
+    },
+    "images": [
+      "media/puck-speaker-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-PUCKSPEAKER-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-PUCKSPEAKER-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A small round disc-shaped speaker lying flat, with a matte graphite machined aluminium body, a fine perforated metal grille across the whole top face, a knurled edge band carrying a small mechanical slide switch and a USB-C port, and a machined lanyard loop cut into one side of the body.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "brick-pack",
+    "title": "Brick · power bank",
+    "subtitle": "100 W out, two USB-C, a display that shows watts",
+    "description": "Brick puts the number on the outside. A small monochrome display shows watts in, watts out and the charge left as a percentage that comes from the cells rather than from four dots and an optimistic guess. Two USB-C ports, 100 W from the first one, enough for a laptop and not only a phone. The cells are named on the spec sheet and on a label inside the case, and the case opens with four screws rather than ultrasonic welding, so a dead pack is a recycling problem and not a landfill one. The corners are moulded TPU because a power bank lives in the bottom of a bag with keys. Airline-safe at both capacities.",
+    "status": "published",
+    "category": "power-banks",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 340,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-BRICK",
+      "specs": {
+        "Output": "100 W max, USB-C 1; 30 W USB-C 2; 130 W total",
+        "Input": "USB-C, 65 W",
+        "Display": "Monochrome, watts in, watts out, percent from the cells",
+        "Cells": "Named lithium-ion, listed on the label inside the case",
+        "Case": "Four screws, not welded",
+        "Pass-through": "Yes, charges the pack and the device at once",
+        "Airline": "Under 100 Wh at both capacities",
+        "Corners": "Moulded TPU",
+        "Weight": "212 g at 10 000 mAh, 336 g at 20 000 mAh",
+        "Warranty": "2 years, cells stocked 5 years"
+      }
+    },
+    "images": [
+      "media/brick-pack-hero.webp"
+    ],
+    "options": [
+      "Colour",
+      "Capacity"
+    ],
+    "variants": [
+      {
+        "title": "Graphite · 10 000 mAh",
+        "sku": "FRT-BRICKPACK-GRAPHITE-10000MAH",
+        "options": {
+          "Colour": "Graphite",
+          "Capacity": "10 000 mAh"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Graphite · 20 000 mAh",
+        "sku": "FRT-BRICKPACK-GRAPHITE-20000MAH",
+        "options": {
+          "Colour": "Graphite",
+          "Capacity": "20 000 mAh"
+        },
+        "price_usd": 79,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Chalk · 10 000 mAh",
+        "sku": "FRT-BRICKPACK-CHALK-10000MAH",
+        "options": {
+          "Colour": "Chalk",
+          "Capacity": "10 000 mAh"
+        },
+        "price_usd": 59,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "Chalk · 20 000 mAh",
+        "sku": "FRT-BRICKPACK-CHALK-20000MAH",
+        "options": {
+          "Colour": "Chalk",
+          "Capacity": "20 000 mAh"
+        },
+        "price_usd": 79,
+        "inventory_quantity": 21
+      }
+    ],
+    "imageBrief": {
+      "subject": "A rectangular power bank standing upright on its short edge, with a matte graphite textured plastic body, moulded dark grey rubber corner bumpers, a small rectangular monochrome display panel set into the upper front face, and two USB-C ports side by side on the top edge.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "slip-pack",
+    "title": "Slip · magnetic pack",
+    "subtitle": "Magnetic, 15 W wireless, flat enough for a pocket",
+    "description": "Slip sticks to the back of a phone and charges it at 15 W without a cable, or at 20 W with one through the USB-C port on the edge. The magnet array is the strong kind: it holds the phone through a case and it does not slide down when you put the phone in a coat pocket. It is 11 mm thick at 5 000 mAh and 15 mm at 10 000, and we print both numbers because a magnetic pack that turns a phone into a brick is a pack you stop carrying. The face is a soft-touch silicone that does not scratch a phone back. There is a small folding kickstand under the magnet ring that props the phone at 60 degrees for video.",
+    "status": "published",
+    "category": "power-banks",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 160,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-SLIP",
+      "specs": {
+        "Wireless output": "15 W magnetic",
+        "Wired output": "20 W USB-C",
+        "Input": "USB-C, 20 W",
+        "Magnet": "N52 ring array, holds through a 3 mm case",
+        "Thickness": "11 mm at 5 000 mAh, 15 mm at 10 000 mAh",
+        "Kickstand": "Folding, 60 degrees",
+        "Face": "Soft-touch silicone",
+        "Charge indicator": "Four LEDs on the edge",
+        "Weight": "118 g at 5 000 mAh, 205 g at 10 000 mAh",
+        "Airline": "Under 100 Wh at both capacities"
+      }
+    },
+    "images": [
+      "media/slip-pack-hero.webp"
+    ],
+    "options": [
+      "Colour",
+      "Capacity"
+    ],
+    "variants": [
+      {
+        "title": "Graphite · 5 000 mAh",
+        "sku": "FRT-SLIPPACK-GRAPHITE-5000MAH",
+        "options": {
+          "Colour": "Graphite",
+          "Capacity": "5 000 mAh"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Graphite · 10 000 mAh",
+        "sku": "FRT-SLIPPACK-GRAPHITE-10000MAH",
+        "options": {
+          "Colour": "Graphite",
+          "Capacity": "10 000 mAh"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Signal blue · 5 000 mAh",
+        "sku": "FRT-SLIPPACK-SIGNALBLUE-5000MAH",
+        "options": {
+          "Colour": "Signal blue",
+          "Capacity": "5 000 mAh"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 0
+      },
+      {
+        "title": "Signal blue · 10 000 mAh",
+        "sku": "FRT-SLIPPACK-SIGNALBLUE-10000MAH",
+        "options": {
+          "Colour": "Signal blue",
+          "Capacity": "10 000 mAh"
+        },
+        "price_usd": 69,
+        "inventory_quantity": 21
+      }
+    ],
+    "imageBrief": {
+      "subject": "A flat rounded-rectangle magnetic power bank lying face up at a slight angle, with a matte graphite soft-touch silicone face, a faint circular magnet ring visible under the surface, a small folding metal kickstand hinged flat against the back, a USB-C port on the long edge and four small charge LEDs beside it.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "crate-station",
+    "title": "Crate · desk power station",
+    "subtitle": "Desk station, six ports, one mains lead for the room",
+    "description": "Crate sits under a monitor and replaces the pile of chargers behind it. Six ports: four USB-C, two USB-A, 140 W from the top-left port and 210 W across the whole thing, with a display that tells you what each port is actually delivering rather than what it could deliver in a laboratory. It runs from mains and holds a battery, so a power cut gives you a few hours of laptop rather than a saved-file panic. The fan is temperature-controlled and does not spin below 90 W, which for most desks means never. The case is aluminium, the feet are silicone, and the whole thing weighs enough to stay where you put it when you pull a cable out.",
+    "status": "published",
+    "category": "power-banks",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 3100,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-CRATE",
+      "specs": {
+        "Ports": "Four USB-C, two USB-A",
+        "Peak port output": "140 W, USB-C 1",
+        "Total output": "210 W",
+        "Display": "Per-port watts, live",
+        "Mains input": "100-240 V, IEC C7",
+        "Battery role": "Uninterruptible, holds the desk through a cut",
+        "Fan": "Temperature controlled, off below 90 W",
+        "Case": "Extruded aluminium with silicone feet",
+        "Weight": "1.9 kg at 26 800 mAh, 3.1 kg at 54 000 mAh",
+        "Warranty": "2 years, cells stocked 5 years"
+      }
+    },
+    "images": [
+      "media/crate-station-hero.webp"
+    ],
+    "options": [
+      "Capacity"
+    ],
+    "variants": [
+      {
+        "title": "26 800 mAh",
+        "sku": "FRT-CRATESTATION-26800MAH",
+        "options": {
+          "Capacity": "26 800 mAh"
+        },
+        "price_usd": 129,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "54 000 mAh",
+        "sku": "FRT-CRATESTATION-54000MAH",
+        "options": {
+          "Capacity": "54 000 mAh"
+        },
+        "price_usd": 189,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A low rectangular desk power station standing on a flat surface, with a brushed graphite extruded aluminium case, six ports in a row across the front face, a wide monochrome display strip above the ports showing bar readouts, ventilation slots along the near side and small dark silicone feet at each corner.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "stack-charger",
+    "title": "Stack 65 · GaN wall charger",
+    "subtitle": "65 W, two USB-C, folding pins",
+    "description": "Stack 65 is a wall charger that does not block the socket next to it. Gallium nitride internals mean 65 watts out of a body about the size of a matchbox, and the pins fold flat so it goes in a bag without tearing the lining. Two USB-C ports: 65 W from one, or 45 and 18 when both are in use, and the split is printed on the underside of the charger where you can read it rather than buried in a manual. It runs warm, not hot, and the case is a flame-rated polycarbonate with no vents, so nothing gets inside it. Interchangeable pin heads for UK, EU and US are sold separately at $9 and clip on without a tool.",
+    "status": "published",
+    "category": "cables-and-chargers",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 120,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-STACK65",
+      "specs": {
+        "Output": "65 W from one port; 45 W plus 18 W with both in use",
+        "Ports": "Two USB-C",
+        "Technology": "Gallium nitride",
+        "Pins": "Folding, interchangeable UK / EU / US heads",
+        "Input": "100-240 V, 50/60 Hz",
+        "Protocols": "USB PD 3.1, PPS",
+        "Case": "Flame-rated polycarbonate, unvented",
+        "Size": "58 x 42 x 30 mm",
+        "Weight": "112 g",
+        "Warranty": "2 years"
+      }
+    },
+    "images": [
+      "media/stack-charger-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-STACKCHARGER-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-STACKCHARGER-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 49,
+        "inventory_quantity": 8
+      }
+    ],
+    "imageBrief": {
+      "subject": "A small rectangular wall charger standing on a flat surface with its folding mains pins swung out and down, a matte graphite polycarbonate body with a subtle horizontal seam around the middle, two USB-C ports side by side on the front face and fine printed port ratings moulded into the underside edge.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "braid-cable",
+    "title": "Braid · USB-C cable, 2 m",
+    "subtitle": "240 W, 40 Gbps, braided, strain relief you can see",
+    "description": "A cable is the part that fails, so this one is built at the ends. The strain relief is a 22 mm moulded boot over an internal anchor, not a shrink sleeve, and the braid is a double-weave nylon over a TPE core that does not take a memory kink. 240 W and 40 Gbps, which means it will charge a laptop and carry a display at the same time, and the ratings are laser-etched into the shell so they are still readable in two years. Two metres, because 1 metre never reaches and 3 metres always tangles. It is rated to 25 000 bends at 180 degrees, we test to that number, and if it fails before the two years are out we replace it.",
+    "status": "published",
+    "category": "cables-and-chargers",
+    "collections": [
+      "new-arrivals"
+    ],
+    "weight": 90,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-BRAID2M",
+      "specs": {
+        "Power": "240 W, USB PD 3.1 EPR",
+        "Data": "40 Gbps, USB4",
+        "Video": "DisplayPort Alt Mode, 8K at 60 Hz",
+        "Length": "2 m",
+        "Jacket": "Double-weave nylon braid over TPE",
+        "Strain relief": "22 mm moulded boot over an internal anchor",
+        "Bend rating": "25 000 bends at 180 degrees",
+        "Markings": "Laser-etched on the shell",
+        "E-marker": "Yes",
+        "Weight": "86 g"
+      }
+    },
+    "images": [
+      "media/braid-cable-hero.webp"
+    ],
+    "options": [
+      "Colour"
+    ],
+    "variants": [
+      {
+        "title": "Graphite",
+        "sku": "FRT-BRAIDCABLE-GRAPHITE",
+        "options": {
+          "Colour": "Graphite"
+        },
+        "price_usd": 19,
+        "inventory_quantity": 14
+      },
+      {
+        "title": "Chalk",
+        "sku": "FRT-BRAIDCABLE-CHALK",
+        "options": {
+          "Colour": "Chalk"
+        },
+        "price_usd": 19,
+        "inventory_quantity": 8
+      },
+      {
+        "title": "Signal blue",
+        "sku": "FRT-BRAIDCABLE-SIGNALBLUE",
+        "options": {
+          "Colour": "Signal blue"
+        },
+        "price_usd": 19,
+        "inventory_quantity": 0
+      }
+    ],
+    "imageBrief": {
+      "subject": "A two-metre USB-C cable coiled once into a loose circle and laid flat, with a matte graphite double-weave braided jacket, two matching graphite anodised aluminium connector shells lying near the front of the coil, and a visible thick moulded strain-relief boot where the jacket enters each shell.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  },
+  {
+    "handle": "hub-dock",
+    "title": "Hub 7 · desk dock",
+    "subtitle": "Seven ports, one cable to the laptop, 100 W back",
+    "description": "One cable to the laptop, seven ports on the desk. Two HDMI at 4K 60, three USB-A, an SD reader and a USB-C that pushes 100 W back up the same cable that carries the video, so the laptop charges from the dock and the dock runs from the wall. The body is machined aluminium and it acts as the heatsink, which is why there is no fan in it and why it is warm rather than silent-and-then-throttling. The captive cable is 25 cm, long enough to reach round a laptop and short enough not to loop on the desk. There are no drivers to install and no app; it is a hub, and a hub that needs software is a hub that stops working when the software does.",
+    "status": "published",
+    "category": "cables-and-chargers",
+    "collections": [
+      "bestsellers"
+    ],
+    "weight": 240,
+    "metadata": {
+      "brand": "Ferrite",
+      "mpn": "FRT-HUB7",
+      "specs": {
+        "Video": "Two HDMI 2.0, 4K at 60 Hz each",
+        "USB-A": "Three, 10 Gbps",
+        "USB-C": "One, 100 W power delivery upstream",
+        "Card reader": "SD and microSD, UHS-II",
+        "Host cable": "Captive USB-C, 25 cm",
+        "Cooling": "Passive, aluminium body as heatsink",
+        "Software": "None, no drivers",
+        "Body": "Machined aluminium",
+        "Weight": "228 g",
+        "Warranty": "2 years"
+      }
+    },
+    "images": [
+      "media/hub-dock-hero.webp"
+    ],
+    "options": [],
+    "variants": [
+      {
+        "title": "Hub 7",
+        "sku": "FRT-HUBDOCK",
+        "options": {},
+        "price_usd": 109,
+        "inventory_quantity": 14
+      }
+    ],
+    "imageBrief": {
+      "subject": "A flat rectangular desk dock lying on a surface, with a brushed graphite machined aluminium body, a row of ports of differing shapes along the far long edge, a card-reader slot on the near right end, and a short captive braided grey cable emerging from the left end and ending in a USB-C connector lying beside the body.",
+      "shots": [
+        {
+          "role": "hero",
+          "description": "Hero packshot, template variant V-single: one object alone in the panel, three-quarter front from its left, its most characteristic face to camera, on the standard grey cyclorama."
+        }
+      ],
+      "doNotShow": [
+        "real logos, brand marks or wordmarks of any kind",
+        "legible text, letters or numbers anywhere in the frame, including on screens, buttons and cable moulds",
+        "a housing shape, grille pattern or control layout copied from an existing product",
+        "human faces, hands, ears or bodies, and earbuds shown worn",
+        "props, plinths, boxes, tissue paper, desks, plants or phones",
+        "coloured or gradient backgrounds, coloured gels, neon or rim-light flare",
+        "wet, glossy or mirrored floor, reflections, a second shadow, a floating subject",
+        "top-down flat lay, dutch angle or tilted horizon",
+        "shallow depth of field, bokeh or motion blur",
+        "HDR, oversaturation, heavy vignette or visible upscaling artefacts",
+        "anything that names a real place or a real shop"
+      ]
+    }
+  }
+]

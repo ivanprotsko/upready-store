@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "audio",
+    "name": "Audio",
+    "children": [
+      {
+        "handle": "headphones",
+        "name": "Headphones"
+      },
+      {
+        "handle": "earbuds",
+        "name": "Earbuds"
+      },
+      {
+        "handle": "speakers",
+        "name": "Speakers"
+      }
+    ]
+  },
+  {
+    "handle": "power-and-parts",
+    "name": "Power and parts",
+    "children": [
+      {
+        "handle": "power-banks",
+        "name": "Power banks"
+      },
+      {
+        "handle": "cables-and-chargers",
+        "name": "Cables and chargers"
+      }
+    ]
+  }
+]

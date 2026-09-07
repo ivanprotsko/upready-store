@@ -1,0 +1,92 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "electronics",
+  "vertical": "audio and gadgets",
+  "audience": {
+    "region": "EU and US, desk and bag in equal measure",
+    "persona": "Sam, 31, works from a desk and a bag; reads the spec sheet before the review, checks whether the battery is replaceable, and keeps a pair of over-ears five years by re-padding them."
+  },
+  "brand": {
+    "name": "Ferrite",
+    "tagline": "Audio you can open",
+    "wordmark": {
+      "text": "FERRITE",
+      "style": "wordmark"
+    },
+    "legalName": "Ferrite Instruments Ltd."
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": ["de", "en", "es", "fr", "ru"]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
+  "theme": {
+    "presetId": "electronics",
+    "file": "theme.json",
+    "defaultMode": "dark",
+    "typography": {
+      "display": "Geist",
+      "body": "Geist"
+    },
+    "radius": "lg"
+  },
+  "layout": {
+    "cardVariant": "classic",
+    "imageTreatment": {
+      "aspect": "1:1",
+      "fit": "cover",
+      "radius": "lg",
+      "hover": "none"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "Twelve screws. Two years of parts.",
+      "subheadline": "Graphite audio built to be opened: replaceable pads, named cells, a spare-parts page that outlives the product.",
+      "cta": {
+        "label": "See what's inside",
+        "href": "/store"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      { "categoryHandle": "headphones", "label": "Headphones", "image": "media/tile-headphones.webp" },
+      { "categoryHandle": "earbuds", "label": "Earbuds", "image": "media/tile-earbuds.webp" },
+      { "categoryHandle": "speakers", "label": "Speakers", "image": "media/tile-speakers.webp" },
+      { "categoryHandle": "power-banks", "label": "Power banks", "image": "media/tile-power-banks.webp" },
+      { "categoryHandle": "cables-and-chargers", "label": "Cables and chargers", "image": "media/tile-cables-and-chargers.webp" }
+    ],
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free shipping over $80 · 2-year warranty · pads, cells and cables sold separately"
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 14,
+      "variants": 34,
+      "images": 14
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "generatedAt": "2026-09-08T04:30:00.000Z",
+  "generatedBy": "store-profiles wave 2, W6, assembled from design/style-board.md"
+}

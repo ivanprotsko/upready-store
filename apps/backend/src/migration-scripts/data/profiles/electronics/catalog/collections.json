@@ -1,0 +1,28 @@
+[
+  {
+    "handle": "new-arrivals",
+    "title": "New arrivals",
+    "products": [
+      "bench-over-ear",
+      "pin-open",
+      "slab-portable",
+      "slip-pack",
+      "crate-station",
+      "braid-cable",
+      "pad-set"
+    ]
+  },
+  {
+    "handle": "bestsellers",
+    "title": "Bestsellers",
+    "products": [
+      "bench-over-ear",
+      "bench-studio",
+      "pin-earbuds",
+      "puck-speaker",
+      "brick-pack",
+      "stack-charger",
+      "hub-dock"
+    ]
+  }
+]

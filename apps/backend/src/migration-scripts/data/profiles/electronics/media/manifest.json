@@ -1,0 +1,923 @@
+{
+  "schema": "upready.store-media-manifest/v0",
+  "profileId": "electronics",
+  "provider": "fal.ai",
+  "generatedAt": "2026-09-07T20:11:57.112Z",
+  "entries": [
+    {
+      "file": "media/bench-over-ear-hero.webp",
+      "role": "hero",
+      "productHandle": "bench-over-ear",
+      "sha256": "6952e06521263e2772469c934564756e378c95f57a3a3ab56e4771c122f6d252",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 36422,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na closed-back over-ear headphone with a matte graphite glass-filled nylon earcup, a brushed graphite aluminium yoke, a steel headband under a matte woven wrap, a dark grey memory-foam earpad with a twist-lock ring, and one USB-C port and one 3.5 mm socket on the lower edge of the left cup. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1018,
+          1010
+        ],
+        "backdropLuma": 90.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/bench-studio-hero.webp",
+      "role": "hero",
+      "productHandle": "bench-studio",
+      "sha256": "29733f7d3cd593356a07e8dc7690a1bc05041d6959404a13d4f5283f6f62b9e7",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 36218,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na closed-back studio headphone with deep matte graphite earcups in glass-filled nylon, a visible steel headband slider with printed detents, dark grey velour earpads, and a locking mini-XLR socket on the lower face of the left cup with a black fabric-sleeved cable plugged into it. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "cropBox": [
+          1038,
+          6,
+          2042,
+          1010
+        ],
+        "backdropLuma": 88.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/pad-set-hero.webp",
+      "role": "hero",
+      "productHandle": "pad-set",
+      "sha256": "554b28a5d7b0797a527efdd0a476a5edc21db8532ba4d14e30665f466e5cd1ab",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 69146,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na pair of circular headphone earpads lying side by side, each with a perforated dark grey protein-leather outer face, a lighter grey velour inner wall, a thick memory-foam cushion, and a black plastic twist-lock mounting ring visible on the underside of the near pad. Two identical objects in the panel, the near one three-quarter front seen from its left, the far one behind and to the left, slightly turned away.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "cropBox": [
+          2062,
+          6,
+          3066,
+          1010
+        ],
+        "backdropLuma": 128.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/pin-earbuds-hero.webp",
+      "role": "hero",
+      "productHandle": "pin-earbuds",
+      "sha256": "038ea4fef09dd0a2c7e28b71bf6d01022ba9d9744320bac215701a1c2d26ae96",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 31120,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na pair of small in-ear earbuds in matte graphite with short stems and dark grey silicone tips, standing upright beside their open rounded-rectangle charging case, the case lid tilted back on a visible metal hinge and a USB-C port on the case rear edge. Two identical objects in the panel, the near one three-quarter front seen from its left, the far one behind and to the left, slightly turned away.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 3,
+        "cellRowCol": [
+          1,
+          4
+        ],
+        "cropBox": [
+          3086,
+          6,
+          4090,
+          1010
+        ],
+        "backdropLuma": 98.1,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/pin-open-hero.webp",
+      "role": "hero",
+      "productHandle": "pin-open",
+      "sha256": "2f837c082afb4a425b7628e8d72e0e633f5a1947c58caacb0ac76c71b1c59a3d",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 21512,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na pair of open-ear clip earbuds in matte graphite, each a flat oval driver pod joined to a small battery pod by a thin curved silicone-sleeved wire that forms a C-shaped clip, lying with the near clip standing on its edge and the far one flat. Two identical objects in the panel, the near one three-quarter front seen from its left, the far one behind and to the left, slightly turned away.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "cropBox": [
+          6,
+          1030,
+          1018,
+          2034
+        ],
+        "backdropLuma": 100.6,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/slab-portable-hero.webp",
+      "role": "hero",
+      "productHandle": "slab-portable",
+      "sha256": "98fa61f5657922cdb40caf3ed7b49350f331fe9c748efc4cb1c6755f0a428d69",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 65348,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na rectangular portable speaker standing on its long edge, with a matte graphite powder-coated perforated steel front grille, moulded dark grey rubberised end caps, a row of five raised control buttons along the top face, and a short woven grey carry strap looped through the right end cap. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1038,
+          1030,
+          2042,
+          2034
+        ],
+        "backdropLuma": 93.6,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/shelf-monitor-hero.webp",
+      "role": "hero",
+      "productHandle": "shelf-monitor",
+      "sha256": "e105f79dddff9955715e807dcdb42bd098cc2bd22b2538d037b27dfaa7e20607",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 30990,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na pair of small bookshelf monitor speakers standing side by side, each a matte graphite MDF cabinet with a visible four-inch paper woofer and a one-inch dome tweeter on the exposed baffle, a small round metal volume knob low on the front of the near cabinet, and a speaker terminal pair on the rear edge of the far cabinet. Two identical objects in the panel, the near one three-quarter front seen from its left, the far one behind and to the left, slightly turned away.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 6,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "cropBox": [
+          2062,
+          1030,
+          3066,
+          2034
+        ],
+        "backdropLuma": 89.8,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/puck-speaker-hero.webp",
+      "role": "hero",
+      "productHandle": "puck-speaker",
+      "sha256": "90f8b45d950122de897b575d998d3b29bfb944e88153cfbe8126afb5e6e5e107",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 62604,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na small round disc-shaped speaker lying flat, with a matte graphite machined aluminium body, a fine perforated metal grille across the whole top face, a knurled edge band carrying a small mechanical slide switch and a USB-C port, and a machined lanyard loop cut into one side of the body. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 7,
+        "cellRowCol": [
+          2,
+          4
+        ],
+        "cropBox": [
+          3086,
+          1030,
+          4090,
+          2034
+        ],
+        "backdropLuma": 117,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/brick-pack-hero.webp",
+      "role": "hero",
+      "productHandle": "brick-pack",
+      "sha256": "f3cec1271813afce50ae321c35616f30d52541c0606a5bdc25cffadf51f1882b",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 66616,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na rectangular power bank standing upright on its short edge, with a matte graphite textured plastic body, moulded dark grey rubber corner bumpers, a small rectangular monochrome display panel set into the upper front face, and two USB-C ports side by side on the top edge. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2054,
+          1018,
+          3058
+        ],
+        "backdropLuma": 87.1,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/slip-pack-hero.webp",
+      "role": "hero",
+      "productHandle": "slip-pack",
+      "sha256": "cb41b31ca18f7cf1a34ed741807c21b7a4383da9477d9aba09346d1088ef09a3",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 17166,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na flat rounded-rectangle magnetic power bank lying face up at a slight angle, with a matte graphite soft-touch silicone face, a faint circular magnet ring visible under the surface, a small folding metal kickstand hinged flat against the back, a USB-C port on the long edge and four small charge LEDs beside it. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 9,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "cropBox": [
+          1038,
+          2054,
+          2042,
+          3058
+        ],
+        "backdropLuma": 95.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/crate-station-hero.webp",
+      "role": "hero",
+      "productHandle": "crate-station",
+      "sha256": "55d26b4908945cbc90a40309314ddd7ff5f387990ad725343c1e3de7c8dc3baa",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 28772,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na low rectangular desk power station standing on a flat surface, with a brushed graphite extruded aluminium case, six ports in a row across the front face, a wide monochrome display strip above the ports showing bar readouts, ventilation slots along the near side and small dark silicone feet at each corner. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 10,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "cropBox": [
+          2062,
+          2054,
+          3066,
+          3058
+        ],
+        "backdropLuma": 88.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/stack-charger-hero.webp",
+      "role": "hero",
+      "productHandle": "stack-charger",
+      "sha256": "7bc13961f6007410e38ca2a852b83772f6f55d77960cff8e1dd05deac38df60e",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 14478,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na small rectangular wall charger standing on a flat surface with its folding mains pins swung out and down, a matte graphite polycarbonate body with a subtle horizontal seam around the middle, two USB-C ports side by side on the front face and fine printed port ratings moulded into the underside edge. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 11,
+        "cellRowCol": [
+          3,
+          4
+        ],
+        "cropBox": [
+          3086,
+          2054,
+          4090,
+          3058
+        ],
+        "backdropLuma": 102.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/braid-cable-hero.webp",
+      "role": "hero",
+      "productHandle": "braid-cable",
+      "sha256": "86f37a56316cc7e50121740067b3c1e2824584430527762abc33abe67a33f0b6",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 65804,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na two-metre USB-C cable coiled once into a loose circle and laid flat, with a matte graphite double-weave braided jacket, two matching graphite anodised aluminium connector shells lying near the front of the coil, and a visible thick moulded strain-relief boot where the jacket enters each shell. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 12,
+        "cellRowCol": [
+          4,
+          1
+        ],
+        "cropBox": [
+          6,
+          3078,
+          1018,
+          4090
+        ],
+        "backdropLuma": 112.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/hub-dock-hero.webp",
+      "role": "hero",
+      "productHandle": "hub-dock",
+      "sha256": "f52b29ddd412082a6b30f727a8e68050af1254139269fa85505046ec22222b03",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 33704,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na flat rectangular desk dock lying on a surface, with a brushed graphite machined aluminium body, a row of ports of differing shapes along the far long edge, a card-reader slot on the near right end, and a short captive braided grey cable emerging from the left end and ending in a USB-C connector lying beside the body. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 13,
+        "cellRowCol": [
+          4,
+          2
+        ],
+        "cropBox": [
+          1038,
+          3078,
+          2042,
+          4090
+        ],
+        "backdropLuma": 93.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/bench-over-ear-chalk-hero.webp",
+      "role": "colorway",
+      "productHandle": "bench-over-ear",
+      "colorway": "chalk",
+      "sha256": "02030850c7d991c7219d95a8c513d7cce02a5a96d0bbe66b2053bcee32be02d0",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 29124,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na closed-back over-ear headphone identical in form to the one in row 1 column 1 but finished in flat chalk off-white glass-filled nylon with a pale grey woven headband wrap and light grey earpads. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 14,
+        "cellRowCol": [
+          4,
+          3
+        ],
+        "cropBox": [
+          2062,
+          3078,
+          3066,
+          4090
+        ],
+        "backdropLuma": 82.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/slab-portable-signal-hero.webp",
+      "role": "colorway",
+      "productHandle": "slab-portable",
+      "colorway": "signal",
+      "sha256": "96f44564e8593470337ab9a259249481cc0bd8bdcb7d4e9358da155d0d4d1b7d",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 75988,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na rectangular portable speaker identical in form to the one in row 2 column 2 but finished in a strong mid-blue powder-coated perforated steel front grille with dark grey rubberised end caps. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 15,
+        "cellRowCol": [
+          4,
+          4
+        ],
+        "cropBox": [
+          3086,
+          3078,
+          4090,
+          4090
+        ],
+        "backdropLuma": 90.5,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/home-hero.webp",
+      "role": "banner",
+      "productHandle": "bench-over-ear",
+      "sha256": "d92ab3195cf7268be8871428d06ad09fe8bb189ca2c0059635107e14344cd271",
+      "width": 1920,
+      "height": 900,
+      "bytes": 34808,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na closed-back over-ear headphone with a matte graphite glass-filled nylon earcup, a brushed graphite aluminium yoke, a steel headband under a matte woven wrap, a dark grey memory-foam earpad with a twist-lock ring, and one USB-C port and one 3.5 mm socket on the lower edge of the left cup. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1018,
+          1010
+        ],
+        "backdropLuma": 90.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/bench-over-ear-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar",
+        "postProcess": "scripts/store-media/electronics-hero.mjs",
+        "postProcessNote": "grid cell r1c1 scaled to 900px, laid on a 1920x900 canvas filled with the frame own sampled backdrop rgb(58,56,59), seam feathered 120px, then a left-to-right ramp into --background #0d1013 out to 62% width, as style-board section 6 specifies",
+        "copyRegionBrightestRgb": [
+          49,
+          48,
+          51
+        ],
+        "whiteOnBrightestCopyRegion": 13.12
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z"
+    },
+    {
+      "file": "media/tile-headphones.webp",
+      "role": "category-tile",
+      "productHandle": "bench-over-ear",
+      "sha256": "6952e06521263e2772469c934564756e378c95f57a3a3ab56e4771c122f6d252",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 36422,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na closed-back over-ear headphone with a matte graphite glass-filled nylon earcup, a brushed graphite aluminium yoke, a steel headband under a matte woven wrap, a dark grey memory-foam earpad with a twist-lock ring, and one USB-C port and one 3.5 mm socket on the lower edge of the left cup. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1018,
+          1010
+        ],
+        "backdropLuma": 90.4,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/bench-over-ear-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z",
+      "categoryHandle": "headphones"
+    },
+    {
+      "file": "media/tile-earbuds.webp",
+      "role": "category-tile",
+      "productHandle": "pin-earbuds",
+      "sha256": "038ea4fef09dd0a2c7e28b71bf6d01022ba9d9744320bac215701a1c2d26ae96",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 31120,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na pair of small in-ear earbuds in matte graphite with short stems and dark grey silicone tips, standing upright beside their open rounded-rectangle charging case, the case lid tilted back on a visible metal hinge and a USB-C port on the case rear edge. Two identical objects in the panel, the near one three-quarter front seen from its left, the far one behind and to the left, slightly turned away.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 3,
+        "cellRowCol": [
+          1,
+          4
+        ],
+        "cropBox": [
+          3086,
+          6,
+          4090,
+          1010
+        ],
+        "backdropLuma": 98.1,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/pin-earbuds-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z",
+      "categoryHandle": "earbuds"
+    },
+    {
+      "file": "media/tile-speakers.webp",
+      "role": "category-tile",
+      "productHandle": "slab-portable",
+      "colorway": "signal",
+      "sha256": "96f44564e8593470337ab9a259249481cc0bd8bdcb7d4e9358da155d0d4d1b7d",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 75988,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na rectangular portable speaker identical in form to the one in row 2 column 2 but finished in a strong mid-blue powder-coated perforated steel front grille with dark grey rubberised end caps. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 15,
+        "cellRowCol": [
+          4,
+          4
+        ],
+        "cropBox": [
+          3086,
+          3078,
+          4090,
+          4090
+        ],
+        "backdropLuma": 90.5,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/slab-portable-signal-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z",
+      "categoryHandle": "speakers"
+    },
+    {
+      "file": "media/tile-power-banks.webp",
+      "role": "category-tile",
+      "productHandle": "brick-pack",
+      "sha256": "f3cec1271813afce50ae321c35616f30d52541c0606a5bdc25cffadf51f1882b",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 66616,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na rectangular power bank standing upright on its short edge, with a matte graphite textured plastic body, moulded dark grey rubber corner bumpers, a small rectangular monochrome display panel set into the upper front face, and two USB-C ports side by side on the top edge. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2054,
+          1018,
+          3058
+        ],
+        "backdropLuma": 87.1,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/brick-pack-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z",
+      "categoryHandle": "power-banks"
+    },
+    {
+      "file": "media/tile-cables-and-chargers.webp",
+      "role": "category-tile",
+      "productHandle": "braid-cable",
+      "sha256": "86f37a56316cc7e50121740067b3c1e2824584430527762abc33abe67a33f0b6",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 65804,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07d7a-db6d-75a3-90f4-6c975156e9ed",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: seamless matte graphite-grey cyclorama background, flat mid-grey, one stop lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one narrow strip reflector camera-right at quarter power drawing a single edge highlight down the right side of each dark housing, neutral 5600K daylight, no coloured light. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 80 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly underneath, no cast side shadow, no reflection, matte floor. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na two-metre USB-C cable coiled once into a loose circle and laid flat, with a matte graphite double-weave braided jacket, two matching graphite anodised aluminium connector shells lying near the front of the coil, and a visible thick moulded strain-relief boot where the jacket enters each shell. One object alone in the panel, three-quarter front seen from its left, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame including on screens, buttons and cable moulds, a housing shape, grille pattern or control layout copied from an existing product, human faces, hands, ears or bodies, earbuds shown worn, props, plinths, boxes, tissue paper, desks, plants or phones, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, anything that names a real place or a real shop, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "electronics-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 12,
+        "cellRowCol": [
+          4,
+          1
+        ],
+        "cropBox": [
+          6,
+          3078,
+          1018,
+          4090
+        ],
+        "backdropLuma": 112.2,
+        "ledgerRow": "r-98092622",
+        "fullGridPromptSha256": "98ce2896fb6d9f0d11653e9bb4af038260707ed2741fa48a552147156049dd80",
+        "derivedFrom": "media/braid-cable-hero.webp",
+        "note": "crop of a frame already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/electronics/raw/electronics-grid-4x4.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T20:11:57.112Z",
+      "categoryHandle": "cables-and-chargers"
+    }
+  ],
+  "totals": {
+    "renders": 1,
+    "accepted": 22,
+    "rejected": 0,
+    "flagged": 0,
+    "costUsd": 0.3
+  }
+}
