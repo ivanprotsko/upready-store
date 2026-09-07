@@ -1,0 +1,98 @@
+{
+  "name": "English",
+  "translations": {
+    "categories": {
+      "theKitchen": "The kitchen",
+      "cookware": "Cookware",
+      "tableware": "Tableware",
+      "kitchenTextiles": "Kitchen textiles",
+      "theHouse": "The house",
+      "storageAndLight": "Storage and light"
+    },
+    "collections": {
+      "theMorningTable": "The morning table",
+      "madeToBeUsed": "Made to be used"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Colour",
+        "values": {
+          "terracotta": "Terracotta",
+          "oat": "Oat",
+          "clay": "Clay",
+          "slate": "Slate"
+        }
+      },
+      "size": {
+        "title": "Size",
+        "values": {
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large"
+        }
+      }
+    },
+    "products": {
+      "braiser": {
+        "title": "Braiser · enamelled cast iron",
+        "subtitle": "Shallow, wide and oven-safe to 260 °C; 3.4 kg in the nine-inch",
+        "description": "A braiser is a shallow casserole, and shallow is the whole point: the base is wide enough that six chicken thighs sit in one layer instead of stewing in three. The body is sand-cast in one piece and enamelled inside and out, so there is nothing to season and nothing to rust, and the matte sand-coloured interior lets you see how dark a fond has gone, which a black interior does not. The lid is cast iron too and sits heavy enough to hold steam without being clamped. Two honest drawbacks. It weighs 3.4 kg in the nine-inch and 4.9 kg in the eleven, which is a two-handed lift out of an oven, and the enamel will chip if you knock it against a tap. It is not dishwasher safe: the detergent dulls the exterior enamel within a year. Wash it warm, dry it on the hob for thirty seconds, and it will outlast the kitchen you bought it for."
+      },
+      "beanPot": {
+        "title": "Bean pot · unglazed clay",
+        "subtitle": "Soaks before it cooks; the reason beans taste different out of clay",
+        "description": "This is a bean pot, which means it is slow on purpose. The walls are thick unglazed earthenware and they hold water; that water turns to steam through the whole cook and keeps the top layer of beans from drying into skins. The inside is glazed so the pot does not hold yesterday's garlic. Two things you must know before you buy it, because they are not optional. It goes into a cold oven and heats with the oven — put it into a hot one and the thermal shock will crack it, and that is not a fault. And it must be soaked in cold water for two hours before its first use, and for twenty minutes before every use after that. Wash it with hot water and a brush and no detergent, because unglazed clay absorbs soap and gives it back to your food. If those three rules sound like too much, buy the braiser instead; it is a better pot for a hurried week."
+      },
+      "skillet": {
+        "title": "Skillet · sand-polished cast iron",
+        "subtitle": "Polished, not pebbled: a smooth surface seasons in about four cooks",
+        "description": "Most cast-iron skillets leave the mould with a pebbled cooking face, because polishing is a second machining step and it costs money. This one is polished, and the difference shows up in about four cooks: a smooth face takes a seasoning layer evenly instead of filling the pits, so eggs stop sticking sooner and the pan looks black rather than grey. It arrives pre-seasoned with three coats of flaxseed oil, which is a start and not a finish; the pan gets better for a year. The handle is cast in one piece with the body, which is why it is strong and why it is hot. Use a cloth. Wash it in hot water with a stiff brush, dry it on the hob rather than in the rack, and wipe a film of oil over the face while it is still warm. Leave it wet overnight and it will rust by morning; scrub the rust off, re-oil, and carry on, because rust on cast iron is a chore and not a death."
+      },
+      "dinnerPlates": {
+        "title": "Dinner plates, set of four",
+        "subtitle": "Speckled stoneware, stackable, and genuinely dishwasher safe",
+        "description": "Four plates, sold as four because one plate is not a useful quantity and eight is a guess about your table. The body is vitrified stoneware fired to 1260 °C, which is the temperature at which the clay stops being absorbent, so a plate left with tomato sauce overnight does not stain. The speckle is iron in the clay body coming through the glaze, not a printed pattern, so no two plates are identical and none of them will wear off. The rim is rolled rather than cut, because a rim is where a plate chips and a rolled one has more material in it. Dishwasher safe on either rack, microwave safe, and safe under a grill for the thirty seconds it takes to melt cheese. They stack to 7 cm for four, which matters if your cupboard is 30 cm tall, as rented kitchens tend to be."
+      },
+      "mug": {
+        "title": "Mug · thumb-notch handle",
+        "subtitle": "350 ml, and the handle has a flat notch your thumb finds by itself",
+        "description": "A mug is a hard thing to make interesting and we have not tried. What this one has is a handle pulled by hand rather than cast, with a flat notch across the top that your thumb finds without being told, and that is the entire design argument. It holds 350 ml to the brim, which is 300 ml of coffee and a centimetre of air so you can carry it upstairs. The body is the same vitrified speckled stoneware as the plates, fired in the same factory, so the glazes match on the table and the mug will not stain from tea. Dishwasher and microwave safe. The walls are thicker than a café mug, which means it takes a few seconds longer to warm through and then holds the heat about eight minutes longer than a thin one, which is the trade most people want at home and the wrong trade in a café."
+      },
+      "servingBoard": {
+        "title": "Serving board · olive wood",
+        "subtitle": "One piece of olive, oiled not lacquered, no two the same",
+        "description": "Cut from one piece of olive, not glued up from strips, which is why the price rises steeply with the length: a 48 cm board needs a 48 cm trunk section without a flaw in it. Olive is dense and closes over knife marks better than beech, and it is figured so strongly that the three boards in a photograph never look like the same product — the one you receive will not match the one on this page, and that is the material rather than a mistake. The finish is food-safe mineral oil, which means it will go pale and thirsty-looking after a month and you re-oil it in two minutes with a cloth. It is not lacquered, so nothing can flake into food. Never put it in a dishwasher: a solid board that is soaked on one face and dried on the other will cup and then split, and there is no repair for that."
+      },
+      "waffleTowels": {
+        "title": "Waffle towels, set of three",
+        "subtitle": "Cotton waffle, 500 g/m²; dries a wet pan without pushing water around",
+        "description": "Waffle weave, because a flat weave pushes water around a pan and a terry one leaves lint on glass. The waffle cells hold the water instead, which is why a 500 g/m² waffle towel dries a roasting tin that a heavier terry towel only smears. Three to a set, because the honest number of kitchen towels in use at once is three: one on the oven door, one at the sink, one in the wash. They come pre-shrunk, so the 50 by 70 cm on the label is the size after the first wash rather than before it. Wash at 60 °C — kitchen towels are the one textile in the house that actually needs it — and tumble low or line dry. They will feel stiff for the first two washes and then soften and stay soft. No fabric conditioner, ever: it coats the cotton and a coated towel stops absorbing, which is the only job a towel has."
+      },
+      "crossBackApron": {
+        "title": "Cross-back apron · washed linen",
+        "subtitle": "No neck strap, so nothing pulls on your neck for four hours",
+        "description": "The strap crosses behind your back rather than looping around your neck, which is the whole reason to buy this rather than the cheaper kind. A neck loop hangs the weight of wet linen off four centimetres of cervical spine, and after three hours of cooking you can feel exactly where. A cross-back hangs it off both shoulders and you stop noticing it. The linen is washed before it is cut, so it arrives soft and it will not shrink into a different garment on you. Two patch pockets, and the right-hand one is split down the middle so a thermometer stands up instead of lying flat. Two sizes rather than four, and they overlap generously; if you are between them, take the smaller, because the straps have 12 cm of adjustment and a long apron on a short cook is a trip hazard at the oven door."
+      },
+      "tableRunner": {
+        "title": "Table runner · heavy linen",
+        "subtitle": "45 x 200 cm of 300 g/m² linen; it lies flat instead of creeping",
+        "description": "Most table runners are 180 g/m² and they creep: put a bowl down at one end and the whole thing walks two centimetres toward it. This one is 300 g/m², which is nearly the weight of upholstery linen, and 620 g of cloth stays where you put it. Two hundred centimetres covers a six-seat table with 15 cm hanging at each end, which is the drop that reads as deliberate rather than short. The corners are mitred and the hem is double-turned at 2 cm, so the edge has enough weight to fall straight instead of curling. It is washed before cutting and will move about another 2 % on its first wash, which is inside the tolerance of the size above. Iron it damp if you like a flat table; leave it rumpled if you do not. Linen looks intentional either way, which is the reason we sell linen."
+      },
+      "canister": {
+        "title": "Canister · stoneware with cork lid",
+        "subtitle": "The cork seals; the stoneware keeps the light out",
+        "description": "Glass jars are cheaper and they are the wrong container for coffee, chilli flakes or anything else that loses its colour on a sunny shelf, because light does more damage to those than air does. Stoneware is opaque and it is heavy enough not to skate across a worktop when you pull the lid. The lid is a solid cork plug with a silicone ring seated in a groove; press it home and the jar is airtight, and you can hear it. Three sizes, and the useful ones to know are that 1.4 L takes a kilo of flour and 0.7 L takes a 500 g bag of coffee beans with room to get a scoop in. The body goes in the dishwasher. The lid does not — cork boiled in detergent goes crumbly at the edge within a few cycles. Wash it under the tap, stand it up to dry, and re-seat the ring before you push it back in."
+      },
+      "candleHolder": {
+        "title": "Candle holder · turned oak",
+        "subtitle": "One piece of oak, turned and waxed; takes a standard dinner candle",
+        "description": "Turned from one piece of European oak rather than glued up, so the grain runs continuously from the base to the lip and the piece has no seam to open up in a dry flat. The candle sits in a removable brass cup, which is the part that matters: wax that runs down inside a bare wooden socket has to be dug out with a knife, and a cup lifts out and gets warmed under a tap instead. It takes a standard 22 mm dinner candle. The base is 9 cm across with a felt pad underneath, wide enough that the thing does not tip when someone leans across the table, which is the only safety claim we will make about an object with an open flame on top of it. The finish is hard wax oil, matte, and it will look dry after a year of dusting; a thin coat of the same wax brings it back in ten minutes."
+      },
+      "hookRail": {
+        "title": "Hook rail · blackened steel",
+        "subtitle": "Five hooks, 60 cm, and the fixings are in the box",
+        "description": "A rail with five welded hooks, which is a thing every kitchen needs and every kitchen improvises badly with adhesive strips that fail in August. The bar is 4 mm steel, blackened and then lacquered so the finish is a chemical colour rather than paint that chips off the hooks first. Each hook is welded, not screwed, and rated at 8 kg, which is a full cast-iron skillet with room to spare; the whole rail takes 25 kg. Two fixings are in the box with masonry plugs, because that is what most walls are. If your wall is plasterboard you need toggle anchors we do not supply, and you should hit a stud rather than trust them with 25 kg of pans. It sits 12 mm off the wall, which is enough clearance to hook a pan on one-handed and not so much that the rail casts a shadow line down the tiles."
+      }
+    }
+  }
+}

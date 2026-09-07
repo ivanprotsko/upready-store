@@ -1,0 +1,803 @@
+{
+  "schema": "upready.store-media-manifest/v0",
+  "profileId": "home-goods",
+  "provider": "fal.ai",
+  "generatedAt": "2026-09-07T21:31:09.233Z",
+  "entries": [
+    {
+      "file": "media/braiser-hero.webp",
+      "role": "hero",
+      "productHandle": "braiser",
+      "sha256": "c89bc841eb5451f09bd16078b412d9ea0f30468a81b5a7636785b5f1b4800d0a",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 39250,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na wide shallow round braising pan of enamelled cast iron about 24 cm across and 9 cm tall, glossy deep terracotta orange-brown enamel on the outside and matte sand-cream enamel inside, with two short integral cast side handles and a heavy domed lid in the same terracotta enamel carrying a small dark bronze knob. One object alone in the panel, lid on, three-quarter front from its left, one side handle towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1324,
+          1324
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 196,
+        "backdropRgb": [
+          215,
+          193,
+          173
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/bean-pot-hero.webp",
+      "role": "hero",
+      "productHandle": "bean-pot",
+      "sha256": "f4564a25c535d9f4d9b95383933813fa5d9505924dd83304a74b24648977f87e",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 38136,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na bulbous lidded cooking pot of unglazed natural red-brown terracotta clay about 20 cm tall with a visibly porous matte surface, faint horizontal throwing rings from the wheel, two small pinched lug handles at the shoulder, and a shallow domed clay lid with a flat disc knob. One object alone in the panel, lid on, three-quarter front from its left, both lug handles visible.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "cropBox": [
+          1380,
+          6,
+          2695,
+          1324
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 194.3,
+        "backdropRgb": [
+          211,
+          192,
+          172
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/skillet-hero.webp",
+      "role": "hero",
+      "productHandle": "skillet",
+      "sha256": "e7c93ddb88915187c781216ff3921749cd47f70e550cafe26a84291ce9c37519",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 38154,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na round cast-iron frying pan about 26 cm across with a smooth polished dark charcoal-grey cooking face showing a faint satin machining sheen, gently flared sides, a small pouring lip on each side, and a long integral cast-iron handle with an oval hanging hole at its end. One object alone in the panel, three-quarter front from its left, handle running back to the right, cooking face visible.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "cropBox": [
+          2751,
+          6,
+          4090,
+          1324
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 198.1,
+        "backdropRgb": [
+          216,
+          195,
+          177
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/dinner-plates-hero.webp",
+      "role": "hero",
+      "productHandle": "dinner-plates",
+      "sha256": "915589a5b9662f32d7867cfdece72f0f622c4af09288bacbb5de40bca16ef256",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 77286,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na stack of four round speckled stoneware dinner plates about 27 cm across in a warm oat-cream satin glaze flecked with small dark iron specks, each plate with a wide flat well and a rolled rim, the top plate of the stack tilted up slightly against the others so its face and its rim profile are both visible. Several identical objects in the panel arranged as one group, three plates stacked flat and the fourth leaning upright behind them, face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 3,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "cropBox": [
+          6,
+          1380,
+          1324,
+          2715
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 195.3,
+        "backdropRgb": [
+          214,
+          192,
+          175
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/mug-hero.webp",
+      "role": "hero",
+      "productHandle": "mug",
+      "sha256": "b120552d63bdb4cb63d4fea64bfdf870682de89f68b74041767b5822c7fa80fc",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 41686,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na straight-sided speckled stoneware mug about 9.5 cm tall in a soft terracotta orange satin glaze flecked with dark iron specks, with a thick hand-pulled loop handle that has a flat pressed notch across the top of the handle where a thumb rests, and an unglazed raw clay foot ring at the base. One object alone in the panel, three-quarter front from its left, handle to the right, thumb notch clearly visible.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1380,
+          1380,
+          2695,
+          2715
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 198.4,
+        "backdropRgb": [
+          218,
+          195,
+          178
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/serving-board-hero.webp",
+      "role": "hero",
+      "productHandle": "serving-board",
+      "sha256": "dad3722524756c2edd8124000a214408bd0bc5c36c470f62291f7292ea715f67",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 72276,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na rectangular chopping and serving board cut from one piece of olive wood about 38 cm long and 2 cm thick, with strongly figured golden-brown grain and dark wandering streaks, softly rounded long edges, and a round finger hole near one short end. One object alone in the panel, lying flat but seen from two-thirds height so the grain and the 2 cm edge both read.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "cropBox": [
+          2751,
+          1380,
+          4090,
+          2715
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 188.9,
+        "backdropRgb": [
+          209,
+          185,
+          168
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/waffle-towels-hero.webp",
+      "role": "hero",
+      "productHandle": "waffle-towels",
+      "sha256": "1114ad06b9b34289fc6b075659d28013a6249b245e85d59163cc993518c4ec72",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 142272,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na stack of three folded cotton waffle-weave kitchen towels in warm terracotta orange, the deep square waffle cells casting visible shadow across the surface, each towel with a narrow flat hem and a small sewn hanging loop of the same cloth, the top towel folded so one hemmed edge and the loop face the camera. Several identical objects in the panel arranged as one group, three folded towels stacked square, the top one turned slightly so the loop shows.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 6,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2771,
+          1324,
+          4090
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 194.8,
+        "backdropRgb": [
+          214,
+          192,
+          173
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/cross-back-apron-hero.webp",
+      "role": "hero",
+      "productHandle": "cross-back-apron",
+      "sha256": "ea95d3b75bd292cf1173dda90e6e3a42547056675d9aaedd00602e628694136a",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 78756,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na cross-back cook's apron of washed slate blue-grey linen shown laid flat and neatly arranged, the two shoulder straps crossing over each other above the bib, two square patch pockets across the front with the right-hand pocket divided by a vertical seam, visible soft creasing in the linen and a narrow topstitched hem all round. One object alone in the panel, laid flat and square to the camera, straps crossed above the bib, both pockets visible.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 7,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "cropBox": [
+          1380,
+          2771,
+          2695,
+          4090
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 185.8,
+        "backdropRgb": [
+          207,
+          182,
+          164
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/table-runner-hero.webp",
+      "role": "hero",
+      "productHandle": "table-runner",
+      "sha256": "e31e4fe818b688ef6854e7160f1a3bbb7bac75b9a749026b777cc5d888ec2a59",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 121864,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc0-c4b4-7911-ad62-c4f4c1b77cdc",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. The nine panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set and laid out afterwards.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\na long rectangular table runner of heavy washed oat-cream linen shown loosely folded into a wide flat band about three folds deep, the weave clearly visible with slubs and thick threads, a crisp double-turned hem with a mitred corner at the near end, and soft natural creases across the folds. One object alone in the panel, folded into a wide flat band, near end squared to the camera so the mitred corner reads.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-a",
+        "gridKind": "grid-3x3",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "cropBox": [
+          2751,
+          2771,
+          4090,
+          4090
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 192.9,
+        "backdropRgb": [
+          213,
+          189,
+          171
+        ],
+        "ledgerRow": "r-9e8d90f3",
+        "fullGridPromptSha256": "2400667f03295bd9fb063af1c24cd4c9a7376e914123b7f771969f11dfd8324d"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-a.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/canister-hero.webp",
+      "role": "hero",
+      "productHandle": "canister",
+      "sha256": "2fdb763ebdc126c9bc88e918153105ec647a15a7277734fe410cb06d5c4e6133",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 56562,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\na straight-sided cylindrical stoneware storage jar about 16 cm tall in a warm oat-cream speckled satin glaze with dark iron flecks, its mouth closed by a thick natural cork plug lid that stands about 2 cm proud of the rim, the pale cork grain clearly visible against the glaze. One object alone in the panel, lid seated, three-quarter front from its left, cork proud of the rim and clearly readable.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "cropBox": [
+          6,
+          6,
+          1326,
+          1348
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 182.2,
+        "backdropRgb": [
+          202,
+          179,
+          160
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/candle-holder-hero.webp",
+      "role": "hero",
+      "productHandle": "candle-holder",
+      "sha256": "2c3d4c9c481c349960ec66f5efd28890e6694837d4823ee9db4c30957b9ee91b",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 46680,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\na turned solid oak candle holder about 14 cm tall with a wide round disc base, a slim waisted stem and a flared cup at the top, pale honey-coloured oak with straight visible grain and a matte waxed finish, with a small polished brass candle cup seated in the top and no candle in it. One object alone in the panel, three-quarter front from its left, brass cup empty and visible at the top.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "cropBox": [
+          1382,
+          6,
+          2714,
+          1348
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 183.9,
+        "backdropRgb": [
+          204,
+          180,
+          160
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/hook-rail-hero.webp",
+      "role": "hero",
+      "productHandle": "hook-rail",
+      "sha256": "e579701178b2026a35c63c7249c02130987abd1db244a3eadd582231ecfaad5b",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 53624,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\na horizontal wall rail of blackened matte dark grey steel bar about 60 cm long, with five identical J-shaped hooks welded along its length at even spacing, each hook curving forward and up, and a flat drilled mounting plate at each end of the bar. One object alone in the panel, seen straight on and very slightly from above, all five hooks evenly spaced and readable.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "cropBox": [
+          2770,
+          6,
+          4090,
+          1348
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 187,
+        "backdropRgb": [
+          206,
+          184,
+          166
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0.05,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/home-hero.webp",
+      "role": "banner",
+      "sha256": "6319c746668c4d967c351e2e0f1e0c7743555a96a32e88a808d615eb98f43ead",
+      "width": 1920,
+      "height": 900,
+      "bytes": 29338,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\nA wide view down a kitchen worktop of warm putty plaster and pale oak, morning sun raking across it from the left, an unglazed stoneware jar and a cast-iron pan sitting far down the counter, the right third of the frame falling into soft even shade with nothing in it.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 3,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "cropBox": [
+          6,
+          1404,
+          1326,
+          2714
+        ],
+        "cropShape": "64:30",
+        "backdropLuma": 109,
+        "backdropRgb": [
+          132,
+          104,
+          88
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+        "note": "crop of a panel already paid for, then rebuilt by scripts/store-media/home-goods-hero.mjs: mirrored and given a feathered ramp of the frame's own 3rd-percentile plaster tone rgb(41,17,6), because the delivered panel put its window where the storefront anchors the headline. Measured THROUGH the storefront's own scrim, at the alpha the storefront paints, over the box the copy actually occupies: headline worst 14.80:1, subheadline (white at 80% alpha) worst 9.97:1. Two earlier builds measured 5.13:1 and 4.66:1 and both LOOKED wrong on the screenshot — the first modelled pure white instead of 80% alpha, the second measured a copy box narrower than the text. No new prediction in any of the three.",
+        "headlineWorst": 14.8,
+        "subheadWorst": 9.97
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/tile-cookware.webp",
+      "role": "category-tile",
+      "categoryHandle": "cookware",
+      "sha256": "3ae8729f4d9c081206524d3418d9e1cef2e0bba5005399861e6ed649dbd2bbed",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 46314,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\nA close view of a blackened steel rail on a putty plaster wall with two pieces of dark cast-iron cookware hanging from it, morning light across the wall from the left, the pans filling the middle of the frame.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "cropBox": [
+          1382,
+          1404,
+          2714,
+          2714
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 154.5,
+        "backdropRgb": [
+          174,
+          151,
+          132
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+        "note": "crop of a panel already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/tile-tableware.webp",
+      "role": "category-tile",
+      "categoryHandle": "tableware",
+      "sha256": "1cc267f2dc2009d71dcc79df1511072a1bd39db82ecae5a9b5e2f58c44143a17",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 60230,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\nA corner of a pale oak table laid with speckled oat stoneware plates and one terracotta mug, seen from standing height, morning light falling across the table from the left.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "cropBox": [
+          2770,
+          1404,
+          4090,
+          2714
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 73,
+        "backdropRgb": [
+          98,
+          68,
+          50
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+        "note": "crop of a panel already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/tile-kitchen-textiles.webp",
+      "role": "category-tile",
+      "categoryHandle": "kitchen-textiles",
+      "sha256": "23711d2dae6695b85263236db1d44a286007fa732cd256c4719f695e190c70c2",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 100558,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\nA washed linen apron and a folded stack of terracotta waffle-weave cotton towels resting on the edge of a pale oak worktop, morning light across them from the left, plaster wall behind.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 6,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "cropBox": [
+          6,
+          2770,
+          1326,
+          4090
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 142.3,
+        "backdropRgb": [
+          168,
+          137,
+          115
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+        "note": "crop of a panel already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    },
+    {
+      "file": "media/tile-storage-and-light.webp",
+      "role": "category-tile",
+      "categoryHandle": "storage-and-light",
+      "sha256": "c97c7f1d552ced62e27a9c3b52883e227c50213f8eceece867216aea129933dd",
+      "width": 1080,
+      "height": 1350,
+      "bytes": 48714,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a07dc1-81bc-7180-9326-06d45701a73d",
+      "prompt": "The image is a 3 by 3 grid of nine separate square photographs, three rows and three columns, of equal size, edge to edge with no gutter, no border, no frame line, no caption, no numbering. This sheet has two halves and they are deliberately different. Row 1 holds three studio packshots on a seamless putty background. Rows 2 and 3 hold six wide photographs of the inside of a real kitchen in morning light. Within row 1 the three panels are identical in exposure, white balance, background tone, camera height and subject scale. Within rows 2 and 3 the six panels are one continuous morning in one kitchen, the same light and the same room seen from different places.\n\nStudio product photography contact sheet. Every panel shares one identical setup: a seamless warm putty plaster background, flat matte oatmeal beige, very slightly brighter towards the top left, no seam between floor and wall, no horizon line, no visible corner. One large diffused source at 60 degrees camera-left and 25 degrees above standing in for a kitchen window in morning light, one white bounce card camera-right at quarter power, warm daylight at 4800 kelvin, no coloured light. 85mm lens at f/8, camera on a tripod at two thirds of the object height so each object is seen very slightly from above and its top face is legible. In every panel the object is centred, fills 60 percent of that panel width, has clear empty space above it and below it, and carries exactly one soft feathered contact shadow directly beneath it falling to camera-right, no cast side shadow, no second shadow, no reflection, matte floor. Sharp focus front to back, glaze speckle and linen slub and wood grain and cast-iron texture clearly visible, matte surfaces stay matte.\n\nInterior photography, one domestic kitchen on one morning. Low warm sunlight rakes in from a tall window out of frame to the camera-left, throwing long soft-edged light across the surfaces and leaving the right of every frame in gentle shade. The room is plaster in warm putty and oatmeal, with terracotta and clay accents, pale oak, blackened steel and unglazed stoneware. 35mm lens at f/4, camera at standing eye level, level horizon, no tilt. Warm 4200 kelvin light, gentle contrast, deep enough shadow on the right of the frame to hold white text over it. Quiet, unstyled, lived in but tidy.\n\nAn open pale oak shelf against a putty plaster wall holding three speckled stoneware canisters with cork lids and a turned oak candle holder, morning light from the left, deep quiet shade to the right.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, human faces, hands, ears or bodies, people in the room, food, drink, steam, smoke or flame, props, plinths, boxes, tissue paper, plants, phones or books in the packshot panels, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drawn seam between panels, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "gridId": "home-goods-grid-b",
+        "gridKind": "grid-3x3",
+        "cellIndex": 7,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "cropBox": [
+          1382,
+          2770,
+          2714,
+          4090
+        ],
+        "cropShape": "4:5",
+        "backdropLuma": 90.1,
+        "backdropRgb": [
+          110,
+          86,
+          70
+        ],
+        "ledgerRow": "r-92215e05",
+        "fullGridPromptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
+        "note": "crop of a panel already paid for; no separate prediction, no separate dollar"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/home-goods/raw/home-goods-grid-b.png",
+      "costUsd": 0,
+      "status": "accepted",
+      "createdAt": "2026-09-07T21:31:09.233Z"
+    }
+  ],
+  "totals": {
+    "renders": 2,
+    "accepted": 17,
+    "rejected": 0,
+    "flagged": 0,
+    "costUsd": 0.6
+  }
+}

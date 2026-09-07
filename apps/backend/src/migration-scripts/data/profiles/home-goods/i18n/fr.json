@@ -1,0 +1,98 @@
+{
+  "name": "Français",
+  "translations": {
+    "categories": {
+      "theKitchen": "La cuisine",
+      "cookware": "Ustensiles de cuisson",
+      "tableware": "Vaisselle",
+      "kitchenTextiles": "Linge de cuisine",
+      "theHouse": "La maison",
+      "storageAndLight": "Rangement et lumière"
+    },
+    "collections": {
+      "theMorningTable": "La table du matin",
+      "madeToBeUsed": "Fait pour servir"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Couleur",
+        "values": {
+          "terracotta": "Terre cuite",
+          "oat": "Avoine",
+          "clay": "Argile",
+          "slate": "Ardoise"
+        }
+      },
+      "size": {
+        "title": "Taille",
+        "values": {
+          "small": "Petit",
+          "medium": "Moyen",
+          "large": "Grand"
+        }
+      }
+    },
+    "products": {
+      "braiser": {
+        "title": "Braisière · fonte émaillée",
+        "subtitle": "Basse, large et allant au four jusqu'à 260 °C ; 3,4 kg en neuf pouces",
+        "description": "Une braisière est basse, et c'est tout l'intérêt : le fond est assez large pour que six cuisses de poulet tiennent en une seule couche au lieu de mijoter empilées sur trois. Le corps est coulé d'une pièce et émaillé dedans comme dehors : rien à culotter, rien qui rouille. L'intérieur mat couleur sable laisse voir jusqu'où les sucs ont bruni, ce qu'un intérieur noir interdit. Deux défauts assumés : elle pèse 3,4 kg, ce qui fait une sortie de four à deux mains, et l'émail s'éclate si vous la cognez contre le robinet. Pas de lave-vaisselle : le détergent ternit l'émail extérieur en moins d'un an."
+      },
+      "beanPot": {
+        "title": "Pot à haricots · terre cuite non émaillée",
+        "subtitle": "On le trempe avant de cuire : c'est pour cela que les haricots ont un autre goût",
+        "description": "Un pot à haricots est lent à dessein. Les parois épaisses en terre cuite non émaillée retiennent l'eau, qui se transforme en vapeur pendant toute la cuisson et empêche la couche supérieure de haricots de sécher en peaux. L'intérieur est émaillé pour que le pot ne garde pas l'ail de la veille. Deux règles ne se discutent pas : il part d'un four froid et monte en température avec lui — mis dans un four chaud, le choc thermique le fend, et ce n'est pas un défaut. Et il doit tremper deux heures dans l'eau froide avant le premier usage, puis vingt minutes avant chaque usage. Lavez-le sans détergent : la terre poreuse absorbe le savon et le rend aux aliments."
+      },
+      "skillet": {
+        "title": "Poêle · fonte polie au sable",
+        "subtitle": "Polie, non grenue : une surface lisse se culotte en quatre cuissons environ",
+        "description": "La plupart des poêles en fonte sortent du moule avec une surface de cuisson grenue, parce que le polissage est un second usinage et qu'il coûte cher. Celle-ci est polie, et l'écart se voit en quatre cuissons : une surface lisse prend le culottage uniformément au lieu de combler les creux, les œufs cessent d'attacher plus tôt, et la poêle devient noire plutôt que grise. Elle arrive culottée de trois couches d'huile de lin, ce qui est un début et non une fin. Le manche est coulé d'une pièce avec le corps : c'est pourquoi il est solide et c'est pourquoi il chauffe. Laissée mouillée une nuit, elle rouillera d'ici le matin ; frottez, huilez, continuez."
+      },
+      "dinnerPlates": {
+        "title": "Assiettes plates, lot de quatre",
+        "subtitle": "Grès moucheté, empilable et vraiment compatible lave-vaisselle",
+        "description": "Quatre assiettes, vendues par quatre parce qu'une assiette n'est pas une quantité utile et que huit est une supposition sur votre table. Le tesson est un grès vitrifié cuit à 1260 °C, la température à laquelle l'argile cesse d'être absorbante : une assiette oubliée une nuit avec de la sauce tomate ne se tache pas. Le moucheté est du fer présent dans la terre qui traverse l'émail, pas un décor imprimé : deux assiettes ne sont jamais identiques et rien ne s'effacera. Le bord est roulé et non coupé, car c'est par le bord qu'une assiette s'ébrèche et un bord roulé y a plus de matière. Quatre assiettes empilent 7 cm, ce qui compte si votre placard fait 30 cm."
+      },
+      "mug": {
+        "title": "Mug · anse à cran pour le pouce",
+        "subtitle": "350 ml, et l'anse porte un cran plat que le pouce trouve tout seul",
+        "description": "Un mug est difficile à rendre intéressant et nous n'avons pas essayé. Ce que celui-ci a, c'est une anse étirée à la main plutôt que moulée, avec un cran plat sur le dessus que le pouce trouve sans qu'on le lui dise : c'est tout l'argument de conception. Il contient 350 ml à ras bord, soit 300 ml de café et un centimètre d'air pour le monter à l'étage. Le tesson est le même grès vitrifié moucheté que les assiettes, cuit dans la même usine : les émaux s'accordent sur la table. Les parois sont plus épaisses que celles d'un mug de café : il met quelques secondes de plus à chauffer, puis garde la chaleur environ huit minutes de plus."
+      },
+      "servingBoard": {
+        "title": "Planche de service · bois d'olivier",
+        "subtitle": "Une seule pièce d'olivier, huilée et non vernie ; aucune n'est identique",
+        "description": "Taillée dans une seule pièce d'olivier, non aboutée à partir de lamelles : c'est pourquoi le prix grimpe si vite avec la longueur, une planche de 48 cm exigeant une bille de 48 cm sans le moindre défaut. L'olivier est dense et referme les traces de couteau mieux que le hêtre, et son fil est si marqué que trois planches sur une photo n'ont jamais l'air du même produit — celle que vous recevrez ne ressemblera pas à celle de cette page, et c'est la matière, pas une erreur. La finition est une huile minérale alimentaire : au bout d'un mois elle paraît pâle et assoiffée, et se réhuile en deux minutes au chiffon. Jamais au lave-vaisselle : une planche massive mouillée d'un seul côté se voile puis se fend."
+      },
+      "waffleTowels": {
+        "title": "Torchons nid d'abeille, lot de trois",
+        "subtitle": "Nid d'abeille de coton, 500 g/m² ; sèche une poêle au lieu d'étaler l'eau",
+        "description": "Armure nid d'abeille, parce qu'une armure toile ne fait que pousser l'eau dans la poêle et que l'éponge laisse des peluches sur le verre. Les alvéoles retiennent l'eau : c'est pourquoi un torchon de 500 g/m² sèche un plat à rôtir qu'un torchon éponge plus lourd ne fait qu'étaler. Trois par lot, parce que le nombre honnête de torchons en service en même temps est de trois : un sur la porte du four, un à l'évier, un au lavage. Ils arrivent prélavés : les 50 × 70 cm de l'étiquette sont la dimension après le premier lavage. Lavez à 60 °C. Jamais d'assouplissant : il enrobe le coton, et un torchon enrobé n'absorbe plus."
+      },
+      "crossBackApron": {
+        "title": "Tablier croisé · lin lavé",
+        "subtitle": "Pas de tour de cou : rien ne tire sur la nuque pendant quatre heures",
+        "description": "Les bretelles se croisent dans le dos au lieu de faire le tour du cou, et c'est toute la raison d'acheter celui-ci plutôt que le modèle moins cher. Un tour de cou suspend le poids du lin mouillé à quatre centimètres de rachis cervical, et après trois heures de cuisine vous sentez exactement où. Un dos croisé le répartit sur les deux épaules et vous cessez de le remarquer. Le lin est lavé avant la coupe : il arrive souple et ne rétrécira pas sur vous en un autre vêtement. Deux poches plaquées, celle de droite fendue au milieu pour qu'un thermomètre tienne debout. Deux tailles, largement chevauchantes ; dans le doute, la petite, les bretelles offrant 12 cm de réglage."
+      },
+      "tableRunner": {
+        "title": "Chemin de table · lin lourd",
+        "subtitle": "45 × 200 cm de lin 300 g/m² ; il reste à plat au lieu de se déplacer",
+        "description": "La plupart des chemins de table font 180 g/m² et se déplacent : posez un bol à une extrémité et toute la pièce migre de deux centimètres vers lui. Celui-ci fait 300 g/m², presque le poids d'un lin d'ameublement, et 620 g de tissu restent où vous les mettez. Deux cents centimètres couvrent une table de six avec 15 cm de retombée de chaque côté, la retombée qui se lit comme voulue plutôt que comme trop courte. Les angles sont à onglet et l'ourlet est double, replié à 2 cm, pour que le bord tombe droit au lieu de rouler. Il est prélavé et bougera encore d'environ 2 % au premier lavage, ce qui reste dans la tolérance de la dimension annoncée."
+      },
+      "canister": {
+        "title": "Bocal · grès à couvercle de liège",
+        "subtitle": "Le liège ferme ; le grès arrête la lumière",
+        "description": "Les bocaux en verre coûtent moins cher et sont le mauvais contenant pour le café, les flocons de piment ou tout ce qui perd sa couleur sur une étagère ensoleillée, car la lumière leur fait plus de mal que l'air. Le grès est opaque et assez lourd pour ne pas glisser sur le plan de travail quand on tire le couvercle. Le couvercle est un bouchon de liège massif avec un joint silicone logé dans une gorge ; enfoncez-le et le bocal est hermétique, cela s'entend. Trois tailles, et ce qu'il est utile de savoir, c'est que 1,4 l prend un kilo de farine et 0,7 l un paquet de 500 g de café. Le corps va au lave-vaisselle. Le couvercle non : le liège bouilli au détergent s'effrite en quelques cycles."
+      },
+      "candleHolder": {
+        "title": "Bougeoir · chêne tourné",
+        "subtitle": "Une pièce de chêne, tournée et cirée ; reçoit une bougie de table standard",
+        "description": "Tourné dans une seule pièce de chêne européen plutôt que collé, de sorte que le fil court sans interruption de la base à la lèvre et que la pièce n'a aucun joint susceptible de s'ouvrir dans un appartement sec. La bougie repose dans une douille de laiton amovible, et c'est la partie qui compte : la cire qui coule dans une douille de bois nu se gratte au couteau, alors qu'une douille se retire et se passe sous l'eau tiède. Il reçoit une bougie de table standard de 22 mm. La base fait 9 cm avec un patin de feutre dessous, assez large pour ne pas basculer quand quelqu'un se penche par-dessus la table. C'est la seule affirmation de sécurité que nous ferons sur un objet surmonté d'une flamme nue."
+      },
+      "hookRail": {
+        "title": "Barre à crochets · acier bruni",
+        "subtitle": "Cinq crochets, 60 cm, et la visserie est dans la boîte",
+        "description": "Une barre à cinq crochets soudés, ce dont toute cuisine a besoin et que toute cuisine improvise mal avec des bandes adhésives qui lâchent en août. La barre est en acier de 4 mm, brunie puis vernie : la couleur est chimique et non une peinture qui s'écaille d'abord sur les crochets. Chaque crochet est soudé et non vissé, et supporte 8 kg, soit une poêle en fonte pleine avec de la marge ; la barre entière tient 25 kg. Deux fixations avec chevilles à maçonnerie sont fournies, car c'est ce que sont la plupart des murs. Si votre mur est en plaque de plâtre, il vous faut des chevilles à bascule que nous ne fournissons pas, et mieux vaut viser un montant."
+      }
+    }
+  }
+}

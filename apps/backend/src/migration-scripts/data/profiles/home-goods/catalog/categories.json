@@ -1,0 +1,30 @@
+[
+  {
+    "handle": "the-kitchen",
+    "name": "The kitchen",
+    "children": [
+      {
+        "handle": "cookware",
+        "name": "Cookware"
+      },
+      {
+        "handle": "tableware",
+        "name": "Tableware"
+      },
+      {
+        "handle": "kitchen-textiles",
+        "name": "Kitchen textiles"
+      }
+    ]
+  },
+  {
+    "handle": "the-house",
+    "name": "The house",
+    "children": [
+      {
+        "handle": "storage-and-light",
+        "name": "Storage and light"
+      }
+    ]
+  }
+]

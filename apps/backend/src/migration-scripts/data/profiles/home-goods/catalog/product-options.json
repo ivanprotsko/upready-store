@@ -1,0 +1,45 @@
+[
+  {
+    "title": "Colour",
+    "values": [
+      {
+        "value": "Terracotta",
+        "metadata": {
+          "hex": "#C2603C"
+        }
+      },
+      {
+        "value": "Oat",
+        "metadata": {
+          "hex": "#E3D8C4"
+        }
+      },
+      {
+        "value": "Clay",
+        "metadata": {
+          "hex": "#B4795E"
+        }
+      },
+      {
+        "value": "Slate",
+        "metadata": {
+          "hex": "#5A6068"
+        }
+      }
+    ]
+  },
+  {
+    "title": "Size",
+    "values": [
+      {
+        "value": "Small"
+      },
+      {
+        "value": "Medium"
+      },
+      {
+        "value": "Large"
+      }
+    ]
+  }
+]

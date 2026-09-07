@@ -1,0 +1,98 @@
+{
+  "name": "Español",
+  "translations": {
+    "categories": {
+      "theKitchen": "La cocina",
+      "cookware": "Menaje de cocción",
+      "tableware": "Vajilla",
+      "kitchenTextiles": "Textiles de cocina",
+      "theHouse": "La casa",
+      "storageAndLight": "Almacenaje y luz"
+    },
+    "collections": {
+      "theMorningTable": "La mesa de la mañana",
+      "madeToBeUsed": "Hecho para usarse"
+    },
+    "productOptions": {
+      "colour": {
+        "title": "Color",
+        "values": {
+          "terracotta": "Terracota",
+          "oat": "Avena",
+          "clay": "Arcilla",
+          "slate": "Pizarra"
+        }
+      },
+      "size": {
+        "title": "Tamaño",
+        "values": {
+          "small": "Pequeño",
+          "medium": "Mediano",
+          "large": "Grande"
+        }
+      }
+    },
+    "products": {
+      "braiser": {
+        "title": "Cazuela baja · hierro fundido esmaltado",
+        "subtitle": "Ancha, baja y apta para horno hasta 260 °C; 3,4 kg en la de nueve pulgadas",
+        "description": "Una cazuela baja es baja a propósito: la base es lo bastante ancha para que seis muslos de pollo queden en una sola capa en vez de guisarse apilados en tres. El cuerpo se funde en una sola pieza y va esmaltado por dentro y por fuera, así que no hay nada que curar ni nada que se oxide. El interior mate color arena deja ver hasta qué punto se ha dorado el fondo, cosa que un interior negro no permite. Dos inconvenientes honestos: pesa 3,4 kg, lo que obliga a sacarla del horno con las dos manos, y el esmalte se desconcha si la golpeas contra el grifo. No es apta para lavavajillas: el detergente apaga el esmalte exterior en menos de un año."
+      },
+      "beanPot": {
+        "title": "Olla de alubias · barro sin esmaltar",
+        "subtitle": "Se remoja antes de cocinar: por eso las alubias saben distinto en barro",
+        "description": "Una olla de alubias es lenta a propósito. Las paredes gruesas de barro sin esmaltar retienen agua, y esa agua se convierte en vapor durante toda la cocción y evita que la capa superior de alubias se seque hasta formar pellejos. El interior sí va esmaltado, para que la olla no se quede con el ajo de ayer. Dos reglas no son negociables: entra en el horno frío y se calienta con él — si la metes en uno caliente, el choque térmico la agrieta, y eso no es un defecto. Y antes del primer uso hay que sumergirla dos horas en agua fría, y veinte minutos antes de cada uso posterior. Lávala sin detergente: el barro poroso absorbe el jabón y se lo devuelve a la comida."
+      },
+      "skillet": {
+        "title": "Sartén · hierro fundido pulido a la arena",
+        "subtitle": "Pulida, no rugosa: una cara lisa se cura en unas cuatro cocciones",
+        "description": "La mayoría de las sartenes de hierro salen del molde con la cara de cocción rugosa, porque pulir es un segundo mecanizado y cuesta dinero. Esta va pulida, y la diferencia se nota en unas cuatro cocciones: una cara lisa toma la capa de curado de forma uniforme en vez de llenar los poros, los huevos dejan de pegarse antes y la sartén se vuelve negra en lugar de gris. Llega curada con tres manos de aceite de linaza, que es un principio y no un final. El mango está fundido en una pieza con el cuerpo: por eso es resistente y por eso quema. Si la dejas mojada toda la noche, amanecerá oxidada; frota, vuelve a aceitar y sigue."
+      },
+      "dinnerPlates": {
+        "title": "Platos llanos, juego de cuatro",
+        "subtitle": "Gres moteado, apilable y realmente apto para lavavajillas",
+        "description": "Cuatro platos, vendidos de cuatro en cuatro porque un plato no es una cantidad útil y ocho es una suposición sobre tu mesa. El cuerpo es gres vitrificado cocido a 1260 °C, la temperatura a la que la arcilla deja de ser absorbente, así que un plato con salsa de tomate olvidado toda la noche no se mancha. El moteado es hierro de la propia arcilla asomando por el esmalte, no un estampado: no hay dos platos iguales y nada se borrará con el uso. El borde es enrollado y no cortado, porque el borde es por donde se desconcha un plato y uno enrollado tiene más material ahí. Cuatro platos apilan 7 cm, lo que importa si tu armario mide 30 cm."
+      },
+      "mug": {
+        "title": "Taza · asa con muesca para el pulgar",
+        "subtitle": "350 ml, y el asa lleva una muesca plana que el pulgar encuentra solo",
+        "description": "Una taza es difícil de hacer interesante y no lo hemos intentado. Lo que tiene esta es un asa estirada a mano en vez de moldeada, con una muesca plana en la parte superior que el pulgar encuentra sin que nadie se lo diga, y ese es todo el argumento de diseño. Cabe 350 ml hasta el borde, es decir 300 ml de café y un centímetro de aire para poder subirla por las escaleras. El cuerpo es el mismo gres vitrificado moteado que los platos, cocido en la misma fábrica, así que los esmaltes combinan en la mesa. Las paredes son más gruesas que las de una taza de café: tarda unos segundos más en calentarse y luego aguanta el calor unos ocho minutos más."
+      },
+      "servingBoard": {
+        "title": "Tabla de servir · madera de olivo",
+        "subtitle": "Una sola pieza de olivo, aceitada y no lacada; no hay dos iguales",
+        "description": "Cortada de una sola pieza de olivo, no encolada a partir de listones, y por eso el precio sube tanto con la longitud: una tabla de 48 cm exige un tramo de tronco de 48 cm sin un solo defecto. El olivo es denso y cierra las marcas de cuchillo mejor que el haya, y tiene una veta tan marcada que tres tablas en una foto nunca parecen el mismo producto — la que recibas no se parecerá a la de esta página, y eso es el material, no un error. El acabado es aceite mineral apto para alimentos: al mes se verá pálida y sedienta, y se vuelve a aceitar en dos minutos con un trapo. Nunca al lavavajillas: una tabla maciza mojada por una cara se comba y luego se raja."
+      },
+      "waffleTowels": {
+        "title": "Paños de gofre, juego de tres",
+        "subtitle": "Gofre de algodón, 500 g/m²; seca una sartén mojada en vez de repartir el agua",
+        "description": "Tejido de gofre, porque un tejido plano solo empuja el agua por la sartén y el rizo deja pelusa en el cristal. Las celdas del gofre retienen el agua, y por eso un paño de 500 g/m² seca una bandeja de horno que un paño de rizo más pesado solo emborrona. Tres por juego, porque el número honesto de paños de cocina en uso a la vez es tres: uno en la puerta del horno, uno en el fregadero y uno en la lavadora. Vienen prelavados, así que los 50 × 70 cm de la etiqueta son la medida después del primer lavado. Lávalos a 60 °C. Nunca suavizante: recubre el algodón, y un paño recubierto deja de absorber."
+      },
+      "crossBackApron": {
+        "title": "Delantal cruzado · lino lavado",
+        "subtitle": "Sin tira al cuello, así que nada tira de la nuca durante cuatro horas",
+        "description": "Las tiras se cruzan por la espalda en lugar de rodear el cuello, y esa es la razón entera para comprar este y no el más barato. Una tira al cuello cuelga el peso del lino mojado de cuatro centímetros de columna cervical, y tras tres horas cocinando notas exactamente dónde. Un cruzado reparte ese peso entre los dos hombros y dejas de notarlo. El lino se lava antes de cortarlo: llega suave y no encogerá encima de ti hasta convertirse en otra prenda. Dos bolsillos de parche, y el derecho va partido por la mitad para que un termómetro quede de pie. Dos tallas, con solape generoso; en la duda, la pequeña: las tiras tienen 12 cm de ajuste."
+      },
+      "tableRunner": {
+        "title": "Camino de mesa · lino pesado",
+        "subtitle": "45 × 200 cm de lino de 300 g/m²; se queda plano en vez de irse andando",
+        "description": "La mayoría de los caminos de mesa son de 180 g/m² y se van andando: dejas un cuenco en un extremo y toda la tela se desplaza dos centímetros hacia él. Este es de 300 g/m², casi el peso de un lino de tapicería, y 620 g de tejido se quedan donde los pongas. Doscientos centímetros cubren una mesa de seis con 15 cm de caída a cada lado, que es la caída que se lee como deliberada y no como escasa. Las esquinas van a inglete y el dobladillo es doble de 2 cm, para que el borde caiga recto en vez de curvarse. Va prelavado y aún se moverá otro 2 % en el primer lavado, dentro de la tolerancia de la medida indicada."
+      },
+      "canister": {
+        "title": "Bote · gres con tapa de corcho",
+        "subtitle": "El corcho cierra; el gres deja la luz fuera",
+        "description": "Los tarros de cristal son más baratos y son el recipiente equivocado para el café, las escamas de chile o cualquier cosa que pierda color en una estantería soleada, porque a esas cosas la luz les hace más daño que el aire. El gres es opaco y pesa lo suficiente para no patinar por la encimera al tirar de la tapa. La tapa es un tapón macizo de corcho con una junta de silicona alojada en una ranura; empújala a fondo y el bote queda hermético, y se oye. Tres tamaños, y lo útil de saber es que 1,4 l admiten un kilo de harina y 0,7 l una bolsa de 500 g de café. El cuerpo va al lavavajillas. La tapa no: el corcho hervido con detergente se desmiga en pocos ciclos."
+      },
+      "candleHolder": {
+        "title": "Candelero · roble torneado",
+        "subtitle": "Una pieza de roble, torneada y encerada; admite una vela de comedor estándar",
+        "description": "Torneado a partir de una sola pieza de roble europeo en lugar de encolado, de modo que la veta corre sin interrupción de la base al borde y la pieza no tiene junta que pueda abrirse en un piso seco. La vela se apoya en un casquillo de latón extraíble, y esa es la parte que importa: la cera que corre por dentro de un hueco de madera desnuda hay que sacarla con un cuchillo, mientras que un casquillo se levanta y se calienta bajo el grifo. Admite una vela de comedor estándar de 22 mm. La base mide 9 cm y lleva una fieltro debajo, lo bastante ancha para no volcar cuando alguien se estira sobre la mesa. Es la única afirmación de seguridad que haremos sobre un objeto con una llama encima."
+      },
+      "hookRail": {
+        "title": "Barra con ganchos · acero pavonado",
+        "subtitle": "Cinco ganchos, 60 cm, y los tornillos vienen en la caja",
+        "description": "Una barra con cinco ganchos soldados, algo que toda cocina necesita y que toda cocina improvisa mal con tiras adhesivas que fallan en agosto. La barra es de acero de 4 mm, pavonado y después lacado, de modo que el color es químico y no una pintura que salta primero en los ganchos. Cada gancho va soldado, no atornillado, y admite 8 kg, que es una sartén de hierro llena con margen; la barra entera aguanta 25 kg. En la caja van dos fijaciones con tacos para obra, que es lo que hay en la mayoría de las paredes. Si tu pared es de pladur necesitas anclajes de mariposa que no suministramos, y conviene atornillar a un montante."
+      }
+    }
+  }
+}
