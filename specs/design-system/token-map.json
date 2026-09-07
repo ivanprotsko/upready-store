@@ -2342,23 +2342,41 @@
       "variable": "--fg-disabled",
       "canonToken": "--foreground",
       "status": "diverged",
-      "bridge": "--fg-disabled: color-mix(in srgb, var(--foreground) 70%, var(--background));",
-      "bridgeDark": "--fg-disabled: color-mix(in srgb, var(--foreground) 65%, var(--background));",
-      "reason": "d-11. --fg-disabled is read on --bg-disabled (= --accent), which is the worst background for it in BOTH modes: in light --accent is darker than --background, in dark it is lighter. Mixed from --muted-foreground the pair measured 1.95-2.28:1 light and 1.70:1.97:1 dark across the five presets — below 4.5:1 everywhere, and unreachable from --muted-foreground at any percentage because --muted-foreground itself is only 4.28:1 light / 3.65:1 dark on --background. Mixing from --foreground instead reaches 4.5:1: the smallest percentages that clear it on every preset are 65.5% light and 59.5% dark, and 70/65 is chosen for margin (worst 5.25:1 light on supplements, 5.27:1 dark on electronics). Disabled text stays visibly muted against enabled copy, which sits near 14:1.",
+      "bridge": "--fg-disabled: var(--fg-disabled-on-page, color-mix(in srgb, var(--foreground) 70%, var(--background)));",
+      "bridgeDark": null,
       "derivation": {
-        "kind": "color-mix",
+        "kind": "contrast-target",
         "space": "srgb",
         "canon": "--foreground",
-        "light": {
-          "canon": "--foreground",
-          "pct": 70,
-          "with": "var(--background)"
-        },
-        "dark": {
-          "canon": "--foreground",
-          "pct": 65,
-          "with": "var(--background)"
-        }
+        "ratio": 4.6,
+        "fallback": "color-mix(in srgb, var(--foreground) 70%, var(--background))",
+        "solve": [
+          {
+            "variable": "--fg-disabled-on-page",
+            "anchors": [
+              "--foreground"
+            ],
+            "toward": "--background",
+            "surfaces": [
+              "--background",
+              "--card",
+              "--popover",
+              "--secondary",
+              "--muted"
+            ]
+          },
+          {
+            "variable": "--fg-disabled-on-surface",
+            "anchors": [
+              "--foreground",
+              "--background"
+            ],
+            "toward": "--accent",
+            "surfaces": [
+              "--accent"
+            ]
+          }
+        ]
       },
       "vendor": {
         "light": "rgba(161, 161, 170, 1)",
@@ -2368,10 +2386,7 @@
         "light": "rgba(161, 161, 170, 1)",
         "dark": "rgba(82, 82, 91, 1)"
       },
-      "medusaResidual": {
-        "light": 2.31,
-        "dark": 2.07
-      }
+      "reason": "d-11. --fg-disabled is read on two surfaces that pull apart: the disabled Button paints --bg-disabled (= --accent), every other disabled label sits on the page. Mixed from --muted-foreground the button measured 1.95-2.28:1 light / 1.70-1.97:1 dark; re-mixed from --foreground at a fixed 70/65% it cleared 5.25:1 on the five near-neutral presets and then measured 1.04:1 on womens-fashion, whose --accent is a terracotta. One colour cannot serve both surfaces there — light needs luminance >= 0.576 for the button and <= 0.159 for the page — so the percentage is gone: each ink is solved per preset per mode against the surfaces it is read on, taking the MOST muted colour that still clears the target, so a disabled control stays visibly disabled instead of being lifted to enabled contrast."
     },
     {
       "variable": "--fg-muted",
