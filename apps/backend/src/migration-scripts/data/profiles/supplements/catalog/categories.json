@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "daily-foundations",
+    "name": "Daily foundations",
+    "children": [
+      {
+        "handle": "multivitamins",
+        "name": "Multivitamins"
+      },
+      {
+        "handle": "vitamins-and-minerals",
+        "name": "Vitamins and minerals"
+      }
+    ]
+  },
+  {
+    "handle": "targeted-support",
+    "name": "Targeted support",
+    "children": [
+      {
+        "handle": "sleep-and-calm",
+        "name": "Sleep and calm"
+      },
+      {
+        "handle": "joints-and-mobility",
+        "name": "Joints and mobility"
+      },
+      {
+        "handle": "gut-health",
+        "name": "Gut health"
+      }
+    ]
+  }
+]

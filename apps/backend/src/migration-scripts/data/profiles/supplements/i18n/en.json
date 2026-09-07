@@ -1,0 +1,113 @@
+{
+  "name": "English",
+  "translations": {
+    "categories": {
+      "dailyFoundations": "Daily foundations",
+      "multivitamins": "Multivitamins",
+      "vitaminsAndMinerals": "Vitamins and minerals",
+      "targetedSupport": "Targeted support",
+      "sleepAndCalm": "Sleep and calm",
+      "jointsAndMobility": "Joints and mobility",
+      "gutHealth": "Gut health"
+    },
+    "collections": {
+      "theFoundation": "The foundation",
+      "thirdPartyTested": "Third-party tested"
+    },
+    "productOptions": {
+      "count": {
+        "title": "Count",
+        "values": {
+          "60": "60",
+          "120": "120",
+          "180": "180"
+        }
+      },
+      "flavour": {
+        "title": "Flavour",
+        "values": {
+          "unflavoured": "Unflavoured",
+          "vanilla": "Vanilla",
+          "cocoa": "Cocoa"
+        }
+      }
+    },
+    "products": {
+      "baselineDaily": {
+        "title": "Baseline Daily · multivitamin",
+        "subtitle": "Twenty-three nutrients at everyday doses, two capsules a day",
+        "description": "Baseline Daily is the multivitamin we would take ourselves, which is to say an unremarkable one. It carries twenty-three vitamins and minerals at doses near the daily reference intake rather than at the multiples the category likes to print on the front of a bottle. Folate is the methylated form, B12 is methylcobalamin, and the minerals are amino-acid chelates because they are easier on an empty stomach than oxides. There is no herbal blend, no proprietary matrix and no ingredient present at a dose too small to do anything, which is the usual reason a label runs long. Two capsules a day with food. It will not give you energy you have not slept for, and it is not a substitute for a diet that includes vegetables. What it does is close the small gaps that a normal week leaves. Every batch is tested by an outside laboratory for identity, potency and heavy metals, and the certificate for your batch number is on the product page."
+      },
+      "baselineFiftyPlus": {
+        "title": "Baseline 50+ · multivitamin",
+        "subtitle": "The Baseline formula with more B12 and D, and no added iron",
+        "description": "Baseline 50+ is the same formula as Baseline Daily with four deliberate changes. B12 goes up to 100 mcg because absorption from food falls with age as stomach acid does. Vitamin D goes up to 25 mcg. Vitamin K2 is added at 75 mcg, in the MK-7 form, because it is the form with the longest half-life in blood. Iron comes out entirely: past middle age most people are not losing iron monthly, and an unnecessary iron dose is the single most common reason a multivitamin upsets a stomach. Everything else is unchanged, including the doses that were already adequate. Two capsules a day with food. We have not added a joint blend, a memory blend or an eye blend, because at the doses that fit alongside twenty-three other nutrients none of them would be doing anything. If you want those, buy them separately at a dose that works. Third-party tested for identity, potency and heavy metals, with the certificate published against your batch number."
+      },
+      "baselinePrenatal": {
+        "title": "Baseline Prenatal · multivitamin",
+        "subtitle": "Methylated folate at 600 mcg DFE, iron at 18 mg, choline included",
+        "description": "Baseline Prenatal carries the nutrients that prenatal guidance actually names, at the doses it names them. Folate is 600 mcg DFE as L-5-methyltetrahydrofolate. Iron is 18 mg as bisglycinate, a form chosen because it is markedly gentler than sulphate and constipation is the reason most people stop taking a prenatal. Choline is 300 mg, which is more than most prenatals carry and still short of the 450 mg reference intake, because choline is bulky and the rest would not fit in a capsule anyone would swallow; make the difference up with eggs. Iodine, vitamin D, B12 and zinc are all present at reference doses. There is no vitamin A as retinol. Three capsules a day with food, and they can be split across the day if morning sickness makes three at once unwelcome. This is a supplement and not antenatal care: take it alongside your midwife or doctor, not instead of them. Third-party tested for identity, potency and heavy metals."
+      },
+      "starterFortnight": {
+        "title": "The Starter Fortnight",
+        "subtitle": "Fourteen daily sachets of the four we would start with",
+        "description": "Fourteen paper sachets, one for each morning, each holding a day of Baseline Daily, Vitamin D3 + K2, Magnesium Glycinate and Omega-3. It exists because the honest answer to \"which of these should I take\" is that four of them cover most of what a normal diet misses, and buying four full bottles to find that out costs about a hundred dollars. This costs nineteen and runs out on purpose. There is no subscription attached to it and it does not renew. At the end of the fortnight you will know whether swallowing five capsules before breakfast is something you will actually keep doing, which is the only variable that matters and the one no formula can improve. If it is not, we would rather you found out for nineteen dollars. One sachet each morning with food. Third-party tested to the same standard as the bottles the sachets are filled from, with the certificates published against each batch number."
+      },
+      "vitaminD3K2": {
+        "title": "Vitamin D3 + K2",
+        "subtitle": "50 mcg D3 with 100 mcg K2 as MK-7, one small capsule",
+        "description": "Fifty micrograms of vitamin D3, which is two thousand international units, with a hundred micrograms of K2 in the MK-7 form. The two travel together because both are fat-soluble and because the case for pairing them is better than the case for either alone at these doses. The capsule is small and carries a little olive oil, so it can be taken with any meal that has some fat in it rather than requiring a particular one. Vitamin D status is one of the few things in this shop worth measuring rather than guessing: a blood test costs less than a year of capsules and tells you whether you need this at all, whether you need twice as much, or whether you can stop. Ask for 25-hydroxyvitamin D. One capsule a day with food. If you take an anticoagulant, K2 interacts with it, so speak to whoever prescribes it before starting. Third-party tested for identity, potency and heavy metals."
+      },
+      "magnesiumGlycinate": {
+        "title": "Magnesium Glycinate",
+        "subtitle": "200 mg elemental magnesium, fully chelated, two capsules",
+        "description": "Two hundred milligrams of elemental magnesium, bound to glycine, in two capsules. The number that matters on a magnesium label is the elemental figure and it is the one most labels bury: a bottle advertising 1000 mg of magnesium glycinate is advertising the weight of the whole compound, of which the magnesium is roughly a seventh. Ours says 200 mg because that is the magnesium. Glycinate is here because oxide is cheap, poorly absorbed and reliably loosens the bowel, which is why the cheap bottles work as laxatives and not much else. Two capsules in the evening, with or without food. Magnesium is genuinely useful if you are short of it and does very little if you are not; the common signs of being short are cramp and poor sleep, neither of them specific. This will not sedate you and it is not a sleeping tablet. Third-party tested for identity, potency and heavy metals, certificate published by batch."
+      },
+      "zincPicolinate": {
+        "title": "Zinc Picolinate",
+        "subtitle": "15 mg elemental zinc, one capsule, no copper added",
+        "description": "Fifteen milligrams of elemental zinc as picolinate, in one small capsule. Fifteen is close to the daily reference intake and well under the tolerable upper limit of forty, which matters more with zinc than with most minerals: sustained high doses interfere with copper absorption, and the resulting copper deficiency is a real and slow-moving problem. That is also why we have not added copper to the capsule. At 15 mg you do not need it, and a fixed zinc-copper ratio is a guess about your diet that we are not in a position to make. If you are taking zinc at a high dose for a long period on someone’s advice, that is the situation where copper belongs, and it belongs at a dose that person chooses. One capsule a day, with food; on an empty stomach zinc causes nausea in a fair number of people. Third-party tested for identity, potency and heavy metals."
+      },
+      "vitaminD3Drops": {
+        "title": "Vitamin D3 Drops · 15 ml",
+        "subtitle": "25 mcg per drop in olive oil, for people who do not swallow capsules",
+        "description": "A fifteen millilitre amber glass bottle of vitamin D3 in extra virgin olive oil, delivering 25 micrograms — a thousand international units — in a single drop. It exists for the two groups capsules do not serve: children, whose doses are smaller and change as they grow, and adults who cannot or will not swallow a capsule. A drop goes onto a spoon, into yoghurt, or straight onto the tongue; it does not need to be measured into water and it should not be dripped into a hot drink, because heat and light are the two things that degrade it. Keep the bottle closed, out of the sun, and in a cupboard rather than a windowsill. Fifteen millilitres is roughly four hundred and fifty drops, so at one a day it lasts well over a year, which is longer than we would ask any oil to stay good — check the date on the base before you buy a second. One bottle, one size. Third-party tested for identity, potency and heavy metals."
+      },
+      "nightLedger": {
+        "title": "Night Ledger · sleep formula",
+        "subtitle": "Magnesium, glycine and L-theanine. No melatonin, no valerian",
+        "description": "Three ingredients at doses with something behind them: 200 mg elemental magnesium as glycinate, 3 g of glycine, and 200 mg of L-theanine. Glycine at around three grams before bed has been studied for sleep quality and is the reason the serving is four capsules rather than one — three grams of anything will not fit in less. There is no melatonin, which is a hormone rather than a nutrient, is prescription-only across much of Europe, and is better matched to jet lag and shift work than to ordinary poor sleep. There is no valerian, because the trials are small and inconsistent and the smell is genuinely unpleasant. This is not a sedative and it will not put you to sleep. What the evidence supports is a modest effect on how quickly people settle and how rested they report feeling, on top of the sleep hygiene that does the heavy lifting. Four capsules half an hour before bed. Third-party tested for identity, potency and heavy metals."
+      },
+      "ashwagandhaKsm": {
+        "title": "Ashwagandha KSM-66",
+        "subtitle": "600 mg of the standardised root extract, two capsules",
+        "description": "Six hundred milligrams of KSM-66, a root-only ashwagandha extract standardised to five per cent withanolides. The extract is named on the label because with a botanical the extract is the product: the trials that people cite for ashwagandha were run on specific standardised extracts, and a bottle that says only \"ashwagandha root powder\" is not the thing those trials tested. Root-only matters too, since leaf material carries a different withanolide profile and is cheaper to source. The evidence here is thinner than for the minerals in this shop and mostly concerns self-reported stress scores over eight to twelve weeks; it is suggestive, not settled, and we would rather say so. Two capsules a day with food. Do not take it if you are pregnant. It can interact with thyroid medication and with sedatives, so check first if you take either. Third-party tested for identity, potency and heavy metals."
+      },
+      "eveningCalm": {
+        "title": "Evening Calm · magnesium drink",
+        "subtitle": "A magnesium and glycine powder to stir into warm water",
+        "description": "The Night Ledger formula as a powder, for people who would rather drink something warm at ten in the evening than swallow four capsules. One scoop carries 200 mg of elemental magnesium as glycinate and 3 g of glycine, stirred into about 200 ml of warm water. Glycine is faintly sweet on its own, which is why the unflavoured version tastes of something rather than of nothing and why we have not added a sweetener to it. Vanilla is the plainest of the three. Cocoa is the fullest, and the one that best hides the mineral edge magnesium always has; made with warm milk it is a bedtime cocoa that happens to carry the formula. None of them contain sugar, sucralose or stevia. The count on the label is scoops, not capsules, so a 60 is two months of evenings. One scoop in warm water, half an hour before bed; it dissolves in about twenty seconds with stirring and will stay slightly cloudy, which is the glycine and is meant to be there."
+      },
+      "omega3Rtg": {
+        "title": "Omega-3 · rTG",
+        "subtitle": "1000 mg EPA and DHA per serving in re-esterified triglyceride form",
+        "description": "A thousand milligrams of combined EPA and DHA in two softgels, in the re-esterified triglyceride form. That form is the whole point of the product and the reason it costs more than the fish oil next to it on a shelf: most cheap fish oil is an ethyl ester, which is what the oil becomes during concentration, and the re-esterification step that converts it back is a step manufacturers can skip. The number to compare between bottles is EPA plus DHA, not the weight of the oil, and a 1000 mg fish-oil capsule commonly holds around 300 mg of the two. Ours holds 500 mg per softgel. The oil is from anchovy and sardine, tested for oxidation as well as for heavy metals, because rancid fish oil is common, is not visible through the softgel and is the reason for the aftertaste people associate with the category. Two softgels a day with a meal. Keep the bottle in the fridge once opened."
+      },
+      "collagenPeptides": {
+        "title": "Collagen Peptides",
+        "subtitle": "10 g of hydrolysed bovine collagen per scoop, with 50 mg vitamin C",
+        "description": "Ten grams of hydrolysed bovine collagen peptides per scoop, with 50 mg of vitamin C alongside, because vitamin C is a required cofactor for the body making its own collagen and is cheap enough that leaving it out would be mean rather than principled. Ten grams is at the low end of what trials have used and the high end of what dissolves cleanly in a normal cup of coffee. On what it does: the evidence for joint comfort and skin elasticity over eight to twelve weeks exists and is moderate, funded largely by the ingredient suppliers, and the mechanism is not the intuitive one — eaten collagen is broken into amino acids like any other protein, and does not travel to a knee as collagen. Take it because the trials show what they show, not because the story is neat. Unflavoured dissolves clear and tastes of almost nothing. Vanilla and Cocoa are for milk and for oats respectively. One scoop in any liquid, hot or cold."
+      },
+      "probiotic12Strain": {
+        "title": "Probiotic · 12 strain",
+        "subtitle": "30 billion CFU at the end of shelf life, not at manufacture",
+        "description": "Thirty billion colony-forming units across twelve strains, and the number is the count at the printed expiry date rather than at the moment of manufacture. That distinction is the only part of a probiotic label worth reading closely: live cultures die steadily in storage, and a bottle claiming fifty billion at manufacture may hold a small fraction of that by the time it reaches a kitchen. Guaranteeing the end-of-life figure means overfilling, which is why this costs what it does. Every strain is named to its subspecies and its deposit number, because the research attaches to strains and not to genera, and a label that says only \"Lactobacillus\" is telling you almost nothing. The capsule is acid-resistant so the contents reach the intestine rather than the stomach. One capsule a day, any time, with or without food. It does not need refrigeration. If you are immunocompromised, ask a doctor before starting any live culture."
+      },
+      "digestiveEnzymes": {
+        "title": "Digestive Enzymes",
+        "subtitle": "A broad enzyme blend for meals that do not agree with you",
+        "description": "A broad blend of protease, amylase, lipase, lactase, cellulase and alpha-galactosidase, dosed in activity units rather than in milligrams, because milligrams of an enzyme tell you nothing about whether it works. Activity units are the standard the industry mostly avoids printing and the only figure that lets you compare two bottles. This is a targeted product rather than a daily one. Most people digest most meals without help; the situation this is for is a specific meal that reliably disagrees, most often one heavy in dairy, in beans or in fibre, where lactase and alpha-galactosidase respectively have a clear and well-understood job. Taking it with every meal is not harmful and is mostly a waste of money. One capsule at the start of the meal in question, not after it — enzymes work while food is in the stomach, and a capsule taken afterwards has missed. Persistent digestive trouble is a reason to see a doctor rather than to buy this."
+      }
+    }
+  }
+}

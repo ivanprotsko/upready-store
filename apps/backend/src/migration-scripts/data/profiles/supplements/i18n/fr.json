@@ -1,0 +1,113 @@
+{
+  "name": "Français",
+  "translations": {
+    "categories": {
+      "dailyFoundations": "Bases quotidiennes",
+      "multivitamins": "Multivitamines",
+      "vitaminsAndMinerals": "Vitamines et minéraux",
+      "targetedSupport": "Soutien ciblé",
+      "sleepAndCalm": "Sommeil et calme",
+      "jointsAndMobility": "Articulations et mobilité",
+      "gutHealth": "Santé intestinale"
+    },
+    "collections": {
+      "theFoundation": "La base",
+      "thirdPartyTested": "Analysé en laboratoire indépendant"
+    },
+    "productOptions": {
+      "count": {
+        "title": "Quantité",
+        "values": {
+          "60": "60",
+          "120": "120",
+          "180": "180"
+        }
+      },
+      "flavour": {
+        "title": "Saveur",
+        "values": {
+          "unflavoured": "Nature",
+          "vanilla": "Vanille",
+          "cocoa": "Cacao"
+        }
+      }
+    },
+    "products": {
+      "baselineDaily": {
+        "title": "Baseline Daily · multivitamines",
+        "subtitle": "Vingt-trois nutriments à des doses du quotidien, deux gélules par jour",
+        "description": "Baseline Daily est le complexe multivitaminé que nous prendrions nous-mêmes, autrement dit un produit sans rien de remarquable. Il apporte vingt-trois vitamines et minéraux à des doses proches des apports de référence, et non aux multiples que cette catégorie aime imprimer sur le devant du flacon. Le folate est sous forme méthylée, la B12 est de la méthylcobalamine, et les minéraux sont des chélates d’acides aminés, mieux tolérés à jeun que les oxydes. Pas de mélange de plantes, pas de matrice propriétaire, aucun ingrédient présent à une dose trop faible pour agir : c’est la raison habituelle d’une étiquette qui s’allonge. Deux gélules par jour au cours d’un repas. Il ne vous donnera pas l’énergie d’une nuit que vous n’avez pas dormie, et il ne remplace pas une alimentation qui contient des légumes. Ce qu’il fait, c’est combler les petits écarts que laisse une semaine ordinaire. Chaque lot est analysé par un laboratoire extérieur pour l’identité, la teneur et les métaux lourds, et le certificat de votre numéro de lot figure sur la fiche produit."
+      },
+      "baselineFiftyPlus": {
+        "title": "Baseline 50+ · multivitamines",
+        "subtitle": "La formule Baseline avec plus de B12 et de D, sans fer ajouté",
+        "description": "Baseline 50+ reprend la formule de Baseline Daily avec quatre modifications délibérées. La B12 passe à 100 µg, parce que l’absorption à partir des aliments diminue avec l’âge, comme diminue l’acidité gastrique. La vitamine D passe à 25 µg. La vitamine K2 est ajoutée à 75 µg, sous forme MK-7, parce que c’est la forme dont la demi-vie sanguine est la plus longue. Le fer disparaît complètement : passé le milieu de la vie, la plupart des gens ne perdent plus de fer chaque mois, et une dose de fer inutile est la cause la plus fréquente d’un complexe multivitaminé qui pèse sur l’estomac. Tout le reste est inchangé, y compris les doses qui étaient déjà suffisantes. Deux gélules par jour au cours d’un repas. Nous n’avons ajouté ni complexe articulaire, ni complexe mémoire, ni complexe pour les yeux : aux doses qui tiendraient à côté de vingt-trois autres nutriments, aucun d’eux ne ferait quoi que ce soit. Si vous en voulez, achetez-les séparément, à une dose qui agit. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds, certificat publié en regard de votre numéro de lot."
+      },
+      "baselinePrenatal": {
+        "title": "Baseline Prenatal · multivitamines",
+        "subtitle": "Folate méthylé à 600 µg DFE, fer à 18 mg, choline incluse",
+        "description": "Baseline Prenatal contient les nutriments que les recommandations de la grossesse nomment réellement, aux doses où elles les nomment. Le folate : 600 µg DFE sous forme de L-5-méthyltétrahydrofolate. Le fer : 18 mg sous forme de bisglycinate, choisie parce qu’elle est nettement plus douce que le sulfate et que la constipation est la raison pour laquelle la plupart des femmes arrêtent leur complément de grossesse. La choline : 300 mg, plus que dans la plupart de ces compléments et toujours en deçà de l’apport de référence de 450 mg, car la choline est volumineuse et le reste ne tiendrait dans aucune gélule que l’on accepterait d’avaler ; complétez la différence avec des œufs. L’iode, la vitamine D, la B12 et le zinc sont présents aux doses de référence. Il n’y a pas de vitamine A sous forme de rétinol. Trois gélules par jour au cours d’un repas, que l’on peut répartir dans la journée si en prendre trois d’un coup passe mal avec les nausées. C’est un complément alimentaire et non un suivi de grossesse : prenez-le en plus de votre sage-femme ou de votre médecin, pas à leur place. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "starterFortnight": {
+        "title": "The Starter Fortnight",
+        "subtitle": "Quatorze sachets journaliers des quatre par lesquels nous commencerions",
+        "description": "Quatorze sachets en papier, un par matin, contenant chacun une journée de Baseline Daily, de Vitamine D3 + K2, de Glycinate de Magnésium et d’Oméga-3. Il existe parce que la réponse honnête à « lequel de tous ceux-là dois-je prendre ? » est que quatre d’entre eux couvrent l’essentiel de ce qu’une alimentation ordinaire laisse de côté, et qu’acheter quatre flacons entiers pour s’en rendre compte coûte une centaine de dollars. Celui-ci coûte dix-neuf dollars et s’épuise volontairement. Aucun abonnement n’y est rattaché et il ne se renouvelle pas. Au bout de la quinzaine, vous saurez si avaler cinq gélules avant le petit-déjeuner est quelque chose que vous tiendrez vraiment, la seule variable qui compte et la seule qu’aucune formule ne peut améliorer. Si ce n’est pas le cas, nous préférons que vous l’ayez appris pour dix-neuf dollars. Un sachet chaque matin au cours d’un repas. Analysé par un laboratoire indépendant selon les mêmes exigences que les flacons dont les sachets sont remplis, certificats publiés en regard de chaque numéro de lot."
+      },
+      "vitaminD3K2": {
+        "title": "Vitamine D3 + K2",
+        "subtitle": "50 µg de D3 avec 100 µg de K2 sous forme MK-7, une petite gélule",
+        "description": "Cinquante microgrammes de vitamine D3, soit deux mille unités internationales, avec cent microgrammes de K2 sous forme MK-7. Les deux voyagent ensemble parce qu’elles sont toutes deux liposolubles et parce qu’à ces doses, l’argument en faveur de l’association est meilleur que celui en faveur de l’une ou de l’autre seule. La gélule est petite et contient un peu d’huile d’olive : elle se prend donc avec n’importe quel repas contenant un peu de gras, sans en exiger un en particulier. Le statut en vitamine D est l’une des rares choses de cette boutique qu’il vaut mieux mesurer que deviner : une prise de sang coûte moins qu’une année de gélules et vous dit si vous en avez besoin, s’il vous en faut deux fois plus, ou si vous pouvez arrêter. Demandez la 25-hydroxyvitamine D. Une gélule par jour au cours d’un repas. Si vous prenez un anticoagulant, la K2 interagit avec lui : parlez-en à la personne qui vous le prescrit avant de commencer. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "magnesiumGlycinate": {
+        "title": "Glycinate de Magnésium",
+        "subtitle": "200 mg de magnésium élémentaire, entièrement chélaté, deux gélules",
+        "description": "Deux cents milligrammes de magnésium élémentaire, lié à la glycine, en deux gélules. Le chiffre qui compte sur une étiquette de magnésium est celui du magnésium élémentaire, et c’est celui que la plupart des étiquettes enfouissent : un flacon qui annonce 1000 mg de glycinate de magnésium annonce le poids du composé entier, dont le magnésium représente environ un septième. Le nôtre indique 200 mg parce que c’est cela, le magnésium. Le glycinate est là parce que l’oxyde est bon marché, mal absorbé et relâche l’intestin à tous les coups, ce qui explique que les flacons bon marché fonctionnent comme laxatifs et guère plus. Deux gélules le soir, avec ou sans repas. Le magnésium sert réellement à quelque chose si vous en manquez et fait très peu si ce n’est pas le cas ; les signes habituels d’un manque sont les crampes et le mauvais sommeil, et ni l’un ni l’autre n’est spécifique. Ceci ne vous sédatera pas et n’est pas un somnifère. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds, certificat publié par lot."
+      },
+      "zincPicolinate": {
+        "title": "Picolinate de Zinc",
+        "subtitle": "15 mg de zinc élémentaire, une gélule, sans cuivre ajouté",
+        "description": "Quinze milligrammes de zinc élémentaire sous forme de picolinate, dans une petite gélule. Quinze, c’est proche de l’apport de référence quotidien et bien en dessous de la limite supérieure tolérable de quarante, ce qui compte davantage avec le zinc qu’avec la plupart des minéraux : des doses élevées et prolongées gênent l’absorption du cuivre, et la carence en cuivre qui s’ensuit est un problème réel et d’installation lente. C’est aussi pour cela que nous n’avons pas ajouté de cuivre à la gélule. À 15 mg, vous n’en avez pas besoin, et un rapport zinc-cuivre figé est une supposition sur votre alimentation que nous ne sommes pas en mesure de faire. Si vous prenez du zinc à forte dose sur une longue période, sur le conseil de quelqu’un, c’est là que le cuivre a sa place, et à la dose que cette personne choisit. Une gélule par jour, au cours d’un repas ; à jeun, le zinc donne la nausée à un bon nombre de gens. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "vitaminD3Drops": {
+        "title": "Vitamine D3 en Gouttes · 15 ml",
+        "subtitle": "25 µg par goutte dans de l’huile d’olive, pour ceux qui n’avalent pas de gélules",
+        "description": "Un flacon de quinze millilitres en verre ambré, de la vitamine D3 dans de l’huile d’olive vierge extra, 25 microgrammes — mille unités internationales — en une seule goutte. Il existe pour les deux publics que les gélules ne servent pas : les enfants, dont les doses sont plus faibles et changent avec la croissance, et les adultes qui ne peuvent pas ou ne veulent pas avaler une gélule. La goutte se dépose sur une cuillère, dans un yaourt ou directement sur la langue ; elle n’a pas besoin d’être mesurée dans de l’eau et ne doit pas tomber dans une boisson chaude, car la chaleur et la lumière sont les deux choses qui la dégradent. Gardez le flacon fermé, à l’abri du soleil, dans un placard plutôt que sur un rebord de fenêtre. Quinze millilitres, cela fait environ quatre cent cinquante gouttes : à raison d’une par jour, le flacon dure bien plus d’un an, plus longtemps que nous ne demanderions à une huile de rester bonne — vérifiez la date sous le flacon avant d’en acheter un deuxième. Un flacon, une taille. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "nightLedger": {
+        "title": "Night Ledger · formule sommeil",
+        "subtitle": "Magnésium, glycine et L-théanine. Sans mélatonine, sans valériane",
+        "description": "Trois ingrédients à des doses qui reposent sur quelque chose : 200 mg de magnésium élémentaire sous forme de glycinate, 3 g de glycine et 200 mg de L-théanine. La glycine autour de trois grammes avant le coucher a été étudiée pour la qualité du sommeil, et c’est la raison pour laquelle une prise fait quatre gélules et non une : trois grammes de quoi que ce soit ne tiennent pas dans moins. Il n’y a pas de mélatonine, qui est une hormone et non un nutriment, qui n’est délivrée que sur ordonnance dans une bonne partie de l’Europe, et qui convient mieux au décalage horaire et au travail posté qu’à un mauvais sommeil ordinaire. Il n’y a pas de valériane, parce que les essais sont petits et contradictoires et que l’odeur est franchement désagréable. Ce n’est pas un sédatif et cela ne vous endormira pas. Ce que les données soutiennent, c’est un effet modeste sur la rapidité de l’endormissement et sur le sentiment d’être reposé, en plus d’une hygiène de sommeil qui fait le gros du travail. Quatre gélules une demi-heure avant le coucher. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "ashwagandhaKsm": {
+        "title": "Ashwagandha KSM-66",
+        "subtitle": "600 mg de l’extrait de racine standardisé, deux gélules",
+        "description": "Six cents milligrammes de KSM-66, un extrait d’ashwagandha issu de la seule racine, standardisé à cinq pour cent de withanolides. L’extrait est nommé sur l’étiquette parce qu’avec une plante, l’extrait est le produit : les essais que l’on cite au sujet de l’ashwagandha ont été menés sur des extraits standardisés précis, et un flacon qui indique seulement « poudre de racine d’ashwagandha » n’est pas ce que ces essais ont testé. Le fait qu’il n’y ait que la racine compte aussi, car la feuille présente un profil de withanolides différent et coûte moins cher à sourcer. Les données sont ici plus minces que pour les minéraux de cette boutique et portent surtout sur des scores de stress déclarés par les participants, sur huit à douze semaines ; elles sont suggestives, pas établies, et nous préférons le dire. Deux gélules par jour au cours d’un repas. Ne le prenez pas si vous êtes enceinte. Il peut interagir avec les traitements de la thyroïde et avec les sédatifs : vérifiez d’abord si vous prenez l’un ou l’autre. Analysé par un laboratoire indépendant pour l’identité, la teneur et les métaux lourds."
+      },
+      "eveningCalm": {
+        "title": "Evening Calm · boisson au magnésium",
+        "subtitle": "Une poudre de magnésium et de glycine à diluer dans de l’eau chaude",
+        "description": "La formule de Night Ledger en poudre, pour ceux qui préfèrent boire quelque chose de chaud à dix heures du soir plutôt qu’avaler quatre gélules. Une dosette apporte 200 mg de magnésium élémentaire sous forme de glycinate et 3 g de glycine, à diluer dans environ 200 ml d’eau chaude. La glycine est légèrement sucrée d’elle-même : c’est pourquoi la version nature a le goût de quelque chose plutôt que de rien, et pourquoi nous n’y avons ajouté aucun édulcorant. La vanille est la plus sobre des trois. Le cacao est le plus ample, et celui qui masque le mieux l’arête minérale que le magnésium a toujours ; préparé au lait chaud, c’est un cacao du soir qui contient accessoirement la formule. Aucun des trois ne contient de sucre, de sucralose ni de stévia. Le nombre indiqué sur l’étiquette, ce sont des dosettes et non des gélules : un format 60 représente donc deux mois de soirées. Une dosette dans de l’eau chaude, une demi-heure avant le coucher ; elle se dissout en une vingtaine de secondes en remuant et reste légèrement trouble, c’est la glycine et c’est voulu."
+      },
+      "omega3Rtg": {
+        "title": "Oméga-3 · rTG",
+        "subtitle": "1000 mg d’EPA et de DHA par prise sous forme de triglycérides ré-estérifiés",
+        "description": "Mille milligrammes d’EPA et de DHA combinés dans deux capsules molles, sous forme de triglycérides ré-estérifiés. Cette forme est tout l’intérêt du produit et la raison pour laquelle il coûte plus cher que l’huile de poisson posée à côté sur l’étagère : la plupart des huiles de poisson bon marché sont des esters éthyliques — c’est ce que devient l’huile pendant la concentration — et l’étape de ré-estérification qui la ramène en arrière est une étape que le fabricant peut sauter. Le chiffre à comparer d’un flacon à l’autre, c’est EPA plus DHA, pas le poids de l’huile : une capsule d’huile de poisson de 1000 mg en contient couramment 300 mg à eux deux. La nôtre en contient 500 mg par capsule. L’huile provient d’anchois et de sardine, et elle est analysée pour l’oxydation autant que pour les métaux lourds, car l’huile de poisson rance est fréquente, invisible à travers la capsule, et responsable de l’arrière-goût que l’on associe à cette catégorie. Deux capsules par jour au cours d’un repas. Conservez le flacon au réfrigérateur après ouverture."
+      },
+      "collagenPeptides": {
+        "title": "Peptides de Collagène",
+        "subtitle": "10 g de collagène bovin hydrolysé par dosette, avec 50 mg de vitamine C",
+        "description": "Dix grammes de peptides de collagène bovin hydrolysé par dosette, accompagnés de 50 mg de vitamine C, parce que la vitamine C est un cofacteur nécessaire à la fabrication du collagène par l’organisme et qu’elle coûte assez peu pour que l’omettre relève de la mesquinerie plutôt que du principe. Dix grammes, c’est le bas de la fourchette des doses utilisées dans les essais et le haut de ce qui se dissout proprement dans une tasse de café ordinaire. Sur ce que cela fait : les données concernant le confort articulaire et l’élasticité de la peau sur huit à douze semaines existent et sont moyennes, financées en grande partie par les fournisseurs de l’ingrédient, et le mécanisme n’est pas celui que l’intuition suggère — le collagène ingéré est découpé en acides aminés comme n’importe quelle autre protéine et ne voyage pas jusqu’à un genou sous forme de collagène. Prenez-en parce que les essais montrent ce qu’ils montrent, pas parce que l’histoire est jolie. La version nature se dissout limpide et n’a presque aucun goût. La vanille est pour le lait, le cacao pour les flocons d’avoine. Une dosette dans n’importe quel liquide, chaud ou froid."
+      },
+      "probiotic12Strain": {
+        "title": "Probiotique · 12 souches",
+        "subtitle": "30 milliards de CFU à la fin de la durée de conservation, pas à la fabrication",
+        "description": "Trente milliards d’unités formant colonies réparties sur douze souches, et le chiffre est le dénombrement à la date de péremption imprimée, non celui du moment de la fabrication. Cette distinction est la seule partie d’une étiquette de probiotique qu’il vaille la peine de lire attentivement : les cultures vivantes meurent régulièrement pendant le stockage, et un flacon qui annonce cinquante milliards à la fabrication peut n’en contenir qu’une petite fraction quand il arrive dans une cuisine. Garantir le chiffre de fin de vie oblige à surdoser le remplissage, et c’est pourquoi celui-ci coûte ce qu’il coûte. Chaque souche est nommée jusqu’à la sous-espèce et avec son numéro de dépôt, car la recherche porte sur des souches et non sur des genres, et une étiquette qui dit seulement « Lactobacillus » ne vous apprend presque rien. La gélule est gastro-résistante, afin que le contenu atteigne l’intestin et non l’estomac. Une gélule par jour, à n’importe quel moment, avec ou sans repas. Elle n’a pas besoin d’être réfrigérée. Si vous êtes immunodéprimé, demandez l’avis d’un médecin avant de commencer toute culture vivante."
+      },
+      "digestiveEnzymes": {
+        "title": "Enzymes Digestives",
+        "subtitle": "Un mélange large d’enzymes pour les repas qui ne passent pas",
+        "description": "Un large mélange de protéase, d’amylase, de lipase, de lactase, de cellulase et d’alpha-galactosidase, dosé en unités d’activité plutôt qu’en milligrammes, car les milligrammes d’une enzyme ne disent rien de son efficacité. Les unités d’activité sont la norme que le secteur évite le plus souvent d’imprimer et le seul chiffre qui permette de comparer deux flacons. C’est un produit ciblé et non un produit quotidien. La plupart des gens digèrent la plupart des repas sans aide ; la situation visée ici, c’est le repas précis qui passe mal à tous les coups, le plus souvent chargé en produits laitiers, en légumineuses ou en fibres, où la lactase et l’alpha-galactosidase ont respectivement un rôle clair et bien compris. En prendre à chaque repas n’est pas dangereux et revient surtout à gaspiller de l’argent. Une gélule au début du repas en question, pas après : les enzymes travaillent tant que les aliments sont dans l’estomac, et une gélule prise ensuite est arrivée trop tard. Des troubles digestifs persistants sont une raison de consulter un médecin, pas d’acheter ceci."
+      }
+    }
+  }
+}

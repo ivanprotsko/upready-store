@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Count",
+    "values": [
+      {
+        "value": "60"
+      },
+      {
+        "value": "120"
+      },
+      {
+        "value": "180"
+      }
+    ]
+  },
+  {
+    "title": "Flavour",
+    "values": [
+      {
+        "value": "Unflavoured",
+        "metadata": {
+          "hex": "#EDE7DA"
+        }
+      },
+      {
+        "value": "Vanilla",
+        "metadata": {
+          "hex": "#E8DCC0"
+        }
+      },
+      {
+        "value": "Cocoa",
+        "metadata": {
+          "hex": "#6B4A38"
+        }
+      }
+    ]
+  }
+]
