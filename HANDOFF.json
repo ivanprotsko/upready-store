@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T05:15:05+08:00",
-  "status": "05:37 — dev d8928b6 pushed. THREE themes built, three stands live: supplements (storefront port 8070, backend 9051), electronics (8061 / 9041), womens-fashion (8081 / 9061). womens-fashion is the grid's best run — background luma spread 2.9 against 7.8 on the original 3x3 measurement and 59.2 on electronics' 4x4; 12 products, 87 variants, 7 categories; gate 4 contrast nodes, one group, no new kind. Its two gaps went to theme-womens-fashion-finish (four missing locales; the W5 copy is on disk but not in the DB because the reseed short-circuited on 'Store already seeded'), deadline 07:30. theme-home-goods still running (08:00) — the fourth and last theme. Ledger $2.067 of $6.00 across 10 renders, validate rc 0. Gate baseline: 4 contrast / 0 drawer / 18 focus failures across 242 controls. Open questions: 8. Remaining window after home-goods goes to the contact sheet, the 14-class verdict and the money summary, not a fifth theme.",
+  "updated": "2026-09-08T05:38:02+08:00",
+  "status": "05:41 — dev fc1c29b pushed. THREE themes done with live stands: supplements (storefront port 8070, backend 9051), electronics (8061 / 9041), womens-fashion (8081 / 9061, now five locales and a reseeded catalogue). womens-fashion's finisher found that its en.json keys were kebab-case while the lookup camelCases them, so 12 of 12 product keys were dead before the four missing locales were even written; supplements and electronics have zero such keys. Verified by me: 50 leaf keys in each of five files, identical sets. Also learned: a reseed mints a NEW publishable key, so any DROP-and-reseed needs .env.local rewritten or the storefront comes back broken. NEW DEFECT: the disabled pair is not preset-independent — womens-fashion measures 1.04:1, worse than the 2.07:1 tonight's fix cured, because that fix computed its worst case over the presets that existed then. foundation-disabled-pair is deriving it against a contrast target instead, deadline 07:30. theme-home-goods still running (08:00). NO fifth theme: disk is at 1.9 GB and the real consumer is the 49 GB pnpm store. Ledger $2.067 of $6.00. Open questions: 9.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -405,6 +405,15 @@
       "question": "Disk pressure tonight came from one place: the global pnpm store is 49 GB (~/Library/pnpm/store), against 0.7-1.9 GB of .next caches per worktree and 4.4 GB free at 05:17. Every wave worktree hardlinks into it, so worktree node_modules cost almost nothing in real space and deleting them frees almost nothing. 'pnpm store prune' would drop entries no lockfile references any more; existing installs keep working because their hardlinks hold the inodes, and future installs re-download what was pruned. Not run autonomously: it is a machine-wide action affecting every project, taken at 05:00 while other sessions have live installs. Run it, or leave the store alone and keep pruning .next caches instead?",
       "asked": "2026-09-08",
       "audience": "ivan"
+    },
+    {
+      "id": "q-disabled-pair-per-preset",
+      "question": "Tonight's d-11 fix re-derived --fg-disabled from --foreground and measured a worst case of 5.25:1 light / 5.27:1 dark across every preset that existed when it ran. womens-fashion did not exist then, and on its stand the disabled 'Select variant' button measures rgb(90,87,80) on rgb(140,59,46) = 1.04:1 at both viewports in both modes — worse than the 2.07:1 the fix was written to cure. So the disabled pair is not preset-independent: a preset whose --bg-disabled leans chromatic can defeat a foreground derived from --foreground. Two ways: derive --fg-disabled per preset with a contrast target rather than a fixed percentage, or constrain what a preset may put in --bg-disabled. The second is cheaper and narrows what a theme may express; the first is the honest fix. Which — and should the remaining themes wait for it?",
+      "asked": "2026-09-08",
+      "audience": "ivan",
+      "blocks": [
+        "t-store-profiles-pilot"
+      ]
     }
   ],
   "sessions": [

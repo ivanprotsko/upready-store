@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 17,
+  "action": "status-set",
+  "ts": "2026-09-08T05:38:02+08:00",
+  "status": "05:41 — dev fc1c29b pushed. THREE themes done with live stands: supplements (storefront port 8070, backend 9051), electronics (8061 / 9041), womens-fashion (8081 / 9061, now five locales and a reseeded catalogue). womens-fashion's finisher found that its en.json keys were kebab-case while the lookup camelCases them, so 12 of 12 product keys were dead before the four missing locales were even written; supplements and electronics have zero such keys. Verified by me: 50 leaf keys in each of five files, identical sets. Also learned: a reseed mints a NEW publishable key, so any DROP-and-reseed needs .env.local rewritten or the storefront comes back broken. NEW DEFECT: the disabled pair is not preset-independent — womens-fashion measures 1.04:1, worse than the 2.07:1 tonight's fix cured, because that fix computed its worst case over the presets that existed then. foundation-disabled-pair is deriving it against a contrast target instead, deadline 07:30. theme-home-goods still running (08:00). NO fifth theme: disk is at 1.9 GB and the real consumer is the 49 GB pnpm store. Ledger $2.067 of $6.00. Open questions: 9."
+}
