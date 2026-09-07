@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-08T01:30:44+08:00",
+  "status": "upready-store-cb (main checkout, dev): Ivan ordered at ~01:45 \"ты сейчас запустишь ремонт всех проблем, я через час вернусь и мы запустим оркестрацию на ночь\", then \"запусти ремонт после /clear\" — so the repaint is the FIRST action of the next window, not of this one (this window is at ~193k). Everything the run needs is on disk and self-contained: docs/prompts/2026-09-08-tfix-repaint-brief.md (commit 0828724) — six disjoint repaint zones, the four causes with measured baselines (176 literal-colour occurrences in 44 files; 18 outline-none against 4 focus-visible:ring), agent rules (nobody runs tsc/next build, nobody commits, exceptions returned in the result rather than written to a shared file), the return schema and the gate the orchestrator runs ONCE after all six return. Repaint worktree: feat/store-theme-surface at e50f05a. Ivan returns ~02:45 and the night wave starts after his four decisions."
+}
