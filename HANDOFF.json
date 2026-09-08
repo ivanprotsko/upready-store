@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T21:14:15+08:00",
-  "status": "Контакт-лист 30/30 (5 тем, включая пилот sneakers), правило генерации изображений заведено (docs/store-profiles/01-image-generation-rules.md) — эффект, воспроизводимый CSS, больше не запекается в кадр, смотрит только вперёд. Два вопроса ждут Ивана: 1) hero-подзаголовок q-fullbleed-subheadline-opacity — снять альфу с --contrast-fg-primary (рекомендую) или завести отдельный токен; 2) буквальный Claude Code Skill (нужен оверрайд 25j) или достаточно written-правила в пайплайне (уже сделано). 5 стендов живы: supplements :8070/:9051, electronics :8061/:9041, womens-fashion :8081/:9061, home-goods :8110/:9110, sneakers :8028/:9023. dev=7b7d2e6, запушен. 18 открытых вопросов, 8 блокируют пилот.",
+  "updated": "2026-09-08T21:35:42+08:00",
+  "status": "Обсуждение (без кода): Иван спросил про prompt-features (r/6), микропамять 27c и skills.json. Замерено: r/6 — 40 файлов/377 особенностей, читателей нет; 27c — хук снят Иваном 2026-09-03 (9e90ee04), 1 компонент, waiver ошибочен («не заводился ни разу»); skills.json 16/roles 17 — не подаются. Моя реплика «27c — единственный работающий механизм подачи по триггеру» была неверна, исправлена. 3 развилки в handoff (q-task-standard-*, q-wave-report-*). Память: 4 файла + индекс.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -439,6 +439,24 @@
       "blocks": [
         "t-store-profiles-pilot"
       ]
+    },
+    {
+      "id": "q-task-standard-registry-shape",
+      "question": "Стандарт задачи (task-standard): новый реестр или расширение prompt-features (r/6)? Рекомендация архитектора: расширение — там уже JSON+schema+validate, 377 statement как сырьё.",
+      "asked": "2026-09-08",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-task-standard-doc-home",
+      "question": "Куда класть мета-предложение по накоплению знаний: спека ~/upready/specs/task-standards/SPEC.md (рекомендация, 3c) или research-report?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-wave-report-solo-or-agent",
+      "question": "Отчёт по волне 5 тем: полностью соло или один субагент на вычитку журналов субагентов (~/.claude/projects/…upready-store/, объём не измерен)?",
+      "asked": "2026-09-08",
+      "audience": "ivan"
     }
   ],
   "sessions": [
