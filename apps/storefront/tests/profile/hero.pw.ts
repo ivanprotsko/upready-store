@@ -31,11 +31,30 @@ test.describe("profile hero", () => {
     )
   })
 
+  // Block K carries no photograph and paints both lines of copy in ONE ink. The first cut
+  // muted the subheadline through --contrast-fg-secondary (a 70% mix into the accent), which
+  // measured 3.66-4.47:1 on three of the five brand accents — the same disease that sank the
+  // round-one hero, so it gets a test rather than a note. Runs only against a stand whose
+  // profile asks for the announcement layout; the testshop fixture is full-bleed.
+  test("announcement: one ink for both lines, and no photograph", async ({ page }) => {
+    await page.goto("/")
+    const section = page.getByTestId("profile-hero")
+    const layout = await section.getAttribute("data-hero-layout")
+    test.skip(layout !== "announcement", `layout is ${layout}, not announcement`)
+
+    expect(await section.locator("img").count()).toBe(0)
+    const ink = (selector: string) =>
+      section.locator(selector).evaluate((el) => getComputedStyle(el).color)
+    expect(await ink("p")).toBe(await ink("h1"))
+  })
+
   // `priority` emits a preload link in a production build, but in dev its only observable
   // effect on the element is that next/image leaves off loading="lazy" — measured on this
   // page: 8 lazy images below the fold, 0 in the hero.
   test("loads the hero image eagerly while the images below it stay lazy", async ({ page }) => {
     await page.goto("/")
+    const layout = await page.getByTestId("profile-hero").getAttribute("data-hero-layout")
+    test.skip(layout === "announcement", "the announcement layout carries no photograph")
     const heroImg = page.getByTestId("profile-hero").locator("img").first()
     await expect(heroImg).not.toHaveAttribute("loading", "lazy")
 

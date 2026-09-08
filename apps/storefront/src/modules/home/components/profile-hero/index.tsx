@@ -119,10 +119,17 @@ function FullBleedHero() {
 /*
  * Block K of the round-2 lab. Its band is painted with the SAME bridge the primary CTA
  * button already uses (globals.css, "The primary CTA's ink follows the ACCENT, not the
- * mode"): `bg-ui-button-inverted` resolves to the preset's --primary, and re-points
- * --contrast-fg-primary/-fg-secondary to --primary-foreground/a mix of it, so the headline
- * and subheadline read correctly on any of the nine accents without a new bridge or a new
- * opacity-on-var() class — the exact pattern that broke block A twice.
+ * mode"): `bg-ui-button-inverted` resolves to the preset's --primary and re-points
+ * --contrast-fg-primary to --primary-foreground, so the copy reads on any of the nine
+ * accents without a new bridge or a new opacity-on-var() class — the exact pattern that
+ * broke block A twice.
+ *
+ * BOTH lines of copy carry the full ink, on purpose. The bridge also offers
+ * --contrast-fg-secondary, a 70% mix of the ink into the accent, and the first cut used it
+ * for the subheadline: measured on the live stands (artifacts/docs/stands/measure-k.mjs)
+ * that mix fails AA on three accents out of five — 4.47:1 electric blue, 4.09:1 green,
+ * 3.66:1 terracotta. The lab's block K never muted the subheadline (`color: inherit`), and
+ * that is what Ivan approved; size alone tells the two lines apart.
  *
  * The CTA stays the `onImage` variant: a pill in the page's own --bg/--fg, unaffected by the
  * section's re-pointed custom properties (they only reach the two --contrast-fg-* names),
@@ -145,7 +152,7 @@ function AnnouncementHero() {
           {hero.headline}
         </h1>
         {hero.subheadline ? (
-          <p className="max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base">
+          <p className="max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base">
             {hero.subheadline}
           </p>
         ) : null}
