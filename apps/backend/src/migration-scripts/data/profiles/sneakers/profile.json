@@ -50,7 +50,7 @@
   },
   "home": {
     "hero": {
-      "layout": "full-bleed",
+      "layout": "announcement",
       "headline": "Made for the kerb, not the catwalk",
       "subheadline": "Ink-black silhouettes with one acid detail. Cut for city miles, built to be worn out.",
       "cta": {

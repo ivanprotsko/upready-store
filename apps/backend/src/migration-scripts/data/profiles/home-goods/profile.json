@@ -50,7 +50,7 @@
   },
   "home": {
     "hero": {
-      "layout": "full-bleed",
+      "layout": "announcement",
       "headline": "Kitchen things that outlive the kitchen",
       "subheadline": "Cast iron, stoneware and linen for a rented kitchen you cook in every night. Weight, diameter and care notes on every page.",
       "cta": {

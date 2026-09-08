@@ -44,7 +44,7 @@
   },
   "home": {
     "hero": {
-      "layout": "full-bleed",
+      "layout": "announcement",
       "headline": "Twelve screws. Two years of parts.",
       "subheadline": "Graphite audio built to be opened: replaceable pads, named cells, a spare-parts page that outlives the product.",
       "cta": {
