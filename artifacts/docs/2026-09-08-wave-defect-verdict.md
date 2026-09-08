@@ -187,5 +187,7 @@ Four live stands, left running:
 The contact sheet — four themes, both modes, home + category + PDP in one screen — is at
 `artifacts/docs/contact-sheet/index.html`, opened from `file://` with no server.
 
-Eleven questions are open in HANDOFF and none of them was guessed at: they are the decisions that
-belong to the owner rather than to the night.
+Eighteen questions are open in HANDOFF — fourteen of them asked tonight, eight blocking
+`t-store-profiles-pilot` — and none of them was guessed at: they are the decisions that belong to
+the owner rather than to the night. (Counted with `handoff.mjs index --all` at 2026-09-08 19:0x;
+the "eleven" this line carried until now was wrong when it was written.)
