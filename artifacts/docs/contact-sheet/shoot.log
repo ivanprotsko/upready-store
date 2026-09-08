@@ -1,0 +1,34 @@
+SHOT  supplements-light-home.png  http=200 mode=light theme=supplements img=11 broken=0 bg=rgb(255, 255, 255)
+SHOT  supplements-light-category.png  http=200 mode=light theme=supplements img=10 broken=0 bg=rgb(255, 255, 255)
+SHOT  supplements-light-pdp.png  http=200 mode=light theme=supplements img=16 broken=0 bg=rgb(255, 255, 255)
+SKIP  electronics-light-home.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SKIP  electronics-light-category.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SKIP  electronics-light-pdp.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SHOT  womens-fashion-light-home.png  http=200 mode=light theme=womens-fashion img=24 broken=0 bg=rgb(247, 242, 233)
+SHOT  womens-fashion-light-category.png  http=200 mode=light theme=womens-fashion img=6 broken=0 bg=rgb(247, 242, 233)
+SHOT  womens-fashion-light-pdp.png  http=200 mode=light theme=womens-fashion img=16 broken=0 bg=rgb(247, 242, 233)
+SHOT  home-goods-light-home.png  http=200 mode=light theme=home-goods img=14 broken=0 bg=rgb(253, 251, 247)
+SHOT  home-goods-light-category.png  http=200 mode=light theme=home-goods img=11 broken=0 bg=rgb(253, 251, 247)
+SHOT  home-goods-light-pdp.png  http=200 mode=light theme=home-goods img=13 broken=0 bg=rgb(253, 251, 247)
+SHOT  supplements-dark-home.png  http=200 mode=dark theme=supplements img=11 broken=0 bg=rgb(10, 19, 16)
+SHOT  supplements-dark-category.png  http=200 mode=dark theme=supplements img=10 broken=0 bg=rgb(10, 19, 16)
+SHOT  supplements-dark-pdp.png  http=200 mode=light !!MISMATCH theme=supplements img=16 broken=0 bg=rgb(255, 255, 255)
+SKIP  electronics-dark-home.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SKIP  electronics-dark-category.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SKIP  electronics-dark-pdp.png  (stand answers 500 on every route: getRegionMap -> 'Backend returned 400')
+SHOT  womens-fashion-dark-home.png  http=200 mode=dark theme=womens-fashion img=24 broken=0 bg=rgb(20, 17, 13)
+SHOT  womens-fashion-dark-category.png  http=200 mode=dark theme=womens-fashion img=6 broken=0 bg=rgb(20, 17, 13)
+SHOT  womens-fashion-dark-pdp.png  http=200 mode=dark theme=womens-fashion img=16 broken=0 bg=rgb(20, 17, 13)
+SHOT  home-goods-dark-home.png  http=200 mode=dark theme=home-goods img=14 broken=0 bg=rgb(26, 21, 18)
+SHOT  home-goods-dark-category.png  http=200 mode=dark theme=home-goods img=11 broken=0 bg=rgb(26, 21, 18)
+SHOT  home-goods-dark-pdp.png  http=200 mode=dark theme=home-goods img=13 broken=0 bg=rgb(26, 21, 18)
+
+DONE 18/24 shot; manifest at /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/contact-sheet/manifest.json
+INCOMPLETE — 6 cell(s) produced no screenshot:
+  electronics-light-home.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+  electronics-light-category.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+  electronics-light-pdp.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+  electronics-dark-home.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+  electronics-dark-category.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+  electronics-dark-pdp.png: down — stand answers 500 on every route: getRegionMap -> 'Backend returned 400'
+MODE-MISMATCH supplements-dark-pdp.png: asked dark, document says light

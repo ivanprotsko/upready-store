@@ -74,3 +74,7 @@ artifacts/media/*/*
 # ...except the second-pass list, which is a DOCUMENT: it is the only record of
 # which paid frames still owe a re-render. Losing it would lose the decision.
 !artifacts/media/*/second-pass.json
+
+# Contact sheet screenshots (t-store-profiles-pilot): binaries never enter git.
+# shoot.log and manifest.json (siblings, not under shots/) stay tracked as documents.
+artifacts/docs/contact-sheet/shots/
