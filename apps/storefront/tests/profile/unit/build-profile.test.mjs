@@ -113,6 +113,32 @@ describe("build-profile · generated shape", () => {
   })
 })
 
+describe("build-profile · hero switched off", () => {
+  const off = buildProfile({
+    profileId: "testshop",
+    profilesDir: FIXTURES,
+    mediaBaseUrl: "https://media.test/testshop/",
+    heroEnabled: false,
+  })
+
+  it("drops the hero and leaves every other section of the same profile untouched", () => {
+    expect(off.home.hero).toBeNull()
+    expect(off.home.categoryTiles).toHaveLength(4)
+    expect(off.home.promoStrip).not.toBeNull()
+    expect(off.layout.imageTreatment).not.toBeNull()
+    expect(off.theme).not.toBeNull()
+  })
+
+  it("builds the hero as authored when the flag is not passed", () => {
+    const on = buildProfile({
+      profileId: "testshop",
+      profilesDir: FIXTURES,
+      mediaBaseUrl: "https://media.test/testshop/",
+    })
+    expect(on.home.hero).not.toBeNull()
+  })
+})
+
 describe("build-profile · locale overrides", () => {
   it("picks up home.promoStrip.text per locale and ignores files without one", () => {
     const overrides = readLocaleOverrides(join(FIXTURES, "testshop"))
@@ -200,5 +226,19 @@ describe("build-profile · main() writes the file", () => {
     expect(written.home.categoryTiles).toHaveLength(4)
     expect(written.layout.imageTreatment.aspect).toBe("3:4")
     expect(written.i18n.de.promoStrip).toContain("Kostenloser Versand")
+  })
+
+  it("writes a null hero when STORE_PROFILE_HERO=off", () => {
+    main({
+      NEXT_PUBLIC_STORE_PROFILE: "testshop",
+      STORE_PROFILES_DIR: FIXTURES,
+      STORE_MEDIA_BASE_URL: "https://media.test/testshop",
+      STORE_PROFILE_HERO: "off",
+      SKIP_THEME_BUILD: "1",
+    })
+
+    const written = JSON.parse(readFileSync(GENERATED, "utf8"))
+    expect(written.home.hero).toBeNull()
+    expect(written.home.categoryTiles).toHaveLength(4)
   })
 })

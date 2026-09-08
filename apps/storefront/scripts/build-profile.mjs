@@ -21,6 +21,11 @@
  *   STORE_MEDIA_BASE_URL       prefix for the profile's media refs. Unset means the
  *                              refs are served from the storefront's own origin.
  *   SKIP_THEME_BUILD=1         write the profile only, do not call the theme build.
+ *   STORE_PROFILE_HERO=off     drop home.hero from the generated profile. The profile.json
+ *                              keeps its authored hero; only the bundle loses it, so the
+ *                              home page renders exactly what the `default` profile renders
+ *                              — no band, no placeholder. Any other value (or unset) means
+ *                              the hero is built as authored.
  *
  * Run: node scripts/build-profile.mjs   (wired as predev/prebuild)
  */
@@ -110,7 +115,7 @@ export function readLocaleOverrides(profileDir) {
  * stays null/empty rather than being defaulted to a guess, because an absent section
  * must produce absent markup, not a placeholder.
  */
-export function buildProfile({ profileId, profilesDir, mediaBaseUrl }) {
+export function buildProfile({ profileId, profilesDir, mediaBaseUrl, heroEnabled = true }) {
   if (!profileId || profileId === "default") {
     return { ...DEFAULT_PROFILE, generatedAt: new Date().toISOString() }
   }
@@ -125,7 +130,7 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl }) {
   }
 
   const raw = readJson(profilePath)
-  const hero = raw?.home?.hero
+  const hero = heroEnabled ? raw?.home?.hero : null
   const tiles = Array.isArray(raw?.home?.categoryTiles) ? raw.home.categoryTiles : []
   const promo = raw?.home?.promoStrip
   const treatment = raw?.layout?.imageTreatment
@@ -256,17 +261,25 @@ export function main(env = process.env) {
   loadDotEnv(env)
   const profileId = env.NEXT_PUBLIC_STORE_PROFILE || "default"
   const profilesDir = resolveProfilesDir(env)
+  const heroEnabled = env.STORE_PROFILE_HERO !== "off"
   const profile = buildProfile({
     profileId,
     profilesDir,
     mediaBaseUrl: env.STORE_MEDIA_BASE_URL,
+    heroEnabled,
   })
 
   mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
   writeFileSync(OUTPUT_PATH, `${JSON.stringify(profile, null, 2)}\n`)
   console.log(
     `[build-profile] profile "${profile.id}" (source: ${profile.source}) -> ` +
-      `src/lib/profile/profile.generated.json · hero: ${profile.home.hero ? profile.home.hero.layout : "none"}` +
+      `src/lib/profile/profile.generated.json · hero: ${
+        profile.home.hero
+          ? profile.home.hero.layout
+          : heroEnabled
+            ? "none"
+            : "off (STORE_PROFILE_HERO=off)"
+      }` +
       ` · tiles: ${profile.home.categoryTiles.length}` +
       ` · aspect: ${profile.layout.imageTreatment?.aspect ?? "none"}`
   )
