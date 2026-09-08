@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hero lab · круг 2 · что в кадре × что блок делает</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+/* ---------- the lab chrome (never a brand, always neutral) ---------- */
+:root {
+  --lab-bg: #0e0e10; --lab-panel: #17171a; --lab-line: #2a2a2f;
+  --lab-ink: #f2f2f4; --lab-dim: #9a9aa4; --lab-acc: #7dd3fc;
+  --lab-pass: #4ade80; --lab-fail: #f87171; --lab-warn: #fbbf24;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--lab-bg); color: var(--lab-ink); }
+
+.bar {
+  position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; gap: 18px;
+  align-items: center; padding: 12px 20px; background: #101013ee;
+  border-bottom: 1px solid var(--lab-line); backdrop-filter: blur(8px);
+}
+.bar h1 { font-size: 14px; margin: 0; letter-spacing: .02em; }
+.bar .hint { color: var(--lab-dim); font-size: 12px; }
+.group { display: flex; align-items: center; gap: 8px; }
+.group > label { font-size: 11px; color: var(--lab-dim); text-transform: uppercase; letter-spacing: .08em; }
+.seg { display: flex; border: 1px solid var(--lab-line); border-radius: 8px; overflow: hidden; }
+.seg button {
+  appearance: none; border: 0; background: transparent; color: var(--lab-dim);
+  font: inherit; font-size: 12px; padding: 6px 11px; cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--lab-line); }
+.seg button[aria-pressed="true"] { background: #26262c; color: var(--lab-ink); }
+
+main { padding: 24px 20px 80px; max-width: 1600px; margin: 0 auto; }
+
+/* ---------- the axes panel ---------- */
+.axes { border: 1px solid var(--lab-line); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; background: var(--lab-panel); }
+.axes h2 { font-size: 13px; margin: 0 0 4px; letter-spacing: .06em; text-transform: uppercase; color: var(--lab-dim); }
+.axes p { margin: 0 0 14px; font-size: 13px; line-height: 1.55; color: var(--lab-dim); max-width: 92ch; }
+.axes p b { color: var(--lab-ink); font-weight: 600; }
+table.matrix { border-collapse: collapse; font-size: 12px; }
+table.matrix th, table.matrix td { border: 1px solid var(--lab-line); padding: 7px 10px; text-align: left; }
+table.matrix th { color: var(--lab-dim); font-weight: 500; background: #1d1d21; }
+table.matrix td.on { color: var(--lab-ink); font-weight: 600; }
+table.matrix td.off { color: #55555e; }
+.stock { margin-top: 14px; font-size: 12px; color: var(--lab-dim); line-height: 1.6; }
+.stock b { color: var(--lab-ink); }
+.stock .warn { color: var(--lab-warn); }
+
+/* ---------- one variant ---------- */
+.variant { margin-bottom: 34px; }
+.variant > header { margin-bottom: 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.variant h2 { font-size: 16px; margin: 0; }
+.cell { font-size: 11px; color: var(--lab-dim); border: 1px solid var(--lab-line); border-radius: 999px; padding: 3px 10px; }
+.chip { font-size: 11px; border-radius: 999px; padding: 3px 10px 3px 8px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--lab-line); color: var(--lab-dim); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: #4b4b53; }
+.chip[data-verdict="pass"] { color: var(--lab-pass); border-color: #1f4d33; } .chip[data-verdict="pass"] .dot { background: var(--lab-pass); }
+.chip[data-verdict="fail"] { color: var(--lab-fail); border-color: #5a2323; } .chip[data-verdict="fail"] .dot { background: var(--lab-fail); }
+.chip[data-verdict="none"] { color: var(--lab-warn); border-color: #56411a; } .chip[data-verdict="none"] .dot { background: var(--lab-warn); }
+.why { flex-basis: 100%; margin: 2px 0 0; font-size: 13px; line-height: 1.55; color: var(--lab-dim); max-width: 100ch; }
+
+.stage { border: 1px solid var(--lab-line); border-radius: 12px; background: #08080a; padding: 16px; overflow-x: auto; }
+.rail { display: flex; justify-content: center; }
+
+/* ---------- the fake storefront that carries the brand theme ---------- */
+.store {
+  width: 1440px; flex: 0 0 auto; background: var(--background); color: var(--foreground);
+  font-family: var(--font-body); border-radius: 4px; overflow: hidden;
+}
+body[data-width="mobile"] .store { width: 390px; }
+
+.site-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 0 32px; height: 64px; border-bottom: 1px solid var(--border);
+}
+body[data-width="mobile"] .site-head { padding: 0 16px; height: 54px; }
+.wordmark { font-family: var(--font-display); font-weight: 700; letter-spacing: .12em; font-size: 15px; }
+.site-nav { display: flex; gap: 22px; font-size: 13px; color: var(--muted-foreground); }
+body[data-width="mobile"] .site-nav { display: none; }
+.site-bag { font-size: 13px; color: var(--muted-foreground); }
+
+/* shared bits */
+.eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted-foreground); display: block; }
+.hero h2 { font-family: var(--font-display); margin: 0; line-height: 1.08; text-wrap: balance; letter-spacing: -.01em; }
+.hero p { margin: 0; line-height: 1.55; text-wrap: pretty; color: var(--muted-foreground); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; padding: 12px 22px; width: fit-content;
+}
+.btn.ghost { background: transparent; color: var(--foreground); border: 1px solid var(--border); }
+.linkish { font-size: 13px; color: var(--link); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; width: fit-content; }
+.price { font-size: 20px; font-weight: 700; font-family: var(--font-display); }
+.hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* G · showcase */
+.hero.g { display: grid; grid-template-columns: 1fr 1fr; min-height: 520px; }
+.hero.g .pane { padding: 56px 60px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.hero.g h2 { font-size: 42px; }
+.hero.g p { font-size: 16px; max-width: 40ch; }
+.hero.g .buyline { display: flex; align-items: baseline; gap: 14px; }
+.hero.g .buyline .meta { font-size: 12px; color: var(--muted-foreground); }
+.hero.g .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.hero.g .shot { background: var(--muted); }
+body[data-width="mobile"] .hero.g { grid-template-columns: 1fr; min-height: 0; }
+body[data-width="mobile"] .hero.g .pane { padding: 28px 20px; gap: 14px; order: 2; }
+body[data-width="mobile"] .hero.g h2 { font-size: 28px; }
+body[data-width="mobile"] .hero.g .shot { height: 300px; }
+
+/* H · shelf (the Ritual structure: real goods on one ground, copy on a flat panel) */
+.hero.h { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 520px; background: var(--muted); }
+.hero.h .shelf { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 3%; padding: 0 5% 56px; }
+.hero.h .shelf figure { margin: 0; width: 30%; border-radius: var(--radius); overflow: hidden; }
+.hero.h .shelf figure:nth-child(2) { width: 34%; }
+.hero.h .shelf img { height: 340px; width: 100%; object-fit: cover; }
+.hero.h .shelf figure:nth-child(2) img { height: 400px; }
+.hero.h .pane { background: var(--card); color: var(--card-foreground); padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.hero.h .badge {
+  display: inline-flex; align-items: center; gap: 7px; width: fit-content; font-size: 12px; font-weight: 600;
+  background: var(--primary); color: var(--primary-foreground); border-radius: 999px; padding: 6px 14px;
+}
+.hero.h h2 { font-size: 36px; }
+.hero.h p { font-size: 15px; }
+body[data-width="mobile"] .hero.h { grid-template-columns: 1fr; min-height: 0; }
+body[data-width="mobile"] .hero.h .shelf { padding: 20px 16px 20px; }
+body[data-width="mobile"] .hero.h .shelf img { height: 150px; }
+body[data-width="mobile"] .hero.h .shelf figure:nth-child(2) img { height: 180px; }
+body[data-width="mobile"] .hero.h .pane { padding: 24px 20px; }
+body[data-width="mobile"] .hero.h h2 { font-size: 26px; }
+
+/* J · three doors */
+.hero.j { padding: 40px 32px 44px; }
+.hero.j .lead { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+.hero.j h2 { font-size: 30px; max-width: 24ch; }
+.hero.j .doors { display: grid; grid-template-columns: repeat(var(--doors, 3), 1fr); gap: 16px; }
+.hero.j figure { margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--muted); }
+.hero.j figure .frame { height: 380px; }
+.hero.j figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 16px; background: var(--card); color: var(--card-foreground); font-size: 15px; font-weight: 600;
+}
+.hero.j figcaption .n { font-size: 12px; font-weight: 400; color: var(--muted-foreground); }
+body[data-width="mobile"] .hero.j { padding: 22px 16px 26px; }
+body[data-width="mobile"] .hero.j .lead { flex-direction: column; align-items: flex-start; gap: 12px; }
+body[data-width="mobile"] .hero.j h2 { font-size: 24px; }
+body[data-width="mobile"] .hero.j .doors { grid-template-columns: 1fr; }
+body[data-width="mobile"] .hero.j figure .frame { height: 220px; }
+
+/* K · announcement, no photograph at all */
+.hero.k { background: var(--primary); color: var(--primary-foreground); padding: 56px 60px; display: flex; flex-direction: column; gap: 16px; }
+.hero.k .eyebrow { color: inherit; opacity: .9; }
+.hero.k h2 { font-size: 46px; max-width: 22ch; }
+.hero.k p { color: inherit; font-size: 16px; max-width: 60ch; }
+.hero.k .btn { background: var(--primary-foreground); color: var(--primary); }
+body[data-width="mobile"] .hero.k { padding: 30px 20px; }
+body[data-width="mobile"] .hero.k h2 { font-size: 30px; }
+
+/* L · in motion, copy never touches the photograph */
+.hero.l { position: relative; height: 560px; background: var(--muted); }
+.hero.l .card {
+  position: absolute; left: 48px; bottom: 48px; width: 360px; background: var(--card); color: var(--card-foreground);
+  border-radius: var(--radius); padding: 22px 24px; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 18px 40px -18px #00000059;
+}
+.hero.l .card h2 { font-size: 22px; }
+.hero.l .card p { font-size: 13px; }
+.hero.l .card .buyline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hero.l .missing {
+  height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; padding: 40px; background:
+    repeating-linear-gradient(45deg, var(--muted) 0 12px, var(--secondary) 12px 24px);
+}
+.hero.l .missing strong { font-family: var(--font-display); font-size: 22px; }
+.hero.l .missing span { font-size: 14px; color: var(--muted-foreground); max-width: 52ch; line-height: 1.55; }
+body[data-width="mobile"] .hero.l { height: 520px; }
+body[data-width="mobile"] .hero.l .card { left: 16px; right: 16px; bottom: 16px; width: auto; padding: 18px; }
+
+/* M · no hero at all: the shop opens with goods */
+.hero.m { padding: 26px 32px 8px; }
+.hero.m .line { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 20px; font-size: 12px; color: var(--muted-foreground); }
+.hero.m h2 { font-size: 20px; margin-bottom: 18px; }
+body[data-width="mobile"] .hero.m { padding: 18px 16px 4px; }
+body[data-width="mobile"] .hero.m .line { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+/* the product row every variant sits above, so the hero is judged in its real context */
+.below { padding: 34px 32px 40px; }
+.below .cap { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.below .cap h3 { font-family: var(--font-display); font-size: 18px; margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+body[data-width="mobile"] .below { padding: 22px 16px 26px; }
+body[data-width="mobile"] .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.grid > * { min-width: 0; }
+.card-p .frame { background: var(--muted); border-radius: var(--radius); overflow: hidden; height: 260px; }
+.card-p .frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+body[data-width="mobile"] .card-p .frame { height: 170px; }
+.card-p .t { margin: 10px 0 2px; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.card-p .s { font-size: 12px; color: var(--muted-foreground); line-height: 1.45; }
+.card-p .pr { margin-top: 6px; font-size: 14px; font-weight: 700; }
+</style>
+</head>
+<body data-mode="light" data-width="desktop">
+
+<div class="bar">
+  <h1>Hero lab · круг 2</h1>
+  <span class="hint">оси: что в кадре × что блок делает. Всё содержимое — из каталога магазина</span>
+  <div class="group"><label>бренд</label><div class="seg" id="seg-brand"></div></div>
+  <div class="group"><label>режим</label><div class="seg" id="seg-mode">
+    <button data-v="light" aria-pressed="true">светлый</button><button data-v="dark" aria-pressed="false">тёмный</button>
+  </div></div>
+  <div class="group"><label>ширина</label><div class="seg" id="seg-width">
+    <button data-v="desktop" aria-pressed="true">1440</button><button data-v="mobile" aria-pressed="false">390</button>
+  </div></div>
+</div>
+
+<main>
+  <section class="axes">
+    <h2>Почему круг 2 выглядит иначе</h2>
+    <p>Семь блоков круга 1 варьировали <b>положение текста</b>, а держали постоянным то, что решает:
+    что в кадре (пустая бежевая комната) и что блок делает (брендовая фраза без предложения).
+    Здесь меняются ровно эти две оси. Копия, цены, названия, плитки и промо — <b>настоящие, из
+    каталога бренда</b>; ни одного придуманного слова и ни одной придуманной цены.</p>
+    <table class="matrix" id="matrix"></table>
+    <div class="stock" id="stock"></div>
+  </section>
+  <div id="variants"></div>
+</main>
+
+<script type="module">
+/* Data comes from the repository, not from this file: /data.json is assembled by serve.mjs out of
+   profile.json, theme.json and catalog/products.json for each of the five profiles. */
+const DATA = await (await fetch("/data.json")).json()
+
+const JOBS = {
+  sell: "продаёт конкретную вещь",
+  route: "маршрутизирует",
+  announce: "объявляет одно сообщение",
+  away: "уходит с дороги",
+}
+const FRAMES = {
+  isolated: "товар изолирован на цвете",
+  shelf: "три товара на одной плоскости",
+  tiles: "три реальные плитки-двери",
+  none: "без фотографии",
+  motion: "товар на человеке / в среде",
+}
+
+const VARIANTS = [
+  { key: "g", name: "G · Витрина", frame: "isolated", job: "sell",
+    why: "Открывается не настроением, а вещью: имя, одна строка о том, что это, настоящая цена и кнопка в корзину. Кадр — собственная карточка товара, та же, что на его странице. Копия лежит на плоском фоне страницы, поэтому фотография не может сломать контраст." },
+  { key: "h", name: "H · Полка", frame: "shelf", job: "sell",
+    why: "Структура Ritual: несколько настоящих товаров стоят на одной плоскости, а копия — на плоской панели рядом, с бейджем-оффером из промо-строки магазина. Продаёт не вещь, а подборку, и сразу показывает ассортимент." },
+  { key: "j", name: "J · Три двери", frame: "tiles", job: "route",
+    why: "Hero как навигация: реальные плитки категорий со своими кадрами и числом товаров внутри. Ни одной буквы поверх фотографии — подписи на плотной карточке под кадром." },
+  { key: "k", name: "K · Объявление", frame: "none", job: "announce",
+    why: "Фотографии нет вообще. Плоская полоса брендовым цветом и одно настоящее сообщение — первая клаузула промо-строки магазина, а не сочинённый слоган. Самый дешёвый вариант: работает без единого нового кадра." },
+  { key: "l", name: "L · В движении", frame: "motion", job: "sell",
+    why: "Кадр с человеком или в настоящей среде во всю ширину, а вещь продаёт маленькая плотная карточка в углу. Текста на фотографии нет, поэтому контраст держит карточка. У кого такого кадра нет — здесь честно нарисована штриховка, и это ответ на вопрос, какие фотографии нужно снять." },
+  { key: "m", name: "M · Без hero", frame: "none", job: "away",
+    why: "Блока нет. Магазин открывается товаром: тонкая строка условий и сразу первый ряд карточек с ценами. Это тоже ответ, и до сих пор его никто не смотрел." },
+]
+
+const state = { brand: DATA[0].id, mode: DATA[0].defaultMode, width: "desktop" }
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c])
+const media = (p, file) => `/media/${p.id}/${file}`
+const money = (n) => (n == null ? "" : "$" + n)
+
+/* ---------- picking real content ---------- */
+function pickHeadliner(p) {
+  const best = p.collections.find((c) => c.handle === "bestsellers" || c.handle === "the-foundation")
+  const inBest = p.products.filter((x) => x.collections.includes(best?.handle))
+  const pool = inBest.length ? inBest : p.products
+  return { product: pool.find((x) => x.image) ?? pool[0], collection: best ?? p.collections[0] }
+}
+function pickShelf(p) {
+  const { collection } = pickHeadliner(p)
+  const inColl = p.products.filter((x) => x.image && x.collections.includes(collection?.handle))
+  const pool = inColl.length >= 3 ? inColl : p.products.filter((x) => x.image)
+  return pool.slice(0, 3)
+}
+const countIn = (p, handle) => p.products.filter((x) => x.category === handle).length
+const clauses = (p) => (p.promo ? p.promo.split(" · ") : [])
+
+/* ---------- markup ---------- */
+function productCard(p, product) {
+  return `<article class="card-p">
+    <div class="frame">${product.image ? `<img src="${media(p, product.image)}" alt="" />` : ""}</div>
+    <div class="t">${esc(product.title)}</div>
+    <div class="s">${esc(product.subtitle ?? "")}</div>
+    <div class="pr">${esc(money(product.priceFrom))}${product.priceTo !== product.priceFrom ? "–" + money(product.priceTo) : ""}</div>
+  </article>`
+}
+
+function heroMarkup(key, p) {
+  const { product, collection } = pickHeadliner(p)
+  const cl = clauses(p)
+
+  if (key === "g") {
+    return `<div class="hero g">
+      <div class="pane">
+        <span class="eyebrow">${esc(collection?.title ?? p.brand.name)}</span>
+        <h2>${esc(product.title)}</h2>
+        <p>${esc(product.subtitle ?? "")}</p>
+        <div class="buyline"><span class="price">${esc(money(product.priceFrom))}</span>
+          ${cl[0] ? `<span class="meta">${esc(cl[0])}</span>` : ""}</div>
+        <div class="actions"><a class="btn" href="#">Add to bag</a>
+          <a class="linkish" href="#">See all ${esc(product.category?.replace(/-/g, " ") ?? "products")} →</a></div>
+      </div>
+      <div class="shot">${product.image ? `<img src="${media(p, product.image)}" alt="" />` : ""}</div>
+    </div>`
+  }
+
+  if (key === "h") {
+    const shelf = pickShelf(p)
+    return `<div class="hero h">
+      <div class="shelf">
+        ${shelf.map((x) => `<figure><img src="${media(p, x.image)}" alt="" /></figure>`).join("")}
+      </div>
+      <div class="pane">
+        ${cl[0] ? `<span class="badge">${esc(cl[0])}</span>` : ""}
+        <h2>${esc(collection?.title ?? p.brand.name)}</h2>
+        <p>${esc(p.brand.tagline)}</p>
+        <div class="buyline"><span class="price">from ${esc(money(Math.min(...shelf.map((x) => x.priceFrom))))}</span></div>
+        <a class="btn" href="#">Shop ${esc((collection?.title ?? "the shop").toLowerCase())}</a>
+      </div>
+    </div>`
+  }
+
+  if (key === "j") {
+    const doors = p.tiles.slice(0, 3)
+    return `<div class="hero j" style="--doors:${doors.length}">
+      <div class="lead">
+        <div><span class="eyebrow">${esc(p.brand.name)}</span><h2>${esc(p.brand.tagline)}</h2></div>
+        <a class="linkish" href="#">All ${p.products.length} products →</a>
+      </div>
+      <div class="doors">${doors.map((t) => `
+        <figure>
+          <div class="frame"><img src="${media(p, t.image.replace(/^media\//, ""))}" alt="" /></div>
+          <figcaption>${esc(t.label)}<span class="n">${countIn(p, t.categoryHandle)} items</span></figcaption>
+        </figure>`).join("")}
+      </div>
+    </div>`
+  }
+
+  if (key === "k") {
+    return `<div class="hero k">
+      <span class="eyebrow">${esc(p.brand.name)}</span>
+      <h2>${esc(cl[0] ?? p.brand.tagline)}</h2>
+      <p>${esc(cl.slice(1).join(" · ") || p.brand.tagline)}</p>
+      <a class="btn" href="#">${esc(p.hero?.cta?.label ?? "Shop now")}</a>
+    </div>`
+  }
+
+  if (key === "l") {
+    const frame = p.frames.person[0] ?? p.frames.room[0] ?? null
+    if (!frame) {
+      return `<div class="hero l"><div class="missing">
+        <strong>У ${esc(p.brand.name)} нет такого кадра</strong>
+        <span>${esc(p.frames.note)} Этот вариант нельзя показать честно, пока не снят кадр с человеком или в среде.</span>
+      </div></div>`
+    }
+    return `<div class="hero l">
+      <img src="${media(p, frame)}" alt="" />
+      <div class="card">
+        <span class="eyebrow">${esc(collection?.title ?? p.brand.name)}</span>
+        <h2>${esc(product.title)}</h2>
+        <p>${esc(product.subtitle ?? "")}</p>
+        <div class="buyline"><span class="price">${esc(money(product.priceFrom))}</span>
+          <a class="btn" href="#">Add to bag</a></div>
+      </div>
+    </div>`
+  }
+
+  if (key === "m") {
+    const news = p.collections.find((c) => c.handle === "new-arrivals") ?? p.collections[0]
+    return `<div class="hero m">
+      <div class="line"><span>${esc(p.brand.tagline)}</span><span>${esc(p.promo ?? "")}</span></div>
+      <h2>${esc(news?.title ?? "In the shop")}</h2>
+    </div>`
+  }
+  return ""
+}
+
+function storeMarkup(key, p) {
+  const shown = p.products.filter((x) => x.image)
+  const row = key === "m" ? shown.slice(0, 4) : shown.slice(0, 4)
+  const below = key === "m"
+    ? `<div class="below" style="padding-top:0"><div class="grid">${row.map((x) => productCard(p, x)).join("")}</div></div>`
+    : `<div class="below"><div class="cap"><h3>${esc(p.collections[0]?.title ?? "In the shop")}</h3>
+         <a class="linkish" href="#">See all →</a></div>
+       <div class="grid">${row.map((x) => productCard(p, x)).join("")}</div></div>`
+  const tokens = p.modes[state.mode].tokens
+  const vars = Object.entries(tokens).map(([k, v]) => `${k}:${v}`).join(";")
+  return `<div class="store" style="${vars};--font-display:'${p.typography.display}',ui-sans-serif,system-ui,serif;--font-body:'${p.typography.body}',ui-sans-serif,system-ui,sans-serif">
+    <header class="site-head">
+      <span class="wordmark">${esc(p.brand.wordmark?.text ?? p.brand.name.toUpperCase())}</span>
+      <nav class="site-nav">${p.tiles.slice(0, 4).map((t) => `<span>${esc(t.label)}</span>`).join("")}</nav>
+      <span class="site-bag">Bag · 0</span>
+    </header>
+    ${heroMarkup(key, p)}
+    ${below}
+  </div>`
+}
+
+/* ---------- measured contrast on flat grounds ----------
+   Round one had to composite a scrim over a photograph. Round two puts no copy on a photograph
+   at all, so the honest check is a different one: walk every piece of text up to the first
+   ancestor that actually paints a background, composite the alphas, and report the worst ratio
+   the block produces. That catches a theme fault (muted ink on a muted ground), which is the
+   only way these blocks can fail. An element sitting over an <img> is reported separately —
+   it would mean a variant broke its own rule. */
+const srgb = (c) => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4 }
+const lum = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b)
+const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+const rgba = (s) => { const n = (s.match(/[\d.]+/g) ?? []).map(Number); return [n[0] ?? 0, n[1] ?? 0, n[2] ?? 0, n[3] ?? 1] }
+const over = (fg, bg) => fg.slice(0, 3).map((c, i) => c * fg[3] + bg[i] * (1 - fg[3]))
+
+function groundOf(el, root) {
+  let layers = [], node = el
+  while (node && node !== root.parentElement) {
+    const cs = getComputedStyle(node)
+    if (cs.backgroundImage !== "none" && !/^(repeating-)?(linear|radial|conic)-gradient/.test(cs.backgroundImage)) {
+      return { photo: true }
+    }
+    const c = rgba(cs.backgroundColor)
+    if (c[3] > 0) { layers.push(c); if (c[3] === 1) break }
+    node = node.parentElement
+  }
+  let ground = [255, 255, 255]
+  for (const layer of layers.reverse()) ground = over(layer, ground)
+  return { photo: false, ground }
+}
+
+function measure(section) {
+  const store = section.querySelector(".store")
+  const hero = section.querySelector(".hero")
+  if (!hero) return { verdict: "none", text: "блока нет — мерить нечего" }
+  const rows = []
+  let onPhoto = 0
+  for (const el of hero.querySelectorAll("h2, p, span, a, div.t, div.s, div.pr, figcaption")) {
+    const text = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())
+    if (!text) continue
+    const cs = getComputedStyle(el)
+    if (cs.display === "none" || Number(cs.opacity) === 0) continue
+    const g = groundOf(el, store)
+    if (g.photo) { onPhoto++; continue }
+    const ink = over([...rgba(cs.color).slice(0, 3), rgba(cs.color)[3] * Number(cs.opacity || 1)], g.ground)
+    const size = parseFloat(cs.fontSize), weight = Number(cs.fontWeight) || 400
+    const large = size >= 24 || (size >= 18.66 && weight >= 700)
+    rows.push({ r: ratio(lum(ink), lum(g.ground)), need: large ? 3 : 4.5, label: el.textContent.trim().slice(0, 28) })
+  }
+  if (!rows.length) return { verdict: "none", text: onPhoto ? "вся копия на фотографии" : "нечего мерить" }
+  rows.sort((a, b) => a.r / a.need - b.r / b.need)
+  const worst = rows[0]
+  const fails = rows.filter((x) => x.r < x.need)
+  const tail = onPhoto ? ` · ${onPhoto} узл. на фото` : ""
+  return fails.length
+    ? { verdict: "fail", text: `${fails.length} ниже порога · худший ${worst.r.toFixed(1)}:1 при ${worst.need} — «${worst.label}»${tail}` }
+    : { verdict: "pass", text: `вся копия на плоском фоне · запас ${worst.r.toFixed(1)}:1 при ${worst.need}${tail}` }
+}
+
+/* ---------- render ---------- */
+function renderMatrix() {
+  const jobKeys = ["sell", "route", "announce", "away"]
+  const frameKeys = ["isolated", "shelf", "tiles", "motion", "none"]
+  const at = (f, j) => VARIANTS.find((v) => v.frame === f && v.job === j)
+  document.getElementById("matrix").innerHTML =
+    `<tr><th>кадр ↓ / работа →</th>${jobKeys.map((j) => `<th>${JOBS[j]}</th>`).join("")}</tr>` +
+    frameKeys.map((f) => `<tr><th>${FRAMES[f]}</th>${jobKeys.map((j) => {
+      const v = at(f, j)
+      return v ? `<td class="on">${esc(v.name)}</td>` : `<td class="off">—</td>`
+    }).join("")}</tr>`).join("")
+}
+
+function renderStock() {
+  const rows = DATA.map((p) => {
+    const bad = !p.frames.person.length && !p.frames.room.length
+    return `<div><b>${esc(p.brand.name)}</b> (${esc(p.id)}): ${p.onDisk.length} кадров на диске · ` +
+      `человек ${p.frames.person.length} · среда ${p.frames.room.length} — ` +
+      `<span class="${bad ? "warn" : ""}">${esc(p.frames.note)}</span></div>`
+  })
+  document.getElementById("stock").innerHTML =
+    `<div style="margin-bottom:6px"><b>Что у брендов реально есть в кадрах</b> (просмотрено глазами по контактным листам, 2026-09-09):</div>` + rows.join("")
+}
+
+function render() {
+  const p = DATA.find((x) => x.id === state.brand)
+  document.body.dataset.mode = state.mode
+  document.body.dataset.width = state.width
+  document.getElementById("variants").innerHTML = VARIANTS.map((v) => `
+    <section class="variant" data-key="${v.key}">
+      <header>
+        <h2>${esc(v.name)}</h2>
+        <span class="cell">${esc(FRAMES[v.frame])} × ${esc(JOBS[v.job])}</span>
+        <span class="chip" data-verdict="none" id="chip-${v.key}"><span class="dot"></span>—</span>
+        <p class="why">${esc(v.why)}</p>
+      </header>
+      <div class="stage"><div class="rail">${storeMarkup(v.key, p)}</div></div>
+    </section>`).join("")
+  requestAnimationFrame(() => {
+    for (const v of VARIANTS) {
+      const section = document.querySelector(`.variant[data-key="${v.key}"]`)
+      const chip = document.getElementById(`chip-${v.key}`)
+      const out = measure(section)
+      chip.dataset.verdict = out.verdict
+      chip.innerHTML = `<span class="dot"></span>${esc(out.text)}`
+    }
+  })
+}
+
+document.getElementById("seg-brand").innerHTML = DATA.map((p, i) =>
+  `<button data-v="${p.id}" aria-pressed="${i === 0}">${esc(p.brand.name)}</button>`).join("")
+for (const button of document.querySelectorAll("#seg-mode button")) {
+  button.setAttribute("aria-pressed", String(button.dataset.v === state.mode))
+}
+
+for (const [id, key] of [["seg-brand", "brand"], ["seg-mode", "mode"], ["seg-width", "width"]]) {
+  document.getElementById(id).addEventListener("click", (event) => {
+    const button = event.target.closest("button")
+    if (!button) return
+    state[key] = button.dataset.v
+    if (key === "brand") {
+      state.mode = DATA.find((x) => x.id === button.dataset.v).defaultMode
+      for (const b of document.querySelectorAll("#seg-mode button")) {
+        b.setAttribute("aria-pressed", String(b.dataset.v === state.mode))
+      }
+    }
+    for (const sibling of button.parentElement.children) {
+      sibling.setAttribute("aria-pressed", String(sibling === button))
+    }
+    render()
+  })
+}
+
+renderMatrix()
+renderStock()
+render()
+</script>
+</body>
+</html>
