@@ -68,6 +68,17 @@ const THEMES = [
       pdp: "/en/products/braiser",
     },
   },
+  {
+    id: "sneakers",
+    port: 8028,
+    // pilot theme (t-store-profiles-pilot), predates the 4-theme wave, own worktree
+    // feat/store-profiles. Routes confirmed 200 by curl before this entry was written.
+    pages: {
+      home: "/en",
+      category: "/en/categories/footwear",
+      pdp: "/en/products/verge-runner",
+    },
+  },
 ]
 
 // Freeze motion and hide the Next dev overlay: a contact sheet compares themes, and a

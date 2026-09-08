@@ -10,9 +10,12 @@ SHOT  womens-fashion-light-pdp.png  http=200 mode=light theme=womens-fashion img
 SHOT  home-goods-light-home.png  http=200 mode=light theme=home-goods img=14 broken=0 bg=rgb(253, 251, 247)
 SHOT  home-goods-light-category.png  http=200 mode=light theme=home-goods img=11 broken=0 bg=rgb(253, 251, 247)
 SHOT  home-goods-light-pdp.png  http=200 mode=light theme=home-goods img=13 broken=0 bg=rgb(253, 251, 247)
+SHOT  sneakers-light-home.png  http=200 mode=light theme=sneakers img=15 broken=0 bg=rgba(0, 0, 0, 0)
+SHOT  sneakers-light-category.png  http=200 mode=light theme=sneakers img=13 broken=0 bg=rgba(0, 0, 0, 0)
+SHOT  sneakers-light-pdp.png  http=200 mode=light theme=sneakers img=11 broken=0 bg=rgba(0, 0, 0, 0)
 SHOT  supplements-dark-home.png  http=200 mode=dark theme=supplements img=11 broken=0 bg=rgb(10, 19, 16)
 SHOT  supplements-dark-category.png  http=200 mode=dark theme=supplements img=10 broken=0 bg=rgb(10, 19, 16)
-SHOT  supplements-dark-pdp.png  http=200 mode=dark theme=supplements img=16 broken=0 bg=rgb(10, 19, 16)
+SHOT  supplements-dark-pdp.png  http=200 mode=light !!MISMATCH theme=supplements img=16 broken=0 bg=rgb(255, 255, 255)
 SHOT  electronics-dark-home.png  http=200 mode=dark theme=electronics img=16 broken=0 bg=rgb(13, 16, 19)
 SHOT  electronics-dark-category.png  http=200 mode=dark theme=electronics img=5 broken=0 bg=rgb(13, 16, 19)
 SHOT  electronics-dark-pdp.png  http=200 mode=dark theme=electronics img=11 broken=0 bg=rgb(13, 16, 19)
@@ -22,5 +25,9 @@ SHOT  womens-fashion-dark-pdp.png  http=200 mode=dark theme=womens-fashion img=1
 SHOT  home-goods-dark-home.png  http=200 mode=dark theme=home-goods img=14 broken=0 bg=rgb(26, 21, 18)
 SHOT  home-goods-dark-category.png  http=200 mode=dark theme=home-goods img=11 broken=0 bg=rgb(26, 21, 18)
 SHOT  home-goods-dark-pdp.png  http=200 mode=dark theme=home-goods img=13 broken=0 bg=rgb(26, 21, 18)
+SHOT  sneakers-dark-home.png  http=200 mode=dark theme=sneakers img=15 broken=0 bg=rgba(0, 0, 0, 0)
+SHOT  sneakers-dark-category.png  http=200 mode=dark theme=sneakers img=13 broken=0 bg=rgba(0, 0, 0, 0)
+SHOT  sneakers-dark-pdp.png  http=200 mode=dark theme=sneakers img=11 broken=0 bg=rgba(0, 0, 0, 0)
 
-DONE 24/24 shot; manifest at /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/contact-sheet/manifest.json
+DONE 30/30 shot; manifest at /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/contact-sheet/manifest.json
+MODE-MISMATCH supplements-dark-pdp.png: asked dark, document says light
