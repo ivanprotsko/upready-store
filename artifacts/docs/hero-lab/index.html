@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hero lab — семь версий, один экран</title>
+<style>
+/* Geist canon, vanilla flavour (~/upready/packages/geist-kit/tokens.css subset). The lab
+   chrome is deliberately NOT a store theme: it must not colour the thing it judges. */
+:root {
+  --bg: #ffffff; --fg: #000000; --secondary: #f4f4f4; --hover: #ececec;
+  --border: #e3e3e3; --ring: #9a9a9a; --muted: #171717; --faint: #8f8f8f;
+  --link: #0068d6; --green: #17803d; --red: #d63640; --warning: #f5a623;
+  --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+  --sans: ui-sans-serif, -apple-system, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Geist Mono", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); }
+a { color: var(--link); }
+
+/* ---------- lab chrome ---------- */
+.bar {
+  position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 20px;
+  align-items: center; padding: 12px 24px; background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.bar h1 { margin: 0 8px 0 0; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.bar .hint { color: var(--faint); font-size: 12px; }
+.group { display: flex; align-items: center; gap: 8px; }
+.group > label { color: var(--faint); font-size: 12px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--r-sm); overflow: hidden; }
+.seg button {
+  appearance: none; border: 0; background: transparent; color: var(--muted);
+  font: 13px var(--sans); padding: 5px 10px; cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.seg button:focus-visible { outline: 2px solid rgba(135,135,135,.5); outline-offset: -2px; }
+
+main { padding: 32px 24px 96px; display: flex; flex-direction: column; gap: 56px; }
+
+.variant { display: flex; flex-direction: column; gap: 12px; }
+.variant > header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+.variant h2 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.variant .why { margin: 0; color: var(--faint); font-size: 13px; max-width: 62ch; }
+.chip {
+  font: 12px var(--mono); font-variant-numeric: tabular-nums; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; white-space: nowrap;
+}
+.chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.chip[data-verdict="pass"] .dot { background: var(--green); }
+.chip[data-verdict="fail"] .dot { background: var(--red); }
+.chip[data-verdict="safe"] .dot { background: var(--link); }
+.chip[data-verdict="none"] .dot { background: var(--faint); }
+
+.stage { border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; background: var(--secondary); }
+.stage .rail { display: flex; justify-content: center; }
+.viewport { width: 1440px; max-width: 100%; }
+body[data-width="mobile"] .viewport { width: 390px; }
+
+/* ---------- the store ground the heroes are drawn on (neutral, not a theme) ---------- */
+.store {
+  --s-bg: #ffffff; --s-fg: #111111; --s-muted: #5c5c5c; --s-border: #e3e3e3;
+  --s-ink-on-image: #ffffff; --s-cta-bg: #ffffff; --s-cta-fg: #111111;
+  background: var(--s-bg); color: var(--s-fg); font-family: var(--store-font, var(--sans));
+}
+body[data-ground="dark"] .store {
+  --s-bg: #0a0a0a; --s-fg: #ededed; --s-muted: #a1a1a1; --s-border: #2e2e2e;
+  --s-cta-bg: #ededed; --s-cta-fg: #0a0a0a;
+}
+body[data-type="serif"] { --store-font: Georgia, "Playfair Display", "Times New Roman", serif; }
+
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero img.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero .pad { padding: 0 40px; }
+body[data-width="mobile"] .hero .pad { padding: 0 20px; }
+.hero h3 {
+  margin: 0; font-size: 48px; line-height: 1.06; letter-spacing: -0.035em; font-weight: 600;
+}
+body[data-width="mobile"] .hero h3 { font-size: 30px; letter-spacing: -0.02em; }
+.hero p { margin: 16px 0 0; font-size: 16px; line-height: 1.55; max-width: 46ch; font-family: var(--sans); }
+body[data-width="mobile"] .hero p { font-size: 14px; }
+.cta {
+  display: inline-flex; align-items: center; align-self: flex-start; width: fit-content;
+  height: 44px; padding: 0 22px; margin-top: 28px;
+  border-radius: 999px; font: 500 15px/1 var(--sans); text-decoration: none;
+  background: var(--s-cta-bg); color: var(--s-cta-fg);
+}
+.cta.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.7); }
+.cta.ink { background: var(--s-fg); color: var(--s-bg); }
+.on-image { color: var(--s-ink-on-image); }
+.on-image p { color: rgba(255,255,255,.86); }
+
+/* 0 · current */
+.v-current { height: 560px; }
+.v-current .copy { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.v-current h3 { color: rgba(255,255,255,.88); }
+.v-current p { color: var(--s-fg); }         /* the bug, kept faithfully: page ink on the photo */
+
+/* A · scrim */
+.v-scrim { height: 560px; }
+.v-scrim .scrim { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,.72) 0%, rgba(0,0,0,.30) 46%, rgba(0,0,0,0) 76%); }
+body[data-width="mobile"] .v-scrim .scrim { background: linear-gradient(to top, rgba(0,0,0,.80) 0%, rgba(0,0,0,.30) 46%, rgba(0,0,0,0) 82%); }
+.v-scrim .copy { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 620px; }
+body[data-width="mobile"] .v-scrim .copy { justify-content: flex-end; padding-bottom: 40px; }
+
+/* B · split */
+.v-split { display: grid; grid-template-columns: 1fr 1fr; height: 560px; border-bottom: 1px solid var(--s-border); }
+body[data-width="mobile"] .v-split { grid-template-columns: 1fr; height: auto; }
+.v-split .copy { display: flex; flex-direction: column; justify-content: center; }
+.v-split .shot { position: relative; border-left: 1px solid var(--s-border); }
+body[data-width="mobile"] .v-split .shot { order: -1; border-left: 0; height: 420px; }
+body[data-width="mobile"] .v-split .copy { padding-top: 36px; padding-bottom: 44px; }
+
+/* C · veil */
+.v-veil { height: 560px; }
+.v-veil .scrim { position: absolute; inset: 0; background: rgba(0,0,0,.50); }
+.v-veil .copy { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.v-veil .cta { align-self: center; }
+.v-veil h3 { max-width: 18ch; }
+.v-veil p { max-width: 52ch; }
+
+/* D · stacked */
+.v-stack .shot { position: relative; height: 420px; }
+body[data-width="mobile"] .v-stack .shot { height: 320px; }
+.v-stack .copy { padding-top: 40px; padding-bottom: 48px; max-width: 760px; }
+.v-stack h3 { font-size: 44px; }
+body[data-width="mobile"] .v-stack h3 { font-size: 28px; }
+
+/* E · card */
+.v-card { height: 560px; display: flex; align-items: flex-end; }
+.v-card .box {
+  position: relative; margin: 0 40px 40px; max-width: 560px; padding: 36px 36px 40px;
+  background: var(--s-bg); color: var(--s-fg); border: 1px solid var(--s-border); border-radius: var(--r-lg);
+}
+body[data-width="mobile"] .v-card .box { margin: 0 16px 20px; padding: 24px 22px 28px; }
+.v-card h3 { font-size: 40px; }
+body[data-width="mobile"] .v-card h3 { font-size: 26px; }
+
+/* F · type-led */
+.v-type { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; min-height: 460px; border-bottom: 1px solid var(--s-border); }
+body[data-width="mobile"] .v-type { grid-template-columns: 1fr; }
+.v-type .copy { padding-top: 56px; padding-bottom: 56px; }
+.v-type h3 { font-size: 62px; letter-spacing: -0.045em; }
+body[data-width="mobile"] .v-type h3 { font-size: 34px; }
+.v-type .shot { position: relative; align-self: stretch; min-height: 460px; }
+body[data-width="mobile"] .v-type .shot { min-height: 300px; }
+.v-type .eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--s-muted); margin-bottom: 20px; display: block; }
+</style>
+</head>
+<body data-ground="light" data-type="sans" data-width="desktop">
+
+<div class="bar">
+  <h1>Hero lab</h1>
+  <span class="hint">стенд без темы — сравниваем структуру, а не палитру</span>
+  <div class="group"><label>фото</label><div class="seg" id="seg-photo"></div></div>
+  <div class="group"><label>фон</label><div class="seg" id="seg-ground">
+    <button data-v="light" aria-pressed="true">светлый</button><button data-v="dark" aria-pressed="false">тёмный</button>
+  </div></div>
+  <div class="group"><label>шрифт</label><div class="seg" id="seg-type">
+    <button data-v="sans" aria-pressed="true">гротеск</button><button data-v="serif" aria-pressed="false">антиква</button>
+  </div></div>
+  <div class="group"><label>ширина</label><div class="seg" id="seg-width">
+    <button data-v="desktop" aria-pressed="true">1440</button><button data-v="mobile" aria-pressed="false">390</button>
+  </div></div>
+</div>
+
+<main id="main"></main>
+
+<script type="module">
+/* The five real stores, their real hero copy and their real photograph. Copy comes from
+   apps/backend/src/migration-scripts/data/profiles/<id>/profile.json — the lab judges the
+   layouts against the sentences that actually have to fit in them, not against lorem. */
+const PROFILES = [
+  { id: "womens-fashion", brand: "Larchant", h: "The four things you wear all winter",
+    p: "Bias-cut silk, Scottish lambswool and double-faced wool, cut long and made to be repaired. Fewer pieces, kept longer.",
+    cta: "See the autumn edit" },
+  { id: "sneakers", brand: "Kerbstone", h: "Made for the kerb, not the catwalk",
+    p: "Ink-black silhouettes with one acid detail. Cut for city miles, built to be worn out.",
+    cta: "Shop the drop" },
+  { id: "electronics", brand: "Ferrite", h: "Twelve screws. Two years of parts.",
+    p: "Graphite audio built to be opened: replaceable pads, named cells, a spare-parts page that outlives the product.",
+    cta: "See what's inside" },
+  { id: "supplements", brand: "Scruple", h: "Doses you can check, on labels you can read",
+    p: "Third-party tested vitamins at everyday doses, with the batch certificate published against its number. No proprietary blends.",
+    cta: "Shop the foundation" },
+  { id: "home-goods", brand: "Long Morning", h: "Kitchen things that outlive the kitchen",
+    p: "Cast iron, stoneware and linen for a rented kitchen you cook in every night. Weight, diameter and care notes on every page.",
+    cta: "Shop the kitchen" },
+]
+
+const VARIANTS = [
+  { key: "current", name: "0 · как сейчас", ref: true,
+    why: "То, что стенды рендерили до сегодняшнего вечера. Скрима нет вовсе (класс не собрался), подзаголовок печатается краской страницы — отсюда две разные краски в одном блоке.",
+    measure: { ink: "mixed" } },
+  { key: "scrim", name: "A · скрим",
+    why: "Тот же полноширинный кадр, но с настоящим градиентом слева направо. Вся копия одной краской — белой. Риск: контраст зависит от фотографии.",
+    measure: { ink: "#ffffff" } },
+  { key: "split", name: "B · разворот",
+    why: "Копия на плоском фоне страницы, кадр во второй половине. Контраст не может сломаться ни на одной фотографии.",
+    measure: null },
+  { key: "veil", name: "C · вуаль",
+    why: "Полноширинный кадр под ровной затемняющей вуалью, копия по центру. Спокойнее градиента, но съедает половину фотографии.",
+    measure: { ink: "#ffffff" } },
+  { key: "stack", name: "D · стопка",
+    why: "Кадр отдельной полосой, копия под ним на фоне страницы. Текста на фотографии нет вообще.",
+    measure: null },
+  { key: "card", name: "E · карточка",
+    why: "Кадр во всю ширину, копия внутри плотной карточки. Контраст держит карточка, а не скрим — фотография может быть любой.",
+    measure: null },
+  { key: "type", name: "F · типографика",
+    why: "Ведёт заголовок, фотография отдана в правую колонку. Самый быстрый вариант и самый «брендовый»; требует хорошей фразы.",
+    measure: null },
+]
+
+const state = { photo: PROFILES[0].id, ground: "light", type: "sans", width: "desktop" }
+const photoUrl = (id) => `/media/${id}.webp`
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c])
+
+function heroMarkup(v, p) {
+  const img = `<img class="photo" src="${photoUrl(p.id)}" alt="" crossorigin="anonymous" />`
+  const copy = (cls, ctaCls = "") => `
+    <h3>${esc(p.h)}</h3>
+    <p>${esc(p.p)}</p>
+    <a class="cta ${ctaCls}" href="#">${esc(p.cta)}</a>`
+  switch (v.key) {
+    case "current":
+      return `<div class="hero v-current">${img}<div class="copy pad on-image">${copy()}</div></div>`
+    case "scrim":
+      return `<div class="hero v-scrim">${img}<div class="scrim"></div><div class="copy pad on-image">${copy()}</div></div>`
+    case "split":
+      return `<div class="hero v-split"><div class="copy pad">${copy("", "ink")}</div><div class="shot">${img}</div></div>`
+    case "veil":
+      return `<div class="hero v-veil">${img}<div class="scrim"></div><div class="copy pad on-image">${copy("", "ghost")}</div></div>`
+    case "stack":
+      return `<div class="hero v-stack"><div class="shot">${img}</div><div class="copy pad">${copy("", "ink")}</div></div>`
+    case "card":
+      return `<div class="hero v-card">${img}<div class="box">${copy("", "ink")}</div></div>`
+    case "type":
+      return `<div class="hero v-type"><div class="copy pad"><span class="eyebrow">${esc(p.brand)}</span>${copy("", "ink")}</div><div class="shot">${img}</div></div>`
+  }
+}
+
+function render() {
+  const p = PROFILES.find((x) => x.id === state.photo)
+  document.body.dataset.ground = state.ground
+  document.body.dataset.type = state.type
+  document.body.dataset.width = state.width
+  document.getElementById("main").innerHTML = VARIANTS.map((v) => `
+    <section class="variant" data-key="${v.key}">
+      <header>
+        <h2>${esc(v.name)}</h2>
+        <span class="chip" data-verdict="none" id="chip-${v.key}"><span class="dot"></span>—</span>
+        <p class="why">${esc(v.why)}</p>
+      </header>
+      <div class="stage"><div class="rail"><div class="viewport"><div class="store">${heroMarkup(v, p)}</div></div></div></div>
+    </section>`).join("")
+  requestAnimationFrame(() => measureAll(p))
+}
+
+/* ---------- measured contrast, not asserted contrast ----------
+   For every variant whose copy sits ON the photograph the lab reads the pixels actually
+   behind the text, composites the scrim that covers them (black at alpha a  =>  c' = c(1-a)),
+   and reports the ratio 95% of the text area clears. A single bright speck is not a verdict,
+   so the minimum is shown beside it rather than instead of it. */
+const srgb = (c) => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4 }
+const lum = (r, g, b) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b)
+const ratio = (l1, l2) => (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)
+
+const images = new Map()
+function loadImage(url) {
+  if (images.has(url)) return images.get(url)
+  const promise = new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => resolve(img)
+    img.onerror = () => reject(new Error("no photo"))
+    img.src = url
+  })
+  images.set(url, promise)
+  return promise
+}
+
+/** Scrim alpha at a point of the hero box, mirroring the CSS gradients above. */
+function scrimAlpha(key, xN, yN) {
+  const stops = (t, a0, t1, a1, t2) =>
+    t <= 0 ? a0 : t >= t2 ? 0 : t <= t1 ? a0 + (a1 - a0) * (t / t1) : a1 * (1 - (t - t1) / (t2 - t1))
+  if (key === "veil") return 0.5
+  if (key === "scrim") {
+    return state.width === "mobile"
+      ? stops(1 - yN, 0.8, 0.46, 0.3, 0.82)
+      : stops(xN, 0.72, 0.46, 0.3, 0.76)
+  }
+  return 0
+}
+
+async function measureAll(profile) {
+  for (const v of VARIANTS) {
+    const chip = document.getElementById(`chip-${v.key}`)
+    if (!v.measure) {
+      chip.dataset.verdict = "safe"
+      chip.innerHTML = `<span class="dot"></span>контраст не зависит от фото`
+      continue
+    }
+    const section = document.querySelector(`.variant[data-key="${v.key}"] .hero`)
+    let img
+    try { img = await loadImage(photoUrl(profile.id)) } catch { chip.innerHTML = `<span class="dot"></span>фото не отдано`; continue }
+
+    const box = section.getBoundingClientRect()
+    const W = Math.round(box.width), H = Math.round(box.height)
+    const scale = Math.max(W / img.naturalWidth, H / img.naturalHeight)
+    const sw = W / scale, sh = H / scale
+    const sx = (img.naturalWidth - sw) / 2, sy = (img.naturalHeight - sh) / 2
+    const canvas = Object.assign(document.createElement("canvas"), { width: W, height: H })
+    const ctx = canvas.getContext("2d", { willReadFrequently: true })
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H)
+
+    const ratios = []
+    for (const el of section.querySelectorAll("h3, p")) {
+      const ink = getComputedStyle(el).color
+      const [ir, ig, ib] = ink.match(/[\d.]+/g).map(Number)
+      const inkL = lum(ir, ig, ib)
+      const r = el.getBoundingClientRect()
+      const x0 = Math.max(0, Math.round(r.left - box.left)), y0 = Math.max(0, Math.round(r.top - box.top))
+      const w = Math.min(W - x0, Math.round(r.width)), h = Math.min(H - y0, Math.round(r.height))
+      if (w <= 0 || h <= 0) continue
+      const data = ctx.getImageData(x0, y0, w, h).data
+      for (let y = 0; y < h; y += 3) {
+        for (let x = 0; x < w; x += 3) {
+          const i = (y * w + x) * 4
+          const a = scrimAlpha(v.key, (x0 + x) / W, (y0 + y) / H)
+          const bgL = lum(data[i] * (1 - a), data[i + 1] * (1 - a), data[i + 2] * (1 - a))
+          ratios.push(ratio(inkL, bgL))
+        }
+      }
+    }
+    if (!ratios.length) { chip.innerHTML = `<span class="dot"></span>нечего мерить`; continue }
+    ratios.sort((a, b) => a - b)
+    const p05 = ratios[Math.floor(ratios.length * 0.05)]
+    const min = ratios[0]
+    chip.dataset.verdict = p05 >= 4.5 ? "pass" : "fail"
+    chip.innerHTML = `<span class="dot"></span>95% площади ≥ ${p05.toFixed(1)}:1 · худший ${min.toFixed(1)}:1`
+  }
+}
+
+/* ---------- controls ---------- */
+const photoSeg = document.getElementById("seg-photo")
+photoSeg.innerHTML = PROFILES.map((p, i) =>
+  `<button data-v="${p.id}" aria-pressed="${i === 0}">${p.brand}</button>`).join("")
+
+for (const [id, key] of [["seg-photo", "photo"], ["seg-ground", "ground"], ["seg-type", "type"], ["seg-width", "width"]]) {
+  document.getElementById(id).addEventListener("click", (event) => {
+    const button = event.target.closest("button")
+    if (!button) return
+    state[key] = button.dataset.v
+    for (const sibling of button.parentElement.children) {
+      sibling.setAttribute("aria-pressed", String(sibling === button))
+    }
+    render()
+  })
+}
+
+render()
+</script>
+</body>
+</html>
