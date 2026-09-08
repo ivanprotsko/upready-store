@@ -8,7 +8,16 @@ export {
   seedProducts,
 } from "./products";
 export { seedRegions, seedTaxRegions } from "./regions";
-export { seedStockLocations } from "./stock-locations";
-export { isAlreadySeeded, seedStore } from "./store";
+export {
+  linkStockLocationsToSalesChannel,
+  seedStockLocations,
+} from "./stock-locations";
+export {
+  isAlreadySeeded,
+  resolveSeedMode,
+  seedSalesChannel,
+  seedStore,
+  type SeedMode,
+} from "./store";
 export { seedTranslations } from "./translations";
 export { step } from "./utils";

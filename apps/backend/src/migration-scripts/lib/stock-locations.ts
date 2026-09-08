@@ -22,6 +22,30 @@ export const getStockLocationsByName = async (container: MedusaContainer) => {
   );
 };
 
+/**
+ * Stock locations are shared between profiles, but the link to a sales channel
+ * is not: a channel with no location fulfils nothing. A second profile reuses
+ * the locations that are already there and only adds its own link.
+ */
+export const linkStockLocationsToSalesChannel = async (
+  container: MedusaContainer,
+) => {
+  const salesChannel = await getSalesChannel(container);
+  const stockLocations = await getStockLocations(container);
+
+  if (!stockLocations.length) {
+    throw new Error(
+      "No stock locations in this database, so the sales channel would have nothing to fulfil from. Seed the shared data first.",
+    );
+  }
+
+  for (const stockLocation of stockLocations) {
+    await linkSalesChannelsToStockLocationWorkflow(container).run({
+      input: { id: stockLocation.id, add: [salesChannel.id] },
+    });
+  }
+};
+
 export const seedStockLocations = async (container: MedusaContainer) => {
   await createStockLocationsWorkflow(container).run({
     input: {
@@ -29,12 +53,5 @@ export const seedStockLocations = async (container: MedusaContainer) => {
     },
   });
 
-  const salesChannel = await getSalesChannel(container);
-  const stockLocations = await getStockLocations(container);
-
-  for (const stockLocation of stockLocations) {
-    await linkSalesChannelsToStockLocationWorkflow(container).run({
-      input: { id: stockLocation.id, add: [salesChannel.id] },
-    });
-  }
+  await linkStockLocationsToSalesChannel(container);
 };

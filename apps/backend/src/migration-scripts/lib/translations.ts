@@ -9,17 +9,45 @@ import {
   type SeedLocale,
   type SeedTranslations,
 } from "../data/i18n";
-import { SEED_PRODUCTS } from "../data/products";
+import {
+  SEED_CATEGORIES,
+  SEED_COLLECTIONS,
+  SEED_PRODUCTS,
+  SEED_PRODUCT_OPTIONS,
+} from "../data/products";
 import { logger } from "@medusajs/framework/logger";
+import type { SeedMode } from "./store";
 import { getQuery, toKey } from "./utils";
 
-export const seedTranslations = async (container: MedusaContainer) => {
+/** Every category handle the active profile seeds, parents and children. */
+const ownCategoryHandles = () =>
+  SEED_CATEGORIES.flatMap((category) => [
+    category.handle,
+    ...(category.children ?? []).map((child) => child.handle),
+  ]);
+
+export const seedTranslations = async (
+  container: MedusaContainer,
+  mode: SeedMode = "full",
+) => {
   const query = getQuery(container);
   const translationModuleService = container.resolve(Modules.TRANSLATION);
 
-  await translationModuleService.createLocales(
-    SEED_LOCALES.map((code) => ({ code, name: SEED_LOCALE_NAMES[code] })),
+  // `locale.code` is unique, and a second profile in the same database shares
+  // the locales the first one created. Only the codes this profile adds are new.
+  const existingLocales = await translationModuleService.listLocales({});
+  const existingLocaleCodes = new Set(
+    existingLocales.map((locale) => locale.code),
   );
+  const newLocaleCodes = SEED_LOCALES.filter(
+    (code) => !existingLocaleCodes.has(code),
+  );
+
+  if (newLocaleCodes.length) {
+    await translationModuleService.createLocales(
+      newLocaleCodes.map((code) => ({ code, name: SEED_LOCALE_NAMES[code] })),
+    );
+  }
 
   const translations: CreateTranslationDTO[] = [];
 
@@ -63,9 +91,13 @@ export const seedTranslations = async (container: MedusaContainer) => {
   const translateTerm = (value: string, t: SeedTranslations) =>
     t.terms[toKey(value)] ?? value;
 
+  // Every graph read below is filtered to what THIS profile seeds. A translation
+  // is unique on (reference_id, locale_code), so translating a neighbour's
+  // category a second time is not a duplicate row — it is a failed seed.
   const { data: seededCategories } = await query.graph({
     entity: "product_category",
     fields: ["id", "handle"],
+    filters: { handle: ownCategoryHandles() },
   });
 
   for (const category of seededCategories) {
@@ -81,6 +113,7 @@ export const seedTranslations = async (container: MedusaContainer) => {
   const { data: seededCollections } = await query.graph({
     entity: "product_collection",
     fields: ["id", "handle"],
+    filters: { handle: SEED_COLLECTIONS.map((collection) => collection.handle) },
   });
 
   for (const productCollection of seededCollections) {
@@ -93,10 +126,50 @@ export const seedTranslations = async (container: MedusaContainer) => {
     );
   }
 
-  const { data: seededProductOptions } = await query.graph({
-    entity: "product_option",
-    fields: ["id", "title", "values.id", "values.value"],
+  const { data: seededProducts } = await query.graph({
+    entity: "product",
+    fields: [
+      "id",
+      "handle",
+      "title",
+      "description",
+      "options.id",
+      "variants.id",
+      "variants.title",
+    ],
+    filters: {
+      handle: SEED_PRODUCTS.map((product) => product.handle),
+    },
   });
+
+  // The options a profile declares are global (`product_option.title` is unique
+  // across the database); the ones Medusa mints for a product with no options
+  // are per product and share the title "Default option" with every other
+  // profile's, so they are reached through the products instead of by title.
+  const ownOptionIds = new Set(
+    seededProducts.flatMap((product) =>
+      (product.options ?? []).map((option: { id: string }) => option.id),
+    ),
+  );
+
+  if (SEED_PRODUCT_OPTIONS.length) {
+    const { data: declaredOptions } = await query.graph({
+      entity: "product_option",
+      fields: ["id"],
+      filters: { title: SEED_PRODUCT_OPTIONS.map((option) => option.title) },
+    });
+    for (const option of declaredOptions) ownOptionIds.add(option.id);
+  }
+
+  // An empty `filters.id` is not "nothing" to the query layer, it is "no filter":
+  // it would hand back every option in the database, neighbours included.
+  const { data: seededProductOptions } = ownOptionIds.size
+    ? await query.graph({
+        entity: "product_option",
+        fields: ["id", "title", "values.id", "values.value"],
+        filters: { id: Array.from(ownOptionIds) },
+      })
+    : { data: [] as { id: string; title: string; values?: { id: string; value: string }[] }[] };
 
   for (const option of seededProductOptions) {
     addTranslations(
@@ -115,21 +188,6 @@ export const seedTranslations = async (container: MedusaContainer) => {
       );
     }
   }
-
-  const { data: seededProducts } = await query.graph({
-    entity: "product",
-    fields: [
-      "id",
-      "handle",
-      "title",
-      "description",
-      "variants.id",
-      "variants.title",
-    ],
-    filters: {
-      handle: SEED_PRODUCTS.map((product) => product.handle),
-    },
-  });
 
   for (const product of seededProducts) {
     addTranslations(
@@ -152,48 +210,53 @@ export const seedTranslations = async (container: MedusaContainer) => {
     }
   }
 
-  const { data: seededShippingOptions } = await query.graph({
-    entity: "shipping_option",
-    fields: [
-      "id",
-      "name",
-      "type.id",
-      "type.code",
-      "type.label",
-      "type.description",
-    ],
-  });
+  // Shipping options and refund reasons belong to the shared fulfillment data,
+  // which an add-profile run does not seed and must not re-translate. The cost
+  // of variant A is that a second profile cannot restate them in its own words.
+  if (mode === "full") {
+    const { data: seededShippingOptions } = await query.graph({
+      entity: "shipping_option",
+      fields: [
+        "id",
+        "name",
+        "type.id",
+        "type.code",
+        "type.label",
+        "type.description",
+      ],
+    });
 
-  for (const shippingOption of seededShippingOptions) {
-    const optionType = shippingOption.type;
-    if (!optionType) continue;
+    for (const shippingOption of seededShippingOptions) {
+      const optionType = shippingOption.type;
+      if (!optionType) continue;
 
-    addTranslations(
-      "shipping_option",
-      shippingOption.id,
-      translationsFor((t) => ({
-        name: t.shippingOptions[toKey(optionType.code)],
-      })),
-    );
+      addTranslations(
+        "shipping_option",
+        shippingOption.id,
+        translationsFor((t) => ({
+          name: t.shippingOptions[toKey(optionType.code)],
+        })),
+      );
 
-    addTranslations(
-      "shipping_option_type",
-      optionType.id,
-      translationsFor((t) => t.shippingTypes[toKey(optionType.code)]),
-    );
-  }
+      addTranslations(
+        "shipping_option_type",
+        optionType.id,
+        translationsFor((t) => t.shippingTypes[toKey(optionType.code)]),
+      );
+    }
 
-  const { data: seededRefundReasons } = await query.graph({
-    entity: "refund_reason",
-    fields: ["id", "label", "description"],
-  });
+    const { data: seededRefundReasons } = await query.graph({
+      entity: "refund_reason",
+      fields: ["id", "label", "description"],
+    });
 
-  for (const refundReason of seededRefundReasons) {
-    addTranslations(
-      "refund_reason",
-      refundReason.id,
-      translationsFor((t) => t.refundReasons[toKey(refundReason.label)]),
-    );
+    for (const refundReason of seededRefundReasons) {
+      addTranslations(
+        "refund_reason",
+        refundReason.id,
+        translationsFor((t) => t.refundReasons[toKey(refundReason.label)]),
+      );
+    }
   }
 
   logger.info(`Prepared ${translations.length} translations.`);

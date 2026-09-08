@@ -13,7 +13,13 @@
  *   5. prints the publishable API key
  *
  * The database name defaults to `upready_store_<id>` with dashes turned into
- * underscores, matching the id contract in specs/store-profiles/.
+ * underscores, matching the id contract in specs/store-profiles/. Point two
+ * profiles at ONE database with `--db` and the second run adds a profile beside
+ * the first (shared store, regions, stock locations, fulfillment; its own sales
+ * channel, key and catalog) — see `src/migration-scripts/lib/store.ts`.
+ *
+ * Everything this script reports is scoped to the profile's own sales channel,
+ * because in a shared database the database-wide counts belong to nobody.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -96,6 +102,19 @@ const main = () => {
   if (!fs.existsSync(profileDir)) {
     throw new Error(`Store profile "${args.id}" not found at ${profileDir}.`);
   }
+
+  // The seed names the sales channel and the publishable key after the brand
+  // (`src/migration-scripts/data/store/index.ts`). In a shared database that
+  // name is the only thing that tells this profile's rows from a neighbour's.
+  const profileJson = JSON.parse(
+    fs.readFileSync(path.join(profileDir, "profile.json"), "utf8"),
+  );
+  const brandName = profileJson?.brand?.name;
+  if (!brandName) {
+    throw new Error(`Store profile "${args.id}": profile.json has no brand.name.`);
+  }
+  const salesChannelName = `${brandName} Sales Channel`;
+  const apiKeyTitle = `${brandName} Publishable API Key`;
 
   const databaseName = args.db ?? `upready_store_${args.id.replace(/-/g, "_")}`;
 
@@ -189,15 +208,45 @@ const main = () => {
   const query = (sql) =>
     execFileSync(psql, [databaseUrl, "-tAc", sql], { encoding: "utf8" }).trim();
 
+  const sqlString = (value) => `'${String(value).replace(/'/g, "''")}'`;
+
+  const channelId = query(
+    `SELECT id FROM sales_channel
+      WHERE name = ${sqlString(salesChannelName)} AND deleted_at IS NULL`,
+  );
+  if (!channelId) {
+    throw new Error(
+      `no sales channel named "${salesChannelName}" in ${databaseName}: the seed did not create this profile's channel.`,
+    );
+  }
+
   const publishableKey = query(
-    "SELECT token FROM api_key WHERE type = 'publishable' AND revoked_at IS NULL ORDER BY created_at ASC LIMIT 1",
+    `SELECT k.token FROM api_key k
+      WHERE k.type = 'publishable' AND k.revoked_at IS NULL
+        AND k.title = ${sqlString(apiKeyTitle)}
+      ORDER BY k.created_at ASC LIMIT 1`,
   );
 
+  // Everything below is counted THROUGH the sales channel: in a shared database
+  // `SELECT count(*) FROM product` is the sum of every profile, which is a
+  // number about the database and not about this profile.
+  const ownProducts = `SELECT product_id FROM product_sales_channel
+      WHERE sales_channel_id = ${sqlString(channelId)} AND deleted_at IS NULL`;
+
   const counts = query(
-    `SELECT (SELECT count(*) FROM product WHERE deleted_at IS NULL)
-       || ' products, ' || (SELECT count(*) FROM product_variant WHERE deleted_at IS NULL)
+    `SELECT (SELECT count(*) FROM product p
+               WHERE p.deleted_at IS NULL AND p.id IN (${ownProducts}))
+       || ' products, ' || (SELECT count(*) FROM product_variant v
+               WHERE v.deleted_at IS NULL AND v.product_id IN (${ownProducts}))
        || ' variants, ' || (SELECT count(*) FROM product_category WHERE deleted_at IS NULL)
-       || ' categories, ' || (SELECT count(*) FROM region WHERE deleted_at IS NULL) || ' regions'`,
+       || ' categories (database-wide), ' || (SELECT count(*) FROM region WHERE deleted_at IS NULL)
+       || ' regions (database-wide)'`,
+  );
+
+  const keyChannels = query(
+    `SELECT count(*) FROM publishable_api_key_sales_channel l
+       JOIN api_key k ON k.id = l.publishable_key_id
+      WHERE k.title = ${sqlString(apiKeyTitle)} AND l.deleted_at IS NULL`,
   );
 
   // A seed that seeded NOTHING must not report success. Measured in the pilot: this script
@@ -205,14 +254,18 @@ const main = () => {
   // most expensive kind of green. The counts are read back from the database, not from the
   // seed's own log, and a zero in products or variants is a failure of this command.
   const seededProducts = Number(
-    query("SELECT count(*) FROM product WHERE deleted_at IS NULL"),
+    query(
+      `SELECT count(*) FROM product p WHERE p.deleted_at IS NULL AND p.id IN (${ownProducts})`,
+    ),
   );
   const seededVariants = Number(
-    query("SELECT count(*) FROM product_variant WHERE deleted_at IS NULL"),
+    query(
+      `SELECT count(*) FROM product_variant v WHERE v.deleted_at IS NULL AND v.product_id IN (${ownProducts})`,
+    ),
   );
   if (!Number.isFinite(seededProducts) || seededProducts === 0) {
     throw new Error(
-      `seed produced ${seededProducts} products in ${databaseName}: a seed that seeds nothing is a failure, not a success. ` +
+      `seed produced ${seededProducts} products on sales channel "${salesChannelName}" in ${databaseName}: a seed that seeds nothing is a failure, not a success. ` +
         `Check STORE_PROFILE=${args.id} and ${profileDir}/catalog/products.json.`,
     );
   }
@@ -221,14 +274,25 @@ const main = () => {
       `seed produced ${seededProducts} products but ${seededVariants} variants in ${databaseName}: a product nobody can buy is not seeded.`,
     );
   }
+  if (!publishableKey) {
+    throw new Error(
+      `no publishable key titled "${apiKeyTitle}" in ${databaseName}: the storefront would have nothing to authenticate with.`,
+    );
+  }
+  if (Number(keyChannels) !== 1) {
+    throw new Error(
+      `publishable key "${apiKeyTitle}" is linked to ${keyChannels} sales channels in ${databaseName}, expected exactly 1. A key on two channels sees two catalogs.`,
+    );
+  }
 
   console.log("\n--- store profile up ---");
   console.log(`profile:            ${args.id}`);
   console.log(`profile directory:  ${profileDir}`);
   console.log(`database:           ${databaseName}`);
   console.log(`media base URL:     ${mediaBaseUrl}`);
+  console.log(`sales channel:      ${salesChannelName} (${channelId})`);
   console.log(`seeded:             ${counts}`);
-  console.log(`publishable key:    ${publishableKey || "(none found)"}`);
+  console.log(`publishable key:    ${publishableKey}`);
 };
 
 try {
