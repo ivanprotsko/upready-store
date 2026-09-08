@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 32,
+  "action": "status-set",
+  "ts": "2026-09-08T21:14:15+08:00",
+  "status": "Контакт-лист 30/30 (5 тем, включая пилот sneakers), правило генерации изображений заведено (docs/store-profiles/01-image-generation-rules.md) — эффект, воспроизводимый CSS, больше не запекается в кадр, смотрит только вперёд. Два вопроса ждут Ивана: 1) hero-подзаголовок q-fullbleed-subheadline-opacity — снять альфу с --contrast-fg-primary (рекомендую) или завести отдельный токен; 2) буквальный Claude Code Skill (нужен оверрайд 25j) или достаточно written-правила в пайплайне (уже сделано). 5 стендов живы: supplements :8070/:9051, electronics :8061/:9041, womens-fashion :8081/:9061, home-goods :8110/:9110, sneakers :8028/:9023. dev=7b7d2e6, запушен. 18 открытых вопросов, 8 блокируют пилот."
+}
