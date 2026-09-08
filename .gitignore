@@ -83,4 +83,6 @@ artifacts/docs/contact-sheet/shots/
 # build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
 artifacts/docs/stands/shot-*.png
 artifacts/docs/hero-lab/shot-*.png
+# Third-party storefront screenshots kept for reference only — never re-hosted.
+artifacts/docs/hero-lab/refs/
 artifacts/docs/stands/devtools-*.png
