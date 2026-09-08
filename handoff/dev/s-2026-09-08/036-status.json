@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 36,
+  "action": "status-set",
+  "ts": "2026-09-08T22:12:44+08:00",
+  "status": "Вариант A консолидации измерен: два профиля (sneakers+supplements) сидированы в ОДНУ базу upready_store_multi режимом add-profile — store=1, region=241, дублей нет; /store/products отдаёт 14 и 15 товаров по двум publishable key, пересечение 0. Категории (14) и коллекции (4) ключом НЕ изолированы — открытый вопрос варианта A. Плюс страница артефакт artifacts/docs/stands/index.html: 5 тем, ссылки, живой статус (5 из 5 запущено). Коммиты d305682, 6d5fbe5."
+}
