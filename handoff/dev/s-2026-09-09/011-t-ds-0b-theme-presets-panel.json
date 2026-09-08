@@ -1,0 +1,33 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 11,
+  "action": "task-update",
+  "ts": "2026-09-09T02:20:54+08:00",
+  "status": "Иван одобрил hero-блок K для всех тем. Основа в коде (коммит 4fa6d98 на dev): announcement layout + баг тернарника починен + тест. Не сделано: не разложено в 5 profile.json/worktree, не пересобрано, не пересъёмка, не деплой. Плюс: сузить карточки upready-dev landing, собрать коллекцию 6 вариантов навсегда, начать 'коридор вариантов' для header/footer/product-grid/hero-gallery. Промпт для новой сессии выдан Ивану.",
+  "task": {
+    "id": "t-ds-0b-theme-presets-panel",
+    "title": "Theme presets medusa+geist on the canon dictionary (geist-kit/theme.css) with an 88-row bridge for ui-* classes, pre-paint data-theme/data-mode, four-page compatibility test, then the hidden settings panel on the storefront: hold the brand 2 s → password → floating button bottom-left → popover (preset, mode, reset) — Ivan's goal for 2026-09-06 (orchestrator A, T0h/T0i)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Proposed goal: the storefront's whole look is a preset (medusa today, geist as the target) switched by <html data-theme>/<data-mode>, default medusa/light looks exactly as before, and Ivan can open a hidden settings panel on :8000 by holding the logo 2 s and entering the password. Proposed acceptance: (1) medusa.theme.json + geist.theme.json valid against theme-preset.schema.json, same key set in both modes, 'N keys, 0 missing' copied; (2) token-map.json bridge covers 88/88 preset variables with mapped/diverged/open counts copied; (3) four-page screenshots home/listing/PDP/cart: medusa/light pixel delta <= 0.1 % per page vs the pre-change baseline, numbers copied; geist light+dark with zero open fallbacks; (4) mock-up artifacts/docs/2026-09-06-theme-panel-mockup.md written BEFORE code, shows hold → dialog → button → popover → flips → reload; (5) Playwright in Docker: hold 1.5 s navigates, 2 s opens dialog, wrong password error + no cookie, right password cookie + button, preset flip changes --background, reload has data-theme before first paint, visitor HTML has no panel; reverse runs red; (6) next build green; (7) HUMAN EYES on :8000 after merge into dev: looks as before, hold logo 2 s → password → small button bottom-left → popover flips medusa/geist and light/dark live, back to medusa/light = old look, reload does not flash. Sequence: right after T0a/T0b, before T0c–T0g (00-program §11.2). WIP <= 2: approve as a third task or fold into t-ds-0-foundation (Ivan's call).\n\n2026-09-06 08:4x: Ivan's day goal widened to cards and images (00-program §12, brief addendum T0j/T0k). The work runs under t-ds-0-foundation as T0h–T0k (WIP stays 2); this record is the proposal mirror only — Ivan may approve it as a third task or drop it, the work does not wait.\n\n2026-09-08 (справочная сессия, кода не писал): T0h СДЕЛАН и живёт в dev — themes.css несёт 7 пресетов x 2 режима, src/lib/theme/ (attributes/apply/pre-paint/profile/presets.generated) покрыт тестами, THEME_LABELS готовы для панели. T0i НЕ НАЧАТ: греп panel|devtools по dev и восьми worktree не находит ни компонента, ни маршрута, ни /api/devtools — только комментарии в lib/theme/*, ссылающиеся на панель. Обходы, пока её нет: индекс стендов artifacts/docs/stands/index.html (пересборка node artifacts/docs/stands/build.mjs) и ручной флип в консоли через data-theme/data-mode + localStorage upready-store.theme/.mode. Живые стенды на этот вечер (curl -L /en = 200): 8028 sneakers, 8061 electronics, 8070 supplements, 8081 womens-fashion, 8110 home-goods.\n\n2026-09-08: T0i построена и машинно принята (f53b910) — панель, /api/devtools/unlock, 12+4 теста Playwright, обратные прогоны 11/11 красные, next build EXIT=0, вес витрины без изменений. Осталась приёмка глазами Ивана на :8000. Состояние задачи НЕ переключал: два in_progress уже заняты (t-store-profiles-pilot, t-ds-1-seam-tests), WIP<=2 (правило 22j).\n\n2026-09-09: Иван принял T0i глазами на :8000 — «не заметил разницы ни в светлой, ни в тёмной». Проверено фактом (Playwright, computed styles + скриншоты, не мнение): в Light --background у Kerbstone(sneakers) и Scruple(supplements) буквально совпадает (#fff=#fff), различается только --primary (кнопки/ссылки), а во вьюпорте с шапкой+hero таких элементов в кадре нет — скриншоты выше сгиба у Kerbstone и Scruple пиксель-в-пиксель одинаковы (тот же hero-контент sneakers, панель его не переключает). Larchant(womens-fashion) отличается фоном (#f7f2e9 крем), но заметно только в узкой полосе nav. Прошлый отчёт 2026-09-08-t0i-panel-report.md заявил «flip to Light to see presets change the storefront the way the brief describes» БЕЗ замера этого утверждения тем же методом, что тёмный режим — записано как ошибка aie-20260909-021941-8b41 (правило 17/18f). Вывод: панель технически работает (токены применяются), но перцептивно два из трёх пресетов неотличимы на видимой площади страницы — гэп либо в наборе токенов (не только accent должен меняться), либо в наборе демонстрируемых элементов в попапе/на странице. Задачу не активировал — WIP<=2 занят (t-store-profiles-pilot, t-ds-1-seam-tests).",
+    "files": [
+      "docs/prompts/initial-prompt-2026-09-06-orchestrator-theme-presets-panel.md",
+      "docs/design-system/00-program-2026-09-06.md",
+      "specs/design-system/theme-preset.schema.json"
+    ],
+    "session": "store-ds",
+    "tags": [
+      "design-system",
+      "step-0",
+      "theme"
+    ],
+    "created": "2026-09-06T07:16:36+08:00",
+    "updated": "2026-09-09T02:20:54+08:00",
+    "commits": [
+      "f53b910"
+    ]
+  }
+}

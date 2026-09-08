@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-09T02:21:00+08:00",
+  "status": "T0i панель принята машинно, но глазами Иван нашёл реальный дефект: Kerbstone/Scruple неотличимы в Light (замерено, не мнение) — открыт вопрос q-ds-theme-presets-indistinguishable, задача в backlog (WIP занят). Активная работа — hero круг 2 (t-2026-09-08-01), ждёт выбора блока на localhost:8301."
+}
