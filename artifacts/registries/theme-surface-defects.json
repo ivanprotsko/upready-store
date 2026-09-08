@@ -174,7 +174,8 @@
       "surface": "PDP add-to-cart, disabled and loading",
       "symptom": "disabled button and its spinner are near-invisible on the card",
       "cause": "B-hardcoded-tailwind",
-      "status": "needs its own measurement of the disabled token pair"
+      "status": "closed on the surface the defect names (--fg-disabled-on-surface, read on --bg-disabled). The other half of the same derivation, --fg-disabled-on-page, was not re-measured in that window. All four live stands serve an identical set of 28 solved disabled inks (7 presets x 2 modes x 2 surfaces), compared by fetching each stand CSS.",
+      "measured": "2026-09-08 19:21 WITA, architect window, live stand :8081 (womens-fashion): the disabled PDP add-to-cart button measures 4.60:1 at worst and 4.66:1 at best across 16 preset x mode cells, against a 4.5:1 target. Worst cell womens-fashion dark, ink rgb(76,52,43) on rgb(224,144,122). Presets measured: electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion, plus the default alias of medusa. Raw: artifacts/docs/2026-09-08-disabled-pair-measure.json; tool: apps/storefront/scripts/measure-disabled-pair.mjs"
     },
     {
       "id": "d-12",

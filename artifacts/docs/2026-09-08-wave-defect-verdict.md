@@ -1,7 +1,8 @@
 # Wave 2 — verdict on the fourteen defect classes, and what the night cost
 
 Written by the architect window at 06:05 WITA, 2026-09-08, from measurements taken by seven agents
-between 02:38 and 06:00. Every number below was measured by somebody named; where a figure is a
+between 02:38 and 06:00, and amended by the architect window at 19:21 the same day — every amended
+figure carries that time. Every number below was measured by somebody named; where a figure is a
 prediction rather than a measurement it says so. Nothing here is estimated.
 
 The registry is `artifacts/registries/theme-surface-defects.json` (14 defects, 6 process failures).
@@ -12,11 +13,18 @@ live stand.
 
 ## The short answer
 
-**Ten of the fourteen classes are closed and measured closed. Two are half-closed. Two are open.**
+**Twelve of the fourteen classes are closed and measured closed — d-11 is the twelfth, closed on
+the surface it names and re-measured in the architect window at 19:21 WITA. Two are half-closed:
+d-03 and d-04, whose focus half is the work left open.**
 
-The two that are open were not missed — they were invisible to the gate until tonight, and the gate
-was extended to see them. That is the honest shape of the result: the repaint fixed most of what it
-was aimed at, and the checking apparatus turned out to be the weaker half of the work.
+That sentence used to read "ten closed, two half-closed, two open" while the table below it counted
+eleven, two and one. Nobody re-derived the prose after the table moved. It is d-11's failure one
+floor down — a number written once and then quoted, and the fix is the same one: count it from the
+table, in the reply where the claim is made.
+
+What stayed open was not missed — it was invisible to the gate until tonight, and the gate was
+extended to see it. That is the honest shape of the result: the repaint fixed most of what it was
+aimed at, and the checking apparatus turned out to be the weaker half of the work.
 
 ---
 
@@ -34,12 +42,12 @@ was aimed at, and the checking apparatus turned out to be the weaker half of the
 | d-08 | site footer | B-hardcoded-tailwind | **closed** | carries `bg-ui-bg-base` (supplements) |
 | d-09 | cart drawer, empty state | B-hardcoded-tailwind | **closed** | panel themed; its CTA was the separate 1.13:1 defect, now **17.18:1** |
 | d-10 | cart drawer with items, count badge | B-hardcoded-tailwind | **closed** | badge themed; 1.30 → **11.84:1** |
-| d-11 | PDP add-to-cart, disabled | B-hardcoded-tailwind | **open, being fixed** | recurred at 2.00:1 light / 1.79:1 dark; fixed to 6.70 / 6.12; then **1.04:1 on womens-fashion** — see below |
+| d-11 | PDP add-to-cart, disabled | B-hardcoded-tailwind | **closed on its surface, re-measured** | recurred at 2.00:1 light / 1.79:1 dark; fixed to 6.70 / 6.12; then **1.04:1 on womens-fashion**; re-derived against a contrast target and re-measured at 19:21 WITA: **4.60:1 worst of 16 preset × mode cells** — see below |
 | d-12 | reset password heading | A-body-unstyled | **closed** | 16.42:1 dark / 16.87:1 light (supplements) |
 | d-13 | checkout | B + A | **closed** | 13.9–16.4:1 with an item in the cart (supplements) |
 | d-14 | mobile navigation drawer | A + B | **closed** | recurred at 1.00–1.08:1, fixed to **16.91:1**; the gate now opens the drawer and home-goods measures 0 failing nodes on 20 of 20 cells |
 
-## The two that are open, and why they matter more than the ten that are closed
+## The two that were open, and why they matter more than the twelve that are closed
 
 ### d-11 — a fix is only as wide as the presets it was measured against
 
@@ -57,9 +65,44 @@ The lesson generalises past this token: **"worst case across all presets" is a c
 date.** It should be written with the date and the list it was computed over, or it reads as a
 guarantee about presets that do not exist yet.
 
-A derivation against a contrast target rather than a percentage was in progress when this was
-written; its computed result is ≥ 4.60:1 across all six presets in both modes. That figure is the
-agent's, not yet re-measured by the architect window.
+**Re-measured in the architect window, 2026-09-08 at 19:21 WITA.** The derivation against a
+contrast target shipped, and the paragraph above no longer has to quote an agent. Method: the
+disabled PDP add-to-cart button — `[data-testid="add-product-button"][disabled]`, the *Select
+variant* state d-11 was reported in — on the live `:8081` stand, read through Chromium's computed
+styles, one cell per preset per mode, with `data-theme` / `data-mode` flipped on `<html>`: the same
+switch the design system offers a visitor.
+
+**Worst case 4.60:1 — `womens-fashion`, dark mode, ink `rgb(76,52,43)` on `rgb(224,144,122)`. Best
+case 4.66:1. All 16 preset × mode cells clear the 4.5:1 that WCAG AA asks of this text; none fails,
+and none of the 16 read unstable.** The presets it was computed over, named because that is the
+whole lesson above: `electronics`, `geist`, `home-goods`, `medusa`, `sneakers`, `supplements`,
+`womens-fashion` — seven, plus `default`, an alias of `medusa` that measures identically, which is
+why there are 16 cells and not 14. The agent's "≥ 4.60:1 across all six presets" had the floor
+exactly right and the list short by a preset and an alias.
+
+The same CSS is on all four stands, not just the one this ran on: fetching every stylesheet each
+stand serves and normalising hex against `rgb()` gives one identical set of 28 solved inks
+(7 presets × 2 modes × 2 surfaces) on :8070, :8061, :8081 and :8110.
+
+What the number does **not** cover, so it is not read wider than it was taken:
+
+- only `--fg-disabled-on-surface` was measured, the ink read on `--bg-disabled`. The other half of
+  the same derivation, `--fg-disabled-on-page`, was not re-measured in this window;
+- the registry entry names the button *and its spinner*; only the button was measured.
+
+Two traps sit between this control and a correct number, and both return a plausible wrong one in
+silence. They are now guarded inside `apps/storefront/scripts/measure-disabled-pair.mjs`:
+
+1. the button carries `transition: color, background-color … 0.15s`. Read straight after the preset
+   flips, computed style returns the PREVIOUS preset's colours — measured here: the root variables
+   moved at once while the button still reported the old ink, and it settled 800 ms later. The first
+   run of this measurement returned 4.15:1 to 4.78:1 with the womens-fashion ink on every preset in
+   the table, and it looked like a result. Transitions are switched off before anything is read.
+2. a stale read cannot be told from a live one by looking at it, so every cell is read twice with a
+   gap and a disagreement is reported as unstable rather than quietly averaged.
+
+Per-cell numbers: `artifacts/docs/2026-09-08-disabled-pair-measure.json`. Re-running the tool prints
+the preset list it actually found on the stand, so the next person's claim carries its own list.
 
 ### d-03 / d-04 — the focus ring, and a gate that could not see it
 
