@@ -161,7 +161,8 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl, heroEnabled
     home: {
       hero: hero
         ? {
-            layout: hero.layout === "split" ? "split" : "full-bleed",
+            layout:
+              hero.layout === "split" || hero.layout === "announcement" ? hero.layout : "full-bleed",
             headline: hero.headline,
             subheadline: hero.subheadline ?? null,
             cta: hero.cta ? { label: hero.cta.label, href: hero.cta.href } : null,

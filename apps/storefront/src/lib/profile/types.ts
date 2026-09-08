@@ -7,7 +7,7 @@
  * of them, and an absent section must render as absent markup rather than as a placeholder.
  */
 
-export type HeroLayout = "full-bleed" | "split"
+export type HeroLayout = "full-bleed" | "split" | "announcement"
 export type ImageAspect = "1:1" | "4:5" | "3:4"
 export type ImageFit = "cover" | "contain"
 export type ImageRadius = "none" | "md" | "lg"

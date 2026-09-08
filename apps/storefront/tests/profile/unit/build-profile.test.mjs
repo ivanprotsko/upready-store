@@ -113,6 +113,20 @@ describe("build-profile · generated shape", () => {
   })
 })
 
+describe("build-profile · announcement layout", () => {
+  // Regression: the narrowing used to read `hero.layout === "split" ? "split" : "full-bleed"`,
+  // which silently collapsed ANY third value — "announcement" included — back to full-bleed.
+  // A profile author setting the new layout would render the old photo hero and never know.
+  it("carries the announcement layout through instead of collapsing it to full-bleed", () => {
+    const profile = buildProfile({
+      profileId: "testshop-announcement",
+      profilesDir: FIXTURES,
+      mediaBaseUrl: "https://media.test/testshop/",
+    })
+    expect(profile.home.hero.layout).toBe("announcement")
+  })
+})
+
 describe("build-profile · hero switched off", () => {
   const off = buildProfile({
     profileId: "testshop",

@@ -270,7 +270,8 @@
             "layout": {
               "enum": [
                 "full-bleed",
-                "split"
+                "split",
+                "announcement"
               ]
             },
             "headline": {

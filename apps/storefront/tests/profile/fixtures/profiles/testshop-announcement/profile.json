@@ -1,0 +1,13 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "testshop-announcement",
+  "home": {
+    "hero": {
+      "layout": "announcement",
+      "headline": "One message, no photograph",
+      "subheadline": "Free shipping over $60",
+      "cta": { "label": "Shop now", "href": "/store" },
+      "image": "media/hero.webp"
+    }
+  }
+}

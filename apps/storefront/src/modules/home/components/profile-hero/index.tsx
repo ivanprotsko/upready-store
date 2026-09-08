@@ -4,19 +4,28 @@ import { Link } from "@i18n/navigation"
 import { hero } from "@lib/profile"
 
 /**
- * The home hero, driven entirely by home.hero of the store profile. Two layouts, drawn as
- * frames 1-4 of artifacts/docs/2026-09-07-profile-home-mockup.md:
+ * The home hero, driven entirely by home.hero of the store profile. Three layouts:
  *
- *   full-bleed — the photograph is the full width of the viewport and the copy sits on it
- *                under a horizontal scrim, so the copy switches to on-image whites;
- *   split      — copy on the page background in --fg/--muted, image in the other half,
- *                the two separated by a hairline; stacks image-first below 1024px.
+ *   full-bleed   — the photograph is the full width of the viewport and the copy sits on it
+ *                  under a horizontal scrim, so the copy switches to on-image whites;
+ *   split        — copy on the page background in --fg/--muted, image in the other half,
+ *                  the two separated by a hairline; stacks image-first below 1024px.
+ *   announcement — block K of the round-2 hero lab (artifacts/docs/2026-09-09-hero-round-2.md),
+ *                  chosen by Ivan on 2026-09-09: no photograph at all, a flat band in the
+ *                  brand's own accent. Needs no hero.image, so it is the one layout that
+ *                  still renders when a profile has no photograph to offer.
  *
  * No hero in the profile means no markup at all — not an empty band, not a placeholder.
  * Server component with no request-scoped input, so the page stays statically renderable.
  */
 export default function ProfileHero() {
-  if (!hero || !hero.image) {
+  if (!hero) {
+    return null
+  }
+  if (hero.layout === "announcement") {
+    return <AnnouncementHero />
+  }
+  if (!hero.image) {
     return null
   }
 
@@ -101,6 +110,47 @@ function FullBleedHero() {
           <div className="mt-7">
             <Cta onImage />
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/*
+ * Block K of the round-2 lab. Its band is painted with the SAME bridge the primary CTA
+ * button already uses (globals.css, "The primary CTA's ink follows the ACCENT, not the
+ * mode"): `bg-ui-button-inverted` resolves to the preset's --primary, and re-points
+ * --contrast-fg-primary/-fg-secondary to --primary-foreground/a mix of it, so the headline
+ * and subheadline read correctly on any of the nine accents without a new bridge or a new
+ * opacity-on-var() class — the exact pattern that broke block A twice.
+ *
+ * The CTA stays the `onImage` variant: a pill in the page's own --bg/--fg, unaffected by the
+ * section's re-pointed custom properties (they only reach the two --contrast-fg-* names),
+ * so it reads as a light or dark chip standing off the accent band rather than inheriting it.
+ */
+function AnnouncementHero() {
+  if (!hero) return null
+
+  return (
+    <section
+      data-testid="profile-hero"
+      data-hero-layout="announcement"
+      className="w-full bg-ui-button-inverted"
+    >
+      <div className="content-container flex flex-col items-start gap-4 py-14 small:py-20">
+        <h1
+          data-testid="profile-hero-headline"
+          className="text-balance text-[30px] font-semibold leading-[1.08] tracking-[-0.02em] text-ui-contrast-fg-primary small:max-w-[720px] small:text-[46px] small:tracking-[-0.03em]"
+        >
+          {hero.headline}
+        </h1>
+        {hero.subheadline ? (
+          <p className="max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-secondary small:text-base">
+            {hero.subheadline}
+          </p>
+        ) : null}
+        <div className="mt-2">
+          <Cta onImage />
         </div>
       </div>
     </section>
