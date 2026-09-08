@@ -50,7 +50,7 @@
   },
   "home": {
     "hero": {
-      "layout": "split",
+      "layout": "full-bleed",
       "headline": "Doses you can check, on labels you can read",
       "subheadline": "Third-party tested vitamins at everyday doses, with the batch certificate published against its number. No proprietary blends.",
       "cta": {

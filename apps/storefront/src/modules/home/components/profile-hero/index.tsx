@@ -34,14 +34,36 @@ function Cta({ onImage }: { onImage: boolean }) {
         "inline-flex h-11 items-center justify-center rounded-full px-6 text-base font-medium " +
         "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive focus-visible:ring-2 focus-visible:ring-[var(--ring)] " +
         (onImage
-          ? "w-full bg-ui-bg-base text-ui-fg-base hover:bg-ui-bg-component-hover small:w-auto"
-          : "w-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover small:w-auto")
+          ? "w-fit bg-ui-bg-base text-ui-fg-base hover:bg-ui-bg-component-hover"
+          : "w-fit bg-ui-contrast-bg-base text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover")
       }
     >
       {hero.cta.label}
     </Link>
   )
 }
+
+/*
+ * Block A of the hero lab (artifacts/docs/2026-09-08-hero-lab.md), chosen by Ivan on
+ * 2026-09-09: the photograph full width, a real gradient scrim over it, and ALL the copy in
+ * ONE ink — white. The two ways the first attempt failed are both closed here:
+ *
+ *  - the scrim is written as an inline gradient, not as `from-[var(--foreground)]/70`.
+ *    Tailwind cannot put an alpha into a bare var() colour and drops the whole class in
+ *    silence, which left `--tw-gradient-stops` unset and computed the band to
+ *    `background-image: none` — there was no scrim on any stand at all;
+ *  - the copy carries its alpha inside the value (`text-[rgba(255,255,255,0.86)]`) instead
+ *    of behind a `/86` modifier, for the same reason. The subheadline used to lose its rule
+ *    entirely and inherit the page ink: black text on a light photograph, 1.0-1.4:1.
+ *
+ * The gradient runs sideways on desktop, where the copy is anchored left, and upwards on
+ * mobile, where it sits at the bottom — two elements rather than one responsive class,
+ * because an inline style cannot carry a breakpoint.
+ */
+const SCRIM_DESKTOP =
+  "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0) 76%)"
+const SCRIM_MOBILE =
+  "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0) 82%)"
 
 function FullBleedHero() {
   if (!hero?.image) return null
@@ -61,26 +83,22 @@ function FullBleedHero() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      {/* Vertical scrim on mobile where the copy is anchored to the bottom, horizontal on
-          desktop where it is anchored to the left — see frames 1 and 3. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-[var(--foreground)]/70 via-[var(--foreground)]/20 to-transparent small:bg-gradient-to-r small:from-[var(--foreground)]/60 small:via-[var(--foreground)]/25 small:to-transparent"
-      />
+      <div aria-hidden className="absolute inset-0 small:hidden" style={{ backgroundImage: SCRIM_MOBILE }} />
+      <div aria-hidden className="absolute inset-0 hidden small:block" style={{ backgroundImage: SCRIM_DESKTOP }} />
       <div className="content-container relative flex h-full flex-col justify-end pb-10 small:justify-center small:pb-0">
-        <div className="max-w-[620px]">
+        <div className="flex max-w-[620px] flex-col items-start">
           <h1
             data-testid="profile-hero-headline"
-            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-contrast-fg-primary small:text-[48px] small:tracking-[-0.04em]"
+            className="text-[30px] font-semibold leading-[1.06] tracking-[-0.02em] text-white small:text-[48px] small:tracking-[-0.035em]"
           >
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-4 text-sm leading-relaxed text-ui-contrast-fg-primary/80 small:text-base">
+            <p className="mt-4 max-w-[46ch] text-sm leading-relaxed text-[rgba(255,255,255,0.86)] small:text-base">
               {hero.subheadline}
             </p>
           ) : null}
-          <div className="mt-8">
+          <div className="mt-7">
             <Cta onImage />
           </div>
         </div>
