@@ -61,9 +61,9 @@ function Cta({ onImage }: { onImage: boolean }) {
  * because an inline style cannot carry a breakpoint.
  */
 const SCRIM_DESKTOP =
-  "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0) 76%)"
+  "linear-gradient(to right, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 78%)"
 const SCRIM_MOBILE =
-  "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0) 82%)"
+  "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 84%)"
 
 function FullBleedHero() {
   if (!hero?.image) return null
