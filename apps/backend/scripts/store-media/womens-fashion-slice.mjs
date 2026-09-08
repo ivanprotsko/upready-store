@@ -14,7 +14,7 @@ import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
-import { repoRoot } from './frames.mjs'
+import { assertNoSeamResidue, repoRoot } from './frames.mjs'
 
 const ROOT = repoRoot()
 const PROFILE = path.join(ROOT, 'apps/backend/src/migration-scripts/data/profiles/womens-fashion')
@@ -23,9 +23,24 @@ const MEDIA = path.join(PROFILE, 'media')
 const gridCar = JSON.parse(fs.readFileSync(path.join(RAW, 'womens-fashion-grid-3x4.json'), 'utf8'))
 const heroCar = JSON.parse(fs.readFileSync(path.join(RAW, 'womens-fashion-hero.json'), 'utf8'))
 
-const BORDERS_X = [1184, 2388]
-const BORDERS_Y = [1190, 2392, 3597]
-const SEAM_INSET = 8
+// A seam is a RUN, not a line. grid-measure.py reports where the white gutter STARTS, and the
+// first cut treated that number as the gutter's CENTRE: `border + 8` still landed inside it, so
+// every cell below row 0 kept 4-6 px of white above its content — the hairline that shows on the
+// live stand as a gap between the image and the card's top border. Both ends of every seam are
+// measured here (rows/columns that are >=90% white across the full grid, 2026-09-08):
+//   vertical   1185-1197, 2389-2401        (12-13 px wide)
+//   horizontal 1191-1202, 2393-2405, 3598-3609
+// The cell is cut OUTSIDE the run, with a margin, so no gutter pixel can survive the crop.
+const SEAMS_X = [
+  [1185, 1197],
+  [2389, 2401],
+]
+const SEAMS_Y = [
+  [1191, 1202],
+  [2393, 2405],
+  [3598, 3609],
+]
+const SEAM_MARGIN = 4
 const EDGE_INSET = 6
 const W = 3584, H = 4800
 const COLS = 3, ROWS = 4
@@ -36,13 +51,11 @@ const DET_W = 800, DET_H = 1000
 const TILE_W = 800, TILE_H = 1000
 const HERO_W = 1920, HERO_H = 900
 
-const edgesX = [0, ...BORDERS_X, W]
-const edgesY = [0, ...BORDERS_Y, H]
 const box = (col, row) => [
-  edgesX[col] + (col === 0 ? EDGE_INSET : SEAM_INSET),
-  edgesY[row] + (row === 0 ? EDGE_INSET : SEAM_INSET),
-  edgesX[col + 1] - (col === COLS - 1 ? EDGE_INSET : SEAM_INSET),
-  edgesY[row + 1] - (row === ROWS - 1 ? EDGE_INSET : SEAM_INSET),
+  col === 0 ? EDGE_INSET : SEAMS_X[col - 1][1] + 1 + SEAM_MARGIN,
+  row === 0 ? EDGE_INSET : SEAMS_Y[row - 1][1] + 1 + SEAM_MARGIN,
+  col === COLS - 1 ? W - EDGE_INSET : SEAMS_X[col][0] - SEAM_MARGIN,
+  row === ROWS - 1 ? H - EDGE_INSET : SEAMS_Y[row][0] - SEAM_MARGIN,
 ]
 
 fs.mkdirSync(MEDIA, { recursive: true })
@@ -142,6 +155,16 @@ const measured = JSON.parse(
   ),
 )
 const byName = Object.fromEntries(measured.cells.map((m) => [m.name, m]))
+
+// The gutter check runs on what was just written, before a single manifest line is spent on
+// it: a frame that opens with a white hairline is a cut that landed inside the seam, and on
+// the storefront that hairline is a gap between the image and the card's border.
+assertNoSeamResidue([
+  ...jobs.map((j) => j.webp),
+  ...jobs.map((j) => j.detail),
+  ...tilePayload.map((t) => t.out),
+  heroOut,
+])
 
 const sha = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')
 const NOW = new Date().toISOString()

@@ -2,6 +2,7 @@
 // This registry is the single place that decides what may be rendered. If a key
 // is not here, the driver will not spend money on it.
 
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -145,3 +146,52 @@ export const MODELS = {
     }),
   },
 };
+
+/**
+ * A grid sheet draws a white gutter between its panels. A cut that lands INSIDE that gutter
+ * leaves the leftover on the frame's edge, and on the storefront it reads as a gap between
+ * the image and the card's border — Ivan saw it on 2026-09-08: womens-fashion kept 4-6 px at
+ * the top of every cell below row 0, supplements up to 9 px, because both slicers treated the
+ * seam's LEADING edge as its centre. The seam coordinates differ per sheet, so the only check
+ * that transfers is on the OUTPUT: no frame may open or close with a run of near-white lines
+ * that the picture behind them does not have.
+ *
+ * A packshot shot on a white sweep is NOT a finding: the band is compared against the image at
+ * a tenth of its depth, so a frame that is white all the way in passes — nothing is visible
+ * there to fix. Throws with every offender listed; a slicer calls it before writing a manifest.
+ */
+export function assertNoSeamResidue(files, { threshold = 244, minRun = 2 } = {}) {
+  if (!files.length) throw new Error('assertNoSeamResidue: nothing to check');
+  const py = `
+import json, sys
+from PIL import Image
+threshold, min_run = int(sys.argv[1]), int(sys.argv[2])
+bad = []
+for f in json.loads(sys.argv[3]):
+    im = Image.open(f).convert("RGB"); W, H = im.size; px = im.load()
+    rowmin = lambda y: min(min(px[x, y]) for x in range(0, W, max(1, W // 40)))
+    colmin = lambda x: min(min(px[x, y]) for y in range(0, H, max(1, H // 40)))
+    inside = {"top": rowmin(H // 10), "bottom": rowmin(H - 1 - H // 10),
+              "left": colmin(W // 10), "right": colmin(W - 1 - W // 10)}
+    seqs = {"top": [rowmin(y) for y in range(20)], "bottom": [rowmin(H - 1 - y) for y in range(20)],
+            "left": [colmin(x) for x in range(20)], "right": [colmin(W - 1 - x) for x in range(20)]}
+    for edge, seq in seqs.items():
+        run = 0
+        for v in seq:
+            if v >= threshold: run += 1
+            else: break
+        if run >= min_run and inside[edge] < threshold:
+            bad.append({"file": f, "edge": edge, "lines": run})
+print(json.dumps(bad))
+`;
+  const out = execFileSync('python3', ['-c', py, String(threshold), String(minRun), JSON.stringify(files)], {
+    encoding: 'utf8',
+    maxBuffer: 16 * 1024 * 1024,
+  });
+  const bad = JSON.parse(out);
+  if (bad.length) {
+    const lines = bad.map((b) => `  ${path.basename(b.file)}: ${b.lines} near-white line(s) on the ${b.edge}`);
+    throw new Error(`seam residue on ${bad.length} of ${files.length} frames — the cut is inside the gutter:\n${lines.join('\n')}`);
+  }
+  console.log(`seam check: ${files.length} frames, no gutter left on any edge`);
+}
