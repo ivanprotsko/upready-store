@@ -1,0 +1,8 @@
+sneakers        g  вся копия на плоском фоне · запас 7.7:1 при 4.5
+sneakers        h  вся копия на плоском фоне · запас 7.4:1 при 4.5
+sneakers        j  вся копия на плоском фоне · запас 7.4:1 при 4.5
+sneakers        k  вся копия на плоском фоне · запас 14.0:1 при 4.5
+sneakers        l  вся копия на плоском фоне · запас 7.4:1 при 4.5
+sneakers        m  вся копия на плоском фоне · запас 7.7:1 при 4.5
+
+files: /Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/hero-lab-2/shot-<brand>-<variant>.png
