@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blocks lab · коридор вариантов · выкладка, хедер, футер, hero-галерея</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+/* ---------- the lab chrome (never a brand, always neutral; Geist tokens by hand) ---------- */
+:root {
+  --lab-bg: #0e0e10; --lab-panel: #17171a; --lab-line: #2a2a2f;
+  --lab-ink: #f2f2f4; --lab-dim: #9a9aa4; --lab-acc: #7dd3fc;
+  --lab-pass: #4ade80; --lab-fail: #f87171; --lab-warn: #fbbf24;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--lab-bg); color: var(--lab-ink); }
+.bar {
+  position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; gap: 18px;
+  align-items: center; padding: 12px 20px; background: #101013ee;
+  border-bottom: 1px solid var(--lab-line); backdrop-filter: blur(8px);
+}
+.bar h1 { font-size: 14px; margin: 0; letter-spacing: .02em; font-weight: 600; }
+.bar .hint { color: var(--lab-dim); font-size: 12px; }
+.group { display: flex; align-items: center; gap: 8px; }
+.group > label { font-size: 11px; color: var(--lab-dim); text-transform: uppercase; letter-spacing: .08em; }
+.seg { display: flex; border: 1px solid var(--lab-line); border-radius: 8px; overflow: hidden; }
+.seg button, .seg a {
+  appearance: none; border: 0; background: transparent; color: var(--lab-dim); text-decoration: none;
+  font: inherit; font-size: 12px; padding: 6px 11px; cursor: pointer;
+}
+.seg button + button, .seg a + a { border-left: 1px solid var(--lab-line); }
+.seg button[aria-pressed="true"] { background: #26262c; color: var(--lab-ink); }
+main { padding: 24px 20px 80px; max-width: 1600px; margin: 0 auto; }
+
+.intro, .axes { border: 1px solid var(--lab-line); border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; background: var(--lab-panel); }
+.intro h2, .axes h2 { font-size: 13px; margin: 0 0 6px; letter-spacing: .06em; text-transform: uppercase; color: var(--lab-dim); font-weight: 600; }
+.intro p, .axes p { margin: 0 0 12px; font-size: 13px; line-height: 1.55; color: var(--lab-dim); max-width: 100ch; }
+.intro b, .axes b { color: var(--lab-ink); font-weight: 600; }
+.family { margin: 40px 0 10px; padding-top: 18px; border-top: 1px solid var(--lab-line); }
+.family > h2.fam { font-size: 20px; margin: 0 0 14px; font-weight: 600; letter-spacing: -.01em; }
+.core { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 22px; margin-bottom: 14px; }
+.core > div { font-size: 12.5px; line-height: 1.55; color: var(--lab-dim); }
+.core > div b { display: block; color: var(--lab-ink); margin-bottom: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+table.matrix { border-collapse: collapse; font-size: 12px; width: 100%; }
+table.matrix th, table.matrix td { border: 1px solid var(--lab-line); padding: 6px 9px; text-align: left; vertical-align: top; }
+table.matrix th { color: var(--lab-dim); font-weight: 500; background: #1d1d21; white-space: nowrap; }
+table.matrix td { color: var(--lab-ink); }
+table.matrix td .v { display: inline-block; margin: 2px 6px 2px 0; padding: 1px 7px; border: 1px solid var(--lab-line); border-radius: 999px; color: var(--lab-dim); }
+table.matrix td .v.on { color: var(--lab-ink); border-color: #4a4a55; }
+.filter { margin-top: 12px; font-size: 12.5px; color: var(--lab-dim); line-height: 1.6; }
+.filter b { color: var(--lab-warn); font-weight: 600; }
+
+.variant { margin-bottom: 34px; }
+.variant > header { margin-bottom: 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.variant h3 { font-size: 16px; margin: 0; font-weight: 600; }
+.cell { font-size: 11px; color: var(--lab-dim); border: 1px solid var(--lab-line); border-radius: 999px; padding: 3px 10px; }
+.chip { font-size: 11px; border-radius: 999px; padding: 3px 10px 3px 8px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--lab-line); color: var(--lab-dim); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: #4b4b53; }
+.chip[data-verdict="pass"] { color: var(--lab-pass); border-color: #1f4d33; } .chip[data-verdict="pass"] .dot { background: var(--lab-pass); }
+.chip[data-verdict="fail"] { color: var(--lab-fail); border-color: #5a2323; } .chip[data-verdict="fail"] .dot { background: var(--lab-fail); }
+.chip[data-verdict="none"] { color: var(--lab-warn); border-color: #56411a; } .chip[data-verdict="none"] .dot { background: var(--lab-warn); }
+.why { flex-basis: 100%; margin: 2px 0 0; font-size: 13px; line-height: 1.55; color: var(--lab-dim); max-width: 110ch; }
+.stage { border: 1px solid var(--lab-line); border-radius: 12px; background: #08080a; padding: 16px; overflow-x: auto; }
+.rail { display: flex; justify-content: center; }
+
+/* ---------- the fake storefront that carries the brand theme ---------- */
+.store {
+  width: 1440px; flex: 0 0 auto; background: var(--background); color: var(--foreground);
+  font-family: var(--font-body); border-radius: 4px; overflow: hidden; font-size: 14px;
+}
+body[data-width="mobile"] .store { width: 390px; }
+.store img { display: block; }
+.store a { color: inherit; text-decoration: none; }
+.ico { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.wordmark { font-family: var(--font-display); font-weight: 700; letter-spacing: .12em; font-size: 15px; white-space: nowrap; }
+.strip { font-size: 12px; text-align: center; padding: 8px 16px; background: var(--muted); color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
+.eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted-foreground); display: block; }
+.store .btn {
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; padding: 12px 22px; width: fit-content; white-space: nowrap;
+}
+.store .btn.ghost { background: transparent; color: var(--foreground); border: 1px solid var(--border); }
+.store .btn.sm { padding: 8px 14px; font-size: 13px; }
+.store .linkish { font-size: 13px; color: var(--link); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; width: fit-content; white-space: nowrap; }
+.muted { color: var(--muted-foreground); }
+.frame { background: var(--muted); border-radius: var(--radius); overflow: hidden; position: relative; }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.frame.r11 { aspect-ratio: 1 / 1; } .frame.r45 { aspect-ratio: 4 / 5; }
+.util { display: flex; align-items: center; gap: 18px; font-size: 13px; color: var(--muted-foreground); }
+.util .bag { display: inline-flex; align-items: center; gap: 6px; color: var(--foreground); }
+
+/* default header = the storefront as it stands (burger · centred wordmark · utilities) */
+.hd { display: flex; align-items: center; gap: 24px; padding: 0 32px; height: 64px; border-bottom: 1px solid var(--border); }
+.hd .side { flex: 1; display: flex; align-items: center; gap: 22px; }
+.hd .side.r { justify-content: flex-end; }
+.hd .nav { display: flex; gap: 22px; font-size: 13px; color: var(--muted-foreground); }
+body[data-width="mobile"] .hd { padding: 0 16px; height: 54px; gap: 12px; }
+body[data-width="mobile"] .hd .nav, body[data-width="mobile"] .hd .desk { display: none; }
+
+/* the K band used as context under a header, and the tiles row used as context elsewhere */
+.kband { background: var(--primary); color: var(--primary-foreground); padding: 40px 32px; display: flex; flex-direction: column; gap: 10px; }
+.kband h2 { font-family: var(--font-display); font-size: 34px; margin: 0; line-height: 1.08; letter-spacing: -.01em; max-width: 22ch; }
+.kband p { margin: 0; font-size: 15px; max-width: 60ch; }
+.kband .btn { background: var(--background); color: var(--foreground); margin-top: 6px; }
+body[data-width="mobile"] .kband { padding: 26px 16px; } body[data-width="mobile"] .kband h2 { font-size: 26px; }
+.tiles { padding: 30px 32px 10px; }
+.tiles h3, .cap h3 { font-family: var(--font-display); font-size: 18px; margin: 0; }
+.tiles .row { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 16px; margin-top: 14px; }
+.tiles figure { margin: 0; }
+.tiles figcaption { margin-top: 8px; font-size: 14px; font-weight: 600; }
+.tiles .frame { aspect-ratio: 4 / 5; }
+body[data-width="mobile"] .tiles { padding: 20px 16px 6px; } body[data-width="mobile"] .tiles .row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* the product grid, as the storefront renders it today */
+.cap { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 16px; }
+.grid { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 18px; }
+.grid > * { min-width: 0; }
+.card-p .t { margin: 10px 0 2px; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.card-p .s { font-size: 12px; color: var(--muted-foreground); line-height: 1.45; }
+.card-p .pr { margin-top: 6px; font-size: 14px; font-weight: 700; }
+.card-p.min .t { font-size: 12.5px; margin-top: 8px; display: flex; justify-content: space-between; gap: 8px; }
+.card-p.min .t .pr { margin: 0; font-size: 12.5px; font-weight: 600; }
+.block { padding: 34px 32px 40px; }
+body[data-width="mobile"] .block { padding: 22px 16px 26px; }
+body[data-width="mobile"] .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+/* ===== P · listing ===== */
+.listing.p3 .rows { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.listing.p3 .rowp { display: grid; grid-template-columns: 150px 1fr auto; gap: 24px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.listing.p3 .rowp .frame { width: 150px; }
+.listing.p3 .rowp .t { font-size: 17px; font-weight: 600; margin: 0 0 4px; }
+.listing.p3 .rowp .s { font-size: 13px; color: var(--muted-foreground); margin-bottom: 8px; line-height: 1.45; max-width: 60ch; }
+.listing.p3 .rowp .spec { font-size: 12px; color: var(--muted-foreground); display: flex; gap: 14px; }
+.listing.p3 .rowp .buy { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.listing.p3 .rowp .pr { font-size: 16px; font-weight: 700; }
+body[data-width="mobile"] .listing.p3 .rowp { grid-template-columns: 96px 1fr; gap: 12px; }
+body[data-width="mobile"] .listing.p3 .rowp .frame { width: 96px; }
+body[data-width="mobile"] .listing.p3 .rowp .buy { grid-column: 2; flex-direction: row; justify-content: space-between; align-items: center; }
+body[data-width="mobile"] .listing.p3 .rowp .spec { display: none; }
+.listing.p4 .wall { columns: 3; column-gap: 16px; }
+.listing.p4 .wall > * { break-inside: avoid; margin-bottom: 16px; }
+.listing.p4 .wall .frame { aspect-ratio: auto; }
+.listing.p4 .wall .tall .frame { height: 440px; } .listing.p4 .wall .short .frame { height: 300px; } .listing.p4 .wall .mid .frame { height: 360px; }
+.listing.p4 .cap2 { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; margin-top: 8px; }
+.listing.p4 .cap2 .pr { font-weight: 700; }
+body[data-width="mobile"] .listing.p4 .wall { columns: 2; column-gap: 10px; }
+body[data-width="mobile"] .listing.p4 .wall .tall .frame { height: 250px; } body[data-width="mobile"] .listing.p4 .wall .short .frame { height: 170px; } body[data-width="mobile"] .listing.p4 .wall .mid .frame { height: 210px; }
+.listing.p5 .ed { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto auto; gap: 18px; }
+.listing.p5 .lead { grid-column: 1 / 3; grid-row: 1 / 3; display: flex; flex-direction: column; }
+.listing.p5 .lead .frame { aspect-ratio: auto; flex: 1; min-height: 520px; }
+.listing.p5 .lead .pane { padding: 18px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.listing.p5 .lead .pane h4 { font-family: var(--font-display); font-size: 24px; margin: 0; line-height: 1.15; }
+.listing.p5 .lead .pane .s { font-size: 14px; color: var(--muted-foreground); max-width: 50ch; }
+.listing.p5 .lead .pane .buy { display: flex; align-items: center; gap: 16px; margin-top: 6px; }
+.listing.p5 .lead .pane .pr { font-size: 18px; font-weight: 700; }
+body[data-width="mobile"] .listing.p5 .ed { grid-template-columns: 1fr 1fr; }
+body[data-width="mobile"] .listing.p5 .lead { grid-column: 1 / 3; grid-row: auto; }
+body[data-width="mobile"] .listing.p5 .lead .frame { min-height: 0; aspect-ratio: 4 / 5; }
+
+/* ===== H · header ===== */
+.header .hd.h2 .nav { flex: 1; justify-content: center; }
+.header .h3 .utilrow { display: flex; justify-content: space-between; align-items: center; height: 34px; padding: 0 32px; font-size: 12px; background: var(--muted); color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
+.header .h3 .hd { height: 68px; }
+.header .hd.h4 { background: var(--primary); color: var(--primary-foreground); border-bottom: 0; }
+.header .hd.h4 .nav, .header .hd.h4 .util, .header .hd.h4 .util .bag { color: var(--primary-foreground); }
+.header .hd.h5 { height: 52px; }
+.header .h5 .cats { display: flex; gap: 8px; padding: 10px 32px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+.header .h5 .cats a { flex: 0 0 auto; font-size: 13px; padding: 7px 13px; border: 1px solid var(--border); border-radius: 999px; display: inline-flex; gap: 6px; }
+.header .h5 .cats a .n { color: var(--muted-foreground); }
+.header .h5 .cats a.all { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+body[data-width="mobile"] .header .h3 .utilrow { padding: 0 16px; } body[data-width="mobile"] .header .h3 .utilrow .r { display: none; }
+body[data-width="mobile"] .header .h5 .cats { padding: 8px 16px; }
+
+/* ===== F · footer ===== */
+.ft { border-top: 1px solid var(--border); padding: 44px 32px 28px; font-size: 13px; }
+.ft h5 { margin: 0 0 12px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); font-weight: 600; }
+.ft ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ft .legal { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted-foreground); }
+.ft .legal .l { display: flex; gap: 18px; flex-wrap: wrap; }
+.ft.f1 .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px; }
+.ft.f1 .brand p { margin: 10px 0 0; color: var(--muted-foreground); max-width: 34ch; line-height: 1.5; }
+.ft.f2 { background: var(--muted); padding: 22px 32px; }
+.ft.f2 .line { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.ft.f2 .line .links { display: flex; gap: 18px; flex-wrap: wrap; color: var(--muted-foreground); }
+.ft.f2 .legal { margin-top: 12px; padding-top: 12px; }
+.ft.f3 .top { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; color: var(--muted-foreground); }
+.ft.f3 .top .links { display: flex; gap: 18px; flex-wrap: wrap; }
+.ft.f3 .giant { font-family: var(--font-display); font-weight: 700; letter-spacing: .04em; font-size: 190px; line-height: .95; margin: 34px 0 10px; white-space: nowrap; overflow: hidden; }
+.ft.f4 { background: var(--foreground); color: var(--background); border-top: 0; }
+.ft.f4 h5, .ft.f4 .legal, .ft.f4 .muted { color: var(--background); opacity: 1; }
+.ft.f4 .cols { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 24px; }
+.ft.f4 .news h4 { font-family: var(--font-display); font-size: 24px; margin: 0 0 12px; line-height: 1.15; max-width: 20ch; }
+.ft.f4 .news form { display: flex; gap: 8px; max-width: 380px; }
+.ft.f4 .news input { flex: 1; min-width: 0; height: 42px; padding: 0 14px; border: 1px solid var(--background); background: transparent; color: var(--background); border-radius: var(--radius); font: inherit; }
+.ft.f4 .news input::placeholder { color: var(--background); opacity: .8; }
+.ft.f4 .news .btn { background: var(--background); color: var(--foreground); }
+.ft.f4 .legal { border-top-color: var(--background); }
+.ft.f5 .facts { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 14px; margin-bottom: 30px; }
+.ft.f5 .fact { background: var(--card); color: var(--card-foreground); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; }
+.ft.f5 .fact .n { font-size: 11px; color: var(--muted-foreground); letter-spacing: .1em; }
+.ft.f5 .fact .c { font-family: var(--font-display); font-size: 20px; margin-top: 8px; line-height: 1.2; }
+.ft.f5 .links { display: flex; gap: 32px; flex-wrap: wrap; }
+.ft.f5 .links ul { flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
+body[data-width="mobile"] .ft { padding: 28px 16px 20px; }
+body[data-width="mobile"] .ft.f1 .cols, body[data-width="mobile"] .ft.f4 .cols { grid-template-columns: 1fr 1fr; }
+body[data-width="mobile"] .ft.f1 .cols .brand, body[data-width="mobile"] .ft.f4 .cols .news { grid-column: 1 / 3; }
+body[data-width="mobile"] .ft.f2 { padding: 18px 16px; }
+body[data-width="mobile"] .ft.f5 .facts { grid-template-columns: 1fr; }
+body[data-width="mobile"] .ft.f3 .giant { font-size: 44px; }
+
+/* ===== G · hero as a gallery ===== */
+.gal { padding: 22px 32px 10px; }
+.gal .lead { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.gal .lead .cnt { font-size: 13px; color: var(--muted-foreground); }
+.gal .arrows { display: flex; gap: 8px; }
+.gal .arrows button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--background); color: var(--foreground); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.ga .viewport { overflow: hidden; }
+.ga .track { display: flex; gap: 14px; transition: transform .5s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+.ga .slide { flex: 0 0 84%; display: grid; grid-template-columns: 1.55fr 1fr; height: 460px; border-radius: var(--radius); overflow: hidden; background: var(--card); color: var(--card-foreground); position: relative; }
+.ga .slide .frame { border-radius: 0; aspect-ratio: auto; height: 100%; }
+.ga .slide .pane { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.ga .slide .pane h2 { font-family: var(--font-display); font-size: 38px; margin: 0; line-height: 1.06; letter-spacing: -.01em; text-wrap: balance; }
+.ga .slide .pane p { margin: 0; font-size: 15px; color: var(--muted-foreground); line-height: 1.5; }
+.ga .slide .pane .btn { margin-top: 8px; }
+.ga .slide .dim { position: absolute; inset: 0; background: var(--background); opacity: 0; transition: opacity .4s; pointer-events: none; }
+.ga .slide:not(.on) .dim { opacity: .62; }
+.ga .dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+.ga .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+.ga .dots i.on { background: var(--foreground); width: 18px; border-radius: 3px; }
+.gb .strips { display: flex; gap: 10px; height: 520px; }
+.gb .strip { flex: 0 0 76px; display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--card); color: var(--card-foreground); cursor: pointer; transition: flex-basis .5s cubic-bezier(.2,.7,.2,1), flex-grow .5s cubic-bezier(.2,.7,.2,1); min-width: 0; }
+.gb .strip.on { flex: 1 1 0; cursor: default; }
+.gb .strip .frame { flex: 1; border-radius: 0; aspect-ratio: auto; min-height: 0; }
+.gb .strip .tag { height: 200px; flex: 0 0 200px; display: flex; align-items: flex-end; justify-content: center; padding: 14px 0; }
+.gb .strip .tag span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 14px; font-weight: 600; letter-spacing: .04em; white-space: nowrap; }
+.gb .strip .tag span .n { color: var(--muted-foreground); font-weight: 400; }
+.gb .strip.on .tag { display: none; }
+.gb .strip .pane { display: none; padding: 22px 28px 26px; gap: 8px; align-items: flex-end; justify-content: space-between; }
+.gb .strip.on .pane { display: flex; }
+.gb .strip .pane h2 { font-family: var(--font-display); font-size: 32px; margin: 0; line-height: 1.06; letter-spacing: -.01em; }
+.gb .strip .pane p { margin: 6px 0 0; font-size: 14px; color: var(--muted-foreground); }
+body[data-width="mobile"] .gal { padding: 16px 16px 6px; }
+body[data-width="mobile"] .ga .slide { flex: 0 0 100%; grid-template-columns: 1fr; height: auto; }
+body[data-width="mobile"] .ga .slide .frame { height: 300px; }
+body[data-width="mobile"] .ga .slide .pane { padding: 22px 20px 26px; } body[data-width="mobile"] .ga .slide .pane h2 { font-size: 28px; }
+body[data-width="mobile"] .gb .strips { flex-direction: column; height: auto; gap: 8px; }
+body[data-width="mobile"] .gb .strip { flex: 0 0 56px; flex-direction: row; transition: none; }
+body[data-width="mobile"] .gb .strip:not(.on) .frame { flex: 0 0 72px; }
+body[data-width="mobile"] .gb .strip .tag { height: auto; flex: 1; align-items: center; justify-content: flex-start; padding: 0 14px; }
+body[data-width="mobile"] .gb .strip .tag span { writing-mode: horizontal-tb; transform: none; }
+body[data-width="mobile"] .gb .strip.on { flex-direction: column; flex-basis: auto; }
+body[data-width="mobile"] .gb .strip.on .frame { height: 260px; flex: 0 0 260px; }
+body[data-width="mobile"] .gb .strip.on .pane { flex-direction: column; align-items: flex-start; padding: 16px 18px 20px; }
+body[data-width="mobile"] .gb .strip .pane h2 { font-size: 24px; }
+</style>
+</head>
+<body data-mode="light" data-width="desktop">
+
+<div class="bar">
+  <h1>Blocks lab · коридор вариантов</h1>
+  <span class="hint">ядро + оси × фильтр валидности. Всё содержимое — из каталога магазина</span>
+  <div class="group"><label>бренд</label><div class="seg" id="seg-brand"></div></div>
+  <div class="group"><label>режим</label><div class="seg" id="seg-mode">
+    <button data-v="light">light</button><button data-v="dark">dark</button>
+  </div></div>
+  <div class="group"><label>ширина</label><div class="seg" id="seg-width">
+    <button data-v="desktop" aria-pressed="true">1440</button><button data-v="mobile">390</button>
+  </div></div>
+  <div class="group"><label>семейство</label><div class="seg" id="seg-fam"></div></div>
+</div>
+
+<main>
+  <section class="intro">
+    <h2>Что здесь</h2>
+    <p>Каждый блок главной — <b>паттерн</b> (Кристофер Александер, упр. upready-studio «block-generation-engine»):
+    у него есть <b>инвариантное ядро</b> — функция для посетителя, обязательные роли и связи между ними —
+    и ограниченный <b>коридор вариантов</b> по нескольким осям, срезанный <b>фильтром валидности</b>.
+    Тронул ядро — блок сменил имя. Данные — не ось: они приходят из профиля бренда.</p>
+    <p>Ниже четыре семейства: выкладка товаров, хедер, футер и hero в формате галереи. Для каждого записано
+    ядро, оси с диапазонами, что запрещено, и 2–5 точек коридора, у каждой — что она делает <b>иначе</b>.
+    Копия, цены, названия, категории, условия и юрлицо — <b>настоящие, из профилей</b>. Контраст меряется
+    на каждом варианте: копия никогда не лежит на фотографии, замер поднимается до первого красящего предка.</p>
+  </section>
+  <div id="families"></div>
+</main>
+
+<script type="module">
+const DATA = await (await fetch("/data.json")).json()
+const state = { brand: DATA[0].id, mode: DATA[0].defaultMode, width: "desktop" }
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c])
+const media = (p, file) => `/media/${p.id}/${file}`
+const money = (n) => (n == null ? "" : "$" + n)
+const priceOf = (x) => esc(money(x.priceFrom)) + (x.priceTo !== x.priceFrom ? "–" + esc(money(x.priceTo)) : "")
+const countIn = (p, handle) => p.products.filter((x) => x.category === handle).length
+const clauses = (p) => (p.promo ? p.promo.split(" · ") : [])
+const withImage = (p) => p.products.filter((x) => x.image)
+const ratioClass = (p) => (p.aspect === "4:5" ? "r45" : "r11")
+const ICON = {
+  burger: '<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  search: '<svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  user: '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  bag: '<svg class="ico" viewBox="0 0 24 24"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+  left: '<svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+  right: '<svg class="ico" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>',
+}
+
+/* ---------- shared chrome: real content, same shapes as the storefront ---------- */
+const promoStrip = (p) => (p.promo ? `<div class="strip">${esc(p.promo)}</div>` : "")
+const utilities = (p, { search = true, region = true, user = true } = {}) => `<div class="util">
+  ${search ? `<span class="desk">${ICON.search}</span>` : ""}
+  ${region ? `<span class="desk">US · EN</span>` : ""}
+  ${user ? `<span class="desk">${ICON.user}</span>` : ""}
+  <span class="bag">${ICON.bag} 0</span></div>`
+const wordmark = (p) => `<a class="wordmark" href="#">${esc(p.brand.wordmark?.text ?? p.brand.name.toUpperCase())}</a>`
+const navLinks = (p, n = 4) => p.tiles.slice(0, n).map((t) => `<a href="#">${esc(t.label)}</a>`).join("") + `<a href="#">All products</a>`
+function defaultHeader(p) {
+  return promoStrip(p) + `<header class="hd h1">
+    <div class="side">${ICON.burger}</div>
+    ${wordmark(p)}
+    <div class="side r">${utilities(p)}</div>
+  </header>`
+}
+const kBand = (p) => {
+  const cl = clauses(p)
+  return `<section class="kband"><span class="eyebrow" style="color:inherit">${esc(p.brand.name)}</span>
+    <h2>${esc(cl[0] ?? p.brand.tagline)}</h2><p>${esc(cl.slice(1).join(" · ") || p.brand.tagline)}</p>
+    <a class="btn" href="#">${esc(p.hero?.cta?.label ?? "Shop now")}</a></section>`
+}
+const tilesRow = (p) => `<section class="tiles" style="--n:${Math.min(p.tiles.length, 5)}"><div class="cap"><h3>Categories</h3><a class="linkish" href="#">View all</a></div>
+  <div class="row">${p.tiles.slice(0, 5).map((t) => `<figure><div class="frame"><img src="${media(p, t.image)}" alt="" /></div><figcaption>${esc(t.label)}</figcaption></figure>`).join("")}</div></section>`
+function productCard(p, x, meta = "full") {
+  if (meta === "min") return `<article class="card-p min"><div class="frame ${ratioClass(p)}"><img src="${media(p, x.image)}" alt="" /></div>
+    <div class="t"><span>${esc(x.title)}</span><span class="pr">${esc(money(x.priceFrom))}</span></div></article>`
+  return `<article class="card-p"><div class="frame ${ratioClass(p)}"><img src="${media(p, x.image)}" alt="" /></div>
+    <div class="t">${esc(x.title)}</div><div class="s">${esc(x.subtitle ?? "")}</div><div class="pr">${priceOf(x)}</div></article>`
+}
+const cap = (p, title, all = true) => `<div class="cap"><h3>${esc(title)}</h3>${all ? `<a class="linkish" href="#">See all →</a>` : ""}</div>`
+const rowBelow = (p, n = 4) => `<section class="block">${cap(p, p.collections[0]?.title ?? "In the shop")}<div class="grid" style="--cols:4">${withImage(p).slice(0, n).map((x) => productCard(p, x)).join("")}</div></section>`
+const lead = (p) => p.collections.find((c) => c.handle === "bestsellers" || c.handle === "the-foundation") ?? p.collections[0]
+function inCollection(p, coll, n) {
+  const list = withImage(p).filter((x) => x.collections.includes(coll?.handle))
+  return (list.length >= Math.min(n, 4) ? list : withImage(p)).slice(0, n)
+}
+const topCats = (p) => {
+  const roots = p.categories.filter((c) => !c.parent)
+  return roots.length > 1 ? roots : p.categories.filter((c) => c.parent)
+}
+const specLine = (x) => [x.colours ? `${x.colours} colourways` : null, x.variants > 1 ? `${x.variants} variants` : null].filter(Boolean).join(" · ")
+
+/* ---------- the four families ---------- */
+const FAMILIES = [
+  {
+    key: "listing", name: "P · Выкладка товаров",
+    core: {
+      fn: "дать посетителю выбрать вещь: показать N настоящих товаров и один клик до каждого",
+      roles: "кадр · название · цена (обязательные) · подзаголовок, характеристики, заголовок подборки, «see all» (по желанию)",
+      rel: "кадр над (или слева от) названия, цена рядом с названием; один товар = одна карточка = одна ссылка",
+    },
+    axes: [
+      { key: "geo", name: "геометрия", values: { grid4: "сетка 4", grid6: "плотная 6", list: "список", wall: "стена", editorial: "редакционная" } },
+      { key: "meta", name: "плотность подписи", values: { full: "полная (название · подзаголовок · цена)", min: "минимальная (название · цена)", spec: "с характеристиками" } },
+      { key: "group", name: "группировка", values: { coll: "по коллекции с заголовком", flat: "плоско" } },
+      { key: "lead", name: "первая вещь", values: { even: "все равны", one: "одна крупно" } },
+    ],
+    filter: [
+      "плотная 6 × полная подпись — шум, запрещено; плотная сетка живёт только с минимальной подписью",
+      "список × плоско без заголовка — нечитаемо на длинных каталогах; список всегда с заголовком подборки",
+      "стена × характеристики — нет места, запрещено; стена несёт только название и цену",
+      "редакционная требует ≥ 5 товаров с кадром; кадр товара — из профиля (1:1 или 4:5), не ось",
+    ],
+    variants: [
+      { key: "p1", name: "P1 · Сетка 4", axes: { geo: "grid4", meta: "full", group: "coll", lead: "even" },
+        why: "Как storefront рендерит сегодня: четыре колонки, полная подпись, заголовок коллекции и «see all». Точка отсчёта коридора — всё остальное сравнивается с ней.",
+        markup: (p) => `<section class="block listing p1">${cap(p, lead(p)?.title ?? "In the shop")}<div class="grid" style="--cols:4">${inCollection(p, lead(p), 8).map((x) => productCard(p, x)).join("")}</div></section>` },
+      { key: "p2", name: "P2 · Плотная 6", axes: { geo: "grid6", meta: "min", group: "flat", lead: "even" },
+        why: "Продаёт ширину ассортимента: двенадцать вещей на одном экране, подпись сведена к названию и цене. Для каталога из 12–15 позиций это почти весь магазин сразу.",
+        markup: (p) => `<section class="block listing p2">${cap(p, `All ${p.products.length} products`, false)}<div class="grid" style="--cols:6">${withImage(p).slice(0, 12).map((x) => productCard(p, x, "min")).join("")}</div></section>` },
+      { key: "p3", name: "P3 · Список", axes: { geo: "list", meta: "spec", group: "coll", lead: "even" },
+        why: "Продаёт факты: подзаголовок и характеристики (варианты, расцветки) читаются как строка спецификации. Для Ferrite и Scruple, где решает состав и совместимость, а не силуэт.",
+        markup: (p) => `<section class="block listing p3">${cap(p, lead(p)?.title ?? "In the shop")}<div class="rows">${inCollection(p, lead(p), 6).map((x) => `<div class="rowp">
+          <div class="frame ${ratioClass(p)}"><img src="${media(p, x.image)}" alt="" /></div>
+          <div><div class="t">${esc(x.title)}</div><div class="s">${esc(x.subtitle ?? "")}</div><div class="spec">${specLine(x).split(" · ").filter(Boolean).map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>
+          <div class="buy"><span class="pr">${priceOf(x)}</span><a class="btn ghost sm" href="#">Add to bag</a></div></div>`).join("")}</div></section>` },
+      { key: "p4", name: "P4 · Стена", axes: { geo: "wall", meta: "min", group: "flat", lead: "even" },
+        why: "Продаёт фотографию: три колонки разной высоты, подпись — одна строка под кадром. Работает у Larchant и Long Morning, где кадр и есть аргумент; у Scruple девять одинаковых банок превращаются в обои.",
+        markup: (p) => `<section class="block listing p4">${cap(p, lead(p)?.title ?? "In the shop")}<div class="wall">${withImage(p).slice(0, 9).map((x, i) => `<article class="${["tall", "short", "mid"][i % 3]}">
+          <div class="frame"><img src="${media(p, x.image)}" alt="" /></div><div class="cap2"><span>${esc(x.title)}</span><span class="pr">${esc(money(x.priceFrom))}</span></div></article>`).join("")}</div></section>` },
+      { key: "p5", name: "P5 · Редакционная", axes: { geo: "editorial", meta: "full", group: "coll", lead: "one" },
+        why: "Сначала одна вещь крупно с подзаголовком, ценой и «Add to bag», потом четыре малых. Продаёт вещь, а затем ширину — заменяет hero G, если магазин хочет обойтись без hero вовсе.",
+        markup: (p) => { const [first, ...rest] = inCollection(p, lead(p), 5); return `<section class="block listing p5">${cap(p, lead(p)?.title ?? "In the shop")}<div class="ed">
+          <article class="lead card-p"><div class="frame"><img src="${media(p, first.image)}" alt="" /></div><div class="pane"><h4>${esc(first.title)}</h4><div class="s">${esc(first.subtitle ?? "")}</div>
+            <div class="buy"><span class="pr">${priceOf(first)}</span><a class="btn sm" href="#">Add to bag</a></div></div></article>
+          ${rest.map((x) => productCard(p, x)).join("")}</div></section>` } },
+    ],
+    context: (p, block) => defaultHeader(p) + kBand(p) + block,
+  },
+  {
+    key: "header", name: "H · Хедер",
+    core: {
+      fn: "сориентировать и провести: кто это (wordmark → главная), куда идти (категории), где я (регион · язык), что у меня (корзина с числом), поиск, аккаунт",
+      roles: "wordmark · вход в категории · поиск · регион/язык · аккаунт · корзина (все обязательные; на 390 px поиск и аккаунт уходят в меню)",
+      rel: "wordmark — якорь; корзина — крайняя справа; промо-полоса магазина всегда над шапкой (её рисует layout, не шапка)",
+    },
+    axes: [
+      { key: "mark", name: "wordmark", values: { center: "по центру", left: "слева" } },
+      { key: "nav", name: "категории", values: { burger: "за бургером", inline: "в строку", strip: "полосой ниже" } },
+      { key: "tiers", name: "ярусов", values: { one: "один", two: "два (служебный + основной)" } },
+      { key: "surface", name: "поверхность", values: { page: "страница", accent: "акцент бренда" } },
+      { key: "h", name: "высота", values: { h52: "52", h64: "64", h68: "68" } },
+    ],
+    filter: [
+      "wordmark по центру × категории в строку — при ≥ 4 категориях строка сталкивается с wordmark; центр живёт только с бургером или полосой",
+      "поверхность акцент × hero K под ней — две акцентные плоскости встык, запрещено без разделителя (плитки или строка страницы между ними)",
+      "два яруса × 390 px — служебный ярус сводится к промо-тексту, регион уходит в меню",
+      "высота 52 × два яруса — невозможно, тонкая шапка одноярусная",
+    ],
+    variants: [
+      { key: "h1", name: "H1 · Как сейчас", axes: { mark: "center", nav: "burger", tiers: "one", surface: "page", h: "h64" },
+        why: "Storefront сегодня: бургер слева, wordmark по центру, справа поиск · регион · аккаунт · корзина. Категории только за бургером — на десктопе посетитель их не видит.",
+        markup: (p) => defaultHeader(p) },
+      { key: "h2", name: "H2 · Слева, меню в строку", axes: { mark: "left", nav: "inline", tiers: "one", surface: "page", h: "h64" },
+        why: "Категории на виду: wordmark слева, строка категорий по центру, утилиты справа. Самая распространённая форма DTC-магазина; на 390 px строка уходит за бургер.",
+        markup: (p) => promoStrip(p) + `<header class="hd h2"><div class="side" style="flex:0 0 auto">${wordmark(p)}</div><nav class="nav">${navLinks(p)}</nav><div class="side r" style="flex:0 0 auto">${utilities(p)}</div></header>` },
+      { key: "h3", name: "H3 · Два яруса", axes: { mark: "left", nav: "inline", tiers: "two", surface: "page", h: "h68" },
+        why: "Служебный ярус забирает условия и регион, основной остаётся чистым: wordmark, категории, поиск, корзина. Условия магазина при этом всегда на экране, а не в отдельной полосе.",
+        markup: (p) => `<div class="h3"><div class="utilrow"><span>${esc(p.promo ?? p.brand.tagline)}</span><span class="r">US · EN · USD &nbsp;·&nbsp; Account</span></div>
+          <header class="hd"><div class="side" style="flex:0 0 auto">${wordmark(p)}</div><nav class="nav" style="flex:1;justify-content:center">${navLinks(p)}</nav><div class="side r" style="flex:0 0 auto">${utilities(p, { region: false, user: false })}</div></header></div>` },
+      { key: "h4", name: "H4 · Акцентная", axes: { mark: "left", nav: "inline", tiers: "one", surface: "accent", h: "h64" },
+        why: "Шапка красится акцентом бренда тем же мостом, что CTA и блок K. Сильный брендовый жест, но по фильтру не может стоять прямо над K — здесь под ней плитки категорий.",
+        markup: (p) => promoStrip(p) + `<header class="hd h4"><div class="side" style="flex:0 0 auto">${wordmark(p)}</div><nav class="nav" style="flex:1;justify-content:center">${navLinks(p)}</nav><div class="side r" style="flex:0 0 auto">${utilities(p)}</div></header>` },
+      { key: "h5", name: "H5 · Тонкая + полоса категорий", axes: { mark: "left", nav: "strip", tiers: "one", surface: "page", h: "h52" },
+        why: "Шапка 52 px только с wordmark, поиском и корзиной; категории — отдельной полосой фишек с числом товаров. На 390 px полоса прокручивается и остаётся видимой, чего не умеет ни одна другая форма.",
+        markup: (p) => promoStrip(p) + `<div class="h5"><header class="hd h5"><div class="side" style="flex:0 0 auto">${wordmark(p)}</div><div class="side r">${utilities(p, { region: false, user: false })}</div></header>
+          <div class="cats"><a class="all" href="#">All ${p.products.length}</a>${p.tiles.map((t) => `<a href="#">${esc(t.label)}<span class="n">${countIn(p, t.categoryHandle)}</span></a>`).join("")}</div></div>` },
+    ],
+    context: (p, block) => block + tilesRow(p) + rowBelow(p, 4),
+  },
+  {
+    key: "footer", name: "F · Футер",
+    core: {
+      fn: "успокоить и довести: условия покупки, куда ещё пойти (категории, коллекции), кто продаёт (юрлицо), регион, чем сделано",
+      roles: "wordmark · условия (из промо-строки профиля) · категории · коллекции · регион/язык · © юрлицо · powered by (все обязательные)",
+      rel: "юридическая строка всегда последняя; wordmark — первый; ссылки группами, не потоком",
+    },
+    axes: [
+      { key: "cols", name: "колонок", values: { four: "четыре", three: "три", row: "одна строка" } },
+      { key: "mark", name: "масштаб wordmark", values: { small: "обычный", giant: "гигантский" } },
+      { key: "surface", name: "поверхность", values: { page: "страница", muted: "приглушённая", inverted: "инверсия" } },
+      { key: "news", name: "рассылка", values: { no: "нет", yes: "есть" } },
+      { key: "facts", name: "условия", values: { list: "списком", tiles: "плитками" } },
+    ],
+    filter: [
+      "одна строка × рассылка — нет места, запрещено",
+      "одна строка × четыре группы ссылок на 390 px — переполнение; на мобильном строка складывается в две",
+      "гигантский wordmark × инверсия — допустимо, но не с рассылкой (три акцента в одном блоке)",
+      "условия плитками требуют ≥ 2 клауз в промо-строке профиля; иначе — списком",
+    ],
+    variants: [
+      { key: "f1", name: "F1 · Четыре колонки", axes: { cols: "four", mark: "small", surface: "page", news: "no", facts: "list" },
+        why: "Storefront сегодня: бренд, категории, коллекции, информация; внизу © и powered by. Точка отсчёта.",
+        markup: (p) => footerF1(p) },
+      { key: "f2", name: "F2 · Одна строка", axes: { cols: "row", mark: "small", surface: "muted", news: "no", facts: "list" },
+        why: "Самый тихий: две строки на приглушённой плоскости, все ссылки в ряд. Для магазина из 12 позиций четыре колонки — пустые столбы; здесь футер не спорит с товаром.",
+        markup: (p) => footerF2(p) },
+      { key: "f3", name: "F3 · Гигантский wordmark", axes: { cols: "row", mark: "giant", surface: "page", news: "no", facts: "list" },
+        why: "Последний экран — имя бренда во всю ширину дисплейным шрифтом темы; ссылки строкой над ним, юрлицо под. Брендовый жест ценой одного лишнего экрана прокрутки.",
+        markup: (p) => footerF3(p) },
+      { key: "f4", name: "F4 · Инверсия с рассылкой", axes: { cols: "four", mark: "small", surface: "inverted", news: "yes", facts: "list" },
+        why: "Цвета страницы наоборот, слева подписка (заголовок — слоган бренда), справа три группы ссылок. Единственный вариант, где футер что-то просит у посетителя.",
+        markup: (p) => footerF4(p) },
+      { key: "f5", name: "F5 · Условия плитками", axes: { cols: "three", mark: "small", surface: "page", news: "no", facts: "tiles" },
+        why: "Клаузы промо-строки — бесплатная доставка, возврат, сроки — становятся тремя карточками перед ссылками. Футер работает как последний аргумент, а не как оглавление.",
+        markup: (p) => footerF5(p) },
+    ],
+    context: (p, block) => defaultHeader(p) + rowBelow(p, 4) + block,
+  },
+  {
+    key: "gallery", name: "G · Hero как галерея",
+    core: {
+      fn: "показать ширину магазина с первого экрана и дать вход в каждую часть: несколько настоящих слайдов (категории с их кадрами), один активный, копия на плоской панели, CTA",
+      roles: "≥ 3 слайда (кадр + название категории + число товаров) · активный слайд · копия на плоскости · CTA · переключение (стрелки/клик)",
+      rel: "копия никогда не лежит на фотографии (урок круга 2); соседние слайды видны, но подчинены активному",
+    },
+    axes: [
+      { key: "neigh", name: "соседи", values: { peek: "выглядывают по краям", strips: "все сразу, полосами" } },
+      { key: "panel", name: "панель копии", values: { beside: "рядом с кадром", below: "под кадром" } },
+      { key: "move", name: "переключение", values: { arrows: "стрелки + точки", click: "клик по полосе" } },
+      { key: "auto", name: "автопрокрутка", values: { no: "нет" } },
+    ],
+    filter: [
+      "копия на кадре — запрещено в любой точке коридора (именно так провалился круг 1)",
+      "автопрокрутка — запрещена: движение без действия посетителя ломает замер контраста и чтение",
+      "полосы × > 6 слайдов — полосы уже 60 px, подпись не читается; полосы живут с 3–6 категориями",
+      "выглядывание × 390 px — соседям нет места, слайд занимает всю ширину, панель уходит под кадр",
+    ],
+    variants: [
+      { key: "ga", name: "GA · Карусель с соседями", axes: { neigh: "peek", panel: "beside", move: "arrows", auto: "no" },
+        why: "Активный слайд занимает 84 % ширины: кадр категории слева, плоская панель с названием, числом товаров и CTA справа; предыдущий и следующий выглядывают по 8 % с каждого края, приглушённые плоской вуалью цвета страницы. Стрелки и точки переключают.",
+        markup: (p) => galleryA(p) },
+      { key: "gb", name: "GB · Полосы", axes: { neigh: "strips", panel: "below", move: "click", auto: "no" },
+        why: "Все категории видны сразу как вертикальные полосы с подписью на плоской плашке; одна развёрнута и держит копию под кадром. Клик по полосе разворачивает её, активная сужается — место под копию переходит к новой.",
+        markup: (p) => galleryB(p) },
+    ],
+    context: (p, block) => defaultHeader(p) + block + rowBelow(p, 4),
+  },
+]
+
+/* ---------- footer variants ---------- */
+const legalLine = (p) => `<span>© 2026 ${esc(p.brand.legalName ?? p.brand.name)}. All rights reserved.</span>`
+const linkList = (items, key = "name") => `<ul>${items.map((i) => `<li><a href="#">${esc(i[key] ?? i.title)}</a></li>`).join("")}</ul>`
+const factsList = (p) => `<ul>${clauses(p).map((c) => `<li>${esc(c)}</li>`).join("")}</ul>`
+function footerF1(p) {
+  return `<footer class="ft f1"><div class="cols">
+    <div class="brand">${wordmark(p)}<p>${esc(p.brand.tagline)}</p></div>
+    <div><h5>Categories</h5>${linkList(topCats(p))}</div>
+    <div><h5>Collections</h5>${linkList(p.collections, "title")}</div>
+    <div><h5>Information</h5>${factsList(p)}</div></div>
+    <div class="legal">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+function footerF2(p) {
+  return `<footer class="ft f2"><div class="line">${wordmark(p)}<span class="links">${topCats(p).map((c) => `<a href="#">${esc(c.name)}</a>`).join("")}${p.collections.map((c) => `<a href="#">${esc(c.title)}</a>`).join("")}</span></div>
+    <div class="legal">${legalLine(p)}<div class="l">${clauses(p).map((c) => `<span>${esc(c)}</span>`).join("")}<span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+function footerF3(p) {
+  return `<footer class="ft f3"><div class="top"><span class="links">${topCats(p).map((c) => `<a href="#">${esc(c.name)}</a>`).join("")}${p.collections.map((c) => `<a href="#">${esc(c.title)}</a>`).join("")}</span><span class="links">${clauses(p).map((c) => `<span>${esc(c)}</span>`).join("")}</span></div>
+    <div class="giant">${esc(p.brand.wordmark?.text ?? p.brand.name.toUpperCase())}</div>
+    <div class="legal" style="margin-top:14px">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+function footerF4(p) {
+  return `<footer class="ft f4"><div class="cols">
+    <div class="news"><h4>${esc(p.brand.tagline)}</h4><form onsubmit="return false"><input type="email" placeholder="Email" /><a class="btn" href="#">Subscribe</a></form></div>
+    <div><h5>Categories</h5>${linkList(topCats(p))}</div>
+    <div><h5>Collections</h5>${linkList(p.collections, "title")}</div>
+    <div><h5>Information</h5>${factsList(p)}</div></div>
+    <div class="legal">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+function footerF5(p) {
+  const cl = clauses(p)
+  return `<footer class="ft f5"><div class="facts" style="--n:${Math.min(cl.length, 3)}">${cl.slice(0, 3).map((c, i) => `<div class="fact"><div class="n">0${i + 1}</div><div class="c">${esc(c)}</div></div>`).join("")}</div>
+    <div class="links"><div>${wordmark(p)}</div><div><h5>Categories</h5>${linkList(topCats(p))}</div><div><h5>Collections</h5>${linkList(p.collections, "title")}</div></div>
+    <div class="legal">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+
+/* ---------- gallery variants ---------- */
+const slides = (p) => p.tiles.slice(0, 5).map((t) => ({ label: t.label, image: t.image, n: countIn(p, t.categoryHandle) }))
+function galleryA(p) {
+  const s = slides(p)
+  return `<section class="gal ga" data-gal="ga" data-i="0" data-n="${s.length}">
+    <div class="lead"><span class="cnt"><b>${esc(p.brand.name)}</b> · ${s.length} categories · <span data-pos>1</span>/${s.length}</span>
+      <div class="arrows"><button data-ga-prev aria-label="previous">${ICON.left}</button><button data-ga-next aria-label="next">${ICON.right}</button></div></div>
+    <div class="viewport"><div class="track">${s.map((x, i) => `<article class="slide${i === 0 ? " on" : ""}">
+      <div class="frame"><img src="${media(p, x.image)}" alt="" /></div>
+      <div class="pane"><span class="eyebrow">${esc(p.brand.name)}</span><h2>${esc(x.label)}</h2><p>${x.n} products · ${esc(p.brand.tagline)}</p><a class="btn" href="#">Shop ${esc(x.label.toLowerCase())}</a></div>
+      <div class="dim"></div></article>`).join("")}</div></div>
+    <div class="dots">${s.map((_, i) => `<i class="${i === 0 ? "on" : ""}"></i>`).join("")}</div></section>`
+}
+function galleryB(p) {
+  const s = slides(p)
+  return `<section class="gal gb" data-gal="gb"><div class="lead"><span class="cnt"><b>${esc(p.brand.name)}</b> · ${s.length} categories · click a strip</span></div>
+    <div class="strips">${s.map((x, i) => `<article class="strip${i === 0 ? " on" : ""}" data-gb-strip>
+      <div class="frame"><img src="${media(p, x.image)}" alt="" /></div>
+      <div class="tag"><span>${esc(x.label)} <span class="n">· ${x.n}</span></span></div>
+      <div class="pane"><div><h2>${esc(x.label)}</h2><p>${x.n} products · ${esc(p.brand.tagline)}</p></div><a class="btn" href="#">Shop ${esc(x.label.toLowerCase())}</a></div>
+    </article>`).join("")}</div></section>`
+}
+function moveA(section, delta) {
+  const n = Number(section.dataset.n)
+  const i = (Number(section.dataset.i) + delta + n) % n
+  section.dataset.i = String(i)
+  const track = section.querySelector(".track")
+  const mobile = document.body.dataset.width === "mobile"
+  const vw = section.querySelector(".viewport").clientWidth
+  const slideW = mobile ? vw : vw * 0.84
+  const gap = 14
+  const offset = mobile ? 0 : (vw - slideW) / 2
+  track.style.transform = `translateX(${-(i * (slideW + gap)) + offset}px)`
+  section.querySelectorAll(".slide").forEach((el, k) => el.classList.toggle("on", k === i))
+  section.querySelectorAll(".dots i").forEach((el, k) => el.classList.toggle("on", k === i))
+  section.querySelector("[data-pos]").textContent = String(i + 1)
+}
+document.addEventListener("click", (event) => {
+  const next = event.target.closest("[data-ga-next]"), prev = event.target.closest("[data-ga-prev]")
+  if (next || prev) return moveA(event.target.closest("[data-gal]"), next ? 1 : -1)
+  const strip = event.target.closest("[data-gb-strip]")
+  if (strip && !strip.classList.contains("on")) {
+    for (const s of strip.parentElement.children) s.classList.toggle("on", s === strip)
+  }
+})
+
+/* ---------- store shell ---------- */
+function storeShell(p, inner) {
+  const tokens = p.modes[state.mode].tokens
+  const vars = Object.entries(tokens).map(([k, v]) => `${k}:${v}`).join(";")
+  return `<div class="store" style="${vars};--font-display:'${p.typography.display}',ui-sans-serif,system-ui,serif;--font-body:'${p.typography.body}',ui-sans-serif,system-ui,sans-serif">${inner}</div>`
+}
+
+/* ---------- measured contrast on flat grounds (same method as hero-lab-2) ---------- */
+const srgb = (c) => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4 }
+const lum = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b)
+const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+const rgba = (s) => {
+  const m = /color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/.exec(s)
+  if (m) return [+m[1] * 255, +m[2] * 255, +m[3] * 255, m[4] === undefined ? 1 : +m[4]]
+  const n = (s.match(/[\d.]+/g) ?? []).map(Number); return [n[0] ?? 0, n[1] ?? 0, n[2] ?? 0, n[3] ?? 1]
+}
+const over = (fg, bg) => fg.slice(0, 3).map((c, i) => c * fg[3] + bg[i] * (1 - fg[3]))
+function groundOf(el, root) {
+  let layers = [], node = el
+  while (node && node !== root.parentElement) {
+    const cs = getComputedStyle(node)
+    if (cs.backgroundImage !== "none" && !/^(repeating-)?(linear|radial|conic)-gradient/.test(cs.backgroundImage)) return { photo: true }
+    if (node.tagName === "IMG") return { photo: true }
+    const c = rgba(cs.backgroundColor)
+    if (c[3] > 0) { layers.push(c); if (c[3] === 1) break }
+    node = node.parentElement
+  }
+  let ground = [255, 255, 255]
+  for (const layer of layers.reverse()) ground = over(layer, ground)
+  return { photo: false, ground }
+}
+function measure(scope, root) {
+  const rows = []
+  let onPhoto = 0
+  for (const el of scope.querySelectorAll("h2, h3, h4, h5, p, span, a, div, li, figcaption, button, b, input")) {
+    const text = el.tagName === "INPUT" ? el.placeholder : [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())
+    if (!text) continue
+    const cs = getComputedStyle(el)
+    if (cs.display === "none" || Number(cs.opacity) === 0 || el.getClientRects().length === 0) continue
+    // a dimmed carousel neighbour is not what the eye reads — the active slide is measured
+    if (el.closest(".slide") && !el.closest(".slide").classList.contains("on")) continue
+    const g = groundOf(el, root)
+    if (g.photo) { onPhoto++; continue }
+    const ink = over([...rgba(cs.color).slice(0, 3), rgba(cs.color)[3] * Number(cs.opacity || 1)], g.ground)
+    const size = parseFloat(cs.fontSize), weight = Number(cs.fontWeight) || 400
+    const large = size >= 24 || (size >= 18.66 && weight >= 700)
+    rows.push({ r: ratio(lum(ink), lum(g.ground)), need: large ? 3 : 4.5, label: (el.tagName === "INPUT" ? el.placeholder : el.textContent).trim().slice(0, 28) })
+  }
+  if (!rows.length) return { verdict: "none", text: "нечего мерить" }
+  rows.sort((a, b) => a.r / a.need - b.r / b.need)
+  const worst = rows[0]
+  const fails = rows.filter((x) => x.r < x.need)
+  const tail = onPhoto ? ` · ${onPhoto} узл. на фото` : ""
+  return fails.length
+    ? { verdict: "fail", text: `${fails.length} ниже порога · худший ${worst.r.toFixed(1)}:1 при ${worst.need} — «${worst.label}»${tail}` }
+    : { verdict: "pass", text: `${rows.length} узлов на плоском фоне · запас ${worst.r.toFixed(1)}:1 при ${worst.need}${tail}` }
+}
+
+/* ---------- render ---------- */
+function axesTable(f) {
+  return `<table class="matrix"><tr><th>ось</th><th>диапазон (точки коридора, занятые вариантами, подсвечены)</th></tr>${f.axes.map((a) => {
+    const used = new Set(f.variants.map((v) => v.axes[a.key]))
+    return `<tr><th>${esc(a.name)}</th><td>${Object.entries(a.values).map(([k, label]) => `<span class="v ${used.has(k) ? "on" : ""}">${esc(label)}</span>`).join("")}</td></tr>`
+  }).join("")}</table>`
+}
+function render() {
+  const p = DATA.find((x) => x.id === state.brand)
+  document.body.dataset.mode = state.mode
+  document.body.dataset.width = state.width
+  document.getElementById("families").innerHTML = FAMILIES.map((f) => `
+    <section class="family" id="fam-${f.key}">
+      <h2 class="fam">${esc(f.name)}</h2>
+      <div class="axes">
+        <div class="core"><div><b>Функция</b>${esc(f.core.fn)}</div><div><b>Обязательные роли</b>${esc(f.core.roles)}</div><div><b>Связи</b>${esc(f.core.rel)}</div></div>
+        ${axesTable(f)}
+        <div class="filter"><b>Фильтр валидности:</b> ${f.filter.map((x) => esc(x)).join(" · ")}</div>
+      </div>
+      ${f.variants.map((v) => `
+      <section class="variant" data-key="${v.key}">
+        <header><h3>${esc(v.name)}</h3>
+          ${f.axes.map((a) => `<span class="cell">${esc(a.name)}: ${esc(a.values[v.axes[a.key]])}</span>`).join("")}
+          <span class="chip" data-verdict="none" id="chip-${v.key}"><span class="dot"></span>—</span>
+          <p class="why">${esc(v.why)}</p></header>
+        <div class="stage"><div class="rail">${storeShell(p, f.context(p, `<div class="blk ${f.key}" data-blk="${v.key}">${v.markup(p)}</div>`))}</div></div>
+      </section>`).join("")}
+    </section>`).join("")
+  requestAnimationFrame(() => {
+    for (const section of document.querySelectorAll(".gal.ga")) moveA(section, 0)
+    // F3: the wordmark is sized to the store's width, not the viewport — "LONG MORNING" in
+    // Fraunces at 190px is wider than 1440 and was clipped on the first shoot
+    document.fonts.ready.then(() => {
+      for (const giant of document.querySelectorAll(".ft.f3 .giant")) {
+        giant.style.fontSize = ""
+        let size = parseFloat(getComputedStyle(giant).fontSize)
+        // measured after the display font is in: the first cut measured against the fallback
+        // face and landed 10% too wide on Long Morning
+        for (let i = 0; i < 6 && giant.scrollWidth > giant.clientWidth && size > 40; i++) {
+          size = Math.floor(size * (giant.clientWidth / giant.scrollWidth) * 0.98)
+          giant.style.fontSize = `${size}px`
+        }
+      }
+    })
+    for (const f of FAMILIES) for (const v of f.variants) {
+      const section = document.querySelector(`.variant[data-key="${v.key}"]`)
+      const out = measure(section.querySelector(".blk"), section.querySelector(".store"))
+      const chip = document.getElementById(`chip-${v.key}`)
+      chip.dataset.verdict = out.verdict
+      chip.innerHTML = `<span class="dot"></span>${esc(out.text)}`
+    }
+  })
+}
+
+document.getElementById("seg-brand").innerHTML = DATA.map((p, i) => `<button data-v="${p.id}" aria-pressed="${i === 0}">${esc(p.brand.name)}</button>`).join("")
+document.getElementById("seg-fam").innerHTML = FAMILIES.map((f) => `<a href="#fam-${f.key}">${esc(f.name.split(" · ")[1])}</a>`).join("")
+for (const button of document.querySelectorAll("#seg-mode button")) button.setAttribute("aria-pressed", String(button.dataset.v === state.mode))
+for (const [id, key] of [["seg-brand", "brand"], ["seg-mode", "mode"], ["seg-width", "width"]]) {
+  document.getElementById(id).addEventListener("click", (event) => {
+    const button = event.target.closest("button")
+    if (!button) return
+    state[key] = button.dataset.v
+    if (key === "brand") {
+      state.mode = DATA.find((x) => x.id === button.dataset.v).defaultMode
+      for (const b of document.querySelectorAll("#seg-mode button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.mode))
+    }
+    for (const sibling of button.parentElement.children) sibling.setAttribute("aria-pressed", String(sibling === button))
+    render()
+  })
+}
+render()
+</script>
+</body>
+</html>
