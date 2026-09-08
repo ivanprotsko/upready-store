@@ -89,12 +89,12 @@ function FullBleedHero() {
         <div className="flex max-w-[620px] flex-col items-start">
           <h1
             data-testid="profile-hero-headline"
-            className="text-[30px] font-semibold leading-[1.06] tracking-[-0.02em] text-white small:text-[48px] small:tracking-[-0.035em]"
+            className="text-balance text-[30px] font-semibold leading-[1.06] tracking-[-0.02em] text-white small:text-[48px] small:tracking-[-0.035em]"
           >
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-4 max-w-[46ch] text-sm leading-relaxed text-[rgba(255,255,255,0.86)] small:text-base">
+            <p className="mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-[rgba(255,255,255,0.86)] small:text-base">
               {hero.subheadline}
             </p>
           ) : null}
@@ -132,12 +132,12 @@ function SplitHero() {
         <div className="max-w-[520px]">
           <h1
             data-testid="profile-hero-headline"
-            className="text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-fg-base small:text-[44px] small:tracking-[-0.04em]"
+            className="text-balance text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-fg-base small:text-[44px] small:tracking-[-0.04em]"
           >
             {hero.headline}
           </h1>
           {hero.subheadline ? (
-            <p className="mt-4 text-sm leading-relaxed text-ui-fg-subtle small:text-base">
+            <p className="mt-4 text-balance text-sm leading-relaxed text-ui-fg-subtle small:text-base">
               {hero.subheadline}
             </p>
           ) : null}
