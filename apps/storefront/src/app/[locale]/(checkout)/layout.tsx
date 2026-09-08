@@ -6,6 +6,7 @@ import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import PoweredBy from "@modules/layout/components/powered-by"
 import { NOINDEX } from "@lib/util/robots"
+import BrandUnlock from "@modules/devtools/components/brand-unlock"
 
 export const metadata: Metadata = {
   robots: NOINDEX,
@@ -39,13 +40,15 @@ export default async function CheckoutLayout({
             </Link>
           </div>
 
-          <Link
-            href="/"
-            className="hidden sm:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
-            data-testid="store-link"
-          >
-            {SITE_NAME}
-          </Link>
+          <BrandUnlock>
+            <Link
+              href="/"
+              className="hidden sm:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
+              data-testid="store-link"
+            >
+              {SITE_NAME}
+            </Link>
+          </BrandUnlock>
 
           <div className="flex flex-1 items-center justify-end">
             {customer ? (

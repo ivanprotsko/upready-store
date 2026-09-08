@@ -91,6 +91,7 @@ Copy [`.env.template`](.env.template) to `.env.local`. The Default column below 
 | `GEOLOCATION_PROVIDER` | Country detection provider the middleware uses for a first-time visitor; `ip-api`, or anything else to rely on hosting platform geo headers only | `ip-api` |
 | `GEOLOCATION_PROVIDER_API_KEY` | API key for the geolocation provider. `ip-api` works without one against the free `http://ip-api.com` endpoint (45 requests/minute, HTTP only, non-commercial use only), which is fine for local development. A live shop needs a [pro key](https://members.ip-api.com), which switches the lookup to `https://pro.ip-api.com` | — |
 | `REVALIDATE_SECRET` | Shared secret checked on `api/revalidate`; must match the backend's value | `supersecret` |
+| `STOREFRONT_DEVTOOLS_PASSWORD` | Password for the hidden theme settings panel: hold the logo for two seconds, enter it, and a signed httpOnly cookie (seven days) turns on a small floating button that switches the theme preset and the light/dark mode. Server-only — it never reaches the browser bundle. Leave it empty to switch the feature off entirely: `api/devtools/unlock` then answers 404 and no markup is rendered | — |
 | `MEDUSA_CLOUD_S3_HOSTNAME`, `MEDUSA_CLOUD_S3_PATHNAME` | Add the Medusa Cloud bucket to the allowed image hosts | — |
 | `GEOLOCATION_DEBUG` | Emit `x-geo-*` response headers explaining how the region was resolved | `false` |
 | `NODE_ENV` | Node environment | `development` |

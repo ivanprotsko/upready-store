@@ -11,6 +11,7 @@ import CartButton from "@modules/layout/components/cart-button"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
+import BrandUnlock from "@modules/devtools/components/brand-unlock"
 
 export default async function Nav() {
   const t = await getTranslations()
@@ -27,13 +28,17 @@ export default async function Nav() {
             <SideMenu />
           </div>
 
-          <Link
-            href="/"
-            className="hidden lg:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
-            data-testid="nav-store-link"
-          >
-            {SITE_NAME}
-          </Link>
+          {/* A two-second press opens the hidden settings panel's password dialog;
+              a normal click stays a link to "/". The wrapper generates no box. */}
+          <BrandUnlock>
+            <Link
+              href="/"
+              className="hidden lg:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
+              data-testid="nav-store-link"
+            >
+              {SITE_NAME}
+            </Link>
+          </BrandUnlock>
 
           <div className="ms-auto flex h-full flex-1 items-center justify-end gap-x-4 lg:ms-0">
             <Search className="hidden lg:inline-flex text-ui-fg-subtle hover:text-ui-fg-base transition-colors" />

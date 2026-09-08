@@ -8,6 +8,7 @@ import { SITE_NAME } from "@lib/util/env"
 import CategoryMenu from "@modules/layout/components/category-menu"
 import Search from "@modules/layout/components/search"
 import CartButton from "@modules/layout/components/cart-button"
+import BrandUnlock from "@modules/devtools/components/brand-unlock"
 
 const BottomNav = async () => {
   const [categories, t] = await Promise.all([
@@ -29,9 +30,11 @@ const BottomNav = async () => {
       </div>
 
       <div className="flex flex-1 items-center justify-center">
-        <Link href="/" aria-label={SITE_NAME}>
-          <Image src="/medusa.svg" alt="" width={24} height={26} priority />
-        </Link>
+        <BrandUnlock>
+          <Link href="/" aria-label={SITE_NAME} data-testid="bottom-nav-store-link">
+            <Image src="/medusa.svg" alt="" width={24} height={26} priority />
+          </Link>
+        </BrandUnlock>
       </div>
 
       <div className="flex flex-1 items-center justify-center text-ui-fg-subtle hover:text-ui-fg-base transition-colors">

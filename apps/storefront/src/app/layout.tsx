@@ -4,6 +4,7 @@ import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
 import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
+import DevtoolsMount from "@modules/devtools/components/devtools-mount"
 import "styles/globals.css"
 
 export const metadata: Metadata = {
@@ -33,6 +34,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <body>
         <main className="relative">{props.children}</main>
         {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
+        {/* Renders the hidden settings panel only for a browser that carries the
+            devtools cookie; null for everybody else, including the HTML of a visitor. */}
+        <DevtoolsMount />
       </body>
     </html>
   )
