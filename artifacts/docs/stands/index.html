@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стенды store-profiles</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { margin:0; padding:32px 24px 72px; }
+  .wrap { max-width:1180px; margin:0 auto; }
+
+  header.page { display:flex; align-items:flex-start; gap:16px; margin:0 0 6px; }
+  header.page h1 { font:500 22px/1.2 var(--sans); letter-spacing:-.02em; margin:0; }
+  header.page .grow { flex:1; }
+  .sub { color:var(--muted); margin:6px 0 0; max-width:70ch; }
+  .stamp { color:var(--faint); font-family:var(--mono); font-size:12px;
+           font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+  .stamp .summary { color:var(--fg); font-size:13px; margin-bottom:3px; }
+
+  .toolbar { display:flex; align-items:center; gap:8px; margin:22px 0 18px;
+             padding-bottom:14px; border-bottom:1px solid var(--border); }
+  button { font:500 13px/1 var(--sans); color:var(--bg); background:var(--fg);
+           border:0; border-radius:var(--r-sm); padding:8px 12px; cursor:pointer; }
+  button:hover { background:var(--fg-hover); }
+  button.ghost { background:transparent; color:var(--fg); border:1px solid var(--border); }
+  button.ghost:hover { background:var(--hover); }
+  .toolbar .hint { color:var(--faint); font-size:12px; margin-left:auto; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:14px; }
+
+  .card { border:1px solid var(--border); border-radius:var(--r-md); background:var(--elev);
+          padding:16px 16px 14px; display:flex; flex-direction:column; gap:14px; }
+  .card-off { background:var(--bg); }
+  .card-head { display:flex; gap:12px; align-items:flex-start; }
+  .swatch { display:grid; grid-template-columns:repeat(2,11px); grid-auto-rows:11px; gap:2px;
+            border:1px solid var(--border); border-radius:4px; padding:3px; flex-shrink:0; }
+  .swatch i { display:block; border-radius:2px; }
+  .card-title { flex:1; min-width:0; }
+  .card-title h2 { font:500 16px/1.25 var(--sans); letter-spacing:-.01em; margin:3px 0 0; }
+  .tagline { color:var(--faint); font-size:12px; margin:3px 0 0; }
+  .state { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted);
+           white-space:nowrap; }
+
+  .lines { display:flex; flex-direction:column; gap:6px; }
+  .line { display:flex; align-items:center; gap:8px; font-size:13px; }
+  .line-label { color:var(--faint); width:58px; flex-shrink:0; }
+  .line-url { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+              font-size:12px; }
+  a { color:var(--link); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .faint { color:var(--faint); }
+  .code { color:var(--faint); font-size:11px; font-variant-numeric:tabular-nums; }
+  .dot.ghost { background:var(--border); }
+
+  .facts { margin:0; border-top:1px solid var(--border); padding-top:11px;
+           font-size:12px; font-variant-numeric:tabular-nums; }
+  .facts > div { display:flex; gap:10px; padding:2px 0; }
+  .facts dt { color:var(--faint); width:84px; flex-shrink:0; }
+  .facts dd { margin:0; color:var(--muted); min-width:0; word-break:break-word; }
+
+  .shared { margin:26px 0 0; border:1px solid var(--border); border-radius:var(--r-md);
+            padding:18px 18px 8px; background:var(--elev); }
+  .shared h2 { font:500 16px/1.25 var(--mono); letter-spacing:-.01em; margin:6px 0 0; }
+  .note { color:var(--muted); font-size:13px; max-width:80ch; margin:8px 0 14px; }
+  table.keys { width:100%; border-collapse:collapse; font-size:12px;
+               font-variant-numeric:tabular-nums; margin:12px 0 10px; }
+  table.keys th { text-align:left; font-weight:500; color:var(--faint); font-size:10px;
+                  letter-spacing:.08em; text-transform:uppercase; padding:0 10px 7px 0;
+                  border-bottom:1px solid var(--border); }
+  table.keys td { padding:8px 10px 8px 0; border-bottom:1px solid var(--border);
+                  color:var(--muted); }
+  table.keys .token { color:var(--faint); word-break:break-all; }
+  table.keys .num { text-align:right; padding-right:0; color:var(--fg); }
+
+  footer { margin:28px 0 0; padding-top:14px; border-top:1px solid var(--border);
+           color:var(--faint); font-size:12px; max-width:80ch; }
+  footer code { background:var(--code-bg); color:var(--code-fg); padding:1px 5px;
+                border-radius:4px; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <div class="grow">
+      <div class="eyebrow">upready-store · t-store-profiles-pilot</div>
+      <h1>Стенды store-profiles</h1>
+      <p class="sub">5 тем магазина, собранных из профилей репозитория, и стенды,
+        на которых они подняты. Статус измерен на момент сборки страницы; кнопка ниже
+        перепроверяет его вживую из браузера.</p>
+    </div>
+    <div class="stamp">
+      <div class="summary">5 из 5 запущено</div>
+      собрано 2026-09-08 14:10 UTC
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button id="recheck" type="button">перепроверить сейчас</button>
+    <button class="ghost" id="theme" type="button">светлая тема</button>
+    <span class="hint" id="hint">живая проверка идёт из file:// — браузер может её заблокировать</span>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+    <header class="card-head">
+      <div class="swatch" title="палитра темы в режиме по умолчанию">
+        <i style="background:#0d1013"></i><i style="background:#e9edf1"></i><i style="background:#4d9dff"></i><i style="background:#7ab6ff"></i>
+      </div>
+      <div class="card-title">
+        <div class="eyebrow">electronics</div>
+        <h2>Ferrite</h2>
+        <p class="tagline">Audio you can open</p>
+      </div>
+      <div class="state"><span class="dot green"></span><span>запущен</span></div>
+    </header>
+
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:8061/en" data-kind="storefront">
+      <span class="dot green"></span>
+      <span class="line-label">витрина</span>
+      <a class="line-url mono" href="http://localhost:8061/en" target="_blank" rel="noreferrer">localhost:8061/en</a>
+      <span class="code mono">200</span>
+    </div><div class="line" data-probe="http://localhost:9041/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9041/health" target="_blank" rel="noreferrer">localhost:9041/health</a>
+      <span class="code mono">200</span>
+    </div><div class="line"><span class="dot ghost"></span><span class="line-label">админка</span><a class="line-url mono" href="http://localhost:9041/app" target="_blank" rel="noreferrer">localhost:9041/app</a><span class="code mono">—</span></div>
+    </div>
+
+    <dl class="facts mono">
+      <div><dt>вертикаль</dt><dd>audio and gadgets</dd></div>
+      <div><dt>режим темы</dt><dd>dark · radius lg</dd></div>
+      <div><dt>каталог</dt><dd>14 товаров · 34 вариантов · в базе 14</dd></div>
+      <div><dt>локали</dt><dd>de en es fr ru</dd></div>
+      <div><dt>база</dt><dd>upready_store_electronics</dd></div>
+      <div><dt>worktree</dt><dd>feat/store/electronics</dd></div>
+    </dl>
+  </article>
+<article class="card">
+    <header class="card-head">
+      <div class="swatch" title="палитра темы в режиме по умолчанию">
+        <i style="background:#fdfbf7"></i><i style="background:#241c16"></i><i style="background:#a64b2a"></i><i style="background:#a64b2a"></i>
+      </div>
+      <div class="card-title">
+        <div class="eyebrow">home-goods</div>
+        <h2>Long Morning</h2>
+        <p class="tagline">Things that earn their shelf</p>
+      </div>
+      <div class="state"><span class="dot green"></span><span>запущен</span></div>
+    </header>
+
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:8110/en" data-kind="storefront">
+      <span class="dot green"></span>
+      <span class="line-label">витрина</span>
+      <a class="line-url mono" href="http://localhost:8110/en" target="_blank" rel="noreferrer">localhost:8110/en</a>
+      <span class="code mono">200</span>
+    </div><div class="line" data-probe="http://localhost:9110/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9110/health" target="_blank" rel="noreferrer">localhost:9110/health</a>
+      <span class="code mono">200</span>
+    </div><div class="line"><span class="dot ghost"></span><span class="line-label">админка</span><a class="line-url mono" href="http://localhost:9110/app" target="_blank" rel="noreferrer">localhost:9110/app</a><span class="code mono">—</span></div>
+    </div>
+
+    <dl class="facts mono">
+      <div><dt>вертикаль</dt><dd>kitchen and home goods</dd></div>
+      <div><dt>режим темы</dt><dd>light · radius md</dd></div>
+      <div><dt>каталог</dt><dd>12 товаров · 38 вариантов · в базе 12</dd></div>
+      <div><dt>локали</dt><dd>de en es fr ru</dd></div>
+      <div><dt>база</dt><dd>upready_store_home_goods</dd></div>
+      <div><dt>worktree</dt><dd>feat/store/home-goods</dd></div>
+    </dl>
+  </article>
+<article class="card">
+    <header class="card-head">
+      <div class="swatch" title="палитра темы в режиме по умолчанию">
+        <i style="background:#0a0a0a"></i><i style="background:#ededed"></i><i style="background:#d6ff3b"></i><i style="background:#d6ff3b"></i>
+      </div>
+      <div class="card-title">
+        <div class="eyebrow">sneakers</div>
+        <h2>Kerbstone</h2>
+        <p class="tagline">Street-built sneakers for the long way home</p>
+      </div>
+      <div class="state"><span class="dot green"></span><span>запущен</span></div>
+    </header>
+
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:8028/en" data-kind="storefront">
+      <span class="dot green"></span>
+      <span class="line-label">витрина</span>
+      <a class="line-url mono" href="http://localhost:8028/en" target="_blank" rel="noreferrer">localhost:8028/en</a>
+      <span class="code mono">200</span>
+    </div><div class="line" data-probe="http://localhost:9023/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9023/health" target="_blank" rel="noreferrer">localhost:9023/health</a>
+      <span class="code mono">200</span>
+    </div><div class="line"><span class="dot ghost"></span><span class="line-label">админка</span><a class="line-url mono" href="http://localhost:9023/app" target="_blank" rel="noreferrer">localhost:9023/app</a><span class="code mono">—</span></div>
+    </div>
+
+    <dl class="facts mono">
+      <div><dt>вертикаль</dt><dd>streetwear sneakers</dd></div>
+      <div><dt>режим темы</dt><dd>dark · radius md</dd></div>
+      <div><dt>каталог</dt><dd>14 товаров · 225 вариантов · в базе 14</dd></div>
+      <div><dt>локали</dt><dd>de en es fr ru</dd></div>
+      <div><dt>база</dt><dd>upready_store_sneakers</dd></div>
+      <div><dt>worktree</dt><dd>feat/store-profiles</dd></div>
+    </dl>
+  </article>
+<article class="card">
+    <header class="card-head">
+      <div class="swatch" title="палитра темы в режиме по умолчанию">
+        <i style="background:#ffffff"></i><i style="background:#10201b"></i><i style="background:#0a6a52"></i><i style="background:#0a6a52"></i>
+      </div>
+      <div class="card-title">
+        <div class="eyebrow">supplements</div>
+        <h2>Scruple</h2>
+        <p class="tagline">The apothecary's smallest measure</p>
+      </div>
+      <div class="state"><span class="dot green"></span><span>запущен</span></div>
+    </header>
+
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:8070/en" data-kind="storefront">
+      <span class="dot green"></span>
+      <span class="line-label">витрина</span>
+      <a class="line-url mono" href="http://localhost:8070/en" target="_blank" rel="noreferrer">localhost:8070/en</a>
+      <span class="code mono">200</span>
+    </div><div class="line" data-probe="http://localhost:9051/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9051/health" target="_blank" rel="noreferrer">localhost:9051/health</a>
+      <span class="code mono">200</span>
+    </div><div class="line"><span class="dot ghost"></span><span class="line-label">админка</span><a class="line-url mono" href="http://localhost:9051/app" target="_blank" rel="noreferrer">localhost:9051/app</a><span class="code mono">—</span></div>
+    </div>
+
+    <dl class="facts mono">
+      <div><dt>вертикаль</dt><dd>vitamins and supplements</dd></div>
+      <div><dt>режим темы</dt><dd>light · radius md</dd></div>
+      <div><dt>каталог</dt><dd>15 товаров · 53 вариантов · в базе 15</dd></div>
+      <div><dt>локали</dt><dd>de en es fr ru</dd></div>
+      <div><dt>база</dt><dd>upready_store_supplements</dd></div>
+      <div><dt>worktree</dt><dd>feat/store/supplements</dd></div>
+    </dl>
+  </article>
+<article class="card">
+    <header class="card-head">
+      <div class="swatch" title="палитра темы в режиме по умолчанию">
+        <i style="background:#f7f2e9"></i><i style="background:#17140f"></i><i style="background:#17140f"></i><i style="background:#8c3b2e"></i>
+      </div>
+      <div class="card-title">
+        <div class="eyebrow">womens-fashion</div>
+        <h2>Larchant</h2>
+        <p class="tagline">Clothes that outlast the season</p>
+      </div>
+      <div class="state"><span class="dot green"></span><span>запущен</span></div>
+    </header>
+
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:8081/en" data-kind="storefront">
+      <span class="dot green"></span>
+      <span class="line-label">витрина</span>
+      <a class="line-url mono" href="http://localhost:8081/en" target="_blank" rel="noreferrer">localhost:8081/en</a>
+      <span class="code mono">200</span>
+    </div><div class="line" data-probe="http://localhost:9061/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9061/health" target="_blank" rel="noreferrer">localhost:9061/health</a>
+      <span class="code mono">200</span>
+    </div><div class="line"><span class="dot ghost"></span><span class="line-label">админка</span><a class="line-url mono" href="http://localhost:9061/app" target="_blank" rel="noreferrer">localhost:9061/app</a><span class="code mono">—</span></div>
+    </div>
+
+    <dl class="facts mono">
+      <div><dt>вертикаль</dt><dd>women's clothing</dd></div>
+      <div><dt>режим темы</dt><dd>light · radius sm</dd></div>
+      <div><dt>каталог</dt><dd>12 товаров · 87 вариантов · в базе 12</dd></div>
+      <div><dt>локали</dt><dd>de en es fr ru</dd></div>
+      <div><dt>база</dt><dd>upready_store_womens_fashion</dd></div>
+      <div><dt>worktree</dt><dd>feat/store/womens-fashion</dd></div>
+    </dl>
+  </article>
+  </div>
+
+  
+  <section class="shared">
+    <div class="eyebrow">одна база — два профиля (вариант A)</div>
+    <h2>upready_store_multi</h2>
+    <p class="note">Один store, 241 регион, 241 stock location и общий fulfillment на всех;
+      каждый профиль приносит свой sales channel, ключ и каталог. Изоляция каталога —
+      по publishable key.</p>
+    <div class="lines">
+      <div class="line" data-probe="http://localhost:9200/health" data-kind="backend">
+      <span class="dot green"></span>
+      <span class="line-label">бэкенд</span>
+      <a class="line-url mono" href="http://localhost:9200/health" target="_blank" rel="noreferrer">localhost:9200/health</a>
+      <span class="code mono">200</span>
+    </div>
+      <div class="line"><span class="dot ghost"></span><span class="line-label">витрина</span><span class="line-url faint">не поднята — база измеряется curl'ом</span><span class="code mono">—</span></div>
+    </div>
+    <table class="keys mono">
+      <thead><tr><th>sales channel</th><th>publishable key</th><th class="num">товаров</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Kerbstone Sales Channel</td>
+          <td class="token">pk_1037cec884fe2e38b6b01686b4e19f68bd938f7479d896245c451824d43499ae</td>
+          <td class="num">14</td>
+        </tr><tr>
+          <td>Scruple Sales Channel</td>
+          <td class="token">pk_40e753e85811a4b1d26ca4c7b92ca5a5715a8ae38d210b3893a427b2a1fc78e6</td>
+          <td class="num">15</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    Страница генерируется: <code>node artifacts/docs/stands/build.mjs</code>.
+    Стенды не описаны в конфиге — они находятся по слушающим портам и рабочим
+    каталогам процессов, поэтому остановленный стенд честно показывается
+    остановленным. Поднять витрину заново:
+    <code>cd &lt;worktree&gt;/apps/storefront &amp;&amp; node scripts/build-profile.mjs &amp;&amp; npx next dev --turbopack -p &lt;порт&gt;</code>,
+    бэкенд — <code>pnpm dev</code> из <code>apps/backend</code> того же worktree.
+  </footer>
+</div>
+
+<script>
+  // Live re-check from the page itself. A no-cors request cannot be READ, but it
+  // resolves when the server answered and rejects when nothing is listening —
+  // which is exactly the one bit this page needs. A browser that blocks the
+  // whole request (file:// origin, private-network policy) rejects everything,
+  // so the failure is reported as "проверка заблокирована", never as "стенд лёг".
+  const lines = () => Array.from(document.querySelectorAll("[data-probe]"))
+    .filter((el) => el.dataset.probe);
+
+  async function recheck() {
+    const hint = document.getElementById("hint");
+    hint.textContent = "проверяю…";
+    let ok = 0, failed = 0;
+    await Promise.all(lines().map(async (el) => {
+      const dot = el.querySelector(".dot");
+      try {
+        await fetch(el.dataset.probe, { mode: "no-cors", cache: "no-store" });
+        dot.classList.remove("red"); dot.classList.add("green");
+        el.querySelector(".code").textContent = "live";
+        ok += 1;
+      } catch {
+        dot.classList.remove("green"); dot.classList.add("red");
+        el.querySelector(".code").textContent = "—";
+        failed += 1;
+      }
+    }));
+    hint.textContent = failed === lines().length
+      ? "ни один адрес не ответил — вероятно, браузер заблокировал проверку из file://"
+      : `перепроверено: ${ok} отвечает, ${failed} нет · ${new Date().toLocaleTimeString()}`;
+  }
+
+  document.getElementById("recheck").addEventListener("click", recheck);
+
+  const root = document.documentElement;
+  const themeButton = document.getElementById("theme");
+  const applyTheme = (light) => {
+    root.classList.toggle("light", light);
+    themeButton.textContent = light ? "тёмная тема" : "светлая тема";
+  };
+  try { applyTheme(localStorage.getItem("stands.theme") === "light"); } catch { applyTheme(false); }
+  themeButton.addEventListener("click", () => {
+    const light = !root.classList.contains("light");
+    applyTheme(light);
+    try { localStorage.setItem("stands.theme", light ? "light" : "dark"); } catch {}
+  });
+</script>
+</body>
+</html>

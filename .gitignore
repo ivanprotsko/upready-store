@@ -78,3 +78,7 @@ artifacts/media/*/*
 # Contact sheet screenshots (t-store-profiles-pilot): binaries never enter git.
 # shoot.log and manifest.json (siblings, not under shots/) stay tracked as documents.
 artifacts/docs/contact-sheet/shots/
+
+# Stand index screenshots (t-store-profiles-pilot): binaries never enter git.
+# build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
+artifacts/docs/stands/shot-*.png
