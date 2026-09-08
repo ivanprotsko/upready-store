@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 13,
+  "action": "status-set",
+  "ts": "2026-09-09T02:43:40+08:00",
+  "status": "ХОД 6 (2026-09-09 ночь, Fable, автономно): блок K раскатан на ВСЕ ПЯТЬ стендов. dev 499c58f (пять profile.json layout=announcement) + 7df3951 (подзаголовок полной краской: --contrast-fg-secondary = 70% mix проваливал AA на трёх акцентах 4.47/4.09/3.66 — замер measure-k.mjs; регрессия в hero.pw.ts) + 973a663 (measure-k.mjs). dev слит merge-коммитами в 5 worktree (ff-only невозможен: у веток по 4-5 своих коммитов; конфликты supplements/profile.json и build-profile.test.mjs разрешены в пользу dev как надмножества). Замер на живых: h1=p 17.18/7.21/6.57/16.47/5.74, CTA нигде не наследует акцент, 0 img. shot-home пересняты. light-check-*.png: снял Playwright сессии T0i (Sonnet, 02:18), с диска уже убраны, в git нет. Дальше: ХОД 2 upready-dev."
+}

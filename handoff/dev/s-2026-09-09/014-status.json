@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-09T02:50:43+08:00",
+  "status": "ХОД 6, часть 2 (upready-dev): карточки «Примеры магазинов» 320→290 px (рельс на десктопе всегда 1278 px: при 320 пятой не было видно, при 290 — четыре целых + 114 px пятой), шаг стрелок 321→291, пять кадров demo-*.webp пересняты с блоком K (shoot.mjs 1440x1920 → 960x1280). check-showcase: count 5, все 960x1280, unresolved 0, hscroll false, broken []. Коммит upready-dev 2a09cbe (main, НЕ пушен — workflows нет, выкат через wrangler). Выкат IVAN_DEPLOY_OK=1 deploy-upready-dev.mjs --deploy: 6 файлов загружены; шаг 3 снова ложно объявил «домен ни у кого» (POST 8000018 = уже привязан) — прод проверен телом: index 290px/291, пять webp 960x1280 после purge_cache (13 URL). Рецепт recipe-showcase-cards.md обновлён (960x1280, шаг = ширина+1). Сторож сессии: launchd dev.upready.store-k-watchdog (600 с, heartbeat = mtime транскрипта, ≤2 перезапуска claude -p, done-маркер выключает). Дальше: ХОД 3 галерея, ХОД 4 лаборатория блоков."
+}

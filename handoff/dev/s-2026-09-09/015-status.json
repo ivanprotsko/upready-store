@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 15,
+  "action": "status-set",
+  "ts": "2026-09-09T02:53:24+08:00",
+  "status": "ХОД 6, часть 3: постоянная коллекция круга 2 собрана — artifacts/docs/hero-variants-collection.md (оси, матрица 6×5, контраст всех 30 комбинаций, статус K в коде, как выбирать, как пересобрать) + hero-lab-2/collection.mjs (монтажи g/h/j/k/l/m.webp по 5 тем, overview.webp 6×5, mobile-sneakers.webp; вне git, 182–406 КБ). Коммит 2211183. Дальше: ХОД 4 — лаборатория «коридор вариантов» для выкладки/хедера/футера + hero-галерея."
+}
