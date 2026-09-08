@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 35,
+  "action": "status-set",
+  "ts": "2026-09-08T21:44:03+08:00",
+  "status": "Разбор (без кода): что нужно для переключения тем внутри ОДНОГО storefront. Измерено: стили уже рантайм (themes.css, 7 пресетов x 2 режима; apply.ts + pre-paint.ts готовы, UI-панели нет — applyTheme не импортирует ни один компонент). Build-time заперты 4 слоя: fonts.generated.ts (только пара активного профиля, next/font статичен); profile.generated.json + lib/profile/index.ts как модульные константы (5 потребителей: profile-hero, category-tiles, promo-banner, thumbnail, env.ts SITE_NAME); медиа абсолютными URL на бэкенд профиля; данные каталога (NEXT_PUBLIC_MEDUSA_BACKEND_URL/PUBLISHABLE_KEY + sdk-синглтон + 5 БД, стенды 9023/9041/9051/9061/9110). Консолидация в одну БД реалистична: сид уже профильный (sales channel из профиля, ключ линкуется к каналу store.ts:53, товары к каналу products.ts:168), коллизий handle нет — 67 товаров и 34 категории уникальны между 5 профилями; мешает повторный seedStore/seedRegions — нет режима add-profile-to-existing-store. Развилка данных упирается в открытый q-store-profiles-deploy-topology."
+}
