@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 46,
+  "action": "status-set",
+  "ts": "2026-09-08T23:48:08+08:00",
+  "status": "T0i построена и принята машиной: скрытая панель настроек темы на dev (коммит f53b910). Долгое нажатие 2 с на логотип (nav, bottom-nav, checkout) → нативный <dialog> с паролем → POST /api/devtools/unlock сверяет STOREFRONT_DEVTOOLS_PASSWORD (пустая = 404) → подписанная httpOnly-кука SameSite=Lax на 7 дней → кнопка 40 px внизу слева → поповер: 7 пресетов по меткам (сырых id на экране нет), режим light/dark, «Reset to default», «Lock», строка «Rendered from 31 tokens of preset <label>». Механика только через src/lib/theme (applyAxis/resetAxes/readCurrent), новых осей нет. Числа: 12 тестов Playwright зелёные на живом стенде + 4 на стенде без пароля; обратные прогоны 11 из 11 красные (+3 из 4 для выключенной фичи, четвёртый покрыт гейтом куки); next build EXIT=0, статических маршрутов 6 = как в baseline, shared JS 103 kB и /[locale] 935 B/133 kB без изменений; HTML посетителя не содержит ни кнопки, ни поповера, ни диалога. Пиксель шапки: Kerbstone dark (10,10,10), Scruple (10,19,16), Larchant (20,17,13), после Reset (255,255,255) — в тёмном режиме пресеты различаются на единицы RGB, приёмку глазами смотреть в Light. Стенд :8000 поднят с паролем t0i-panel-2026 (.env.local, не в git), бэкенд :9022 поднят, dev-индикатор Next уведён вправо (перехватывал клики по кнопке). Отчёт artifacts/docs/2026-09-08-t0i-panel-report.md, макет artifacts/docs/2026-09-08-theme-panel-mockup.md. Отложена регистрация вендор-копии geist-kit в design-docs: pr-20260908232215-5955. Осталось Ивану: приёмка глазами на :8000."
+}

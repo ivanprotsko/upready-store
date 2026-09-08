@@ -1,0 +1,18 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-08",
+  "index": 44,
+  "action": "task-add",
+  "ts": "2026-09-08T23:38:36+08:00",
+  "status": "Справочная сессия по вопросу «как запустить панель src/lib/theme»: панели НЕТ — в lib/theme лежит движок (оси data-theme/data-mode, apply/pre-paint/profile/presets.generated, 7 пресетов), а скрытая панель настроек T0i не начата ни в dev, ни в восьми worktree (греп panel|devtools: ни компонента, ни маршрута, ни /api/devtools). Смотреть темы сегодня — индекс стендов artifacts/docs/stands/index.html (node artifacts/docs/stands/build.mjs) либо ручной флип в консоли через localStorage upready-store.theme/.mode; пять стендов живы (8028 sneakers, 8061 electronics, 8070 supplements, 8081 womens-fashion, 8110 home-goods, общая база на :9200). Предыдущее состояние в силе: белая полоса над карточками перерезана в источнике, 0 из 107 кадров; развилка про утечку категорий/коллекций в общей базе upready_store_multi по-прежнему за Иваном. Замер дописан в t-ds-0b-theme-presets-panel и в memory/upready-store-theme-switch-layers-2026-09-08.md (ef9a4f2).",
+  "task": {
+    "id": "t-2026-09-08-01",
+    "title": "Hero: switch it off on every stand and redesign it in a theme-independent lab — Ivan rejected the current one (mixed ink colours, no scrim, poor contrast); deliverable = hero off on all five stands + fresh home-page screenshots + several hero versions on a stand not tied to themes",
+    "state": "backlog",
+    "priority": "high",
+    "created": "2026-09-08T23:38:36+08:00",
+    "updated": "2026-09-08T23:38:36+08:00"
+  }
+}

@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-08T22:53:28+08:00",
-  "status": "Справочная сессия по вопросу «как запустить панель src/lib/theme»: панели НЕТ — в lib/theme лежит движок (оси data-theme/data-mode, apply/pre-paint/profile/presets.generated, 7 пресетов), а скрытая панель настроек T0i не начата ни в dev, ни в восьми worktree (греп panel|devtools: ни компонента, ни маршрута, ни /api/devtools). Смотреть темы сегодня — индекс стендов artifacts/docs/stands/index.html (node artifacts/docs/stands/build.mjs) либо ручной флип в консоли через localStorage upready-store.theme/.mode; пять стендов живы (8028 sneakers, 8061 electronics, 8070 supplements, 8081 womens-fashion, 8110 home-goods, общая база на :9200). Предыдущее состояние в силе: белая полоса над карточками перерезана в источнике, 0 из 107 кадров; развилка про утечку категорий/коллекций в общей базе upready_store_multi по-прежнему за Иваном. Замер дописан в t-ds-0b-theme-presets-panel и в memory/upready-store-theme-switch-layers-2026-09-08.md (ef9a4f2).",
+  "updated": "2026-09-08T23:49:01+08:00",
+  "status": "T0i построена и принята машиной: скрытая панель настроек темы на dev (коммит f53b910). Долгое нажатие 2 с на логотип (nav, bottom-nav, checkout) → нативный <dialog> с паролем → POST /api/devtools/unlock сверяет STOREFRONT_DEVTOOLS_PASSWORD (пустая = 404) → подписанная httpOnly-кука SameSite=Lax на 7 дней → кнопка 40 px внизу слева → поповер: 7 пресетов по меткам (сырых id на экране нет), режим light/dark, «Reset to default», «Lock», строка «Rendered from 31 tokens of preset <label>». Механика только через src/lib/theme (applyAxis/resetAxes/readCurrent), новых осей нет. Числа: 12 тестов Playwright зелёные на живом стенде + 4 на стенде без пароля; обратные прогоны 11 из 11 красные (+3 из 4 для выключенной фичи, четвёртый покрыт гейтом куки); next build EXIT=0, статических маршрутов 6 = как в baseline, shared JS 103 kB и /[locale] 935 B/133 kB без изменений; HTML посетителя не содержит ни кнопки, ни поповера, ни диалога. Пиксель шапки: Kerbstone dark (10,10,10), Scruple (10,19,16), Larchant (20,17,13), после Reset (255,255,255) — в тёмном режиме пресеты различаются на единицы RGB, приёмку глазами смотреть в Light. Стенд :8000 поднят с паролем t0i-panel-2026 (.env.local, не в git), бэкенд :9022 поднят, dev-индикатор Next уведён вправо (перехватывал клики по кнопке). Отчёт artifacts/docs/2026-09-08-t0i-panel-report.md, макет artifacts/docs/2026-09-08-theme-panel-mockup.md. Отложена регистрация вендор-копии geist-kit в design-docs: pr-20260908232215-5955. Осталось Ивану: приёмка глазами на :8000.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -143,7 +143,7 @@
       "title": "Theme presets medusa+geist on the canon dictionary (geist-kit/theme.css) with an 88-row bridge for ui-* classes, pre-paint data-theme/data-mode, four-page compatibility test, then the hidden settings panel on the storefront: hold the brand 2 s → password → floating button bottom-left → popover (preset, mode, reset) — Ivan's goal for 2026-09-06 (orchestrator A, T0h/T0i)",
       "state": "backlog",
       "priority": "high",
-      "details": "Proposed goal: the storefront's whole look is a preset (medusa today, geist as the target) switched by <html data-theme>/<data-mode>, default medusa/light looks exactly as before, and Ivan can open a hidden settings panel on :8000 by holding the logo 2 s and entering the password. Proposed acceptance: (1) medusa.theme.json + geist.theme.json valid against theme-preset.schema.json, same key set in both modes, 'N keys, 0 missing' copied; (2) token-map.json bridge covers 88/88 preset variables with mapped/diverged/open counts copied; (3) four-page screenshots home/listing/PDP/cart: medusa/light pixel delta <= 0.1 % per page vs the pre-change baseline, numbers copied; geist light+dark with zero open fallbacks; (4) mock-up artifacts/docs/2026-09-06-theme-panel-mockup.md written BEFORE code, shows hold → dialog → button → popover → flips → reload; (5) Playwright in Docker: hold 1.5 s navigates, 2 s opens dialog, wrong password error + no cookie, right password cookie + button, preset flip changes --background, reload has data-theme before first paint, visitor HTML has no panel; reverse runs red; (6) next build green; (7) HUMAN EYES on :8000 after merge into dev: looks as before, hold logo 2 s → password → small button bottom-left → popover flips medusa/geist and light/dark live, back to medusa/light = old look, reload does not flash. Sequence: right after T0a/T0b, before T0c–T0g (00-program §11.2). WIP <= 2: approve as a third task or fold into t-ds-0-foundation (Ivan's call).\n\n2026-09-06 08:4x: Ivan's day goal widened to cards and images (00-program §12, brief addendum T0j/T0k). The work runs under t-ds-0-foundation as T0h–T0k (WIP stays 2); this record is the proposal mirror only — Ivan may approve it as a third task or drop it, the work does not wait.\n\n2026-09-08 (справочная сессия, кода не писал): T0h СДЕЛАН и живёт в dev — themes.css несёт 7 пресетов x 2 режима, src/lib/theme/ (attributes/apply/pre-paint/profile/presets.generated) покрыт тестами, THEME_LABELS готовы для панели. T0i НЕ НАЧАТ: греп panel|devtools по dev и восьми worktree не находит ни компонента, ни маршрута, ни /api/devtools — только комментарии в lib/theme/*, ссылающиеся на панель. Обходы, пока её нет: индекс стендов artifacts/docs/stands/index.html (пересборка node artifacts/docs/stands/build.mjs) и ручной флип в консоли через data-theme/data-mode + localStorage upready-store.theme/.mode. Живые стенды на этот вечер (curl -L /en = 200): 8028 sneakers, 8061 electronics, 8070 supplements, 8081 womens-fashion, 8110 home-goods.",
+      "details": "Proposed goal: the storefront's whole look is a preset (medusa today, geist as the target) switched by <html data-theme>/<data-mode>, default medusa/light looks exactly as before, and Ivan can open a hidden settings panel on :8000 by holding the logo 2 s and entering the password. Proposed acceptance: (1) medusa.theme.json + geist.theme.json valid against theme-preset.schema.json, same key set in both modes, 'N keys, 0 missing' copied; (2) token-map.json bridge covers 88/88 preset variables with mapped/diverged/open counts copied; (3) four-page screenshots home/listing/PDP/cart: medusa/light pixel delta <= 0.1 % per page vs the pre-change baseline, numbers copied; geist light+dark with zero open fallbacks; (4) mock-up artifacts/docs/2026-09-06-theme-panel-mockup.md written BEFORE code, shows hold → dialog → button → popover → flips → reload; (5) Playwright in Docker: hold 1.5 s navigates, 2 s opens dialog, wrong password error + no cookie, right password cookie + button, preset flip changes --background, reload has data-theme before first paint, visitor HTML has no panel; reverse runs red; (6) next build green; (7) HUMAN EYES on :8000 after merge into dev: looks as before, hold logo 2 s → password → small button bottom-left → popover flips medusa/geist and light/dark live, back to medusa/light = old look, reload does not flash. Sequence: right after T0a/T0b, before T0c–T0g (00-program §11.2). WIP <= 2: approve as a third task or fold into t-ds-0-foundation (Ivan's call).\n\n2026-09-06 08:4x: Ivan's day goal widened to cards and images (00-program §12, brief addendum T0j/T0k). The work runs under t-ds-0-foundation as T0h–T0k (WIP stays 2); this record is the proposal mirror only — Ivan may approve it as a third task or drop it, the work does not wait.\n\n2026-09-08 (справочная сессия, кода не писал): T0h СДЕЛАН и живёт в dev — themes.css несёт 7 пресетов x 2 режима, src/lib/theme/ (attributes/apply/pre-paint/profile/presets.generated) покрыт тестами, THEME_LABELS готовы для панели. T0i НЕ НАЧАТ: греп panel|devtools по dev и восьми worktree не находит ни компонента, ни маршрута, ни /api/devtools — только комментарии в lib/theme/*, ссылающиеся на панель. Обходы, пока её нет: индекс стендов artifacts/docs/stands/index.html (пересборка node artifacts/docs/stands/build.mjs) и ручной флип в консоли через data-theme/data-mode + localStorage upready-store.theme/.mode. Живые стенды на этот вечер (curl -L /en = 200): 8028 sneakers, 8061 electronics, 8070 supplements, 8081 womens-fashion, 8110 home-goods.\n\n2026-09-08: T0i построена и машинно принята (f53b910) — панель, /api/devtools/unlock, 12+4 теста Playwright, обратные прогоны 11/11 красные, next build EXIT=0, вес витрины без изменений. Осталась приёмка глазами Ивана на :8000. Состояние задачи НЕ переключал: два in_progress уже заняты (t-store-profiles-pilot, t-ds-1-seam-tests), WIP<=2 (правило 22j).",
       "files": [
         "docs/prompts/initial-prompt-2026-09-06-orchestrator-theme-presets-panel.md",
         "docs/design-system/00-program-2026-09-06.md",
@@ -156,7 +156,10 @@
         "theme"
       ],
       "created": "2026-09-06T07:16:36+08:00",
-      "updated": "2026-09-08T22:53:12+08:00"
+      "updated": "2026-09-08T23:49:01+08:00",
+      "commits": [
+        "f53b910"
+      ]
     },
     {
       "id": "t-revalidate-product-type-gap",
@@ -299,6 +302,22 @@
         "6466bcb",
         "f649877"
       ]
+    },
+    {
+      "id": "t-2026-09-08-01",
+      "title": "Hero: switch it off on every stand and redesign it in a theme-independent lab — Ivan rejected the current one (mixed ink colours, no scrim, poor contrast); deliverable = hero off on all five stands + fresh home-page screenshots + several hero versions on a stand not tied to themes",
+      "state": "backlog",
+      "priority": "high",
+      "created": "2026-09-08T23:38:36+08:00",
+      "updated": "2026-09-08T23:38:36+08:00"
+    },
+    {
+      "id": "t-2026-09-08-02",
+      "title": "Tailwind opacity-modifier gate: `/NN` on a bare var() colour silently drops the whole class (medusa ui-* tokens and [var(--x)] alike) — it deleted the hero scrim and the subheadline ink with no error; add a lint gate over apps/storefront/src so the class of bug cannot come back",
+      "state": "backlog",
+      "priority": "med",
+      "created": "2026-09-08T23:46:58+08:00",
+      "updated": "2026-09-08T23:46:58+08:00"
     }
   ],
   "questions": [
