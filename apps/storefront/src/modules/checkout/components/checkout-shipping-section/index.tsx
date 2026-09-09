@@ -6,6 +6,7 @@ import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
+import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import { Loader, CursorDefault } from "@medusajs/icons"
 import { DropdownMenu, RadioGroup, clx } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
@@ -58,6 +59,7 @@ export default function CheckoutShippingSection({
   const currentPath = usePathname()
   const [isPending, startTransition] = useTransition()
   const { trackCartUpdate } = useCartUpdate()
+  const { openSheet: openPickupSheet } = usePickupSheet()
 
   const [isLoadingPrices, setIsLoadingPrices] = useState(true)
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
@@ -218,6 +220,17 @@ export default function CheckoutShippingSection({
           },
         } as HttpTypes.StoreUpdateCart)
       ).catch((e: Error) => setShippingError(e.message))
+    }
+
+    // D2 frame 1: choosing "Pickup" opens the point sheet, unless a point is
+    // already on the cart (`cart.metadata.pickup_point_id` — see
+    // `checkout-pickup-point-sheet`). `cart` is this render's server-fetched
+    // snapshot, so a point chosen just now still reads as absent until the
+    // sheet's own `router.refresh()` — harmless: re-selecting the option that
+    // is already selected does not run this handler again.
+    const meta = cart.metadata as Record<string, string> | null
+    if (isPickupShippingOption(selectedOption) && !meta?.pickup_point_id) {
+      openPickupSheet()
     }
   }
 

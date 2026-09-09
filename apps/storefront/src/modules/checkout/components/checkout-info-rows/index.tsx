@@ -1,15 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight } from "@medusajs/icons"
+import { ChevronRight, Clock } from "@medusajs/icons"
 import MapPin from "@modules/common/icons/map-pin"
 import User from "@modules/common/icons/user"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutAddressSheet from "@modules/checkout/components/checkout-address-sheet"
 import CheckoutContactsSheet from "@modules/checkout/components/checkout-contacts-sheet"
 import { isPickupShippingOption } from "@lib/util/fulfillment"
+import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import { useTranslations } from "next-intl"
-import { clx } from "@medusajs/ui"
 
 interface CheckoutInfoRowsProps {
   cart: HttpTypes.StoreCart
@@ -25,8 +25,10 @@ export default function CheckoutInfoRows({
   availableShippingMethods,
 }: CheckoutInfoRowsProps) {
   const t = useTranslations("CheckoutPage")
+  const tPickup = useTranslations("PickupPoint")
   const [addressOpen, setAddressOpen] = useState(false)
   const [contactsOpen, setContactsOpen] = useState(false)
+  const { openSheet: openPickupSheet } = usePickupSheet()
 
   const addr = cart.shipping_address
   const meta = cart.metadata as Record<string, string> | null
@@ -56,47 +58,75 @@ export default function CheckoutInfoRows({
     .join(" ")
   const recipientPhone = addr?.phone || ""
 
+  const pickupPointName = meta?.pickup_point_name || ""
+  const pickupPointAddress = meta?.pickup_point_address || ""
+  const pickupPointHours = meta?.pickup_point_hours || ""
+  const hasPickupPoint = isPickup && !!pickupPointName
+
   return (
     <div className="flex flex-col gap-y-6">
-      <div className={clx(
-        "h-px bg-ui-border-base w-full",
-        isPickup && "hidden"
-      )} />
+      <div className="h-px bg-ui-border-base w-full" />
 
-      <button
-        onClick={() => !isPickup && setAddressOpen(true)}
-        disabled={isPickup}
-        className={clx(
-          "flex items-center justify-between w-full gap-x-2 py-2 text-start",
-          isPickup && "hidden"
-        )}
-        data-testid="checkout-address-row"
-      >
-        <div className="flex items-center gap-x-2">
-          <span className="flex-shrink-0 text-ui-fg-base">
-            <MapPin size={24} />
-          </span>
-          <div className="flex flex-col">
-            <h2 className="h2-docs text-ui-fg-muted">
-              {t("addressHeading")}
-            </h2>
-            {isPickup ? (
-              <span className="txt-small text-ui-fg-muted">
-                {t("addressNotNeededForPickup")}
-              </span>
-            ) : (
-              addressText && (
+      {isPickup ? (
+        <button
+          onClick={openPickupSheet}
+          className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
+          data-testid="checkout-pickup-point-row"
+        >
+          <div className="flex items-center gap-x-2 min-w-0">
+            <span className="flex-shrink-0 text-ui-fg-base">
+              <MapPin size={24} />
+            </span>
+            <div className="flex flex-col min-w-0">
+              <h2 className="h2-docs text-ui-fg-muted">{tPickup("label")}</h2>
+              {hasPickupPoint ? (
+                <>
+                  <span className="txt-small text-ui-fg-base">
+                    {pickupPointName}
+                  </span>
+                  <span className="txt-small text-ui-fg-subtle">
+                    {pickupPointAddress}
+                  </span>
+                  {pickupPointHours && (
+                    <span className="txt-small text-ui-fg-subtle flex items-center gap-x-1">
+                      <Clock className="h-3.5 w-3.5 shrink-0" />
+                      {pickupPointHours}
+                    </span>
+                  )}
+                </>
+              ) : (
+                <span className="txt-small text-ui-fg-muted">
+                  {tPickup("choose")}
+                </span>
+              )}
+            </div>
+          </div>
+          <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
+        </button>
+      ) : (
+        <button
+          onClick={() => setAddressOpen(true)}
+          className="flex items-center justify-between w-full gap-x-2 py-2 text-start"
+          data-testid="checkout-address-row"
+        >
+          <div className="flex items-center gap-x-2">
+            <span className="flex-shrink-0 text-ui-fg-base">
+              <MapPin size={24} />
+            </span>
+            <div className="flex flex-col">
+              <h2 className="h2-docs text-ui-fg-muted">
+                {t("addressHeading")}
+              </h2>
+              {addressText && (
                 <span className="txt-small text-ui-fg-base">
                   {addressText}
                 </span>
-              )
-            )}
+              )}
+            </div>
           </div>
-        </div>
-        {!isPickup && (
           <ChevronRight className="text-ui-fg-base flex-shrink-0 rtl:rotate-180" />
-        )}
-      </button>
+        </button>
+      )}
 
       <div className="h-px bg-ui-border-base w-full" />
 
