@@ -1,0 +1,37 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 19,
+  "action": "task-update",
+  "ts": "2026-09-09T19:40:28+08:00",
+  "status": "Composer :8303 собран и проверен e2e (24 зелёных, кадр 960×1280 = формат карточек); versions.json пуст — версии заводит Иван; вопрос q-composer-cards-from-mock-or-code; dev не пушен",
+  "task": {
+    "id": "t-2026-09-09-01",
+    "title": "Composer: стенд-конструктор главной с сохранёнными версиями и съёмкой под карточки upready.dev",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Заказ Ивана 2026-09-09 (дословно): «нужно сделать стенд на котором я смогу переключаться между темами, светлой и темной версией, а также версиями hero, футера, хедера, и т.д. при этом можно было бы сохранить версию и подписать её чтобы ты потом мог посмотреть сохраненные версии и сделать для них скриншоты, чтобы обновить карточки на сайте upready.dev». Сделано: artifacts/docs/composer/ (:8303) — бренд × light/dark × 1440/390 × H1–H5 × hero (нет/G–M/GA/GB) × плитки × P1–P5 × F1–F5; разметка вариантов вырезана из hero-lab-2 и blocks-lab в lib/ (источник и строки в шапках); реестр versions.json (upready.composer-versions/v1) с API GET/POST/PUT/DELETE и проверкой spec; /view?v=<id> без chrome; shoot.mjs → shots/<id>.png 1440×1920 + .webp 960×1280 (формат карточек, вызов magick из рецепта). e2e 24 проверки зелёные, кадр 46 КБ. Реестр оставлен пустым — версии заводит Иван. Развилка q-composer-cards-from-mock-or-code: карточки из макетов сейчас или сначала перенос выбранного в storefront.",
+    "files": [
+      "artifacts/docs/composer/serve.mjs",
+      "artifacts/docs/composer/index.html",
+      "artifacts/docs/composer/view.html",
+      "artifacts/docs/composer/shoot.mjs",
+      "artifacts/docs/composer/versions.json",
+      "artifacts/docs/2026-09-09-composer.md"
+    ],
+    "session": "session_011eLoGVMp5ZNkxAq7CHP3AL",
+    "tags": [
+      "composer",
+      "blocks-lab",
+      "hero-lab-2",
+      "upready-dev"
+    ],
+    "created": "2026-09-09T19:38:53+08:00",
+    "updated": "2026-09-09T19:40:28+08:00",
+    "commits": [
+      "3b12b79"
+    ]
+  }
+}

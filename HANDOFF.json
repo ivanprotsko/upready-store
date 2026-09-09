@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-09T03:19:36+08:00",
-  "status": "ХОД 6, часть 4: лаборатория «коридор вариантов» построена — artifacts/docs/blocks-lab/ (serve.mjs :8302, index.html, shoot.mjs, sheets.mjs), документ artifacts/docs/2026-09-09-blocks-lab.md, коммит 893d6f8. Четыре семейства с ядром/осями/фильтром на самой странице: выкладка P1–P5 (сетка 4, плотная 6, список, стена, редакционная), хедер H1–H5 (как сейчас, слева+строка, два яруса, акцентная, тонкая+полоса), футер F1–F5 (четыре колонки, одна строка, гигантский wordmark, инверсия+рассылка, условия плитками), hero-галерея GA (карусель с соседями) и GB (полосы, клик разворачивает). Все данные из профилей (юрлица, клаузы промо, категории, плитки). Замер: 85 десктоп + 17 мобильных комбинаций — все AA, 0 узлов на фото, минимум 5.5 (Long Morning); замер поймал дефект специфичности (.store a перебивал .btn → 1.0:1) до глаз. Кадры 114 шт. и монтажи sheets/*.webp вне git. В storefront код не менялся — макеты Ивану. Открыто: какие точки коридора в код, GA или GB и вместо K или рядом, разные ли выкладки у вертикалей, оформлять ли ядра как pattern contracts JSON.",
+  "updated": "2026-09-09T19:40:28+08:00",
+  "status": "Composer :8303 собран и проверен e2e (24 зелёных, кадр 960×1280 = формат карточек); versions.json пуст — версии заводит Иван; вопрос q-composer-cards-from-mock-or-code; dev не пушен",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -320,6 +320,33 @@
       "priority": "med",
       "created": "2026-09-08T23:46:58+08:00",
       "updated": "2026-09-08T23:46:58+08:00"
+    },
+    {
+      "id": "t-2026-09-09-01",
+      "title": "Composer: стенд-конструктор главной с сохранёнными версиями и съёмкой под карточки upready.dev",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Заказ Ивана 2026-09-09 (дословно): «нужно сделать стенд на котором я смогу переключаться между темами, светлой и темной версией, а также версиями hero, футера, хедера, и т.д. при этом можно было бы сохранить версию и подписать её чтобы ты потом мог посмотреть сохраненные версии и сделать для них скриншоты, чтобы обновить карточки на сайте upready.dev». Сделано: artifacts/docs/composer/ (:8303) — бренд × light/dark × 1440/390 × H1–H5 × hero (нет/G–M/GA/GB) × плитки × P1–P5 × F1–F5; разметка вариантов вырезана из hero-lab-2 и blocks-lab в lib/ (источник и строки в шапках); реестр versions.json (upready.composer-versions/v1) с API GET/POST/PUT/DELETE и проверкой spec; /view?v=<id> без chrome; shoot.mjs → shots/<id>.png 1440×1920 + .webp 960×1280 (формат карточек, вызов magick из рецепта). e2e 24 проверки зелёные, кадр 46 КБ. Реестр оставлен пустым — версии заводит Иван. Развилка q-composer-cards-from-mock-or-code: карточки из макетов сейчас или сначала перенос выбранного в storefront.",
+      "files": [
+        "artifacts/docs/composer/serve.mjs",
+        "artifacts/docs/composer/index.html",
+        "artifacts/docs/composer/view.html",
+        "artifacts/docs/composer/shoot.mjs",
+        "artifacts/docs/composer/versions.json",
+        "artifacts/docs/2026-09-09-composer.md"
+      ],
+      "session": "session_011eLoGVMp5ZNkxAq7CHP3AL",
+      "tags": [
+        "composer",
+        "blocks-lab",
+        "hero-lab-2",
+        "upready-dev"
+      ],
+      "created": "2026-09-09T19:38:53+08:00",
+      "updated": "2026-09-09T19:40:28+08:00",
+      "commits": [
+        "3b12b79"
+      ]
     }
   ],
   "questions": [
@@ -505,6 +532,12 @@
       "blocks": [
         "t-2026-09-08-01"
       ]
+    },
+    {
+      "id": "q-composer-cards-from-mock-or-code",
+      "question": "Composer (:8303, artifacts/docs/2026-09-09-composer.md §8): сохранённые версии — макетная разметка лабораторий с настоящими данными, не код storefront. Обновлять карточки upready.dev (a) кадрами из макетов сейчас — быстро, но на лендинге будет то, чего в продукте нет, или (b) сначала перенести выбранные версии в storefront как профильные оси (ждёт q-blocks-lab-corridor-choices) и переснять живые стенды landing-shots/shoot.mjs? spec версии в обоих случаях — список того, что нести в код.",
+      "asked": "2026-09-09",
+      "audience": "ivan"
     }
   ],
   "sessions": [
