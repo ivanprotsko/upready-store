@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 9,
+  "action": "status-set",
+  "ts": "2026-09-10T01:03:55+08:00",
+  "status": "SESSION SPLIT: upready-store-48 DONE with its part — P-creds a7bee09 (verified live), late port deltas d4ef538 (hero-listing) / f34495e (hero-gallery) / 666c8a4 (pickup SHEET, missing from the 00:20 merge). session_01Hgwwt3 MUST re-merge feat/stands/{hero-listing,hero-gallery,pickup} and feat/stands/deploy into feat/stands-composition before integrate is final and before the five-stand build. Stand one LIVE: https://kerbstone.upready.dev, admin@upready.dev / user@upready.dev with supersecret. upready-store-48 now only watches; if 01Hgwwt3 goes silent for 60 min, upready-store-48 resumes from 'merge → integrate → five stands'."
+}
