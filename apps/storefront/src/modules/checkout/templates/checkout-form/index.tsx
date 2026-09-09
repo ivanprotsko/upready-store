@@ -40,7 +40,7 @@ export default async function CheckoutForm({
     <div className="flex flex-col px-4 py-6 lg:pe-10 lg:py-10 lg:ps-0 gap-y-6">
       {!customer && <SignInPrompt />}
 
-      <PickupSheetProvider>
+      <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
         <CheckoutShippingSection
           cart={cart}
           availableShippingOptions={shippingOptions}
@@ -53,7 +53,7 @@ export default async function CheckoutForm({
           addresses={addresses}
           availableShippingMethods={shippingOptions}
         />
-        <CheckoutPickupPointSheet cart={cart} />
+        <CheckoutPickupPointSheet />
       </PickupSheetProvider>
 
       <CheckoutItemList cart={cart} />

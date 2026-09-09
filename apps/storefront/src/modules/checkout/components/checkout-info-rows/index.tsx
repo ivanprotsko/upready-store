@@ -8,6 +8,7 @@ import type { HttpTypes } from "@medusajs/types"
 import CheckoutAddressSheet from "@modules/checkout/components/checkout-address-sheet"
 import CheckoutContactsSheet from "@modules/checkout/components/checkout-contacts-sheet"
 import { isPickupShippingOption } from "@lib/util/fulfillment"
+import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
 import { useTranslations } from "next-intl"
 
@@ -58,9 +59,9 @@ export default function CheckoutInfoRows({
     .join(" ")
   const recipientPhone = addr?.phone || ""
 
-  const pickupPointName = meta?.pickup_point_name || ""
-  const pickupPointAddress = meta?.pickup_point_address || ""
-  const pickupPointHours = meta?.pickup_point_hours || ""
+  const pickupPointName = meta?.[PICKUP_METADATA_KEYS.name] || ""
+  const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address] || ""
+  const pickupPointHours = meta?.[PICKUP_METADATA_KEYS.hours] || ""
   const hasPickupPoint = isPickup && !!pickupPointName
 
   return (

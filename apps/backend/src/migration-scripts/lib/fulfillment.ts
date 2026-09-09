@@ -153,8 +153,9 @@ export const seedFulfillment = async (container: MedusaContainer) => {
     }
 
     // One stock location per point, address + F6's `opening_hours` on
-    // `metadata` (the field the new `/store/pickup-points` route and the
-    // storefront's `checkout-pickup-point-sheet` both read).
+    // `metadata` (the field `checkout-shipping-section`/`checkout-pickup-
+    // point-sheet` read via `GET /store/shipping-options`'s widened `fields`
+    // — see `lib/data/fulfillment.ts`, probe 2 in `.ai/probes.md`).
     const { result: pickupLocations } = await createStockLocationsWorkflow(
       container,
     ).run({
@@ -167,29 +168,45 @@ export const seedFulfillment = async (container: MedusaContainer) => {
       },
     });
 
-    const pickupFulfillmentSet =
-      await fulfillmentModuleService.createFulfillmentSets({
-        name: `${seedRegion.name} pickup points`,
-        type: "pickup",
-        service_zones: [
-          {
-            name: `${seedRegion.name} pickup`,
-            geo_zones: [
-              { country_code: pickupCountryCode, type: "country" as const },
-            ],
-          },
-        ],
-      });
-
     const salesChannel = await getSalesChannel(container);
 
-    for (const location of pickupLocations) {
+    // One fulfillment set (hence one service zone, hence one shipping
+    // option) PER location, not one shared across all four: `Link.create`
+    // enforces a 1:1 relationship between `stock_location` and a
+    // `fulfillment_set` — linking a second stock location to an
+    // already-linked set throws `"Cannot create multiple links between
+    // 'stock_location' and 'fulfillment'"` (measured live against a scratch
+    // database, `upready_wave2_probe`, before this shape was settled). Every
+    // one of the N options carries the SAME `code`/`name` ("pickup" /
+    // "Pickup"), which is what lets the storefront group them into a single
+    // visual "Pickup" card (`isPickupShippingOption`, `checkout-shipping-
+    // section`) while each one's own `service_zone.fulfillment_set.location`
+    // still resolves to exactly one real point — the shape
+    // `apps/storefront/src/lib/theme/composition.ts`'s `PickupPoint` type
+    // and its own doc comment (probe 2) already assumed.
+    for (const [index, point] of SEED_PICKUP_POINTS.entries()) {
+      const location = pickupLocations[index];
+
       for (const providerId of SEED_FULFILLMENT_PROVIDER_IDS) {
         await link.create({
           [Modules.STOCK_LOCATION]: { stock_location_id: location.id },
           [Modules.FULFILLMENT]: { fulfillment_provider_id: providerId },
         });
       }
+
+      const pickupFulfillmentSet =
+        await fulfillmentModuleService.createFulfillmentSets({
+          name: `${point.name} pickup`,
+          type: "pickup",
+          service_zones: [
+            {
+              name: point.name,
+              geo_zones: [
+                { country_code: pickupCountryCode, type: "country" as const },
+              ],
+            },
+          ],
+        });
 
       await link.create({
         [Modules.STOCK_LOCATION]: { stock_location_id: location.id },
@@ -199,43 +216,48 @@ export const seedFulfillment = async (container: MedusaContainer) => {
       await linkSalesChannelsToStockLocationWorkflow(container).run({
         input: { id: location.id, add: [salesChannel.id] },
       });
-    }
 
-    // A single option — the picker (D2 §1-§5) chooses *which* of the four
-    // locations, the shipping-method `RadioGroup` only ever needs to choose
-    // "pickup" once (frame 1: `[Courier] [Pickup] [Express]`, three cards).
-    await createShippingOptionsWorkflow(container).run({
-      input: [pickupOptionTemplate].map((shippingOption) => ({
-        name: shippingOption.name,
-        price_type: "flat" as const,
-        provider_id: shippingOption.provider_id,
-        service_zone_id: pickupFulfillmentSet.service_zones[0].id,
-        shipping_profile_id: shippingProfile.id,
-        type: {
-          label: shippingOption.label,
-          description: shippingOption.description,
-          code: shippingOption.code,
-        },
-        metadata: shippingOption.metadata,
-        prices: [
+      await createShippingOptionsWorkflow(container).run({
+        input: [
           {
-            currency_code: seedRegion.currency_code,
-            amount: seedRegion.shipping_prices[shippingOption.code],
+            name: pickupOptionTemplate.name,
+            price_type: "flat" as const,
+            provider_id: pickupOptionTemplate.provider_id,
+            service_zone_id: pickupFulfillmentSet.service_zones[0].id,
+            shipping_profile_id: shippingProfile.id,
+            type: {
+              label: pickupOptionTemplate.label,
+              description: pickupOptionTemplate.description,
+              code: pickupOptionTemplate.code,
+            },
+            // No `metadata` (unlike the region-shared "Pickup" option above,
+            // which still carries `delivery_days_min/max: 0`): the checkout
+            // card only reads that to render a "delivery today" date label
+            // (`getDeliveryDays`, `checkout-shipping-section`), which the
+            // mockup's own Pickup card never shows (frame 1: "Pickup — Free"
+            // only, no date) — a per-point option genuinely has no delivery
+            // date to report.
+            prices: [
+              {
+                currency_code: seedRegion.currency_code,
+                amount: seedRegion.shipping_prices[pickupOptionTemplate.code],
+              },
+            ],
+            rules: [
+              {
+                attribute: "enabled_in_store",
+                value: "true",
+                operator: "eq" as const,
+              },
+              {
+                attribute: "is_return",
+                value: "false",
+                operator: "eq" as const,
+              },
+            ],
           },
         ],
-        rules: [
-          {
-            attribute: "enabled_in_store",
-            value: "true",
-            operator: "eq" as const,
-          },
-          {
-            attribute: "is_return",
-            value: "false",
-            operator: "eq" as const,
-          },
-        ],
-      })),
-    });
+      });
+    }
   }
 };

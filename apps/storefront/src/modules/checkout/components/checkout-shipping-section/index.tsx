@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useTransition, useMemo } from "react"
-import { setShippingMethod, updateCart, updateRegion } from "@lib/data/cart"
+import { setShippingMethod, updateRegion } from "@lib/data/cart"
 import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
@@ -20,6 +20,17 @@ type CountryOption = {
   region: string
   label: string
 }
+
+/**
+ * Every pickup point is its own shipping option (`seedFulfillment()`'s own
+ * doc comment, `apps/backend/src/migration-scripts/lib/fulfillment.ts`), but
+ * the mockup draws exactly one "Pickup" card (D2 frame 1) — this
+ * `RadioGroup.Item` value stands for the whole group of them, never a real
+ * option id. Selecting it opens the point sheet (`usePickupSheet`), which
+ * is the only place a REAL pickup option id is ever sent to
+ * `setShippingMethod` (`pickup-sheet-context.tsx`'s `choosePoint`).
+ */
+const PICKUP_GROUP_VALUE = "__pickup__"
 
 interface CheckoutShippingSectionProps {
   cart: HttpTypes.StoreCart
@@ -176,6 +187,10 @@ export default function CheckoutShippingSection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableShippingOptions, cart.id])
 
+  // Never called with a pickup option's id — the pickup card's own value is
+  // the sentinel `PICKUP_GROUP_VALUE` (below), handled separately by opening
+  // the point sheet. `pickup-sheet-context.tsx`'s `choosePoint` is the only
+  // path that ever sets a REAL pickup option as the cart's shipping method.
   const handleSelectShipping = async (id: string) => {
     setShippingError(null)
     const prev = shippingMethodId
@@ -189,50 +204,59 @@ export default function CheckoutShippingSection({
     if (err) {
       setShippingMethodId(prev)
       setShippingError(err as string)
-      return
-    }
-
-    const selectedOption = shippingOptions?.find((option) => option.id === id)
-    const addr = cart.shipping_address
-    const hasDeliveryFields = !!(
-      addr?.address_1 ||
-      addr?.address_2 ||
-      addr?.city ||
-      addr?.postal_code ||
-      addr?.province ||
-      addr?.company
-    )
-
-    if (isPickupShippingOption(selectedOption) && hasDeliveryFields) {
-      await trackCartUpdate(() =>
-        updateCart({
-          shipping_address: {
-            first_name: addr?.first_name || "",
-            last_name: addr?.last_name || "",
-            phone: addr?.phone || "",
-            country_code: addr?.country_code || "",
-            company: "",
-            address_1: "",
-            address_2: "",
-            city: "",
-            postal_code: "",
-            province: "",
-          },
-        } as HttpTypes.StoreUpdateCart)
-      ).catch((e: Error) => setShippingError(e.message))
-    }
-
-    // D2 frame 1: choosing "Pickup" opens the point sheet, unless a point is
-    // already on the cart (`cart.metadata.pickup_point_id` — see
-    // `checkout-pickup-point-sheet`). `cart` is this render's server-fetched
-    // snapshot, so a point chosen just now still reads as absent until the
-    // sheet's own `router.refresh()` — harmless: re-selecting the option that
-    // is already selected does not run this handler again.
-    const meta = cart.metadata as Record<string, string> | null
-    if (isPickupShippingOption(selectedOption) && !meta?.pickup_point_id) {
-      openPickupSheet()
     }
   }
+
+  const handleValueChange = (value: string) => {
+    if (value === PICKUP_GROUP_VALUE) {
+      // D2 frame 1: choosing "Pickup" opens the point sheet — whether no
+      // point is chosen yet, or an already-chosen one is being changed
+      // (frame 4's row does the same via `checkout-info-rows`).
+      openPickupSheet()
+      return
+    }
+    handleSelectShipping(value)
+  }
+
+  const pickupOptions = useMemo(
+    () => (shippingOptions ?? []).filter((option) => isPickupShippingOption(option)),
+    [shippingOptions]
+  )
+  const pickupOptionIds = useMemo(
+    () => new Set(pickupOptions.map((option) => option.id)),
+    [pickupOptions]
+  )
+  // The template every pickup point's own option is priced/named the same
+  // way, so the one combined card can read any of them — the seed gives
+  // them all the same `name`/`code`/price (`seedFulfillment()`).
+  const pickupCardOption = pickupOptions[0] ?? null
+
+  // Walk the fetched list in its own order, collapsing every pickup-typed
+  // entry into one card at the position the FIRST one would have rendered —
+  // courier/pickup/express keep the order the backend seeded them in
+  // (D2 frame 1: `[Courier] [Pickup] [Express]`).
+  const cards = useMemo(() => {
+    const result: (
+      | { kind: "option"; option: HttpTypes.StoreCartShippingOptionWithServiceZone }
+      | { kind: "pickup" }
+    )[] = []
+    let pickupEmitted = false
+    for (const option of shippingOptions ?? []) {
+      if (isPickupShippingOption(option)) {
+        if (!pickupEmitted) {
+          result.push({ kind: "pickup" })
+          pickupEmitted = true
+        }
+      } else {
+        result.push({ kind: "option", option })
+      }
+    }
+    return result
+  }, [shippingOptions])
+
+  const radioGroupValue = shippingMethodId && pickupOptionIds.has(shippingMethodId)
+    ? PICKUP_GROUP_VALUE
+    : shippingMethodId ?? undefined
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -286,15 +310,20 @@ export default function CheckoutShippingSection({
 
       {/* Shipping method cards */}
       <div className="overflow-x-auto no-scrollbar px-px pb-1">
-        {shippingOptions && shippingOptions.length > 0 ? (
+        {cards.length > 0 ? (
           <RadioGroup
             dir={dir}
-            value={shippingMethodId ?? undefined}
-            onValueChange={handleSelectShipping}
+            value={radioGroupValue}
+            onValueChange={handleValueChange}
             className="flex items-stretch gap-x-2"
           >
-            {shippingOptions.map((option) => {
-              const isSelected = option.id === shippingMethodId
+            {cards.map((card) => {
+              const isPickupCard = card.kind === "pickup"
+              const option = isPickupCard ? pickupCardOption! : card.option
+              const itemValue = isPickupCard ? PICKUP_GROUP_VALUE : option.id
+              const isSelected = isPickupCard
+                ? !!shippingMethodId && pickupOptionIds.has(shippingMethodId)
+                : option.id === shippingMethodId
 
               const days = getDeliveryDays(option)
               const deliveryLabel = !days
@@ -338,17 +367,19 @@ export default function CheckoutShippingSection({
 
               return (
                 <div
-                  key={option.id}
+                  key={itemValue}
                   className={clx(
                     "relative flex w-[180px] shrink-0 flex-col gap-2 justify-between rounded-md border bg-ui-bg-base p-3 text-start transition-colors hover:bg-ui-bg-base-hover",
                     isSelected
                       ? "border-ui-border-interactive"
                       : "border-ui-border-base hover:border-ui-border-interactive/50"
                   )}
-                  data-testid="delivery-option-radio"
+                  data-testid={
+                    isPickupCard ? "delivery-option-pickup" : "delivery-option-radio"
+                  }
                 >
                   <RadioGroup.Item
-                    value={option.id}
+                    value={itemValue}
                     aria-label={option.name}
                     className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-md bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] [&>div]:hidden focus-visible:shadow-borders-interactive-with-focus"
                   />
