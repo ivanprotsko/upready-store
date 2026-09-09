@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-10T00:55:41+08:00",
+  "status": "SESSION SPLIT (see 00:45 entry): upready-store-48 finished P-creds — a7bee09 on feat/stands/deploy, admin@upready.dev / user@upready.dev with supersecret verified live on api-kerbstone.upready.dev (200/401/200). Stand one LIVE: https://kerbstone.upready.dev. Still owned by upready-store-48: late deltas of wf_972f7227-e1a (hero-listing, hero-gallery, pickup) → commits on their branches only. session_01Hgwwt3 owns integrate → five stands (merge feat/stands/deploy a7bee09 first) → Playwright → upready.dev cards."
+}
