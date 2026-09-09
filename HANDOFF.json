@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-09T22:51:43+08:00",
-  "status": "t-2026-09-09-02 todo (WIP занят → q-wip-freeze-for-stands). Ivan: Coolify/Contabo, subdomains, 5 stands. Wave 1 wf_b56e1aff-096 (session 197520b3): maps committed 337429b, D1 22:05, D2 22:12, D3 + critic pending; monitor bkiiweqot waits for artifacts/docs/2026-09-09-wave1-critique-and-plan.md. Wave 2 = .ai/wave2/wave2.js, stage contracts on feat/stands-composition from dev, launch on the critique. dev is 23 ahead of origin/dev, not pushed (q-github-switch-to-push-pr).",
+  "updated": "2026-09-09T22:56:07+08:00",
+  "status": "t-2026-09-09-02 in_progress (WIP limit lifted by Ivan). Wave 2 running from session upready-store-48: contracts wf_bc7843e5-bc1 (C1→C2→C3, Sonnet, worktree feat/stands-composition), deploy prerequisites wf_50d0602e-d65 (P-deploy, worktree feat/stands/deploy), eight port worktrees feat/stands/* installing (task b0lklnxx5). Next: commit contracts, ff port worktrees, launch stage ports (8 packages), then locale, integrate, wave 3 (checks, eyes, deploy).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
