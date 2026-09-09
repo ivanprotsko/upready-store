@@ -48,6 +48,9 @@ RUN pnpm install --frozen-lockfile
 
 COPY apps/backend/src/migration-scripts/data apps/backend/src/migration-scripts/data
 COPY apps/storefront apps/storefront
+# scripts/build-themes.mjs (called by build-profile.mjs) reads the theme
+# specs from the repo root; without them the profile build below fails.
+COPY specs/design-system specs/design-system
 
 FROM workspace AS build
 ARG NEXT_PUBLIC_STORE_PROFILE
@@ -67,7 +70,12 @@ ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NODE_ENV=production \
     REGION_PIN=true
 WORKDIR /repo/apps/storefront
-RUN npx next build
+# build-profile.mjs is wired as the "prebuild" npm script, which a bare
+# `npx next build` never runs: stand one shipped the checked-in
+# profile.generated.json (localhost:9023 media URLs) and its hero rendered as
+# a broken image (measured 2026-09-10 on kerbstone.upready.dev/en). Run it
+# explicitly so STORE_MEDIA_BASE_URL and the profile reach the bundle.
+RUN node scripts/build-profile.mjs && npx next build
 
 FROM node:22-alpine AS runtime
 ENV NODE_ENV=production HOSTNAME=0.0.0.0 PORT=8000
