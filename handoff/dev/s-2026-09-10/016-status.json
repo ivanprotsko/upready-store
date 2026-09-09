@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 16,
+  "action": "status-set",
+  "ts": "2026-09-10T02:51:01+08:00",
+  "status": "t-2026-09-09-02 wave 3 (session f190e1f6, sole orchestrator): ALL FIVE STANDS LIVE and verified from this machine by deploy/scripts/deploy-stand.sh (feat/stands/deploy = afc142f: hero fix 7722e0e, README d3379e3, persona-region pin afc142f); upready.dev cards link to the stands with fresh frames (upready-dev main bd027d8, Pages deployed, hrefs+images 200); scenarios worker wf_771c898a-ec0 (Sonnet) still running on kerbstone — next: its report → fix stage (Opus) if red → redeploy → frames stage → merge feat/stands/deploy into dev → push dev → durable-save + final report"
+}

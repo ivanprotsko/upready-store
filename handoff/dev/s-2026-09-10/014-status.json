@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-10T01:34:12+08:00",
+  "status": "t-2026-09-09-02 wave 3 (session f190e1f6, sole orchestrator since 01:17): integrate committed baaea56 by the other session; feat/stands/deploy ff-merged to baaea56 + Dockerfile hero fix (build-profile before next build, specs/design-system in context) + deploy/scripts/deploy-stand.sh; kerbstone redeploying with a fresh DB (backup /opt/upready-store/backups/kerbstone-20260910-013029.sql.gz) in background task bdfw2f5jl; B1 cards-links claude -p running in upready-dev (bgnwdmo3p); next: stands 2-5 via deploy-stand.sh --backend-image-from kerbstone, wave3.js scenarios (Sonnet) → fix (Opus) → frames, cards deploy, durable-save"
+}
