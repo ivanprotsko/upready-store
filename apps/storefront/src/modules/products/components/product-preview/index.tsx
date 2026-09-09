@@ -12,16 +12,11 @@ export default async function ProductPreview({
   isFeatured,
   priority,
   region: _region,
-  showSubtitle,
 }: {
   product: HttpTypes.StoreProduct
   isFeatured?: boolean
   priority?: boolean
   region: HttpTypes.StoreRegion
-  /** Adds a one-line `product.subtitle` under the title — the "full" caption density
-   *  `2026-09-09-block-port-map.md` §6 asks for on listing P1 and P5, off (default)
-   *  everywhere else this card already renders, unchanged. */
-  showSubtitle?: boolean
 }) {
   // const pricedProduct = await listProducts({
   //   regionId: region.id,
@@ -82,14 +77,6 @@ export default async function ProductPreview({
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>
-        {showSubtitle && product.subtitle ? (
-          <Text
-            className="mt-1 line-clamp-1 text-ui-fg-subtle txt-compact-small"
-            data-testid="product-subtitle"
-          >
-            {product.subtitle}
-          </Text>
-        ) : null}
         <div className="hidden small:flex txt-compact-2xsmall-plus mt-1 justify-between text-ui-tag-neutral-text">
           {textOptions.length > 0 && (
             <div className="flex">
