@@ -1,5 +1,5 @@
 import { retrieveOrder } from "@lib/data/orders"
-import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
+import OrderDetailsTemplate from "@modules/account/components/order-details-template"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"

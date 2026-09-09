@@ -181,10 +181,14 @@ const AccountNavLink = ({
   return (
     <Link
       href={href}
-      className={clx("text-ui-fg-subtle hover:text-ui-fg-base", {
-        "text-ui-fg-base font-semibold": active,
-      })}
+      className={clx(
+        "border-l-2 rtl:border-l-0 rtl:border-r-2 border-transparent ps-3 text-ui-fg-subtle hover:text-ui-fg-base",
+        {
+          "border-ui-fg-interactive text-ui-fg-base font-semibold": active,
+        }
+      )}
       data-testid={dataTestId}
+      data-value={active ? "active" : undefined}
     >
       {children}
     </Link>
