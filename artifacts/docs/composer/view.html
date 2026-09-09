@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Composer · view</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/lib/blocks.css" />
+<link rel="stylesheet" href="/lib/hero.css" />
+<style>
+/* No lab chrome at all: the page IS the store, edge to edge, so a 1440-wide viewport frames it exactly. */
+body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; }
+.store { border-radius: 0; }
+.fault { padding: 40px; font-family: ui-monospace, monospace; font-size: 14px; color: #f87171; background: #0e0e10; min-height: 100vh; }
+</style>
+</head>
+<body data-mode="light" data-width="desktop">
+<script type="module">
+import { wireGalleries } from "/lib/blocks.js"
+import { validateSpec, composePage, afterRender } from "/lib/page.js"
+
+const fault = (text) => { document.body.innerHTML = `<div class="fault">${text}</div>`; document.body.dataset.error = text }
+const q = new URLSearchParams(location.search)
+const DATA = await (await fetch("/data.json")).json()
+let spec = null
+if (q.get("v")) {
+  const { versions } = await (await fetch("/api/versions")).json()
+  const v = versions.find((x) => x.id === q.get("v"))
+  if (!v) { fault(`no saved version "${q.get("v")}" in versions.json`); throw new Error("no version") }
+  spec = v.spec
+  document.title = `${v.label} · ${v.id}`
+} else if (q.get("s")) {
+  try { spec = JSON.parse(q.get("s")) } catch { fault("?s= is not JSON"); throw new Error("bad spec") }
+} else { fault("give ?v=<saved id> or ?s=<spec json>"); throw new Error("no spec") }
+const problem = validateSpec(spec, DATA)
+if (problem) { fault(problem); throw new Error(problem) }
+
+const p = DATA.find((x) => x.id === spec.brand)
+document.body.dataset.mode = spec.mode
+document.body.dataset.width = spec.width
+document.body.style.background = p.modes[spec.mode].tokens["--background"]
+document.body.innerHTML = composePage(p, spec)
+wireGalleries(document.body)
+await afterRender(document.body)
+await Promise.all([...document.images].map((img) => (img.complete ? Promise.resolve() : new Promise((r) => { img.onload = r; img.onerror = r }))))
+await Promise.all([...document.images].map((img) => img.decode().catch(() => {})))
+document.body.dataset.ready = "1"
+</script>
+</body>
+</html>

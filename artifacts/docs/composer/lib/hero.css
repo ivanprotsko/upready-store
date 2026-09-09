@@ -1,0 +1,95 @@
+/* composer/lib/hero.css — the six round-2 hero variants G/H/J/K/L/M.
+   source: hero-lab-2/index.html @2211183, lines 88-89, 97-98, 100-187; .price scoped to .hero so it
+   cannot leak into the listing, .eyebrow/.btn/.linkish dropped because blocks.css carries the same rules. */
+.hero h2 { font-family: var(--font-display); margin: 0; line-height: 1.08; text-wrap: balance; letter-spacing: -.01em; }
+.hero p { margin: 0; line-height: 1.55; text-wrap: pretty; color: var(--muted-foreground); }
+.hero .price { font-size: 20px; font-weight: 700; font-family: var(--font-display); }
+.hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* G · showcase */
+.hero.g { display: grid; grid-template-columns: 1fr 1fr; min-height: 520px; }
+.hero.g .pane { padding: 56px 60px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.hero.g h2 { font-size: 42px; }
+.hero.g p { font-size: 16px; max-width: 40ch; }
+.hero.g .buyline { display: flex; align-items: baseline; gap: 14px; }
+.hero.g .buyline .meta { font-size: 12px; color: var(--muted-foreground); }
+.hero.g .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.hero.g .shot { background: var(--muted); }
+body[data-width="mobile"] .hero.g { grid-template-columns: 1fr; min-height: 0; }
+body[data-width="mobile"] .hero.g .pane { padding: 28px 20px; gap: 14px; order: 2; }
+body[data-width="mobile"] .hero.g h2 { font-size: 28px; }
+body[data-width="mobile"] .hero.g .shot { height: 300px; }
+
+/* H · shelf (the Ritual structure: real goods on one ground, copy on a flat panel) */
+.hero.h { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 520px; background: var(--muted); }
+.hero.h .shelf { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 3%; padding: 0 5% 56px; }
+.hero.h .shelf figure { margin: 0; width: 30%; border-radius: var(--radius); overflow: hidden; }
+.hero.h .shelf figure:nth-child(2) { width: 34%; }
+.hero.h .shelf img { height: 340px; width: 100%; object-fit: cover; }
+.hero.h .shelf figure:nth-child(2) img { height: 400px; }
+.hero.h .pane { background: var(--card); color: var(--card-foreground); padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.hero.h .badge {
+  display: inline-flex; align-items: center; gap: 7px; width: fit-content; font-size: 12px; font-weight: 600;
+  background: var(--primary); color: var(--primary-foreground); border-radius: 999px; padding: 6px 14px;
+}
+.hero.h h2 { font-size: 36px; }
+.hero.h p { font-size: 15px; }
+body[data-width="mobile"] .hero.h { grid-template-columns: 1fr; min-height: 0; }
+body[data-width="mobile"] .hero.h .shelf { padding: 20px 16px 20px; }
+body[data-width="mobile"] .hero.h .shelf img { height: 150px; }
+body[data-width="mobile"] .hero.h .shelf figure:nth-child(2) img { height: 180px; }
+body[data-width="mobile"] .hero.h .pane { padding: 24px 20px; }
+body[data-width="mobile"] .hero.h h2 { font-size: 26px; }
+
+/* J · three doors */
+.hero.j { padding: 40px 32px 44px; }
+.hero.j .lead { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+.hero.j h2 { font-size: 30px; max-width: 24ch; }
+.hero.j .doors { display: grid; grid-template-columns: repeat(var(--doors, 3), 1fr); gap: 16px; }
+.hero.j figure { margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--muted); }
+.hero.j figure .frame { height: 380px; }
+.hero.j figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 16px; background: var(--card); color: var(--card-foreground); font-size: 15px; font-weight: 600;
+}
+.hero.j figcaption .n { font-size: 12px; font-weight: 400; color: var(--muted-foreground); }
+body[data-width="mobile"] .hero.j { padding: 22px 16px 26px; }
+body[data-width="mobile"] .hero.j .lead { flex-direction: column; align-items: flex-start; gap: 12px; }
+body[data-width="mobile"] .hero.j h2 { font-size: 24px; }
+body[data-width="mobile"] .hero.j .doors { grid-template-columns: 1fr; }
+body[data-width="mobile"] .hero.j figure .frame { height: 220px; }
+
+/* K · announcement, no photograph at all */
+.hero.k { background: var(--primary); color: var(--primary-foreground); padding: 56px 60px; display: flex; flex-direction: column; gap: 16px; }
+.hero.k .eyebrow { color: inherit; opacity: .9; }
+.hero.k h2 { font-size: 46px; max-width: 22ch; }
+.hero.k p { color: inherit; font-size: 16px; max-width: 60ch; }
+.hero.k .btn { background: var(--primary-foreground); color: var(--primary); }
+body[data-width="mobile"] .hero.k { padding: 30px 20px; }
+body[data-width="mobile"] .hero.k h2 { font-size: 30px; }
+
+/* L · in motion, copy never touches the photograph */
+.hero.l { position: relative; height: 560px; background: var(--muted); }
+.hero.l .card {
+  position: absolute; left: 48px; bottom: 48px; width: 360px; background: var(--card); color: var(--card-foreground);
+  border-radius: var(--radius); padding: 22px 24px; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 18px 40px -18px #00000059;
+}
+.hero.l .card h2 { font-size: 22px; }
+.hero.l .card p { font-size: 13px; }
+.hero.l .card .buyline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hero.l .missing {
+  height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  text-align: center; padding: 40px; background:
+    repeating-linear-gradient(45deg, var(--muted) 0 12px, var(--secondary) 12px 24px);
+}
+.hero.l .missing strong { font-family: var(--font-display); font-size: 22px; }
+.hero.l .missing span { font-size: 14px; color: var(--muted-foreground); max-width: 52ch; line-height: 1.55; }
+body[data-width="mobile"] .hero.l { height: 520px; }
+body[data-width="mobile"] .hero.l .card { left: 16px; right: 16px; bottom: 16px; width: auto; padding: 18px; }
+
+/* M · no hero at all: the shop opens with goods */
+.hero.m { padding: 26px 32px 8px; }
+.hero.m .line { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 20px; font-size: 12px; color: var(--muted-foreground); }
+.hero.m h2 { font-size: 20px; margin-bottom: 18px; }
+body[data-width="mobile"] .hero.m { padding: 18px 16px 4px; }
+body[data-width="mobile"] .hero.m .line { flex-direction: column; align-items: flex-start; gap: 6px; }
