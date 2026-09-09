@@ -3,6 +3,10 @@ import type { ComponentType } from "react"
 import type { FooterKey } from "@lib/theme/composition"
 
 import FooterF1 from "./f1"
+import FooterF2 from "./f2"
+import FooterF3 from "./f3"
+import FooterF5 from "./f5"
+import FooterF6 from "./f6"
 
 /**
  * Footer composition registry: every non-"none" `footer` key (F1-F6,
@@ -14,19 +18,22 @@ import FooterF1 from "./f1"
  * map's own literal "gate `<Footer/>` in `(main)/layout.tsx`" suggestion — see this
  * package's report.
  *
- * Only F1 is built (`block-port-map.md` §7: F2-F6 are net-new, ~60-100 lines each,
- * priced but not built). Every other key maps to `FooterF1` as a placeholder — W13
- * (footer F2/F3/F5/F6) replaces exactly the entries it ships, leaving this shape and
- * every still-placeholder key untouched. F4 additionally needs a newsletter endpoint
- * that does not exist yet (block-port-map.md §7 f4 row) — out of scope here either way.
+ * W13 (footer F2/F3/F5/F6) ships F2, F3, F5 and F6 (giant-wordmark auto-shrink via CSS
+ * `clamp()`, F6 additionally on the fixed-dark contrast surface). F4 stays mapped to
+ * `FooterF1` as a placeholder — it needs a newsletter subscribe endpoint that does not
+ * exist in this storefront (`block-port-map.md` §7 f4 row), out of this package's scope.
+ * A future F4 package replaces exactly that one entry.
  */
-export const FOOTER_VARIANTS: Record<Exclude<FooterKey, "none">, ComponentType> = {
+export const FOOTER_VARIANTS: Record<
+  Exclude<FooterKey, "none">,
+  ComponentType
+> = {
   f1: FooterF1,
-  f2: FooterF1,
-  f3: FooterF1,
+  f2: FooterF2,
+  f3: FooterF3,
   f4: FooterF1,
-  f5: FooterF1,
-  f6: FooterF1,
+  f5: FooterF5,
+  f6: FooterF6,
 }
 
 /**
