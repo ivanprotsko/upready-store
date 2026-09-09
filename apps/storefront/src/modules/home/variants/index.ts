@@ -4,6 +4,9 @@ import type { HeroKey, ListingKey, TilesKey } from "@lib/theme/composition"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import ProfileHero from "@modules/home/components/profile-hero"
 
+import HeroGA from "./hero-ga"
+import HeroGB from "./hero-gb"
+
 /**
  * Home-slot composition registries — hero and listing (`(main)/page.tsx` only; header and
  * footer are site-wide, `nav/variants` and `footer/variants`). Plain data, no JSX (pure
@@ -16,11 +19,12 @@ import ProfileHero from "@modules/home/components/profile-hero"
  * reads `@lib/profile` at build time, `FeaturedProducts` calls its own region/product
  * loaders) — nothing here prop-drills beyond the single key that selected it.
  *
- * Only K (`ProfileHero`, already three layouts) and the page's existing product listing
- * (`FeaturedProducts`, mapped to P1) are built. Every other hero/listing key maps to that
- * same baseline as a placeholder — W11 (hero G/H/M + listing P1-P5 data) and W12 (hero
- * GA/GB) replace exactly the entries they ship, leaving this shape and every
- * still-placeholder key untouched. Tiles has no per-key variant family (`TilesKey` is a
+ * K (`ProfileHero`, already three layouts), GA/GB (`HeroGA`/`HeroGB`, W12 — the two hero
+ * galleries, client islands over a server-fetched category slide list) and the page's
+ * existing product listing (`FeaturedProducts`, mapped to P1) are built. Every other
+ * hero/listing key maps to `ProfileHero`/`FeaturedProducts` as a placeholder — W11 (hero
+ * G/H/M + listing P1-P5 data) replaces exactly the entries it ships, leaving this shape and
+ * every still-placeholder key untouched. Tiles has no per-key variant family (`TilesKey` is a
  * boolean switch, not an enum of components) — `CategoryTiles` itself is the only
  * implementation and already self-suppresses on an empty tile list
  * (`block-port-map.md` §5), so it needs only the `DEFAULT_TILES` constant below, no
@@ -31,10 +35,13 @@ type SlotComponent = ComponentType
 
 /**
  * `HeroKey` minus `"none"`: block-port-map.md §4's `none` row assigns its own ~5-line
- * guard to "the new switch" (`page.tsx`, below) — `"none"` never reaches this map. Every
- * other key, including `k` itself, points at today's `ProfileHero`, which already
- * dispatches on the profile's own `hero.layout` (full-bleed/split/announcement) and
- * returns `null` when the profile has no hero at all.
+ * guard to "the new switch" (`page.tsx`, below) — `"none"` never reaches this map. `ga` and
+ * `gb` point at this package's own `HeroGA`/`HeroGB` (`hero-ga.tsx`/`hero-gb.tsx`) — the two
+ * built galleries. Every other key, including `k` itself, still points at today's
+ * `ProfileHero`, which already dispatches on the profile's own `hero.layout`
+ * (full-bleed/split/announcement) and returns `null` when the profile has no hero at all;
+ * `ga`/`gb` fall back the same way, to no markup, below their own 3-slide floor
+ * (`hero-gallery-data.ts`'s `MIN_SLIDES`).
  */
 export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
   g: ProfileHero,
@@ -43,8 +50,8 @@ export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
   k: ProfileHero,
   l: ProfileHero,
   m: ProfileHero,
-  ga: ProfileHero,
-  gb: ProfileHero,
+  ga: HeroGA,
+  gb: HeroGB,
 }
 
 /**
@@ -68,7 +75,10 @@ export const DEFAULT_TILES: TilesKey = "on"
  * it does not yet match the composer's real single-collection P1 shape
  * (block-port-map.md §6's own noted mismatch), which is W11's job, not this skeleton's.
  */
-export const LISTING_VARIANTS: Record<Exclude<ListingKey, "none">, SlotComponent> = {
+export const LISTING_VARIANTS: Record<
+  Exclude<ListingKey, "none">,
+  SlotComponent
+> = {
   p1: FeaturedProducts,
   p2: FeaturedProducts,
   p3: FeaturedProducts,
