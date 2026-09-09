@@ -128,13 +128,40 @@ services:
     networks:
       - coolify
     healthcheck: *backend-healthcheck
-    # First guess, not measured — see the postgres service's own note.
+    # 2 GB is a deliberate ceiling for the BOOT, not a fitted number, and the
+    # distinction is written out here because an earlier draft of this comment
+    # got the causation wrong and that error must not be reinherited.
+    #
+    # What is measured (deploy/README.md, "Stand one — measured 2026-09-10"):
+    # at rest this container sits at 331 MiB. What was NOT the problem: the
+    # 768M first guess. The crash loop that preceded this change was
+    # `medusa: not found` — the CLI lives at /app/node_modules/.bin/medusa,
+    # which was on no PATH, so `exec medusa start` failed the instant the
+    # entrypoint handed over (apps/backend/Dockerfile now sets both PATH and
+    # an absolute CMD). The one ExitCode=137 recorded during that hour has no
+    # corroboration as an OOM at all: `OOMKilled=false`, and zero lines in
+    # `dmesg` and `journalctl -k`. It was a SIGKILL from a concurrent
+    # `docker compose` recreate — a second session was deploying this same
+    # stand at the same time — not a cgroup kill.
+    #
+    # The ceiling stays at 2 GB because the boot peak is genuinely unmeasured
+    # and is the plausible risk: docker-entrypoint.sh loads the whole Medusa
+    # application four times (db:migrate, catalog seed, composition seed,
+    # `medusa user`) before `medusa start` runs, and Node 22 sizes its heap
+    # from the HOST's memory (11.9 GB here), not from the cgroup limit. A
+    # ceiling costs nothing while unused. Measure the real peak on stand two,
+    # which boots from an empty database anyway:
+    #   while docker inspect -f '{{.State.Health.Status}}' <stand>-backend \
+    #     | grep -qv healthy; do \
+    #       docker stats --no-stream --format '{{.MemUsage}}' <stand>-backend; \
+    #       sleep 2; done
+    # and replace this ceiling with that number plus headroom.
     deploy:
       resources:
         limits:
-          memory: 768M
+          memory: 2048M
         reservations:
-          memory: 384M
+          memory: 512M
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify

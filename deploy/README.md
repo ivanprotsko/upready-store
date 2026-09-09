@@ -1,10 +1,11 @@
 # Deploying the five stands
 
-Prepared by package `P-deploy` (`t-2026-09-09-02`). **Nothing here has been run against the live
-host.** No SSH, no DNS write, no docker push happened while writing this package — Ivan's order
-says those happen in wave 3, on his command. Everything below was checked the ways this worktree
-can check it: two local `docker build`s and one `docker compose config` (their real output is in
-"Local verification", pasted, not summarized).
+Prepared by package `P-deploy` (`t-2026-09-09-02`), then **corrected against the live host by
+`P-deploy-stand1`**: stand one (Kerbstone) is deployed and serving on
+https://kerbstone.upready.dev. Every step below has now been run for real at least once. Where the
+first draft guessed and reality disagreed, the guess is gone and the measurement is in its place —
+the literal commands and their literal output are in "Stand one — measured 2026-09-10" at the end
+of this file. Stands two to five have not been deployed; read the go/no-go in that section first.
 
 Read first: `~/upready/memory/agent-creatr-prod-deploy-contabo.md`,
 `agent-creatr-deploy-plan.md`, `agent-creatr-deploy-decisions-2026-09-04.md` — this stand's ingress,
@@ -19,27 +20,29 @@ TLS and DNS pattern reuses that project's, on the same Contabo host.
   (`apps/backend/src/migration-scripts/data/profiles/<id>/media/*.webp` — gitignored, so a bare
   `git clone` does not have it; check locally with `find apps/backend/src/migration-scripts/data/
   profiles/<id>/media -name '*.webp' | wc -l` before relying on it).
-- This repo's private remote already exists (`ivanprotsko/upready-store`) — code reaches the host by
-  `git pull`, not rsync, unlike the `agent-creatr` precedent, which had no private remote yet
-  (S1 §7.4's own comparison).
+- `rsync` and `ssh` to that host with the key `~/.ssh/id_ed25519_contabo` (`BatchMode=yes` works;
+  no password prompt, no `sshpass`). Code reaches the host by rsync from the worktree — see step 2
+  for why the first draft's `git pull` plan does not survive contact with a gitignored media tree
+  and an unpushed branch.
 
-## Step 0 · Confirm what this package assumed, before trusting it
+## Step 0 · Confirm the host, before trusting the labels
 
-This package could not SSH to verify these three things. Confirm them on the live host before
-`compose.stand.yml`'s traefik labels are trusted:
+All three were open questions in the first draft. Two are now answered by measurement and the
+answers are already in `compose.stand.yml`; re-check them only if the host's Coolify is upgraded:
 
-1. **Entrypoint and resolver names.** The labels use `entrypoints=websecure` and
-   `certresolver=letsencrypt`, matching how `agent-creatr` was labelled on this same `coolify-proxy`.
-   Confirm with `docker inspect coolify-proxy --format '{{json .Args}}'` or the proxy's own
-   `traefik.yml`/compose labels on the host — if the live names differ, edit
-   `deploy/compose.stand.yml`'s six `traefik.http.routers.*.entrypoints` /
-   `*.tls.certresolver` lines before the first `up`.
-2. **Coolify network name.** `compose.stand.yml` expects an external network literally named
-   `coolify` (`docker network ls | grep coolify`), matching the `agent-creatr` memory file.
-3. **Current headroom.** The `agent-creatr-deploy-plan.md:83` figure (4.9-5.8 GB free) is from
-   2026-09-04 and predates that project's own 5 containers going up — it is stale. Run
-   `free -h` and `docker stats --no-stream` on the host before deciding stand one's memory limits
-   are safe, not after.
+1. **Entrypoint and resolver names — ANSWERED, and the first draft was wrong.**
+   `docker inspect coolify-proxy --format '{{json .Args}}'` returns
+   `--entrypoints.http.address=:80` and `--entrypoints.https.address=:443`: this proxy's
+   entrypoints are named `http` and `https`, **not** traefik's stock `web`/`websecure` that
+   P-deploy had guessed. An unknown entrypoint name makes traefik drop the router silently — no
+   error in any log, the domain simply 404s — so this would have cost a long blind hunt.
+   `compose.stand.yml` carries the corrected names. The resolver IS named `letsencrypt`.
+2. **Coolify network name — ANSWERED.** `docker network ls` shows one network literally named
+   `coolify` (id e241a978), as the `agent-creatr` memory file said. No change needed.
+3. **Current headroom — MEASURED, and stand one's own numbers are now in this file.** With the
+   Kerbstone triple up, `free -m` reports 11 960 MB total and 7 121 MB available on a host that
+   also runs Coolify, agent-creatr, bpj-dev and verdaccio. The per-stand cost and the go/no-go for
+   four more are in "Stand one — measured 2026-09-10".
 
 ## Step 1 · DNS
 
@@ -58,30 +61,49 @@ at nothing.
 
 ## Step 2 · Code and media on the host
 
-```bash
-ssh root@$CONTABO_SERVER_IP
-mkdir -p /opt/stands && cd /opt/stands
-git clone https://github.com/ivanprotsko/upready-store.git   # first time only
-cd upready-store && git checkout main && git pull            # every deploy after
-```
+**The code reaches the host by `rsync` from the worktree, not by `git clone` + `git pull`.** The
+first draft assumed a clone; the real deploy pushes the working tree, because the branch being
+deployed (`feat/stands/deploy`) is not on any remote and because the product media the stand needs
+is gitignored — a clone would arrive without it. The host layout is
+`/opt/upready-store/<stand>` for code and `/opt/upready-store/media/<profile>` for media, NOT
+`/opt/stands`.
 
-From a machine that has the profile's generated media (not necessarily this one — see "What you
-need" above):
+From the worktree, on a machine that has the profile's generated media:
 
 ```bash
 export CONTABO_SERVER_IP=$(grep '^CONTABO_SERVER_IP=' ~/upready/.env.keys | cut -d= -f2)
+rsync -az --delete \
+  --exclude 'node_modules' --exclude '.next' --exclude '.git' --exclude '.ai' \
+  --exclude '.turbo' --exclude 'dist' --exclude '.medusa' \
+  -e "ssh -o BatchMode=yes -i $HOME/.ssh/id_ed25519_contabo" \
+  ./ root@$CONTABO_SERVER_IP:/opt/upready-store/kerbstone/
+ssh root@$CONTABO_SERVER_IP 'chmod 600 /opt/upready-store/kerbstone/deploy/stands/kerbstone.env'
 deploy/scripts/sync-media.sh sneakers
 ```
 
-Confirm on the host: `ls /opt/stands/media/sneakers | head`. An empty directory here means the
-backend's category tiles and hero render with broken image links — not a startup failure, so it is
-easy to miss without checking.
+`--delete` plus `--exclude .ai` matter together: without the exclude, rsync carries this worktree's
+orchestration scratch to the host; without `--delete`, a file removed from the branch lives on in
+the deployed tree forever. The `chmod` is not decoration — rsync recreates the env file with the
+umask's permissions, and the stand's every secret is in it.
+
+**After any rsync, confirm the env file is byte-identical on both sides** (`md5sum` on the host vs
+`md5 -q` locally). A stand whose two copies have drifted is the one failure mode that looks like
+nothing at all: the container reads the host copy, and you debug against the local one. This
+caught a real drift on stand one — the host still held a superseded `MEDUSA_ADMIN_PASSWORD`, so the
+admin user had been created with a password Ivan had already replaced.
+
+Confirm the media landed: `ls /opt/upready-store/media/sneakers | head` and
+`du -sh /opt/upready-store/media/sneakers` (2.7 MB for sneakers). An empty directory here means the
+hero and category tiles render as broken images — not a startup failure, so it is easy to miss.
 
 ## Step 3 · Stand env file and secrets
 
+Write it in the **worktree** (it is gitignored) and let step 2's rsync carry it to the host, so the
+two copies cannot drift:
+
 ```bash
-cd /opt/stands/upready-store
 cp deploy/stands/kerbstone.env.example deploy/stands/kerbstone.env
+chmod 600 deploy/stands/kerbstone.env
 ```
 
 Fill every blank the `.example` file leaves empty. Generate each secret separately
@@ -91,11 +113,28 @@ Fill every blank the `.example` file leaves empty. Generate each secret separate
 
 ## Step 4 · Backend up, migrated and seeded
 
+**Build detached, always.** A `docker compose build` run over an interactive ssh dies with the ssh
+session, and a backend build is minutes long — stand one lost one whole build that way. Start it
+with `setsid nohup` and a log file on the host, then read the log:
+
 ```bash
-node deploy/scripts/render-stand.mjs kerbstone up
-# prints the docker compose command; run it, e.g.:
+ssh -n root@$CONTABO_SERVER_IP 'cd /opt/upready-store/kerbstone && \
+  setsid nohup docker compose -p kerbstone -f deploy/compose.stand.yml \
+    --env-file deploy/stands/kerbstone.env build backend \
+    > /opt/upready-store/kerbstone-build-backend.log 2>&1 < /dev/null &'
+# then poll the LOG for its last line, not the process:
+ssh -n root@$CONTABO_SERVER_IP 'tail -5 /opt/upready-store/kerbstone-build-backend.log'
+```
+
+Watch the **log**, not `pgrep`. A `pgrep -f "docker compose.*build backend"` issued over ssh matches
+the `sh -c` that is running the pgrep itself, so it never reports zero and the wait runs to its
+deadline while the build has long since finished. Stand one burned nine minutes on exactly that.
+
+Then start the containers without rebuilding:
+
+```bash
 docker compose -p kerbstone -f deploy/compose.stand.yml --env-file deploy/stands/kerbstone.env \
-  up -d --build postgres backend
+  up -d --no-build postgres backend
 docker compose -p kerbstone logs -f backend    # watch migrate -> seed -> "Server is ready"
 ```
 
@@ -104,9 +143,25 @@ boot — the seed itself is the guard (AGENTS.md "the seed is all or nothing"), 
 already-seeded stand is a no-op there, not a re-seed. `STORE_PROFILE=sneakers` (from the env file)
 selects Kerbstone's catalog and theme.
 
-Confirm health: `curl -s http://localhost:9000/health` from the host is not exposed off-container;
-use `docker exec kerbstone-backend wget -qO- http://127.0.0.1:9000/health`, or once traefik picks
-up the router, `curl -s https://api-kerbstone.upready.dev/health`.
+Confirm health with the container's own healthcheck, which is the honest signal:
+
+```bash
+docker inspect kerbstone-backend --format '{{.State.Health.Status}}|{{.RestartCount}}'
+# healthy|0   <- what a good first boot looks like
+```
+
+**A non-zero `RestartCount` on a first boot is the whole story, and the log will not tell you.**
+Stand one crash-looped invisibly: `restart: unless-stopped` plus a container that exits right after
+the entrypoint finishes produces a log that runs migrations, runs the seed and creates the admin
+user — every line green — and then simply starts over ~40 s later. The one line that mattered was
+`docker-entrypoint.sh: exec: line 62: medusa: not found`, because `CMD ["medusa", "start"]` cannot
+resolve a binary that `npm install` put in `/app/node_modules/.bin` and no PATH mentions. The
+Dockerfile now sets that PATH and names the binary outright; if you ever see a boot loop here,
+`docker logs <c> | grep -E "not found|\[entrypoint\] starting"` finds it in one pass.
+
+Off-container the port is not published, by design: `docker exec kerbstone-backend wget -qO-
+http://127.0.0.1:9000/health`, or once traefik has the router,
+`curl -s https://api-kerbstone.upready.dev/health` -> `OK`.
 
 ## Step 5 · Read the publishable key the seed just minted
 
@@ -117,15 +172,27 @@ docker exec kerbstone-postgres psql -U medusa -d medusa_kerbstone -tAc \
 
 (the exact query `apps/backend/scripts/store-profile-up.mjs:223-226` runs locally; brand titles are
 `<Brand> Publishable API Key`, brand names come from each profile's `profile.json`: Kerbstone,
-Ferrite, Scruple, Larchant, Long Morning). Paste the result into
-`deploy/stands/kerbstone.env`'s `MEDUSA_PUBLISHABLE_KEY`.
+Ferrite, Scruple, Larchant, Long Morning). Stand one's key came back 67 characters long with a
+`pk_` prefix.
+
+Write it into **both** copies of the env file and prove they match, without ever printing the key:
+edit the host copy in place, `scp` it back to the worktree, then compare digests
+(`md5sum` on the host, `md5 -q` locally). A key that reached only one copy is the same silent drift
+step 2 warns about, and here it is worse — the storefront bakes this value in at image build time,
+so a stale copy is baked into an image rather than read at boot.
 
 ## Step 6 · Storefront image and up
 
+Rsync the corrected env file to the host first (step 2), then build detached exactly as in step 4
+and start without rebuilding:
+
 ```bash
-node deploy/scripts/render-stand.mjs kerbstone up
+ssh -n root@$CONTABO_SERVER_IP 'cd /opt/upready-store/kerbstone && \
+  setsid nohup docker compose -p kerbstone -f deploy/compose.stand.yml \
+    --env-file deploy/stands/kerbstone.env build storefront \
+    > /opt/upready-store/kerbstone-build-storefront.log 2>&1 < /dev/null &'
 docker compose -p kerbstone -f deploy/compose.stand.yml --env-file deploy/stands/kerbstone.env \
-  up -d --build storefront
+  up -d --no-build storefront
 ```
 
 The publishable key and every other `NEXT_PUBLIC_*` value are baked in at `docker build` time
@@ -134,10 +201,27 @@ rebuilding the storefront image, not restarting the container.
 
 ## Step 7 · Verify, then measure
 
+Verify from your own machine, not from the host — the host can reach a container that the world
+cannot. Every check below is the one stand one actually passed; the literal output is in the
+measured section:
+
 ```bash
-curl -sI https://kerbstone.upready.dev | head -1
-curl -sI https://api-kerbstone.upready.dev/health | head -1
+curl -sS -o /dev/null -w '%{http_code} %{redirect_url} tls=%{ssl_verify_result}\n' https://kerbstone.upready.dev/
+curl -sS -w '\n%{http_code}\n' https://api-kerbstone.upready.dev/health
+curl -sS -o /dev/null -w '%{http_code}\n' -X POST https://api-kerbstone.upready.dev/auth/user/emailpass \
+  -H 'Content-Type: application/json' -d '{"email":"admin@upready.dev","password":"<the password>"}'
+curl -sS -o /dev/null -w '%{http_code}\n' -X POST https://kerbstone.upready.dev/api/devtools/unlock \
+  -H 'Content-Type: application/json' -d '{"password":"<the panel password>"}'
 ```
+
+`tls=0` is curl's "certificate verified"; never reach for `-k` here, because a working router with a
+missing certificate is exactly the failure this check exists to catch. If a name will not resolve
+from your machine while `dig @1.1.1.1 <name>` answers, it is your resolver's negative cache from
+before the record existed, not a DNS fault — `--resolve <name>:443:<ip>` proves the stand while the
+cache expires.
+
+Unlock deserves both halves: a wrong password must answer **401** and the real one **200**. A route
+that says 200 to anything is not a lock.
 
 Then, the measurement S1 §8 and the plan note both call out as missing before touching stand two:
 
@@ -153,64 +237,206 @@ stand.
 
 ## Rollback
 
-- **Bad deploy on an already-working stand:** `git checkout <last-good-sha>` on the host, re-run
-  step 6 (rebuild + up) for the storefront, or step 4 for the backend. The database is untouched by
-  either — migrations are additive and the seed no-ops on a seeded store, so neither rebuild drops
-  data.
+- **Bad deploy on an already-working stand:** there is no `git checkout` on the host — the host tree
+  is an rsync target, not a clone. Roll the **worktree** back to the last good commit, rsync again
+  (step 2), then rebuild and restart the one service that changed (step 6 for the storefront,
+  step 4 for the backend). The database survives either: migrations are additive and the seed
+  no-ops on a seeded store.
+- **The previous image is still on the host** until it is pruned, so the fastest rollback of a bad
+  build is `docker image ls kerbstone-storefront` and `up -d --no-build` against the older tag —
+  faster than a rebuild, and it needs no rsync at all.
 - **Stand needs to come down entirely:**
   `docker compose -p kerbstone -f deploy/compose.stand.yml --env-file deploy/stands/kerbstone.env down`
-  leaves the `kerbstone-db-data` volume in place (no `-v`); traefik stops routing the domain the
+  leaves the `kerbstone_db-data` volume in place (no `-v`); traefik stops routing the domain the
   moment the containers stop, before any DNS change.
-- **Postgres volume needs to go too:** confirm with Ivan first (rule 9, unrecoverable data), then
-  add `-v` to the `down` above.
+- **Postgres volume needs to go too:** `-v` on the `down` above. On a stand that has served real
+  visitors this is unrecoverable — ask Ivan first (rule 9). The one time this run did it, the
+  volume was minutes old, had never served a visitor, and the reason is written down in the
+  measured section; that is the bar.
 
-## Local verification (this session, this worktree — no live host involved)
+## Stand one — measured 2026-09-10
 
-`docker compose config` ran to completion and is pasted in full below. Both `docker build`s were
-started, reached their compile stage with no error (backend: "Backend build completed successfully
-(35.23s)", then compiling the admin frontend; storefront: `next build` past type-check into
-"Creating an optimized production build") and were **still running when this package's report was
-written** — the base `node:22-alpine` pull and the workspace's 1887-package `pnpm install` alone
-took over 3 minutes each on this network, run twice for two independent images with no shared
-Docker layer cache. Before wave 3 treats these Dockerfiles as proven, re-run both to completion:
+Everything in this section is literal output from the live host and from a laptop on the public
+internet, not a summary. Host time is CEST (UTC+2); the WITA timestamps in the run log are UTC+8.
 
-```bash
-cd <worktree>
-docker build -f apps/backend/Dockerfile -t upready-backend:probe . 2>&1 | tail -40
-docker build -f apps/storefront/Dockerfile \
-  --build-arg NEXT_PUBLIC_STORE_PROFILE=sneakers \
-  --build-arg NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9023 \
-  --build-arg NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_probe_dummy_0000000000000000 \
-  --build-arg NEXT_PUBLIC_BASE_URL=http://localhost:8028 \
-  --build-arg STORE_MEDIA_BASE_URL=http://localhost:9023/static/store-profiles/sneakers \
-  -t upready-storefront:probe . 2>&1 | tail -40
-```
+### What was already standing when this run began
 
-### `docker compose config` — full output, this session
+The Kerbstone tree was on the host at `/opt/upready-store/kerbstone`, the media at
+`/opt/upready-store/media/sneakers` (2.7 MB), both DNS records live, and a `kerbstone-backend`
+image built. The backend looked deployed and was not: it was crash-looping.
+
+### The bug that made a broken stand look like a working one
 
 ```
-$ docker compose -p kerbstone -f deploy/compose.stand.yml --env-file deploy/stands/kerbstone.env.example config
-exit=0
-(pasted from /tmp/wave2-compose-config.log: confirms build context resolves to the repo root,
-STORE_MEDIA_BASE_URL, both Host() rules, and the db-data volume renamed
-"kerbstone_db-data" by the -p flag — see the file itself, saved alongside this session's report)
+$ docker inspect kerbstone-backend --format '{{.RestartCount}} {{.State.Status}} {{.State.ExitCode}}'
+2 running 0
+
+$ docker logs kerbstone-backend | grep -E '\[entrypoint\]|not found'
+[entrypoint] running database migrations
+[entrypoint] running the seed (no-op if this stand's store already exists)
+[entrypoint] seeding the default block composition (no-op if one is saved)
+[entrypoint] ensuring the admin user exists: admin@upready.dev
+[entrypoint] admin user created
+[entrypoint] starting: medusa start
+/usr/local/bin/docker-entrypoint.sh: exec: line 62: medusa: not found
+[entrypoint] running database migrations          <- the loop starts over
 ```
 
-### `docker build` progress at report time
+Every entrypoint step succeeded. The container then failed to `exec` its `CMD ["medusa", "start"]`,
+exited, and `restart: unless-stopped` ran the whole sequence again ~40 s later, forever. The image's
+`npm install --omit=dev` puts the CLI at `/app/node_modules/.bin/medusa`, which is on no default
+PATH; the entrypoint's own steps only worked because they spell that path out.
 
-Backend (`/tmp/wave2-docker-backend.log` on the machine that ran this package):
-```
-[info]:    Backend build completed successfully (35.23s)
-[info]:    Compiling frontend source...
-```
+Fix, in `apps/backend/Dockerfile`'s runtime stage — both halves, so neither reading surprises:
 
-Storefront (`/tmp/wave2-docker-storefront.log`):
-```
-▲ Next.js 15.5.21
-   Creating an optimized production build ...
+```dockerfile
+ENV PATH="/app/node_modules/.bin:${PATH}"
+CMD ["/app/node_modules/.bin/medusa", "start"]
 ```
 
-Neither log had produced an error, warning-as-failure, or a completion line yet at the time this
-runbook was written. `next tsc --noEmit` and `next lint` both ran to completion and passed clean
-(see the package report's `verify` block) — those two checks do not depend on the Docker builds
-finishing.
+Verified in the rebuilt image rather than in the build log:
+
+```
+$ docker image inspect kerbstone-backend:latest --format '{{json .Config.Cmd}} {{range .Config.Env}}{{println .}}{{end}}' | grep -E 'medusa|PATH'
+["/app/node_modules/.bin/medusa","start"]
+PATH=/app/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+
+### The database volume was dropped, deliberately
+
+`kerbstone_db-data` was this run's own scratch state, created 15:55 UTC the same hour, and its admin
+identity had been minted from a superseded `MEDUSA_ADMIN_PASSWORD` (the host's env copy predated
+Ivan's decision). Since the stand had never served a visitor, the volume was dropped rather than
+surgically edited, so that the first boot anyone can reproduce is a boot from the final env:
+
+```
+$ docker compose -p kerbstone ... down -v
+ Volume kerbstone_db-data Removing
+ Volume kerbstone_db-data Removed
+$ docker volume ls | grep -c kerbstone   -> 0
+$ docker volume ls -q | wc -l            -> 53   (every foreign volume untouched)
+```
+
+### First boot on the fixed image
+
+```
+$ docker inspect kerbstone-backend --format '{{.State.Health.Status}}|{{.RestartCount}}'
+healthy|0
+
+$ docker logs kerbstone-backend | grep -E '\[entrypoint\]|seed-storefront-settings|Server is ready'
+[entrypoint] seeding the default block composition (no-op if one is saved)
+seed-storefront-settings: seeded the "sneakers" default composition
+  (header=h5, hero=k, tiles=off, listing=p2, footer=f3, defaultMode=dark).
+[entrypoint] ensuring the admin user exists: admin@upready.dev
+[entrypoint] admin user created
+[entrypoint] starting: /app/node_modules/.bin/medusa start
+Server is ready on port: 9000
+```
+
+Migrate to healthy took about 3 minutes 20 seconds, of which the seed is the bulk.
+
+### The publishable key
+
+```
+$ docker exec kerbstone-postgres psql -U medusa -d medusa_kerbstone -tAc \
+    "SELECT title, type, left(token,7), length(token) FROM api_key ORDER BY created_at;"
+Kerbstone Publishable API Key|publishable|pk_090c|67
+```
+
+Written into the host env file and `scp`'d back to the worktree; both copies then hashed to
+`ccf663bd307b2bd38623fc8d60a0f4d9`.
+
+### Public verification, from a laptop, not from the host
+
+```
+GET  https://kerbstone.upready.dev/            -> 302  Location: https://kerbstone.upready.dev/en   tls_verify=0
+GET  https://kerbstone.upready.dev/en          -> 200  611 204 bytes
+GET  https://kerbstone.upready.dev/en/account  -> 200  536 306 bytes   <title>Sign in | Kerbstone</title>
+GET  http://kerbstone.upready.dev/             -> 302  https://kerbstone.upready.dev/
+GET  https://api-kerbstone.upready.dev/health  -> 200  OK
+GET  https://api-kerbstone.upready.dev/app     -> 200  (admin UI)
+GET  https://api-kerbstone.upready.dev/static/store-profiles/sneakers/flagstone-low-hero.webp
+                                               -> 200  image/webp  165 564 bytes
+
+certificate: issuer C=US, O=Let's Encrypt, CN=YR2
+             subject CN=kerbstone.upready.dev
+             notAfter Dec  8 15:25:52 2026 GMT
+
+POST https://api-kerbstone.upready.dev/auth/user/emailpass  {admin@upready.dev, <password>}
+                                               -> 200, body {"token": <432 chars>}
+
+POST https://kerbstone.upready.dev/api/devtools/unlock  {"password": "<wrong>"}   -> 401
+POST https://kerbstone.upready.dev/api/devtools/unlock  {"password": "<real>"}    -> 200 {"unlocked":true}
+     set-cookie: upready_devtools=<redacted>; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=lax
+GET  https://kerbstone.upready.dev/api/devtools/settings  (with that cookie)      -> 200
+     {"settings":{"header":"h5","hero":"k","tiles":"off","listing":"p2","footer":"f3",
+       "defaultMode":"dark","updatedAt":"2026-09-09T16:19:32.781Z"},"secretConfigured":true}
+```
+
+`"secretConfigured": true` is the proof that `STOREFRONT_SETTINGS_SECRET` reached **both** services
+with the same value — the panel cannot save a composition without it, and nothing else on the stand
+would have complained.
+
+The served HTML carries the brand (308 occurrences of "Kerbstone", `<title>Kerbstone</title>`) and
+points every product image at `https://api-kerbstone.upready.dev/static/store-profiles/sneakers/…`.
+
+### One defect this stand is serving right now
+
+The rendered page shows the literal string `Nav.modeToggleDark` where the visitor-facing
+light/dark toggle's label belongs, and the storefront log carries
+`Error: MISSING_MESSAGE: Nav.modeToggleDark (en)`. The key exists in no catalog yet — it belongs to
+the visitor mode toggle and is due from the Locale stage, which fills all 36 catalogs. Nothing else
+is missing: this is the only unresolved key on the page. It is cosmetic and visible.
+
+### Footprint, and the go/no-go for stands two to five
+
+```
+$ docker stats --no-stream kerbstone-postgres kerbstone-backend kerbstone-storefront
+NAME                   CPU %     MEM USAGE / LIMIT     MEM %
+kerbstone-postgres     0.38%     114MiB / 512MiB       22.27%
+kerbstone-backend      2.41%     331.1MiB / 2GiB       16.17%
+kerbstone-storefront   71.32%    98.02MiB / 512MiB     19.14%
+
+$ free -m
+               total        used        free      shared  buff/cache   available
+Mem:           11960        4838        3711         298        4023        7121
+Swap:           4095         484        3611
+
+$ df -h /      ->  193G total, 87G used, 107G available (45%)
+$ docker images | grep kerbstone
+kerbstone-storefront:latest   354MB
+kerbstone-backend:latest      1.59GB
+```
+
+**One stand at rest costs ~543 MiB of RSS** (114 + 331 + 98). The storefront's 71% CPU is warm-up
+from the verification requests, not a resting figure.
+
+**Verdict: GO for four more stands on this host, but boot them one at a time.**
+
+- Steady state is not the constraint: 4 × 543 MiB ≈ 2.2 GB against 7.1 GB available leaves room to
+  spare even beside Coolify, agent-creatr, bpj-dev and verdaccio.
+- **The boot is the constraint.** `docker-entrypoint.sh` loads the whole Medusa application four
+  times before `medusa start` ever runs (migrate, catalog seed, composition seed, `medusa user`),
+  and Node 22 sizes its heap from the host's 11.9 GB rather than from the cgroup limit — which is
+  why the backend's limit is 2 GB and not the 768 MB first guessed. Four backends seeding at once
+  would contend for that headroom with nothing to gain, since the seeds are independent. Bring up
+  one stand, wait for `healthy|0`, then start the next.
+- Disk is comfortable: the five backend images are byte-identical builds and share their layers;
+  only the storefront images diverge, because each bakes its own profile, URLs and publishable key
+  at build time. 107 GB free against that is not close.
+- The memory limits in `compose.stand.yml` should stay where they are. Postgres at 512 MB and the
+  storefront at 512 MB each sit near 20% utilisation, and the backend's 2 GB exists for the boot
+  peak, not for the 331 MiB it settles at.
+
+### Runbook corrections this run made
+
+1. Host layout is `/opt/upready-store/<stand>` reached by **rsync**, not `/opt/stands` reached by
+   `git clone` + `git pull` — the branch is unpushed and the media is gitignored.
+2. traefik entrypoints on this proxy are `http`/`https`, not `web`/`websecure`.
+3. Every host build runs detached (`setsid nohup` + a log file), and the wait watches the **log**,
+   never `pgrep` (which matches its own ssh command line and never returns zero).
+4. `docker compose up` takes `--no-build` once the image is built, so a start cannot silently
+   become a rebuild.
+5. Health is read from `.State.Health.Status` **and** `.RestartCount`; a green log with a non-zero
+   restart count is a crash loop wearing a disguise.
+6. The env file's two copies are compared by digest after every rsync.
