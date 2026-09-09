@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 33,
+  "action": "status-set",
+  "ts": "2026-09-09T23:40:44+08:00",
+  "status": "t-2026-09-09-02 in_progress. Contracts committed 42e5889 on feat/stands-composition (+merge dev bd013da); eight port worktrees at bd013da; ports stage wf_972f7227-e1a (task w9qhiogbz, 8 Sonnet workers) RUNNING; deploy of stand one (Kerbstone) wf_91c320ac-9b7 (task wo5xe3rsa, Opus) RUNNING in feat/stands/deploy at ec5c1bb — creds decided: admin@upready.dev / Upready-Demo-2026, panel upready-panel-2026, domains kerbstone.upready.dev + api-kerbstone.upready.dev. Local probe images built (backend 2.34 GB, storefront 485 MB). Next: commit port worktrees from reports, merge into wave branch, stage locale, stage integrate, rebuild + deploy all five."
+}
