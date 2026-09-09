@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslations } from "next-intl"
 
@@ -130,6 +130,11 @@ export function Popover({ onClose }: { onClose: () => void }) {
   const [openRow, setOpenRow] = useState<RowField | null>(null)
   const [saveState, setSaveState] = useState<SaveState>("idle")
   const [saveError, setSaveError] = useState<string | null>(null)
+  // True once the operator has picked anything. The settings fetch below resolves after
+  // mount and must not wipe picks made while it was in flight: measured 2026-09-10 on
+  // long-morning under load, a save carried only the last three picks because the GET
+  // answered between the third and the fourth click and reset the draft to the server doc.
+  const touchedRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -144,7 +149,7 @@ export function Popover({ onClose }: { onClose: () => void }) {
         if (body.settings) {
           const input = stripUpdatedAt(body.settings)
           setBaseline(input)
-          setDraft(input)
+          if (!touchedRef.current) setDraft(input)
           setSavedAt(body.settings.updatedAt)
         }
         // settings === null (nothing saved yet, or unreachable): keep the profile
@@ -174,11 +179,13 @@ export function Popover({ onClose }: { onClose: () => void }) {
 
   const pickDefaultMode = (next: Mode) => {
     if (isOptionForbidden("defaultMode", next)) return
+    touchedRef.current = true
     setDraft((prev) => ({ ...prev, defaultMode: next }))
     if (saveState !== "pending") setSaveState("idle")
   }
 
   const pickComposition = (field: RowField, value: string) => {
+    touchedRef.current = true
     setDraft((prev) => ({ ...prev, [field]: value }))
     if (saveState !== "pending") setSaveState("idle")
   }
