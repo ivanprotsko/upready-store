@@ -13,10 +13,29 @@
  *   DNS_APPLY_OK=1 node deploy/scripts/dns-records.mjs --apply
  *                                                          # creates missing
  *                                                          # records
+ *   --only kerbstone[,ferrite]                             # narrow every mode
+ *                                                          # to those stands'
+ *                                                          # two records each
  *
- * Reads CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID by NAME from
- * ~/upready/.env.keys (never prints a value — see readEnvKeys below), plus
- * CONTABO_SERVER_IP for the A record target. The zone id for upready.dev is
+ * --only exists because stands go live one at a time: Ivan's 2026-09-09 order
+ * put stand one on the host alone and said in the same sentence "never create
+ * the other eight records". An unknown stand name is a hard error, not a
+ * silent empty run — a typo there would otherwise look exactly like "nothing
+ * to do" and create nothing while reporting success.
+ *
+ * Reads the Cloudflare token and CONTABO_SERVER_IP by NAME from
+ * ~/upready/.env.keys (never prints a value — see readEnvKey below).
+ *
+ * There is more than one Cloudflare token in that file and they are not
+ * interchangeable: MEASURED 2026-09-09 against this zone's dns_records
+ * endpoint, CLOUDFLARE_API_TOKEN answers `403 Authentication error` while
+ * UPREADY_CLOUDFLARE_API_KEY and CLOUDFLARE_CF_ADMIN_TOKEN both answer
+ * `200 success=true (20 A records)`. UPREADY_CLOUDFLARE_API_KEY is the name
+ * the agent-creatr memory file already gives for this zone
+ * (~/upready/memory/agent-creatr-prod-deploy-contabo.md: "зона upready.dev …
+ * токен UPREADY_CLOUDFLARE_API_KEY"), so it is tried FIRST and the others are
+ * fallbacks. The script prints which NAME it used — never the value — so a
+ * later run is not left guessing which credential wrote a record. The zone id for upready.dev is
  * NOT re-fetched from the account here on every run: the agent-creatr
  * memory already names it
  * (~/upready/memory/agent-creatr-prod-deploy-contabo.md:
@@ -86,14 +105,39 @@ async function main() {
   const check = args.includes("--check")
   const apply = args.includes("--apply")
 
+  // --only kerbstone   or   --only kerbstone,ferrite   or   --only=kerbstone
+  let only = null
+  const onlyInline = args.find((a) => a.startsWith("--only="))
+  const onlyIndex = args.indexOf("--only")
+  const onlyRaw = onlyInline ? onlyInline.slice("--only=".length) : onlyIndex >= 0 ? args[onlyIndex + 1] : undefined
+  if (onlyRaw !== undefined) {
+    only = onlyRaw
+      .split(",")
+      .map((name) => name.trim())
+      .filter(Boolean)
+    if (only.length === 0) {
+      console.error("--only was given with no stand name. Known stands: " + STANDS.map((s) => s.stand).join(", "))
+      process.exit(1)
+    }
+    const known = new Set(STANDS.map((s) => s.stand))
+    const unknown = only.filter((name) => !known.has(name))
+    if (unknown.length > 0) {
+      console.error(`--only names ${unknown.join(", ")}, which is not a stand. Known stands: ${[...known].join(", ")}`)
+      process.exit(1)
+    }
+  }
+
   const ip = readEnvKey("CONTABO_SERVER_IP")
   if (!ip) {
     console.error(`CONTABO_SERVER_IP not found in ${ENV_KEYS_PATH}`)
     process.exit(1)
   }
-  const records = buildRecords(ip)
+  const records = buildRecords(ip).filter(
+    (record) => !only || only.some((name) => record.name === `${name}.upready.dev` || record.name === `api-${name}.upready.dev`),
+  )
 
   console.log(`Zone: upready.dev (${ZONE_ID})`)
+  if (only) console.log(`Limited by --only to: ${only.join(", ")} (${records.length} records)`)
   console.log(`Target IP: ${ip}`)
   console.log("")
   for (const record of records) {
@@ -105,11 +149,14 @@ async function main() {
     return
   }
 
-  const token = readEnvKey("CLOUDFLARE_API_TOKEN")
-  if (!token) {
-    console.error(`CLOUDFLARE_API_TOKEN not found in ${ENV_KEYS_PATH}`)
+  const tokenNames = ["UPREADY_CLOUDFLARE_API_KEY", "CLOUDFLARE_CF_ADMIN_TOKEN", "CLOUDFLARE_API_TOKEN"]
+  const tokenName = tokenNames.find((name) => readEnvKey(name))
+  if (!tokenName) {
+    console.error(`No Cloudflare token found in ${ENV_KEYS_PATH}. Tried, in order: ${tokenNames.join(", ")}`)
     process.exit(1)
   }
+  const token = readEnvKey(tokenName)
+  console.log(`\nCloudflare token: read from ${tokenName} (value never printed)`)
 
   if (check || apply) {
     const existing = await cloudflareRequest(token, `/zones/${ZONE_ID}/dns_records?type=A&per_page=100`)

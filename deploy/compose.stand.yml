@@ -16,13 +16,21 @@
 # coolify-db's alias on the shared `coolify` network, not this stand's own
 # database (same file, "Грабля, стоившая прода").
 #
-# TLS/entrypoint names: the labels below assume traefik v3's default
-# entrypoint names ("web" for :80, "websecure" for :443) and a certificate
-# resolver named "letsencrypt", matching how the agent-creatr stack was
-# labelled on this same coolify-proxy instance. Confirm both against the
-# live proxy before the first real deploy (`docker inspect coolify-proxy`
-# or its own compose/traefik.yml on the host) — this package prepares the
-# compose file, it does not SSH to verify it (see the runbook's step 0).
+# TLS/entrypoint names: MEASURED on the live coolify-proxy 2026-09-09, not
+# assumed. `docker inspect coolify-proxy --format '{{json .Args}}'` returns
+#   --entrypoints.http.address=:80
+#   --entrypoints.https.address=:443
+#   --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+#   --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+#   --providers.docker.exposedbydefault=false
+# so this proxy's entrypoints are named "http" and "https" — NOT traefik's
+# own defaults "web"/"websecure", which P-deploy had guessed and which would
+# have routed nothing (an unknown entrypoint name makes traefik drop the
+# router silently, no error anywhere). The resolver IS named "letsencrypt".
+# The label shape below is copied from a container already serving TLS on
+# this proxy: `docker inspect agentcreatr-viewer --format
+# '{{json .Config.Labels}}'` — an https router plus a bare-http router that
+# redirects, and traefik.docker.network=coolify on both.
 
 x-backend-healthcheck: &backend-healthcheck
   test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9000/health"]
@@ -86,6 +94,16 @@ services:
       COOKIE_SECRET: ${COOKIE_SECRET}
       INTEGRATION_ENCRYPTION_KEY: ${INTEGRATION_ENCRYPTION_KEY}
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
+      # Shared with the storefront service below: the storefront's devtools
+      # proxy (app/api/devtools/settings/route.ts:46) signs its PUT with this
+      # value and api/store/storefront-settings/route.ts:39 checks it. Absent
+      # from P-deploy's compose because C3 landed the routes afterwards; a
+      # stand without it cannot save a composition from the hidden panel.
+      STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
+      # Read by docker-entrypoint.sh, which creates the admin user once, after
+      # migrations and the seed. Never baked into the image.
+      MEDUSA_ADMIN_EMAIL: ${MEDUSA_ADMIN_EMAIL:-}
+      MEDUSA_ADMIN_PASSWORD: ${MEDUSA_ADMIN_PASSWORD:-}
       STORE_PROFILE: ${PROFILE}
       STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
       STORE_CORS: https://${DOMAIN}
@@ -120,10 +138,20 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
+      # Bare :80 router — it exists so a plain http:// visit redirects, and so
+      # letsencrypt's HTTP-01 challenge (which this proxy answers on the
+      # "http" entrypoint) has a live route for the host while the cert is
+      # being issued.
+      - traefik.http.middlewares.${STAND}-https.redirectscheme.scheme=https
+      - traefik.http.routers.${STAND}-backend-http.rule=Host(`${API_DOMAIN}`)
+      - traefik.http.routers.${STAND}-backend-http.entrypoints=http
+      - traefik.http.routers.${STAND}-backend-http.middlewares=${STAND}-https
+      - traefik.http.routers.${STAND}-backend-http.service=${STAND}-backend
       - traefik.http.routers.${STAND}-backend.rule=Host(`${API_DOMAIN}`)
-      - traefik.http.routers.${STAND}-backend.entrypoints=websecure
+      - traefik.http.routers.${STAND}-backend.entrypoints=https
       - traefik.http.routers.${STAND}-backend.tls=true
       - traefik.http.routers.${STAND}-backend.tls.certresolver=letsencrypt
+      - traefik.http.routers.${STAND}-backend.service=${STAND}-backend
       - traefik.http.services.${STAND}-backend.loadbalancer.server.port=9000
 
   storefront:
@@ -157,6 +185,9 @@ services:
       REGION_PIN: "true"
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
       STOREFRONT_DEVTOOLS_PASSWORD: ${STOREFRONT_DEVTOOLS_PASSWORD}
+      # Same value as the backend service's own STOREFRONT_SETTINGS_SECRET —
+      # the panel never sees it, the proxy route does.
+      STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
       GEOLOCATION_PROVIDER: ${GEOLOCATION_PROVIDER:-ip-api}
       GEOLOCATION_PROVIDER_API_KEY: ${GEOLOCATION_PROVIDER_API_KEY:-}
     networks:
@@ -171,10 +202,15 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
+      - traefik.http.routers.${STAND}-storefront-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${STAND}-storefront-http.entrypoints=http
+      - traefik.http.routers.${STAND}-storefront-http.middlewares=${STAND}-https
+      - traefik.http.routers.${STAND}-storefront-http.service=${STAND}-storefront
       - traefik.http.routers.${STAND}-storefront.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.${STAND}-storefront.entrypoints=websecure
+      - traefik.http.routers.${STAND}-storefront.entrypoints=https
       - traefik.http.routers.${STAND}-storefront.tls=true
       - traefik.http.routers.${STAND}-storefront.tls.certresolver=letsencrypt
+      - traefik.http.routers.${STAND}-storefront.service=${STAND}-storefront
       - traefik.http.services.${STAND}-storefront.loadbalancer.server.port=8000
 
 networks:
