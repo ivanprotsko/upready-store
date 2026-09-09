@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import { existsSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { tmpdir } from "node:os"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -208,10 +209,17 @@ describe("build-profile · environment", () => {
   })
 
   it("reads NEXT_PUBLIC_STORE_PROFILE out of .env.local without overriding a real env var", () => {
-    const fromFile = loadDotEnv({})
-    expect(fromFile.NEXT_PUBLIC_STORE_PROFILE).toBe("sneakers")
-    const fromEnv = loadDotEnv({ NEXT_PUBLIC_STORE_PROFILE: "explicit" })
-    expect(fromEnv.NEXT_PUBLIC_STORE_PROFILE).toBe("explicit")
+    const root = mkdtempSync(join(tmpdir(), "build-profile-env-"))
+    writeFileSync(join(root, ".env.local"), "NEXT_PUBLIC_STORE_PROFILE=sneakers\n")
+
+    try {
+      const fromFile = loadDotEnv({}, root)
+      expect(fromFile.NEXT_PUBLIC_STORE_PROFILE).toBe("sneakers")
+      const fromEnv = loadDotEnv({ NEXT_PUBLIC_STORE_PROFILE: "explicit" }, root)
+      expect(fromEnv.NEXT_PUBLIC_STORE_PROFILE).toBe("explicit")
+    } finally {
+      rmSync(root, { force: true, recursive: true })
+    }
   })
 })
 
