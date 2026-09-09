@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 24,
+  "action": "status-set",
+  "ts": "2026-09-09T22:07:08+08:00",
+  "status": "t-2026-09-09-02 → todo (Ivan: Coolify/Contabo, subdomains, 5 stands). Wave 1 wf_b56e1aff-096 still running in session 197520b3 (D1 landed 22:05, D2/D3 and the critic pending); monitor armed for artifacts/docs/2026-09-09-wave1-critique-and-plan.md. Wave 2 script prepared in .ai/wave2/wave2.js, launches on the critique."
+}

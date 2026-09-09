@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 26,
+  "action": "status-set",
+  "ts": "2026-09-09T22:09:48+08:00",
+  "status": "t-2026-09-09-02 todo (WIP занят → q-wip-freeze-for-stands). Ivan: Coolify/Contabo, subdomains, 5 stands. Wave 1 wf_b56e1aff-096 (session 197520b3): maps committed 337429b, D1 22:05, D2 22:12, D3 + critic pending; monitor bkiiweqot waits for artifacts/docs/2026-09-09-wave1-critique-and-plan.md. Wave 2 = .ai/wave2/wave2.js, stage contracts on feat/stands-composition from dev, launch on the critique. dev is 23 ahead of origin/dev, not pushed (q-github-switch-to-push-pr)."
+}
