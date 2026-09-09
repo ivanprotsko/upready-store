@@ -62,8 +62,6 @@ test.describe("panel-composition", () => {
       await page.getByTestId("devtools-button").click()
       await expect(page.getByTestId("devtools-popover")).toBeVisible()
 
-      await page.getByTestId(`devtools-default-mode-${targetMode}`).click()
-
       const rows: Array<[string, string]> = [
         ["header", target.header],
         ["hero", target.hero],
@@ -75,6 +73,10 @@ test.describe("panel-composition", () => {
         await page.getByTestId(`devtools-slot-${slug}`).click()
         await page.getByTestId(`devtools-slot-${slug}-option-${value}`).click()
       }
+      // The default mode goes LAST: the contract forbids footer f6 with a dark default, and a
+      // stand seeded with f6 (scruple, larchant) keeps the dark option disabled until the footer
+      // pick above has moved away from f6 — picking the mode first waits on a disabled button.
+      await page.getByTestId(`devtools-default-mode-${targetMode}`).click()
 
       await expect(page.getByTestId("devtools-composition-dirty")).toBeVisible()
       await page.getByTestId("devtools-composition-save").click()
