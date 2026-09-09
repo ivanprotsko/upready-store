@@ -7,7 +7,12 @@
  * expanded strip, just without the animated width change.
  */
 
+/* max-width/margin match .content-container (globals.css) — every other home section
+   (hero K, category tiles, product listing) caps at 1440px centered, and an uncapped
+   gallery would bleed edge-to-edge past that on a wide screen while its neighbours don't. */
 .gallery {
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 22px 32px 10px;
 }
 
