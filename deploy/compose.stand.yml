@@ -1,0 +1,194 @@
+# One stand = one Postgres + one Medusa backend + one Next.js storefront,
+# joined to Coolify's own traefik network instead of running a second
+# reverse proxy — this is the agent-creatr precedent
+# (~/upready/memory/agent-creatr-prod-deploy-contabo.md "Ingress — чужой
+# traefik, а не свой Caddy"), reused because it is already proven working on
+# this exact host (Contabo, root@${CONTABO_SERVER_IP}) for a comparable
+# Next.js + Postgres stack.
+#
+# Run with deploy/scripts/render-stand.mjs, or directly:
+#   docker compose -p kerbstone -f deploy/compose.stand.yml \
+#     --env-file deploy/stands/kerbstone.env up -d --build
+#
+# Every internal address below is a CONTAINER NAME
+# (${STAND}-postgres/-backend/-storefront), never the bare service name —
+# agent-creatr's own postmortem measured that a bare "postgres" resolves to
+# coolify-db's alias on the shared `coolify` network, not this stand's own
+# database (same file, "Грабля, стоившая прода").
+#
+# TLS/entrypoint names: the labels below assume traefik v3's default
+# entrypoint names ("web" for :80, "websecure" for :443) and a certificate
+# resolver named "letsencrypt", matching how the agent-creatr stack was
+# labelled on this same coolify-proxy instance. Confirm both against the
+# live proxy before the first real deploy (`docker inspect coolify-proxy`
+# or its own compose/traefik.yml on the host) — this package prepares the
+# compose file, it does not SSH to verify it (see the runbook's step 0).
+
+x-backend-healthcheck: &backend-healthcheck
+  test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9000/health"]
+  interval: 15s
+  timeout: 5s
+  retries: 10
+  start_period: 60s
+
+x-storefront-healthcheck: &storefront-healthcheck
+  test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/"]
+  interval: 15s
+  timeout: 5s
+  retries: 10
+  start_period: 30s
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${STAND}-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-medusa_${STAND}}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - coolify
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medusa -d ${DB_NAME:-medusa_${STAND}}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # 256-512 MB is a first guess, not a measurement (S1 §8 / the plan note
+    # names this gap explicitly: "no footprint exists"). Read off
+    # `docker stats ${STAND}-postgres` after stand one's first real seed and
+    # correct this before stand two, per the runbook's go/no-go step.
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  backend:
+    build:
+      context: ../.
+      dockerfile: apps/backend/Dockerfile
+    image: ${STAND}-backend:${IMAGE_TAG:-latest}
+    container_name: ${STAND}-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: "9000"
+      DATABASE_URL: postgres://medusa:${POSTGRES_PASSWORD}@${STAND}-postgres:5432/${DB_NAME:-medusa_${STAND}}
+      REDIS_URL: ${REDIS_URL:-}
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      INTEGRATION_ENCRYPTION_KEY: ${INTEGRATION_ENCRYPTION_KEY}
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET}
+      STORE_PROFILE: ${PROFILE}
+      STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
+      STORE_CORS: https://${DOMAIN}
+      ADMIN_CORS: https://${API_DOMAIN}
+      AUTH_CORS: https://${API_DOMAIN}
+      STOREFRONT_URL: https://${DOMAIN}
+      STORE_NAME: ${STORE_NAME}
+      STORE_EMAIL: ${STORE_EMAIL:-hello@example.com}
+      STORE_PHONE: ${STORE_PHONE:-}
+      STORE_ADDRESS: ${STORE_ADDRESS:-}
+      STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_REPLY_TO: ${SMTP_REPLY_TO:-}
+      MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY: medusa-storefront
+    volumes:
+      - ${MEDIA_HOST_PATH:-./media}/${PROFILE}:/app/static/store-profiles/${PROFILE}
+    networks:
+      - coolify
+    healthcheck: *backend-healthcheck
+    # First guess, not measured — see the postgres service's own note.
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+        reservations:
+          memory: 384M
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.${STAND}-backend.rule=Host(`${API_DOMAIN}`)
+      - traefik.http.routers.${STAND}-backend.entrypoints=websecure
+      - traefik.http.routers.${STAND}-backend.tls=true
+      - traefik.http.routers.${STAND}-backend.tls.certresolver=letsencrypt
+      - traefik.http.services.${STAND}-backend.loadbalancer.server.port=9000
+
+  storefront:
+    build:
+      context: ../.
+      dockerfile: apps/storefront/Dockerfile
+      args:
+        NEXT_PUBLIC_STORE_PROFILE: ${PROFILE}
+        NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${API_DOMAIN}
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${MEDUSA_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+        NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+        NEXT_PUBLIC_SITE_NAME: ${STORE_NAME}
+        STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
+    image: ${STAND}-storefront:${IMAGE_TAG:-latest}
+    container_name: ${STAND}-storefront
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOSTNAME: "0.0.0.0"
+      PORT: "8000"
+      NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${API_DOMAIN}
+      NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${MEDUSA_PUBLISHABLE_KEY}
+      NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+      NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+      NEXT_PUBLIC_SITE_NAME: ${STORE_NAME}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
+      REGION_PIN: "true"
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET}
+      STOREFRONT_DEVTOOLS_PASSWORD: ${STOREFRONT_DEVTOOLS_PASSWORD}
+      GEOLOCATION_PROVIDER: ${GEOLOCATION_PROVIDER:-ip-api}
+      GEOLOCATION_PROVIDER_API_KEY: ${GEOLOCATION_PROVIDER_API_KEY:-}
+    networks:
+      - coolify
+    healthcheck: *storefront-healthcheck
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.${STAND}-storefront.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${STAND}-storefront.entrypoints=websecure
+      - traefik.http.routers.${STAND}-storefront.tls=true
+      - traefik.http.routers.${STAND}-storefront.tls.certresolver=letsencrypt
+      - traefik.http.services.${STAND}-storefront.loadbalancer.server.port=8000
+
+networks:
+  coolify:
+    external: true
+
+# Compose does not interpolate ${VAR} inside a top-level mapping KEY
+# (measured: `docker compose config` rejects "${STAND}-db-data" with
+# "additional properties not allowed", the raw unexpanded string still in
+# the key position) — unlike container_name and every OTHER use of ${STAND}
+# in this file, all of which are scalar VALUES and do interpolate. No
+# per-stand name is needed here anyway: -p ${STAND} (render-stand.mjs's own
+# `docker compose -p ${STAND} ...`) already namespaces this volume as
+# `${STAND}_db-data` in `docker volume ls`, the same way it namespaces every
+# container below.
+volumes:
+  db-data:

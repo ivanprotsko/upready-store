@@ -118,6 +118,22 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.s3.amazonaws.com",
       },
+      // The five stands (t-2026-09-09-02) serve their own profile media
+      // from the backend's api-<stand>.upready.dev under
+      // /static/store-profiles/<id> (STORE_MEDIA_BASE_URL, read at build
+      // time by scripts/build-profile.mjs's mediaUrl() and rendered
+      // through next/image in modules/home/components/category-tiles).
+      // Without this pattern next/image throws "hostname is not
+      // configured" for every stand's hero and category-tile images once a
+      // real image URL reaches it — found by reading mediaUrl() and this
+      // remotePatterns list together, not yet exercised against a live
+      // profile image (this checkout's media/ directories hold no .webp
+      // files, gitignored, so the local smoke test's category-tiles render
+      // with none to fetch).
+      {
+        protocol: "https",
+        hostname: "api-*.upready.dev",
+      },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
             {
