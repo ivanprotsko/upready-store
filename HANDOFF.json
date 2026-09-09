@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-10T01:03:54+08:00",
-  "status": "SESSION SPLIT: upready-store-48 DONE with its part — P-creds a7bee09 (verified live), late port deltas d4ef538 (hero-listing) / f34495e (hero-gallery) / 666c8a4 (pickup SHEET, missing from the 00:20 merge). session_01Hgwwt3 MUST re-merge feat/stands/{hero-listing,hero-gallery,pickup} and feat/stands/deploy into feat/stands-composition before integrate is final and before the five-stand build. Stand one LIVE: https://kerbstone.upready.dev, admin@upready.dev / user@upready.dev with supersecret. upready-store-48 now only watches; if 01Hgwwt3 goes silent for 60 min, upready-store-48 resumes from 'merge → integrate → five stands'.",
+  "updated": "2026-09-10T01:06:44+08:00",
+  "status": "TAKEOVER 2026-09-10 01:06 WITA: session_01Hgwwt3 silent since 00:34 (its transcript c20c7a8b and both its workflows stopped mid-run) → upready-store-48 resumed the plan: merged hero-listing d4ef538, hero-gallery f34495e, pickup 666c8a4 (conflict in lib/util/fulfillment.ts resolved, both helpers kept, tsc 0) and feat/stands/deploy a7bee09 into feat/stands-composition = 6699d25; integrate (Opus) RUNNING wf_2a070817-d8a. Then: five-stand build + deploy by deploy/README.md, Playwright, upready.dev cards. Stand one LIVE with admin@upready.dev / user@upready.dev (supersecret).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

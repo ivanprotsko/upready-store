@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-10T01:06:44+08:00",
+  "status": "TAKEOVER 2026-09-10 01:06 WITA: session_01Hgwwt3 silent since 00:34 (its transcript c20c7a8b and both its workflows stopped mid-run) → upready-store-48 resumed the plan: merged hero-listing d4ef538, hero-gallery f34495e, pickup 666c8a4 (conflict in lib/util/fulfillment.ts resolved, both helpers kept, tsc 0) and feat/stands/deploy a7bee09 into feat/stands-composition = 6699d25; integrate (Opus) RUNNING wf_2a070817-d8a. Then: five-stand build + deploy by deploy/README.md, Playwright, upready.dev cards. Stand one LIVE with admin@upready.dev / user@upready.dev (supersecret)."
+}
