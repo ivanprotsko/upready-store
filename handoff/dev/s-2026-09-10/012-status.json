@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-10T01:16:27+08:00",
+  "status": "HANDOVER 2026-09-10 01:16 WITA: a NEW session owns everything after integrate. upready-store-48 only finishes wf_2a070817-d8a (integrate, Opus, feat/stands-composition) and commits its fixes, then stops. New session: wait for that commit (journal ~/.claude/projects/-Users-ivanprotsko-upready-projects-upready-store/8050561f-b591-4df3-9aea-9f7b7b62a638/subagents/workflows/wf_2a070817-d8a/journal.jsonl has a result line and the wave worktree is clean), then ff feat/stands/deploy, deploy stands 2-5 (DNS already answers → default cert until routers exist), fix the kerbstone hero image, Playwright, upready.dev cards (separate session in ~/upready/projects/upready-dev). Stand one LIVE, creds admin@upready.dev / user@upready.dev (supersecret), panel upready-panel-2026."
+}
