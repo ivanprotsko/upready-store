@@ -23,16 +23,21 @@
     "addresses": "Διευθύνσεις",
     "completed": "Ολοκληρώθηκε",
     "hello": "Γεια σας, {name}",
+    "latestOrder": "Latest order",
     "noRecentOrders": "Δεν υπάρχουν πρόσφατες παραγγελίες",
     "profile": "Προφίλ",
     "recentOrders": "Πρόσφατες παραγγελίες",
     "saved": "Αποθηκεύτηκε",
+    "shortcutEditProfile": "Edit profile",
+    "shortcutManageAddresses": "Manage addresses",
+    "shortcutViewOrders": "View orders",
     "signedInAs": "Συνδεδεμένος ως:"
   },
   "AddressCard": {
     "addAddress": "Προσθήκη διεύθυνσης",
     "default": "Προεπιλογή",
     "editAddress": "Επεξεργασία διεύθυνσης",
+    "emptyState": "You have not saved an address yet. Add one and it will be offered during checkout.",
     "newAddress": "Νέα διεύθυνση"
   },
   "AddressForm": {
@@ -151,6 +156,111 @@
     "remove": "Αφαίρεση",
     "showPassword": "Εμφάνιση κωδικού"
   },
+  "Composition": {
+    "footer": {
+      "f1": "Four columns",
+      "f2": "One row",
+      "f3": "Giant wordmark",
+      "f4": "Inverted, with newsletter",
+      "f5": "Terms as tiles",
+      "f6": "Inverted giant wordmark",
+      "none": "None"
+    },
+    "footerWhy": {
+      "f1": "Four columns: brand, categories, collections and info links.",
+      "f2": "One row: wordmark and every link inline, with a legal line below.",
+      "f3": "Link rows above a giant wordmark, sized to fit the width.",
+      "f4": "Inverted colours: a newsletter form beside categories and collections.",
+      "f5": "Three fact cards above the usual columns.",
+      "f6": "Link rows above an inverted, giant wordmark.",
+      "none": "No footer."
+    },
+    "header": {
+      "h1": "As it is today",
+      "h2": "Left, menu in a row",
+      "h3": "Two tiers",
+      "h4": "Accent",
+      "h5": "Slim + category strip",
+      "h6": "Centre + category strip"
+    },
+    "headerWhy": {
+      "h1": "Burger menu left, wordmark centre, search, region, account and cart on the right.",
+      "h2": "Wordmark left, up to four category links centred, utilities on the right.",
+      "h3": "A slim promo line above a main row with the wordmark, menu and search.",
+      "h4": "The header fills with the accent colour, wordmark left, menu centred.",
+      "h5": "A slim bar plus a scrollable row of category chips with product counts.",
+      "h6": "The same category chip row as Slim, but the bar keeps the wordmark centred."
+    },
+    "hero": {
+      "g": "Showcase",
+      "ga": "Carousel with neighbours",
+      "gb": "Stripes",
+      "h": "Shelf",
+      "j": "Three doors",
+      "k": "Announcement",
+      "l": "In motion",
+      "m": "No hero, text only",
+      "none": "None"
+    },
+    "heroWhy": {
+      "g": "A split hero: a product's photo beside its title, price and an add-to-bag button.",
+      "ga": "A carousel of category slides, the active one wider, with neighbours peeking in.",
+      "gb": "Vertical category stripes; the selected one expands to show its own copy.",
+      "h": "A three-product shelf beside a panel naming the collection and its starting price.",
+      "j": "Three large category tiles with item counts, in place of a hero image.",
+      "k": "A flat accent band with a headline, subheadline and one call to action.",
+      "l": "A full-bleed photo with a floating card for one product in the bottom-left corner.",
+      "m": "No image — a two-line tagline strip above the first collection's heading.",
+      "none": "No hero — the page opens straight into the next section."
+    },
+    "listing": {
+      "none": "None",
+      "p1": "Grid of 4",
+      "p2": "Dense 6",
+      "p3": "Spec list",
+      "p4": "Wall",
+      "p5": "Editorial"
+    },
+    "listingWhy": {
+      "none": "No listing — the page ends after the hero and tiles.",
+      "p1": "One collection, four columns, eight products, title and price shown.",
+      "p2": "All products, six columns, a dense grid of twelve, title and price only.",
+      "p3": "A row list with image, title, a spec line and price for each product.",
+      "p4": "A three-column masonry wall of nine products, image, title and price.",
+      "p5": "One large lead product beside four smaller ones, editorial layout."
+    },
+    "tiles": {
+      "off": "Off",
+      "on": "On"
+    },
+    "ui": {
+      "backendRejected": "The backend rejected this composition.",
+      "backendUnreachable": "Could not reach the backend. Try again.",
+      "defaultForVisitorsLabel": "Default for visitors",
+      "dirty": "Unsaved changes",
+      "invalidBody": "That composition could not be saved. Try again.",
+      "loadError": "Could not load the saved composition. Showing this stand's own default.",
+      "modeDarkButton": "Dark",
+      "modeDarkWord": "dark",
+      "modeLightButton": "Light",
+      "modeLightWord": "light",
+      "notSavedYet": "Not saved yet.",
+      "previewLabel": "Preview in this browser",
+      "rowFooter": "Footer",
+      "rowHeader": "Header",
+      "rowHero": "Hero",
+      "rowListing": "Listing",
+      "rowTiles": "Category tiles",
+      "saveIdle": "Save for all visitors",
+      "savePending": "Saving…",
+      "saveSaved": "Saved",
+      "savedAt": "Saved {time}.",
+      "secretNotConfigured": "Saving is off on this stand: an operator has not set STOREFRONT_SETTINGS_SECRET yet.",
+      "sectionLabel": "Composition",
+      "sourceLine": "Visitors see {parts}, {mode} by default.",
+      "today": "today"
+    }
+  },
   "ContentPages": {
     "faq": [
       {
@@ -167,6 +277,14 @@
       }
     ],
     "placeholder": "Η σελίδα συνοδεύει το starter ως δείγμα κειμένου. Αντικαταστήστε το με το δικό σας πριν τη δημοσίευση."
+  },
+  "DemoCard": {
+    "cvcLabel": "CVC",
+    "declined": "This card was declined. Card numbers ending in 0000 are declined on this demo store. Edit the number and try again.",
+    "expiryLabel": "Expiry",
+    "note": "Demo card — no real payment is taken. A number ending in 0000 is declined here. One ending in 9999 simulates a payment that fails after you submit it.",
+    "numberIncomplete": "Card number looks incomplete.",
+    "numberLabel": "Card number"
   },
   "DiscountCode": {
     "addPromotionCode": "Προσθήκη κωδικού προσφοράς",
@@ -265,6 +383,60 @@
     "subtitle": "Όλα όσα λείπουν από το επίσημο Medusa DTC starter.",
     "title": "Έτοιμο για παραγωγή Medusa DTC Starter",
     "viewOnGitHub": "Δείτε στο GitHub"
+  },
+  "Home": {
+    "gallery": {
+      "carouselLabel": "Category gallery",
+      "categoryCount": "{count, plural, one {{count} category} other {{count} categories}}",
+      "clickHint": "Click a strip",
+      "expandStrip": "Show {category}",
+      "goToSlide": "Go to {category}",
+      "next": "Next",
+      "previous": "Previous",
+      "productsCount": "{count, plural, one {{count} product} other {{count} products}}",
+      "shopCategory": "Shop {category}",
+      "slidePosition": "{current} of {total}"
+    }
+  },
+  "HomeHero": {
+    "g": {
+      "seeAll": "See all {collection}"
+    },
+    "h": {
+      "from": "From {price}",
+      "shop": "Shop {collection}"
+    },
+    "j": {
+      "allProducts": "All {count} products",
+      "items": "{count} items"
+    },
+    "m": {
+      "fallbackHeading": "In the shop"
+    }
+  },
+  "HomeHeroGallery": {
+    "count": "{count, plural, one {{count} product} other {{count} products}}",
+    "cta": "Shop {category}",
+    "ga": {
+      "ariaLabel": "Category gallery",
+      "goTo": "Go to {category}",
+      "next": "Next",
+      "position": "{current} of {total}",
+      "previous": "Previous"
+    }
+  },
+  "HomeListing": {
+    "p2": {
+      "heading": "All {count} products"
+    },
+    "p4": {
+      "heading": "In the shop"
+    },
+    "seeAll": "See all",
+    "spec": {
+      "colours": "{count, plural, one {# colourway} other {# colourways}}",
+      "variants": "{count, plural, one {# variant} other {# variants}}"
+    }
   },
   "ImageGallery": {
     "goToImage": "Μετάβαση στην εικόνα {index}",
@@ -410,7 +582,10 @@
   },
   "Nav": {
     "account": "Λογαριασμός",
-    "cart": "Καλάθι ({count})"
+    "allWithCount": "All {count}",
+    "cart": "Καλάθι ({count})",
+    "modeToggleDark": "Switch to dark mode",
+    "modeToggleLight": "Switch to light mode"
   },
   "NotFound": {
     "cartDescription": "Το καλάθι που προσπαθήσατε να επισκεφθείτε δεν υπάρχει. Καθαρίστε τα cookies σας και δοκιμάστε ξανά.",
@@ -426,6 +601,7 @@
   "OrderCard": {
     "itemsCount": "{count, plural, one {{count} προϊόν} other {{count} προϊόντα}}",
     "more": "ακόμα",
+    "pickupAt": "Pickup at {name}",
     "seeDetails": "Δείτε λεπτομέρειες"
   },
   "OrderCompleted": {
@@ -461,6 +637,13 @@
       "requires_action": "Απαιτείται ενέργεια"
     }
   },
+  "OrderFailed": {
+    "contact": "Contact us",
+    "heading": "This payment didn't go through",
+    "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
+    "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "retryCheckout": "Return to checkout"
+  },
   "OrderOverview": {
     "continueShopping": "Συνέχεια αγορών",
     "noOrdersYet": "Δεν έχετε ακόμα παραγγελίες",
@@ -474,6 +657,14 @@
     "subtotal": "Μερικό σύνολο",
     "taxes": "Φόροι",
     "total": "Σύνολο"
+  },
+  "OrderTimeline": {
+    "atPickupPoint": "At the pickup point",
+    "canceledOn": "This order was canceled on {date}.",
+    "canceledUnknownDate": "This order was canceled.",
+    "confirmed": "Confirmed",
+    "placed": "Placed",
+    "received": "Received"
   },
   "OrdersPage": {
     "description": "Δείτε τις προηγούμενες παραγγελίες σας και την κατάστασή τους.",
@@ -514,6 +705,16 @@
   "PaymentTest": {
     "attention": "Προσοχή:",
     "testingOnly": "Μόνο για δοκιμαστικούς σκοπούς."
+  },
+  "PickupPoint": {
+    "choose": "Choose",
+    "chooseHeading": "Choose a pickup point",
+    "heading": "Pickup point",
+    "idReminder": "Bring a photo ID and the order number above.",
+    "label": "Pickup point",
+    "matchCount": "{count, plural, one {# point matches} other {# points match}} \"{query}\"",
+    "noResults": "No pickup points match \"{query}\".",
+    "searchPlaceholder": "Search by street or district"
   },
   "ProductActions": {
     "addToCart": "Προσθήκη στο καλάθι",
