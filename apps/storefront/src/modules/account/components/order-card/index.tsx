@@ -1,15 +1,13 @@
-"use client"
-
+import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
-import { useMemo } from "react"
+import { getLocale, getTranslations } from "next-intl/server"
 
-import OrderStatusBadge from "@modules/order/components/order-status"
-import Thumbnail from "@modules/products/components/thumbnail"
 import { Link } from "@i18n/navigation"
 import { formatDate } from "@lib/util/date"
 import { convertToLocale } from "@lib/util/money"
-import type { HttpTypes } from "@medusajs/types"
-import { useLocale, useTranslations } from "next-intl"
+import { getOrderPickupPoint } from "@lib/util/fulfillment"
+import Thumbnail from "@modules/products/components/thumbnail"
+import { OrderStatusDot } from "@modules/account/components/status-dot"
 
 type OrderCardProps = {
   order: HttpTypes.StoreOrder
@@ -18,18 +16,40 @@ type OrderCardProps = {
 /** How many item thumbnails fit before the card starts counting the rest. */
 const PREVIEW_LIMIT = 4
 
-const OrderCard = ({ order }: OrderCardProps) => {
-  const t = useTranslations("OrderCard")
-  const tc = useTranslations("Common")
-  const locale = useLocale()
+/**
+ * Server component: the async `OrderStatusDot`/label lookups both need
+ * `next-intl/server`, unavailable from a client tree. Nothing this card
+ * renders needs `"use client"` — the line-count reduce and the shipping-line
+ * pick are synchronous, so a server component does the same work for free.
+ */
+const OrderCard = async ({ order }: OrderCardProps) => {
+  const t = await getTranslations("OrderCard")
+  const tc = await getTranslations("Common")
+  const locale = await getLocale()
 
-  const numberOfLines = useMemo(
-    () => order.items?.reduce((acc, item) => acc + item.quantity, 0) ?? 0,
-    [order]
-  )
+  const numberOfLines =
+    order.items?.reduce((acc, item) => acc + item.quantity, 0) ?? 0
 
   const preview = order.items?.slice(0, PREVIEW_LIMIT) ?? []
   const remaining = (order.items?.length ?? 0) - preview.length
+
+  // The mockup's NEW meta line (§3a): the pickup point's name once a real
+  // "pickup" fulfillment set exists (map §2, seeded by W14), or the chosen
+  // shipping method's real name/price otherwise — never an invented
+  // "Standard shipping" placeholder.
+  const pickupPoint = getOrderPickupPoint(order)
+  const shippingMethod = order.shipping_methods?.[0] as
+    | { name?: string; total?: number }
+    | undefined
+  const shippingLine = pickupPoint
+    ? t("pickupAt", { name: pickupPoint.name })
+    : shippingMethod?.name
+      ? `${shippingMethod.name} · ${convertToLocale({
+          amount: shippingMethod.total ?? 0,
+          currency_code: order.currency_code,
+          locale,
+        })}`
+      : null
 
   return (
     <div
@@ -44,15 +64,15 @@ const OrderCard = ({ order }: OrderCardProps) => {
         >
           {tc("orderNumber", { id: order.display_id ?? order.id })}
         </span>
-        <OrderStatusBadge kind="fulfillment" status={order.fulfillment_status} />
-        <OrderStatusBadge kind="payment" status={order.payment_status} />
+        <OrderStatusDot kind="fulfillment" status={order.fulfillment_status} />
+        <OrderStatusDot kind="payment" status={order.payment_status} />
       </div>
 
       <div className="flex items-center divide-x rtl:divide-x-reverse divide-ui-border-base txt-small text-ui-fg-subtle">
         <span className="pe-2" data-testid="order-created-at">
           {formatDate({ date: order.created_at, locale, dateStyle: "medium" })}
         </span>
-        <span className="px-2" data-testid="order-amount">
+        <span className="px-2 tabular-nums" data-testid="order-amount">
           {convertToLocale({
             amount: order.total,
             currency_code: order.currency_code,
@@ -61,6 +81,16 @@ const OrderCard = ({ order }: OrderCardProps) => {
         </span>
         <span className="ps-2">{t("itemsCount", { count: numberOfLines })}</span>
       </div>
+
+      {shippingLine && (
+        <span
+          className="txt-small text-ui-fg-subtle"
+          data-testid="order-shipping-line"
+          data-value={pickupPoint ? "pickup" : "courier"}
+        >
+          {shippingLine}
+        </span>
+      )}
 
       {/* The thumbnails used to be full-width cards in a four-column grid, so a
           two-item order filled most of the screen. They are a preview, not the
@@ -84,7 +114,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
               <span className="text-ui-fg-base" data-testid="item-title">
                 {item.title}
               </span>
-              <span className="ms-1" data-testid="item-quantity">
+              <span className="ms-1 tabular-nums" data-testid="item-quantity">
                 ×{item.quantity}
               </span>
             </span>

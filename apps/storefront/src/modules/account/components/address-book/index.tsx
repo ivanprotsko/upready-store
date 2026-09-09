@@ -1,4 +1,5 @@
 import type React from "react"
+import { getTranslations } from "next-intl/server"
 
 import AddAddress from "../address-card/add-address"
 import EditAddress from "../address-card/edit-address-modal"
@@ -9,8 +10,17 @@ type AddressBookProps = {
   region: HttpTypes.StoreRegion
 }
 
-const AddressBook: React.FC<AddressBookProps> = ({ customer, region }) => {
+/**
+ * The dashed "New address" tile used to be the whole empty state (D3 §5c) —
+ * a bare tile with no text reads the same on a first visit as "there might
+ * be more below." One sentence under the tile tells the two apart (mockup's
+ * fork resolution, "a bare dashed square with no text does not read as
+ * empty").
+ */
+const AddressBook = async ({ customer, region }: AddressBookProps) => {
   const { addresses } = customer
+  const t = await getTranslations("AddressCard")
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 mt-4">
@@ -21,6 +31,14 @@ const AddressBook: React.FC<AddressBookProps> = ({ customer, region }) => {
           )
         })}
       </div>
+      {addresses.length === 0 && (
+        <p
+          className="mt-4 txt-small text-ui-fg-subtle"
+          data-testid="addresses-empty-state"
+        >
+          {t("emptyState")}
+        </p>
+      )}
     </div>
   )
 }
