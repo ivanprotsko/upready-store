@@ -20,7 +20,22 @@ export const listCartShippingMethods = async (cartId: string) => {
         method: "GET",
         query: {
           cart_id: cartId,
-          fields: "+metadata",
+          // `+metadata` (delivery_days_min/max) plus the fields
+          // `isPickupShippingOption()` and `toPickupPoint()` read
+          // (`lib/util/fulfillment.ts`) — the core route's own default field
+          // set omits `service_zone` entirely (`checkout-account-map.md` §2,
+          // confirmed live in `.ai/probes.md` probe 2), so without this the
+          // pickup gate is always false and every pickup-only branch in this
+          // checkout never fires. Each pickup point is its own shipping
+          // option (`seedFulfillment()`'s own doc comment,
+          // `apps/backend/src/migration-scripts/lib/fulfillment.ts`), so its
+          // `location` here (singular — a fulfillment set links 1:1 to a
+          // stock location) is that ONE point's own name/address/hours; the
+          // checkout groups every option sharing `fulfillment_set.type ===
+          // "pickup"` into a single visual card and reads this data to fill
+          // the point sheet, no second fetch.
+          fields:
+            "+metadata,+service_zone.fulfillment_set.type,+service_zone.fulfillment_set.location.*,+service_zone.fulfillment_set.location.address.*",
         },
         headers,
         next,
