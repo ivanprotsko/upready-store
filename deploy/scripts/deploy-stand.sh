@@ -257,6 +257,18 @@ step_verify() {
   local pp; pp="$(curl -sS -m 30 "https://$API_DOMAIN/store/pickup-points" -H "x-publishable-api-key: $key" || echo '{}')"
   local cnt; cnt="$(printf '%s' "$pp" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log((j.pickup_points||[]).length)}catch(e){console.log("parse-error")}})')"
   check "GET /store/pickup-points count" "4" "$cnt"
+  # The pinned region must be the one that carries the real pickup fulfillment set: a cart
+  # created in DEFAULT_REGION's region must see ≥1 shipping option whose fulfillment set
+  # is of type "pickup" (measured 2026-09-10: the US region had only a generic one).
+  local rc; rc="$(envval DEFAULT_REGION)"; rc="${rc:-us}"
+  local rid; rid="$(curl -sS -m 30 "https://$API_DOMAIN/store/regions?limit=300&fields=id,countries.iso_2" -H "x-publishable-api-key: $key" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);const r=(j.regions||[]).find(r=>(r.countries||[]).some(c=>c.iso_2===process.argv[1]));console.log(r?r.id:"")}catch(e){console.log("")}})' "$rc")"
+  if [ -z "$rid" ]; then log "FAIL no region covers DEFAULT_REGION=$rc"; FAILS=$((FAILS+1))
+  else
+    local cid; cid="$(curl -sS -m 30 -X POST "https://$API_DOMAIN/store/carts" -H "x-publishable-api-key: $key" -H 'Content-Type: application/json' -d "{\"region_id\":\"$rid\"}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).cart.id)}catch(e){console.log("")}})')"
+    local pk; pk="$(curl -sS -m 30 "https://$API_DOMAIN/store/shipping-options?cart_id=$cid&fields=id,service_zone.fulfillment_set.type" -H "x-publishable-api-key: $key" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log((j.shipping_options||[]).filter(o=>o.service_zone?.fulfillment_set?.type==="pickup").length)}catch(e){console.log("parse-error")}})')"
+    local pkOk="no"; case "$pk" in [1-9]*) pkOk="yes" ;; esac
+    check "region $rc ($rid) has pickup-type shipping options [$pk]" "yes" "$pkOk"
+  fi
   rm -f "$html"
   if [ "$FAILS" = 0 ]; then log "VERIFY OK — every check passed"; else log "VERIFY FAILED — $FAILS check(s) red"; return 1; fi
 }
