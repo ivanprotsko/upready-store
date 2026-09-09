@@ -1,8 +1,16 @@
 import type { ComponentType } from "react"
 
 import type { HeroKey, ListingKey, TilesKey } from "@lib/theme/composition"
-import FeaturedProducts from "@modules/home/components/featured-products"
 import ProfileHero from "@modules/home/components/profile-hero"
+import HeroG from "@modules/home/variants/hero-g"
+import HeroH from "@modules/home/variants/hero-h"
+import HeroJ from "@modules/home/variants/hero-j"
+import HeroM from "@modules/home/variants/hero-m"
+import ListingP1 from "@modules/home/variants/listing-p1"
+import ListingP2 from "@modules/home/variants/listing-p2"
+import ListingP3 from "@modules/home/variants/listing-p3"
+import ListingP4 from "@modules/home/variants/listing-p4"
+import ListingP5 from "@modules/home/variants/listing-p5"
 
 /**
  * Home-slot composition registries — hero and listing (`(main)/page.tsx` only; header and
@@ -13,14 +21,14 @@ import ProfileHero from "@modules/home/components/profile-hero"
  * once per slot.
  *
  * Every entry is a zero-prop server component that fetches its own data (`ProfileHero`
- * reads `@lib/profile` at build time, `FeaturedProducts` calls its own region/product
- * loaders) — nothing here prop-drills beyond the single key that selected it.
+ * reads `@lib/profile` at build time, the hero-*, listing-* ports call their own region
+ * and product loaders in `lib/data/home.ts`) — nothing here prop-drills beyond the single
+ * key that selected it.
  *
- * Only K (`ProfileHero`, already three layouts) and the page's existing product listing
- * (`FeaturedProducts`, mapped to P1) are built. Every other hero/listing key maps to that
- * same baseline as a placeholder — W11 (hero G/H/M + listing P1-P5 data) and W12 (hero
- * GA/GB) replace exactly the entries they ship, leaving this shape and every
- * still-placeholder key untouched. Tiles has no per-key variant family (`TilesKey` is a
+ * K, L (still `ProfileHero`, W12/F9's package, not this one) and GA/GB (W12) stay on the
+ * `ProfileHero`/`FeaturedProducts` baseline as placeholders; G/H/J/M and P1-P5 are real
+ * ports now (`home/variants/hero-*.tsx`, `home/variants/listing-*.tsx`,
+ * `2026-09-09-block-port-map.md` §4/§6). Tiles has no per-key variant family (`TilesKey` is a
  * boolean switch, not an enum of components) — `CategoryTiles` itself is the only
  * implementation and already self-suppresses on an empty tile list
  * (`block-port-map.md` §5), so it needs only the `DEFAULT_TILES` constant below, no
@@ -37,12 +45,12 @@ type SlotComponent = ComponentType
  * returns `null` when the profile has no hero at all.
  */
 export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
-  g: ProfileHero,
-  h: ProfileHero,
-  j: ProfileHero,
+  g: HeroG,
+  h: HeroH,
+  j: HeroJ,
   k: ProfileHero,
   l: ProfileHero,
-  m: ProfileHero,
+  m: HeroM,
   ga: ProfileHero,
   gb: ProfileHero,
 }
@@ -63,17 +71,20 @@ export const DEFAULT_TILES: TilesKey = "on"
 
 /**
  * `ListingKey` minus `"none"`: block-port-map.md §6's `none` row assigns its guard to
- * "gate the `<FeaturedProducts/>` call in `page.tsx`", below. Every other key maps to
- * today's `FeaturedProducts` (the all-collections `ProductRail`) as the P1 placeholder —
- * it does not yet match the composer's real single-collection P1 shape
- * (block-port-map.md §6's own noted mismatch), which is W11's job, not this skeleton's.
+ * "gate the `<Listing/>` call in `page.tsx`", below. `p1` is now the real single-collection
+ * grid the composer's own comment calls the storefront's baseline
+ * (block-port-map.md §6, §10 fork resolution "(b) repurpose the P1 slot with a true
+ * single-collection grid") — the former placeholder, `FeaturedProducts`' all-collections
+ * `ProductRail` loop, is no longer reachable from this registry. `ProductRail` itself is
+ * untouched and still exists (`home/components/featured-products/`) in case something
+ * outside this switch still wants it; nothing here does.
  */
 export const LISTING_VARIANTS: Record<Exclude<ListingKey, "none">, SlotComponent> = {
-  p1: FeaturedProducts,
-  p2: FeaturedProducts,
-  p3: FeaturedProducts,
-  p4: FeaturedProducts,
-  p5: FeaturedProducts,
+  p1: ListingP1,
+  p2: ListingP2,
+  p3: ListingP3,
+  p4: ListingP4,
+  p5: ListingP5,
 }
 
 /**
