@@ -1,0 +1,5 @@
+# Real per-stand env files carry secrets (POSTGRES_PASSWORD, JWT_SECRET,
+# COOKIE_SECRET, INTEGRATION_ENCRYPTION_KEY, REVALIDATE_SECRET,
+# STOREFRONT_DEVTOOLS_PASSWORD) — only the *.env.example templates are
+# tracked.
+stands/*.env
