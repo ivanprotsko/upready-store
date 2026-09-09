@@ -90,7 +90,10 @@ umask's permissions, and the stand's every secret is in it.
 `md5 -q` locally). A stand whose two copies have drifted is the one failure mode that looks like
 nothing at all: the container reads the host copy, and you debug against the local one. This
 caught a real drift on stand one — the host still held a superseded `MEDUSA_ADMIN_PASSWORD`, so the
-admin user had been created with a password Ivan had already replaced.
+admin user had been created with a password Ivan had already replaced. That particular drift now
+heals itself on the next boot (see "The two demo logins"), but every other value in the file still
+behaves exactly as described here, and `MEDUSA_PUBLISHABLE_KEY` is baked into an image rather than
+read at boot — so keep comparing the digests.
 
 Confirm the media landed: `ls /opt/upready-store/media/sneakers | head` and
 `du -sh /opt/upready-store/media/sneakers` (2.7 MB for sneakers). An empty directory here means the
@@ -110,6 +113,11 @@ Fill every blank the `.example` file leaves empty. Generate each secret separate
 (`openssl rand -hex 32`) — `POSTGRES_PASSWORD`, `JWT_SECRET`, `COOKIE_SECRET`,
 `INTEGRATION_ENCRYPTION_KEY`, `REVALIDATE_SECRET`, `STOREFRONT_DEVTOOLS_PASSWORD`. Leave
 `MEDUSA_PUBLISHABLE_KEY` blank for now — step 5 fills it in, after the seed mints it.
+
+Four variables arrive already filled and are meant to stay that way: `MEDUSA_ADMIN_EMAIL`,
+`MEDUSA_ADMIN_PASSWORD`, `DEMO_CUSTOMER_EMAIL` and `DEMO_CUSTOMER_PASSWORD` — the two demo logins
+every stand shares, Ivan's decision of 2026-09-09. They are not secrets and are not generated per
+stand; see "The two demo logins" below for what the backend does with them on every boot.
 
 ## Step 4 · Backend up, migrated and seeded
 
@@ -234,6 +242,50 @@ host's free memory from step 0.3. If it does not fit, either trim `deploy/compos
 memory limits to match what was actually measured (they are a first guess, not a budget) and
 re-check, or deploy fewer stands concurrently and ask Ivan which one waits — do not silently drop a
 stand.
+
+## The two demo logins
+
+Every stand answers to the same two accounts, and **both are reconciled with the env file on every
+backend boot** — created when missing, password updated when it differs, left alone when it already
+matches:
+
+| account | variables | where it is used |
+|---|---|---|
+| Medusa Admin | `MEDUSA_ADMIN_EMAIL` / `MEDUSA_ADMIN_PASSWORD` | `https://api-<stand>.upready.dev/app` |
+| Storefront customer | `DEMO_CUSTOMER_EMAIL` / `DEMO_CUSTOMER_PASSWORD` | `https://<stand>.upready.dev/en/account` |
+
+`docker-entrypoint.sh` step 4 runs `medusa exec ./src/scripts/ensure-accounts.js` after the
+migrations and both seeds. Each account prints exactly one line, and those three words are the whole
+vocabulary:
+
+```
+ensure-accounts: admin admin@upready.dev — created.
+ensure-accounts: demo customer user@upready.dev — password updated.
+ensure-accounts: admin admin@upready.dev — unchanged.
+```
+
+`unchanged` is not a guess: the script proves it by authenticating with the env password through the
+same auth module `POST /auth/user/emailpass` uses, so a boot that says `unchanged` has just used the
+login you are about to type. No password is ever printed.
+
+**To change a password on a live stand:** edit the value in `deploy/stands/<stand>.env`, rsync
+(step 2), `docker compose … up -d backend` — no rebuild, because these are runtime environment
+variables, not build args. The next boot updates the auth identity in place; the account, its orders
+and its addresses survive.
+
+**Why this replaced `medusa user`.** That CLI has no "create if missing" mode
+(`node_modules/@medusajs/medusa/dist/commands/user.js:57-77` — it raises on the duplicate email and
+exits non-zero), so the entrypoint had to tolerate its failure on every boot after the first. The
+tolerance hid the case that actually bit stand one: a password *changed* in the env file never
+reached the database, and the stand kept answering to the one it had been created with, which is why
+that database volume had to be dropped. Its replacement is idempotent by design, so its failure is
+**not** tolerated — a stand whose accounts cannot be reconciled does not come up pretending they are
+fine. Leaving a pair blank skips that account and logs one line saying so.
+
+The demo customer is created exactly the way `POST /store/customers` creates one
+(`createCustomerAccountWorkflow`): `has_account` true, first name Demo, last name User, linked to its
+emailpass identity through `app_metadata.customer_id`. It is a normal registered customer — it can
+place orders, and its orders show up in `/en/account/orders`.
 
 ## Rollback
 
@@ -416,7 +468,7 @@ from the verification requests, not a resting figure.
 - Steady state is not the constraint: 4 × 543 MiB ≈ 2.2 GB against 7.1 GB available leaves room to
   spare even beside Coolify, agent-creatr, bpj-dev and verdaccio.
 - **The boot is the constraint.** `docker-entrypoint.sh` loads the whole Medusa application four
-  times before `medusa start` ever runs (migrate, catalog seed, composition seed, `medusa user`),
+  times before `medusa start` ever runs (migrate, catalog seed, composition seed, ensure-accounts),
   and Node 22 sizes its heap from the host's 11.9 GB rather than from the cgroup limit — which is
   why the backend's limit is 2 GB and not the 768 MB first guessed. Four backends seeding at once
   would contend for that headroom with nothing to gain, since the seeds are independent. Bring up
@@ -427,6 +479,81 @@ from the verification requests, not a resting figure.
 - The memory limits in `compose.stand.yml` should stay where they are. Postgres at 512 MB and the
   storefront at 512 MB each sit near 20% utilisation, and the backend's 2 GB exists for the boot
   peak, not for the 331 MiB it settles at.
+
+### Credentials converged 2026-09-10 (package P-creds)
+
+The entrypoint's `medusa user` step is gone; `medusa exec ./src/scripts/ensure-accounts.js` stands in
+its place, and stand one now carries both demo logins. Literal output, in order.
+
+Before the change, from a laptop:
+
+```
+POST https://api-kerbstone.upready.dev/auth/user/emailpass     {admin@upready.dev, supersecret}       -> 200
+POST https://api-kerbstone.upready.dev/auth/user/emailpass     {admin@upready.dev, Upready-Demo-2026} -> 401
+POST https://api-kerbstone.upready.dev/auth/customer/emailpass {user@upready.dev,  supersecret}       -> 401   <- no demo customer existed
+GET  https://kerbstone.upready.dev/en                                                                 -> 200
+```
+
+Backend image rebuilt on the host (`… build backend`, detached, log
+`/opt/upready-store/kerbstone-build-backend-creds.log`, last line `Image kerbstone-backend:latest
+Built`), then `up -d --no-build backend`. First boot on the new image:
+
+```
+[entrypoint] converging the admin and demo-customer accounts onto the env values
+ensure-accounts: admin admin@upready.dev — unchanged.
+ensure-accounts: demo customer user@upready.dev — created (cus_01M23H4D1XAPG2FMJCENVTYHQG).
+[entrypoint] starting: /app/node_modules/.bin/medusa start
+Server is ready on port: 9000
+docker inspect kerbstone-backend --format '{{.State.Health.Status}}|{{.RestartCount}}' -> healthy|0
+```
+
+The rows the script wrote, read straight out of Postgres:
+
+```
+$ docker exec kerbstone-postgres psql -U medusa -d medusa_kerbstone -tAF"|" \
+    -c "SELECT email, has_account, first_name, last_name FROM customer ORDER BY created_at;"
+user@upready.dev|t|Demo|User
+
+$ … -c "SELECT ai.app_metadata::text, pi.provider, pi.entity_id FROM auth_identity ai
+        JOIN provider_identity pi ON pi.auth_identity_id = ai.id ORDER BY ai.created_at;"
+{"user_id": "user_01M23FFHC76J9YRM45E8FF1MQX"}|emailpass|admin@upready.dev
+{"customer_id": "cus_01M23H4D1XAPG2FMJCENVTYHQG"}|emailpass|user@upready.dev
+```
+
+The **password-updated** branch was then exercised on the demo customer alone, with a throwaway
+value, and converged back in the same minute — this is how to prove the branch on any stand without
+leaving it wrong:
+
+```
+$ docker exec -e DEMO_CUSTOMER_PASSWORD=temp-probe-2026 kerbstone-backend \
+    /app/node_modules/.bin/medusa exec ./src/scripts/ensure-accounts.js
+ensure-accounts: demo customer user@upready.dev — password updated.
+POST /auth/customer/emailpass {user@upready.dev, temp-probe-2026} -> 200
+POST /auth/customer/emailpass {user@upready.dev, supersecret}     -> 401
+
+$ docker exec kerbstone-backend /app/node_modules/.bin/medusa exec ./src/scripts/ensure-accounts.js
+ensure-accounts: demo customer user@upready.dev — password updated.
+POST /auth/customer/emailpass {user@upready.dev, supersecret}     -> 200
+POST /auth/customer/emailpass {user@upready.dev, temp-probe-2026} -> 401
+```
+
+A second boot (`compose restart backend`) — the boot the old `medusa user` step always failed:
+
+```
+ensure-accounts: admin admin@upready.dev — unchanged.
+ensure-accounts: demo customer user@upready.dev — unchanged.
+docker inspect … '{{.State.Health.Status}}|{{.RestartCount}}' -> healthy|0
+```
+
+Final state, from a laptop, TLS verified, no `-k`:
+
+```
+POST /auth/user/emailpass     {admin@upready.dev, supersecret}       -> 200
+POST /auth/user/emailpass     {admin@upready.dev, Upready-Demo-2026} -> 401
+POST /auth/customer/emailpass {user@upready.dev,  supersecret}       -> 200
+GET  https://kerbstone.upready.dev/en      -> 200  tls_verify=0
+GET  https://api-kerbstone.upready.dev/app -> 200
+```
 
 ### Runbook corrections this run made
 
@@ -440,3 +567,7 @@ from the verification requests, not a resting figure.
 5. Health is read from `.State.Health.Status` **and** `.RestartCount`; a green log with a non-zero
    restart count is a crash loop wearing a disguise.
 6. The env file's two copies are compared by digest after every rsync.
+7. When waiting on a host build, do not anchor the grep: compose's own summary line is
+   `Image <name>:latest Built ` **with a trailing space** (`tail -1 … | cat -A` ends `Built $`), so
+   `grep -cE 'Built$'` returns 0 for a finished build and the wait runs to its deadline. Match
+   `Built *$`, or watch for the image id instead.

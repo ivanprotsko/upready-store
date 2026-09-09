@@ -100,10 +100,15 @@ services:
       # from P-deploy's compose because C3 landed the routes afterwards; a
       # stand without it cannot save a composition from the hidden panel.
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
-      # Read by docker-entrypoint.sh, which creates the admin user once, after
-      # migrations and the seed. Never baked into the image.
+      # Read by docker-entrypoint.sh, which runs src/scripts/ensure-accounts.ts
+      # after the migrations and the seeds: both accounts are created when
+      # missing and have their password brought to these values on EVERY boot,
+      # so changing one here and restarting the backend is the whole procedure.
+      # Never baked into the image — the backend reads them at runtime.
       MEDUSA_ADMIN_EMAIL: ${MEDUSA_ADMIN_EMAIL:-}
       MEDUSA_ADMIN_PASSWORD: ${MEDUSA_ADMIN_PASSWORD:-}
+      DEMO_CUSTOMER_EMAIL: ${DEMO_CUSTOMER_EMAIL:-}
+      DEMO_CUSTOMER_PASSWORD: ${DEMO_CUSTOMER_PASSWORD:-}
       STORE_PROFILE: ${PROFILE}
       STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
       STORE_CORS: https://${DOMAIN}

@@ -22,14 +22,22 @@
 #    saved document is never overwritten). It needs the Store row, so it runs
 #    AFTER step 2, never before. Compiled to .js by `medusa build` like every
 #    other file under src/, same reason as step 2.
-# 4. admin user — `medusa user -e … -p …` (README.md:158). The command has no
-#    "create if missing" mode: on a second boot the create-users workflow
-#    raises on the duplicate email and the CLI exits non-zero
-#    (node_modules/@medusajs/medusa/dist/commands/user.js:57-77 — the workflow
-#    run, then `process.exit(1)` when auth registration reports an error), so
-#    idempotency is this script's job: a non-zero exit here is logged and
-#    ignored, and only THIS step is allowed to fail that way. The log tail is
-#    filtered so the password can never reach the container log.
+# 4. demo accounts — src/scripts/ensure-accounts.ts converges BOTH logins onto
+#    the env values on every boot: the Medusa Admin user
+#    (MEDUSA_ADMIN_EMAIL/MEDUSA_ADMIN_PASSWORD) and the demo storefront customer
+#    (DEMO_CUSTOMER_EMAIL/DEMO_CUSTOMER_PASSWORD) — created when missing, password
+#    updated when it differs, left alone when it already matches, one plain log
+#    line each. It REPLACES the `medusa user -e … -p …` call this script ran until
+#    2026-09-10 (it stood right here, and its failure was tolerated with a comment
+#    explaining that the CLI has no "create if missing" mode:
+#    node_modules/@medusajs/medusa/dist/commands/user.js:57-77 raises on the
+#    duplicate email and exits non-zero on every boot after the first). Tolerating
+#    that exit also silently tolerated the case that actually bit stand one — a
+#    password CHANGED in the env file never reaching the database, so the stand
+#    kept answering to the password it had been created with. This step is
+#    therefore NOT allowed to fail: `set -e` is left in force for it. It prints no
+#    password, so no log filtering is needed. Compiled to .js by `medusa build`,
+#    like steps 2 and 3.
 # 5. exec the real command (CMD from the Dockerfile, normally `medusa start`)
 #    so it becomes PID 1 and receives signals directly — no shell left
 #    holding the process, matching Docker's own stop/restart expectations.
@@ -44,19 +52,8 @@ node_modules/.bin/medusa exec ./src/migration-scripts/initial-data-seed.js
 echo "[entrypoint] seeding the default block composition (no-op if one is saved)"
 node_modules/.bin/medusa exec ./src/scripts/seed-storefront-settings.js
 
-if [ -n "${MEDUSA_ADMIN_EMAIL:-}" ] && [ -n "${MEDUSA_ADMIN_PASSWORD:-}" ]; then
-  echo "[entrypoint] ensuring the admin user exists: ${MEDUSA_ADMIN_EMAIL}"
-  if node_modules/.bin/medusa user -e "$MEDUSA_ADMIN_EMAIL" -p "$MEDUSA_ADMIN_PASSWORD" \
-      > /tmp/medusa-user.log 2>&1; then
-    echo "[entrypoint] admin user created"
-  else
-    echo "[entrypoint] 'medusa user' exited non-zero — treated as 'already exists', boot continues."
-    echo "[entrypoint] last lines of its output (any line carrying the password is dropped):"
-    tail -n 5 /tmp/medusa-user.log | grep -Fv "$MEDUSA_ADMIN_PASSWORD" || true
-  fi
-else
-  echo "[entrypoint] MEDUSA_ADMIN_EMAIL/MEDUSA_ADMIN_PASSWORD unset — no admin user is created"
-fi
+echo "[entrypoint] converging the admin and demo-customer accounts onto the env values"
+node_modules/.bin/medusa exec ./src/scripts/ensure-accounts.js
 
 echo "[entrypoint] starting: $*"
 exec "$@"
