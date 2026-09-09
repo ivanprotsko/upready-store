@@ -227,6 +227,14 @@ step_verify() {
   else
     log "no hero image in the HTML (layout ${layout:-none}); checking the profile hero file and the baked profile instead"
   fi
+  # The image optimizer path: the first product image the HTML references, through
+  # /_next/image (needs the api-*.upready.dev remotePattern; a wrong host answers 500).
+  local penc; penc="$(grep -oE "url=https%3A%2F%2F$API_DOMAIN[^&\"]*\.webp" "$html" | head -1 | cut -d= -f2- || true)"
+  if [ -n "$penc" ]; then
+    check "GET product image via /_next/image ($(basename "$(urldecode "$penc")"))" "200" "$(curl -sS -m 60 -o /dev/null -w '%{http_code}' "https://$DOMAIN/_next/image?url=$penc&w=640&q=50" || echo 000)"
+  else
+    log "FAIL no product image on https://$API_DOMAIN referenced by the HTML"; FAILS=$((FAILS+1))
+  fi
   local pj="$REPO_ROOT/apps/backend/src/migration-scripts/data/profiles/$PROFILE/profile.json"
   local heroref; heroref="$(node -e 'const p=require(process.argv[1]);console.log((p.home?.hero?.image||"").replace(/^media\//,""))' "$pj")"
   [ -n "$heroref" ] && check "GET profile hero $heroref" "200" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' "https://$API_DOMAIN/static/store-profiles/$PROFILE/$heroref" || echo 000)"

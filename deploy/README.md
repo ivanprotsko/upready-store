@@ -571,3 +571,63 @@ GET  https://api-kerbstone.upready.dev/app -> 200
    `Image <name>:latest Built ` **with a trailing space** (`tail -1 … | cat -A` ends `Built $`), so
    `grep -cE 'Built$'` returns 0 for a finished build and the wait runs to its deadline. Match
    `Built *$`, or watch for the image id instead.
+
+## Stands two to five — measured 2026-09-10, and the script that ran them
+
+Everything above is the manual runbook. `deploy/scripts/deploy-stand.sh` runs it end to end from
+this machine for one stand and then performs the public verification; it is what deployed all
+five stands on 2026-09-10 (stand one rebuilt with a fresh database, stands two to five new):
+
+```bash
+deploy/scripts/deploy-stand.sh kerbstone --fresh-db          # pg_dump backup, down -v, boot from the final env
+deploy/scripts/deploy-stand.sh ferrite --backend-image-from kerbstone   # backend images are identical builds: tag, do not rebuild
+deploy/scripts/deploy-stand.sh scruple --verify-only         # only the public checks
+```
+
+Flags: `--fresh-db`, `--backend-image-from <stand>`, `--skip-backend-build`,
+`--skip-storefront-build`, `--verify-only`. Log: `.ai/deploy-logs/<stand>-<ts>.log` (gitignored).
+The script never prints a secret; keys are reported by prefix and length.
+
+What one stand costs with this script, measured on stands two to five (backend image tagged from
+kerbstone, storefront image built on the host): rsync 30 s, backend boot to `healthy|0` 2 min 20 s
+to 2 min 40 s (migrate + seed + composition + accounts), storefront build 2 min 30 s to 2 min 50 s,
+verification 25 s — **about 7 minutes per stand**, one after another as the go/no-go above orders.
+
+The public checks the script runs and every stand passed at 02:08–02:12 WITA (from a laptop, TLS
+verified, no `-k`): `/en` 200, `/health` 200, `POST /auth/user/emailpass admin@upready.dev` 200,
+`POST /auth/customer/emailpass user@upready.dev` 200, `/api/devtools/unlock` 401 on a wrong password
+and 200 on the panel password, the profile's hero file and every category tile file on
+`https://api-<stand>.upready.dev/static/store-profiles/<profile>/` 200, every tile the HTML
+references 200, one product image through `/_next/image` 200, the profile the storefront image
+BAKED contains `localhost` 0 times and the API domain ≥ 1 time, and `GET /store/pickup-points` with
+the stand's publishable key returns 4 points.
+
+Seeded compositions (from the entrypoint log, `seed-storefront-settings`): kerbstone h5·k·tiles
+off·p2·f3·dark; ferrite h3·k·tiles on·p3·f5·dark; scruple h6·k·tiles off·p3·f6·light; larchant
+h6·g·tiles off·p4·f6·light; long-morning h2·h·tiles on·p4·f4·light. Hero K is the announcement band
+and carries no image — the absence of `home-hero.webp` in that HTML is by design, which is why the
+script checks the profile's hero file and the baked profile instead.
+
+Footprint with all five stands up (02:10 WITA, `docker stats --no-stream`): backends 228–291 MiB,
+postgres 74–107 MiB, storefronts 88–182 MiB — **≈ 2.3 GB for five stands**; `free -m` available
+6 257 MB of 11 960; disk 48 % of 193 GB. Images: one shared backend image (1.59 GB, tagged five
+times) and five storefront images (≈ 354 MB each).
+
+### The hero defect stand one served, and its cause
+
+The first kerbstone build pointed the hero at `http://localhost:9023/static/store-profiles/sneakers/
+home-hero.webp` while product images used `https://api-kerbstone.upready.dev/...`. Cause:
+`apps/storefront/Dockerfile` ran a bare `npx next build`, which does not run the package.json
+`prebuild` hook (`scripts/build-profile.mjs`), so the checked-in `profile.generated.json` — generated
+locally against `localhost:9023` — was baked in. The Dockerfile now runs `build-profile.mjs`
+explicitly and copies `specs/design-system` into the context (the theme build reads it; the font
+pair differs per profile). Proof on every stand: `docker exec <stand>-storefront grep -c localhost
+apps/storefront/src/lib/profile/profile.generated.json` → 0.
+
+### Kerbstone's database was dropped a second time, with a backup
+
+Pickup points seed only on a fresh store (`seedFulfillment`, all-or-nothing seed), and stand one had
+been seeded before that package existed. Before `down -v` the script wrote
+`/opt/upready-store/backups/kerbstone-20260910-013029.sql.gz` (3.4 MB, `pg_dump`); the volume had
+held only seed data and the two demo accounts, both recreated on boot. Re-seeding minted a new
+publishable key, which the script wrote into both env copies and baked into the rebuilt storefront.
