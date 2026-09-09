@@ -4,19 +4,22 @@ import { placeOrder } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
+import type { DemoCardValue } from "@modules/checkout/components/demo-card-fields"
 import { unstable_rethrow } from "next/navigation"
 import { type ReactNode, useCallback, useState } from "react"
 
 /**
  * Props every button under `providers/` receives. They all take the same shape,
  * so the dispatcher in `index.tsx` hands one set of values to whichever button
- * the active payment provider selects.
+ * the active payment provider selects. `demoCard` is read by `providers/
+ * manual.tsx` alone — every other provider ignores it.
  */
 export type PaymentProviderButtonProps = {
   cart: HttpTypes.StoreCart
   notReady: boolean
   label: ReactNode
   cartUpdating: boolean
+  demoCard?: DemoCardValue
   "data-testid"?: string
 }
 

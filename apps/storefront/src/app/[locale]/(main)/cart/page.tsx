@@ -16,11 +16,18 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Cart() {
-  const cart = await retrieveCart().catch((error) => {
-    console.error(error)
-    return notFound()
-  })
+type CartPageProps = {
+  searchParams: Promise<{ error?: string }>
+}
 
-  return <CartTemplate cart={cart} />
+export default async function Cart({ searchParams }: CartPageProps) {
+  const [cart, { error }] = await Promise.all([
+    retrieveCart().catch((err) => {
+      console.error(err)
+      return notFound()
+    }),
+    searchParams,
+  ])
+
+  return <CartTemplate cart={cart} error={error} />
 }

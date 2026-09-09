@@ -5,6 +5,11 @@ import { convertToLocale } from "@lib/util/money"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
+import {
+  EMPTY_DEMO_CARD,
+  isDemoCardComplete,
+  type DemoCardValue,
+} from "@modules/checkout/components/demo-card-fields"
 import { useLocale, useTranslations } from "next-intl"
 import type React from "react"
 import ManualPaymentButton from "./providers/manual"
@@ -13,6 +18,7 @@ import StripePaymentButton from "./providers/stripe"
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
   selectedPaymentMethod?: string
+  demoCard?: DemoCardValue
   "data-testid": string
 }
 
@@ -24,6 +30,7 @@ type PaymentButtonProps = {
 const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   selectedPaymentMethod,
+  demoCard,
   "data-testid": dataTestId,
 }) => {
   const t = useTranslations("PaymentButton")
@@ -35,6 +42,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     cart.payment_collection?.payment_sessions?.[0]?.provider_id ??
     ""
 
+  const manualCardIncomplete = Boolean(
+    isManual(activePaymentMethod) &&
+      !isDemoCardComplete(demoCard ?? EMPTY_DEMO_CARD)
+  )
+
   const notReady =
     !cart ||
     !cart.shipping_address ||
@@ -42,12 +54,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     !cart.email ||
     (cart.shipping_methods?.length ?? 0) < 1 ||
     !activePaymentMethod ||
-    !isPaymentSessionReady(activePaymentMethod, cart)
+    !isPaymentSessionReady(activePaymentMethod, cart) ||
+    manualCardIncomplete
 
   const providerProps = {
     cart,
     notReady,
     cartUpdating: isCartUpdating,
+    demoCard,
     label: (
       <>
         {t("placeOrder")}
