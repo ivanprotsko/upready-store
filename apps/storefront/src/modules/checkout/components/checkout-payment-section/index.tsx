@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
 import {
   buildPaymentSessionData,
+  isManual,
   isPaymentSessionReady,
   isStripeLike,
   paymentInfoMap,
@@ -15,6 +16,10 @@ import type { HttpTypes } from "@medusajs/types"
 import PaymentButton from "@modules/checkout/components/payment-button"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { StripePaymentContainer } from "@modules/checkout/components/payment-container"
+import DemoCardFields, {
+  EMPTY_DEMO_CARD,
+  type DemoCardValue,
+} from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
 import { Link } from "@i18n/navigation"
 import { useTranslations } from "next-intl"
@@ -40,6 +45,7 @@ export default function CheckoutPaymentSection({
   const [, setPaymentComplete] = useState(false)
   const [billingOpen, setBillingOpen] = useState(false)
   const [showBillingDetails, setShowBillingDetails] = useState(false)
+  const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
 
   // Re-initiate payment session when it gets cleared (e.g. after promo code change)
   useEffect(() => {
@@ -186,6 +192,13 @@ export default function CheckoutPaymentSection({
               />
             </div>
           )}
+
+          {/* Demo card input — the manual provider, checkout mockup frames 6-8 */}
+          {isManual(selectedPaymentMethod) && (
+            <div className="mt-2">
+              <DemoCardFields value={demoCard} onChange={setDemoCard} />
+            </div>
+          )}
         </div>
       )}
 
@@ -245,6 +258,7 @@ export default function CheckoutPaymentSection({
         <PaymentButton
           cart={cart}
           selectedPaymentMethod={selectedPaymentMethod}
+          demoCard={demoCard}
           data-testid="submit-order-button"
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
