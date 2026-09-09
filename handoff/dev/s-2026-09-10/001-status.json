@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-10T00:21:54+08:00",
+  "status": "t-2026-09-09-02 (2026-09-10, session_01Hgwwt3B4MtFULY7veqcs26): all 8 ports committed and merged into feat/stands-composition (07e305e, tsc green); locale stage running wf_6a07e15d-2f7; stand-1 deploy running wf_749ab2db-487; next: integrate (Opus) → P-creds → five stands → Playwright → upready.dev cards"
+}

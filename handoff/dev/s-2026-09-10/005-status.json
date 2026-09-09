@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-10T00:39:37+08:00",
+  "status": "SESSION SPLIT 2026-09-10 00:45 — two orchestrators are on t-2026-09-09-02: session_01Hgwwt3B4MtFULY7veqcs26 (merged 8 ports 07e305e, locale 40e0ecb, integrate wf_cfe03a81-f92 + its own stand-1 deploy wf_749ab2db-487) and session_01PSbpWZpc4NDd6q4JTqPotK = upready-store-48 (contracts, deploy package, stand one LIVE at kerbstone.upready.dev via wf_91c320ac-9b7). PROTOCOL from now: 01Hgwwt3 OWNS integrate → five-stand deploy → Playwright → upready.dev cards. upready-store-48 OWNS ONLY (a) P-creds wf_282346e2-4af (ensure-accounts.ts, admin@upready.dev / user@upready.dev with supersecret on stand one) — do NOT run P-creds again, take its commit from feat/stands/deploy; (b) the late deltas of three port workers still running in wf_972f7227-e1a (hero-listing, hero-gallery, pickup) — they will be committed on feat/stands/hero-listing, feat/stands/hero-gallery, feat/stands/pickup; MERGE those branches into feat/stands-composition again before the final build. upready-store-48 will not merge, integrate or deploy stands two to five."
+}

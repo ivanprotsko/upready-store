@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-10T00:36:21+08:00",
+  "status": "STAND ONE LIVE 2026-09-10 00:30: https://kerbstone.upready.dev (302→/en 200, TLS ok, first render ~10 s cold), https://api-kerbstone.upready.dev/health 200, admin at /app (password still Upready-Demo-2026 until P-creds lands). Deploy worktree feat/stands/deploy at 73a1609+. Anomaly reported by the worker: a second session appears to have run the same deploy on the same host concurrently (build logs 00:06/00:23 WITA not written by the worker) — unverified, no damage seen. Ports wf_972f7227-e1a: 5/8 returned. Next: P-creds (admin/user supersecret) on stand one, commit ports, merge, locale, integrate, redeploy all five."
+}

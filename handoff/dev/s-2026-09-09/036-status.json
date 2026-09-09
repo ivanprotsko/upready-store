@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 36,
+  "action": "status-set",
+  "ts": "2026-09-09T23:58:33+08:00",
+  "status": "t-2026-09-09-02 wave 2 resumed 2026-09-10 (session_01Hgwwt3B4MtFULY7veqcs26, ultracode, Ivan asleep): P-footer committed 48f842c, deploy fixes 117aa64; 7 ports re-running wf_1aa3dd6d-498, stand-1 deploy re-running wf_749ab2db-487 (Opus); next: commit ports → merge into feat/stands-composition → locale → integrate → P-creds → five stands → Playwright → upready.dev cards"
+}

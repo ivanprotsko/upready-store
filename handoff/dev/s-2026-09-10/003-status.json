@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-10T00:29:42+08:00",
+  "status": "t-2026-09-09-02 (2026-09-10): locale committed 40e0ecb on feat/stands-composition (parity 36/36, 442 keys); integrate (Opus) running wf_cfe03a81-f92; stand-1 deploy running wf_749ab2db-487; next: commit integrate fixes → merge composition into feat/stands/deploy → P-creds → five stands → Playwright → upready.dev cards"
+}
