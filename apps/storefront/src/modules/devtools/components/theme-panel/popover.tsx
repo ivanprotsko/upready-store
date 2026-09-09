@@ -127,6 +127,10 @@ export function Popover({ onClose }: { onClose: () => void }) {
   const [savedAt, setSavedAt] = useState<string | null>(null)
   const [secretConfigured, setSecretConfigured] = useState(false)
   const [loadError, setLoadError] = useState(false)
+  // False until the mount-time GET has answered (either way). Until then the save bar
+  // shows a disabled Save button, not the "secret not configured" paragraph: measured
+  // 2026-09-10, a click that landed before the answer hit that paragraph and was lost.
+  const [loaded, setLoaded] = useState(false)
   const [openRow, setOpenRow] = useState<RowField | null>(null)
   const [saveState, setSaveState] = useState<SaveState>("idle")
   const [saveError, setSaveError] = useState<string | null>(null)
@@ -156,6 +160,8 @@ export function Popover({ onClose }: { onClose: () => void }) {
         // fallback both states already initialized to — D1 §C1's "Absent" row.
       } catch {
         if (!cancelled) setLoadError(true)
+      } finally {
+        if (!cancelled) setLoaded(true)
       }
     }
     load()
@@ -358,6 +364,7 @@ export function Popover({ onClose }: { onClose: () => void }) {
         dirty={dirty}
         savedAt={savedAt}
         secretConfigured={secretConfigured}
+        loaded={loaded}
         loadError={loadError}
         saveState={saveState}
         errorMessage={saveState === "failed" ? saveError : null}
