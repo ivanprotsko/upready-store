@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Ferrite Downtown",
+    "address": {
+      "address_1": "Congress Avenue 600",
+      "city": "Austin",
+      "postal_code": "78701",
+      "country_code": "us"
+    },
+    "opening_hours": "Mon–Fri 09:00–19:00"
+  },
+  {
+    "name": "Ferrite East Austin",
+    "address": {
+      "address_1": "E 6th Street 1201",
+      "city": "Austin",
+      "postal_code": "78702",
+      "country_code": "us"
+    },
+    "opening_hours": "Mon–Sat 10:00–20:00"
+  },
+  {
+    "name": "Ferrite South Congress",
+    "address": {
+      "address_1": "S Congress Avenue 1500",
+      "city": "Austin",
+      "postal_code": "78704",
+      "country_code": "us"
+    },
+    "opening_hours": "Mon–Sun 10:00–21:00"
+  },
+  {
+    "name": "Ferrite The Domain",
+    "address": {
+      "address_1": "Domain Drive 11410",
+      "city": "Austin",
+      "postal_code": "78758",
+      "country_code": "us"
+    },
+    "opening_hours": "Mon–Sat 10:00–20:00"
+  }
+]

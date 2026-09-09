@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Scruple Nørrebro",
+    "address": {
+      "address_1": "Nørrebrogade 155",
+      "city": "Copenhagen",
+      "postal_code": "2200",
+      "country_code": "dk"
+    },
+    "opening_hours": "Mon–Sat 09:00–19:00"
+  },
+  {
+    "name": "Scruple Vesterbro",
+    "address": {
+      "address_1": "Istedgade 90",
+      "city": "Copenhagen",
+      "postal_code": "1650",
+      "country_code": "dk"
+    },
+    "opening_hours": "Mon–Sun 10:00–20:00"
+  },
+  {
+    "name": "Scruple Østerbro",
+    "address": {
+      "address_1": "Østerbrogade 62",
+      "city": "Copenhagen",
+      "postal_code": "2100",
+      "country_code": "dk"
+    },
+    "opening_hours": "Mon–Fri 09:00–18:00"
+  },
+  {
+    "name": "Scruple Amager",
+    "address": {
+      "address_1": "Amagerbrogade 74",
+      "city": "Copenhagen",
+      "postal_code": "2300",
+      "country_code": "dk"
+    },
+    "opening_hours": "Tue–Sat 10:00–19:00"
+  }
+]

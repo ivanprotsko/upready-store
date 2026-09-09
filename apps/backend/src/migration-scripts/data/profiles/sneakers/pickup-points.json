@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Kerbstone Mitte",
+    "address": {
+      "address_1": "Torstraße 12",
+      "city": "Berlin",
+      "postal_code": "10119",
+      "country_code": "de"
+    },
+    "opening_hours": "Mon–Sat 10:00–20:00"
+  },
+  {
+    "name": "Kerbstone Kreuzberg",
+    "address": {
+      "address_1": "Oranienstraße 33",
+      "city": "Berlin",
+      "postal_code": "10999",
+      "country_code": "de"
+    },
+    "opening_hours": "Mon–Sun 11:00–21:00"
+  },
+  {
+    "name": "Kerbstone Friedrichshain",
+    "address": {
+      "address_1": "Warschauer Str. 70",
+      "city": "Berlin",
+      "postal_code": "10243",
+      "country_code": "de"
+    },
+    "opening_hours": "Mon–Sat 10:00–19:00"
+  },
+  {
+    "name": "Kerbstone Neukölln",
+    "address": {
+      "address_1": "Sonnenallee 101",
+      "city": "Berlin",
+      "postal_code": "12045",
+      "country_code": "de"
+    },
+    "opening_hours": "Tue–Sun 10:00–20:00"
+  }
+]

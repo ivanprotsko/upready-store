@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Larchant Le Marais",
+    "address": {
+      "address_1": "Rue des Rosiers 14",
+      "city": "Paris",
+      "postal_code": "75004",
+      "country_code": "fr"
+    },
+    "opening_hours": "Mon–Sat 10:00–19:30"
+  },
+  {
+    "name": "Larchant Saint-Germain",
+    "address": {
+      "address_1": "Rue de Rennes 45",
+      "city": "Paris",
+      "postal_code": "75006",
+      "country_code": "fr"
+    },
+    "opening_hours": "Mon–Sat 10:00–19:00"
+  },
+  {
+    "name": "Larchant Montmartre",
+    "address": {
+      "address_1": "Rue des Abbesses 22",
+      "city": "Paris",
+      "postal_code": "75018",
+      "country_code": "fr"
+    },
+    "opening_hours": "Tue–Sun 11:00–19:00"
+  },
+  {
+    "name": "Larchant Batignolles",
+    "address": {
+      "address_1": "Rue des Batignolles 33",
+      "city": "Paris",
+      "postal_code": "75017",
+      "country_code": "fr"
+    },
+    "opening_hours": "Mon–Sat 10:00–18:30"
+  }
+]
