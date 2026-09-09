@@ -1,0 +1,111 @@
+{
+  "schema": "upready.storefront-composition/v1",
+  "description": "Server-side, site-visible configuration of the home page's block versions plus the default light/dark mode. One document applies to ALL visitors of a stand (rule: order t-2026-09-09-02, point 1). Field keys and allowed values are the composer's own corridor (artifacts/docs/composer/lib/blocks.js, hero.js, page.js SLOTS).",
+  "citations": {
+    "fieldEnum": "artifacts/docs/composer/lib/page.js:15-29 (SLOTS)",
+    "profileDefaults": "artifacts/docs/composer/versions.json (versions tagged \"Основная\" in their note field)",
+    "validity": "artifacts/docs/composer/lib/blocks.js:129-134,176-181 (family filters) and artifacts/docs/2026-09-09-theme-compositions.md:60-63 (F6 dark-mode boundary)"
+  },
+  "fields": {
+    "defaultMode": {
+      "type": "enum",
+      "values": ["light", "dark"],
+      "sourceOfLabels": "artifacts/docs/composer/lib/page.js:31 (MODES)",
+      "note": "Today baked at build time from theme.defaultMode in apps/backend/.../profile.json and overridden per-browser by localStorage (apps/storefront/src/lib/theme/apply.ts:15-25, attributes.ts:38-41). This field is the operator-set SERVER default that a visitor who has never switched sees; it does not touch the per-browser override, which still wins once a visitor has picked a mode themselves."
+    },
+    "header": {
+      "type": "enum",
+      "scope": "site-wide (apps/storefront/src/app/[locale]/(main)/layout.tsx:26 renders Nav for every route in the group, not just home)",
+      "values": [
+        { "key": "h1", "label": "H1 · Как сейчас", "implemented": "apps/storefront/src/modules/layout/templates/nav/index.tsx" },
+        { "key": "h2", "label": "H2 · Слева, меню в строку" },
+        { "key": "h3", "label": "H3 · Два яруса" },
+        { "key": "h4", "label": "H4 · Акцентная" },
+        { "key": "h5", "label": "H5 · Тонкая + полоса категорий" },
+        { "key": "h6", "label": "H6 · Центр + полоса категорий", "note": "not a lab cut; authored directly in composer 2026-09-09, blocks.js:153-158" }
+      ]
+    },
+    "hero": {
+      "type": "enum",
+      "scope": "home page only",
+      "values": [
+        { "key": "none", "label": "— нет" },
+        { "key": "g", "label": "G · Витрина" },
+        { "key": "h", "label": "H · Полка" },
+        { "key": "j", "label": "J · Три двери", "note": "rejected in every theme, artifacts/docs/2026-09-09-theme-compositions.md:165-166" },
+        { "key": "k", "label": "K · Объявление", "implemented": "apps/storefront/src/modules/home/components/profile-hero/index.tsx:138-165 (AnnouncementHero)" },
+        { "key": "l", "label": "L · В движении" },
+        { "key": "m", "label": "M · Без hero" },
+        { "key": "ga", "label": "GA · Карусель с соседями" },
+        { "key": "gb", "label": "GB · Полосы" }
+      ]
+    },
+    "tiles": {
+      "type": "enum",
+      "scope": "home page only",
+      "values": [
+        { "key": "on", "label": "есть", "implemented": "apps/storefront/src/modules/home/components/category-tiles/index.tsx" },
+        { "key": "off", "label": "нет" }
+      ]
+    },
+    "listing": {
+      "type": "enum",
+      "scope": "home page only",
+      "values": [
+        { "key": "none", "label": "— нет" },
+        { "key": "p1", "label": "P1 · Сетка 4", "note": "storefront's current ProductRail is NOT this shape: it stacks one rail per collection (up to 4 items each), not one 8-item grid of the lead collection. See port map §Listing, P1 row." },
+        { "key": "p2", "label": "P2 · Плотная 6" },
+        { "key": "p3", "label": "P3 · Список" },
+        { "key": "p4", "label": "P4 · Стена" },
+        { "key": "p5", "label": "P5 · Редакционная" }
+      ]
+    },
+    "footer": {
+      "type": "enum",
+      "scope": "site-wide (apps/storefront/src/app/[locale]/(main)/layout.tsx:29 renders Footer for every route in the group)",
+      "values": [
+        { "key": "none", "label": "— нет" },
+        { "key": "f1", "label": "F1 · Четыре колонки", "implemented": "apps/storefront/src/modules/layout/templates/footer/index.tsx" },
+        { "key": "f2", "label": "F2 · Одна строка" },
+        { "key": "f3", "label": "F3 · Гигантский wordmark" },
+        { "key": "f4", "label": "F4 · Инверсия с рассылкой" },
+        { "key": "f5", "label": "F5 · Условия плитками" },
+        { "key": "f6", "label": "F6 · Инверсия с гигантским wordmark", "note": "not a lab cut; authored directly in composer 2026-09-09, blocks.js:271-275" }
+      ]
+    }
+  },
+  "profileDefaults": {
+    "sneakers": { "defaultMode": "dark", "header": "h5", "hero": "l", "tiles": "off", "listing": "p2", "footer": "f3", "source": "v-20260909-kerbstone-drop" },
+    "electronics": { "defaultMode": "dark", "header": "h3", "hero": "k", "tiles": "on", "listing": "p3", "footer": "f5", "source": "v-20260909-ferrite-instrument" },
+    "supplements": { "defaultMode": "light", "header": "h6", "hero": "k", "tiles": "off", "listing": "p3", "footer": "f6", "source": "v-20260909-scruple-apteka" },
+    "womens-fashion": { "defaultMode": "light", "header": "h6", "hero": "g", "tiles": "off", "listing": "p4", "footer": "f6", "source": "v-20260909-larchant-zhurnal" },
+    "home-goods": { "defaultMode": "light", "header": "h2", "hero": "h", "tiles": "on", "listing": "p4", "footer": "f4", "source": "v-20260909-long-morning-utrenniy-stol" }
+  },
+  "alternates": {
+    "sneakers": { "header": "h2", "hero": "l", "tiles": "on", "listing": "p1", "footer": "f3", "source": "v-20260909-kerbstone-zhurnalnyy" },
+    "electronics": { "header": "h2", "hero": "ga", "tiles": "off", "listing": "p3", "footer": "f2", "source": "v-20260909-ferrite-predmet-vmesto-plashki" },
+    "supplements": { "header": "h5", "hero": "k", "tiles": "on", "listing": "p3", "footer": "f5", "source": "v-20260909-scruple-utilitarnaya" },
+    "womens-fashion": { "header": "h1", "hero": "g", "tiles": "off", "listing": "p4", "footer": "f3", "source": "v-20260909-larchant-tihiy-razvorot" },
+    "home-goods": { "header": "h5", "hero": "l", "tiles": "off", "listing": "p2", "footer": "f2", "source": "v-20260909-long-morning-katalog" }
+  },
+  "validity": [
+    {
+      "type": "forbidden",
+      "condition": { "header": "h4", "hero": "k" },
+      "reason": "two accent-coloured planes touch with nothing between them (header renders directly above hero in composePage, lib/page.js:60-67)",
+      "citation": "artifacts/docs/composer/lib/blocks.js:131 (\"поверхность акцент × hero K под ней — две акцентные плоскости встык, запрещено без разделителя\")"
+    },
+    {
+      "type": "forbidden",
+      "condition": { "footer": "f6", "defaultMode": "dark" },
+      "reason": "F6's inversion is background:var(--foreground); on a dark theme --foreground is the light ink colour, so the footer becomes a LIGHT base under a dark page and reads as detached rather than as a foundation. Measured on five renders, all light-theme.",
+      "citation": "artifacts/docs/2026-09-09-theme-compositions.md:60-63"
+    },
+    {
+      "type": "advisory",
+      "condition": { "hero": ["ga", "gb"], "tiles": "on" },
+      "reason": "the gallery and the category-tiles row both perform first-screen routing into categories; running both is functionally redundant, not visually broken. Every saved composition with hero ga/gb sets tiles off.",
+      "citation": "artifacts/docs/2026-09-09-theme-compositions.md rule 8 (§1) and the Ferrite alternate note, line 110"
+    }
+  ]
+}
