@@ -78,6 +78,19 @@ COPY --from=build /repo/apps/backend/.medusa/server ./
 COPY apps/backend/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && mkdir -p /app/static/store-profiles
 
+# MEASURED on the live host 2026-09-10, not assumed: without this line the
+# container exits immediately after the entrypoint finishes, with
+# "docker-entrypoint.sh: exec: line 62: medusa: not found" as the only trace,
+# and `restart: unless-stopped` turns that into a migrate+seed loop every
+# ~40 s that looks healthy in the log (migrations run, the seed runs, the
+# admin user is created) right up to the last line. `npm install` in this
+# stage puts the medusa CLI at /app/node_modules/.bin/medusa, which is on no
+# default PATH — the entrypoint's own steps only work because they spell that
+# path out. Both halves of the fix are here so neither reading is surprising:
+# the PATH makes a bare `medusa` resolve for anything exec'd in this image,
+# and the CMD below names the binary outright.
+ENV PATH="/app/node_modules/.bin:${PATH}"
+
 EXPOSE 9000
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["medusa", "start"]
+CMD ["/app/node_modules/.bin/medusa", "start"]
