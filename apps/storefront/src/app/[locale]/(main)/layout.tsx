@@ -22,6 +22,14 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   return (
     <>
       <PromoBanner dismissed={promoBannerDismissed} />
+      {/* Nav and Footer are themselves the site-wide header/footer composition
+          switches now (`nav/index.tsx`, `footer/index.tsx`): each reads
+          `store.metadata.storefrontSettings` on its own — including Footer's own
+          `footer === "none"` guard — so this layout stays the zero-knowledge
+          wrapper it always was and needs no composition prop of its own
+          (`2026-09-09-block-port-map.md` §2: header/footer are site-wide because
+          they render once here, wrapping every route under `(main)`, cart and
+          checkout included). */}
       <Nav />
       <div className="pb-16 lg:pb-0">
         <Suspense fallback={null}>

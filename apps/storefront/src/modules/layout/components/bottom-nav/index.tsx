@@ -8,6 +8,7 @@ import { SITE_NAME } from "@lib/util/env"
 import CategoryMenu from "@modules/layout/components/category-menu"
 import Search from "@modules/layout/components/search"
 import CartButton from "@modules/layout/components/cart-button"
+import ModeToggle from "@modules/layout/components/mode-toggle"
 import BrandUnlock from "@modules/devtools/components/brand-unlock"
 
 const BottomNav = async () => {
@@ -45,6 +46,15 @@ const BottomNav = async () => {
 
       <div className="flex flex-1 items-center justify-center">
         <CartButton />
+      </div>
+
+      {/* 6th slot, appended last — the existing five keep their position
+          (panel-composition-mockup.md §S12). */}
+      <div className="flex flex-1 items-center justify-center">
+        <ModeToggle
+          className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+          data-testid="bottom-nav-mode-toggle"
+        />
       </div>
     </nav>
   )

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 29,
+  "action": "status-set",
+  "ts": "2026-09-09T22:56:08+08:00",
+  "status": "t-2026-09-09-02 in_progress (WIP limit lifted by Ivan). Wave 2 running from session upready-store-48: contracts wf_bc7843e5-bc1 (C1→C2→C3, Sonnet, worktree feat/stands-composition), deploy prerequisites wf_50d0602e-d65 (P-deploy, worktree feat/stands/deploy), eight port worktrees feat/stands/* installing (task b0lklnxx5). Next: commit contracts, ff port worktrees, launch stage ports (8 packages), then locale, integrate, wave 3 (checks, eyes, deploy)."
+}

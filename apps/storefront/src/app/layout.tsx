@@ -4,6 +4,7 @@ import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
 import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
+import { getStorefrontSettings } from "@lib/data/storefront-settings"
 import DevtoolsMount from "@modules/devtools/components/devtools-mount"
 import "styles/globals.css"
 
@@ -13,10 +14,22 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const locale = await getLocale()
-  // theme + mode come from the active store profile; an absent or theme-less profile
-  // falls back to "default"/"light", which themes.css resolves to the medusa preset —
-  // today's look. See src/lib/theme/profile.ts.
-  const { theme, mode } = readProfileTheme()
+  // theme comes from the active store profile only — the composition never touches
+  // the `data-theme` axis (critique §2.3). An absent or theme-less profile falls back
+  // to "default", which themes.css resolves to the medusa preset — today's look. See
+  // src/lib/theme/profile.ts.
+  const { theme, mode: profileMode } = readProfileTheme()
+
+  // Mode resolution order, highest priority first (panel-composition-mockup.md §C6):
+  //   1. the visitor's own localStorage — applied by the pre-paint script below,
+  //      AFTER this SSR value paints but BEFORE hydration, so it overwrites this
+  //      attribute with no flash when present;
+  //   2. the saved site-wide default (store.metadata.storefrontSettings.defaultMode);
+  //   3. the profile's own built-in default (readProfileTheme(), unchanged).
+  // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
+  // storage disagrees); one who did gets it overwritten before paint.
+  const settings = await getStorefrontSettings()
+  const mode = settings?.defaultMode ?? profileMode
 
   return (
     <html
