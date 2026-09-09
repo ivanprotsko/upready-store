@@ -12,6 +12,9 @@ import ListingP3 from "@modules/home/variants/listing-p3"
 import ListingP4 from "@modules/home/variants/listing-p4"
 import ListingP5 from "@modules/home/variants/listing-p5"
 
+import HeroGA from "./hero-ga"
+import HeroGB from "./hero-gb"
+
 /**
  * Home-slot composition registries — hero and listing (`(main)/page.tsx` only; header and
  * footer are site-wide, `nav/variants` and `footer/variants`). Plain data, no JSX (pure
@@ -25,10 +28,10 @@ import ListingP5 from "@modules/home/variants/listing-p5"
  * and product loaders in `lib/data/home.ts`) — nothing here prop-drills beyond the single
  * key that selected it.
  *
- * K, L (still `ProfileHero`, W12/F9's package, not this one) and GA/GB (W12) stay on the
- * `ProfileHero`/`FeaturedProducts` baseline as placeholders; G/H/J/M and P1-P5 are real
- * ports now (`home/variants/hero-*.tsx`, `home/variants/listing-*.tsx`,
- * `2026-09-09-block-port-map.md` §4/§6). Tiles has no per-key variant family (`TilesKey` is a
+ * K and L (still `ProfileHero`; L is W12/F9 territory) stay on the `ProfileHero` baseline; G/H/J/M and
+ * P1-P5 are real ports (`home/variants/hero-*.tsx`, `home/variants/listing-*.tsx`,
+ * `2026-09-09-block-port-map.md` §4/§6) and GA/GB are the two hero galleries (`HeroGA`/`HeroGB`,
+ * client islands over a server-fetched category slide list). Tiles has no per-key variant family (`TilesKey` is a
  * boolean switch, not an enum of components) — `CategoryTiles` itself is the only
  * implementation and already self-suppresses on an empty tile list
  * (`block-port-map.md` §5), so it needs only the `DEFAULT_TILES` constant below, no
@@ -39,10 +42,13 @@ type SlotComponent = ComponentType
 
 /**
  * `HeroKey` minus `"none"`: block-port-map.md §4's `none` row assigns its own ~5-line
- * guard to "the new switch" (`page.tsx`, below) — `"none"` never reaches this map. Every
- * other key, including `k` itself, points at today's `ProfileHero`, which already
- * dispatches on the profile's own `hero.layout` (full-bleed/split/announcement) and
- * returns `null` when the profile has no hero at all.
+ * guard to "the new switch" (`page.tsx`, below) — `"none"` never reaches this map. `ga` and
+ * `gb` point at this package's own `HeroGA`/`HeroGB` (`hero-ga.tsx`/`hero-gb.tsx`) — the two
+ * built galleries. Every other key, including `k` itself, still points at today's
+ * `ProfileHero`, which already dispatches on the profile's own `hero.layout`
+ * (full-bleed/split/announcement) and returns `null` when the profile has no hero at all;
+ * `ga`/`gb` fall back the same way, to no markup, below their own 3-slide floor
+ * (`hero-gallery-data.ts`'s `MIN_SLIDES`).
  */
 export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
   g: HeroG,
@@ -51,8 +57,8 @@ export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
   k: ProfileHero,
   l: ProfileHero,
   m: HeroM,
-  ga: ProfileHero,
-  gb: ProfileHero,
+  ga: HeroGA,
+  gb: HeroGB,
 }
 
 /**

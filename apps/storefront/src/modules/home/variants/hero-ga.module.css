@@ -1,0 +1,247 @@
+/*
+ * GA · hero carousel with neighbours — values ported from
+ * artifacts/docs/composer/lib/blocks.css:151-168 (`.gal`, `.ga .*`), with the composer's own
+ * theme tokens (`--background`/`--foreground`/`--card`/`--border`/`--muted-foreground`/
+ * `--radius`) unchanged: this storefront's own `src/styles/themes.css` defines the same names,
+ * so every value below tracks the active preset automatically, light or dark.
+ *
+ * One deliberate departure from the composer source, per this package's plan acceptance ("at
+ * 390 the neighbours are still hinted"): blocks.css collapses `.ga .slide` to `flex: 0 0 100%`
+ * under `body[data-width="mobile"]`, dropping the neighbour peek entirely below 1024px. That
+ * rule is NOT ported — `.slide`'s 84% flex-basis stays constant at every width, only the
+ * two-column layout (image beside copy) switches to stacked (image above copy) below 1024px,
+ * so the peek survives down to a 390px viewport as the acceptance criterion asks.
+ *
+ * Every transition lives inside `prefers-reduced-motion: no-preference` — a visitor who has
+ * asked for less motion gets the same end state with no animated step, never a frozen carousel.
+ */
+
+.gallery {
+  padding: 22px 32px 10px;
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.count {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.count b {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+
+.arrowButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.arrowButton:hover {
+  background: var(--muted);
+}
+
+.arrowButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.viewport {
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.track {
+  display: flex;
+  gap: 14px;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .track {
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 84%;
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  height: 460px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+.frame {
+  position: relative;
+  height: 100%;
+  background: var(--muted);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.pane {
+  min-width: 0;
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+}
+
+.pane h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 38px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--card-foreground);
+}
+
+.pane p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted-foreground);
+  line-height: 1.5;
+}
+
+.cta {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cta:hover {
+  opacity: 0.86;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.dim {
+  position: absolute;
+  inset: 0;
+  background: var(--background);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dim {
+    transition: opacity 0.4s;
+  }
+}
+
+.slide:not(.on) .dim {
+  opacity: 0.62;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    transition: width 0.3s, border-radius 0.3s, background 0.3s;
+  }
+}
+
+.dot.on {
+  background: var(--foreground);
+  width: 18px;
+  border-radius: 3px;
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023.98px) {
+  .gallery {
+    padding: 16px 16px 6px;
+  }
+
+  .slide {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .frame {
+    height: 260px;
+  }
+
+  .pane {
+    padding: 20px 20px 24px;
+  }
+
+  .pane h2 {
+    font-size: 26px;
+  }
+}
