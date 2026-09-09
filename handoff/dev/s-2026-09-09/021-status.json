@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-09",
+  "index": 21,
+  "action": "status-set",
+  "ts": "2026-09-09T20:23:11+08:00",
+  "status": "upready-store dev: composer :8303 — десять сочетаний блоков по пяти темам сохранены в versions.json и сняты (927df25), коридор пополнен H6 и F6, разбор в artifacts/docs/2026-09-09-theme-compositions.md; ждёт глаз Ивана и ответа по q-composer-cards-from-mock-or-code"
+}

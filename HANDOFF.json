@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-09T19:40:28+08:00",
-  "status": "Composer :8303 собран и проверен e2e (24 зелёных, кадр 960×1280 = формат карточек); versions.json пуст — версии заводит Иван; вопрос q-composer-cards-from-mock-or-code; dev не пушен",
+  "updated": "2026-09-09T20:23:11+08:00",
+  "status": "upready-store dev: composer :8303 — десять сочетаний блоков по пяти темам сохранены в versions.json и сняты (927df25), коридор пополнен H6 и F6, разбор в artifacts/docs/2026-09-09-theme-compositions.md; ждёт глаз Ивана и ответа по q-composer-cards-from-mock-or-code",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -326,14 +326,17 @@
       "title": "Composer: стенд-конструктор главной с сохранёнными версиями и съёмкой под карточки upready.dev",
       "state": "backlog",
       "priority": "high",
-      "details": "Заказ Ивана 2026-09-09 (дословно): «нужно сделать стенд на котором я смогу переключаться между темами, светлой и темной версией, а также версиями hero, футера, хедера, и т.д. при этом можно было бы сохранить версию и подписать её чтобы ты потом мог посмотреть сохраненные версии и сделать для них скриншоты, чтобы обновить карточки на сайте upready.dev». Сделано: artifacts/docs/composer/ (:8303) — бренд × light/dark × 1440/390 × H1–H5 × hero (нет/G–M/GA/GB) × плитки × P1–P5 × F1–F5; разметка вариантов вырезана из hero-lab-2 и blocks-lab в lib/ (источник и строки в шапках); реестр versions.json (upready.composer-versions/v1) с API GET/POST/PUT/DELETE и проверкой spec; /view?v=<id> без chrome; shoot.mjs → shots/<id>.png 1440×1920 + .webp 960×1280 (формат карточек, вызов magick из рецепта). e2e 24 проверки зелёные, кадр 46 КБ. Реестр оставлен пустым — версии заводит Иван. Развилка q-composer-cards-from-mock-or-code: карточки из макетов сейчас или сначала перенос выбранного в storefront.",
+      "details": "Заказ Ивана 2026-09-09 (дословно): «нужно сделать стенд на котором я смогу переключаться между темами, светлой и темной версией, а также версиями hero, футера, хедера, и т.д. при этом можно было бы сохранить версию и подписать её чтобы ты потом мог посмотреть сохраненные версии и сделать для них скриншоты, чтобы обновить карточки на сайте upready.dev». Сделано: artifacts/docs/composer/ (:8303) — бренд × light/dark × 1440/390 × H1–H5 × hero (нет/G–M/GA/GB) × плитки × P1–P5 × F1–F5; разметка вариантов вырезана из hero-lab-2 и blocks-lab в lib/ (источник и строки в шапках); реестр versions.json (upready.composer-versions/v1) с API GET/POST/PUT/DELETE и проверкой spec; /view?v=<id> без chrome; shoot.mjs → shots/<id>.png 1440×1920 + .webp 960×1280 (формат карточек, вызов magick из рецепта). e2e 24 проверки зелёные, кадр 46 КБ. Реестр оставлен пустым — версии заводит Иван. Развилка q-composer-cards-from-mock-or-code: карточки из макетов сейчас или сначала перенос выбранного в storefront.\n\nХОД 2 (2026-09-09 вечер, 927df25): по заказу Ивана подготовлены сочетания блоков по темам. Десять версий в versions.json — по две на тему (основная + альтернатива): Kerbstone дроп H5·L·—·P2·F3 и журнальный H2·L·tiles·P1·F3; Ferrite инструмент H3·K·tiles·P3·F5 и предмет-вместо-плашки H2·GA·—·P3·F2; Scruple аптека H6·K·—·P3·F6 и утилитарная H5·K·tiles·P3·F5; Larchant журнал H6·G·—·P4·F6 и тихий разворот H1·G·—·P4·F3; Long Morning утренний стол H2·H·tiles·P4·F4 и каталог H5·L·—·P2·F2. Отбор: 40 различных сборок (35 на 1440, 5 на 390), 50 замеров контраста — все AA, узлов на фото 0. Заведены две свободные точки коридора: H6 (центр + полоса категорий) и F6 (инверсия + гигантский wordmark); ядра семейств не тронуты, код в composer/lib/blocks.js помечен как не вырезка из лабораторий, на :8302 их нет. Кадром найдена граница F6: на тёмной теме инверсия даёт светлое основание — Kerbstone и Ferrite остаются на F3. e2e 12/12 зелёные, 0 ошибок консоли. shoot.mjs снял 10 кадров 960×1280 в shots/ (вне git); девять в коридоре рецепта 28–85 КБ, Kerbstone журнальный 122 КБ — для карточки пережать или не брать. Разбор с теорией композиции: artifacts/docs/2026-09-09-theme-compositions.md. Осталось Ивану: глазами на :8303 сравнить основную и альтернативу внутри каждой темы и ответить на q-composer-cards-from-mock-or-code.",
       "files": [
         "artifacts/docs/composer/serve.mjs",
         "artifacts/docs/composer/index.html",
         "artifacts/docs/composer/view.html",
         "artifacts/docs/composer/shoot.mjs",
         "artifacts/docs/composer/versions.json",
-        "artifacts/docs/2026-09-09-composer.md"
+        "artifacts/docs/2026-09-09-composer.md",
+        "artifacts/docs/2026-09-09-theme-compositions.md",
+        "artifacts/docs/composer/lib/blocks.js",
+        "artifacts/docs/composer/lib/blocks.css"
       ],
       "session": "session_011eLoGVMp5ZNkxAq7CHP3AL",
       "tags": [
@@ -343,9 +346,10 @@
         "upready-dev"
       ],
       "created": "2026-09-09T19:38:53+08:00",
-      "updated": "2026-09-09T19:40:28+08:00",
+      "updated": "2026-09-09T20:23:11+08:00",
       "commits": [
-        "3b12b79"
+        "3b12b79",
+        "927df25"
       ]
     }
   ],
