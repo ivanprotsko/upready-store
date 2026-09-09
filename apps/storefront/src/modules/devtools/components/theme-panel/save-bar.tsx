@@ -56,6 +56,7 @@ export function SaveBar({
   dirty,
   savedAt,
   secretConfigured,
+  loaded,
   loadError,
   saveState,
   errorMessage,
@@ -66,6 +67,8 @@ export function SaveBar({
   /** `updatedAt` of the last-saved document, or null when nothing has been saved yet. */
   savedAt: string | null
   secretConfigured: boolean
+  /** The mount-time GET has answered; before that the Save button renders disabled. */
+  loaded: boolean
   /** GET could not reach the backend at mount — the panel is showing a fallback. */
   loadError: boolean
   saveState: SaveState
@@ -105,7 +108,17 @@ export function SaveBar({
         </p>
       ) : null}
 
-      {!secretConfigured ? (
+      {!loaded ? (
+        <button
+          type="button"
+          className="updev-primary updev-comp-save"
+          data-testid="devtools-composition-save"
+          data-state="loading"
+          disabled
+        >
+          {t("ui.saveIdle")}
+        </button>
+      ) : !secretConfigured ? (
         <p className="updev-comp-off" data-testid="devtools-composition-save" data-state="off">
           <BanIcon />
           {t("ui.secretNotConfigured")}
