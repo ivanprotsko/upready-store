@@ -113,8 +113,12 @@ export default function BrandUnlock({
       if (res.ok) {
         dialogRef.current?.close()
         if (inputRef.current) inputRef.current.value = ""
-        // the cookie is httpOnly, so only a server render can decide to show the button
-        router.refresh()
+        // The cookie is httpOnly, so only a server render can decide to show the button.
+        // Skip the refresh when the button is already on the page (a browser that was
+        // unlocked before and re-enters the password): measured 2026-09-10 on the stands,
+        // that late refresh (2–10 s, RSC round trip) re-mounted the panel and closed a
+        // popover the operator had just opened, taking the picks with it.
+        if (!document.querySelector('[data-testid="devtools-button"]')) router.refresh()
         return
       }
       setError(
