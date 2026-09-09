@@ -1,0 +1,262 @@
+# One stand = one Postgres + one Medusa backend + one Next.js storefront,
+# joined to Coolify's own traefik network instead of running a second
+# reverse proxy — this is the agent-creatr precedent
+# (~/upready/memory/agent-creatr-prod-deploy-contabo.md "Ingress — чужой
+# traefik, а не свой Caddy"), reused because it is already proven working on
+# this exact host (Contabo, root@${CONTABO_SERVER_IP}) for a comparable
+# Next.js + Postgres stack.
+#
+# Run with deploy/scripts/render-stand.mjs, or directly:
+#   docker compose -p kerbstone -f deploy/compose.stand.yml \
+#     --env-file deploy/stands/kerbstone.env up -d --build
+#
+# Every internal address below is a CONTAINER NAME
+# (${STAND}-postgres/-backend/-storefront), never the bare service name —
+# agent-creatr's own postmortem measured that a bare "postgres" resolves to
+# coolify-db's alias on the shared `coolify` network, not this stand's own
+# database (same file, "Грабля, стоившая прода").
+#
+# TLS/entrypoint names: MEASURED on the live coolify-proxy 2026-09-09, not
+# assumed. `docker inspect coolify-proxy --format '{{json .Args}}'` returns
+#   --entrypoints.http.address=:80
+#   --entrypoints.https.address=:443
+#   --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+#   --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+#   --providers.docker.exposedbydefault=false
+# so this proxy's entrypoints are named "http" and "https" — NOT traefik's
+# own defaults "web"/"websecure", which P-deploy had guessed and which would
+# have routed nothing (an unknown entrypoint name makes traefik drop the
+# router silently, no error anywhere). The resolver IS named "letsencrypt".
+# The label shape below is copied from a container already serving TLS on
+# this proxy: `docker inspect agentcreatr-viewer --format
+# '{{json .Config.Labels}}'` — an https router plus a bare-http router that
+# redirects, and traefik.docker.network=coolify on both.
+
+x-backend-healthcheck: &backend-healthcheck
+  test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9000/health"]
+  interval: 15s
+  timeout: 5s
+  retries: 10
+  start_period: 60s
+
+x-storefront-healthcheck: &storefront-healthcheck
+  test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/"]
+  interval: 15s
+  timeout: 5s
+  retries: 10
+  start_period: 30s
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${STAND}-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-medusa_${STAND}}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - coolify
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medusa -d ${DB_NAME:-medusa_${STAND}}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # 256-512 MB is a first guess, not a measurement (S1 §8 / the plan note
+    # names this gap explicitly: "no footprint exists"). Read off
+    # `docker stats ${STAND}-postgres` after stand one's first real seed and
+    # correct this before stand two, per the runbook's go/no-go step.
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  backend:
+    build:
+      context: ../.
+      dockerfile: apps/backend/Dockerfile
+    image: ${STAND}-backend:${IMAGE_TAG:-latest}
+    container_name: ${STAND}-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: "9000"
+      DATABASE_URL: postgres://medusa:${POSTGRES_PASSWORD}@${STAND}-postgres:5432/${DB_NAME:-medusa_${STAND}}
+      REDIS_URL: ${REDIS_URL:-}
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      INTEGRATION_ENCRYPTION_KEY: ${INTEGRATION_ENCRYPTION_KEY}
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET}
+      # Shared with the storefront service below: the storefront's devtools
+      # proxy (app/api/devtools/settings/route.ts:46) signs its PUT with this
+      # value and api/store/storefront-settings/route.ts:39 checks it. Absent
+      # from P-deploy's compose because C3 landed the routes afterwards; a
+      # stand without it cannot save a composition from the hidden panel.
+      STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
+      # Read by docker-entrypoint.sh, which runs src/scripts/ensure-accounts.ts
+      # after the migrations and the seeds: both accounts are created when
+      # missing and have their password brought to these values on EVERY boot,
+      # so changing one here and restarting the backend is the whole procedure.
+      # Never baked into the image — the backend reads them at runtime.
+      MEDUSA_ADMIN_EMAIL: ${MEDUSA_ADMIN_EMAIL:-}
+      MEDUSA_ADMIN_PASSWORD: ${MEDUSA_ADMIN_PASSWORD:-}
+      DEMO_CUSTOMER_EMAIL: ${DEMO_CUSTOMER_EMAIL:-}
+      DEMO_CUSTOMER_PASSWORD: ${DEMO_CUSTOMER_PASSWORD:-}
+      STORE_PROFILE: ${PROFILE}
+      STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
+      STORE_CORS: https://${DOMAIN}
+      ADMIN_CORS: https://${API_DOMAIN}
+      AUTH_CORS: https://${API_DOMAIN}
+      STOREFRONT_URL: https://${DOMAIN}
+      STORE_NAME: ${STORE_NAME}
+      STORE_EMAIL: ${STORE_EMAIL:-hello@example.com}
+      STORE_PHONE: ${STORE_PHONE:-}
+      STORE_ADDRESS: ${STORE_ADDRESS:-}
+      STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_REPLY_TO: ${SMTP_REPLY_TO:-}
+      MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY: medusa-storefront
+    volumes:
+      - ${MEDIA_HOST_PATH:-./media}/${PROFILE}:/app/static/store-profiles/${PROFILE}
+    networks:
+      - coolify
+    healthcheck: *backend-healthcheck
+    # 2 GB is a deliberate ceiling for the BOOT, not a fitted number, and the
+    # distinction is written out here because an earlier draft of this comment
+    # got the causation wrong and that error must not be reinherited.
+    #
+    # What is measured (deploy/README.md, "Stand one — measured 2026-09-10"):
+    # at rest this container sits at 331 MiB. What was NOT the problem: the
+    # 768M first guess. The crash loop that preceded this change was
+    # `medusa: not found` — the CLI lives at /app/node_modules/.bin/medusa,
+    # which was on no PATH, so `exec medusa start` failed the instant the
+    # entrypoint handed over (apps/backend/Dockerfile now sets both PATH and
+    # an absolute CMD). The one ExitCode=137 recorded during that hour has no
+    # corroboration as an OOM at all: `OOMKilled=false`, and zero lines in
+    # `dmesg` and `journalctl -k`. It was a SIGKILL from a concurrent
+    # `docker compose` recreate — a second session was deploying this same
+    # stand at the same time — not a cgroup kill.
+    #
+    # The ceiling stays at 2 GB because the boot peak is genuinely unmeasured
+    # and is the plausible risk: docker-entrypoint.sh loads the whole Medusa
+    # application four times (db:migrate, catalog seed, composition seed,
+    # `medusa user`) before `medusa start` runs, and Node 22 sizes its heap
+    # from the HOST's memory (11.9 GB here), not from the cgroup limit. A
+    # ceiling costs nothing while unused. Measure the real peak on stand two,
+    # which boots from an empty database anyway:
+    #   while docker inspect -f '{{.State.Health.Status}}' <stand>-backend \
+    #     | grep -qv healthy; do \
+    #       docker stats --no-stream --format '{{.MemUsage}}' <stand>-backend; \
+    #       sleep 2; done
+    # and replace this ceiling with that number plus headroom.
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 512M
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      # Bare :80 router — it exists so a plain http:// visit redirects, and so
+      # letsencrypt's HTTP-01 challenge (which this proxy answers on the
+      # "http" entrypoint) has a live route for the host while the cert is
+      # being issued.
+      - traefik.http.middlewares.${STAND}-https.redirectscheme.scheme=https
+      - traefik.http.routers.${STAND}-backend-http.rule=Host(`${API_DOMAIN}`)
+      - traefik.http.routers.${STAND}-backend-http.entrypoints=http
+      - traefik.http.routers.${STAND}-backend-http.middlewares=${STAND}-https
+      - traefik.http.routers.${STAND}-backend-http.service=${STAND}-backend
+      - traefik.http.routers.${STAND}-backend.rule=Host(`${API_DOMAIN}`)
+      - traefik.http.routers.${STAND}-backend.entrypoints=https
+      - traefik.http.routers.${STAND}-backend.tls=true
+      - traefik.http.routers.${STAND}-backend.tls.certresolver=letsencrypt
+      - traefik.http.routers.${STAND}-backend.service=${STAND}-backend
+      - traefik.http.services.${STAND}-backend.loadbalancer.server.port=9000
+
+  storefront:
+    build:
+      context: ../.
+      dockerfile: apps/storefront/Dockerfile
+      args:
+        NEXT_PUBLIC_STORE_PROFILE: ${PROFILE}
+        NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${API_DOMAIN}
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${MEDUSA_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+        NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+        NEXT_PUBLIC_SITE_NAME: ${STORE_NAME}
+        STORE_MEDIA_BASE_URL: https://${API_DOMAIN}/static/store-profiles/${PROFILE}
+    image: ${STAND}-storefront:${IMAGE_TAG:-latest}
+    container_name: ${STAND}-storefront
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOSTNAME: "0.0.0.0"
+      PORT: "8000"
+      NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${API_DOMAIN}
+      NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${MEDUSA_PUBLISHABLE_KEY}
+      NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+      NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+      NEXT_PUBLIC_SITE_NAME: ${STORE_NAME}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
+      REGION_PIN: "true"
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET}
+      STOREFRONT_DEVTOOLS_PASSWORD: ${STOREFRONT_DEVTOOLS_PASSWORD}
+      # Same value as the backend service's own STOREFRONT_SETTINGS_SECRET —
+      # the panel never sees it, the proxy route does.
+      STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
+      GEOLOCATION_PROVIDER: ${GEOLOCATION_PROVIDER:-ip-api}
+      GEOLOCATION_PROVIDER_API_KEY: ${GEOLOCATION_PROVIDER_API_KEY:-}
+    networks:
+      - coolify
+    healthcheck: *storefront-healthcheck
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.${STAND}-storefront-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${STAND}-storefront-http.entrypoints=http
+      - traefik.http.routers.${STAND}-storefront-http.middlewares=${STAND}-https
+      - traefik.http.routers.${STAND}-storefront-http.service=${STAND}-storefront
+      - traefik.http.routers.${STAND}-storefront.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${STAND}-storefront.entrypoints=https
+      - traefik.http.routers.${STAND}-storefront.tls=true
+      - traefik.http.routers.${STAND}-storefront.tls.certresolver=letsencrypt
+      - traefik.http.routers.${STAND}-storefront.service=${STAND}-storefront
+      - traefik.http.services.${STAND}-storefront.loadbalancer.server.port=8000
+
+networks:
+  coolify:
+    external: true
+
+# Compose does not interpolate ${VAR} inside a top-level mapping KEY
+# (measured: `docker compose config` rejects "${STAND}-db-data" with
+# "additional properties not allowed", the raw unexpanded string still in
+# the key position) — unlike container_name and every OTHER use of ${STAND}
+# in this file, all of which are scalar VALUES and do interpolate. No
+# per-stand name is needed here anyway: -p ${STAND} (render-stand.mjs's own
+# `docker compose -p ${STAND} ...`) already namespaces this volume as
+# `${STAND}_db-data` in `docker volume ls`, the same way it namespaces every
+# container below.
+volumes:
+  db-data:

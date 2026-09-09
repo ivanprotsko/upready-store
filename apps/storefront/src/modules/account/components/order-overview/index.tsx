@@ -1,14 +1,17 @@
-"use client"
-
 import { Button } from "@medusajs/ui"
 
 import OrderCard from "../order-card"
 import { Link } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 
-const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
-  const t = useTranslations("OrderOverview")
+// A server component on purpose: OrderCard is an async server component (getTranslations,
+// getLocale, the status label lookups), and rendering it from a "use client" tree turns it
+// into a client component, where next-intl throws "getTranslations is not supported in Client
+// Components" — measured 2026-09-10 on kerbstone.upready.dev/en/account/orders: the page
+// never left its loading spinner (storefront log, order-overview was "use client").
+const OrderOverview = async ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
+  const t = await getTranslations("OrderOverview")
 
   if (orders?.length) {
     return (

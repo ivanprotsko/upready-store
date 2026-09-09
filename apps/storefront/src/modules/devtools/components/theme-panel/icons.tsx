@@ -30,3 +30,27 @@ export function CloseIcon() {
     </svg>
   )
 }
+
+/** Row-open/closed marker for the composition rows. */
+export function ChevronIcon({ direction }: { direction: "up" | "down" }) {
+  return (
+    <svg
+      className="updev-icon updev-chevron"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      data-direction={direction}
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
+}
+
+/** The "forbidden option" marker (T2's ⊘) — a circle with a slash, never a glyph. */
+export function BanIcon() {
+  return (
+    <svg className="updev-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" />
+      <path d="m7 7 10 10" />
+    </svg>
+  )
+}

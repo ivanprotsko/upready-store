@@ -2,8 +2,10 @@ import { getLocaleDir } from "@i18n/config"
 import { GA_MEASUREMENT_ID, getBaseURL } from "@lib/util/env"
 import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
+import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
+import { getStorefrontSettings } from "@lib/data/storefront-settings"
 import DevtoolsMount from "@modules/devtools/components/devtools-mount"
 import "styles/globals.css"
 
@@ -13,10 +15,22 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const locale = await getLocale()
-  // theme + mode come from the active store profile; an absent or theme-less profile
-  // falls back to "default"/"light", which themes.css resolves to the medusa preset —
-  // today's look. See src/lib/theme/profile.ts.
-  const { theme, mode } = readProfileTheme()
+  // theme comes from the active store profile only — the composition never touches
+  // the `data-theme` axis (critique §2.3). An absent or theme-less profile falls back
+  // to "default", which themes.css resolves to the medusa preset — today's look. See
+  // src/lib/theme/profile.ts.
+  const { theme, mode: profileMode } = readProfileTheme()
+
+  // Mode resolution order, highest priority first (panel-composition-mockup.md §C6):
+  //   1. the visitor's own localStorage — applied by the pre-paint script below,
+  //      AFTER this SSR value paints but BEFORE hydration, so it overwrites this
+  //      attribute with no flash when present;
+  //   2. the saved site-wide default (store.metadata.storefrontSettings.defaultMode);
+  //   3. the profile's own built-in default (readProfileTheme(), unchanged).
+  // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
+  // storage disagrees); one who did gets it overwritten before paint.
+  const settings = await getStorefrontSettings()
+  const mode = settings?.defaultMode ?? profileMode
 
   return (
     <html
@@ -35,8 +49,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <main className="relative">{props.children}</main>
         {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         {/* Renders the hidden settings panel only for a browser that carries the
-            devtools cookie; null for everybody else, including the HTML of a visitor. */}
-        <DevtoolsMount />
+            devtools cookie; null for everybody else, including the HTML of a visitor.
+            Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the
+            [locale] layout that provides the intl context, and the panel is a client
+            component calling useTranslations("Composition") — without the provider the
+            popover threw on open (measured 2026-09-10 on every stand: "Application
+            error: a client-side exception", next-intl rethrows as Error(undefined) in
+            production). The provider without props inherits locale and messages from
+            the request config. */}
+        <NextIntlClientProvider>
+          <DevtoolsMount />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

@@ -6,7 +6,9 @@ import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
 import CheckoutInfoRows from "@modules/checkout/components/checkout-info-rows"
 import CheckoutItemList from "@modules/checkout/components/checkout-item-list"
+import CheckoutPickupPointSheet from "@modules/checkout/components/checkout-pickup-point-sheet"
 import SignInPrompt from "@modules/checkout/components/sign-in-prompt"
+import { PickupSheetProvider } from "@modules/checkout/context/pickup-sheet-context"
 import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 
@@ -38,18 +40,21 @@ export default async function CheckoutForm({
     <div className="flex flex-col px-4 py-6 lg:pe-10 lg:py-10 lg:ps-0 gap-y-6">
       {!customer && <SignInPrompt />}
 
-      <CheckoutShippingSection
-        cart={cart}
-        availableShippingOptions={shippingOptions}
-        regions={regions ?? []}
-        currentCountry={resolvedCountry}
-      />
-      <CheckoutInfoRows
-        cart={cart}
-        customer={customer}
-        addresses={addresses}
-        availableShippingMethods={shippingOptions}
-      />
+      <PickupSheetProvider cart={cart} shippingOptions={shippingOptions}>
+        <CheckoutShippingSection
+          cart={cart}
+          availableShippingOptions={shippingOptions}
+          regions={regions ?? []}
+          currentCountry={resolvedCountry}
+        />
+        <CheckoutInfoRows
+          cart={cart}
+          customer={customer}
+          addresses={addresses}
+          availableShippingMethods={shippingOptions}
+        />
+        <CheckoutPickupPointSheet />
+      </PickupSheetProvider>
 
       <CheckoutItemList cart={cart} />
 

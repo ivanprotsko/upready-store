@@ -19,8 +19,13 @@ export const retrieveOrder = async (id: string) => {
     .fetch<HttpTypes.StoreOrderResponse>(`/store/orders/${id}`, {
       method: "GET",
       query: {
+        // +metadata: the pickup point a checkout wrote onto the order (fulfillment.ts
+        // getOrderPickupPoint). +canceled_at and the three fulfillment timestamps feed
+        // the account order-timeline (W17) — none of the five are in
+        // defaultStoreRetrieveOrderFields, so a bare add is required; every other field
+        // already reaches this response through that default set.
         fields:
-          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product",
+          "*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product,+metadata,+canceled_at,+fulfillments.packed_at,+fulfillments.shipped_at,+fulfillments.delivered_at",
       },
       headers,
       next,
@@ -50,7 +55,10 @@ export const listOrders = async (
         limit,
         offset,
         order: "-created_at",
-        fields: "*items,+items.metadata,*items.variant,*items.product",
+        // *shipping_methods: the order card's pickup/courier line (W17) needs the
+        // chosen method's name and amount; defaultStoreOrderFields already carries
+        // metadata (the pickup point), so only this relation is new here.
+        fields: "*items,+items.metadata,*items.variant,*items.product,*shipping_methods",
         ...filters,
       },
       headers,

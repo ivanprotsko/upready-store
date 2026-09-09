@@ -1,6 +1,10 @@
-import { getTranslations } from "next-intl/server"
+import { getLocale, getTranslations } from "next-intl/server"
 
+import { Link } from "@i18n/navigation"
+import { convertToLocale } from "@lib/util/money"
+import { joinFilled } from "@lib/util/address"
 import OrderCard from "@modules/account/components/order-card"
+import { OrderStatusDot } from "@modules/account/components/status-dot"
 import type { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {
@@ -12,7 +16,12 @@ type OverviewProps = {
 const RECENT_LIMIT = 5
 
 const Overview = async ({ customer, orders }: OverviewProps) => {
-  const t = await getTranslations("AccountOverview")
+  const [t, tc, locale] = await Promise.all([
+    getTranslations("AccountOverview"),
+    getTranslations("Common"),
+    getLocale(),
+  ])
+  const latestOrder = orders?.[0]
 
   return (
     <div className="w-full" data-testid="overview-page-wrapper">
@@ -56,6 +65,48 @@ const Overview = async ({ customer, orders }: OverviewProps) => {
           />
         </section>
 
+        {latestOrder && (
+          <section
+            className="flex flex-col gap-y-2 border-t border-ui-border-base pt-6"
+            data-testid="latest-order-section"
+          >
+            <span className="txt-small text-ui-fg-subtle">
+              {t("latestOrder")}
+            </span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 txt-medium">
+              <OrderStatusDot
+                kind="fulfillment"
+                status={latestOrder.fulfillment_status}
+              />
+              <span
+                className="text-ui-fg-base"
+                data-testid="latest-order-summary"
+              >
+                {joinFilled(
+                  [
+                    tc("orderNumber", {
+                      id: latestOrder.display_id ?? latestOrder.id,
+                    }),
+                    joinFilled(
+                      [
+                        latestOrder.items?.[0]?.product_title,
+                        latestOrder.items?.[0]?.variant_title,
+                      ],
+                      ", "
+                    ),
+                    convertToLocale({
+                      amount: latestOrder.total,
+                      currency_code: latestOrder.currency_code,
+                      locale,
+                    }),
+                  ],
+                  " · "
+                )}
+              </span>
+            </div>
+          </section>
+        )}
+
         <section className="flex flex-col gap-y-4 border-t border-ui-border-base pt-6">
           <h2 className="text-large-semi text-ui-fg-base">
             {t("recentOrders")}
@@ -80,6 +131,33 @@ const Overview = async ({ customer, orders }: OverviewProps) => {
               </p>
             )}
           </div>
+        </section>
+
+        <section
+          className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-ui-border-base pt-6 txt-small"
+          data-testid="account-shortcuts"
+        >
+          <Link
+            href="/account/orders"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+            data-testid="shortcut-view-orders"
+          >
+            {t("shortcutViewOrders")}
+          </Link>
+          <Link
+            href="/account/addresses"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+            data-testid="shortcut-manage-addresses"
+          >
+            {t("shortcutManageAddresses")}
+          </Link>
+          <Link
+            href="/account/profile"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+            data-testid="shortcut-edit-profile"
+          >
+            {t("shortcutEditProfile")}
+          </Link>
         </section>
       </div>
     </div>

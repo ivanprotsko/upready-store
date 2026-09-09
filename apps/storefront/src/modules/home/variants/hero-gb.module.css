@@ -1,0 +1,214 @@
+/*
+ * GB · hero stripes — values ported from artifacts/docs/composer/lib/blocks.css:151-193
+ * (`.gal`, `.gb .*`), same token substitution as `hero-ga.module.css` (composer tokens ==
+ * this storefront's own `src/styles/themes.css` tokens, so light/dark presets fall out for
+ * free). The flex-basis/flex-grow transition on `.strip` is the only motion here; it lives
+ * inside `prefers-reduced-motion: no-preference` so a reduced-motion visitor still gets the
+ * expanded strip, just without the animated width change.
+ */
+
+/* max-width/margin match .content-container (globals.css) — every other home section
+   (hero K, category tiles, product listing) caps at 1440px centered, and an uncapped
+   gallery would bleed edge-to-edge past that on a wide screen while its neighbours don't. */
+.gallery {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 22px 32px 10px;
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.count {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.count b {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.strips {
+  display: flex;
+  gap: 10px;
+  height: 520px;
+}
+
+.strip {
+  flex: 0 0 76px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  color: var(--card-foreground);
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .strip {
+    transition: flex-basis 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+      flex-grow 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+.strip.on {
+  flex: 1 1 0;
+}
+
+.frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--muted);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.tag {
+  height: 200px;
+  flex: 0 0 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 14px 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.tag:hover {
+  background: var(--muted);
+}
+
+.tag:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.tagLabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.tagCount {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.pane {
+  padding: 22px 28px 26px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pane h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  color: var(--card-foreground);
+}
+
+.pane p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+.cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cta:hover {
+  opacity: 0.86;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023.98px) {
+  .gallery {
+    padding: 16px 16px 6px;
+  }
+
+  .strips {
+    flex-direction: column;
+    height: auto;
+    gap: 8px;
+  }
+
+  .strip {
+    flex: 0 0 56px;
+    flex-direction: row;
+    transition: none;
+  }
+
+  .strip:not(.on) .frame {
+    flex: 0 0 72px;
+  }
+
+  .tag {
+    height: auto;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 14px;
+  }
+
+  .tagLabel {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .strip.on {
+    flex-direction: column;
+    flex-basis: auto;
+  }
+
+  .strip.on .frame {
+    height: 260px;
+    flex: 0 0 260px;
+  }
+
+  .strip.on .pane {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 18px 20px;
+  }
+
+  .pane h2 {
+    font-size: 24px;
+  }
+}
