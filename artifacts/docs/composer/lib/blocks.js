@@ -2,6 +2,8 @@
 // source: blocks-lab/index.html @893d6f8, script lines 294-584, verbatim except for the leading
 // `export` on every top-level binding; storeShell and the gallery click handler are re-cut below
 // so the mode is a parameter and the listener is wired by the caller, not by the import.
+// H6 and F6 are NOT cuts: they are two free corridor points the labs never built, added here
+// 2026-09-09 for the per-theme compositions (artifacts/docs/2026-09-09-theme-compositions.md).
 
 export const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c])
 export const media = (p, file) => `/media/${p.id}/${file}`
@@ -148,6 +150,12 @@ export const FAMILIES = [
         why: "Шапка 52 px только с wordmark, поиском и корзиной; категории — отдельной полосой фишек с числом товаров. На 390 px полоса прокручивается и остаётся видимой, чего не умеет ни одна другая форма.",
         markup: (p) => promoStrip(p) + `<div class="h5"><header class="hd h5"><div class="side" style="flex:0 0 auto">${wordmark(p)}</div><div class="side r">${utilities(p, { region: false, user: false })}</div></header>
           <div class="cats"><a class="all" href="#">All ${p.products.length}</a>${p.tiles.map((t) => `<a href="#">${esc(t.label)}<span class="n">${countIn(p, t.categoryHandle)}</span></a>`).join("")}</div></div>` },
+      { key: "h6", name: "H6 · Центр + полоса категорий", axes: { mark: "center", nav: "strip", tiers: "one", surface: "page", h: "h64" },
+        why: "Свободная точка коридора, которую фильтр разрешает, а лаборатория не заняла: wordmark по центру (осевая симметрия, язык дома моды) и категории отдельной полосой под шапкой — центр не сталкивается со строкой категорий, потому что они на разных ярусах. Даёт симметрию H1 и видимость категорий H5 одновременно.",
+        markup: (p) => promoStrip(p) + `<div class="h6"><header class="hd h6"><div class="side">${ICON.search}<span class="desk">US · EN</span></div>
+          ${wordmark(p)}
+          <div class="side r">${utilities(p, { search: false, region: false })}</div></header>
+          <div class="cats"><a class="all" href="#">All ${p.products.length}</a>${p.tiles.map((t) => `<a href="#">${esc(t.label)}<span class="n">${countIn(p, t.categoryHandle)}</span></a>`).join("")}</div></div>` },
     ],
     context: (p, block) => block + tilesRow(p) + rowBelow(p, 4),
   },
@@ -187,6 +195,9 @@ export const FAMILIES = [
       { key: "f5", name: "F5 · Условия плитками", axes: { cols: "three", mark: "small", surface: "page", news: "no", facts: "tiles" },
         why: "Клаузы промо-строки — бесплатная доставка, возврат, сроки — становятся тремя карточками перед ссылками. Футер работает как последний аргумент, а не как оглавление.",
         markup: (p) => footerF5(p) },
+      { key: "f6", name: "F6 · Инверсия с гигантским wordmark", axes: { cols: "row", mark: "giant", surface: "inverted", news: "no", facts: "list" },
+        why: "Вторая свободная точка: фильтр разрешает гигантский wordmark на инверсии, если в блоке нет рассылки. Светлая страница получает тёмное основание, а имя бренда — последний кадр. F3 то же самое делает на плоскости страницы и опоры не даёт, F4 инверсию тратит на подписку.",
+        markup: (p) => footerF6(p) },
     ],
     context: (p, block) => defaultHeader(p) + rowBelow(p, 4) + block,
   },
@@ -255,6 +266,12 @@ export function footerF5(p) {
   return `<footer class="ft f5"><div class="facts" style="--n:${Math.min(cl.length, 3)}">${cl.slice(0, 3).map((c, i) => `<div class="fact"><div class="n">0${i + 1}</div><div class="c">${esc(c)}</div></div>`).join("")}</div>
     <div class="links"><div>${wordmark(p)}</div><div><h5>Categories</h5>${linkList(topCats(p))}</div><div><h5>Collections</h5>${linkList(p.collections, "title")}</div></div>
     <div class="legal">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
+}
+
+export function footerF6(p) {
+  return `<footer class="ft f6"><div class="top"><span class="links">${topCats(p).map((c) => `<a href="#">${esc(c.name)}</a>`).join("")}${p.collections.map((c) => `<a href="#">${esc(c.title)}</a>`).join("")}</span><span class="links">${clauses(p).map((c) => `<span>${esc(c)}</span>`).join("")}</span></div>
+    <div class="giant">${esc(p.brand.wordmark?.text ?? p.brand.name.toUpperCase())}</div>
+    <div class="legal" style="margin-top:14px">${legalLine(p)}<div class="l"><span>US · EN · USD</span><span>Powered by Medusa</span></div></div></footer>`
 }
 
 /* ---------- gallery variants ---------- */

@@ -2,7 +2,8 @@
 //
 // A composition is a SPEC: { brand, mode, width, header, hero, tiles, listing, footer }. Every value
 // is a key of the labs Ivan already looked at (H1–H5 on :8302, G–M on :8301, GA/GB on :8302,
-// P1–P5, F1–F5), so a saved version names things that exist on disk and nowhere else.
+// P1–P5, F1–F5), plus the two free corridor points added here 2026-09-09 (H6, F6 — see blocks.js),
+// so a saved version names things that exist on disk and nowhere else.
 // The page order is the storefront's: promo strip + header → hero → category tiles → listing → footer.
 import { FAMILIES, storeShell, tilesRow, moveA } from "./blocks.js"
 import { heroMarkup, HERO_VARIANTS } from "./hero.js"
@@ -70,7 +71,7 @@ export function composePage(p, spec) {
 export function afterRender(root) {
   for (const section of root.querySelectorAll(".gal.ga")) moveA(section, 0)
   return document.fonts.ready.then(() => {
-    for (const giant of root.querySelectorAll(".ft.f3 .giant")) {
+    for (const giant of root.querySelectorAll(".ft .giant")) {
       giant.style.fontSize = ""
       let size = parseFloat(getComputedStyle(giant).fontSize)
       for (let i = 0; i < 6 && giant.scrollWidth > giant.clientWidth && size > 40; i++) {

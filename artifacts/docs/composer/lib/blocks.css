@@ -191,3 +191,19 @@ body[data-width="mobile"] .gb .strip.on { flex-direction: column; flex-basis: au
 body[data-width="mobile"] .gb .strip.on .frame { height: 260px; flex: 0 0 260px; }
 body[data-width="mobile"] .gb .strip.on .pane { flex-direction: column; align-items: flex-start; padding: 16px 18px 20px; }
 body[data-width="mobile"] .gb .strip .pane h2 { font-size: 24px; }
+
+/* ---------- two corridor points added in the composer 2026-09-09 (not cuts from the labs) ---------- */
+/* H6 · wordmark centred + categories as a strip below: the symmetry of H1 with the visibility of H5 */
+.header .h6 .cats { display: flex; gap: 8px; padding: 10px 32px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; justify-content: center; }
+.header .h6 .cats a { flex: 0 0 auto; font-size: 13px; padding: 7px 13px; border: 1px solid var(--border); border-radius: 999px; display: inline-flex; gap: 6px; }
+.header .h6 .cats a .n { color: var(--muted-foreground); }
+.header .h6 .cats a.all { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+body[data-width="mobile"] .header .h6 .cats { padding: 8px 16px; justify-content: flex-start; }
+/* F6 · giant wordmark on the inverted plane: a dark base under a light page, no newsletter */
+.ft.f6 { background: var(--foreground); color: var(--background); border-top: 0; }
+.ft.f6 .top { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.ft.f6 .top .links { display: flex; gap: 18px; flex-wrap: wrap; }
+.ft.f6 .top, .ft.f6 .legal { color: var(--background); opacity: 1; }
+.ft.f6 .legal { border-top-color: var(--background); }
+.ft.f6 .giant { font-family: var(--font-display); font-weight: 700; letter-spacing: .04em; font-size: 190px; line-height: .95; margin: 34px 0 10px; white-space: nowrap; overflow: hidden; }
+body[data-width="mobile"] .ft.f6 .giant { font-size: 44px; }
