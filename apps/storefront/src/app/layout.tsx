@@ -2,6 +2,7 @@ import { getLocaleDir } from "@i18n/config"
 import { GA_MEASUREMENT_ID, getBaseURL } from "@lib/util/env"
 import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
+import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
 import { getStorefrontSettings } from "@lib/data/storefront-settings"
@@ -48,8 +49,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <main className="relative">{props.children}</main>
         {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         {/* Renders the hidden settings panel only for a browser that carries the
-            devtools cookie; null for everybody else, including the HTML of a visitor. */}
-        <DevtoolsMount />
+            devtools cookie; null for everybody else, including the HTML of a visitor.
+            Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the
+            [locale] layout that provides the intl context, and the panel is a client
+            component calling useTranslations("Composition") — without the provider the
+            popover threw on open (measured 2026-09-10 on every stand: "Application
+            error: a client-side exception", next-intl rethrows as Error(undefined) in
+            production). The provider without props inherits locale and messages from
+            the request config. */}
+        <NextIntlClientProvider>
+          <DevtoolsMount />
+        </NextIntlClientProvider>
       </body>
     </html>
   )
