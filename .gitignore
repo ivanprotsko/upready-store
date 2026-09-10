@@ -97,3 +97,5 @@ artifacts/docs/composer/shots/
 
 # Frames shot on the live stands by tests/stands/frames.pw.ts (t-2026-09-09-02): PNG, regenerable, never in history (rule 21f)
 artifacts/stands-frames/
+# Tenant panel vs Admin acceptance screenshots (t-2026-09-11-mt-tenant-panel): binaries never enter git.
+artifacts/docs/tenant-panel-shots/*.png
