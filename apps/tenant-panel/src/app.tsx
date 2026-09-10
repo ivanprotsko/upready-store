@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom"
+import { t } from "i18next"
 
 import { ProtectedRoute } from "./components/authentication/protected-route"
 import { MainLayout } from "./components/layout/main-layout"
@@ -29,6 +30,8 @@ const routes: RouteObject[] = [
           },
           {
             path: "/products",
+            // tenant-panel: same breadcrumb handle as the Admin route map (get-route.map.tsx)
+            handle: { breadcrumb: () => t("products.domain") },
             errorElement: <ErrorBoundary />,
             children: [
               {
@@ -49,6 +52,8 @@ const routes: RouteObject[] = [
           },
           {
             path: "/orders",
+            // tenant-panel: same breadcrumb handle as the Admin route map (get-route.map.tsx)
+            handle: { breadcrumb: () => t("orders.domain") },
             errorElement: <ErrorBoundary />,
             children: [
               {
