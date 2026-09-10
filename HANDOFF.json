@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T03:35:16+08:00",
-  "status": "MT серия 2 закрыта (links, 9e38c69); 11.09 ~04:00: заведена t-2026-09-11-mt-tenant-panel (todo, блокер q-mt-panel-ui-kit — Geist / @medusajs/ui / форк дашборда, ответ Ивану замером); push не делался",
+  "updated": "2026-09-11T03:38:52+08:00",
+  "status": "MT серия 2 закрыта (links, 9e38c69); 11.09 03:37 WITA: заведена t-2026-09-11-mt-tenant-panel (todo, блокер q-mt-panel-ui-kit — Geist / @medusajs/ui / форк дашборда; ответ Ивану замером в чате и памяти, ждём его слова); push не делался",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
