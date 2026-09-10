@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-10",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-10T23:37:58+08:00",
+  "status": "t-2026-09-10-mt-vendors: срез принят на стенде (8ba234a): jest 10/10, живой сценарий 18/18, tsc+lint чистые, отчёт artifacts/docs/2026-09-10-mt-vendors-acceptance.md. Сервер :9023 ОСТАНОВЛЕН при завершении сессии — для гейта Ивана поднять npx medusa develop из apps/backend (тенанты acme/globex в БД upready_store_mt уже есть) и прогнать scripts/mt-live-scenario.mjs. Задача in_progress до приёмки Ивана; q-mt-* открыты; push не делался (21b)."
+}
