@@ -114,6 +114,7 @@ Same validators and query configs as the Admin, same response shape, no write ve
 - `GET /tenants/regions` → `{ regions, count, offset, limit }`
 - `GET /tenants/price-preferences` → `{ price_preferences, count, offset, limit }`
 - `GET /tenants/product-types` → `{ product_types, count, offset, limit }`
+- `GET /tenants/product-categories` → `{ product_categories, count, offset, limit }` (added at integration 2026-09-11: the organize section category combobox, copied from the Admin, reads it)
 - `GET /tenants/product-tags` → `{ product_tags, count, offset, limit }`
 - `GET /tenants/collections` → `{ collections, count, offset, limit }`
 - `GET /tenants/shipping-profiles` → `{ shipping_profiles, count, offset, limit }`

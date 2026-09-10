@@ -683,6 +683,7 @@ medusaIntegrationTestRunner({
         ["/tenants/regions", "regions"],
         ["/tenants/price-preferences", "price_preferences"],
         ["/tenants/product-types", "product_types"],
+        ["/tenants/product-categories", "product_categories"],
         ["/tenants/product-tags", "product_tags"],
         ["/tenants/collections", "collections"],
         ["/tenants/shipping-profiles", "shipping_profiles"],

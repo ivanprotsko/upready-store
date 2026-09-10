@@ -13,6 +13,8 @@ import { listTransformQueryConfig as listOrderQueryConfig } from "@medusajs/medu
 import { AdminGetOrdersParams } from "@medusajs/medusa/api/admin/orders/validators";
 import { listPricePreferenceQueryConfig } from "@medusajs/medusa/api/admin/price-preferences/query-config";
 import { AdminGetPricePreferencesParams } from "@medusajs/medusa/api/admin/price-preferences/validators";
+import { listProductCategoryConfig } from "@medusajs/medusa/api/admin/product-categories/query-config";
+import { AdminProductCategoriesParams } from "@medusajs/medusa/api/admin/product-categories/validators";
 import { listProductOptionsTransformQueryConfig } from "@medusajs/medusa/api/admin/product-options/query-config";
 import { listProductTagsTransformQueryConfig } from "@medusajs/medusa/api/admin/product-tags/query-config";
 import { AdminGetProductTagsParams } from "@medusajs/medusa/api/admin/product-tags/validators";
@@ -185,6 +187,13 @@ export default defineMiddlewares({
       method: ["GET"],
       middlewares: [
         validateAndTransformQuery(AdminGetPricePreferencesParams, listPricePreferenceQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/product-categories",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminProductCategoriesParams, listProductCategoryConfig),
       ],
     },
     {
