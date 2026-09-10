@@ -21,7 +21,7 @@
 - `src/admin/routes/tenants/**` (UI route, `defineRouteConfig`, пункт сайдбара «Магазины»): таблица тенантов, создание, карточка (данные, админы: добавить / сменить email+пароль / удалить), удаление с подтверждением. Внешний вид — компоненты `@medusajs/ui`, как остальная админка.
 - Платформенные администраторы (сотрудники upready) — уже родной раздел Settings → Users (invite); НЕ дублировать.
 - Удаление тенанта — `deleteTenantWorkflow`: см. A3; пока Иван не решил hard/soft — реализовать **soft** (флаг `archived_at`, канал `is_disabled`, ключ отозван, вход админов закрыт), purge — отдельным шагом после решения.
-- Приёмка: seam-тесты `integration-tests/http/admin-tenants.spec.ts` (создание → вход нового админа в панель → товар виден в своём канале; удаление → вход 401, витрина по ключу 401); скриншоты экрана в `artifacts/docs/platform-shots/`; tsc + medusa lint rc=0.
+- Приёмка: seam-тесты `apps/backend/integration-tests/http/admin-tenants.spec.ts` (создание → вход нового админа в панель → товар виден в своём канале; удаление → вход 401, витрина по ключу 401); скриншоты экрана в `artifacts/docs/platform-shots/`; tsc + medusa lint rc=0.
 
 ### A2. Файлы тенантов (7.1) — префикс на ключе
 - Рекомендация (кодировать): ключ объекта `tenants/<tenant_id>/<ulid>-<filename>`. Свой `POST /tenants/uploads` (вместо реэкспорта): тенант из `req.auth_context`, `uploadFilesWorkflow` с `filename` под префиксом — ПРОВЕРИТЬ по `@medusajs/file-s3` (`dist/services/s3-file.js`), как провайдер строит key из filename и сохраняет ли `/`; если нет — свой провайдер-обёртка над s3 с `prefix` из контекста. Local-провайдер — тот же путь в каталоге.

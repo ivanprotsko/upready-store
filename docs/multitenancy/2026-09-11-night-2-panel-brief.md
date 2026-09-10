@@ -57,7 +57,7 @@ API сверх этого: `sellers/*` (адрес, реквизиты комп�
 
 ## 5. Приёмка (каждый кусок — в том же коммите, s4)
 
-- seam-тесты `integration-tests/http/tenants.spec.ts` (+ новые файлы по разделам) зелёные с изоляцией: строка тенанта A не читается/не правится токеном B.
+- seam-тесты `apps/backend/integration-tests/http/tenants.spec.ts` (+ новые файлы по разделам) зелёные с изоляцией: строка тенанта A не читается/не правится токеном B.
 - e2e панели `apps/tenant-panel/e2e/tenant-panel.e2e.mjs` расширен на новые экраны, зелёный на живой :5180.
 - `tsc --noEmit` и eslint в `apps/tenant-panel`, `tsc` + `medusa lint` в `apps/backend` — rc=0.
 - Пары скриншотов admin/panel на каждый новый экран в `artifacts/docs/tenant-panel-shots/` (в git не идут).
