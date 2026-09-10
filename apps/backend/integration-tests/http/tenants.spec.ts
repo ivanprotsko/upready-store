@@ -12,6 +12,12 @@ jest.setTimeout(180_000);
  * Runs against a live Postgres (DB_HOST / DB_PORT / DB_USERNAME / DB_PASSWORD,
  * defaults from @medusajs/test-utils): the runner creates a throwaway database,
  * migrates it and boots the app with this repository's medusa-config.ts.
+ *
+ * Two runner facts shape the tests (measured on @medusajs/test-utils 2.19.0):
+ * the database is restored from its post-`beforeAll` snapshot before every
+ * test (medusa-test-runner.js beforeEach/afterEach), so a test reads only
+ * rows it created itself; and `DB_HOST` must be the literal `localhost`,
+ * because any other host makes the runner force SSL on the connection.
  */
 type Tenant = {
   id: string;
@@ -48,9 +54,6 @@ medusaIntegrationTestRunner({
       let regionId: string;
       let a: Registered;
       let b: Registered;
-      let productA: { id: string };
-      let productB: { id: string };
-      let orderA: { id: string };
 
       const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });
 
@@ -77,6 +80,12 @@ medusaIntegrationTestRunner({
           tenant: created.data.tenant,
           publishableKey: created.data.publishable_api_key,
         };
+      };
+
+      const createProduct = async (owner: Registered, title: string) => {
+        const created = await api.post("/tenants/products", productBody(title), bearer(owner.token));
+        expect(created.status).toBe(201);
+        return created.data.product as { id: string; sales_channels: { id: string }[] };
       };
 
       beforeAll(async () => {
@@ -126,14 +135,12 @@ medusaIntegrationTestRunner({
       it("creates each tenant's product inside its own sales channel", async () => {
         const createdA = await api.post("/tenants/products", productBody("Acme shirt"), bearer(a.token));
         expect(createdA.status).toBe(201);
-        productA = createdA.data.product;
         expect(createdA.data.product.sales_channels.map((sc) => sc.id)).toEqual([
           a.tenant.sales_channel_id,
         ]);
 
         const createdB = await api.post("/tenants/products", productBody("Globex mug"), bearer(b.token));
         expect(createdB.status).toBe(201);
-        productB = createdB.data.product;
         expect(createdB.data.product.sales_channels.map((sc) => sc.id)).toEqual([
           b.tenant.sales_channel_id,
         ]);
@@ -152,6 +159,9 @@ medusaIntegrationTestRunner({
       });
 
       it("lists only the tenant's own products on GET /tenants/products", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+        const productB = await createProduct(b, "Globex mug");
+
         const listA = await api.get("/tenants/products", bearer(a.token));
         const listB = await api.get("/tenants/products", bearer(b.token));
         expect(listA.status).toBe(200);
@@ -167,6 +177,9 @@ medusaIntegrationTestRunner({
       });
 
       it("shows each storefront key only its own catalog on GET /store/products", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+        const productB = await createProduct(b, "Globex mug");
+
         const storeA = await api.get("/store/products", {
           headers: { "x-publishable-api-key": a.publishableKey.token },
         });
@@ -194,8 +207,6 @@ medusaIntegrationTestRunner({
             items: [{ title: "Acme shirt", quantity: 1, unit_price: 10 }],
           },
         });
-        orderA = order;
-
         const { result: link } = await linkOrderToTenantWorkflow(container).run({
           input: { order_id: order.id },
         });
@@ -231,8 +242,10 @@ medusaIntegrationTestRunner({
         });
         expect(result).toEqual({ tenant_id: null, linked: false });
 
+        // The snapshot holds no orders, so an unowned order must leave A's list empty.
         const ordersA = await api.get("/tenants/orders", bearer(a.token));
-        expect(ordersA.data.orders.map((o) => o.id)).toEqual([orderA.id]);
+        expect(ordersA.data.orders.map((o) => o.id)).not.toContain(order.id);
+        expect(ordersA.data.orders).toEqual([]);
       });
 
       it("rejects /tenants/* without a tenant token", async () => {

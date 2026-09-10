@@ -105,7 +105,12 @@ Two of these come with a catch. `pnpm lint` covers both apps, `medusa lint` in t
 `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is absent from the environment. `pnpm test` executes nothing at
 all, because neither app defines a `test` task. The backend suites are `test:unit`,
 `test:integration:http` and `test:integration:modules`, run from `apps/backend` against a live
-Postgres.
+Postgres. Three more catches for the integration suites, measured on `@medusajs/test-utils` 2.19:
+the runner forces SSL on every `DB_HOST` other than the literal `localhost`, so a local Postgres is
+addressed as `DB_HOST=localhost` (with `127.0.0.1` the boot hangs on «Timeout acquiring a
+connection»); the app under test listens on `PORT` from `.env`, so pass a free `PORT=…` while
+`medusa develop` is running; and the database is restored from its post-`beforeAll` snapshot before
+every test, so a test reads only the rows it created itself.
 
 ## Verifying Your Work
 
