@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 24,
+  "action": "status-set",
+  "ts": "2026-09-11T05:39:47+08:00",
+  "status": "Приёмка ночной волны панели тенанта: сторож READY поднят заново после /clear (persistent, дедлайн отката 07:02), дубль сторожа погашен; куски 1 и 2 смержены в feat/mt-panel 11f5a50, куски 3/4 в работе. До READY проверено живьём: стенд :9023/:5180/:8000-8002 отвечает, ловушка allowed-со-звёздами на наш код НЕ перенеслась (наборы полей /tenants/products|orders == /admin/* — 31 и 17 полей, звёздные связи целы), дефект №1 закрыт (admin-after-login.png 88 КБ). Отчёт приёмки 2f4d304. Ждём READY (t-2026-09-11-mt-tenant-panel)"
+}
