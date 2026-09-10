@@ -1,2 +1,1 @@
-// tenant-panel: placeholder, replaced by piece 4.
-export { OrderListPlaceholder as Component } from "./order-list-placeholder"
+export { OrderList as Component } from "./order-list"
