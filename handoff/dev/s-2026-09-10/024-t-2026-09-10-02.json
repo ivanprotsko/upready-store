@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 24,
+  "action": "task-update",
+  "ts": "2026-09-10T18:52:18+08:00",
+  "status": "t-2026-09-09-02 DONE for Ivan's eyes (session f190e1f6, 2026-09-10 05:45 WITA): five stands live on <name>.upready.dev, deploy-stand.sh verify green ×5 on the final build (feat/stands/deploy 7956cdd = dev b23a84b), stand scenario suite green on all five (panel composition, pickup checkout, 0000/9999 cards, account pages, 390 px), 240 frames in feat/stands-composition/artifacts/stands-frames/, upready.dev cards link to the stands with fresh frames (upready-dev bd027d8, Pages deployed). Six live defects found and fixed tonight (hero localhost, region pin, orders spinner, panel crash outside intl provider, panel draft race, unlock refresh) + save-bar loading state. Open for Ivan: panel offers footer F4 / hero L that are not built; footer 'Information' links still the starter's; scruple home thin by seed (1 product in The foundation). Next: push dev (authorised), Ivan's eyes on the five stands.",
+  "task": {
+    "id": "t-2026-09-10-02",
+    "title": "Стенды: липкая полоса категорий в шапках h5/h6 ехала прозрачной поверх сетки товаров — полоса получает фон и линию на всю ширину",
+    "state": "in_progress",
+    "priority": "high",
+    "created": "2026-09-10T18:50:40+08:00",
+    "updated": "2026-09-10T18:52:18+08:00",
+    "goal": "Липкая полоса категорий в шапках h5/h6 после прокрутки остаётся непрозрачной, того же цвета, что шапка, на всю ширину экрана",
+    "acceptance": [
+      "На kerbstone (h5) и стендах с h6 после прокрутки полоса категорий непрозрачна и того же цвета, что шапка, в light и dark",
+      "Playwright tests/stands/header.pw.ts зелёный по живому стенду",
+      "Глазами: карточки товаров не просвечивают под пилюлями категорий при прокрутке"
+    ],
+    "approved": "2026-09-10T18:52:18+08:00",
+    "details": "Заказ Ивана в чате 2026-09-10 со скриншотами kerbstone (dark, 1440): «нужно исправить баг при котором в фиксированной панели с категориями отсутствует фон». Причина: полоса категорий в h5/h6 лежит внутри sticky-обёртки, но вне <header>, у которого bg-ui-bg-base."
+  }
+}

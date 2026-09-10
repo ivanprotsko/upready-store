@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-10T05:57:46+08:00",
-  "status": "t-2026-09-09-02 DONE for Ivan's eyes (session f190e1f6, 2026-09-10 05:45 WITA): five stands live on <name>.upready.dev, deploy-stand.sh verify green ×5 on the final build (feat/stands/deploy 7956cdd = dev b23a84b), stand scenario suite green on all five (panel composition, pickup checkout, 0000/9999 cards, account pages, 390 px), 240 frames in feat/stands-composition/artifacts/stands-frames/, upready.dev cards link to the stands with fresh frames (upready-dev bd027d8, Pages deployed). Six live defects found and fixed tonight (hero localhost, region pin, orders spinner, panel crash outside intl provider, panel draft race, unlock refresh) + save-bar loading state. Open for Ivan: panel offers footer F4 / hero L that are not built; footer 'Information' links still the starter's; scruple home thin by seed (1 product in The foundation). Next: push dev (authorised), Ivan's eyes on the five stands.",
+  "updated": "2026-09-10T19:39:48+08:00",
+  "status": "t-2026-09-10-01 + t-2026-09-10-02 (заказы Ивана в чате 2026-09-10 днём): код готов на feat/locale-detect = dacbd0e (724724c локаль: choice-cookie + полный Accept-Language, ru побеждает при наличии; dacbd0e полоса категорий h5/h6 с фоном). tsc/lint/vitest 8/8 зелёные; Playwright locale.pw.ts + header.pw.ts написаны, по живому стенду НЕ гонялись — стенды ещё на старом коде, деплой не выполнялся (правило 21c, слова «выкатывай» не было). Локальный next dev :8010 из worktree не поднялся (лог не создался) — перепроверить. Дальше: мерж в feat/stands/deploy → deploy-stand.sh <stand> --skip-backend-build ×5 (по команде Ивана) → STAND_URL=… corepack pnpm test:stands -- tests/stands/locale.pw.ts tests/stands/header.pw.ts → ff dev → push.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -379,6 +379,40 @@
         "Админка каждого стенда открывается парой admin@upready.dev / supersecret; личный кабинет каждого стенда — user@upready.dev / supersecret (решение Ивана 2026-09-09 23:58)"
       ],
       "approved": "2026-09-09T22:03:07+08:00"
+    },
+    {
+      "id": "t-2026-09-10-01",
+      "title": "Стенды: язык витрины при заходе без локали в URL — русский, если он есть среди языков браузера, иначе первый поддерживаемый язык браузера; выбор в переключателе помнится год, заход на /en больше не пинит английский",
+      "state": "in_progress",
+      "priority": "high",
+      "created": "2026-09-10T18:45:08+08:00",
+      "updated": "2026-09-10T18:52:18+08:00",
+      "goal": "Посетитель стенда без локали в URL видит русскую витрину, если русский есть среди языков его браузера, иначе первый поддерживаемый язык браузера; выбор в переключателе помнится год, а переход по /en-ссылке больше не пинит английский",
+      "acceptance": [
+        "На стенде: браузер с ru первым → /ru; браузер en-US,en,ru (как Chrome Ивана) → /ru; браузер только en → /en; de-first → /de",
+        "Стёртый cookie _medusa_locale=en у русского браузера больше не пинит /en",
+        "Переход по /en/store из русского браузера показывает английский там, а следующий заход на / — /ru",
+        "Выбор языка в переключателе (h1–h4,h6) помнится: следующий заход на / отдаёт выбранный язык поверх браузера",
+        "vitest config.test.ts зелёный, tsc/lint чистые, Playwright tests/stands/locale.pw.ts зелёный по живому стенду"
+      ],
+      "approved": "2026-09-10T18:52:18+08:00",
+      "details": "Заказ Ивана в чате 2026-09-10 (дословно): «нужно сделать чтобы русская версия была включена по умолчанию или лучше сделать чтобы устанавливалась та версия, которая стоит у пользователя в браузере». Замер: Chrome Ивана шлёт Accept-Language en-US,en;q=0.9,ru;q=0.8, система en-ID, upready.dev lang=ru — буквальный «язык браузера» дал бы Ивану английский, поэтому русский побеждает при наличии в списке, иначе порядок браузера."
+    },
+    {
+      "id": "t-2026-09-10-02",
+      "title": "Стенды: липкая полоса категорий в шапках h5/h6 ехала прозрачной поверх сетки товаров — полоса получает фон и линию на всю ширину",
+      "state": "in_progress",
+      "priority": "high",
+      "created": "2026-09-10T18:50:40+08:00",
+      "updated": "2026-09-10T18:52:18+08:00",
+      "goal": "Липкая полоса категорий в шапках h5/h6 после прокрутки остаётся непрозрачной, того же цвета, что шапка, на всю ширину экрана",
+      "acceptance": [
+        "На kerbstone (h5) и стендах с h6 после прокрутки полоса категорий непрозрачна и того же цвета, что шапка, в light и dark",
+        "Playwright tests/stands/header.pw.ts зелёный по живому стенду",
+        "Глазами: карточки товаров не просвечивают под пилюлями категорий при прокрутке"
+      ],
+      "approved": "2026-09-10T18:52:18+08:00",
+      "details": "Заказ Ивана в чате 2026-09-10 со скриншотами kerbstone (dark, 1440): «нужно исправить баг при котором в фиксированной панели с категориями отсутствует фон». Причина: полоса категорий в h5/h6 лежит внутри sticky-обёртки, но вне <header>, у которого bg-ui-bg-base."
     }
   ],
   "questions": [
