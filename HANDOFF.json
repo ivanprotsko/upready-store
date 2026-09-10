@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T05:09:56+08:00",
-  "status": "Ночная волна панели тенанта: кусок 2 (backend /tenants/* в форме админки, 34 seam-теста) принят и смержен в feat/mt-panel (15bccd9); кусок 1 (каркас, feat/mt-panel-skeleton) на живой проверке; дальше — merge каркаса, перезапуск :9023 из feat/mt-panel, куски 3/4, e2e, READY",
+  "updated": "2026-09-11T05:27:58+08:00",
+  "status": "Ночная волна панели тенанта: куски 1 (каркас) и 2 (backend) приняты и смержены в feat/mt-panel (11f5a50); :9023 перезапущен из feat/mt-panel/apps/backend; куски 3 (products list+create) и 4 (orders list) работают в feat/mt-panel-products / feat/mt-panel-orders; дальше — интеграция, e2e, скриншоты панели, READY",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
