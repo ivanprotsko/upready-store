@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-10T19:39:48+08:00",
+  "updated": "2026-09-10T19:41:14+08:00",
   "status": "t-2026-09-10-01 + t-2026-09-10-02 (заказы Ивана в чате 2026-09-10 днём): код готов на feat/locale-detect = dacbd0e (724724c локаль: choice-cookie + полный Accept-Language, ru побеждает при наличии; dacbd0e полоса категорий h5/h6 с фоном). tsc/lint/vitest 8/8 зелёные; Playwright locale.pw.ts + header.pw.ts написаны, по живому стенду НЕ гонялись — стенды ещё на старом коде, деплой не выполнялся (правило 21c, слова «выкатывай» не было). Локальный next dev :8010 из worktree не поднялся (лог не создался) — перепроверить. Дальше: мерж в feat/stands/deploy → deploy-stand.sh <stand> --skip-backend-build ×5 (по команде Ивана) → STAND_URL=… corepack pnpm test:stands -- tests/stands/locale.pw.ts tests/stands/header.pw.ts → ff dev → push.",
   "tasks": [
     {
@@ -630,6 +630,15 @@
       "question": "Главная Scruple по сидовой композиции h6·k·off·p3·f6 визуально бедная: в блоке «The foundation» один товар (коллекция по сиду), плиток нет. Включить tiles в сиде supplements и/или расширить коллекцию?",
       "asked": "2026-09-10",
       "audience": "ivan"
+    },
+    {
+      "id": "q-locale-rule-ru-wins",
+      "question": "q-locale-rule-ru-wins: правило языка при заходе без локали в URL. Реализовано: русский побеждает, если он есть где угодно в Accept-Language (твой Chrome шлёт en-US,en;q=0.9,ru;q=0.8 — строгий порядок браузера дал бы тебе английский; upready.dev на русском), иначе первый поддерживаемый язык браузера, поверх всего — выбор в переключателе. Альтернативы одной константой preferredLocales в apps/storefront/src/i18n/config.ts: (a) строгий порядок браузера; (b) русский для всех. Оставляем как есть?",
+      "asked": "2026-09-10",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-10-01"
+      ]
     }
   ],
   "sessions": [

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-10",
+  "index": 25,
+  "action": "status-set",
+  "ts": "2026-09-10T19:39:48+08:00",
+  "status": "t-2026-09-10-01 + t-2026-09-10-02 (заказы Ивана в чате 2026-09-10 днём): код готов на feat/locale-detect = dacbd0e (724724c локаль: choice-cookie + полный Accept-Language, ru побеждает при наличии; dacbd0e полоса категорий h5/h6 с фоном). tsc/lint/vitest 8/8 зелёные; Playwright locale.pw.ts + header.pw.ts написаны, по живому стенду НЕ гонялись — стенды ещё на старом коде, деплой не выполнялся (правило 21c, слова «выкатывай» не было). Локальный next dev :8010 из worktree не поднялся (лог не создался) — перепроверить. Дальше: мерж в feat/stands/deploy → deploy-stand.sh <stand> --skip-backend-build ×5 (по команде Ивана) → STAND_URL=… corepack pnpm test:stands -- tests/stands/locale.pw.ts tests/stands/header.pw.ts → ff dev → push."
+}
