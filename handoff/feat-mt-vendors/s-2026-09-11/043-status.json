@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 43,
+  "action": "status-set",
+  "ts": "2026-09-11T07:47:54+08:00",
+  "status": "Ночь 2 идёт: промпты A (feat/mt-panel-2, PORT 9026/5181) и B (feat/mt-platform, PORT 9024) выданы Ивану 07:43, worktrees на d1c19c5; сторож watch-ready-2.sh под Monitor (task bvl3igi1i) ждёт READY в artifacts/docs/2026-09-12-{tenant-panel,platform}-night.md; приёмку утром делает эта сессия. Ответ Ивану 07:5x: бэкенд один на всех (shared), витрины на стенде — три процесса одного кода с ключом в env (middleware.ts:7), резолва по Host нет; целевая «одна витрина, тенант по Host, дизайн из БД» — отдельная задача t-…-mt-storefront-by-host, заводит Иван утром. Хук doc-structure-guard освобождён от ложняка на resume.mjs fold|add (~/.claude 9dbcbe27). Push не делать"
+}

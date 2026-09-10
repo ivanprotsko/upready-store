@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T07:40:15+08:00",
-  "status": "Ночь 2 (11→12.09) подготовлена: волна 1 панели слита в feat/mt-vendors (3bd16a8); брифы docs/multitenancy/2026-09-11-night-2-{panel,platform}-brief.md (13e0df7); четыре задачи активированы по приказам Ивана 07:1x — t-2026-09-11-mt-panel-wave-2 (ветка feat/mt-panel-2), t-2026-09-11-mt-platform-admin + -onboarding-design + -ops-design (ветка feat/mt-platform); Иван спит, запускает две сессии по промптам; push не делать",
+  "updated": "2026-09-11T07:47:54+08:00",
+  "status": "Ночь 2 идёт: промпты A (feat/mt-panel-2, PORT 9026/5181) и B (feat/mt-platform, PORT 9024) выданы Ивану 07:43, worktrees на d1c19c5; сторож watch-ready-2.sh под Monitor (task bvl3igi1i) ждёт READY в artifacts/docs/2026-09-12-{tenant-panel,platform}-night.md; приёмку утром делает эта сессия. Ответ Ивану 07:5x: бэкенд один на всех (shared), витрины на стенде — три процесса одного кода с ключом в env (middleware.ts:7), резолва по Host нет; целевая «одна витрина, тенант по Host, дизайн из БД» — отдельная задача t-…-mt-storefront-by-host, заводит Иван утром. Хук doc-structure-guard освобождён от ложняка на resume.mjs fold|add (~/.claude 9dbcbe27). Push не делать",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
