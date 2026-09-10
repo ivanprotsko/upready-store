@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T03:10:07+08:00",
-  "status": "MT срез 11.09 серия 2: tenant↔канал/ключ переведены с колонок на module links (решение Ивана «links»), строки стенда перенесены db:migrate (3→6 links), /tenants/* остаётся backend панели (a). tsc+lint чисто, seam 16/16, живой 20/20 на :9023. Вопросы columns-vs-links и tenants-namespace resolved; открыт q-mt-panel-ui-kit (панель — задачи нет, заводит Иван).",
+  "updated": "2026-09-11T03:35:16+08:00",
+  "status": "MT серия 2 закрыта (links, 9e38c69); 11.09 ~04:00: заведена t-2026-09-11-mt-tenant-panel (todo, блокер q-mt-panel-ui-kit — Geist / @medusajs/ui / форк дашборда, ответ Ивану замером); push не делался",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -449,6 +449,36 @@
         "e9ca0e8",
         "9e38c69"
       ]
+    },
+    {
+      "id": "t-2026-09-11-mt-tenant-panel",
+      "title": "Панель тенанта (a): отдельное приложение поверх /tenants/* — вход, обзор, свои товары (список + создание), свои заказы",
+      "state": "todo",
+      "priority": "high",
+      "details": "Иван 11.09 («да ОК, заводи»): панель владельца магазина = отдельное приложение поверх /tenants/* (решение q-mt-tenants-namespace-vs-panel-abc → (a)). Данные: GET /tenants/me (tenant.sales_channel, tenant.api_key), GET|POST /tenants/products (тело POST = AdminCreateProduct, как у родной админки), GET /tenants/orders; вход POST /auth/tenant/emailpass (actor type tenant). Стадия 1 — дизайн (27d), до любого кода: построить прототип четырёх экранов (вход, обзор, товары список + создание, заказы) и показать в нём поведение — строка списка товаров открывается, форма создания заполняется и отправляется, строка списка заказов открывает заказ; Иван принимает макет своими глазами ДО кода. Канон стадии дизайна фиксируется решением Ивана по q-mt-panel-ui-kit (Geist — ~/upready/packages/geist-kit/AGENTS.md, правило 27; или @medusajs/ui; или форк @medusajs/dashboard); до этого решения стадия дизайна не начинается. Стенд: backend :9023, тенанты admin@acme.test / admin@globex.test / admin@initech.test (креды ~/upready/memory/secrets/upready-store/local-mt-stand.txt), витрины :8000/:8001/:8002.",
+      "files": [
+        "apps/backend/src/api/tenants"
+      ],
+      "blockers": [
+        "q-mt-panel-ui-kit"
+      ],
+      "tags": [
+        "multitenancy",
+        "panel",
+        "ui"
+      ],
+      "created": "2026-09-11T03:33:29+08:00",
+      "updated": "2026-09-11T03:34:22+08:00",
+      "goal": "Владелец магазина (тенант) входит в свою панель и видит и заводит только свои товары и заказы — отдельное приложение поверх /tenants/*, четыре экрана: вход, обзор, товары (список + создание), заказы",
+      "acceptance": [
+        "макет четырёх экранов (вход, обзор, товары список + создание, заказы) с показанным поведением принят Иваном своими глазами ДО кода (27d)",
+        "вход admin@acme.test на живом стенде :9023 → список показывает 4 товара Acme и 0 чужих; вход admin@globex.test → 2 товара Globex и 0 чужих (18f)",
+        "товар, созданный из панели Acme, виден на витрине :8000 и не виден на :8001 и :8002",
+        "список заказов тенанта содержит только заказы его канала: заказ с витрины :8000 появляется у Acme и не появляется у Globex",
+        "Иван открыл панель своими глазами: названия товаров не обрезаны многоточием, форма создания товара заполняется без инструкции, статусы заказов подписаны словами, а не raw enum (18e)",
+        "seam/e2e-тест панели в том же коммите (s4), tsc и lint чистые"
+      ],
+      "approved": "2026-09-11T03:34:22+08:00"
     }
   ],
   "questions": [
@@ -674,6 +704,15 @@
       "audience": "ivan",
       "blocks": [
         "t-2026-09-10-01"
+      ]
+    },
+    {
+      "id": "q-mt-panel-ui-kit",
+      "question": "UI-кит панели тенанта (t-2026-09-11-mt-tenant-panel): Geist (правило 27), @medusajs/ui (компонентный кит родной админки, MIT, без форка) или форк @medusajs/dashboard 2.19.0 (src лежит в пакете; вход зашит на actor user, все экраны читают /admin/*; прецедент — Mercur vendor-panel). Ответ сессии 11.09 с замерами — в чате и в memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md.",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-tenant-panel"
       ]
     }
   ],

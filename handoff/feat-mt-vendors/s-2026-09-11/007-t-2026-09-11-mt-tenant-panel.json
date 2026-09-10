@@ -1,0 +1,30 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 7,
+  "action": "task-add",
+  "ts": "2026-09-11T03:33:29+08:00",
+  "status": "MT срез 11.09 серия 2: tenant↔канал/ключ переведены с колонок на module links (решение Ивана «links»), строки стенда перенесены db:migrate (3→6 links), /tenants/* остаётся backend панели (a). tsc+lint чисто, seam 16/16, живой 20/20 на :9023. Вопросы columns-vs-links и tenants-namespace resolved; открыт q-mt-panel-ui-kit (панель — задачи нет, заводит Иван).",
+  "task": {
+    "id": "t-2026-09-11-mt-tenant-panel",
+    "title": "Панель тенанта (a): отдельное приложение поверх /tenants/* — вход, обзор, свои товары (список + создание), свои заказы",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Иван 11.09 («да ОК, заводи»): панель владельца магазина = отдельное приложение поверх /tenants/* (решение q-mt-tenants-namespace-vs-panel-abc → (a)). Данные: GET /tenants/me (tenant.sales_channel, tenant.api_key), GET|POST /tenants/products (тело POST = AdminCreateProduct, как у родной админки), GET /tenants/orders; вход POST /auth/tenant/emailpass (actor type tenant). Стадия 1 — дизайн (27d), до любого кода: построить прототип четырёх экранов (вход, обзор, товары список + создание, заказы) и показать в нём поведение — строка списка товаров открывается, форма создания заполняется и отправляется, строка списка заказов открывает заказ; Иван принимает макет своими глазами ДО кода. Канон стадии дизайна фиксируется решением Ивана по q-mt-panel-ui-kit (Geist — ~/upready/packages/geist-kit/AGENTS.md, правило 27; или @medusajs/ui; или форк @medusajs/dashboard); до этого решения стадия дизайна не начинается. Стенд: backend :9023, тенанты admin@acme.test / admin@globex.test / admin@initech.test (креды ~/upready/memory/secrets/upready-store/local-mt-stand.txt), витрины :8000/:8001/:8002.",
+    "files": [
+      "apps/backend/src/api/tenants"
+    ],
+    "blockers": [
+      "q-mt-panel-ui-kit"
+    ],
+    "tags": [
+      "multitenancy",
+      "panel",
+      "ui"
+    ],
+    "created": "2026-09-11T03:33:29+08:00",
+    "updated": "2026-09-11T03:33:29+08:00"
+  }
+}
