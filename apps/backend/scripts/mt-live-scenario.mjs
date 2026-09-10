@@ -36,10 +36,12 @@ const meA = await call("GET", "/tenants/me", { token: tokA });
 const meB = await call("GET", "/tenants/me", { token: tokB });
 const tenA = meA.data.tenant_admin?.tenant, tenB = meB.data.tenant_admin?.tenant;
 check(tenA?.handle === "acme" && tenB?.handle === "globex", "GET /tenants/me names the tenant behind each token");
+check(tenA?.sales_channel?.id?.startsWith("sc_") && tenA?.api_key?.id?.startsWith("apk_") && tenB?.sales_channel?.id?.startsWith("sc_"), "GET /tenants/me carries the sales channel and the publishable key through the links (one query.graph read)");
 
 // Publishable keys: printed by seed-tenants (raw token only at creation). Passed via env.
 const keyA = process.env.PK_ACME, keyB = process.env.PK_GLOBEX;
 if (!keyA || !keyB) { fail("PK_ACME / PK_GLOBEX env missing"); process.exit(1); }
+check(tenA?.api_key?.token === keyA && tenB?.api_key?.token === keyB, "the key each storefront calls with is the one linked to its tenant");
 
 const regions = await call("GET", "/store/regions", { key: keyA });
 const region = regions.data.regions?.[0];
@@ -50,11 +52,11 @@ out(`region ${region.id} ${region.name} ${cur} ${country}`);
 const pA = await call("POST", "/tenants/products", { token: tokA, body: product(`Acme shirt (live ${RUN})`, cur) });
 const pB = await call("POST", "/tenants/products", { token: tokB, body: product(`Globex mug (live ${RUN})`, cur) });
 check(pA.status === 201 && pB.status === 201, "POST /tenants/products → 201 for both tenants");
-check(pA.data.product?.sales_channels?.map(s => s.id).join() === tenA.sales_channel_id, "A's product sits only in A's sales channel");
-check(pB.data.product?.sales_channels?.map(s => s.id).join() === tenB.sales_channel_id, "B's product sits only in B's sales channel");
+check(pA.data.product?.sales_channels?.map(s => s.id).join() === tenA.sales_channel?.id, "A's product sits only in A's sales channel");
+check(pB.data.product?.sales_channels?.map(s => s.id).join() === tenB.sales_channel?.id, "B's product sits only in B's sales channel");
 
-const smuggle = await call("POST", "/tenants/products", { token: tokA, body: { ...product(`Acme smuggled (live ${RUN})`, cur), sales_channels: [{ id: tenB.sales_channel_id }] } });
-check(smuggle.data.product?.sales_channels?.map(s => s.id).join() === tenA.sales_channel_id, "foreign sales_channels in the body are ignored");
+const smuggle = await call("POST", "/tenants/products", { token: tokA, body: { ...product(`Acme smuggled (live ${RUN})`, cur), sales_channels: [{ id: tenB.sales_channel?.id }] } });
+check(smuggle.data.product?.sales_channels?.map(s => s.id).join() === tenA.sales_channel?.id, "foreign sales_channels in the body are ignored");
 
 const lA = await call("GET", "/tenants/products", { token: tokA });
 const lB = await call("GET", "/tenants/products", { token: tokB });
@@ -97,7 +99,7 @@ out(`orders visible to A after ${tries} poll(s) × 500 ms`);
 const oB = await call("GET", "/tenants/orders", { token: tokB });
 const linked = (oA.data.orders ?? []).find(o => o.id === order?.id);
 check(!!linked, "GET /tenants/orders for A contains the storefront order");
-check(linked?.sales_channel_id === tenA.sales_channel_id, "the linked order carries tenant A's sales channel id (GET /tenants/orders)");
+check(linked?.sales_channel_id === tenA.sales_channel?.id, "the linked order carries tenant A's sales channel id (GET /tenants/orders)");
 check((oB.data.orders ?? []).length === 0, `GET /tenants/orders for B is empty (got ${(oB.data.orders ?? []).length})`);
 
 const anon = await call("GET", "/tenants/products");

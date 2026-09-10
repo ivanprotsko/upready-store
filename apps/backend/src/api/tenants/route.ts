@@ -8,8 +8,9 @@ import type { PostTenantCreateBody } from "./validators";
  * with the registration token from `POST /auth/tenant/emailpass/register`;
  * after it the same email logs in through `POST /auth/tenant/emailpass`.
  *
- * The response carries the publishable key token in clear: it is returned by
- * the API Key Module at creation only, and the tenant's storefront needs it.
+ * The response is the tenant with its sales channel and publishable key, the
+ * same shape `GET /tenants/me` reads back through the links. `tenant.api_key.token`
+ * is in clear: a publishable key is public by design and the storefront needs it.
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantCreateBody>,

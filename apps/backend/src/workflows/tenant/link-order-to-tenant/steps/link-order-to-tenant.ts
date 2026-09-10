@@ -2,8 +2,8 @@ import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import type { LinkDefinition } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import tenantOrderLink from "../../../../links/tenant-order";
+import tenantSalesChannelLink from "../../../../links/tenant-sales-channel";
 import { TENANT_MODULE } from "../../../../modules/tenant";
-import TenantModuleService from "../../../../modules/tenant/service";
 
 export type LinkOrderToTenantStepInput = {
   order_id: string;
@@ -19,6 +19,7 @@ export type LinkOrderToTenantStepOutput = {
 
 /**
  * The tenant that owns the order's sales channel gets the tenant-order link.
+ * The owner is read off the tenant-sales-channel link (channel → tenant).
  * An order placed in a sales channel no tenant owns (the seed profile's own
  * channel, staff orders) is left alone: it is nobody's in `/tenants/*`, and it
  * stays visible in the native Admin as before. Re-running on an order already
@@ -34,17 +35,21 @@ const linkOrderToTenantStep = createStep(
       );
     }
 
-    const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
-    const [tenant] = await tenantModuleService.listTenants({ sales_channel_id });
+    const query = container.resolve(ContainerRegistrationKeys.QUERY);
+    const { data: owners } = await query.graph({
+      entity: tenantSalesChannelLink.entryPoint,
+      fields: ["tenant_id"],
+      filters: { sales_channel_id },
+    });
+    const tenantId = owners[0]?.tenant_id as string | undefined;
 
-    if (!tenant) {
+    if (!tenantId) {
       return new StepResponse<LinkOrderToTenantStepOutput, LinkDefinition | null>(
         { tenant_id: null, linked: false },
         null,
       );
     }
 
-    const query = container.resolve(ContainerRegistrationKeys.QUERY);
     const { data: existingLinks } = await query.graph({
       entity: tenantOrderLink.entryPoint,
       fields: ["tenant_id"],
@@ -59,7 +64,7 @@ const linkOrderToTenantStep = createStep(
     }
 
     const linkDefinition: LinkDefinition = {
-      [TENANT_MODULE]: { tenant_id: tenant.id },
+      [TENANT_MODULE]: { tenant_id: tenantId },
       [Modules.ORDER]: { order_id },
     };
 
@@ -67,7 +72,7 @@ const linkOrderToTenantStep = createStep(
     await link.create(linkDefinition);
 
     return new StepResponse<LinkOrderToTenantStepOutput, LinkDefinition | null>(
-      { tenant_id: tenant.id, linked: true },
+      { tenant_id: tenantId, linked: true },
       linkDefinition,
     );
   },

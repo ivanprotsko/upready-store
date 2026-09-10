@@ -1,5 +1,9 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
-import { createOrdersWorkflow, createRegionsWorkflow } from "@medusajs/medusa/core-flows";
+import {
+  createOrdersWorkflow,
+  createRegionsWorkflow,
+  deleteSalesChannelsWorkflow,
+} from "@medusajs/medusa/core-flows";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
@@ -23,13 +27,14 @@ jest.setTimeout(180_000);
 type Tenant = {
   id: string;
   handle: string;
-  sales_channel_id: string;
-  publishable_api_key_id: string;
+  sales_channel: { id: string; name: string };
+  api_key: { id: string; token: string };
 };
 
 type Registered = {
   token: string;
   tenant: Tenant;
+  /** The tenant's own publishable key, as `POST /tenants` returned it. */
   publishableKey: { id: string; token: string };
 };
 
@@ -79,7 +84,7 @@ medusaIntegrationTestRunner({
         return {
           token: login.data.token,
           tenant: created.data.tenant,
-          publishableKey: created.data.publishable_api_key,
+          publishableKey: created.data.tenant.api_key,
         };
       };
 
@@ -113,14 +118,18 @@ medusaIntegrationTestRunner({
       });
 
       it("gives each tenant its own sales channel and publishable key", () => {
-        expect(a.tenant.sales_channel_id).toMatch(/^sc_/);
-        expect(b.tenant.sales_channel_id).toMatch(/^sc_/);
-        expect(a.tenant.sales_channel_id).not.toBe(b.tenant.sales_channel_id);
+        expect(a.tenant.sales_channel.id).toMatch(/^sc_/);
+        expect(b.tenant.sales_channel.id).toMatch(/^sc_/);
+        expect(a.tenant.sales_channel.id).not.toBe(b.tenant.sales_channel.id);
 
         expect(a.publishableKey.token).toMatch(/^pk_/);
         expect(b.publishableKey.token).toMatch(/^pk_/);
-        expect(a.publishableKey.id).toBe(a.tenant.publishable_api_key_id);
-        expect(b.publishableKey.id).toBe(b.tenant.publishable_api_key_id);
+        expect(a.publishableKey.id).toBe(a.tenant.api_key.id);
+        expect(b.publishableKey.id).toBe(b.tenant.api_key.id);
+
+        // The channel and the key are links, not columns of the tenant row.
+        expect(a.tenant).not.toHaveProperty("sales_channel_id");
+        expect(a.tenant).not.toHaveProperty("publishable_api_key_id");
       });
 
       it("reports the tenant behind the token on GET /tenants/me", async () => {
@@ -128,6 +137,37 @@ medusaIntegrationTestRunner({
         expect(me.status).toBe(200);
         expect(me.data.tenant_admin.email).toBe("admin@acme.test");
         expect(me.data.tenant_admin.tenant.id).toBe(a.tenant.id);
+      });
+
+      it("reads the tenant's sales channel and publishable key through the links on GET /tenants/me", async () => {
+        const me = await api.get("/tenants/me", bearer(a.token));
+        expect(me.status).toBe(200);
+        const tenant = me.data.tenant_admin.tenant;
+        expect(tenant.sales_channel.id).toBe(a.tenant.sales_channel.id);
+        expect(tenant.api_key.id).toBe(a.publishableKey.id);
+        expect(tenant.api_key.token).toBe(a.publishableKey.token);
+        expect(tenant).not.toHaveProperty("sales_channel_id");
+        expect(tenant).not.toHaveProperty("publishable_api_key_id");
+      });
+
+      it("loses the link, not the tenant, when the sales channel is deleted", async () => {
+        // Medusa's own workflow removes the link with the channel (removeRemoteLinkStep);
+        // a text column would have kept the dead id and every read would dereference it.
+        const container = getContainer();
+        await deleteSalesChannelsWorkflow(container).run({
+          input: { ids: [b.tenant.sales_channel.id] },
+        });
+
+        const me = await api.get("/tenants/me", bearer(b.token));
+        expect(me.status).toBe(200);
+        expect(me.data.tenant_admin.tenant.id).toBe(b.tenant.id);
+        expect(me.data.tenant_admin.tenant.sales_channel ?? null).toBeNull();
+
+        // And the one write that needs the channel says so instead of publishing into nothing.
+        const refused = await api
+          .post("/tenants/products", productBody("Globex orphan"), bearer(b.token))
+          .catch((error) => error.response);
+        expect(refused.status).toBe(400);
       });
 
       it("refuses a registration token that already belongs to a tenant admin", async () => {
@@ -145,25 +185,25 @@ medusaIntegrationTestRunner({
         const createdA = await api.post("/tenants/products", productBody("Acme shirt"), bearer(a.token));
         expect(createdA.status).toBe(201);
         expect(createdA.data.product.sales_channels.map((sc) => sc.id)).toEqual([
-          a.tenant.sales_channel_id,
+          a.tenant.sales_channel.id,
         ]);
 
         const createdB = await api.post("/tenants/products", productBody("Globex mug"), bearer(b.token));
         expect(createdB.status).toBe(201);
         expect(createdB.data.product.sales_channels.map((sc) => sc.id)).toEqual([
-          b.tenant.sales_channel_id,
+          b.tenant.sales_channel.id,
         ]);
       });
 
       it("ignores foreign sales channels sent in the product body", async () => {
         const smuggled = await api.post(
           "/tenants/products",
-          { ...productBody("Acme smuggled"), sales_channels: [{ id: b.tenant.sales_channel_id }] },
+          { ...productBody("Acme smuggled"), sales_channels: [{ id: b.tenant.sales_channel.id }] },
           bearer(a.token),
         );
         expect(smuggled.status).toBe(201);
         expect(smuggled.data.product.sales_channels.map((sc) => sc.id)).toEqual([
-          a.tenant.sales_channel_id,
+          a.tenant.sales_channel.id,
         ]);
       });
 
@@ -279,7 +319,7 @@ medusaIntegrationTestRunner({
           const { data: channels } = await query.graph({
             entity: "sales_channel",
             fields: ["id", "stock_locations.id", "stock_locations.name"],
-            filters: { id: tenant.tenant.sales_channel_id },
+            filters: { id: tenant.tenant.sales_channel.id },
           });
           return (channels[0]?.stock_locations ?? [])
             .map((location) => ({ id: location?.id as string, name: location?.name as string }))
@@ -319,7 +359,7 @@ medusaIntegrationTestRunner({
             region_id: regionId,
             currency_code: "eur",
             email: "shopper@example.com",
-            sales_channel_id: a.tenant.sales_channel_id,
+            sales_channel_id: a.tenant.sales_channel.id,
             items: [{ title: "Acme shirt", quantity: 1, unit_price: 10 }],
           },
         });

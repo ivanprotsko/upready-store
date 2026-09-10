@@ -8,6 +8,7 @@ import {
   useQueryGraphStep,
 } from "@medusajs/medusa/core-flows";
 import { TENANT_MODULE } from "../../../modules/tenant";
+import assertTenantSalesChannelStep from "./steps/assert-tenant-sales-channel";
 
 export type CreateTenantProductWorkflowInput = {
   tenant_admin_id: string;
@@ -17,16 +18,17 @@ export type CreateTenantProductWorkflowInput = {
 /**
  * Creates a product owned by the authenticated tenant admin's tenant. Two
  * things differ from the recipe's `createVendorProductWorkflow`: the product is
- * attached to the TENANT's sales channel rather than the store default, and any
- * `sales_channels` in the request body are replaced by it, so a tenant cannot
- * publish into another tenant's channel.
+ * attached to the TENANT's sales channel (read through the tenant-sales-channel
+ * link) rather than the store default, and any `sales_channels` in the request
+ * body are replaced by it, so a tenant cannot publish into another tenant's
+ * channel.
  */
 const createTenantProductWorkflow = createWorkflow(
   "create-tenant-product",
   (input: CreateTenantProductWorkflowInput) => {
     const { data: tenantAdmins } = useQueryGraphStep({
       entity: "tenant_admin",
-      fields: ["id", "tenant.id", "tenant.sales_channel_id"],
+      fields: ["id", "tenant.id", "tenant.sales_channel.id"],
       filters: {
         id: input.tenant_admin_id,
       },
@@ -35,14 +37,21 @@ const createTenantProductWorkflow = createWorkflow(
       },
     });
 
-    const productData = transform({ input, tenantAdmins }, (data) => {
+    const channelCheck = transform({ tenantAdmins }, (data) => ({
+      tenant_id: data.tenantAdmins[0].tenant?.id as string,
+      sales_channel_id: data.tenantAdmins[0].tenant?.sales_channel?.id as string | undefined,
+    }));
+
+    const salesChannelId = assertTenantSalesChannelStep(channelCheck);
+
+    const productData = transform({ input, salesChannelId }, (data) => {
       return {
         products: [
           {
             ...data.input.product,
             sales_channels: [
               {
-                id: data.tenantAdmins[0].tenant.sales_channel_id,
+                id: data.salesChannelId,
               },
             ],
           },

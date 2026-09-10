@@ -313,3 +313,60 @@ seam-тест работал без сида). `createTenantWorkflow` вызыв
 `tsc --noEmit` и `medusa lint` — чистые. Seam-тест `integration-tests/http/tenants.spec.ts` дополнен четырьмя
 тестами (line-item против канала, create-cart с чужим вариантом, shipping options только из своего склада, два
 склада в одном городе не пересекаются) — результат в HANDOFF.
+
+## Дополнение 11.09 (серия 2) — tenant ↔ канал/ключ как module links
+
+Решения Ивана 11.09 ~01:40: `q-mt-tenant-columns-vs-links` → **links**; `q-mt-tenants-namespace-vs-panel-abc` →
+**(a)**, `/tenants/*` остаётся backend панели тенанта, код не меняется. Оба вопроса закрыты `question resolve`.
+
+### Что изменилось
+
+- Модель `tenant` (`src/modules/tenant/models/tenant.ts`) больше не хранит `sales_channel_id` и
+  `publishable_api_key_id`. Связь — два `defineLink`: `src/links/tenant-sales-channel.ts` (tenant ↔ sales_channel)
+  и `src/links/tenant-api-key.ts` (tenant ↔ api_key). Link sync создал таблицы `tenant_tenant_sales_channel_sales_channel`
+  и `tenant_tenant_api_key_api_key`. Кардинальность «один канал, один ключ на тенанта» держит workflow, не БД:
+  первичный ключ link-таблицы — пара (tenant_id, sales_channel_id / api_key_id), как у tenant-product.
+- `createTenantWorkflow`: строка тенанта без id-колонок, затем `createRemoteLinkStep` с двумя link-записями
+  (компенсация — dismiss). Ответ `POST /tenants` = `{ tenant: { …, sales_channel: {id, name}, api_key: {id, token,
+  title, type} } }` — та же форма, что `GET /tenants/me` отдаёт через links одним `query.graph` (`tenant.*`,
+  `tenant.sales_channel.*`, `tenant.api_key.*`). Token publishable-ключа в БД лежит открыто (замер `api_key.token`
+  на стенде = PK из secrets), поэтому `/tenants/me` показывает его повторно.
+- Владелец заказа (`link-order-to-tenant`): канал → тенант читается по entry point link-а `tenant_sales_channel`
+  (`filters: { sales_channel_id }`) вместо `listTenants({ sales_channel_id })`.
+- `createTenantProductWorkflow`: канал берётся из `tenant.sales_channel.id`; если link исчез (канал удалён в админке,
+  `removeRemoteLinkStep`) — шаг `assert-tenant-sales-channel` отдаёт 400 «has no sales channel to sell in».
+  Шаг, а не throw в `transform`: lint-правило Medusa `@medusajs/no-throw-in-transform` это запрещает
+  (поймано `medusa lint` до коммита).
+- Миграция `Migration20260910190340` (сгенерирована `medusa db:generate tenant`, дописана вручную): перед drop
+  колонок паркует пары id в `tenant_link_backfill`; migration-script `src/migration-scripts/backfill-tenant-links.ts`
+  превращает их в link-строки и удаляет таблицу. Почему так: `medusa db:migrate` идёт в три стадии — миграции
+  модулей → link sync → migration-scripts (`@medusajs/medusa/dist/commands/db/migrate.js`), link-таблиц на первой
+  стадии ещё нет. `medusaIntegrationTestRunner` гоняет только миграции и link sync (`medusa-test-runner.js:99-100`),
+  migration-scripts — нет, поэтому перенос строк проверен на стенде, а не в jest. `down()` возвращает колонки
+  nullable и заполняет их из link-таблиц — не прогонялся.
+- `seed-tenants.ts` и `reprovision-tenant-warehouses.ts` читают канал через link (`query.graph` entity `tenant`,
+  поле `sales_channel.id`); тенант без link пропускается с warn.
+
+### Замеры
+
+- Стенд `:9023`, `npx medusa db:migrate` rc=0: «Created following links tables … (tenant_tenant_api_key_api_key)
+  … (tenant_tenant_sales_channel_sales_channel)»; «backfill-tenant-links: 3 tenant(s) → 6 link(s);
+  tenant_link_backfill dropped». В БД после: у `tenant` 7 колонок (id, handle, name, metadata, created_at, updated_at,
+  deleted_at); acme/globex/initech через link-таблицы указывают на те же `sc_…`/`apk_…`, что стояли в колонках;
+  `to_regclass('public.tenant_link_backfill')` = null; `script_migrations` содержит `backfill-tenant-links.ts`.
+- Живой сценарий `scripts/mt-live-scenario.mjs` на :9023 (код с links): **20/20**, из них новые: «GET /tenants/me
+  carries the sales channel and the publishable key through the links (one query.graph read)» и «the key each
+  storefront calls with is the one linked to its tenant» (token из `/tenants/me` = PK_ACME/PK_GLOBEX из secrets).
+  Заказ с витрины Acme `order_01M26BDGX9TQXDN8060379JT83` привязан к acme через link канал → тенант, у globex пусто.
+- Seam-тест `integration-tests/http/tenants.spec.ts`: **16/16** (21,1 с; было 14). Новые: «reads the tenant's sales
+  channel and publishable key through the links on GET /tenants/me» и «loses the link, not the tenant, when the
+  sales channel is deleted» — `deleteSalesChannelsWorkflow` убирает link, `tenant.sales_channel` = null,
+  `POST /tenants/products` → 400. Это и есть аргумент «links, а не колонки», закреплённый тестом.
+- `tsc --noEmit` rc=0, `medusa lint` rc=0.
+
+### Что не делалось
+
+- Удаление канала живого тенанта на стенде — нет (сломало бы витрину этого тенанта; поведение проверено seam-тестом
+  на изолированной БД раннера).
+- `down()` миграции не прогонялся.
+- Панель тенанта (a) — задачи нет, заводит Иван (22j).

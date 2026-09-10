@@ -54,38 +54,6 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "sales_channel_id": {
-          "name": "sales_channel_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "text"
-        },
-        "publishable_api_key_id": {
-          "name": "publishable_api_key_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "text"
-        },
         "metadata": {
           "name": "metadata",
           "type": "jsonb",
@@ -162,24 +130,6 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_handle_unique\" ON \"tenant\" (\"handle\") WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "IDX_tenant_sales_channel_id_unique",
-          "columnNames": [],
-          "composite": false,
-          "constraint": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_sales_channel_id_unique\" ON \"tenant\" (\"sales_channel_id\") WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "IDX_tenant_publishable_api_key_id_unique",
-          "columnNames": [],
-          "composite": false,
-          "constraint": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_publishable_api_key_id_unique\" ON \"tenant\" (\"publishable_api_key_id\") WHERE deleted_at IS NULL"
         },
         {
           "keyName": "IDX_tenant_deleted_at",

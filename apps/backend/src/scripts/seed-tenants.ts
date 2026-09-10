@@ -12,8 +12,8 @@ import createTenantWorkflow from "../workflows/tenant/create-tenant";
  *   npx medusa exec ./src/scripts/seed-tenants.ts
  *
  * Idempotent by handle: a tenant that exists is skipped. Each tenant gets an
- * emailpass login for its admin, a sales channel, a publishable key and the
- * stock-location links, all through `createTenantWorkflow`, the same path
+ * emailpass login for its admin, a sales channel, a publishable key and its
+ * own warehouse, all through `createTenantWorkflow`, the same path
  * `POST /tenants` takes. The publishable key token is printed once, here: it
  * is a public storefront key, not a secret, and the API Key Module returns the
  * raw value only at creation.
@@ -71,7 +71,7 @@ export default async function seedTenants({ container }: { container: MedusaCont
     });
 
     logger.info(
-      `seed-tenants: ${seed.handle} → ${result.tenant.id}, admin ${seed.admin.email}, sales channel ${result.tenant.sales_channel_id}, publishable key ${result.publishable_api_key.token}.`,
+      `seed-tenants: ${seed.handle} → ${result.tenant.id}, admin ${seed.admin.email}, sales channel ${result.tenant.sales_channel.id}, publishable key ${result.tenant.api_key.token}.`,
     );
   }
 }

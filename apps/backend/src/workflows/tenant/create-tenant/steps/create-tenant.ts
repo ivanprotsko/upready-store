@@ -5,8 +5,6 @@ import TenantModuleService from "../../../../modules/tenant/service";
 export type CreateTenantStepInput = {
   name: string;
   handle: string;
-  sales_channel_id: string;
-  publishable_api_key_id: string;
 };
 
 const createTenantStep = createStep(

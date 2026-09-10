@@ -1,11 +1,14 @@
+import type { LinkDefinition } from "@medusajs/framework/types";
+import { Modules } from "@medusajs/framework/utils";
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
 import {
   createApiKeysWorkflow,
+  createRemoteLinkStep,
   createSalesChannelsWorkflow,
   linkSalesChannelsToApiKeyWorkflow,
   setAuthAppMetadataStep,
 } from "@medusajs/medusa/core-flows";
-import { TENANT_ACTOR_TYPE } from "../../../modules/tenant";
+import { TENANT_ACTOR_TYPE, TENANT_MODULE } from "../../../modules/tenant";
 import provisionTenantWarehouseWorkflow from "../provision-tenant-warehouse";
 import createTenantAdminStep from "./steps/create-tenant-admin";
 import createTenantStep from "./steps/create-tenant";
@@ -29,8 +32,10 @@ export type CreateTenantWorkflowInput = {
  * linked to it, and — through `provisionTenantWarehouseWorkflow` — the tenant's
  * OWN warehouse (one stock location, a base service zone, two flat shipping
  * options) so checkout works from the first minute on isolated stock and
- * shipping. All of it runs as steps, so a failure anywhere rolls the whole
- * registration back.
+ * shipping. The channel and the key are attached to the tenant as module links
+ * (tenant-sales-channel, tenant-api-key) by `createRemoteLinkStep`, whose
+ * compensation dismisses them. All of it runs as steps, so a failure anywhere
+ * rolls the whole registration back.
  */
 const createTenantWorkflow = createWorkflow(
   "create-tenant",
@@ -80,14 +85,25 @@ const createTenantWorkflow = createWorkflow(
       input: warehouseInput,
     });
 
-    const tenantData = transform({ input, salesChannels, apiKeys }, (data) => ({
-      name: data.input.name,
-      handle: data.input.handle,
-      sales_channel_id: data.salesChannels[0].id,
-      publishable_api_key_id: data.apiKeys[0].id,
+    const tenantData = transform({ input }, ({ input }) => ({
+      name: input.name,
+      handle: input.handle,
     }));
 
     const tenant = createTenantStep(tenantData);
+
+    const linksToCreate = transform({ tenant, salesChannels, apiKeys }, (data): LinkDefinition[] => [
+      {
+        [TENANT_MODULE]: { tenant_id: data.tenant.id },
+        [Modules.SALES_CHANNEL]: { sales_channel_id: data.salesChannels[0].id },
+      },
+      {
+        [TENANT_MODULE]: { tenant_id: data.tenant.id },
+        [Modules.API_KEY]: { api_key_id: data.apiKeys[0].id },
+      },
+    ]);
+
+    createRemoteLinkStep(linksToCreate);
 
     const tenantAdminData = transform({ input, tenant }, (data) => ({
       ...data.input.admin,
@@ -102,17 +118,24 @@ const createTenantWorkflow = createWorkflow(
       value: tenantAdmin.id,
     });
 
-    const result = transform({ tenant, tenantAdmin, apiKeys }, (data) => ({
+    // The same shape `GET /tenants/me` returns through the links, so a client
+    // reads the tenant's channel and key from either place alike. The key's
+    // raw token comes from the API Key Module at creation; for a publishable
+    // key it is stored in clear as well, so `/tenants/me` shows it again.
+    const result = transform({ tenant, tenantAdmin, salesChannels, apiKeys }, (data) => ({
       tenant: {
         ...data.tenant,
         admins: [data.tenantAdmin],
-      },
-      // The raw token is returned by the API Key Module only at creation
-      // (api-key-module-service.js, "return the raw token"): this is the one
-      // place the storefront's key can be read in clear.
-      publishable_api_key: {
-        id: data.apiKeys[0].id,
-        token: data.apiKeys[0].token,
+        sales_channel: {
+          id: data.salesChannels[0].id,
+          name: data.salesChannels[0].name,
+        },
+        api_key: {
+          id: data.apiKeys[0].id,
+          token: data.apiKeys[0].token,
+          title: data.apiKeys[0].title,
+          type: data.apiKeys[0].type,
+        },
       },
     }));
 

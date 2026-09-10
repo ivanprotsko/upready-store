@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-11T03:08:40+08:00",
+  "status": "MT срез 11.09 серия 2: tenant↔канал/ключ переведены с колонок на module links (решение Ивана «links»), строки стенда перенесены db:migrate (3→6 links), /tenants/* остаётся backend панели (a). tsc+lint чисто, seam 16/16, живой 20/20 на :9023. Вопросы columns-vs-links и tenants-namespace resolved; открыт q-mt-panel-ui-kit (панель — задачи нет, заводит Иван)."
+}

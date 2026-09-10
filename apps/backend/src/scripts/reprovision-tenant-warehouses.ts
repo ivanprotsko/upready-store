@@ -1,8 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
-import { TENANT_MODULE } from "../modules/tenant";
-import TenantModuleService from "../modules/tenant/service";
 import provisionTenantWarehouseWorkflow from "../workflows/tenant/provision-tenant-warehouse";
 
 /**
@@ -27,9 +25,11 @@ export default async function reprovisionTenantWarehouses({
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER) as Logger;
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const link = container.resolve(ContainerRegistrationKeys.LINK);
-  const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
 
-  const tenants = await tenantModuleService.listTenants({});
+  const { data: tenants } = await query.graph({
+    entity: "tenant",
+    fields: ["id", "handle", "name", "sales_channel.id"],
+  });
   if (tenants.length === 0) {
     logger.info("reprovision-tenant-warehouses: no tenants — nothing to do.");
     return;
@@ -37,11 +37,19 @@ export default async function reprovisionTenantWarehouses({
 
   for (const tenant of tenants) {
     const ownWarehouseName = `${tenant.name} warehouse`;
+    const salesChannelId = tenant.sales_channel?.id as string | undefined;
+
+    if (!salesChannelId) {
+      logger.warn(
+        `reprovision-tenant-warehouses: ${tenant.handle} has no sales channel linked — skipped.`,
+      );
+      continue;
+    }
 
     const { data: channels } = await query.graph({
       entity: "sales_channel",
       fields: ["id", "stock_locations.id", "stock_locations.name"],
-      filters: { id: tenant.sales_channel_id },
+      filters: { id: salesChannelId },
     });
 
     const linkedLocations = (channels[0]?.stock_locations ?? [])
@@ -59,14 +67,14 @@ export default async function reprovisionTenantWarehouses({
 
     for (const location of linkedLocations) {
       await link.dismiss({
-        [Modules.SALES_CHANNEL]: { sales_channel_id: tenant.sales_channel_id },
+        [Modules.SALES_CHANNEL]: { sales_channel_id: salesChannelId },
         [Modules.STOCK_LOCATION]: { stock_location_id: location.id },
       });
     }
 
     const { result } = await provisionTenantWarehouseWorkflow(container).run({
       input: {
-        sales_channel_id: tenant.sales_channel_id,
+        sales_channel_id: salesChannelId,
         tenant_name: tenant.name,
       },
     });
