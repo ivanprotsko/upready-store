@@ -32,6 +32,9 @@ export default defineConfig(({ mode }) => {
       __STOREFRONT_URL__: JSON.stringify(STOREFRONT_URL),
       __AUTH_TYPE__: JSON.stringify("session"),
       __JWT_TOKEN_STORAGE_KEY__: JSON.stringify(""),
+      // tenant-panel: read by the copied components/common/file-upload,
+      // which already falls back to 1MB when undefined.
+      __MAX_UPLOAD_FILE_SIZE__: "undefined",
     },
     server: {
       port: 5180,

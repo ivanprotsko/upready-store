@@ -1,0 +1,17 @@
+// tenant-panel: barrel of the panel's own hooks/api modules, one per Admin
+// module name the copied screens import from (see AGENTS.md and
+// docs/tenant-panel/api-contract.md). Re-exports exactly the modules this
+// piece implements; the Admin's barrel re-exports ~50, one per domain it has.
+export * from "./auth"
+export * from "./users"
+export * from "./store"
+export * from "./sales-channels"
+export * from "./regions"
+export * from "./price-preferences"
+export * from "./product-types"
+export * from "./tags"
+export * from "./collections"
+export * from "./shipping-profiles"
+export * from "./products"
+export * from "./product-options"
+export * from "./orders"
