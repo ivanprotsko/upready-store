@@ -417,6 +417,288 @@ medusaIntegrationTestRunner({
           .catch((error) => error.response);
         expect(asCustomer.status).toBe(401);
       });
+      /**
+       * Everything below reads the `/tenants/*` routes the tenant panel is
+       * written against. The panel renders the Medusa Admin's own screen files,
+       * so these assert the Admin's list shape (`count`, `offset`, `limit`
+       * beside the plural key) as much as they assert the isolation.
+       */
+
+      const placeOrder = async (owner: Registered, title: string) => {
+        const container = getContainer();
+        const { result: order } = await createOrdersWorkflow(container).run({
+          input: {
+            region_id: regionId,
+            currency_code: "eur",
+            email: "shopper@example.com",
+            sales_channel_id: owner.tenant.sales_channel.id,
+            items: [{ title, quantity: 1, unit_price: 10 }],
+          },
+        });
+        await linkOrderToTenantWorkflow(container).run({ input: { order_id: order.id } });
+        return order;
+      };
+
+      it("answers GET /tenants/products in the Admin's list shape", async () => {
+        await createProduct(a, "Acme shirt");
+        await createProduct(a, "Acme mug");
+
+        const page = await api.get("/tenants/products?limit=1&offset=0", bearer(a.token));
+        expect(page.status).toBe(200);
+        expect(page.data.products).toHaveLength(1);
+        // `count` is the total behind the page, not the size of the page.
+        expect(page.data.count).toBe(2);
+        expect(page.data.offset).toBe(0);
+        expect(page.data.limit).toBe(1);
+
+        const second = await api.get("/tenants/products?limit=1&offset=1", bearer(a.token));
+        expect(second.data.count).toBe(2);
+        expect(second.data.offset).toBe(1);
+        expect(second.data.products[0].id).not.toBe(page.data.products[0].id);
+      });
+
+      it("filters GET /tenants/products by q and narrows it by fields", async () => {
+        await createProduct(a, "Acme shirt");
+        await createProduct(a, "Acme mug");
+
+        const filtered = await api.get("/tenants/products?q=shirt", bearer(a.token));
+        expect(filtered.status).toBe(200);
+        expect(filtered.data.count).toBe(1);
+        expect(filtered.data.products[0].title).toBe("Acme shirt");
+
+        const narrowed = await api.get("/tenants/products?fields=id,title", bearer(a.token));
+        expect(narrowed.status).toBe(200);
+        expect(Object.keys(narrowed.data.products[0]).sort()).toEqual(["id", "title"]);
+      });
+
+      it("shows tenant B an empty page on GET /tenants/products, not the whole catalog", async () => {
+        await createProduct(a, "Acme shirt");
+
+        const listB = await api.get("/tenants/products", bearer(b.token));
+        expect(listB.status).toBe(200);
+        expect(listB.data.products).toEqual([]);
+        // The isolation guarantee: an `id` filter narrowed to nothing must not
+        // become an absent filter, which is no filter at all.
+        expect(listB.data.count).toBe(0);
+        expect(listB.data.offset).toBe(0);
+      });
+
+      it("answers 404 on another tenant's product for GET and DELETE", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+
+        const readByB = await api
+          .get(`/tenants/products/${productA.id}`, bearer(b.token))
+          .catch((error) => error.response);
+        expect(readByB.status).toBe(404);
+
+        const deleteByB = await api
+          .delete(`/tenants/products/${productA.id}`, bearer(b.token))
+          .catch((error) => error.response);
+        expect(deleteByB.status).toBe(404);
+
+        // A foreign id is answered exactly like a missing one, and deletes nothing.
+        const missing = await api
+          .get("/tenants/products/prod_does_not_exist", bearer(b.token))
+          .catch((error) => error.response);
+        expect(missing.status).toBe(404);
+
+        const readByOwner = await api.get(`/tenants/products/${productA.id}`, bearer(a.token));
+        expect(readByOwner.status).toBe(200);
+        expect(readByOwner.data.product.id).toBe(productA.id);
+      });
+
+      it("deletes the tenant's own product on DELETE /tenants/products/:id", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+
+        const deleted = await api.delete(`/tenants/products/${productA.id}`, bearer(a.token));
+        expect(deleted.status).toBe(200);
+        expect(deleted.data).toEqual({ id: productA.id, object: "product", deleted: true });
+
+        const after = await api.get("/tenants/products", bearer(a.token));
+        expect(after.data.count).toBe(0);
+        expect(after.data.products).toEqual([]);
+      });
+
+      it("answers GET /tenants/orders in the Admin's list shape", async () => {
+        await placeOrder(a, "Acme shirt");
+        await placeOrder(a, "Acme mug");
+
+        const page = await api.get("/tenants/orders?limit=1", bearer(a.token));
+        expect(page.status).toBe(200);
+        expect(page.data.orders).toHaveLength(1);
+        expect(page.data.count).toBe(2);
+        expect(page.data.offset).toBe(0);
+        expect(page.data.limit).toBe(1);
+
+        // `getOrdersListWorkflow` computes statuses and totals on top of the
+        // selection, so `fields` narrows what is read, not what is derived.
+        const narrowed = await api.get("/tenants/orders?fields=id,status", bearer(a.token));
+        expect(narrowed.data.orders[0]).toHaveProperty("id");
+        expect(narrowed.data.orders[0]).toHaveProperty("status");
+        expect(narrowed.data.orders[0]).not.toHaveProperty("email");
+      });
+
+      it("shows tenant B an empty page on GET /tenants/orders", async () => {
+        await placeOrder(a, "Acme shirt");
+
+        const listB = await api.get("/tenants/orders?limit=20", bearer(b.token));
+        expect(listB.status).toBe(200);
+        expect(listB.data.orders).toEqual([]);
+        expect(listB.data.count).toBe(0);
+        expect(listB.data.limit).toBe(20);
+      });
+
+      it("lists only the tenant's own channel on GET /tenants/sales-channels", async () => {
+        const listA = await api.get("/tenants/sales-channels", bearer(a.token));
+        expect(listA.status).toBe(200);
+        expect(listA.data.count).toBe(1);
+        expect(listA.data.offset).toBe(0);
+        expect(listA.data.sales_channels.map((channel) => channel.id)).toEqual([
+          a.tenant.sales_channel.id,
+        ]);
+
+        const listB = await api.get("/tenants/sales-channels", bearer(b.token));
+        expect(listB.data.sales_channels.map((channel) => channel.id)).toEqual([
+          b.tenant.sales_channel.id,
+        ]);
+
+        // An id the tenant does not own narrows the page to nothing rather
+        // than widening it back to every channel on the backend.
+        const foreignFilter = await api.get(
+          `/tenants/sales-channels?id=${a.tenant.sales_channel.id}`,
+          bearer(b.token),
+        );
+        expect(foreignFilter.data.count).toBe(0);
+        expect(foreignFilter.data.sales_channels).toEqual([]);
+      });
+
+      it("answers 404 on another tenant's sales channel", async () => {
+        const own = await api.get(
+          `/tenants/sales-channels/${a.tenant.sales_channel.id}`,
+          bearer(a.token),
+        );
+        expect(own.status).toBe(200);
+        expect(own.data.sales_channel.id).toBe(a.tenant.sales_channel.id);
+
+        const foreign = await api
+          .get(`/tenants/sales-channels/${a.tenant.sales_channel.id}`, bearer(b.token))
+          .catch((error) => error.response);
+        expect(foreign.status).toBe(404);
+      });
+
+      it("carries the tenant's name and channel on GET /tenants/store", async () => {
+        const storeA = await api.get("/tenants/store", bearer(a.token));
+        expect(storeA.status).toBe(200);
+        expect(storeA.data.store.name).toBe("Acme");
+        expect(storeA.data.store.default_sales_channel_id).toBe(a.tenant.sales_channel.id);
+        expect(Array.isArray(storeA.data.store.supported_currencies)).toBe(true);
+
+        const storeB = await api.get("/tenants/store", bearer(b.token));
+        expect(storeB.data.store.name).toBe("Globex");
+        expect(storeB.data.store.default_sales_channel_id).toBe(b.tenant.sales_channel.id);
+        // One store row underneath: the two tenants differ in what they are
+        // told about it, not in which row they read.
+        expect(storeB.data.store.id).toBe(storeA.data.store.id);
+      });
+
+      it("lists only the options of the tenant's own products on GET /tenants/product-options", async () => {
+        await createProduct(a, "Acme shirt");
+
+        const globexProduct = await api.post(
+          "/tenants/products",
+          {
+            ...productBody("Globex mug"),
+            options: [{ title: "Material", values: ["Clay"] }],
+            variants: [
+              {
+                title: "Globex mug",
+                prices: [{ currency_code: "eur", amount: 10 }],
+                manage_inventory: false,
+                options: { Material: "Clay" },
+              },
+            ],
+          },
+          bearer(b.token),
+        );
+        expect(globexProduct.status).toBe(201);
+
+        const listA = await api.get("/tenants/product-options", bearer(a.token));
+        expect(listA.status).toBe(200);
+        expect(listA.data.offset).toBe(0);
+        const titlesA = listA.data.product_options.map((option) => option.title);
+        expect(titlesA).toContain("Color");
+        expect(titlesA).not.toContain("Material");
+        expect(listA.data.count).toBe(listA.data.product_options.length);
+
+        const listB = await api.get("/tenants/product-options", bearer(b.token));
+        expect(listB.data.product_options.map((option) => option.title)).toEqual(["Material"]);
+
+        // `product_id` narrows within the tenant's own products; another
+        // tenant's product id narrows it to nothing.
+        const foreign = await api.get(
+          `/tenants/product-options?product_id=${globexProduct.data.product.id}`,
+          bearer(a.token),
+        );
+        expect(foreign.data.count).toBe(0);
+        expect(foreign.data.product_options).toEqual([]);
+      });
+
+      it("lists only the inventory items of the tenant's own variants", async () => {
+        const stocked = await api.post(
+          "/tenants/products",
+          {
+            ...productBody("Acme stocked shirt"),
+            variants: [
+              {
+                title: "Acme stocked shirt",
+                sku: "acme-stocked-shirt",
+                prices: [{ currency_code: "eur", amount: 10 }],
+                manage_inventory: true,
+                options: { Color: "Blue" },
+              },
+            ],
+          },
+          bearer(a.token),
+        );
+        expect(stocked.status).toBe(201);
+
+        const listA = await api.get("/tenants/inventory-items?limit=20", bearer(a.token));
+        expect(listA.status).toBe(200);
+        expect(listA.data.count).toBeGreaterThan(0);
+        expect(listA.data.inventory_items.length).toBe(listA.data.count);
+        expect(listA.data.offset).toBe(0);
+        expect(listA.data.limit).toBe(20);
+
+        const listB = await api.get("/tenants/inventory-items?limit=20", bearer(b.token));
+        expect(listB.data.count).toBe(0);
+        expect(listB.data.inventory_items).toEqual([]);
+      });
+
+      /**
+       * The reference lists are global data (catalog taxonomy and store
+       * configuration every storefront already shows), so there is nothing to
+       * scope. What the panel needs from them is the Admin's list shape.
+       */
+      it.each([
+        ["/tenants/regions", "regions"],
+        ["/tenants/price-preferences", "price_preferences"],
+        ["/tenants/product-types", "product_types"],
+        ["/tenants/product-tags", "product_tags"],
+        ["/tenants/collections", "collections"],
+        ["/tenants/shipping-profiles", "shipping_profiles"],
+      ])("answers GET %s in the Admin's list shape", async (path, key) => {
+        const response = await api.get(`${path}?limit=1&offset=0`, bearer(a.token));
+        expect(response.status).toBe(200);
+        expect(Array.isArray(response.data[key])).toBe(true);
+        expect(typeof response.data.count).toBe("number");
+        expect(response.data.offset).toBe(0);
+        expect(response.data.limit).toBe(1);
+        expect(response.data[key].length).toBeLessThanOrEqual(1);
+
+        const anonymous = await api.get(path).catch((error) => error.response);
+        expect(anonymous.status).toBe(401);
+      });
+
     });
   },
 });

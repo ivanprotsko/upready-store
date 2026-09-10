@@ -21,6 +21,11 @@ and the Admin field names.
   `validateAndTransformQuery(<Params>, <listQueryConfig>)` in middlewares.ts, exactly as
   `@medusajs/medusa/dist/api/admin/middlewares` does. Then the route reads `req.queryConfig`
   (fields, pagination) and `req.filterableFields` and adds the tenant's own `id` constraint.
+  The read itself goes through `refetchEntities` from `@medusajs/framework/http`, which is the
+  Admin's own thin wrapper around `query.graph` and returns `metadata.count/skip/take`.
+- Pagination defaults are the Admin validators' own, and they differ per resource because
+  `createFindParams` writes a zod default that the query config's `defaultLimit` never overrides:
+  products 50, orders 15, most reference lists 20, collections 10.
 - List responses: `{ <plural>: T[], count: number, offset: number, limit: number }`.
 - Errors: Medusa's `MedusaError` (`NOT_FOUND` for a foreign or missing id, `INVALID_DATA` for a
   bad body). Never leak whether a foreign id exists: foreign = 404, same as missing.
@@ -39,18 +44,21 @@ and the Admin field names.
 ### Changed
 
 `GET /tenants/products` → `{ products: AdminProduct[], count, offset, limit }`.
-Params (Admin's `AdminGetProductsParams` + `listProductQueryConfig`): `limit` (default 20),
+Params (Admin's `AdminGetProductsParams` + `listProductQueryConfig`): `limit` (default 50),
 `offset`, `order`, `q`, `id`, `status`, `sales_channel_id`, `collection_id`, `category_id`,
 `type_id`, `tag_id`, `is_giftcard`, `created_at`, `updated_at`, `fields` (Admin field syntax such
 as `id,title,handle,status,*collection,*sales_channels,variants.id,thumbnail,-type,-options,-tags,-images,-variants`,
-which is what the product list sends). Implementation: read the tenant's product ids through the
+which is what the product list sends). `sales_channel_id` is turned into an id filter by
+`maybeApplyLinkFilter` before the route runs, the way the Admin does it, because a product cannot
+be filtered by that column directly. Implementation: read the tenant's product ids through the
 link, intersect with any `id` filter, return the empty page when the intersection is empty,
-otherwise `query.graph({ entity: "product", fields, filters: { ...filterableFields, id: ownIds },
-pagination })` and take `count` from `metadata.count`.
+otherwise `refetchEntities({ entity: "product", fields, idOrFilter: { ...filterableFields,
+id: ownIds }, pagination })` and take `count` from `metadata.count`. The response rows go through
+the Admin's `remapProductResponse`, so `variants[].prices` is where the panel expects it.
 
 `GET /tenants/orders` → `{ orders: AdminOrder[], count, offset, limit }`.
 Params (Admin's `AdminGetOrdersParams` + `listTransformQueryConfig` from
-`@medusajs/medusa/api/admin/orders/query-config`): `limit` (20), `offset`, `order`, `q`, `id`,
+`@medusajs/medusa/api/admin/orders/query-config`): `limit` (default 15), `offset`, `order`, `q`, `id`,
 `status`, `sales_channel_id`, `region_id`, `customer_id`, `created_at`, `updated_at`, `fields`.
 The order list sends `fields` = `DEFAULT_FIELDS` from
 `@medusajs/dashboard/src/routes/orders/order-list/const.ts`. Implementation: keep the current
@@ -69,18 +77,35 @@ skip, take } }`. Mirror `@medusajs/medusa/dist/api/admin/orders/route.js` GET.
   limit }` (empty list, count 0, when the link is gone). `GET /tenants/sales-channels/:id` →
   `{ sales_channel }` only for that id, else 404.
 - `GET /tenants/product-options` → `{ product_options, count, offset, limit }`: options of the
-  tenant's own products (`query.graph` entity `product_option`, filter `product_id` in own ids).
-  Params `q`, `limit`, `offset`, `order`, `fields`, `product_id`.
-- `GET /tenants/store` → `{ store }`: the store row (`id, supported_currencies.*,
-  default_currency_code, default_region_id, default_location_id, metadata, created_at,
-  updated_at`) with `name` replaced by the tenant's name and `default_sales_channel_id` set to the
-  tenant's channel id. The panel's sidebar shows `store.name`; the price grid reads
-  `supported_currencies`.
+  tenant's own products. In 2.19.0 `product_option` is many-to-many with products, so the scope is
+  the nested filter `products: { id: ownProductIds }`, not a `product_id` column. `product_id`
+  stays the query parameter: the Admin's `AdminGetProductOptionsParams` does not declare it and zod
+  strips what it does not declare, so `TenantGetProductOptionsParams` in
+  `apps/backend/src/api/tenants/validators.ts` extends the Admin's schema with it. The `products`
+  relation is dropped from the selected fields, because a non-exclusive option is shared by title
+  across the catalog and its `products` would otherwise carry another tenant's rows. Params `q`,
+  `id`, `title`, `is_exclusive`, `limit`, `offset`, `order`, `fields`, `product_id`.
+- `GET /tenants/store` → `{ store }`: the store row, selected by the Admin's own
+  `retrieveTransformQueryConfig` (`id`, `name`, `*supported_currencies`,
+  `*supported_currencies.currency`, `*supported_locales` and `*supported_locales.locale` while the
+  translation flag is on, `default_sales_channel_id`, `default_region_id`, `default_location_id`,
+  `metadata`, `created_at`, `updated_at`), with `name` replaced by the tenant's name and
+  `default_sales_channel_id` set to the tenant's channel id. There is no `default_currency_code`
+  column in 2.19.0; the default currency is the `supported_currencies` entry whose `is_default` is
+  true. The panel's sidebar shows `store.name`; the price grid reads `supported_currencies`.
 - `POST /tenants/uploads` (multipart, field `files`, multer memory storage like the Admin's
-  `POST /admin/uploads`) → `{ files: [{ id, url }] }` via `uploadFilesWorkflow`.
-  Optional, last in priority: `GET /tenants/inventory-items` → `{ inventory_items, count, offset,
-  limit }` restricted to inventory items of the tenant's own variants. Skip it if time is short
-  and say so in the report; the create form only calls it when the "inventory kit" toggle is on.
+  `POST /admin/uploads`) → `{ files: [{ id, url }] }` via `uploadFilesWorkflow`. The route
+  re-exports the Admin's own `POST` handler, and `middlewares.ts` reuses the Admin's own middleware
+  array for it: multer is a transitive dependency of `@medusajs/medusa` and is not resolvable from
+  `apps/backend`, so importing it there would mean adding a dependency. On the stands the file
+  module falls back to Medusa's local provider (S3 is wired only when `NODE_ENV=production` and
+  `S3_BUCKET` are both set), which writes into `apps/backend/static` and hands back a URL on port
+  9000 whatever port the backend listens on. A panel that renders that URL shows a broken image
+  until the provider is configured; that is a stand configuration gap, not a route gap.
+- `GET /tenants/inventory-items` → `{ inventory_items, count, offset, limit }`, restricted to the
+  inventory items of the tenant's own variants (own products through the tenant-product link, then
+  their variants' `inventory_items.inventory_item_id`). The create form only calls it when the
+  "inventory kit" toggle is on. Params are the Admin's `AdminGetInventoryItemsParams`.
 
 ### New: read-only reference lists (global data, not tenant-scoped)
 
@@ -92,6 +117,12 @@ Same validators and query configs as the Admin, same response shape, no write ve
 - `GET /tenants/product-tags` → `{ product_tags, count, offset, limit }`
 - `GET /tenants/collections` → `{ collections, count, offset, limit }`
 - `GET /tenants/shipping-profiles` → `{ shipping_profiles, count, offset, limit }`
+
+Each route file re-exports the Admin's own `GET` handler
+(`export { GET } from "@medusajs/medusa/api/admin/<resource>/route"`) rather than reimplementing
+it, so the shape cannot drift; only `GET` crosses over, and the Admin's write verbs stay out of the
+tenant namespace. They still sit behind the `/tenants/*` authentication, so an anonymous call is a
+401.
 
 These exist because the copied product-create form fills its comboboxes from them. They expose
 catalog taxonomy and store configuration that every storefront already shows publicly; nothing in

@@ -1,7 +1,10 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import { refetchEntities } from "@medusajs/framework/http";
 import type { HttpTypes } from "@medusajs/framework/types";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import { remapKeysForProduct } from "@medusajs/medusa/api/admin/products/helpers";
 import createTenantProductWorkflow from "../../../workflows/tenant/create-tenant-product";
+import { emptyPage, listTenantProductIds, scopeIdFilter } from "../tenant-scope";
+import { remapTenantProduct } from "./helpers";
 
 /**
  * `POST /tenants/products` — creates a product in the tenant's own sales
@@ -26,24 +29,45 @@ export const POST = async (
 };
 
 /**
- * `GET /tenants/products` — the products linked to the tenant, nothing else.
- * Scoped through the tenant-product link, so a product the tenant has never
- * created is invisible here even when it sits in the same database.
+ * `GET /tenants/products` — the products linked to the tenant, nothing else,
+ * in the Admin's list shape (`products`, `count`, `offset`, `limit`) so the
+ * panel can render the Admin's own product list unchanged.
+ *
+ * The query is parsed by the Admin's `AdminGetProductsParams` and
+ * `listProductQueryConfig` (wired in `src/api/middlewares.ts`), so `q`,
+ * `status`, `order`, `fields` and the rest behave exactly as on
+ * `GET /admin/products`. Isolation is the `id` constraint: the tenant's own
+ * product ids come from the tenant-product link and are intersected with any
+ * `id` the caller asked for. An empty intersection returns an empty page
+ * instead of an undefined `id` filter, which would be no filter at all and
+ * would list every product on the backend.
+ *
+ * `remapKeysForProduct` and `remapTenantProduct` are the Admin's own
+ * helpers: prices live under `variant.price_set.prices` in the graph and the
+ * Admin's screens read them as `variant.prices`.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const ownedIds = await listTenantProductIds(req);
+  const ids = scopeIdFilter(ownedIds, req.filterableFields.id);
 
-  const {
-    data: [tenantAdmin],
-  } = await query.graph({
-    entity: "tenant_admin",
-    fields: ["tenant.id", "tenant.products.*", "tenant.products.variants.*"],
-    filters: {
-      id: [req.auth_context.actor_id],
-    },
+  if (ids.length === 0) {
+    res.json({ products: [], ...emptyPage(req) });
+    return;
+  }
+
+  const { data: products, metadata } = await refetchEntities({
+    entity: "product",
+    idOrFilter: { ...req.filterableFields, id: ids },
+    scope: req.scope,
+    fields: remapKeysForProduct(req.queryConfig.fields ?? []),
+    pagination: req.queryConfig.pagination,
+    withDeleted: req.queryConfig.withDeleted,
   });
 
   res.json({
-    products: tenantAdmin?.tenant?.products ?? [],
+    products: products.map(remapTenantProduct),
+    count: metadata.count,
+    offset: metadata.skip,
+    limit: metadata.take,
   });
 };
