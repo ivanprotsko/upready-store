@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 26,
+  "action": "status-set",
+  "ts": "2026-09-11T05:53:58+08:00",
+  "status": "t-2026-09-11-mt-tenant-panel: оркестратор после /clear (05:58) — куски 1/2/4 смержены в feat/mt-panel 01d0500, кусок 3 (products) в работе у teammate mt-panel-3 (модалка создания в отладке), сторож Monitor bh46xil6w; READY нет; стенды :9023/:5180/:8000–:8002 живы; push не делать"
+}
