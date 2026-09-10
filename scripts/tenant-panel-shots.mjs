@@ -40,7 +40,19 @@ const cfg =
         afterLogin: /\/(products|orders)?$/,
       }
 
+/** Screens finish drawing after network idle: wait until no skeleton (animate-pulse) is left. */
+const settled = async (page) => {
+  await page.waitForLoadState("networkidle")
+  try {
+    await page.waitForFunction(() => document.querySelectorAll(".animate-pulse").length === 0, null, { timeout: 15_000 })
+  } catch {
+    console.warn("skeletons still visible after 15 s, shooting anyway")
+  }
+  await page.waitForTimeout(400)
+}
+
 const shot = async (page, name) => {
+  await settled(page)
   const file = path.join(OUT, `${side}-${name}.png`)
   await page.screenshot({ path: file })
   console.log("shot", file)
@@ -60,7 +72,6 @@ try {
   await page.waitForLoadState("networkidle")
   // The protected shell shows a spinner until the "me" request settles; wait for the sidebar.
   await page.getByRole("link", { name: /^products$/i }).first().waitFor({ timeout: 30_000 })
-  await page.waitForTimeout(300)
   await shot(page, "after-login")
 
   await page.goto(`${cfg.base}/products`, { waitUntil: "networkidle" })
