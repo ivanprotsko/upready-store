@@ -40,7 +40,7 @@ Auth-маршруты `/auth/tenant/emailpass[/register]` — встроенны
 
 ## Стенд тестов: что чинилось, чтобы jest вообще запустился
 
-Ни одно падение не было в коде среза. Все три — стенд/раннер, замерено по исходникам `@medusajs/test-utils@2.19.0`:
+Ни одно падение не было в коде среза. Все четыре — стенд/раннер, замерено по исходникам `@medusajs/test-utils@2.19.0`:
 
 1. **`DB_HOST=127.0.0.1` → зависание 180 с.** `medusa-test-runner-utils/config.js`: `clientUrl.includes("localhost") ? {} : {connection: {ssl: {rejectUnauthorized: false}}}` — для любого хоста, кроме строки `localhost`, раннер включает SSL, а локальный PG без SSL; knex маскирует это как «Timeout acquiring a connection. The pool is probably full» раз в 60 с. Лечение: `DB_HOST=localhost`. Пробник pg+knex на свежей БД — 5/27 мс, окружение исправно.
 2. **`jest.config.js` стартера не транспилировал `.tsx`**, а подписчики импортируют React-Email-шаблоны `src/emails/*.tsx` → «Cannot find module '../emails/welcome'». Добавлен transform `^.+\.tsx$` (`tsx: true`, `react.runtime: "automatic"`) и `tsx` в `moduleFileExtensions`.
