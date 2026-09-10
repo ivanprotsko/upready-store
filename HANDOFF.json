@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T04:33:35+08:00",
-  "status": "11.09 04:33 WITA: панель тенанта — решено «копируем файлы экранов», Geist снят; ночная волна спланирована (оркестратор Fable + приёмщик Opus, протокол через artifacts/docs/2026-09-11-tenant-panel-*.md), запуск — Иван; Mercur поднят локально (:9000/seller, seller@mercur.dev), Иван хочет ещё витрину Mercur — в новой сессии; push не делался",
+  "updated": "2026-09-11T04:46:03+08:00",
+  "status": "Ночная волна панели тенанта идёт (оркестратор session_01KustDWwx6wKgao7kqUhHPm): feat/mt-panel 8a85e6a (каркас apps/tenant-panel собирается, контракт docs/tenant-panel/api-contract.md, e2e-черновик), воркеры кусок 1 (каркас, Sonnet, feat/mt-panel-skeleton) и кусок 2 (backend, Opus, feat/mt-panel-backend) работают; куски 3/4 после интеграции; READY ещё нет; admin-скриншоты сняты в artifacts/docs/tenant-panel-shots/",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
