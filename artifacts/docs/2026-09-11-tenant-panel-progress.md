@@ -2,3 +2,4 @@
 
 Оркестратор дописывает строку раз в час: `HH:MM — что сделано, что дальше`. Нет строк 90 минут и нет READY = оркестратор мёртв, приёмщик забирает ветку.
 04:45 — план: ветка feat/mt-panel (6482944: каркас apps/tenant-panel собирается, контракт docs/tenant-panel/api-contract.md, промпты artifacts/prompts/2026-09-11-tenant-panel-*.md); worktrees feat/mt-panel-skeleton (кусок 1, Sonnet) и feat/mt-panel-backend (кусок 2, Opus) ставятся; дальше — спавн 1 и 2, потом 3/4 после каркаса.
+05:09 — кусок 2 (backend) принят: 19 маршрутов /tenants/* в форме админки, seam-suite 34/34 (мой прогон rc=0), tsc/lint rc=0; коммит a2697bd, смержен в feat/mt-panel (15bccd9). Кусок 1 (каркас) ещё в работе; :9023 перезапущу из feat/mt-panel после его слияния, затем куски 3/4.
