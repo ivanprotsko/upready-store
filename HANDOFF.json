@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T03:08:40+08:00",
+  "updated": "2026-09-11T03:10:07+08:00",
   "status": "MT срез 11.09 серия 2: tenant↔канал/ключ переведены с колонок на module links (решение Ивана «links»), строки стенда перенесены db:migrate (3→6 links), /tenants/* остаётся backend панели (a). tsc+lint чисто, seam 16/16, живой 20/20 на :9023. Вопросы columns-vs-links и tenants-namespace resolved; открыт q-mt-panel-ui-kit (панель — задачи нет, заводит Иван).",
   "tasks": [
     {
@@ -432,7 +432,7 @@
         "medusa"
       ],
       "created": "2026-09-10T21:37:52+08:00",
-      "updated": "2026-09-11T03:08:39+08:00",
+      "updated": "2026-09-11T03:10:07+08:00",
       "goal": "Рабочий срез shared-мультитенантности по рецепту Medusa marketplace/vendors в apps/backend: модуль tenant (data model Tenant + TenantAdmin, custom actor type tenant, /auth/tenant/emailpass), маршруты POST /tenants, POST/GET /tenants/products, GET /tenants/orders под middleware authenticate('tenant'), module links tenant-product и tenant-order, привязка tenant ↔ sales channel + publishable key через workflow, миграции, сид двух тенантов",
       "acceptance": [
         "два тенанта на одном backend видят только свои товары и заказы через /tenants/* (тест на изоляцию: запрос тенанта A не возвращает ни одной сущности B)",
@@ -446,7 +446,8 @@
       "commits": [
         "8ba234a",
         "aedfb56",
-        "e9ca0e8"
+        "e9ca0e8",
+        "9e38c69"
       ]
     }
   ],
