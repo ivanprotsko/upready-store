@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T04:07:23+08:00",
+  "updated": "2026-09-11T04:10:08+08:00",
   "status": "11.09 04:07 WITA: t-2026-09-11-mt-tenant-panel todo; Иван снял Geist для панели, хочет UI идентичный админке (по скриншоту и коду) — предложен механизм «копировать файлы экранов дашборда, менять только hooks/api → /tenants/*», ждём его слова (q-mt-panel-ui-kit открыт); Mercur vendor panel поднимается локально (~/upready/research/raw/2026-09-11-mercur-demo, лог /tmp/mercur-run.log), хостовый демо мёртв; push не делался",
   "tasks": [
     {
@@ -455,12 +455,9 @@
       "title": "Панель тенанта (a): отдельное приложение поверх /tenants/* — вход, обзор, свои товары (список + создание), свои заказы",
       "state": "todo",
       "priority": "high",
-      "details": "Иван 11.09 («да ОК, заводи»): панель владельца магазина = отдельное приложение поверх /tenants/* (решение q-mt-tenants-namespace-vs-panel-abc → (a)). Данные: GET /tenants/me (tenant.sales_channel, tenant.api_key), GET|POST /tenants/products (тело POST = AdminCreateProduct, как у родной админки), GET /tenants/orders; вход POST /auth/tenant/emailpass (actor type tenant). Стадия 1 — дизайн (27d), до любого кода: построить прототип четырёх экранов (вход, обзор, товары список + создание, заказы) и показать в нём поведение — строка списка товаров открывается, форма создания заполняется и отправляется, строка списка заказов открывает заказ; Иван принимает макет своими глазами ДО кода. Канон стадии дизайна фиксируется решением Ивана по q-mt-panel-ui-kit (Geist — ~/upready/packages/geist-kit/AGENTS.md, правило 27; или @medusajs/ui; или форк @medusajs/dashboard); до этого решения стадия дизайна не начинается. Стенд: backend :9023, тенанты admin@acme.test / admin@globex.test / admin@initech.test (креды ~/upready/memory/secrets/upready-store/local-mt-stand.txt), витрины :8000/:8001/:8002.\n\n11.09 (чат, после 03:37): Иван — «я отменяю привязку к Geist!» (правило 27 снято для панели тенанта) и «давай писать четыре экрана заново, но я хочу чтобы их UI был идентичен UI из админки, чтобы всегда можно было сравнить и по скриншоту и по коду — именно это я имею в виду под скопировать». Уточнение механизма (что именно копируется: экраны-файлы дашборда как есть + свой слой данных /tenants/*) — в ответе сессии; q-mt-panel-ui-kit ждёт подтверждения Ивана. Замер: закрытие импортов 4 экранов + layout без barrel hooks/api, i18n и extension-provider = 391 файл / 37 743 строки (из них 21 модуль hooks/api заменяются на свои); с barrel — вся админка (1862 файла). Экспорт @medusajs/dashboard/components = только LayoutComposer, для панели бесполезен. Иван также попросил запустить Mercur vendor panel для просмотра: хостовый vendor.mercurjs.com жив, но его API api-mercurjs.up.railway.app отвечает 404 «Application not found» — локальный запуск create-mercur-app@2.3.3 в ~/upready/research/raw/2026-09-11-mercur-demo (БД mercur_demo на 5433, лог /tmp/mercur-create.log).",
+      "details": "Иван 11.09 («да ОК, заводи»): панель владельца магазина = отдельное приложение поверх /tenants/* (решение q-mt-tenants-namespace-vs-panel-abc → (a)). Данные: GET /tenants/me (tenant.sales_channel, tenant.api_key), GET|POST /tenants/products (тело POST = AdminCreateProduct, как у родной админки), GET /tenants/orders; вход POST /auth/tenant/emailpass (actor type tenant). Стадия 1 — дизайн (27d), до любого кода: построить прототип четырёх экранов (вход, обзор, товары список + создание, заказы) и показать в нём поведение — строка списка товаров открывается, форма создания заполняется и отправляется, строка списка заказов открывает заказ; Иван принимает макет своими глазами ДО кода. Канон стадии дизайна фиксируется решением Ивана по q-mt-panel-ui-kit (Geist — ~/upready/packages/geist-kit/AGENTS.md, правило 27; или @medusajs/ui; или форк @medusajs/dashboard); до этого решения стадия дизайна не начинается. Стенд: backend :9023, тенанты admin@acme.test / admin@globex.test / admin@initech.test (креды ~/upready/memory/secrets/upready-store/local-mt-stand.txt), витрины :8000/:8001/:8002.\n\n11.09 (чат, после 03:37): Иван — «я отменяю привязку к Geist!» (правило 27 снято для панели тенанта) и «давай писать четыре экрана заново, но я хочу чтобы их UI был идентичен UI из админки, чтобы всегда можно было сравнить и по скриншоту и по коду — именно это я имею в виду под скопировать». Уточнение механизма (что именно копируется: экраны-файлы дашборда как есть + свой слой данных /tenants/*) — в ответе сессии; q-mt-panel-ui-kit ждёт подтверждения Ивана. Замер: закрытие импортов 4 экранов + layout без barrel hooks/api, i18n и extension-provider = 391 файл / 37 743 строки (из них 21 модуль hooks/api заменяются на свои); с barrel — вся админка (1862 файла). Экспорт @medusajs/dashboard/components = только LayoutComposer, для панели бесполезен. Иван также попросил запустить Mercur vendor panel для просмотра: хостовый vendor.mercurjs.com жив, но его API api-mercurjs.up.railway.app отвечает 404 «Application not found» — локальный запуск create-mercur-app@2.3.3 в ~/upready/research/raw/2026-09-11-mercur-demo (БД mercur_demo на 5433, лог /tmp/mercur-create.log).\n\n11.09 ~04:15: Иван — «копируем файлы экранов» (q-mt-panel-ui-kit resolved). Механизм панели: своё Vite-приложение по образцу packages/admin/dashboard (vite.config + @medusajs/ui-preset); файлы экранов дашборда 2.19.0 (routes/login, products/product-list, products/product-create, orders/order-list) и общие блоки, которые они импортируют, копируются КАК ЕСТЬ (закрытие без barrel hooks/api, i18n, extension-provider, dashboard-app = 391 файл / 37 743 строки); заменяется только слой данных — hooks/api/* → свои хуки на /tenants/* (5 маршрутов сейчас; GET /tenants/products и /tenants/orders нужно привести к форме {items, count, offset, limit}) и вход sdk.auth.login(\"tenant\", …); barrel hooks/api/index.ts и sidebar на 38 разделов режутся руками. Стадия дизайна (27d): макет 4 экранов = эти экраны дашборда на наших данных (Acme/Globex/Initech), принимает Иван до кода. Оркестрацию Иван НЕ включал (слова «делегируй» не было) — соло.",
       "files": [
         "apps/backend/src/api/tenants"
-      ],
-      "blockers": [
-        "q-mt-panel-ui-kit"
       ],
       "tags": [
         "multitenancy",
@@ -468,7 +465,7 @@
         "ui"
       ],
       "created": "2026-09-11T03:33:29+08:00",
-      "updated": "2026-09-11T04:00:41+08:00",
+      "updated": "2026-09-11T04:10:08+08:00",
       "goal": "Владелец магазина (тенант) входит в свою панель и видит и заводит только свои товары и заказы — отдельное приложение поверх /tenants/*, четыре экрана: вход, обзор, товары (список + создание), заказы",
       "acceptance": [
         "макет четырёх экранов (вход, обзор, товары список + создание, заказы) с показанным поведением принят Иваном своими глазами ДО кода (27d)",
@@ -704,15 +701,6 @@
       "audience": "ivan",
       "blocks": [
         "t-2026-09-10-01"
-      ]
-    },
-    {
-      "id": "q-mt-panel-ui-kit",
-      "question": "UI-кит панели тенанта (t-2026-09-11-mt-tenant-panel): Geist (правило 27), @medusajs/ui (компонентный кит родной админки, MIT, без форка) или форк @medusajs/dashboard 2.19.0 (src лежит в пакете; вход зашит на actor user, все экраны читают /admin/*; прецедент — Mercur vendor-panel). Ответ сессии 11.09 с замерами — в чате и в memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md.",
-      "asked": "2026-09-11",
-      "audience": "ivan",
-      "blocks": [
-        "t-2026-09-11-mt-tenant-panel"
       ]
     }
   ],
