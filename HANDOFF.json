@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T01:19:41+08:00",
+  "updated": "2026-09-11T01:20:26+08:00",
   "status": "MT срез 11.09: дыра корзины закрыта (validate-hooks на канал), склад per-tenant (provision-tenant-warehouse + reprovision существующих acme/globex/initech), tsc+lint чисто, seam 14/14, живой 9/9 на :9023. Resolved q-mt-publishable-key-storage/stock-locations/order-not-split; открыты columns-vs-links и tenants-namespace (ждут Ивана).",
   "tasks": [
     {
@@ -432,7 +432,7 @@
         "medusa"
       ],
       "created": "2026-09-10T21:37:52+08:00",
-      "updated": "2026-09-11T01:19:14+08:00",
+      "updated": "2026-09-11T01:20:26+08:00",
       "goal": "Рабочий срез shared-мультитенантности по рецепту Medusa marketplace/vendors в apps/backend: модуль tenant (data model Tenant + TenantAdmin, custom actor type tenant, /auth/tenant/emailpass), маршруты POST /tenants, POST/GET /tenants/products, GET /tenants/orders под middleware authenticate('tenant'), module links tenant-product и tenant-order, привязка tenant ↔ sales channel + publishable key через workflow, миграции, сид двух тенантов",
       "acceptance": [
         "два тенанта на одном backend видят только свои товары и заказы через /tenants/* (тест на изоляцию: запрос тенанта A не возвращает ни одной сущности B)",
@@ -445,7 +445,8 @@
       "approved": "2026-09-10T21:48:06+08:00",
       "commits": [
         "8ba234a",
-        "aedfb56"
+        "aedfb56",
+        "e9ca0e8"
       ]
     }
   ],
