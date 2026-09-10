@@ -58,6 +58,9 @@ try {
   await page.locator('button[type="submit"]').first().click()
   await page.waitForURL(cfg.afterLogin, { timeout: 30_000 })
   await page.waitForLoadState("networkidle")
+  // The protected shell shows a spinner until the "me" request settles; wait for the sidebar.
+  await page.getByRole("link", { name: /^products$/i }).first().waitFor({ timeout: 30_000 })
+  await page.waitForTimeout(300)
   await shot(page, "after-login")
 
   await page.goto(`${cfg.base}/products`, { waitUntil: "networkidle" })
