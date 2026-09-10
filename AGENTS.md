@@ -205,10 +205,17 @@ Two pieces of locale plumbing are worth knowing before you touch either.
 
 Routing does not use next-intl's own prefixing. [routing.ts](apps/storefront/src/i18n/routing.ts)
 sets `localePrefix` to `never`, and [middleware.ts](apps/storefront/src/middleware.ts) does the work
-by hand. It resolves the locale from the URL, the `_medusa_locale` cookie or `Accept-Language`,
-redirects a prefix-less path to `/{locale}/…`, and passes the locale to next-intl through the
-`X-NEXT-INTL-LOCALE` header. [request.ts](apps/storefront/src/i18n/request.ts) falls back to the
-cookie when there is no locale in the request.
+by hand. A prefixed path is served as is. A prefix-less path is redirected to `/{locale}/…`, where
+the locale is the `_medusa_locale_choice` cookie (written only by the language switcher, through
+`setLocaleCookie` in [locale-actions.ts](apps/storefront/src/lib/data/locale-actions.ts)), else
+`matchBrowserLocale` over the whole `Accept-Language` list (a `preferredLocales` entry — Russian —
+wins wherever it stands, otherwise the visitor's own order), else `defaultLocale`. Both cookie
+names and the matcher live in [config.ts](apps/storefront/src/i18n/config.ts), with its own
+`config.test.ts`. `_medusa_locale` is the locale of the page last served: the middleware writes it
+on every response and it must not decide the redirect, or the first `/en/…` link a visitor follows
+pins English for a year. The middleware passes the locale to next-intl through the
+`X-NEXT-INTL-LOCALE` header, and [request.ts](apps/storefront/src/i18n/request.ts) falls back to
+`_medusa_locale` when there is no locale in the request.
 
 Translated catalog content comes from an `x-medusa-locale` header that
 [lib/config.ts](apps/storefront/src/lib/config.ts) attaches to every SDK call. A route that is not

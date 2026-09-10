@@ -1,11 +1,16 @@
-import { isAppLocale, defaultLocale, matchBrowserLocale } from "@i18n/config"
+import {
+  LOCALE_CHOICE_COOKIE,
+  LOCALE_COOKIE,
+  defaultLocale,
+  isAppLocale,
+  matchBrowserLocale,
+} from "@i18n/config"
 import { resolveCountry, type RegionMap } from "@lib/geolocation"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const LOCALE_COOKIE = "_medusa_locale"
 
 const INTL_LOCALE_HEADER = "X-NEXT-INTL-LOCALE"
 
@@ -118,12 +123,15 @@ export async function middleware(request: NextRequest) {
     return withCookies(res, locale)
   }
 
-  // No locale in URL — detect and redirect 302
-  const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value
+  // No locale in URL — detect and redirect 302. Only an explicit pick in the
+  // language switcher (the choice cookie) outranks the browser; _medusa_locale is
+  // the locale of whatever page was served last, and reading it here pinned every
+  // visitor to the first prefixed link they ever followed.
+  const chosenLocale = request.cookies.get(LOCALE_CHOICE_COOKIE)?.value
 
   const locale =
-    cookieLocale && isAppLocale(cookieLocale)
-      ? cookieLocale
+    chosenLocale && isAppLocale(chosenLocale)
+      ? chosenLocale
       : (matchBrowserLocale(request.headers.get("accept-language")) ??
         defaultLocale)
 
