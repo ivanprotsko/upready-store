@@ -1,5 +1,6 @@
 import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
 import { createOrdersWorkflow, createRegionsWorkflow } from "@medusajs/medusa/core-flows";
+import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
 jest.setTimeout(180_000);
@@ -85,8 +86,16 @@ medusaIntegrationTestRunner({
       const createProduct = async (owner: Registered, title: string) => {
         const created = await api.post("/tenants/products", productBody(title), bearer(owner.token));
         expect(created.status).toBe(201);
-        return created.data.product as { id: string; sales_channels: { id: string }[] };
+        return created.data.product as {
+          id: string;
+          sales_channels: { id: string }[];
+          variants: { id: string }[];
+        };
       };
+
+      const storeKey = (owner: Registered) => ({
+        headers: { "x-publishable-api-key": owner.publishableKey.token },
+      });
 
       beforeAll(async () => {
         const container = getContainer();
@@ -194,6 +203,113 @@ medusaIntegrationTestRunner({
         expect(idsA).toContain(productA.id);
         expect(idsA).not.toContain(productB.id);
         expect(idsB).toEqual([productB.id]);
+      });
+
+      it("refuses a line item whose variant is not sold in the cart's sales channel", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+        const productB = await createProduct(b, "Globex mug");
+
+        const cart = await api.post("/store/carts", { region_id: regionId }, storeKey(a));
+        expect(cart.status).toBe(200);
+        const cartId = cart.data.cart.id;
+
+        const own = await api.post(
+          `/store/carts/${cartId}/line-items`,
+          { variant_id: productA.variants[0].id, quantity: 1 },
+          storeKey(a),
+        );
+        expect(own.status).toBe(200);
+        expect(own.data.cart.items).toHaveLength(1);
+
+        const foreign = await api
+          .post(
+            `/store/carts/${cartId}/line-items`,
+            { variant_id: productB.variants[0].id, quantity: 1 },
+            storeKey(a),
+          )
+          .catch((error) => error.response);
+        expect(foreign.status).toBe(400);
+
+        const after = await api.get(`/store/carts/${cartId}?fields=id,*items`, storeKey(a));
+        expect(after.data.cart.items.map((item) => item.variant_id)).toEqual([
+          productA.variants[0].id,
+        ]);
+      });
+
+      it("refuses a cart created with a foreign variant in its items", async () => {
+        const productB = await createProduct(b, "Globex mug");
+
+        const rejected = await api
+          .post(
+            "/store/carts",
+            { region_id: regionId, items: [{ variant_id: productB.variants[0].id, quantity: 1 }] },
+            storeKey(a),
+          )
+          .catch((error) => error.response);
+        expect(rejected.status).toBe(400);
+      });
+
+      it("resolves shipping options only from the tenant's own warehouse", async () => {
+        const productA = await createProduct(a, "Acme shirt");
+
+        const cart = await api.post("/store/carts", { region_id: regionId }, storeKey(a));
+        const cartId = cart.data.cart.id;
+        await api.post(
+          `/store/carts/${cartId}/line-items`,
+          { variant_id: productA.variants[0].id, quantity: 1 },
+          storeKey(a),
+        );
+
+        const options = await api.get(`/store/shipping-options?cart_id=${cartId}`, storeKey(a));
+        expect(options.status).toBe(200);
+
+        const names = options.data.shipping_options.map((option) => option.name);
+        // Every option comes from Acme's warehouse; none from Globex's.
+        expect(names.length).toBeGreaterThan(0);
+        expect(names.every((name) => name.startsWith("Acme"))).toBe(true);
+        expect(names.some((name) => name.startsWith("Globex"))).toBe(false);
+      });
+
+      it("keeps two tenants' warehouses apart even in the same city", async () => {
+        const container = getContainer();
+        const query = container.resolve(ContainerRegistrationKeys.QUERY);
+
+        // Each tenant's channel resolves to exactly one stock location: its own.
+        const locationsOf = async (tenant: Registered): Promise<{ id: string; name: string }[]> => {
+          const { data: channels } = await query.graph({
+            entity: "sales_channel",
+            fields: ["id", "stock_locations.id", "stock_locations.name"],
+            filters: { id: tenant.tenant.sales_channel_id },
+          });
+          return (channels[0]?.stock_locations ?? [])
+            .map((location) => ({ id: location?.id as string, name: location?.name as string }))
+            .filter((location) => Boolean(location.id));
+        };
+
+        const locationsA = await locationsOf(a);
+        const locationsB = await locationsOf(b);
+        expect(locationsA).toHaveLength(1);
+        expect(locationsB).toHaveLength(1);
+        expect(locationsA[0].id).not.toBe(locationsB[0].id);
+
+        // Same-named, same-city warehouses would still not share: isolation is
+        // the channel link, not the location name or address.
+        const stockLocation = container.resolve(Modules.STOCK_LOCATION);
+        await stockLocation.updateStockLocations(locationsA[0].id, { name: "Москва" });
+        await stockLocation.updateStockLocations(locationsB[0].id, { name: "Москва" });
+
+        const productA = await createProduct(a, "Acme shirt");
+        const cart = await api.post("/store/carts", { region_id: regionId }, storeKey(a));
+        const cartId = cart.data.cart.id;
+        await api.post(
+          `/store/carts/${cartId}/line-items`,
+          { variant_id: productA.variants[0].id, quantity: 1 },
+          storeKey(a),
+        );
+        const options = await api.get(`/store/shipping-options?cart_id=${cartId}`, storeKey(a));
+        expect(options.data.shipping_options.every((option) => option.name.startsWith("Acme"))).toBe(
+          true,
+        );
       });
 
       it("links an order placed in tenant A's sales channel to tenant A only", async () => {

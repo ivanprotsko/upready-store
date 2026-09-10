@@ -6,9 +6,9 @@ import {
   setAuthAppMetadataStep,
 } from "@medusajs/medusa/core-flows";
 import { TENANT_ACTOR_TYPE } from "../../../modules/tenant";
+import provisionTenantWarehouseWorkflow from "../provision-tenant-warehouse";
 import createTenantAdminStep from "./steps/create-tenant-admin";
 import createTenantStep from "./steps/create-tenant";
-import linkSalesChannelToStockLocationsStep from "./steps/link-sales-channel-to-stock-locations";
 
 export type CreateTenantWorkflowInput = {
   name: string;
@@ -26,8 +26,11 @@ export type CreateTenantWorkflowInput = {
  * Registers a tenant and its first admin. Compared with the recipe's
  * `createVendorWorkflow` this one also mints what makes the tenant a storefront
  * of its own on the shared backend: a sales channel, a publishable API key
- * linked to it, and the stock-location links checkout needs. All of it runs as
- * steps, so a failure anywhere rolls the whole registration back.
+ * linked to it, and — through `provisionTenantWarehouseWorkflow` — the tenant's
+ * OWN warehouse (one stock location, a base service zone, two flat shipping
+ * options) so checkout works from the first minute on isolated stock and
+ * shipping. All of it runs as steps, so a failure anywhere rolls the whole
+ * registration back.
  */
 const createTenantWorkflow = createWorkflow(
   "create-tenant",
@@ -68,11 +71,14 @@ const createTenantWorkflow = createWorkflow(
       input: linkKeyInput,
     });
 
-    const stockLocationsInput = transform({ salesChannels }, (data) => ({
+    const warehouseInput = transform({ input, salesChannels }, (data) => ({
       sales_channel_id: data.salesChannels[0].id,
+      tenant_name: data.input.name,
     }));
 
-    linkSalesChannelToStockLocationsStep(stockLocationsInput);
+    provisionTenantWarehouseWorkflow.runAsStep({
+      input: warehouseInput,
+    });
 
     const tenantData = transform({ input, salesChannels, apiKeys }, (data) => ({
       name: data.input.name,

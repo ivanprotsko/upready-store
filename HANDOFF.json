@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-10T23:37:58+08:00",
-  "status": "t-2026-09-10-mt-vendors: срез принят на стенде (8ba234a): jest 10/10, живой сценарий 18/18, tsc+lint чистые, отчёт artifacts/docs/2026-09-10-mt-vendors-acceptance.md. Сервер :9023 ОСТАНОВЛЕН при завершении сессии — для гейта Ивана поднять npx medusa develop из apps/backend (тенанты acme/globex в БД upready_store_mt уже есть) и прогнать scripts/mt-live-scenario.mjs. Задача in_progress до приёмки Ивана; q-mt-* открыты; push не делался (21b).",
+  "updated": "2026-09-11T01:19:41+08:00",
+  "status": "MT срез 11.09: дыра корзины закрыта (validate-hooks на канал), склад per-tenant (provision-tenant-warehouse + reprovision существующих acme/globex/initech), tsc+lint чисто, seam 14/14, живой 9/9 на :9023. Resolved q-mt-publishable-key-storage/stock-locations/order-not-split; открыты columns-vs-links и tenants-namespace (ждут Ивана).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -419,7 +419,7 @@
       "title": "Мультитенантность (shared) по рецепту Medusa marketplace/vendors: модуль tenant с custom actor type, маршруты /tenants/*, links tenant-product / tenant-order, middleware authenticate — первый рабочий срез",
       "state": "in_progress",
       "priority": "high",
-      "details": "Иван 10.09: «отдельная ветка для задачи, где мы начнем делать мультитенантность как указано здесь https://docs.medusajs.com/resources/recipes/marketplace/examples/vendors». Ветка feat/mt-vendors от dev (35be6f1), worktree ~/upready/worktrees/upready-store/feat/mt-vendors. Контекст решений (store-engine, 10.09): целевая модель = SHARED (один backend + одна БД, tenant = sales channel + publishable key, конфиг тенанта в БД, интеграции оплаты/доставки уникальны на клиента, панель тенанта — развилка a/b/c) — ~/upready/memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md; целевой дизайн пишется параллельно в store-engine feat/mt-target-design (docs/multitenancy-target-design.md) — срез по рецепту не должен противоречить ему: tenant в рецепте = vendor. Предлагаемая goal: рабочий срез по рецепту в apps/backend — модуль tenant (data model Tenant + TenantAdmin, actor type tenant, /auth/tenant/emailpass), маршруты POST /tenants, POST/GET /tenants/products, GET /tenants/orders с middleware authenticate('tenant'), module links tenant-product и tenant-order, привязка tenant ↔ sales channel + publishable key; миграции; сид двух тенантов. Предлагаемая acceptance: два тенанта на одном backend видят только свои товары и заказы через /tenants/* (тест на изоляцию: запрос тенанта A не возвращает ни одной сущности B) | заказ из витрины с publishable key тенанта A попадает в GET /tenants/orders только у A | jest/seam-тесты в том же коммите (s4) | родная админка Medusa не тронута (staff видит всё) | замер: число endpoint'ов, добавленных против рецепта, и что из рецепта не легло на Medusa 2.19+ (первоисточники, 17a).\n\n10.09 вечер: jest 10/10, живой сценарий 18/18 на :9023, отчёт artifacts/docs/2026-09-10-mt-vendors-acceptance.md (8ba234a). Ждёт приёмки Ивана на живом стенде.\n\n10.09 23:30 (OK Ивана на cross-project): создан staff-админ admin@upready.dev/supersecret (user_01M25YZT3XFA80GGN4EE6DX0EW) — вход в http://localhost:9023/app работает; подняты две витрины из apps/storefront через NEXT_DIST_DIR (.next-acme :8000, .next-globex :8001), /en/store отдаёт 200 и изоляция подтверждена (acme 0 упоминаний Globex, globex 0 упоминаний Acme); отчёт поправлен (четыре причины циклов jest, не три) — коммит aedfb56. Побочные правки от запуска (tsconfig/next-env/generated) откатаны. Знание — memory/medusa-2.19-mt-vendors-recipe-facts-2026-09-10.md + secrets/upready-store/local-mt-stand.txt (коммиты памяти 6d176a5, b5b3185).",
+      "details": "Иван 10.09: «отдельная ветка для задачи, где мы начнем делать мультитенантность как указано здесь https://docs.medusajs.com/resources/recipes/marketplace/examples/vendors». Ветка feat/mt-vendors от dev (35be6f1), worktree ~/upready/worktrees/upready-store/feat/mt-vendors. Контекст решений (store-engine, 10.09): целевая модель = SHARED (один backend + одна БД, tenant = sales channel + publishable key, конфиг тенанта в БД, интеграции оплаты/доставки уникальны на клиента, панель тенанта — развилка a/b/c) — ~/upready/memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md; целевой дизайн пишется параллельно в store-engine feat/mt-target-design (docs/multitenancy-target-design.md) — срез по рецепту не должен противоречить ему: tenant в рецепте = vendor. Предлагаемая goal: рабочий срез по рецепту в apps/backend — модуль tenant (data model Tenant + TenantAdmin, actor type tenant, /auth/tenant/emailpass), маршруты POST /tenants, POST/GET /tenants/products, GET /tenants/orders с middleware authenticate('tenant'), module links tenant-product и tenant-order, привязка tenant ↔ sales channel + publishable key; миграции; сид двух тенантов. Предлагаемая acceptance: два тенанта на одном backend видят только свои товары и заказы через /tenants/* (тест на изоляцию: запрос тенанта A не возвращает ни одной сущности B) | заказ из витрины с publishable key тенанта A попадает в GET /tenants/orders только у A | jest/seam-тесты в том же коммите (s4) | родная админка Medusa не тронута (staff видит всё) | замер: число endpoint'ов, добавленных против рецепта, и что из рецепта не легло на Medusa 2.19+ (первоисточники, 17a).\n\n10.09 вечер: jest 10/10, живой сценарий 18/18 на :9023, отчёт artifacts/docs/2026-09-10-mt-vendors-acceptance.md (8ba234a). Ждёт приёмки Ивана на живом стенде.\n\n10.09 23:30 (OK Ивана на cross-project): создан staff-админ admin@upready.dev/supersecret (user_01M25YZT3XFA80GGN4EE6DX0EW) — вход в http://localhost:9023/app работает; подняты две витрины из apps/storefront через NEXT_DIST_DIR (.next-acme :8000, .next-globex :8001), /en/store отдаёт 200 и изоляция подтверждена (acme 0 упоминаний Globex, globex 0 упоминаний Acme); отчёт поправлен (четыре причины циклов jest, не три) — коммит aedfb56. Побочные правки от запуска (tsconfig/next-env/generated) откатаны. Знание — memory/medusa-2.19-mt-vendors-recipe-facts-2026-09-10.md + secrets/upready-store/local-mt-stand.txt (коммиты памяти 6d176a5, b5b3185).\n\n11.09 (сессия в worktree, 5k разлочен): (1) Закрыта дыра изоляции корзины aie-20260911-001223-11fa — hooks validate на createCart/addToCart/completeCart (src/workflows/hooks/validate-cart-sales-channel.ts): вариант должен продаваться в канале корзины, иначе 400. Живой замер до фикса подтвердил последствие (весь заказ Acme+Globex ушёл Acme, order_01M2640GHNN75FE6C4A4A5ZX18). (2) Склад per-tenant: удалён шаг link-sales-channel-to-stock-locations (линк ко всем 241), новый workflow provision-tenant-warehouse (свой stock location+адрес, provider manual_manual, fulfillment set type shipping с одной базовой service zone по всем странам регионов, 2 flat-опции pickup+courier во всех валютах, линк канала только к своему складу; компенсация на шаг; профиль доставки резолвится/создаётся шагом resolve-default-shipping-profile). createTenantWorkflow и POST /tenants идут этим путём. (3) Существующие тенанты acme/globex/initech переведены idempotent-скриптом src/scripts/reprovision-tenant-warehouses.ts (каждый отвязан от 241 склада, свой склад + 2 опции). (4) Вопрос 6 (склад в одном городе) замерен: оба склада 'Москва склад'/город Москва — опции не пересекаются (разные service zones). Проверки: tsc+medusa lint чистые; seam-тест 14/14 (4 новых); живой сценарий mt-accept 9/9 на :9023. Вопросы: resolve q-mt-publishable-key-storage, q-mt-stock-locations-shared, q-mt-order-not-split; открыты (ждут решения Ивана) q-mt-tenant-columns-vs-links, q-mt-tenants-namespace-vs-panel-abc. Отчёт: artifacts/docs/2026-09-10-mt-vendors-acceptance.md (дополнение 11.09).",
       "files": [
         "apps/backend/src/modules",
         "apps/backend/src/links",
@@ -432,7 +432,7 @@
         "medusa"
       ],
       "created": "2026-09-10T21:37:52+08:00",
-      "updated": "2026-09-10T23:33:03+08:00",
+      "updated": "2026-09-11T01:19:14+08:00",
       "goal": "Рабочий срез shared-мультитенантности по рецепту Medusa marketplace/vendors в apps/backend: модуль tenant (data model Tenant + TenantAdmin, custom actor type tenant, /auth/tenant/emailpass), маршруты POST /tenants, POST/GET /tenants/products, GET /tenants/orders под middleware authenticate('tenant'), module links tenant-product и tenant-order, привязка tenant ↔ sales channel + publishable key через workflow, миграции, сид двух тенантов",
       "acceptance": [
         "два тенанта на одном backend видят только свои товары и заказы через /tenants/* (тест на изоляцию: запрос тенанта A не возвращает ни одной сущности B)",
@@ -675,18 +675,6 @@
       ]
     },
     {
-      "id": "q-mt-stock-locations-shared",
-      "question": "Stock locations общие: createTenantWorkflow линкует sales channel тенанта ко ВСЕМ stock locations стенда (как add-profile сида) — иначе у корзины нет shipping options. Целевой дизайн (store-engine feat/mt-target-design): склад per-tenant или общий?",
-      "asked": "2026-09-10",
-      "audience": "ivan,store-engine"
-    },
-    {
-      "id": "q-mt-order-not-split",
-      "question": "Заказ НЕ дробится по тенантам (рецепт делает child orders per vendor): один storefront = один publishable key = один sales channel, заказ целиком линкуется тенанту-владельцу канала подписчиком order.placed. Целевой дизайн допускает корзину с товарами нескольких тенантов? Если нет — фиксируем как инвариант.",
-      "asked": "2026-09-10",
-      "audience": "ivan,store-engine"
-    },
-    {
       "id": "q-mt-tenant-columns-vs-links",
       "question": "Tenant хранит sales_channel_id и publishable_api_key_id КОЛОНКАМИ (unique), а не module links к sales_channel/api_key. Целевой дизайн: где живёт связь tenant↔канал/ключ — таблица tenant, links, или platform.store_configs (blueprint MT-Q1..Q9)?",
       "asked": "2026-09-10",
@@ -695,12 +683,6 @@
     {
       "id": "q-mt-tenants-namespace-vs-panel-abc",
       "question": "/tenants/* = свой namespace под actor type tenant (API-сторона варианта (a) панели тенанта из решения 10.09). Родная админка не тронута: staff видит всё. Если дизайн выберет (b)/(c) — эти маршруты остаются как внутренний API панели или заменяются скоупингом /admin?",
-      "asked": "2026-09-10",
-      "audience": "ivan,store-engine"
-    },
-    {
-      "id": "q-mt-publishable-key-storage",
-      "question": "Publishable key возвращается открытым ТОЛЬКО в ответе POST /tenants (API Key Module отдаёт raw token один раз). Кто и где хранит его для витрины тенанта в shared-модели — конфиг тенанта в БД (решение 10.09) или env стенда, как сейчас MEDUSA_PUBLISHABLE_KEY?",
       "asked": "2026-09-10",
       "audience": "ivan,store-engine"
     }

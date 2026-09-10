@@ -7,9 +7,9 @@
 
 | Критерий приёмки | Результат |
 | --- | --- |
-| Два тенанта на одном backend видят только свои товары и заказы через `/tenants/*` | ✅ живой сценарий: 18/18 проверок, jest: 10/10 |
+| Два тенанта на одном backend видят только свои товары и заказы через `/tenants/*` | ✅ живой сценарий: 18/18 (10.09) + 9/9 (11.09), jest: 14/14 (11.09) |
 | Заказ с витрины по publishable key тенанта A попадает в `GET /tenants/orders` только у A | ✅ `order_01M25VJJ64RWQ8P8NV7YP6968X` — у acme есть, у globex `[]` |
-| jest/seam-тесты в том же коммите | ✅ тест в `6018ef9`, фиксы стенда — здесь; `10 passed, 10 total, 14.97 s` |
+| jest/seam-тесты в том же коммите | ✅ тесты в `6018ef9` + 4 новых 11.09; `14 passed, 14 total` |
 | Родная админка Medusa не тронута | ✅ в срезе нет правок `/admin`, staff-маршруты не менялись (`git show --stat 6018ef9`) |
 | Замер: endpoint'ы против рецепта, что не легло на 2.19 | ✅ ниже |
 | Приёмка на живом backend, вывод в отчёт | ✅ ниже, транскрипт целиком |
@@ -235,3 +235,81 @@ OK   GET /tenants/products with a customer token → 401
 ```
 
 </details>
+
+---
+
+## Дополнение 11.09 — ответы Ивану, закрытие дыры корзины и склад per-tenant
+
+Сессия открыта в самом worktree (`feat/mt-vendors`), гейт 5k разлочен — правки кода и HANDOFF идут отсюда.
+Стенд перезапущен с новым кодом (`nohup env PORT=9023 npm run dev`, «Server is ready on port: 9023»).
+
+### Вопросы Ивана 1–6
+
+- **1. `q-mt-order-not-split` — не вопрос, а дыра; закрыта.** Из модели независимых магазинов «корзина одного
+  тенанта» выводится сама. Работа была в валидации. Проверено на живом стенде ДО фикса: старая корзина
+  `cart_01M261CX847…` (канал Acme, но с товаром Globex) прошла `POST /store/carts/:id/complete` в один заказ
+  `order_01M2640GHNN75FE6C4A4A5ZX18`, и `GET /tenants/orders` у acme показал ОБА товара (Acme shirt + Globex mug,
+  `sc` Acme), у globex — пусто. То есть весь заказ, включая товар Globex, ушёл владельцу канала Acme —
+  подтверждение последствия. `completeCartWorkflow` заказ не дробит: `order.placed` привязывает его целиком по
+  `sales_channel_id`. Фикс — валидация позиции против канала (ниже).
+- **2. `q-mt-tenant-columns-vs-links` — объяснение дано, решения Ивана ждём.** Текст и рекомендация («links сейчас»)
+  в `memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md` (раздел «Объяснения Ивану 2026-09-11»).
+  Факт для аргумента подтверждён по исходникам: `deleteSalesChannelsWorkflow` вызывает `removeRemoteLinkStep`
+  (`@medusajs/core-flows@2.19.0`). Текстовая колонка при удалении канала осталась бы висеть с мёртвым id, link —
+  вычистился бы. НЕ решено за Ивана.
+- **3. `q-mt-tenants-namespace-vs-panel-abc` — объяснение дано, решения ждём.** `/tenants/*` = HTTP API (не UI),
+  третий namespace под actor type `tenant` рядом с `/admin` (staff) и `/store` (покупатели). Рекомендация —
+  оставить как backend панели варианта (a). НЕ решено за Ивана.
+- **4. `q-mt-publishable-key-storage` — РЕШЕНО Иваном, зафиксировано.** «если в .env то каждый раз нужно будет
+  пересобирать проект? Тогда конечно в БД». `question resolve q-mt-publishable-key-storage`. Что тянет: ключ в БД
+  имеет смысл вместе с моделью «одна витрина на всех, тенант по домену» (middleware резолвит Host → конфиг из БД,
+  `lib/config.ts` перестаёт быть синглтоном). Промежуточный шаг без пересборки — снять префикс `NEXT_PUBLIC_` и
+  читать ключ на сервере в рантайме. Витрина сейчас читает ключ в `src/middleware.ts:7` и `src/lib/config.ts:14`.
+- **5. `q-mt-stock-locations-shared` — РЕШЕНО Иваном, реализовано.** «да делаем именно так» на «склад per-tenant
+  с авто-дефолтом». Код ниже. `question resolve q-mt-stock-locations-shared`.
+- **6. «Два тенанта, склад в одном городе» — ЗАМЕРЕНО, проблем нет.** По модели `@medusajs/stock-location`
+  уникальности имени/адреса нет (`name = model.text().searchable()`, адрес отдельной сущностью). Замер на стенде:
+  склады acme и globex переименованы в родной админке в «Москва склад», город «Москва», страна `ru`; после этого
+  корзина в регионе Russia (`rub`) у acme отдала опции `[Acme courier, Acme pickup]` (service zone `serzo_…RH4`),
+  у globex — `[Globex pickup, Globex courier]` (service zone `serzo_…MZ3`). Пересечения нет: изоляция идёт через
+  link канал↔склад, а не через имя/город. Тот же вывод закреплён seam-тестом «keeps two tenants' warehouses apart
+  even in the same city».
+
+### Дыра корзины закрыта (задача 2)
+
+`src/workflows/hooks/validate-cart-sales-channel.ts` подключает hook `validate` к трём core-workflow, которые
+вносят позицию в корзину: `createCartWorkflow` (`POST /store/carts` с `items`), `addToCartWorkflow`
+(`POST /store/carts/:id/line-items`) и `completeCartWorkflow` (последний рубеж — корзина, набравшая чужой товар
+до появления правила). Правило: вариант должен продаваться в канале корзины. `updateLineItemInCartWorkflow` не
+трогается — он меняет количество, не вариант. Корзина без sales channel вне области (некому сказать, чей каталог).
+
+Живой замер на стенде (новый код): свой вариант Acme добавляется (200), чужой вариант Globex отбит (400
+«Variants … are not sold in the cart's sales channel»), корзина осталась с одним товаром; `POST /store/carts`
+с чужим товаром в `items` — тоже 400. Ошибка записана заранее: `aie-20260911-001223-11fa`.
+
+### Склад per-tenant (задача 2а)
+
+Шаг `link-sales-channel-to-stock-locations` (линковал канал ко ВСЕМ 241 складам) удалён. Новый workflow
+`src/workflows/tenant/provision-tenant-warehouse/` заводит тенанту СВОЙ склад: один stock location + адрес,
+провайдер `manual_manual`, один fulfillment set (type `shipping`) с одной базовой service zone (все страны, по
+которым у стора есть регион), две flat-опции (`<tenant> pickup` 0, `<tenant> courier` 10) с ценами во всех
+валютах регионов и правилами `enabled_in_store=true`/`is_return=false`; линк канала ТОЛЬКО к своему складу.
+Компенсация на каждый шаг: собственный шаг `create-tenant-fulfillment-set` при откате удаляет set и оба линка,
+`create*Workflow.runAsStep` компенсируются сами. Профиль доставки резолвится шагом
+`resolve-default-shipping-profile` (берёт существующий на засеянном backend, создаёт `default` на голом — чтобы
+seam-тест работал без сида). `createTenantWorkflow` вызывает warehouse-workflow как шаг, `POST /tenants` идёт
+тем же путём.
+
+Существующие тенанты стенда (acme, globex, initech) переведены скриптом
+`src/scripts/reprovision-tenant-warehouses.ts` (idempotent): каждый отвязан от 241 общего склада и получил свой
+(2 shipping options). Повторный прогон — «already on its own warehouse — skipped» для всех трёх.
+
+Живой замер (новый код, `:9023`): корзина Acme видит только `[Acme courier, Acme pickup]`, корзина Globex —
+только `[Globex pickup, Globex courier]`, пересечения опций нет; чекаут Acme проходит через СВОЙ склад до заказа
+`order_01M264Z3NQHTZQ6NPNAGCNM1NM`. Итог живого сценария `scripts/mt-accept.mjs`: 9/9 passed.
+
+### Проверки
+
+`tsc --noEmit` и `medusa lint` — чистые. Seam-тест `integration-tests/http/tenants.spec.ts` дополнен четырьмя
+тестами (line-item против канала, create-cart с чужим вариантом, shipping options только из своего склада, два
+склада в одном городе не пересекаются) — результат в HANDOFF.
