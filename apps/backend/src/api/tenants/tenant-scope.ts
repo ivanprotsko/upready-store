@@ -1,0 +1,152 @@
+import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
+import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+
+/**
+ * Shared tenant scoping for `/tenants/*`. Every route here decides what the
+ * caller may see from the module links (tenant-product, tenant-order,
+ * tenant-sales-channel), never from the request: a body or a query parameter
+ * naming a tenant, a sales channel or an id is only ever used to NARROW the
+ * set these helpers return.
+ *
+ * Two rules the whole namespace follows:
+ *
+ * - `id: undefined` in a Medusa filter is no filter at all. A tenant with zero
+ *   linked rows must get an empty page, so every list route calls
+ *   `scopeIdFilter` and returns `emptyPage` when the intersection is empty
+ *   rather than handing an undefined `id` to the query.
+ * - A foreign id is a missing id. `assertOwned…` throws `NOT_FOUND`, never
+ *   `NOT_ALLOWED`, so the response never tells one tenant that another
+ *   tenant's row exists.
+ */
+
+export type TenantScope = {
+  id: string;
+  name: string;
+  sales_channel_id: string | null;
+};
+
+const tenantAdminNotFound = (actorId: string) =>
+  new MedusaError(MedusaError.Types.NOT_FOUND, `Tenant admin ${actorId} was not found.`);
+
+/**
+ * The tenant behind the token: its id, its display name and its one sales
+ * channel, read through the tenant-sales-channel link. A channel deleted
+ * through the Admin comes back as `null`, never as a dead id.
+ */
+export const getTenantScope = async (req: AuthenticatedMedusaRequest): Promise<TenantScope> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.name", "tenant.sales_channel.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  const tenant = tenantAdmin?.tenant;
+
+  if (!tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return {
+    id: tenant.id,
+    name: tenant.name as string,
+    sales_channel_id: (tenant.sales_channel?.id as string | undefined) ?? null,
+  };
+};
+
+const idsOf = (rows: ({ id?: string | null } | null | undefined)[] | undefined | null): string[] =>
+  (rows ?? []).map((row) => row?.id).filter((id): id is string => Boolean(id));
+
+/**
+ * Every product id linked to the tenant, through the tenant-product link. This
+ * is the ownership record: a product sitting in the same database but created
+ * by another tenant is not in here, and a product in the tenant's sales
+ * channel that the tenant did not create is not in here either.
+ */
+export const listTenantProductIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.products.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  if (!tenantAdmin?.tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return idsOf(tenantAdmin.tenant.products);
+};
+
+/** Every order id linked to the tenant by `linkOrderToTenantWorkflow`. */
+export const listTenantOrderIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.orders.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  if (!tenantAdmin?.tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return idsOf(tenantAdmin.tenant.orders);
+};
+
+/**
+ * Narrows the ids the tenant owns by whatever the caller asked for. The Admin
+ * validators type an `id` filter as a string or an array of strings; anything
+ * else (an operator map such as `id[$ne]`) matches nothing here rather than
+ * widening the set, which is the safe direction.
+ */
+export const scopeIdFilter = (ownedIds: string[], requested: unknown): string[] => {
+  if (requested === undefined || requested === null) {
+    return ownedIds;
+  }
+
+  const asArray = Array.isArray(requested) ? requested : [requested];
+  const wanted = new Set(asArray.filter((value): value is string => typeof value === "string"));
+
+  return ownedIds.filter((id) => wanted.has(id));
+};
+
+/**
+ * The `count/offset/limit` half of an empty Admin list response. `offset` and
+ * `limit` still echo the request, so a paginating client keeps working.
+ */
+export const emptyPage = (req: AuthenticatedMedusaRequest) => ({
+  count: 0,
+  offset: req.queryConfig?.pagination?.skip ?? 0,
+  limit: req.queryConfig?.pagination?.take ?? 0,
+});
+
+/** 404 for a product the tenant does not own, worded like Medusa's own miss. */
+export const assertOwnedProduct = async (
+  req: AuthenticatedMedusaRequest,
+  productId: string,
+): Promise<void> => {
+  const ownedIds = await listTenantProductIds(req);
+
+  if (!ownedIds.includes(productId)) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Product with id "${productId}" was not found`,
+    );
+  }
+};
