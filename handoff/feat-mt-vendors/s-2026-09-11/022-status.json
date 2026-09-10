@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 22,
+  "action": "status-set",
+  "ts": "2026-09-11T05:09:56+08:00",
+  "status": "Ночная волна панели тенанта: кусок 2 (backend /tenants/* в форме админки, 34 seam-теста) принят и смержен в feat/mt-panel (15bccd9); кусок 1 (каркас, feat/mt-panel-skeleton) на живой проверке; дальше — merge каркаса, перезапуск :9023 из feat/mt-panel, куски 3/4, e2e, READY"
+}
