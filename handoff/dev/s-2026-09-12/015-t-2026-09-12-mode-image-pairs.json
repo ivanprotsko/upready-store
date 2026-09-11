@@ -1,0 +1,31 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 15,
+  "action": "task-add",
+  "ts": "2026-09-12T06:03:45+08:00",
+  "status": "Роль сессии сменена Иваном на ПРИЁМЩИКА волны upready-store (промпт artifacts/prompts/2026-09-12-acceptor-session.md). Термины закрыты: STORE_PROFILE не профиль магазина, канон в specs/catalog-taxonomy/GLOSSARY.md (5f9ab49) — сфера торговли → торговая категория (обе необязательны), категория товаров принадлежит магазину, профиль = b2c/b2b + сфера + торговые категории; пусто → абстрактный набор данных (несколько наборов, по одному под тему, картинки абстрактные), делать сейчас. Трек исполнения отдан новой сессии: worktree ~/upready/worktrees/upready-store/feat/abstract-datasets создан от fix/mt-storefront-head-footer и слит с feat/catalog-taxonomy (c38addb), все документы промпта в дереве проверены ls, ветка запушена. Очередь приёмки: fix/mt-storefront-head-footer (5 коммитов, НЕ задеплоено, после деплоя нужны пересборка mt-backend + seed-mt-demo + два backfill), линия feat/mt-deploy (волны 1-2 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md, открыты live-links, Cannot GET / на apex, домены-анаграммы), не влиты mt-platform/mt-specs/mt-vendors, висят in_progress t-store-profiles-pilot, t-ds-1-seam-tests, t-2026-09-09-02, t-2026-09-10-01/02. За Иваном два решения: деплой head-footer и ОК на фан-аут.",
+  "task": {
+    "id": "t-2026-09-12-mode-image-pairs",
+    "title": "Парные изображения под светлый и тёмный режим: герой, категории товаров, товары",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Заказ Ивана 2026-09-12 (пункты 3 и 4 его сообщения): у героя, у изображения категории товаров и у изображения каждого товара может быть ДВЕ версии — под светлый и под тёмный режим. Второй пункт Иван называет своим личным инструментом (делать картинки товара под каждую нашу тему), но просит начать реализацию сегодня. Сведено в ОДНУ задачу и одну ось данных намеренно (правило 20). Сегодня в коде: герой — одно поле content.hero.image_url в upready.tenant-home/v1; категория — metadata.image_url + image_alt; товар — штатные Medusa images/thumbnail. Режим ставится на сервере в layout.tsx, НО у витрины есть видимый посетителю переключатель (nav-mode-toggle, bottom-nav-mode-toggle), он меняет data-mode в браузере без перезагрузки — замерено на проде на acme и nochlavka 2026-09-12, поэтому серверного выбора версии недостаточно. Промпт исполнителя: artifacts/prompts/2026-09-12-mode-image-pairs-session.md (ветка feat/catalog-taxonomy). Канон оси: specs/catalog-taxonomy/GLOSSARY.md §3.",
+    "files": [
+      "apps/backend/src/api/tenants/home/validators.ts",
+      "apps/tenant-panel/src/routes/home-settings/home-settings.tsx",
+      "apps/storefront/src/modules/home/components/profile-hero/index.tsx",
+      "specs/catalog-taxonomy/GLOSSARY.md",
+      "artifacts/prompts/2026-09-12-mode-image-pairs-session.md"
+    ],
+    "tags": [
+      "storefront",
+      "panel",
+      "media"
+    ],
+    "created": "2026-09-12T06:03:45+08:00",
+    "updated": "2026-09-12T06:03:45+08:00"
+  }
+}

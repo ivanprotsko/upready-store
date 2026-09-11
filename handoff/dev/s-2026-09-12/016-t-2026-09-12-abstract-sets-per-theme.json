@@ -1,0 +1,23 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 16,
+  "action": "task-add",
+  "ts": "2026-09-12T06:03:45+08:00",
+  "status": "Роль сессии сменена Иваном на ПРИЁМЩИКА волны upready-store (промпт artifacts/prompts/2026-09-12-acceptor-session.md). Термины закрыты: STORE_PROFILE не профиль магазина, канон в specs/catalog-taxonomy/GLOSSARY.md (5f9ab49) — сфера торговли → торговая категория (обе необязательны), категория товаров принадлежит магазину, профиль = b2c/b2b + сфера + торговые категории; пусто → абстрактный набор данных (несколько наборов, по одному под тему, картинки абстрактные), делать сейчас. Трек исполнения отдан новой сессии: worktree ~/upready/worktrees/upready-store/feat/abstract-datasets создан от fix/mt-storefront-head-footer и слит с feat/catalog-taxonomy (c38addb), все документы промпта в дереве проверены ls, ветка запушена. Очередь приёмки: fix/mt-storefront-head-footer (5 коммитов, НЕ задеплоено, после деплоя нужны пересборка mt-backend + seed-mt-demo + два backfill), линия feat/mt-deploy (волны 1-2 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md, открыты live-links, Cannot GET / на apex, домены-анаграммы), не влиты mt-platform/mt-specs/mt-vendors, висят in_progress t-store-profiles-pilot, t-ds-1-seam-tests, t-2026-09-09-02, t-2026-09-10-01/02. За Иваном два решения: деплой head-footer и ОК на фан-аут.",
+  "task": {
+    "id": "t-2026-09-12-abstract-sets-per-theme",
+    "title": "Уникальные абстрактные наборы данных под каждую тему",
+    "state": "backlog",
+    "priority": "med",
+    "details": "Отложено Иваном 2026-09-12: сначала ОДИН набор абстрактных картинок, подходящий под любую тему; уникальные наборы под конкретную тему обсуждаются позже. Число 7 в прежней редакции промпта — это THEME_IDS кода (electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion), наборов данных сегодня 5; содержание картинок под семь тем никто не утверждал. Канон: specs/catalog-taxonomy/GLOSSARY.md §2.",
+    "tags": [
+      "media",
+      "catalog"
+    ],
+    "created": "2026-09-12T06:03:45+08:00",
+    "updated": "2026-09-12T06:03:45+08:00"
+  }
+}

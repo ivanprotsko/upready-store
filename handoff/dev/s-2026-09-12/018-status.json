@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-12T06:06:39+08:00",
+  "status": "Приёмщик: четыре дефекта fix/mt-storefront-head-footer замерены ЖИВЫМИ на проде 2026-09-12 (не задеплоено, решение за Иваном — q-deploy-head-footer); Иван отменил наборы под каждую тему (7 = THEME_IDS кода, наборов 5) — один универсальный набор, уникальные в бэклоге t-2026-09-12-abstract-sets-per-theme; заведена t-2026-09-12-mode-image-pairs (пары картинок под светлый и тёмный режим, герой+категории+товары, in_progress, промпт и worktree feat/mode-image-pairs готовы); трек feat/abstract-datasets живёт сессией session_01Kn7KNTMDNVTUE4QKCauRvA, ей отправлено сообщение о смене объёма"
+}

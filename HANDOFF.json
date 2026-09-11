@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T05:44:28+08:00",
-  "status": "Роль сессии сменена Иваном на ПРИЁМЩИКА волны upready-store (промпт artifacts/prompts/2026-09-12-acceptor-session.md). Термины закрыты: STORE_PROFILE не профиль магазина, канон в specs/catalog-taxonomy/GLOSSARY.md (5f9ab49) — сфера торговли → торговая категория (обе необязательны), категория товаров принадлежит магазину, профиль = b2c/b2b + сфера + торговые категории; пусто → абстрактный набор данных (несколько наборов, по одному под тему, картинки абстрактные), делать сейчас. Трек исполнения отдан новой сессии: worktree ~/upready/worktrees/upready-store/feat/abstract-datasets создан от fix/mt-storefront-head-footer и слит с feat/catalog-taxonomy (c38addb), все документы промпта в дереве проверены ls, ветка запушена. Очередь приёмки: fix/mt-storefront-head-footer (5 коммитов, НЕ задеплоено, после деплоя нужны пересборка mt-backend + seed-mt-demo + два backfill), линия feat/mt-deploy (волны 1-2 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md, открыты live-links, Cannot GET / на apex, домены-анаграммы), не влиты mt-platform/mt-specs/mt-vendors, висят in_progress t-store-profiles-pilot, t-ds-1-seam-tests, t-2026-09-09-02, t-2026-09-10-01/02. За Иваном два решения: деплой head-footer и ОК на фан-аут.",
+  "updated": "2026-09-12T06:06:39+08:00",
+  "status": "Приёмщик: четыре дефекта fix/mt-storefront-head-footer замерены ЖИВЫМИ на проде 2026-09-12 (не задеплоено, решение за Иваном — q-deploy-head-footer); Иван отменил наборы под каждую тему (7 = THEME_IDS кода, наборов 5) — один универсальный набор, уникальные в бэклоге t-2026-09-12-abstract-sets-per-theme; заведена t-2026-09-12-mode-image-pairs (пары картинок под светлый и тёмный режим, герой+категории+товары, in_progress, промпт и worktree feat/mode-image-pairs готовы); трек feat/abstract-datasets живёт сессией session_01Kn7KNTMDNVTUE4QKCauRvA, ей отправлено сообщение о смене объёма",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -472,6 +472,51 @@
       ],
       "created": "2026-09-12T04:18:43+08:00",
       "updated": "2026-09-12T04:18:43+08:00"
+    },
+    {
+      "id": "t-2026-09-12-mode-image-pairs",
+      "title": "Парные изображения под светлый и тёмный режим: герой, категории товаров, товары",
+      "state": "in_progress",
+      "priority": "high",
+      "details": "Заказ Ивана 2026-09-12 (пункты 3 и 4 его сообщения): у героя, у изображения категории товаров и у изображения каждого товара может быть ДВЕ версии — под светлый и под тёмный режим. Второй пункт Иван называет своим личным инструментом (делать картинки товара под каждую нашу тему), но просит начать реализацию сегодня. Сведено в ОДНУ задачу и одну ось данных намеренно (правило 20). Сегодня в коде: герой — одно поле content.hero.image_url в upready.tenant-home/v1; категория — metadata.image_url + image_alt; товар — штатные Medusa images/thumbnail. Режим ставится на сервере в layout.tsx, НО у витрины есть видимый посетителю переключатель (nav-mode-toggle, bottom-nav-mode-toggle), он меняет data-mode в браузере без перезагрузки — замерено на проде на acme и nochlavka 2026-09-12, поэтому серверного выбора версии недостаточно. Промпт исполнителя: artifacts/prompts/2026-09-12-mode-image-pairs-session.md (ветка feat/catalog-taxonomy). Канон оси: specs/catalog-taxonomy/GLOSSARY.md §3.",
+      "files": [
+        "apps/backend/src/api/tenants/home/validators.ts",
+        "apps/tenant-panel/src/routes/home-settings/home-settings.tsx",
+        "apps/storefront/src/modules/home/components/profile-hero/index.tsx",
+        "specs/catalog-taxonomy/GLOSSARY.md",
+        "artifacts/prompts/2026-09-12-mode-image-pairs-session.md"
+      ],
+      "tags": [
+        "storefront",
+        "panel",
+        "media"
+      ],
+      "created": "2026-09-12T06:03:45+08:00",
+      "updated": "2026-09-12T06:04:06+08:00",
+      "goal": "У героя, у изображения категории товаров и у изображения товара есть по две версии — под светлый и под тёмный режим; владелец заводит их в панели, витрина показывает версию текущего режима и меняет её вместе с кликом по переключателю, а магазин без второй версии работает как сегодня.",
+      "acceptance": [
+        "Дизайн-стадия пройдена до кода: мокап artifacts/docs/2026-09-12-mode-image-pairs-mockup.md показывает панель в трёх местах и поведение витрины на переключении (27d)",
+        "На живом магазине у героя две картинки: клик по переключателю режима меняет картинку вместе с темой, без перезагрузки; есть кадр в обоих режимах и написано, что на кадре",
+        "То же показано для плитки категории товаров",
+        "То же показано для карточки товара",
+        "Магазин без второй версии: переключение показывает ту же картинку, пустых мест и битых картинок нет",
+        "В панели владелец загружает обе версии, сохраняет, перезагружает страницу — обе на месте",
+        "Глазами: на тёмном кадре картинка не светится белым пятном и читается как часть тёмной витрины (человеческий критерий 27d)"
+      ],
+      "approved": "2026-09-12T06:04:06+08:00"
+    },
+    {
+      "id": "t-2026-09-12-abstract-sets-per-theme",
+      "title": "Уникальные абстрактные наборы данных под каждую тему",
+      "state": "backlog",
+      "priority": "med",
+      "details": "Отложено Иваном 2026-09-12: сначала ОДИН набор абстрактных картинок, подходящий под любую тему; уникальные наборы под конкретную тему обсуждаются позже. Число 7 в прежней редакции промпта — это THEME_IDS кода (electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion), наборов данных сегодня 5; содержание картинок под семь тем никто не утверждал. Канон: specs/catalog-taxonomy/GLOSSARY.md §2.",
+      "tags": [
+        "media",
+        "catalog"
+      ],
+      "created": "2026-09-12T06:03:45+08:00",
+      "updated": "2026-09-12T06:03:45+08:00"
     }
   ],
   "questions": [
@@ -703,6 +748,15 @@
       "id": "q-demo-dark-mode-absent",
       "question": "Тёмного режима у демо-воронки shiftship.dev НЕТ в коде, а пункт приёмки требует сверить оба режима кадрами. Замер приёмщика 2026-09-12: кадры /start при colorScheme light и dark байт-в-байт идентичны (sha256 4bd0642d…2553, 74258 байт, 1280x800); на <html> в обоих случаях data-mode=\"light\", хотя matchMedia('(prefers-color-scheme: dark)') внутри страницы отвечает true. Причина в apps/storefront/src/app/layout.tsx:60-64 — режим берётся из документа тенанта, затем настроек магазина, затем профиля сборки; prefers-color-scheme не читается нигде, а переключателя на /start нет (data-mode в app/start/ встречается только в onboarding/wizard.tsx:313-338, и это выбор режима ДЛЯ БУДУЩЕГО магазина). Три пути: (а) пункт приёмки относится к магазину тенанта — сверяем кадры на <handle>.shipshift.dev после создания, демо остаётся светлым; (б) демо читает prefers-color-scheme — одна строка в layout + пре-пейнт, но демо перестанет быть предсказуемым для показа; (в) на демо-воронку ставится свой тумблер режима рядом со словом demo в шапке. Влияет на то, что ты увидишь при показе.",
       "asked": "2026-09-12"
+    },
+    {
+      "id": "q-deploy-head-footer",
+      "question": "Деплоить ли fix/mt-storefront-head-footer (2be7e2a…815c53a) на прод: четыре дефекта витрин тенанта замерены живыми 2026-09-12 на пяти хостах (canonical на мёртвый stores.shipshift.dev, ссылки стартера и gorgojs в подвале, Colourway×4 и Default option×18 на acme/ru/store, английский герой и подвал на /ru). Деплой — только по команде Ивана (21c). После деплоя обязательны пересборка mt-backend, seed-mt-demo.js, backfill-hero-copy и backfill-option-translations по трём профилям.",
+      "asked": "2026-09-12",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-12-catalog-taxonomy"
+      ]
     }
   ],
   "sessions": [
