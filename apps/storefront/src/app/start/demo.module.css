@@ -339,6 +339,24 @@
   font-family: inherit;
   width: 100%;
 }
+/*
+ * The placeholder must read as a HINT, not as a filled field. Nothing in this stack sets
+ * one, so every input inherited the preset's hardcoded rgb(156,163,175) — a grey that is
+ * muted against white and bright against near-black. Measured on the live demo 2026-09-12:
+ * identical in both modes, so in DARK the till showed «4242 4242 4242 4242», «12 / 30»,
+ * «123» and «IVAN PROTSKO» at 8.2:1 against the page while the real ink sits at 17.0:1 —
+ * a card that looks already typed in, on the one screen where that matters.
+ *
+ * A fixed grey cannot be right in both modes, because "muted" is a RATIO to the ink, not a
+ * colour: the hint is mixed from this mode's own foreground toward its own background, so
+ * it lands at ~16% of the ink's contrast in light and ~25% in dark instead of 15% and 48%.
+ * The plain declaration above it is the fallback for a browser without color-mix.
+ */
+.input::placeholder {
+  color: var(--muted-foreground);
+  color: color-mix(in srgb, var(--foreground) 42%, var(--background));
+  opacity: 1; /* Firefox dims placeholders by default, which would double the muting. */
+}
 .input:focus-visible {
   outline: 2px solid rgba(135, 135, 135, 0.5);
   outline-offset: 1px;
