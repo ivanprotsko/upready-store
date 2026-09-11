@@ -108,6 +108,33 @@ Added by wave-2 piece 1 (product detail, `/products/:id/**`):
   against its `/tenants/products/*` route; `hooks/api/product-variants.tsx`, `hooks/api/inventory.tsx`
   and `hooks/api/stock-locations.tsx` are new, trimmed to what the copied screens read.
 
+Added by wave-2 piece 6 (promotions and campaigns, `/promotions/**` and `/campaigns/**`):
+
+- `hooks/api/promotions.tsx`, `hooks/api/campaigns.tsx` — the Admin's own hooks with every
+  `sdk.admin.promotion.*` / `sdk.admin.campaign.*` call replaced by an `sdk.client.fetch` against
+  the matching `/tenants/*` route. The js-sdk's admin module hardcodes the `/admin/...` prefix, so
+  the URL is the one thing that cannot be reused; paths, bodies, query keys and invalidations are
+  the Admin's, including the three rule mutations that share `:id/:ruleType/batch` and differ only
+  in which key of the batch body they fill.
+- `routes/promotions/promotion-list/loader.ts`, `routes/promotions/promotion-detail/loader.ts`,
+  `routes/campaigns/campaign-detail/loader.ts`,
+  `routes/promotions/common/edit-rules/components/rule-value-form-field/rule-value-form-field.tsx`
+  and
+  `routes/promotions/promotion-add-campaign/components/add-campaign-promotion-form/add-campaign-promotion-form.tsx`
+  — the same swap at the five call sites that bypass the hooks. The last two matter for isolation
+  as well as for the URL: the rule-value combobox and the campaign combobox would otherwise list
+  every backend's channels, products and campaigns.
+- `components/layout/main-layout/main-layout.tsx` — Campaigns hangs under Promotions as a nested
+  nav item, which is where the Admin's own nav puts it. The nested list renders through the
+  `LayoutEditContext` default (edit mode off, nothing hidden, order unchanged), so it needs no
+  `LayoutEditProvider`.
+- Copied verbatim, unchanged: `routes/promotions/**`, `routes/campaigns/**` (except the five files
+  above), `components/table/table-cells/common/text-cell`, `.../common/code-cell`,
+  `.../promotion/status-cell`, `.../sales-channel/name-cell`, `.../sales-channel/description-cell`,
+  `hooks/table/columns/use-promotion-table-columns.tsx`, `.../use-campaign-table-columns.tsx`,
+  `hooks/table/filters/use-promotion-table-filters.tsx`,
+  `hooks/table/query/use-promotion-table-query.tsx` and `.../use-campaign-table-query.tsx`.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 

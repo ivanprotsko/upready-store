@@ -9,7 +9,8 @@
  * Output: artifacts/docs/tenant-panel-shots/<side>-<screen>.png (git-ignored binaries, rule 21f).
  *
  * Environment: PLAYWRIGHT (absolute path of the playwright package), ADMIN_URL,
- * PANEL_URL, BACKEND_URL (default http://localhost:9023) and SHOT_PRODUCT_ID.
+ * PANEL_URL, BACKEND_URL (default http://localhost:9023), SHOT_PRODUCT_ID and
+ * SHOT_PROMOTION_ID.
  * The product-detail screens need one product both sides can open; without
  * SHOT_PRODUCT_ID the script asks BACKEND_URL for the first product of
  * PANEL_EMAIL's tenant, which the native Admin can open too because staff see
@@ -90,12 +91,37 @@ const resolveProductId = async () => {
   return products?.[0]?.id
 }
 
+/**
+ * One promotion id both sides open. The native Admin sees every promotion, so
+ * the tenant's own is the id that works on both; a stand with no promotion for
+ * this tenant simply skips the detail shot rather than failing the run.
+ */
+const resolvePromotionId = async () => {
+  if (process.env.SHOT_PROMOTION_ID) {
+    return process.env.SHOT_PROMOTION_ID
+  }
+  const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: PANEL_EMAIL, password: "supersecret" }),
+  })
+  const { token } = await login.json()
+  const list = await fetch(`${BACKEND}/tenants/promotions?limit=1&fields=id,code`, {
+    headers: { authorization: `Bearer ${token}` },
+  })
+  const { promotions } = await list.json()
+  return promotions?.[0]?.id
+}
+
 const productId = await resolveProductId()
 if (!productId) {
   console.error(`no product to shoot: set SHOT_PRODUCT_ID or seed ${PANEL_EMAIL}'s tenant`)
   process.exit(2)
 }
 console.log("product under the detail shots:", productId)
+
+const promotionId = await resolvePromotionId()
+console.log("promotion under the detail shot:", promotionId ?? "(none, shot skipped)")
 
 const browser = await chromium.launch()
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "light" })
@@ -150,6 +176,25 @@ try {
   await page.goto(`${cfg.base}/settings/profile/edit`, { waitUntil: "networkidle" })
   await page.waitForTimeout(500)
   await shot(page, "profile-edit")
+
+  // tenant-panel wave 2, piece 6 (promotions + campaigns).
+  await page.goto(`${cfg.base}/promotions`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(700)
+  await shot(page, "promotions")
+
+  await page.goto(`${cfg.base}/promotions/create`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1000)
+  await shot(page, "promotion-create")
+
+  if (promotionId) {
+    await page.goto(`${cfg.base}/promotions/${promotionId}`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1200)
+    await shot(page, "promotion-detail")
+  }
+
+  await page.goto(`${cfg.base}/campaigns`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(700)
+  await shot(page, "campaigns")
 
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {

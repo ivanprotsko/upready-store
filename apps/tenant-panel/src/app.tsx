@@ -255,18 +255,114 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/not-built"),
           },
           {
-            // tenant-panel wave 2, piece 6 (promotions + campaigns): replaced by
-            // the copied routes/promotions and routes/campaigns trees.
+            // tenant-panel wave 2, piece 6 (promotions + campaigns): the copied
+            // routes/promotions and routes/campaigns trees, with the same child
+            // paths as the Admin's get-route.map.tsx so URLs and screenshots
+            // compare one for one.
             path: "/promotions",
             handle: { breadcrumb: () => t("promotions.domain") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/not-built"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/promotions/promotion-list"),
+              },
+              {
+                path: "create",
+                lazy: () => import("./routes/promotions/promotion-create"),
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb, loader, seo } = await import(
+                    "./routes/promotions/promotion-detail"
+                  )
+
+                  return {
+                    Component,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminPromotionResponse>
+                      ) => <Breadcrumb {...match} />,
+                      seo,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () =>
+                      import("./routes/promotions/promotion-edit-details"),
+                  },
+                  {
+                    path: "add-to-campaign",
+                    lazy: () =>
+                      import("./routes/promotions/promotion-add-campaign"),
+                  },
+                  {
+                    path: ":ruleType/edit",
+                    lazy: () =>
+                      import("./routes/promotions/common/edit-rules"),
+                  },
+                ],
+              },
+            ],
           },
           {
             path: "/campaigns",
             handle: { breadcrumb: () => t("campaigns.domain") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/not-built"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/campaigns/campaign-list"),
+              },
+              {
+                path: "create",
+                lazy: () => import("./routes/campaigns/campaign-create"),
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb, loader, seo } = await import(
+                    "./routes/campaigns/campaign-detail"
+                  )
+
+                  return {
+                    Component,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminCampaignResponse>
+                      ) => <Breadcrumb {...match} />,
+                      seo,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/campaigns/campaign-edit"),
+                  },
+                  {
+                    path: "configuration",
+                    lazy: () =>
+                      import("./routes/campaigns/campaign-configuration"),
+                  },
+                  {
+                    path: "edit-budget",
+                    lazy: () =>
+                      import("./routes/campaigns/campaign-budget-edit"),
+                  },
+                  {
+                    path: "add-promotions",
+                    lazy: () =>
+                      import("./routes/campaigns/add-campaign-promotions"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // tenant-panel wave 2, piece 7 (content pages): the panel's own

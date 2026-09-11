@@ -26,3 +26,7 @@ export * from "./views"
 export * from "./product-variants"
 export * from "./inventory"
 export * from "./stock-locations"
+// tenant-panel: added by wave-2 piece 6 (promotions + campaigns). Both modules
+// are the Admin's own hooks pointed at /tenants/promotions and /tenants/campaigns.
+export * from "./promotions"
+export * from "./campaigns"
