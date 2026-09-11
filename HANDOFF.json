@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T10:28:02+08:00",
-  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5 (trunk dd94096 + отчёты ac4151c). e2e-фикс куска 2 (только e2e-файл: форма фулфилмента отказывала клиентски из-за смены склада в тесте; панель без изменений) — мой прогон против :5181 идёт, затем коммит+merge. В работе mt2-piece-6/7/8; далее 9. night.md = NOT READY. Push не делался (приказ).",
+  "updated": "2026-09-11T10:34:17+08:00",
+  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5, 7 (trunk feat/mt-panel-2, все проверки зелёные); e2e-фикс фулфилмента слит (136 PASS). В работе mt2-piece-6 (promotions), mt2-piece-8 (home), mt2-piece-9 (by-host). night.md = NOT READY.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

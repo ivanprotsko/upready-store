@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-11T10:34:17+08:00",
+  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5, 7 (trunk feat/mt-panel-2, все проверки зелёные); e2e-фикс фулфилмента слит (136 PASS). В работе mt2-piece-6 (promotions), mt2-piece-8 (home), mt2-piece-9 (by-host). night.md = NOT READY."
+}
