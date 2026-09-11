@@ -222,5 +222,27 @@ export default defineMiddlewares({
         validateAndTransformQuery(AdminGetShippingProfilesParams, listShippingProfileQueryConfig),
       ],
     },
+
+    // ---- tenant panel wave 2 (t-2026-09-11-mt-panel-wave-2). Each piece adds
+    // its matchers under its own heading so the pieces merge without touching
+    // one another's lines. Every route stays behind the "/tenants/*" authenticate
+    // above; validators/query-configs come from the Admin's own modules.
+    // ---- piece 4: profile (/tenants/me, /tenants/me/password)
+
+    // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
+
+    // ---- piece 2: order detail (/tenants/orders/:id/**, payments, fulfillments)
+
+    // ---- piece 3: orders export (/tenants/orders/export)
+
+    // ---- piece 5: categories (/tenants/product-categories/**)
+
+    // ---- piece 6: promotions + campaigns (/tenants/promotions/**, /tenants/campaigns/**)
+
+    // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
+
+    // ---- piece 8: home page document (/tenants/home, /store/tenant/home)
+
+    // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
   ],
 });

@@ -1,7 +1,11 @@
 import {
   ChartBar,
+  DocumentText,
   EllipsisHorizontal,
+  Folder,
+  House,
   OpenRectArrowOut,
+  ReceiptPercent,
   ShoppingCart,
   Tag,
 } from "@medusajs/icons"
@@ -178,6 +182,29 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ShoppingCart />,
       label: t("orders.domain"),
       to: "/orders",
+    },
+    // tenant-panel wave 2: the sections Ivan listed 2026-09-11 (brief
+    // docs/multitenancy/2026-09-11-night-2-panel-brief.md §3). Screens land
+    // piece by piece; until then each opens routes/not-built.
+    {
+      icon: <Folder />,
+      label: t("categories.domain"),
+      to: "/categories",
+    },
+    {
+      icon: <ReceiptPercent />,
+      label: t("promotions.domain"),
+      to: "/promotions",
+    },
+    {
+      icon: <DocumentText />,
+      label: t("app.nav.main.pages", { defaultValue: "Pages" }),
+      to: "/pages",
+    },
+    {
+      icon: <House />,
+      label: t("app.nav.main.homeSettings", { defaultValue: "Home page" }),
+      to: "/home-settings",
     },
   ]
 }

@@ -1,5 +1,8 @@
 import { model } from "@medusajs/framework/utils";
 import TenantAdmin from "./tenant-admin";
+import TenantDomain from "./tenant-domain";
+import TenantHomeConfig from "./tenant-home-config";
+import TenantPage from "./tenant-page";
 
 /**
  * One tenant = one storefront on the shared backend. The recipe this module
@@ -22,6 +25,17 @@ const Tenant = model.define("tenant", {
   name: model.text(),
   metadata: model.json().nullable(),
   admins: model.hasMany(() => TenantAdmin, {
+    mappedBy: "tenant",
+  }),
+  // Wave 2 of the tenant panel (t-2026-09-11-mt-panel-wave-2): content pages,
+  // the home-page document and custom storefront hosts belong to the tenant.
+  pages: model.hasMany(() => TenantPage, {
+    mappedBy: "tenant",
+  }),
+  home_config: model.hasOne(() => TenantHomeConfig, {
+    mappedBy: "tenant",
+  }),
+  domains: model.hasMany(() => TenantDomain, {
     mappedBy: "tenant",
   }),
 });

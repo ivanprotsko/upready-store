@@ -45,6 +45,8 @@ const routes: RouteObject[] = [
                 ],
               },
               {
+                // tenant-panel wave 2, piece 1 (product detail): this stub is
+                // replaced by the copied routes/products/product-detail tree.
                 path: ":id",
                 lazy: () => import("./routes/not-built"),
               },
@@ -61,16 +63,64 @@ const routes: RouteObject[] = [
                 lazy: () => import("./routes/orders/order-list"),
                 children: [
                   {
+                    // tenant-panel wave 2, piece 3 (orders export): replaced by
+                    // the copied routes/orders/order-export.
                     path: "export",
                     lazy: () => import("./routes/not-built"),
                   },
                 ],
               },
               {
+                // tenant-panel wave 2, piece 2 (order detail): replaced by the
+                // copied routes/orders/order-detail tree.
                 path: ":id",
                 lazy: () => import("./routes/not-built"),
               },
             ],
+          },
+          {
+            // tenant-panel wave 2, piece 4 (profile): replaced by the copied
+            // routes/profile/profile-detail (+ profile-edit) tree.
+            path: "/settings/profile",
+            lazy: () => import("./routes/not-built"),
+          },
+          {
+            // tenant-panel wave 2, piece 5 (categories): replaced by the copied
+            // routes/categories tree (list, create, detail, edit, products).
+            path: "/categories",
+            handle: { breadcrumb: () => t("categories.domain") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/not-built"),
+          },
+          {
+            // tenant-panel wave 2, piece 6 (promotions + campaigns): replaced by
+            // the copied routes/promotions and routes/campaigns trees.
+            path: "/promotions",
+            handle: { breadcrumb: () => t("promotions.domain") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/not-built"),
+          },
+          {
+            path: "/campaigns",
+            handle: { breadcrumb: () => t("campaigns.domain") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/not-built"),
+          },
+          {
+            // tenant-panel wave 2, piece 7 (content pages): the panel's own
+            // routes/pages tree (no Admin counterpart).
+            path: "/pages",
+            handle: { breadcrumb: () => "Pages" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/not-built"),
+          },
+          {
+            // tenant-panel wave 2, piece 8 (home page settings): the panel's own
+            // routes/home-settings tree (no Admin counterpart).
+            path: "/home-settings",
+            handle: { breadcrumb: () => "Home page" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/not-built"),
           },
         ],
       },

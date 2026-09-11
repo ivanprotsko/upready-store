@@ -1,0 +1,14 @@
+# Прогресс волны 2 панели тенанта (11→12.09.2026)
+
+Оркестратор: session_01477g3q3qsvgSsc4QHptDUh (архитектор-оркестратор, worktree feat/mt-panel-2). Строка на каждый шаг, время по `date`. Нет строк 90 минут и нет READY в `2026-09-12-tenant-panel-night.md` = оркестратор мёртв.
+
+## План (зафиксирован 08:47 WITA)
+
+- Стенд оркестратора: backend :9026 (`/tmp/mt-backend-9026.log`, из этого worktree, БД upready_store_mt), панель :5181 (`/tmp/mt-panel-5181.log`, прокси на :9026), витрина одна на всех — :8010 (кусок 9). :9023/:5180/:8000-8002 — чужие, не трогаем.
+- Каркас (коммит после этой строки): модели `tenant_page`, `tenant_home_config`, `tenant_domain` + миграция Migration20260911004426 (накатана на стенд-БД, links tenant↔product_category/promotion/campaign созданы); якоря в `app.tsx`, `middlewares.ts`, пункты сайдбара (Categories, Promotions, Pages, Home page → not-built).
+- Куски и модели воркеров (5e): 4 profile — sonnet; 1 product detail — opus; 2+3 orders detail+export — opus (один воркер, общий hooks/api/orders.tsx); 5 categories — opus; 6 promotions+campaigns — opus; 7 pages (+витрина страницы/футер) — opus; 8 home settings (+витрина главная) — opus; 9 by-host — opus. Worktrees `~/upready/worktrees/upready-store/feat/mt-panel-2-<piece>`, ветки `feat/mt-panel-2-<piece>` от HEAD каркаса. Порты воркеров: backend 9027..9035 / панель 5182..5189 / seam PORT 9041..9048 / витрина 8011..8013 (таблица в common-промпте).
+- Решения архитектора: (a) схема главной ОДНА — `StorefrontSettingsInput` из `apps/storefront/src/lib/theme/composition.ts` берётся дословно как `config.settings`, к ней контентное расширение `config.content` (hero-текст/CTA/картинка, источник товаров popular|category, порядок блоков) и `config.theme.preset` (THEME_IDS витрины); (b) резолвер по Host НЕ под `/store/*`: глобальный гейт publishable key на :9026 отвечает 400 без ключа (замер 08:47), поэтому маршрут `GET /storefront/by-host`; (c) технический субдомен `<handle>.upready.dev` (Иван 08:47: база — upready.dev, не upready.store; wildcard *.upready.dev, CNAME stores.upready.dev, on-demand TLS для кастомных доменов — это для hosting-spec B4 сессии B) выводится из handle, строкой в БД не хранится; (d) промо: правило `sales_channel` → `sales_channel_id` есть на живом :9023 (замер 08:47), create-маршрут добавляет его сам.
+- Для сессии B (feat/mt-platform): `docs/multitenancy/storefront-by-host.md` пишет сессия A по прямому приказу Ивана (задача t-2026-09-12-mt-storefront-by-host, details) — единственный файл A в `docs/multitenancy/**`. Миграция модуля tenant этой ночи — одна, Migration20260911004426, от A.
+
+## Строки
+08:47 — каркас: 3 модели + миграция накатаны, 3 links, якоря app.tsx/middlewares.ts, 4 пункта сайдбара; tsc панели rc=0, eslint rc=0, tsc/lint бэкенда rc=0; :9026 и :5181 подняты. Дальше: контракт API волны 2 в docs/tenant-panel/api-contract.md, common-промпт, спавн кусков 4/1/2+3.
