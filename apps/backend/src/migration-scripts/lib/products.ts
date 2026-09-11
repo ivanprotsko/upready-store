@@ -53,35 +53,61 @@ export const getProductOptionIdsByTitle = async (
 ) => {
   const { data } = await getQuery(container).graph({
     entity: "product_option",
-    fields: ["id", "title"],
+    fields: ["id", "title", "is_exclusive"],
   });
-  return new Map(data.map((option) => [option.title, option.id]));
+  // Only the shared library rows are addressable by title: `is_exclusive`
+  // options are private to one product and their titles repeat (every
+  // single-variant product carries its own "Default option"), so keying a Map
+  // by title over all of them silently keeps whichever row came last.
+  return new Map(
+    data
+      .filter((option) => option.is_exclusive === false)
+      .map((option) => [option.title, option.id]),
+  );
 };
 
+/**
+ * Find-or-create by handle, at both levels. A handle is unique across the
+ * database, so a resumed run (`resolveSeedMode`) that re-creates a category
+ * its crashed predecessor already committed dies on the constraint and takes
+ * the rest of the profile with it.
+ */
 export const seedCategories = async (container: MedusaContainer) => {
-  const { result: parentCategories } = await createProductCategoriesWorkflow(
-    container,
-  ).run({
-    input: {
-      product_categories: SEED_CATEGORIES.map((category) => ({
-        name: category.name,
-        handle: category.handle,
-        is_active: true,
-      })),
-    },
-  });
+  const existingIdByHandle = await getCategoryIdsByHandle(container);
 
-  const parentIdByHandle = new Map(
-    parentCategories.map((category) => [category.handle, category.id]),
+  const missingParents = SEED_CATEGORIES.filter(
+    (category) => !existingIdByHandle.has(category.handle),
   );
 
+  const parentIdByHandle = new Map(existingIdByHandle);
+
+  if (missingParents.length) {
+    const { result: created } = await createProductCategoriesWorkflow(
+      container,
+    ).run({
+      input: {
+        product_categories: missingParents.map((category) => ({
+          name: category.name,
+          handle: category.handle,
+          is_active: true,
+        })),
+      },
+    });
+
+    for (const category of created) {
+      parentIdByHandle.set(category.handle, category.id);
+    }
+  }
+
   const childCategories = SEED_CATEGORIES.flatMap((category) =>
-    (category.children ?? []).map((child) => ({
-      name: child.name,
-      handle: child.handle,
-      is_active: true,
-      parent_category_id: parentIdByHandle.get(category.handle),
-    })),
+    (category.children ?? [])
+      .filter((child) => !parentIdByHandle.has(child.handle))
+      .map((child) => ({
+        name: child.name,
+        handle: child.handle,
+        is_active: true,
+        parent_category_id: parentIdByHandle.get(category.handle),
+      })),
   );
 
   if (!childCategories.length) return;
@@ -91,15 +117,65 @@ export const seedCategories = async (container: MedusaContainer) => {
   });
 };
 
+/**
+ * A product option is a SHARED library row in 2.19.0: `is_exclusive = false`
+ * makes its title globally unique (index `IDX_product_option_global_title_unique`)
+ * and many products — many tenants — hang off the same row. So a profile does
+ * not own its options: the second profile that also sells a "Colour" has to
+ * JOIN the existing option and contribute its own values, not create a second
+ * one.
+ *
+ * Creating unconditionally is what the first multi-profile run actually hit:
+ * `Product option with title: Colour, already exists` aborted the home-goods
+ * seed after its sales channel, key and six categories were already committed
+ * (measured 2026-09-11 on the shipshift.dev deployment, sneakers then
+ * home-goods). The seed is not transactional, so a throw here leaves half a
+ * profile behind.
+ */
 export const seedProductOptions = async (container: MedusaContainer) => {
-  await createProductOptionsWorkflow(container).run({
-    input: {
-      product_options: SEED_PRODUCT_OPTIONS.map((option) => ({
-        title: option.title,
-        values: option.values.map((optionValue) => optionValue.value),
-      })),
-    },
-  });
+  if (!SEED_PRODUCT_OPTIONS.length) return;
+
+  const productModuleService = container.resolve(Modules.PRODUCT);
+
+  const shared = (
+    await productModuleService.listProductOptions({}, { relations: ["values"] })
+  ).filter((option) => option.is_exclusive === false);
+  const sharedByTitle = new Map(shared.map((option) => [option.title, option]));
+
+  const missing = SEED_PRODUCT_OPTIONS.filter(
+    (option) => !sharedByTitle.has(option.title),
+  );
+
+  if (missing.length) {
+    await createProductOptionsWorkflow(container).run({
+      input: {
+        product_options: missing.map((option) => ({
+          title: option.title,
+          values: option.values.map((optionValue) => optionValue.value),
+        })),
+      },
+    });
+  }
+
+  for (const option of SEED_PRODUCT_OPTIONS) {
+    const existing = sharedByTitle.get(option.title);
+    if (!existing) continue;
+
+    const have = (existing.values ?? []).map((optionValue) => optionValue.value);
+    const seen = new Set(have);
+    const added = option.values
+      .map((optionValue) => optionValue.value)
+      .filter((value) => !seen.has(value));
+
+    if (!added.length) continue;
+
+    // The UNION, never this profile's own list: `updateProductOptions` replaces
+    // the value set, and dropping a value another profile's variants already
+    // use is either refused by the module or orphans those variants.
+    await productModuleService.updateProductOptions(existing.id, {
+      values: [...have, ...added],
+    });
+  }
 };
 
 /** Medusa's own names for the option a single-variant product gets when it has none. */
@@ -172,30 +248,49 @@ export const seedProducts = async (container: MedusaContainer) => {
   });
 };
 
+/**
+ * Keyed by option title AND value, because a bare value name is not unique
+ * across the library: "Chalk" is a value of the sneakers profile's `Colourway`
+ * (#E8E4DC) and of the electronics profile's `Colour` (#E6E7E9). Matching on
+ * the value alone repainted one option's swatch with another option's hex the
+ * moment a second profile was seeded.
+ */
 export const seedProductOptionMetadata = async (container: MedusaContainer) => {
   const productModuleService = container.resolve(Modules.PRODUCT);
 
-  const metadataByValue = new Map(
+  const key = (title: string, value: string) => `${title}\u0000${value}`;
+
+  const metadataByTitleAndValue = new Map(
     SEED_PRODUCT_OPTIONS.flatMap((option) =>
       option.values
         .filter((optionValue) => optionValue.metadata)
-        .map((optionValue) => [optionValue.value, optionValue.metadata!]),
+        .map(
+          (optionValue) =>
+            [key(option.title, optionValue.value), optionValue.metadata!] as const,
+        ),
     ),
   );
 
-  const optionValues = await productModuleService.listProductOptionValues({});
+  const options = await productModuleService.listProductOptions(
+    {},
+    { relations: ["values"] },
+  );
+
+  const updates = options.flatMap((option) =>
+    (option.values ?? []).flatMap((optionValue) => {
+      const metadata = metadataByTitleAndValue.get(
+        key(option.title, optionValue.value),
+      );
+      return metadata ? [{ optionValue, metadata }] : [];
+    }),
+  );
 
   await Promise.all(
-    optionValues
-      .filter((optionValue) => metadataByValue.has(optionValue.value))
-      .map((optionValue) =>
-        productModuleService.updateProductOptionValues(optionValue.id, {
-          metadata: {
-            ...(optionValue.metadata ?? {}),
-            ...metadataByValue.get(optionValue.value),
-          },
-        }),
-      ),
+    updates.map(({ optionValue, metadata }) =>
+      productModuleService.updateProductOptionValues(optionValue.id, {
+        metadata: { ...(optionValue.metadata ?? {}), ...metadata },
+      }),
+    ),
   );
 };
 

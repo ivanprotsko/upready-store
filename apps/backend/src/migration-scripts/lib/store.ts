@@ -37,6 +37,33 @@ export const getSalesChannel = async (container: MedusaContainer) => {
   return data[0];
 };
 
+/** How many products hang off this profile's channel — see `resolveSeedMode`. */
+export const countSalesChannelProducts = async (
+  container: MedusaContainer,
+  salesChannelId: string,
+) => {
+  // Counted from the product side and filtered here: `sales_channels` is a
+  // link, not a column, and the graph's product filters do not reach across it.
+  const { data } = await getQuery(container).graph({
+    entity: "product",
+    fields: ["id", "sales_channels.id"],
+  });
+  return data.filter((product) =>
+    (product.sales_channels ?? []).some(
+      (channel) => channel?.id === salesChannelId,
+    ),
+  ).length;
+};
+
+export const getApiKey = async (container: MedusaContainer) => {
+  const { data } = await getQuery(container).graph({
+    entity: "api_key",
+    fields: ["id", "sales_channels.id"],
+    filters: { title: SEED_STORE.publishable_api_key.title },
+  });
+  return data[0];
+};
+
 export const getStore = async (container: MedusaContainer) => {
   const { data } = await getQuery(container).graph({
     entity: "store",
@@ -48,11 +75,32 @@ export const getStore = async (container: MedusaContainer) => {
 export const resolveSeedMode = async (
   container: MedusaContainer,
 ): Promise<SeedMode> => {
-  if (await getSalesChannel(container)) {
-    logger.info(
-      `Sales channel "${SEED_STORE.sales_channel.name}" already exists — skipping initial data seed.`,
+  const salesChannel = await getSalesChannel(container);
+
+  if (salesChannel) {
+    // A channel is not a seeded profile — a channel WITH PRODUCTS is. The seed
+    // is not transactional: the first multi-profile run on shipshift.dev died
+    // at the product options and left home-goods with a sales channel, a key
+    // and six categories but no catalog (2026-09-11). Reading "the channel is
+    // there" as "this profile is done" made that state permanent, because the
+    // only repair left was deleting rows by hand. Zero products is a crashed
+    // run, and it is resumed loudly rather than skipped silently (rule 20a).
+    const productCount = await countSalesChannelProducts(
+      container,
+      salesChannel.id,
     );
-    return "skip";
+
+    if (productCount > 0) {
+      logger.info(
+        `Sales channel "${SEED_STORE.sales_channel.name}" already carries ${productCount} product(s) — skipping initial data seed.`,
+      );
+      return "skip";
+    }
+
+    logger.warn(
+      `Sales channel "${SEED_STORE.sales_channel.name}" exists but carries NO product — a previous run of this profile did not finish. Resuming it: the channel, its key and any category already created are reused, not duplicated.`,
+    );
+    return "add-profile";
   }
 
   if (await getStore(container)) {
@@ -74,29 +122,46 @@ export const isAlreadySeeded = async (container: MedusaContainer) =>
  * `/store/products` filters by, so it is the whole of catalog isolation.
  */
 export const seedSalesChannel = async (container: MedusaContainer) => {
-  const {
-    result: [salesChannel],
-  } = await createSalesChannelsWorkflow(container).run({
-    input: { salesChannelsData: [SEED_STORE.sales_channel] },
-  });
+  // Find-or-create at every step, so a resumed run (see `resolveSeedMode`)
+  // joins the rows its crashed predecessor already committed instead of
+  // minting a second "<brand> Sales Channel" and a second publishable key —
+  // two keys for one profile is a storefront that shows the wrong catalog
+  // depending on which one the resolver happened to pick.
+  const existingChannel = await getSalesChannel(container);
+  const salesChannel =
+    existingChannel ??
+    (
+      await createSalesChannelsWorkflow(container).run({
+        input: { salesChannelsData: [SEED_STORE.sales_channel] },
+      })
+    ).result[0];
 
-  const {
-    result: [publishableApiKey],
-  } = await createApiKeysWorkflow(container).run({
-    input: {
-      api_keys: [
-        {
-          title: SEED_STORE.publishable_api_key.title,
-          type: "publishable",
-          created_by: "",
+  const existingKey = await getApiKey(container);
+  const publishableApiKey =
+    existingKey ??
+    (
+      await createApiKeysWorkflow(container).run({
+        input: {
+          api_keys: [
+            {
+              title: SEED_STORE.publishable_api_key.title,
+              type: "publishable",
+              created_by: "",
+            },
+          ],
         },
-      ],
-    },
-  });
+      })
+    ).result[0];
 
-  await linkSalesChannelsToApiKeyWorkflow(container).run({
-    input: { id: publishableApiKey.id, add: [salesChannel.id] },
-  });
+  const linked = (existingKey?.sales_channels ?? []).some(
+    (channel) => channel?.id === salesChannel.id,
+  );
+
+  if (!linked) {
+    await linkSalesChannelsToApiKeyWorkflow(container).run({
+      input: { id: publishableApiKey.id, add: [salesChannel.id] },
+    });
+  }
 
   return salesChannel;
 };
