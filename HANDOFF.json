@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T06:45:54+08:00",
-  "status": "Приёмщик: fix/mt-storefront-head-footer ЗАДЕПЛОЕН по команде Ивана и принят по живому продукту — четыре дефекта закрыты на пяти хостах (canonical свой, подвал без стартера, Расцветка/Цвет/Размер, /ru по-русски); после деплоя прогнаны seed-mt-demo + backfill-hero-copy (2 из 5) + backfill-option-translations (46/45/46). Новые задачи Ивана: t-2026-09-12-tenant-address-canonical (политика в specs/tenant-address/CANONICAL.md), t-2026-09-12-footer-attribution, t-2026-09-12-locale-currency — все in_progress, ветка feat/mt-storefront-wave2 и промпт готовы; t-2026-09-12-mode-image-pairs ждёт запуска. Трек feat/abstract-datasets сделал один набор abstract (7e4ad3f, 361ddc9) — не задеплоен, приёмка после деплоя.",
+  "updated": "2026-09-12T06:50:24+08:00",
+  "status": "Приёмщик: head-footer задеплоен и принят на пяти хостах прода (Волна 3 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md); политика адресов согласована — specs/tenant-address/CANONICAL.md; четыре задачи in_progress (mode-image-pairs, tenant-address-canonical, footer-attribution, locale-currency), три промпта готовы и лежат И на dev, И в обоих исполнительских worktree; трек abstract-datasets сделал один набор abstract, не задеплоен.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

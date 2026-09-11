@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 26,
+  "action": "status-set",
+  "ts": "2026-09-12T06:50:24+08:00",
+  "status": "Приёмщик: head-footer задеплоен и принят на пяти хостах прода (Волна 3 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md); политика адресов согласована — specs/tenant-address/CANONICAL.md; четыре задачи in_progress (mode-image-pairs, tenant-address-canonical, footer-attribution, locale-currency), три промпта готовы и лежат И на dev, И в обоих исполнительских worktree; трек abstract-datasets сделал один набор abstract, не задеплоен."
+}
