@@ -24,7 +24,7 @@
   ~/upready/packages/geist-kit/AGENTS.md — канон UI (правило 27).
 
 ВЕТКА (21e)
-feat/mode-image-pairs от fix/mt-storefront-head-footer (8dba58c) — там линия МТ плюс четыре
+feat/mode-image-pairs от fix/mt-storefront-head-footer (8dba58c, ЗАДЕПЛОЕН на прод 2026-09-12) — там линия МТ плюс четыре
 фикса витрины тенанта; на dev мастера онбординга нет вовсе. Свой worktree. Коммиты —
 Conventional Commits + (t-2026-09-12-mode-image-pairs), каждый git commit с префиксом IVAN_OK=1.
 Сам НЕ деплоишь (21c).
@@ -81,7 +81,11 @@ Conventional Commits + (t-2026-09-12-mode-image-pairs), каждый git commit 
 
 ЧЕГО НЕ ДЕЛАТЬ
 Не генерируешь изображения. Не трогаешь чужие worktree. Не делаешь наборы под конкретную тему
-(t-2026-09-12-abstract-sets-per-theme, бэклог, решение Ивана 2026-09-12).
+(t-2026-09-12-abstract-sets-per-theme, бэклог, решение Ивана 2026-09-12). Не трогаешь подвал,
+канонический адрес и валюту — это волна 2, ветка feat/mt-storefront-wave2, другая сессия
+(t-2026-09-12-footer-attribution, t-2026-09-12-tenant-address-canonical, t-2026-09-12-locale-currency).
+Абстрактный набор картинок делает третья сессия в feat/abstract-datasets — формат пары даёшь ты,
+картинки генерирует она.
 
 ПРИЁМКА (живой продукт 18f, глазами — не JSON и не отчёт)
 - На живом магазине у героя стоят две картинки: клик по переключателю режима меняет картинку
