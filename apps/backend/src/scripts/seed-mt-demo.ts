@@ -5,9 +5,11 @@ import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../modules/tenant";
 import TenantModuleService from "../modules/tenant/service";
+import tenantProductCategoryLink from "../links/tenant-product-category";
 import createTenantWorkflow from "../workflows/tenant/create-tenant";
 import createTenantDomainWorkflow from "../workflows/tenant/create-tenant-domain";
 import upsertTenantHomeWorkflow from "../workflows/tenant/upsert-tenant-home";
+import { updateProductCategoriesWorkflow } from "@medusajs/medusa/core-flows";
 import type { TenantHomeDocument } from "../api/tenants/home/validators";
 
 /**
@@ -82,6 +84,145 @@ const profileHandles = (profile: string): string[] => {
   }
 
   return handles;
+};
+
+type CategoryJson = { handle?: string; children?: CategoryJson[] };
+
+/**
+ * The handles of one profile's category tree, parents AND children, read the
+ * same way `profileHandles()` reads the product list: from the seed data that
+ * produced it, so "which categories are this tenant's" is a fact rather than a
+ * guess. Categories carry no sales channel and no profile column of their own
+ * (`links/tenant-product-category.ts`'s header note) — this file is the only
+ * place that says which profile a category handle belongs to.
+ */
+const profileCategoryHandles = (profile: string): string[] => {
+  const file = path.join(__dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "categories.json");
+  const parsed = JSON.parse(fs.readFileSync(file, "utf8")) as CategoryJson[];
+  const handles: string[] = [];
+
+  const walk = (nodes: CategoryJson[]) => {
+    for (const node of nodes) {
+      if (node.handle) {
+        handles.push(node.handle);
+      }
+      if (node.children?.length) {
+        walk(node.children);
+      }
+    }
+  };
+
+  walk(parsed);
+
+  if (handles.length === 0) {
+    // Zero is not empty (rule 20): a silently empty category tree would hand
+    // the tenant a shop with nothing to browse and read as "the profile has
+    // no categories".
+    throw new MedusaError(
+      MedusaError.Types.UNEXPECTED_STATE,
+      `seed-mt-demo: ${file} lists no category handle.`,
+    );
+  }
+
+  return handles;
+};
+
+/**
+ * Where `/static/store-profiles` is served from (W3, t-2026-09-12-mt-storefront-by-host):
+ * `https://shipshift.dev/static/store-profiles` in production, no profile segment — this
+ * script appends `/<profile>/<file>` itself, because unlike the ordinary per-profile seed
+ * (`STORE_MEDIA_BASE_URL`, re-exported once per `STORE_PROFILE` run and baked into that
+ * profile's own products), this script touches all three profiles' media in one run.
+ */
+const STORE_PROFILES_MEDIA_BASE_URL = (process.env.STORE_PROFILES_MEDIA_BASE_URL ?? "")
+  .trim()
+  .replace(/\/+$/, "");
+
+const mediaUrl = (profile: string, ref: string): string => {
+  if (!STORE_PROFILES_MEDIA_BASE_URL) {
+    throw new MedusaError(
+      MedusaError.Types.UNEXPECTED_STATE,
+      `seed-mt-demo: STORE_PROFILES_MEDIA_BASE_URL is not set, so profile "${profile}" image ` +
+        `"${ref}" has no URL. Set it to where /static/store-profiles is served, e.g. ` +
+        `https://shipshift.dev/static/store-profiles (production) or ` +
+        `http://localhost:9000/static/store-profiles (local).`,
+    );
+  }
+
+  const filename = ref.startsWith("media/") ? ref.slice("media/".length) : ref;
+  return `${STORE_PROFILES_MEDIA_BASE_URL}/${profile}/${filename}`;
+};
+
+type SeedProductJson = { category?: string; images?: string[] };
+
+/**
+ * One representative image per category handle, parents included — built from
+ * the SAME seed data that produced the catalog, never invented (rule 17a: the
+ * live `/opt/upready-store/media/<profile>/` directory is not reachable from
+ * here, so this reuses a real, already-live product photo instead of guessing
+ * at a filename). A leaf category takes the first product whose own
+ * `category` field names it (products attach to leaf categories only,
+ * `categories.ts`'s own note); a parent takes its first descendant's image,
+ * since a parent itself owns no product.
+ */
+const profileCategoryImages = (profile: string): Map<string, string> => {
+  const productsFile = path.join(
+    __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "products.json",
+  );
+  const products = JSON.parse(fs.readFileSync(productsFile, "utf8")) as SeedProductJson[];
+
+  const byLeafCategory = new Map<string, string>();
+  for (const product of products) {
+    if (product.category && product.images?.[0] && !byLeafCategory.has(product.category)) {
+      byLeafCategory.set(product.category, product.images[0]);
+    }
+  }
+
+  const categoriesFile = path.join(
+    __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "categories.json",
+  );
+  const tree = JSON.parse(fs.readFileSync(categoriesFile, "utf8")) as CategoryJson[];
+  const images = new Map<string, string>();
+
+  const walk = (node: CategoryJson): string | undefined => {
+    if (!node.handle) {
+      return undefined;
+    }
+
+    // Every child is walked regardless of what an earlier sibling returned —
+    // `walk()` is what RECORDS that child's own image in `images`, so
+    // short-circuiting the loop early (`??` reused as both "keep walking"
+    // and "the parent's own fallback") would silently skip every child
+    // after the first one that has a picture.
+    let firstChildImage: string | undefined;
+    for (const child of node.children ?? []) {
+      const childImage = walk(child);
+      firstChildImage = firstChildImage ?? childImage;
+    }
+
+    const image = byLeafCategory.get(node.handle) ?? firstChildImage;
+
+    if (image) {
+      images.set(node.handle, image);
+    }
+
+    return image;
+  };
+
+  for (const node of tree) {
+    walk(node);
+  }
+
+  return images;
+};
+
+/** The first product's own hero image — a stand-in for the tenant's shop hero. */
+const profileHeroImage = (profile: string): string | undefined => {
+  const file = path.join(
+    __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "products.json",
+  );
+  const products = JSON.parse(fs.readFileSync(file, "utf8")) as SeedProductJson[];
+  return products[0]?.images?.[0];
 };
 
 export default async function seedMtDemo({ container }: { container: MedusaContainer }) {
@@ -198,10 +339,116 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
       `seed-mt-demo: ${demo.handle} — ${products.length}/${handles.length} products of "${demo.profile}", ${added} linked to its channel, ${dismissed} foreign channel link(s) dismissed`,
     );
 
+    // Categories are global in Medusa (no sales channel, no owner column) —
+    // the tenant-product-category link is the whole ownership record
+    // (links/tenant-product-category.ts). Same shape as the product loop
+    // above: link this profile's categories to this tenant, dismiss any
+    // OTHER tenant's link on the same category (defensive — nothing should
+    // create one before this script runs, but a category is only ever
+    // isolated by this link, never by construction).
+    const categoryHandles = profileCategoryHandles(demo.profile);
+    const { data: categories } = await query.graph({
+      entity: "product_category",
+      fields: ["id", "handle", "name", "metadata"],
+      filters: { handle: categoryHandles },
+    });
+
+    if (categories.length === 0) {
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        `seed-mt-demo: none of the ${categoryHandles.length} categories of profile "${demo.profile}" is in this database — seed that profile first (STORE_PROFILE=${demo.profile}).`,
+      );
+    }
+
+    const { data: existingCategoryLinks } = await query.graph({
+      entity: tenantProductCategoryLink.entryPoint,
+      fields: ["tenant_id", "product_category_id"],
+      filters: { product_category_id: categories.map((category) => category.id) },
+    });
+
+    const tenantIdsByCategory = new Map<string, string[]>();
+    for (const categoryLink of existingCategoryLinks) {
+      const categoryId = categoryLink.product_category_id as string;
+      const linked = tenantIdsByCategory.get(categoryId) ?? [];
+      linked.push(categoryLink.tenant_id as string);
+      tenantIdsByCategory.set(categoryId, linked);
+    }
+
+    let categoriesLinked = 0;
+    let categoryLinksDismissed = 0;
+
+    for (const category of categories) {
+      const linkedTenantIds = tenantIdsByCategory.get(category.id) ?? [];
+
+      if (!linkedTenantIds.includes(tenant.id)) {
+        await link.create({
+          [TENANT_MODULE]: { tenant_id: tenant.id },
+          [Modules.PRODUCT]: { product_category_id: category.id },
+        });
+        categoriesLinked += 1;
+      }
+
+      for (const other of linkedTenantIds.filter((id) => id !== tenant.id)) {
+        await link.dismiss({
+          [TENANT_MODULE]: { tenant_id: other },
+          [Modules.PRODUCT]: { product_category_id: category.id },
+        });
+        categoryLinksDismissed += 1;
+      }
+    }
+
+    logger.info(
+      `seed-mt-demo: ${demo.handle} — ${categories.length}/${categoryHandles.length} categories of "${demo.profile}", ${categoriesLinked} linked to the tenant, ${categoryLinksDismissed} foreign tenant link(s) dismissed`,
+    );
+
+    // Category images (W3, t-2026-09-12-mt-storefront-by-host): the decision,
+    // made before this code and binding on it, is `metadata.image_url` (+
+    // `metadata.image_alt`) — see the field's own doc comment in
+    // `lib/data/categories.ts` and `home/edit-category-form.tsx` for why. Only
+    // a category with NO image yet is touched, so a shop owner's own pick
+    // through the panel survives every re-run.
+    const categoryImages = profileCategoryImages(demo.profile);
+    let categoriesImaged = 0;
+
+    for (const category of categories) {
+      const meta = (category.metadata ?? {}) as Record<string, unknown>;
+      if (meta.image_url) {
+        continue;
+      }
+
+      const ref = categoryImages.get(category.handle as string);
+      if (!ref) {
+        // Zero is not empty (rule 20a): every leaf category has at least one
+        // product, so a category with none matched here means the mapping
+        // above missed it, not that the category has nothing to show.
+        throw new MedusaError(
+          MedusaError.Types.UNEXPECTED_STATE,
+          `seed-mt-demo: no product image maps to category "${category.handle}" of profile ` +
+            `"${demo.profile}" (checked ${path.join("migration-scripts", "data", "profiles", demo.profile, "catalog", "products.json")}).`,
+        );
+      }
+
+      await updateProductCategoriesWorkflow(container).run({
+        input: {
+          selector: { id: category.id },
+          update: {
+            metadata: { ...meta, image_url: mediaUrl(demo.profile, ref), image_alt: category.name as string },
+          },
+        },
+      });
+      categoriesImaged += 1;
+    }
+
+    logger.info(
+      `seed-mt-demo: ${demo.handle} — ${categoriesImaged}/${categories.length} categories given an image (the rest already had one)`,
+    );
+
     // The theme is what makes the three shops tell themselves apart at a glance.
     const [home] = await tenantModuleService.listTenantHomeConfigs({ tenant_id: tenant.id });
 
     if (!home) {
+      const heroRef = profileHeroImage(demo.profile);
+
       const document = {
         schema: "upready.tenant-home/v1",
         theme: { preset: demo.theme },
@@ -212,7 +459,7 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
             subtitle: `${demo.name} runs on the shared engine and answers on its own domain.`,
             cta_label: "Shop",
             cta_href: "/store",
-            image_url: null,
+            image_url: heroRef ? mediaUrl(demo.profile, heroRef) : null,
           },
           products: { source: "popular" },
           order: ["hero", "categories", "products"],
@@ -225,7 +472,37 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
       });
       logger.info(`seed-mt-demo: ${demo.handle} — home document written, theme "${demo.theme}"`);
     } else {
-      logger.info(`seed-mt-demo: ${demo.handle} — home document already exists, left alone`);
+      // The three demo tenants already own a home document from an earlier run,
+      // written before W3 existed and therefore with `hero.image_url: null`.
+      // "Left alone" would mean the hero image NEVER reaches the live shops —
+      // the same class as the category images above, so it takes the same rule:
+      // fill the hole, never overwrite a value somebody chose (rule 20).
+      const document = home.config as unknown as TenantHomeDocument;
+      const hero = (document?.content?.hero ?? null) as { image_url?: string | null } | null;
+
+      if (hero && !hero.image_url) {
+        const heroRef = profileHeroImage(demo.profile);
+
+        if (!heroRef) {
+          throw new MedusaError(
+            MedusaError.Types.UNEXPECTED_STATE,
+            `seed-mt-demo: profile "${demo.profile}" has no product image to stand in for the hero ` +
+              `(checked ${path.join("migration-scripts", "data", "profiles", demo.profile, "catalog", "products.json")}).`,
+          );
+        }
+
+        hero.image_url = mediaUrl(demo.profile, heroRef);
+        (document as unknown as { updatedAt: string }).updatedAt = new Date().toISOString();
+
+        await upsertTenantHomeWorkflow(container).run({
+          input: { tenant_id: tenant.id, config: document },
+        });
+        logger.info(`seed-mt-demo: ${demo.handle} — existing home document given its hero image`);
+      } else {
+        logger.info(
+          `seed-mt-demo: ${demo.handle} — home document already exists with a hero image, left alone`,
+        );
+      }
     }
 
     for (const host of demo.domains) {
