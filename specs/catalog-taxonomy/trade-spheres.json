@@ -1,0 +1,176 @@
+{
+  "schema": "upready.trade-spheres/v0",
+  "generatedBy": "apps/backend/scripts/catalog-taxonomy/build.mjs",
+  "source": {
+    "name": "Google Product Taxonomy",
+    "version": "2021-09-21",
+    "locales": [
+      "en-US",
+      "ru-RU"
+    ],
+    "urls": [
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt",
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.ru-RU.txt"
+    ],
+    "fetchedAt": "2026-09-12",
+    "rawDir": "~/upready/research/raw/2026-09-12-google-product-taxonomy/"
+  },
+  "rule": "Kept when a small direct-to-consumer shop of physical goods can run it on this storefront today; every dropped sphere names the missing feature.",
+  "optional": true,
+  "counts": {
+    "source": 21,
+    "kept": 14,
+    "dropped": 7
+  },
+  "spheres": [
+    {
+      "slug": "animals-and-pet-supplies",
+      "gptId": 1,
+      "name": {
+        "en": "Animals & Pet Supplies",
+        "ru": "Животные и товары для питомцев"
+      }
+    },
+    {
+      "slug": "apparel-and-accessories",
+      "gptId": 166,
+      "name": {
+        "en": "Apparel & Accessories",
+        "ru": "Предметы одежды и принадлежности"
+      }
+    },
+    {
+      "slug": "arts-and-entertainment",
+      "gptId": 8,
+      "name": {
+        "en": "Arts & Entertainment",
+        "ru": "Искусство и развлечения"
+      }
+    },
+    {
+      "slug": "baby-and-toddler",
+      "gptId": 537,
+      "name": {
+        "en": "Baby & Toddler",
+        "ru": "Товары для новорожденных и маленьких детей"
+      }
+    },
+    {
+      "slug": "cameras-and-optics",
+      "gptId": 141,
+      "name": {
+        "en": "Cameras & Optics",
+        "ru": "Камеры и оптика"
+      }
+    },
+    {
+      "slug": "electronics",
+      "gptId": 222,
+      "name": {
+        "en": "Electronics",
+        "ru": "Электроника"
+      }
+    },
+    {
+      "slug": "food-beverages-and-tobacco",
+      "gptId": 412,
+      "name": {
+        "en": "Food, Beverages & Tobacco",
+        "ru": "Продукты, напитки и табачные изделия"
+      }
+    },
+    {
+      "slug": "furniture",
+      "gptId": 436,
+      "name": {
+        "en": "Furniture",
+        "ru": "Мебель"
+      }
+    },
+    {
+      "slug": "health-and-beauty",
+      "gptId": 469,
+      "name": {
+        "en": "Health & Beauty",
+        "ru": "Красота и здоровье"
+      }
+    },
+    {
+      "slug": "home-and-garden",
+      "gptId": 536,
+      "name": {
+        "en": "Home & Garden",
+        "ru": "Дом и сад"
+      }
+    },
+    {
+      "slug": "luggage-and-bags",
+      "gptId": 5181,
+      "name": {
+        "en": "Luggage & Bags",
+        "ru": "Багаж и сумки"
+      }
+    },
+    {
+      "slug": "office-supplies",
+      "gptId": 922,
+      "name": {
+        "en": "Office Supplies",
+        "ru": "Канцелярские товары"
+      }
+    },
+    {
+      "slug": "sporting-goods",
+      "gptId": 988,
+      "name": {
+        "en": "Sporting Goods",
+        "ru": "Спортивные товары"
+      }
+    },
+    {
+      "slug": "toys-and-games",
+      "gptId": 1239,
+      "name": {
+        "en": "Toys & Games",
+        "ru": "Игры и игрушки"
+      }
+    }
+  ],
+  "dropped": [
+    {
+      "gptId": 111,
+      "name": "Business & Industrial",
+      "reason": "Business & Industrial — B2B trade (quotes, volume pricing); B2B is a separate axis (сфера деятельности), not a sphere of trade"
+    },
+    {
+      "gptId": 632,
+      "name": "Hardware",
+      "reason": "Hardware — professional supply and building materials, freight logistics the storefront does not model"
+    },
+    {
+      "gptId": 772,
+      "name": "Mature",
+      "reason": "Mature — age-gated goods, no age gate on the storefront"
+    },
+    {
+      "gptId": 783,
+      "name": "Media",
+      "reason": "Media — books, music and video need ISBN/ISRC data and digital delivery"
+    },
+    {
+      "gptId": 5605,
+      "name": "Religious & Ceremonial",
+      "reason": "Religious & Ceremonial — no realistic starter catalog for a portfolio shop"
+    },
+    {
+      "gptId": 2092,
+      "name": "Software",
+      "reason": "Software — licence keys and digital delivery, not physical goods"
+    },
+    {
+      "gptId": 888,
+      "name": "Vehicles & Parts",
+      "reason": "Vehicles & Parts — fitment data (make/model/year) the catalog has no field for"
+    }
+  ]
+}
