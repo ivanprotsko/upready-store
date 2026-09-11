@@ -427,11 +427,13 @@ const routes: RouteObject[] = [
           },
           {
             // tenant-panel wave 2, piece 8 (home page settings): the panel's own
-            // routes/home-settings tree (no Admin counterpart).
+            // routes/home-settings screen (no Admin counterpart). One screen, no
+            // children: the document is edited in place and saved with one
+            // request, so there is no drawer or modal to nest under it.
             path: "/home-settings",
             handle: { breadcrumb: () => "Home page" },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/not-built"),
+            lazy: () => import("./routes/home-settings"),
           },
         ],
       },

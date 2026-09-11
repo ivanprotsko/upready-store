@@ -5,7 +5,8 @@ import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { THEME_IDS } from "@lib/theme/presets.generated"
+import { getEffectiveSettings, getTenantThemePreset } from "@lib/data/tenant-home"
 import DevtoolsMount from "@modules/devtools/components/devtools-mount"
 import "styles/globals.css"
 
@@ -19,7 +20,17 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // the `data-theme` axis (critique §2.3). An absent or theme-less profile falls back
   // to "default", which themes.css resolves to the medusa preset — today's look. See
   // src/lib/theme/profile.ts.
-  const { theme, mode: profileMode } = readProfileTheme()
+  //
+  // Tenant panel wave 2, piece 8: a tenant that saved a home-page document names its own
+  // preset there, and that wins over the build profile — one backend serves many
+  // storefronts, so the profile baked into this build is a fallback, not the tenant's
+  // choice. The value crosses the wire as a plain string, so it reaches `data-theme` only
+  // when it is one of the presets `scripts/build-themes.mjs` actually generated; anything
+  // else falls back to the profile's own theme rather than a `data-theme` themes.css
+  // cannot resolve. Piece 9 moves this read to the request headers the by-host middleware
+  // sets, which is why it goes through `lib/data/tenant-home.ts` and not straight to the
+  // document here.
+  const { theme: profileTheme, mode: profileMode } = readProfileTheme()
 
   // Mode resolution order, highest priority first (panel-composition-mockup.md §C6):
   //   1. the visitor's own localStorage — applied by the pre-paint script below,
@@ -29,8 +40,15 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const settings = await getStorefrontSettings()
+  const [settings, tenantPreset] = await Promise.all([
+    getEffectiveSettings(),
+    getTenantThemePreset(),
+  ])
   const mode = settings?.defaultMode ?? profileMode
+  const theme =
+    tenantPreset && (THEME_IDS as readonly string[]).includes(tenantPreset)
+      ? tenantPreset
+      : profileTheme
 
   return (
     <html

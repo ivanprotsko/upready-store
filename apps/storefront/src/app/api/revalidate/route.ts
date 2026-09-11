@@ -78,5 +78,17 @@ export async function POST(req: NextRequest) {
     revalidatePath("/sitemap.xml")
   }
 
+  // tenant panel wave 2, piece 8: the tenant's home-page document
+  // (`GET /store/tenant/home`, cache tag "tenant-home"). It decides the theme, the
+  // composition and the home blocks, so clearing it has to redraw the root layout as well
+  // as the home page itself — every route under `(main)` reads the same document through
+  // `getEffectiveSettings()` for its header and footer, which is why the paths below are
+  // the layout ones and not only `/`.
+  if (body.type === "tenant.home") {
+    revalidateTag("tenant-home")
+    revalidatePath("/[locale]/(main)", "layout")
+    revalidatePath("/[locale]/(main)", "page")
+  }
+
   return NextResponse.json({ revalidated: true })
 }

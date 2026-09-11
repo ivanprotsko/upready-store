@@ -400,6 +400,46 @@ the listing variant reads `content.products` (popular = the existing lead-collec
 = `listProducts({ category_id })`). `app/layout.tsx` takes `data-theme`/`data-mode` from
 `home.theme.preset` / `home.settings.defaultMode` when a tenant home exists.
 
+IMPLEMENTATION NOTES, written by the piece-8 worker after building the routes and measuring
+them on the stand (backend :9034, 2026-09-11):
+
+- A forbidden composition pair answers **422** with the body `/store/storefront-settings`
+  already uses (`error: "forbidden_combination"`, `field`, `value`, `against`, `againstValue`,
+  `reason`) plus a `message` field carrying the same reason. The 422 is written with
+  `res.status(422)`, not thrown as a `MedusaError`: the framework's error handler maps no
+  MedusaError type to 422 except `DUPLICATE_ERROR` and `PAYMENT_AUTHORIZATION_ERROR`
+  (`@medusajs/framework/dist/http/middlewares/error-handler.js`), and neither describes this.
+  `message` is not in the storefront-settings body; it is added because the js-sdk's
+  `FetchError` carries only `message` (falling back to the status text), so without it the
+  panel would show "Unprocessable Entity" instead of the reason.
+- A `category_id` the tenant does not own is **400 `INVALID_DATA`**, not 404: the id is a
+  field of the document being written, not the resource being addressed. The message names no
+  category, so the answer still says nothing about whether a foreign id exists.
+- Field-level validation of `settings` reuses `validateFields()` from
+  `api/store/storefront-settings/validation.ts` inside the zod schema
+  (`api/tenants/home/validators.ts`, a `superRefine`), so the six enums exist once on this
+  side; the FORBIDDEN check stays in the route because its answer is a 422, not a 400.
+- `theme.preset` is validated against the seven ids of the storefront's generated
+  `presets.generated.ts`, hand-transcribed in the same validators file for the same reason the
+  composition enums are transcribed.
+- `content.order` may name each block at most once; a block missing from it is not rendered.
+  The panel's screen can drop a block and add it back.
+- The write goes through a one-step workflow (`workflows/tenant/upsert-tenant-home`) whose
+  step is the module-service upsert, with compensation back to the previous document. A bare
+  service call from the route also trips this repo's own lint rule
+  `@medusajs/no-service-mutations-in-api-route`.
+- Storefront: the document is read by ONE helper, `lib/data/tenant-home.ts`
+  (`getTenantHome`, `getEffectiveSettings`, `getTenantThemePreset`), which the root layout,
+  `(main)/layout.tsx`, the nav, the footer and `(main)/page.tsx` all go through, so piece 9's
+  swap to request headers touches that file alone. `getEffectiveSettings()` prefers the tenant
+  document and falls back to `getStorefrontSettings()`, so a stand with no tenant behind its
+  key is unchanged.
+- `data-theme` takes the document's preset only when it is one of the generated `THEME_IDS`;
+  anything else falls back to the build profile's own theme. Measured on the stand: with a
+  document naming `geist`/`light` the page answered `data-theme="geist" data-mode="light"`
+  while the build profile is `sneakers`/`dark`, which is the proof the document wins — with
+  the preset `sneakers` the two are indistinguishable.
+
 ## Piece 9: storefront by host (`t-2026-09-12-mt-storefront-by-host`)
 
 Design doc: `docs/multitenancy/storefront-by-host.md` (written before the code). Summary:

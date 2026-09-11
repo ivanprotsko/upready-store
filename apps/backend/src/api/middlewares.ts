@@ -126,6 +126,9 @@ import {
   PostTenantUpdatePasswordSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
+// ---- piece 8: the home-page document body schema (zod for theme/content;
+// `settings` is checked by store/storefront-settings/validation.ts inside it).
+import { PutTenantHomeBody } from "./tenants/home/validators";
 
 /**
  * `/tenants/*` is the tenant admin's own namespace, next to `/admin` (staff)
@@ -712,6 +715,17 @@ export default defineMiddlewares({
     // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
 
     // ---- piece 8: home page document (/tenants/home, /store/tenant/home)
+    // The document is one row per tenant, addressed by the token, so there is no
+    // id to validate in the URL. `GET` takes no parameters (the whole document is
+    // the answer, and the panel needs every field of it), which is why only the
+    // write verb is wired here. `GET /store/tenant/home` needs nothing either: it
+    // rides the framework's own publishable-key gate on `/store/*` and resolves
+    // the tenant from that key.
+    {
+      matcher: "/tenants/home",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
   ],

@@ -149,6 +149,28 @@ Added by wave-2 piece 5 (categories, `/categories/**`):
   stand 2026-09-11: the same query answers 1 category on `/tenants/product-categories` and 4 on
   `/admin/product-categories`.
 
+Added by wave-2 piece 8 (home page settings, `/home-settings`):
+
+- `routes/home-settings/*` — own screen, no Admin counterpart: the Admin has no home-page
+  document. Built from the panel's own copied primitives (`SingleColumnPage`, `Container`,
+  the `@medusajs/ui` form controls, the `Combobox` the organize forms use). The pair it is
+  compared against by screenshot is the Admin's `/app/settings/store`, the nearest screen in
+  shape — one container of form rows saved in place — not in content.
+- `routes/home-settings/composition.ts` — the composition vocabulary (six enums, the two
+  FORBIDDEN pairs, the plain-language label and one-line "why" for every option) and the
+  seven theme preset labels, hand-transcribed for the panel. The storefront keeps its own
+  copy in `lib/theme/composition.ts` and the backend in
+  `api/store/storefront-settings/validation.ts`; `pnpm-workspace.yaml` lists only `apps/**`,
+  so there is no shared package the three could import one copy from. The English labels are
+  the storefront catalog's own `Composition` namespace (`apps/storefront/messages/en.json`).
+- `hooks/api/home.tsx` — `useTenantHome` / `useUpdateTenantHome` against `GET`/`PUT
+  /tenants/home`. The response is one document or null, never a list, so there is no list
+  query key and no `count/offset/limit`.
+- Strings on this screen are `t(key, { defaultValue: "<English>" })`, the idiom
+  `components/layout/main-layout` already uses for text the Admin's catalogs do not carry.
+  The Russian half of the panel's trimmed catalogs therefore shows the English text on this
+  screen until the keys are added; no catalog file was edited by this piece.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 

@@ -39,3 +39,5 @@ export * from "./claims"
 export * from "./exchanges"
 export * from "./order-edits"
 export * from "./plugins"
+// tenant-panel: added by wave 2, piece 8 (home page document).
+export * from "./home"
