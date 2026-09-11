@@ -1,0 +1,29 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 31,
+  "action": "task-update",
+  "ts": "2026-09-12T07:31:53+08:00",
+  "status": "Приёмщик, волна 4: на проде ровно то, что приняла волна 3 — замерено НА хосте (образы 00:35/00:34 +0200, RestartCount 0, ни одного из пяти файлов трека abstract-datasets в /opt/upready-store/mt нет). Из трёх треков готов один: feat/abstract-datasets (2e2d3b4, набор abstract + POST /tenants/seed + шаг мастера), принять негде до деплоя — вопрос q-deploy-abstract-dataset-now. feat/mode-image-pairs и feat/mt-storefront-wave2 своих коммитов пока не имеют (только merge базы 8-9 минут назад). Сверх приёмки найдено два дефекта: знак Medusa виден 24x26 в нижней панели при 390px на всех витринах (t-2026-09-12-medusa-mark-bottom-nav) и у acme/globex/initech нет ни контрола языка, ни контрола валюты при ценах в долларах на /ru (t-2026-09-12-seeded-hosts-no-locale-controls); строка волны 3 про ноль вхождений flags/4x3 исправлена — флаг США виден на контроле страны рядом с USD.",
+  "task": {
+    "id": "t-2026-09-12-seeded-hosts-no-locale-controls",
+    "title": "У посеянных витрин (acme, globex, initech) нет ни контрола языка, ни контрола валюты — цены в долларах на /ru сменить нечем",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Найдено приёмщиком в волне 4 (2026-09-12) на живом проде, header-controls.mjs по пяти хостам при 1280x900 и 390x844. У acme/globex/initech в шапке только nav-store-link, nav-mode-toggle, nav-cart-link — текст шапки ровно ACME/GLOBEX/INITECH, карточки при этом 128,99 $ / 67,99 $ / 188,99 $. У nochlavka/testovyy-magazin шапка другая и содержит nav-menu-button, nav-region-select-button (RU), nav-country-select-button (флаг US + USD), nav-account-link. То есть пункт приёмки волны 3 «язык и валюта — два контрола» был замерен на магазине мастера, а на посеянных витринах русскоязычный посетитель видит доллары и не имеет ни одного контрола, чтобы это сменить. Причина, скорее всего, в варианте выкладки шапки профиля — проверять по коду, не по догадке.\n\nПриёмщик проверил по коду 2026-09-12 07:2x: причина найдена — все три посеянные витрины несут вариант шапки h5 (замер живой разметки /ru: nav-store-link, nav-mode-toggle, nav-cart-link, nav-category-strip, nav-category-chip-all, nav-category-chip), а h5.tsx единственный из шести вариантов не импортирует RegionSelect вовсе; второй путь исчезновения контрола — ранний return null в region-select/index.tsx, когда текущая страна не нашлась среди опций. Коммит трека 3 aedbfe8 варианты шапки не трогает, поэтому закрывает только половину дефекта: цены на /ru станут рублёвыми через LOCALE_COUNTRY_MAP (на проде есть регион Russia|rub и рублёвая цена у 297 вариантов из 297), а выбора языка и валюты у посеянных витрин по-прежнему не будет. Остаток задачи = дать посеянным профилям шапку с контролом либо добавить контрол в h5.",
+    "files": [
+      "apps/storefront/src/modules/layout"
+    ],
+    "blockers": [
+      "t-2026-09-12-locale-currency"
+    ],
+    "tags": [
+      "storefront",
+      "i18n"
+    ],
+    "created": "2026-09-12T07:06:28+08:00",
+    "updated": "2026-09-12T07:31:52+08:00"
+  }
+}
