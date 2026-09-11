@@ -41,8 +41,16 @@ import {
 } from "@medusajs/medusa/api/admin/payments/validators";
 import { listPricePreferenceQueryConfig } from "@medusajs/medusa/api/admin/price-preferences/query-config";
 import { AdminGetPricePreferencesParams } from "@medusajs/medusa/api/admin/price-preferences/validators";
-import { listProductCategoryConfig } from "@medusajs/medusa/api/admin/product-categories/query-config";
-import { AdminProductCategoriesParams } from "@medusajs/medusa/api/admin/product-categories/validators";
+import {
+  listProductCategoryConfig,
+  retrieveProductCategoryConfig,
+} from "@medusajs/medusa/api/admin/product-categories/query-config";
+import {
+  AdminCreateProductCategory,
+  AdminProductCategoriesParams,
+  AdminProductCategoryParams,
+  AdminUpdateProductCategory,
+} from "@medusajs/medusa/api/admin/product-categories/validators";
 import { listProductOptionsTransformQueryConfig } from "@medusajs/medusa/api/admin/product-options/query-config";
 import { listProductTagsTransformQueryConfig } from "@medusajs/medusa/api/admin/product-tags/query-config";
 import { AdminGetProductTagsParams } from "@medusajs/medusa/api/admin/product-tags/validators";
@@ -78,10 +86,10 @@ import {
 import { listProductVariantQueryConfig } from "@medusajs/medusa/api/admin/product-variants/query-config";
 import { AdminGetProductVariantsParams } from "@medusajs/medusa/api/admin/product-variants/validators";
 import { AdminBatchInventoryItemLevels } from "@medusajs/medusa/api/admin/inventory-items/validators";
-import { createBatchBody } from "@medusajs/medusa/api/utils/validators";
 import { listTransformQueryConfig as listReservationQueryConfig } from "@medusajs/medusa/api/admin/reservations/query-config";
 import { AdminGetReservationsParams } from "@medusajs/medusa/api/admin/reservations/validators";
 import { listTransformQueryConfig as listReturnQueryConfig } from "@medusajs/medusa/api/admin/returns/query-config";
+import { createBatchBody, createLinkBody } from "@medusajs/medusa/api/utils/validators";
 import { listTransformQueryConfig as listRegionQueryConfig } from "@medusajs/medusa/api/admin/regions/query-config";
 import { AdminGetRegionsParams } from "@medusajs/medusa/api/admin/regions/validators";
 import {
@@ -106,6 +114,9 @@ import {
 } from "@medusajs/medusa/api/admin/stock-locations/validators";
 import { retrieveTransformQueryConfig as retrieveStoreQueryConfig } from "@medusajs/medusa/api/admin/stores/query-config";
 import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validators";
+import { applyCategoryFilters as applyStoreCategoryFilters } from "@medusajs/medusa/api/store/product-categories/helpers";
+import { listProductCategoryConfig as listStoreProductCategoryConfig } from "@medusajs/medusa/api/store/product-categories/query-config";
+import { StoreProductCategoriesParams } from "@medusajs/medusa/api/store/product-categories/validators";
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
@@ -644,6 +655,57 @@ export default defineMiddlewares({
 
 
     // ---- piece 5: categories (/tenants/product-categories/**)
+    // `GET /tenants/product-categories` keeps the matcher the first wave wired
+    // above (AdminProductCategoriesParams + listProductCategoryConfig); only the
+    // handler changed, from the Admin's re-export to the scoped list. The write
+    // verbs and the retrieve below mirror the Admin's own middleware array
+    // (@medusajs/medusa/dist/api/admin/product-categories/middlewares.js),
+    // policies excluded: `/tenants/*` has no RBAC, the tenant-product-category
+    // link is the whole authorisation and the routes check it themselves.
+    {
+      matcher: "/tenants/product-categories",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminCreateProductCategory),
+        validateAndTransformQuery(AdminProductCategoryParams, retrieveProductCategoryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/product-categories/:id",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminProductCategoryParams, retrieveProductCategoryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/product-categories/:id",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminUpdateProductCategory),
+        validateAndTransformQuery(AdminProductCategoryParams, retrieveProductCategoryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/product-categories/:id/products",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(createLinkBody()),
+        validateAndTransformQuery(AdminProductCategoryParams, retrieveProductCategoryConfig),
+      ],
+    },
+    // The storefront's public read. `/store/*` already carries the framework's
+    // publishable-key gate, and the route resolves the tenant from that key;
+    // `applyCategoryFilters` is the Store route's own middleware, so an inactive
+    // or internal category is no more public here than on
+    // `/store/product-categories`.
+    {
+      matcher: "/store/tenant/product-categories",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreProductCategoriesParams, listStoreProductCategoryConfig),
+        applyStoreCategoryFilters,
+      ],
+    },
 
     // ---- piece 6: promotions + campaigns (/tenants/promotions/**, /tenants/campaigns/**)
 

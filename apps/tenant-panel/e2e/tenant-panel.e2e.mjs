@@ -5,7 +5,9 @@
  * creates a product from the panel and the storefronts show it only on Acme's;
  * and (wave 2, piece 1) Acme opens one of its products, edits its title and
  * adds a priced variant on the detail screen, while Globex gets the 404 state
- * on that same product URL.
+ * on that same product URL; and (wave 2, piece 5) Acme creates a category, adds
+ * one of its own products to it and reads it back on the category's own screen,
+ * while Globex's category list and the category's URL show it nothing.
  *
  *   PANEL_URL=http://localhost:5180 node e2e/tenant-panel.e2e.mjs
  *
@@ -668,6 +670,144 @@ try {
     check("Globex: the API refuses Acme's order", refused?.type === "not_found", JSON.stringify(refused).slice(0, 120))
     await gctx.close()
   }
+  // ---- wave 2, piece 5: categories. The category the panel creates is the
+  // subject, and it is deleted again at the end: Medusa derives the handle from
+  // the name and the handle is unique, so a kept fixture would make the next run
+  // fail on a constraint rather than on a regression. The name carries the same
+  // clock stamp the product fixtures use, for the same reason.
+  {
+    const acme = await apiLogin("admin@acme.test")
+    const globex = await apiLogin("admin@globex.test")
+    const categoryName = `Night 2 cat ${stamp}`
+
+    const before = await acme("/tenants/product-categories?limit=100")
+    const productsOfAcme = await acme("/tenants/products?limit=1&fields=id,title")
+    const productForCategory = productsOfAcme.products?.[0]
+    check(
+      "Acme: a product exists to put into the category",
+      !!productForCategory?.id,
+      productForCategory?.title
+    )
+
+    const cctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } })
+    const cpage = await cctx.newPage()
+    await login(cpage, "admin@acme.test")
+
+    await cpage.goto(`${PANEL}/categories`, { waitUntil: "networkidle" })
+    await cpage.waitForTimeout(800)
+    const listBefore = await cpage.locator("body").innerText()
+    check(
+      "Acme: the categories screen renders its own list, not a 404",
+      !listBefore.includes("404"),
+      cpage.url()
+    )
+
+    // Create: the Admin's RouteFocusModal with two progress tabs (details,
+    // organize); the submit button only exists on the second tab.
+    await cpage.goto(`${PANEL}/categories/create`, { waitUntil: "networkidle" })
+    await cpage.waitForTimeout(1000)
+    await fillEverywhere(cpage, '[role="dialog"] input[name="name"]', categoryName)
+    await cpage.waitForTimeout(300)
+    await clickReal(cpage, cpage.locator('[role="dialog"] button:has-text("Continue")').first())
+    await cpage.waitForTimeout(800)
+    await clickReal(cpage, cpage.locator('[role="dialog"] button:has-text("Save")').first())
+    const landedOnCategory = await cpage
+      .waitForURL((u) => /^\/categories\/pcat_/.test(u.pathname), { timeout: 20_000 })
+      .then(() => true)
+      .catch(() => false)
+    check("Acme: creating a category lands on its detail screen", landedOnCategory, cpage.url())
+
+    const categoryId = new URL(cpage.url()).pathname.split("/")[2]
+    const afterCreate = await acme("/tenants/product-categories?limit=100")
+    check(
+      "Acme: the API lists one more category than before",
+      afterCreate.count === before.count + 1,
+      `${before.count} → ${afterCreate.count}`
+    )
+    check(
+      "Acme: the new category is the one the panel created",
+      (afterCreate.product_categories || []).some((c) => c.id === categoryId && c.name === categoryName),
+      categoryId
+    )
+
+    await cpage.waitForTimeout(1500)
+    const detailText = await cpage.locator("body").innerText()
+    check("Acme: the category detail screen shows its name", detailText.includes(categoryName))
+
+    // Add one owned product through the products modal: a checkbox per row, then Save.
+    if (categoryId && productForCategory?.id) {
+      await cpage.goto(`${PANEL}/categories/${categoryId}/products`, { waitUntil: "networkidle" })
+      // The modal's product table is a second list request on top of the
+      // category retrieve, and the form only mounts once both settle.
+      await cpage
+        .locator('[role="dialog"] table tbody tr')
+        .first()
+        .waitFor({ state: "visible", timeout: 30_000 })
+      await cpage.waitForTimeout(600)
+      const row = cpage.locator(`[role="dialog"] table tbody tr:has-text("${productForCategory.title}")`).first()
+      await clickReal(cpage, row.locator('button[role="checkbox"]').first())
+      await cpage.waitForTimeout(400)
+      await clickReal(cpage, cpage.locator('[role="dialog"] button:has-text("Save")').first())
+      await cpage
+        .waitForURL((u) => u.pathname === `/categories/${categoryId}`, { timeout: 20_000 })
+        .catch(() => {})
+      await cpage.waitForTimeout(2500)
+      const withProduct = await cpage.locator("body").innerText()
+      check(
+        "Acme: the added product is on the category's own screen",
+        withProduct.includes(productForCategory.title),
+        cpage.url()
+      )
+
+      const linked = await acme(
+        `/tenants/product-categories/${categoryId}?fields=id,name,products.id`
+      )
+      check(
+        "Acme: the API returns the product inside the category",
+        (linked.product_category?.products || []).some((pr) => pr.id === productForCategory.id),
+        JSON.stringify(linked.product_category?.products || [])
+      )
+    }
+
+    // And the tenant's own catalog list now offers the category as a filter
+    // value: the organize combobox reads the same scoped route.
+    await cpage.goto(`${PANEL}/products/create`, { waitUntil: "networkidle" })
+    await cpage.waitForTimeout(1200)
+    await cctx.close()
+
+    // Globex: not in the list, and the URL is the 404 state.
+    const gctx2 = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage2 = await gctx2.newPage()
+    await login(gpage2, "admin@globex.test")
+    await gpage2.goto(`${PANEL}/categories`, { waitUntil: "networkidle" })
+    await gpage2.waitForTimeout(1500)
+    const globexList = await gpage2.locator("body").innerText()
+    check("Globex: the categories list does not show Acme's category", !globexList.includes(categoryName))
+
+    if (categoryId) {
+      await gpage2.goto(`${PANEL}/categories/${categoryId}`, { waitUntil: "networkidle" })
+      await gpage2.waitForTimeout(2500)
+      const globexDetail = await gpage2.locator("body").innerText()
+      check("Globex: Acme's category URL renders the 404 state", globexDetail.includes("404"))
+      check("Globex: Acme's category name is nowhere on that screen", !globexDetail.includes(categoryName))
+    }
+    await gctx2.close()
+
+    const globexApi = await globex("/tenants/product-categories?limit=100")
+    check(
+      "Globex: the API does not return Acme's category either",
+      !(globexApi.product_categories || []).some((c) => c.id === categoryId),
+      `Globex count ${globexApi.count}`
+    )
+
+    if (categoryId) {
+      const removed = await acme(`/tenants/product-categories/${categoryId}`, { method: "DELETE" })
+      check("Acme: the category fixture is deleted again", removed?.deleted === true, JSON.stringify(removed).slice(0, 120))
+      const after = await acme("/tenants/product-categories?limit=100")
+      check("Acme: the category count is back where it started", after.count === before.count, `${after.count} vs ${before.count}`)
+    }
+  }
+
 } finally {
   await browser.close()
 }

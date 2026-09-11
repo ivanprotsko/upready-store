@@ -678,12 +678,15 @@ medusaIntegrationTestRunner({
        * The reference lists are global data (catalog taxonomy and store
        * configuration every storefront already shows), so there is nothing to
        * scope. What the panel needs from them is the Admin's list shape.
+       *
+       * `/tenants/product-categories` left this list in wave 2, piece 5: it is
+       * now scoped to the tenant-product-category link and is covered by
+       * `tenants-categories.spec.ts`.
        */
       it.each([
         ["/tenants/regions", "regions"],
         ["/tenants/price-preferences", "price_preferences"],
         ["/tenants/product-types", "product_types"],
-        ["/tenants/product-categories", "product_categories"],
         ["/tenants/product-tags", "product_tags"],
         ["/tenants/collections", "collections"],
         ["/tenants/shipping-profiles", "shipping_profiles"],

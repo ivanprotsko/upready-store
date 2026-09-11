@@ -9,11 +9,14 @@
  * Output: artifacts/docs/tenant-panel-shots/<side>-<screen>.png (git-ignored binaries, rule 21f).
  *
  * Environment: PLAYWRIGHT (absolute path of the playwright package), ADMIN_URL,
- * PANEL_URL, BACKEND_URL (default http://localhost:9023) and SHOT_PRODUCT_ID.
- * The product-detail screens need one product both sides can open; without
- * SHOT_PRODUCT_ID the script asks BACKEND_URL for the first product of
- * PANEL_EMAIL's tenant, which the native Admin can open too because staff see
- * every product.
+ * PANEL_URL, BACKEND_URL (default http://localhost:9023), SHOT_PRODUCT_ID and
+ * SHOT_CATEGORY_ID. The product-detail screens need one product both sides can
+ * open; without SHOT_PRODUCT_ID the script asks BACKEND_URL for the first
+ * product of PANEL_EMAIL's tenant, which the native Admin can open too because
+ * staff see every product. The category screens (wave 2, piece 5) work the same
+ * way through SHOT_CATEGORY_ID and `GET /tenants/product-categories`; when that
+ * tenant owns no category yet, the script creates one so the pair is shootable
+ * and says so on stdout.
  */
 import { createRequire } from "node:module"
 import { mkdirSync } from "node:fs"
@@ -97,6 +100,48 @@ if (!productId) {
 }
 console.log("product under the detail shots:", productId)
 
+/**
+ * One category id both sides open, same reasoning as the product: staff see
+ * every category, the tenant sees only its own. `/tenants/product-categories`
+ * is tenant-scoped since wave 2, piece 5, so a tenant with no category of its
+ * own has nothing to shoot; the script then creates one rather than skipping
+ * the pair.
+ */
+const resolveCategoryId = async () => {
+  if (process.env.SHOT_CATEGORY_ID) {
+    return process.env.SHOT_CATEGORY_ID
+  }
+  const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: PANEL_EMAIL, password: "supersecret" }),
+  })
+  const { token } = await login.json()
+  const auth = { authorization: `Bearer ${token}` }
+  const list = await fetch(`${BACKEND}/tenants/product-categories?limit=1&fields=id,name`, {
+    headers: auth,
+  })
+  const { product_categories } = await list.json()
+  if (product_categories?.[0]?.id) {
+    return product_categories[0].id
+  }
+  const created = await fetch(`${BACKEND}/tenants/product-categories`, {
+    method: "POST",
+    headers: { ...auth, "content-type": "application/json" },
+    body: JSON.stringify({ name: `Shot category ${Date.now()}`, is_active: true }),
+  })
+  const { product_category } = await created.json()
+  console.log("created a category to shoot:", product_category?.id)
+  return product_category?.id
+}
+
+const categoryId = await resolveCategoryId()
+if (!categoryId) {
+  console.error(`no category to shoot: set SHOT_CATEGORY_ID or seed ${PANEL_EMAIL}'s tenant`)
+  process.exit(2)
+}
+console.log("category under the category shots:", categoryId)
+
 const browser = await chromium.launch()
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "light" })
 const page = await ctx.newPage()
@@ -178,6 +223,21 @@ try {
   await page.goto(`${cfg.base}/orders/export`, { waitUntil: "networkidle" })
   await page.waitForTimeout(1200)
   await shot(page, "order-export")
+
+  // tenant panel wave 2, piece 5: the category screens. The list differs by
+  // design (the panel shows only the tenant's own categories, the Admin shows
+  // every one), the detail and create screens are the same files.
+  await page.goto(`${cfg.base}/categories`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(800)
+  await shot(page, "categories")
+
+  await page.goto(`${cfg.base}/categories/${categoryId}`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1500)
+  await shot(page, "category-detail")
+
+  await page.goto(`${cfg.base}/categories/create`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1000)
+  await shot(page, "category-create")
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

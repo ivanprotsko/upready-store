@@ -150,3 +150,59 @@ export const assertOwnedProduct = async (
     );
   }
 };
+
+/**
+ * Every product category id linked to the tenant, through the
+ * tenant-product-category link (`src/links/tenant-product-category.ts`).
+ *
+ * Categories are global in Medusa: there is no sales channel on them and no
+ * column saying who made one, so this link is the whole ownership record. A
+ * category the staff Admin created belongs to nobody and never shows up here,
+ * which is deliberate — `/tenants/product-categories` is the tenant's own
+ * tree, not the catalog's.
+ *
+ * Graph name measured on the stand DB 2026-09-11 with `medusa exec`:
+ * `query.graph({ entity: "tenant", fields: ["product_categories.id"] })`
+ * resolves, and the link's own entry point is `tenant_product_category`
+ * (`tenant_id`, `product_category_id`).
+ */
+export const listTenantCategoryIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.product_categories.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  if (!tenantAdmin?.tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return idsOf(tenantAdmin.tenant.product_categories);
+};
+
+/**
+ * 404 for a category the tenant does not own, worded like Medusa's own miss on
+ * `GET /admin/product-categories/:id`. Every write verb on
+ * `/tenants/product-categories/:id` calls this before its workflow, and so does
+ * the `parent_category_id` check on create and update: a tenant may only nest
+ * its tree inside itself.
+ */
+export const assertOwnedCategory = async (
+  req: AuthenticatedMedusaRequest,
+  categoryId: string,
+): Promise<void> => {
+  const ownedIds = await listTenantCategoryIds(req);
+
+  if (!ownedIds.includes(categoryId)) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Product category with id: ${categoryId} was not found`,
+    );
+  }
+};
