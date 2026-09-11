@@ -50,8 +50,32 @@ const TENANTS = [
 ]
 
 // tenant-panel wave 2, piece 7: the storefront this worker starts itself
-// (its own port, its own .next dir), read by the "pages" section alone.
+// (its own port, its own .next dir), read by the "pages" and "home" sections.
 const STOREFRONT = process.env.STOREFRONT_URL || "http://localhost:8011"
+
+/**
+ * The storefront URL for ONE shop. Since piece 9 a single storefront process serves every
+ * shop and tells them apart by the `Host` header, so a section that wants to read a
+ * tenant's own pages has to ask that tenant's host: a bare `localhost:<port>` resolves to
+ * no shop, and a process started without `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` then has no
+ * key to call the Store API with and answers 500 (measured on :8013, 2026-09-11).
+ *
+ * `<handle>.localhost` needs no /etc/hosts entry — Chrome and curl resolve it to 127.0.0.1
+ * themselves. Set `STOREFRONT_BY_HOST=0` to address a single-store storefront as it is.
+ */
+const storefrontFor = (handle) => {
+  if (process.env.STOREFRONT_BY_HOST === "0") {
+    return STOREFRONT
+  }
+
+  const url = new URL(STOREFRONT)
+
+  if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+    url.hostname = `${handle}.localhost`
+  }
+
+  return url.origin
+}
 
 const ONLY = process.env.E2E_ONLY || ""
 // One stamp for every fixture name in the run (products, variants, categories).
@@ -1057,7 +1081,9 @@ try {
     check("Acme: the API returns the saved page", apiPage?.title === TITLE && apiPage?.published === true, JSON.stringify(apiPage).slice(0, 120))
 
     // The storefront caches with `force-cache`, so it is told to drop the tag first.
-    const revalidated = await fetch(`${STOREFRONT}/api/revalidate`, {
+    // Addressed by the tenant's own host: one process, many shops (piece 9).
+    const P7_STOREFRONT = storefrontFor("acme")
+    const revalidated = await fetch(`${P7_STOREFRONT}/api/revalidate`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ type: "tenant.pages" }),
@@ -1066,7 +1092,7 @@ try {
       .catch(() => false)
     check("storefront: /api/revalidate accepts tenant.pages", revalidated)
 
-    await page.goto(`${STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
+    await page.goto(`${P7_STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
     await page.waitForTimeout(500)
     const storefrontText = await page.locator("body").innerText()
     check("storefront: the page shows the tenant's title", storefrontText.includes(TITLE), page.url())
@@ -1091,7 +1117,7 @@ try {
     )
 
     // The home page carries the same footer, so the link is site-wide.
-    await page.goto(`${STOREFRONT}/en`, { waitUntil: "networkidle" })
+    await page.goto(`${P7_STOREFRONT}/en`, { waitUntil: "networkidle" })
     await page.waitForTimeout(400)
     check(
       "storefront: the footer link is on every page, not just the page itself",
@@ -1333,8 +1359,11 @@ try {
   // document is one row per tenant, so the isolation check is Globex reading null
   // on the same routes rather than a 404 on an id.
   if (runs("home")) {
-    // tenant-panel: the storefront under test is the one the run was given (STOREFRONT_URL), not a fixed port — on the merged trunk one storefront serves every section.
-    const P8_STOREFRONT = process.env.P8_STOREFRONT || STOREFRONT
+    // tenant-panel: the storefront under test is the one the run was given (STOREFRONT_URL),
+    // not a fixed port — on the merged trunk one storefront serves every section, and
+    // since piece 9 it serves every SHOP too, so Acme's document is read at Acme's own
+    // host rather than at the bare one, which belongs to nobody.
+    const P8_STOREFRONT = process.env.P8_STOREFRONT || storefrontFor("acme")
     const p8Stamp = new Date().toISOString().slice(11, 19).replace(/:/g, "")
     const heroTitle = `Night wave hero ${p8Stamp}`
     const acme = await apiLogin("admin@acme.test")

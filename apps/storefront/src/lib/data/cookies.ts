@@ -38,6 +38,12 @@ export const getCacheTag = async (tag: string): Promise<string> => {
  * The shop this request belongs to, as `src/middleware.ts` resolved it from the
  * Host header (piece 9, docs/multitenancy/storefront-by-host.md §2). Null in
  * single-store mode and outside a request.
+ *
+ * SWEEP_OK — this never throws and its absence is never an error, so no caller
+ * needs a guard of its own. It is a request header this same process wrote a
+ * moment ago, not a client-held id pointing at foreign state that may be gone:
+ * the two dereferences that exist (`getCacheOptions` below, `getTenantHome` in
+ * `tenant-home.ts`) both branch on null and carry on with the unscoped tag.
  */
 export const getTenantHandle = async (): Promise<string | null> => {
   try {
