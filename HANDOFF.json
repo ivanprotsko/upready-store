@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T05:36:11+08:00",
-  "status": "fix/mt-storefront-head-footer (от feat/mt-deploy df921b0): четыре дефекта живых витрин починены классом — canonical/hreflang на своём origin (x-tenant-origin), подвал тенанта без чужих коллекций и ссылок стартера, опции на языке визитёра и без «Default option», копия профиля сборки и фото героя больше не говорят за тенанта, hero.i18n[locale], язык и страна — две кнопки. Коммиты 2be7e2a, 41a9eab, 9fdcf27, 03bb5bf, 815c53a; проверено локальной сборкой против прод-бэкенда по пяти хостам, tsc/lint/vitest 91 зелёные. НЕ задеплоено. После деплоя обязательно: пересобрать mt-backend, medusa exec seed-mt-demo.js, backfill-hero-copy.js, backfill-option-translations.js по трём профилям — иначе hero на /ru и «Colourway» останутся английскими.",
+  "updated": "2026-09-12T06:30:56+08:00",
+  "status": "Трек абстрактных наборов (t-2026-09-12-catalog-taxonomy, ветка feat/abstract-datasets): объём по второму решению Ивана — ОДИН нейтральный набор abstract, светлая версия картинок. Сделано и закоммичено: справочники сфер/торговых категорий из Google Product Taxonomy с разметкой 67/67 товаров (ef67edd); набор data/profiles/abstract в формате профиля, одна сетка 4x4 nano-banana-pro за 0.30 USD, гейт серии 16/16, манифест (7e4ad3f); засев POST /tenants/seed + воркфлоу seed-tenant-dataset + шаг мастера + плитки главной из своих категорий (361ddc9); замеры и артефакты приёмки artifacts/docs/2026-09-12-abstract-dataset/. Живая проверка на локальном стенде ветки: seed 201 за 1.1 с, 10 товаров/7 категорий с картинками, главная витрины с 5 плитками. НЕ сделано (21c): деплой — sync-media.sh abstract на хост + пересборка mt-backend и витрины с ветки; тёмный близнец картинок ждёт t-2026-09-12-mode-image-pairs.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
