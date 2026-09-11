@@ -1,0 +1,11 @@
+# Платформенная ночь 11→12.09.2026 — журнал хода (архитектор-оркестратор, feat/mt-platform)
+
+Сессия: session_01MQKTcc6DWhp7ZFrq8zRzFJ. Задачи: t-2026-09-11-mt-platform-admin (код),
+t-2026-09-11-mt-ops-design и t-2026-09-11-mt-onboarding-design (спеки). Бриф:
+docs/multitenancy/2026-09-11-night-2-platform-brief.md. Итог — artifacts/docs/2026-09-12-platform-night.md.
+
+- 2026-09-11 08:32 WITA — старт (`date`). Прочитаны бриф, решение 2026-09-10 (последняя секция: ограничения по задачам МТ сняты), три задачи, модели/линки/workflow тенанта, uploads-роут, medusa-config.
+- 2026-09-11 08:35 WITA (по логу install) — факт стенда: порт 9024 ЗАНЯТ чужим `medusa develop` из worktree feat/store-profiles (pid 68778, 6 ч 41 мин аптайма) — не трогаю; свой backend поднимаю на **9025**. В worktree не было node_modules и .env; первый `pnpm install` упал (pnpm на PATH другого мажора), `corepack pnpm install --frozen-lockfile` (pnpm 10.11.1) — 08:35:51 → 08:36:46, rc=0. `.env` скопирован из feat/mt-panel с PORT=9025, та же БД upready_store_mt на :5433.
+- 2026-09-11 08:39 WITA (по логу backend) — backend :9025 поднят (`medusa develop`, «Server is ready», /health 200, админка /app).
+- 2026-09-11 08:48 WITA — проверено в node_modules (2.19.0): `authModuleService.register/updateProvider/updateProviderIdentities` есть; emailpass `update` требует `entity_id`=email; file-s3 ключ = `${prefix}${dir/}${name}-${ulid}${ext}`, `sanitizeFilePath` сохраняет сегменты каталогов → префикс `tenants/<id>/` даётся через `filename`, свой провайдер не нужен. Написан контракт docs/multitenancy/admin-tenants-api-contract.md и 7 брифов воркерам docs/prompts/2026-09-11-platform-night/w{1..7}-*.md (EN); 7 задач в реестре orchestrator.mjs (plat-w1…w7). Модель на всех воркерах — Sonnet; порты тестов 9031/9032/9033, замер `medusa start` — 9026.
+- 2026-09-11 08:48 WITA — поправка Ивана в чате: базовый домен платформы — **upready.dev**, не upready.store (`<handle>.upready.dev`, `*.upready.dev`; кастомные домены тенантов — на тот же единственный процесс витрины). Бриф W6 исправлен.
