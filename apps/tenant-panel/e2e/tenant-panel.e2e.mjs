@@ -48,6 +48,19 @@ const TENANTS = [
 ]
 
 const ONLY = process.env.E2E_ONLY || ""
+// One stamp for every fixture name in the run (products, variants, categories).
+// It lives here, not inside a section: the category section reads it while the
+// catalog section is gated off by E2E_ONLY, and a `const` declared inside that
+// gate is a ReferenceError from outside it.
+//
+// The clock part alone is not unique: Medusa derives a product's handle from
+// its title and the handle is unique store-wide, so two runs that start in the
+// same minute against this shared stand collide with "Product with handle …
+// already exists" (measured 2026-09-11 02:13, two worktrees at once). The four
+// random characters make the name the run's own.
+const stamp = `${new Date().toISOString().slice(11, 16).replace(":", "")}${Math.random()
+  .toString(36)
+  .slice(2, 6)}`
 const runs = (section) => !ONLY || ONLY === section
 
 let failures = 0
@@ -67,15 +80,30 @@ const apiLogin = async (email) => {
   return async (p, init = {}) =>
     (await fetch(`${BACKEND}${p}`, { ...init, headers: { authorization: `Bearer ${token}`, ...(init.headers || {}) } })).json()
 }
+/**
+ * The screens render ONE page, the API counts the whole set. `products`/`orders`
+ * are the totals (what the footer says), `pageTitles`/`pageOrderIds` are the
+ * first page at the screen's own size, which is what the table rows are
+ * compared with. Before wave 2 the two were the same number, because Acme had
+ * fewer products than a page holds; the accumulated e2e fixtures pushed it past
+ * 20 and turned the row comparison permanently red.
+ */
+const PRODUCT_PAGE_SIZE = 20 // routes/products/product-list/.../product-list-table.tsx
+const ORDER_PAGE_SIZE = 20 // routes/orders/order-list/.../order-list-table.tsx
+
 const apiCounts = async (email) => {
   const get = await apiLogin(email)
   const products = await get("/tenants/products?limit=100")
   const orders = await get("/tenants/orders?limit=100")
+  const productPage = await get(`/tenants/products?limit=${PRODUCT_PAGE_SIZE}`)
+  const orderPage = await get(`/tenants/orders?limit=${ORDER_PAGE_SIZE}`)
   return {
     products: products.count,
     productTitles: (products.products || []).map((p) => p.title),
+    pageTitles: (productPage.products || []).map((p) => p.title),
     orders: orders.count,
     orderIds: (orders.orders || []).map((o) => String(o.display_id)),
+    pageOrderIds: (orderPage.orders || []).map((o) => String(o.display_id)),
   }
 }
 
@@ -135,6 +163,71 @@ const storefrontHasTitle = async (base, title) => {
   return html.includes(title)
 }
 
+/**
+ * Places a real order for a tenant through the STORE api, with the tenant's own
+ * publishable key, and returns its id once the `order.placed` subscriber has
+ * linked it (the link is what `/tenants/orders` reads, and it is written
+ * asynchronously, so the id is waited for rather than assumed).
+ *
+ * The fulfil/ship step used to take whatever unfulfilled order the stand
+ * happened to hold. That made it consume one order per run, and after six runs
+ * there was nothing left to fulfil; it also meant the order's shipping method
+ * could belong to a warehouse that is not the tenant's, which is the state the
+ * create-fulfillment form cannot submit from. A freshly placed order always
+ * carries one of the tenant's own shipping options.
+ */
+const placeOrderForTenant = async (email) => {
+  const get = await apiLogin(email)
+  const key = (await get("/tenants/me"))?.tenant_admin?.tenant?.api_key?.token
+  const region = (await get("/tenants/regions?limit=1"))?.regions?.[0]
+  const product = (await get("/tenants/products?limit=1&fields=id,title,*variants"))?.products?.[0]
+  const variant = product?.variants?.[0]
+
+  if (!key || !region?.id || !variant?.id) {
+    return null
+  }
+
+  const store = async (method, path, body) => {
+    const res = await fetch(`${BACKEND}${path}`, {
+      method,
+      headers: { "content-type": "application/json", "x-publishable-api-key": key },
+      body: body ? JSON.stringify(body) : undefined,
+    })
+    return res.json().catch(() => ({}))
+  }
+
+  const { cart } = await store("POST", "/store/carts", {
+    region_id: region.id,
+    email: `e2e-fulfil-${stamp}@example.com`,
+    items: [{ variant_id: variant.id, quantity: 1 }],
+  })
+  if (!cart?.id) return null
+
+  const option = (await store("GET", `/store/shipping-options?cart_id=${cart.id}`))
+    ?.shipping_options?.[0]
+  if (!option?.id) return null
+  await store("POST", `/store/carts/${cart.id}/shipping-methods`, { option_id: option.id })
+
+  const collection = (await store("POST", "/store/payment-collections", { cart_id: cart.id }))
+    ?.payment_collection
+  if (!collection?.id) return null
+  await store("POST", `/store/payment-collections/${collection.id}/payment-sessions`, {
+    provider_id: "pp_system_default",
+  })
+
+  const orderId = (await store("POST", `/store/carts/${cart.id}/complete`))?.order?.id
+  if (!orderId) return null
+
+  // The tenant-order link is written by a subscriber: give it a bounded wait
+  // rather than reading once and calling the order missing.
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const mine = await get(`/tenants/orders?limit=1&id=${orderId}`)
+    if ((mine?.orders || []).length) return orderId
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+  }
+  return null
+}
+
 const browser = await chromium.launch()
 try {
   const seen = {}
@@ -150,13 +243,21 @@ try {
 
     await page.goto(`${PANEL}/products`)
     const productRows = await rowsOf(page)
-    check(`${t.name}: products table rows = API count`, productRows.length === api.products, `${productRows.length} vs ${api.products}`)
-    for (const title of api.productTitles) {
+    check(
+      `${t.name}: products table rows = API first page`,
+      productRows.length === api.pageTitles.length,
+      `${productRows.length} rows vs ${api.pageTitles.length} on the page, ${api.products} in total`
+    )
+    for (const title of api.pageTitles) {
       check(`${t.name}: product "${title}" is on screen`, productRows.some((r) => r.includes(title)))
     }
     await page.goto(`${PANEL}/orders`)
     const orderRows = await rowsOf(page)
-    check(`${t.name}: orders table rows = API count`, orderRows.length === api.orders, `${orderRows.length} vs ${api.orders}`)
+    check(
+      `${t.name}: orders table rows = API first page`,
+      orderRows.length === api.pageOrderIds.length,
+      `${orderRows.length} rows vs ${api.pageOrderIds.length} on the page, ${api.orders} in total`
+    )
     seen[t.name] = { productRows, orderRows, api }
     await ctx.close()
   }
@@ -174,7 +275,6 @@ try {
 
   // Acme creates a product from the panel: one option Size=M, one variant priced in EUR, published.
   if (runs("catalog")) {
-  const stamp = new Date().toISOString().slice(11, 16).replace(":", "")
   const title = `E2E panel product ${stamp}`
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 2200 } })
   const page = await ctx.newPage()
@@ -208,6 +308,10 @@ try {
     .then(() => true)
     .catch(() => false)
   check("Acme: publish lands on /products", landed, page.url())
+  // Acme has more products than a page holds, and the list is not sorted
+  // newest-first, so the fresh one is found the way a person finds it: by
+  // searching. `q` is the list's own query parameter.
+  await page.goto(`${PANEL}/products?q=${encodeURIComponent(title)}`, { waitUntil: "networkidle" })
   const rowsAfter = await rowsOf(page)
   check("Acme: the new product is in the list", rowsAfter.some((r) => r.includes(title)), `${rowsAfter.length} rows`)
   await ctx.close()
@@ -274,8 +378,12 @@ try {
 
       // Opened from the list, not by typing the URL: the row's href is part of
       // the screen under test.
-      await page2.goto(`${PANEL}/products`, { waitUntil: "networkidle" })
-      await page2.waitForTimeout(800)
+      // Searched for, not scrolled to: the list shows one page of 20 and Acme
+      // has more products than that.
+      await page2.goto(`${PANEL}/products?q=${encodeURIComponent(detailTitle)}`, {
+        waitUntil: "networkidle",
+      })
+      await page2.waitForTimeout(1200)
       await page2.locator(`table tbody tr:has-text("${detailTitle}")`).first().click()
       await page2
         .waitForURL((u) => u.pathname === `/products/${target.id}`, { timeout: 20_000 })
@@ -577,28 +685,60 @@ try {
 
     // Fulfil and ship. The two screens are routes of their own, so they are
     // opened as routes; the form is the Admin's own file.
-    const fulfillable = [...acmeOrders].reverse().find((o) => o.fulfillment_status === "not_fulfilled")
+    // The order to fulfil is placed by this run, not borrowed from the stand:
+    // see `placeOrderForTenant`.
+    const placedId = await placeOrderForTenant("admin@acme.test")
+    check("Acme: a storefront order was placed for the fulfil flow", !!placedId, placedId || "not placed")
+    const fulfillable = placedId
+      ? (await acmeGet(`/tenants/orders/${placedId}?fields=id,display_id,fulfillment_status`)).order
+      : null
+
     if (!fulfillable) {
-      check("Acme: an order is available to fulfil", false, "every order is already fulfilled")
+      check("Acme: an order is available to fulfil", false, "no order to fulfil")
     } else {
       console.log(`fulfilling order ${fulfillable.id} #${fulfillable.display_id}`)
       await page.goto(`${PANEL}/orders/${fulfillable.id}/fulfillment`, { waitUntil: "networkidle" })
       await page.waitForTimeout(2500)
 
-      // The location is an ariakit combobox whose options come from the server
-      // as you type; the stand has 200+ warehouses, so the tenant's own is
-      // found by searching its name rather than by scrolling. Picking it makes
-      // the form refetch the shipping options for that warehouse, and the
-      // form's own effect then selects the order's shipping method, which is
-      // what enables the submit button (`disabled={!shippingOptionId}`).
-      const locationBox = page.locator('input[role="combobox"]').first()
-      await locationBox.click()
-      await locationBox.pressSequentially("Acme warehouse", { delay: 60 })
-      await page.waitForTimeout(2500)
-      const options = await page.locator('[role="option"]:visible').allInnerTexts()
-      check("fulfillment form: the tenant's warehouse is offered", options.length > 0, options.join(", "))
-      await page.locator('[role="option"]:visible').first().click()
-      await page.waitForTimeout(3500)
+      // The form configures itself from the order's OWN shipping method, but
+      // only once that option is among the ones it fetched: `useShippingOptions`
+      // asks for one default page and this stand carries 492 options, so the
+      // order's own is sometimes missing from it. When that happens the
+      // warehouse is chosen first, which refetches the options narrowed to it.
+      //
+      // Measured on :9029, 2026-09-11: choosing a warehouse that does NOT own
+      // the order's shipping option leaves `shipping_option_id` pointing at an
+      // option the refetched list no longer holds. The submit button stays
+      // enabled (it only checks that the id is set), the handler's own
+      // `shipping_options.find(...)` misses, and it returns with the field error
+      // "Shipping option is required" and NO request. That is what broke the
+      // trunk run on order #3, whose method is "Pickup" at the default
+      // warehouse: the step used to pick Acme's warehouse unconditionally.
+      const methodValue = async () =>
+        (await page.locator('[role="dialog"] button[role="combobox"]').first().innerText().catch(() => "")).trim()
+
+      if (!(await methodValue())) {
+        const locationBox = page.locator('input[role="combobox"]').first()
+        await locationBox.click()
+        await locationBox.pressSequentially("Acme warehouse", { delay: 60 })
+        await page.waitForTimeout(2500)
+        const options = await page.locator('[role="option"]:visible').allInnerTexts()
+        check("fulfillment form: the tenant's warehouse is offered", options.length > 0, options.join(", "))
+        await page.locator('[role="option"]:visible').first().click()
+        await page.waitForTimeout(3500)
+      }
+
+      // Whatever the location ended up being, the method has to name an option
+      // of THAT location, so it is chosen explicitly when it is not already set.
+      if (!(await methodValue())) {
+        await clickReal(page, page.locator('[role="dialog"] button[role="combobox"]').first())
+        await page.waitForTimeout(1500)
+        const methods = await page.locator('[role="option"]:visible').allInnerTexts()
+        check("fulfillment form: a shipping method is offered", methods.length > 0, methods.join(", "))
+        await page.locator('[role="option"]:visible').first().click()
+        await page.waitForTimeout(1500)
+      }
+      check("fulfillment form: a shipping method is selected", !!(await methodValue()), await methodValue())
 
       const submit = page.locator('button[type="submit"]').first()
       check("fulfillment form: the submit button is enabled", await submit.isEnabled())
@@ -607,7 +747,21 @@ try {
         .waitForURL((u) => u.pathname === `/orders/${fulfillable.id}`, { timeout: 30_000 })
         .then(() => true)
         .catch(() => false)
-      check("Acme: creating a fulfillment returns to the order", fulfilled, page.url())
+      // A form that refuses client-side sends no request and stays put. Read
+      // its own message into the failure, so a silent refusal never looks like
+      // a dead button.
+      const formError = fulfilled
+        ? ""
+        : await page
+            .locator('[role="dialog"] [role="alert"], [role="dialog"] .text-ui-fg-error')
+            .allInnerTexts()
+            .then((t) => t.join(" / "))
+            .catch(() => "")
+      check(
+        "Acme: creating a fulfillment returns to the order",
+        fulfilled,
+        formError ? `${page.url()} — form says: ${formError}` : page.url()
+      )
 
       const afterFulfil = (await acmeGet(`/tenants/orders/${fulfillable.id}?fields=id,fulfillment_status,*fulfillments`)).order
       check(
@@ -650,7 +804,9 @@ try {
     await clickReal(page, page.locator('button:has-text("Export")').last())
     const exported = await exportResponse.then((r) => r.json()).catch(() => null)
     check("Acme: the export answers a URL", typeof exported?.url === "string", exported?.url || "no response")
-    check("Acme: the export counts only Acme's orders", exported?.count === acmeOrders.length, `${exported?.count} vs ${acmeOrders.length}`)
+    // Counted fresh: this run placed an order after `acmeOrders` was read.
+    const acmeCountNow = (await acmeGet("/tenants/orders?limit=1")).count
+    check("Acme: the export counts only Acme's orders", exported?.count === acmeCountNow, `${exported?.count} vs ${acmeCountNow}`)
     await ctx.close()
 
     // Globex opens Acme's order URL and must land on the panel's error state.
