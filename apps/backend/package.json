@@ -33,6 +33,7 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1094.0",
     "@gorgo/medusa-integration": "latest",
     "@medusajs/admin-sdk": "2.19.0",
     "@medusajs/admin-shared": "2.19.0",
