@@ -1,0 +1,18 @@
+import { chromium } from 'playwright';
+const [url, email, pass, name] = process.argv.slice(2);
+const b = await chromium.launch();
+const c = await b.newContext({ viewport: { width: 1280, height: 900 } });
+const p = await c.newPage();
+const bad = [];
+p.on('response', r => { if (r.status() >= 400) bad.push(`${r.status()} ${r.url().slice(0, 120)}`); });
+await p.goto(url, { waitUntil: 'networkidle' });
+await p.waitForSelector('input', { timeout: 30000 });
+const inputs = p.locator('input');
+await inputs.nth(0).fill(email);
+await inputs.nth(1).fill(pass);
+await p.locator('button[type="submit"], button').filter({ hasText: /Continue|Sign in|Войти/i }).first().click();
+await p.waitForTimeout(9000);
+await p.screenshot({ path: `${process.env.SHOTS}/${name}.png` });
+const text = (await p.evaluate(() => document.body.innerText.trim())).replace(/\s*\n\s*/g, ' | ').slice(0, 400);
+console.log(JSON.stringify({ name, url: p.url(), textLen: text.length, text, bad: bad.slice(0, 8) }, null, 1));
+await b.close();
