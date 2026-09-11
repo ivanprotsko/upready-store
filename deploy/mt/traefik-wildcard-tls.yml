@@ -1,0 +1,24 @@
+# Wildcard certificate for every tenant subdomain of the base domain.
+# Lives on the host at /data/coolify/proxy/dynamic/mt-wildcard-tls.yml — the
+# directory coolify-proxy watches (--providers.file.directory=/traefik/dynamic/).
+#
+# Why: traefik asks Let's Encrypt for a per-host certificate only AFTER the host
+# appears in mt-tenants.yml (HTTP-01, ~90 s measured 2026-09-11), and answers
+# every handshake before that with its self-signed "TRAEFIK DEFAULT CERT".
+# Because the whole .dev zone sits on Chrome's HSTS preload list, the shop owner
+# who opens the address the wizard just gave them sees ERR_CERT_AUTHORITY_INVALID
+# with no way to click through (measured 2026-09-12 on testovyy-magazin).
+# This certificate covers every <handle>.shipshift.dev from the first second and
+# costs zero Let's Encrypt quota per new shop.
+#
+# Exact-host certificates still win: traefik picks the most specific match for
+# the SNI, so hosts that already hold their own certificate keep it.
+#
+# Renewed by deploy/scripts/renew-wildcard-cert.sh (cron, root). That script
+# rewrites the stamp line below, because traefik watches this FILE, not the
+# certificate files it points at.
+# renewed: 2026-09-12T04:00:00Z
+tls:
+  certificates:
+    - certFile: /traefik/lego/certificates/_.shipshift.dev.crt
+      keyFile: /traefik/lego/certificates/_.shipshift.dev.key
