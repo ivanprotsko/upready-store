@@ -188,9 +188,18 @@ export const seedProducts = async (container: MedusaContainer) => {
   const categoryIdsByHandle = await getCategoryIdsByHandle(container);
   const optionIdsByTitle = await getProductOptionIdsByTitle(container);
 
+  // A product handle is unique across the database, so a resumed run
+  // (`resolveSeedMode`) must create only what is still missing.
+  const existingIdByHandle = await getProductIdsByHandle(container);
+  const pending = SEED_PRODUCTS.filter(
+    (product) => !existingIdByHandle.has(product.handle),
+  );
+
+  if (!pending.length) return;
+
   await createProductsWorkflow(container).run({
     input: {
-      products: SEED_PRODUCTS.map((product) => {
+      products: pending.map((product) => {
         const categoryId = categoryIdsByHandle.get(product.category);
         if (!categoryId) {
           throw new Error(
@@ -295,16 +304,36 @@ export const seedProductOptionMetadata = async (container: MedusaContainer) => {
 };
 
 export const seedCollections = async (container: MedusaContainer) => {
-  const { result: collections } = await createCollectionsWorkflow(
-    container,
-  ).run({
-    input: {
-      collections: SEED_COLLECTIONS.map((collection) => ({
-        title: collection.title,
-        handle: collection.handle,
-      })),
-    },
+  // Find-or-create by handle, like the categories: a handle is unique, so a
+  // resumed run that re-creates its predecessor's collection dies on the
+  // constraint. The product links below are re-applied either way — the batch
+  // link is a set operation and adding a product already in the collection is
+  // not an error.
+  const { data: existing } = await getQuery(container).graph({
+    entity: "product_collection",
+    fields: ["id", "handle"],
+    filters: { handle: SEED_COLLECTIONS.map((collection) => collection.handle) },
   });
+
+  const missing = SEED_COLLECTIONS.filter(
+    (collection) =>
+      !existing.some((candidate) => candidate.handle === collection.handle),
+  );
+
+  const created = missing.length
+    ? (
+        await createCollectionsWorkflow(container).run({
+          input: {
+            collections: missing.map((collection) => ({
+              title: collection.title,
+              handle: collection.handle,
+            })),
+          },
+        })
+      ).result
+    : [];
+
+  const collections = [...existing, ...created];
 
   const productIdsByHandle = await getProductIdsByHandle(container);
 

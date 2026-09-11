@@ -259,9 +259,41 @@ export const seedTranslations = async (
     }
   }
 
-  logger.info(`Prepared ${translations.length} translations.`);
+  // A translation is unique on (reference_id, locale_code), so a row SHARED
+  // with a profile that was seeded earlier is already translated and a second
+  // attempt is not a duplicate — it aborts the run. That is what the shared
+  // product options do: `Size` and `Colour` are one row for every profile that
+  // declares them, and translating them again killed the home-goods seed after
+  // its catalog was already committed (measured 2026-09-11, shipshift.dev).
+  // Filtered here, on the triple itself, rather than per reference type: the
+  // next shared row will be silently handled instead of crashing the seed.
+  const existing = translations.length
+    ? await translationModuleService.listTranslations({
+        reference_id: Array.from(
+          new Set(translations.map((translation) => translation.reference_id)),
+        ),
+      })
+    : [];
+
+  const seen = new Set(
+    existing.map(
+      (translation) =>
+        `${translation.reference_id}\u0000${translation.locale_code}`,
+    ),
+  );
+
+  const fresh = translations.filter(
+    (translation) =>
+      !seen.has(`${translation.reference_id}\u0000${translation.locale_code}`),
+  );
+
+  logger.info(
+    `Prepared ${translations.length} translations; ${translations.length - fresh.length} already exist on rows shared with another profile, writing ${fresh.length}.`,
+  );
+
+  if (!fresh.length) return;
 
   await createTranslationsWorkflow(container).run({
-    input: { translations },
+    input: { translations: fresh },
   });
 };

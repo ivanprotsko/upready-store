@@ -5,6 +5,7 @@ import {
   createSalesChannelsWorkflow,
   createStoresWorkflow,
   linkSalesChannelsToApiKeyWorkflow,
+  updateSalesChannelsWorkflow,
 } from "@medusajs/medusa/core-flows";
 import { SEED_LOCALES } from "../data/i18n";
 import { SEED_REGIONS } from "../data/regions";
@@ -31,28 +32,34 @@ export type SeedMode = "full" | "add-profile" | "skip";
 export const getSalesChannel = async (container: MedusaContainer) => {
   const { data } = await getQuery(container).graph({
     entity: "sales_channel",
-    fields: ["id"],
+    fields: ["id", "metadata"],
     filters: { name: SEED_STORE.sales_channel.name },
   });
   return data[0];
 };
 
-/** How many products hang off this profile's channel — see `resolveSeedMode`. */
-export const countSalesChannelProducts = async (
-  container: MedusaContainer,
-  salesChannelId: string,
-) => {
-  // Counted from the product side and filtered here: `sales_channels` is a
-  // link, not a column, and the graph's product filters do not reach across it.
-  const { data } = await getQuery(container).graph({
-    entity: "product",
-    fields: ["id", "sales_channels.id"],
+/**
+ * The stamp that says this profile's seed reached its last step. Written on the
+ * profile's own sales channel, because that is the one row a profile always has
+ * exactly one of.
+ */
+export const SEED_COMPLETED_AT = "seed_completed_at";
+
+export const markProfileSeeded = async (container: MedusaContainer) => {
+  const salesChannel = await getSalesChannel(container);
+  if (!salesChannel) return;
+
+  await updateSalesChannelsWorkflow(container).run({
+    input: {
+      selector: { id: salesChannel.id },
+      update: {
+        metadata: {
+          ...(salesChannel.metadata ?? {}),
+          [SEED_COMPLETED_AT]: new Date().toISOString(),
+        },
+      },
+    },
   });
-  return data.filter((product) =>
-    (product.sales_channels ?? []).some(
-      (channel) => channel?.id === salesChannelId,
-    ),
-  ).length;
 };
 
 export const getApiKey = async (container: MedusaContainer) => {
@@ -78,27 +85,27 @@ export const resolveSeedMode = async (
   const salesChannel = await getSalesChannel(container);
 
   if (salesChannel) {
-    // A channel is not a seeded profile — a channel WITH PRODUCTS is. The seed
-    // is not transactional: the first multi-profile run on shipshift.dev died
-    // at the product options and left home-goods with a sales channel, a key
-    // and six categories but no catalog (2026-09-11). Reading "the channel is
-    // there" as "this profile is done" made that state permanent, because the
-    // only repair left was deleting rows by hand. Zero products is a crashed
-    // run, and it is resumed loudly rather than skipped silently (rule 20a).
-    const productCount = await countSalesChannelProducts(
-      container,
-      salesChannel.id,
-    );
+    // A channel is not a seeded profile — a channel whose seed REACHED ITS LAST
+    // STEP is. The seed is not transactional: on shipshift.dev the home-goods
+    // run died twice against rows the sneakers profile already owned (the
+    // shared `Colour` option, then that option's translations), each time after
+    // committing part of the profile. Reading "the channel is there" as "this
+    // profile is done" made every such crash permanent, because the only repair
+    // left was deleting rows by hand. The stamp is written by
+    // `markProfileSeeded` after the last step, so anything else is a run that
+    // did not finish and is resumed loudly rather than skipped in silence
+    // (rule 20a). Every step below it is find-or-create for the same reason.
+    const completedAt = (salesChannel.metadata ?? {})[SEED_COMPLETED_AT];
 
-    if (productCount > 0) {
+    if (completedAt) {
       logger.info(
-        `Sales channel "${SEED_STORE.sales_channel.name}" already carries ${productCount} product(s) — skipping initial data seed.`,
+        `Sales channel "${SEED_STORE.sales_channel.name}" was fully seeded at ${completedAt} — skipping initial data seed.`,
       );
       return "skip";
     }
 
     logger.warn(
-      `Sales channel "${SEED_STORE.sales_channel.name}" exists but carries NO product — a previous run of this profile did not finish. Resuming it: the channel, its key and any category already created are reused, not duplicated.`,
+      `Sales channel "${SEED_STORE.sales_channel.name}" exists but carries no completion stamp — a previous run of this profile did not reach its last step. Resuming it: every row already created is reused, not duplicated.`,
     );
     return "add-profile";
   }
