@@ -6,7 +6,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F5 · "Условия плитками" — up to 3 fact cards built from the profile's promo clauses,
@@ -138,14 +138,14 @@ export default async function FooterF5() {
       </div>
 
       <div className="border-t border-ui-border-base w-full">
-        <div className="content-container flex w-full mb-6 justify-between items-center pt-4 text-ui-fg-muted">
+        <div className="content-container flex flex-col gap-y-2 sm:flex-row w-full mb-6 sm:justify-between items-start sm:items-center pt-4 text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
               siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

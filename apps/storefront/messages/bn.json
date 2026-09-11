@@ -152,7 +152,6 @@
     "close": "বন্ধ করুন",
     "hidePassword": "পাসওয়ার্ড লুকান",
     "orderNumber": "অর্ডার #{id}",
-    "poweredBy": "দ্বারা পরিচালিত",
     "remove": "সরান",
     "showPassword": "পাসওয়ার্ড দেখান"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "ক্যাটাগরি",
     "collectionsHeading": "কালেকশন",
     "copyright": "© {year} {siteName}। সর্বস্বত্ব সংরক্ষিত।",
-    "infoHeading": "তথ্য",
-    "medusaDocs": "Medusa ডকুমেন্টেশন",
-    "sourceCode": "স্টার্টার সোর্স কোড",
-    "starterDocs": "স্টার্টার ডকুমেন্টেশন"
+    "infoHeading": "তথ্য"
   },
   "ForgotPassword": {
     "backToSignIn": "সাইন ইনে ফিরে যান",
@@ -345,44 +341,8 @@
     "returnsExchanges": "রিটার্ন ও এক্সচেঞ্জ"
   },
   "Hero": {
-    "eyebrow": "টার্নকি · ওপেন-সোর্স",
-    "features": [
-      {
-        "description": "উন্নত, বাড়তি ধাপ ছাড়াই, ঠিকানা অটোকমপ্লিট সহ",
-        "label": "কনভার্সনের জন্য অপ্টিমাইজড চেকআউট"
-      },
-      {
-        "description": "সার্চ, ফিল্টারযোগ্য ক্যাটালগ, মাল্টি-লেভেল ক্যাটেগরি ও mobile-first",
-        "label": "সম্পূর্ণ ফিচারযুক্ত স্টোরফ্রন্ট"
-      },
-      {
-        "description": "meta ট্যাগ, Open Graph ও Twitter কার্ড, JSON-LD, sitemap, robots, llms.txt ও PageSpeed Insights-এ ১০০/১০০",
-        "label": "SEO ও AI-এর জন্য অপ্টিমাইজড"
-      },
-      {
-        "description": "স্টোরফ্রন্টের জন্য ৩৬টি ভাষা (RTL সহ) ও বিক্রয় অঞ্চলের জন্য ২৪১টি দেশ, দেশ শনাক্তকরণ, প্রয়োজনীয়গুলো রেখে বাকিগুলো সহজে বাদ দেওয়া যায়",
-        "label": "সম্পূর্ণ লোকালাইজেশন"
-      },
-      {
-        "description": "SMTP-এর মাধ্যমে React Email টেমপ্লেট",
-        "label": "লেনদেন সংক্রান্ত ইমেইল"
-      },
-      {
-        "description": "পণ্য ক্যাটালগ পরিবর্তনের ক্ষেত্রে",
-        "label": "চাহিদা অনুযায়ী ক্যাশ পুনর্মূল্যায়ন"
-      },
-      {
-        "badge": "নতুন",
-        "description": "অ্যাডমিনের মাধ্যমে আপনার প্রোভাইডারদের সেটিংস পরিচালনা করুন",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "ইন্টিগ্রেশন মডিউল"
-      }
-    ],
-    "featuresHeading": "বৈশিষ্ট্য",
-    "readDocs": "ডকুমেন্টেশন পড়ুন",
     "subtitle": "অফিসিয়াল Medusa DTC স্টার্টারে যা বাদ পড়েছে, সবকিছু এখানে আছে।",
-    "title": "প্রোডাকশন-রেডি Medusa DTC স্টার্টার",
-    "viewOnGitHub": "GitHub-এ দেখুন"
+    "title": "প্রোডাকশন-রেডি Medusa DTC স্টার্টার"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "বন্ধ করুন",
-    "cta": "চেষ্টা করুন",
     "message": "সম্পূর্ণ ফিচারযুক্ত প্রোডাকশন-রেডি DTC স্টার্টার।"
   },
   "RegionSelect": {

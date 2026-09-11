@@ -152,7 +152,6 @@
     "close": "ปิด",
     "hidePassword": "ซ่อนรหัสผ่าน",
     "orderNumber": "คำสั่งซื้อ #{id}",
-    "poweredBy": "Powered by",
     "remove": "ลบ",
     "showPassword": "แสดงรหัสผ่าน"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "หมวดหมู่",
     "collectionsHeading": "คอลเลกชัน",
     "copyright": "© {year} {siteName} สงวนลิขสิทธิ์",
-    "infoHeading": "ข้อมูล",
-    "medusaDocs": "เอกสาร Medusa",
-    "sourceCode": "ซอร์สโค้ดสตาร์ทเตอร์",
-    "starterDocs": "เอกสารสตาร์ทเตอร์"
+    "infoHeading": "ข้อมูล"
   },
   "ForgotPassword": {
     "backToSignIn": "กลับไปเข้าสู่ระบบ",
@@ -345,44 +341,8 @@
     "returnsExchanges": "การคืนและเปลี่ยนสินค้า"
   },
   "Hero": {
-    "eyebrow": "พร้อมใช้งานทันที · โอเพนซอร์ส",
-    "features": [
-      {
-        "description": "ปรับปรุงแล้ว ไม่มีขั้นตอนเกินจำเป็น และเติมที่อยู่อัตโนมัติ",
-        "label": "เช็คเอาต์ที่ปรับแต่งเพื่อเพิ่มยอดขาย"
-      },
-      {
-        "description": "ค้นหา แคตตาล็อกกรองได้ หมวดหมู่หลายระดับ และ mobile-first",
-        "label": "หน้าร้านครบฟีเจอร์"
-      },
-      {
-        "description": "meta tag, Open Graph และ Twitter cards, JSON-LD, sitemap, robots, llms.txt และ 100/100 บน PageSpeed Insights",
-        "label": "ปรับให้เหมาะกับ SEO และ AI"
-      },
-      {
-        "description": "36 ภาษาสำหรับหน้าร้าน รองรับ RTL และ 241 ประเทศสำหรับภูมิภาคการขาย ตรวจจับประเทศ ตัดเหลือเท่าที่ต้องการได้ง่าย",
-        "label": "การแปลภาษาครบถ้วน"
-      },
-      {
-        "description": "เทมเพลต React Email ผ่าน SMTP",
-        "label": "อีเมลธุรกรรม"
-      },
-      {
-        "description": "เมื่อแคตตาล็อกสินค้ามีการเปลี่ยนแปลง",
-        "label": "รีวาลิเดตแคชตามความต้องการ"
-      },
-      {
-        "badge": "ใหม่",
-        "description": "จัดการการตั้งค่าผู้ให้บริการผ่าน Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "โมดูลการเชื่อมต่อ"
-      }
-    ],
-    "featuresHeading": "ฟีเจอร์",
-    "readDocs": "อ่านเอกสาร",
     "subtitle": "ทุกสิ่งที่ Medusa DTC Starter เวอร์ชันทางการไม่มีให้คุณ",
-    "title": "Medusa DTC Starter พร้อมใช้งานจริง",
-    "viewOnGitHub": "ดูใน GitHub"
+    "title": "Medusa DTC Starter พร้อมใช้งานจริง"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "ปิด",
-    "cta": "ลองใช้เลย",
     "message": "DTC Starter ครบฟีเจอร์ พร้อมใช้งานจริง"
   },
   "RegionSelect": {

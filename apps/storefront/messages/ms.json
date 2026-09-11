@@ -152,7 +152,6 @@
     "close": "Tutup",
     "hidePassword": "Sembunyikan kata laluan",
     "orderNumber": "Pesanan #{id}",
-    "poweredBy": "Powered by",
     "remove": "Buang",
     "showPassword": "Tunjukkan kata laluan"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategori",
     "collectionsHeading": "Koleksi",
     "copyright": "© {year} {siteName}. Hak cipta terpelihara.",
-    "infoHeading": "Maklumat",
-    "medusaDocs": "Dokumentasi Medusa",
-    "sourceCode": "Kod sumber Starter",
-    "starterDocs": "Dokumentasi Starter"
+    "infoHeading": "Maklumat"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke log masuk",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Pemulangan & Pertukaran"
   },
   "Hero": {
-    "eyebrow": "Sedia Guna · Sumber Terbuka",
-    "features": [
-      {
-        "description": "diperbaik, tanpa langkah berlebihan, dengan autolengkap alamat",
-        "label": "Pembayaran dioptimumkan untuk penukaran"
-      },
-      {
-        "description": "carian, katalog boleh ditapis, kategori berbilang aras & mobile-first",
-        "label": "Kedai atas talian berciri lengkap"
-      },
-      {
-        "description": "tag meta, Open Graph dan Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 pada PageSpeed Insights",
-        "label": "Dioptimumkan untuk SEO dan AI"
-      },
-      {
-        "description": "36 bahasa untuk paparan kedai dengan sokongan RTL dan 241 negara untuk wilayah jualan, pengesanan negara, mudah dikurangkan kepada yang diperlukan",
-        "label": "Penyetempatan penuh"
-      },
-      {
-        "description": "Templat React Email melalui SMTP",
-        "label": "E-mel transaksi"
-      },
-      {
-        "description": "apabila katalog produk berubah",
-        "label": "Pengesahan semula cache mengikut permintaan"
-      },
-      {
-        "badge": "Baharu",
-        "description": "urus tetapan pembekal anda melalui Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Modul Integrasi"
-      }
-    ],
-    "featuresHeading": "Ciri-ciri",
-    "readDocs": "Baca dokumentasi",
     "subtitle": "Semua yang tiada dalam Medusa DTC starter rasmi.",
-    "title": "Medusa DTC Starter Sedia Pengeluaran",
-    "viewOnGitHub": "Lihat di GitHub"
+    "title": "Medusa DTC Starter Sedia Pengeluaran"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Tutup",
-    "cta": "Cuba sekarang",
     "message": "DTC starter sedia pengeluaran dengan ciri lengkap."
   },
   "RegionSelect": {

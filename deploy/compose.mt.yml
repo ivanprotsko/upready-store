@@ -89,6 +89,15 @@ services:
       STORE_NAME: ${STORE_NAME:-Shipshift}
       STORE_EMAIL: ${STORE_EMAIL:-hello@shipshift.dev}
       STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}
+      # The footer's attribution line, resolved per shop by GET /storefront/by-host
+      # (src/api/storefront/by-host/attribution.ts): a shop's own override wins over
+      # its group, a group over these. ATTRIBUTION_GROUPS is how one anchor is
+      # handed to a batch of shops: {"<group>":{"anchor":"…"}}.
+      ATTRIBUTION_ANCHOR: ${ATTRIBUTION_ANCHOR:-}
+      ATTRIBUTION_HREF: ${ATTRIBUTION_HREF:-}
+      ATTRIBUTION_BRAND: ${ATTRIBUTION_BRAND:-}
+      ATTRIBUTION_REL: ${ATTRIBUTION_REL:-}
+      ATTRIBUTION_GROUPS: ${ATTRIBUTION_GROUPS:-}
       MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY: medusa-storefront
     volumes:
       # The WHOLE media tree, not one profile's: this backend serves several

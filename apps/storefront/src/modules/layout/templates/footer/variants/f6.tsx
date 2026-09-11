@@ -6,7 +6,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F6 · "Инверсия с гигантским wordmark" — F3's link rows, wordmark and legal row, on the
@@ -99,21 +99,20 @@ export default async function FooterF6() {
           {siteName}
         </Link>
 
-        <div className="flex w-full mt-2.5 pt-4 justify-between items-center border-t border-ui-contrast-border-base text-ui-contrast-fg-secondary">
+        <div className="flex flex-col gap-y-2 sm:flex-row w-full mt-2.5 pt-4 sm:justify-between items-start sm:items-center border-t border-ui-contrast-border-base text-ui-contrast-fg-secondary">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
               siteName: siteName,
             })}
           </span>
-          {/* `!text-ui-contrast-fg-secondary` overrides `PoweredBy`'s own baked-in
+          {/* `!text-ui-contrast-fg-secondary` overrides `SiteAttribution`'s own baked-in
               `text-ui-fg-muted` (styles/themes.css `--muted-foreground`, e.g. #55616d in
               light mode) — correct on a page background, low-contrast on this fixed-dark
               inverted plane. `!` forces the override regardless of Tailwind's own utility
               order, the same technique `globals.css`'s `!bg-ui-bg-disabled` selector
-              already relies on. The icons keep their own fixed #9ca3af
-              (`powered-by/index.tsx` `ICON_COLOR`), already surface-agnostic. */}
-          <PoweredBy className="hidden lg:flex !text-ui-contrast-fg-secondary" />
+              already relies on. */}
+          <SiteAttribution className="!text-ui-contrast-fg-secondary" />
         </div>
       </div>
     </footer>

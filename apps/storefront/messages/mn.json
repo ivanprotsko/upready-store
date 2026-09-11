@@ -152,7 +152,6 @@
     "close": "Хаах",
     "hidePassword": "Нууц үг нуух",
     "orderNumber": "Захиалга #{id}",
-    "poweredBy": "Powered by",
     "remove": "Устгах",
     "showPassword": "Нууц үг харуулах"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Ангилал",
     "collectionsHeading": "Цуглуулга",
     "copyright": "© {year} {siteName}. Бүх эрх хуулиар хамгаалагдсан.",
-    "infoHeading": "Мэдээлэл",
-    "medusaDocs": "Medusa-ийн баримт бичиг",
-    "sourceCode": "Стартерын эх код",
-    "starterDocs": "Стартерын баримт бичиг"
+    "infoHeading": "Мэдээлэл"
   },
   "ForgotPassword": {
     "backToSignIn": "Нэвтрэх рүү буцах",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Буцаалт ба солилт"
   },
   "Hero": {
-    "eyebrow": "Бэлэн шийдэл · Нээлттэй эх код",
-    "features": [
-      {
-        "description": "сайжруулсан, илүү шатгүй, хаягийг автоматаар бөглөх",
-        "label": "Хөрвүүлэлтэд тохирсон захиалгын хуудас"
-      },
-      {
-        "description": "хайлт, шүүлттэй каталог, олон шатлалт категори, mobile-first",
-        "label": "Бүрэн эрхт дэлгүүр"
-      },
-      {
-        "description": "meta тэг, Open Graph ба Twitter карт, JSON-LD, sitemap, robots, llms.txt, PageSpeed Insights 100/100",
-        "label": "SEO ба AI-д оптимизацилагдсан"
-      },
-      {
-        "description": "Дэлгүүрийн 36 хэл (RTL дэмжлэгтэй), борлуулалтын бүсэд 241 улс, улсыг тодорхойлно, шаардлагагүйг хялбар хасна",
-        "label": "Бүрэн локалчлал"
-      },
-      {
-        "description": "SMTP-ээр дамжуулсан React Email загварууд",
-        "label": "Гүйлгээний имэйлүүд"
-      },
-      {
-        "description": "бүтээгдэхүүний каталогт өөрчлөлт орох үед",
-        "label": "Хэрэгцээт кэш шинэчлэлт"
-      },
-      {
-        "badge": "Шинэ",
-        "description": "нийлүүлэгчийн тохиргоог Admin-аар удирдах",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Интеграцийн модуль"
-      }
-    ],
-    "featuresHeading": "Онцлогууд",
-    "readDocs": "Баримтжуулалт унших",
     "subtitle": "Албан ёсны Medusa DTC starter-т дутагдаж байсан бүх зүйл.",
-    "title": "Үйлдвэрлэлд бэлэн Medusa DTC Starter",
-    "viewOnGitHub": "GitHub дээр харах"
+    "title": "Үйлдвэрлэлд бэлэн Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Хаах",
-    "cta": "Туршиж үзэх",
     "message": "Бүрэн эрхт, үйлдвэрлэлд бэлэн DTC starter."
   },
   "RegionSelect": {

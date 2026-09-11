@@ -1,5 +1,6 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import { resolveAttribution } from "./attribution";
 import { handleFromTechnicalHost, normalizeHost } from "./hosts";
 
 /**
@@ -75,7 +76,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     data: [tenant],
   } = await query.graph({
     entity: "tenant",
-    fields: ["id", "handle", "name", "api_key.token", "home_config.config"],
+    fields: [
+      "id",
+      "handle",
+      "name",
+      "metadata",
+      "api_key.token",
+      "home_config.config",
+    ],
     filters: { id: [tenantId] },
   });
 
@@ -103,6 +111,12 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     // Store API with the string "null".
     publishable_key: (tenant.api_key?.token as string | undefined) ?? null,
     theme: preset ? { preset, mode: settings?.defaultMode ?? null } : null,
+    // The footer's attribution line, resolved shop → group → platform default
+    // (`attribution.ts`). Always present: a shop that configures nothing still
+    // gets the platform's own anchor, so the footer is never blank.
+    attribution: resolveAttribution(
+      (tenant.metadata ?? null) as Record<string, unknown> | null,
+    ),
     settings,
     home,
   });

@@ -14,6 +14,13 @@
  * later at the latest, with no restart and no deploy.
  */
 
+import {
+  readAttribution,
+  type TenantAttribution,
+} from "./attribution"
+
+export type { TenantAttribution }
+
 export type ResolvedTenant = {
   handle: string
   name: string
@@ -21,6 +28,7 @@ export type ResolvedTenant = {
   /** Theme preset id and light/dark default from the tenant's home document, when it has one. */
   theme: string | null
   mode: string | null
+  attribution: TenantAttribution | null
 }
 
 const TTL_MS = 60_000
@@ -80,6 +88,7 @@ export async function resolveTenantByHost(
         tenant?: { handle?: string; name?: string }
         publishable_key?: string | null
         theme?: { preset?: string | null; mode?: string | null } | null
+        attribution?: Partial<TenantAttribution> | null
       }
 
       if (body?.tenant?.handle) {
@@ -89,6 +98,7 @@ export async function resolveTenantByHost(
           publishableKey: body.publishable_key ?? null,
           theme: body.theme?.preset ?? null,
           mode: body.theme?.mode ?? null,
+          attribution: readAttribution(body.attribution),
         }
       }
     }

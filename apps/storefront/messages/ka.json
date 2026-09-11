@@ -152,7 +152,6 @@
     "close": "დახურვა",
     "hidePassword": "პაროლის დამალვა",
     "orderNumber": "შეკვეთა #{id}",
-    "poweredBy": "Powered by",
     "remove": "წაშლა",
     "showPassword": "პაროლის ჩვენება"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "კატეგორიები",
     "collectionsHeading": "კოლექციები",
     "copyright": "© {year} {siteName}. ყველა უფლება დაცულია.",
-    "infoHeading": "ინფორმაცია",
-    "medusaDocs": "Medusa-ს დოკუმენტაცია",
-    "sourceCode": "სტარტერის საწყისი კოდი",
-    "starterDocs": "სტარტერის დოკუმენტაცია"
+    "infoHeading": "ინფორმაცია"
   },
   "ForgotPassword": {
     "backToSignIn": "დაბრუნება შესვლაზე",
@@ -345,44 +341,8 @@
     "returnsExchanges": "დაბრუნება და გაცვლა"
   },
   "Hero": {
-    "eyebrow": "მზა გადაწყვეტა · ღია კოდი",
-    "features": [
-      {
-        "description": "გაუმჯობესებული, ზედმეტი ნაბიჯების გარეშე, მისამართის ავტომატური შევსებით",
-        "label": "კონვერსიისთვის ოპტიმიზირებული გადახდის პროცესი"
-      },
-      {
-        "description": "ძიება, ფილტრებიანი კატალოგი, მრავალდონიანი კატეგორიები და mobile-first",
-        "label": "სრულფასოვანი სავაჭრო ვიტრინა"
-      },
-      {
-        "description": "meta ტეგები, Open Graph და Twitter ბარათები, JSON-LD, sitemap, robots, llms.txt და 100/100 PageSpeed Insights-ში",
-        "label": "SEO-სა და AI-სთვის ოპტიმიზებული"
-      },
-      {
-        "description": "36 ენა ვიტრინისთვის RTL-მხარდაჭერით და 241 ქვეყანა გაყიდვების რეგიონებისთვის, ქვეყნის ამოცნობა, ზედმეტის მოშორება მარტივია",
-        "label": "სრული ლოკალიზაცია"
-      },
-      {
-        "description": "React Email შაბლონები SMTP-ის მეშვეობით",
-        "label": "ტრანზაქციული ელფოსტები"
-      },
-      {
-        "description": "პროდუქტების კატალოგში ცვლილებისას",
-        "label": "კეშის მოთხოვნისამებრ განახლება"
-      },
-      {
-        "badge": "ახალი",
-        "description": "მართეთ თქვენი პროვაიდერების პარამეტრები Admin-იდან",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "ინტეგრაციების მოდული"
-      }
-    ],
-    "featuresHeading": "შესაძლებლობები",
-    "readDocs": "დოკუმენტაცია",
     "subtitle": "ყველაფერი, რაც ოფიციალურ Medusa DTC სტარტერს აკლია.",
-    "title": "წარმოებისთვის მზა Medusa DTC სტარტერი",
-    "viewOnGitHub": "ნახეთ GitHub-ზე"
+    "title": "წარმოებისთვის მზა Medusa DTC სტარტერი"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "დახურვა",
-    "cta": "სცადეთ",
     "message": "სრულფასოვანი, წარმოებისთვის მზა DTC სტარტერი."
   },
   "RegionSelect": {

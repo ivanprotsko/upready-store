@@ -4,7 +4,7 @@ import { ArrowLeft, UserMini } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 import { NOINDEX } from "@lib/util/robots"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
@@ -95,7 +95,7 @@ export default async function CheckoutLayout({
           <span className="txt-compact-medium font-semibold text-ui-fg-subtle uppercase">
             {siteName}
           </span>
-          <PoweredBy />
+          <SiteAttribution />
         </div>
       </footer>
     </div>
