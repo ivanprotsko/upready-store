@@ -1,16 +1,17 @@
 import { MetadataRoute } from "next"
 import { sdk } from "@lib/config"
-import { getBaseURL } from "@lib/util/env"
+import { getRequestBaseURL } from "@lib/data/cookies"
 import { locales } from "@i18n/config"
 
-const BASE_URL = getBaseURL().replace(/\/$/, "")
-
-function url(locale: string, path: string) {
+// Per request, not per module: one process answers for every shop by Host, and the
+// sitemap has to list the shop that was asked (`lib/tenant/origin.ts`).
+function url(base: string, locale: string, path: string) {
   const suffix = path === "/" ? "" : path
-  return `${BASE_URL}/${locale}${suffix}`
+  return `${base}/${locale}${suffix}`
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const base = await getRequestBaseURL()
   const entries: MetadataRoute.Sitemap = []
 
   const staticRoutes = [
@@ -29,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const locale of locales) {
     for (const { path, priority } of staticRoutes) {
       entries.push({
-        url: url(locale, path),
+        url: url(base, locale, path),
         lastModified: now,
         changeFrequency: "weekly",
         priority,
@@ -55,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (!product.handle) continue
         for (const locale of locales) {
           entries.push({
-            url: url(locale, `/products/${product.handle}`),
+            url: url(base, locale, `/products/${product.handle}`),
             lastModified: product.updated_at ? new Date(product.updated_at) : now,
             changeFrequency: "weekly",
             priority: 0.8,
@@ -81,7 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (!category.handle) continue
       for (const locale of locales) {
         entries.push({
-          url: url(locale, `/categories/${category.handle}`),
+          url: url(base, locale, `/categories/${category.handle}`),
           lastModified: category.updated_at ? new Date(category.updated_at) : now,
           changeFrequency: "weekly",
           priority: 0.75,
@@ -103,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (!collection.handle) continue
       for (const locale of locales) {
         entries.push({
-          url: url(locale, `/collections/${collection.handle}`),
+          url: url(base, locale, `/collections/${collection.handle}`),
           lastModified: collection.updated_at ? new Date(collection.updated_at) : now,
           changeFrequency: "weekly",
           priority: 0.7,

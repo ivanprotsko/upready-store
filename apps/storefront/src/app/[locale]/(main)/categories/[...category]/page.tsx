@@ -43,7 +43,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {
       title,
       description,
-      alternates: buildAlternates(locale, categoryPath),
+      alternates: await buildAlternates(locale, categoryPath),
     }
   } catch {
     notFound()

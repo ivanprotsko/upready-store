@@ -494,7 +494,8 @@ Design doc: `docs/multitenancy/storefront-by-host.md` (written before the code).
   it or it equals another tenant's technical host), `DELETE /tenants/domains/:id`.
 - Storefront: `middleware.ts` resolves the tenant from `request.headers.host` through the resolver
   (in-memory cache 60 s per host), sets `x-tenant-key`, `x-tenant-handle`, `x-tenant-theme`,
-  `x-tenant-mode` request headers; `lib/config.ts` stops passing the env key to the SDK and instead
+  `x-tenant-mode` and `x-tenant-origin` (the request's own `scheme://host`, the base of every
+  absolute URL the page emits) request headers; `lib/config.ts` stops passing the env key to the SDK and instead
   every fetch takes `x-publishable-api-key` from the request headers (`headers()` in server code;
   `fetchWithoutLocale` included); `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` remains only the fallback when
   the resolver answers 404 (single-store mode). Cache tags gain the tenant handle suffix so two

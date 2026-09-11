@@ -1,6 +1,6 @@
 import "server-only"
 import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
-import { SITE_NAME } from "@lib/util/env"
+import { SITE_NAME, getBaseURL } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 
@@ -80,6 +80,31 @@ export const getSiteName = async (): Promise<string> => {
   } catch {}
 
   return SITE_NAME
+}
+
+/**
+ * The origin this request arrived on, put on `x-tenant-origin` by `src/middleware.ts`
+ * for a host that resolves to a shop (`lib/tenant/origin.ts`). Null on a single-store
+ * deployment, where no tenant is resolved.
+ */
+export const getTenantOrigin = async (): Promise<string | null> => {
+  try {
+    const headers = await nextHeaders()
+    return decodeTenantHeaderValue(headers.get("x-tenant-origin"))
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The base every absolute URL a page emits is built on: canonical and hreflang,
+ * JSON-LD, sitemap, robots, llms.txt and Open Graph. A shop served by Host answers
+ * on its own origin; a single-store deployment keeps `NEXT_PUBLIC_BASE_URL`. Never
+ * a trailing slash.
+ */
+export const getRequestBaseURL = async (): Promise<string> => {
+  const origin = await getTenantOrigin()
+  return (origin ?? getBaseURL()).replace(/\/$/, "")
 }
 
 export const getCacheOptions = async (

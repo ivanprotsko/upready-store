@@ -41,7 +41,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       collection: collection.title,
       siteName: await getSiteName(),
     }),
-    alternates: buildAlternates(locale, `/collections/${params.handle}`),
+    alternates: await buildAlternates(locale, `/collections/${params.handle}`),
   }
 }
 

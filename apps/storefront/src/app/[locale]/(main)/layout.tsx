@@ -1,18 +1,22 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 
-import { getPromoBannerDismissed, getTenantHandle } from "@lib/data/cookies"
+import {
+  getPromoBannerDismissed,
+  getRequestBaseURL,
+  getTenantHandle,
+} from "@lib/data/cookies"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
-import { getBaseURL } from "@lib/util/env"
 import BottomNav from "@modules/layout/components/bottom-nav"
 import CartNotifications from "@modules/layout/components/cart-notifications"
 import PromoBanner from "@modules/layout/components/promo-banner"
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getBaseURL()),
+// Per request, same reason as the root layout: see `lib/tenant/origin.ts`.
+export async function generateMetadata(): Promise<Metadata> {
+  return { metadataBase: new URL(await getRequestBaseURL()) }
 }
 
 export default async function PageLayout(props: { children: React.ReactNode }) {
@@ -37,9 +41,8 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   // another shop's shipping terms; a per-tenant strip is a field the tenant document does
   // not have yet. A single-store deployment resolves no tenant and is untouched.
   //
-  // One instance of the same class is left: `nav/variants/h3.tsx` renders `promoText()`
-  // in its own service tier, and no tenant selects h3 today (measured: acme/globex/initech
-  // h5, the wizard's default h1). It needs the text as a prop from a server parent.
+  // Every other reader of the build profile's copy (footers f3/f5/f6, heroes h/m, nav
+  // h3) goes through `lib/data/shop-copy.ts`, which answers null for a tenant.
   const suppressPromoBanner =
     (settings?.header ?? DEFAULT_HEADER) === "h3" || tenantHandle !== null
 

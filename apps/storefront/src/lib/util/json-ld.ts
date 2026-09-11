@@ -5,10 +5,7 @@ import {
   getPricesForVariant,
   type VariantWithPrice,
 } from "@lib/util/get-product-price"
-import { getBaseURL } from "@lib/util/env"
-import { getSiteName } from "@lib/data/cookies"
-
-const BASE = getBaseURL().replace(/\/$/, "")
+import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 
 /**
  * Fields Medusa has no column for. Set them on the product's `metadata` in
@@ -41,16 +38,16 @@ export type JsonLdCrumb = {
  * Absolute URL for a locale-scoped app path. Paths come from the same place
  * `<Link>` gets them, so they carry no locale prefix yet.
  */
-export function localeUrl(locale: string, path: string) {
+export function localeUrl(base: string, locale: string, path: string) {
   const suffix = path === "/" ? "" : path
-  return `${BASE}/${locale}${suffix}`
+  return `${base}/${locale}${suffix}`
 }
 
 /** File-module URLs are absolute already; a local `/uploads/…` one is not. */
-function assetUrl(src: string) {
+function assetUrl(base: string, src: string) {
   return /^https?:\/\//.test(src)
     ? src
-    : `${BASE}${src.startsWith("/") ? "" : "/"}${src}`
+    : `${base}${src.startsWith("/") ? "" : "/"}${src}`
 }
 
 function strMeta(value: unknown): string | undefined {
@@ -122,6 +119,7 @@ function categoryPath(product: HttpTypes.StoreProduct) {
 }
 
 function buildBreadcrumbList(
+  base: string,
   crumbs: JsonLdCrumb[],
   locale: string,
   id: string
@@ -137,28 +135,28 @@ function buildBreadcrumbList(
       name: crumb.label,
       // The current page is the last crumb and links nowhere, which
       // schema.org allows for the trailing element only.
-      ...(crumb.href ? { item: localeUrl(locale, crumb.href) } : {}),
+      ...(crumb.href ? { item: localeUrl(base, locale, crumb.href) } : {}),
     })),
   }
 }
 
 export async function buildSiteJsonLd(locale: string): Promise<JsonLdNode> {
-  const siteName = await getSiteName()
+  const [siteName, base] = await Promise.all([getSiteName(), getRequestBaseURL()])
 
   const organization: JsonLdNode = {
     "@type": "Organization",
-    "@id": `${BASE}/#organization`,
+    "@id": `${base}/#organization`,
     name: siteName,
-    url: BASE,
+    url: base,
   }
 
   const website: JsonLdNode = {
     "@type": "WebSite",
-    "@id": `${BASE}/#website`,
+    "@id": `${base}/#website`,
     name: siteName,
-    url: localeUrl(locale, "/"),
+    url: localeUrl(base, locale, "/"),
     inLanguage: locale,
-    publisher: { "@id": `${BASE}/#organization` },
+    publisher: { "@id": `${base}/#organization` },
   }
 
   return {
@@ -167,7 +165,7 @@ export async function buildSiteJsonLd(locale: string): Promise<JsonLdNode> {
   }
 }
 
-export function buildBreadcrumbJsonLd({
+export async function buildBreadcrumbJsonLd({
   crumbs,
   locale,
   path,
@@ -175,11 +173,13 @@ export function buildBreadcrumbJsonLd({
   crumbs: JsonLdCrumb[]
   locale: string
   path: string
-}): JsonLdNode | null {
+}): Promise<JsonLdNode | null> {
+  const base = await getRequestBaseURL()
   const node = buildBreadcrumbList(
+    base,
     crumbs,
     locale,
-    `${localeUrl(locale, path)}#breadcrumb`
+    `${localeUrl(base, locale, path)}#breadcrumb`
   )
 
   if (!node) return null
@@ -203,8 +203,8 @@ export async function buildProductJsonLd({
   locale: string
   breadcrumbs?: JsonLdCrumb[]
 }): Promise<JsonLdNode> {
-  const siteName = await getSiteName()
-  const url = localeUrl(locale, `/products/${product.handle}`)
+  const [siteName, base] = await Promise.all([getSiteName(), getRequestBaseURL()])
+  const url = localeUrl(base, locale, `/products/${product.handle}`)
   const meta = (product.metadata ?? {}) as Record<string, unknown>
   const condition =
     CONDITIONS[strMeta(meta.condition)?.toLowerCase() ?? ""] ?? CONDITIONS.new
@@ -215,7 +215,7 @@ export async function buildProductJsonLd({
       : [product.thumbnail]
   )
     .filter((src): src is string => !!src)
-    .map(assetUrl)
+    .map((src) => assetUrl(base, src))
 
   const offers = ((product.variants ?? []) as VariantWithPrice[])
     .map((variant) =>
@@ -247,6 +247,7 @@ export async function buildProductJsonLd({
   }
 
   const breadcrumbNode = buildBreadcrumbList(
+    base,
     breadcrumbs,
     locale,
     `${url}#breadcrumb`

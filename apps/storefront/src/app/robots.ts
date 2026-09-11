@@ -1,9 +1,11 @@
 import { MetadataRoute } from "next"
-import { getBaseURL } from "@lib/util/env"
+import { getRequestBaseURL } from "@lib/data/cookies"
 
-const BASE_URL = getBaseURL().replace(/\/$/, "")
+// Per request, not per build: one process answers for every shop by Host, and
+// `sitemap`/`host` have to name the shop that was asked (`lib/tenant/origin.ts`).
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const base = await getRequestBaseURL()
 
-export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
@@ -19,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
-    host: BASE_URL,
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
   }
 }

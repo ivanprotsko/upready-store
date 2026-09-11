@@ -74,7 +74,7 @@ export default async function CategoryTemplate({
       : []),
   ]
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd({
+  const breadcrumbJsonLd = await buildBreadcrumbJsonLd({
     crumbs: breadcrumbItems,
     locale,
     path: `/categories/${category.handle}`,

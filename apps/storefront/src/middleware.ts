@@ -4,6 +4,7 @@ import {
   TENANT_HEADERS,
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
+import { requestOrigin } from "@lib/tenant/origin"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -176,6 +177,14 @@ function tenantRequestHeaders(
     }
     if (tenant.mode) {
       headers.set("x-tenant-mode", encodeTenantHeaderValue(tenant.mode))
+    }
+    // The origin the shop was resolved FROM, for every absolute URL a page emits
+    // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
+    // `NEXT_PUBLIC_BASE_URL` is one value baked into the image for every shop this
+    // process serves, so it can name at most one of them — `lib/tenant/origin.ts`.
+    const origin = requestOrigin(request.headers, request.nextUrl.protocol)
+    if (origin) {
+      headers.set("x-tenant-origin", encodeTenantHeaderValue(origin))
     }
   }
 

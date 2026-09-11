@@ -1,5 +1,6 @@
 import { getLocaleDir } from "@i18n/config"
-import { GA_MEASUREMENT_ID, getBaseURL } from "@lib/util/env"
+import { GA_MEASUREMENT_ID } from "@lib/util/env"
+import { getRequestBaseURL } from "@lib/data/cookies"
 import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
@@ -13,8 +14,11 @@ import {
 import StudioMount from "@modules/studio/components/studio-mount"
 import "styles/globals.css"
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getBaseURL()),
+// Per request: the base a relative metadata URL (an Open Graph image) resolves
+// against is the shop that was asked, not the one value baked into the image
+// (`lib/tenant/origin.ts`).
+export async function generateMetadata(): Promise<Metadata> {
+  return { metadataBase: new URL(await getRequestBaseURL()) }
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
