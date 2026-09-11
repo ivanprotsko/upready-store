@@ -4,8 +4,7 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { SITE_NAME } from "@lib/util/env"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -44,10 +43,11 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH4() {
   const t = await getTranslations()
-  const [categories, regions, countryCode] = await Promise.all([
+  const [categories, regions, countryCode, siteName] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
+    getSiteName(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -64,7 +64,7 @@ export default async function NavH4() {
                 className="shrink-0 txt-compact-medium font-semibold uppercase hover:opacity-80 transition-opacity"
                 data-testid="nav-store-link"
               >
-                {SITE_NAME}
+                {siteName}
               </Link>
             </BrandUnlock>
           </div>

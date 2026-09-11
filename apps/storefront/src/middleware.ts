@@ -26,6 +26,7 @@ const INTL_LOCALE_HEADER = "X-NEXT-INTL-LOCALE"
 const TENANT_HEADERS = [
   "x-tenant-key",
   "x-tenant-handle",
+  "x-tenant-name",
   "x-tenant-theme",
   "x-tenant-mode",
 ] as const
@@ -124,6 +125,7 @@ function tenantRequestHeaders(
       headers.set("x-tenant-key", tenant.publishableKey)
     }
     headers.set("x-tenant-handle", tenant.handle)
+    headers.set("x-tenant-name", tenant.name)
     if (tenant.theme) {
       headers.set("x-tenant-theme", tenant.theme)
     }

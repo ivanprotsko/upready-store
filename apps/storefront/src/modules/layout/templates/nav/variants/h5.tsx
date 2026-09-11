@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import Search from "@modules/layout/components/search"
@@ -28,8 +28,11 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  * 8px 16px }`) — it is not truncated with an ellipsis, it scrolls.
  */
 export default async function NavH5() {
-  const t = await getTranslations()
-  const { categories, totalCount } = await listTopCategoriesWithCounts()
+  const [t, { categories, totalCount }, siteName] = await Promise.all([
+    getTranslations(),
+    listTopCategoriesWithCounts(),
+    getSiteName(),
+  ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -42,7 +45,7 @@ export default async function NavH5() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {SITE_NAME}
+                {siteName}
               </Link>
             </BrandUnlock>
           </div>

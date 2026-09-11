@@ -1,4 +1,5 @@
 import LoginTemplate from "@modules/account/templates/login-template"
+import { getSiteName } from "@lib/data/cookies"
 
 /**
  * The `@login` slot only has a page for `/account` itself. Without this, a
@@ -9,6 +10,7 @@ import LoginTemplate from "@modules/account/templates/login-template"
  * missing, so this mostly covers the case it cannot see: a cookie that is
  * present but no longer valid.
  */
-export default function LoginDefault() {
-  return <LoginTemplate />
+export default async function LoginDefault() {
+  const siteName = await getSiteName()
+  return <LoginTemplate siteName={siteName} />
 }

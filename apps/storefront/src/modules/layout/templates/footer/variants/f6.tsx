@@ -4,7 +4,7 @@ import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
 import { promoText } from "@lib/profile"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 import PoweredBy from "@modules/layout/components/powered-by"
 
@@ -28,8 +28,11 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * ever mounts when `defaultMode` is `"light"`.
  */
 export default async function FooterF6() {
-  const t = await getTranslations("Footer")
-  const locale = await getLocale()
+  const [t, locale, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getLocale(),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
@@ -89,18 +92,18 @@ export default async function FooterF6() {
 
         <Link
           href="/"
-          aria-label={SITE_NAME}
+          aria-label={siteName}
           className="block w-full uppercase font-semibold leading-[0.95] tracking-tight text-ui-contrast-fg-primary hover:text-ui-contrast-fg-secondary transition-colors overflow-hidden whitespace-nowrap my-3"
           style={{ fontSize: "clamp(44px, 13vw, 190px)" }}
         >
-          {SITE_NAME}
+          {siteName}
         </Link>
 
         <div className="flex w-full mt-2.5 pt-4 justify-between items-center border-t border-ui-contrast-border-base text-ui-contrast-fg-secondary">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
           {/* `!text-ui-contrast-fg-secondary` overrides `PoweredBy`'s own baked-in

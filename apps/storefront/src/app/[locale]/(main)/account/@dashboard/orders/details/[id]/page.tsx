@@ -22,7 +22,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: pageTitle(tc("orderNumber", { id: order.display_id ?? order.id })),
+    title: await pageTitle(tc("orderNumber", { id: order.display_id ?? order.id })),
     description: t("description"),
   }
 }

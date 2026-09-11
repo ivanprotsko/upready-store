@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 import PoweredBy from "@modules/layout/components/powered-by"
 
@@ -15,7 +15,10 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * (`footer/variants/index.ts`).
  */
 export default async function FooterF1() {
-  const t = await getTranslations("Footer")
+  const [t, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
@@ -34,7 +37,7 @@ export default async function FooterF1() {
               href="/"
               className="txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase transition-colors"
             >
-              {SITE_NAME}
+              {siteName}
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-3 gap-x-10 md:gap-x-16">
@@ -144,7 +147,7 @@ export default async function FooterF1() {
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
           <PoweredBy className="hidden lg:flex" />

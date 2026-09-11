@@ -134,6 +134,19 @@ const nextConfig = {
         protocol: "https",
         hostname: "api-*.upready.dev",
       },
+      // Piece 9 (t-2026-09-12-mt-storefront-by-host): the shipshift.dev
+      // deployment serves every tenant's profile media itself, at
+      // /static/store-profiles/<profile> (docs/multitenancy §W3). A local
+      // stand pointed at that live backend (NEXT_PUBLIC_MEDUSA_BACKEND_URL=
+      // https://shipshift.dev) hits this host for hero and category-tile
+      // images; without it next/image throws "hostname is not configured"
+      // and the WHOLE page's client render crashes (not just a broken
+      // image) — found opening a tenant's home page in a browser, not from
+      // curl, which only sees the server-rendered HTML (rule 18f).
+      {
+        protocol: "https",
+        hostname: "shipshift.dev",
+      },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
             {

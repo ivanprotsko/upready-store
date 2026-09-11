@@ -1,5 +1,6 @@
 import "server-only"
 import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
+import { SITE_NAME } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 
 export const getAuthHeaders = async (): Promise<
@@ -52,6 +53,32 @@ export const getTenantHandle = async (): Promise<string | null> => {
   } catch {
     return null
   }
+}
+
+/**
+ * The store name to render — the tenant's own (`tenant.name`, resolved by
+ * `src/middleware.ts` from the Host and put on `x-tenant-name`), or the build
+ * constant `SITE_NAME` for a host with no tenant (single-store fallback, piece
+ * 9's documented 404 branch — `docs/multitenancy/storefront-by-host.md` §2).
+ *
+ * Lives here, not in `@lib/util/env`, and behind `import "server-only"` at the
+ * top of this file on purpose: `next/headers` throws when it reaches a client
+ * bundle, so a client component that tried to import this accessor directly
+ * would fail the build rather than the browser (rule 19g — a `"use client"`
+ * directive colours the whole import graph below it). A client component gets
+ * the name as a PROP from a server parent instead.
+ */
+export const getSiteName = async (): Promise<string> => {
+  try {
+    const headers = await nextHeaders()
+    const tenantName = headers.get("x-tenant-name")
+
+    if (tenantName) {
+      return tenantName
+    }
+  } catch {}
+
+  return SITE_NAME
 }
 
 export const getCacheOptions = async (

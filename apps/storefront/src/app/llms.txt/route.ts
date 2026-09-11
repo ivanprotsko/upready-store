@@ -1,5 +1,6 @@
 import { fetchWithoutLocale } from "@lib/config"
-import { SITE_NAME, getBaseURL } from "@lib/util/env"
+import { getBaseURL } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import { locales, localeLabels } from "@i18n/config"
 
 const BASE_URL = getBaseURL().replace(/\/$/, "")
@@ -100,14 +101,15 @@ async function fetchProducts() {
 }
 
 export async function GET() {
-  const [collections, categories, catalog] = await Promise.all([
+  const [collections, categories, catalog, siteName] = await Promise.all([
     fetchCollections().catch(() => [] as Entry[]),
     fetchCategories().catch(() => [] as Entry[]),
     fetchProducts().catch(() => ({ products: [] as Entry[], count: 0 })),
+    getSiteName(),
   ])
 
   const lines: string[] = [
-    `# ${SITE_NAME}`,
+    `# ${siteName}`,
     "",
     "> Live demo of the Gorgo Medusa DTC Starter — an open-source, production-ready",
     "> direct-to-consumer storefront built on Next.js 15 (App Router) and Medusa 2.",
