@@ -21,3 +21,8 @@ export * from "./categories"
 // tenant-panel: added by piece 3. See the comment atop views.tsx: dead code,
 // kept only so the feature-flagged-off ConfigurableProductListTable compiles.
 export * from "./views"
+// tenant-panel: added by wave-2 piece 1 (product detail). Variant, inventory
+// and stock-location reads the copied product-detail screens make.
+export * from "./product-variants"
+export * from "./inventory"
+export * from "./stock-locations"

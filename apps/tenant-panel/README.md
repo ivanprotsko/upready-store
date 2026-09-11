@@ -73,11 +73,47 @@ line per file:
 - `components/common/required-permissions-section/required-permissions-section.tsx` — stub
   (renders `null`); no RBAC, so nothing to list.
 
+Added by wave-2 piece 1 (product detail, `/products/:id/**`):
+
+- `routes/products/product-detail/constants.ts` — `PRODUCT_DETAIL_FIELDS` is the literal field
+  list. The Admin wraps it in `getLinkedFields("product", ...)`, which reads
+  `virtual:medusa/links` to append `+<link>.*` for every plugin-registered module link; the panel
+  has no plugin system and no virtual modules, so there is nothing to append.
+- `routes/products/product-detail/components/product-general-section`,
+  `.../product-variant-section` and
+  `routes/product-variants/product-variant-detail/components/variant-general-section` — the
+  "Manage translations" action is removed. It links to `/settings/translations/edit`, a screen the
+  panel does not have, and `useFeatureFlag("translation")` already hid it.
+- `routes/products/product-stock/product-stock.tsx` — `useRef<ReturnType<typeof setTimeout>>()`
+  takes an explicit `undefined`; React 19 types have no zero-argument `useRef` overload.
+- `routes/products/product-detail/loader.ts`, `routes/products/product-stock/loader.ts`,
+  `routes/product-variants/product-variant-detail/loader.ts`,
+  `routes/product-variants/product-variant-edit/loader.ts`,
+  `routes/products/product-media/components/edit-product-media-form`,
+  `routes/products/product-options-manage/components/product-options-manage-form`,
+  `routes/products/product-organization/components/product-organization-form`,
+  `routes/products/product-shipping-profile/components/product-organization-form`,
+  `routes/products/product-create-variant/components/create-product-variant-form/inventory-kit-tab.tsx`
+  and `routes/product-variants/product-variant-manage-inventory-items/components/manage-variant-inventory-items-form`
+  — every `sdk.admin.<x>` call becomes `sdk.client.fetch("/tenants/<resource>", ...)`. The js-sdk's
+  admin module hardcodes `/admin/...`, so the URL is the one thing that cannot be reused. The
+  product-media upload is built by hand as a `FormData` against `POST /tenants/uploads`, the same
+  helper shape `routes/products/product-create` already uses.
+- `providers/extension-provider/index.ts` — gains `getDisplays`, a third constant empty array, for
+  the product-detail sections that render plugin-contributed display components.
+- `components/layout-composer/detail-page-defaults.tsx` — copied verbatim and re-exported from the
+  barrel; it is the metadata/JSON/permissions trio every detail screen ends with and depends on
+  nothing the panel dropped.
+- `hooks/api/products.tsx` — extended with the Admin's update, variant and batch hooks, each
+  against its `/tenants/products/*` route; `hooks/api/product-variants.tsx`, `hooks/api/inventory.tsx`
+  and `hooks/api/stock-locations.tsx` are new, trimmed to what the copied screens read.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 
-- `app.tsx` — flat route tree for the panel's three screens, replacing the Admin's
-  plugin/virtual-module wiring (`DashboardApp`, `virtual:medusa/*`).
+- `app.tsx` — flat route tree for the panel's screens, replacing the Admin's
+  plugin/virtual-module wiring (`DashboardApp`, `virtual:medusa/*`). Wave-2 piece 1 filled in the
+  `/products/:id` subtree with the same child paths as the Admin's `get-route.map.tsx`.
 - `routes/home/*` — the Overview page (tenant name/handle, sales channel, publishable key with a
   copy button, links to Products/Orders).
 - `routes/not-built/*` — placeholder for every route this piece stubs out.

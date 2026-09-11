@@ -185,21 +185,46 @@ Backend, all under `/tenants/products/:id` and owned through the tenant-product 
   (`AdminUpdateProductVariant`), `DELETE …/variants/:variant_id`, `POST …/variants/batch`
   (`AdminBatchProductVariants` — the price grid saves through it), `GET …/variants` and
   `GET …/variants/:variant_id` (Admin query configs `listVariantConfig` / `retrieveVariantConfig`).
-- `POST /tenants/products/:id/options` (`AdminCreateProductOption`), `POST …/options/:option_id`,
-  `DELETE …/options/:option_id`.
-- `POST /tenants/products/:id/variants/:variant_id/inventory-items` and
-  `DELETE …/inventory-items/:inventory_item_id` (manage-inventory-items dialog) — optional; if the
-  screen needs them, mirror `@medusajs/medusa/api/admin/products/[id]/variants/[variant_id]/inventory-items`.
+- `GET /tenants/products/:id/options` → `{ product_options, count, offset, limit }` (Admin's
+  `AdminGetProductOptionsParams` + `listOptionConfig`; the nested filter is `products: { id }`,
+  because `product_option` is many-to-many with products in 2.19.0).
+- `POST /tenants/products/:id/options/batch` (`AdminLinkProductOptions` →
+  `createAndLinkProductOptionsToProductWorkflow`) → `{ product }`. IMPLEMENTATION NOTE, written by
+  the piece-1 worker after reading `@medusajs/medusa/dist/api/admin/products/[id]/options/`: 2.19.0
+  has NO `products/:id/options/:option_id` routes and no `POST products/:id/options`. An option is
+  created, attached, re-attached and detached through this one batch, which is what the copied
+  "manage options" drawer calls (`sdk.admin.product.linkOptions`). The `POST …/options`,
+  `POST …/options/:option_id` and `DELETE …/options/:option_id` this contract asked for have no
+  Admin counterpart to mirror and are not implemented.
+- `POST /tenants/products/:id/variants/:variant_id/inventory-items`,
+  `POST …/inventory-items/:inventory_item_id` and `DELETE …/inventory-items/:inventory_item_id`
+  (manage-inventory-items dialog), plus `POST /tenants/products/:id/variants/inventory-items/batch`
+  (`AdminBatchVariantInventoryItems` → `batchLinksWorkflow`, the one call the inventory-kit forms
+  make). Ownership is checked on both sides: the variant belongs to the product in the URL, and the
+  inventory item is already used by one of the tenant's own variants (the same set
+  `GET /tenants/inventory-items` lists).
+- `POST /tenants/products/:id/variants/:variant_id/images/batch` (`AdminBatchVariantImages`) and
+  `POST /tenants/products/:id/images/:image_id/variants/batch` (`AdminBatchImageVariant`): the
+  variant-media screen and the image-variants drawer. The image route proves the image belongs to
+  the product in the URL and every variant id in the body belongs to the tenant, because both
+  workflows address their subject by a bare id.
+- `POST /tenants/inventory-items/location-levels/batch` (`AdminBatchInventoryItemLevels` →
+  `batchInventoryItemLevelsWorkflow`): the one write the copied product-stock grid makes. `create`
+  and `update` name the inventory item directly; `delete` names inventory LEVEL ids, each resolved
+  to its item before the ownership check. Added by piece 1; the contract had no write route for
+  stock.
 - `GET /tenants/product-variants` → `{ variants, count, offset, limit }` scoped to own products
   (`product_id: ownIds` filter), Admin's `AdminGetProductVariantsParams`.
 - Reference GETs already exist (types, tags, collections, categories, sales-channels, regions,
-  price-preferences, shipping-profiles, inventory-items, store). Add `GET /tenants/stock-locations`
-  (re-export Admin GET, read-only) only if the stock/inventory widgets call it.
+  price-preferences, shipping-profiles, inventory-items, store). `GET /tenants/stock-locations`
+  (re-export of the Admin `GET`, read-only) IS needed and is implemented: the product-stock loader
+  reads the location names to label the grid's columns.
 
 Panel: copy `routes/products/product-detail/**`, `product-edit`, `product-media`,
 `product-options-manage`, `product-create-variant`, `product-prices`, `product-organization`,
-`product-attributes`, `product-metadata`, `product-shipping-profile`, `product-stock` (if it compiles
-without the stock-location write routes; otherwise leave that one out and say so),
+`product-attributes`, `product-metadata`, `product-shipping-profile`, `product-stock` (kept: it compiles and works
+with the read-only `GET /tenants/stock-locations` plus the location-levels batch above, no
+stock-location write route),
 `product-sales-channels` (kept for parity; the backend ignores the choice), `routes/product-variants/**`
 (variant detail/edit/media/metadata). Route tree under `/products/:id` mirrors the Admin route map
 (`get-route.map.tsx`). Hooks: extend `hooks/api/products.tsx` (update, variants, options, batch) and
