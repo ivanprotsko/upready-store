@@ -1,0 +1,33 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 6,
+  "action": "task-done",
+  "ts": "2026-09-12T04:18:43+08:00",
+  "status": "Приёмщик МТ: починен TLS новых магазинов — wildcard *.shipshift.dev в хранилище traefik, ERR_CERT_AUTHORITY_INVALID больше не появляется (замерено на проде); ветка fix/mt-tenant-tls-wildcard (df921b0) ждёт вливания в feat/mt-deploy. Заведена задача t-2026-09-12-catalog-taxonomy — товарные категории на онбординге и непустая витрина, бриф в artifacts/prompts/",
+  "task": {
+    "id": "t-2026-09-12-tenant-tls-wildcard",
+    "title": "TLS новых магазинов: wildcard *.shipshift.dev вместо per-host LE",
+    "state": "done",
+    "priority": "high",
+    "details": "Иван открыл новый магазин и получил ERR_CERT_AUTHORITY_INVALID без возможности click-through (зона .dev в HSTS-preload Chrome). Причина: traefik просит сертификат у LE только после появления хоста в ingress, до этого отдаёт самоподписанный TRAEFIK DEFAULT CERT (~90 c); плюс каждый магазин съедал сертификат из недельного лимита зоны (10 из 50 уже израсходовано). Сделано: wildcard *.shipshift.dev по DNS-01 (lego+Cloudflare) в хранилище traefik через file-provider (статика coolify-proxy не тронута, прокси не перезапускался), tenant-ingress-sync.sh пишет тенантам tls: {}, свои домены сохраняют certResolver, продление cron 04:20 через renew-wildcard-cert.sh, INGRESS_SYNC_INTERVAL 15->5 c. Замерено на проде до и после. Ветка fix/mt-tenant-tls-wildcard, в feat/mt-deploy не влита — это остаток.",
+    "files": [
+      "deploy/scripts/renew-wildcard-cert.sh",
+      "deploy/mt/traefik-wildcard-tls.yml",
+      "artifacts/docs/2026-09-12-tenant-tls-wildcard.md"
+    ],
+    "commits": [
+      "df921b0",
+      "df921b0"
+    ],
+    "tags": [
+      "mt",
+      "tls",
+      "deploy"
+    ],
+    "created": "2026-09-12T04:18:43+08:00",
+    "updated": "2026-09-12T04:18:43+08:00"
+  }
+}
