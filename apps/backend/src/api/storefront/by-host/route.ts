@@ -1,7 +1,14 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { resolveAttribution } from "./attribution";
-import { handleFromTechnicalHost, normalizeHost } from "./hosts";
+import {
+  baseDomains,
+  handleFromTechnicalHost,
+  isTenantIdLabel,
+  normalizeHost,
+  primaryHostFor,
+  tenantIdsFromLabel,
+} from "./hosts";
 
 /**
  * `GET /storefront/by-host?host=<host>` — the one call a storefront makes before
@@ -51,17 +58,41 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
   let tenantId = domains[0]?.tenant?.id as string | undefined;
 
+  // A technical host is `<label>.<base>`, and the label is one of three things:
+  // the shop's CURRENT handle, a handle it used to answer on (kept for the 301s
+  // and reserved for good), or its tenant id. All three resolve to the shop; only
+  // the first is ever its main address (`specs/tenant-address/CANONICAL.md`).
   if (!tenantId) {
-    const handle = handleFromTechnicalHost(host);
+    const label = handleFromTechnicalHost(host);
 
-    if (handle) {
+    if (label) {
       const { data: byHandle } = await query.graph({
         entity: "tenant",
         fields: ["id"],
-        filters: { handle: [handle] },
+        filters: { handle: [label] },
       });
 
       tenantId = byHandle[0]?.id as string | undefined;
+
+      if (!tenantId) {
+        const { data: byAlias } = await query.graph({
+          entity: "tenant_handle_alias",
+          fields: ["id", "handle", "tenant.id"],
+          filters: { handle: [label] },
+        });
+
+        tenantId = byAlias[0]?.tenant?.id as string | undefined;
+      }
+
+      if (!tenantId && isTenantIdLabel(label)) {
+        const { data: byId } = await query.graph({
+          entity: "tenant",
+          fields: ["id"],
+          filters: { id: tenantIdsFromLabel(label) },
+        });
+
+        tenantId = byId[0]?.id as string | undefined;
+      }
     }
   }
 
@@ -83,6 +114,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       "metadata",
       "api_key.token",
       "home_config.config",
+      "domains.host",
+      "domains.is_primary",
     ],
     filters: { id: [tenantId] },
   });
@@ -98,12 +131,31 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   const settings = home?.settings ?? null;
   const preset = home?.theme?.preset ?? null;
 
+  const primaryDomain = ((tenant.domains ?? []) as { host?: string; is_primary?: boolean }[]).find(
+    (domain) => domain?.is_primary && domain.host,
+  )?.host;
+
+  const primaryHost = primaryHostFor({
+    handle: tenant.handle as string,
+    primaryDomain: primaryDomain ?? null,
+    requestHost: host,
+  });
+
   res.json({
     tenant: {
       id: tenant.id,
       handle: tenant.handle,
       name: tenant.name,
     },
+    // The ONE address everything absolute is built on — canonical, hreflang,
+    // sitemap, robots, JSON-LD, og:url — and the target every other address of
+    // this shop redirects to, page for page. The storefront compares the host it
+    // was asked on against this one; see `src/middleware.ts`.
+    primary_host: primaryHost,
+    is_primary_host: host === primaryHost,
+    // For the panel's list of addresses: the zone this request's technical host
+    // lives in, so the id address can be written out without guessing.
+    base_domain: baseDomains()[0],
     // Null only for a tenant whose key was deleted through the Admin: one key
     // per tenant is `createTenantWorkflow`'s invariant, not a database
     // constraint (`src/links/tenant-api-key.ts`). The storefront treats a null

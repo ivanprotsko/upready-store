@@ -547,12 +547,15 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/home-settings"),
           },
           {
-            // tenant-panel wave 2, piece 9 (storefront by host): the panel's own
-            // Domains screen (no Admin counterpart — a native Medusa install
-            // serves one storefront and never resolves a tenant from the Host
-            // header). Sits under /settings next to /settings/profile.
+            // The shop's address (t-2026-09-12-tenant-address-canonical, grown
+            // out of tenant-panel wave 2 piece 9). No Admin counterpart — a
+            // native Medusa install serves one storefront and never resolves a
+            // tenant from the Host header. Sits under /settings next to
+            // /settings/profile; the path stays `domains` so links already
+            // handed out keep working, exactly the rule the screen itself
+            // applies to shop addresses.
             path: "/settings/domains",
-            handle: { breadcrumb: () => "Domains" },
+            handle: { breadcrumb: () => t("tenantAddress.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
           },

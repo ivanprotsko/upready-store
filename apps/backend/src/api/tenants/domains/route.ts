@@ -2,8 +2,11 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import createTenantDomainWorkflow from "../../../workflows/tenant/create-tenant-domain";
 import {
+  baseDomains,
   handleFromTechnicalHost,
+  primaryHostFor,
   technicalHostsFor,
+  tenantIdHostFor,
 } from "../../storefront/by-host/hosts";
 import type { PostTenantDomainBody } from "../validators";
 import { getTenantWithDomains, respondDuplicateHost } from "./helpers";
@@ -17,13 +20,29 @@ import { getTenantWithDomains, respondDuplicateHost } from "./helpers";
  * platform's base domains, has no row, and therefore cannot be deleted — the
  * invariant "a tenant always has a storefront host" holds by construction
  * (`docs/multitenancy/storefront-by-host.md` §2).
+ *
+ * The address task adds the rest of the picture the panel has to show
+ * (`specs/tenant-address/CANONICAL.md`): which address is the MAIN one — the one
+ * in search results, the one every other address redirects to — the handles this
+ * shop used to answer on and keeps reserved, and the technical id address that
+ * never changes.
  */
 export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
   const tenant = await getTenantWithDomains(req);
 
+  const base = baseDomains()[0];
+
   res.json({
     domains: tenant.domains,
     technical: technicalHostsFor(tenant.handle),
+    primary_host: primaryHostFor({
+      handle: tenant.handle,
+      primaryDomain: tenant.domains.find((domain) => domain.is_primary)?.host ?? null,
+    }),
+    previous_hosts: tenant.aliases.map((alias) => `${alias}.${base}`),
+    previous_handles: tenant.aliases,
+    technical_id_host: tenantIdHostFor(tenant.id, base),
+    base_domain: base,
   });
 };
 

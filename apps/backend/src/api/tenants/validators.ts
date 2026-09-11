@@ -121,3 +121,23 @@ export const PostTenantDomainSchema = z.strictObject({
 });
 
 export type PostTenantDomainBody = z.infer<typeof PostTenantDomainSchema>;
+
+/**
+ * `POST /tenants/handle` — the shop's new address, the `<handle>` part of
+ * `<handle>.<platform domain>`. The same shape the two creation routes accept,
+ * because it mints the same technical subdomain; whether this particular handle
+ * is FREE is the route's decision, not zod's, because it needs the database and
+ * the reservations (`specs/tenant-address/CANONICAL.md` §1.2).
+ */
+export const PostTenantHandleSchema = z.strictObject({
+  handle: z
+    .string()
+    .min(3)
+    .max(63)
+    .transform((value) => value.trim().toLowerCase())
+    .refine((value) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value), {
+      message: "lowercase letters, digits and single hyphens",
+    }),
+});
+
+export type PostTenantHandleBody = z.infer<typeof PostTenantHandleSchema>;

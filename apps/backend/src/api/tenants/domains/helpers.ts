@@ -17,7 +17,9 @@ export type TenantWithDomains = {
   id: string;
   handle: string;
   name: string;
-  domains: { id: string; host: string }[];
+  domains: { id: string; host: string; is_primary: boolean }[];
+  /** Handles this shop used to answer on, kept for the 301s and reserved for good. */
+  aliases: string[];
 };
 
 export const getTenantWithDomains = async (
@@ -36,6 +38,8 @@ export const getTenantWithDomains = async (
       "tenant.name",
       "tenant.domains.id",
       "tenant.domains.host",
+      "tenant.domains.is_primary",
+      "tenant.handle_aliases.handle",
     ],
     filters: {
       id: [req.auth_context.actor_id],
@@ -61,10 +65,18 @@ export const getTenantWithDomains = async (
     // assignable to it — `tsc` says so once `.medusa/types` has been generated
     // by a build or a dev run, and says nothing before that.
     domains: (tenant.domains ?? [])
-      .map((domain) => ({ id: domain?.id, host: domain?.host }))
-      .filter((domain): domain is { id: string; host: string } =>
+      .map((domain) => ({
+        id: domain?.id,
+        host: domain?.host,
+        is_primary: Boolean(domain?.is_primary),
+      }))
+      .filter((domain): domain is { id: string; host: string; is_primary: boolean } =>
         Boolean(domain.id && domain.host),
       ),
+    aliases: (tenant.handle_aliases ?? [])
+      .map((alias) => alias?.handle)
+      .filter((handle): handle is string => Boolean(handle))
+      .sort(),
   };
 };
 

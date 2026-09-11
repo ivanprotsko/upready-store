@@ -72,6 +72,83 @@ export const handleFromTechnicalHost = (host: string): string | null => {
   return null;
 };
 
+/**
+ * The base domain a host arrived on (`acme.shipshift.dev` → `shipshift.dev`), or
+ * null when the host is not `<label>.<base>` for any configured base.
+ *
+ * The MAIN address of a shop is built on this rather than on the first configured
+ * base: a stand opened at `acme.localhost:8013` must stay canonical on itself, and
+ * naming `acme.upready.dev` there would send the developer's browser to a host
+ * that does not exist (`specs/tenant-address/CANONICAL.md` §1.1).
+ */
+export const baseDomainOfHost = (host: string): string | null => {
+  for (const base of baseDomains()) {
+    const suffix = `.${base}`;
+
+    if (!host.endsWith(suffix)) {
+      continue;
+    }
+
+    const label = host.slice(0, -suffix.length);
+
+    if (label && !label.includes(".")) {
+      return base;
+    }
+  }
+
+  return null;
+};
+
+/**
+ * The shop's MAIN public address: the custom domain its owner marked primary, or
+ * the platform subdomain built from its handle. One source, and everything that
+ * has to agree — `canonical`, `hreflang`, `sitemap`, `robots`, `JSON-LD`,
+ * `og:url` — is built from it.
+ */
+export const primaryHostFor = (input: {
+  handle: string;
+  primaryDomain?: string | null;
+  requestHost?: string | null;
+}): string => {
+  if (input.primaryDomain) {
+    return input.primaryDomain;
+  }
+
+  const base =
+    (input.requestHost ? baseDomainOfHost(input.requestHost) : null) ??
+    baseDomains()[0];
+
+  return `${input.handle}.${base}`;
+};
+
+/**
+ * The shop's technical address — `<tenant_id>.<base>` — as a host LABEL. A host
+ * is lowercase by the time it reaches us, and a Medusa id is a lowercase prefix
+ * plus an uppercase ULID (`ten_01M28GBEV6SBGBWKFCHTHREN9N`, measured on the live
+ * deployment 2026-09-12), so the label is the id lowercased.
+ *
+ * This address exists so support, integrations, internal links and monitoring
+ * have one name that survives every change of handle. It is never canonical: it
+ * answers 301 to the main address, and `noindex` if it ever answers 200 at all
+ * (`specs/tenant-address/CANONICAL.md` §1.3).
+ */
+export const isTenantIdLabel = (label: string): boolean =>
+  /^ten_[a-z0-9]+$/.test(label);
+
+/**
+ * The ids to try for a `ten_…` label: the ULID re-uppercased (how Medusa mints
+ * them today) and the label as written, so a lowercase id would still resolve.
+ */
+export const tenantIdsFromLabel = (label: string): string[] => {
+  const upper = `ten_${label.slice(4).toUpperCase()}`;
+
+  return upper === label ? [label] : [upper, label];
+};
+
+/** The technical id host of a tenant, for the panel's list of addresses. */
+export const tenantIdHostFor = (tenantId: string, base: string): string =>
+  `${tenantId.toLowerCase()}.${base}`;
+
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
 /**

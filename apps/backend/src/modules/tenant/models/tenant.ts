@@ -1,6 +1,7 @@
 import { model } from "@medusajs/framework/utils";
 import TenantAdmin from "./tenant-admin";
 import TenantDomain from "./tenant-domain";
+import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
 import TenantPage from "./tenant-page";
 
@@ -36,6 +37,11 @@ const Tenant = model.define("tenant", {
     mappedBy: "tenant",
   }),
   domains: model.hasMany(() => TenantDomain, {
+    mappedBy: "tenant",
+  }),
+  // Every handle this shop has ever answered on, kept for the 301s and reserved
+  // for good (`tenant-handle-alias.ts`, specs/tenant-address/CANONICAL.md §1.2).
+  handle_aliases: model.hasMany(() => TenantHandleAlias, {
     mappedBy: "tenant",
   }),
 });

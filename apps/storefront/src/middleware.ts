@@ -10,7 +10,7 @@ import {
   TENANT_HEADERS,
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
-import { requestOrigin } from "@lib/tenant/origin"
+import { originForHost, requestOrigin } from "@lib/tenant/origin"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -179,6 +179,57 @@ async function getRegionMap(
   return regionMap
 }
 
+/**
+ * A request that arrived on any address of the shop OTHER than its main one —
+ * the handle it used to answer on, its technical `<tenant_id>` address, its
+ * platform subdomain once a custom domain became primary — is answered with a
+ * permanent redirect to the SAME page of the main address
+ * (`specs/tenant-address/CANONICAL.md` §1.2, §1.3).
+ *
+ * Page for page, not everything to the home page: a redirect to `/` throws away
+ * the link someone actually shared and, with it, most of what the old address
+ * had earned. 301 rather than 302 because the move is permanent and that is what
+ * carries the accumulated weight over.
+ *
+ * `X-Robots-Tag: noindex` rides along so that even the redirect itself, and any
+ * page ever served from a non-main address, stays out of the index — the
+ * `<tenant_id>` address exists for support and monitoring, never for search.
+ *
+ * Null when there is nothing to redirect: no tenant (single-store), no main
+ * address known, or this request is already on it.
+ */
+function primaryHostRedirect(
+  request: NextRequest,
+  tenant: ResolvedTenant | null
+): NextResponse | null {
+  const primary = tenant?.primaryHost
+
+  if (!primary) {
+    return null
+  }
+
+  const rawHost = (request.headers.get("host") ?? "").trim().toLowerCase()
+  const hostname = rawHost.replace(/:\d+$/, "").replace(/\.$/, "")
+
+  if (!hostname || hostname === primary) {
+    return null
+  }
+
+  const origin = originForHost(request.headers, request.nextUrl.protocol, primary)
+
+  if (!origin) {
+    return null
+  }
+
+  const response = NextResponse.redirect(
+    `${origin}${request.nextUrl.pathname}${request.nextUrl.search}`,
+    301
+  )
+  response.headers.set("X-Robots-Tag", "noindex")
+
+  return response
+}
+
 /** Request headers the route handlers and server components see, tenant included. */
 function tenantRequestHeaders(
   request: NextRequest,
@@ -210,7 +261,19 @@ function tenantRequestHeaders(
     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
     // `NEXT_PUBLIC_BASE_URL` is one value baked into the image for every shop this
     // process serves, so it can name at most one of them — `lib/tenant/origin.ts`.
-    const origin = requestOrigin(request.headers, request.nextUrl.protocol)
+    // The shop's MAIN address, not the host this request happened to arrive on:
+    // one source for canonical, hreflang, sitemap, robots, JSON-LD and og:url
+    // (`specs/tenant-address/CANONICAL.md` §1.1). In practice the two are equal,
+    // because a request on any other address of the shop is redirected below —
+    // but the page must name the main address even if it is ever served from
+    // somewhere else.
+    const origin = tenant.primaryHost
+      ? originForHost(
+          request.headers,
+          request.nextUrl.protocol,
+          tenant.primaryHost
+        )
+      : requestOrigin(request.headers, request.nextUrl.protocol)
     if (origin) {
       headers.set("x-tenant-origin", encodeTenantHeaderValue(origin))
     }
@@ -244,6 +307,15 @@ export async function middleware(request: NextRequest) {
     BACKEND_URL,
     request.headers.get("host")
   )
+  // Before anything else this shop's pages would do: an address that is not the
+  // shop's main one answers a permanent redirect to the same page of the one
+  // that is, assets included.
+  const redirectToPrimary = primaryHostRedirect(request, tenant)
+
+  if (redirectToPrimary) {
+    return redirectToPrimary
+  }
+
   const publishableKey = tenant?.publishableKey ?? PUBLISHABLE_API_KEY ?? null
   const requestHeaders = tenantRequestHeaders(request, tenant)
   const nextWithTenant = () =>

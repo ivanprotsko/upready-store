@@ -25,8 +25,43 @@ export function requestOrigin(headers: Headers, urlProtocol: string): string {
     return ""
   }
 
-  const forwarded = headers.get("x-forwarded-proto")?.split(",")[0]?.trim()
-  const scheme = (forwarded || urlProtocol || "https").replace(/:$/, "")
+  return `${requestScheme(headers, urlProtocol)}://${host}`
+}
 
-  return `${scheme}://${host}`
+/** The scheme to build an absolute URL with: the proxy's word first. */
+export function requestScheme(headers: Headers, urlProtocol: string): string {
+  const forwarded = headers.get("x-forwarded-proto")?.split(",")[0]?.trim()
+
+  return (forwarded || urlProtocol || "https").replace(/:$/, "")
+}
+
+/** The port this request came in on, as `":8013"` or an empty string. */
+export function requestPort(headers: Headers): string {
+  const host = (headers.get("host") ?? "").trim()
+  const match = host.match(/:(\d+)$/)
+
+  return match ? `:${match[1]}` : ""
+}
+
+/**
+ * The origin of a NAMED host, on this request's scheme and port. The shop's MAIN
+ * address is a hostname with no port — the backend stores it that way — while a
+ * stand answers on `acme.localhost:8013`, so rebuilding the origin for the main
+ * address has to carry the port over or every link on a stand would point at
+ * port 80 (`specs/tenant-address/CANONICAL.md` §1.1).
+ */
+export function originForHost(
+  headers: Headers,
+  urlProtocol: string,
+  host: string
+): string {
+  const clean = host.trim().toLowerCase().replace(/\.$/, "")
+
+  if (!clean) {
+    return ""
+  }
+
+  const port = clean.includes(":") ? "" : requestPort(headers)
+
+  return `${requestScheme(headers, urlProtocol)}://${clean}${port}`
 }
