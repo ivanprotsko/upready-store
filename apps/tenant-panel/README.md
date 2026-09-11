@@ -108,12 +108,34 @@ Added by wave-2 piece 1 (product detail, `/products/:id/**`):
   against its `/tenants/products/*` route; `hooks/api/product-variants.tsx`, `hooks/api/inventory.tsx`
   and `hooks/api/stock-locations.tsx` are new, trimmed to what the copied screens read.
 
+Added by wave-2 piece 5 (categories, `/categories/**`):
+
+- `routes/categories/**` — the Admin's whole category tree copied verbatim (list, create, detail,
+  edit, products, organize, metadata, and the shared `common/`), 44 files, two of them changed.
+- `routes/categories/category-detail/loader.ts` — `sdk.admin.productCategory.retrieve` becomes
+  `sdk.client.fetch("/tenants/product-categories/:id")`. The js-sdk's admin module hardcodes
+  `/admin/...`, which a tenant token cannot reach, so the loader answered 404 and the
+  ErrorBoundary took the whole `/categories/:id` subtree with it.
+- `routes/categories/category-organize/components/organize-category-form/organize-category-form.tsx`
+  — the same substitution on `sdk.admin.productCategory.update`, which is how the ranking screen
+  saves a drag.
+- `components/table/table-cells/common/text-cell` — copied verbatim; the category list's Name and
+  Handle columns are the only consumer in the panel so far.
+- `hooks/api/categories.tsx` — rewritten from the piece-3 read-only stub to the Admin's own hook
+  file against `/tenants/product-categories` (retrieve, list, create, update, delete, products
+  batch). `useInfiniteCategories` is dropped: no copied screen calls it.
+- `GET /tenants/product-categories` is tenant-scoped from this piece on, so the category combobox
+  in product create and product organize offers the tenant's own categories only. Measured on the
+  stand 2026-09-11: the same query answers 1 category on `/tenants/product-categories` and 4 on
+  `/admin/product-categories`.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 
 - `app.tsx` — flat route tree for the panel's screens, replacing the Admin's
   plugin/virtual-module wiring (`DashboardApp`, `virtual:medusa/*`). Wave-2 piece 1 filled in the
-  `/products/:id` subtree with the same child paths as the Admin's `get-route.map.tsx`.
+  `/products/:id` subtree with the same child paths as the Admin's `get-route.map.tsx`, and
+  wave-2 piece 5 the `/categories` subtree from the same map.
 - `routes/home/*` — the Overview page (tenant name/handle, sales channel, publishable key with a
   copy button, links to Products/Orders).
 - `routes/not-built/*` — placeholder for every route this piece stubs out.

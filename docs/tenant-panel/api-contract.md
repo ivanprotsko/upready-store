@@ -286,6 +286,26 @@ same helper as the pages/home routes below; response shape = `/store/product-cat
 = the Store validator). Panel: copy `routes/categories/**` (list, create, detail, edit, products,
 organize, metadata) + `hooks/api/categories.tsx` rewritten to `/tenants/product-categories`.
 
+IMPLEMENTATION NOTES, written by the piece-5 worker after reading
+`@medusajs/medusa/dist/api/admin/product-categories/` and measuring the stand:
+
+- The body validator for `POST …/:id/products` is `createLinkBody()` from
+  `@medusajs/medusa/api/utils/validators` (`{ add?: string[], remove?: string[] }`), which is what
+  the Admin's own route uses. There is no `AdminBatchProductCategoryProducts` export in 2.19.0.
+- `POST /tenants/product-categories` answers `200`, not `201`: the Admin's own create answers 200
+  and the copied screen reads the body, not the status.
+- The link's graph name is `tenant.product_categories` and its entry point is
+  `tenant_product_category` (`tenant_id`, `product_category_id`), measured with `medusa exec` on
+  the stand DB 2026-09-11.
+- `DELETE …/:id` dismisses the link before running `deleteProductCategoriesWorkflow`. A link row
+  outliving its category would make `listTenantCategoryIds` report an id whose row is gone, and
+  every route here would then 404 on the tenant's own id.
+- `parent_category_id` ownership is enforced on create AND on update, so a tenant cannot re-parent
+  its tree onto another tenant's node either.
+- `GET /store/tenant/product-categories` forces `is_active: true` / `is_internal: false` through
+  the Store route's own `applyCategoryFilters` middleware, so an inactive category is not public
+  even to its own storefront.
+
 ## Piece 6: promotions + campaigns
 
 Links `tenant-promotion`, `tenant-campaign` (exist). Routes mirror the Admin: `GET/POST /tenants/promotions`,

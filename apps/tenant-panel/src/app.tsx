@@ -239,12 +239,69 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/not-built"),
           },
           {
-            // tenant-panel wave 2, piece 5 (categories): replaced by the copied
-            // routes/categories tree (list, create, detail, edit, products).
+            // tenant-panel wave 2, piece 5 (categories). Same shape as the
+            // Admin's get-route.map.tsx `/categories` subtree: the list owns
+            // `create` and `organize` as children (both are modals over it), the
+            // `:id` level is the detail screen with the breadcrumb, loader and
+            // seo from its own module, and edit/products/organize/metadata hang
+            // off it as drawers and modals.
             path: "/categories",
             handle: { breadcrumb: () => t("categories.domain") },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/not-built"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/categories/category-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/categories/category-create"),
+                  },
+                  {
+                    path: "organize",
+                    lazy: () => import("./routes/categories/category-organize"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb, loader, seo } = await import(
+                    "./routes/categories/category-detail"
+                  )
+
+                  return {
+                    Component,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminProductCategoryResponse>
+                      ) => <Breadcrumb {...match} />,
+                      seo,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("./routes/categories/category-edit"),
+                  },
+                  {
+                    path: "products",
+                    lazy: () => import("./routes/categories/category-products"),
+                  },
+                  {
+                    path: "organize",
+                    lazy: () => import("./routes/categories/category-organize"),
+                  },
+                  {
+                    path: "metadata/edit",
+                    lazy: () =>
+                      import("./routes/categories/categories-metadata"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // tenant-panel wave 2, piece 6 (promotions + campaigns): replaced by
