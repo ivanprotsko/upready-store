@@ -362,11 +362,26 @@ const routes: RouteObject[] = [
           },
           {
             // tenant-panel wave 2, piece 7 (content pages): the panel's own
-            // routes/pages tree (no Admin counterpart).
+            // routes/pages tree (no Admin counterpart). Same nesting the Admin
+            // uses for a list with a modal child: the list screen renders the
+            // Outlet (SingleColumnPage does it), and `:key` mounts the focus
+            // modal over it, so Save returns to the list with the row already
+            // refreshed by the mutation's own invalidation.
             path: "/pages",
             handle: { breadcrumb: () => "Pages" },
             errorElement: <ErrorBoundary />,
-            lazy: () => import("./routes/not-built"),
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/pages/page-list"),
+                children: [
+                  {
+                    path: ":key",
+                    lazy: () => import("./routes/pages/page-edit"),
+                  },
+                ],
+              },
+            ],
           },
           {
             // tenant-panel wave 2, piece 8 (home page settings): the panel's own

@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Alle producten"
   },
+  "TenantPage": {
+    "emptyBody": "Deze pagina heeft nog geen tekst.",
+    "metaDescription": "{title} bij {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Overdracht accepteren",
     "declineSuccess": "Overdracht van bestelling succesvol geweigerd!",

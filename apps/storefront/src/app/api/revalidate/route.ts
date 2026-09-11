@@ -78,5 +78,16 @@ export async function POST(req: NextRequest) {
     revalidatePath("/sitemap.xml")
   }
 
+  // tenant-panel wave 2, piece 7: the tenant's content pages. One shared cache
+  // tag (`lib/data/tenant-pages.ts`), so clearing it clears both the page bodies
+  // and the footer's link list; the two paths below are the rendered pages that
+  // hold them — the footer lives in the `(main)` layout, which every route under
+  // the group re-renders with.
+  if (body.type === "tenant.pages") {
+    revalidateTag("tenant-pages")
+    revalidatePath(`/[locale]/(main)/pages/[key]`, "page")
+    revalidatePath(`/[locale]/(main)`, "layout")
+  }
+
   return NextResponse.json({ revalidated: true })
 }

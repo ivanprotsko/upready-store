@@ -2,6 +2,7 @@ import { Link } from "@i18n/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
+import { listTenantPages } from "@lib/data/tenant-pages"
 import { promoText } from "@lib/profile"
 import { SITE_NAME } from "@lib/util/env"
 
@@ -29,6 +30,10 @@ export default async function FooterF5() {
     (category) => !category.parent_category_id
   )
   const { collections } = await listCollections()
+  // tenant-panel wave 2, piece 7: the shop owner's own published content pages
+  // get their own Information column here — F5's brand block has only the two
+  // catalog columns, so there is no existing column to append them to.
+  const tenantPages = await listTenantPages()
   const facts = (promoText(locale)?.split(" · ") ?? []).slice(0, 3)
 
   return (
@@ -59,7 +64,13 @@ export default async function FooterF5() {
           >
             {SITE_NAME}
           </Link>
-          <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 gap-x-10 md:gap-x-16">
+          <div
+            className={
+              tenantPages.length > 0
+                ? "grid grid-cols-1 gap-y-8 sm:grid-cols-3 gap-x-10 md:gap-x-16"
+                : "grid grid-cols-1 gap-y-8 sm:grid-cols-2 gap-x-10 md:gap-x-16"
+            }
+          >
             {topLevelCategories?.length > 0 && (
               <div className="flex flex-col gap-y-3">
                 <span className="txt-medium-plus text-ui-fg-base font-medium">
@@ -93,6 +104,26 @@ export default async function FooterF5() {
                         className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
                       >
                         {collection.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {tenantPages.length > 0 && (
+              <div className="flex flex-col gap-y-3">
+                <span className="txt-medium-plus text-ui-fg-base font-medium">
+                  {t("infoHeading")}
+                </span>
+                <ul className="flex flex-col gap-y-2">
+                  {tenantPages.map((page) => (
+                    <li key={page.key}>
+                      <Link
+                        href={`/pages/${page.key}`}
+                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                      >
+                        {page.title}
                       </Link>
                     </li>
                   ))}

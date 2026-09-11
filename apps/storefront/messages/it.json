@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Tutti i prodotti"
   },
+  "TenantPage": {
+    "emptyBody": "Questa pagina non ha ancora testo.",
+    "metaDescription": "{title} su {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Accetta trasferimento",
     "declineSuccess": "Trasferimento dell'ordine rifiutato con successo!",

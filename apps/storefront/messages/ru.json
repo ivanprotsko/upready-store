@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Все товары"
   },
+  "TenantPage": {
+    "emptyBody": "На этой странице пока нет текста.",
+    "metaDescription": "{title} в {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Принять перенос",
     "declineSuccess": "Перенос заказа успешно отклонён!",

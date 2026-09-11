@@ -113,6 +113,7 @@ import {
   PostTenantCreateSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
+  PutTenantPageSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
 
@@ -648,6 +649,18 @@ export default defineMiddlewares({
     // ---- piece 6: promotions + campaigns (/tenants/promotions/**, /tenants/campaigns/**)
 
     // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
+    // Only the write verb needs a middleware here: the two tenant reads take no
+    // body, and their one query parameter (`locale`) is parsed in the route —
+    // this resource has no Admin counterpart whose validator and query config
+    // could be reused, and the contract's shape for the list is the whole fixed
+    // set of five sections, not an Admin `count/offset/limit` page. The public
+    // `/store/tenant/pages/**` reads sit behind the framework's own global
+    // publishable-key gate and take neither body nor query.
+    {
+      matcher: "/tenants/pages/:key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPageSchema)],
+    },
 
     // ---- piece 8: home page document (/tenants/home, /store/tenant/home)
 

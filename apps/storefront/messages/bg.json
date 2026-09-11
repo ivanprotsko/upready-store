@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Всички продукти"
   },
+  "TenantPage": {
+    "emptyBody": "Тази страница все още няма текст.",
+    "metaDescription": "{title} в {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Приеми прехвърлянето",
     "declineSuccess": "Прехвърлянето на поръчката е отказано успешно!",

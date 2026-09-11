@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Lahat ng produkto"
   },
+  "TenantPage": {
+    "emptyBody": "Wala pang teksto ang pahinang ito.",
+    "metaDescription": "{title} sa {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Tanggapin ang paglipat",
     "declineSuccess": "Matagumpay na tinanggihan ang paglipat ng order!",

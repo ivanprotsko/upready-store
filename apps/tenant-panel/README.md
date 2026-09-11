@@ -179,3 +179,22 @@ verbatim, unmounted: `useLayoutEdit()` reads `useContext(LayoutEditContext)`, an
 default value is already edit-mode-off, so `components/layout/nav-item` (which reads it for nested
 list reordering, unused here since the panel's nav has no nested items) works without a
 `LayoutEditProvider` anywhere in the tree.
+
+Added by wave-2 piece 7 (content pages, `/pages` and `/pages/:key`):
+
+- `routes/pages/**` and `hooks/api/pages.tsx` — the panel's own screens and hook module, with no
+  Admin counterpart to copy: the native Admin has no per-store content pages. They are built from
+  the same copied primitives every other screen here uses (`SingleColumnPage`, `Container`,
+  `Table`, `StatusBadge`, `RouteFocusModal`, `Form`, `KeyboundForm`), so they sit in the Admin's
+  shell unchanged, but the file-by-file diff Ivan's acceptance asks for has nothing to diff
+  against — the screenshot pair is `panel-pages.png` against `admin-pages.png`
+  (`/app/settings/store`, the nearest Admin screen of the same kind), and `panel-page-edit.png`
+  stands alone.
+- `routes/pages/page-sections.ts` — the five section labels ("Contacts", "Legal details", "About
+  the shop", "Privacy policy", "Public offer") and the three status words (Published / Draft /
+  Empty) are written here in plain English rather than pulled from the Admin's i18n catalogue,
+  which has no string for any of them. The panel's own catalogue (`i18n/translations`) carries
+  English and Russian; these strings are English-only, like the sidebar's own `defaultValue`
+  labels for the wave-2 sections.
+- A plain `Table` rather than the copied `DataTable`: the list is five fixed rows with no
+  server-side filtering, sorting or pagination, which is DataTable's entire surface.

@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Όλα τα προϊόντα"
   },
+  "TenantPage": {
+    "emptyBody": "Αυτή η σελίδα δεν έχει ακόμη κείμενο.",
+    "metaDescription": "{title} στο {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Αποδοχή μεταβίβασης",
     "declineSuccess": "Η μεταβίβαση της παραγγελίας απορρίφθηκε με επιτυχία!",
