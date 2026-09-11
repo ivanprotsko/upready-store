@@ -2,6 +2,7 @@ import { Steps } from "../components"
 import styles from "../demo.module.css"
 import { OptionLink } from "../components"
 import { FUNNELS, SERVICES, formatPrice, parseFunnel } from "@lib/demo/catalog"
+import Link from "next/link"
 
 /**
  * S2: pick a service. Two funnels arrive here and they leave differently —
@@ -52,9 +53,9 @@ export default async function ServicePage(props: {
       </div>
 
       <div className={styles.actions}>
-        <a className={`${styles.btn} ${styles.btnSecondary}`} href="/start">
+        <Link className={`${styles.btn} ${styles.btnSecondary}`} href="/start">
           Назад
-        </a>
+        </Link>
         <span className={styles.hint} style={{ alignSelf: "center" }}>
           {FUNNELS[funnel].title}: {FUNNELS[funnel].steps.join(" → ")}
         </span>

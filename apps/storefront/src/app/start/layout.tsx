@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
+import Link from "next/link"
 
 import styles from "./demo.module.css"
 
@@ -20,9 +21,9 @@ export default function StartLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.shell} data-testid="demo-shell">
       <div className={styles.topbar}>
-        <a className={styles.wordmark} href="/start">
+        <Link className={styles.wordmark} href="/start">
           Shiftship
-        </a>
+        </Link>
         <span className={styles.tag}>demo</span>
         <span className={styles.topbarNote}>тестовый стенд · настоящих платежей нет</span>
       </div>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import Link from "next/link"
 
 import styles from "./demo.module.css"
 
@@ -68,7 +69,7 @@ export function OptionLink({
   testId?: string
 }) {
   return (
-    <a
+    <Link
       className={`${styles.option} ${selected ? styles.optionSelected : ""}`}
       href={href}
       data-testid={testId}
@@ -79,6 +80,6 @@ export function OptionLink({
         <span>{summary}</span>
       </span>
       {price ? <span className={styles.price}>{price}</span> : null}
-    </a>
+    </Link>
   )
 }

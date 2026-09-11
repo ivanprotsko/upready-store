@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { OptionLink, Steps } from "../components"
 import styles from "../demo.module.css"
 import {
@@ -34,9 +35,9 @@ export default async function PlanPage(props: {
             подставлять её за вас здесь неправильно: вы бы платили за то, чего не выбирали.
           </span>
         </div>
-        <a className={`${styles.btn} ${styles.btnPrimary}`} href={`/start/service?f=${funnel}`}>
+        <Link className={`${styles.btn} ${styles.btnPrimary}`} href={`/start/service?f=${funnel}`}>
           Выбрать услугу
-        </a>
+        </Link>
       </div>
     )
   }
@@ -67,12 +68,12 @@ export default async function PlanPage(props: {
       </div>
 
       <div className={styles.actions}>
-        <a
+        <Link
           className={`${styles.btn} ${styles.btnSecondary}`}
           href={funnel === 3 ? "/start" : `/start/service?f=${funnel}`}
         >
           Назад
-        </a>
+        </Link>
       </div>
     </div>
   )

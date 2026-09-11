@@ -2,6 +2,7 @@ import { Steps } from "../components"
 import styles from "../demo.module.css"
 import PayForm from "./pay-form"
 import { FUNNELS, formatPrice, parseFunnel, resolveOffer } from "@lib/demo/catalog"
+import Link from "next/link"
 
 /** Where a funnel's till sits in its own step rail, and what those steps read. */
 function rail(funnel: 1 | 2 | 3 | 4): { labels: string[]; current: number } {
@@ -42,9 +43,9 @@ export default async function PayPage(props: {
             услугу или тариф за вас нельзя.
           </span>
         </div>
-        <a className={`${styles.btn} ${styles.btnPrimary}`} href={FUNNELS[funnel].href}>
+        <Link className={`${styles.btn} ${styles.btnPrimary}`} href={FUNNELS[funnel].href}>
           {FUNNELS[funnel].cta}
-        </a>
+        </Link>
       </div>
     )
   }

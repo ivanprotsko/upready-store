@@ -1,6 +1,7 @@
 import { Chain } from "./components"
 import styles from "./demo.module.css"
 import { DIRECT_PLAN_ID, FUNNELS, findPlan, formatPrice } from "@lib/demo/catalog"
+import Link from "next/link"
 
 const FUNNEL_IDS = [1, 2, 3, 4] as const
 
@@ -36,13 +37,13 @@ export default function StartPage() {
               <p>{funnel.summary}</p>
               <Chain steps={funnel.steps} />
               <div className={styles.cardFoot}>
-                <a
+                <Link
                   className={`${styles.btn} ${styles.btnPrimary} ${styles.btnBlock}`}
                   href={funnel.href}
                   data-testid={`demo-funnel-${id}`}
                 >
                   {label}
-                </a>
+                </Link>
               </div>
             </div>
           )
@@ -56,13 +57,13 @@ export default function StartPage() {
           <strong>Онбординг без оплаты.</strong> Прямая ссылка в тот же мастер — чтобы смотреть сам
           сценарий заведения магазина.
         </p>
-        <a
+        <Link
           className={`${styles.btn} ${styles.btnSecondary}`}
           href="/start/onboarding"
           data-testid="demo-onboarding-direct"
         >
           Открыть онбординг
-        </a>
+        </Link>
       </div>
     </div>
   )
