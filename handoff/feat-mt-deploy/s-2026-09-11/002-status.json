@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-deploy",
+  "session": "s-2026-09-11",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-11T22:45:15+08:00",
+  "status": "ПЕРЕДАЧА В ОРКЕСТРАЦИЮ (Иван, 2026-09-11 вечер). Эта сессия = ПРИЁМЩИК; работу делает отдельный оркестратор по брифу artifacts/prompts/2026-09-12-mt-deploy-orchestrator.md. Заказ волны: (1) деплой на shipshift.dev; (2) домены магазинов custombot.space и shiftship.dev (развилка: раньше назывались три, с setpomo.com — сейчас настроены все три); (3) у каждого тенанта своё название в витрине, свои категории под его товары, изображения категорий и hero; (4) живые ссылки — оплата→онбординг, онбординг нового прототипа, ночные спеки и схемы. СДЕЛАНО: ветка feat/mt-deploy (A bece22a + B 07f7987), коммиты fbdbdcf, aeff2fe, df3d9f6, все проверки rc=0, push нет; DNS применён (14 правок, бэкап 27 записей); образы собраны, контейнеры стартуют (mt-postgres healthy, mt-backend health:starting, mt-ingress-sync up, mt-panel/mt-storefront Created). НЕ ПРОВЕРЕНО ЖИВОЕ: ни один домен не открыт, сертификатов не видел, сиды профилей и seed-mt-demo не запускались."
+}
