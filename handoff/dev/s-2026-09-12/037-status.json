@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 37,
+  "action": "status-set",
+  "ts": "2026-09-12T07:41:23+08:00",
+  "status": "Волна 2 витрины: три задачи написаны и проверены на ветке feat/mt-storefront-wave2 (471b32d…2bcacfb), НЕ задеплоено. Нужны деплой + миграция Migration20260912061500 + STOREFRONT_DEFAULT_LOCALE=ru и LOCALE_COUNTRY_MAP=ru:ru,en:us в deploy/mt/shipshift.env. Список приёмки — artifacts/docs/2026-09-12-storefront-wave2-handover.md"
+}
