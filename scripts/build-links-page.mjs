@@ -97,6 +97,7 @@ const DOC_GROUPS = [
     id: "nights",
     title: "Отчёты ночей",
     docs: [
+      ["artifacts/docs/2026-09-12-mt-deploy-night-3-acceptance.md", "Ночь 3 деплоя — приёмка", "что принято глазами и что нашлось"],
       ["artifacts/docs/2026-09-12-platform-night.md", "Платформенная ночь", "что сделано и чем доказано"],
       ["artifacts/docs/2026-09-12-tenant-panel-night.md", "Ночь панели", "что сделано и чем доказано"],
       ["artifacts/docs/2026-09-12-mt-deploy-wave-state.md", "Состояние волны деплоя", "снимок на момент передачи"],
