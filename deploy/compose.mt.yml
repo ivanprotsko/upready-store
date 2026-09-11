@@ -153,7 +153,9 @@ services:
     networks:
       - coolify
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/"]
+      # /healthz, not /: this storefront resolves its tenant from the Host
+      # header, and `127.0.0.1` is no tenant — see apps/storefront/src/app/healthz.
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/healthz"]
       interval: 15s
       timeout: 5s
       retries: 10
