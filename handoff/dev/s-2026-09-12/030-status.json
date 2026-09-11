@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 30,
+  "action": "status-set",
+  "ts": "2026-09-12T07:07:06+08:00",
+  "status": "Приёмщик, волна 4: на проде ровно то, что приняла волна 3 — замерено НА хосте (образы 00:35/00:34 +0200, RestartCount 0, ни одного из пяти файлов трека abstract-datasets в /opt/upready-store/mt нет). Из трёх треков готов один: feat/abstract-datasets (2e2d3b4, набор abstract + POST /tenants/seed + шаг мастера), принять негде до деплоя — вопрос q-deploy-abstract-dataset-now. feat/mode-image-pairs и feat/mt-storefront-wave2 своих коммитов пока не имеют (только merge базы 8-9 минут назад). Сверх приёмки найдено два дефекта: знак Medusa виден 24x26 в нижней панели при 390px на всех витринах (t-2026-09-12-medusa-mark-bottom-nav) и у acme/globex/initech нет ни контрола языка, ни контрола валюты при ценах в долларах на /ru (t-2026-09-12-seeded-hosts-no-locale-controls); строка волны 3 про ноль вхождений flags/4x3 исправлена — флаг США виден на контроле страны рядом с USD."
+}

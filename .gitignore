@@ -101,3 +101,7 @@ artifacts/stands-frames/
 # Acceptance screenshots, wave 2 of the MT deploy (2026-09-12): binaries never enter git.
 # README.md and the probes (funnel/shot/login/storefront/isolation .mjs) stay tracked as documents.
 artifacts/docs/2026-09-12-mt-deploy-acceptance/shots-w2/
+
+# Acceptance screenshots, wave 4 (2026-09-12): binaries never enter git (21f);
+# the probe scripts next to them stay tracked as tools.
+artifacts/docs/2026-09-12-mt-deploy-acceptance/shots-w4/*.png

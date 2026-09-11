@@ -1,0 +1,29 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 27,
+  "action": "task-add",
+  "ts": "2026-09-12T07:06:28+08:00",
+  "status": "Приёмщик: head-footer задеплоен и принят на пяти хостах прода (Волна 3 в artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md); политика адресов согласована — specs/tenant-address/CANONICAL.md; четыре задачи in_progress (mode-image-pairs, tenant-address-canonical, footer-attribution, locale-currency), три промпта готовы и лежат И на dev, И в обоих исполнительских worktree; трек abstract-datasets сделал один набор abstract, не задеплоен.",
+  "task": {
+    "id": "t-2026-09-12-medusa-mark-bottom-nav",
+    "title": "Знак Medusa в нижней панели навигации витрины тенанта: на телефоне это центральная кнопка магазина владельца",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Найдено приёмщиком в волне 4 (2026-09-12, 07:0x WITA) на живом проде. Волна 3 убрала из подвала ссылки стартера, но бренд-знак чужого движка с витрины не ушёл — правило 20, починен экземпляр, а не класс. Замер: medusa.svg есть в разметке всех пяти хостов (1 вхождение у магазинов мастера, 2 у посеянных); при 1280x900 картинка 0x0 и не видна, при 390x844 — 24x26 px в точке x=151 y=800 внутри a[data-testid=bottom-nav-store-link] нижней панели. На кадре shots-w4/acme-mobile.png видно: плавающая панель из шести кнопок — бургер, поиск, круглый знак Medusa (третья, центральная), аккаунт, корзина, луна. Проверено на nochlavka (пустой магазин мастера) и acme (посеянный).",
+    "files": [
+      "apps/storefront/src/modules/layout"
+    ],
+    "commits": [
+      "8dba58c"
+    ],
+    "tags": [
+      "storefront",
+      "branding"
+    ],
+    "created": "2026-09-12T07:06:28+08:00",
+    "updated": "2026-09-12T07:06:28+08:00"
+  }
+}

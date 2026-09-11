@@ -170,7 +170,7 @@ Orders / Categories / Promotions / Pages / Home page.
 | Подвал со чужими коллекциями и ссылками стартера | В разметке пяти витрин нет `gorgojs.com`-ссылок, `medusa-dtc-starter`, `docs.medusajs.com`. Подвал acme: «Новинки · Хиты продаж · Acme © 2026 Acme. Все права защищены.»; подвал `nochlavka`: «Ночная лавка © 2026 Ночная лавка. Все права защищены.» — чужих коллекций нет |
 | Сырые подписи Medusa | `acme/ru/store`: «Расцветка» ×4, «Цвет» ×4, «Размер» ×7; «Colourway» и «Default option» — ноль вхождений (было 4 и 18) |
 | Смешанный язык на `/ru` | Герой acme: «Acme работает на общем движке и отвечает на своём домене.»; `nochlavka`: «Новый магазин на общем движке, со своим адресом.» Английских «runs on the shared engine», «Free shipping over $120», «30-day returns» в разметке нет |
-| Флаг США рядом с «RU» (находка 5 волны 2) | `flags/4x3/*.svg` — ноль вхождений; язык и валюта показаны двумя контролами, `nochlavka` показывает «ru USD» |
+| Флаг США рядом с «RU» (находка 5 волны 2) | Рядом с языком флага нет: контрол языка показывает только `RU`. **Строка «`flags/4x3/*.svg` — ноль вхождений» неверна — перемерено в волне 4:** флаг переехал на контрол страны и виден там (16×16 px, рядом подпись `USD`) на `nochlavka` и `testovyy-magazin`; см. раздел «Волна 4» |
 
 ### Осталось после деплоя, заведено задачами
 
@@ -186,3 +186,91 @@ Orders / Categories / Promotions / Pages / Home page.
    согласована с Иваном в `specs/tenant-address/CANONICAL.md`.
 5. Наблюдения волны 1 и 2, не изменившиеся: `https://shipshift.dev/` по-прежнему `Cannot GET /`;
    панель тенанта показывает форму логина через ~6 с; страница живых ссылок не опубликована.
+
+---
+
+## Волна 4 — очередь приёмки трёх треков и перемер прода (2026-09-12, 06:55–07:05 по WITA)
+
+Сессия приёмщика, редакция промпта `artifacts/prompts/2026-09-12-acceptor-session-v2.md`.
+Инструмент — Playwright (глобальный), скрипты сессии в скретчпаде: `brand-probe.mjs`,
+`header-controls.mjs`, `mobile-medusa.mjs` (сохранены рядом с кадрами, см. ниже).
+
+### Что стоит на проде — замерено НА самом инстансе, не по диффу
+
+| Что | Замер |
+|---|---|
+| Код в `/opt/upready-store/mt` | Маркеры `fix/mt-storefront-head-footer` на месте: `apps/storefront/src/lib/tenant/origin.ts`, `apps/storefront/src/lib/data/shop-copy.ts`, `apps/backend/src/scripts/backfill-option-translations.ts` |
+| Код трека абстрактных наборов | ОТСУТСТВУЕТ: `apps/backend/src/api/tenants/seed/route.ts`, `workflows/tenant/seed-tenant-dataset/index.ts`, `data/profiles/abstract/profile.json`, `data/abstract-datasets.ts`, `specs/catalog-taxonomy/trade-spheres.json` — ни одного из пяти файлов на хосте нет |
+| Образы | `mt-storefront:latest` собран 2026-09-12 00:35:56 +0200, `mt-backend:latest` — 00:34:30 +0200 (= 06:35 WITA, тот самый деплой волны 3) |
+| Контейнеры | `mt-storefront` стартовал 22:37:49Z, `mt-backend` 22:36:48Z, `RestartCount` 0 у обоих; `mt-panel` и `mt-postgres` живут 8 ч, `mt-ingress-sync` 3 ч. Перезапусков после деплоя не было |
+| Пять хостов живы | `acme`, `globex`, `initech`, `nochlavka`, `testovyy-magazin` → 302 на `/ru`, `ssl_verify_result=0`; `panel.shipshift.dev` → 200; `shiftship.dev` → 307 на `/start` |
+
+Вывод: **на проде ровно то, что приняла волна 3.** Ни один из трёх треков на прод не попал.
+
+### Найдено сверх приёмки — логотип Medusa на витрине владельца (класс не закрыт)
+
+Волна 3 убрала ссылки стартера из подвала. Сам бренд-знак Medusa с витрины не ушёл (правило 20 —
+починен экземпляр, не класс).
+
+- В разметке всех пяти витрин есть `medusa.svg` (1 вхождение у магазинов мастера, 2 у посеянных).
+- При 1280×900 картинка имеет нулевой размер (`0x0`, `visible:false`) — на десктопе её не видно.
+- При **390×844 она видна: 24×26 px по адресу x=151, y=800**, внутри `a[data-testid=bottom-nav-store-link]`
+  в нижней панели навигации. Замерено на `nochlavka` (пустой магазин мастера) и `acme` (посеянный).
+- На кадре `acme-mobile.png` видно: плавающая нижняя панель из шести кнопок — бургер, поиск,
+  **круглый знак Medusa (третья кнопка, центральная)**, аккаунт, корзина, луна. То есть на телефоне
+  логотип чужого движка — самая заметная кнопка витрины магазина.
+
+Заведено: `t-2026-09-12-medusa-mark-bottom-nav`.
+
+### Найдено сверх приёмки — у посеянных магазинов нет ни контрола языка, ни контрола валюты
+
+Замер `header-controls.mjs` по пяти хостам, 1280×900 и 390×844:
+
+| Хост | `data-testid` в шапке | Текст шапки | Цена карточки |
+|---|---|---|---|
+| `acme` / `globex` / `initech` | `nav-store-link`, `nav-mode-toggle`, `nav-cart-link` | `ACME` / `GLOBEX` / `INITECH` | `128,99 $` / `67,99 $` / `188,99 $` |
+| `nochlavka` / `testovyy-magazin` | + `nav-menu-button`, `nav-region-select-button`, `nav-country-select-button`, `nav-account-link` | `НОЧНАЯ ЛАВКА RU USD` | карточек нет |
+
+То есть русскоязычный посетитель `acme` видит цены в долларах и **не имеет ни одного контрола**,
+чтобы сменить язык или валюту: у трёх посеянных витрин выкладка шапки другая (вариант без
+переключателей). Пункт приёмки волны 3 «язык и валюта — два контрола» был замерен на магазине
+мастера и на посеянные витрины не распространяется.
+
+Заведено: `t-2026-09-12-seeded-hosts-no-locale-controls`.
+
+### Уточнение к принятому пункту волны 3 — флаг США
+
+По коду (`apps/storefront/src/modules/layout/components/region-select/index.tsx:246-270`, ровно то,
+что стоит на проде): `nav-region-select-button` имеет `aria-label={t("tabLanguage")}` и печатает
+только `{currentLocale}` — флага рядом с языком действительно нет, пункт волны 3 по сути верен.
+Но `nav-country-select-button` (`aria-label={t("tabCountry")}`) по конструкции печатает
+`<CountryFlag countryCode={triggerFlagCode}>` плюс `{selectedCountryOption.currencyCode}` — и на
+`nochlavka`/`testovyy-magazin` это **видимый флаг США 16×16 px рядом с подписью `USD`** (кадр
+`nochlavka-header.png`: бургер · НОЧНАЯ ЛАВКА · луна · поиск · `RU ⌄` · 🇺🇸 `USD ⌄` · аккаунт · корзина).
+
+Значит формулировка «`flags/4x3/*.svg` — ноль вхождений» в журнале волны 3 была ошибкой замера, а
+сам флаг уйдёт только вместе со сменой страны/валюты по умолчанию на RU/RUB. Пункт приёмки
+`t-2026-09-12-locale-currency` дополнен строкой «на `/ru` нет флага США».
+
+### Рантайм-логи прода, без жалоб от Ивана — прочитаны, дефектом не считаю
+
+- `TypeError: controller[kState].transformAlgorithm is not a function` (digest `1489321083`) —
+  **23 раза, все в интервале 22:38:0x…22:38:16Z**, то есть в первые 26 секунд свежего контейнера
+  (ready в 22:37:51Z), под первым же браузерным проходом приёмки. За следующие 20 минут под моим
+  трафиком (4 curl + 3 браузерных прохода, два вьюпорта) — **ноль**. Похоже на холодный старт
+  standalone-сервера Next 15.5.21, не на штатный дефект; отдельной задачей не завожу, строка здесь.
+- `listCategories: tenant "<handle>" resolved but owns zero product categories … very likely a
+  seeding/link bug, not an empty shop` — печатается **3 раза на каждый рендер** пустого магазина
+  (замерено: 3 строки на `nochlavka/ru`, 3 на `/ru/store`, 0 на `acme`). Для магазина, который мастер
+  создаёт заведомо пустым, диагностика лжёт («link bug»), и она же забивает лог: 107 строк за минуту
+  на пяти хостах. Уйдёт вместе с засевом стартового набора (`t-2026-09-12-catalog-taxonomy`);
+  формулировку сообщения править там же.
+- `getTenantHome` и `getStorefrontSettings` по одному разу упали в фолбэк с
+  `Publishable API key required in the request header` — оба в ту же первую минуту после старта.
+- `mt-backend`: ни одной строки уровня error/fatal за всё время жизни контейнера.
+
+### Кадры и скрипты этой волны
+
+`nochlavka-header.png`, `nochlavka-footer.png`, `acme-header.png`, `acme-mobile.png`,
+`nochlavka-mobile.png` плюс `brand-probe.mjs`, `header-controls.mjs`, `mobile-medusa.mjs` —
+`shots-w4/` рядом с этим файлом (PNG в git не входят, см. `.gitignore`).
