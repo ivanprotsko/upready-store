@@ -17,6 +17,49 @@ import { buildAlternates } from "@lib/util/alternates"
 import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
+import { listCategories } from "@lib/data/categories"
+import { categoryTiles as profileCategoryTiles } from "@lib/profile"
+import type { ProfileCategoryTile } from "@lib/profile/types"
+
+/**
+ * The category tiles THIS shop may show. The list in the build profile belongs to the
+ * profile the image was built from, and on the shared engine that is another shop's
+ * goods: a tenant created through the onboarding wizard opened with four photographs of
+ * sneakers over links into a catalog it does not have (measured on
+ * https://nochlavka.shipshift.dev, 2026-09-12) — worse than the empty shop the final
+ * onboarding screen honestly promises.
+ *
+ * So a tile is kept only when this shop really owns that category. `listCategories()` is
+ * already tenant-scoped (it travels with the key the Host resolved), so a single-store
+ * stand keeps every tile it kept before — its own categories are the ones the profile
+ * names — and any tile that survives is a link that resolves rather than a 404 dressed as
+ * a photograph.
+ *
+ * A failed read is not an empty catalog (rule 20a): the profile's own list is returned
+ * unchanged and the reason is written to the server log, because blanking the block on a
+ * network blip would look exactly like a shop that has no categories.
+ */
+async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
+  if (!profileCategoryTiles.length) {
+    return profileCategoryTiles
+  }
+
+  try {
+    const categories = await listCategories({ fields: "id,handle" })
+    const owned = new Set(
+      categories.map((category) => category.handle).filter(Boolean) as string[]
+    )
+
+    return profileCategoryTiles.filter((tile) => owned.has(tile.categoryHandle))
+  } catch (error) {
+    console.warn(
+      "[home] category tiles: could not read this shop's categories, falling back to the " +
+        "build profile's whole list — the tiles below may belong to another shop.",
+      error
+    )
+    return profileCategoryTiles
+  }
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const [t, locale, siteName] = await Promise.all([
@@ -63,10 +106,11 @@ export default async function Home() {
   // "this shop's document, else the site-wide one", which is why there is no second
   // fallback here; a single-store deployment resolves no shop and reads exactly what it
   // read before either piece existed.
-  const [t, settings, home] = await Promise.all([
+  const [t, settings, home, tileList] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),
     getTenantHome(),
+    tilesForThisShop(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -96,7 +140,8 @@ export default async function Home() {
 
   const blocks: Record<HomeBlockKey, React.ReactNode> = {
     hero: Hero ? <Hero {...heroProps} /> : null,
-    categories: tiles === "on" ? <CategoryTiles heading={t("title")} /> : null,
+    categories:
+      tiles === "on" ? <CategoryTiles heading={t("title")} tiles={tileList} /> : null,
     products: Listing ? (
       <div className="py-12">
         <ul className="flex flex-col gap-x-6">

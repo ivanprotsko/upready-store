@@ -1,7 +1,8 @@
 import Image from "next/image"
 
 import { Link } from "@i18n/navigation"
-import { categoryTiles } from "@lib/profile"
+import { categoryTiles as profileCategoryTiles } from "@lib/profile"
+import type { ProfileCategoryTile } from "@lib/profile/types"
 
 import styles from "./category-tiles.module.css"
 
@@ -19,7 +20,21 @@ import styles from "./category-tiles.module.css"
  * Pure server component: it takes its heading as a prop rather than calling next-intl, so
  * nothing in this file reaches the request context.
  */
-export default function CategoryTiles({ heading }: { heading?: string }) {
+export default function CategoryTiles({
+  heading,
+  tiles,
+}: {
+  heading?: string
+  /**
+   * The tiles to draw. Omitted means the build profile's own — which is right for a
+   * single-store deployment and WRONG for a shop on the shared engine: the tiles are
+   * photographs of another shop's goods over links into a catalog this shop does not
+   * have. `(main)/page.tsx` passes the filtered list; see the note there.
+   */
+  tiles?: readonly ProfileCategoryTile[]
+}) {
+  const categoryTiles = tiles ?? profileCategoryTiles
+
   if (!categoryTiles.length) {
     return null
   }

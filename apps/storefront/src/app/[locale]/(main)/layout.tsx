@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 
-import { getPromoBannerDismissed } from "@lib/data/cookies"
+import { getPromoBannerDismissed, getTenantHandle } from "@lib/data/cookies"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
 import { getBaseURL } from "@lib/util/env"
@@ -19,13 +19,29 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   // The promo-banner cookie is a cookie lookup, not a fetch. The settings read
   // shares its cache tag with `Nav`'s own read below (`storefront-settings`,
   // Next's fetch request memoization) so this costs no second round trip.
-  const [promoBannerDismissed, settings] = await Promise.all([
+  const [promoBannerDismissed, settings, tenantHandle] = await Promise.all([
     getPromoBannerDismissed(),
     getEffectiveSettings(),
+    getTenantHandle(),
   ])
-  // H3's service tier already carries the same promo text (`nav/variants/h3.tsx`'s
-  // own doc comment) — showing the site-wide strip too would double it.
-  const suppressPromoBanner = (settings?.header ?? DEFAULT_HEADER) === "h3"
+  // Two reasons the site-wide strip does not render.
+  //
+  // H3's service tier already carries the same promo text (`nav/variants/h3.tsx`'s own
+  // doc comment) — showing the site-wide strip too would double it.
+  //
+  // And a shop on the SHARED ENGINE has no promo of its own: `promoText()` reads the
+  // profile baked into the image, so every tenant was making the sneakers profile's
+  // promise — "Free shipping over $120 · 30-day returns · every pair ships in 48 hours",
+  // measured on globex.shipshift.dev (kitchenware) and on a wizard-created shop with an
+  // empty catalog, 2026-09-12. A shop that says nothing beats a shop that promises
+  // another shop's shipping terms; a per-tenant strip is a field the tenant document does
+  // not have yet. A single-store deployment resolves no tenant and is untouched.
+  //
+  // One instance of the same class is left: `nav/variants/h3.tsx` renders `promoText()`
+  // in its own service tier, and no tenant selects h3 today (measured: acme/globex/initech
+  // h5, the wizard's default h1). It needs the text as a prop from a server parent.
+  const suppressPromoBanner =
+    (settings?.header ?? DEFAULT_HEADER) === "h3" || tenantHandle !== null
 
   return (
     <>
