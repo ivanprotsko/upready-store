@@ -144,3 +144,224 @@ Backend tests live in `apps/backend/integration-tests/http/tenants.spec.ts` (run
 test:integration:http`). Every route above that is new or changed gets at least one `it` in the
 same commit: the happy path in Admin shape (`count/offset/limit` present, `limit` honoured), and
 the isolation path (tenant B sees `count: 0` and a 404 on tenant A's ids).
+
+---
+
+# Wave 2 (2026-09-11/12, task `t-2026-09-11-mt-panel-wave-2` + `t-2026-09-12-mt-storefront-by-host`)
+
+Written by the wave-2 architect (session_01477g3q3qsvgSsc4QHptDUh) BEFORE the code, from the brief
+`docs/multitenancy/2026-09-11-night-2-panel-brief.md`. Ground rules above stay in force: Admin
+validators/query-configs, `refetchEntities`, links decide scope, foreign id = 404, `allowed` without
+`*` (or absent), list shape `{ <plural>, count, offset, limit }`. Every write verb re-checks ownership
+through the link before calling the workflow. Skeleton commit 0fd518d holds the models
+(`tenant_page`, `tenant_home_config`, `tenant_domain`, migration applied to the stand DB) and links
+(`tenant-product-category`, `tenant-promotion`, `tenant-campaign`).
+
+## Piece 4: profile
+
+- `GET /tenants/me` unchanged. `POST /tenants/me` body `{ first_name?, last_name?, metadata? }` →
+  `{ tenant_admin }` (same shape as GET). `metadata.language` is where the copied profile-edit stores
+  the language choice (the Admin writes `user.metadata.language`).
+- `POST /tenants/me/password` body `{ current_password, new_password }` → `{ ok: true }`. Verify the
+  current password through the auth module (`Modules.AUTH` → `authenticate("emailpass", …)` with the
+  actor's email) and then update the provider identity with the new password
+  (`IAuthModuleService.updateProvider` / `updateAuthIdentities`, whichever 2.19.0 exposes for
+  emailpass; the worker measures and cites the file). Wrong current password → `401 UNAUTHORIZED`
+  (`MedusaError.Types.UNAUTHORIZED`), never 404. New password shorter than 8 → `INVALID_DATA`.
+- Panel: `routes/profile/profile-detail` + `profile-edit` copied verbatim, reading `useMe()`; add
+  a "Change password" section (own component, `// tenant-panel:`) with current/new/confirm fields.
+  `useUpdateUser` → `POST /tenants/me`. The user-menu link `/settings/profile` opens it; back link
+  returns to `location.state.from`.
+
+## Piece 1: product detail
+
+Backend, all under `/tenants/products/:id` and owned through the tenant-product link
+(`assertOwnedProduct` in `tenants/products/helpers.ts`; a foreign `:id` is 404 on every verb):
+
+- `GET /tenants/products/:id` (exists; fields via the Admin's `retrieveProductQueryConfig`).
+- `POST /tenants/products/:id` body `AdminUpdateProduct` → `{ product }` via `updateProductsWorkflow`.
+  `sales_channels` in the body is ignored and replaced by the tenant's channel.
+- `POST /tenants/products/:id/variants` (`AdminCreateProductVariant`), `POST …/variants/:variant_id`
+  (`AdminUpdateProductVariant`), `DELETE …/variants/:variant_id`, `POST …/variants/batch`
+  (`AdminBatchProductVariants` — the price grid saves through it), `GET …/variants` and
+  `GET …/variants/:variant_id` (Admin query configs `listVariantConfig` / `retrieveVariantConfig`).
+- `POST /tenants/products/:id/options` (`AdminCreateProductOption`), `POST …/options/:option_id`,
+  `DELETE …/options/:option_id`.
+- `POST /tenants/products/:id/variants/:variant_id/inventory-items` and
+  `DELETE …/inventory-items/:inventory_item_id` (manage-inventory-items dialog) — optional; if the
+  screen needs them, mirror `@medusajs/medusa/api/admin/products/[id]/variants/[variant_id]/inventory-items`.
+- `GET /tenants/product-variants` → `{ variants, count, offset, limit }` scoped to own products
+  (`product_id: ownIds` filter), Admin's `AdminGetProductVariantsParams`.
+- Reference GETs already exist (types, tags, collections, categories, sales-channels, regions,
+  price-preferences, shipping-profiles, inventory-items, store). Add `GET /tenants/stock-locations`
+  (re-export Admin GET, read-only) only if the stock/inventory widgets call it.
+
+Panel: copy `routes/products/product-detail/**`, `product-edit`, `product-media`,
+`product-options-manage`, `product-create-variant`, `product-prices`, `product-organization`,
+`product-attributes`, `product-metadata`, `product-shipping-profile`, `product-stock` (if it compiles
+without the stock-location write routes; otherwise leave that one out and say so),
+`product-sales-channels` (kept for parity; the backend ignores the choice), `routes/product-variants/**`
+(variant detail/edit/media/metadata). Route tree under `/products/:id` mirrors the Admin route map
+(`get-route.map.tsx`). Hooks: extend `hooks/api/products.tsx` (update, variants, options, batch) and
+add `product-variants.tsx`. `/settings/translations/edit` action stays a dead link → remove that one
+menu item with a `// tenant-panel:` comment (the panel has no translations screen).
+
+## Piece 2: order detail (minimum actions: fulfill, ship, capture, cancel)
+
+Backend, `/tenants/orders/:id` owned through the tenant-order link (`assertOwnedOrder`):
+
+- `GET /tenants/orders/:id` → `{ order }` (Admin `retrieveTransformQueryConfig`; the detail screen
+  sends its own `fields`, keep them). `GET …/preview` → `{ order }` (`previewOrderChangeStep` /
+  `getOrderDetailWorkflow` as the Admin route does). `GET …/changes` → `{ order_changes }`.
+  `GET …/line-items` → `{ order_items }` if the copied screen calls it.
+- `POST /tenants/orders/:id/fulfillments` (`AdminCreateOrderFulfillment` → `createOrderFulfillmentWorkflow`),
+  `POST …/fulfillments/:fulfillment_id/shipments` (`AdminCreateOrderShipment`),
+  `POST …/fulfillments/:fulfillment_id/cancel`, `POST …/fulfillments/:fulfillment_id/mark-as-delivered`.
+- `POST /tenants/orders/:id/cancel` → `cancelOrderWorkflow`.
+- `POST /tenants/payments/:payment_id/capture` → `{ payment }` via `capturePaymentWorkflow`;
+  ownership = the payment's collection belongs to an owned order (query `payment.payment_collection.order.id`
+  and intersect; foreign → 404). `POST /tenants/payments/:id/refund` — optional, same rule.
+- Read-only references the screen needs: `GET /tenants/stock-locations` (re-export Admin GET),
+  `GET /tenants/fulfillment-providers`, `GET /tenants/shipping-options`, `GET /tenants/reservations`
+  (scoped to own orders' line items or return empty page), `GET /tenants/customers/:id` (only when
+  the customer has an owned order, else 404), `GET /tenants/returns`, `/tenants/claims`,
+  `/tenants/exchanges` → empty pages (`count: 0`) with a `// tenant-panel:` note — RMA is view-only
+  and nothing is created yet, `GET /tenants/order-edits` likewise. Panel timeline widgets must not
+  crash on empty lists.
+
+Panel: copy `routes/orders/order-detail/**`, `order-create-fulfillment`, `order-create-shipment`,
+and the shared `routes/orders/common`. Actions menu: keep Cancel, Fulfill, Ship, Mark delivered,
+Capture; the RMA/edit/transfer/address entries route to `routes/not-built` (comment each). Hooks:
+extend `hooks/api/orders.tsx`, add `payments.tsx`, `fulfillment.tsx`, `stock-locations.tsx`,
+`shipping-options.tsx`, `fulfillment-providers.tsx`, `reservations.tsx`, `customers.tsx`, `returns.tsx`,
+`claims.tsx`, `exchanges.tsx`, `order-edits.tsx` (each trimmed to what the copied screen reads).
+
+## Piece 3: orders export (same worker as piece 2)
+
+The Admin's `routes/orders/order-export` posts to `POST /admin/orders/export` (a workflow that
+writes a file and notifies). The tenant version: `POST /tenants/orders/export` body = the same filter
+params the list accepts → `200 { url }` where the CSV is produced synchronously for the tenant's own
+orders (columns: display_id, created_at, status, payment_status, fulfillment_status, email, currency,
+total, items count, sales channel) and stored through the file module (`uploadFilesWorkflow`, like
+uploads). The copied screen shows the "started" toast; the panel then opens `url`. Seam test: tenant
+B's export never contains an order of tenant A (parse the CSV).
+
+## Piece 5: categories
+
+Link `tenant-product-category` (exists). `GET /tenants/product-categories` CHANGES from the Admin
+re-export to a scoped list: own ids through the link, then `refetchEntities("product_category", …)`
+with the Admin's `AdminProductCategoriesParams` + `listProductCategoryConfig`. Tree filters
+(`parent_category_id`, `include_descendants_tree`) keep working inside the owned set. Then:
+`POST /tenants/product-categories` (`AdminCreateProductCategory` → `createProductCategoriesWorkflow`,
+then link to the tenant; `parent_category_id` must be owned), `GET/POST/DELETE …/:id`,
+`POST …/:id/products` (`AdminBatchProductCategoryProducts`: every id in `add`/`remove` must be an
+owned product, else 400 `INVALID_DATA` naming nothing). Public read for the storefront:
+`GET /store/tenant/product-categories` (publishable key → sales channel → tenant through the links,
+same helper as the pages/home routes below; response shape = `/store/product-categories`, params
+= the Store validator). Panel: copy `routes/categories/**` (list, create, detail, edit, products,
+organize, metadata) + `hooks/api/categories.tsx` rewritten to `/tenants/product-categories`.
+
+## Piece 6: promotions + campaigns
+
+Links `tenant-promotion`, `tenant-campaign` (exist). Routes mirror the Admin: `GET/POST /tenants/promotions`,
+`GET/POST/DELETE …/:id`, `POST …/:id/rules/batch`, `POST …/:id/target-rules/batch`,
+`POST …/:id/buy-rules/batch`, `GET …/:id/:rule_type` (rules listing the edit screens read),
+`GET /tenants/promotions/rule-attribute-options/:rule_type`, `GET …/rule-value-options/:rule_type/:rule_attribute_id`
+(reference, re-export Admin GET — but the `sales_channel` attribute's value options must be filtered
+to the tenant's own channel), `GET/POST /tenants/campaigns`, `GET/POST/DELETE …/:id`,
+`POST …/:id/promotions` (batch add/remove, promotions must be owned). Create rule: after
+`createPromotionsWorkflow`, the route guarantees a rule `{ attribute: "sales_channel_id", operator: "eq",
+values: [tenant channel id] }` on the promotion (add it if the body did not, replace it if the body
+named another channel), verified live 2026-09-11 08:4x: `GET /admin/promotions/rule-attribute-options/rules`
+on :9023 lists `sales_channel` → `sales_channel_id`. `rules/batch` may never remove or alter that
+rule (400). Panel: copy `routes/promotions/**` and `routes/campaigns/**`, hooks `promotions.tsx`,
+`campaigns.tsx`.
+
+## Piece 7: content pages
+
+Model `tenant_page` (key ∈ contacts | legal | about | privacy | offer; locale default `en`; title;
+markdown body; published). Routes:
+
+- `GET /tenants/pages` → `{ pages: TenantPage[] }` — always five entries, one per key, unsaved keys
+  as `{ key, title: "", body: "", published: false, id: null }` so the panel lists all sections.
+- `GET /tenants/pages/:key` → `{ page }` (404 for an unknown key, `INVALID_DATA`).
+- `PUT /tenants/pages/:key` body `{ title, body, published, locale? }` → `{ page }` (upsert).
+- Public: `GET /store/tenant/pages` → `{ pages: [{ key, title }] }` of published pages (footer
+  links); `GET /store/tenant/pages/:key` → `{ page }` (404 when unpublished/absent). Tenant from the
+  publishable key: `req.publishable_key_context.sales_channel_ids[0]` → tenant through the
+  tenant-sales-channel link (shared helper `api/store/tenant/resolve-tenant.ts`, reused by piece 8
+  and the by-host resolver).
+
+Panel: own screens (no Admin counterpart) built from the copied Admin primitives
+(`components/common`, `RouteFocusModal`, `Container`, `Heading`, `Form`): `/pages` = table of the
+five sections with status words (Published / Draft / Empty); `/pages/:key` = title + markdown
+textarea + Published switch + Save. Storefront: `app/[locale]/(main)/pages/[key]/page.tsx` renders
+the page (markdown → HTML; the storefront already depends on nothing for markdown, so a small
+sanitised renderer or plain paragraphs — the worker checks `package.json` and does not add a
+dependency); the footer lists the published pages from `GET /store/tenant/pages` (every footer
+variant that shows link columns). Cache tags `tenant-pages`; `POST /api/revalidate` with
+`{ type: "tenant.pages" }` clears them.
+
+## Piece 8: home page document
+
+Model `tenant_home_config.config` (JSON). Schema `upready.tenant-home/v1`:
+
+```
+{
+  "schema": "upready.tenant-home/v1",
+  "theme": { "preset": ThemeId },                    // apps/storefront/src/lib/theme/presets.generated.ts THEME_IDS
+  "settings": StorefrontSettingsInput,               // VERBATIM apps/storefront/src/lib/theme/composition.ts:
+                                                     // { defaultMode, header, hero, tiles, listing, footer }, FORBIDDEN pairs enforced
+  "content": {
+    "hero": { "title": string, "subtitle": string, "cta_label": string, "cta_href": string, "image_url": string|null },
+    "products": { "source": "popular" } | { "source": "category", "category_id": string, "title": string },
+    "order": ("hero"|"categories"|"products")[]      // each at most once; a block absent here is not rendered
+  },
+  "updatedAt": ISO 8601 (server-stamped)
+}
+```
+
+This is the ONE composition schema of the project: `settings` is the `feat/stands-composition`
+document (`upready.storefront-settings/v1`) unchanged, `content` is the tenant's text for those
+blocks (that document never had content fields — recorded as the resolution of the acceptance item
+"one schema"). Routes: `GET /tenants/home` → `{ home }` (null when unsaved), `PUT /tenants/home`
+body = the document without `updatedAt` → `{ home }`, validation = the backend's own
+`api/store/storefront-settings/validation.ts` for `settings` (reuse it, do not copy) + a zod schema
+for `theme`/`content` (`category_id` must be an owned category). Public `GET /store/tenant/home` →
+`{ home }`. Panel: own screen `/home-settings` — theme preset select (labels from
+`THEME_LABELS`), the six composition selects (plain-language labels, forbidden pairs greyed as the
+storefront popover does), hero fields, products source, block order (up/down), Save. Storefront:
+`(main)/page.tsx` reads `getTenantHome()` (cache tag `tenant-home`, revalidate type `tenant.home`)
+and, when present, uses `home.settings` instead of `getStorefrontSettings()`, feeds
+`content.hero` into the chosen hero variant (title/subtitle/CTA/image props — add optional props to
+the K hero and to the G/H variants that show a headline), renders blocks in `content.order`, and
+the listing variant reads `content.products` (popular = the existing lead-collection logic; category
+= `listProducts({ category_id })`). `app/layout.tsx` takes `data-theme`/`data-mode` from
+`home.theme.preset` / `home.settings.defaultMode` when a tenant home exists.
+
+## Piece 9: storefront by host (`t-2026-09-12-mt-storefront-by-host`)
+
+Design doc: `docs/multitenancy/storefront-by-host.md` (written before the code). Summary:
+
+- Model `tenant_domain` (custom hosts, unique, lowercase, no port). Technical host
+  `<handle>.upready.dev` is derived from the handle (base domains from
+  `TENANT_BASE_DOMAINS`, default `upready.dev,localhost`), never stored, never deletable.
+- `GET /storefront/by-host?host=<host>` (NOT under `/store/*`: measured 2026-09-11 08:4x, the global
+  publishable-key gate answers 400 to any `/store/*` call without a key, so a resolver there cannot
+  bootstrap the key) → `{ tenant: { id, handle, name }, publishable_key: string, theme, settings,
+  home }` (theme/settings/home from the home document or `null`s); unknown host → 404. Port stripped
+  server-side too. No auth; the publishable key is not a secret (it is in every storefront HTML).
+- `GET /tenants/domains` → `{ domains: [{ id, host }], technical: ["<handle>.upready.dev"] }`,
+  `POST /tenants/domains` `{ host }` → `{ domain }` (409 `DUPLICATE_ERROR` when another tenant holds
+  it or it equals another tenant's technical host), `DELETE /tenants/domains/:id`.
+- Storefront: `middleware.ts` resolves the tenant from `request.headers.host` through the resolver
+  (in-memory cache 60 s per host), sets `x-tenant-key`, `x-tenant-handle`, `x-tenant-theme`,
+  `x-tenant-mode` request headers; `lib/config.ts` stops passing the env key to the SDK and instead
+  every fetch takes `x-publishable-api-key` from the request headers (`headers()` in server code;
+  `fetchWithoutLocale` included); `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` remains only the fallback when
+  the resolver answers 404 (single-store mode). Cache tags gain the tenant handle suffix so two
+  tenants never share a cached catalog page. `app/layout.tsx` reads theme/mode from the headers.
+  Acceptance: `acme.localhost:8010` and `globex.localhost:8010` on ONE `next dev` show 9 and 3 cards
+  on `/en/store` and different presets (seed: acme → `sneakers` dark, globex → `home-goods` light
+  through `PUT /tenants/home`), screenshots of both; a tenant created through the API opens on its
+  host without a restart.
