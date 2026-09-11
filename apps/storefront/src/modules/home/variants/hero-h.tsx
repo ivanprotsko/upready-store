@@ -2,7 +2,7 @@ import Image from "next/image"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
-import { profile, promoText } from "@lib/profile"
+import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
 import { convertToLocale } from "@lib/util/money"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { getHomeRegion, getLeadCollection, listLeadProducts } from "@lib/data/home"
@@ -49,9 +49,9 @@ export default async function HeroH({
     return null
   }
 
-  const badge = promoText(locale)?.split(" · ")[0] ?? null
+  const badge = (await shopPromoText(locale))?.split(" · ")[0] ?? null
   const headline = title || collection.title
-  const line = subtitle || profile.brand?.tagline
+  const line = subtitle || (await shopTagline())
 
   const shelfPrices = shelf
     .map((p) => getProductPrice({ product: p, locale }).cheapestPrice)

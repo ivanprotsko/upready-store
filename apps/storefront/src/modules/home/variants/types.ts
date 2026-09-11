@@ -20,6 +20,15 @@ export type HomeHeroProps = {
   /** Only the variants that show one photograph read this; the shelf and the galleries
    *  compose several images of their own and ignore it. */
   imageUrl?: string | null
+  /**
+   * Whether a field left empty may fall back to the build profile's own hero. True
+   * (the default) is the single-store stand; a shop served from its own home document
+   * passes false, because the profile baked into the image is another shop's: its
+   * photograph reached a wizard-created shop as a broken image and its subheadline
+   * would have spoken for the tenant (measured on the local build for nochlavka,
+   * 2026-09-12 — the same class as the tiles and promo strip of 91d4977).
+   */
+  profileFallback?: boolean
 }
 
 /** `content.products` of the document: which products the listing block shows. */

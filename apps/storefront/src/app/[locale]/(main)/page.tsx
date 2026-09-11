@@ -15,6 +15,7 @@ import {
 import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
 import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
+import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
 import { listCategories } from "@lib/data/categories"
@@ -70,7 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: siteName,
     description: t("description"),
-    alternates: buildAlternates(locale, "/"),
+    alternates: await buildAlternates(locale, "/"),
   }
 }
 
@@ -106,11 +107,12 @@ export default async function Home() {
   // "this shop's document, else the site-wide one", which is why there is no second
   // fallback here; a single-store deployment resolves no shop and reads exactly what it
   // read before either piece existed.
-  const [t, settings, home, tileList] = await Promise.all([
+  const [t, settings, home, tileList, locale] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),
     getTenantHome(),
     tilesForThisShop(),
+    getLocale(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -123,7 +125,7 @@ export default async function Home() {
 
   // An empty string in the document means "the tenant left this field blank", which is the
   // same thing as "not set" for every hero: each falls back to its own copy per field.
-  const heroContent = home?.content.hero
+  const heroContent = localizedHero(home?.content.hero, locale)
   const heroProps: HomeHeroProps = heroContent
     ? {
         title: heroContent.title || null,
@@ -131,6 +133,7 @@ export default async function Home() {
         ctaLabel: heroContent.cta_label || null,
         ctaHref: heroContent.cta_href || null,
         imageUrl: heroContent.image_url || null,
+        profileFallback: false,
       }
     : {}
 

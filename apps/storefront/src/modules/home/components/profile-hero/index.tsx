@@ -28,13 +28,17 @@ import type { HomeHeroProps } from "@modules/home/variants/types"
  * the one layout that can be composed from text alone.
  */
 function resolveHero(props: HomeHeroProps) {
-  const headline = props.title || hero?.headline || null
-  const subheadline = props.subtitle || hero?.subheadline || null
-  const image = props.imageUrl || hero?.image || null
+  // A shop with its own home document never borrows from the build profile
+  // (`HomeHeroProps.profileFallback`): the profile is a fallback for a single-store
+  // stand, not another shop's voice or photograph.
+  const fallback = props.profileFallback === false ? null : hero
+  const headline = props.title || fallback?.headline || null
+  const subheadline = props.subtitle || fallback?.subheadline || null
+  const image = props.imageUrl || fallback?.image || null
   const cta =
     props.ctaLabel && props.ctaHref
       ? { label: props.ctaLabel, href: props.ctaHref }
-      : hero?.cta ?? null
+      : fallback?.cta ?? null
   // Which layout, when the build profile and the tenant disagree. `announcement` is the
   // one layout that renders NO photograph — it exists for a profile that has none to offer
   // — so a tenant that filled `content.hero.image_url` under a profile pinned to it would
@@ -43,7 +47,7 @@ function resolveHero(props: HomeHeroProps) {
   // A tenant image therefore overrides an image-less profile layout; every other case keeps
   // the profile's choice, so a single-store stand (no tenant document, no `props.imageUrl`)
   // renders exactly what it rendered before.
-  const profileLayout = hero?.layout ?? null
+  const profileLayout = fallback?.layout ?? null
   const layout =
     props.imageUrl && (!profileLayout || profileLayout === "announcement")
       ? "full-bleed"

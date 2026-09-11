@@ -50,6 +50,19 @@ export type HomeBlock = (typeof HOME_BLOCKS)[number];
 
 export const TENANT_HOME_SCHEMA_ID = "upready.tenant-home/v1";
 
+/** Per-locale overrides of the copy fields; the base fields stay the fallback. A
+ *  storefront serves 36 locales over one document, so a Russian visitor of a shop
+ *  whose owner wrote English copy otherwise reads that English under a Russian catalog
+ *  (measured on acme/globex/initech `/ru`, 2026-09-12). Keys are storefront locale
+ *  codes (`ru`, `en`, `pt-BR`). */
+const heroCopySchema = z
+  .object({
+    title: z.string().max(200),
+    subtitle: z.string().max(500),
+    cta_label: z.string().max(100),
+  })
+  .partial();
+
 const heroSchema = z.object({
   title: z.string().max(200).default(""),
   subtitle: z.string().max(500).default(""),
@@ -58,6 +71,9 @@ const heroSchema = z.object({
    *  storefront renders it as a link and never as markup, so no scheme check. */
   cta_href: z.string().max(500).default(""),
   image_url: z.string().max(1000).nullable().default(null),
+  i18n: z
+    .record(z.string().regex(/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/), heroCopySchema)
+    .optional(),
 });
 
 const productsSchema = z.discriminatedUnion("source", [
@@ -125,6 +141,7 @@ export type TenantHomeDocument = {
       cta_label: string;
       cta_href: string;
       image_url: string | null;
+      i18n?: Record<string, { title?: string; subtitle?: string; cta_label?: string }>;
     };
     products:
       | { source: "popular" }

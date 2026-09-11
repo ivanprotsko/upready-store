@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
-import { promoText } from "@lib/profile"
+import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
 import PoweredBy from "@modules/layout/components/powered-by"
@@ -37,7 +37,7 @@ export default async function FooterF5() {
   // get their own Information column here — F5's brand block has only the two
   // catalog columns, so there is no existing column to append them to.
   const tenantPages = await listTenantPages()
-  const facts = (promoText(locale)?.split(" · ") ?? []).slice(0, 3)
+  const facts = ((await shopPromoText(locale))?.split(" · ") ?? []).slice(0, 3)
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">

@@ -45,12 +45,17 @@ import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 
 export type HomeBlock = "hero" | "categories" | "products"
 
+/** The copy fields a locale may override; the base fields stay the fallback. */
+export type TenantHeroCopy = Partial<Pick<TenantHeroContent, "title" | "subtitle" | "cta_label">>
+
 export type TenantHeroContent = {
   title: string
   subtitle: string
   cta_label: string
   cta_href: string
   image_url: string | null
+  /** Per-locale copy, keyed by storefront locale (`ru`, `en`); absent on older documents. */
+  i18n?: Partial<Record<string, TenantHeroCopy>>
 }
 
 export type TenantProductsContent =

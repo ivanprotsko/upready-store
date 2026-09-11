@@ -216,6 +216,19 @@ const profileCategoryImages = (profile: string): Map<string, string> => {
   return images;
 };
 
+/**
+ * The three demo shops speak English in their document; a Russian visitor gets the
+ * same promise in Russian (`content.hero.i18n`, read by the storefront's home page).
+ * Measured before the fix on acme/globex/initech `/ru`: English subtitle over a
+ * Russian catalog (2026-09-12).
+ */
+const demoHeroCopy = (demo: { name: string }) => ({
+  ru: {
+    subtitle: `${demo.name} работает на общем движке и отвечает на своём домене.`,
+    cta_label: "В каталог",
+  },
+});
+
 /** The first product's own hero image — a stand-in for the tenant's shop hero. */
 const profileHeroImage = (profile: string): string | undefined => {
   const file = path.join(
@@ -460,6 +473,7 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
             cta_label: "Shop",
             cta_href: "/store",
             image_url: heroRef ? mediaUrl(demo.profile, heroRef) : null,
+            i18n: demoHeroCopy(demo),
           },
           products: { source: "popular" },
           order: ["hero", "categories", "products"],
@@ -478,7 +492,11 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
       // the same class as the category images above, so it takes the same rule:
       // fill the hole, never overwrite a value somebody chose (rule 20).
       const document = home.config as unknown as TenantHomeDocument;
-      const hero = (document?.content?.hero ?? null) as { image_url?: string | null } | null;
+      const hero = (document?.content?.hero ?? null) as {
+        image_url?: string | null;
+        i18n?: Record<string, unknown>;
+      } | null;
+      let patched = false;
 
       if (hero && !hero.image_url) {
         const heroRef = profileHeroImage(demo.profile);
@@ -498,9 +516,26 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
           input: { tenant_id: tenant.id, config: document },
         });
         logger.info(`seed-mt-demo: ${demo.handle} — existing home document given its hero image`);
-      } else {
+        patched = true;
+      }
+
+      // Same shape as the hero image above: the three live documents were written
+      // before `content.hero.i18n` existed, and "left alone" would mean their Russian
+      // visitors keep reading the English subtitle for good.
+      if (hero && !hero.i18n) {
+        hero.i18n = demoHeroCopy(demo);
+        (document as unknown as { updatedAt: string }).updatedAt = new Date().toISOString();
+
+        await upsertTenantHomeWorkflow(container).run({
+          input: { tenant_id: tenant.id, config: document },
+        });
+        logger.info(`seed-mt-demo: ${demo.handle} — existing home document given its localized hero copy`);
+        patched = true;
+      }
+
+      if (!patched) {
         logger.info(
-          `seed-mt-demo: ${demo.handle} — home document already exists with a hero image, left alone`,
+          `seed-mt-demo: ${demo.handle} — home document already exists with a hero image and localized copy, left alone`,
         );
       }
     }

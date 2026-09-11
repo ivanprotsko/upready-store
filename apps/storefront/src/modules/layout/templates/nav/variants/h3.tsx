@@ -4,7 +4,7 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { profile, promoText } from "@lib/profile"
+import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
 import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import CartButton from "@modules/layout/components/cart-button"
@@ -51,7 +51,7 @@ export default async function NavH3() {
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
     .slice(0, MAX_NAV_LINKS)
-  const serviceMessage = promoText(locale) ?? profile.brand?.tagline
+  const serviceMessage = (await shopPromoText(locale)) ?? (await shopTagline())
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">

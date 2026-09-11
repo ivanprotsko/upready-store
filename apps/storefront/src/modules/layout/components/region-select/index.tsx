@@ -237,23 +237,39 @@ const RegionSelect = ({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        data-testid="nav-region-select-button"
-        className={clx(
-          "flex items-center gap-x-1.5 text-ui-fg-subtle hover:text-ui-fg-base transition-colors",
-          className
-        )}
-      >
-        <CountryFlag
-          countryCode={triggerFlagCode}
-          style={{ width: "16px", height: "16px" }}
-          className="shrink-0 rounded-sm"
-        />
-        <span className="uppercase">{currentLocale}</span>
-        <ChevronDown className="shrink-0 w-2.5 h-2.5" />
-      </button>
+      {/* Two controls, not one. The language and the delivery country are different
+          choices, and a country flag glued to a language code reads as an error: a
+          US flag beside "RU" in the header of every new shop (measured 2026-09-12).
+          The language shows as its code alone; the country as its flag plus the
+          currency the prices are in. Both open the same dialog, which has a section
+          for each. */}
+      <span className={clx("flex items-center gap-x-3 text-ui-fg-subtle", className)}>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          data-testid="nav-region-select-button"
+          aria-label={t("tabLanguage")}
+          className="flex items-center gap-x-1 hover:text-ui-fg-base transition-colors"
+        >
+          <span className="uppercase">{currentLocale}</span>
+          <ChevronDown className="shrink-0 w-2.5 h-2.5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          data-testid="nav-country-select-button"
+          aria-label={t("tabCountry")}
+          className="flex items-center gap-x-1.5 hover:text-ui-fg-base transition-colors"
+        >
+          <CountryFlag
+            countryCode={triggerFlagCode}
+            style={{ width: "16px", height: "16px" }}
+            className="shrink-0 rounded-sm"
+          />
+          <span className="uppercase">{selectedCountryOption.currencyCode}</span>
+          <ChevronDown className="shrink-0 w-2.5 h-2.5" />
+        </button>
+      </span>
 
       <Transition show={open}>
         <Dialog onClose={() => setOpen(false)} className="relative z-[65]">

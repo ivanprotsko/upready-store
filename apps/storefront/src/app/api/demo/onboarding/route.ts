@@ -173,6 +173,14 @@ export async function POST(request: NextRequest) {
             cta_label: "В каталог",
             cta_href: "/store",
             image_url: null,
+            // The wizard speaks Russian; an English visitor of the new shop gets the same
+            // promise in English (`content.hero.i18n`, read by `(main)/page.tsx`).
+            i18n: {
+              en: {
+                subtitle: "A new shop on the shared engine, at its own address.",
+                cta_label: "Shop",
+              },
+            },
           },
           products: { source: "popular" },
           order: ["hero", "categories", "products"],

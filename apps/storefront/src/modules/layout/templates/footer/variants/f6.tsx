@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
-import { promoText } from "@lib/profile"
+import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
 import PoweredBy from "@modules/layout/components/powered-by"
@@ -41,7 +41,7 @@ export default async function FooterF6() {
   // tenant-panel wave 2, piece 7: the shop owner's own published content
   // pages, in the same link row as the categories and collections.
   const tenantPages = await listTenantPages()
-  const clauses = promoText(locale)?.split(" · ") ?? []
+  const clauses = (await shopPromoText(locale))?.split(" · ") ?? []
 
   return (
     <footer className="border-t border-ui-contrast-border-base w-full bg-ui-contrast-bg-base text-ui-contrast-fg-primary">
