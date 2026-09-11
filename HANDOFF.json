@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T10:52:21+08:00",
-  "status": "Волна 2: приняты и слиты куски 1–8 (trunk feat/mt-panel-2; все проверки трёх приложений зелёные; e2e после 6 — 175 PASS, прогон после 8 идёт). Остался кусок 9 (mt2-piece-9, by-host) — по его отчёту: приёмка, merge, витрина :8010 без env-ключа, скриншоты acme/globex, READY. night.md = NOT READY.",
+  "updated": "2026-09-11T10:59:37+08:00",
+  "status": "Волна 2: куски 1–8 слиты в feat/mt-panel-2 (все проверки трёх приложений зелёные); e2e-патчи секции home закоммичены, повтор секции идёт. Остался кусок 9 (mt2-piece-9 работает): приёмка → merge → витрина :8010 без env-ключа → скриншоты acme/globex → READY. Push не делался.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
