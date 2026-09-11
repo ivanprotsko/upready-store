@@ -35,7 +35,19 @@ function resolveHero(props: HomeHeroProps) {
     props.ctaLabel && props.ctaHref
       ? { label: props.ctaLabel, href: props.ctaHref }
       : hero?.cta ?? null
-  const layout = hero?.layout ?? (image ? "full-bleed" : "announcement")
+  // Which layout, when the build profile and the tenant disagree. `announcement` is the
+  // one layout that renders NO photograph — it exists for a profile that has none to offer
+  // — so a tenant that filled `content.hero.image_url` under a profile pinned to it would
+  // have its image stored in the database and invisible on the screen. Measured on the live
+  // shops 2026-09-12: all three demo tenants carried a hero image and none showed one.
+  // A tenant image therefore overrides an image-less profile layout; every other case keeps
+  // the profile's choice, so a single-store stand (no tenant document, no `props.imageUrl`)
+  // renders exactly what it rendered before.
+  const profileLayout = hero?.layout ?? null
+  const layout =
+    props.imageUrl && (!profileLayout || profileLayout === "announcement")
+      ? "full-bleed"
+      : profileLayout ?? (image ? "full-bleed" : "announcement")
 
   return { headline, subheadline, image, cta, layout }
 }
