@@ -1,0 +1,36 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 50,
+  "action": "task-approve",
+  "ts": "2026-09-11T08:13:49+08:00",
+  "status": "Ночь 2 идёт (промпты A/B выданы 07:43, сторож bvl3igi1i). Иван 08:10 снял ограничения по задачам для всего направления МТ (записано в memory/decisions, последний раздел) — сессии МТ заводят и активируют t-…-mt-… сами. t-2026-09-12-mt-storefront-by-host активна = кусок 9 сессии A; worktrees A/B на 69b506b+. Push не делать",
+  "task": {
+    "id": "t-2026-09-11-mt-specs-diagrams",
+    "title": "Спецификации и схемы МТ как зеркало кода: C4/ER/sequence/flowchart/state/gantt/route-map с датами и коммитом сверки, генерация из кода + specs-verify с отчётом дрейфа",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Иван 11.09 08:1x (дословно в docs/multitenancy/2026-09-11-night-2-specs-brief.md): спецификации «как работает и как должно», все схемы (er, sequence, flowchart, gantt и т.д.), схемы = зеркало кода, регулярно перепроверяются, у каждой дата создания/обновления, чтобы агенты знали, когда верить, а когда идти в код. Ветка feat/mt-specs от feat/mt-vendors; код приложений не правится.",
+    "files": [
+      "docs/specs"
+    ],
+    "tags": [
+      "multitenancy",
+      "specs",
+      "docs"
+    ],
+    "created": "2026-09-11T08:13:19+08:00",
+    "updated": "2026-09-11T08:13:49+08:00",
+    "goal": "Иван и агенты видят систему МТ в схемах (C4, ER, sequence, flowchart, state, gantt, route map, глоссарий), каждая с датой создания/обновления, статусом as-is/to-be и коммитом сверки; схемы генерируются из кода где возможно и перепроверяются скриптом, дрейф виден в отчёте",
+    "acceptance": [
+      "docs/specs/README.md + registry.json (JSON, 18b) с полями id/kind/status/created/updated/verified_against/verified_at/generator/sources у каждой схемы",
+      "specs-generate.mjs даёт ER, карту маршрутов, шаги workflow и gantt из кода/HANDOFF; specs-verify.mjs помечает STALE рукописные схемы по diff их sources и FAIL при дрейфе generated; оба прогнаны rc=0, отчёт verify-report.md лежит",
+      "схемы из брифа §2 (8 видов) нарисованы в mermaid, целевое отделено от as-is словами и ссылкой на задачу",
+      "Иван за 5 минут по README находит «как сейчас / что строится / какой схеме не верить» (18e)",
+      "ни одной правки вне docs/specs, scripts/specs-*.mjs, AGENTS.md (одна строка) и HANDOFF"
+    ],
+    "approved": "2026-09-11T08:13:49+08:00"
+  }
+}
