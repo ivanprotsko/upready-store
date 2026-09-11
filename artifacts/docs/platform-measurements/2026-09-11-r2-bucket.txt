@@ -1,0 +1,30 @@
+R2_BACKUP_* creds ARE present in ~/upready/.env.keys (R2_BACKUP_BUCKET, R2_BACKUP_ACCESS_KEY_ID,
+R2_BACKUP_SECRET_ACCESS_KEY), CLOUDFLARE_ACCOUNT_ID also present. Script:
+artifacts/docs/platform-measurements/05-r2-bucket.mjs (@aws-sdk/client-s3 resolved by absolute
+path from node_modules/.pnpm).
+
+Result: SKIPPED — network-layer TLS handshake failure against
+https://<CLOUDFLARE_ACCOUNT_ID>.r2.cloudflarestorage.com, reproduced three ways from this machine:
+
+  node script (aws-sdk v3):
+    Error: write EPROTO ... SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure
+
+  curl -sv https://<account_id>.r2.cloudflarestorage.com
+    LibreSSL/3.3.6: error:1404B410:SSL routines:ST_CONNECT:sslv3 alert handshake failure
+
+  openssl s_client -connect <account_id>.r2.cloudflarestorage.com:443 -servername <same>
+    40EC940102000000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure
+
+DNS resolves fine (172.64.66.1 / 172.64.190.1), TCP connects, then the server sends a fatal TLS
+alert 40 (handshake_failure) before any certificate — this happens at TLS ClientHello, both under
+TLS1.3 and forced TLS1.2. Control test: https://api.cloudflare.com and https://example.com both
+complete a normal TLS handshake from the same machine at the same time, so this is not a generic
+outbound-TLS block — it is specific to this hostname. Most likely read: the account id used here
+either has no R2 subdomain provisioned at Cloudflare's edge, or the bucket/account pairing in
+.env.keys does not match a live R2 binding; distinguishing those needs the Cloudflare dashboard,
+which is out of scope for a read-only local measurement.
+
+Conclusion for the spec: bucket object count and bytes are NOT measured tonight. The static-file
+growth model in "Таблица роста" uses the stand's local apps/backend/static (0 — not present on
+this worktree, see 2026-09-11-static-size.txt) and per-object economics from the fetched R2
+pricing page only, without a live bucket total.
