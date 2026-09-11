@@ -5,7 +5,8 @@ import {
   getPricesForVariant,
   type VariantWithPrice,
 } from "@lib/util/get-product-price"
-import { SITE_NAME, getBaseURL } from "@lib/util/env"
+import { getBaseURL } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 const BASE = getBaseURL().replace(/\/$/, "")
 
@@ -85,10 +86,12 @@ function buildOffer({
   variant,
   productUrl,
   condition,
+  siteName,
 }: {
   variant: VariantWithPrice
   productUrl: string
   condition: string
+  siteName: string
 }): JsonLdNode | null {
   const price = getPricesForVariant(variant)
 
@@ -103,7 +106,7 @@ function buildOffer({
     itemCondition: condition,
     ...(variant.sku ? { sku: variant.sku } : {}),
     ...identifiers(variant),
-    seller: { "@type": "Organization", name: SITE_NAME },
+    seller: { "@type": "Organization", name: siteName },
   }
 }
 
@@ -139,18 +142,20 @@ function buildBreadcrumbList(
   }
 }
 
-export function buildSiteJsonLd(locale: string): JsonLdNode {
+export async function buildSiteJsonLd(locale: string): Promise<JsonLdNode> {
+  const siteName = await getSiteName()
+
   const organization: JsonLdNode = {
     "@type": "Organization",
     "@id": `${BASE}/#organization`,
-    name: SITE_NAME,
+    name: siteName,
     url: BASE,
   }
 
   const website: JsonLdNode = {
     "@type": "WebSite",
     "@id": `${BASE}/#website`,
-    name: SITE_NAME,
+    name: siteName,
     url: localeUrl(locale, "/"),
     inLanguage: locale,
     publisher: { "@id": `${BASE}/#organization` },
@@ -189,7 +194,7 @@ export function buildBreadcrumbJsonLd({
  * `Product` plus one `Offer` per priced variant, and the page's
  * `BreadcrumbList`, as a single `@graph` so both nodes ship in one script tag.
  */
-export function buildProductJsonLd({
+export async function buildProductJsonLd({
   product,
   locale,
   breadcrumbs = [],
@@ -197,7 +202,8 @@ export function buildProductJsonLd({
   product: HttpTypes.StoreProduct
   locale: string
   breadcrumbs?: JsonLdCrumb[]
-}): JsonLdNode {
+}): Promise<JsonLdNode> {
+  const siteName = await getSiteName()
   const url = localeUrl(locale, `/products/${product.handle}`)
   const meta = (product.metadata ?? {}) as Record<string, unknown>
   const condition =
@@ -212,10 +218,12 @@ export function buildProductJsonLd({
     .map(assetUrl)
 
   const offers = ((product.variants ?? []) as VariantWithPrice[])
-    .map((variant) => buildOffer({ variant, productUrl: url, condition }))
+    .map((variant) =>
+      buildOffer({ variant, productUrl: url, condition, siteName })
+    )
     .filter((offer): offer is JsonLdNode => offer !== null)
 
-  const brand = strMeta(meta.brand) ?? SITE_NAME
+  const brand = strMeta(meta.brand) ?? siteName
   const description = stripHtml(product.description ?? product.subtitle)
   const category = categoryPath(product)
 

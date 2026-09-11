@@ -4,9 +4,8 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
-import { SITE_NAME } from "@lib/util/env"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
@@ -37,10 +36,11 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode] = await Promise.all([
+  const [{ categories, totalCount }, regions, countryCode, siteName] = await Promise.all([
     listTopCategoriesWithCounts(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
+    getSiteName(),
   ])
 
   return (
@@ -65,7 +65,7 @@ export default async function NavH6() {
               className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="nav-store-link"
             >
-              {SITE_NAME}
+              {siteName}
             </Link>
           </BrandUnlock>
 

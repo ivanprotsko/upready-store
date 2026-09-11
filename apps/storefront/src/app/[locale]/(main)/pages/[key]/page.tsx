@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import { getTenantPage } from "@lib/data/tenant-pages"
 import { buildAlternates } from "@lib/util/alternates"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
 import MarkdownContent from "@modules/content/components/markdown-content"
@@ -38,10 +38,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: pageTitle(page.title),
+    title: await pageTitle(page.title),
     description:
       metaDescription(page.body) ??
-      t("metaDescription", { title: page.title, siteName: SITE_NAME }),
+      t("metaDescription", { title: page.title, siteName: await getSiteName() }),
     alternates: buildAlternates(locale, `/pages/${params.key}`),
   }
 }

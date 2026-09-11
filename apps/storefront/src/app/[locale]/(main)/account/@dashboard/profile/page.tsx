@@ -11,14 +11,14 @@ import { retrieveCustomer } from "@lib/data/customer"
 import { getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 import AccountPageHeader from "@modules/account/components/account-page-header"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Metadata.profile")
 
   return {
-    title: pageTitle(t("title")),
-    description: t("description", { siteName: SITE_NAME }),
+    title: await pageTitle(t("title")),
+    description: t("description", { siteName: await getSiteName() }),
   }
 }
 

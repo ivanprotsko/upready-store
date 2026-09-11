@@ -7,7 +7,8 @@ import { getCountryCode } from "@lib/data/cookies"
 import ProductTemplate from "@modules/products/templates"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale } from "next-intl/server"
-import { DEFAULT_REGION, SITE_NAME } from "@lib/util/env"
+import { DEFAULT_REGION } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
 
@@ -57,7 +58,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const title = product.title ? pageTitle(product.title) : SITE_NAME
+  const title = product.title
+    ? await pageTitle(product.title)
+    : await getSiteName()
 
   const description = metaDescription(product.description, product.subtitle)
 

@@ -4,7 +4,7 @@ import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
 import { promoText } from "@lib/profile"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 import PoweredBy from "@modules/layout/components/powered-by"
 
@@ -23,8 +23,11 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * broken grid.
  */
 export default async function FooterF5() {
-  const t = await getTranslations("Footer")
-  const locale = await getLocale()
+  const [t, locale, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getLocale(),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
@@ -62,7 +65,7 @@ export default async function FooterF5() {
             href="/"
             className="txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase transition-colors"
           >
-            {SITE_NAME}
+            {siteName}
           </Link>
           <div
             className={
@@ -139,7 +142,7 @@ export default async function FooterF5() {
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
           <PoweredBy className="hidden lg:flex" />

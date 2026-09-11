@@ -4,7 +4,7 @@ import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 
 import { listCategories } from "@lib/data/categories"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import CategoryMenu from "@modules/layout/components/category-menu"
 import Search from "@modules/layout/components/search"
 import CartButton from "@modules/layout/components/cart-button"
@@ -12,9 +12,10 @@ import ModeToggle from "@modules/layout/components/mode-toggle"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const BottomNav = async () => {
-  const [categories, t] = await Promise.all([
+  const [categories, t, siteName] = await Promise.all([
     listCategories(),
     getTranslations("Nav"),
+    getSiteName(),
   ])
 
   return (
@@ -32,7 +33,7 @@ const BottomNav = async () => {
 
       <div className="flex flex-1 items-center justify-center">
         <BrandUnlock>
-          <Link href="/" aria-label={SITE_NAME} data-testid="bottom-nav-store-link">
+          <Link href="/" aria-label={siteName} data-testid="bottom-nav-store-link">
             <Image src="/medusa.svg" alt="" width={24} height={26} priority />
           </Link>
         </BrandUnlock>

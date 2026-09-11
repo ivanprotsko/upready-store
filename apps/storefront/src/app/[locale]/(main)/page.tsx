@@ -16,15 +16,16 @@ import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
 import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
 import { getTranslations, getLocale } from "next-intl/server"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [t, locale] = await Promise.all([
+  const [t, locale, siteName] = await Promise.all([
     getTranslations("Metadata.home"),
     getLocale(),
+    getSiteName(),
   ])
   return {
-    title: SITE_NAME,
+    title: siteName,
     description: t("description"),
     alternates: buildAlternates(locale, "/"),
   }

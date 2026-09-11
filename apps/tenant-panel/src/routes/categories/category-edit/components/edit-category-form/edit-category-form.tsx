@@ -1,16 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Select, Textarea, toast } from "@medusajs/ui"
+import { Button, Input, Label, Select, Text, Textarea, toast } from "@medusajs/ui"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
-import { HttpTypes } from "@medusajs/types"
+import type { AdminFile, HttpTypes } from "@medusajs/types"
 import { Form } from "../../../../../components/common/form"
 import { HandleInput } from "../../../../../components/inputs/handle-input"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
+import { sdk } from "../../../../../lib/client"
 
 const EditCategorySchema = z.object({
   name: z.string().min(1),
@@ -18,7 +20,35 @@ const EditCategorySchema = z.object({
   description: z.string().optional(),
   status: z.enum(["active", "inactive"]),
   visibility: z.enum(["public", "internal"]),
+  imageUrl: z.string().optional(),
+  imageAlt: z.string().optional(),
 })
+
+/**
+ * The mechanism (`t-2026-09-12-mt-storefront-by-host`, W3): a category has no
+ * image field in core Medusa, so it lives on `metadata.image_url` (+
+ * `metadata.image_alt`) — the jsonb column every category already has, no
+ * migration, no new module. Ownership stays the tenant-product-category
+ * link's job; this field is never used to decide who owns a category. The
+ * storefront reads it through the field selection the category routes
+ * already accept (`apps/storefront/src/lib/data/categories.ts`).
+ *
+ * The multipart upload is the same one the home page's hero image uses
+ * (`routes/home-settings/home-settings.tsx`), pointed at the same
+ * `POST /tenants/uploads` — there is no `sdk.admin`-shaped wrapper for the
+ * tenant namespace, so this goes through `sdk.client.fetch` directly.
+ */
+const uploadCategoryImage = async (file: File): Promise<AdminFile | undefined> => {
+  const form = new FormData()
+  form.append("files", file)
+
+  const { files } = await sdk.client.fetch<{ files: AdminFile[] }>(
+    "/tenants/uploads",
+    { method: "POST", headers: { "Content-Type": null }, body: form }
+  )
+
+  return files?.[0]
+}
 
 type EditCategoryFormProps = {
   category: HttpTypes.AdminProductCategory
@@ -28,6 +58,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const direction = useDocumentDirection()
+  const metadata = (category.metadata ?? {}) as Record<string, unknown>
+  const [uploading, setUploading] = useState(false)
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     defaultValues: {
       name: category.name,
@@ -35,9 +67,34 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
       description: category.description || "",
       status: category.is_active ? "active" : "inactive",
       visibility: category.is_internal ? "internal" : "public",
+      imageUrl: typeof metadata.image_url === "string" ? metadata.image_url : "",
+      imageAlt: typeof metadata.image_alt === "string" ? metadata.image_alt : "",
     },
     resolver: zodResolver(EditCategorySchema),
   })
+
+  const onUpload = async (file: File | undefined) => {
+    if (!file) {
+      return
+    }
+    setUploading(true)
+    try {
+      const uploaded = await uploadCategoryImage(file)
+      if (uploaded?.url) {
+        form.setValue("imageUrl", uploaded.url, { shouldDirty: true })
+      }
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : t("categories.edit.imageUploadFailed", {
+              defaultValue: "The image could not be uploaded.",
+            })
+      )
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const { mutateAsync, isPending } = useUpdateProductCategory(category.id)
   const handleSubmit = form.handleSubmit(async (data) => {
@@ -48,6 +105,11 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
         handle: data.handle,
         is_active: data.status === "active",
         is_internal: data.visibility === "internal",
+        metadata: {
+          ...metadata,
+          image_url: data.imageUrl || null,
+          image_alt: data.imageAlt || null,
+        },
       },
       {
         onSuccess: () => {
@@ -110,6 +172,55 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                     <Form.Label optional>{t("fields.description")}</Form.Label>
                     <Form.Control>
                       <Textarea {...field} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <div className="flex flex-col gap-y-2">
+              <Label size="small" weight="plus" htmlFor="category-image">
+                {t("categories.edit.image", { defaultValue: "Image" })}
+              </Label>
+              <div className="flex items-center gap-x-2">
+                <Input
+                  id="category-image"
+                  data-testid="category-image"
+                  {...form.register("imageUrl")}
+                />
+                <label className="shrink-0">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    data-testid="category-image-upload"
+                    onChange={(e) => onUpload(e.target.files?.[0])}
+                  />
+                  <span className="txt-compact-small-plus inline-flex h-8 cursor-pointer items-center rounded-md border border-ui-border-base px-3 text-ui-fg-subtle hover:bg-ui-bg-base-hover">
+                    {uploading
+                      ? t("categories.edit.uploading", { defaultValue: "Uploading…" })
+                      : t("categories.edit.upload", { defaultValue: "Upload" })}
+                  </span>
+                </label>
+              </div>
+              <Text size="small" className="text-ui-fg-subtle">
+                {t("categories.edit.imageHint", {
+                  defaultValue:
+                    "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+                })}
+              </Text>
+            </div>
+            <Form.Field
+              control={form.control}
+              name="imageAlt"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>
+                      {t("categories.edit.imageAlt", { defaultValue: "Image description" })}
+                    </Form.Label>
+                    <Form.Control>
+                      <Input autoComplete="off" {...field} />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>

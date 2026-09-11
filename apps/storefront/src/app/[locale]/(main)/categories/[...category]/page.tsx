@@ -3,13 +3,13 @@ import { notFound } from "next/navigation"
 
 import { getCategoryByHandle } from "@lib/data/categories"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import { parseSubcategoryHandles } from "@lib/util/subcategory-filters"
 import CategoryTemplate from "@modules/categories/templates"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getLocale, getTranslations } from "next-intl/server"
-import { DEFAULT_REGION, SITE_NAME } from "@lib/util/env"
+import { DEFAULT_REGION } from "@lib/util/env"
 import { pageTitle } from "@lib/util/page-title"
 
 type Props = {
@@ -31,12 +31,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       getTranslations("Metadata.category"),
       getCategoryByHandle(params.category),
     ])
-    const title = pageTitle(productCategory.name)
+    const title = await pageTitle(productCategory.name)
     const description =
       productCategory.description?.trim() ||
       t("description", {
         category: productCategory.name,
-        siteName: SITE_NAME,
+        siteName: await getSiteName(),
       })
     const categoryPath = `/categories/${params.category.join("/")}`
 
