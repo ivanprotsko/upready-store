@@ -1,5 +1,6 @@
 import { clx } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
+import { getTenantHandle } from "@lib/data/cookies"
 import { Fragment } from "react"
 
 import Gorgo from "@modules/common/icons/gorgo"
@@ -19,6 +20,14 @@ export default async function PoweredBy({
 }: {
   className?: string
 }) {
+  // A shop on the shared engine is its owner's product, not the starter's: no
+  // "Powered by Gorgo & Medusa & Next.js" credit on a tenant storefront. Measured
+  // 2026-09-12 on nochlavka.shipshift.dev: a shop created minutes earlier carried
+  // four links to foreign products in its footer. A single-store stand keeps the line.
+  if ((await getTenantHandle()) !== null) {
+    return null
+  }
+
   const t = await getTranslations("Common")
 
   return (
