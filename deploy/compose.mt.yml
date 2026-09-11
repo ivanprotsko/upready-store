@@ -132,6 +132,7 @@ services:
         NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
         NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
         STORE_MEDIA_BASE_URL: https://${ENGINE_DOMAIN}/static/store-profiles/${PROFILE:-sneakers}
+        NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN: ${DEMO_TENANT_BASE_DOMAIN:-}
     image: mt-storefront:${IMAGE_TAG:-latest}
     container_name: mt-storefront
     restart: unless-stopped
@@ -150,6 +151,13 @@ services:
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
       STOREFRONT_STUDIO_PASSWORD: ${STOREFRONT_STUDIO_PASSWORD}
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}
+      # Hosts that carry the paywall->onboarding demo instead of a shop
+      # (t-2026-09-12-paywall-onboarding-demo). They resolve to no tenant, so
+      # src/middleware.ts sends them to /start, which lives outside [locale] and
+      # asks the Store API for nothing. Empty = no host behaves this way.
+      DEMO_HOSTS: ${DEMO_HOSTS:-}
+      DEMO_TENANT_BASE_DOMAIN: ${DEMO_TENANT_BASE_DOMAIN:-}
+      DEMO_PANEL_URL: ${DEMO_PANEL_URL:-}
     networks:
       - coolify
     healthcheck:

@@ -1,0 +1,44 @@
+# The paywall→onboarding demo's hosts (t-2026-09-12-paywall-onboarding-demo).
+#
+# Copied by hand to ${TRAEFIK_DYNAMIC_HOST_PATH}/mt-demo-hosts.yml. NOT written by
+# deploy/scripts/tenant-ingress-sync.sh: that script publishes hosts that belong
+# to a TENANT, and these two belong to no shop at all — the storefront answers
+# them with /start (see apps/storefront/src/middleware.ts).
+#
+# `priority: 200` is the whole point of this file. `shiftship.dev` is also claimed
+# by upready studio's own generated router
+# (/data/coolify/proxy/dynamic/0ui-custom-shiftship.dev.yml, priority 100, service
+# upready-studio-api), and `www.shiftship.dev` by its catch-all
+# HostRegexp(`^.+$`) at priority 1. Both point at a container that has been
+# Exited (137) for a week, which is where the "Bad gateway" Ivan saw comes from.
+# Ivan's order of 2026-09-12 is to take these two hosts with a HIGHER priority and
+# leave the studio's file untouched — so nothing here edits or deletes it, and
+# removing this one file hands the hosts straight back.
+http:
+  routers:
+    mt-demo-shiftship:
+      rule: "Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
+      entryPoints: ["https"]
+      service: mt-demo-storefront
+      priority: 200
+      tls:
+        certResolver: letsencrypt
+    mt-demo-shiftship-http:
+      rule: "Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
+      entryPoints: ["http"]
+      service: mt-demo-storefront
+      priority: 200
+      middlewares: ["mt-demo-to-https"]
+  middlewares:
+    mt-demo-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: false
+  services:
+    # A name of its own, not `mt-storefront`: the file provider shares one
+    # namespace, and two files declaring the same service name would be one
+    # definition silently winning over the other.
+    mt-demo-storefront:
+      loadBalancer:
+        servers:
+          - url: "http://mt-storefront:8000"

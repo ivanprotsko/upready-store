@@ -15,6 +15,54 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 const LOCALE_COOKIE = "_medusa_locale"
 
+/**
+ * Hosts that carry the paywall→onboarding DEMO instead of a shop
+ * (`t-2026-09-12-paywall-onboarding-demo`). They resolve to no tenant, and an
+ * unknown host is exactly defect A2 — measured on this deployment, `/` on such
+ * a host answers 302 to `/en` and `/en` answers 500, because every page under
+ * `[locale]` needs a publishable key the host cannot produce. So a demo host
+ * never enters `[locale]` at all: it is redirected to `/start`, which lives
+ * outside it and fetches nothing from the Store API.
+ *
+ * Comma-separated, lowercase, no scheme and no port (`shiftship.dev,www.shiftship.dev`).
+ * Empty — the default — means no host behaves this way, which is every other
+ * deployment of this image.
+ */
+const DEMO_HOSTS = (process.env.DEMO_HOSTS ?? "")
+  .split(",")
+  .map((h) => h.trim().toLowerCase())
+  .filter(Boolean)
+
+/** The demo is drawn on the Geist canon, whatever profile this image was built for. */
+const DEMO_THEME = "geist"
+const DEMO_MODE = "light"
+
+function isDemoHost(host: string | null): boolean {
+  if (!host || DEMO_HOSTS.length === 0) return false
+  return DEMO_HOSTS.includes(host.split(":")[0].toLowerCase())
+}
+
+function demoHostResponse(request: NextRequest): NextResponse {
+  const headers = new Headers(request.headers)
+  // Same rule as tenantRequestHeaders: whatever a visitor sends under these
+  // names is deleted before ours are written.
+  for (const name of TENANT_HEADERS) {
+    headers.delete(name)
+  }
+  headers.set("x-tenant-theme", DEMO_THEME)
+  headers.set("x-tenant-mode", DEMO_MODE)
+
+  const { pathname } = request.nextUrl
+  // A file request (`.ico`, `.png`, a source map) is served as-is; everything
+  // else on this host is the demo, including the `/en` a crawler or an old
+  // bookmark asks for.
+  if (pathname === "/start" || pathname.startsWith("/start/") || pathname.includes(".")) {
+    return NextResponse.next({ request: { headers } })
+  }
+
+  return NextResponse.redirect(new URL("/start", request.url), 307)
+}
+
 const INTL_LOCALE_HEADER = "X-NEXT-INTL-LOCALE"
 
 /**
@@ -138,6 +186,13 @@ function tenantRequestHeaders(
 }
 
 export async function middleware(request: NextRequest) {
+  // A demo host answers before any tenant lookup: it has no tenant by design,
+  // and resolveTenantByHost would be one pointless backend round trip per
+  // request on a host whose whole purpose is to need nothing from the shop.
+  if (isDemoHost(request.headers.get("host"))) {
+    return demoHostResponse(request)
+  }
+
   // Which shop, before anything else: the key every downstream fetch needs and
   // the theme the layout paints both come from here (piece 9). A host with no
   // tenant answers null and the storefront stays in single-store mode.
