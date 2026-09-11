@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-12T02:38:01+08:00",
+  "status": "Сессия-приёмщик МТ-деплоя (заказ Ивана 2026-09-12): четыре воронки shiftship.dev пройдены браузером на проде с холодного старта — 0 ошибок консоли, 0 ответов >=400, отказ на …0000, 3DS на …9999 и проход 4242 показаны; прямая ссылка /start/onboarding живая; панель тенанта логинится. НЕ принято: тёмного режима у демо НЕТ в коде — кадры light/dark байт-идентичны, data-mode=light зашит в layout.tsx:60-64. Журнал: artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md (922a43f)"
+}

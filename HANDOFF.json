@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-10T19:41:14+08:00",
-  "status": "t-2026-09-10-01 + t-2026-09-10-02 (заказы Ивана в чате 2026-09-10 днём): код готов на feat/locale-detect = dacbd0e (724724c локаль: choice-cookie + полный Accept-Language, ru побеждает при наличии; dacbd0e полоса категорий h5/h6 с фоном). tsc/lint/vitest 8/8 зелёные; Playwright locale.pw.ts + header.pw.ts написаны, по живому стенду НЕ гонялись — стенды ещё на старом коде, деплой не выполнялся (правило 21c, слова «выкатывай» не было). Локальный next dev :8010 из worktree не поднялся (лог не создался) — перепроверить. Дальше: мерж в feat/stands/deploy → deploy-stand.sh <stand> --skip-backend-build ×5 (по команде Ивана) → STAND_URL=… corepack pnpm test:stands -- tests/stands/locale.pw.ts tests/stands/header.pw.ts → ff dev → push.",
+  "updated": "2026-09-12T02:38:34+08:00",
+  "status": "Сессия-приёмщик МТ-деплоя (заказ Ивана 2026-09-12): четыре воронки shiftship.dev пройдены браузером на проде с холодного старта — 0 ошибок консоли, 0 ответов >=400, отказ на …0000, 3DS на …9999 и проход 4242 показаны; прямая ссылка /start/onboarding живая; панель тенанта логинится. НЕ принято: тёмного режима у демо НЕТ в коде — кадры light/dark байт-идентичны, data-mode=light зашит в layout.tsx:60-64. Журнал: artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md (922a43f)",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -639,6 +639,11 @@
       "blocks": [
         "t-2026-09-10-01"
       ]
+    },
+    {
+      "id": "q-demo-dark-mode-absent",
+      "question": "Тёмного режима у демо-воронки shiftship.dev НЕТ в коде, а пункт приёмки требует сверить оба режима кадрами. Замер приёмщика 2026-09-12: кадры /start при colorScheme light и dark байт-в-байт идентичны (sha256 4bd0642d…2553, 74258 байт, 1280x800); на <html> в обоих случаях data-mode=\"light\", хотя matchMedia('(prefers-color-scheme: dark)') внутри страницы отвечает true. Причина в apps/storefront/src/app/layout.tsx:60-64 — режим берётся из документа тенанта, затем настроек магазина, затем профиля сборки; prefers-color-scheme не читается нигде, а переключателя на /start нет (data-mode в app/start/ встречается только в onboarding/wizard.tsx:313-338, и это выбор режима ДЛЯ БУДУЩЕГО магазина). Три пути: (а) пункт приёмки относится к магазину тенанта — сверяем кадры на <handle>.shipshift.dev после создания, демо остаётся светлым; (б) демо читает prefers-color-scheme — одна строка в layout + пре-пейнт, но демо перестанет быть предсказуемым для показа; (в) на демо-воронку ставится свой тумблер режима рядом со словом demo в шапке. Влияет на то, что ты увидишь при показе.",
+      "asked": "2026-09-12"
     }
   ],
   "sessions": [
