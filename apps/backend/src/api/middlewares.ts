@@ -21,14 +21,38 @@ import { AdminGetProductTagsParams } from "@medusajs/medusa/api/admin/product-ta
 import { listProductTypesTransformQueryConfig } from "@medusajs/medusa/api/admin/product-types/query-config";
 import { AdminGetProductTypesParams } from "@medusajs/medusa/api/admin/product-types/validators";
 import {
+  listOptionConfig,
   listProductQueryConfig,
+  listVariantConfig,
   retrieveProductQueryConfig,
+  retrieveVariantConfig,
 } from "@medusajs/medusa/api/admin/products/query-config";
 import {
+  AdminBatchImageVariant,
+  AdminBatchVariantImages,
+  AdminBatchCreateVariantInventoryItem,
+  AdminBatchDeleteVariantInventoryItem,
+  AdminBatchUpdateProductVariant,
+  AdminBatchUpdateVariantInventoryItem,
   AdminCreateProduct,
+  AdminCreateProductVariant,
+  AdminCreateVariantInventoryItem,
+  AdminGetProductOptionsParams,
   AdminGetProductParams,
+  AdminGetProductVariantParams,
   AdminGetProductsParams,
+  AdminLinkProductOptions,
+  AdminUpdateProduct,
+  AdminUpdateProductVariant,
+  AdminUpdateVariantInventoryItem,
+  CreateProductVariant,
 } from "@medusajs/medusa/api/admin/products/validators";
+import { listProductVariantQueryConfig } from "@medusajs/medusa/api/admin/product-variants/query-config";
+import { AdminGetProductVariantsParams } from "@medusajs/medusa/api/admin/product-variants/validators";
+import { AdminBatchInventoryItemLevels } from "@medusajs/medusa/api/admin/inventory-items/validators";
+import { listTransformQueryConfig as listStockLocationQueryConfig } from "@medusajs/medusa/api/admin/stock-locations/query-config";
+import { AdminGetStockLocationsParams } from "@medusajs/medusa/api/admin/stock-locations/validators";
+import { createBatchBody } from "@medusajs/medusa/api/utils/validators";
 import { listTransformQueryConfig as listRegionQueryConfig } from "@medusajs/medusa/api/admin/regions/query-config";
 import { AdminGetRegionsParams } from "@medusajs/medusa/api/admin/regions/validators";
 import {
@@ -230,6 +254,153 @@ export default defineMiddlewares({
     // ---- piece 4: profile (/tenants/me, /tenants/me/password)
 
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
+    {
+      matcher: "/tenants/products/:id",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminUpdateProduct),
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id",
+      method: ["DELETE"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductVariantsParams, listVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminCreateProductVariant),
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    // The batch matcher has to come before `:variant_id`, otherwise Express
+    // hands `/variants/batch` to the single-variant route with
+    // `variant_id === "batch"`; the Admin's own middleware list is ordered the
+    // same way.
+    {
+      matcher: "/tenants/products/:id/variants/batch",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(
+          createBatchBody(CreateProductVariant, AdminBatchUpdateProductVariant),
+        ),
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/inventory-items/batch",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(
+          createBatchBody(
+            AdminBatchCreateVariantInventoryItem,
+            AdminBatchUpdateVariantInventoryItem,
+            AdminBatchDeleteVariantInventoryItem,
+          ),
+        ),
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminUpdateProductVariant),
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id",
+      method: ["DELETE"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id/images/batch",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(AdminBatchVariantImages)],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id/inventory-items",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminCreateVariantInventoryItem),
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminUpdateVariantInventoryItem),
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/variants/:variant_id/inventory-items/:inventory_item_id",
+      method: ["DELETE"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductVariantParams, retrieveVariantConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/images/:image_id/variants/batch",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(AdminBatchImageVariant)],
+    },
+    {
+      matcher: "/tenants/products/:id/options",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductOptionsParams, listOptionConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/products/:id/options/batch",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(AdminLinkProductOptions),
+        validateAndTransformQuery(AdminGetProductParams, retrieveProductQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/product-variants",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetProductVariantsParams, listProductVariantQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/stock-locations",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(AdminGetStockLocationsParams, listStockLocationQueryConfig),
+      ],
+    },
+    {
+      matcher: "/tenants/inventory-items/location-levels/batch",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(AdminBatchInventoryItemLevels)],
+    },
 
     // ---- piece 2: order detail (/tenants/orders/:id/**, payments, fulfillments)
 

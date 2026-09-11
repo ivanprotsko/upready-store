@@ -7,6 +7,13 @@
  *   node scripts/tenant-panel-shots.mjs panel   # panel-*.png (PANEL_URL, default http://localhost:5180)
  *
  * Output: artifacts/docs/tenant-panel-shots/<side>-<screen>.png (git-ignored binaries, rule 21f).
+ *
+ * Environment: PLAYWRIGHT (absolute path of the playwright package), ADMIN_URL,
+ * PANEL_URL, BACKEND_URL (default http://localhost:9023) and SHOT_PRODUCT_ID.
+ * The product-detail screens need one product both sides can open; without
+ * SHOT_PRODUCT_ID the script asks BACKEND_URL for the first product of
+ * PANEL_EMAIL's tenant, which the native Admin can open too because staff see
+ * every product.
  */
 import { createRequire } from "node:module"
 import { mkdirSync } from "node:fs"
@@ -14,7 +21,8 @@ import path from "node:path"
 
 const require = createRequire(import.meta.url)
 const { chromium } = require(
-  "/Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-vendors/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright"
+  process.env.PLAYWRIGHT ||
+    "/Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-vendors/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright"
 )
 
 const side = process.argv[2]
@@ -58,6 +66,34 @@ const shot = async (page, name) => {
   console.log("shot", file)
 }
 
+const BACKEND = process.env.BACKEND_URL || "http://localhost:9023"
+const PANEL_EMAIL = process.env.PANEL_EMAIL || "admin@acme.test"
+
+/** One product id both sides open, so the pair of shots shows the same row. */
+const resolveProductId = async () => {
+  if (process.env.SHOT_PRODUCT_ID) {
+    return process.env.SHOT_PRODUCT_ID
+  }
+  const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: PANEL_EMAIL, password: "supersecret" }),
+  })
+  const { token } = await login.json()
+  const list = await fetch(`${BACKEND}/tenants/products?limit=1&fields=id,title`, {
+    headers: { authorization: `Bearer ${token}` },
+  })
+  const { products } = await list.json()
+  return products?.[0]?.id
+}
+
+const productId = await resolveProductId()
+if (!productId) {
+  console.error(`no product to shoot: set SHOT_PRODUCT_ID or seed ${PANEL_EMAIL}'s tenant`)
+  process.exit(2)
+}
+console.log("product under the detail shots:", productId)
+
 const browser = await chromium.launch()
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "light" })
 const page = await ctx.newPage()
@@ -85,6 +121,24 @@ try {
   await page.goto(`${cfg.base}/orders`, { waitUntil: "networkidle" })
   await page.waitForTimeout(500)
   await shot(page, "orders")
+
+  // tenant panel wave 2, piece 1: the product-detail subtree. Same product id
+  // on both sides, so the pair compares like for like.
+  await page.goto(`${cfg.base}/products/${productId}`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1200)
+  await shot(page, "product-detail")
+
+  await page.goto(`${cfg.base}/products/${productId}/edit`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1000)
+  await shot(page, "product-edit")
+
+  await page.goto(`${cfg.base}/products/${productId}/variants/create`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1200)
+  await shot(page, "product-variant-create")
+
+  await page.goto(`${cfg.base}/products/${productId}/prices`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1500)
+  await shot(page, "product-prices")
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

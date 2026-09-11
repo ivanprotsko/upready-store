@@ -1,4 +1,11 @@
-import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom"
+import {
+  createBrowserRouter,
+  Outlet,
+  RouteObject,
+  RouterProvider,
+  UIMatch,
+} from "react-router-dom"
+import { HttpTypes } from "@medusajs/types"
 import { t } from "i18next"
 
 import { ProtectedRoute } from "./components/authentication/protected-route"
@@ -45,10 +52,157 @@ const routes: RouteObject[] = [
                 ],
               },
               {
-                // tenant-panel wave 2, piece 1 (product detail): this stub is
-                // replaced by the copied routes/products/product-detail tree.
+                // tenant-panel wave 2, piece 1 (product detail). Same shape as
+                // the Admin's get-route.map.tsx `/products/:id` subtree: the id
+                // level renders an Outlet and owns the breadcrumb and the
+                // loader, the empty child is the detail screen, and each
+                // drawer/modal is a child of it, `seo` included so the
+                // document title carries the product name.
                 path: ":id",
-                lazy: () => import("./routes/not-built"),
+                errorElement: <ErrorBoundary />,
+                lazy: async () => {
+                  const { Breadcrumb, loader, seo } = await import(
+                    "./routes/products/product-detail"
+                  )
+
+                  return {
+                    Component: Outlet,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminProductResponse>
+                      ) => <Breadcrumb {...match} />,
+                      seo,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "",
+                    lazy: () => import("./routes/products/product-detail"),
+                    children: [
+                      {
+                        path: "edit",
+                        lazy: () => import("./routes/products/product-edit"),
+                      },
+                      {
+                        path: "edit-variant",
+                        lazy: () =>
+                          import(
+                            "./routes/product-variants/product-variant-edit"
+                          ),
+                      },
+                      {
+                        path: "sales-channels",
+                        lazy: () =>
+                          import("./routes/products/product-sales-channels"),
+                      },
+                      {
+                        path: "attributes",
+                        lazy: () =>
+                          import("./routes/products/product-attributes"),
+                      },
+                      {
+                        path: "organization",
+                        lazy: () =>
+                          import("./routes/products/product-organization"),
+                      },
+                      {
+                        path: "shipping-profile",
+                        lazy: () =>
+                          import("./routes/products/product-shipping-profile"),
+                      },
+                      {
+                        path: "media",
+                        lazy: () => import("./routes/products/product-media"),
+                      },
+                      {
+                        path: "images/:image_id/variants",
+                        lazy: () =>
+                          import(
+                            "./routes/products/product-image-variants-edit"
+                          ),
+                      },
+                      {
+                        path: "prices",
+                        lazy: () => import("./routes/products/product-prices"),
+                      },
+                      {
+                        path: "variants/create",
+                        lazy: () =>
+                          import("./routes/products/product-create-variant"),
+                      },
+                      {
+                        path: "stock",
+                        lazy: () => import("./routes/products/product-stock"),
+                      },
+                      {
+                        path: "metadata/edit",
+                        lazy: () =>
+                          import("./routes/products/product-metadata"),
+                      },
+                      {
+                        path: "options/manage",
+                        lazy: () =>
+                          import("./routes/products/product-options-manage"),
+                      },
+                    ],
+                  },
+                  {
+                    path: "variants/:variant_id",
+                    lazy: async () => {
+                      const { Component, Breadcrumb, loader, seo } =
+                        await import(
+                          "./routes/product-variants/product-variant-detail"
+                        )
+
+                      return {
+                        Component,
+                        loader,
+                        handle: {
+                          breadcrumb: (
+                            match: UIMatch<HttpTypes.AdminProductVariantResponse>
+                          ) => <Breadcrumb {...match} />,
+                          seo,
+                        },
+                      }
+                    },
+                    children: [
+                      {
+                        path: "edit",
+                        lazy: () =>
+                          import(
+                            "./routes/product-variants/product-variant-edit"
+                          ),
+                      },
+                      {
+                        path: "prices",
+                        lazy: () => import("./routes/products/product-prices"),
+                      },
+                      {
+                        path: "manage-items",
+                        lazy: () =>
+                          import(
+                            "./routes/product-variants/product-variant-manage-inventory-items"
+                          ),
+                      },
+                      {
+                        path: "media",
+                        lazy: () =>
+                          import(
+                            "./routes/product-variants/product-variant-media"
+                          ),
+                      },
+                      {
+                        path: "metadata/edit",
+                        lazy: () =>
+                          import(
+                            "./routes/product-variants/product-variant-metadata"
+                          ),
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },

@@ -2,7 +2,10 @@
 /**
  * End-to-end acceptance of the tenant panel against a live backend (rule 18f):
  * two tenants log in and each sees only its own products and orders; Acme
- * creates a product from the panel and the storefronts show it only on Acme's.
+ * creates a product from the panel and the storefronts show it only on Acme's;
+ * and (wave 2, piece 1) Acme opens one of its products, edits its title and
+ * adds a priced variant on the detail screen, while Globex gets the 404 state
+ * on that same product URL.
  *
  *   PANEL_URL=http://localhost:5180 node e2e/tenant-panel.e2e.mjs
  *
@@ -209,6 +212,140 @@ try {
       for (const base of Object.values(STOREFRONTS)) await storefrontHasTitle(base, title)
     }
   }
+
+  // ---- wave 2, piece 1: product detail, its edit drawer, its variant create
+  // modal, and the 404 a foreign product id gives.
+  //
+  // The subject is a fixture this section creates and deletes: the detail flow
+  // adds a variant, and a variant needs an option value no existing variant
+  // uses ("Variant with provided options already exists" is a real product
+  // rule, not a panel bug), so the fixture carries a Size option with two
+  // values and only one of them taken.
+  {
+    const acme = await apiLogin("admin@acme.test")
+    const detailTitle = `E2E detail product ${stamp}`
+    const createdDetail = await acme("/tenants/products", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        title: detailTitle,
+        status: "published",
+        options: [{ title: "Size", values: ["S", "L"] }],
+        variants: [
+          {
+            title: `${detailTitle} S`,
+            prices: [{ currency_code: "eur", amount: 10 }],
+            manage_inventory: false,
+            options: { Size: "S" },
+          },
+        ],
+      }),
+    })
+    const target = createdDetail.product
+    check("Acme: detail fixture product created", !!target?.id, target?.id || JSON.stringify(createdDetail).slice(0, 200))
+
+    if (target?.id) {
+      const editedTitle = `${detailTitle} (edited)`
+      const variantTitle = `E2E variant L ${stamp}`
+
+      const ctx2 = await browser.newContext({ viewport: { width: 1440, height: 1000 } })
+      const page2 = await ctx2.newPage()
+      await login(page2, "admin@acme.test")
+
+      // Opened from the list, not by typing the URL: the row's href is part of
+      // the screen under test.
+      await page2.goto(`${PANEL}/products`, { waitUntil: "networkidle" })
+      await page2.waitForTimeout(800)
+      await page2.locator(`table tbody tr:has-text("${detailTitle}")`).first().click()
+      await page2
+        .waitForURL((u) => u.pathname === `/products/${target.id}`, { timeout: 20_000 })
+        .catch(() => {})
+      check("Acme: a product row opens its detail screen", page2.url().endsWith(`/products/${target.id}`), page2.url())
+
+      await page2.waitForTimeout(1500)
+      const detailText = await page2.locator("body").innerText()
+      check("Acme: the detail screen shows the product", detailText.includes(detailTitle))
+      check(
+        "Acme: the detail screen shows the Options and Variants sections",
+        detailText.includes("Options") && detailText.includes("Variants")
+      )
+      check("Acme: the detail screen lists the existing variant", detailText.includes(`${detailTitle} S`))
+
+      // Edit the title through the drawer.
+      await page2.goto(`${PANEL}/products/${target.id}/edit`, { waitUntil: "networkidle" })
+      await page2.waitForTimeout(1000)
+      await page2.locator('[role="dialog"] input[name="title"]').first().fill(editedTitle)
+      await clickReal(page2, page2.locator('[role="dialog"] button:has-text("Save")').first())
+      await page2
+        .waitForURL((u) => u.pathname === `/products/${target.id}`, { timeout: 20_000 })
+        .catch(() => {})
+      await page2.waitForTimeout(1800)
+      check(
+        "Acme: the edited title is on the detail screen",
+        (await page2.locator("body").innerText()).includes(editedTitle),
+        page2.url()
+      )
+      const afterEdit = await acme(`/tenants/products/${target.id}?fields=id,title`)
+      check("Acme: the API agrees the title changed", afterEdit.product?.title === editedTitle, afterEdit.product?.title)
+
+      // Add a variant with a price through the create modal.
+      await page2.goto(`${PANEL}/products/${target.id}/variants/create`, { waitUntil: "networkidle" })
+      await page2.waitForTimeout(1500)
+      await page2.locator('[role="dialog"] input[name="title"]').first().fill(variantTitle)
+      // One ariakit combobox per product option. Keyboard selection does not
+      // commit a value here; the option row has to be clicked.
+      const optionInputs = page2.locator('[role="dialog"] input[role="combobox"]')
+      for (let i = 0; i < (await optionInputs.count()); i++) {
+        await clickReal(page2, optionInputs.nth(i))
+        await page2.waitForTimeout(600)
+        await clickReal(page2, page2.locator('[role="option"]:has-text("L")').last())
+        await page2.waitForTimeout(400)
+      }
+      await clickReal(page2, page2.locator('[role="dialog"] button:has-text("Continue")').first())
+      await page2.waitForTimeout(1500)
+      await page2.locator('[role="dialog"] input[name="prices.eur"]').first().fill("77.00")
+      await page2.keyboard.press("Tab")
+      await page2.waitForTimeout(500)
+      await clickReal(page2, page2.locator('[role="dialog"] button:has-text("Save")').first())
+      await page2
+        .waitForURL((u) => u.pathname === `/products/${target.id}`, { timeout: 20_000 })
+        .catch(() => {})
+      await page2.waitForTimeout(2500)
+      check("Acme: the variant modal closed onto the detail screen", page2.url().endsWith(`/products/${target.id}`), page2.url())
+      check(
+        "Acme: the new variant is in the detail screen's variants table",
+        (await page2.locator("body").innerText()).includes(variantTitle)
+      )
+
+      const afterVariant = await acme(
+        `/tenants/products/${target.id}?fields=id,*variants,*variants.prices`
+      )
+      const newVariant = (afterVariant.product?.variants || []).find((v) => v.title === variantTitle)
+      check("Acme: the API returns the new variant", !!newVariant, `${afterVariant.product?.variants?.length} variants`)
+      check(
+        "Acme: the new variant carries its EUR price",
+        !!newVariant && (newVariant.prices || []).some((pr) => pr.currency_code === "eur" && Number(pr.amount) === 77),
+        newVariant ? JSON.stringify(newVariant.prices) : ""
+      )
+      await ctx2.close()
+
+      // Globex opens Acme's product URL: the 404 state, not the product.
+      const gctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+      const gpage = await gctx.newPage()
+      await login(gpage, "admin@globex.test")
+      await gpage.goto(`${PANEL}/products/${target.id}`, { waitUntil: "networkidle" })
+      await gpage.waitForTimeout(2500)
+      const gtext = await gpage.locator("body").innerText()
+      check("Globex: Acme's product URL renders the 404 state", gtext.includes("404"))
+      check("Globex: Acme's product title is nowhere on that screen", !gtext.includes(editedTitle))
+      await gctx.close()
+
+      await acme(`/tenants/products/${target.id}`, { method: "DELETE" })
+      const gone = await acme(`/tenants/products?q=${encodeURIComponent(detailTitle)}`)
+      check("Acme: the detail fixture is deleted again", (gone.products || []).length === 0)
+    }
+  }
+
 } finally {
   await browser.close()
 }

@@ -1,3 +1,4 @@
+import { ComponentType } from "react"
 import { ConfigField, FormField } from "../../dashboard-app/types"
 
 // tenant-panel: own file, replacing the Admin's providers/extension-provider
@@ -9,11 +10,13 @@ import { ConfigField, FormField } from "../../dashboard-app/types"
 // piece's scope)" — piece 3's copied product-create screens are now a
 // consumer, so this stub exists to satisfy them.
 //
-// Only the two methods the copied product-create screens call
-// (`getFormFields`, `getFormConfigs`, both for plugin-contributed form
-// fields) are implemented, both as constant empty arrays: with no plugins
-// there is nothing to contribute, exactly as the real ExtensionApi would
-// return once every DashboardPlugin's formModule is empty. No
+// Only the methods the copied screens call are implemented, each a constant
+// empty array: `getFormFields` and `getFormConfigs` (plugin-contributed form
+// fields, product-create) and `getDisplays` (plugin-contributed read-only
+// display components the product-detail sections render under their own rows,
+// added by wave-2 piece 1). With no plugins there is nothing to contribute,
+// exactly as the real ExtensionApi returns once every DashboardPlugin's
+// formModule and displayModule are empty. No
 // <ExtensionProvider> needs to be mounted in providers/providers.tsx for this
 // to work, since the hook does not read React context.
 type PanelExtensionApi = {
@@ -23,11 +26,16 @@ type PanelExtensionApi = {
     tab?: string
   ) => FormField[]
   getFormConfigs: (model: string, zone: string) => ConfigField[]
+  getDisplays: (
+    model: string,
+    zone: string
+  ) => ComponentType<{ data: any }>[]
 }
 
 const noopExtensionApi: PanelExtensionApi = {
   getFormFields: () => [],
   getFormConfigs: () => [],
+  getDisplays: () => [],
 }
 
 export const useExtension = (): PanelExtensionApi => noopExtensionApi
