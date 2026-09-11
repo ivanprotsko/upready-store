@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Semua produk"
   },
+  "TenantPage": {
+    "emptyBody": "Halaman ini belum mempunyai teks.",
+    "metaDescription": "{title} di {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Terima pemindahan",
     "declineSuccess": "Pemindahan pesanan berjaya ditolak!",

@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "सभी उत्पाद"
   },
+  "TenantPage": {
+    "emptyBody": "इस पेज पर अभी कोई टेक्स्ट नहीं है।",
+    "metaDescription": "{siteName} पर {title}।"
+  },
   "TransferActions": {
     "acceptTransfer": "ट्रांसफर स्वीकार करें",
     "declineSuccess": "ऑर्डर ट्रांसफर सफलतापूर्वक अस्वीकृत कर दिया गया!",

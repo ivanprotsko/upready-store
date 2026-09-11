@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Alla produkter"
   },
+  "TenantPage": {
+    "emptyBody": "Den här sidan har ingen text än.",
+    "metaDescription": "{title} hos {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Acceptera överföring",
     "declineSuccess": "Orderöverföringen har avvisats!",

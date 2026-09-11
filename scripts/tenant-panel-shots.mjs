@@ -32,15 +32,26 @@ const { chromium } = require(
 )
 
 const side = process.argv[2]
-if (!["admin", "panel"].includes(side)) {
-  console.error("usage: tenant-panel-shots.mjs admin|panel")
+// tenant-panel wave 2, piece 7: a third side. The content pages are the first
+// screens whose acceptance is on the STOREFRONT rather than in the panel, and a
+// storefront needs no login, no product id and no Admin counterpart — so it runs
+// its own short flow below rather than joining the admin/panel pair.
+if (!["admin", "panel", "storefront"].includes(side)) {
+  console.error("usage: tenant-panel-shots.mjs admin|panel|storefront")
   process.exit(2)
 }
 const OUT = path.resolve("artifacts/docs/tenant-panel-shots")
 mkdirSync(OUT, { recursive: true })
 
 const cfg =
-  side === "admin"
+  side === "storefront"
+    ? {
+        base: process.env.STOREFRONT_URL || "http://localhost:8011",
+        email: "",
+        password: "",
+        afterLogin: /.*/,
+      }
+    : side === "admin"
     ? {
         base: process.env.ADMIN_URL || "http://localhost:9023/app",
         email: "admin@upready.dev",
@@ -92,6 +103,36 @@ const resolveProductId = async () => {
   const { products } = await list.json()
   return products?.[0]?.id
 }
+
+// tenant-panel wave 2, piece 7: the storefront side. Its own browser, closed
+// here, so the shared launch below still owns exactly one browser.
+if (side === "storefront") {
+  const key = process.env.SHOT_PAGE_KEY || "contacts"
+  const sfBrowser = await chromium.launch()
+  const sfCtx = await sfBrowser.newContext({
+    viewport: { width: 1440, height: 900 },
+    colorScheme: "light",
+  })
+  const sfPage = await sfCtx.newPage()
+  try {
+    await sfPage.goto(`${cfg.base}/en/pages/${key}`, { waitUntil: "networkidle" })
+    await sfPage.waitForTimeout(600)
+    await shot(sfPage, `page-${key}`)
+
+    // The footer is below the fold on every page; scroll to it before shooting,
+    // otherwise the shot is of the hero and proves nothing about the links.
+    await sfPage.goto(`${cfg.base}/en`, { waitUntil: "networkidle" })
+    await sfPage.waitForTimeout(600)
+    await sfPage.locator("footer").last().scrollIntoViewIfNeeded()
+    await sfPage.waitForTimeout(400)
+    await shot(sfPage, "footer")
+  } catch (e) {
+    console.error("FAILED:", e.message)
+    process.exitCode = 1
+  } finally {
+    await sfBrowser.close()
+  }
+} else {
 
 const productId = await resolveProductId()
 if (!productId) {
@@ -238,6 +279,26 @@ try {
   await page.goto(`${cfg.base}/categories/create`, { waitUntil: "networkidle" })
   await page.waitForTimeout(1000)
   await shot(page, "category-create")
+  // tenant-panel wave 2, piece 7: the content pages. `pages` is a real pair —
+  // the panel's list against the Admin's /app/settings/store, which is the
+  // nearest Admin screen of the same kind (a settings table in the same shell),
+  // shot side by side so the shell itself can be compared. `page-edit` is panel
+  // only: the Admin has no content-page editor to stand beside it.
+  if (side === "panel") {
+    await page.goto(`${cfg.base}/pages`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(800)
+    await shot(page, "pages")
+
+    await page.goto(`${cfg.base}/pages/${process.env.SHOT_PAGE_KEY || "contacts"}`, {
+      waitUntil: "networkidle",
+    })
+    await page.waitForTimeout(1200)
+    await shot(page, "page-edit")
+  } else {
+    await page.goto(`${cfg.base}/settings/store`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(800)
+    await shot(page, "pages")
+  }
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")
@@ -245,4 +306,5 @@ try {
   process.exitCode = 1
 } finally {
   await browser.close()
+}
 }

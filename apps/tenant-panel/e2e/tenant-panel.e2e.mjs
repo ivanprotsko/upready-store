@@ -47,6 +47,10 @@ const TENANTS = [
   { email: "admin@globex.test", name: "Globex" },
 ]
 
+// tenant-panel wave 2, piece 7: the storefront this worker starts itself
+// (its own port, its own .next dir), read by the "pages" section alone.
+const STOREFRONT = process.env.STOREFRONT_URL || "http://localhost:8011"
+
 const ONLY = process.env.E2E_ONLY || ""
 // One stamp for every fixture name in the run (products, variants, categories).
 // It lives here, not inside a section: the category section reads it while the
@@ -964,6 +968,142 @@ try {
     }
   }
 
+
+  // ---- wave 2, piece 7: content pages, panel + storefront.
+  if (runs("pages")) {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const page = await ctx.newPage()
+    await login(page, "admin@acme.test")
+
+    await page.goto(`${PANEL}/pages`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(600)
+    const sections = await rowsOf(page)
+    check("Acme: the pages screen lists all five sections", sections.length === 5, `${sections.length} rows`)
+    check(
+      "Acme: every section carries a status word",
+      sections.every((row) => /Published|Draft|Empty/.test(row)),
+      sections.map((row) => row.replace(/\n/g, " ").slice(0, 40)).join(" | ")
+    )
+
+    // The first cell links into the editor; clicking it is the path a shop owner takes.
+    await page.getByRole("link", { name: /contact/i }).first().click()
+    const opened = await softWaitURL(page, (u) => u.pathname === "/pages/contacts")
+    check("Acme: the Contacts row opens the editor", opened, page.url())
+    await page.waitForTimeout(900)
+
+    const TITLE = "Contact Acme"
+    const BODY = [
+      "# Visit us",
+      "",
+      "We are at **10 Market Street**, Springfield.",
+      "",
+      "## Opening hours",
+      "",
+      "- Mon-Fri 9:00-18:00",
+      "- Sat 10:00-16:00",
+      "",
+      "Write to [hello@acme.test](mailto:hello@acme.test).",
+    ].join("\n")
+
+    await fillEverywhere(page, '[role="dialog"] input[name="title"]', TITLE)
+    await fillEverywhere(page, '[role="dialog"] textarea[name="body"]', BODY)
+
+    const toggle = page.locator('[role="dialog"] button[role="switch"]').first()
+    if ((await toggle.getAttribute("aria-checked")) !== "true") {
+      await clickReal(page, toggle)
+    }
+    check(
+      "Acme: the Published switch is on before saving",
+      (await toggle.getAttribute("aria-checked")) === "true"
+    )
+
+    const saved = page.waitForResponse(
+      (r) => r.url().includes("/tenants/pages/contacts") && r.request().method() === "PUT",
+      { timeout: 30_000 }
+    )
+    await clickReal(page, page.locator('[role="dialog"] button[type="submit"]').last())
+    const putResponse = await saved.then((r) => r.status()).catch(() => 0)
+    check("Acme: saving the page answers 200", putResponse === 200, String(putResponse))
+
+    const backOnList = await softWaitURL(page, (u) => u.pathname === "/pages")
+    check("Acme: saving returns to the pages list", backOnList, page.url())
+    await page.waitForTimeout(800)
+    const afterSave = await rowsOf(page)
+    check(
+      "Acme: the Contacts row now reads Published",
+      afterSave.some((row) => row.includes(TITLE) && row.includes("Published")),
+      afterSave[0]?.replace(/\n/g, " ").slice(0, 80)
+    )
+
+    // The API is the reference: the same row, through the tenant's own token.
+    const acmeGet = await apiLogin("admin@acme.test")
+    const apiPage = (await acmeGet("/tenants/pages/contacts")).page
+    check("Acme: the API returns the saved page", apiPage?.title === TITLE && apiPage?.published === true, JSON.stringify(apiPage).slice(0, 120))
+
+    // The storefront caches with `force-cache`, so it is told to drop the tag first.
+    const revalidated = await fetch(`${STOREFRONT}/api/revalidate`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ type: "tenant.pages" }),
+    })
+      .then((r) => r.ok)
+      .catch(() => false)
+    check("storefront: /api/revalidate accepts tenant.pages", revalidated)
+
+    await page.goto(`${STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(500)
+    const storefrontText = await page.locator("body").innerText()
+    check("storefront: the page shows the tenant's title", storefrontText.includes(TITLE), page.url())
+    check(
+      "storefront: the markdown body is rendered, not printed",
+      storefrontText.includes("Visit us") &&
+        storefrontText.includes("10 Market Street") &&
+        !storefrontText.includes("**10 Market Street**"),
+      storefrontText.slice(0, 160).replace(/\n/g, " ")
+    )
+    check(
+      "storefront: the heading became a heading",
+      (await page.locator("h2", { hasText: "Visit us" }).count()) > 0
+    )
+    check(
+      "storefront: the list became a list",
+      (await page.locator("li", { hasText: "Mon-Fri" }).count()) > 0
+    )
+    check(
+      "storefront: the footer links to the page",
+      (await page.locator('footer a[href$="/pages/contacts"]').count()) > 0
+    )
+
+    // The home page carries the same footer, so the link is site-wide.
+    await page.goto(`${STOREFRONT}/en`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(400)
+    check(
+      "storefront: the footer link is on every page, not just the page itself",
+      (await page.locator('footer a[href$="/pages/contacts"]').count()) > 0
+    )
+    await ctx.close()
+
+    // Globex opens the same screens: its own five sections, none of them Acme's.
+    const gctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage = await gctx.newPage()
+    await login(gpage, "admin@globex.test")
+    await gpage.goto(`${PANEL}/pages`, { waitUntil: "networkidle" })
+    await gpage.waitForTimeout(800)
+    const globexRows = await rowsOf(gpage)
+    check(
+      "Globex: the pages screen never shows Acme's page",
+      globexRows.every((row) => !row.includes(TITLE)),
+      globexRows.map((row) => row.replace(/\n/g, " ").slice(0, 30)).join(" | ")
+    )
+    const globexGet = await apiLogin("admin@globex.test")
+    const globexPages = (await globexGet("/tenants/pages")).pages
+    check(
+      "Globex: the API lists five unsaved sections",
+      Array.isArray(globexPages) && globexPages.length === 5 && globexPages.every((p) => p.id === null),
+      JSON.stringify(globexPages?.map((p) => [p.key, p.id])).slice(0, 120)
+    )
+    await gctx.close()
+  }
 } finally {
   await browser.close()
 }

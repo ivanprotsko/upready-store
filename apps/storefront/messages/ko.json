@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "전체 상품"
   },
+  "TenantPage": {
+    "emptyBody": "이 페이지에는 아직 내용이 없습니다.",
+    "metaDescription": "{siteName}의 {title}."
+  },
   "TransferActions": {
     "acceptTransfer": "이전 수락",
     "declineSuccess": "주문 이전이 성공적으로 거절되었습니다!",

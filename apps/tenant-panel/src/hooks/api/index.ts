@@ -39,3 +39,6 @@ export * from "./claims"
 export * from "./exchanges"
 export * from "./order-edits"
 export * from "./plugins"
+// tenant-panel: added by wave 2, piece 7 (content pages). The panel's own
+// module, no Admin counterpart.
+export * from "./pages"

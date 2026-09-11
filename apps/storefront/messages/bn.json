@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "সব পণ্য"
   },
+  "TenantPage": {
+    "emptyBody": "এই পাতায় এখনও কোনও লেখা নেই।",
+    "metaDescription": "{siteName}-এ {title}।"
+  },
   "TransferActions": {
     "acceptTransfer": "হস্তান্তর গ্রহণ করুন",
     "declineSuccess": "অর্ডার হস্তান্তর সফলভাবে প্রত্যাখ্যান করা হয়েছে!",

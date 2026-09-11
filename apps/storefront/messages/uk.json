@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Усі товари"
   },
+  "TenantPage": {
+    "emptyBody": "На цій сторінці ще немає тексту.",
+    "metaDescription": "{title} у {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Прийняти передачу",
     "declineSuccess": "Передачу замовлення успішно відхилено!",

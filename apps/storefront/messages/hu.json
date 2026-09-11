@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Összes termék"
   },
+  "TenantPage": {
+    "emptyBody": "Ezen az oldalon még nincs szöveg.",
+    "metaDescription": "{title} a(z) {siteName} oldalon."
+  },
   "TransferActions": {
     "acceptTransfer": "Átadás elfogadása",
     "declineSuccess": "A rendelés átadása sikeresen elutasítva!",

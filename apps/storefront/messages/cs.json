@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Všechny produkty"
   },
+  "TenantPage": {
+    "emptyBody": "Tato stránka zatím nemá žádný text.",
+    "metaDescription": "{title} v {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Přijmout převod",
     "declineSuccess": "Převod objednávky byl úspěšně odmítnut!",
