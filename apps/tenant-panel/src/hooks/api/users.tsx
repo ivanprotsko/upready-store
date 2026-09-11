@@ -6,6 +6,7 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query"
+import { HttpTypes } from "@medusajs/types"
 import { sdk } from "../../lib/client"
 import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
@@ -127,4 +128,21 @@ export const useUpdatePassword = (
       }),
     ...options,
   })
+}
+
+// tenant-panel: wave 2, piece 2. `components/common/user-link` (copied verbatim
+// for the order timeline) resolves an actor id: `user_*` is a staff user,
+// `cus_*` a customer. A tenant panel has no staff-user directory and must not
+// get one, so there is no `/tenants/users/:id` route and this hook resolves to
+// nothing without a request. `By` renders null when the actor is undefined,
+// which is what a tenant should see for an action a staff member took.
+//
+// Tenant-admin actor ids carry neither prefix, so `By` already renders null for
+// the panel's own actions; this hook exists for the `user_*` branch alone.
+export const useUser = (
+  _id: string,
+  _query?: Record<string, any>,
+  _options?: { enabled?: boolean }
+) => {
+  return { user: undefined as HttpTypes.AdminUser | undefined }
 }

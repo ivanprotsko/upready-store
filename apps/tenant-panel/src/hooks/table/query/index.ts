@@ -4,3 +4,7 @@
 // panel ships. Own file, not part of the Admin's file set at this path.
 export * from "./parse-filter-param"
 export * from "./use-product-table-query"
+// tenant-panel: wave 2, piece 3. `use-order-table-query` was already in the
+// tree for the order list, which imports it by path; the copied order-export
+// screen imports it from this barrel, so the barrel names it too.
+export * from "./use-order-table-query"

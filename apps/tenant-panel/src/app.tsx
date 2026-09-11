@@ -1,3 +1,4 @@
+import { HttpTypes } from "@medusajs/types"
 import {
   createBrowserRouter,
   Outlet,
@@ -5,7 +6,6 @@ import {
   RouterProvider,
   UIMatch,
 } from "react-router-dom"
-import { HttpTypes } from "@medusajs/types"
 import { t } from "i18next"
 
 import { ProtectedRoute } from "./components/authentication/protected-route"
@@ -217,18 +217,110 @@ const routes: RouteObject[] = [
                 lazy: () => import("./routes/orders/order-list"),
                 children: [
                   {
-                    // tenant-panel wave 2, piece 3 (orders export): replaced by
-                    // the copied routes/orders/order-export.
                     path: "export",
-                    lazy: () => import("./routes/not-built"),
+                    lazy: () => import("./routes/orders/order-export"),
                   },
                 ],
               },
               {
-                // tenant-panel wave 2, piece 2 (order detail): replaced by the
-                // copied routes/orders/order-detail tree.
                 path: ":id",
-                lazy: () => import("./routes/not-built"),
+                // tenant-panel: the Admin route map builds this handle inside
+                // its own `lazy`, because the breadcrumb needs the loaded
+                // order. Same shape here.
+                lazy: async () => {
+                  const { Component, Breadcrumb, loader, seo } = await import(
+                    "./routes/orders/order-detail"
+                  )
+
+                  return {
+                    Component,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminOrderResponse>
+                      ) => <Breadcrumb {...match} />,
+                      seo,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "fulfillment",
+                    lazy: () =>
+                      import("./routes/orders/order-create-fulfillment"),
+                  },
+                  {
+                    path: ":f_id/create-shipment",
+                    lazy: () =>
+                      import("./routes/orders/order-create-shipment"),
+                  },
+                  // tenant-panel: every child below is an action the panel does
+                  // not implement (docs/tenant-panel/api-contract.md, "Piece 2":
+                  // the action menu keeps Cancel, Fulfill, Ship, Mark delivered
+                  // and Capture). The paths stay so a link from a copied screen
+                  // lands on the placeholder instead of the 404 screen, and so
+                  // the route tree still mirrors the Admin's map.
+                  {
+                    // RMA: receive a return. No return is ever created here.
+                    path: "returns/:return_id/receive",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Inventory allocation, needs the reservation write routes.
+                    path: "allocate-items",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // RMA: request a return.
+                    path: "returns",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // RMA: create a claim.
+                    path: "claims",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // RMA: create an exchange.
+                    path: "exchanges",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Order editing.
+                    path: "edits",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Refund a payment; only capture is in scope.
+                    path: "refund",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Transfer the order to another customer.
+                    path: "transfer",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Edit the customer's email; no order update route.
+                    path: "email",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Edit the shipping address; no order update route.
+                    path: "shipping-address",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Edit the billing address; no order update route.
+                    path: "billing-address",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                  {
+                    // Edit the order's metadata; no order update route.
+                    path: "metadata/edit",
+                    lazy: () => import("./routes/not-built"),
+                  },
+                ],
               },
             ],
           },

@@ -151,6 +151,33 @@ try {
   await page.waitForTimeout(500)
   await shot(page, "profile-edit")
 
+  // Wave 2, pieces 2 and 3. ORDER_ID names the order both sides open, so the
+  // Admin and the panel show the SAME row; without it the first row of each
+  // list is taken, and the Admin's first row is whatever tenant placed it.
+  const orderId =
+    process.env.ORDER_ID ||
+    (await page
+      .locator("table tbody tr")
+      .first()
+      .click()
+      .then(() => page.waitForTimeout(1500))
+      .then(() => page.url().split("/orders/")[1]?.split("/")[0] || ""))
+
+  if (orderId) {
+    await page.goto(`${cfg.base}/orders/${orderId}`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1200)
+    await shot(page, "order-detail")
+
+    await page.goto(`${cfg.base}/orders/${orderId}/fulfillment`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1800)
+    await shot(page, "order-fulfillment-create")
+  } else {
+    console.warn("no order id: skipping order-detail and order-fulfillment-create")
+  }
+
+  await page.goto(`${cfg.base}/orders/export`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1200)
+  await shot(page, "order-export")
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

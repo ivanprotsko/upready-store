@@ -26,3 +26,16 @@ export * from "./views"
 export * from "./product-variants"
 export * from "./inventory"
 export * from "./stock-locations"
+// tenant-panel: added by wave 2, piece 2 (order detail) and piece 3 (orders
+// export). `not-built` is intentionally NOT re-exported: it is a helper for the
+// hook modules, not a hook.
+export * from "./payments"
+export * from "./payment-collections"
+export * from "./shipping-options"
+export * from "./reservations"
+export * from "./customers"
+export * from "./returns"
+export * from "./claims"
+export * from "./exchanges"
+export * from "./order-edits"
+export * from "./plugins"

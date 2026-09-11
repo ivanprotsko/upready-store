@@ -4,11 +4,12 @@ import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 
-// tenant-panel: read-only half of the Admin's hooks/api/stock-locations.tsx.
-// `GET /tenants/stock-locations` re-exports the Admin's own handler behind the
-// tenant authentication; the location names label the product-stock grid. The
-// Admin's create/update/delete and fulfillment-set hooks are dropped: stock
-// locations are installation-wide configuration a tenant does not administer.
+// tenant-panel: piece 2. Tenant equivalent of the Admin's
+// hooks/api/stock-locations.tsx, trimmed to the list and retrieve the order
+// screens use: the fulfillment section names a fulfillment's location, and the
+// create-fulfillment form picks one. `/tenants/stock-locations` re-exports the
+// Admin's own GET handlers (read-only reference data, see
+// docs/tenant-panel/api-contract.md). No write verbs.
 
 const STOCK_LOCATIONS_QUERY_KEY = "stock_locations" as const
 export const stockLocationsQueryKeys = queryKeysFactory(
@@ -34,6 +35,32 @@ export const useStockLocations = (
         { query: query as Record<string, unknown> }
       ),
     queryKey: stockLocationsQueryKeys.list(query),
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}
+
+export const useStockLocation = (
+  id: string,
+  query?: HttpTypes.SelectParams,
+  options?: Omit<
+    UseQueryOptions<
+      HttpTypes.AdminStockLocationResponse,
+      FetchError,
+      HttpTypes.AdminStockLocationResponse,
+      QueryKey
+    >,
+    "queryKey" | "queryFn"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () =>
+      sdk.client.fetch<HttpTypes.AdminStockLocationResponse>(
+        `/tenants/stock-locations/${id}`,
+        { query }
+      ),
+    queryKey: stockLocationsQueryKeys.detail(id, query),
     ...options,
   })
 

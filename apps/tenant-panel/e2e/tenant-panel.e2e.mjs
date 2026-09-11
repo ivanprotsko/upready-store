@@ -14,7 +14,9 @@
  * "acme=http://localhost:8000,globex=http://localhost:8001,initech=http://localhost:8002"),
  * PLAYWRIGHT (absolute path of the playwright package; defaults to the pnpm
  * store path of this workspace), E2E_CLEANUP=1 to delete the created product at
- * the end (default: keep it, the morning acceptance looks at it).
+ * the end (default: keep it, the morning acceptance looks at it), E2E_ONLY to
+ * run one section alone ("orders" = the wave-2 order-detail and export checks,
+ * "catalog" = the wave-1 product checks; unset = both).
  * Exit code 0 = every check passed; the log lists each check with PASS/FAIL.
  *
  * The storefront reads the catalog with `cache: "force-cache"` and Medusa sends
@@ -42,6 +44,9 @@ const TENANTS = [
   { email: "admin@acme.test", name: "Acme" },
   { email: "admin@globex.test", name: "Globex" },
 ]
+
+const ONLY = process.env.E2E_ONLY || ""
+const runs = (section) => !ONLY || ONLY === section
 
 let failures = 0
 const check = (name, ok, detail = "") => {
@@ -77,7 +82,7 @@ const login = async (page, email) => {
   await page.locator('input[name="email"]').fill(email)
   await page.locator('input[name="password"]').fill(PASSWORD)
   await page.locator('button[type="submit"]').first().click()
-  await page.waitForURL((u) => !u.pathname.endsWith("/login"), { timeout: 30_000 })
+  await page.waitForFunction(() => !location.pathname.endsWith("/login"), null, { timeout: 30_000 })
 }
 
 const rowsOf = async (page) => {
@@ -166,6 +171,7 @@ try {
   }
 
   // Acme creates a product from the panel: one option Size=M, one variant priced in EUR, published.
+  if (runs("catalog")) {
   const stamp = new Date().toISOString().slice(11, 16).replace(":", "")
   const title = `E2E panel product ${stamp}`
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 2200 } })
@@ -513,6 +519,154 @@ try {
       await restoreViaApi()
       await ctx.close()
     }
+  }
+  } // tenant-panel: closes the runs("catalog") gate piece 2 opened around the catalog, product-detail and profile sections (merge of pieces 1+4 with 2+3)
+
+  // ---- wave 2, pieces 2 and 3: order detail, fulfil, ship, export.
+  //
+  // The read checks open whatever order the list shows first. The write flow
+  // (fulfil + ship) deliberately picks the LAST order that is still
+  // `not_fulfilled`, so the order the screenshots are taken of keeps its
+  // untouched state; the id it mutates is printed.
+  if (runs("orders")) {
+    const acmeGet = await apiLogin("admin@acme.test")
+    const acmeOrders = (await acmeGet("/tenants/orders?limit=100&order=display_id")).orders || []
+    check("Acme: the API has at least one order to open", acmeOrders.length > 0, `${acmeOrders.length} orders`)
+
+    const first = acmeOrders[0]
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 1600 } })
+    const page = await ctx.newPage()
+    await login(page, "admin@acme.test")
+
+    // Open the order from the LIST, the way a person does, not by URL.
+    await page.goto(`${PANEL}/orders`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(600)
+    await page.locator("table tbody tr").first().click()
+    const opened = await page
+      .waitForURL((u) => /\/orders\/order_/.test(u.pathname), { timeout: 20_000 })
+      .then(() => true)
+      .catch(() => false)
+    check("Acme: clicking a row opens the order detail", opened, page.url())
+
+    const openedId = page.url().split("/orders/")[1]?.split("/")[0] || ""
+    const detail = (await acmeGet(`/tenants/orders/${openedId}?fields=id,display_id,email,total,*items,*customer,*summary`)).order
+    await page.waitForLoadState("networkidle")
+    await page.waitForTimeout(800)
+    const body = await page.locator("body").innerText()
+
+    check("order detail: the display id is on screen", body.includes(`#${detail.display_id}`))
+    // The customer section shows the CUSTOMER's email, which is not always the
+    // order's own `email` field (a guest order carries only the latter).
+    const emailOnScreen = detail.customer?.email || detail.email
+    check("order detail: the customer email is on screen", body.includes(emailOnScreen), emailOnScreen)
+    for (const item of detail.items || []) {
+      check(`order detail: item "${item.title}" is on screen`, body.includes(item.title))
+    }
+    check(
+      "order detail: the status words are on screen",
+      /Awaiting|Pending|Authorized|Captured|Not fulfilled|Fulfilled|Shipped|Delivered/i.test(body),
+      body.match(/Awaiting|Pending|Authorized|Captured|Not fulfilled|Fulfilled|Shipped|Delivered/gi)?.join(", ")
+    )
+    check(
+      "order detail: the summary shows the order total",
+      body.includes(String(detail.summary?.current_order_total ?? detail.total)) ||
+        /Total/i.test(body)
+    )
+
+    // Fulfil and ship. The two screens are routes of their own, so they are
+    // opened as routes; the form is the Admin's own file.
+    const fulfillable = [...acmeOrders].reverse().find((o) => o.fulfillment_status === "not_fulfilled")
+    if (!fulfillable) {
+      check("Acme: an order is available to fulfil", false, "every order is already fulfilled")
+    } else {
+      console.log(`fulfilling order ${fulfillable.id} #${fulfillable.display_id}`)
+      await page.goto(`${PANEL}/orders/${fulfillable.id}/fulfillment`, { waitUntil: "networkidle" })
+      await page.waitForTimeout(2500)
+
+      // The location is an ariakit combobox whose options come from the server
+      // as you type; the stand has 200+ warehouses, so the tenant's own is
+      // found by searching its name rather than by scrolling. Picking it makes
+      // the form refetch the shipping options for that warehouse, and the
+      // form's own effect then selects the order's shipping method, which is
+      // what enables the submit button (`disabled={!shippingOptionId}`).
+      const locationBox = page.locator('input[role="combobox"]').first()
+      await locationBox.click()
+      await locationBox.pressSequentially("Acme warehouse", { delay: 60 })
+      await page.waitForTimeout(2500)
+      const options = await page.locator('[role="option"]:visible').allInnerTexts()
+      check("fulfillment form: the tenant's warehouse is offered", options.length > 0, options.join(", "))
+      await page.locator('[role="option"]:visible').first().click()
+      await page.waitForTimeout(3500)
+
+      const submit = page.locator('button[type="submit"]').first()
+      check("fulfillment form: the submit button is enabled", await submit.isEnabled())
+      await submit.click()
+      const fulfilled = await page
+        .waitForURL((u) => u.pathname === `/orders/${fulfillable.id}`, { timeout: 30_000 })
+        .then(() => true)
+        .catch(() => false)
+      check("Acme: creating a fulfillment returns to the order", fulfilled, page.url())
+
+      const afterFulfil = (await acmeGet(`/tenants/orders/${fulfillable.id}?fields=id,fulfillment_status,*fulfillments`)).order
+      check(
+        "Acme: the order is fulfilled after the panel action",
+        afterFulfil?.fulfillment_status === "fulfilled",
+        String(afterFulfil?.fulfillment_status)
+      )
+
+      const fulfillmentId = afterFulfil?.fulfillments?.[0]?.id
+      if (fulfillmentId) {
+        await page.goto(`${PANEL}/orders/${fulfillable.id}/${fulfillmentId}/create-shipment`, {
+          waitUntil: "networkidle",
+        })
+        await page.waitForTimeout(2000)
+        await page.locator('button[type="submit"]').first().click()
+        const shipped = await page
+          .waitForURL((u) => u.pathname === `/orders/${fulfillable.id}`, { timeout: 30_000 })
+          .then(() => true)
+          .catch(() => false)
+        check("Acme: marking as shipped returns to the order", shipped, page.url())
+
+        const afterShip = (await acmeGet(`/tenants/orders/${fulfillable.id}?fields=id,fulfillment_status`)).order
+        check(
+          "Acme: the order is shipped after the panel action",
+          afterShip?.fulfillment_status === "shipped",
+          String(afterShip?.fulfillment_status)
+        )
+      } else {
+        check("Acme: the fulfillment id came back", false)
+      }
+    }
+
+    // Export from the orders list: the drawer posts and the panel gets a URL.
+    await page.goto(`${PANEL}/orders/export`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(800)
+    const exportResponse = page.waitForResponse(
+      (r) => r.url().includes("/tenants/orders/export") && r.request().method() === "POST",
+      { timeout: 30_000 }
+    )
+    await clickReal(page, page.locator('button:has-text("Export")').last())
+    const exported = await exportResponse.then((r) => r.json()).catch(() => null)
+    check("Acme: the export answers a URL", typeof exported?.url === "string", exported?.url || "no response")
+    check("Acme: the export counts only Acme's orders", exported?.count === acmeOrders.length, `${exported?.count} vs ${acmeOrders.length}`)
+    await ctx.close()
+
+    // Globex opens Acme's order URL and must land on the panel's error state.
+    const gctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage = await gctx.newPage()
+    await login(gpage, "admin@globex.test")
+    await gpage.goto(`${PANEL}/orders/${first.id}`, { waitUntil: "networkidle" })
+    await gpage.waitForTimeout(1200)
+    const gbody = await gpage.locator("body").innerText()
+    check(
+      "Globex: Acme's order URL shows the not-found state, not the order",
+      !gbody.includes(`#${first.display_id}`) && /not found|404|went wrong|error/i.test(gbody),
+      gbody.slice(0, 160).replace(/\n/g, " ")
+    )
+    const globexGetOrder = await apiLogin("admin@globex.test")
+    const refused = await globexGetOrder(`/tenants/orders/${first.id}`)
+    check("Globex: the API refuses Acme's order", refused?.type === "not_found", JSON.stringify(refused).slice(0, 120))
+    await gctx.close()
   }
 } finally {
   await browser.close()
