@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T08:13:49+08:00",
-  "status": "Ночь 2 идёт (промпты A/B выданы 07:43, сторож bvl3igi1i). Иван 08:10 снял ограничения по задачам для всего направления МТ (записано в memory/decisions, последний раздел) — сессии МТ заводят и активируют t-…-mt-… сами. t-2026-09-12-mt-storefront-by-host активна = кусок 9 сессии A; worktrees A/B на 69b506b+. Push не делать",
+  "updated": "2026-09-11T08:15:39+08:00",
+  "status": "Ночь 2, три сессии: A feat/mt-panel-2 (wave-2 + t-2026-09-12-mt-storefront-by-host, PORT 9026/5181), B feat/mt-platform (platform-admin + onboarding/ops specs, PORT 9024), C feat/mt-specs (t-2026-09-11-mt-specs-diagrams — схемы как зеркало кода). Промпты A/B/C выданы Ивану 2026-09-11 08:15 WITA, все worktree на 5150ee1. Иван 08:10 снял ограничения по задачам для направления МТ (memory b7fd88a). Сторож bvl3igi1i ждёт READY A/B; C принимается по отчёту. Открыто у Ивана: общий каталог всех продавцов (только просмотр vs маркетплейс с общей корзиной) — решение не заведено. Push не делать",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
