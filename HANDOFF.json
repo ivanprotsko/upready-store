@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T09:38:37+08:00",
-  "status": "Волна 2: кусок 1 (product detail) принят и слит (2b7cf57 → merge 7fdfeb9; мои прогоны tsc/eslint/lint rc=0, seam 7/7); e2e на живой :5181 идёт. В работе: mt2-piece-4 (profile, sonnet), mt2-piece-2 (orders detail+export, opus, на этапе e2e), mt2-piece-5 (categories, opus, запущен). Дальше по слотам 6 → 7 → 8 → 9. Отчёт …-night.md = NOT READY; прогресс — …-progress.md.",
+  "updated": "2026-09-11T09:43:42+08:00",
+  "status": "Волна 2: приняты и слиты куски 1 (2b7cf57→7fdfeb9) и 4 (5f87bb2→4dd51d0), trunk feat/mt-panel-2 = 4dd51d0; e2e trunk после 4 идёт. В работе: mt2-piece-2 (orders, opus), mt2-piece-5 (categories, opus), mt2-piece-6 (promotions, opus, стартует). Далее 7 → 8 → 9. night.md = NOT READY.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
