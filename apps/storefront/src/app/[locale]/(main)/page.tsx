@@ -12,6 +12,7 @@ import {
 } from "@modules/home/variants"
 import { buildAlternates } from "@lib/util/alternates"
 import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { getTenantHome } from "@lib/data/tenant-home"
 import { getTranslations, getLocale } from "next-intl/server"
 import { SITE_NAME } from "@lib/util/env"
 
@@ -45,10 +46,23 @@ export async function generateMetadata(): Promise<Metadata> {
  * identically to before this switch existed.
  */
 export default async function Home() {
-  const [t, settings] = await Promise.all([
+  const [t, home, siteSettings] = await Promise.all([
     getTranslations("CategoryMenu"),
+    getTenantHome(),
     getStorefrontSettings(),
   ])
+
+  // One process serves every shop (piece 9, docs/multitenancy/storefront-by-host.md).
+  // `store.metadata.storefrontSettings` belongs to the whole backend, so it cannot
+  // speak for one shop: the shop's own document wins when it has one, and a
+  // single-store deployment — where no shop resolves from the Host — reads exactly
+  // what it read before.
+  //
+  // `content` (the shop's hero text, the listing's product source, the block order)
+  // is piece 8's half of this document and is NOT rendered here: the variants that
+  // would take those props are piece 8's to extend, and inventing a second reading
+  // of them would collide with it at merge.
+  const settings = home?.settings ?? siteSettings
 
   const hero = settings?.hero ?? DEFAULT_HERO
   const tiles = settings?.tiles ?? DEFAULT_TILES

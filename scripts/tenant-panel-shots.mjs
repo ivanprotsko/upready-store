@@ -238,6 +238,19 @@ try {
   await page.goto(`${cfg.base}/categories/create`, { waitUntil: "networkidle" })
   await page.waitForTimeout(1000)
   await shot(page, "category-create")
+
+  // tenant-panel wave 2, piece 9: the Domains screen. Panel side only — the
+  // native Admin has no counterpart at all, because a Medusa install serves one
+  // storefront and never resolves a shop from the Host header. Shooting
+  // `/settings/domains` in the Admin would produce its 404 screen, which
+  // compares with nothing.
+  if (side === "panel") {
+    await page.goto(`${cfg.base}/settings/domains`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1000)
+    await shot(page, "domains")
+  } else {
+    console.log("skipping domains: no Admin counterpart (tenant-panel wave 2, piece 9)")
+  }
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

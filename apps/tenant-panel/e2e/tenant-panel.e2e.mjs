@@ -964,6 +964,121 @@ try {
     }
   }
 
+  // ---- wave 2, piece 9: the Domains screen ---------------------------------
+  // `E2E_ONLY=domains` runs this section alone. The screen is the panel's own
+  // (no Admin counterpart): a shop's built-in `<handle>.<platform domain>`
+  // addresses, read-only because they have no database row, plus the custom
+  // hosts it adds and removes (docs/multitenancy/storefront-by-host.md §2).
+  if (runs("domains")) {
+    const customHost = `e2e-${stamp}.example`
+    // Its own API client: `acmeGet` above lives inside the orders section's
+    // block, and `E2E_ONLY=domains` never enters that block.
+    const acmeApiGet = await apiLogin("admin@acme.test")
+
+    const dctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const dpage = await dctx.newPage()
+    await login(dpage, "admin@acme.test")
+
+    // The Overview links into it, which is how a shop owner finds the screen.
+    await dpage.goto(`${PANEL}/`, { waitUntil: "networkidle" })
+    await dpage.waitForTimeout(600)
+    const domainsLink = dpage.getByRole("link", { name: /^domains$/i }).first()
+    check("Acme: the Overview links to Domains", (await domainsLink.count()) > 0)
+    await domainsLink.click()
+    await dpage.waitForURL((u) => u.pathname === "/settings/domains", { timeout: 20_000 })
+    await dpage.waitForTimeout(1200)
+
+    const technicalText = await dpage.locator("body").innerText()
+    check(
+      "Acme: the screen shows the shop's built-in addresses",
+      technicalText.includes("acme.upready.dev") && technicalText.includes("acme.localhost"),
+      technicalText.slice(0, 160).replace(/\s+/g, " ")
+    )
+    check(
+      "Acme: the built-in addresses carry no remove control",
+      (await dpage.getByRole("button", { name: /Remove acme\.(upready\.dev|localhost)/i }).count()) === 0
+    )
+
+    await dpage.locator('input[name="host"]').fill(customHost)
+    await dpage.getByRole("button", { name: /add domain/i }).first().click()
+    await dpage.waitForTimeout(2000)
+    const afterAdd = await dpage.locator("body").innerText()
+    check("Acme: the added domain is on the screen", afterAdd.includes(customHost), customHost)
+
+    const acmeApi = await acmeApiGet("/tenants/domains")
+    check(
+      "Acme: the API returns the same domain",
+      (acmeApi.domains || []).some((d) => d.host === customHost),
+      JSON.stringify(acmeApi.domains || [])
+    )
+
+    // The storefront resolver answers on it straight away — that is the point
+    // of the row existing at all.
+    const resolved = await fetch(
+      `${BACKEND}/storefront/by-host?host=${encodeURIComponent(customHost)}`
+    )
+    const resolvedBody = await resolved.json()
+    check(
+      "Acme: the storefront resolver serves the new host with no restart",
+      resolved.status === 200 && resolvedBody.tenant?.handle === "acme",
+      `HTTP ${resolved.status}, handle ${resolvedBody.tenant?.handle}`
+    )
+
+    // Globex: its own built-in addresses, and nothing of Acme's.
+    const gctx3 = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage3 = await gctx3.newPage()
+    await login(gpage3, "admin@globex.test")
+    await gpage3.goto(`${PANEL}/settings/domains`, { waitUntil: "networkidle" })
+    await gpage3.waitForTimeout(1500)
+    const globexText = await gpage3.locator("body").innerText()
+    check(
+      "Globex: the screen shows Globex's own built-in addresses",
+      globexText.includes("globex.upready.dev")
+    )
+    check("Globex: Acme's domain is nowhere on it", !globexText.includes(customHost))
+    check("Globex: Acme's built-in address is nowhere on it", !globexText.includes("acme.upready.dev"))
+
+    // And a shop cannot take a host another shop holds.
+    const globexApi = await apiLogin("admin@globex.test")
+    const stolen = await globexApi("/tenants/domains", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ host: customHost }),
+    })
+    check(
+      "Globex: taking Acme's host is refused as a duplicate",
+      stolen?.type === "duplicate_error",
+      JSON.stringify(stolen).slice(0, 140)
+    )
+    await gctx3.close()
+
+    // Remove it again from the screen, so the stand does not accumulate hosts.
+    await dpage.reload({ waitUntil: "networkidle" })
+    await dpage.waitForTimeout(1200)
+    const removeButton = dpage.getByRole("button", {
+      name: new RegExp(`Remove ${customHost}`, "i"),
+    })
+    await removeButton.first().click()
+    await dpage.waitForTimeout(2000)
+    // The row is gone when its own remove control is gone. Reading the whole
+    // body would still find the host in the success toast, which names it.
+    check(
+      "Acme: the removed domain is gone from the screen",
+      (await removeButton.count()) === 0,
+      `${await removeButton.count()} remove control(s) left`
+    )
+
+    const goneResolver = await fetch(
+      `${BACKEND}/storefront/by-host?host=${encodeURIComponent(customHost)}`
+    )
+    check(
+      "Acme: the storefront resolver stops serving the removed host",
+      goneResolver.status === 404,
+      `HTTP ${goneResolver.status}`
+    )
+    await dctx.close()
+  }
+
 } finally {
   await browser.close()
 }

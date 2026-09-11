@@ -1,5 +1,6 @@
 import { z } from "@medusajs/framework/zod";
 import { AdminGetProductOptionsParams } from "@medusajs/medusa/api/admin/product-options/validators";
+import { isValidHost, normalizeHost } from "../storefront/by-host/hosts";
 
 /**
  * A handle is the tenant's stable slug (subdomain-shaped): lowercase letters,
@@ -64,3 +65,32 @@ export const PostTenantUpdatePasswordSchema = z.strictObject({
 });
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;
+
+// ---- piece 9: storefront by host (/tenants/domains)
+
+/**
+ * `POST /tenants/domains` body. The host is NORMALISED by the schema itself —
+ * lowercased, trimmed, the port cut off — so the route, the uniqueness check
+ * and the stored row all see one spelling of a host, and `GET
+ * /storefront/by-host` can compare a `Host` header against it byte for byte.
+ * The shape check runs after the transform, for the same reason: `ACME.com:443`
+ * is a valid host typed by a human and an invalid string to store.
+ *
+ * A single-label name (`localhost`) fails `isValidHost`: it belongs to no
+ * tenant and would shadow the storefront's single-store fallback. Whether a
+ * WELL-FORMED host may be stored (reserved technical shapes, already taken) is
+ * the route's decision, not zod's, because it needs the database.
+ */
+export const PostTenantDomainSchema = z.strictObject({
+  host: z
+    .string()
+    .min(1)
+    .max(253)
+    .transform(normalizeHost)
+    .refine(isValidHost, {
+      message:
+        "A host is at least two dot-separated labels of letters, digits and inner hyphens (for example `shop.example.com`).",
+    }),
+});
+
+export type PostTenantDomainBody = z.infer<typeof PostTenantDomainSchema>;

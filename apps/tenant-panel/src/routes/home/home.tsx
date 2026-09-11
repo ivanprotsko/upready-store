@@ -72,6 +72,15 @@ export const Home = () => {
           >
             {t("orders.domain")}
           </Link>
+          {/* tenant-panel wave 2, piece 9: the Domains screen. Plain English,
+              like every other panel-own label — the copied i18n catalogs are the
+              Admin's and hold no key for a storefront host. */}
+          <Link
+            to="/settings/domains"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            Domains
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>
