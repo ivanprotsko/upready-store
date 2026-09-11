@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T09:43:42+08:00",
-  "status": "Волна 2: приняты и слиты куски 1 (2b7cf57→7fdfeb9) и 4 (5f87bb2→4dd51d0), trunk feat/mt-panel-2 = 4dd51d0; e2e trunk после 4 идёт. В работе: mt2-piece-2 (orders, opus), mt2-piece-5 (categories, opus), mt2-piece-6 (promotions, opus, стартует). Далее 7 → 8 → 9. night.md = NOT READY.",
+  "updated": "2026-09-11T10:02:05+08:00",
+  "status": "Волна 2: приняты и слиты куски 1, 4, 2+3 (trunk feat/mt-panel-2 = 952ea2e, tsc/eslint/lint зелёные); e2e trunk идёт. В работе: mt2-piece-5 (categories), mt2-piece-6 (promotions), mt2-piece-7 (pages, стартует). Далее 8 → 9. night.md = NOT READY.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
