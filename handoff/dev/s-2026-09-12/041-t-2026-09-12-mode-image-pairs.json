@@ -1,0 +1,50 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 41,
+  "action": "task-update",
+  "ts": "2026-09-12T07:52:09+08:00",
+  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs c00e299, feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Промпт следующей сессии: artifacts/prompts/2026-09-12-acceptor-session-v3.md",
+  "task": {
+    "id": "t-2026-09-12-mode-image-pairs",
+    "title": "Парные изображения под светлый и тёмный режим: герой, категории товаров, товары",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Заказ Ивана 2026-09-12 (пункты 3 и 4 его сообщения): у героя, у изображения категории товаров и у изображения каждого товара может быть ДВЕ версии — под светлый и под тёмный режим. Второй пункт Иван называет своим личным инструментом (делать картинки товара под каждую нашу тему), но просит начать реализацию сегодня. Сведено в ОДНУ задачу и одну ось данных намеренно (правило 20). Сегодня в коде: герой — одно поле content.hero.image_url в upready.tenant-home/v1; категория — metadata.image_url + image_alt; товар — штатные Medusa images/thumbnail. Режим ставится на сервере в layout.tsx, НО у витрины есть видимый посетителю переключатель (nav-mode-toggle, bottom-nav-mode-toggle), он меняет data-mode в браузере без перезагрузки — замерено на проде на acme и nochlavka 2026-09-12, поэтому серверного выбора версии недостаточно. Промпт исполнителя: artifacts/prompts/2026-09-12-mode-image-pairs-session.md (ветка feat/catalog-taxonomy). Канон оси: specs/catalog-taxonomy/GLOSSARY.md §3.\n\nДизайн-стадия закрыта: макет artifacts/mockups/2026-09-12-mode-image-pairs/index.html, кадры artifacts/docs/mode-image-pairs/, документ artifacts/docs/2026-09-12-mode-image-pairs-mockup.md. Код готов на трёх поверхностях: ось _dark у героя, категории и товара; одна подмена modules/common/components/mode-image (обе версии в DOM, выбор CSS по [data-mode], неактивный слой loading=lazy и потому бесплатен на первой отрисовке); один блок панели components/common/mode-image-pair на три экрана; ось mode в схемах профиля, в валидаторе и в сиде; тесты в тех же коммитах. Прогнано: tsc в трёх приложениях, next build, next lint, eslint панели, medusa lint, vitest 98/98, backend unit 43 зелёных (один красный, profile-data i18n merge, воспроизводится и без этих правок). Подмена проверена на СОБРАННОЙ CSS настоящим браузером в Chromium, WebKit и Firefox: artifacts/docs/mode-image-pairs/measure-swap.cjs, PASS. НЕ задеплоено (21c). Приёмка отдельной сессией по живому продукту, инструкция artifacts/docs/2026-09-12-mode-image-pairs-handover.md; важно: тёмных картинок пока нет ни в одном профиле, поэтому пару надо завести руками в панели, иначе прод покажет только случай «магазин без пары».",
+    "files": [
+      "apps/backend/src/api/tenants/home/validators.ts",
+      "apps/tenant-panel/src/routes/home-settings/home-settings.tsx",
+      "apps/storefront/src/modules/home/components/profile-hero/index.tsx",
+      "specs/catalog-taxonomy/GLOSSARY.md",
+      "artifacts/prompts/2026-09-12-mode-image-pairs-session.md",
+      "specs/store-profiles/MODE-IMAGE-PAIRS.md",
+      "apps/storefront/src/modules/common/components/mode-image/index.tsx",
+      "apps/tenant-panel/src/components/common/mode-image-pair/mode-image-pair.tsx"
+    ],
+    "tags": [
+      "storefront",
+      "panel",
+      "media"
+    ],
+    "created": "2026-09-12T06:03:45+08:00",
+    "updated": "2026-09-12T07:52:08+08:00",
+    "goal": "У героя, у изображения категории товаров и у изображения товара есть по две версии — под светлый и под тёмный режим; владелец заводит их в панели, витрина показывает версию текущего режима и меняет её вместе с кликом по переключателю, а магазин без второй версии работает как сегодня.",
+    "acceptance": [
+      "Дизайн-стадия пройдена до кода: мокап artifacts/docs/2026-09-12-mode-image-pairs-mockup.md показывает панель в трёх местах и поведение витрины на переключении (27d)",
+      "На живом магазине у героя две картинки: клик по переключателю режима меняет картинку вместе с темой, без перезагрузки; есть кадр в обоих режимах и написано, что на кадре",
+      "То же показано для плитки категории товаров",
+      "То же показано для карточки товара",
+      "Магазин без второй версии: переключение показывает ту же картинку, пустых мест и битых картинок нет",
+      "В панели владелец загружает обе версии, сохраняет, перезагружает страницу — обе на месте",
+      "Глазами: на тёмном кадре картинка не светится белым пятном и читается как часть тёмной витрины (человеческий критерий 27d)"
+    ],
+    "approved": "2026-09-12T06:04:06+08:00",
+    "commits": [
+      "1f28ccb",
+      "c00e299",
+      "4ab59fd"
+    ]
+  }
+}
