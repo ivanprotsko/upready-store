@@ -95,3 +95,7 @@ supplements, womens-fashion). Иван помнил пять и был прав 
 (`nav-mode-toggle` и `bottom-nav-mode-toggle` присутствуют в HTML `acme` и `nochlavka`), и он
 меняет `data-mode` в браузере без перезагрузки. Поэтому выбор версии не может быть сделан один раз
 на сервере — он обязан пережить клик по переключателю.
+
+Конвенция, которой эта ось описана целиком — имена полей, правило чтения, правило отрисовки и
+формат набора данных: `specs/store-profiles/MODE-IMAGE-PAIRS.md` (`upready.mode-image-pair/v1`),
+дизайн-стадия и замеры — `artifacts/docs/2026-09-12-mode-image-pairs-mockup.md`.

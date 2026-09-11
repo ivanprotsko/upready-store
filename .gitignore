@@ -107,3 +107,5 @@ deploy/mt/*.env
 # Pre-deploy probe frames of fix/mt-storefront-head-footer (2026-09-12): binaries never enter git.
 # README.md and probe-local.mjs stay tracked as documents.
 artifacts/docs/2026-09-12-mt-storefront-head-footer/shots/
+# Mode-image-pair mockup frames (t-2026-09-12-mode-image-pairs): binaries never enter git.
+artifacts/docs/mode-image-pairs/shot-*.png
