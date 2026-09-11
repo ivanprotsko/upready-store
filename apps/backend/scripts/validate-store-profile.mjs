@@ -95,7 +95,7 @@ const validateDocument = (compiled, data, label) => {
 const sha256 = (file) =>
   crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 
-const IMAGE_KEYS = new Set(["image", "images", "file", "thumbnail"]);
+const IMAGE_KEYS = new Set(["image", "imageDark", "images", "file", "thumbnail"]);
 const ABSOLUTE = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
 
 /** Walks a document and reports any absolute URL sitting in an image field. */
@@ -345,6 +345,10 @@ const main = () => {
       counts.variants += product.variants?.length ?? 0;
       counts.images += product.images?.length ?? 0;
       for (const image of product.images ?? []) referencedImages.add(image);
+      // The dark twin of the main frame is checked by the same rules as the light one:
+      // a pair half of which points at nothing is worse than no pair
+      // (`specs/store-profiles/MODE-IMAGE-PAIRS.md`).
+      if (product.imageDark) referencedImages.add(product.imageDark);
 
       const skus = new Set();
       for (const variant of product.variants ?? []) {
@@ -374,8 +378,10 @@ const main = () => {
   }
 
   if (profile.home?.hero?.image) referencedImages.add(profile.home.hero.image);
+  if (profile.home?.hero?.imageDark) referencedImages.add(profile.home.hero.imageDark);
   for (const tile of profile.home?.categoryTiles ?? []) {
     if (tile.image) referencedImages.add(tile.image);
+    if (tile.imageDark) referencedImages.add(tile.imageDark);
   }
 
   // --- media ------------------------------------------------------------

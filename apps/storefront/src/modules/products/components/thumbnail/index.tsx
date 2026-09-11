@@ -1,13 +1,20 @@
 import { Container, clx } from "@medusajs/ui"
-import Image from "next/image"
 import type React from "react"
 
 import ImageFrame from "@lib/profile/image-frame"
 import { imageTreatment } from "@lib/profile"
+import ModeImage from "@modules/common/components/mode-image"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
   thumbnail?: string | null
+  /**
+   * The dark version of the product's main image, read from `product.metadata.image_url_dark`
+   * by `productImageDark()` (`lib/util/mode-image.ts`). Every call site that has the product
+   * passes it; an order line item has no product metadata and passes nothing, which is not
+   * an omission but the honest state of that row.
+   */
+  thumbnailDark?: string | null
   images?: { url?: string }[] | null
   alt?: string
   priority?: boolean
@@ -22,6 +29,7 @@ const SIZES =
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
   thumbnail,
+  thumbnailDark,
   images,
   alt,
   priority,
@@ -40,6 +48,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     return (
       <ImageFrame
         src={initialImage}
+        srcDark={thumbnailDark}
         alt={alt ?? ""}
         treatment={imageTreatment}
         secondSrc={images?.[1]?.url ?? null}
@@ -80,6 +89,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     >
       <ImageOrPlaceholder
         image={initialImage}
+        imageDark={thumbnailDark}
         alt={alt}
         priority={priority}
         size={size}
@@ -90,20 +100,24 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
 
 const ImageOrPlaceholder = ({
   image,
+  imageDark,
   alt,
   priority,
   size,
-}: Pick<ThumbnailProps, "alt" | "priority" | "size"> & { image?: string }) => {
+}: Pick<ThumbnailProps, "alt" | "priority" | "size"> & {
+  image?: string
+  imageDark?: string | null
+}) => {
   return image ? (
-    <Image
+    <ModeImage
       src={image}
+      srcDark={imageDark}
       alt={alt ?? ""}
       className="absolute inset-0 object-cover object-center"
       draggable={false}
       quality={50}
       priority={priority}
       sizes={SIZES}
-      fill
     />
   ) : (
     <div className="w-full h-full absolute inset-0 flex items-center justify-center">

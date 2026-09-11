@@ -72,6 +72,7 @@ describe("build-profile · generated shape", () => {
       subheadline: "Cushioned trail runners for pavement that turns to dirt",
       cta: { label: "Shop the drop", href: "/store" },
       image: "https://media.test/testshop/hero.webp",
+      imageDark: "https://media.test/testshop/hero-dark.webp",
     })
   })
 
@@ -81,12 +82,24 @@ describe("build-profile · generated shape", () => {
       categoryHandle: "trail-runners",
       label: "Trail runners",
       image: "https://media.test/testshop/tile-trail.webp",
+      imageDark: "https://media.test/testshop/tile-trail-dark.webp",
     })
     expect(profile.home.categoryTiles.map((t) => t.categoryHandle)).toEqual([
       "trail-runners",
       "road",
       "recovery-slides",
       "apparel",
+    ])
+  })
+
+  it("leaves imageDark null wherever the profile authored no dark version", () => {
+    // The mode-image pair is optional (`specs/store-profiles/MODE-IMAGE-PAIRS.md`): three
+    // of the four fixture tiles have no dark frame, and the storefront then shows `image`
+    // in both modes. Null and not undefined, so a consumer reads one shape either way.
+    expect(profile.home.categoryTiles.slice(1).map((tile) => tile.imageDark)).toEqual([
+      null,
+      null,
+      null,
     ])
   })
 

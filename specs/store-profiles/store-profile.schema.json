@@ -304,6 +304,10 @@
             },
             "image": {
               "$ref": "#/definitions/mediaRef"
+            },
+            "imageDark": {
+              "$ref": "#/definitions/mediaRef",
+              "description": "The dark version of `image` (specs/store-profiles/MODE-IMAGE-PAIRS.md). Optional: without it both modes show `image`."
             }
           }
         },
@@ -330,6 +334,10 @@
               },
               "image": {
                 "$ref": "#/definitions/mediaRef"
+              },
+              "imageDark": {
+                "$ref": "#/definitions/mediaRef",
+                "description": "The dark version of `image`; see home.hero.imageDark."
               }
             }
           }

@@ -3,12 +3,19 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { useTranslations } from "next-intl"
 import X from "@modules/common/icons/x"
-import Image from "next/image"
 import { Fragment, useCallback, useRef, useState } from "react"
+
+import type { ThemeMode } from "@lib/theme"
+import ModeImage from "@modules/common/components/mode-image"
 
 type ZoomableImageProps = {
   src: string
+  /** The dark version of `src` (`specs/store-profiles/MODE-IMAGE-PAIRS.md`); both the inline
+   *  frame and the opened zoom show the version of the current mode. */
+  srcDark?: string | null
   alt: string
+  /** The mode this request paints with, so the preloaded layer is the visible one. */
+  mode?: ThemeMode | null
   sizes?: string
   priority?: boolean
   className?: string
@@ -16,7 +23,9 @@ type ZoomableImageProps = {
 
 const ZoomableImage = ({
   src,
+  srcDark,
   alt,
+  mode,
   sizes,
   priority,
   className,
@@ -85,14 +94,14 @@ const ZoomableImage = ({
         onClick={() => setIsOpen(true)}
         aria-label={t("ImageGallery.openFullImage")}
       >
-        <Image
+        <ModeImage
           src={src}
+          srcDark={srcDark}
+          mode={mode}
           alt={alt}
-          fill
           priority={priority}
           sizes={sizes}
-          className={className}
-          style={{ objectFit: "cover" }}
+          className={className ? `${className} object-cover` : "object-cover"}
         />
       </button>
 
@@ -148,13 +157,14 @@ const ZoomableImage = ({
                     onPointerUp={handlePointerUp}
                   >
                     <div className="relative w-[90vw] h-[90vh] max-w-5xl">
-                      <Image
+                      <ModeImage
                         src={src}
+                        srcDark={srcDark}
+                        mode={mode}
                         alt={alt}
-                        fill
                         priority
                         sizes="90vw"
-                        style={{ objectFit: "contain" }}
+                        className="object-contain"
                         draggable={false}
                       />
                     </div>

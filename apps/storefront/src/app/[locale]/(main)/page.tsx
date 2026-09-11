@@ -14,7 +14,7 @@ import {
 } from "@modules/home/variants"
 import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
-import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
+import { getEffectiveSettings, getTenantHome, resolveRequestMode } from "@lib/data/tenant-home"
 import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
 import { getSiteName } from "@lib/data/cookies"
@@ -107,12 +107,16 @@ export default async function Home() {
   // "this shop's document, else the site-wide one", which is why there is no second
   // fallback here; a single-store deployment resolves no shop and reads exactly what it
   // read before either piece existed.
-  const [t, settings, home, tileList, locale] = await Promise.all([
+  const [t, settings, home, tileList, locale, mode] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),
     getTenantHome(),
     tilesForThisShop(),
     getLocale(),
+    // Which of a paired image's two layers may carry `priority`: the hero is this page's
+    // LCP element, and a preload hint pointed at the hidden layer is worse than none
+    // (`modules/common/components/mode-image`).
+    resolveRequestMode(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -133,9 +137,11 @@ export default async function Home() {
         ctaLabel: heroContent.cta_label || null,
         ctaHref: heroContent.cta_href || null,
         imageUrl: heroContent.image_url || null,
+        imageUrlDark: heroContent.image_url_dark || null,
+        mode,
         profileFallback: false,
       }
-    : {}
+    : { mode }
 
   const order: readonly HomeBlockKey[] = home?.content.order?.length
     ? home.content.order

@@ -147,6 +147,13 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "mode": {
+            "enum": [
+              "light",
+              "dark"
+            ],
+            "description": "Which mode this frame was rendered for (specs/store-profiles/MODE-IMAGE-PAIRS.md). Absent means the frame suits both modes, which is every entry written before the axis existed. A pair is two entries with the same role and the same productHandle/categoryHandle and different mode."
           }
         },
         "allOf": [

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Label, Select, Text, Textarea, toast } from "@medusajs/ui"
+import { Button, Input, Select, Textarea, toast } from "@medusajs/ui"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
@@ -7,6 +7,10 @@ import { z } from "zod"
 
 import type { AdminFile, HttpTypes } from "@medusajs/types"
 import { Form } from "../../../../../components/common/form"
+import {
+  ModeImagePair,
+  modeImagePairLabels,
+} from "../../../../../components/common/mode-image-pair"
 import { HandleInput } from "../../../../../components/inputs/handle-input"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
@@ -21,13 +25,16 @@ const EditCategorySchema = z.object({
   status: z.enum(["active", "inactive"]),
   visibility: z.enum(["public", "internal"]),
   imageUrl: z.string().optional(),
+  imageUrlDark: z.string().optional(),
   imageAlt: z.string().optional(),
 })
 
 /**
  * The mechanism (`t-2026-09-12-mt-storefront-by-host`, W3): a category has no
  * image field in core Medusa, so it lives on `metadata.image_url` (+
- * `metadata.image_alt`) — the jsonb column every category already has, no
+ * `metadata.image_alt`, and `metadata.image_url_dark` for the dark version of the same
+ * frame, `specs/store-profiles/MODE-IMAGE-PAIRS.md`) — the jsonb column every category
+ * already has, no
  * migration, no new module. Ownership stays the tenant-product-category
  * link's job; this field is never used to decide who owns a category. The
  * storefront reads it through the field selection the category routes
@@ -59,7 +66,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const { handleSuccess } = useRouteModal()
   const direction = useDocumentDirection()
   const metadata = (category.metadata ?? {}) as Record<string, unknown>
-  const [uploading, setUploading] = useState(false)
+  // Which slot of the pair is uploading: two buttons, one spinner each.
+  const [uploading, setUploading] = useState<"light" | "dark" | null>(null)
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     defaultValues: {
       name: category.name,
@@ -68,20 +76,24 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
       status: category.is_active ? "active" : "inactive",
       visibility: category.is_internal ? "internal" : "public",
       imageUrl: typeof metadata.image_url === "string" ? metadata.image_url : "",
+      imageUrlDark:
+        typeof metadata.image_url_dark === "string" ? metadata.image_url_dark : "",
       imageAlt: typeof metadata.image_alt === "string" ? metadata.image_alt : "",
     },
     resolver: zodResolver(EditCategorySchema),
   })
 
-  const onUpload = async (file: File | undefined) => {
+  const onUpload = async (file: File | undefined, slot: "light" | "dark") => {
     if (!file) {
       return
     }
-    setUploading(true)
+    setUploading(slot)
     try {
       const uploaded = await uploadCategoryImage(file)
       if (uploaded?.url) {
-        form.setValue("imageUrl", uploaded.url, { shouldDirty: true })
+        form.setValue(slot === "dark" ? "imageUrlDark" : "imageUrl", uploaded.url, {
+          shouldDirty: true,
+        })
       }
     } catch (e) {
       toast.error(
@@ -92,7 +104,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
             })
       )
     } finally {
-      setUploading(false)
+      setUploading(null)
     }
   }
 
@@ -108,6 +120,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
         metadata: {
           ...metadata,
           image_url: data.imageUrl || null,
+          image_url_dark: data.imageUrlDark || null,
           image_alt: data.imageAlt || null,
         },
       },
@@ -178,38 +191,33 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                 )
               }}
             />
-            <div className="flex flex-col gap-y-2">
-              <Label size="small" weight="plus" htmlFor="category-image">
-                {t("categories.edit.image", { defaultValue: "Image" })}
-              </Label>
-              <div className="flex items-center gap-x-2">
-                <Input
-                  id="category-image"
-                  data-testid="category-image"
-                  {...form.register("imageUrl")}
-                />
-                <label className="shrink-0">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    data-testid="category-image-upload"
-                    onChange={(e) => onUpload(e.target.files?.[0])}
-                  />
-                  <span className="txt-compact-small-plus inline-flex h-8 cursor-pointer items-center rounded-md border border-ui-border-base px-3 text-ui-fg-subtle hover:bg-ui-bg-base-hover">
-                    {uploading
-                      ? t("categories.edit.uploading", { defaultValue: "Uploading…" })
-                      : t("categories.edit.upload", { defaultValue: "Upload" })}
-                  </span>
-                </label>
-              </div>
-              <Text size="small" className="text-ui-fg-subtle">
-                {t("categories.edit.imageHint", {
-                  defaultValue:
-                    "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
-                })}
-              </Text>
-            </div>
+            <ModeImagePair
+              label={t("categories.edit.image", { defaultValue: "Image" })}
+              help={t("categories.edit.imageHint", {
+                defaultValue:
+                  "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+              })}
+              labels={modeImagePairLabels(t)}
+              light={{
+                value: form.watch("imageUrl") ?? "",
+                onChange: (next) =>
+                  form.setValue("imageUrl", next, { shouldDirty: true }),
+                onUpload: (file) => onUpload(file, "light"),
+                uploading: uploading === "light",
+                testId: "category-image",
+              }}
+              dark={{
+                value: form.watch("imageUrlDark") ?? "",
+                onChange: (next) =>
+                  form.setValue("imageUrlDark", next, { shouldDirty: true }),
+                onUpload: (file) => onUpload(file, "dark"),
+                uploading: uploading === "dark",
+                emptyHint: t("categories.edit.imageDarkEmpty", {
+                  defaultValue: "Not set — dark mode shows the light image.",
+                }),
+                testId: "category-image-dark",
+              }}
+            />
             <Form.Field
               control={form.control}
               name="imageAlt"
@@ -217,7 +225,9 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                 return (
                   <Form.Item>
                     <Form.Label optional>
-                      {t("categories.edit.imageAlt", { defaultValue: "Image description" })}
+                      {t("categories.edit.imageAlt", {
+                        defaultValue: "Image description (both versions)",
+                      })}
                     </Form.Label>
                     <Form.Control>
                       <Input autoComplete="off" {...field} />

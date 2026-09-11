@@ -38,6 +38,10 @@ import { useUpdateProduct } from "../../../../../hooks/api/products"
 import { sdk } from "../../../../../lib/client"
 import { UploadMediaFormItem } from "../../../common/components/upload-media-form-item"
 import {
+  ModeImagePair,
+  modeImagePairLabels,
+} from "../../../../../components/common/mode-image-pair"
+import {
   EditProductMediaSchema,
   MediaSchema,
 } from "../../../product-create/constants"
@@ -67,6 +71,21 @@ type Media = z.infer<typeof MediaSchema>
 
 export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
   const [selection, setSelection] = useState<Record<string, true>>({})
+  /**
+   * The dark version of the product's MAIN image
+   * (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). It is deliberately NOT a field of
+   * `EditProductMediaSchema`: that schema is shared with product creation, and the dark
+   * twin is not a gallery entry. It is not appended to `images[]` either — the storefront
+   * draws every entry of that list as its own slide, so the twin would appear as an extra
+   * slide in light mode. It rides along in `metadata`, the same jsonb a category's image
+   * already uses.
+   */
+  const [imageDark, setImageDark] = useState(() =>
+    typeof product.metadata?.image_url_dark === "string"
+      ? product.metadata.image_url_dark
+      : ""
+  )
+  const [uploadingDark, setUploadingDark] = useState(false)
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
 
@@ -157,6 +176,11 @@ export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
       {
         images: withUpdatedUrls.map((file) => ({ url: file.url, id: file.id })),
         thumbnail: thumbnail || null,
+        // Spread first: this screen owns one key of the bag and must not drop the rest.
+        metadata: {
+          ...((product.metadata ?? {}) as Record<string, unknown>),
+          image_url_dark: imageDark || null,
+        },
       },
       {
         onSuccess: () => {
@@ -275,8 +299,58 @@ export const EditProductMediaForm = ({ product }: ProductMediaViewProps) => {
                 </div>
               </div>
             </DndContext>
-            <div className="bg-ui-bg-base overflow-auto border-b px-6 py-4 lg:border-b-0 lg:border-l">
+            <div className="bg-ui-bg-base flex flex-col gap-y-6 overflow-auto border-b px-6 py-4 lg:border-b-0 lg:border-l">
               <UploadMediaFormItem form={form} append={append} />
+              {/* The same block the home page and the category screen use, so the owner
+                  learns one layout. The light slot is not editable here on purpose: the
+                  main image is whatever the gallery on the left has promoted, and a second
+                  address field for it would be a second way to say one thing. */}
+              <ModeImagePair
+                label={t("products.media.modeImage", {
+                  defaultValue: "Image for dark mode",
+                })}
+                help={t("products.media.modeImageHint", {
+                  defaultValue:
+                    "The pair works for the product's main image, the one shown on the card and first in the gallery. The other frames are the same in both modes.",
+                })}
+                labels={modeImagePairLabels(t)}
+                light={{
+                  value: fields.find((m) => m.isThumbnail)?.url ?? "",
+                  lockedLabel: t("products.media.mainFromGallery", {
+                    defaultValue: "Main image from the gallery",
+                  }),
+                  testId: "product-image-light",
+                }}
+                dark={{
+                  value: imageDark,
+                  onChange: setImageDark,
+                  onUpload: async (file) => {
+                    if (!file) {
+                      return
+                    }
+                    setUploadingDark(true)
+                    try {
+                      const { files } = await uploadTenantFiles([file])
+                      if (files?.[0]?.url) {
+                        setImageDark(files[0].url)
+                      }
+                    } catch (error) {
+                      toast.error(
+                        error instanceof Error
+                          ? error.message
+                          : t("products.media.failedToUpload")
+                      )
+                    } finally {
+                      setUploadingDark(false)
+                    }
+                  },
+                  uploading: uploadingDark,
+                  emptyHint: t("products.media.modeImageDarkEmpty", {
+                    defaultValue: "Not set — dark mode shows the light image.",
+                  }),
+                  testId: "product-image-dark",
+                }}
+              />
             </div>
           </div>
         </RouteFocusModal.Body>

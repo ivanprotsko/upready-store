@@ -3,14 +3,34 @@ import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
 import type { HttpTypes } from "@medusajs/types"
 import { Container } from "@medusajs/ui"
-import Image from "next/image"
+import type { ThemeMode } from "@lib/theme"
+import { isMainImage } from "@lib/util/mode-image"
+import ModeImage from "@modules/common/components/mode-image"
 import ZoomableImage from "@modules/common/components/zoomable-image"
 
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
+  /**
+   * The product's main image and its dark version, and the mode this request paints with.
+   * The pair belongs to the MAIN frame and not to every slide: the order was two images
+   * per product, one pair (`specs/store-profiles/MODE-IMAGE-PAIRS.md` §5). Every other
+   * slide is the same picture in both modes, which is why the swap is decided per frame
+   * here rather than per gallery.
+   */
+  mainImage?: string | null
+  mainImageDark?: string | null
+  mode?: ThemeMode | null
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({
+  images,
+  mainImage,
+  mainImageDark,
+  mode,
+}: ImageGalleryProps) => {
+  const darkFor = (image: HttpTypes.StoreProductImage, index: number) =>
+    isMainImage(mainImage, image.url, index) ? mainImageDark ?? null : null
+
   const t = useTranslations("ImageGallery")
   const [activeIndex, setActiveIndex] = useState(0)
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0)
@@ -95,12 +115,12 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               }`}
             >
               {!!image.url && (
-                <Image
+                <ModeImage
                   src={image.url}
+                  srcDark={darkFor(image, index)}
                   alt={`Thumbnail ${index + 1}`}
-                  fill
                   sizes="101px"
-                  style={{ objectFit: "cover" }}
+                  className="object-cover"
                 />
               )}
             </button>
@@ -119,6 +139,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               {!!image.url && (
                 <ZoomableImage
                   src={image.url}
+                  srcDark={darkFor(image, index)}
+                  mode={mode}
                   alt={`Product image ${index + 1}`}
                   priority={index <= 2}
                   sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
@@ -147,6 +169,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               {!!image.url && (
                 <ZoomableImage
                   src={image.url}
+                  srcDark={darkFor(image, index)}
+                  mode={mode}
                   alt={`Product image ${index + 1}`}
                   priority={index <= 2}
                   sizes="100vw"

@@ -1,8 +1,7 @@
-import Image from "next/image"
-
 import { Link } from "@i18n/navigation"
 import { categoryTiles as profileCategoryTiles } from "@lib/profile"
 import type { ProfileCategoryTile } from "@lib/profile/types"
+import ModeImage from "@modules/common/components/mode-image"
 
 import styles from "./category-tiles.module.css"
 
@@ -59,10 +58,10 @@ export default function CategoryTiles({
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-ui-bg-subtle">
                 {tile.image ? (
-                  <Image
+                  <ModeImage
                     src={tile.image}
+                    srcDark={tile.imageDark}
                     alt=""
-                    fill
                     quality={60}
                     sizes="(max-width: 1024px) 50vw, 25vw"
                     draggable={false}

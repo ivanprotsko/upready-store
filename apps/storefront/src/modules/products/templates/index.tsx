@@ -14,6 +14,8 @@ import Breadcrumb, {
 } from "@modules/common/components/breadcrumb"
 import JsonLd from "@modules/common/components/json-ld"
 import { buildProductJsonLd } from "@lib/util/json-ld"
+import { productImageDark } from "@lib/util/mode-image"
+import { resolveRequestMode } from "@lib/data/tenant-home"
 import { notFound } from "next/navigation"
 import type { HttpTypes } from "@medusajs/types"
 
@@ -32,7 +34,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   countryCode,
   images,
 }) => {
-  const [t, locale] = await Promise.all([getTranslations(""), getLocale()])
+  const [t, locale, mode] = await Promise.all([
+    getTranslations(""),
+    getLocale(),
+    // Decides which layer of the main photograph carries `priority`: it is this page's LCP
+    // element (`modules/common/components/mode-image`).
+    resolveRequestMode(),
+  ])
 
   if (!product || !product.id) {
     return notFound()
@@ -75,7 +83,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
 
         <div className="flex flex-col small:flex-row gap-x-8 items-start">
           <div className="flex-1 w-full">
-            <ImageGallery images={images} />
+            <ImageGallery
+              images={images}
+              mainImage={product.thumbnail}
+              mainImageDark={productImageDark(product)}
+              mode={mode}
+            />
           </div>
 
           <div className="flex flex-col small:sticky small:top-20 small:w-[320px] w-full gap-y-6 py-8 small:py-0 shrink-0">

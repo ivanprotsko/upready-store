@@ -209,6 +209,10 @@
             "description": "Always includes real logos and legible text unless the profile's style board says otherwise."
           }
         }
+      },
+      "imageDark": {
+        "$ref": "#/definitions/mediaRef",
+        "description": "The dark version of the product's MAIN frame, images[0] (specs/store-profiles/MODE-IMAGE-PAIRS.md). One pair per product, not a doubled gallery. Optional."
       }
     }
   },

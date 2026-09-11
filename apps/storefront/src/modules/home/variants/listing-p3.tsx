@@ -8,6 +8,7 @@ import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
 import type { HomeListingProps } from "@modules/home/variants/types"
 import Thumbnail from "@modules/products/components/thumbnail"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
+import { productImageDark } from "@lib/util/mode-image"
 
 /** Colour-option-value count and variant count for one product, the same option-value
  *  bookkeeping `ProductPreview` already does for its colour chips
@@ -82,6 +83,7 @@ export default async function ListingP3({ products: source }: HomeListingProps =
               <Link href={`/products/${product.handle}`} className="block w-[96px] small:w-[150px]">
                 <Thumbnail
                   thumbnail={product.thumbnail}
+                  thumbnailDark={productImageDark(product)}
                   images={product.images}
                   alt={product.title ?? ""}
                   size="full"

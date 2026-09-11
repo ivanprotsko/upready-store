@@ -6,11 +6,7 @@ import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
-import {
-  getEffectiveSettings,
-  getTenantModeDefault,
-  getTenantThemePreset,
-} from "@lib/data/tenant-home"
+import { getTenantThemePreset, resolveRequestMode } from "@lib/data/tenant-home"
 import StudioMount from "@modules/studio/components/studio-mount"
 import "styles/globals.css"
 
@@ -43,7 +39,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // CSS block in styles/themes.css, and a value that file cannot resolve would paint
   // nothing. `isAllowed` is the registry's own guard (`lib/theme/attributes.ts`), so it
   // accepts `default` as well as every generated preset.
-  const { theme: profileTheme, mode: profileMode } = readProfileTheme()
+  const { theme: profileTheme } = readProfileTheme()
 
   // Mode resolution order, highest priority first (panel-composition-mockup.md §C6):
   //   1. the visitor's own localStorage — applied by the pre-paint script below,
@@ -53,20 +49,18 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode] = await Promise.all([
-    getEffectiveSettings(),
+  //
+  // Steps 2 and 3 live in `resolveRequestMode()` (`lib/data/tenant-home.ts`), not here:
+  // the home page needs the same answer to decide which layer of a paired image may carry
+  // `priority` (`modules/common/components/mode-image`), and a second copy of the order
+  // would drift invisibly. The shop's own default sits ahead of the site-wide one there,
+  // because on a multi-shop process `store.metadata.storefrontSettings` belongs to the
+  // whole backend and cannot speak for one shop.
+  const [tenantPreset, mode] = await Promise.all([
     getTenantThemePreset(),
-    getTenantModeDefault(),
+    resolveRequestMode(),
   ])
   const theme = isAllowed("data-theme", tenantPreset) ? tenantPreset : profileTheme
-  // The shop's own default sits ahead of the site-wide one: on a multi-shop process
-  // `store.metadata.storefrontSettings` belongs to the whole backend and cannot speak
-  // for one shop. `getEffectiveSettings()` already prefers the shop's document, so the
-  // second term only ever answers for a single-store stand.
-  const mode =
-    (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
-    settings?.defaultMode ??
-    profileMode
 
   return (
     <html

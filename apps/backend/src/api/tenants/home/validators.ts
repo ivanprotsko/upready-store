@@ -71,6 +71,12 @@ const heroSchema = z.object({
    *  storefront renders it as a link and never as markup, so no scheme check. */
   cta_href: z.string().max(500).default(""),
   image_url: z.string().max(1000).nullable().default(null),
+  /** The dark version of `image_url`, the mode-image-pair axis
+   *  (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). Optional and defaulted the same way the
+   *  base is, so a document saved before this field existed keeps validating and saving;
+   *  absent means both modes show `image_url`. No v2 and no migration: the shape only
+   *  grew a field nobody has to fill. */
+  image_url_dark: z.string().max(1000).nullable().default(null),
   i18n: z
     .record(z.string().regex(/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/), heroCopySchema)
     .optional(),
@@ -141,6 +147,9 @@ export type TenantHomeDocument = {
       cta_label: string;
       cta_href: string;
       image_url: string | null;
+      /** Absent on a document stored before the mode-image-pair axis existed; the reader
+       *  treats absent and null alike ("no dark version"). */
+      image_url_dark?: string | null;
       i18n?: Record<string, { title?: string; subtitle?: string; cta_label?: string }>;
     };
     products:

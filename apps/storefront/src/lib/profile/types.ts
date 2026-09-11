@@ -20,12 +20,17 @@ export type ProfileHero = {
   cta: { label: string; href: string } | null
   /** Absolute URL, or a path on the storefront's own origin. */
   image: string | null
+  /** The dark version of `image` (`specs/store-profiles/MODE-IMAGE-PAIRS.md`); absent in
+   *  a profile built before the axis existed, and both modes then show `image`. */
+  imageDark?: string | null
 }
 
 export type ProfileCategoryTile = {
   categoryHandle: string
   label: string
   image: string | null
+  /** The dark version of `image`; see ProfileHero.imageDark. */
+  imageDark?: string | null
 }
 
 export type ProfilePromoStrip = {

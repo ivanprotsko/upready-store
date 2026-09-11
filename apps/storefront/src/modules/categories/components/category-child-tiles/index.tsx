@@ -1,15 +1,18 @@
-import Image from "next/image"
-
 import { Link } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
 
+import { metadataImage, metadataImageAlt, metadataImageDark } from "@lib/util/mode-image"
+import ModeImage from "@modules/common/components/mode-image"
 import styles from "@modules/home/components/category-tiles/category-tiles.module.css"
 
 function categoryImage(category: HttpTypes.StoreProductCategory) {
   const meta = (category.metadata ?? {}) as Record<string, unknown>
-  const url = typeof meta.image_url === "string" && meta.image_url.trim() ? meta.image_url : null
-  const alt = typeof meta.image_alt === "string" ? meta.image_alt : ""
-  return { url, alt }
+  return {
+    url: metadataImage(meta),
+    urlDark: metadataImageDark(meta),
+    // One description per pair: the same subject under two lightings.
+    alt: metadataImageAlt(meta),
+  }
 }
 
 /**
@@ -48,7 +51,7 @@ export default function CategoryChildTiles({
       ) : null}
       <ul className={`grid grid-cols-2 gap-3 small:gap-6 ${columns}`}>
         {categories.map((category) => {
-          const { url, alt } = categoryImage(category)
+          const { url, urlDark, alt } = categoryImage(category)
 
           return (
             <li key={category.id}>
@@ -60,10 +63,10 @@ export default function CategoryChildTiles({
               >
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-ui-bg-subtle">
                   {url ? (
-                    <Image
+                    <ModeImage
                       src={url}
+                      srcDark={urlDark}
                       alt={alt}
-                      fill
                       quality={60}
                       sizes="(max-width: 1024px) 50vw, 25vw"
                       draggable={false}

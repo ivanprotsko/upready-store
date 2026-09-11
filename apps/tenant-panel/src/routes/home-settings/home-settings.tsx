@@ -22,6 +22,10 @@ import { categoriesQueryKeys } from "../../hooks/api/categories"
 import { useTenantHome, useUpdateTenantHome } from "../../hooks/api/home"
 import { sdk } from "../../lib/client"
 import {
+  ModeImagePair,
+  modeImagePairLabels,
+} from "../../components/common/mode-image-pair"
+import {
   BLOCK_LABELS,
   DEFAULT_DOCUMENT,
   FOOTER_OPTIONS,
@@ -144,7 +148,9 @@ export const HomeSettings = () => {
   // `loaded` is what enables Save, and the initial load never overwrites a pick
   // the operator has already made while the request was in flight.
   const [loaded, setLoaded] = useState(false)
-  const [uploading, setUploading] = useState(false)
+  // Which slot of the pair is uploading, if any: two upload buttons stand next to each
+  // other and a shared boolean would spin both.
+  const [uploading, setUploading] = useState<"light" | "dark" | null>(null)
   const touchedRef = useRef(false)
 
   useEffect(() => {
@@ -196,15 +202,15 @@ export const HomeSettings = () => {
     edit({ ...doc, content: { ...doc.content, order } })
   }
 
-  const onUpload = async (file: File | undefined) => {
+  const onUpload = async (file: File | undefined, slot: "light" | "dark") => {
     if (!file) {
       return
     }
-    setUploading(true)
+    setUploading(slot)
     try {
       const uploaded = await uploadTenantFile(file)
       if (uploaded?.url) {
-        setHero({ image_url: uploaded.url })
+        setHero(slot === "dark" ? { image_url_dark: uploaded.url } : { image_url: uploaded.url })
       }
     } catch (e) {
       toast.error(
@@ -213,7 +219,7 @@ export const HomeSettings = () => {
           : t("homeSettings.uploadFailed", { defaultValue: "The image could not be uploaded." })
       )
     } finally {
-      setUploading(false)
+      setUploading(null)
     }
   }
 
@@ -422,38 +428,35 @@ export const HomeSettings = () => {
                 onChange={(e) => setHero({ cta_href: e.target.value })}
               />
             </div>
-            <div className="flex flex-col gap-y-2 md:col-span-2">
-              <Label size="small" weight="plus" htmlFor="hero-image">
-                {t("homeSettings.heroImage", { defaultValue: "Image address" })}
-              </Label>
-              <div className="flex items-center gap-x-2">
-                <Input
-                  id="hero-image"
-                  data-testid="hero-image"
-                  value={doc.content.hero.image_url ?? ""}
-                  onChange={(e) => setHero({ image_url: e.target.value || null })}
-                />
-                <label className="shrink-0">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    data-testid="hero-image-upload"
-                    onChange={(e) => onUpload(e.target.files?.[0])}
-                  />
-                  <span className="txt-compact-small-plus inline-flex h-8 cursor-pointer items-center rounded-md border border-ui-border-base px-3 text-ui-fg-subtle hover:bg-ui-bg-base-hover">
-                    {uploading
-                      ? t("homeSettings.uploading", { defaultValue: "Uploading…" })
-                      : t("homeSettings.upload", { defaultValue: "Upload" })}
-                  </span>
-                </label>
-              </div>
-              <Text size="small" className="text-ui-fg-subtle">
-                {t("homeSettings.heroImageHint", {
+            {/* The hero is a wide band on the storefront, so the preview is a wide band
+                too: a 4:5 preview of a 16:9 crop teaches the wrong framing. */}
+            <div className="md:col-span-2">
+              <ModeImagePair
+                label={t("homeSettings.heroImage", { defaultValue: "Image" })}
+                help={t("homeSettings.heroImageHint", {
                   defaultValue:
                     "Only the hero versions that show a photograph use it; Announcement ignores it.",
                 })}
-              </Text>
+                aspect="aspect-[16/9]"
+                labels={modeImagePairLabels(t)}
+                light={{
+                  value: doc.content.hero.image_url ?? "",
+                  onChange: (next) => setHero({ image_url: next || null }),
+                  onUpload: (file) => onUpload(file, "light"),
+                  uploading: uploading === "light",
+                  testId: "hero-image",
+                }}
+                dark={{
+                  value: doc.content.hero.image_url_dark ?? "",
+                  onChange: (next) => setHero({ image_url_dark: next || null }),
+                  onUpload: (file) => onUpload(file, "dark"),
+                  uploading: uploading === "dark",
+                  emptyHint: t("homeSettings.heroImageDarkEmpty", {
+                    defaultValue: "Not set — dark mode shows the light image.",
+                  }),
+                  testId: "hero-image-dark",
+                }}
+              />
             </div>
           </div>
         </div>

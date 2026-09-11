@@ -1,7 +1,6 @@
-import Image from "next/image"
-
 import { Link } from "@i18n/navigation"
 import { hero } from "@lib/profile"
+import ModeImage from "@modules/common/components/mode-image"
 import type { HomeHeroProps } from "@modules/home/variants/types"
 
 /**
@@ -35,6 +34,13 @@ function resolveHero(props: HomeHeroProps) {
   const headline = props.title || fallback?.headline || null
   const subheadline = props.subtitle || fallback?.subheadline || null
   const image = props.imageUrl || fallback?.image || null
+  // The dark version never crosses sources: a tenant's own photograph paired with the
+  // build profile's dark frame would be two different pictures of two different shops
+  // taking turns on one screen. Whoever supplied the base supplies the pair, or there is
+  // no pair (`specs/store-profiles/MODE-IMAGE-PAIRS.md`).
+  const imageDark = props.imageUrl
+    ? props.imageUrlDark || null
+    : fallback?.imageDark ?? null
   const cta =
     props.ctaLabel && props.ctaHref
       ? { label: props.ctaLabel, href: props.ctaHref }
@@ -53,7 +59,7 @@ function resolveHero(props: HomeHeroProps) {
       ? "full-bleed"
       : profileLayout ?? (image ? "full-bleed" : "announcement")
 
-  return { headline, subheadline, image, cta, layout }
+  return { headline, subheadline, image, imageDark, cta, layout, mode: props.mode ?? null }
 }
 
 export default function ProfileHero(props: HomeHeroProps = {}) {
@@ -120,7 +126,7 @@ const SCRIM_DESKTOP =
 const SCRIM_MOBILE =
   "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 84%)"
 
-function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
+function FullBleedHero({ headline, subheadline, image, imageDark, cta, mode }: ResolvedHero) {
   if (!image) return null
 
   return (
@@ -129,10 +135,11 @@ function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
       data-hero-layout="full-bleed"
       className="relative isolate h-[440px] w-full overflow-hidden small:h-[560px]"
     >
-      <Image
+      <ModeImage
         src={image}
+        srcDark={imageDark}
+        mode={mode}
         alt=""
-        fill
         priority
         quality={70}
         sizes="100vw"
@@ -210,7 +217,7 @@ function AnnouncementHero({ headline, subheadline, cta }: ResolvedHero) {
   )
 }
 
-function SplitHero({ headline, subheadline, image, cta }: ResolvedHero) {
+function SplitHero({ headline, subheadline, image, imageDark, cta, mode }: ResolvedHero) {
   if (!image) return null
 
   return (
@@ -221,10 +228,11 @@ function SplitHero({ headline, subheadline, image, cta }: ResolvedHero) {
     >
       {/* Image first in the DOM so the mobile stack needs no order override. */}
       <div className="relative order-first aspect-[4/5] w-full small:order-last small:aspect-auto small:h-full small:border-l small:border-ui-border-base">
-        <Image
+        <ModeImage
           src={image}
+          srcDark={imageDark}
+          mode={mode}
           alt=""
-          fill
           priority
           quality={70}
           sizes="(max-width: 1024px) 100vw, 50vw"

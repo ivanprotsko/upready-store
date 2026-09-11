@@ -36,6 +36,7 @@
  */
 
 import { fetchWithoutLocale } from "@lib/config"
+import { isAllowed, readProfileTheme, type ThemeMode } from "@lib/theme"
 import { getStorefrontSettings } from "@lib/data/storefront-settings"
 import { getTenantHandle } from "@lib/data/cookies"
 import { tenantHomeTag } from "@lib/tenant/cache-tags"
@@ -54,6 +55,10 @@ export type TenantHeroContent = {
   cta_label: string
   cta_href: string
   image_url: string | null
+  /** The dark version of `image_url` (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). Optional
+   *  for the same reason `i18n` is: a document saved before this field existed simply has
+   *  no key, and both modes then show `image_url`. */
+  image_url_dark?: string | null
   /** Per-locale copy, keyed by storefront locale (`ru`, `en`); absent on older documents. */
   i18n?: Partial<Record<string, TenantHeroCopy>>
 }
@@ -183,4 +188,32 @@ export async function getTenantModeDefault(): Promise<string | null> {
   } catch {
     return null
   }
+}
+
+/**
+ * The light/dark mode THIS request paints with, before the visitor's own stored choice
+ * overrides it in the browser. The resolution order is `app/layout.tsx`'s, and this is the
+ * one copy of it: the layout writes the attribute from this value and the home page needs
+ * the same answer to decide which layer of a paired image may carry `priority`
+ * (`modules/common/components/mode-image`). Two copies of the order would drift, and the
+ * drift would be invisible — a preload hint pointing at the hidden layer looks like
+ * nothing at all.
+ *
+ * Costs no extra round trip when the layout already asked: both reads underneath are
+ * `force-cache` fetches with their own tags, memoized per request by Next.
+ */
+export async function resolveRequestMode(): Promise<ThemeMode> {
+  const [settings, tenantMode] = await Promise.all([
+    getEffectiveSettings(),
+    getTenantModeDefault(),
+  ])
+  const { mode: profileMode } = readProfileTheme()
+  const resolved =
+    (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
+    settings?.defaultMode ??
+    profileMode
+
+  // Same allow-list guard the attribute itself goes through: this value crosses the wire
+  // as a plain string and a mode the CSS cannot resolve would paint nothing.
+  return (isAllowed("data-mode", resolved) ? resolved : "light") as ThemeMode
 }

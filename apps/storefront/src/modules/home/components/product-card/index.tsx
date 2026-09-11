@@ -3,6 +3,7 @@ import { getLocale } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 import { getProductPrice } from "@lib/util/get-product-price"
+import { productImageDark } from "@lib/util/mode-image"
 import Thumbnail from "@modules/products/components/thumbnail"
 
 /**
@@ -46,6 +47,7 @@ export default async function ProductCard({
     >
       <Thumbnail
         thumbnail={product.thumbnail}
+        thumbnailDark={productImageDark(product)}
         images={product.images}
         alt={product.title ?? ""}
         priority={priority}

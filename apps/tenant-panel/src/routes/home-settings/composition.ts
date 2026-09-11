@@ -276,6 +276,10 @@ export type TenantHomeContent = {
     cta_label: string
     cta_href: string
     image_url: string | null
+    /** The dark version of `image_url` (`specs/store-profiles/MODE-IMAGE-PAIRS.md`).
+     *  Optional: a document saved before this field existed simply has no key, and both
+     *  modes then show `image_url`. */
+    image_url_dark?: string | null
   }
   products:
     | { source: "popular" }
@@ -309,7 +313,14 @@ export const DEFAULT_DOCUMENT: TenantHomeDocument = {
     footer: "f1",
   },
   content: {
-    hero: { title: "", subtitle: "", cta_label: "", cta_href: "", image_url: null },
+    hero: {
+      title: "",
+      subtitle: "",
+      cta_label: "",
+      cta_href: "",
+      image_url: null,
+      image_url_dark: null,
+    },
     products: { source: "popular" },
     order: ["hero", "categories", "products"],
   },

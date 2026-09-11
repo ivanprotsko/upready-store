@@ -1,4 +1,5 @@
 import type { HomeProductsSource } from "@lib/data/home"
+import type { ThemeMode } from "@lib/theme"
 
 /**
  * The props the home-slot variants take from the tenant's home-page document
@@ -20,6 +21,12 @@ export type HomeHeroProps = {
   /** Only the variants that show one photograph read this; the shelf and the galleries
    *  compose several images of their own and ignore it. */
   imageUrl?: string | null
+  /** The dark version of `imageUrl` (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). Absent
+   *  means the shop never filled the pair, and both modes show `imageUrl`. */
+  imageUrlDark?: string | null
+  /** The mode this request paints with (`resolveRequestMode()`), passed down so a paired
+   *  image can give `priority` to the layer the visitor will actually see. */
+  mode?: ThemeMode | null
   /**
    * Whether a field left empty may fall back to the build profile's own hero. True
    * (the default) is the single-store stand; a shop served from its own home document

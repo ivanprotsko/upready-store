@@ -167,12 +167,18 @@ export function buildProfile({ profileId, profilesDir, mediaBaseUrl, heroEnabled
             subheadline: hero.subheadline ?? null,
             cta: hero.cta ? { label: hero.cta.label, href: hero.cta.href } : null,
             image: mediaUrl(hero.image, mediaBaseUrl),
+            // The dark version of the same frame, when the profile authored one
+            // (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). Absent stays absent: the
+            // storefront then shows `image` in both modes, which is every profile built
+            // before the axis existed.
+            imageDark: mediaUrl(hero.imageDark, mediaBaseUrl),
           }
         : null,
       categoryTiles: tiles.map((tile) => ({
         categoryHandle: tile.categoryHandle,
         label: tile.label,
         image: mediaUrl(tile.image, mediaBaseUrl),
+        imageDark: mediaUrl(tile.imageDark, mediaBaseUrl),
       })),
       promoStrip: promo ? { enabled: promo.enabled !== false, text: promo.text ?? null } : null,
     },

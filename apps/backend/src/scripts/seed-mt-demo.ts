@@ -153,7 +153,12 @@ const mediaUrl = (profile: string, ref: string): string => {
   return `${STORE_PROFILES_MEDIA_BASE_URL}/${profile}/${filename}`;
 };
 
-type SeedProductJson = { category?: string; images?: string[] };
+type SeedProductJson = { category?: string; images?: string[]; imageDark?: string };
+
+/** A frame and, when the profile authored one, the same frame for dark mode
+ *  (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). `dark` absent = no pair, and both modes
+ *  show `light` — which is every profile until the abstract-set track renders the twins. */
+type ModeImageRef = { light: string; dark?: string };
 
 /**
  * One representative image per category handle, parents included — built from
@@ -165,16 +170,21 @@ type SeedProductJson = { category?: string; images?: string[] };
  * `categories.ts`'s own note); a parent takes its first descendant's image,
  * since a parent itself owns no product.
  */
-const profileCategoryImages = (profile: string): Map<string, string> => {
+const profileCategoryImages = (profile: string): Map<string, ModeImageRef> => {
   const productsFile = path.join(
     __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "products.json",
   );
   const products = JSON.parse(fs.readFileSync(productsFile, "utf8")) as SeedProductJson[];
 
-  const byLeafCategory = new Map<string, string>();
+  const byLeafCategory = new Map<string, ModeImageRef>();
   for (const product of products) {
     if (product.category && product.images?.[0] && !byLeafCategory.has(product.category)) {
-      byLeafCategory.set(product.category, product.images[0]);
+      // The pair travels with the frame it belongs to: a category that borrows a product's
+      // light photograph borrows its dark twin too, or neither.
+      byLeafCategory.set(product.category, {
+        light: product.images[0],
+        ...(product.imageDark ? { dark: product.imageDark } : {}),
+      });
     }
   }
 
@@ -182,9 +192,9 @@ const profileCategoryImages = (profile: string): Map<string, string> => {
     __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "categories.json",
   );
   const tree = JSON.parse(fs.readFileSync(categoriesFile, "utf8")) as CategoryJson[];
-  const images = new Map<string, string>();
+  const images = new Map<string, ModeImageRef>();
 
-  const walk = (node: CategoryJson): string | undefined => {
+  const walk = (node: CategoryJson): ModeImageRef | undefined => {
     if (!node.handle) {
       return undefined;
     }
@@ -194,7 +204,7 @@ const profileCategoryImages = (profile: string): Map<string, string> => {
     // short-circuiting the loop early (`??` reused as both "keep walking"
     // and "the parent's own fallback") would silently skip every child
     // after the first one that has a picture.
-    let firstChildImage: string | undefined;
+    let firstChildImage: ModeImageRef | undefined;
     for (const child of node.children ?? []) {
       const childImage = walk(child);
       firstChildImage = firstChildImage ?? childImage;
@@ -229,13 +239,19 @@ const demoHeroCopy = (demo: { name: string }) => ({
   },
 });
 
-/** The first product's own hero image — a stand-in for the tenant's shop hero. */
-const profileHeroImage = (profile: string): string | undefined => {
+/** The first product's own hero image, with its dark twin when the profile authored one —
+ *  a stand-in for the tenant's shop hero. */
+const profileHeroImage = (profile: string): ModeImageRef | undefined => {
   const file = path.join(
     __dirname, "..", "migration-scripts", "data", "profiles", profile, "catalog", "products.json",
   );
   const products = JSON.parse(fs.readFileSync(file, "utf8")) as SeedProductJson[];
-  return products[0]?.images?.[0];
+  const first = products[0];
+  const light = first?.images?.[0];
+  if (!light) {
+    return undefined;
+  }
+  return { light, ...(first?.imageDark ? { dark: first.imageDark } : {}) };
 };
 
 export default async function seedMtDemo({ container }: { container: MedusaContainer }) {
@@ -445,7 +461,15 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
         input: {
           selector: { id: category.id },
           update: {
-            metadata: { ...meta, image_url: mediaUrl(demo.profile, ref), image_alt: category.name as string },
+            metadata: {
+              ...meta,
+              image_url: mediaUrl(demo.profile, ref.light),
+              // One description per pair (`MODE-IMAGE-PAIRS.md`): the same subject, two
+              // lightings. The dark key is written only when the profile has a twin, so a
+              // profile without one leaves no empty key behind.
+              image_alt: category.name as string,
+              ...(ref.dark ? { image_url_dark: mediaUrl(demo.profile, ref.dark) } : {}),
+            },
           },
         },
       });
@@ -472,7 +496,10 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
             subtitle: `${demo.name} runs on the shared engine and answers on its own domain.`,
             cta_label: "Shop",
             cta_href: "/store",
-            image_url: heroRef ? mediaUrl(demo.profile, heroRef) : null,
+            image_url: heroRef ? mediaUrl(demo.profile, heroRef.light) : null,
+            ...(heroRef?.dark
+              ? { image_url_dark: mediaUrl(demo.profile, heroRef.dark) }
+              : {}),
             i18n: demoHeroCopy(demo),
           },
           products: { source: "popular" },
@@ -494,6 +521,7 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
       const document = home.config as unknown as TenantHomeDocument;
       const hero = (document?.content?.hero ?? null) as {
         image_url?: string | null;
+        image_url_dark?: string | null;
         i18n?: Record<string, unknown>;
       } | null;
       let patched = false;
@@ -509,7 +537,10 @@ export default async function seedMtDemo({ container }: { container: MedusaConta
           );
         }
 
-        hero.image_url = mediaUrl(demo.profile, heroRef);
+        hero.image_url = mediaUrl(demo.profile, heroRef.light);
+        if (heroRef.dark) {
+          hero.image_url_dark = mediaUrl(demo.profile, heroRef.dark);
+        }
         (document as unknown as { updatedAt: string }).updatedAt = new Date().toISOString();
 
         await upsertTenantHomeWorkflow(container).run({

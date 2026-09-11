@@ -9,37 +9,80 @@
   "brand": {
     "name": "Testshop",
     "tagline": "A fixture profile, not a store",
-    "wordmark": { "text": "TESTSHOP", "style": "wordmark" },
+    "wordmark": {
+      "text": "TESTSHOP",
+      "style": "wordmark"
+    },
     "legalName": "Testshop Fixture Ltd"
   },
-  "locale": { "default": "en", "catalogLocales": ["de"] },
-  "currency": { "base": "usd", "rounding": "charm" },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "de"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "charm"
+  },
   "theme": {
     "presetId": "testshop",
     "file": "theme.json",
     "defaultMode": "light",
-    "typography": { "display": "Geist", "body": "Geist" },
+    "typography": {
+      "display": "Geist",
+      "body": "Geist"
+    },
     "radius": "md"
   },
   "layout": {
     "cardVariant": "classic",
-    "imageTreatment": { "aspect": "3:4", "fit": "cover", "radius": "lg", "hover": "zoom" }
+    "imageTreatment": {
+      "aspect": "3:4",
+      "fit": "cover",
+      "radius": "lg",
+      "hover": "zoom"
+    }
   },
   "home": {
     "hero": {
       "layout": "full-bleed",
       "headline": "Built for the long way home",
       "subheadline": "Cushioned trail runners for pavement that turns to dirt",
-      "cta": { "label": "Shop the drop", "href": "/store" },
-      "image": "media/hero.webp"
+      "cta": {
+        "label": "Shop the drop",
+        "href": "/store"
+      },
+      "image": "media/hero.webp",
+      "imageDark": "media/hero-dark.webp"
     },
     "categoryTiles": [
-      { "categoryHandle": "trail-runners", "label": "Trail runners", "image": "media/tile-trail.webp" },
-      { "categoryHandle": "road", "label": "Road", "image": "media/tile-road.webp" },
-      { "categoryHandle": "recovery-slides", "label": "Recovery slides", "image": "media/tile-slides.webp" },
-      { "categoryHandle": "apparel", "label": "Apparel", "image": "media/tile-apparel.webp" }
+      {
+        "categoryHandle": "trail-runners",
+        "label": "Trail runners",
+        "image": "media/tile-trail.webp",
+        "imageDark": "media/tile-trail-dark.webp"
+      },
+      {
+        "categoryHandle": "road",
+        "label": "Road",
+        "image": "media/tile-road.webp"
+      },
+      {
+        "categoryHandle": "recovery-slides",
+        "label": "Recovery slides",
+        "image": "media/tile-slides.webp"
+      },
+      {
+        "categoryHandle": "apparel",
+        "label": "Apparel",
+        "image": "media/tile-apparel.webp"
+      }
     ],
-    "promoStrip": { "enabled": true, "text": "Free shipping over $120 · 30-day returns" }
+    "promoStrip": {
+      "enabled": true,
+      "text": "Free shipping over $120 · 30-day returns"
+    }
   },
   "catalog": {
     "files": {
@@ -48,7 +91,11 @@
       "products": "catalog/products.json",
       "collections": "catalog/collections.json"
     },
-    "counts": { "products": 11, "variants": 36, "images": 30 }
+    "counts": {
+      "products": 11,
+      "variants": 36,
+      "images": 30
+    }
   },
   "media": {
     "dir": "media",

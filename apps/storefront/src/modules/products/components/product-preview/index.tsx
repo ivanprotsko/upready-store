@@ -4,6 +4,7 @@ import type { HttpTypes } from "@medusajs/types"
 import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import { Link } from "@i18n/navigation"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
+import { productImageDark } from "@lib/util/mode-image"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
 import { getLocale } from "next-intl/server"
@@ -64,6 +65,7 @@ export default async function ProductPreview({
       <div data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
+          thumbnailDark={productImageDark(product)}
           images={product.images}
           alt={product.title ?? ""}
           priority={priority}

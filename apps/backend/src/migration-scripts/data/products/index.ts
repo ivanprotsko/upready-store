@@ -62,6 +62,9 @@ export type SeedCollection = {
 type ProfileProduct = SeedProduct & {
   collections?: string[];
   imageBrief?: unknown;
+  /** The dark version of the product's MAIN frame, `images[0]`
+   *  (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). One pair per product. */
+  imageDark?: string;
 };
 
 const toSeedProduct = (
@@ -70,11 +73,29 @@ const toSeedProduct = (
 ): SeedProduct => {
   // `collections` and `imageBrief` are authoring data: collection membership is
   // seeded from catalog/collections.json, the brief is for the image producer.
-  const { collections: _collections, imageBrief: _imageBrief, ...rest } = product;
+  // `imageDark` is neither — it is the mode-image-pair axis, and it reaches the database
+  // as `metadata.image_url_dark`, the key the storefront reads
+  // (`specs/store-profiles/MODE-IMAGE-PAIRS.md`). It is NOT appended to `images[]`: the
+  // storefront draws every entry of that list as its own gallery slide, so the dark twin
+  // would show up as an extra slide in light mode.
+  const {
+    collections: _collections,
+    imageBrief: _imageBrief,
+    imageDark,
+    ...rest
+  } = product;
 
   return {
     ...rest,
     images: product.images.map((ref) => toMediaUrl(ref, profile.mediaBaseUrl)),
+    ...(imageDark
+      ? {
+          metadata: {
+            ...(product.metadata ?? {}),
+            image_url_dark: toMediaUrl(imageDark, profile.mediaBaseUrl),
+          },
+        }
+      : {}),
   };
 };
 
