@@ -114,6 +114,29 @@ const DOC_GROUPS = [
   },
 ]
 
+/**
+ * GFM strikethrough against our own paths. A home-relative path opens with a tilde, and two
+ * of them in one paragraph make marked strike out everything in between — measured on this
+ * very page, where "(Иван, чат 2026-09-09 22:00 — ~/upready/memory/…)" rendered with the
+ * time struck through. Overriding marked's `del` tokenizer does not help: returning false
+ * there means "use the original", not "skip".
+ *
+ * So every bare tilde is escaped in the SOURCE handed to the renderer — never inside a
+ * fenced block or an inline code span, where a backslash would show up as a backslash.
+ * Escaping only path tildes was not enough: the pair that struck out the time was «~22:00»
+ * (a tilde meaning "about") and a tilde inside a code span, which this function must skip.
+ * Nothing in this corpus uses the ~~del~~ syntax — checked before turning it off.
+ */
+function escapeHomeTildes(markdown) {
+  // Split on code regions so the replacement can skip them: fenced blocks first (they may
+  // contain backticks), then inline spans of any backtick run length.
+  const parts = markdown.split(/(```[\s\S]*?```|`+[^`\n]*`+)/g)
+
+  return parts
+    .map((part, index) => (index % 2 === 1 ? part : part.replace(/~/g, "\\~")))
+    .join("")
+}
+
 const docs = []
 for (const group of DOC_GROUPS) {
   for (const [path, title, note] of group.docs) {
@@ -137,7 +160,7 @@ for (const group of DOC_GROUPS) {
       title,
       note,
       bytes: statSync(abs).size,
-      text,
+      text: escapeHomeTildes(text),
     })
   }
 }
