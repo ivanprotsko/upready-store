@@ -5,6 +5,7 @@
  *
  *   node scripts/tenant-panel-shots.mjs admin   # admin-*.png
  *   node scripts/tenant-panel-shots.mjs panel   # panel-*.png (PANEL_URL, default http://localhost:5180)
+ *   node scripts/tenant-panel-shots.mjs storefront   # storefront-*.png (wave 2, piece 8)
  *
  * Output: artifacts/docs/tenant-panel-shots/<side>-<screen>.png (git-ignored binaries, rule 21f).
  *
@@ -81,6 +82,38 @@ const shot = async (page, name) => {
   const file = path.join(OUT, `${side}-${name}.png`)
   await page.screenshot({ path: file })
   console.log("shot", file)
+}
+
+/**
+ * tenant panel wave 2, piece 8. The storefront side is not a panel screen and has no
+ * login: it is the page the home-page document produces. `SHOT_NAME` names the frame
+ * ("home-acme-before" / "home-acme-after"), so the files land as
+ * `storefront-home-acme-before.png` next to the panel/admin pairs. The theme and mode the
+ * document sets are printed beside the file, because a screenshot of a dark page proves
+ * the mode only if the attribute agrees (rule 18f: a mode you name is a coordinate you
+ * must have entered).
+ */
+if (side === "storefront") {
+  const base = process.env.STOREFRONT_URL || "http://localhost:8012"
+  const name = process.env.SHOT_NAME || "home"
+  const browser = await chromium.launch()
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  const page = await ctx.newPage()
+  try {
+    await page.goto(`${base}/en`, { waitUntil: "networkidle" })
+    await shot(page, name)
+    const attrs = await page.evaluate(() => ({
+      theme: document.documentElement.getAttribute("data-theme"),
+      mode: document.documentElement.getAttribute("data-mode"),
+    }))
+    console.log("data-theme:", attrs.theme, "data-mode:", attrs.mode)
+  } catch (e) {
+    console.error("FAILED:", e.message)
+    process.exitCode = 1
+  } finally {
+    await browser.close()
+  }
+  process.exit(process.exitCode ?? 0)
 }
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:9023"
@@ -263,6 +296,12 @@ try {
   // Wave 2, pieces 2 and 3. ORDER_ID names the order both sides open, so the
   // Admin and the panel show the SAME row; without it the first row of each
   // list is taken, and the Admin's first row is whatever tenant placed it.
+  // tenant panel wave 2, piece 8: the fallback below clicks the first row of "the
+  // table", which used to be whatever screen the walk had reached — since piece 4 added
+  // the profile shots above, that was `/settings/profile/edit`, a screen with no table,
+  // and the whole script died there 30 s later. Go back to the orders list first.
+  await page.goto(`${cfg.base}/orders`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(800)
   const orderId =
     process.env.ORDER_ID ||
     (await page
@@ -338,6 +377,18 @@ try {
     await shot(page, "promotion-detail")
   }
 
+
+  // tenant panel wave 2, piece 8: the home-page settings screen. The Admin has no
+  // equivalent document, so the frame beside it is the Admin's own store settings
+  // (`/app/settings/store`) — the nearest screen in shape: one container of form rows
+  // the operator saves in place. The two are compared for chrome and control style, not
+  // for content.
+  await page.goto(
+    side === "admin" ? `${cfg.base}/settings/store` : `${cfg.base}/home-settings`,
+    { waitUntil: "networkidle" }
+  )
+  await page.waitForTimeout(1200)
+  await shot(page, "home-settings")
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

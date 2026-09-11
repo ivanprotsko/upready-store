@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 
 import { getPromoBannerDismissed } from "@lib/data/cookies"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
 import { getBaseURL } from "@lib/util/env"
 import BottomNav from "@modules/layout/components/bottom-nav"
@@ -21,7 +21,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   // Next's fetch request memoization) so this costs no second round trip.
   const [promoBannerDismissed, settings] = await Promise.all([
     getPromoBannerDismissed(),
-    getStorefrontSettings(),
+    getEffectiveSettings(),
   ])
   // H3's service tier already carries the same promo text (`nav/variants/h3.tsx`'s
   // own doc comment) — showing the site-wide strip too would double it.

@@ -46,3 +46,5 @@ export * from "./pages"
 // are the Admin's own hooks pointed at /tenants/promotions and /tenants/campaigns.
 export * from "./promotions"
 export * from "./campaigns"
+// tenant-panel: added by wave 2, piece 8 (home page document).
+export * from "./home"

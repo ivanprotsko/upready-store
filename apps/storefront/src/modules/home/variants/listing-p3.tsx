@@ -4,7 +4,8 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
-import { getHomeRegion, getLeadCollection, listLeadProducts } from "@lib/data/home"
+import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
+import type { HomeListingProps } from "@modules/home/variants/types"
 import Thumbnail from "@modules/products/components/thumbnail"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
 
@@ -35,7 +36,7 @@ function specCounts(product: HttpTypes.StoreProduct) {
  *
  * Lead collection, 6 products. Returns a single `<li>`.
  */
-export default async function ListingP3() {
+export default async function ListingP3({ products: source }: HomeListingProps = {}) {
   const [t, locale, region] = await Promise.all([
     getTranslations("HomeListing"),
     getLocale(),
@@ -46,28 +47,28 @@ export default async function ListingP3() {
     return null
   }
 
-  const collection = await getLeadCollection()
-  if (!collection) {
+  // tenant panel wave 2, piece 8: `source` is `content.products` of the tenant's home-page
+  // document. Absent or "popular" keeps this variant's own behaviour.
+  const block = await resolveHomeListing({ source, region, limit: 6, scope: "lead" })
+  if (!block) {
     return null
   }
-
-  const products = await listLeadProducts({ collectionId: collection.id, region, limit: 6 })
-  if (!products.length) {
-    return null
-  }
+  const { products, heading, href } = block
 
   return (
     <li className="content-container py-12 small:py-24" data-testid="home-listing-p3">
       <div className="mb-6 flex items-baseline justify-between gap-4 small:mb-8">
         <h2 className="text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:text-xl">
-          {collection.title}
+          {heading}
         </h2>
-        <Link
-          href={`/collections/${collection.handle}`}
-          className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-        >
-          {t("seeAll")}
-        </Link>
+        {href ? (
+          <Link
+            href={href}
+            className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+          >
+            {t("seeAll")}
+          </Link>
+        ) : null}
       </div>
       <ul className="flex flex-col border-t border-ui-border-base">
         {products.map((product) => {
