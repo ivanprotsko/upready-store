@@ -53,7 +53,7 @@ type TenantDetail = TenantSummary & { admins: TenantAdmin[] };
 | `GET /admin/tenants` | `q?`, `limit?` (default 20), `offset?` (0), `archived?` = `exclude` (default) / `include` / `only` | `{ tenants: TenantSummary[], count, offset, limit }` | `q` matches `handle` or `name` (ilike). Order: `created_at desc`. |
 | `POST /admin/tenants` | `{ name, handle, admin: { email, password, first_name?, last_name? } }` | `201 { tenant: TenantDetail }` | Registers an emailpass auth identity for the admin (`authModuleService.register("emailpass", { email, password })`, compensated by deleting the identity), then runs `createTenantWorkflow` with that `authIdentityId`. Duplicate handle or email → `400` (Medusa `INVALID_DATA`/`DUPLICATE_ERROR`). Handle rules = `PostTenantCreateSchema` in `src/api/tenants/validators.ts`. Password ≥ 8 chars. |
 | `GET /admin/tenants/:id` | — | `{ tenant: TenantDetail }` | `404` when unknown. Archived tenants are readable. |
-| `POST /admin/tenants/:id` | `{ name?, metadata? }` | `{ tenant: TenantDetail }` | `metadata` merges (Medusa convention, `null` value deletes a key). `metadata.archived_at` may NOT be set through this route (`400`); it belongs to the delete workflow. `handle` in the body → `400`. |
+| `POST /admin/tenants/:id` | `{ name?, metadata? }` | `{ tenant: TenantDetail }` | `metadata` merges (Medusa convention verified by W1 in `merge-metadata.js`: an EMPTY STRING deletes a key, `null` is stored literally). `metadata.archived_at` may NOT be set through this route (`400`); it belongs to the delete workflow. `handle` in the body → `400`. |
 | `DELETE /admin/tenants/:id` | query `purge_files?=true` | `{ id, object: "tenant", deleted: true, archived_at }` | Soft delete, see §4. Idempotent: deleting an archived tenant answers `200` again with the original `archived_at`. |
 | `GET /admin/tenants/:id/admins` | — | `{ admins: TenantAdmin[] }` | |
 | `POST /admin/tenants/:id/admins` | `{ email, password, first_name?, last_name? }` | `201 { admin: TenantAdmin }` | Auth identity registered + `tenant_admin` row + `setAuthAppMetadataStep` (actor type `tenant`, value = admin id). Archived tenant → `400`. |
@@ -76,7 +76,7 @@ that restores the previous state (except the last one):
 2. The tenant's sales channel → `is_disabled: true` (`updateSalesChannelsWorkflow.runAsStep`).
 3. The tenant's publishable key → revoked (`revokeApiKeysWorkflow.runAsStep`; read its input type in
    `node_modules/@medusajs/core-flows/dist/api-key/workflows/revoke-api-keys.d.ts`). The storefront's
-   calls with that key answer `401` from then on (Medusa's publishable-key middleware checks `revoked_at`).
+   calls with that key answer `400` from then on (verified by W1: a revoked key raises NOT_ALLOWED in `ensure-publishable-api-key.js`, mapped to 400; the contract first assumed 401).
 4. Only when `purge_files` is true: `deleteTenantFilesStep({ tenant_id })` from
    `src/workflows/tenant/delete-tenant/steps/delete-tenant-files.ts` (owner W2, §5). No compensation is
    possible for deleted objects, which is why it is the last step and off by default.
@@ -90,7 +90,7 @@ Login is closed by MIDDLEWARE, not by touching auth identities (so a decision «
   `401` with the same message, before Medusa's handler runs.
 
 Expected after `DELETE`: tenant admin login `401`; `GET /tenants/me` with an old token `401`;
-`GET /store/products` with the tenant's publishable key `401`; `GET /admin/tenants` hides the tenant
+`GET /store/products` with the tenant's publishable key `400` (revoked key = NOT_ALLOWED); `GET /admin/tenants` hides the tenant
 unless `archived=include|only`.
 
 ## 5. Tenant files (owner W2) — key prefix `tenants/<tenant_id>/`

@@ -46,6 +46,15 @@ import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validator
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
+import {
+  AdminGetTenantsParams,
+  DeleteAdminTenantParams,
+  PostAdminTenantAdminCreateSchema,
+  PostAdminTenantAdminUpdateSchema,
+  PostAdminTenantCreateSchema,
+  PostAdminTenantUpdateSchema,
+} from "./admin/tenants/validators";
+import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
 import { PostTenantCreateSchema, TenantGetProductOptionsParams } from "./tenants/validators";
 
 /**
@@ -103,7 +112,16 @@ export default defineMiddlewares({
     },
     {
       matcher: "/tenants/*",
-      middlewares: [authenticate(TENANT_ACTOR_TYPE, ["session", "bearer"])],
+      // `blockArchivedTenantAdmin` runs right after `authenticate`, on the
+      // same matcher, so it sees `req.auth_context.actor_id` (contract §4).
+      middlewares: [authenticate(TENANT_ACTOR_TYPE, ["session", "bearer"]), blockArchivedTenantAdmin],
+    },
+    {
+      // Login gate (contract §4): refuses an archived tenant's admin before
+      // Medusa's own emailpass handler runs.
+      matcher: "/auth/tenant/emailpass",
+      method: ["POST"],
+      middlewares: [blockArchivedTenantLogin],
     },
     {
       matcher: "/tenants/products",
@@ -221,6 +239,43 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(AdminGetShippingProfilesParams, listShippingProfileQueryConfig),
       ],
+    },
+    // `/admin/tenants*` (contract §3): the platform staff's own tenant
+    // management API. Auth is the framework's default `/admin/*` middleware
+    // (actor type `user`), applied automatically to every custom route under
+    // it; only validation is added here. `{}` as the second argument to
+    // `validateAndTransformQuery` is deliberate: these schemas are this
+    // route's own (not one of the Admin's generated list/retrieve configs),
+    // so there is no `QueryConfig` to hand it beyond an empty one.
+    {
+      matcher: "/admin/tenants",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(AdminGetTenantsParams, {})],
+    },
+    {
+      matcher: "/admin/tenants",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostAdminTenantCreateSchema)],
+    },
+    {
+      matcher: "/admin/tenants/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostAdminTenantUpdateSchema)],
+    },
+    {
+      matcher: "/admin/tenants/:id",
+      method: ["DELETE"],
+      middlewares: [validateAndTransformQuery(DeleteAdminTenantParams, {})],
+    },
+    {
+      matcher: "/admin/tenants/:id/admins",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostAdminTenantAdminCreateSchema)],
+    },
+    {
+      matcher: "/admin/tenants/:id/admins/:adminId",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostAdminTenantAdminUpdateSchema)],
     },
   ],
 });
