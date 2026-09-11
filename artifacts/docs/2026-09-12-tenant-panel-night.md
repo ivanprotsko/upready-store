@@ -16,10 +16,10 @@ NOT READY
 | 4 | Профиль + смена пароля (`/settings/profile`, user-menu 404 закрыт) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-profile.spec.ts 7/7; пары profile/profile-edit | 5f87bb2, merge 4dd51d0 |
 | 1 | Карточка товара (+ варианты, опции, цены, медиа, склад) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam 7/7; 4 пары скриншотов | 2b7cf57, merge 7fdfeb9 |
 | 2+3 | Карточка заказа (fulfill/ship/capture/cancel) + экспорт CSV | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-orders-detail.spec.ts 7/7; пары order-detail/fulfillment-create/export | 2522f01, merge 952ea2e |
-| 5 | Категории | в работе (mt2-piece-5) | — |
+| 5 | Категории (список, создание, карточка, товары, organize; публичный /store/tenant/product-categories) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-categories.spec.ts 12/12; пары categories/category-detail/category-create | 6bf3591, merge dd94096 |
 | 6 | Промо + кампании | в работе (mt2-piece-6) | — |
 | 7 | Контент-страницы + витрина | в работе (mt2-piece-7) | — |
-| 8 | Настройки главной + витрина | ждёт слота | — |
+| 8 | Настройки главной + витрина | в работе (mt2-piece-8) | — |
 | 9 | Витрина по Host | ждёт слота; дизайн `docs/multitenancy/storefront-by-host.md` написан | bb40bb7 (дизайн) |
 
 ## Решения архитектора (см. также memory/decisions, раздел «Волна 2 панели 2026-09-11»)

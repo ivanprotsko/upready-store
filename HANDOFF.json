@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T10:02:05+08:00",
-  "status": "Волна 2: приняты и слиты куски 1, 4, 2+3 (trunk feat/mt-panel-2 = 952ea2e, tsc/eslint/lint зелёные); e2e trunk идёт. В работе: mt2-piece-5 (categories), mt2-piece-6 (promotions), mt2-piece-7 (pages, стартует). Далее 8 → 9. night.md = NOT READY.",
+  "updated": "2026-09-11T10:07:13+08:00",
+  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5 (trunk feat/mt-panel-2 = dd94096, tsc/eslint/lint зелёные). Открыто: e2e trunk после 2+3 — 3 FAIL в шаге «создать фулфилмент из панели» (POST не ушёл; повтор секции orders идёт). В работе: mt2-piece-6 (promotions), mt2-piece-7 (pages), mt2-piece-8 (home, стартует). Далее 9. night.md = NOT READY.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
