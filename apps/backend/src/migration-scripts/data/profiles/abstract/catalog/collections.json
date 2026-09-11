@@ -1,0 +1,24 @@
+[
+  {
+    "handle": "new-arrivals",
+    "title": "New arrivals",
+    "products": [
+      "sphere-1",
+      "cube-1",
+      "cylinder-1",
+      "pair-1",
+      "stack-1"
+    ]
+  },
+  {
+    "handle": "bestsellers",
+    "title": "Bestsellers",
+    "products": [
+      "sphere-2",
+      "cube-2",
+      "cylinder-2",
+      "pair-2",
+      "stack-2"
+    ]
+  }
+]

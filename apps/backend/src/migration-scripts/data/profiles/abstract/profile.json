@@ -1,0 +1,120 @@
+{
+  "schema": "upready.store-profile/v0",
+  "id": "abstract",
+  "vertical": "starter catalog for a shop without a sphere of trade",
+  "audience": {
+    "region": "any",
+    "persona": "A shop owner who has just created the shop and has not added goods yet: the catalog must look finished in any theme and be obviously replaceable."
+  },
+  "brand": {
+    "name": "Starter set",
+    "tagline": "A neutral starter catalog that fits any theme, ready to be replaced",
+    "wordmark": {
+      "text": "STARTER",
+      "style": "wordmark"
+    }
+  },
+  "locale": {
+    "default": "en",
+    "catalogLocales": [
+      "en",
+      "ru"
+    ]
+  },
+  "currency": {
+    "base": "usd",
+    "rounding": "round"
+  },
+  "theme": {
+    "presetId": "geist",
+    "file": "theme.json",
+    "defaultMode": "light",
+    "typography": {
+      "display": "Geist",
+      "body": "Geist"
+    },
+    "radius": "md"
+  },
+  "layout": {
+    "cardVariant": "classic",
+    "imageTreatment": {
+      "aspect": "1:1",
+      "fit": "cover",
+      "radius": "md",
+      "hover": "none"
+    }
+  },
+  "home": {
+    "hero": {
+      "layout": "full-bleed",
+      "headline": "Your catalog starts here",
+      "subheadline": "A starter set of plain forms, photographed as one series. Replace it with your own goods from the panel.",
+      "cta": {
+        "label": "Browse the catalog",
+        "href": "/store"
+      },
+      "image": "media/home-hero.webp"
+    },
+    "categoryTiles": [
+      {
+        "categoryHandle": "spheres",
+        "label": "Spheres",
+        "image": "media/tile-spheres.webp"
+      },
+      {
+        "categoryHandle": "cubes",
+        "label": "Cubes",
+        "image": "media/tile-cubes.webp"
+      },
+      {
+        "categoryHandle": "cylinders",
+        "label": "Cylinders",
+        "image": "media/tile-cylinders.webp"
+      },
+      {
+        "categoryHandle": "pairs",
+        "label": "Pairs",
+        "image": "media/tile-pairs.webp"
+      },
+      {
+        "categoryHandle": "stacks",
+        "label": "Stacks",
+        "image": "media/tile-stacks.webp"
+      }
+    ],
+    "promoStrip": {
+      "enabled": false,
+      "text": ""
+    }
+  },
+  "catalog": {
+    "files": {
+      "categories": "catalog/categories.json",
+      "productOptions": "catalog/product-options.json",
+      "products": "catalog/products.json",
+      "collections": "catalog/collections.json"
+    },
+    "counts": {
+      "products": 10,
+      "variants": 22,
+      "images": 10
+    }
+  },
+  "media": {
+    "dir": "media",
+    "manifest": "media/manifest.json",
+    "baseUrlEnv": "STORE_MEDIA_BASE_URL"
+  },
+  "design": {
+    "styleBoard": "design/style-board.md",
+    "canon": "~/upready/packages/geist-kit/AGENTS.md"
+  },
+  "dataset": {
+    "kind": "abstract",
+    "themes": "any",
+    "tradeSphere": null,
+    "tradeCategories": []
+  },
+  "generatedAt": "2026-09-11T22:10:00.000Z",
+  "generatedBy": "apps/backend/scripts/abstract-datasets/build.mjs from definitions.mjs"
+}

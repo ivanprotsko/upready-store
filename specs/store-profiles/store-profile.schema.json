@@ -447,6 +447,59 @@
         }
       }
     },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "themes",
+        "tradeSphere",
+        "tradeCategories"
+      ],
+      "description": "What this directory IS in the catalog-taxonomy vocabulary (specs/catalog-taxonomy/GLOSSARY.md, 2026-09-12). `branded` = a demo brand + theme + catalog (the five profiles of the portfolio wave); `abstract` = the starter set a shop without a sphere of trade is seeded with — ONE set for every theme (Ivan, 2026-09-12), images of abstract, formless or generalised objects. Optional: a profile without the block is read as branded.",
+      "properties": {
+        "kind": {
+          "enum": [
+            "branded",
+            "abstract"
+          ]
+        },
+        "themes": {
+          "oneOf": [
+            {
+              "const": "any"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{2,31}$"
+              }
+            }
+          ],
+          "description": "Which theme presets (the wizard's THEME_IDS) this dataset is seeded for. \"any\" = the universal set, the only kind that exists today; a list = a set picked for those themes (backlog t-2026-09-12-abstract-sets-per-theme), which the resolver prefers over the universal one when the tenant's preset is listed."
+        },
+        "tradeSphere": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "slug from specs/catalog-taxonomy/trade-spheres.json; null = no sphere of trade (always null for an abstract set)."
+        },
+        "tradeCategories": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "description": "slugs from specs/catalog-taxonomy/trade-categories.json under tradeSphere; [] = none. Empty whenever tradeSphere is null."
+        }
+      }
+    },
     "generatedAt": {
       "type": "string",
       "format": "date-time"
