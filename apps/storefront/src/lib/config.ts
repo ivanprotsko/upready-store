@@ -1,6 +1,7 @@
 import { getLocaleHeader } from "@lib/util/get-locale-header"
 import Medusa, { type FetchArgs, type FetchInput } from "@medusajs/js-sdk"
 import { headers as nextHeaders } from "next/headers"
+import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -35,7 +36,7 @@ const FALLBACK_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 async function getPublishableKeyHeader(): Promise<Record<string, string>> {
   try {
     const requestHeaders = await nextHeaders()
-    const tenantKey = requestHeaders.get("x-tenant-key")
+    const tenantKey = decodeTenantHeaderValue(requestHeaders.get("x-tenant-key"))
 
     if (tenantKey) {
       return { "x-publishable-api-key": tenantKey }

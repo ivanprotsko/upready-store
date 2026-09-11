@@ -41,6 +41,7 @@ import { getTenantHandle } from "@lib/data/cookies"
 import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { StorefrontSettings, StorefrontSettingsInput } from "@lib/theme/composition"
 import { headers as nextHeaders } from "next/headers"
+import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 
 export type HomeBlock = "hero" | "categories" | "products"
 
@@ -150,7 +151,7 @@ export async function getEffectiveSettings(): Promise<StorefrontSettings | null>
 export async function getTenantThemePreset(): Promise<string | null> {
   try {
     const requestHeaders = await nextHeaders()
-    const fromHost = requestHeaders.get("x-tenant-theme")
+    const fromHost = decodeTenantHeaderValue(requestHeaders.get("x-tenant-theme"))
 
     if (fromHost) {
       return fromHost
@@ -173,7 +174,7 @@ export async function getTenantThemePreset(): Promise<string | null> {
 export async function getTenantModeDefault(): Promise<string | null> {
   try {
     const requestHeaders = await nextHeaders()
-    return requestHeaders.get("x-tenant-mode")
+    return decodeTenantHeaderValue(requestHeaders.get("x-tenant-mode"))
   } catch {
     return null
   }

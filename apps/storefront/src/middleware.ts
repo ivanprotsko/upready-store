@@ -1,5 +1,9 @@
 import { isAppLocale, defaultLocale, matchBrowserLocale } from "@i18n/config"
 import { resolveCountry, type RegionMap } from "@lib/geolocation"
+import {
+  TENANT_HEADERS,
+  encodeTenantHeaderValue,
+} from "@lib/tenant/headers"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -49,8 +53,8 @@ function demoHostResponse(request: NextRequest): NextResponse {
   for (const name of TENANT_HEADERS) {
     headers.delete(name)
   }
-  headers.set("x-tenant-theme", DEMO_THEME)
-  headers.set("x-tenant-mode", DEMO_MODE)
+  headers.set("x-tenant-theme", encodeTenantHeaderValue(DEMO_THEME))
+  headers.set("x-tenant-mode", encodeTenantHeaderValue(DEMO_MODE))
 
   const { pathname } = request.nextUrl
   // A file request (`.ico`, `.png`, a source map) is served as-is; everything
@@ -65,19 +69,12 @@ function demoHostResponse(request: NextRequest): NextResponse {
 
 const INTL_LOCALE_HEADER = "X-NEXT-INTL-LOCALE"
 
-/**
+/*
  * The tenant of a request, handed to the server components as request headers.
- * They are set by this file and by nothing else: whatever a visitor sends under
- * these names is deleted first, or a browser could ask for another shop's
- * catalog by typing a header.
+ * The names and the percent-encoding both live in `@lib/tenant/headers`, because
+ * the readers need the same pair — a header value is a ByteString and a tenant
+ * named in Cyrillic would otherwise throw here and answer 500 for the whole shop.
  */
-const TENANT_HEADERS = [
-  "x-tenant-key",
-  "x-tenant-handle",
-  "x-tenant-name",
-  "x-tenant-theme",
-  "x-tenant-mode",
-] as const
 
 /**
  * Regions are store-wide in Medusa, but the call that reads them needs A key,
@@ -170,15 +167,15 @@ function tenantRequestHeaders(
 
   if (tenant) {
     if (tenant.publishableKey) {
-      headers.set("x-tenant-key", tenant.publishableKey)
+      headers.set("x-tenant-key", encodeTenantHeaderValue(tenant.publishableKey))
     }
-    headers.set("x-tenant-handle", tenant.handle)
-    headers.set("x-tenant-name", tenant.name)
+    headers.set("x-tenant-handle", encodeTenantHeaderValue(tenant.handle))
+    headers.set("x-tenant-name", encodeTenantHeaderValue(tenant.name))
     if (tenant.theme) {
-      headers.set("x-tenant-theme", tenant.theme)
+      headers.set("x-tenant-theme", encodeTenantHeaderValue(tenant.theme))
     }
     if (tenant.mode) {
-      headers.set("x-tenant-mode", tenant.mode)
+      headers.set("x-tenant-mode", encodeTenantHeaderValue(tenant.mode))
     }
   }
 

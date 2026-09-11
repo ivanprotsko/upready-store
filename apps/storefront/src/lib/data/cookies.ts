@@ -2,6 +2,7 @@ import "server-only"
 import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
 import { SITE_NAME } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
+import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 
 export const getAuthHeaders = async (): Promise<
   { authorization: string } | Record<string, never>
@@ -49,7 +50,7 @@ export const getCacheTag = async (tag: string): Promise<string> => {
 export const getTenantHandle = async (): Promise<string | null> => {
   try {
     const headers = await nextHeaders()
-    return headers.get("x-tenant-handle")
+    return decodeTenantHeaderValue(headers.get("x-tenant-handle"))
   } catch {
     return null
   }
@@ -71,7 +72,7 @@ export const getTenantHandle = async (): Promise<string | null> => {
 export const getSiteName = async (): Promise<string> => {
   try {
     const headers = await nextHeaders()
-    const tenantName = headers.get("x-tenant-name")
+    const tenantName = decodeTenantHeaderValue(headers.get("x-tenant-name"))
 
     if (tenantName) {
       return tenantName
