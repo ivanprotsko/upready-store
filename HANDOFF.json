@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T10:34:17+08:00",
-  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5, 7 (trunk feat/mt-panel-2, все проверки зелёные); e2e-фикс фулфилмента слит (136 PASS). В работе mt2-piece-6 (promotions), mt2-piece-8 (home), mt2-piece-9 (by-host). night.md = NOT READY.",
+  "updated": "2026-09-11T10:39:52+08:00",
+  "status": "Волна 2: приняты и слиты 1, 4, 2+3, 5, 6, 7 (trunk feat/mt-panel-2; tsc/eslint/lint зелёные; e2e 155 PASS до куска 6, прогон с 6 идёт). В работе mt2-piece-8 (home), mt2-piece-9 (by-host). Витрина trunk :8010 поднята. night.md = NOT READY.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

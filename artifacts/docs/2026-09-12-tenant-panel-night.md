@@ -17,7 +17,7 @@ NOT READY
 | 1 | Карточка товара (+ варианты, опции, цены, медиа, склад) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam 7/7; 4 пары скриншотов | 2b7cf57, merge 7fdfeb9 |
 | 2+3 | Карточка заказа (fulfill/ship/capture/cancel) + экспорт CSV | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-orders-detail.spec.ts 7/7; пары order-detail/fulfillment-create/export | 2522f01, merge 952ea2e |
 | 5 | Категории (список, создание, карточка, товары, organize; публичный /store/tenant/product-categories) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-categories.spec.ts 12/12; пары categories/category-detail/category-create | 6bf3591, merge dd94096 |
-| 6 | Промо + кампании | в работе (mt2-piece-6) | — |
+| 6 | Промо + кампании (правило sales_channel_id навязано и защищено) | ПРИНЯТ: мои прогоны tsc/eslint/lint rc=0, seam tenants-promotions.spec.ts 14/14 (скидка только в канале Acme); пары promotions/promotion-create/promotion-detail/campaigns | f4bea0d |
 | 7 | Контент-страницы (контакты, реквизиты, о магазине, политика, оферта) + витрина `/pages/:key` и ссылки в футере | ПРИНЯТ: мои прогоны панель/бэкенд tsc+lint rc=0, витрина tsc/next lint rc=0, seam tenants-pages.spec.ts 8/8; кадры pages/page-edit/storefront-page-contacts/storefront-footer | d743d8f |
 | 8 | Настройки главной + витрина | в работе (mt2-piece-8) | — |
 | 9 | Витрина по Host | в работе (mt2-piece-9); дизайн `docs/multitenancy/storefront-by-host.md` | bb40bb7 (дизайн) |
