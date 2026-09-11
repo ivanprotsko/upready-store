@@ -1,6 +1,6 @@
 import "server-only"
 import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
-import { cookies as nextCookies } from "next/headers"
+import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 
 export const getAuthHeaders = async (): Promise<
   { authorization: string } | Record<string, never>
@@ -34,6 +34,26 @@ export const getCacheTag = async (tag: string): Promise<string> => {
   }
 }
 
+/**
+ * The shop this request belongs to, as `src/middleware.ts` resolved it from the
+ * Host header (piece 9, docs/multitenancy/storefront-by-host.md §2). Null in
+ * single-store mode and outside a request.
+ *
+ * SWEEP_OK — this never throws and its absence is never an error, so no caller
+ * needs a guard of its own. It is a request header this same process wrote a
+ * moment ago, not a client-held id pointing at foreign state that may be gone:
+ * the two dereferences that exist (`getCacheOptions` below, `getTenantHome` in
+ * `tenant-home.ts`) both branch on null and carry on with the unscoped tag.
+ */
+export const getTenantHandle = async (): Promise<string | null> => {
+  try {
+    const headers = await nextHeaders()
+    return headers.get("x-tenant-handle")
+  } catch {
+    return null
+  }
+}
+
 export const getCacheOptions = async (
   tag: string
 ): Promise<{ tags: string[] } | Record<string, never>> => {
@@ -41,13 +61,20 @@ export const getCacheOptions = async (
     return {}
   }
 
-  const cacheTag = await getCacheTag(tag)
+  const [cacheTag, handle] = await Promise.all([
+    getCacheTag(tag),
+    getTenantHandle(),
+  ])
 
   if (!cacheTag) {
     return {}
   }
 
-  return { tags: [`${cacheTag}`] }
+  // One process serves every shop, so a bare `products` tag would make one
+  // shop's revalidation throw away every other shop's cached catalog. The
+  // handle scopes the tag to its owner; a single-store deployment resolves no
+  // handle and keeps exactly today's tag.
+  return { tags: [handle ? `${cacheTag}-${handle}` : `${cacheTag}`] }
 }
 
 export const setAuthToken = async (token: string) => {

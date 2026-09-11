@@ -150,6 +150,7 @@ import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
+  PostTenantDomainSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantPageSchema,
@@ -922,5 +923,14 @@ export default defineMiddlewares({
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
+    // `GET /storefront/by-host` takes no middleware entry on purpose: it reads
+    // one query parameter and normalises it itself (`api/storefront/by-host/hosts.ts`),
+    // and it must stay reachable with NO headers at all — it is the call that
+    // hands the storefront its publishable key.
+    {
+      matcher: "/tenants/domains",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantDomainSchema)],
+    },
   ],
 });

@@ -56,6 +56,12 @@ export async function generateMetadata(): Promise<Metadata> {
  * its own behaviour, which is the state of the five old stands.
  */
 export default async function Home() {
+  // Piece 9: one process serves every shop, so both reads below are per REQUEST — the
+  // publishable key they travel with comes from the `Host` header
+  // (`lib/data/tenant-home.ts`, `lib/config.ts`). `getEffectiveSettings()` is already
+  // "this shop's document, else the site-wide one", which is why there is no second
+  // fallback here; a single-store deployment resolves no shop and reads exactly what it
+  // read before either piece existed.
   const [t, settings, home] = await Promise.all([
     getTranslations("CategoryMenu"),
     getEffectiveSettings(),

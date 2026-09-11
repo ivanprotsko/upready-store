@@ -101,8 +101,10 @@ Run these from the repository root.
 | `pnpm lint` | Lint both apps |
 
 Two of these come with a catch. `pnpm lint` covers both apps, `medusa lint` in the backend and
-`next lint` in the storefront, and the storefront half loads `next.config.js` and exits when
-`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is absent from the environment. `pnpm test` executes nothing at
+`next lint` in the storefront. The storefront half used to load `next.config.js` and exit when
+`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` was absent; since the storefront resolves the shop, and its
+key, from the `Host` header (`docs/multitenancy/storefront-by-host.md`), that variable is the
+single-store fallback rather than a requirement, and `check-env-variables.js` requires nothing. `pnpm test` executes nothing at
 all, because neither app defines a `test` task. The backend suites are `test:unit`,
 `test:integration:http` and `test:integration:modules`, run from `apps/backend` against a live
 Postgres. Three more catches for the integration suites, measured on `@medusajs/test-utils` 2.19:

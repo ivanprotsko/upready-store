@@ -5,18 +5,29 @@
  * (`docs/tenant-panel/api-contract.md`, "Piece 8"). One document per tenant, written from
  * the tenant panel's `/home-settings` screen and served to this storefront by
  * `GET /store/tenant/home`, which resolves the tenant from the publishable key this
- * storefront already sends — there is no tenant id in the request and none to pass.
+ * storefront sends.
+ *
+ * MERGE OF PIECES 8 AND 9. Piece 8 wrote this module and predicted its own successor:
+ * "Piece 9 moves this read to the request headers the by-host middleware sets, which is
+ * why it goes through `lib/data/tenant-home.ts` and not straight to the document." That is
+ * what happened, in three places:
+ *
+ *   1. The key is per REQUEST, not per process. `fetchWithoutLocale` attaches
+ *      `x-publishable-api-key` from the `x-tenant-key` request header that
+ *      `src/middleware.ts` resolved from the `Host`, with the env key as the single-store
+ *      fallback (`lib/config.ts`). So one storefront process asks this route once per
+ *      shop and gets each shop's own document, with no change at the call sites.
+ *   2. The cache tag carries the shop's handle as well as the shared one, so clearing one
+ *      shop's home page leaves the other shops on the process alone. Both tags are
+ *      attached, so `POST /api/revalidate {"type":"tenant.home"}` without a handle still
+ *      clears every shop's document the way it did before piece 9.
+ *   3. `getTenantThemePreset()` prefers the `x-tenant-theme` request header, which is the
+ *      same value read from the same document by `GET /storefront/by-host` — see the note
+ *      on that function for why, and for the staleness window it costs.
  *
  * Not locale-scoped: one document for every language, the same as the site-wide
  * composition document it extends, so this calls `fetchWithoutLocale` rather than the
- * locale-aware `sdk.client.fetch` (AGENTS.md, "Two pieces of locale plumbing"). Its own
- * cache tag is `"tenant-home"`, cleared by `POST /api/revalidate` with
- * `{ "type": "tenant.home" }`.
- *
- * `getTenantHome()` is deliberately the ONE place the document is read. Piece 9
- * (storefront by host) replaces its body with a read of the request headers the
- * middleware resolves per host; every consumer below goes through this module, so that
- * swap touches this file alone.
+ * locale-aware `sdk.client.fetch` (AGENTS.md, "Two pieces of locale plumbing").
  *
  * A single-store install (the platform's own key, no tenant behind it) answers 404 here.
  * That is the normal state of the five old stands, not an error: the loader returns null
@@ -26,7 +37,10 @@
 
 import { fetchWithoutLocale } from "@lib/config"
 import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { getTenantHandle } from "@lib/data/cookies"
+import { tenantHomeTag } from "@lib/tenant/cache-tags"
 import type { StorefrontSettings, StorefrontSettingsInput } from "@lib/theme/composition"
+import { headers as nextHeaders } from "next/headers"
 
 export type HomeBlock = "hero" | "categories" | "products"
 
@@ -59,20 +73,34 @@ const HOME_TAG = "tenant-home"
 let warnedUnreachable = false
 
 /**
- * The tenant's saved document, or null when this storefront's key has no tenant behind it
+ * The tenant's saved document, or null when this request's key has no tenant behind it
  * (single-store mode) or the tenant never saved one. Never throws into a page render: a
  * backend that cannot be reached logs once per server process and reads as "no document",
  * which every consumer already has a defined fallback for (rule 20 — tolerating a failure
  * is not the same as hiding it).
+ *
+ * A 404 is the answer, not a failure: it is what a key with no tenant behind it gets, and
+ * it must stay quiet or every request of every single-store stand writes a log line.
  */
 export async function getTenantHome(): Promise<TenantHome | null> {
+  const handle = await getTenantHandle()
+
+  // Both tags, always. The shared one keeps piece 8's webhook working for a caller that
+  // names no shop; the handle-scoped one is what `POST /api/revalidate` clears when it
+  // does, so one shop's save does not drop twenty other shops' cached home pages.
+  const tags = handle ? [HOME_TAG, tenantHomeTag(handle)] : [HOME_TAG]
+
   try {
     const { home } = await fetchWithoutLocale<{ home: TenantHome | null }>(
       "/store/tenant/home",
-      { next: { tags: [HOME_TAG] }, cache: "force-cache" }
+      { next: { tags }, cache: "force-cache" }
     )
     return home ?? null
   } catch (error) {
+    if ((error as { status?: number })?.status === 404) {
+      return null
+    }
+
     if (!warnedUnreachable) {
       warnedUnreachable = true
       console.error(
@@ -102,12 +130,51 @@ export async function getEffectiveSettings(): Promise<StorefrontSettings | null>
 }
 
 /**
- * The theme preset the tenant picked, or null. Kept here rather than read from the
- * document at the call site so piece 9's header swap has one place to change; the caller
- * still checks it against the generated `THEME_IDS` before it reaches `data-theme`,
- * because this value crosses the wire as a plain string.
+ * The theme preset the tenant picked, or null. Kept here rather than read at the call site
+ * so there is one place the source can change; the caller still checks it against the
+ * generated `THEME_IDS` before it reaches `data-theme`, because this value crosses the
+ * wire as a plain string.
+ *
+ * The request header comes first. It is the SAME field of the SAME document — the by-host
+ * resolver reads `tenant_home_config.config.theme.preset` and hands it to the middleware
+ * (`docs/multitenancy/storefront-by-host.md` §2) — so the two never disagree about which
+ * shop they describe, only about how fresh they are. Preferring the header buys two
+ * things: the theme is right even when `/store/tenant/home` is unreachable, because the
+ * resolver already answered before the page began rendering; and it costs no round trip in
+ * the layout. It costs a staleness window of up to 60 seconds after a tenant changes its
+ * preset, which is the resolver cache's TTL and heals itself, against a tagged fetch cache
+ * that only clears when the revalidate webhook fires.
+ *
+ * With no tenant on the host the header is absent and this is piece 8's read, unchanged.
  */
 export async function getTenantThemePreset(): Promise<string | null> {
+  try {
+    const requestHeaders = await nextHeaders()
+    const fromHost = requestHeaders.get("x-tenant-theme")
+
+    if (fromHost) {
+      return fromHost
+    }
+  } catch {}
+
   const home = await getTenantHome()
   return home?.theme?.preset ?? null
+}
+
+/**
+ * The light/dark default this request should paint with, before the visitor's own stored
+ * choice overrides it in the browser. Same ordering and the same reasoning as
+ * `getTenantThemePreset()`: the `x-tenant-mode` header is the resolver's copy of
+ * `settings.defaultMode` from this shop's document.
+ *
+ * Null means "nobody has an opinion for this request", and the root layout then falls
+ * through to the site-wide composition document and finally to the build profile.
+ */
+export async function getTenantModeDefault(): Promise<string | null> {
+  try {
+    const requestHeaders = await nextHeaders()
+    return requestHeaders.get("x-tenant-mode")
+  } catch {
+    return null
+  }
 }

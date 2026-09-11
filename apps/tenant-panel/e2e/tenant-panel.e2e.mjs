@@ -50,8 +50,32 @@ const TENANTS = [
 ]
 
 // tenant-panel wave 2, piece 7: the storefront this worker starts itself
-// (its own port, its own .next dir), read by the "pages" section alone.
+// (its own port, its own .next dir), read by the "pages" and "home" sections.
 const STOREFRONT = process.env.STOREFRONT_URL || "http://localhost:8011"
+
+/**
+ * The storefront URL for ONE shop. Since piece 9 a single storefront process serves every
+ * shop and tells them apart by the `Host` header, so a section that wants to read a
+ * tenant's own pages has to ask that tenant's host: a bare `localhost:<port>` resolves to
+ * no shop, and a process started without `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` then has no
+ * key to call the Store API with and answers 500 (measured on :8013, 2026-09-11).
+ *
+ * `<handle>.localhost` needs no /etc/hosts entry — Chrome and curl resolve it to 127.0.0.1
+ * themselves. Set `STOREFRONT_BY_HOST=0` to address a single-store storefront as it is.
+ */
+const storefrontFor = (handle) => {
+  if (process.env.STOREFRONT_BY_HOST === "0") {
+    return STOREFRONT
+  }
+
+  const url = new URL(STOREFRONT)
+
+  if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+    url.hostname = `${handle}.localhost`
+  }
+
+  return url.origin
+}
 
 const ONLY = process.env.E2E_ONLY || ""
 // One stamp for every fixture name in the run (products, variants, categories).
@@ -1057,7 +1081,9 @@ try {
     check("Acme: the API returns the saved page", apiPage?.title === TITLE && apiPage?.published === true, JSON.stringify(apiPage).slice(0, 120))
 
     // The storefront caches with `force-cache`, so it is told to drop the tag first.
-    const revalidated = await fetch(`${STOREFRONT}/api/revalidate`, {
+    // Addressed by the tenant's own host: one process, many shops (piece 9).
+    const P7_STOREFRONT = storefrontFor("acme")
+    const revalidated = await fetch(`${P7_STOREFRONT}/api/revalidate`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ type: "tenant.pages" }),
@@ -1066,7 +1092,7 @@ try {
       .catch(() => false)
     check("storefront: /api/revalidate accepts tenant.pages", revalidated)
 
-    await page.goto(`${STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
+    await page.goto(`${P7_STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
     await page.waitForTimeout(500)
     const storefrontText = await page.locator("body").innerText()
     check("storefront: the page shows the tenant's title", storefrontText.includes(TITLE), page.url())
@@ -1091,7 +1117,7 @@ try {
     )
 
     // The home page carries the same footer, so the link is site-wide.
-    await page.goto(`${STOREFRONT}/en`, { waitUntil: "networkidle" })
+    await page.goto(`${P7_STOREFRONT}/en`, { waitUntil: "networkidle" })
     await page.waitForTimeout(400)
     check(
       "storefront: the footer link is on every page, not just the page itself",
@@ -1333,8 +1359,11 @@ try {
   // document is one row per tenant, so the isolation check is Globex reading null
   // on the same routes rather than a 404 on an id.
   if (runs("home")) {
-    // tenant-panel: the storefront under test is the one the run was given (STOREFRONT_URL), not a fixed port — on the merged trunk one storefront serves every section.
-    const P8_STOREFRONT = process.env.P8_STOREFRONT || STOREFRONT
+    // tenant-panel: the storefront under test is the one the run was given (STOREFRONT_URL),
+    // not a fixed port — on the merged trunk one storefront serves every section, and
+    // since piece 9 it serves every SHOP too, so Acme's document is read at Acme's own
+    // host rather than at the bare one, which belongs to nobody.
+    const P8_STOREFRONT = process.env.P8_STOREFRONT || storefrontFor("acme")
     const p8Stamp = new Date().toISOString().slice(11, 19).replace(/:/g, "")
     const heroTitle = `Night wave hero ${p8Stamp}`
     const acme = await apiLogin("admin@acme.test")
@@ -1526,6 +1555,121 @@ try {
       JSON.stringify(positions)
     )
     await sctx.close()
+  }
+
+  // ---- wave 2, piece 9: the Domains screen ---------------------------------
+  // `E2E_ONLY=domains` runs this section alone. The screen is the panel's own
+  // (no Admin counterpart): a shop's built-in `<handle>.<platform domain>`
+  // addresses, read-only because they have no database row, plus the custom
+  // hosts it adds and removes (docs/multitenancy/storefront-by-host.md §2).
+  if (runs("domains")) {
+    const customHost = `e2e-${stamp}.example`
+    // Its own API client: `acmeGet` above lives inside the orders section's
+    // block, and `E2E_ONLY=domains` never enters that block.
+    const acmeApiGet = await apiLogin("admin@acme.test")
+
+    const dctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const dpage = await dctx.newPage()
+    await login(dpage, "admin@acme.test")
+
+    // The Overview links into it, which is how a shop owner finds the screen.
+    await dpage.goto(`${PANEL}/`, { waitUntil: "networkidle" })
+    await dpage.waitForTimeout(600)
+    const domainsLink = dpage.getByRole("link", { name: /^domains$/i }).first()
+    check("Acme: the Overview links to Domains", (await domainsLink.count()) > 0)
+    await domainsLink.click()
+    await dpage.waitForURL((u) => u.pathname === "/settings/domains", { timeout: 20_000 })
+    await dpage.waitForTimeout(1200)
+
+    const technicalText = await dpage.locator("body").innerText()
+    check(
+      "Acme: the screen shows the shop's built-in addresses",
+      technicalText.includes("acme.upready.dev") && technicalText.includes("acme.localhost"),
+      technicalText.slice(0, 160).replace(/\s+/g, " ")
+    )
+    check(
+      "Acme: the built-in addresses carry no remove control",
+      (await dpage.getByRole("button", { name: /Remove acme\.(upready\.dev|localhost)/i }).count()) === 0
+    )
+
+    await dpage.locator('input[name="host"]').fill(customHost)
+    await dpage.getByRole("button", { name: /add domain/i }).first().click()
+    await dpage.waitForTimeout(2000)
+    const afterAdd = await dpage.locator("body").innerText()
+    check("Acme: the added domain is on the screen", afterAdd.includes(customHost), customHost)
+
+    const acmeApi = await acmeApiGet("/tenants/domains")
+    check(
+      "Acme: the API returns the same domain",
+      (acmeApi.domains || []).some((d) => d.host === customHost),
+      JSON.stringify(acmeApi.domains || [])
+    )
+
+    // The storefront resolver answers on it straight away — that is the point
+    // of the row existing at all.
+    const resolved = await fetch(
+      `${BACKEND}/storefront/by-host?host=${encodeURIComponent(customHost)}`
+    )
+    const resolvedBody = await resolved.json()
+    check(
+      "Acme: the storefront resolver serves the new host with no restart",
+      resolved.status === 200 && resolvedBody.tenant?.handle === "acme",
+      `HTTP ${resolved.status}, handle ${resolvedBody.tenant?.handle}`
+    )
+
+    // Globex: its own built-in addresses, and nothing of Acme's.
+    const gctx3 = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage3 = await gctx3.newPage()
+    await login(gpage3, "admin@globex.test")
+    await gpage3.goto(`${PANEL}/settings/domains`, { waitUntil: "networkidle" })
+    await gpage3.waitForTimeout(1500)
+    const globexText = await gpage3.locator("body").innerText()
+    check(
+      "Globex: the screen shows Globex's own built-in addresses",
+      globexText.includes("globex.upready.dev")
+    )
+    check("Globex: Acme's domain is nowhere on it", !globexText.includes(customHost))
+    check("Globex: Acme's built-in address is nowhere on it", !globexText.includes("acme.upready.dev"))
+
+    // And a shop cannot take a host another shop holds.
+    const globexApi = await apiLogin("admin@globex.test")
+    const stolen = await globexApi("/tenants/domains", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ host: customHost }),
+    })
+    check(
+      "Globex: taking Acme's host is refused as a duplicate",
+      stolen?.type === "duplicate_error",
+      JSON.stringify(stolen).slice(0, 140)
+    )
+    await gctx3.close()
+
+    // Remove it again from the screen, so the stand does not accumulate hosts.
+    await dpage.reload({ waitUntil: "networkidle" })
+    await dpage.waitForTimeout(1200)
+    const removeButton = dpage.getByRole("button", {
+      name: new RegExp(`Remove ${customHost}`, "i"),
+    })
+    await removeButton.first().click()
+    await dpage.waitForTimeout(2000)
+    // The row is gone when its own remove control is gone. Reading the whole
+    // body would still find the host in the success toast, which names it.
+    check(
+      "Acme: the removed domain is gone from the screen",
+      (await removeButton.count()) === 0,
+      `${await removeButton.count()} remove control(s) left`
+    )
+
+    const goneResolver = await fetch(
+      `${BACKEND}/storefront/by-host?host=${encodeURIComponent(customHost)}`
+    )
+    check(
+      "Acme: the storefront resolver stops serving the removed host",
+      goneResolver.status === 404,
+      `HTTP ${goneResolver.status}`
+    )
+    await dctx.close()
   }
 
 } finally {

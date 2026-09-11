@@ -546,6 +546,16 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/home-settings"),
           },
+          {
+            // tenant-panel wave 2, piece 9 (storefront by host): the panel's own
+            // Domains screen (no Admin counterpart — a native Medusa install
+            // serves one storefront and never resolves a tenant from the Host
+            // header). Sits under /settings next to /settings/profile.
+            path: "/settings/domains",
+            handle: { breadcrumb: () => "Domains" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/domains"),
+          },
         ],
       },
     ],
