@@ -63,10 +63,18 @@ export default async function NavH5() {
         </nav>
       </header>
 
+      {/* The strip travels with the sticky wrapper but sits outside <header>, which is
+          the element carrying the background — without its own it rode transparent
+          over the product grid (kerbstone, 2026-09-10). The band is full-width so the
+          gutters beside content-container stay opaque on screens wider than it. */}
       <div
-        className="content-container flex items-center gap-2 overflow-x-auto py-2.5 border-b border-ui-border-base [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        data-testid="nav-category-strip"
+        className="border-b border-ui-border-base bg-ui-bg-base"
+        data-testid="nav-category-band"
       >
+        <div
+          className="content-container flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          data-testid="nav-category-strip"
+        >
         <Link
           href="/store"
           className="shrink-0 txt-compact-small rounded-full border border-ui-fg-base bg-ui-fg-base px-3.5 py-1.5 text-ui-bg-base"
@@ -85,6 +93,7 @@ export default async function NavH5() {
             <span className="text-ui-fg-muted">{category.count}</span>
           </Link>
         ))}
+        </div>
       </div>
     </div>
   )

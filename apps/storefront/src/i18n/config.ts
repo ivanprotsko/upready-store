@@ -39,6 +39,26 @@ export const locales = [
 
 export const defaultLocale = "en" as const satisfies AppLocale
 
+/**
+ * Locales that win over the visitor's own ordering whenever they appear anywhere in
+ * Accept-Language. upready.dev, the site every stand is linked from, is Russian-only,
+ * and its visitors mostly keep English first in the browser and Russian further down
+ * (measured on Ivan's Chrome 2026-09-10: `en-US,en;q=0.9,ru;q=0.8`). A visitor who
+ * lists none of these gets the first language of their list the storefront ships.
+ * An explicit pick in the language switcher (the choice cookie) beats both.
+ */
+export const preferredLocales = ["ru"] as const satisfies readonly AppLocale[]
+
+/**
+ * `_medusa_locale` is the locale of the page being served — the middleware writes it
+ * on every response, and server actions without a URL (cart, customer, i18n request
+ * config) read it back. `_medusa_locale_choice` is written only when the visitor picks
+ * a language in the switcher; it is the one cookie the prefix-less redirect honours,
+ * so landing on a shared `/en/...` link never pins English for a Russian browser.
+ */
+export const LOCALE_COOKIE = "_medusa_locale"
+export const LOCALE_CHOICE_COOKIE = "_medusa_locale_choice"
+
 export type AppLocale = (typeof locales)[number]
 
 /**
@@ -107,17 +127,49 @@ export function isAppLocale(
   return !!value && locales.includes(value as AppLocale)
 }
 
+/**
+ * The language tags of an Accept-Language header, lower-cased and ordered by weight
+ * (highest first, header order for equal weights); `q=0` entries and `*` are dropped.
+ */
+export function parseAcceptLanguage(
+  acceptLanguage: string | null | undefined
+): string[] {
+  if (!acceptLanguage) return []
+
+  return acceptLanguage
+    .split(",")
+    .map((entry, index) => {
+      const [tag, ...params] = entry.trim().split(";")
+      const qParam = params
+        .map((p) => p.trim())
+        .find((p) => p.startsWith("q="))
+      const q = qParam ? Number(qParam.slice(2)) : 1
+      return { tag: tag.trim().toLowerCase(), q: Number.isFinite(q) ? q : 0, index }
+    })
+    .filter(({ tag, q }) => tag && tag !== "*" && q > 0)
+    .sort((a, b) => b.q - a.q || a.index - b.index)
+    .map(({ tag }) => tag)
+}
+
+/**
+ * The storefront locale for a visitor's Accept-Language, or undefined when none of
+ * their languages is one the storefront ships. Every tag is tried as written and then
+ * by its language subtag (`pt-BR` → `pt`); a `preferredLocales` entry wins wherever it
+ * stands in the list, otherwise the visitor's own order decides.
+ */
 export function matchBrowserLocale(
   acceptLanguage: string | null | undefined
 ): AppLocale | undefined {
-  if (!acceptLanguage) return undefined
+  const candidates: AppLocale[] = []
+  for (const tag of parseAcceptLanguage(acceptLanguage)) {
+    for (const code of [tag, tag.split("-")[0]]) {
+      if (isAppLocale(code) && !candidates.includes(code)) candidates.push(code)
+    }
+  }
 
-  const primary = acceptLanguage
-    .split(",")[0]
-    .trim()
-    .split(";")[0]
-    .split("-")[0]
-    .toLowerCase()
-
-  return isAppLocale(primary) ? primary : undefined
+  return (
+    candidates.find((code) =>
+      (preferredLocales as readonly string[]).includes(code)
+    ) ?? candidates[0]
+  )
 }

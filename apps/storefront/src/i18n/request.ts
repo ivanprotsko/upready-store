@@ -1,9 +1,8 @@
 import { getRequestConfig } from "next-intl/server"
 import { hasLocale } from "next-intl"
 import { cookies } from "next/headers"
+import { LOCALE_COOKIE } from "./config"
 import { routing } from "./routing"
-
-const LOCALE_COOKIE_NAME = "_medusa_locale"
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale
@@ -13,7 +12,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = requested
   } else {
     const cookieStore = await cookies()
-    const cookieLocale = cookieStore.get(LOCALE_COOKIE_NAME)?.value
+    const cookieLocale = cookieStore.get(LOCALE_COOKIE)?.value
     locale =
       cookieLocale && hasLocale(routing.locales, cookieLocale)
         ? cookieLocale
