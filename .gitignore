@@ -97,3 +97,7 @@ artifacts/docs/composer/shots/
 
 # Frames shot on the live stands by tests/stands/frames.pw.ts (t-2026-09-09-02): PNG, regenerable, never in history (rule 21f)
 artifacts/stands-frames/
+
+# Acceptance screenshots, wave 2 of the MT deploy (2026-09-12): binaries never enter git.
+# README.md and the probes (funnel/shot/login/storefront/isolation .mjs) stay tracked as documents.
+artifacts/docs/2026-09-12-mt-deploy-acceptance/shots-w2/
