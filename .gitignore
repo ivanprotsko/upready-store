@@ -103,3 +103,7 @@ artifacts/docs/tenant-panel-shots/*.png
 # Real deploy env files carry generated secrets; only the *.env.example templates are tracked.
 deploy/stands/*.env
 deploy/mt/*.env
+
+# Pre-deploy probe frames of fix/mt-storefront-head-footer (2026-09-12): binaries never enter git.
+# README.md and probe-local.mjs stay tracked as documents.
+artifacts/docs/2026-09-12-mt-storefront-head-footer/shots/
