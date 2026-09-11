@@ -12,7 +12,7 @@ import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
  * H1 · "Как сейчас" — the storefront's original Nav markup, unchanged, moved here from

@@ -64,7 +64,7 @@ const PRESETS = [...THEME_IDS].sort((a, b) =>
 //
 // Contract: panel-composition-mockup.md §C1-§C7. This section owns a SEPARATE piece
 // of state from the preset/preview-mode section above: it reads and writes
-// `store.metadata.storefrontSettings` through the devtools proxy, not `localStorage`.
+// `store.metadata.storefrontSettings` through the studio proxy, not `localStorage`.
 
 /** The stand's own built-in composition, used as the starting draft whenever nothing
  * has been saved yet or the backend cannot be reached — the same source
@@ -144,8 +144,8 @@ export function Popover({ onClose }: { onClose: () => void }) {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/api/devtools/settings", { cache: "no-store" })
-        if (!res.ok) throw new Error(`GET /api/devtools/settings -> ${res.status}`)
+        const res = await fetch("/api/studio/settings", { cache: "no-store" })
+        if (!res.ok) throw new Error(`GET /api/studio/settings -> ${res.status}`)
         const body = (await res.json()) as GetResponse
         if (cancelled) return
         setSecretConfigured(body.secretConfigured)
@@ -204,7 +204,7 @@ export function Popover({ onClose }: { onClose: () => void }) {
     setSaveState("pending")
     setSaveError(null)
     try {
-      const res = await fetch("/api/devtools/settings", {
+      const res = await fetch("/api/studio/settings", {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(draft),
@@ -256,7 +256,7 @@ export function Popover({ onClose }: { onClose: () => void }) {
 
   const lock = async () => {
     try {
-      await fetch("/api/devtools/unlock", { method: "DELETE" })
+      await fetch("/api/studio/unlock", { method: "DELETE" })
     } catch {
       // the cookie outlives a failed request; the refresh below then changes nothing
     }
@@ -266,32 +266,32 @@ export function Popover({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="updev-popover"
-      data-testid="devtools-popover"
+      className="upstudio-popover"
+      data-testid="studio-popover"
       role="dialog"
-      aria-label="Storefront devtools"
+      aria-label="Studio panel"
     >
-      <div className="updev-head">
-        <span className="updev-eyebrow">Storefront devtools</span>
-        <button type="button" className="updev-close" aria-label="Close" onClick={onClose}>
+      <div className="upstudio-head">
+        <span className="upstudio-eyebrow">Studio panel</span>
+        <button type="button" className="upstudio-close" aria-label="Close" onClick={onClose}>
           <CloseIcon />
         </button>
       </div>
 
-      <div className="updev-section">
-        <span className="updev-label">Preset</span>
-        <ul className="updev-list">
+      <div className="upstudio-section">
+        <span className="upstudio-label">Preset</span>
+        <ul className="upstudio-list">
           {PRESETS.map((id) => (
             <li key={id}>
               <button
                 type="button"
-                className="updev-row"
-                data-testid={`devtools-preset-${id}`}
+                className="upstudio-row"
+                data-testid={`studio-preset-${id}`}
                 aria-pressed={theme === id}
                 onClick={() => pickTheme(id)}
               >
                 <span
-                  className="updev-swatch"
+                  className="upstudio-swatch"
                   // the preset's own page and ink colours, straight out of themes.css;
                   // the Medusa bridge is switched off inside the swatch so it paints
                   // nothing but itself
@@ -308,14 +308,14 @@ export function Popover({ onClose }: { onClose: () => void }) {
         </ul>
       </div>
 
-      <div className="updev-section">
-        <span className="updev-label">{t("ui.previewLabel")}</span>
-        <div className="updev-segment">
+      <div className="upstudio-section">
+        <span className="upstudio-label">{t("ui.previewLabel")}</span>
+        <div className="upstudio-segment">
           {THEME_MODES.map((id) => (
             <button
               key={id}
               type="button"
-              data-testid={`devtools-mode-${id}`}
+              data-testid={`studio-mode-${id}`}
               aria-pressed={mode === id}
               onClick={() => pickMode(id)}
             >
@@ -326,16 +326,16 @@ export function Popover({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      <div className="updev-section">
-        <span className="updev-label">{t("ui.defaultForVisitorsLabel")}</span>
-        <div className="updev-segment">
+      <div className="upstudio-section">
+        <span className="upstudio-label">{t("ui.defaultForVisitorsLabel")}</span>
+        <div className="upstudio-segment">
           {(["light", "dark"] as const).map((id) => {
             const blocked = isOptionForbidden("defaultMode", id)
             return (
               <button
                 key={id}
                 type="button"
-                data-testid={`devtools-default-mode-${id}`}
+                data-testid={`studio-default-mode-${id}`}
                 aria-pressed={draft.defaultMode === id}
                 aria-disabled={blocked ? true : undefined}
                 disabled={Boolean(blocked)}
@@ -349,8 +349,8 @@ export function Popover({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      <div className="updev-section">
-        <span className="updev-label">{t("ui.sectionLabel")}</span>
+      <div className="upstudio-section">
+        <span className="upstudio-label">{t("ui.sectionLabel")}</span>
         <CompositionRows
           draft={draft}
           openRow={openRow}
@@ -371,18 +371,18 @@ export function Popover({ onClose }: { onClose: () => void }) {
         onSave={save}
       />
 
-      <div className="updev-hr" aria-hidden="true" />
+      <div className="upstudio-hr" aria-hidden="true" />
 
-      <p className="updev-source" data-testid="devtools-source">
+      <p className="upstudio-source" data-testid="studio-source">
         Rendered from <b>{THEME_TOKEN_COUNT}</b> tokens of preset{" "}
         {THEME_LABELS[theme] ?? theme}.
       </p>
 
-      <div className="updev-actions">
-        <button type="button" className="updev-ghost" data-testid="devtools-reset" onClick={reset}>
+      <div className="upstudio-actions">
+        <button type="button" className="upstudio-ghost" data-testid="studio-reset" onClick={reset}>
           Reset to default
         </button>
-        <button type="button" className="updev-ghost" data-testid="devtools-lock" onClick={lock}>
+        <button type="button" className="upstudio-ghost" data-testid="studio-lock" onClick={lock}>
           Lock
         </button>
       </div>

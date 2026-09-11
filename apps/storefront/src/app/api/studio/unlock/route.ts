@@ -1,18 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import {
-  DEVTOOLS_COOKIE,
-  DEVTOOLS_TTL_SECONDS,
-  isDevtoolsEnabled,
-  issueDevtoolsCookie,
+  STUDIO_COOKIE,
+  STUDIO_TTL_SECONDS,
+  isStudioEnabled,
+  issueStudioCookie,
   passwordMatches,
-} from "@lib/devtools/session"
+} from "@lib/studio/session"
 
 /**
  * The only door to the hidden settings panel.
  *
  * POST unlocks (password in, signed httpOnly cookie out), DELETE locks (cookie
- * cleared). With STOREFRONT_DEVTOOLS_PASSWORD unset or empty both answer 404, so a
+ * cleared). With STOREFRONT_STUDIO_PASSWORD unset or empty both answer 404, so a
  * storefront that does not use the feature does not advertise that the route exists.
  *
  * The route is dynamic on purpose: it reads an environment variable and writes a
@@ -26,7 +26,7 @@ function disabled(): NextResponse {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isDevtoolsEnabled()) return disabled()
+  if (!isStudioEnabled()) return disabled()
 
   let submitted: unknown = null
   try {
@@ -42,21 +42,21 @@ export async function POST(req: NextRequest) {
   }
 
   const res = NextResponse.json({ unlocked: true })
-  res.cookies.set(DEVTOOLS_COOKIE, issueDevtoolsCookie(), {
+  res.cookies.set(STUDIO_COOKIE, issueStudioCookie(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    maxAge: DEVTOOLS_TTL_SECONDS,
+    maxAge: STUDIO_TTL_SECONDS,
     secure: process.env.NODE_ENV === "production",
   })
   return res
 }
 
 export async function DELETE() {
-  if (!isDevtoolsEnabled()) return disabled()
+  if (!isStudioEnabled()) return disabled()
 
   const res = NextResponse.json({ unlocked: false })
-  res.cookies.set(DEVTOOLS_COOKIE, "", {
+  res.cookies.set(STUDIO_COOKIE, "", {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

@@ -10,7 +10,7 @@ import {
   getTenantModeDefault,
   getTenantThemePreset,
 } from "@lib/data/tenant-home"
-import DevtoolsMount from "@modules/devtools/components/devtools-mount"
+import StudioMount from "@modules/studio/components/studio-mount"
 import "styles/globals.css"
 
 export const metadata: Metadata = {
@@ -81,7 +81,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <main className="relative">{props.children}</main>
         {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         {/* Renders the hidden settings panel only for a browser that carries the
-            devtools cookie; null for everybody else, including the HTML of a visitor.
+            studio cookie; null for everybody else, including the HTML of a visitor.
             Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the
             [locale] layout that provides the intl context, and the panel is a client
             component calling useTranslations("Composition") — without the provider the
@@ -90,7 +90,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             production). The provider without props inherits locale and messages from
             the request config. */}
         <NextIntlClientProvider>
-          <DevtoolsMount />
+          <StudioMount />
         </NextIntlClientProvider>
       </body>
     </html>

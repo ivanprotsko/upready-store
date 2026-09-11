@@ -4,10 +4,10 @@ import { FetchError } from "@medusajs/js-sdk"
 
 import { fetchWithoutLocale } from "@lib/config"
 import {
-  DEVTOOLS_COOKIE,
-  devtoolsCookieIsValid,
-  isDevtoolsEnabled,
-} from "@lib/devtools/session"
+  STUDIO_COOKIE,
+  studioCookieIsValid,
+  isStudioEnabled,
+} from "@lib/studio/session"
 import { validate, type StorefrontSettings, type StorefrontSettingsInput } from "@lib/theme/composition"
 
 /**
@@ -15,10 +15,10 @@ import { validate, type StorefrontSettings, type StorefrontSettingsInput } from 
  * `artifacts/docs/2026-09-09-panel-composition-mockup.md` §C3.
  *
  * The panel never sees `STOREFRONT_SETTINGS_SECRET` — exactly as
- * `STOREFRONT_DEVTOOLS_PASSWORD` never reaches the browser (`lib/devtools/session.ts`).
- * Gate: `isDevtoolsEnabled()` + a valid `upready_devtools` cookie — either failing
+ * `STOREFRONT_STUDIO_PASSWORD` never reaches the browser (`lib/studio/session.ts`).
+ * Gate: `isStudioEnabled()` + a valid `upready_studio` cookie — either failing
  * answers 404, indistinguishable from a route that was never deployed, the same pattern
- * `api/devtools/unlock/route.ts` uses. `middleware.ts`'s matcher already excludes
+ * `api/studio/unlock/route.ts` uses. `middleware.ts`'s matcher already excludes
  * `/api`, so no locale handling belongs here (`api/payment-return` precedent,
  * `AGENTS.md` "The middleware matcher").
  *
@@ -37,8 +37,8 @@ function disabled(): NextResponse {
 }
 
 async function gatePasses(req: NextRequest): Promise<boolean> {
-  if (!isDevtoolsEnabled()) return false
-  return devtoolsCookieIsValid(req.cookies.get(DEVTOOLS_COOKIE)?.value)
+  if (!isStudioEnabled()) return false
+  return studioCookieIsValid(req.cookies.get(STUDIO_COOKIE)?.value)
 }
 
 /** The configured write secret, or null when the stand has not set one. */
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
     )
     return NextResponse.json({ settings, secretConfigured })
   } catch (error) {
-    console.error("devtools/settings GET: backend unreachable", error)
+    console.error("studio/settings GET: backend unreachable", error)
     return NextResponse.json({ settings: null, secretConfigured, loadError: true })
   }
 }
@@ -125,7 +125,7 @@ export async function PUT(req: NextRequest) {
       // the two hand-transcribed copies, composition.ts's own doc comment flags this
       // exact risk) — surfaced rather than folded into "unreachable", which would
       // mislabel a real validation disagreement as a network problem.
-      console.error("devtools/settings PUT: backend rejected the document", error.status, error.message)
+      console.error("studio/settings PUT: backend rejected the document", error.status, error.message)
       return NextResponse.json({
         ok: false,
         error: "backend_rejected",
@@ -133,7 +133,7 @@ export async function PUT(req: NextRequest) {
         message: error.message,
       })
     }
-    console.error("devtools/settings PUT: backend unreachable", error)
+    console.error("studio/settings PUT: backend unreachable", error)
     return NextResponse.json({ ok: false, error: "backend_unreachable" })
   }
 }

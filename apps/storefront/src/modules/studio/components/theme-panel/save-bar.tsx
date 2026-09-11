@@ -89,21 +89,21 @@ export function SaveBar({
   const sentence = t("ui.sourceLine", { parts: parts.join(" · "), mode: modeWord })
 
   return (
-    <div className="updev-comp-savebar">
+    <div className="upstudio-comp-savebar">
       {dirty ? (
-        <p className="updev-comp-dirty" data-testid="devtools-composition-dirty">
-          <span className="updev-dot updev-dot-muted" aria-hidden="true" />
+        <p className="upstudio-comp-dirty" data-testid="studio-composition-dirty">
+          <span className="upstudio-dot upstudio-dot-muted" aria-hidden="true" />
           {t("ui.dirty")}
         </p>
       ) : null}
 
-      <p className="updev-source" data-testid="devtools-composition-source">
+      <p className="upstudio-source" data-testid="studio-composition-source">
         {sentence} {savedAtText ? t("ui.savedAt", { time: savedAtText }) : t("ui.notSavedYet")}
       </p>
 
       {loadError ? (
-        <p className="updev-comp-note">
-          <span className="updev-dot updev-dot-muted" aria-hidden="true" />
+        <p className="upstudio-comp-note">
+          <span className="upstudio-dot upstudio-dot-muted" aria-hidden="true" />
           {t("ui.loadError")}
         </p>
       ) : null}
@@ -111,15 +111,15 @@ export function SaveBar({
       {!loaded ? (
         <button
           type="button"
-          className="updev-primary updev-comp-save"
-          data-testid="devtools-composition-save"
+          className="upstudio-primary upstudio-comp-save"
+          data-testid="studio-composition-save"
           data-state="loading"
           disabled
         >
           {t("ui.saveIdle")}
         </button>
       ) : !secretConfigured ? (
-        <p className="updev-comp-off" data-testid="devtools-composition-save" data-state="off">
+        <p className="upstudio-comp-off" data-testid="studio-composition-save" data-state="off">
           <BanIcon />
           {t("ui.secretNotConfigured")}
         </p>
@@ -127,8 +127,8 @@ export function SaveBar({
         <>
           <button
             type="button"
-            className="updev-primary updev-comp-save"
-            data-testid="devtools-composition-save"
+            className="upstudio-primary upstudio-comp-save"
+            data-testid="studio-composition-save"
             data-state={saveState}
             disabled={saveState === "pending" || saveState === "saved" || !dirty}
             onClick={onSave}
@@ -144,8 +144,8 @@ export function SaveBar({
                 : t("ui.saveIdle")}
           </button>
           {saveState === "failed" && errorMessage ? (
-            <p className="updev-error" data-testid="devtools-composition-error">
-              <span className="updev-dot" aria-hidden="true" />
+            <p className="upstudio-error" data-testid="studio-composition-error">
+              <span className="upstudio-dot" aria-hidden="true" />
               {errorMessage}
             </p>
           ) : null}

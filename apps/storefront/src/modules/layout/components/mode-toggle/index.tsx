@@ -4,7 +4,7 @@
  * The visitor-facing light/dark switch. Contract:
  * `artifacts/docs/2026-09-09-panel-composition-mockup.md` §S11-§S13.
  *
- * Writes the SAME `data-mode` axis the devtools popover's own "Preview in this
+ * Writes the SAME `data-mode` axis the studio popover's own "Preview in this
  * browser" segment already writes (`applyMode()`, `lib/theme/apply.ts`) — one
  * mechanism, two entry points, so a click here, a click there and a reload (the
  * pre-paint script reads the same `localStorage` key) all agree. It never touches the
@@ -40,7 +40,7 @@ type ModeToggleProps = {
 
 export default function ModeToggle({ className, "data-testid": testId }: ModeToggleProps) {
   const t = useTranslations("Nav")
-  // Mirrors the existing devtools popover's own `mode` state (`theme-panel/popover.tsx`):
+  // Mirrors the existing studio popover's own `mode` state (`theme-panel/popover.tsx`):
   // read off `<html>` at mount, since the pre-paint script may already have overwritten
   // SSR's fallback value from `localStorage` before this component hydrates.
   const [mode, setMode] = useState(() => readCurrent()["data-mode"] ?? "light")

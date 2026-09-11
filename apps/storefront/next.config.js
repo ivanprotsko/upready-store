@@ -39,7 +39,7 @@ const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 const nextConfig = {
   output: "standalone",
   // The dev overlay's badge defaults to the bottom-left corner, which is exactly where the
-  // hidden settings panel's button sits (src/modules/devtools). Measured on the stand: the
+  // hidden settings panel's button sits (src/modules/studio). Measured on the stand: the
   // <nextjs-portal> subtree intercepts the pointer events over that corner, so the button
   // is unclickable in dev while the badge is there. This moves the badge, not the button —
   // dev-only, and it changes nothing about a production build.

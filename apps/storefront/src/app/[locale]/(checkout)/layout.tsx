@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 import PoweredBy from "@modules/layout/components/powered-by"
 import { NOINDEX } from "@lib/util/robots"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 export const metadata: Metadata = {
   robots: NOINDEX,

@@ -10,8 +10,8 @@ import "../../styles/panel.css"
 /**
  * The floating button bottom-left and the popover it opens.
  *
- * It renders only for a browser that carries the devtools cookie, and that decision is
- * made on the server in devtools-mount — a visitor's HTML contains neither this button
+ * It renders only for a browser that carries the studio cookie, and that decision is
+ * made on the server in studio-mount — a visitor's HTML contains neither this button
  * nor the popover.
  *
  * The button and the popover share ONE position: fixed root, and the popover is laid out
@@ -19,7 +19,7 @@ import "../../styles/panel.css"
  * ancestor's transform, overflow or contain can move it — the two ways a popover usually
  * lands in the wrong place.
  */
-export default function DevtoolsPanel() {
+export default function StudioPanel() {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement | null>(null)
 
@@ -40,14 +40,14 @@ export default function DevtoolsPanel() {
   }, [open])
 
   return (
-    <div ref={rootRef} className="updev updev-root" data-testid="devtools-root">
+    <div ref={rootRef} className="upstudio upstudio-root" data-testid="studio-root">
       {open ? <Popover onClose={() => setOpen(false)} /> : null}
       <button
         type="button"
-        className="updev-button"
-        data-testid="devtools-button"
+        className="upstudio-button"
+        data-testid="studio-button"
         aria-expanded={open}
-        aria-label="Storefront devtools"
+        aria-label="Studio panel"
         onClick={() => setOpen((was) => !was)}
       >
         <SlidersIcon />

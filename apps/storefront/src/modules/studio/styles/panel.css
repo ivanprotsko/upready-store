@@ -1,5 +1,5 @@
 /*
- * Geist canon, scoped to the devtools panel.
+ * Geist canon, scoped to the studio panel.
  *
  * source: geist-kit@7467da3ae (tokens.css last changed in d14e51eca)
  * status: diverged — see ~/upready/packages/reuse-index.json
@@ -9,7 +9,7 @@
  * recorded as drift:
  *
  *   1. SELECTOR. The canon ships its palette on `:root` (dark) and `:root.light`. Here it
- *      sits on `.updev`, so the storefront's own 31-token preset — which owns `:root` and
+ *      sits on `.upstudio`, so the storefront's own 31-token preset — which owns `:root` and
  *      every `[data-theme]` block — cannot reach inside the tool, and the tool cannot
  *      repaint the shop. That is the configurator's D2 decision: the tool wears the canon,
  *      not the shop's theme.
@@ -26,7 +26,7 @@
  * No component below carries a hardcoded colour: everything names a variable.
  */
 
-.updev {
+.upstudio {
   /* palette — Geist light */
   --bg: #ffffff;
   --fg: #000000;
@@ -60,7 +60,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-[data-mode="dark"] .updev {
+[data-mode="dark"] .upstudio {
   /* palette — Geist dark */
   --bg: #0a0a0a;
   --fg: #ededed;
@@ -81,13 +81,13 @@
   --ring-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.updev *,
-.updev *::before,
-.updev *::after {
+.upstudio *,
+.upstudio *::before,
+.upstudio *::after {
   box-sizing: border-box;
 }
 
-.updev :focus-visible {
+.upstudio :focus-visible {
   outline: 2px solid rgba(135, 135, 135, 0.5);
   outline-offset: 1px;
 }
@@ -99,7 +99,7 @@
  * work on a phone: without it a long touch raises the OS menu, which cancels the pointer
  * stream and with it the timer.
  */
-.updev-brand-hold {
+.upstudio-brand-hold {
   display: contents;
   -webkit-touch-callout: none;
 }
@@ -107,7 +107,7 @@
 /* ── the fixed corner: button and popover share one positioned root, so no ancestor's
       transform/overflow/contain can move the popover and no script measures a rect ── */
 
-.updev-root {
+.upstudio-root {
   position: fixed;
   left: 1rem;
   bottom: 5rem; /* above the mobile bottom nav */
@@ -115,12 +115,12 @@
 }
 
 @media (min-width: 1024px) {
-  .updev-root {
+  .upstudio-root {
     bottom: 1rem;
   }
 }
 
-.updev-button {
+.upstudio-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,12 +136,12 @@
   transition: color 0.12s ease, background-color 0.12s ease;
 }
 
-.updev-button:hover {
+.upstudio-button:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-icon {
+.upstudio-icon {
   width: 16px;
   height: 16px;
   stroke: currentColor;
@@ -153,7 +153,7 @@
 
 /* ── popover ── */
 
-.updev-popover {
+.upstudio-popover {
   position: absolute;
   left: 0;
   bottom: calc(100% + 8px);
@@ -166,7 +166,7 @@
   box-shadow: var(--shadow), var(--ring-inset);
 }
 
-.updev-head {
+.upstudio-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,14 +174,14 @@
   border-bottom: 1px solid var(--border);
 }
 
-.updev-eyebrow {
+.upstudio-eyebrow {
   font: 500 10px/1 var(--mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
-.updev-close {
+.upstudio-close {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,16 +196,16 @@
   cursor: pointer;
 }
 
-.updev-close:hover {
+.upstudio-close:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-section {
+.upstudio-section {
   padding-top: 12px;
 }
 
-.updev-label {
+.upstudio-label {
   display: block;
   margin-bottom: 6px;
   font-size: 12px;
@@ -214,7 +214,7 @@
 
 /* ── preset list ── */
 
-.updev-list {
+.upstudio-list {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -223,7 +223,7 @@
   list-style: none;
 }
 
-.updev-row {
+.upstudio-row {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -238,12 +238,12 @@
   cursor: pointer;
 }
 
-.updev-row:hover {
+.upstudio-row:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-row[aria-pressed="true"] {
+.upstudio-row[aria-pressed="true"] {
   background: var(--secondary);
   color: var(--fg);
   font-weight: 500;
@@ -254,7 +254,7 @@
    bridge from leaking out of it. Page + accent rather than page + ink, because in dark mode
    every preset's page is near-black and its ink near-white — measured on the stand, the
    seven swatches were indistinguishable; the accent is what actually separates them. */
-.updev-swatch {
+.upstudio-swatch {
   width: 12px;
   height: 12px;
   flex-shrink: 0;
@@ -263,7 +263,7 @@
   background: linear-gradient(135deg, var(--background) 45%, var(--primary) 45%);
 }
 
-.updev-check {
+.upstudio-check {
   margin-inline-start: auto;
   width: 15px;
   height: 15px;
@@ -276,7 +276,7 @@
 
 /* ── mode segment ── */
 
-.updev-segment {
+.upstudio-segment {
   display: grid;
   grid-template-columns: 1fr 1fr;
   border: 1px solid var(--border);
@@ -284,7 +284,7 @@
   overflow: hidden;
 }
 
-.updev-segment button {
+.upstudio-segment button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,16 +297,16 @@
   cursor: pointer;
 }
 
-.updev-segment button + button {
+.upstudio-segment button + button {
   border-inline-start: 1px solid var(--border);
 }
 
-.updev-segment button:hover {
+.upstudio-segment button:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-segment button[aria-pressed="true"] {
+.upstudio-segment button[aria-pressed="true"] {
   background: var(--secondary);
   color: var(--fg);
   font-weight: 500;
@@ -314,19 +314,19 @@
 
 /* ── source line and actions ── */
 
-.updev-source {
+.upstudio-source {
   padding-top: 12px;
   font-size: 12px;
   color: var(--faint);
 }
 
-.updev-source b {
+.upstudio-source b {
   font-family: var(--mono);
   font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
-.updev-actions {
+.upstudio-actions {
   display: flex;
   gap: 8px;
   margin-top: 12px;
@@ -334,7 +334,7 @@
   border-top: 1px solid var(--border);
 }
 
-.updev-ghost {
+.upstudio-ghost {
   flex: 1;
   padding: 6px 8px;
   border: 1px solid var(--border);
@@ -345,14 +345,14 @@
   cursor: pointer;
 }
 
-.updev-ghost:hover {
+.upstudio-ghost:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
 /* ── password dialog (native <dialog>, top layer: no portal, no ancestor can move it) ── */
 
-.updev-dialog {
+.upstudio-dialog {
   width: 320px;
   max-width: calc(100vw - 2rem);
   padding: 16px;
@@ -363,15 +363,15 @@
   box-shadow: var(--shadow), var(--ring-inset);
 }
 
-.updev-dialog::backdrop {
+.upstudio-dialog::backdrop {
   background: rgba(0, 0, 0, 0.55);
 }
 
-.updev-field {
+.upstudio-field {
   padding-top: 12px;
 }
 
-.updev-input {
+.upstudio-input {
   width: 100%;
   margin-top: 6px;
   padding: 7px 9px;
@@ -382,20 +382,20 @@
   font: inherit;
 }
 
-.updev-input::placeholder {
+.upstudio-input::placeholder {
   color: var(--faint);
 }
 
-.updev-input:focus {
+.upstudio-input:focus {
   outline: none;
   border-color: var(--ring);
 }
 
-.updev-input[aria-invalid="true"] {
+.upstudio-input[aria-invalid="true"] {
   border-color: var(--red);
 }
 
-.updev-error {
+.upstudio-error {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -404,7 +404,7 @@
   color: var(--muted);
 }
 
-.updev-dot {
+.upstudio-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -413,14 +413,14 @@
   background: var(--red);
 }
 
-.updev-dialog-actions {
+.upstudio-dialog-actions {
   display: flex;
   justify-content: flex-end;
   margin-top: 12px;
 }
 
 /* primary action = polarity flip (canon) */
-.updev-primary {
+.upstudio-primary {
   padding: 7px 14px;
   border: 1px solid var(--fg);
   border-radius: var(--r-sm);
@@ -431,17 +431,17 @@
   cursor: pointer;
 }
 
-.updev-primary:hover {
+.upstudio-primary:hover {
   background: var(--fg-hover);
   border-color: var(--fg-hover);
 }
 
-.updev-primary[disabled] {
+.upstudio-primary[disabled] {
   opacity: 0.6;
   cursor: default;
 }
 
-.updev-hint {
+.upstudio-hint {
   margin-top: 12px;
   font-size: 12px;
   color: var(--faint);
@@ -450,27 +450,27 @@
 /* ── composition (default mode + the five block versions, panel-composition-mockup.md §T1-§T7) ── */
 
 /* T1: five rows plus the popover's existing sections no longer fit a fixed height. */
-.updev-popover {
+.upstudio-popover {
   max-height: calc(100vh - 120px);
   overflow-y: auto;
 }
 
-.updev-hr {
+.upstudio-hr {
   margin-top: 12px;
   border-top: 1px solid var(--border);
 }
 
-.updev-comp-rows {
+.upstudio-comp-rows {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.updev-comp-row {
+.upstudio-comp-row {
   border-radius: var(--r-sm);
 }
 
-.updev-comp-row-head {
+.upstudio-comp-row-head {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -485,23 +485,23 @@
   cursor: pointer;
 }
 
-.updev-comp-row-head:hover {
+.upstudio-comp-row-head:hover {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-comp-row-head[aria-expanded="true"] {
+.upstudio-comp-row-head[aria-expanded="true"] {
   background: var(--secondary);
   color: var(--fg);
 }
 
-.updev-comp-row-label {
+.upstudio-comp-row-label {
   flex-shrink: 0;
   min-width: 76px;
   font-size: 13px;
 }
 
-.updev-comp-row-value {
+.upstudio-comp-row-value {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -511,18 +511,18 @@
   text-align: end;
 }
 
-.updev-chevron {
+.upstudio-chevron {
   flex-shrink: 0;
   width: 14px;
   height: 14px;
   transition: transform 0.12s ease;
 }
 
-.updev-chevron[data-direction="up"] {
+.upstudio-chevron[data-direction="up"] {
   transform: rotate(180deg);
 }
 
-.updev-comp-advisory {
+.upstudio-comp-advisory {
   display: flex;
   align-items: flex-start;
   gap: 6px;
@@ -535,12 +535,12 @@
   line-height: 1.4;
 }
 
-.updev-comp-advisory-mark {
+.upstudio-comp-advisory-mark {
   flex-shrink: 0;
   color: var(--faint);
 }
 
-.updev-comp-options {
+.upstudio-comp-options {
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -549,7 +549,7 @@
   border-left: 1px solid var(--border);
 }
 
-.updev-comp-option {
+.upstudio-comp-option {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -565,36 +565,36 @@
   cursor: pointer;
 }
 
-.updev-comp-option:hover:not(:disabled) {
+.upstudio-comp-option:hover:not(:disabled) {
   background: var(--hover);
   color: var(--fg);
 }
 
-.updev-comp-option[aria-checked="true"] {
+.upstudio-comp-option[aria-checked="true"] {
   background: var(--secondary);
   color: var(--fg);
   font-weight: 500;
 }
 
-.updev-comp-option:disabled {
+.upstudio-comp-option:disabled {
   color: var(--faint);
   cursor: not-allowed;
 }
 
-.updev-comp-option-head {
+.upstudio-comp-option-head {
   display: flex;
   align-items: center;
   gap: 8px;
   width: 100%;
 }
 
-.updev-comp-option-label {
+.upstudio-comp-option-label {
   flex: 1;
 }
 
 /* the empty/filled radio dot — a plain circle, not a status dot (that pattern is
    reserved for dirty/error states below, canon "status = 8px dot + text") */
-.updev-radio {
+.upstudio-radio {
   flex-shrink: 0;
   width: 14px;
   height: 14px;
@@ -603,29 +603,29 @@
   background: transparent;
 }
 
-.updev-radio[data-checked="true"] {
+.upstudio-radio[data-checked="true"] {
   border-color: var(--fg);
   background: radial-gradient(circle, var(--fg) 0 5px, transparent 5px);
 }
 
-.updev-comp-option-why {
+.upstudio-comp-option-why {
   padding-inline-start: 22px;
   font-size: 12px;
   line-height: 1.4;
   color: var(--faint);
 }
 
-.updev-comp-option-blocked {
+.upstudio-comp-option-blocked {
   color: var(--faint);
 }
 
 /* ── save bar ── */
 
-.updev-comp-savebar {
+.upstudio-comp-savebar {
   padding-top: 12px;
 }
 
-.updev-comp-dirty {
+.upstudio-comp-dirty {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -634,7 +634,7 @@
   color: var(--muted);
 }
 
-.updev-comp-note {
+.upstudio-comp-note {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -643,11 +643,11 @@
   color: var(--muted);
 }
 
-.updev-dot-muted {
+.upstudio-dot-muted {
   background: var(--faint);
 }
 
-.updev-comp-off {
+.upstudio-comp-off {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -657,11 +657,11 @@
   line-height: 1.4;
 }
 
-.updev-comp-off svg {
+.upstudio-comp-off svg {
   flex-shrink: 0;
 }
 
-.updev-comp-save {
+.upstudio-comp-save {
   width: 100%;
   margin-top: 10px;
   display: flex;
@@ -674,7 +674,7 @@
    never truncates (T7) — the popover itself already caps at calc(100vw - 2rem), a
    row's options break out of it deliberately here. */
 @media (max-width: 480px) {
-  .updev-comp-options {
+  .upstudio-comp-options {
     position: fixed;
     inset: auto 0 0 0;
     z-index: 80;
@@ -691,7 +691,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .updev * {
+  .upstudio * {
     transition: none !important;
   }
 }

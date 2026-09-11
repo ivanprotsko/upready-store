@@ -13,36 +13,70 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto"
  *      `lib/data/cookies.ts` already does.
  *   2. the cookie cannot be forged. It carries an expiry and an HMAC over that expiry,
  *      keyed by a hash of the password, and is compared in constant time. A visitor who
- *      writes `document.cookie = "upready_devtools=..."` gets nothing, and changing
- *      STOREFRONT_DEVTOOLS_PASSWORD invalidates every cookie already issued.
- *   3. an empty or unset variable means the feature does not exist: `isDevtoolsEnabled()`
+ *      writes `document.cookie = "upready_studio=..."` gets nothing, and changing
+ *      STOREFRONT_STUDIO_PASSWORD invalidates every cookie already issued.
+ *   3. an empty or unset variable means the feature does not exist: `isStudioEnabled()`
  *      is false, the route answers 404 and the mount renders null. A storefront that
  *      never sets the variable is byte-identical to one without this feature.
  */
 
 /** Cookie name; httpOnly, so no client code can read it — only the server sees it. */
-export const DEVTOOLS_COOKIE = "upready_devtools"
+export const STUDIO_COOKIE = "upready_studio"
 
 /** Seven days, as the brief asks. */
-export const DEVTOOLS_TTL_SECONDS = 7 * 24 * 60 * 60
+export const STUDIO_TTL_SECONDS = 7 * 24 * 60 * 60
 
 const COOKIE_VERSION = "v1"
 
-/** The configured password, or null when the feature is switched off. */
-export function devtoolsPassword(): string | null {
-  const raw = process.env.STOREFRONT_DEVTOOLS_PASSWORD
+/**
+ * The variable this panel was configured by before it was named the studio panel
+ * (Ivan, 2026-09-11). It is still read, because the five live stands and the
+ * shipshift.dev deployment carry the old name in `.env.local` / `shipshift.env`
+ * and a rebuild that silently stopped finding it would not fail — it would make
+ * the panel VANISH (an unset password means the feature does not exist, by
+ * design, property 3 above). That is exactly the zero-is-not-empty trap of rule
+ * 20a, so the fallback shouts instead of being quiet.
+ *
+ * Delete it once every deployment sets STOREFRONT_STUDIO_PASSWORD.
+ */
+const LEGACY_PASSWORD_VAR = "STOREFRONT_DEVTOOLS_PASSWORD"
+
+let legacyWarned = false
+
+const readVar = (name: string): string | null => {
+  const raw = process.env[name]
   if (typeof raw !== "string") return null
   const trimmed = raw.trim()
   return trimmed.length > 0 ? trimmed : null
 }
 
-export function isDevtoolsEnabled(): boolean {
-  return devtoolsPassword() !== null
+/** The configured password, or null when the feature is switched off. */
+export function studioPassword(): string | null {
+  const configured = readVar("STOREFRONT_STUDIO_PASSWORD")
+  if (configured !== null) return configured
+
+  const legacy = readVar(LEGACY_PASSWORD_VAR)
+  if (legacy === null) return null
+
+  if (!legacyWarned) {
+    legacyWarned = true
+    console.warn(
+      `[studio] ${LEGACY_PASSWORD_VAR} is set and STOREFRONT_STUDIO_PASSWORD is not. ` +
+        `The panel is running off the old variable name; rename it in this deployment's ` +
+        `environment file. The old name will be removed.`,
+    )
+  }
+
+  return legacy
+}
+
+export function isStudioEnabled(): boolean {
+  return studioPassword() !== null
 }
 
 /** Signing key: a hash of the password, so the password itself is never the HMAC key. */
 function signingKey(password: string): Buffer {
-  return createHash("sha256").update(`upready-store.devtools ${password}`).digest()
+  return createHash("sha256").update(`upready-store.studio ${password}`).digest()
 }
 
 function sign(payload: string, password: string): string {
@@ -54,7 +88,7 @@ function sign(payload: string, password: string): string {
  * always runs over 32 bytes and the length of the submitted string leaks nothing.
  */
 export function passwordMatches(candidate: unknown): boolean {
-  const password = devtoolsPassword()
+  const password = studioPassword()
   if (password === null || typeof candidate !== "string") return false
   const submitted = createHash("sha256").update(candidate).digest()
   const expected = createHash("sha256").update(password).digest()
@@ -62,12 +96,12 @@ export function passwordMatches(candidate: unknown): boolean {
 }
 
 /** The cookie value for a session that starts now: `v1.<expiry seconds>.<hmac>`. */
-export function issueDevtoolsCookie(nowMs: number = Date.now()): string {
-  const password = devtoolsPassword()
+export function issueStudioCookie(nowMs: number = Date.now()): string {
+  const password = studioPassword()
   if (password === null) {
-    throw new Error("devtools: cannot issue a cookie while the feature is off")
+    throw new Error("studio: cannot issue a cookie while the feature is off")
   }
-  const expiry = Math.floor(nowMs / 1000) + DEVTOOLS_TTL_SECONDS
+  const expiry = Math.floor(nowMs / 1000) + STUDIO_TTL_SECONDS
   const payload = `${COOKIE_VERSION}.${expiry}`
   return `${payload}.${sign(payload, password)}`
 }
@@ -77,8 +111,8 @@ export function issueDevtoolsCookie(nowMs: number = Date.now()): string {
  * malformed shape answers false rather than throwing, because this runs in the render
  * path of every page.
  */
-export function devtoolsCookieIsValid(value: unknown, nowMs: number = Date.now()): boolean {
-  const password = devtoolsPassword()
+export function studioCookieIsValid(value: unknown, nowMs: number = Date.now()): boolean {
+  const password = studioPassword()
   if (password === null || typeof value !== "string") return false
 
   const parts = value.split(".")

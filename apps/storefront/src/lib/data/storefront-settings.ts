@@ -14,8 +14,8 @@
  * One shared cache tag, `"storefront-settings"` — no `_medusa_cache_id` suffix, unlike
  * `categories.ts`'s per-browser tags, because this is the opposite of per-visitor data:
  * one saved document, shown to everyone, invalidated for everyone at once by the single
- * `revalidateTag("storefront-settings")` call inside the devtools proxy's PUT handler
- * (`app/api/devtools/settings/route.ts`), never through the unrelated
+ * `revalidateTag("storefront-settings")` call inside the studio proxy's PUT handler
+ * (`app/api/studio/settings/route.ts`), never through the unrelated
  * `/api/revalidate` webhook route (critique §2.2).
  */
 

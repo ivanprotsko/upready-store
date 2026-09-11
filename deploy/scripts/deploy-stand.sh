@@ -209,8 +209,8 @@ step_verify() {
   check "GET https://$API_DOMAIN/health" "200" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' "https://$API_DOMAIN/health" || echo 000)"
   check_login "POST /auth/user/emailpass $(envval MEDUSA_ADMIN_EMAIL)" "https://$API_DOMAIN/auth/user/emailpass" "{\"email\":\"$(envval MEDUSA_ADMIN_EMAIL)\",\"password\":\"$(envval MEDUSA_ADMIN_PASSWORD)\"}"
   check_login "POST /auth/customer/emailpass $(envval DEMO_CUSTOMER_EMAIL)" "https://$API_DOMAIN/auth/customer/emailpass" "{\"email\":\"$(envval DEMO_CUSTOMER_EMAIL)\",\"password\":\"$(envval DEMO_CUSTOMER_PASSWORD)\"}"
-  check "POST /api/devtools/unlock (wrong password)" "401" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -X POST "https://$DOMAIN/api/devtools/unlock" -H 'Content-Type: application/json' -d '{"password":"definitely-wrong"}' || echo 000)"
-  check "POST /api/devtools/unlock (panel password)" "200" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -X POST "https://$DOMAIN/api/devtools/unlock" -H 'Content-Type: application/json' -d "{\"password\":\"$(envval STOREFRONT_DEVTOOLS_PASSWORD)\"}" || echo 000)"
+  check "POST /api/studio/unlock (wrong password)" "401" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -X POST "https://$DOMAIN/api/studio/unlock" -H 'Content-Type: application/json' -d '{"password":"definitely-wrong"}' || echo 000)"
+  check "POST /api/studio/unlock (panel password)" "200" "$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -X POST "https://$DOMAIN/api/studio/unlock" -H 'Content-Type: application/json' -d "{\"password\":\"$(envval STOREFRONT_STUDIO_PASSWORD)\"}" || echo 000)"
   # Hero: the served HTML references the image only for hero variants that carry one
   # (kerbstone's seeded composition is K = announcement band, no image — decision F9),
   # so the media pipeline is proven two ways: the profile's own hero file on the API

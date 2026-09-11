@@ -21,7 +21,7 @@ import "../../styles/panel.css"
  * transition dressed in Medusa tokens — the wrong clothes for a tool that has to look the
  * same under all seven presets.
  *
- * Nothing here knows the password: it posts to /api/devtools/unlock and reads a status
+ * Nothing here knows the password: it posts to /api/studio/unlock and reads a status
  * code. With the feature switched off the route answers 404 and the dialog says so.
  */
 
@@ -42,7 +42,7 @@ export default function BrandUnlock({
   const [error, setError] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
   // The dialog is mounted only after a hold has actually fired. Rendering it up front
-  // would put "Storefront devtools / Password / Unlock" into the HTML of every visitor —
+  // would put "Studio panel / Password / Unlock" into the HTML of every visitor —
   // markup nobody can use, advertising a door that is supposed to be invisible.
   const [armed, setArmed] = useState(false)
 
@@ -105,7 +105,7 @@ export default function BrandUnlock({
     setPending(true)
     setError(null)
     try {
-      const res = await fetch("/api/devtools/unlock", {
+      const res = await fetch("/api/studio/unlock", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ password }),
@@ -118,12 +118,12 @@ export default function BrandUnlock({
         // unlocked before and re-enters the password): measured 2026-09-10 on the stands,
         // that late refresh (2–10 s, RSC round trip) re-mounted the panel and closed a
         // popover the operator had just opened, taking the picks with it.
-        if (!document.querySelector('[data-testid="devtools-button"]')) router.refresh()
+        if (!document.querySelector('[data-testid="studio-button"]')) router.refresh()
         return
       }
       setError(
         res.status === 404
-          ? "Devtools are not available on this storefront."
+          ? "Studio are not available on this storefront."
           : "That password does not match."
       )
       inputRef.current?.select()
@@ -136,7 +136,7 @@ export default function BrandUnlock({
 
   return (
     <span
-      className="updev-brand-hold"
+      className="upstudio-brand-hold"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={cancelHold}
@@ -149,24 +149,24 @@ export default function BrandUnlock({
       {armed ? (
         <dialog
           ref={dialogRef}
-          className="updev updev-dialog"
-          data-testid="devtools-unlock-dialog"
+          className="upstudio upstudio-dialog"
+          data-testid="studio-unlock-dialog"
           onClose={() => {
             setError(null)
             setArmed(false)
           }}
         >
           <form onSubmit={submit}>
-            <span className="updev-eyebrow">Storefront devtools</span>
-            <div className="updev-field">
-              <label className="updev-label" htmlFor="updev-password">
+            <span className="upstudio-eyebrow">Studio panel</span>
+            <div className="upstudio-field">
+              <label className="upstudio-label" htmlFor="upstudio-password">
                 Password
               </label>
               <input
                 ref={inputRef}
-                id="updev-password"
-                className="updev-input"
-                data-testid="devtools-password"
+                id="upstudio-password"
+                className="upstudio-input"
+                data-testid="studio-password"
                 type="password"
                 autoComplete="off"
                 aria-invalid={error ? true : undefined}
@@ -174,25 +174,25 @@ export default function BrandUnlock({
             </div>
             {error ? (
               <p
-                className="updev-error"
-                data-testid="devtools-unlock-error"
+                className="upstudio-error"
+                data-testid="studio-unlock-error"
                 role="alert"
               >
-                <span className="updev-dot" aria-hidden="true" />
+                <span className="upstudio-dot" aria-hidden="true" />
                 {error}
               </p>
             ) : null}
-            <div className="updev-dialog-actions">
+            <div className="upstudio-dialog-actions">
               <button
                 type="submit"
-                className="updev-primary"
-                data-testid="devtools-unlock-submit"
+                className="upstudio-primary"
+                data-testid="studio-unlock-submit"
                 disabled={pending}
               >
                 {pending ? "Checking…" : "Unlock"}
               </button>
             </div>
-            <p className="updev-hint">
+            <p className="upstudio-hint">
               Esc closes. Nothing is stored until the password checks out.
             </p>
           </form>

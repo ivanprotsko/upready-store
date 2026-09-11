@@ -4,8 +4,8 @@ import { expect, test, type Page } from "@playwright/test"
  * T0i acceptance, run against a live storefront (rule 18f: acceptance is reality).
  *
  * Environment:
- *   DEVTOOLS_URL           storefront started WITH STOREFRONT_DEVTOOLS_PASSWORD (baseURL)
- *   DEVTOOLS_PASSWORD      that password
+ *   STUDIO_URL           storefront started WITH STOREFRONT_STUDIO_PASSWORD (baseURL)
+ *   STUDIO_PASSWORD      that password
  * The "feature switched off" case needs a storefront started WITHOUT the variable, so it
  * lives in disabled.pw.ts and runs as its own pass against a restarted stand.
  *
@@ -14,7 +14,7 @@ import { expect, test, type Page } from "@playwright/test"
  * proves nothing.
  */
 
-const PASSWORD = process.env.DEVTOOLS_PASSWORD ?? "t0i-panel-2026"
+const PASSWORD = process.env.STUDIO_PASSWORD ?? "t0i-panel-2026"
 
 const HOLD_OPENS_MS = 2400
 const HOLD_STAYS_A_LINK_MS = 1500
@@ -33,7 +33,7 @@ async function holdBrand(page: Page, ms: number) {
 
 /** Take the cookie the way a browser does: through the route, then reload. */
 async function unlock(page: Page) {
-  const res = await page.request.post("/api/devtools/unlock", { data: { password: PASSWORD } })
+  const res = await page.request.post("/api/studio/unlock", { data: { password: PASSWORD } })
   expect(res.status()).toBe(200)
   await page.goto("/")
 }
@@ -43,11 +43,11 @@ test.describe("hidden settings panel", () => {
     const res = await request.get("/")
     const html = await res.text()
     expect(res.status()).toBe(200)
-    expect(html).not.toContain('data-testid="devtools-button"')
-    expect(html).not.toContain('data-testid="devtools-popover"')
+    expect(html).not.toContain('data-testid="studio-button"')
+    expect(html).not.toContain('data-testid="studio-popover"')
 
     await page.goto("/")
-    await expect(page.getByTestId("devtools-button")).toHaveCount(0)
+    await expect(page.getByTestId("studio-button")).toHaveCount(0)
   })
 
   test("a 1.5 s press stays an ordinary link to /", async ({ page }) => {
@@ -57,14 +57,14 @@ test.describe("hidden settings panel", () => {
     await page.waitForURL((url) => new URL(url).pathname !== before, { timeout: 15_000 })
     // the locale prefix is the middleware's; what matters is that we left /store for home
     expect(new URL(page.url()).pathname).not.toContain("/store")
-    await expect(page.getByTestId("devtools-unlock-dialog")).toBeHidden()
+    await expect(page.getByTestId("studio-unlock-dialog")).toBeHidden()
   })
 
   test("a 2 s press opens the password dialog and does not navigate", async ({ page }) => {
     await page.goto("/store")
     const before = page.url()
     await holdBrand(page, HOLD_OPENS_MS)
-    await expect(page.getByTestId("devtools-unlock-dialog")).toBeVisible()
+    await expect(page.getByTestId("studio-unlock-dialog")).toBeVisible()
     expect(page.url()).toBe(before)
   })
 
@@ -82,10 +82,10 @@ test.describe("hidden settings panel", () => {
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
     await page.mouse.down()
     await page.waitForTimeout(HOLD_OPENS_MS)
-    await expect(page.getByTestId("devtools-unlock-dialog")).toBeVisible()
+    await expect(page.getByTestId("studio-unlock-dialog")).toBeVisible()
 
     await page.keyboard.press("Escape")
-    await expect(page.getByTestId("devtools-unlock-dialog")).toHaveCount(0)
+    await expect(page.getByTestId("studio-unlock-dialog")).toHaveCount(0)
     await page.mouse.up()
 
     await page.waitForTimeout(1500)
@@ -95,17 +95,17 @@ test.describe("hidden settings panel", () => {
   test("a wrong password shows an error and sets no cookie", async ({ page, context }) => {
     await page.goto("/")
     await holdBrand(page, HOLD_OPENS_MS)
-    await page.getByTestId("devtools-password").fill(`${PASSWORD}-wrong`)
-    await page.getByTestId("devtools-unlock-submit").click()
+    await page.getByTestId("studio-password").fill(`${PASSWORD}-wrong`)
+    await page.getByTestId("studio-unlock-submit").click()
 
-    await expect(page.getByTestId("devtools-unlock-error")).toBeVisible()
-    await expect(page.getByTestId("devtools-unlock-error")).toContainText("does not match")
+    await expect(page.getByTestId("studio-unlock-error")).toBeVisible()
+    await expect(page.getByTestId("studio-unlock-error")).toContainText("does not match")
 
     const cookies = await context.cookies()
-    expect(cookies.find((c) => c.name === "upready_devtools")).toBeUndefined()
+    expect(cookies.find((c) => c.name === "upready_studio")).toBeUndefined()
 
     await page.reload()
-    await expect(page.getByTestId("devtools-button")).toHaveCount(0)
+    await expect(page.getByTestId("studio-button")).toHaveCount(0)
   })
 
   test("the right password sets an httpOnly cookie and reveals the button", async ({
@@ -114,12 +114,12 @@ test.describe("hidden settings panel", () => {
   }) => {
     await page.goto("/")
     await holdBrand(page, HOLD_OPENS_MS)
-    await page.getByTestId("devtools-password").fill(PASSWORD)
-    await page.getByTestId("devtools-unlock-submit").click()
+    await page.getByTestId("studio-password").fill(PASSWORD)
+    await page.getByTestId("studio-unlock-submit").click()
 
-    await expect(page.getByTestId("devtools-button")).toBeVisible()
+    await expect(page.getByTestId("studio-button")).toBeVisible()
 
-    const cookie = (await context.cookies()).find((c) => c.name === "upready_devtools")
+    const cookie = (await context.cookies()).find((c) => c.name === "upready_studio")
     expect(cookie, "the unlock cookie").toBeDefined()
     expect(cookie?.httpOnly).toBe(true)
     expect(cookie?.sameSite).toBe("Lax")
@@ -129,15 +129,15 @@ test.describe("hidden settings panel", () => {
     expect(days).toBeLessThan(7.01)
 
     // and the cookie is out of reach of page scripts
-    expect(await page.evaluate(() => document.cookie)).not.toContain("upready_devtools")
+    expect(await page.evaluate(() => document.cookie)).not.toContain("upready_studio")
   })
 
   test("flipping the preset changes --background on <html> and the body background", async ({
     page,
   }) => {
     await unlock(page)
-    await page.getByTestId("devtools-button").click()
-    await expect(page.getByTestId("devtools-popover")).toBeVisible()
+    await page.getByTestId("studio-button").click()
+    await expect(page.getByTestId("studio-popover")).toBeVisible()
 
     const read = () =>
       page.evaluate(() => ({
@@ -148,10 +148,10 @@ test.describe("hidden settings panel", () => {
         body: getComputedStyle(document.body).backgroundColor,
       }))
 
-    await page.getByTestId("devtools-preset-medusa").click()
+    await page.getByTestId("studio-preset-medusa").click()
     const before = await read()
 
-    await page.getByTestId("devtools-preset-supplements").click()
+    await page.getByTestId("studio-preset-supplements").click()
     const after = await read()
 
     expect(after.attr).toBe("supplements")
@@ -159,18 +159,18 @@ test.describe("hidden settings panel", () => {
     expect(after.body).not.toBe(before.body)
 
     // the source line names the preset in plain language, never its id
-    const source = page.getByTestId("devtools-source")
+    const source = page.getByTestId("studio-source")
     await expect(source).toContainText("Rendered from 31 tokens of preset Scruple.")
     await expect(source).not.toContainText("supplements")
   })
 
   test("flipping the mode changes data-mode and the body background", async ({ page }) => {
     await unlock(page)
-    await page.getByTestId("devtools-button").click()
-    await page.getByTestId("devtools-mode-light").click()
+    await page.getByTestId("studio-button").click()
+    await page.getByTestId("studio-mode-light").click()
     const light = await page.evaluate(() => getComputedStyle(document.body).backgroundColor)
 
-    await page.getByTestId("devtools-mode-dark").click()
+    await page.getByTestId("studio-mode-dark").click()
     const dark = await page.evaluate(() => ({
       attr: document.documentElement.getAttribute("data-mode"),
       body: getComputedStyle(document.body).backgroundColor,
@@ -182,11 +182,11 @@ test.describe("hidden settings panel", () => {
 
   test("reset puts both axes back and clears the stored choice", async ({ page }) => {
     await unlock(page)
-    await page.getByTestId("devtools-button").click()
-    await page.getByTestId("devtools-preset-geist").click()
-    await page.getByTestId("devtools-mode-dark").click()
+    await page.getByTestId("studio-button").click()
+    await page.getByTestId("studio-preset-geist").click()
+    await page.getByTestId("studio-mode-dark").click()
 
-    await page.getByTestId("devtools-reset").click()
+    await page.getByTestId("studio-reset").click()
 
     expect(
       await page.evaluate(() => ({
@@ -229,12 +229,12 @@ test.describe("hidden settings panel", () => {
 
   test("lock removes the cookie and the button", async ({ page, context }) => {
     await unlock(page)
-    await page.getByTestId("devtools-button").click()
-    await page.getByTestId("devtools-lock").click()
+    await page.getByTestId("studio-button").click()
+    await page.getByTestId("studio-lock").click()
 
-    await expect(page.getByTestId("devtools-button")).toHaveCount(0)
+    await expect(page.getByTestId("studio-button")).toHaveCount(0)
     const cookie = (await context.cookies()).find(
-      (c) => c.name === "upready_devtools" && c.value !== ""
+      (c) => c.name === "upready_studio" && c.value !== ""
     )
     expect(cookie).toBeUndefined()
   })
@@ -243,14 +243,14 @@ test.describe("hidden settings panel", () => {
     const url = new URL(page.url() === "about:blank" ? "http://host.docker.internal" : page.url())
     await context.addCookies([
       {
-        name: "upready_devtools",
+        name: "upready_studio",
         value: `v1.${Math.floor(Date.now() / 1000) + 86_400}.forged`,
         domain: url.hostname,
         path: "/",
       },
     ])
     await page.goto("/")
-    await expect(page.getByTestId("devtools-button")).toHaveCount(0)
+    await expect(page.getByTestId("studio-button")).toHaveCount(0)
   })
 
 })

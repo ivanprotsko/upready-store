@@ -6,7 +6,7 @@ import { SITE_NAME } from "@lib/util/env"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import Search from "@modules/layout/components/search"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
  * H5 · "Slim + category strip" (`2026-09-09-composition-contract.json` `header.h5`).

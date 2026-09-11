@@ -165,7 +165,7 @@ export function CompositionRows({
   const tFull = useTranslations()
 
   return (
-    <div className="updev-comp-rows" role="group" aria-label={t("ui.sectionLabel")}>
+    <div className="upstudio-comp-rows" role="group" aria-label={t("ui.sectionLabel")}>
       {ROWS.map((row) => {
         const isOpen = openRow === row.field
         const currentKey = draft[row.field]
@@ -175,24 +175,24 @@ export function CompositionRows({
         const advisory = row.field === "tiles" ? isAdvisory(draft) : null
 
         return (
-          <div key={row.field} className="updev-comp-row">
+          <div key={row.field} className="upstudio-comp-row">
             <button
               type="button"
-              className="updev-comp-row-head"
-              data-testid={`devtools-slot-${row.slug}`}
+              className="upstudio-comp-row-head"
+              data-testid={`studio-slot-${row.slug}`}
               aria-expanded={isOpen}
               onClick={() => onToggleRow(row.field)}
             >
-              <span className="updev-comp-row-label">{t(row.rowLabelKey)}</span>
+              <span className="upstudio-comp-row-label">{t(row.rowLabelKey)}</span>
               {!isOpen ? (
-                <span className="updev-comp-row-value">{tFull(currentLabelKey)}</span>
+                <span className="upstudio-comp-row-value">{tFull(currentLabelKey)}</span>
               ) : null}
               <ChevronIcon direction={isOpen ? "up" : "down"} />
             </button>
 
             {isOpen && advisory ? (
-              <p className="updev-comp-advisory">
-                <span className="updev-comp-advisory-mark" aria-hidden="true">
+              <p className="upstudio-comp-advisory">
+                <span className="upstudio-comp-advisory-mark" aria-hidden="true">
                   ⓘ
                 </span>
                 {advisory.reason}
@@ -200,7 +200,7 @@ export function CompositionRows({
             ) : null}
 
             {isOpen ? (
-              <div className="updev-comp-options" role="radiogroup" aria-label={t(row.rowLabelKey)}>
+              <div className="upstudio-comp-options" role="radiogroup" aria-label={t(row.rowLabelKey)}>
                 {row.keys.map((key) => {
                   const active = key === currentKey
                   const hypothetical = { ...draft, [row.field]: key } as StorefrontSettingsInput
@@ -215,28 +215,28 @@ export function CompositionRows({
                       aria-checked={active}
                       aria-disabled={blocking ? true : undefined}
                       disabled={Boolean(blocking)}
-                      className="updev-comp-option"
-                      data-testid={`devtools-slot-${row.slug}-option-${key}`}
+                      className="upstudio-comp-option"
+                      data-testid={`studio-slot-${row.slug}-option-${key}`}
                       onClick={() => {
                         if (blocking) return
                         onPick(row.field, key)
                       }}
                     >
-                      <span className="updev-comp-option-head">
+                      <span className="upstudio-comp-option-head">
                         {blocking ? (
                           <BanIcon />
                         ) : (
-                          <span className="updev-radio" data-checked={active} aria-hidden="true" />
+                          <span className="upstudio-radio" data-checked={active} aria-hidden="true" />
                         )}
-                        <span className="updev-comp-option-label">{tFull(row.labels[key] ?? key)}</span>
+                        <span className="upstudio-comp-option-label">{tFull(row.labels[key] ?? key)}</span>
                         {active && !blocking ? <CheckIcon /> : null}
                       </span>
                       {blocking ? (
-                        <span className="updev-comp-option-why updev-comp-option-blocked">
+                        <span className="upstudio-comp-option-why upstudio-comp-option-blocked">
                           {blocking.reason}
                         </span>
                       ) : whyKey ? (
-                        <span className="updev-comp-option-why">{tFull(whyKey)}</span>
+                        <span className="upstudio-comp-option-why">{tFull(whyKey)}</span>
                       ) : null}
                     </button>
                   )
