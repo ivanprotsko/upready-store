@@ -121,3 +121,39 @@ export const useDeleteProduct = (
     ...options,
   })
 }
+
+// tenant-panel: piece 2. `useProductVariant` is the Admin's own hook from
+// hooks/api/products.tsx, pointed at the tenant's variant retrieve route. The
+// create-fulfillment item row uses it to show how much of a variant is in
+// stock at the chosen location; the item row renders without it, just with no
+// stock numbers.
+//
+// `GET /tenants/products/:id/variants/:variant_id` belongs to piece 1 of this
+// wave (docs/tenant-panel/api-contract.md, "Piece 1"). While that route is
+// missing the call answers 404 and the row shows dashes instead of quantities.
+export const useProductVariant = (
+  productId: string,
+  variantId: string,
+  query?: HttpTypes.AdminProductVariantParams,
+  options?: Omit<
+    UseQueryOptions<
+      HttpTypes.AdminProductVariantResponse,
+      FetchError,
+      HttpTypes.AdminProductVariantResponse,
+      QueryKey
+    >,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () =>
+      sdk.client.fetch<HttpTypes.AdminProductVariantResponse>(
+        `/tenants/products/${productId}/variants/${variantId}`,
+        { query }
+      ),
+    queryKey: variantsQueryKeys.detail(variantId, query),
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}

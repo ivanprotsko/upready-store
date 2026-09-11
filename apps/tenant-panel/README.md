@@ -73,6 +73,27 @@ line per file:
 - `components/common/required-permissions-section/required-permissions-section.tsx` — stub
   (renders `null`); no RBAC, so nothing to list.
 
+Wave 2, piece 2 (order detail) and piece 3 (orders export):
+
+- `components/layout-composer/index.ts` — the barrel re-exports `detail-page-defaults` again
+  (order-detail calls `detailPageDefaultEntries`); the file itself is the Admin's, copied verbatim.
+- `hooks/table/query/index.ts` — the barrel names `use-order-table-query` (order-export imports it
+  from the barrel; the order list imported it by path).
+- `routes/orders/order-detail/loader.ts` — `sdk.admin.order.retrieve` swapped for
+  `sdk.client.fetch("/tenants/orders/:id")`; a tenant token cannot reach `/admin/*`.
+- `routes/orders/order-create-fulfillment/components/order-create-fulfillment-form/order-create-fulfillment-form.tsx`
+  — same swap for `sdk.admin.stockLocation.list` → `/tenants/stock-locations`.
+- `routes/orders/order-detail/components/order-summary-section/order-summary-section.tsx` —
+  `AdminReservation` imported from `@medusajs/types` instead of `@medusajs/types/src/http`; the
+  panel resolves the package's published `dist`, not the dashboard's source tree.
+- `routes/orders/order-export/order-export.tsx` — the success handler opens the URL the tenant
+  export returns. The Admin's export is asynchronous and arrives by notification; the tenant one
+  builds the CSV synchronously and answers `{ url }`.
+
+Everything else under `routes/orders/order-detail`, `order-create-fulfillment`,
+`order-create-shipment`, `order-export` and `routes/orders/common` is byte-for-byte the Admin's file
+at the same relative path.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 
@@ -87,7 +108,21 @@ from-scratch replacement):
 - `hooks/api/*` — tenant implementations of `auth`, `users`, `store`, `sales-channels`, `regions`,
   `price-preferences`, `product-types`, `tags`, `collections`, `shipping-profiles`, `products`,
   `product-options` and `orders`, calling `/tenants/*` per
-  `docs/tenant-panel/api-contract.md` instead of `/admin/*`.
+  `docs/tenant-panel/api-contract.md` instead of `/admin/*`. Wave 2, piece 2 adds `payments`,
+  `payment-collections`, `stock-locations`, `shipping-options`, `reservations`, `customers`,
+  `returns`, `claims`, `exchanges`, `order-edits`, `plugins` and `not-built`, and extends `orders`
+  with preview, changes, line items, fulfil, ship, cancel-fulfillment, mark-delivered, cancel and
+  export.
+- `hooks/api/not-built.ts` — the rejection every out-of-scope mutation is wired to (RMA cancels,
+  order-edit cancel and confirm, order transfer cancel, mark-a-payment-collection-paid, authorize a
+  payment session). Those sections never render on a tenant order, because the tenant backend
+  answers an empty page for returns, claims, exchanges and order changes; the hooks exist so the
+  copied screens compile.
+- `hooks/api/plugins.tsx` — resolves to the empty list without a request. The panel loads no
+  extensions, so there is nothing for `GET /admin/plugins` to report and no tenant route for it.
+- `hooks/api/users.tsx` `useUser` — resolves to `undefined` without a request. The order timeline's
+  `UserLink` resolves staff-user ids; a tenant panel has no staff-user directory, so the timeline
+  renders nothing for an action a staff member took.
 
 Copied verbatim but not part of the Admin's own file set: none beyond what's listed above; every
 other file under `src/components`, `src/providers`, `src/lib` and `src/routes/login` /

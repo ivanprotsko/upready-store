@@ -221,13 +221,23 @@ Backend, `/tenants/orders/:id` owned through the tenant-order link (`assertOwned
 - `POST /tenants/payments/:payment_id/capture` → `{ payment }` via `capturePaymentWorkflow`;
   ownership = the payment's collection belongs to an owned order (query `payment.payment_collection.order.id`
   and intersect; foreign → 404). `POST /tenants/payments/:id/refund` — optional, same rule.
-- Read-only references the screen needs: `GET /tenants/stock-locations` (re-export Admin GET),
+- Read-only references the screen needs: `GET /tenants/stock-locations` and
+  `GET /tenants/stock-locations/:id` (both re-export the Admin GET; the fulfillment section resolves
+  a fulfillment's location name through the retrieve),
   `GET /tenants/fulfillment-providers`, `GET /tenants/shipping-options`, `GET /tenants/reservations`
   (scoped to own orders' line items or return empty page), `GET /tenants/customers/:id` (only when
   the customer has an owned order, else 404), `GET /tenants/returns`, `/tenants/claims`,
   `/tenants/exchanges` → empty pages (`count: 0`) with a `// tenant-panel:` note — RMA is view-only
   and nothing is created yet, `GET /tenants/order-edits` likewise. Panel timeline widgets must not
   crash on empty lists.
+- The three reference lists that take a link-only filter carry the Admin's own `maybeApplyLinkFilter`
+  in `middlewares.ts`, or the query throws: `stock-locations` on `sales_channel_id`
+  (`sales_channel_location`), `fulfillment-providers` on `stock_location_id`
+  (`location_fulfillment_provider`), `shipping-options` on `stock_location_id`
+  (`location_fulfillment_set`, filtering by `service_zone.fulfillment_set_id`). The create-fulfillment
+  form narrows the shipping options by the chosen warehouse, so without the last one the form can
+  never configure itself and its submit stays disabled (measured live on :9029, 2026-09-11:
+  "Trying to query by not existing property ShippingOption.stock_location_id", 500).
 
 Panel: copy `routes/orders/order-detail/**`, `order-create-fulfillment`, `order-create-shipment`,
 and the shared `routes/orders/common`. Actions menu: keep Cancel, Fulfill, Ship, Mark delivered,
@@ -239,12 +249,18 @@ extend `hooks/api/orders.tsx`, add `payments.tsx`, `fulfillment.tsx`, `stock-loc
 ## Piece 3: orders export (same worker as piece 2)
 
 The Admin's `routes/orders/order-export` posts to `POST /admin/orders/export` (a workflow that
-writes a file and notifies). The tenant version: `POST /tenants/orders/export` body = the same filter
-params the list accepts → `200 { url }` where the CSV is produced synchronously for the tenant's own
-orders (columns: display_id, created_at, status, payment_status, fulfillment_status, email, currency,
-total, items count, sales channel) and stored through the file module (`uploadFilesWorkflow`, like
-uploads). The copied screen shows the "started" toast; the panel then opens `url`. Seam test: tenant
-B's export never contains an order of tenant A (parse the CSV).
+writes a file and notifies). The tenant version: `POST /tenants/orders/export` takes the same filter
+params the list accepts → `200 { url, filename, count }` where the CSV is produced synchronously for
+the tenant's own orders (columns: display_id, created_at, status, payment_status, fulfillment_status,
+email, currency, total, items count, sales channel) and stored through the file module
+(`uploadFilesWorkflow`, like uploads). The copied screen shows the "started" toast; the panel then
+opens `url`. Seam test: tenant B's export never contains an order of tenant A (parse the CSV).
+
+The filters arrive in the QUERY STRING, not the body, and are parsed by the Admin's own
+`AdminGetOrdersParams` + `exportTransformQueryConfig`: the Admin's SDK method the copied screen
+calls sends them there (`sdk.admin.order.export(query)` → `POST /admin/orders/export?<filters>`), and
+the Admin's own matcher parses them the same way. `filename` and `count` are added beside `url` so
+the seam test can assert the row count without reading the file.
 
 ## Piece 5: categories
 

@@ -21,3 +21,17 @@ export * from "./categories"
 // tenant-panel: added by piece 3. See the comment atop views.tsx: dead code,
 // kept only so the feature-flagged-off ConfigurableProductListTable compiles.
 export * from "./views"
+// tenant-panel: added by wave 2, piece 2 (order detail) and piece 3 (orders
+// export). `not-built` is intentionally NOT re-exported: it is a helper for the
+// hook modules, not a hook.
+export * from "./payments"
+export * from "./payment-collections"
+export * from "./stock-locations"
+export * from "./shipping-options"
+export * from "./reservations"
+export * from "./customers"
+export * from "./returns"
+export * from "./claims"
+export * from "./exchanges"
+export * from "./order-edits"
+export * from "./plugins"

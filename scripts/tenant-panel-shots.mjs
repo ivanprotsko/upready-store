@@ -13,8 +13,13 @@ import { mkdirSync } from "node:fs"
 import path from "node:path"
 
 const require = createRequire(import.meta.url)
+// The package is resolved from THIS checkout's own node_modules. It used to be
+// an absolute path into the feat/mt-vendors worktree, which does not exist in
+// every checkout; PLAYWRIGHT still overrides it.
 const { chromium } = require(
-  "/Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-vendors/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright"
+  process.env.PLAYWRIGHT ||
+    new URL("../node_modules/.pnpm/playwright@1.63.0/node_modules/playwright", import.meta.url)
+      .pathname
 )
 
 const side = process.argv[2]
@@ -85,6 +90,34 @@ try {
   await page.goto(`${cfg.base}/orders`, { waitUntil: "networkidle" })
   await page.waitForTimeout(500)
   await shot(page, "orders")
+
+  // Wave 2, pieces 2 and 3. ORDER_ID names the order both sides open, so the
+  // Admin and the panel show the SAME row; without it the first row of each
+  // list is taken, and the Admin's first row is whatever tenant placed it.
+  const orderId =
+    process.env.ORDER_ID ||
+    (await page
+      .locator("table tbody tr")
+      .first()
+      .click()
+      .then(() => page.waitForTimeout(1500))
+      .then(() => page.url().split("/orders/")[1]?.split("/")[0] || ""))
+
+  if (orderId) {
+    await page.goto(`${cfg.base}/orders/${orderId}`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1200)
+    await shot(page, "order-detail")
+
+    await page.goto(`${cfg.base}/orders/${orderId}/fulfillment`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1800)
+    await shot(page, "order-fulfillment-create")
+  } else {
+    console.warn("no order id: skipping order-detail and order-fulfillment-create")
+  }
+
+  await page.goto(`${cfg.base}/orders/export`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1200)
+  await shot(page, "order-export")
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")
