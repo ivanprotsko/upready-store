@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 9,
+  "action": "status-set",
+  "ts": "2026-09-12T04:49:29+08:00",
+  "status": "Приёмщик МТ, волна 2: пять хостов живы с валидным TLS; посеянные acme/globex/initech приняты глазами (свои категории, свои картинки, 0 ошибок консоли), изоляция товаров держится. НЕ принято: магазин, созданный мастером (nochlavka, testovyy-magazin), открывается пустым — 0 товаров, 0 категорий, каталог без объяснения пустоты (предмет t-2026-09-12-catalog-taxonomy). Сверх приёмки найдено: canonical/hreflang всех витрин ведут на stores.shipshift.dev → 404 apex; подвал нового магазина показывает чужие коллекции и ссылки на документацию Medusa/Gorgo; сырые подписи опций Medusa на /store; смешанный язык на /ru. fix/mt-tenant-tls-wildcard влит в feat/mt-deploy (df921b0, fast-forward). Отчёт: artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md"
+}
