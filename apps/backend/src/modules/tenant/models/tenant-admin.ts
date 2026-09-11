@@ -11,6 +11,10 @@ const TenantAdmin = model.define("tenant_admin", {
   email: model.text().unique(),
   first_name: model.text().nullable(),
   last_name: model.text().nullable(),
+  // tenant-panel wave 2, piece 4 (profile): the copied profile-edit form
+  // writes the language choice here as `metadata.language`, same field name
+  // the Admin's own `user.metadata` carries it under.
+  metadata: model.json().nullable(),
   tenant: model.belongsTo(() => Tenant, {
     mappedBy: "admins",
   }),

@@ -1,6 +1,13 @@
 import { FetchError } from "@medusajs/js-sdk"
-import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
+import {
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 import { sdk } from "../../lib/client"
+import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 
 // tenant-panel: tenant equivalent of the Admin's hooks/api/users.tsx. The
@@ -16,6 +23,10 @@ export type TenantAdmin = {
   email: string
   first_name: string | null
   last_name: string | null
+  // tenant-panel wave 2, piece 4: the copied profile-edit form writes the
+  // language choice here, as `metadata.language` (docs/tenant-panel/api-contract.md,
+  // "Piece 4: profile").
+  metadata?: Record<string, unknown> | null
   /**
    * Not part of the tenant contract's `GET /tenants/me` response; the copied
    * `components/layout/user-menu` reads it optionally (`avatar || undefined`)
@@ -65,4 +76,55 @@ export const useMe = (
   })
 
   return { ...data, ...rest }
+}
+
+// tenant-panel wave 2, piece 4: `POST /tenants/me` (no id in the route — the
+// caller is always the tenant admin behind the bearer token). The copied
+// `edit-profile-form` calls the Admin's `useUpdateUser(user.id!)`; here it is
+// `useUpdateUser()`, one comment marking the one call-site change.
+export type PostTenantUpdateMeBody = {
+  first_name?: string | null
+  last_name?: string | null
+  metadata?: Record<string, unknown> | null
+}
+
+export const useUpdateUser = (
+  options?: UseMutationOptions<TenantMeResponse, FetchError, PostTenantUpdateMeBody>
+) => {
+  return useMutation({
+    mutationFn: async (payload) => {
+      const { tenant_admin } = await sdk.client.fetch<{ tenant_admin: TenantAdmin }>(
+        "/tenants/me",
+        { method: "POST", body: payload }
+      )
+
+      return { user: tenant_admin }
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: usersQueryKeys.me() })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+// tenant-panel wave 2, piece 4: `POST /tenants/me/password`. Own hook, no
+// Admin counterpart (the Admin only ever changes a password through the
+// unauthenticated reset-password link flow).
+export type PostTenantUpdatePasswordBody = {
+  current_password: string
+  new_password: string
+}
+
+export const useUpdatePassword = (
+  options?: UseMutationOptions<{ ok: true }, FetchError, PostTenantUpdatePasswordBody>
+) => {
+  return useMutation({
+    mutationFn: (payload) =>
+      sdk.client.fetch<{ ok: true }>("/tenants/me/password", {
+        method: "POST",
+        body: payload,
+      }),
+    ...options,
+  })
 }

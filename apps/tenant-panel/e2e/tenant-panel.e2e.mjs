@@ -103,6 +103,18 @@ const fillEverywhere = async (page, selector, value) => {
   }
 }
 
+/**
+ * A client-side route change (React Router) never fires the browser's own
+ * "load" event again, so `page.waitForURL` can time out on a navigation that
+ * already happened; this resolves true/false on the URL match alone, and
+ * never throws, so one flaky wait cannot crash the rest of the script.
+ */
+const softWaitURL = async (page, matches, timeout = 15_000) =>
+  page
+    .waitForURL(matches, { timeout, waitUntil: "commit" })
+    .then(() => true)
+    .catch(() => matches(new URL(page.url())))
+
 const storefrontHasTitle = async (base, title) => {
   await fetch(`${base}/api/revalidate`, {
     method: "POST",
@@ -207,6 +219,163 @@ try {
     if (process.env.E2E_CLEANUP) {
       await get(`/tenants/products/${created.id}`, { method: "DELETE" })
       for (const base of Object.values(STOREFRONTS)) await storefrontHasTitle(base, title)
+    }
+  }
+
+  // tenant-panel wave 2, piece 4 (profile + password): from the user menu,
+  // open Profile, edit the first name and see it in the shell (the UserBadge
+  // reads useMe(), invalidated by useUpdateUser's onSuccess); then change the
+  // password, log out, log in with the new one, and restore the original
+  // password so every later run (and every other worker on the shared stand)
+  // finds admin@acme.test / supersecret exactly as before.
+  {
+    const ORIGINAL_FIRST_NAME = "Ada"
+    const STAMPED_FIRST_NAME = `Ada-e2e-${new Date().toISOString().slice(11, 19).replace(/:/g, "")}`
+    const TEMP_PASSWORD = "e2e-temp-password-1"
+
+    // The shared stand's admin@acme.test / supersecret is used by every
+    // worker's own verification, so a thrown check here must not leave it
+    // mid-change: this finally block tries both possible current passwords
+    // and restores PASSWORD + ORIGINAL_FIRST_NAME through the API directly,
+    // never through the UI, so it cannot itself get stuck on a selector.
+    const restoreViaApi = async () => {
+      for (const candidate of [TEMP_PASSWORD, PASSWORD]) {
+        const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email: "admin@acme.test", password: candidate }),
+        })
+        if (!login.ok) continue
+        const { token } = await login.json()
+        const auth = { authorization: `Bearer ${token}`, "content-type": "application/json" }
+        if (candidate !== PASSWORD) {
+          await fetch(`${BACKEND}/tenants/me/password`, {
+            method: "POST",
+            headers: auth,
+            body: JSON.stringify({ current_password: candidate, new_password: PASSWORD }),
+          })
+        }
+        await fetch(`${BACKEND}/tenants/me`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify({ first_name: ORIGINAL_FIRST_NAME, metadata: null }),
+        })
+        return true
+      }
+      return false
+    }
+
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const page = await ctx.newPage()
+    try {
+      await login(page, "admin@acme.test")
+
+      // The user-menu trigger is the second `aria-haspopup="menu"` element in
+      // the shell (index 0: sidebar collapse, 1: this trigger), a stabler
+      // handle than its text once the profile edit below changes that text.
+      await clickReal(page, page.locator('[aria-haspopup="menu"]').nth(1))
+      await clickReal(page, page.getByText("Profile settings").first())
+      const onProfile = await softWaitURL(page, (u) => u.pathname.endsWith("/settings/profile"))
+      check("profile: user-menu link opens /settings/profile", onProfile, page.url())
+      if (!onProfile) await page.goto(`${PANEL}/settings/profile`, { waitUntil: "networkidle" })
+      await page.waitForLoadState("networkidle")
+
+      // The ActionMenu ellipsis on ProfileGeneralSection is the third
+      // `aria-haspopup="menu"` trigger on this page (sidebar collapse, the
+      // shell's own user menu, then this section's), only mounted once
+      // `useMe()` resolves past the section's loading skeleton.
+      const editTrigger = page.locator('[aria-haspopup="menu"]').nth(2)
+      await editTrigger.waitFor({ state: "visible", timeout: 15_000 })
+      await clickReal(page, editTrigger)
+      await clickReal(page, page.getByText("Edit", { exact: true }).first())
+      const onEdit = await softWaitURL(page, (u) => u.pathname.endsWith("/settings/profile/edit"))
+      if (!onEdit) await page.goto(`${PANEL}/settings/profile/edit`, { waitUntil: "networkidle" })
+      // The drawer's `open` state (and its form) mounts an animation tick after
+      // the URL changes; wait for the field before filling, or `fillEverywhere`
+      // silently no-ops on a zero-count selector and the submit re-saves the
+      // unchanged name.
+      await page.locator('input[name="first_name"]').first().waitFor({ state: "visible", timeout: 15_000 })
+      // The Vaul/Radix drawer is still visually sliding in when the field
+      // becomes "visible" by Playwright's own definition; a click computed
+      // from its still-animating bounding box can miss the real Save button
+      // (measured: intermittent on this exact step, never on a fresh script).
+      await page.waitForTimeout(500)
+      await fillEverywhere(page, 'input[name="first_name"]', STAMPED_FIRST_NAME)
+      // The change-password section's own "Save" button sits in the same page,
+      // outside this drawer; scope to `[role="dialog"]` (the drawer, portalled
+      // to the end of <body>) so `.first()` cannot pick the wrong one.
+      await clickReal(page, page.locator('[role="dialog"] button[type="submit"]').first())
+      const backOnProfile = await softWaitURL(page, (u) => u.pathname.endsWith("/settings/profile"))
+      check("profile: edit form submit returns to /settings/profile", backOnProfile, page.url())
+      if (!backOnProfile) await page.goto(`${PANEL}/settings/profile`, { waitUntil: "networkidle" })
+
+      const shownInShell = await page
+        .getByText(STAMPED_FIRST_NAME, { exact: false })
+        .first()
+        .waitFor({ timeout: 15_000 })
+        .then(() => true)
+        .catch(() => false)
+      check("profile: edited first name shows in the shell (UserBadge)", shownInShell)
+
+      const passwordInputs = page.locator('input[type="password"]')
+      await passwordInputs.nth(0).fill(PASSWORD)
+      await passwordInputs.nth(1).fill(TEMP_PASSWORD)
+      await passwordInputs.nth(2).fill(TEMP_PASSWORD)
+      await clickReal(page, page.locator('button:has-text("Save")').last())
+      const passwordToastOk = await page
+        .getByText("Password changed", { exact: false })
+        .first()
+        .waitFor({ timeout: 15_000 })
+        .then(() => true)
+        .catch(() => false)
+      check("profile: change-password shows a success toast", passwordToastOk)
+
+      await clickReal(page, page.locator('[aria-haspopup="menu"]').nth(1))
+      await clickReal(page, page.getByText("Log out", { exact: false }).first())
+      const onLogin = await softWaitURL(page, (u) => u.pathname.endsWith("/login"))
+      check("profile: log out returns to /login", onLogin, page.url())
+      if (!onLogin) await page.goto(`${PANEL}/login`, { waitUntil: "networkidle" })
+
+      const oldPasswordRejected = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: "admin@acme.test", password: PASSWORD }),
+      }).then((r) => r.status === 401)
+      check("profile: the old password no longer logs in (API)", oldPasswordRejected)
+
+      await page.locator('input[name="email"]').fill("admin@acme.test")
+      await page.locator('input[name="password"]').fill(TEMP_PASSWORD)
+      await page.locator('button[type="submit"]').first().click()
+      const loggedInWithNew = await softWaitURL(page, (u) => !u.pathname.endsWith("/login"))
+      check("profile: logs in with the new password", loggedInWithNew)
+
+      // Restore through the UI (proves the same form works both ways); the
+      // `finally` below repeats it through the API regardless, so a failure in
+      // this UI pass still leaves the stand's password and name correct.
+      await page.goto(`${PANEL}/settings/profile`, { waitUntil: "networkidle" })
+    const restorePasswordInputs = page.locator('input[type="password"]')
+    await restorePasswordInputs.nth(0).fill(TEMP_PASSWORD)
+    await restorePasswordInputs.nth(1).fill(PASSWORD)
+    await restorePasswordInputs.nth(2).fill(PASSWORD)
+    await clickReal(page, page.locator('button:has-text("Save")').last())
+    await page
+      .getByText("Password changed", { exact: false })
+      .first()
+      .waitFor({ timeout: 15_000 })
+      .catch(() => {})
+    await restoreViaApi()
+
+    const restoreGet = await apiLogin("admin@acme.test")
+    const meAfterRestore = await restoreGet("/tenants/me")
+    check(
+      "profile: original password and first name restored",
+      meAfterRestore?.tenant_admin?.first_name === ORIGINAL_FIRST_NAME,
+      JSON.stringify(meAfterRestore?.tenant_admin?.first_name)
+    )
+    check("profile: original password logs in again (API)", Boolean(meAfterRestore))
+    } finally {
+      await restoreViaApi()
+      await ctx.close()
     }
   }
 } finally {

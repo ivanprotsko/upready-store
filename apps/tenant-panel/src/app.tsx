@@ -79,10 +79,18 @@ const routes: RouteObject[] = [
             ],
           },
           {
-            // tenant-panel wave 2, piece 4 (profile): replaced by the copied
-            // routes/profile/profile-detail (+ profile-edit) tree.
+            // tenant-panel wave 2, piece 4 (profile): the copied
+            // routes/profile/profile-detail tree, with profile-edit as its
+            // "edit" child (RouteDrawer), same nesting the Admin uses.
             path: "/settings/profile",
-            lazy: () => import("./routes/not-built"),
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/profile/profile-detail"),
+            children: [
+              {
+                path: "edit",
+                lazy: () => import("./routes/profile/profile-edit"),
+              },
+            ],
           },
           {
             // tenant-panel wave 2, piece 5 (categories): replaced by the copied
