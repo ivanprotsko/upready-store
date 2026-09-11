@@ -20,6 +20,44 @@ import type { SeedMode } from "./store";
 import { getQuery, toKey } from "./utils";
 
 /** Every category handle the active profile seeds, parents and children. */
+/**
+ * A profile's `productOptions` block names the option and each of its values in that
+ * locale (`profiles/<id>/i18n/<locale>.json`). It was written for exactly this and
+ * never read: every option title fell through to `terms`, so "Colourway" reached the
+ * Russian catalog as "Colourway" while the file said «Расцветка» (measured on
+ * shipshift.dev, 2026-09-12). Exported for `scripts/backfill-option-translations.ts`,
+ * which rewrites the rows a seed before this fix left in English.
+ */
+export const translateTerm = (value: string, t: SeedTranslations) =>
+  t.terms[toKey(value)] ?? value;
+
+export const optionTitleFor = (title: string, t: SeedTranslations) =>
+  t.productOptions?.[toKey(title)]?.title ?? translateTerm(title, t);
+
+/** Value keys are matched case-insensitively: a hand-written "10000Mah" has to meet
+ *  `toKey("10 000 mAh")` = "10000MAh" (electronics, measured 2026-09-12). */
+const valueIn = (values: Record<string, string> | undefined, value: string) => {
+  if (!values) return undefined;
+  const key = toKey(value);
+  if (values[key]) return values[key];
+  const wanted = key.toLowerCase();
+  const found = Object.keys(values).find((candidate) => candidate.toLowerCase() === wanted);
+  return found ? values[found] : undefined;
+};
+
+export const optionValueFor = (title: string, value: string, t: SeedTranslations) =>
+  valueIn(t.productOptions?.[toKey(title)]?.values, value) ?? translateTerm(value, t);
+
+/** A variant title is its option values joined by " / "; each segment is looked up
+ *  across every option of the profile, since the title does not say which one. */
+export const variantSegmentFor = (segment: string, t: SeedTranslations) => {
+  for (const option of Object.values(t.productOptions ?? {})) {
+    const value = valueIn(option.values, segment);
+    if (value) return value;
+  }
+  return translateTerm(segment, t);
+};
+
 const ownCategoryHandles = () =>
   SEED_CATEGORIES.flatMap((category) => [
     category.handle,
@@ -87,9 +125,6 @@ export const seedTranslations = async (
         getFields(SEED_TRANSLATIONS[locale]),
       ]),
     );
-
-  const translateTerm = (value: string, t: SeedTranslations) =>
-    t.terms[toKey(value)] ?? value;
 
   // Every graph read below is filtered to what THIS profile seeds. A translation
   // is unique on (reference_id, locale_code), so translating a neighbour's
@@ -175,7 +210,7 @@ export const seedTranslations = async (
     addTranslations(
       "product_option",
       option.id,
-      translationsFor((t) => ({ title: translateTerm(option.title, t) })),
+      translationsFor((t) => ({ title: optionTitleFor(option.title, t) })),
     );
 
     for (const optionValue of option.values ?? []) {
@@ -183,7 +218,7 @@ export const seedTranslations = async (
         "product_option_value",
         optionValue.id,
         translationsFor((t) => ({
-          value: translateTerm(optionValue.value, t),
+          value: optionValueFor(option.title, optionValue.value, t),
         })),
       );
     }
@@ -200,7 +235,7 @@ export const seedTranslations = async (
       const localizeTitle = (t: SeedTranslations) =>
         variant.title
           .split(" / ")
-          .map((segment: string) => translateTerm(segment, t))
+          .map((segment: string) => variantSegmentFor(segment, t))
           .join(" / ");
       addTranslations(
         "product_variant",

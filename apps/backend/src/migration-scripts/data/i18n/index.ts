@@ -5,9 +5,12 @@ import { deepMerge, getStoreProfile } from "../store-profile";
 
 export type ProductText = { title: string; description: string };
 export type LabelText = { label: string; description: string };
+/** An option's title and each of its values in one locale, keyed by `toKey()` of the English. */
+export type ProductOptionText = { title: string; values: Record<string, string> };
 
 export type SeedTranslations = {
   terms: Record<string, string>;
+  productOptions: Record<string, ProductOptionText>;
   categories: Record<string, string>;
   products: Record<string, ProductText>;
   collections: Record<string, string>;
@@ -30,6 +33,7 @@ export type ProfileLocaleFile = {
 
 const TRANSLATION_GROUPS = [
   "terms",
+  "productOptions",
   "categories",
   "products",
   "collections",
@@ -138,8 +142,10 @@ export const mergeLocales = (
     return {
       code,
       name,
+      // Every group exists on every locale, whether the base file carries it or not
+      // (the base catalogs predate `productOptions`), so a lookup never lands on undefined.
       translations: deepMerge(
-        baseLocale?.translations ?? emptyTranslations(),
+        { ...emptyTranslations(), ...(baseLocale?.translations ?? {}) },
         override?.translations,
       ),
     };
