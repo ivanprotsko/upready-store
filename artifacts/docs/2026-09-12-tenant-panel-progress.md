@@ -13,3 +13,5 @@
 ## Строки
 08:47 — каркас: 3 модели + миграция накатаны, 3 links, якоря app.tsx/middlewares.ts, 4 пункта сайдбара; tsc панели rc=0, eslint rc=0, tsc/lint бэкенда rc=0; :9026 и :5181 подняты. Дальше: контракт API волны 2 в docs/tenant-panel/api-contract.md, common-промпт, спавн кусков 4/1/2+3.
 08:51 — контракт волны 2 (все 9 кусков) + промпты 4/1/2+3 закоммичены (0891baf); worktrees feat/mt-panel-2-{profile,product-detail,orders} создаются с установкой зависимостей (лог scratchpad/mk-worktrees-a.log); перед спавном — ff до 0891baf. Дальше: спавн 4 (sonnet), 1 (opus), 2+3 (opus); промпты 5/6/7.
+08:55 — orchestration marker set on Ivan's opening authorization («Orchestration is authorized»); plan: 8 workers (4 sonnet; 1, 2+3, 5, 6, 7, 8, 9 opus), ~2.5–3M tokens; acceptance by my own runs.
+08:56 — волна A запущена: mt2-piece-4 (sonnet, worktree feat/mt-panel-2-profile), mt2-piece-1 (opus, …-product-detail), mt2-piece-2 (opus, …-orders); их отчёты приходят как task-notification. Пишу общий helper api/store/tenant/resolve-tenant.ts + GET /store/tenant/me в trunk, затем worktrees волны B (categories/promotions/pages).

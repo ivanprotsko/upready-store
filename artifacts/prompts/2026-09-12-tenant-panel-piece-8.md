@@ -12,7 +12,7 @@ Build, checking `tsc` after each step:
 1. Backend: `GET/PUT /tenants/home` (zod for `theme`/`content`, reuse `validate()` from
    `api/store/storefront-settings/validation.ts` for `settings`; `category_id` must be an owned category
    through the tenant-product-category link; upsert via the tenant module service; server stamps
-   `updatedAt`), public `GET /store/tenant/home` via `api/store/tenant/resolve-tenant.ts` (create the
+   `updatedAt`), public `GET /store/tenant/home` via `api/store/tenant/resolve-tenant.ts` (EXISTS in trunk; create the
    helper if absent: publishable key context → sales channel → tenant). Matchers under `// ---- piece 8`.
 2. Panel: own screen `routes/home-settings` from the copied Admin primitives: theme preset select
    (labels: Medusa default, Ferrite, Geist, Long Morning, Kerbstone, Scruple, Larchant — transcribe

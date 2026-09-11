@@ -11,7 +11,7 @@ Build, checking `tsc` after each step:
    `listProductCategoryConfig`, `refetchEntities("product_category", …)`); `POST` (create + link,
    `parent_category_id` must be owned), `GET/POST/DELETE /tenants/product-categories/:id`,
    `POST …/:id/products` (add/remove must be owned products). Public
-   `GET /store/tenant/product-categories` through a new shared helper
+   `GET /store/tenant/product-categories` through the shared helper (EXISTS in trunk, use it, do not rewrite it)
    `api/store/tenant/resolve-tenant.ts` (publishable key context → sales channel → tenant via the
    tenant-sales-channel link; export `resolveTenantFromPublishableKey(req)`), Store validator
    `StoreProductCategoriesParams` + `listProductCategoryConfig` from

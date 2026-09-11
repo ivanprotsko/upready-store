@@ -9,7 +9,7 @@ Build, checking `tsc` after each step:
 1. Backend: `GET /tenants/pages`, `GET/PUT /tenants/pages/:key` (zod validator in
    `tenants/validators.ts`; upsert via the tenant module service `listTenantPages`/`createTenantPages`/
    `updateTenantPages`, tenant_id from `getTenantScope`); public `GET /store/tenant/pages` and
-   `GET /store/tenant/pages/:key` through `api/store/tenant/resolve-tenant.ts` (create it if piece 5 has
+   `GET /store/tenant/pages/:key` through `api/store/tenant/resolve-tenant.ts` (EXISTS in trunk; ignore the next clause if the file is there
    not landed in your worktree: publishable key context → sales channel → tenant via the
    tenant-sales-channel link). Matchers under `// ---- piece 7`.
 2. Panel: own screens under `routes/pages/page-list` and `routes/pages/page-edit` built from the copied
