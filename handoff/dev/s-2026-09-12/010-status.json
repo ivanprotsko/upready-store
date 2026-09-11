@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-12T04:57:03+08:00",
+  "status": "t-2026-09-12-catalog-taxonomy активирована и ведётся в worktree ~/upready/worktrees/upready-store/feat/catalog-taxonomy (ветка feat/catalog-taxonomy от fix/mt-tenant-tls-wildcard: мастера онбординга на dev нет, он только на линии MT). Замер зафиксирован коммитом 2b8c99e: 5 профилей = бренд+тема+копирайт+каталог (vertical — свободный текст, справочника товарных категорий в коде нет), 10 корневых и 24 дочерних категории, 67 товаров привязаны к дочерней; мастер уже показывает те же пять id как ОФОРМЛЕНИЕ под именами брендов (Ferrite/Long Morning/Kerbstone/Scruple/Larchant), а созданный магазин пуст — POST /api/demo/onboarding каталог не засевает. Работа остановлена на развилке q-catalog-category-vs-profile (вопрос Ивану в чате): рекомендация A — товарная категория отдельным справочником над каталогом, профиль остаётся демо-брендом внутри неё. До ответа таксономия не пишется."
+}
