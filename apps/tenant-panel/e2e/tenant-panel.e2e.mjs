@@ -42,6 +42,8 @@ const STOREFRONTS = Object.fromEntries(
     .map((pair) => pair.split("="))
 )
 const PASSWORD = "supersecret"
+/** The Admin's product and order tables ask for 20 rows a page; the screen checks compare against one page. */
+const PAGE_SIZE = 20
 const TENANTS = [
   { email: "admin@acme.test", name: "Acme" },
   { email: "admin@globex.test", name: "Globex" },
@@ -473,8 +475,15 @@ try {
       await gctx.close()
 
       await acme(`/tenants/products/${target.id}`, { method: "DELETE" })
-      const gone = await acme(`/tenants/products?q=${encodeURIComponent(detailTitle)}`)
-      check("Acme: the detail fixture is deleted again", (gone.products || []).length === 0)
+      // By id, not by title: `q` is a substring search and several workers run
+      // this script against the same stand, so a neighbour's fixture created in
+      // the same minute shares this title's prefix and would read as "not gone".
+      const gone = await acme(`/tenants/products?id=${target.id}`)
+      check(
+        "Acme: the detail fixture is deleted again",
+        !(gone.products || []).some((row) => row.id === target.id),
+        `${gone.count} rows for that id`
+      )
     }
   }
 
@@ -1103,6 +1112,213 @@ try {
       JSON.stringify(globexPages?.map((p) => [p.key, p.id])).slice(0, 120)
     )
     await gctx.close()
+  }
+  // ---- wave 2, piece 6: promotions and campaigns ----------------------------
+  // Acme creates a percentage promotion with a code from the panel, finds it in
+  // the list and on the detail screen with the sales-channel rule the backend
+  // forces, and Globex sees none of it. The rule is checked twice on purpose:
+  // once as the words the operator reads on the screen ("Sales Channel",
+  // "Acme"), once as the row the API returns, because a rule that renders and a
+  // rule that is stored are two different claims.
+  {
+    const stamp = Date.now().toString(36).toUpperCase()
+    const CODE = `E2E${stamp}`
+    const CAMPAIGN_NAME = `E2E campaign ${stamp}`
+    const CAMPAIGN_ID = `e2e-${stamp.toLowerCase()}`
+    const acme = await apiLogin("admin@acme.test")
+    const globex = await apiLogin("admin@globex.test")
+    const me = await acme("/tenants/me")
+    const acmeChannelId = me?.tenant_admin?.tenant?.sales_channel?.id
+    const acmeChannelName = me?.tenant_admin?.tenant?.sales_channel?.name
+    check("promotions: the tenant has a sales channel to scope by", Boolean(acmeChannelId), String(acmeChannelId))
+
+    const beforeApi = await acme("/tenants/promotions?limit=100")
+    const campaignsApi = await acme("/tenants/campaigns?limit=100")
+
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const page = await ctx.newPage()
+    let createdId = null
+    let createdCampaign = null
+    try {
+      await login(page, "admin@acme.test")
+
+      await page.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const listRows = await rowsOf(page)
+      check(
+        "promotions: the list shows exactly the tenant's own promotions",
+        listRows.length === beforeApi.count,
+        `screen ${listRows.length}, api ${beforeApi.count}`
+      )
+
+      await page.goto(`${PANEL}/campaigns`, { waitUntil: "networkidle" })
+      const campaignRows = await rowsOf(page)
+      check(
+        "campaigns: the list shows exactly the tenant's own campaigns",
+        campaignRows.length === campaignsApi.count,
+        `screen ${campaignRows.length}, api ${campaignsApi.count}`
+      )
+
+      // Create: template tab -> details tab -> campaign tab -> Save. The
+      // "Percentage off order" template is the one that needs no target rules,
+      // so the form is complete with a code and a value.
+      await page.goto(`${PANEL}/promotions/create`, { waitUntil: "networkidle" })
+      await page.waitForTimeout(1000)
+      await clickReal(page, page.getByText("Percentage off order", { exact: false }).first())
+      await clickReal(page, page.locator('button:has-text("Continue")').first())
+      await page.waitForTimeout(800)
+      await fillEverywhere(page, 'input[name="code"]', CODE)
+      await fillEverywhere(page, 'input[name="application_method.value"]', "15")
+      // The status choice is a RadioGroup.ChoiceBox: its `input[name="status"]`
+      // is visually hidden, so the click has to land on the box that carries the
+      // "Active" label. Without this the promotion is created as a Draft.
+      await clickReal(page, page.getByText("Customers will be able to use the code").first())
+      await clickReal(page, page.locator('button:has-text("Continue")').first())
+      await page.waitForTimeout(800)
+      await clickReal(page, page.locator('button:has-text("Save")').first())
+
+      const onDetail = await softWaitURL(page, (u) => /\/promotions\/promo_/.test(u.pathname), 30_000)
+      check("promotions: create lands on the new promotion's detail screen", onDetail, page.url())
+
+      await page.waitForLoadState("networkidle")
+      await page.waitForTimeout(800)
+      const detailText = await page.locator("body").innerText()
+      check("promotions: the detail screen shows the created code", detailText.includes(CODE))
+      check(
+        "promotions: the detail screen shows the forced sales-channel rule",
+        detailText.includes("Sales Channel") && detailText.includes(acmeChannelName),
+        `channel "${acmeChannelName}"`
+      )
+
+      const afterApi = await acme("/tenants/promotions?limit=100")
+      const created = (afterApi.promotions || []).find((row) => row.code === CODE)
+      createdId = created?.id ?? null
+      check("promotions: the API lists the promotion the panel created", Boolean(created), String(createdId))
+      check(
+        "promotions: the promotion was created Active, as the form was filled",
+        created?.status === "active",
+        String(created?.status)
+      )
+      const channelRule = (created?.rules || []).find((rule) => rule.attribute === "sales_channel_id")
+      check(
+        "promotions: the created promotion carries the tenant's sales-channel rule",
+        Boolean(channelRule) &&
+          channelRule.operator === "eq" &&
+          (channelRule.values || []).map((v) => v.value).join(",") === acmeChannelId,
+        JSON.stringify(channelRule)
+      )
+
+      await page.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const afterRows = await rowsOf(page)
+      check(
+        "promotions: the new code shows in the list",
+        afterRows.some((row) => row.includes(CODE)),
+        `${afterRows.length} rows`
+      )
+
+      // Campaigns: one screen, one form, the same ownership rule. The campaign
+      // is created from the panel rather than through the API so the screenshot
+      // pair below has a row to show and the create form is actually exercised.
+      await page.goto(`${PANEL}/campaigns/create`, { waitUntil: "networkidle" })
+      await page.waitForTimeout(1000)
+      await fillEverywhere(page, 'input[name="name"]', CAMPAIGN_NAME)
+      await fillEverywhere(page, 'input[name="campaign_identifier"]', CAMPAIGN_ID)
+      await fillEverywhere(page, 'input[name="budget.limit"]', "100")
+      await clickReal(page, page.locator('button:has-text("Create")').first())
+
+      const onCampaign = await softWaitURL(page, (u) => /\/campaigns\/procamp_/.test(u.pathname), 30_000)
+      check("campaigns: create lands on the new campaign's detail screen", onCampaign, page.url())
+      await page.waitForLoadState("networkidle")
+      await page.waitForTimeout(800)
+      const campaignText = await page.locator("body").innerText()
+      check(
+        "campaigns: the detail screen shows the created campaign",
+        campaignText.includes(CAMPAIGN_NAME) && campaignText.includes(CAMPAIGN_ID)
+      )
+
+      const campaignsAfter = await acme("/tenants/campaigns?limit=100")
+      createdCampaign = (campaignsAfter.campaigns || []).find((row) => row.name === CAMPAIGN_NAME)
+      check(
+        "campaigns: the API lists the campaign the panel created",
+        Boolean(createdCampaign),
+        String(createdCampaign?.id)
+      )
+    } finally {
+      await ctx.close()
+    }
+
+    const otherCtx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const otherPage = await otherCtx.newPage()
+    try {
+      await login(otherPage, "admin@globex.test")
+
+      await otherPage.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const theirRows = await rowsOf(otherPage)
+      check(
+        "promotions: the other tenant's list does not show the code",
+        !theirRows.some((row) => row.includes(CODE)),
+        `${theirRows.length} rows`
+      )
+
+      // Isolation is "Acme's rows are absent", not "the list is empty": Globex
+      // may own promotions of its own, and an emptiness check would go red on
+      // stand state that has nothing to do with this piece.
+      const theirApi = await globex("/tenants/promotions?limit=100")
+      check(
+        "promotions: the other tenant's API list does not carry the code",
+        !(theirApi.promotions || []).some((row) => row.code === CODE),
+        `count ${theirApi.count}`
+      )
+
+      if (createdId) {
+        await otherPage.goto(`${PANEL}/promotions/${createdId}`, { waitUntil: "networkidle" })
+        await otherPage.waitForTimeout(1500)
+        const text = await otherPage.locator("body").innerText()
+        check(
+          "promotions: the other tenant gets the not-found screen on that promotion",
+          text.includes("404") || text.toLowerCase().includes("no page at this address"),
+          text.slice(0, 120).replace(/\n+/g, " ")
+        )
+      }
+
+      const theirCampaigns = await globex("/tenants/campaigns?limit=100")
+      check(
+        "campaigns: the other tenant's list does not carry Acme's new campaign",
+        !(theirCampaigns.campaigns || []).some((row) => row.id === createdCampaign?.id),
+        `their count ${theirCampaigns.count}`
+      )
+
+      if (createdCampaign) {
+        await otherPage.goto(`${PANEL}/campaigns/${createdCampaign.id}`, { waitUntil: "networkidle" })
+        await otherPage.waitForTimeout(1500)
+        const campaignText = await otherPage.locator("body").innerText()
+        check(
+          "campaigns: the other tenant gets the not-found screen on that campaign",
+          campaignText.includes("404") || campaignText.toLowerCase().includes("no page at this address"),
+          campaignText.slice(0, 120).replace(/\n+/g, " ")
+        )
+      }
+    } finally {
+      await otherCtx.close()
+    }
+
+    if (process.env.E2E_CLEANUP === "1") {
+      if (createdId) {
+        await acme(`/tenants/promotions/${createdId}`, { method: "DELETE" })
+        const afterDelete = await acme("/tenants/promotions?limit=100")
+        check(
+          "promotions: cleanup removed the created promotion",
+          !(afterDelete.promotions || []).some((row) => row.code === CODE)
+        )
+      }
+      if (createdCampaign) {
+        await acme(`/tenants/campaigns/${createdCampaign.id}`, { method: "DELETE" })
+        const afterDelete = await acme("/tenants/campaigns?limit=100")
+        check(
+          "campaigns: cleanup removed the created campaign",
+          !(afterDelete.campaigns || []).some((row) => row.id === createdCampaign.id)
+        )
+      }
+    }
   }
 } finally {
   await browser.close()

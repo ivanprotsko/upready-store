@@ -42,3 +42,7 @@ export * from "./plugins"
 // tenant-panel: added by wave 2, piece 7 (content pages). The panel's own
 // module, no Admin counterpart.
 export * from "./pages"
+// tenant-panel: added by wave-2 piece 6 (promotions + campaigns). Both modules
+// are the Admin's own hooks pointed at /tenants/promotions and /tenants/campaigns.
+export * from "./promotions"
+export * from "./campaigns"

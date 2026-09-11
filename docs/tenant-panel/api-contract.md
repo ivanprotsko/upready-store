@@ -338,6 +338,43 @@ on :9023 lists `sales_channel` → `sales_channel_id`. `rules/batch` may never r
 rule (400). Panel: copy `routes/promotions/**` and `routes/campaigns/**`, hooks `promotions.tsx`,
 `campaigns.tsx`.
 
+IMPLEMENTATION NOTES, written by the piece-6 worker after building and measuring it:
+
+- The attribute was re-measured on this piece's own backend (`GET /admin/promotions/rule-attribute-options/rules`
+  on :9032, 2026-09-11): `sales_channel -> value "sales_channel_id"`, field type `multiselect`,
+  alongside `customer_group`, `region`, `country` and `currency_code`. `sales_channel` is the
+  `rule_attribute_id` path segment; `sales_channel_id` is what goes into a rule's `attribute`.
+- `POST /tenants/promotions` answers `400 NOT_ALLOWED` when the tenant has no sales channel. There is
+  nothing to confine the promotion to in that state, and a promotion with no channel rule discounts
+  every cart on the backend, other tenants' storefronts included.
+- `POST /tenants/promotions/:id/rules/batch` refuses three things with `400 INVALID_DATA`: deleting
+  the `sales_channel_id` rule, updating it, and creating a second one. The third matters as much as
+  the first two, because two channel rules widen the promotion instead of moving it. `target-rules`
+  and `buy-rules` are NOT guarded: they choose line items inside a cart that already passed the
+  promotion's own rules, so they cannot reach another tenant's channel.
+- `GET /tenants/promotions/:id` accepts a code in the `:id` position, as the Admin's route does.
+  Ownership is therefore decided after the lookup: a code another tenant owns resolves to a promotion
+  outside the owned set and answers 404, identical to a code that does not exist.
+- `GET /tenants/promotions/rule-value-options/:rule_type/:rule_attribute_id` scopes TWO attributes,
+  not one. `sales_channel` answers the tenant's own channel, as this contract asked. `product` is
+  scoped to the tenant's own products as well, through the tenant-product link: the target-rule and
+  buy-rule builders pick products by title, and the Admin's handler would have listed every tenant's
+  catalog in that combobox. Every other attribute (region, country, currency, collection, tag, type,
+  customer group) keeps the Admin's own handler, because it is the same global reference data the
+  `/tenants/*` reference lists already expose.
+- `deletePromotionsWorkflow` and `deleteCampaignsWorkflow` carry no `removeRemoteLinkStep`, unlike
+  `deleteProductsWorkflow`. The tenant-promotion and tenant-campaign rows therefore outlive the row
+  they point at, and `tenant.promotions` keeps feeding a dead id to every list. The DELETE verbs go
+  through `deleteTenantPromotionWorkflow` / `deleteTenantCampaignWorkflow`, which add that step.
+  Creation goes through `createTenantPromotionWorkflow` / `createTenantCampaignWorkflow` for the
+  mirror reason: the link is a workflow step, so a promotion whose link fails to write is rolled back
+  rather than left live in the channel and invisible in the panel.
+- The Admin's `CreateCampaign` body is `.strict()` and declares no `promotions` key, so a campaign is
+  always created empty and filled through `POST /tenants/campaigns/:id/promotions`. A promotion body
+  may still create its campaign inline (`campaign` instead of `campaign_id`); that campaign becomes
+  the tenant's own and gets the tenant-campaign link in the same workflow. A `campaign_id` naming
+  another tenant's campaign is a 404.
+
 ## Piece 7: content pages
 
 Model `tenant_page` (key ∈ contacts | legal | about | privacy | offer; locale default `en`; title;

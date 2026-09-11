@@ -134,7 +134,30 @@ if (side === "storefront") {
   }
 } else {
 
+
+/**
+ * One promotion id both sides open. The native Admin sees every promotion, so
+ * the tenant's own is the id that works on both; a stand with no promotion for
+ * this tenant simply skips the detail shot rather than failing the run.
+ */
+const resolvePromotionId = async () => {
+  if (process.env.SHOT_PROMOTION_ID) {
+    return process.env.SHOT_PROMOTION_ID
+  }
+  const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: PANEL_EMAIL, password: "supersecret" }),
+  })
+  const { token } = await login.json()
+  const list = await fetch(`${BACKEND}/tenants/promotions?limit=1&fields=id,code`, {
+    headers: { authorization: `Bearer ${token}` },
+  })
+  const { promotions } = await list.json()
+  return promotions?.[0]?.id
+}
 const productId = await resolveProductId()
+const promotionId = await resolvePromotionId()
 if (!productId) {
   console.error(`no product to shoot: set SHOT_PRODUCT_ID or seed ${PANEL_EMAIL}'s tenant`)
   process.exit(2)
@@ -299,6 +322,22 @@ try {
     await page.waitForTimeout(800)
     await shot(page, "pages")
   }
+
+  // tenant-panel wave 2, piece 6 (promotions + campaigns).
+  await page.goto(`${cfg.base}/promotions`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(700)
+  await shot(page, "promotions")
+
+  await page.goto(`${cfg.base}/promotions/create`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1000)
+  await shot(page, "promotion-create")
+
+  if (promotionId) {
+    await page.goto(`${cfg.base}/promotions/${promotionId}`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1200)
+    await shot(page, "promotion-detail")
+  }
+
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")

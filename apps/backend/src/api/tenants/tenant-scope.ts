@@ -206,3 +206,104 @@ export const assertOwnedCategory = async (
     );
   }
 };
+
+/**
+ * Every promotion id linked to the tenant, through the tenant-promotion link
+ * (`src/links/tenant-promotion.ts`). `POST /tenants/promotions` writes the
+ * link, so a promotion the native Admin created is nobody's here and a
+ * promotion another tenant created is not in this set.
+ */
+export const listTenantPromotionIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.promotions.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  if (!tenantAdmin?.tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return idsOf(tenantAdmin.tenant.promotions);
+};
+
+/** Every campaign id linked to the tenant, through the tenant-campaign link. */
+export const listTenantCampaignIds = async (req: AuthenticatedMedusaRequest): Promise<string[]> => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: ["id", "tenant.id", "tenant.campaigns.id"],
+    filters: {
+      id: [req.auth_context.actor_id],
+    },
+  });
+
+  if (!tenantAdmin?.tenant?.id) {
+    throw tenantAdminNotFound(req.auth_context.actor_id);
+  }
+
+  return idsOf(tenantAdmin.tenant.campaigns);
+};
+
+/** 404 for a promotion the tenant does not own, worded like Medusa's own miss. */
+export const assertOwnedPromotion = async (
+  req: AuthenticatedMedusaRequest,
+  promotionId: string,
+): Promise<void> => {
+  const ownedIds = await listTenantPromotionIds(req);
+
+  if (!ownedIds.includes(promotionId)) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Promotion with id or code: ${promotionId} was not found`,
+    );
+  }
+};
+
+/**
+ * 404 on the first promotion id in the list the tenant does not own. The
+ * campaign-promotions batch addresses promotions by bare id, so every id in
+ * `add`/`remove` is checked before the workflow runs.
+ */
+export const assertOwnedPromotions = async (
+  req: AuthenticatedMedusaRequest,
+  promotionIds: string[],
+): Promise<void> => {
+  if (promotionIds.length === 0) {
+    return;
+  }
+
+  const ownedIds = new Set(await listTenantPromotionIds(req));
+  const foreign = promotionIds.find((id) => !ownedIds.has(id));
+
+  if (foreign) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Promotion with id or code: ${foreign} was not found`,
+    );
+  }
+};
+
+/** 404 for a campaign the tenant does not own. */
+export const assertOwnedCampaign = async (
+  req: AuthenticatedMedusaRequest,
+  campaignId: string,
+): Promise<void> => {
+  const ownedIds = await listTenantCampaignIds(req);
+
+  if (!ownedIds.includes(campaignId)) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_FOUND,
+      `Campaign with id: ${campaignId} was not found`,
+    );
+  }
+};

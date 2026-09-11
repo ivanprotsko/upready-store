@@ -195,6 +195,17 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ReceiptPercent />,
       label: t("promotions.domain"),
       to: "/promotions",
+      // tenant-panel wave 2, piece 6: Campaigns hangs under Promotions exactly as
+      // it does in the Admin's own nav (components/layout/main-layout), which is
+      // the only way the campaigns screens are reachable from the sidebar. The
+      // nested list renders through the LayoutEditContext default (edit mode off,
+      // nothing hidden, order unchanged), so no LayoutEditProvider is needed.
+      items: [
+        {
+          label: t("campaigns.domain"),
+          to: "/campaigns",
+        },
+      ],
     },
     {
       icon: <DocumentText />,
