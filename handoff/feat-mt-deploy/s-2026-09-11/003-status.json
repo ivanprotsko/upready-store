@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-deploy",
+  "session": "s-2026-09-11",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-11T23:34:29+08:00",
+  "status": "МТ-деплой shipshift.dev живой: пять контейнеров healthy, движок /app и панель отвечают 200, три технических субдомена и custombot.space/setpomo.com с www — 302 с валидным сертификатом Let's Encrypt; shiftship.dev 502 из-за чужого роутера upready-studio (q-mt-third-tenant-domain). Сид трёх профилей в одну базу починен: заявленное в шапке initial-data-seed.ts поведение было ложным, падало дважды на общих product_option и их переводах (817acc2, 21c6c93) — теперь 1 store, 3 sales channel, 40 товаров без пересечений. Замер, который просил Иван: домен, добавленный через панель, получает рабочий сертификат за 70 с без редеплоя (T+19s запись в mt-tenants.yml, T+70s https 302 ssl_verify=0). Проба storefront починена (701392b). Не сделано: имя магазина по тенанту, изоляция категорий, картинки категорий и hero, страница ссылок — брифы W1/W2/W3 готовы, фан-аут ждёт ответа на q-mt-wave-fanout."
+}
