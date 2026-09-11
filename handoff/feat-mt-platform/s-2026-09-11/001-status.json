@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-platform",
+  "session": "s-2026-09-11",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-11T08:49:40+08:00",
+  "status": "Платформенная ночь 11→12.09: оркестратор feat/mt-platform запустил 6 воркеров (W1 admin API+soft-delete, W2 файлы под tenants/<id>/, W3 экспорт, W4 онбординг-спека, W6 хостинг-спека с замерами, W7 UI «Магазины»); W5 (detach+backup) стартует после W3. Контракт docs/multitenancy/admin-tenants-api-contract.md, брифы docs/prompts/2026-09-11-platform-night/, журнал artifacts/docs/2026-09-12-platform-progress.md. Свой backend :9025 (9024 занят feat/store-profiles). База домена — upready.dev (поправка Ивана 08:48). Commit 4a78d1b."
+}

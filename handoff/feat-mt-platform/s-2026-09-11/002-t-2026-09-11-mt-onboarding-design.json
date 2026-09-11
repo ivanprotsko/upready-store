@@ -1,0 +1,34 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-platform",
+  "session": "s-2026-09-11",
+  "index": 2,
+  "action": "task-done",
+  "ts": "2026-09-11T08:57:30+08:00",
+  "status": "Платформенная ночь 11→12.09: оркестратор feat/mt-platform запустил 6 воркеров (W1 admin API+soft-delete, W2 файлы под tenants/<id>/, W3 экспорт, W4 онбординг-спека, W6 хостинг-спека с замерами, W7 UI «Магазины»); W5 (detach+backup) стартует после W3. Контракт docs/multitenancy/admin-tenants-api-contract.md, брифы docs/prompts/2026-09-11-platform-night/, журнал artifacts/docs/2026-09-12-platform-progress.md. Свой backend :9025 (9024 занят feat/store-profiles). База домена — upready.dev (поправка Ивана 08:48). Commit 4a78d1b.",
+  "task": {
+    "id": "t-2026-09-11-mt-onboarding-design",
+    "title": "Онбординг после оплаты: аккаунт клиента + покупки (polar.sh, tribute) + одноразовая ссылка → мастер создания магазина с предзаполнением — спека и развилки",
+    "state": "done",
+    "priority": "high",
+    "details": "Иван 11.09 07:1x, пункты 6.2 и 6.2.1 дословно в docs/multitenancy/2026-09-11-night-2-platform-brief.md (часть B1). Ночью — спека docs/multitenancy/onboarding-spec.md с рекомендацией и развилками (идентичность аккаунта, что даёт тариф, hard/soft delete, ручная покупка); код после решений Ивана.",
+    "tags": [
+      "multitenancy",
+      "platform",
+      "onboarding"
+    ],
+    "created": "2026-09-11T07:38:38+08:00",
+    "updated": "2026-09-11T08:57:30+08:00",
+    "goal": "Записана спека цепочки upready.dev → оплата (polar.sh/tribute) → аккаунт + покупка → одноразовая ссылка → мастер онбординга с предзаполнением → магазин создан и владелец в панели; развилки для Ивана заведены вопросами",
+    "acceptance": [
+      "docs/multitenancy/onboarding-spec.md: модель platform (account, purchase, onboarding_token, link account↔tenant 1:N), вебхуки с проверкой подписи по первоисточникам polar.sh и tribute (fetch, 17a), шаги мастера с указанием предзаполненных и скрытых полей, контракт ссылки для сайта",
+      "развилки заведены через handoff question add (идентичность аккаунта, что даёт тариф, hard/soft delete и срок хранения, ручная покупка)",
+      "кода нет до решений Ивана"
+    ],
+    "approved": "2026-09-11T07:39:45+08:00",
+    "commits": [
+      "9fc3969"
+    ]
+  }
+}

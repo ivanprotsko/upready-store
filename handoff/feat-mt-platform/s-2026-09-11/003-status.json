@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-platform",
+  "session": "s-2026-09-11",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-11T09:20:11+08:00",
+  "status": "Платформенная ночь: W4 onboarding-spec done (задача t-2026-09-11-mt-onboarding-design done, 5 вопросов Ивану), W2 файлы+W3 экспорт закоммичены 33544fc, W6 hosting-spec закоммичен 8b11f0e (нагрузочные p95 скомпрометированы чужими соединениями к стендовому PG — нужен изолированный повтор), W5 detach+backup запущен, W1 admin API и W7 UI «Магазины» ещё работают; далее интеграция tsc+lint+тесты, скриншоты, отчёт READY."
+}
