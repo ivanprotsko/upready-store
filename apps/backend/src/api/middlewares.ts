@@ -70,7 +70,12 @@ import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validator
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
-import { PostTenantCreateSchema, TenantGetProductOptionsParams } from "./tenants/validators";
+import {
+  PostTenantCreateSchema,
+  PostTenantUpdateMeSchema,
+  PostTenantUpdatePasswordSchema,
+  TenantGetProductOptionsParams,
+} from "./tenants/validators";
 
 /**
  * `/tenants/*` is the tenant admin's own namespace, next to `/admin` (staff)
@@ -252,6 +257,16 @@ export default defineMiddlewares({
     // one another's lines. Every route stays behind the "/tenants/*" authenticate
     // above; validators/query-configs come from the Admin's own modules.
     // ---- piece 4: profile (/tenants/me, /tenants/me/password)
+    {
+      matcher: "/tenants/me",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantUpdateMeSchema)],
+    },
+    {
+      matcher: "/tenants/me/password",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
+    },
 
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
     {

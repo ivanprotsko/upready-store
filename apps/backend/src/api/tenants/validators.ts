@@ -33,3 +33,34 @@ export type PostTenantCreateBody = z.infer<typeof PostTenantCreateSchema>;
 export const TenantGetProductOptionsParams = AdminGetProductOptionsParams.extend({
   product_id: z.union([z.string(), z.array(z.string())]).optional(),
 });
+
+// ---- piece 4: profile (/tenants/me, /tenants/me/password)
+
+/**
+ * `POST /tenants/me` body. Same three fields the Admin's `AdminUpdateUser`
+ * accepts (`first_name`, `last_name`, `metadata`), minus `avatar_url` (no
+ * upload flow wired for the tenant admin's own avatar in this piece). The
+ * copied `edit-profile-form` writes the language choice to
+ * `metadata.language`, the panel's own equivalent of the Admin's
+ * `user.metadata.language`.
+ */
+export const PostTenantUpdateMeSchema = z.strictObject({
+  first_name: z.string().nullish(),
+  last_name: z.string().nullish(),
+  metadata: z.record(z.string(), z.unknown()).nullish(),
+});
+
+export type PostTenantUpdateMeBody = z.infer<typeof PostTenantUpdateMeSchema>;
+
+/**
+ * `POST /tenants/me/password` body. `new_password` shorter than 8 characters
+ * is `INVALID_DATA` (zod raises before the route runs); a wrong
+ * `current_password` is the route's own `401 UNAUTHORIZED`, never a zod issue,
+ * because zod cannot see the stored hash.
+ */
+export const PostTenantUpdatePasswordSchema = z.strictObject({
+  current_password: z.string().min(1),
+  new_password: z.string().min(8),
+});
+
+export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;

@@ -1,5 +1,24 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
+import updateTenantAdminWorkflow from "../../../workflows/tenant/update-tenant-admin";
+import type { PostTenantUpdateMeBody } from "../validators";
+
+const TENANT_ADMIN_ME_FIELDS = [
+  "id",
+  "email",
+  "first_name",
+  "last_name",
+  "metadata",
+  "tenant.*",
+  "tenant.sales_channel.id",
+  "tenant.sales_channel.name",
+  "tenant.sales_channel.is_disabled",
+  "tenant.api_key.id",
+  "tenant.api_key.token",
+  "tenant.api_key.redacted",
+  "tenant.api_key.title",
+  "tenant.api_key.type",
+];
 
 /**
  * `GET /tenants/me` — the tenant behind the token, with its sales channel and
@@ -16,21 +35,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     data: [tenantAdmin],
   } = await query.graph({
     entity: "tenant_admin",
-    fields: [
-      "id",
-      "email",
-      "first_name",
-      "last_name",
-      "tenant.*",
-      "tenant.sales_channel.id",
-      "tenant.sales_channel.name",
-      "tenant.sales_channel.is_disabled",
-      "tenant.api_key.id",
-      "tenant.api_key.token",
-      "tenant.api_key.redacted",
-      "tenant.api_key.title",
-      "tenant.api_key.type",
-    ],
+    fields: TENANT_ADMIN_ME_FIELDS,
     filters: {
       id: [req.auth_context.actor_id],
     },
@@ -42,6 +47,47 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       `Tenant admin ${req.auth_context.actor_id} was not found.`,
     );
   }
+
+  res.json({
+    tenant_admin: tenantAdmin,
+  });
+};
+
+/**
+ * `POST /tenants/me` — tenant-panel wave 2, piece 4. Updates the caller's own
+ * `first_name`/`last_name`/`metadata` (the copied profile-edit form writes the
+ * language choice to `metadata.language`, the panel's equivalent of the
+ * Admin's `user.metadata.language`) and answers in the same shape `GET
+ * /tenants/me` reads, so the panel's `useMe()` cache can be replaced from
+ * either response.
+ *
+ * The id updated is always `req.auth_context.actor_id`, from the token, never
+ * a body field: there is no tenant-admin id in this route, by design, the
+ * same way `POST /tenants/me/password` has none.
+ */
+export const POST = async (
+  req: AuthenticatedMedusaRequest<PostTenantUpdateMeBody>,
+  res: MedusaResponse,
+) => {
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+  const actorId = req.auth_context.actor_id;
+
+  await updateTenantAdminWorkflow(req.scope).run({
+    input: {
+      id: actorId,
+      ...req.validatedBody,
+    },
+  });
+
+  const {
+    data: [tenantAdmin],
+  } = await query.graph({
+    entity: "tenant_admin",
+    fields: TENANT_ADMIN_ME_FIELDS,
+    filters: {
+      id: [actorId],
+    },
+  });
 
   res.json({
     tenant_admin: tenantAdmin,

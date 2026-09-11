@@ -20,9 +20,12 @@ import { mkdirSync } from "node:fs"
 import path from "node:path"
 
 const require = createRequire(import.meta.url)
+// tenant-panel wave 2, piece 4: was a hardcoded path into a SIBLING worktree
+// (feat/mt-vendors), which this worktree has no business depending on;
+// resolved relative to this worktree's own node_modules instead, the same way
+// e2e/tenant-panel.e2e.mjs already does.
 const { chromium } = require(
-  process.env.PLAYWRIGHT ||
-    "/Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-vendors/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright"
+  new URL("../node_modules/.pnpm/playwright@1.63.0/node_modules/playwright", import.meta.url).pathname
 )
 
 const side = process.argv[2]
@@ -139,6 +142,15 @@ try {
   await page.goto(`${cfg.base}/products/${productId}/prices`, { waitUntil: "networkidle" })
   await page.waitForTimeout(1500)
   await shot(page, "product-prices")
+  // tenant-panel wave 2, piece 4 (profile + password).
+  await page.goto(`${cfg.base}/settings/profile`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await shot(page, "profile")
+
+  await page.goto(`${cfg.base}/settings/profile/edit`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await shot(page, "profile-edit")
+
   console.log(`done in ${Date.now() - t0} ms`)
 } catch (e) {
   await shot(page, "error")
