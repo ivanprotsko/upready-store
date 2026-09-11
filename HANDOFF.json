@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T09:03:20+08:00",
-  "status": "Волна 2: trunk ab223b7 (каркас 0fd518d, контракт 0891baf, промпты c66e6dd/bb40bb7, resolver /store/tenant/me ab223b7). Воркеры волны A запущены (mt2-piece-4 sonnet, mt2-piece-1 opus, mt2-piece-2 opus) в worktrees feat/mt-panel-2-{profile,product-detail,orders}; worktrees волны B/C создаются (categories/promotions/pages/home/by-host). Приёмка каждого куска = мои прогоны tsc/lint/seam/e2e + скриншоты, merge в feat/mt-panel-2, строка в …-progress.md. Отчёт …-night.md = NOT READY. Стенд оркестратора :9026/:5181.",
+  "updated": "2026-09-11T09:38:37+08:00",
+  "status": "Волна 2: кусок 1 (product detail) принят и слит (2b7cf57 → merge 7fdfeb9; мои прогоны tsc/eslint/lint rc=0, seam 7/7); e2e на живой :5181 идёт. В работе: mt2-piece-4 (profile, sonnet), mt2-piece-2 (orders detail+export, opus, на этапе e2e), mt2-piece-5 (categories, opus, запущен). Дальше по слотам 6 → 7 → 8 → 9. Отчёт …-night.md = NOT READY; прогресс — …-progress.md.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

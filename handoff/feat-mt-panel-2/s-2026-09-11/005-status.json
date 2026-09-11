@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-11T09:38:38+08:00",
+  "status": "Волна 2: кусок 1 (product detail) принят и слит (2b7cf57 → merge 7fdfeb9; мои прогоны tsc/eslint/lint rc=0, seam 7/7); e2e на живой :5181 идёт. В работе: mt2-piece-4 (profile, sonnet), mt2-piece-2 (orders detail+export, opus, на этапе e2e), mt2-piece-5 (categories, opus, запущен). Дальше по слотам 6 → 7 → 8 → 9. Отчёт …-night.md = NOT READY; прогресс — …-progress.md."
+}
