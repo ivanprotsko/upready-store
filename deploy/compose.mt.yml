@@ -130,6 +130,9 @@ services:
         NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${ENGINE_DOMAIN}
         NEXT_PUBLIC_BASE_URL: https://${STORES_DOMAIN}
         NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+        # Baked in, because the browser reads it too (next-intl routing and the
+        # x-default hreflang). The multi-tenant storefront opens in Russian.
+        NEXT_PUBLIC_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-ru}
         NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
         STORE_MEDIA_BASE_URL: https://${ENGINE_DOMAIN}/static/store-profiles/${PROFILE:-sneakers}
         NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN: ${DEMO_TENANT_BASE_DOMAIN:-}
@@ -146,8 +149,19 @@ services:
       NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://${ENGINE_DOMAIN}
       NEXT_PUBLIC_BASE_URL: https://${STORES_DOMAIN}
       NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
+      NEXT_PUBLIC_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-ru}
       NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
       REGION_PIN: "true"
+      # A visitor without a locale in the URL gets NEXT_PUBLIC_DEFAULT_LOCALE
+      # whatever their browser sends: this storefront's audience is Russian
+      # speaking (Ivan's order 4.1, 2026-09-12). A pick in the language switcher
+      # still wins. The stands run without the pin and negotiate with the browser.
+      LOCALE_PIN: "true"
+      # Which country — and therefore which Medusa region, and therefore which
+      # currency — a locale implies. Prices are NOT converted in the markup: the
+      # region carries its own price rows. Empty on a deployment that wants one
+      # currency for every language.
+      LOCALE_COUNTRY_MAP: ${LOCALE_COUNTRY_MAP:-ru:ru,en:us}
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
       STOREFRONT_STUDIO_PASSWORD: ${STOREFRONT_STUDIO_PASSWORD}
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}

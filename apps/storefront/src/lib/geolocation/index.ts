@@ -2,8 +2,25 @@ import { DEFAULT_REGION } from "@lib/util/env"
 import type { HttpTypes } from "@medusajs/types"
 import type { NextRequest, NextResponse } from "next/server"
 import { detectCountry } from "./detect"
+import { countryForLocale } from "./locale-country"
+
+export {
+  countryForLocale,
+  hasLocaleCountryMap,
+  parseLocaleCountryMap,
+} from "./locale-country"
 
 export const COUNTRY_COOKIE = "_medusa_country"
+
+/**
+ * The country of THIS request, handed to the server components as a request
+ * header rather than only as a response cookie. The cookie is written on the way
+ * out, so on a visitor's first request the components that price a product would
+ * otherwise read the country of the PREVIOUS visit (or none at all) and paint one
+ * page in the wrong currency before settling. The header is written in the same
+ * middleware pass that resolves it.
+ */
+export const COUNTRY_HEADER = "x-storefront-country"
 
 /**
  * Set by `setCountryCode`, whose only caller is `updateRegion` — the region
@@ -41,6 +58,12 @@ export type RegionMap = Map<string, HttpTypes.StoreRegion>
 
 export type ApplyCountry = (res: NextResponse) => NextResponse
 
+/** What `resolveCountry` settled on: the country itself, plus the writer for the response. */
+export type CountryResolution = {
+  countryCode: string
+  apply: ApplyCountry
+}
+
 type Resolution = {
   countryCode: string
   resolved: boolean
@@ -59,6 +82,15 @@ const fromCookie = (countryCode: string): Resolution => ({
   ip: "none",
 })
 
+const fromLocale = (countryCode: string): Resolution => ({
+  countryCode,
+  resolved: true,
+  source: "locale",
+  detected: null,
+  provider: "locale-map",
+  ip: "none",
+})
+
 const pinned = (): Resolution => ({
   countryCode: DEFAULT_REGION,
   resolved: true,
@@ -70,12 +102,32 @@ const pinned = (): Resolution => ({
 
 const resolve = async (
   request: NextRequest,
-  regionMap: RegionMap
+  regionMap: RegionMap,
+  locale: string | null
 ): Promise<Resolution> => {
   const existing = request.cookies.get(COUNTRY_COOKIE)?.value
   const chosen = request.cookies.get(COUNTRY_CHOICE_COOKIE)?.value === "1"
 
-  if (existing && regionMap.has(existing) && (chosen || !REGION_PINNED)) {
+  // An explicit pick by the visitor is the top of the order, ahead of the locale
+  // map and the pin alike: someone shipping to Germany keeps EUR whichever
+  // language they read the shop in.
+  if (existing && regionMap.has(existing) && chosen) {
+    return fromCookie(existing)
+  }
+
+  // The locale of the page being served, when this deployment maps one
+  // (`LOCALE_COUNTRY_MAP`). Above the pin, because the pin names ONE country for
+  // the whole deployment and the map is what makes /ru and /en differ.
+  const mapped = countryForLocale(locale)
+
+  if (mapped && regionMap.has(mapped)) {
+    return fromLocale(mapped)
+  }
+
+  // No map configured (every deployment before this change) — exactly the
+  // previous behaviour: a cookie detection wrote earlier is honoured unless the
+  // deployment is pinned.
+  if (existing && regionMap.has(existing) && !REGION_PINNED) {
     return fromCookie(existing)
   }
 
@@ -113,11 +165,12 @@ const resolve = async (
 
 export const resolveCountry = async (
   request: NextRequest,
-  regionMap: RegionMap
-): Promise<ApplyCountry> => {
-  const resolution = await resolve(request, regionMap)
+  regionMap: RegionMap,
+  locale: string | null = null
+): Promise<CountryResolution> => {
+  const resolution = await resolve(request, regionMap, locale)
 
-  return (res) => {
+  const apply: ApplyCountry = (res) => {
     res.cookies.set(COUNTRY_COOKIE, resolution.countryCode, {
       maxAge: resolution.resolved ? RESOLVED_MAX_AGE : UNRESOLVED_MAX_AGE,
       httpOnly: false,
@@ -135,4 +188,6 @@ export const resolveCountry = async (
 
     return res
   }
+
+  return { countryCode: resolution.countryCode, apply }
 }

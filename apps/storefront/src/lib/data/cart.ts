@@ -465,7 +465,20 @@ export async function placeOrder(cartId?: string) {
  * @param regionId
  * @param countryCode
  */
-export async function updateRegion(countryCode: string, currentPath: string) {
+/**
+ * Moves the shop — and the open cart — to the region that serves `countryCode`,
+ * which is what actually changes the currency: a region carries its own price
+ * rows, so nothing is converted in the markup.
+ *
+ * `explicit` says whether the visitor PICKED this country (the country switcher)
+ * or the storefront derived it for them (switching the language on a deployment
+ * that maps locales to countries — `@lib/geolocation/locale-country`). Only a
+ * pick is remembered as a choice; see `setCountryCode`.
+ */
+export async function applyRegion(
+  countryCode: string,
+  { explicit = true }: { explicit?: boolean } = {}
+) {
   const cartId = await getCartId()
   const region = await getRegion(countryCode)
 
@@ -473,7 +486,7 @@ export async function updateRegion(countryCode: string, currentPath: string) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
 
-  await setCountryCode(countryCode)
+  await setCountryCode(countryCode, { explicit })
 
   if (cartId) {
     const existingCart = await retrieveCart(cartId, "*shipping_address")
@@ -516,6 +529,15 @@ export async function updateRegion(countryCode: string, currentPath: string) {
 
   const productsCacheTag = await getCacheTag("products")
   revalidateTag(productsCacheTag)
+
+}
+
+/**
+ * The country switcher: the visitor picked a country, so this is an explicit
+ * choice, and the page they were on is re-rendered under the new region.
+ */
+export async function updateRegion(countryCode: string, currentPath: string) {
+  await applyRegion(countryCode, { explicit: true })
 
   redirect(currentPath)
 }

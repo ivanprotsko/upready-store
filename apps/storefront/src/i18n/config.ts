@@ -37,7 +37,22 @@ export const locales = [
   "zh",
 ] as const
 
-export const defaultLocale = "en" as const satisfies AppLocale
+/**
+ * The locale a visitor gets when nothing else decides: no locale in the URL, no
+ * pick in the switcher, and either no supported language in the browser or a
+ * deployment that pins the entry locale (`LOCALE_PIN`, `src/middleware.ts`).
+ *
+ * `NEXT_PUBLIC_DEFAULT_LOCALE` because the value is read in the browser too
+ * (`routing.ts` hands it to next-intl, `buildAlternates` writes it as
+ * `x-default`), so it has to be inlined at build time the way
+ * `NEXT_PUBLIC_DEFAULT_REGION` already is. An unset or unknown value keeps `en`,
+ * which is what every deployment before this change ran.
+ */
+export const defaultLocale: AppLocale = isAppLocale(
+  process.env.NEXT_PUBLIC_DEFAULT_LOCALE
+)
+  ? (process.env.NEXT_PUBLIC_DEFAULT_LOCALE as AppLocale)
+  : "en"
 
 /**
  * Locales that win over the visitor's own ordering whenever they appear anywhere in
