@@ -22,6 +22,8 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 export type TenantScope = {
   id: string;
   name: string;
+  /** The tenant's own URL handle — what its starter catalog is suffixed with (seed-tenant-dataset). */
+  handle: string;
   sales_channel_id: string | null;
 };
 
@@ -40,7 +42,7 @@ export const getTenantScope = async (req: AuthenticatedMedusaRequest): Promise<T
     data: [tenantAdmin],
   } = await query.graph({
     entity: "tenant_admin",
-    fields: ["id", "tenant.id", "tenant.name", "tenant.sales_channel.id"],
+    fields: ["id", "tenant.id", "tenant.name", "tenant.handle", "tenant.sales_channel.id"],
     filters: {
       id: [req.auth_context.actor_id],
     },
@@ -55,6 +57,7 @@ export const getTenantScope = async (req: AuthenticatedMedusaRequest): Promise<T
   return {
     id: tenant.id,
     name: tenant.name as string,
+    handle: tenant.handle as string,
     sales_channel_id: (tenant.sales_channel?.id as string | undefined) ?? null,
   };
 };

@@ -159,6 +159,7 @@ import {
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
   DeleteAdminTenantParams,
@@ -243,6 +244,12 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The starter catalog for an empty shop (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4).
+      matcher: "/tenants/seed",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantSeedBody)],
     },
     {
       matcher: "/tenants/products",

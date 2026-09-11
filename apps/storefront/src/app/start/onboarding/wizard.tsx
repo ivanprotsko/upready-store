@@ -41,6 +41,9 @@ type Created = {
   panelUrl: string | null
   themeApplied: boolean
   themeProblem: string | null
+  catalogSeeded: boolean
+  catalogProducts: number
+  catalogProblem: string | null
 }
 
 export default function Wizard({ paidLine }: { paidLine: string | null }) {
@@ -145,13 +148,25 @@ export default function Wizard({ paidLine }: { paidLine: string | null }) {
           </div>
         ) : null}
 
-        <div className={styles.banner} style={{ marginTop: 24 }}>
-          <span className={styles.dot} />
-          <span>
-            Каталог пустой — это новый магазин. Товары, категории и свой домен добавляются в панели,
-            входом <code>{created.handle ? email : ""}</code>.
-          </span>
-        </div>
+        {created.catalogSeeded ? (
+          <div className={styles.banner} style={{ marginTop: 24 }} data-testid="demo-catalog-seeded">
+            <span className={styles.dot} />
+            <span>
+              Каталог наполнен стартовым набором: {created.catalogProducts} товаров в пяти категориях,
+              картинки — абстрактные формы. Замените их своими товарами в панели, входом{" "}
+              <code>{created.handle ? email : ""}</code>.
+            </span>
+          </div>
+        ) : (
+          <div className={`${styles.banner} ${styles.bannerError}`} style={{ marginTop: 24 }} data-testid="demo-catalog-empty">
+            <span className={`${styles.dot} ${styles.dotError}`} />
+            <span>
+              Каталог пустой: стартовый набор не засеялся
+              {created.catalogProblem ? ` (${created.catalogProblem})` : ""}. Товары, категории и свой
+              домен добавляются в панели, входом <code>{created.handle ? email : ""}</code>.
+            </span>
+          </div>
+        )}
       </div>
     )
   }

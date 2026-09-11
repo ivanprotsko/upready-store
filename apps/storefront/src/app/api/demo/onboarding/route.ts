@@ -10,7 +10,9 @@ import { THEME_IDS } from "@lib/theme/presets.generated"
  *   1. POST /auth/tenant/emailpass/register  → a registration token
  *   2. POST /tenants (with that token)       → tenant + sales channel + key
  *   3. POST /auth/tenant/emailpass           → the owner's session token
- *   4. PUT  /tenants/home (with that token)  → the theme the wizard picked
+ *   4. POST /tenants/seed (with that token)  → the starter catalog, so the shop opens NON-empty
+ *                                              (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4)
+ *   5. PUT  /tenants/home (with that token)  → the theme the wizard picked, hero image from step 4
  *
  * It runs on the SERVER, not in the browser, for a reason that is not style:
  * Medusa puts CORS on `/admin|/store|/auth` only, so `/tenants/*` has none —
@@ -146,7 +148,34 @@ export async function POST(request: NextRequest) {
   })
   const sessionToken = typeof session.body.token === "string" ? session.body.token : null
 
-  // 4. the look. A failure here is NOT fatal: the shop exists and the visitor
+  // 4. the starter catalog. Measured before this step existed: a shop created here opened
+  //    EMPTY (acceptance wave 2, 2026-09-12). A failure is NOT fatal for the same reason the
+  //    theme's is not: the shop exists, and the reason is reported, never swallowed (rule 20).
+  let catalogSeeded = false
+  let catalogProducts = 0
+  let catalogProblem: string | null = null
+  let heroImageUrl: string | null = null
+
+  if (sessionToken) {
+    const seeded = await backend("/tenants/seed", {
+      method: "POST",
+      token: sessionToken,
+      body: JSON.stringify({ preset }),
+    })
+    if (seeded.ok) {
+      catalogSeeded = seeded.body.seeded === true
+      catalogProducts = typeof seeded.body.products === "number" ? seeded.body.products : 0
+      heroImageUrl = typeof seeded.body.heroImageUrl === "string" ? seeded.body.heroImageUrl : null
+      if (!catalogSeeded) {
+        catalogProblem = reason(seeded.body, typeof seeded.body.reason === "string" ? seeded.body.reason : "магазин уже не пуст")
+      }
+    } else {
+      catalogProblem = reason(seeded.body, `POST /tenants/seed ответил ${seeded.status}`)
+      console.error("demo onboarding: starter catalog not seeded", seeded.status, seeded.body)
+    }
+  }
+
+  // 5. the look. A failure here is NOT fatal: the shop exists and the visitor
   //    must be told it exists — the theme is the one thing they can change in
   //    the panel in ten seconds. Reported, never swallowed (rule 20).
   let themeApplied = false
@@ -172,7 +201,9 @@ export async function POST(request: NextRequest) {
             subtitle: "Новый магазин на общем движке, со своим адресом.",
             cta_label: "В каталог",
             cta_href: "/store",
-            image_url: null,
+            // The starter set's banner (step 4); null when the seed did not run, and then the
+            // hero variant paints its own fallback.
+            image_url: heroImageUrl,
             // The wizard speaks Russian; an English visitor of the new shop gets the same
             // promise in English (`content.hero.i18n`, read by `(main)/page.tsx`).
             i18n: {
@@ -209,5 +240,8 @@ export async function POST(request: NextRequest) {
     panelUrl: PANEL_URL || null,
     themeApplied,
     themeProblem,
+    catalogSeeded,
+    catalogProducts,
+    catalogProblem,
   })
 }

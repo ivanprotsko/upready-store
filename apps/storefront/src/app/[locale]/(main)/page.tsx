@@ -41,12 +41,38 @@ import type { ProfileCategoryTile } from "@lib/profile/types"
  * network blip would look exactly like a shop that has no categories.
  */
 async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
-  if (!profileCategoryTiles.length) {
-    return profileCategoryTiles
-  }
-
   try {
-    const categories = await listCategories({ fields: "id,handle" })
+    const categories = await listCategories({
+      fields: "id,handle,name,rank,metadata,parent_category_id,*category_children",
+    })
+
+    // A shop's OWN pictures first (t-2026-09-12-catalog-taxonomy): a tenant seeded with the
+    // starter catalog, or one whose owner gave a category an image in the panel, has leaf
+    // categories carrying `metadata.image_url` — those are its tiles, in the category order,
+    // at most six (the tile grid's own limit). The build profile's list cannot know them.
+    const own = categories
+      .filter(
+        (category) =>
+          !(category.category_children ?? []).length &&
+          typeof category.metadata?.image_url === "string" &&
+          category.metadata.image_url
+      )
+      .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
+      .slice(0, 6)
+      .map((category) => ({
+        categoryHandle: category.handle as string,
+        label: category.name,
+        image: category.metadata!.image_url as string,
+      }))
+
+    if (own.length >= 3) {
+      return own
+    }
+
+    if (!profileCategoryTiles.length) {
+      return profileCategoryTiles
+    }
+
     const owned = new Set(
       categories.map((category) => category.handle).filter(Boolean) as string[]
     )
