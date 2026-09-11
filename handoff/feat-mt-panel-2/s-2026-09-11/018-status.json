@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-11T11:31:25+08:00",
+  "status": "Волна 2 панели: READY. Все 9 кусков приняты оркестратором своими прогонами и слиты в feat/mt-panel-2 (merge 407389d + отчёты): tsc/lint трёх приложений rc=0, seam-suites зелёные, полный e2e панели 215 PASS / 0 FAIL, by-host e2e 18/18; стенд для приёмки Иваном: панель :5181, бэкенд/админка :9026, витрина :8010 без env-ключа (acme.localhost / globex.localhost). Push не делался (приказ). Обе задачи остаются in_progress до приёмки Иваном."
+}
