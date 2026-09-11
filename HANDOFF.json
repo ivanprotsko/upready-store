@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T08:49:39+08:00",
+  "updated": "2026-09-11T08:56:54+08:00",
   "status": "Платформенная ночь 11→12.09: оркестратор feat/mt-platform запустил 6 воркеров (W1 admin API+soft-delete, W2 файлы под tenants/<id>/, W3 экспорт, W4 онбординг-спека, W6 хостинг-спека с замерами, W7 UI «Магазины»); W5 (detach+backup) стартует после W3. Контракт docs/multitenancy/admin-tenants-api-contract.md, брифы docs/prompts/2026-09-11-platform-night/, журнал artifacts/docs/2026-09-12-platform-progress.md. Свой backend :9025 (9024 занят feat/store-profiles). База домена — upready.dev (поправка Ивана 08:48). Commit 4a78d1b.",
   "tasks": [
     {
@@ -861,6 +861,51 @@
       "audience": "ivan",
       "blocks": [
         "t-2026-09-10-01"
+      ]
+    },
+    {
+      "id": "q-mt-onb-identity",
+      "question": "Онбординг: идентичность аккаунта клиента — email, telegram_id или оба? Спека docs/multitenancy/onboarding-spec.md §7.1, рекомендация (a) email обязателен, telegram_id дополнительно.",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-onboarding-design"
+      ]
+    },
+    {
+      "id": "q-mt-onb-plan",
+      "question": "Онбординг: что даёт тариф — 1 магазин / N магазинов / срок и продление? §7.2, рекомендация (a): purchase→token→tenant 1:1:1 на старте.",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-onboarding-design"
+      ]
+    },
+    {
+      "id": "q-mt-tenant-delete-mode",
+      "question": "Тенант: hard или soft delete и срок хранения после удаления? §7.3, рекомендация (b) soft + purge через 30 дней (= retention бэкапа). Сегодня закодирован soft через metadata.archived_at, purge файлов — явным флагом.",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-onboarding-design"
+      ]
+    },
+    {
+      "id": "q-mt-onb-manual-purchase",
+      "question": "Онбординг: ручная «покупка» из админки без оплаты (тесты, рассрочка)? §7.4, рекомендация (c) provider=manual через тот же путь purchase→token.",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-onboarding-design"
+      ]
+    },
+    {
+      "id": "q-mt-onb-tribute-link",
+      "question": "Онбординг через Tribute: у Tribute нет браузерного редиректа после оплаты — ссылку на мастер отправлять ботом в Telegram (a), письмом (b) или оба? §7.5, рекомендация (a).",
+      "asked": "2026-09-11",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-11-mt-onboarding-design"
       ]
     }
   ],
