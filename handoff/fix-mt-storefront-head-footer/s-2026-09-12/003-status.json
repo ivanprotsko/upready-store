@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-mt-storefront-head-footer",
+  "session": "s-2026-09-12",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-12T05:36:11+08:00",
+  "status": "fix/mt-storefront-head-footer (от feat/mt-deploy df921b0): четыре дефекта живых витрин починены классом — canonical/hreflang на своём origin (x-tenant-origin), подвал тенанта без чужих коллекций и ссылок стартера, опции на языке визитёра и без «Default option», копия профиля сборки и фото героя больше не говорят за тенанта, hero.i18n[locale], язык и страна — две кнопки. Коммиты 2be7e2a, 41a9eab, 9fdcf27, 03bb5bf, 815c53a; проверено локальной сборкой против прод-бэкенда по пяти хостам, tsc/lint/vitest 91 зелёные. НЕ задеплоено. После деплоя обязательно: пересобрать mt-backend, medusa exec seed-mt-demo.js, backfill-hero-copy.js, backfill-option-translations.js по трём профилям — иначе hero на /ru и «Colourway» останутся английскими."
+}
