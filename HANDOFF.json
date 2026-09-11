@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-11T08:13:49+08:00",
-  "status": "Ночь 2 идёт (промпты A/B выданы 07:43, сторож bvl3igi1i). Иван 08:10 снял ограничения по задачам для всего направления МТ (записано в memory/decisions, последний раздел) — сессии МТ заводят и активируют t-…-mt-… сами. t-2026-09-12-mt-storefront-by-host активна = кусок 9 сессии A; worktrees A/B на 69b506b+. Push не делать",
+  "updated": "2026-09-11T08:49:39+08:00",
+  "status": "Платформенная ночь 11→12.09: оркестратор feat/mt-platform запустил 6 воркеров (W1 admin API+soft-delete, W2 файлы под tenants/<id>/, W3 экспорт, W4 онбординг-спека, W6 хостинг-спека с замерами, W7 UI «Магазины»); W5 (detach+backup) стартует после W3. Контракт docs/multitenancy/admin-tenants-api-contract.md, брифы docs/prompts/2026-09-11-platform-night/, журнал artifacts/docs/2026-09-12-platform-progress.md. Свой backend :9025 (9024 занят feat/store-profiles). База домена — upready.dev (поправка Ивана 08:48). Commit 4a78d1b.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
