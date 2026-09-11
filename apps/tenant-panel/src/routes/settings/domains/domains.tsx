@@ -38,7 +38,7 @@ import {
 // concept the Admin does not have.
 
 /** The one DNS instruction a shop owner needs; the proxy side is hosting-spec B4. */
-const CNAME_TARGET = "stores.upready.dev"
+const CNAME_TARGET = __CNAME_TARGET__ || "stores.upready.dev"
 
 export const Domains = () => {
   const { domains, technical, isPending, isError, error } = useDomains()

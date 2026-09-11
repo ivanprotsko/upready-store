@@ -99,3 +99,7 @@ artifacts/docs/composer/shots/
 artifacts/stands-frames/
 # Tenant panel vs Admin acceptance screenshots (t-2026-09-11-mt-tenant-panel): binaries never enter git.
 artifacts/docs/tenant-panel-shots/*.png
+
+# Real deploy env files carry generated secrets; only the *.env.example templates are tracked.
+deploy/stands/*.env
+deploy/mt/*.env

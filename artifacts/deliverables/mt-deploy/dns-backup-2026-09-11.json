@@ -1,0 +1,457 @@
+{
+  "shipshift.dev": [
+    {
+      "id": "76ae47bb290c21f11ccebfd79e9636ff",
+      "name": "api.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:17:59.816087Z",
+      "modified_on": "2026-05-21T20:17:59.816087Z"
+    },
+    {
+      "id": "39b5642500f09ad38df14f52a089cf0b",
+      "name": "api.dev.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:01.228245Z",
+      "modified_on": "2026-05-21T20:18:01.228245Z"
+    },
+    {
+      "id": "c6da1241b1437f703ec3307ac140da74",
+      "name": "api.prod-backup.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:03.903971Z",
+      "modified_on": "2026-05-21T20:18:03.903971Z"
+    },
+    {
+      "id": "5152209aeacbf15238a33a64b10bcd44",
+      "name": "api.stage.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:02.556946Z",
+      "modified_on": "2026-05-21T20:18:02.556946Z"
+    },
+    {
+      "id": "3d780863e63c1744c2db3c4296bed33e",
+      "name": "c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:17:58.922587Z",
+      "modified_on": "2026-05-21T20:17:58.922587Z"
+    },
+    {
+      "id": "875819298e5a6af63309880dec2c06be",
+      "name": "dev.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:00.419239Z",
+      "modified_on": "2026-05-21T20:18:00.419239Z"
+    },
+    {
+      "id": "104213299e7e3c36649898468d3f143d",
+      "name": "prod-backup.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:03.085002Z",
+      "modified_on": "2026-05-21T20:18:03.085002Z"
+    },
+    {
+      "id": "b9897313810f88a0d7376c0b81eb7afa",
+      "name": "stage.c.shipshift.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-21T20:18:01.951066Z",
+      "modified_on": "2026-05-21T20:18:01.951066Z"
+    },
+    {
+      "id": "c70f6a94aca9ee5d62d4cbb649ddcd63",
+      "name": "shipshift.dev",
+      "type": "MX",
+      "content": "route3.mx.cloudflare.net",
+      "priority": 61,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:59.882182Z",
+      "modified_on": "2026-05-18T20:02:59.882182Z"
+    },
+    {
+      "id": "2c86b7fbab84ffc353d54b2a1e4fa8d3",
+      "name": "shipshift.dev",
+      "type": "MX",
+      "content": "route2.mx.cloudflare.net",
+      "priority": 10,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:59.875102Z",
+      "modified_on": "2026-05-18T20:02:59.875102Z"
+    },
+    {
+      "id": "dd8dffd09998fe792c26c2502498cf21",
+      "name": "shipshift.dev",
+      "type": "MX",
+      "content": "route1.mx.cloudflare.net",
+      "priority": 80,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:59.86365Z",
+      "modified_on": "2026-05-18T20:02:59.86365Z"
+    },
+    {
+      "id": "ddd957fa52c4f8d390f489dd60f4466c",
+      "name": "cf2024-1._domainkey.shipshift.dev",
+      "type": "TXT",
+      "content": "\"v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiweykoi+o48IOGuP7GR3X0MOExCUDY/BCRHoWBnh3rChl7WhdyCxW3jgq1daEjPPqoi7sJvdg5hEQVsgVRQP4DcnQDVjGMbASQtrY4WmB1VebF+RPJB2ECPsEDTpeiI5ZyUAwJaVX7r6bznU67g7LvFq35yIo4sdlmtZGV+i0H4cpYH9+3JJ78k\" \"m4KXwaf9xUJCWF6nxeD+qG6Fyruw1Qlbds2r85U9dkNDVAS3gioCvELryh1TxKGiVTkg4wqHTyHfWsp7KD3WQHYJn0RyfJJu6YEmL77zonn7p2SRMvTMP3ZEXibnC9gz3nnhR6wcYL8Q7zXypKTMD58bTixDSJwIDAQAB\"",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:59.897384Z",
+      "modified_on": "2026-05-18T20:02:59.897384Z"
+    },
+    {
+      "id": "b26f3f46cb7e0fcb9c371f62867cfd87",
+      "name": "_dmarc.shipshift.dev",
+      "type": "TXT",
+      "content": "v=DMARC1; p=none; rua=mailto:business@shipshift.dev",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 300,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-23T16:37:46.247519Z",
+      "modified_on": "2026-05-23T16:37:46.247519Z"
+    },
+    {
+      "id": "13594513456ca9e7661862e0d4ed9ebe",
+      "name": "shipshift.dev",
+      "type": "TXT",
+      "content": "v=spf1 include:_spf.mx.cloudflare.net include:_spf.google.com ~all",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:59.889807Z",
+      "modified_on": "2026-05-23T16:36:56.694166Z"
+    }
+  ],
+  "custombot.space": [
+    {
+      "id": "52e3edaf53ee04caf65904295fd98fcb",
+      "name": "api-bpj.custombot.space",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": "bpj-dev on custombot.space 2026-07-13",
+      "tags": [],
+      "created_on": "2026-07-13T12:40:20.465765Z",
+      "modified_on": "2026-07-13T12:40:20.465765Z",
+      "comment_modified_on": "2026-07-13T12:40:20.465765Z"
+    },
+    {
+      "id": "24a09e00366436fcc87e3437b6ad592f",
+      "name": "bpj.custombot.space",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": "bpj-dev on custombot.space 2026-07-13",
+      "tags": [],
+      "created_on": "2026-07-13T12:40:19.873314Z",
+      "modified_on": "2026-07-13T12:40:19.873314Z",
+      "comment_modified_on": "2026-07-13T12:40:19.873314Z"
+    },
+    {
+      "id": "814ff068ad858cd491dacf296034d653",
+      "name": "custombot.space",
+      "type": "CNAME",
+      "content": "sell-domain-97s.pages.dev",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {
+        "flatten_cname": false
+      },
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-07T23:54:53.014828Z",
+      "modified_on": "2026-05-07T23:54:53.014828Z"
+    },
+    {
+      "id": "95e9bea53865d6d626fa70f98f855859",
+      "name": "www.custombot.space",
+      "type": "CNAME",
+      "content": "sell-domain-97s.pages.dev",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {
+        "flatten_cname": false
+      },
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-07T23:54:53.634056Z",
+      "modified_on": "2026-05-07T23:54:53.634056Z"
+    }
+  ],
+  "setpomo.com": [
+    {
+      "id": "0c9ee64093dabdc1d4c38fa431a44c3a",
+      "name": "setpomo.com",
+      "type": "CNAME",
+      "content": "sell-domain-97s.pages.dev",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {
+        "flatten_cname": false
+      },
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-07T23:48:10.154683Z",
+      "modified_on": "2026-05-07T23:48:10.154683Z"
+    },
+    {
+      "id": "ca43c741fa69a2ab8d3d245cbff9fafc",
+      "name": "www.setpomo.com",
+      "type": "CNAME",
+      "content": "sell-domain-97s.pages.dev",
+      "proxiable": true,
+      "proxied": true,
+      "ttl": 1,
+      "settings": {
+        "flatten_cname": false
+      },
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-07T23:48:10.928866Z",
+      "modified_on": "2026-05-07T23:48:10.928866Z"
+    }
+  ],
+  "shiftship.dev": [
+    {
+      "id": "7f9f5a01b599cce75e07e4e7ddef9f5a",
+      "name": "shiftship.dev",
+      "type": "A",
+      "content": "84.46.251.149",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-03T00:28:55.316777Z",
+      "modified_on": "2026-05-03T00:28:55.316777Z"
+    },
+    {
+      "id": "2f449c2ba7acdb881b18a5276d793945",
+      "name": "www.shiftship.dev",
+      "type": "CNAME",
+      "content": "0ui.dev",
+      "proxiable": true,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {
+        "flatten_cname": false
+      },
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-03T00:36:42.006265Z",
+      "modified_on": "2026-05-03T00:36:42.006265Z"
+    },
+    {
+      "id": "9d6b15d2d5c5e32844b2de7d88eb56f7",
+      "name": "shiftship.dev",
+      "type": "MX",
+      "content": "route3.mx.cloudflare.net",
+      "priority": 27,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:06.48699Z",
+      "modified_on": "2026-05-18T20:02:06.48699Z"
+    },
+    {
+      "id": "34f1802d93cf1762fe8be56893192290",
+      "name": "shiftship.dev",
+      "type": "MX",
+      "content": "route2.mx.cloudflare.net",
+      "priority": 38,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:06.47869Z",
+      "modified_on": "2026-05-18T20:02:06.47869Z"
+    },
+    {
+      "id": "49424d018c5fcdff626e708f4285a9c8",
+      "name": "shiftship.dev",
+      "type": "MX",
+      "content": "route1.mx.cloudflare.net",
+      "priority": 88,
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:06.465248Z",
+      "modified_on": "2026-05-18T20:02:06.465248Z"
+    },
+    {
+      "id": "60e6907f787f4d06d6e8698581fccf74",
+      "name": "cf2024-1._domainkey.shiftship.dev",
+      "type": "TXT",
+      "content": "\"v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiweykoi+o48IOGuP7GR3X0MOExCUDY/BCRHoWBnh3rChl7WhdyCxW3jgq1daEjPPqoi7sJvdg5hEQVsgVRQP4DcnQDVjGMbASQtrY4WmB1VebF+RPJB2ECPsEDTpeiI5ZyUAwJaVX7r6bznU67g7LvFq35yIo4sdlmtZGV+i0H4cpYH9+3JJ78k\" \"m4KXwaf9xUJCWF6nxeD+qG6Fyruw1Qlbds2r85U9dkNDVAS3gioCvELryh1TxKGiVTkg4wqHTyHfWsp7KD3WQHYJn0RyfJJu6YEmL77zonn7p2SRMvTMP3ZEXibnC9gz3nnhR6wcYL8Q7zXypKTMD58bTixDSJwIDAQAB\"",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {
+        "email_routing": true,
+        "read_only": true
+      },
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:06.502948Z",
+      "modified_on": "2026-05-18T20:02:06.502948Z"
+    },
+    {
+      "id": "fc82b7a1b812d24db83f8d9b850b309d",
+      "name": "shiftship.dev",
+      "type": "TXT",
+      "content": "\"v=spf1 include:_spf.mx.cloudflare.net ~all\"",
+      "proxiable": false,
+      "proxied": false,
+      "ttl": 1,
+      "settings": {},
+      "meta": {},
+      "comment": null,
+      "tags": [],
+      "created_on": "2026-05-18T20:02:06.494405Z",
+      "modified_on": "2026-05-18T20:02:06.494405Z"
+    }
+  ]
+}

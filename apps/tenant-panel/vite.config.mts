@@ -22,6 +22,11 @@ export default defineConfig(({ mode }) => {
   const DIRECT = env.VITE_MEDUSA_BACKEND_DIRECT === "true"
   const STOREFRONT_URL =
     env.VITE_MEDUSA_STOREFRONT_URL || "http://localhost:8000"
+  // The DNS instruction the Domains screen shows a shop owner. It is a
+  // deployment fact, not a code constant: the same panel build serves whichever
+  // platform it is deployed on, so it comes from the environment
+  // (`docs/multitenancy/storefront-by-host.md` §2 fixes the default).
+  const CNAME_TARGET = env.VITE_TENANT_CNAME_TARGET || "stores.upready.dev"
 
   return {
     base: BASE,
@@ -30,6 +35,7 @@ export default defineConfig(({ mode }) => {
       __BASE__: JSON.stringify(BASE),
       __BACKEND_URL__: JSON.stringify(DIRECT ? BACKEND_URL : ""),
       __STOREFRONT_URL__: JSON.stringify(STOREFRONT_URL),
+      __CNAME_TARGET__: JSON.stringify(CNAME_TARGET),
       __AUTH_TYPE__: JSON.stringify("session"),
       __JWT_TOKEN_STORAGE_KEY__: JSON.stringify(""),
       // tenant-panel: read by the copied components/common/file-upload,
