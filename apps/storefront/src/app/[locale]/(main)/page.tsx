@@ -1,18 +1,20 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
+import { Fragment, Suspense } from "react"
 
 import CategoryTiles from "@modules/home/components/category-tiles"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import {
+  DEFAULT_BLOCK_ORDER,
   DEFAULT_HERO,
   DEFAULT_LISTING,
   DEFAULT_TILES,
   HERO_VARIANTS,
   LISTING_VARIANTS,
+  type HomeBlockKey,
 } from "@modules/home/variants"
+import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
-import { getTenantHome } from "@lib/data/tenant-home"
+import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
 import { getTranslations, getLocale } from "next-intl/server"
 import { SITE_NAME } from "@lib/util/env"
 
@@ -37,32 +39,34 @@ export async function generateMetadata(): Promise<Metadata> {
  * The three home slots (hero, tiles, listing) now come from the site-wide composition
  * document, `store.metadata.storefrontSettings` (`2026-09-09-panel-composition-mockup.md`
  * §C1), not straight from `profile.generated.json` — this is the home switch,
- * `getStorefrontSettings()` read ONCE here and passed down as the three slot keys, the way
+ * `getEffectiveSettings()` read ONCE here and passed down as the three slot keys, the way
  * `nav/index.tsx`/`footer/index.tsx` each read it once for their own single slot
  * (`block-port-map.md` §9). No saved settings (§C1 "Absent" row) falls back to the three
  * `DEFAULT_*` constants in `home/variants/index.ts`, which reproduce today's unswitched
  * behaviour exactly: the profile's own hero unaffected, tiles-if-present, the existing
  * product listing — so the `default` profile (no composition ever saved for it) renders
  * identically to before this switch existed.
+ *
+ * Tenant panel wave 2, piece 8: when this storefront's publishable key has a tenant behind
+ * it and that tenant saved a home-page document (`upready.tenant-home/v1`), the document
+ * decides three more things on top of the composition it already carries — the hero's own
+ * copy (`content.hero`), which products the listing shows (`content.products`) and the
+ * order the three blocks render in (`content.order`, a block left out of it is not
+ * rendered). Without a document every one of those is `undefined` and each block keeps
+ * its own behaviour, which is the state of the five old stands.
  */
 export default async function Home() {
-  const [t, home, siteSettings] = await Promise.all([
+  // Piece 9: one process serves every shop, so both reads below are per REQUEST — the
+  // publishable key they travel with comes from the `Host` header
+  // (`lib/data/tenant-home.ts`, `lib/config.ts`). `getEffectiveSettings()` is already
+  // "this shop's document, else the site-wide one", which is why there is no second
+  // fallback here; a single-store deployment resolves no shop and reads exactly what it
+  // read before either piece existed.
+  const [t, settings, home] = await Promise.all([
     getTranslations("CategoryMenu"),
+    getEffectiveSettings(),
     getTenantHome(),
-    getStorefrontSettings(),
   ])
-
-  // One process serves every shop (piece 9, docs/multitenancy/storefront-by-host.md).
-  // `store.metadata.storefrontSettings` belongs to the whole backend, so it cannot
-  // speak for one shop: the shop's own document wins when it has one, and a
-  // single-store deployment — where no shop resolves from the Host — reads exactly
-  // what it read before.
-  //
-  // `content` (the shop's hero text, the listing's product source, the block order)
-  // is piece 8's half of this document and is NOT rendered here: the variants that
-  // would take those props are piece 8's to extend, and inventing a second reading
-  // of them would collide with it at merge.
-  const settings = home?.settings ?? siteSettings
 
   const hero = settings?.hero ?? DEFAULT_HERO
   const tiles = settings?.tiles ?? DEFAULT_TILES
@@ -72,25 +76,48 @@ export default async function Home() {
   const Listing =
     listing === "none" ? null : LISTING_VARIANTS[listing] ?? LISTING_VARIANTS[DEFAULT_LISTING]
 
+  // An empty string in the document means "the tenant left this field blank", which is the
+  // same thing as "not set" for every hero: each falls back to its own copy per field.
+  const heroContent = home?.content.hero
+  const heroProps: HomeHeroProps = heroContent
+    ? {
+        title: heroContent.title || null,
+        subtitle: heroContent.subtitle || null,
+        ctaLabel: heroContent.cta_label || null,
+        ctaHref: heroContent.cta_href || null,
+        imageUrl: heroContent.image_url || null,
+      }
+    : {}
+
+  const order: readonly HomeBlockKey[] = home?.content.order?.length
+    ? home.content.order
+    : DEFAULT_BLOCK_ORDER
+
+  const blocks: Record<HomeBlockKey, React.ReactNode> = {
+    hero: Hero ? <Hero {...heroProps} /> : null,
+    categories: tiles === "on" ? <CategoryTiles heading={t("title")} /> : null,
+    products: Listing ? (
+      <div className="py-12">
+        <ul className="flex flex-col gap-x-6">
+          <Suspense
+            fallback={
+              <li className="content-container py-12 small:py-24">
+                <SkeletonProductGrid numberOfProducts={4} />
+              </li>
+            }
+          >
+            <Listing products={home?.content.products} />
+          </Suspense>
+        </ul>
+      </div>
+    ) : null,
+  }
+
   return (
     <>
-      {Hero ? <Hero /> : null}
-      {tiles === "on" ? <CategoryTiles heading={t("title")} /> : null}
-      {Listing ? (
-        <div className="py-12">
-          <ul className="flex flex-col gap-x-6">
-            <Suspense
-              fallback={
-                <li className="content-container py-12 small:py-24">
-                  <SkeletonProductGrid numberOfProducts={4} />
-                </li>
-              }
-            >
-              <Listing />
-            </Suspense>
-          </ul>
-        </div>
-      ) : null}
+      {order.map((block) => (
+        <Fragment key={block}>{blocks[block]}</Fragment>
+      ))}
     </>
   )
 }

@@ -3,7 +3,8 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 import { getProductPrice } from "@lib/util/get-product-price"
-import { getHomeRegion, getLeadCollection, listLeadProducts } from "@lib/data/home"
+import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
+import type { HomeListingProps } from "@modules/home/variants/types"
 import ProductCard from "@modules/home/components/product-card"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
 
@@ -16,7 +17,7 @@ import AddToBagButton from "@modules/home/components/add-to-bag-button"
  *
  * Lead collection, 5 products (first becomes the lead). Returns a single `<li>`.
  */
-export default async function ListingP5() {
+export default async function ListingP5({ products: source }: HomeListingProps = {}) {
   const [t, locale, region] = await Promise.all([
     getTranslations("HomeListing"),
     getLocale(),
@@ -27,16 +28,14 @@ export default async function ListingP5() {
     return null
   }
 
-  const collection = await getLeadCollection()
-  if (!collection) {
+  // tenant panel wave 2, piece 8: `source` is `content.products` of the tenant's home-page
+  // document. Absent or "popular" keeps this variant's own behaviour.
+  const block = await resolveHomeListing({ source, region, limit: 5, scope: "lead" })
+  if (!block) {
     return null
   }
-
-  const [lead, ...rest] = await listLeadProducts({
-    collectionId: collection.id,
-    region,
-    limit: 5,
-  })
+  const { heading, href } = block
+  const [lead, ...rest] = block.products
   if (!lead) {
     return null
   }
@@ -47,14 +46,16 @@ export default async function ListingP5() {
     <li className="content-container py-12 small:py-24" data-testid="home-listing-p5">
       <div className="mb-6 flex items-baseline justify-between gap-4 small:mb-8">
         <h2 className="text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:text-xl">
-          {collection.title}
+          {heading}
         </h2>
-        <Link
-          href={`/collections/${collection.handle}`}
-          className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-        >
-          {t("seeAll")}
-        </Link>
+        {href ? (
+          <Link
+            href={href}
+            className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+          >
+            {t("seeAll")}
+          </Link>
+        ) : null}
       </div>
       <div className="grid grid-cols-2 gap-4 small:grid-cols-4 small:gap-[18px]">
         <div className="col-span-2 flex flex-col small:col-span-2 small:row-span-2">

@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "全部商品"
   },
+  "TenantPage": {
+    "emptyBody": "此页面还没有内容。",
+    "metaDescription": "{siteName}的{title}。"
+  },
   "TransferActions": {
     "acceptTransfer": "接受转移",
     "declineSuccess": "订单转移已成功拒绝！",

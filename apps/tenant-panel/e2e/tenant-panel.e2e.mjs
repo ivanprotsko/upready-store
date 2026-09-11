@@ -42,10 +42,16 @@ const STOREFRONTS = Object.fromEntries(
     .map((pair) => pair.split("="))
 )
 const PASSWORD = "supersecret"
+/** The Admin's product and order tables ask for 20 rows a page; the screen checks compare against one page. */
+const PAGE_SIZE = 20
 const TENANTS = [
   { email: "admin@acme.test", name: "Acme" },
   { email: "admin@globex.test", name: "Globex" },
 ]
+
+// tenant-panel wave 2, piece 7: the storefront this worker starts itself
+// (its own port, its own .next dir), read by the "pages" section alone.
+const STOREFRONT = process.env.STOREFRONT_URL || "http://localhost:8011"
 
 const ONLY = process.env.E2E_ONLY || ""
 // One stamp for every fixture name in the run (products, variants, categories).
@@ -62,6 +68,12 @@ const stamp = `${new Date().toISOString().slice(11, 16).replace(":", "")}${Math.
   .toString(36)
   .slice(2, 6)}`
 const runs = (section) => !ONLY || ONLY === section
+
+// tenant-panel wave 2, piece 8: `stamp` used to be declared inside the
+// `runs("catalog")` block while the categories section below reads it, so any
+// E2E_ONLY run that skipped the catalog section died on a ReferenceError before
+// reaching the section it was asked for. Declared here instead — one clock stamp
+// for every fixture name in this file, which is what the sections already assumed.
 
 let failures = 0
 const check = (name, ok, detail = "") => {
@@ -469,8 +481,15 @@ try {
       await gctx.close()
 
       await acme(`/tenants/products/${target.id}`, { method: "DELETE" })
-      const gone = await acme(`/tenants/products?q=${encodeURIComponent(detailTitle)}`)
-      check("Acme: the detail fixture is deleted again", (gone.products || []).length === 0)
+      // By id, not by title: `q` is a substring search and several workers run
+      // this script against the same stand, so a neighbour's fixture created in
+      // the same minute shares this title's prefix and would read as "not gone".
+      const gone = await acme(`/tenants/products?id=${target.id}`)
+      check(
+        "Acme: the detail fixture is deleted again",
+        !(gone.products || []).some((row) => row.id === target.id),
+        `${gone.count} rows for that id`
+      )
     }
   }
 
@@ -877,7 +896,8 @@ try {
     const afterCreate = await acme("/tenants/product-categories?limit=100")
     check(
       "Acme: the API lists one more category than before",
-      afterCreate.count === before.count + 1,
+      // tenant-panel: keyed on the id, not on a count — other runs on a shared stand create and delete categories concurrently.
+      (afterCreate.product_categories || []).some((c) => c.id === categoryId),
       `${before.count} → ${afterCreate.count}`
     )
     check(
@@ -960,8 +980,552 @@ try {
       const removed = await acme(`/tenants/product-categories/${categoryId}`, { method: "DELETE" })
       check("Acme: the category fixture is deleted again", removed?.deleted === true, JSON.stringify(removed).slice(0, 120))
       const after = await acme("/tenants/product-categories?limit=100")
-      check("Acme: the category count is back where it started", after.count === before.count, `${after.count} vs ${before.count}`)
+      check("Acme: the category count is back where it started", !(after.product_categories || []).some((c) => c.id === categoryId), `${after.count} vs ${before.count}`)
     }
+  }
+
+
+  // ---- wave 2, piece 7: content pages, panel + storefront.
+  if (runs("pages")) {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const page = await ctx.newPage()
+    await login(page, "admin@acme.test")
+
+    await page.goto(`${PANEL}/pages`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(600)
+    const sections = await rowsOf(page)
+    check("Acme: the pages screen lists all five sections", sections.length === 5, `${sections.length} rows`)
+    check(
+      "Acme: every section carries a status word",
+      sections.every((row) => /Published|Draft|Empty/.test(row)),
+      sections.map((row) => row.replace(/\n/g, " ").slice(0, 40)).join(" | ")
+    )
+
+    // The first cell links into the editor; clicking it is the path a shop owner takes.
+    await page.getByRole("link", { name: /contact/i }).first().click()
+    const opened = await softWaitURL(page, (u) => u.pathname === "/pages/contacts")
+    check("Acme: the Contacts row opens the editor", opened, page.url())
+    await page.waitForTimeout(900)
+
+    const TITLE = "Contact Acme"
+    const BODY = [
+      "# Visit us",
+      "",
+      "We are at **10 Market Street**, Springfield.",
+      "",
+      "## Opening hours",
+      "",
+      "- Mon-Fri 9:00-18:00",
+      "- Sat 10:00-16:00",
+      "",
+      "Write to [hello@acme.test](mailto:hello@acme.test).",
+    ].join("\n")
+
+    await fillEverywhere(page, '[role="dialog"] input[name="title"]', TITLE)
+    await fillEverywhere(page, '[role="dialog"] textarea[name="body"]', BODY)
+
+    const toggle = page.locator('[role="dialog"] button[role="switch"]').first()
+    if ((await toggle.getAttribute("aria-checked")) !== "true") {
+      await clickReal(page, toggle)
+    }
+    check(
+      "Acme: the Published switch is on before saving",
+      (await toggle.getAttribute("aria-checked")) === "true"
+    )
+
+    const saved = page.waitForResponse(
+      (r) => r.url().includes("/tenants/pages/contacts") && r.request().method() === "PUT",
+      { timeout: 30_000 }
+    )
+    await clickReal(page, page.locator('[role="dialog"] button[type="submit"]').last())
+    const putResponse = await saved.then((r) => r.status()).catch(() => 0)
+    check("Acme: saving the page answers 200", putResponse === 200, String(putResponse))
+
+    const backOnList = await softWaitURL(page, (u) => u.pathname === "/pages")
+    check("Acme: saving returns to the pages list", backOnList, page.url())
+    await page.waitForTimeout(800)
+    const afterSave = await rowsOf(page)
+    check(
+      "Acme: the Contacts row now reads Published",
+      afterSave.some((row) => row.includes(TITLE) && row.includes("Published")),
+      afterSave[0]?.replace(/\n/g, " ").slice(0, 80)
+    )
+
+    // The API is the reference: the same row, through the tenant's own token.
+    const acmeGet = await apiLogin("admin@acme.test")
+    const apiPage = (await acmeGet("/tenants/pages/contacts")).page
+    check("Acme: the API returns the saved page", apiPage?.title === TITLE && apiPage?.published === true, JSON.stringify(apiPage).slice(0, 120))
+
+    // The storefront caches with `force-cache`, so it is told to drop the tag first.
+    const revalidated = await fetch(`${STOREFRONT}/api/revalidate`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ type: "tenant.pages" }),
+    })
+      .then((r) => r.ok)
+      .catch(() => false)
+    check("storefront: /api/revalidate accepts tenant.pages", revalidated)
+
+    await page.goto(`${STOREFRONT}/en/pages/contacts`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(500)
+    const storefrontText = await page.locator("body").innerText()
+    check("storefront: the page shows the tenant's title", storefrontText.includes(TITLE), page.url())
+    check(
+      "storefront: the markdown body is rendered, not printed",
+      storefrontText.includes("Visit us") &&
+        storefrontText.includes("10 Market Street") &&
+        !storefrontText.includes("**10 Market Street**"),
+      storefrontText.slice(0, 160).replace(/\n/g, " ")
+    )
+    check(
+      "storefront: the heading became a heading",
+      (await page.locator("h2", { hasText: "Visit us" }).count()) > 0
+    )
+    check(
+      "storefront: the list became a list",
+      (await page.locator("li", { hasText: "Mon-Fri" }).count()) > 0
+    )
+    check(
+      "storefront: the footer links to the page",
+      (await page.locator('footer a[href$="/pages/contacts"]').count()) > 0
+    )
+
+    // The home page carries the same footer, so the link is site-wide.
+    await page.goto(`${STOREFRONT}/en`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(400)
+    check(
+      "storefront: the footer link is on every page, not just the page itself",
+      (await page.locator('footer a[href$="/pages/contacts"]').count()) > 0
+    )
+    await ctx.close()
+
+    // Globex opens the same screens: its own five sections, none of them Acme's.
+    const gctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage = await gctx.newPage()
+    await login(gpage, "admin@globex.test")
+    await gpage.goto(`${PANEL}/pages`, { waitUntil: "networkidle" })
+    await gpage.waitForTimeout(800)
+    const globexRows = await rowsOf(gpage)
+    check(
+      "Globex: the pages screen never shows Acme's page",
+      globexRows.every((row) => !row.includes(TITLE)),
+      globexRows.map((row) => row.replace(/\n/g, " ").slice(0, 30)).join(" | ")
+    )
+    const globexGet = await apiLogin("admin@globex.test")
+    const globexPages = (await globexGet("/tenants/pages")).pages
+    check(
+      "Globex: the API lists five unsaved sections",
+      Array.isArray(globexPages) && globexPages.length === 5 && globexPages.every((p) => p.id === null),
+      JSON.stringify(globexPages?.map((p) => [p.key, p.id])).slice(0, 120)
+    )
+    await gctx.close()
+  }
+  // ---- wave 2, piece 6: promotions and campaigns ----------------------------
+  // Acme creates a percentage promotion with a code from the panel, finds it in
+  // the list and on the detail screen with the sales-channel rule the backend
+  // forces, and Globex sees none of it. The rule is checked twice on purpose:
+  // once as the words the operator reads on the screen ("Sales Channel",
+  // "Acme"), once as the row the API returns, because a rule that renders and a
+  // rule that is stored are two different claims.
+  {
+    const stamp = Date.now().toString(36).toUpperCase()
+    const CODE = `E2E${stamp}`
+    const CAMPAIGN_NAME = `E2E campaign ${stamp}`
+    const CAMPAIGN_ID = `e2e-${stamp.toLowerCase()}`
+    const acme = await apiLogin("admin@acme.test")
+    const globex = await apiLogin("admin@globex.test")
+    const me = await acme("/tenants/me")
+    const acmeChannelId = me?.tenant_admin?.tenant?.sales_channel?.id
+    const acmeChannelName = me?.tenant_admin?.tenant?.sales_channel?.name
+    check("promotions: the tenant has a sales channel to scope by", Boolean(acmeChannelId), String(acmeChannelId))
+
+    const beforeApi = await acme("/tenants/promotions?limit=100")
+    const campaignsApi = await acme("/tenants/campaigns?limit=100")
+
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const page = await ctx.newPage()
+    let createdId = null
+    let createdCampaign = null
+    try {
+      await login(page, "admin@acme.test")
+
+      await page.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const listRows = await rowsOf(page)
+      check(
+        "promotions: the list shows exactly the tenant's own promotions",
+        listRows.length === beforeApi.count,
+        `screen ${listRows.length}, api ${beforeApi.count}`
+      )
+
+      await page.goto(`${PANEL}/campaigns`, { waitUntil: "networkidle" })
+      const campaignRows = await rowsOf(page)
+      check(
+        "campaigns: the list shows exactly the tenant's own campaigns",
+        campaignRows.length === campaignsApi.count,
+        `screen ${campaignRows.length}, api ${campaignsApi.count}`
+      )
+
+      // Create: template tab -> details tab -> campaign tab -> Save. The
+      // "Percentage off order" template is the one that needs no target rules,
+      // so the form is complete with a code and a value.
+      await page.goto(`${PANEL}/promotions/create`, { waitUntil: "networkidle" })
+      await page.waitForTimeout(1000)
+      await clickReal(page, page.getByText("Percentage off order", { exact: false }).first())
+      await clickReal(page, page.locator('button:has-text("Continue")').first())
+      await page.waitForTimeout(800)
+      await fillEverywhere(page, 'input[name="code"]', CODE)
+      await fillEverywhere(page, 'input[name="application_method.value"]', "15")
+      // The status choice is a RadioGroup.ChoiceBox: its `input[name="status"]`
+      // is visually hidden, so the click has to land on the box that carries the
+      // "Active" label. Without this the promotion is created as a Draft.
+      await clickReal(page, page.getByText("Customers will be able to use the code").first())
+      await clickReal(page, page.locator('button:has-text("Continue")').first())
+      await page.waitForTimeout(800)
+      await clickReal(page, page.locator('button:has-text("Save")').first())
+
+      const onDetail = await softWaitURL(page, (u) => /\/promotions\/promo_/.test(u.pathname), 30_000)
+      check("promotions: create lands on the new promotion's detail screen", onDetail, page.url())
+
+      await page.waitForLoadState("networkidle")
+      await page.waitForTimeout(800)
+      const detailText = await page.locator("body").innerText()
+      check("promotions: the detail screen shows the created code", detailText.includes(CODE))
+      check(
+        "promotions: the detail screen shows the forced sales-channel rule",
+        detailText.includes("Sales Channel") && detailText.includes(acmeChannelName),
+        `channel "${acmeChannelName}"`
+      )
+
+      const afterApi = await acme("/tenants/promotions?limit=100")
+      const created = (afterApi.promotions || []).find((row) => row.code === CODE)
+      createdId = created?.id ?? null
+      check("promotions: the API lists the promotion the panel created", Boolean(created), String(createdId))
+      check(
+        "promotions: the promotion was created Active, as the form was filled",
+        created?.status === "active",
+        String(created?.status)
+      )
+      const channelRule = (created?.rules || []).find((rule) => rule.attribute === "sales_channel_id")
+      check(
+        "promotions: the created promotion carries the tenant's sales-channel rule",
+        Boolean(channelRule) &&
+          channelRule.operator === "eq" &&
+          (channelRule.values || []).map((v) => v.value).join(",") === acmeChannelId,
+        JSON.stringify(channelRule)
+      )
+
+      await page.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const afterRows = await rowsOf(page)
+      check(
+        "promotions: the new code shows in the list",
+        afterRows.some((row) => row.includes(CODE)),
+        `${afterRows.length} rows`
+      )
+
+      // Campaigns: one screen, one form, the same ownership rule. The campaign
+      // is created from the panel rather than through the API so the screenshot
+      // pair below has a row to show and the create form is actually exercised.
+      await page.goto(`${PANEL}/campaigns/create`, { waitUntil: "networkidle" })
+      await page.waitForTimeout(1000)
+      await fillEverywhere(page, 'input[name="name"]', CAMPAIGN_NAME)
+      await fillEverywhere(page, 'input[name="campaign_identifier"]', CAMPAIGN_ID)
+      await fillEverywhere(page, 'input[name="budget.limit"]', "100")
+      await clickReal(page, page.locator('button:has-text("Create")').first())
+
+      const onCampaign = await softWaitURL(page, (u) => /\/campaigns\/procamp_/.test(u.pathname), 30_000)
+      check("campaigns: create lands on the new campaign's detail screen", onCampaign, page.url())
+      await page.waitForLoadState("networkidle")
+      await page.waitForTimeout(800)
+      const campaignText = await page.locator("body").innerText()
+      check(
+        "campaigns: the detail screen shows the created campaign",
+        campaignText.includes(CAMPAIGN_NAME) && campaignText.includes(CAMPAIGN_ID)
+      )
+
+      const campaignsAfter = await acme("/tenants/campaigns?limit=100")
+      createdCampaign = (campaignsAfter.campaigns || []).find((row) => row.name === CAMPAIGN_NAME)
+      check(
+        "campaigns: the API lists the campaign the panel created",
+        Boolean(createdCampaign),
+        String(createdCampaign?.id)
+      )
+    } finally {
+      await ctx.close()
+    }
+
+    const otherCtx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const otherPage = await otherCtx.newPage()
+    try {
+      await login(otherPage, "admin@globex.test")
+
+      await otherPage.goto(`${PANEL}/promotions`, { waitUntil: "networkidle" })
+      const theirRows = await rowsOf(otherPage)
+      check(
+        "promotions: the other tenant's list does not show the code",
+        !theirRows.some((row) => row.includes(CODE)),
+        `${theirRows.length} rows`
+      )
+
+      // Isolation is "Acme's rows are absent", not "the list is empty": Globex
+      // may own promotions of its own, and an emptiness check would go red on
+      // stand state that has nothing to do with this piece.
+      const theirApi = await globex("/tenants/promotions?limit=100")
+      check(
+        "promotions: the other tenant's API list does not carry the code",
+        !(theirApi.promotions || []).some((row) => row.code === CODE),
+        `count ${theirApi.count}`
+      )
+
+      if (createdId) {
+        await otherPage.goto(`${PANEL}/promotions/${createdId}`, { waitUntil: "networkidle" })
+        await otherPage.waitForTimeout(1500)
+        const text = await otherPage.locator("body").innerText()
+        check(
+          "promotions: the other tenant gets the not-found screen on that promotion",
+          text.includes("404") || text.toLowerCase().includes("no page at this address"),
+          text.slice(0, 120).replace(/\n+/g, " ")
+        )
+      }
+
+      const theirCampaigns = await globex("/tenants/campaigns?limit=100")
+      check(
+        "campaigns: the other tenant's list does not carry Acme's new campaign",
+        !(theirCampaigns.campaigns || []).some((row) => row.id === createdCampaign?.id),
+        `their count ${theirCampaigns.count}`
+      )
+
+      if (createdCampaign) {
+        await otherPage.goto(`${PANEL}/campaigns/${createdCampaign.id}`, { waitUntil: "networkidle" })
+        await otherPage.waitForTimeout(1500)
+        const campaignText = await otherPage.locator("body").innerText()
+        check(
+          "campaigns: the other tenant gets the not-found screen on that campaign",
+          campaignText.includes("404") || campaignText.toLowerCase().includes("no page at this address"),
+          campaignText.slice(0, 120).replace(/\n+/g, " ")
+        )
+      }
+    } finally {
+      await otherCtx.close()
+    }
+
+    if (process.env.E2E_CLEANUP === "1") {
+      if (createdId) {
+        await acme(`/tenants/promotions/${createdId}`, { method: "DELETE" })
+        const afterDelete = await acme("/tenants/promotions?limit=100")
+        check(
+          "promotions: cleanup removed the created promotion",
+          !(afterDelete.promotions || []).some((row) => row.code === CODE)
+        )
+      }
+      if (createdCampaign) {
+        await acme(`/tenants/campaigns/${createdCampaign.id}`, { method: "DELETE" })
+        const afterDelete = await acme("/tenants/campaigns?limit=100")
+        check(
+          "campaigns: cleanup removed the created campaign",
+          !(afterDelete.campaigns || []).some((row) => row.id === createdCampaign.id)
+        )
+      }
+    }
+  }
+  // ---- wave 2, piece 8: the home-page document. Acme composes its storefront home
+  // from the panel (theme preset, hero copy, products source, block order), saves,
+  // and the storefront on P8_STOREFRONT renders it after one revalidate call. The
+  // document is one row per tenant, so the isolation check is Globex reading null
+  // on the same routes rather than a 404 on an id.
+  if (runs("home")) {
+    // tenant-panel: the storefront under test is the one the run was given (STOREFRONT_URL), not a fixed port — on the merged trunk one storefront serves every section.
+    const P8_STOREFRONT = process.env.P8_STOREFRONT || STOREFRONT
+    const p8Stamp = new Date().toISOString().slice(11, 19).replace(/:/g, "")
+    const heroTitle = `Night wave hero ${p8Stamp}`
+    const acme = await apiLogin("admin@acme.test")
+    const globex = await apiLogin("admin@globex.test")
+
+    const ownCategories = await acme("/tenants/product-categories?limit=10&fields=id,name")
+    const category = (ownCategories.product_categories || [])[0]
+    check("Acme: a category of its own exists for the products source", !!category?.id, category?.name)
+
+    const hctx = await browser.newContext({ viewport: { width: 1440, height: 1400 } })
+    const hpage = await hctx.newPage()
+    await login(hpage, "admin@acme.test")
+    await hpage.goto(`${PANEL}/home-settings`, { waitUntil: "networkidle" })
+
+    // The Save button is disabled until GET /tenants/home answers: waiting for it
+    // enabled is waiting for the screen's own "loaded" state, not for a timeout.
+    const saveEnabled = await hpage
+      .locator('[data-testid="home-settings-save"]:not([disabled])')
+      .waitFor({ timeout: 20_000 })
+      .then(() => true)
+      .catch(() => false)
+    check("Acme: the home settings screen finishes loading and enables Save", saveEnabled)
+
+    // This screen is one long form, not the Admin's focus modal, so a control can
+    // sit below the fold: `clickReal` clicks viewport coordinates and would miss it.
+    // Scroll first, then click the element itself.
+    const clickHome = async (locator) => {
+      await locator.waitFor({ state: "visible", timeout: 15_000 })
+      await locator.scrollIntoViewIfNeeded()
+      await locator.click()
+    }
+
+    /** @medusajs/ui Select: click the trigger, then the option by its plain-language label. */
+    const pickSelect = async (testid, label) => {
+      await clickHome(hpage.locator(`[data-testid="${testid}"]`))
+      await hpage.waitForTimeout(400)
+      await clickHome(hpage.locator(`[role="option"]:has-text("${label}")`).first())
+      await hpage.waitForTimeout(400)
+    }
+
+    await pickSelect("theme-preset", "Kerbstone")
+    await pickSelect("slot-defaultMode", "Dark")
+    await hpage.locator('[data-testid="hero-title"]').fill(heroTitle)
+    await hpage.locator('[data-testid="hero-subtitle"]').fill("Composed from the tenant panel")
+    await hpage.locator('[data-testid="hero-cta-label"]').fill("Shop the night wave")
+    await hpage.locator('[data-testid="hero-cta-href"]').fill("/store")
+
+    if (category?.id) {
+      await pickSelect("products-source", "Products of a category")
+      await clickHome(hpage.locator('[data-testid="products-category"]'))
+      await hpage.waitForTimeout(700)
+      await clickHome(hpage.locator(`[role="option"]:has-text("${category.name}")`).first())
+      await hpage.waitForTimeout(300)
+      await hpage.locator('[data-testid="products-title"]').fill("From the category")
+      await hpage.keyboard.press("Escape")
+      await hpage.waitForTimeout(200)
+    }
+
+    // Block order → products, categories, hero. Driven from what the screen shows
+    // rather than by a fixed number of clicks: the tenant may already have a saved
+    // order from an earlier run, and the first row's "up" button is disabled, so a
+    // counted click would hang on a button that is correctly unclickable.
+    const targetOrder = ["products", "categories", "hero"]
+    const readOrder = () =>
+      hpage.$$eval('[data-testid="block-order"] li', (rows) =>
+        rows.map((row) => (row.getAttribute("data-testid") || "").replace("block-order-", ""))
+      )
+    for (let slot = 0; slot < targetOrder.length; slot++) {
+      let order = await readOrder()
+      let at = order.indexOf(targetOrder[slot])
+      while (at > slot) {
+        await clickHome(hpage.locator(`[data-testid="block-up-${targetOrder[slot]}"]`))
+        await hpage.waitForTimeout(200)
+        order = await readOrder()
+        at = order.indexOf(targetOrder[slot])
+      }
+    }
+
+    const orderOnScreen = await hpage.locator('[data-testid="block-order"] li').allInnerTexts()
+    check(
+      "Acme: the screen shows the new block order",
+      orderOnScreen.join(" ").includes("1. Products") && orderOnScreen.join(" ").includes("3. Hero"),
+      orderOnScreen.join(" | ").replace(/\n/g, " ")
+    )
+
+    await clickHome(hpage.locator('[data-testid="home-settings-save"]'))
+    await hpage.waitForTimeout(2000)
+
+    const saved = await acme("/tenants/home")
+    check("Acme: the API returns the saved document", !!saved.home, JSON.stringify(saved).slice(0, 120))
+    check("Acme: the saved theme preset is Kerbstone (sneakers)", saved.home?.theme?.preset === "sneakers", saved.home?.theme?.preset)
+    check("Acme: the saved hero title is the one typed", saved.home?.content?.hero?.title === heroTitle, saved.home?.content?.hero?.title)
+    check(
+      "Acme: the saved block order is products, categories, hero",
+      JSON.stringify(saved.home?.content?.order) === JSON.stringify(["products", "categories", "hero"]),
+      JSON.stringify(saved.home?.content?.order)
+    )
+    if (category?.id) {
+      check(
+        "Acme: the saved products source is its own category",
+        saved.home?.content?.products?.source === "category" &&
+          saved.home?.content?.products?.category_id === category.id,
+        JSON.stringify(saved.home?.content?.products)
+      )
+    }
+    check("Acme: the saved default mode is the one picked", saved.home?.settings?.defaultMode === "dark", saved.home?.settings?.defaultMode)
+    check("Acme: the server stamped updatedAt", !!saved.home?.updatedAt, saved.home?.updatedAt)
+
+    // Reload the screen: what was saved is what comes back, not the defaults. The
+    // headline lives in an input, whose value is not part of the body's text.
+    await hpage.reload({ waitUntil: "networkidle" })
+    await hpage.waitForTimeout(1500)
+    const reloadedTitle = await hpage.locator('[data-testid="hero-title"]').inputValue()
+    const reloaded = await hpage.locator("body").innerText()
+    check("Acme: the screen reloads with the saved hero title", reloadedTitle === heroTitle, reloadedTitle)
+    check("Acme: the screen reloads with the saved preset", reloaded.includes("Kerbstone"))
+    await hctx.close()
+
+    // Globex: its own document is still null, and its key reads null from the store route.
+    const globexHome = await globex("/tenants/home")
+    // Globex may carry a document of its own on a shared stand (piece 9 seeds one); what must hold is that THIS run's Acme document never reached it.
+    check("Globex: its own home document is not the one Acme saved", globexHome.home === null || !JSON.stringify(globexHome.home).includes(heroTitle), JSON.stringify(globexHome).slice(0, 160))
+
+    const gctx3 = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const gpage3 = await gctx3.newPage()
+    await login(gpage3, "admin@globex.test")
+    await gpage3.goto(`${PANEL}/home-settings`, { waitUntil: "networkidle" })
+    await gpage3.waitForTimeout(2000)
+    const globexScreen = await gpage3.locator("body").innerText()
+    check("Globex: the home settings screen shows no trace of Acme's document", !globexScreen.includes(heroTitle))
+    check("Globex: the screen does not show Acme's document", /not saved yet/i.test(globexScreen) || !globexScreen.includes(heroTitle), globexScreen.slice(0, 120).replace(/\n/g, " "))
+    await gctx3.close()
+
+    // The storefront: the document only reaches it after its cache tag is cleared.
+    const acmeKey = (await acme("/tenants/me")).tenant_admin?.tenant?.api_key?.token
+    const globexKey = (await globex("/tenants/me")).tenant_admin?.tenant?.api_key?.token
+    const storeAsAcme = await fetch(`${BACKEND}/store/tenant/home`, {
+      headers: { "x-publishable-api-key": acmeKey },
+    }).then((r) => r.json())
+    const storeAsGlobex = await fetch(`${BACKEND}/store/tenant/home`, {
+      headers: { "x-publishable-api-key": globexKey },
+    }).then((r) => r.json())
+    check("Store route: Acme's key reads Acme's document", storeAsAcme.home?.content?.hero?.title === heroTitle)
+    check("Store route: Globex's key does not read Acme's document", storeAsGlobex.home === null || !JSON.stringify(storeAsGlobex.home).includes(heroTitle), JSON.stringify(storeAsGlobex).slice(0, 80))
+
+    const revalidated = await fetch(`${P8_STOREFRONT}/api/revalidate`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ type: "tenant.home" }),
+    })
+      .then((r) => r.ok)
+      .catch(() => false)
+    check("Storefront: POST /api/revalidate {type: tenant.home} answered", revalidated)
+
+    await new Promise((r) => setTimeout(r, 1500))
+    const sctx = await browser.newContext({ viewport: { width: 1440, height: 1200 } })
+    const spage = await sctx.newPage()
+    await spage.goto(`${P8_STOREFRONT}/en`, { waitUntil: "networkidle" })
+    await spage.waitForTimeout(1500)
+    const homeText = await spage.locator("body").innerText()
+    check("Storefront: the home page shows the hero title the tenant typed", homeText.includes(heroTitle), homeText.slice(0, 140).replace(/\n/g, " "))
+    check("Storefront: the hero CTA label is the tenant's own", homeText.includes("Shop the night wave"))
+
+    const theme = await spage.evaluate(() => document.documentElement.getAttribute("data-theme"))
+    const mode = await spage.evaluate(() => document.documentElement.getAttribute("data-mode"))
+    check("Storefront: data-theme is the saved preset", theme === "sneakers", String(theme))
+    check("Storefront: data-mode is the saved default mode", mode === "dark", String(mode))
+
+    // Block order on the page itself: the listing's own section stands above the hero.
+    const positions = await spage.evaluate(() => {
+      const at = (sel) => {
+        const el = document.querySelector(sel)
+        return el ? el.getBoundingClientRect().top + window.scrollY : -1
+      }
+      return {
+        hero: at('[data-testid="profile-hero"]'),
+        tiles: at('[data-testid="category-tiles"]'),
+        listing: at('[data-testid^="home-listing-"]'),
+      }
+    })
+    check(
+      "Storefront: the products block is rendered above the hero, as the order says",
+      positions.listing > -1 && positions.hero > -1 && positions.listing < positions.hero,
+      JSON.stringify(positions)
+    )
+    check(
+      "Storefront: the category tiles sit between them",
+      positions.tiles > -1 && positions.tiles > positions.listing && positions.tiles < positions.hero,
+      JSON.stringify(positions)
+    )
+    await sctx.close()
   }
 
   // ---- wave 2, piece 9: the Domains screen ---------------------------------

@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Visi produktai"
   },
+  "TenantPage": {
+    "emptyBody": "Šiame puslapyje dar nėra teksto.",
+    "metaDescription": "{title} parduotuvėje {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Patvirtinti perdavimą",
     "declineSuccess": "Užsakymo perdavimas sėkmingai atmestas!",

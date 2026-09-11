@@ -100,9 +100,40 @@ export async function POST(req: NextRequest) {
     revalidatePath("/sitemap.xml")
   }
 
-  if (body.type === "tenant.home" && typeof body.handle === "string" && body.handle) {
-    revalidateTag(tenantHomeTag(body.handle))
-    revalidatePath(`/[locale]/(main)`, "page")
+  // tenant-panel wave 2, piece 7: the tenant's content pages. One shared cache
+  // tag (`lib/data/tenant-pages.ts`), so clearing it clears both the page bodies
+  // and the footer's link list; the two paths below are the rendered pages that
+  // hold them — the footer lives in the `(main)` layout, which every route under
+  // the group re-renders with.
+  if (body.type === "tenant.pages") {
+    revalidateTag("tenant-pages")
+    revalidatePath(`/[locale]/(main)/pages/[key]`, "page")
+    revalidatePath(`/[locale]/(main)`, "layout")
+  }
+
+  // tenant panel wave 2, piece 8: the tenant's home-page document
+  // (`GET /store/tenant/home`, cache tag "tenant-home"). It decides the theme, the
+  // composition and the home blocks, so clearing it has to redraw the root layout as well
+  // as the home page itself — every route under `(main)` reads the same document through
+  // `getEffectiveSettings()` for its header and footer, which is why the paths below are
+  // the layout ones and not only `/`.
+  //
+  // Piece 9 added the optional `handle`. `getTenantHome()` attaches BOTH tags to its
+  // fetch — the shared one and `tenant-home-<handle>` — so a caller that names no shop
+  // still clears every shop's document the way it did before, and a caller that names one
+  // drops that shop's alone instead of twenty others' with it. The paths cannot be
+  // narrowed either way: a path is one path for every shop on the process, which is
+  // over-invalidation and not a leak (the fetch cache key carries the per-shop
+  // `x-publishable-api-key`).
+  if (body.type === "tenant.home") {
+    revalidateTag("tenant-home")
+
+    if (typeof body.handle === "string" && body.handle) {
+      revalidateTag(tenantHomeTag(body.handle))
+    }
+
+    revalidatePath("/[locale]/(main)", "layout")
+    revalidatePath("/[locale]/(main)", "page")
   }
 
   return NextResponse.json({ revalidated: true })

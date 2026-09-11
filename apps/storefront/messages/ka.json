@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "ყველა პროდუქტი"
   },
+  "TenantPage": {
+    "emptyBody": "ამ გვერდს ჯერ ტექსტი არ აქვს.",
+    "metaDescription": "{title} — {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "გადაცემის მიღება",
     "declineSuccess": "შეკვეთის გადაცემა წარმატებით უარყოფილია!",

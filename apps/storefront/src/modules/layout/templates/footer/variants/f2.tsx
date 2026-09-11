@@ -2,6 +2,7 @@ import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
+import { listTenantPages } from "@lib/data/tenant-pages"
 import { SITE_NAME } from "@lib/util/env"
 
 import PoweredBy from "@modules/layout/components/powered-by"
@@ -20,6 +21,9 @@ export default async function FooterF2() {
     (category) => !category.parent_category_id
   )
   const { collections } = await listCollections()
+  // tenant-panel wave 2, piece 7: the shop owner's own published content
+  // pages, in the same link row as the categories and collections.
+  const tenantPages = await listTenantPages()
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-subtle">
@@ -49,6 +53,16 @@ export default async function FooterF2() {
                   className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
                 >
                   {collection.title}
+                </Link>
+              </li>
+            ))}
+            {tenantPages.map((page) => (
+              <li key={page.key}>
+                <Link
+                  href={`/pages/${page.key}`}
+                  className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                >
+                  {page.title}
                 </Link>
               </li>
             ))}

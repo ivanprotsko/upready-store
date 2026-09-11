@@ -2,12 +2,14 @@ import { getLocaleDir } from "@i18n/config"
 import { GA_MEASUREMENT_ID, getBaseURL } from "@lib/util/env"
 import GoogleAnalytics from "@modules/common/components/google-analytics"
 import type { Metadata } from "next"
-import { headers } from "next/headers"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
 import { fontClassName, isAllowed, readProfileTheme, themePrePaintScript } from "@lib/theme"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
-import { getTenantHome } from "@lib/data/tenant-home"
+import {
+  getEffectiveSettings,
+  getTenantModeDefault,
+  getTenantThemePreset,
+} from "@lib/data/tenant-home"
 import DevtoolsMount from "@modules/devtools/components/devtools-mount"
 import "styles/globals.css"
 
@@ -21,23 +23,23 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // the `data-theme` axis (critique §2.3). An absent or theme-less profile falls back
   // to "default", which themes.css resolves to the medusa preset — today's look. See
   // src/lib/theme/profile.ts.
-  const { theme: profileTheme, mode: profileMode } = readProfileTheme()
-
-  // One process serves every shop (piece 9, docs/multitenancy/storefront-by-host.md
-  // §2): `src/middleware.ts` resolved the shop from the Host header and put its
-  // theme preset and default mode on the request headers. A host with no shop
-  // behind it sends none and this falls straight back to the build profile —
-  // today's single-store behaviour, unchanged.
   //
-  // Both values go through the theme axis allow-list before they reach the
-  // attribute: they arrive over the network, and `data-theme="…"` is what selects
-  // the CSS block in styles/themes.css.
-  const requestHeaders = await headers()
-  const tenantTheme = requestHeaders.get("x-tenant-theme")
-  const tenantMode = requestHeaders.get("x-tenant-mode")
-
-  const theme =
-    tenantTheme && isAllowed("data-theme", tenantTheme) ? tenantTheme : profileTheme
+  // Tenant panel wave 2, piece 8: a tenant that saved a home-page document names its own
+  // preset there, and that wins over the build profile — one backend serves many
+  // storefronts, so the profile baked into this build is a fallback, not the tenant's
+  // choice. Piece 9 made that read per REQUEST: one process serves every shop, and
+  // `src/middleware.ts` resolves which one from the Host header, so
+  // `getTenantThemePreset()`/`getTenantModeDefault()` answer from the `x-tenant-*` headers
+  // it set and fall back to the document itself (`lib/data/tenant-home.ts`). A host with
+  // no shop behind it gets null from both and lands on the build profile — today's
+  // single-store behaviour, unchanged.
+  //
+  // Both values cross the wire as plain strings, so each goes through the theme axis'
+  // own allow-list before it reaches the attribute: `data-theme="…"` is what selects the
+  // CSS block in styles/themes.css, and a value that file cannot resolve would paint
+  // nothing. `isAllowed` is the registry's own guard (`lib/theme/attributes.ts`), so it
+  // accepts `default` as well as every generated preset.
+  const { theme: profileTheme, mode: profileMode } = readProfileTheme()
 
   // Mode resolution order, highest priority first (panel-composition-mockup.md §C6):
   //   1. the visitor's own localStorage — applied by the pre-paint script below,
@@ -47,18 +49,20 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  // Mode, in the same order, with the shop's own default ahead of the site-wide
-  // one: on a multi-shop process `store.metadata.storefrontSettings` belongs to
-  // the whole backend and cannot speak for one shop.
-  const [home, settings] = await Promise.all([
-    getTenantHome(),
-    getStorefrontSettings(),
+  const [settings, tenantPreset, tenantMode] = await Promise.all([
+    getEffectiveSettings(),
+    getTenantThemePreset(),
+    getTenantModeDefault(),
   ])
-  const tenantDefaultMode =
-    (tenantMode && isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
-    home?.settings?.defaultMode ??
-    null
-  const mode = tenantDefaultMode ?? settings?.defaultMode ?? profileMode
+  const theme = isAllowed("data-theme", tenantPreset) ? tenantPreset : profileTheme
+  // The shop's own default sits ahead of the site-wide one: on a multi-shop process
+  // `store.metadata.storefrontSettings` belongs to the whole backend and cannot speak
+  // for one shop. `getEffectiveSettings()` already prefers the shop's document, so the
+  // second term only ever answers for a single-store stand.
+  const mode =
+    (isAllowed("data-mode", tenantMode) ? tenantMode : null) ??
+    settings?.defaultMode ??
+    profileMode
 
   return (
     <html

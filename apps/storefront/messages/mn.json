@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Бүх бүтээгдэхүүн"
   },
+  "TenantPage": {
+    "emptyBody": "Энэ хуудсанд одоохондоо текст алга.",
+    "metaDescription": "{siteName} дэх {title}."
+  },
   "TransferActions": {
     "acceptTransfer": "Шилжүүлгийг зөвшөөрөх",
     "declineSuccess": "Захиалгын шилжүүлгээс амжилттай татгалзлаа!",

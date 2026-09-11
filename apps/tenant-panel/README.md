@@ -149,6 +149,54 @@ Added by wave-2 piece 5 (categories, `/categories/**`):
   stand 2026-09-11: the same query answers 1 category on `/tenants/product-categories` and 4 on
   `/admin/product-categories`.
 
+Added by wave-2 piece 6 (promotions and campaigns, `/promotions/**` and `/campaigns/**`):
+
+- `hooks/api/promotions.tsx`, `hooks/api/campaigns.tsx` — the Admin's own hooks with every
+  `sdk.admin.promotion.*` / `sdk.admin.campaign.*` call replaced by an `sdk.client.fetch` against
+  the matching `/tenants/*` route. The js-sdk's admin module hardcodes the `/admin/...` prefix, so
+  the URL is the one thing that cannot be reused; paths, bodies, query keys and invalidations are
+  the Admin's, including the three rule mutations that share `:id/:ruleType/batch` and differ only
+  in which key of the batch body they fill.
+- `routes/promotions/promotion-list/loader.ts`, `routes/promotions/promotion-detail/loader.ts`,
+  `routes/campaigns/campaign-detail/loader.ts`,
+  `routes/promotions/common/edit-rules/components/rule-value-form-field/rule-value-form-field.tsx`
+  and
+  `routes/promotions/promotion-add-campaign/components/add-campaign-promotion-form/add-campaign-promotion-form.tsx`
+  — the same swap at the five call sites that bypass the hooks. The last two matter for isolation
+  as well as for the URL: the rule-value combobox and the campaign combobox would otherwise list
+  every backend's channels, products and campaigns.
+- `components/layout/main-layout/main-layout.tsx` — Campaigns hangs under Promotions as a nested
+  nav item, which is where the Admin's own nav puts it. The nested list renders through the
+  `LayoutEditContext` default (edit mode off, nothing hidden, order unchanged), so it needs no
+  `LayoutEditProvider`.
+- Copied verbatim, unchanged: `routes/promotions/**`, `routes/campaigns/**` (except the five files
+  above), `components/table/table-cells/common/text-cell`, `.../common/code-cell`,
+  `.../promotion/status-cell`, `.../sales-channel/name-cell`, `.../sales-channel/description-cell`,
+  `hooks/table/columns/use-promotion-table-columns.tsx`, `.../use-campaign-table-columns.tsx`,
+  `hooks/table/filters/use-promotion-table-filters.tsx`,
+  `hooks/table/query/use-promotion-table-query.tsx` and `.../use-campaign-table-query.tsx`.
+Added by wave-2 piece 8 (home page settings, `/home-settings`):
+
+- `routes/home-settings/*` — own screen, no Admin counterpart: the Admin has no home-page
+  document. Built from the panel's own copied primitives (`SingleColumnPage`, `Container`,
+  the `@medusajs/ui` form controls, the `Combobox` the organize forms use). The pair it is
+  compared against by screenshot is the Admin's `/app/settings/store`, the nearest screen in
+  shape — one container of form rows saved in place — not in content.
+- `routes/home-settings/composition.ts` — the composition vocabulary (six enums, the two
+  FORBIDDEN pairs, the plain-language label and one-line "why" for every option) and the
+  seven theme preset labels, hand-transcribed for the panel. The storefront keeps its own
+  copy in `lib/theme/composition.ts` and the backend in
+  `api/store/storefront-settings/validation.ts`; `pnpm-workspace.yaml` lists only `apps/**`,
+  so there is no shared package the three could import one copy from. The English labels are
+  the storefront catalog's own `Composition` namespace (`apps/storefront/messages/en.json`).
+- `hooks/api/home.tsx` — `useTenantHome` / `useUpdateTenantHome` against `GET`/`PUT
+  /tenants/home`. The response is one document or null, never a list, so there is no list
+  query key and no `count/offset/limit`.
+- Strings on this screen are `t(key, { defaultValue: "<English>" })`, the idiom
+  `components/layout/main-layout` already uses for text the Admin's catalogs do not carry.
+  The Russian half of the panel's trimmed catalogs therefore shows the English text on this
+  screen until the keys are added; no catalog file was edited by this piece.
+
 Own files, not copies (the Admin has nothing playing an equivalent role, or the prompt calls for a
 from-scratch replacement):
 
@@ -201,3 +249,22 @@ verbatim, unmounted: `useLayoutEdit()` reads `useContext(LayoutEditContext)`, an
 default value is already edit-mode-off, so `components/layout/nav-item` (which reads it for nested
 list reordering, unused here since the panel's nav has no nested items) works without a
 `LayoutEditProvider` anywhere in the tree.
+
+Added by wave-2 piece 7 (content pages, `/pages` and `/pages/:key`):
+
+- `routes/pages/**` and `hooks/api/pages.tsx` — the panel's own screens and hook module, with no
+  Admin counterpart to copy: the native Admin has no per-store content pages. They are built from
+  the same copied primitives every other screen here uses (`SingleColumnPage`, `Container`,
+  `Table`, `StatusBadge`, `RouteFocusModal`, `Form`, `KeyboundForm`), so they sit in the Admin's
+  shell unchanged, but the file-by-file diff Ivan's acceptance asks for has nothing to diff
+  against — the screenshot pair is `panel-pages.png` against `admin-pages.png`
+  (`/app/settings/store`, the nearest Admin screen of the same kind), and `panel-page-edit.png`
+  stands alone.
+- `routes/pages/page-sections.ts` — the five section labels ("Contacts", "Legal details", "About
+  the shop", "Privacy policy", "Public offer") and the three status words (Published / Draft /
+  Empty) are written here in plain English rather than pulled from the Admin's i18n catalogue,
+  which has no string for any of them. The panel's own catalogue (`i18n/translations`) carries
+  English and Russian; these strings are English-only, like the sidebar's own `defaultValue`
+  labels for the wave-2 sections.
+- A plain `Table` rather than the copied `DataTable`: the list is five fixed rows with no
+  server-side filtering, sorting or pagination, which is DataTable's entire surface.

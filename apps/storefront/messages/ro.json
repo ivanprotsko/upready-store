@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Toate produsele"
   },
+  "TenantPage": {
+    "emptyBody": "Această pagină nu are încă text.",
+    "metaDescription": "{title} la {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Acceptă transferul",
     "declineSuccess": "Transferul comenzii a fost refuzat cu succes!",

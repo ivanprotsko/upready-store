@@ -1,6 +1,7 @@
 import type { ComponentType } from "react"
 
 import type { HeroKey, ListingKey, TilesKey } from "@lib/theme/composition"
+import type { HomeHeroProps, HomeListingProps } from "@modules/home/variants/types"
 import ProfileHero from "@modules/home/components/profile-hero"
 import HeroG from "@modules/home/variants/hero-g"
 import HeroH from "@modules/home/variants/hero-h"
@@ -38,7 +39,14 @@ import HeroGB from "./hero-gb"
  * registry.
  */
 
-type SlotComponent = ComponentType
+/**
+ * Tenant panel wave 2, piece 8: the hero and listing entries now take the tenant's own
+ * home-page content as optional props (`types.ts`). Every variant still works with no
+ * props at all — a zero-prop component is assignable to `ComponentType<P>` when every
+ * field of `P` is optional — so the five old stands, which pass nothing, are unchanged.
+ */
+type HeroComponent = ComponentType<HomeHeroProps>
+type ListingComponent = ComponentType<HomeListingProps>
 
 /**
  * `HeroKey` minus `"none"`: block-port-map.md §4's `none` row assigns its own ~5-line
@@ -50,7 +58,7 @@ type SlotComponent = ComponentType
  * `ga`/`gb` fall back the same way, to no markup, below their own 3-slide floor
  * (`hero-gallery-data.ts`'s `MIN_SLIDES`).
  */
-export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, SlotComponent> = {
+export const HERO_VARIANTS: Record<Exclude<HeroKey, "none">, HeroComponent> = {
   g: HeroG,
   h: HeroH,
   j: HeroJ,
@@ -85,7 +93,7 @@ export const DEFAULT_TILES: TilesKey = "on"
  * untouched and still exists (`home/components/featured-products/`) in case something
  * outside this switch still wants it; nothing here does.
  */
-export const LISTING_VARIANTS: Record<Exclude<ListingKey, "none">, SlotComponent> = {
+export const LISTING_VARIANTS: Record<Exclude<ListingKey, "none">, ListingComponent> = {
   p1: ListingP1,
   p2: ListingP2,
   p3: ListingP3,
@@ -99,3 +107,13 @@ export const LISTING_VARIANTS: Record<Exclude<ListingKey, "none">, SlotComponent
  * `"none"`) so `LISTING_VARIANTS[DEFAULT_LISTING]` indexes without a cast.
  */
 export const DEFAULT_LISTING: Exclude<ListingKey, "none"> = "p1"
+
+/**
+ * The order the three home blocks render in when the tenant's document does not say
+ * (`content.order`) — hero, category tiles, listing, which is the order `(main)/page.tsx`
+ * has always composed them in (frame 17 of `2026-09-07-profile-home-mockup.md`). A block
+ * missing from a saved `order` is not rendered at all, which is how the panel turns one
+ * off; the default names all three, so nothing disappears on a stand without a document.
+ */
+export const DEFAULT_BLOCK_ORDER = ["hero", "categories", "products"] as const
+export type HomeBlockKey = (typeof DEFAULT_BLOCK_ORDER)[number]

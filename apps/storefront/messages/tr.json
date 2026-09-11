@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Tüm ürünler"
   },
+  "TenantPage": {
+    "emptyBody": "Bu sayfada henüz metin yok.",
+    "metaDescription": "{title} – {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Devri kabul et",
     "declineSuccess": "Sipariş devri başarıyla reddedildi!",

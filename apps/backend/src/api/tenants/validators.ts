@@ -66,6 +66,33 @@ export const PostTenantUpdatePasswordSchema = z.strictObject({
 
 export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswordSchema>;
 
+// ---- piece 7: content pages (/tenants/pages/**)
+
+/**
+ * `PUT /tenants/pages/:key` body. The key is in the path (one of
+ * `TENANT_PAGE_KEYS`), never in the body, so a tenant cannot rename a section
+ * by posting a different key; `locale` is optional and defaults to `en`, the
+ * model's own default, because the panel edits one language today.
+ *
+ * `title` and `body` are accepted empty — that is how a tenant clears a draft
+ * it has already saved — and the route, not zod, refuses `published: true`
+ * with a blank title: the rule is about the PAIR of fields, and a MedusaError
+ * raised in the route carries the same `invalid_data` type and 400 status the
+ * validator would, without turning this schema into a refined one (only a
+ * plain object schema survives `zodValidator`'s own `.strict()` call).
+ */
+export const PutTenantPageSchema = z.strictObject({
+  title: z.string().max(200),
+  body: z.string().max(50_000),
+  published: z.boolean(),
+  locale: z
+    .string()
+    .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
+    .optional(),
+});
+
+export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
+
 // ---- piece 9: storefront by host (/tenants/domains)
 
 /**

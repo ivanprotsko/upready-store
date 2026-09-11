@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "すべての商品"
   },
+  "TenantPage": {
+    "emptyBody": "このページにはまだ本文がありません。",
+    "metaDescription": "{siteName}の{title}。"
+  },
   "TransferActions": {
     "acceptTransfer": "譲渡を承認",
     "declineSuccess": "注文の譲渡を拒否しました！",

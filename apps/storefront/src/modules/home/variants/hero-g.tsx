@@ -9,6 +9,7 @@ import {
   listLeadProducts,
 } from "@lib/data/home"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
+import type { HomeHeroProps } from "@modules/home/variants/types"
 
 /**
  * Hero G · Showcase (`composer/lib/hero.js` `key === "g"`, `hero.css` `.hero.g`). A single
@@ -24,8 +25,20 @@ import AddToBagButton from "@modules/home/components/add-to-bag-button"
  *
  * Renders nothing when the profile's catalog has no lead collection or no priced product
  * in it (a fresh/empty stand) rather than an empty band.
+ *
+ * Tenant panel wave 2, piece 8: the headline, the line under it, the secondary link and the
+ * photograph can each be overridden by the tenant's home-page document (`content.hero`).
+ * The product itself is not: this hero sells one product with its real price and its own
+ * Add to bag, and the document has no product picker. Every absent field falls back to the
+ * product's own, which is what a stand without a tenant document always shows.
  */
-export default async function HeroG() {
+export default async function HeroG({
+  title,
+  subtitle,
+  ctaLabel,
+  ctaHref,
+  imageUrl,
+}: HomeHeroProps = {}) {
   const [t, locale, region] = await Promise.all([
     getTranslations("HomeHero"),
     getLocale(),
@@ -51,6 +64,9 @@ export default async function HeroG() {
   }
 
   const { cheapestPrice } = getProductPrice({ product, locale })
+  const headline = title || product.title
+  const line = subtitle || product.subtitle
+  const image = imageUrl || product.thumbnail
 
   return (
     <section
@@ -58,9 +74,9 @@ export default async function HeroG() {
       className="grid w-full grid-cols-1 border-b border-ui-border-base small:min-h-[520px] small:grid-cols-2"
     >
       <div className="relative order-first aspect-[4/5] w-full overflow-hidden bg-ui-bg-subtle small:order-last small:aspect-auto small:h-full small:border-l small:border-ui-border-base">
-        {product.thumbnail ? (
+        {image ? (
           <Image
-            src={product.thumbnail}
+            src={image}
             alt=""
             fill
             priority
@@ -75,11 +91,11 @@ export default async function HeroG() {
           {collection.title}
         </span>
         <h2 className="text-balance text-[28px] font-semibold leading-[1.1] tracking-[-0.02em] text-ui-fg-base small:text-[42px]">
-          {product.title}
+          {headline}
         </h2>
-        {product.subtitle ? (
+        {line ? (
           <p className="max-w-[40ch] text-balance text-sm leading-relaxed text-ui-fg-subtle small:text-base">
-            {product.subtitle}
+            {line}
           </p>
         ) : null}
         {cheapestPrice ? (
@@ -93,10 +109,10 @@ export default async function HeroG() {
         <div className="mt-2 flex flex-wrap items-center gap-6">
           <AddToBagButton product={product} size="large" />
           <Link
-            href={`/collections/${collection.handle}`}
+            href={ctaHref || `/collections/${collection.handle}`}
             className="flex items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
           >
-            {t("g.seeAll", { collection: collection.title ?? "" })}
+            {ctaLabel || t("g.seeAll", { collection: collection.title ?? "" })}
           </Link>
         </div>
       </div>

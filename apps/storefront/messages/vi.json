@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Tất cả sản phẩm"
   },
+  "TenantPage": {
+    "emptyBody": "Trang này chưa có nội dung.",
+    "metaDescription": "{title} tại {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Chấp nhận chuyển nhượng",
     "declineSuccess": "Đã từ chối chuyển nhượng đơn hàng thành công!",

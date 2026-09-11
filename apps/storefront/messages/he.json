@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "כל המוצרים"
   },
+  "TenantPage": {
+    "emptyBody": "בדף הזה עדיין אין טקסט.",
+    "metaDescription": "{title} ב־{siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "אישור העברה",
     "declineSuccess": "העברת ההזמנה נדחתה בהצלחה!",

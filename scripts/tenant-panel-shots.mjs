@@ -5,6 +5,7 @@
  *
  *   node scripts/tenant-panel-shots.mjs admin   # admin-*.png
  *   node scripts/tenant-panel-shots.mjs panel   # panel-*.png (PANEL_URL, default http://localhost:5180)
+ *   node scripts/tenant-panel-shots.mjs storefront   # storefront-*.png (wave 2, piece 8)
  *
  * Output: artifacts/docs/tenant-panel-shots/<side>-<screen>.png (git-ignored binaries, rule 21f).
  *
@@ -32,15 +33,26 @@ const { chromium } = require(
 )
 
 const side = process.argv[2]
-if (!["admin", "panel"].includes(side)) {
-  console.error("usage: tenant-panel-shots.mjs admin|panel")
+// tenant-panel wave 2, piece 7: a third side. The content pages are the first
+// screens whose acceptance is on the STOREFRONT rather than in the panel, and a
+// storefront needs no login, no product id and no Admin counterpart — so it runs
+// its own short flow below rather than joining the admin/panel pair.
+if (!["admin", "panel", "storefront"].includes(side)) {
+  console.error("usage: tenant-panel-shots.mjs admin|panel|storefront")
   process.exit(2)
 }
 const OUT = path.resolve("artifacts/docs/tenant-panel-shots")
 mkdirSync(OUT, { recursive: true })
 
 const cfg =
-  side === "admin"
+  side === "storefront"
+    ? {
+        base: process.env.STOREFRONT_URL || "http://localhost:8011",
+        email: "",
+        password: "",
+        afterLogin: /.*/,
+      }
+    : side === "admin"
     ? {
         base: process.env.ADMIN_URL || "http://localhost:9023/app",
         email: "admin@upready.dev",
@@ -72,6 +84,38 @@ const shot = async (page, name) => {
   console.log("shot", file)
 }
 
+/**
+ * tenant panel wave 2, piece 8. The storefront side is not a panel screen and has no
+ * login: it is the page the home-page document produces. `SHOT_NAME` names the frame
+ * ("home-acme-before" / "home-acme-after"), so the files land as
+ * `storefront-home-acme-before.png` next to the panel/admin pairs. The theme and mode the
+ * document sets are printed beside the file, because a screenshot of a dark page proves
+ * the mode only if the attribute agrees (rule 18f: a mode you name is a coordinate you
+ * must have entered).
+ */
+if (side === "storefront") {
+  const base = process.env.STOREFRONT_URL || "http://localhost:8012"
+  const name = process.env.SHOT_NAME || "home"
+  const browser = await chromium.launch()
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  const page = await ctx.newPage()
+  try {
+    await page.goto(`${base}/en`, { waitUntil: "networkidle" })
+    await shot(page, name)
+    const attrs = await page.evaluate(() => ({
+      theme: document.documentElement.getAttribute("data-theme"),
+      mode: document.documentElement.getAttribute("data-mode"),
+    }))
+    console.log("data-theme:", attrs.theme, "data-mode:", attrs.mode)
+  } catch (e) {
+    console.error("FAILED:", e.message)
+    process.exitCode = 1
+  } finally {
+    await browser.close()
+  }
+  process.exit(process.exitCode ?? 0)
+}
+
 const BACKEND = process.env.BACKEND_URL || "http://localhost:9023"
 const PANEL_EMAIL = process.env.PANEL_EMAIL || "admin@acme.test"
 
@@ -93,7 +137,60 @@ const resolveProductId = async () => {
   return products?.[0]?.id
 }
 
+// tenant-panel wave 2, piece 7: the storefront side. Its own browser, closed
+// here, so the shared launch below still owns exactly one browser.
+if (side === "storefront") {
+  const key = process.env.SHOT_PAGE_KEY || "contacts"
+  const sfBrowser = await chromium.launch()
+  const sfCtx = await sfBrowser.newContext({
+    viewport: { width: 1440, height: 900 },
+    colorScheme: "light",
+  })
+  const sfPage = await sfCtx.newPage()
+  try {
+    await sfPage.goto(`${cfg.base}/en/pages/${key}`, { waitUntil: "networkidle" })
+    await sfPage.waitForTimeout(600)
+    await shot(sfPage, `page-${key}`)
+
+    // The footer is below the fold on every page; scroll to it before shooting,
+    // otherwise the shot is of the hero and proves nothing about the links.
+    await sfPage.goto(`${cfg.base}/en`, { waitUntil: "networkidle" })
+    await sfPage.waitForTimeout(600)
+    await sfPage.locator("footer").last().scrollIntoViewIfNeeded()
+    await sfPage.waitForTimeout(400)
+    await shot(sfPage, "footer")
+  } catch (e) {
+    console.error("FAILED:", e.message)
+    process.exitCode = 1
+  } finally {
+    await sfBrowser.close()
+  }
+} else {
+
+
+/**
+ * One promotion id both sides open. The native Admin sees every promotion, so
+ * the tenant's own is the id that works on both; a stand with no promotion for
+ * this tenant simply skips the detail shot rather than failing the run.
+ */
+const resolvePromotionId = async () => {
+  if (process.env.SHOT_PROMOTION_ID) {
+    return process.env.SHOT_PROMOTION_ID
+  }
+  const login = await fetch(`${BACKEND}/auth/tenant/emailpass`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: PANEL_EMAIL, password: "supersecret" }),
+  })
+  const { token } = await login.json()
+  const list = await fetch(`${BACKEND}/tenants/promotions?limit=1&fields=id,code`, {
+    headers: { authorization: `Bearer ${token}` },
+  })
+  const { promotions } = await list.json()
+  return promotions?.[0]?.id
+}
 const productId = await resolveProductId()
+const promotionId = await resolvePromotionId()
 if (!productId) {
   console.error(`no product to shoot: set SHOT_PRODUCT_ID or seed ${PANEL_EMAIL}'s tenant`)
   process.exit(2)
@@ -199,6 +296,12 @@ try {
   // Wave 2, pieces 2 and 3. ORDER_ID names the order both sides open, so the
   // Admin and the panel show the SAME row; without it the first row of each
   // list is taken, and the Admin's first row is whatever tenant placed it.
+  // tenant panel wave 2, piece 8: the fallback below clicks the first row of "the
+  // table", which used to be whatever screen the walk had reached — since piece 4 added
+  // the profile shots above, that was `/settings/profile/edit`, a screen with no table,
+  // and the whole script died there 30 s later. Go back to the orders list first.
+  await page.goto(`${cfg.base}/orders`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(800)
   const orderId =
     process.env.ORDER_ID ||
     (await page
@@ -238,7 +341,54 @@ try {
   await page.goto(`${cfg.base}/categories/create`, { waitUntil: "networkidle" })
   await page.waitForTimeout(1000)
   await shot(page, "category-create")
+  // tenant-panel wave 2, piece 7: the content pages. `pages` is a real pair —
+  // the panel's list against the Admin's /app/settings/store, which is the
+  // nearest Admin screen of the same kind (a settings table in the same shell),
+  // shot side by side so the shell itself can be compared. `page-edit` is panel
+  // only: the Admin has no content-page editor to stand beside it.
+  if (side === "panel") {
+    await page.goto(`${cfg.base}/pages`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(800)
+    await shot(page, "pages")
 
+    await page.goto(`${cfg.base}/pages/${process.env.SHOT_PAGE_KEY || "contacts"}`, {
+      waitUntil: "networkidle",
+    })
+    await page.waitForTimeout(1200)
+    await shot(page, "page-edit")
+  } else {
+    await page.goto(`${cfg.base}/settings/store`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(800)
+    await shot(page, "pages")
+  }
+
+  // tenant-panel wave 2, piece 6 (promotions + campaigns).
+  await page.goto(`${cfg.base}/promotions`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(700)
+  await shot(page, "promotions")
+
+  await page.goto(`${cfg.base}/promotions/create`, { waitUntil: "networkidle" })
+  await page.waitForTimeout(1000)
+  await shot(page, "promotion-create")
+
+  if (promotionId) {
+    await page.goto(`${cfg.base}/promotions/${promotionId}`, { waitUntil: "networkidle" })
+    await page.waitForTimeout(1200)
+    await shot(page, "promotion-detail")
+  }
+
+
+  // tenant panel wave 2, piece 8: the home-page settings screen. The Admin has no
+  // equivalent document, so the frame beside it is the Admin's own store settings
+  // (`/app/settings/store`) — the nearest screen in shape: one container of form rows
+  // the operator saves in place. The two are compared for chrome and control style, not
+  // for content.
+  await page.goto(
+    side === "admin" ? `${cfg.base}/settings/store` : `${cfg.base}/home-settings`,
+    { waitUntil: "networkidle" }
+  )
+  await page.waitForTimeout(1200)
+  await shot(page, "home-settings")
   // tenant-panel wave 2, piece 9: the Domains screen. Panel side only — the
   // native Admin has no counterpart at all, because a Medusa install serves one
   // storefront and never resolves a shop from the Host header. Shooting
@@ -258,4 +408,5 @@ try {
   process.exitCode = 1
 } finally {
   await browser.close()
+}
 }

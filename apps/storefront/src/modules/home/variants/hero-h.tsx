@@ -6,6 +6,7 @@ import { profile, promoText } from "@lib/profile"
 import { convertToLocale } from "@lib/util/money"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { getHomeRegion, getLeadCollection, listLeadProducts } from "@lib/data/home"
+import type { HomeHeroProps } from "@modules/home/variants/types"
 
 /**
  * Hero H · Shelf (`composer/lib/hero.js` `key === "h"`, `hero.css` `.hero.h`). Three
@@ -15,8 +16,19 @@ import { getHomeRegion, getLeadCollection, listLeadProducts } from "@lib/data/ho
  *
  * Renders nothing when the profile has no lead collection or fewer than one priced
  * product with an image in it.
+ *
+ * Tenant panel wave 2, piece 8: the headline, the line under it and the button take the
+ * tenant's home-page document (`content.hero`) when it fills them in. The shelf itself is
+ * three photographs of three real products, so `imageUrl` has nothing to replace here and
+ * is ignored — the document's image reaches the heroes that show ONE photograph
+ * (Showcase and the profile hero's own photo layouts).
  */
-export default async function HeroH() {
+export default async function HeroH({
+  title,
+  subtitle,
+  ctaLabel,
+  ctaHref,
+}: HomeHeroProps = {}) {
   const [t, locale, region] = await Promise.all([
     getTranslations("HomeHero"),
     getLocale(),
@@ -38,6 +50,8 @@ export default async function HeroH() {
   }
 
   const badge = promoText(locale)?.split(" · ")[0] ?? null
+  const headline = title || collection.title
+  const line = subtitle || profile.brand?.tagline
 
   const shelfPrices = shelf
     .map((p) => getProductPrice({ product: p, locale }).cheapestPrice)
@@ -84,11 +98,11 @@ export default async function HeroH() {
           </span>
         ) : null}
         <h2 className="text-balance text-[26px] font-semibold leading-[1.1] tracking-[-0.02em] text-ui-fg-base small:text-[36px]">
-          {collection.title}
+          {headline}
         </h2>
-        {profile.brand?.tagline ? (
+        {line ? (
           <p className="max-w-[38ch] text-balance text-sm leading-relaxed text-ui-fg-subtle">
-            {profile.brand.tagline}
+            {line}
           </p>
         ) : null}
         {fromPrice ? (
@@ -97,10 +111,10 @@ export default async function HeroH() {
           </span>
         ) : null}
         <Link
-          href={`/collections/${collection.handle}`}
+          href={ctaHref || `/collections/${collection.handle}`}
           className="mt-1 inline-flex h-11 w-fit items-center justify-center rounded-full bg-ui-button-inverted px-6 text-sm font-medium text-ui-contrast-fg-primary transition-colors hover:opacity-90"
         >
-          {t("h.shop", { collection: collection.title?.toLowerCase() ?? "" })}
+          {ctaLabel || t("h.shop", { collection: collection.title?.toLowerCase() ?? "" })}
         </Link>
       </div>
     </section>

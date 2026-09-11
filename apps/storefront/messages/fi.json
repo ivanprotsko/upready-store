@@ -868,6 +868,10 @@
   "Store": {
     "allProducts": "Kaikki tuotteet"
   },
+  "TenantPage": {
+    "emptyBody": "Tällä sivulla ei ole vielä tekstiä.",
+    "metaDescription": "{title} – {siteName}."
+  },
   "TransferActions": {
     "acceptTransfer": "Hyväksy siirto",
     "declineSuccess": "Tilauksen siirto hylätty onnistuneesti!",

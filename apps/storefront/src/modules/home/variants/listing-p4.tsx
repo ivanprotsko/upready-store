@@ -3,7 +3,8 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
 import { getProductPrice } from "@lib/util/get-product-price"
-import { getHomeRegion, listCatalogProducts } from "@lib/data/home"
+import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
+import type { HomeListingProps } from "@modules/home/variants/types"
 
 /** Desktop/mobile frame height per row position, the same 3-step rotation as
  *  `composer/lib/blocks.css:82,86` (`tall`/`short`/`mid`, cycling `i % 3`). */
@@ -36,7 +37,7 @@ const DESKTOP_COLS: Record<number, string> = {
  * Column count collapses to the product count when the catalog is short (never fewer
  * than 1, never more than 3), the same "no empty column" rule P1/P2 apply.
  */
-export default async function ListingP4() {
+export default async function ListingP4({ products: source }: HomeListingProps = {}) {
   const [t, locale, region] = await Promise.all([
     getTranslations("HomeListing"),
     getLocale(),
@@ -47,10 +48,13 @@ export default async function ListingP4() {
     return null
   }
 
-  const { products } = await listCatalogProducts({ region, limit: 9 })
-  if (!products.length) {
+  // tenant panel wave 2, piece 8: `source` is `content.products` of the tenant's home-page
+  // document. Absent or "popular" keeps this variant's own behaviour.
+  const block = await resolveHomeListing({ source, region, limit: 9, scope: "catalog" })
+  if (!block) {
     return null
   }
+  const { products, heading } = block
 
   const cols =
     `${MOBILE_COLS[Math.min(products.length, 2)] ?? MOBILE_COLS[2]} ` +
@@ -59,7 +63,7 @@ export default async function ListingP4() {
   return (
     <li className="content-container py-12 small:py-24" data-testid="home-listing-p4">
       <h2 className="mb-6 text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:mb-8 small:text-xl">
-        {t("p4.heading")}
+        {heading ?? t("p4.heading")}
       </h2>
       <div
         className={cols}
