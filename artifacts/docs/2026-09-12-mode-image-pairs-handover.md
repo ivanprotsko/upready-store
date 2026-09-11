@@ -44,7 +44,8 @@
 - Одна подмена на всю витрину: `apps/storefront/src/modules/common/components/mode-image/`.
   Конвенцию читает `apps/storefront/src/lib/util/mode-image.ts` — больше нигде ключи не
   пишутся руками.
-- Прогрев кадров перед переключением: `apps/storefront/src/modules/layout/components/mode-toggle/`.
+- Прогрев кадров перед переключением: `apps/storefront/src/lib/theme/warm-mode-layers.ts`,
+  зовёт его `modules/layout/components/mode-toggle/`.
 - Один блок панели на три экрана: `apps/tenant-panel/src/components/common/mode-image-pair/`.
 - Режим запроса в одном месте: `resolveRequestMode()` в
   `apps/storefront/src/lib/data/tenant-home.ts` (его же читает `app/layout.tsx`).
@@ -60,6 +61,30 @@
 | `npx vitest run` (storefront) | 9 файлов, 98 тестов, все зелёные |
 | `TEST_TYPE=unit npx jest` (backend) | 43 зелёных, 1 красный — НЕ мой, см. ниже |
 | `validate-store-profile.mjs sneakers/electronics --skip-media` | OK по всем проверкам |
+| `measure-swap.cjs` — подмена на СОБРАННОЙ CSS, три движка | PASS в Chromium, WebKit и Firefox |
+
+Последняя строка — то, что ближе всего к живой приёмке из доступного мне без деплоя:
+`artifacts/docs/mode-image-pairs/measure-swap.cjs` берёт стиль из `.next/static/css` (тот,
+который собирает этот репозиторий) и НАСТОЯЩУЮ функцию прогрева (бандлится из
+`src/lib/theme/warm-mode-layers.ts` через esbuild, а не переписывается в тесте), ставит перед
+браузером ту разметку, которую отдаёт `ModeImage`, и проверяет три вещи:
+
+```
+light mode: {"lightLayer":"block","darkLayer":"none","requested":["/light.svg"]}
+warm-up requested before the flip: ["/dark.svg"]
+dark mode:  {"lightLayer":"none","darkLayer":"block"}
+```
+
+То есть: в светлом режиме нарисован только светлый слой и запрошен только он (тёмный не стоит
+ни байта); прогрев запрашивает тёмный кадр ДО смены атрибута; после смены слои меняются
+местами. Отдельно проверено в собранной CSS, что `dark:hidden`/`dark:block` скомпилировались
+именно в `:where([data-mode=dark], [data-mode=dark] *)` и что `dark:block` стоит в таблице
+ПОСЛЕ `hidden` (байты 87871 против 29388 в `31ed0f32f40902bf.css`) — иначе в тёмном режиме
+победил бы `hidden` и рамка была бы пустой.
+
+Чего этими замерами НЕ проверено: React-обвязка (что пропсы дошли до всех поверхностей) —
+её держат `tsc`, `next build` и живая приёмка, и страница товара с зумом, которую видно только
+на работающем бэкенде.
 
 ## 5. Находка, которая НЕ входит в эту задачу
 
