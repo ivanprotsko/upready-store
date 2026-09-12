@@ -1,6 +1,6 @@
 {
   "schema": "upready.wave.spend/v1",
-  "updatedAt": "2026-09-08T05:23:48+08:00",
+  "updatedAt": "2026-09-12T06:13:53+08:00",
   "provider": "fal.ai",
   "currency": "USD",
   "balanceAtStartUsd": 7.1,
@@ -162,11 +162,24 @@
       "promptSha256": "bfbb13184831b865cfd0b57d01bb32bbfbe75c4a6052538c89706ccee0e6de32",
       "reshootOf": null,
       "accepted": null
+    },
+    {
+      "id": "r-d139658e",
+      "at": "2026-09-12T06:13:53+08:00",
+      "theme": "abstract",
+      "model": "fal-ai/nano-banana-pro",
+      "kind": "grid-4x4",
+      "resolution": "4K",
+      "priceUsd": 0.3,
+      "purpose": "product-grid",
+      "promptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a",
+      "reshootOf": null,
+      "accepted": null
     }
   ],
   "totals": {
-    "spentUsd": 2.667,
-    "renderCount": 12,
+    "spentUsd": 2.967,
+    "renderCount": 13,
     "dashboardUsd": null
   }
 }
