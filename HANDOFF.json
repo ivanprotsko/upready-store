@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-13T01:42:38+08:00",
-  "status": "Ветка homepage, 2026-09-13 01:42 WITA (сессия 01B7q8iX): порт L1 принят Иваном глазами; фикс монорепо закоммичен 252b82d — apps/homepage/** исключён из корневого workspace, порт — свой pnpm-корень (pnpm-workspace.yaml packages: [] + pnpm-lock.yaml; .npmrc ignore-workspace pnpm 10 не читает); замер pnpm 10.11.1: корневой frozen-lockfile rc=0, tsc/build чистые, full-page diff после переустановки 0.0003. PR #1 открыт в dev по s8: https://github.com/ivanprotsko/upready-store/pull/1 — слияние за Иваном (gh pr merge 1 --squash --delete-branch). Воронка WP0–WP8 — новая задача (создаёт Иван), база по решению о линии MT; открыто q-homepage-funnel-variant, стек RR7; O3 уходит в ветку воронки.",
+  "updated": "2026-09-12T15:03:43+08:00",
+  "status": "Приёмщик (Opus, продолжение после /compact): ТРЕК 1 abstract ПРИНЯТ на живом стенде — бэкенд :9031 перезапущен (старый код watcher не подхватил), seed-option-check даёт 1 группу Size на 6 товаров, витрина :8041 поднята на магазине absacc1451: один фильтр «Размер», 10 товаров, баннер и 5 плиток набора. ТРЕК 3 wave2: п.3 ПРИНЯТ (анкор из tenant.metadata.attribution, два магазина — разные анкоры), п.13 ПРИНЯТ (отказ «Address acme is already taken»), п.10/11 НЕ ПРИНЯТЫ — POST /tenants/handle отвечает 500: change-tenant-handle.ts:43 зовёт listTenantHandleAlias, а MedusaService генерирует множественное (тестов у воркфлоу нет); п.6 цифру цены снять не на чем — у всех товаров тенантов цены только в eur (кандидат в дефект: товар без цены региона показан без цены, но с кнопкой «В корзину»); п.8 повтор подтвердил поломку. Находка: ссылка мастера на витрину всегда https (route.ts:207) — на стенде не открывается. Журнал bd51e50, e1f27c1.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -943,24 +943,6 @@
       "id": "q-starye-zadachi-v-in-progress",
       "question": "Старые задачи в in_progress без движения — t-store-profiles-pilot, t-ds-1-seam-tests, t-2026-09-09-02, t-2026-09-10-01, t-2026-09-10-02: принимать их приёмкой этой волны или заморозить (перевести в backlog/blocked)? Задан дважды, ответа нет. Рекомендация: заморозить все пять в backlog и завести заново по факту возврата к теме — иначе картина трёх корзин врёт, показывая пять задач в работе, которой никто не ведёт.",
       "asked": "2026-09-12"
-    },
-    {
-      "id": "q-knowledge-index-md-monolit-72k-tokenov",
-      "question": "knowledge-index.md — монолит 72k токенов (873 строк), large-file-edit-guard блокирует Edit-дописку новой строки. Развилка по правилу 25f: (1) разбить на модули, (2) делегировать правку сабагенту, (3) принять как есть. Новый файл memory/versustable-insales-shopify-pricing-handoff.md написан, но НЕ проиндексирован в knowledge-index.md — решение нужно от Ивана.",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-versustable-astro-quick-views-apps-versustable-vse",
-      "question": "versustable (astro-quick-views/apps/versustable): ВСЕ React-острова (SidebarNav.tsx, QuickViewsApp.tsx) не гидрируются на dev-сервере — console error 'react-dom/client... does not provide an export named createRoot' (react-dom@19.2.7 через pnpm). Воспроизведено playwright-кликом на /payments-ru (существующая страница, до моих правок) и на новой /insales-vs-shopify — баг ПРЕДСУЩЕСТВУЮЩИЙ, не внесён этой сессией. Итог: вся интерактивность (фильтры, sidebar toggle, drawer) в dev-режиме сейчас сломана сайт-widely; SSR-контент отдаётся нормально (200, все данные видны). Не чинил — чужой проект, чинить не просили.",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-homepage-funnel-variant",
-      "question": "Воронка главной (artifacts/docs/2026-09-12-homepage-funnel-scope.md, §5): какой вариант исполнения — A соло Fable, B соло-гибрид с фоновым Sonnet, C архитектор → один воркер Sonnet в Superset-workspace → отдельный приёмщик (рекомендован), D полная оркестрация? Для C нужен явный ок на оркестрацию (3b).",
-      "asked": "2026-09-12",
-      "audience": "ivan"
     }
   ],
   "sessions": [
