@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-12",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-12T23:27:47+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:20 WITA (сессия 01B7q8iX, Fable): директива Ивана 23:16 — воронка главной «тариф → оплата Tribute.top/Polar.sh или промокод (частичная скидка / 100% = онбординг без оплаты) → существующий UI онбординга в стиле Medusa UI и страницы → всё на React Router 7 как envoicer → автотесты всех сценариев → приёмка». Выполнен п. 5 (объём): artifacts/docs/2026-09-12-homepage-funnel-scope.md (коммит fba83c7) — схема состояний v0, 6 инвариантов, 12 сценариев, WP0–WP8 с моделями, варианты A соло / B соло-гибрид / C архитектор → один воркер Sonnet → приёмщик (рекомендован) / D полная оркестрация; оценки в @upready/estimation: est-homepage-funnel-solo-2026-09-12 ($45.60–151.80, 150–400 ходов, 3–6 дней) и est-homepage-funnel-orch-2026-09-12 ($35.66–109.50). Правило 6 выполнено: verbatim-промпт artifacts/prompts/2026-09-12-ivan-directive-homepage-funnel.md, особенности ~/upready/specs/prompt-features/features/2026-09-12-upready-store-homepage-funnel.json (10, валидно). Память: ~/upready/memory/upready-store-homepage-funnel-scope-2026-09-12.md. Ключевые факты: существующий онбординг ТОЛЬКО на feat/mt-deploy (apps/storefront/src/app/start/onboarding/wizard.tsx, 3c1e8bc); Polar create-session принимает discount_id/metadata/success_url, ответ is_payment_required, вебхук order.paid, образец кода в envoicer api.checkout.ts + api.polar-webhook.ts; Tribute — Payment Links + Webhooks в индексе wiki.tribute.tg, промокоды только для подписок, поля вебхука не прочитаны (WP0). Реализация (п. 1–4) НЕ начата: гейты — детали стека от Ивана (обещаны), выбор варианта (q-homepage-funnel-variant), ключи Polar sandbox / Tribute API, q-homepage-funnel-promo-admin, q-homepage-funnel-acceptance-target. Превью старой страницы всё ещё http://localhost:4790/index.html."
+}

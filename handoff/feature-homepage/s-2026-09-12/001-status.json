@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-12",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-12T22:26:14+08:00",
+  "status": "Ветка homepage, 2026-09-12 22:33 WITA: код лендинга upready-dev (index.html, support.js, images/) скопирован в apps/homepage/ этого репозитория для локального просмотра — коммит c0df380, запушено в origin/feature/homepage (нет апстрим-деплоя: notify-deploy.yml триггерится только на push в main). Локальный превью-сервер: python3 -m http.server 4790 в apps/homepage/, http://localhost:4790/index.html (лог /tmp/homepage-preview-4790.log, фоновый процесс этой сессии — переживёт сессию, останавливать вручную). Дизайн-система-референс для дальнейшей вёрстки — ~/Downloads/Medusa UI Design System (1)/ (tokens/, components/, guidelines/). Следующий логический шаг по этой ветке — не просто copy-paste, а перепроектирование главной страницы под дизайн-систему Medusa UI (см. предыдущую запись статуса про nav-исследование inSales/Shopify)."
+}

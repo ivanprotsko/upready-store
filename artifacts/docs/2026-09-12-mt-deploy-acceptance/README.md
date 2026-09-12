@@ -606,3 +606,90 @@ db:migrate` (`Migration20260912061500` прошла, 15 с; таблица `tena
 
 Наблюдение по dev-стенду: значок Next «1 Issue» в правом нижнем углу на кадрах — `pageerror` во всех прогонах пуст, содержимое
 issue не снято.
+
+## Волна 7, продолжение — магазин мастера заведён, пункты 3 и 6 закрыты, смена адреса не применилась (2026-09-12, 14:26–14:4x WITA)
+
+Стенд трека 3 жив с 12:32 (бэкенд `:9034` 200, витрина `:8044`, панель `:5185` слушает `[::1]`, не `127.0.0.1` —
+`nc -z 127.0.0.1 5185` отвечает «молчит», хотя панель отдаёт 200 по `localhost`). Магазин мастера заведён впервые:
+`http://localhost:8044/start` → «Онбординг без оплаты» → `w7master14` («Приёмка волны 7»), владелец
+`owner@w7master14.test` / `supersecret`, 7 пресетов, экран завершения: «Каталог пустой — это новый магазин»
+(засев стартового набора — трек 1 `feat/abstract-datasets`, на этой ветке его нет). Скрипты прогона —
+`shots-w7/w3-wizard.mjs`, `w3-w7b.mjs`, `w3-w7-address.mjs`.
+
+**3. Разные анкоры у двух магазинов через `tenant.metadata.attribution` — ПРИНЯТО.** До правки оба магазина
+показывают платформенный дефолт: «создание интернет-магазина — upready», `href=https://upready.dev`,
+`rel=noopener target=_blank`. После `update tenant set metadata = metadata || '{"attribution":{"anchor":"интернет-магазин
+под ключ","href":"https://upready.dev/studio"}}'` у `w7master14` подвал стал «интернет-магазин под ключ — upready»
+с `href=https://upready.dev/studio`, у `acme` в тот же прогон — прежний дефолт. Мердж по полям виден: `brand`
+(«upready») и `rel` унаследованы от платформы, переопределены только `anchor` и `href`; кэша, который бы держал
+старый анкор, нет — первая же перезагрузка показала новый. Кадры `master-footer-post.png`, `acme-footer-post.png`.
+
+**6. Цифра цены — СНЯТЬ НЕ НА ЧЕМ, и это находка, а не пробел приёмки.** Товара `chino-pants` (2799 rub / 33 usd)
+на витрине тенанта нет вовсе: он не привязан ни к одному тенанту (`tenant_tenant_product_product` — 0 строк),
+это платформенный демо-товар. У ВСЕХ 60 товаров `acme` цены ТОЛЬКО в `eur` (как и у `globex` — 3, `initech` — 1);
+регионы `ru` (rub) и `us` (usd) в базе есть. Замер по DOM: на `/ru/products/acme-shirt-live` и `/en/...` — значок
+валюты в шапке `₽` / `$`, а цены на странице товара НЕТ ни одной (`main.innerText` не содержит ни числа с валютой),
+на `/ru/store` и `/en/store` — тоже ни одной; кнопка «В корзину» при этом на месте. Кадры `acme-product-{ru,en}-pre.png`.
+Значит пункт «цены = прайс региона, не пересчёт» подтверждён по механизму (разные `region_id` в запросах, волна 7)
+и НЕ опровергнут цифрой — цифры нет, потому что у товара нет цены в валюте региона. Кандидат в дефект (заводит Иван):
+«Товар без цены в валюте региона показывается на витрине без цены, но с кнопкой „В корзину“» — покупатель на `/ru`
+видит карточку без цены и может добавить её в корзину.
+
+**10. Смена адреса в панели — предупреждение ЕСТЬ, применение НЕ СРАБОТАЛО.** `/settings/domains` под владельцем
+`w7master14`: основной `w7master14.upready.dev` (кнопка «Change address»), технический
+`ten_01m2a541b9xjy2hqyq9f752snq.upready.dev`, блок «Your own domain» (CNAME на `stores.upready.dev`). Форма смены
+адреса раскрывается и несёт полный текст последствий: «The new address starts answering at once… The old address keeps
+working and forwards to the new one, each page to its own… Search needs time. Google and Yandex carry almost all of the
+accumulated weight over the redirect, but **re-indexing takes weeks, not days**… The old address stays reserved for your
+shop for good… Changing the address often hurts». Про недели сказано. Но после ввода `w7master15` в поле адреса и
+нажатия «Change address» экран через 9 с по-прежнему показывает `w7master14.upready.dev main`, а в базе ничего не
+изменилось: `tenant.handle` = `w7master14`, `tenant_handle_alias` пуста. Причина ещё не прочитана по коду — следующий шаг.
+Экран панели при этом англоязычный, хотя магазин и владелец русские (наблюдение, не пункт приёмки).
+
+**Находка сверх приёмки: ссылка «Открыть витрину» в мастере всегда `https://`.**
+`apps/storefront/src/app/api/demo/onboarding/route.ts:207` — `storefrontUrl: TENANT_BASE_DOMAIN ?
+\`https://${handle}.${TENANT_BASE_DOMAIN}\` : null`. На проде верно, на локальном стенде TLS нет, и по ссылке с экрана
+завершения браузер показывает «This site can't provide a secure connection» (Иван наткнулся на это 14:40 на своём
+магазине `barhat-i-stil`). По http тот же адрес отвечает: `http://barhat-i-stil.localhost:8044/` → 302 → `/ru` → 200.
+Кандидат в задачу: схему брать из адреса стенда (`x-forwarded-proto` / базовый URL витрины), а не константой.
+
+### Добор 14:4x–15:0x WITA: пункты 13, 10 (причина), 8 (повтор) и приёмка трека 1 на перезапущенном стенде
+
+**13. Повторный handle — ПРИНЯТО.** Мастер `http://localhost:8044/start` с адресом `acme`: экран
+`demo-onboarding-error` — «Address "acme" is already taken by another shop.» Магазин не создан. Фраза
+англоязычная, хотя остальной мастер русский (наблюдение, не пункт).
+
+**10. Причина отказа прочитана по коду и логу — ДЕФЕКТ ТРЕКА.** `POST /tenants/handle` отвечает 500
+`unknown_error`; в логе бэкенда дважды подряд (повтор = не случайность):
+`TypeError: tenantModuleService.listTenantHandleAlias is not a function` —
+`apps/backend/src/workflows/tenant/change-tenant-handle/steps/change-tenant-handle.ts:43`. Модель
+`TenantHandleAlias` в `modules/tenant/service.ts` зарегистрирована, но `MedusaService` генерирует методы по
+ПЛЮРАЛИЗОВАННОМУ имени: соседний код в том же репозитории зовёт `listTenantDomains`, `listTenantPages`,
+`createTenantHomeConfigs`, а шаг смены адреса — `listTenantHandleAlias` / `createTenantHandleAlias` /
+`deleteTenantHandleAlias` в единственном числе, и таких методов у сервиса нет. Тестов у воркфлоу
+`change-tenant-handle` нет ни одного (`grep` по `*.spec.ts`/`*.test.ts` — ноль файлов), поэтому опечатка
+доехала до приёмки. Итог: сменить адрес магазина НЕЛЬЗЯ вообще, форма показывает правильное предупреждение и
+падает на отправке. Пункт 10 НЕ ПРИНЯТ, пункт 11 (301 старого адреса на новый) замерить не на чем — блокирован
+пунктом 10. Кадр `master-address-apply2.png`.
+
+**8. Повтор подтвердил поломку (НЕ ПРИНЯТО, как и было).** Сценарий `w3-locale5.mjs` на acme: выбор Германии
+в диалоге «Смена региона» → cookie `_medusa_country=de`, URL остаётся `/en/store` на `acme.localhost:8044`,
+но значок валюты в шапке исчезает (`badge: null`), ожидание `€|EUR` в шапке истекает, и диалог региона больше
+не открывается — шапки магазина на странице нет. Уточнение к прошлому замеру: голым `curl` с одной cookie
+`_medusa_country=de` (и с `_medusa_cache_id`) страница отдаётся НОРМАЛЬНО («Store | Acme»), то есть дело не в
+самой cookie — воспроизведение требует полного набора cookie браузера. Механизм по коду не дочитан: тенант
+резолвится по Host до всякой страны (`middleware.ts:305`), ключ публикации берётся из тенанта
+(`middleware.ts:319`), и почему при DE серверный рендер теряет ключ — следующий шаг. Хост `localhost:8044` без
+поддомена, кстати, отвечает `307 → /start` (демо-лендинг «Четыре формы воронки») — именно эту страницу приёмщик
+видел в прошлом прогоне.
+
+**Трек 1 `feat/abstract-datasets` — ПРИНЯТ на живом стенде.** Стенд :9031 работал старым кодом (watcher не
+подхватил правку 12:58): процесс остановлен, бэкенд поднят заново из того же worktree («Server is ready on port:
+9031 – 4148ms»). Прогон `artifacts/docs/2026-09-12-abstract-dataset/seed-option-check.mjs` против него: новый
+магазин `absacc1451`, `POST /tenants/seed` 201 за 1090 мс (10 товаров, 7 категорий, 2 коллекции), группировка
+фильтров как у витрины — **1 группа `Size` на 6 товаров**; в БД общая опция `opt_01M2994G1PQ9…`
+`is_exclusive=false`, значений 7, товаров 19; 18 эксклюзивных строк `Size` — магазины, засеянные ДО починки, по
+одному товару каждая. Витрина :8041 поднята на ключе этого магазина: на `/ru/store` ровно ОДИН видимый фильтр
+«Размер» и 10 карточек товаров (DOM-замер `abs-filters.mjs`, кадр `abstract-store-filters.png`), на главной —
+баннер `home-hero.webp` и 5 плиток категорий с картинками набора. Дефект
+`t-2026-09-12-seed-option-filter-duplicates` закрыт (починка `944c5a5`).

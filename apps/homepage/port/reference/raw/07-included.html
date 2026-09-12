@@ -1,0 +1,334 @@
+<section id="sec-included" data-screen-label="Что входит" style="position:relative;border-top:1px solid #E4E4E7;padding:clamp(48px,6vw,76px) 0 0">
+    <i style="position:absolute;top:-6.5px;left:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+    <i style="position:absolute;top:-6.5px;right:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+
+    <div style="padding:0 clamp(20px,4vw,56px) 36px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px">
+        <span style="width:5px;height:5px;background:#18181B"></span>
+        <span style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#71717A">{{ nIncluded }} · состав</span>
+      </div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-.035em;line-height:1.05;max-width:680px">Что вы получаете</h2>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onClick="{{ prevInc }}" title="Назад" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid #E4E4E7;background:#fff;color:#18181B;transition:all .15s" style-hover="background:#FAFAFA;border-color:#D4D4D8">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+          </button>
+          <button onClick="{{ nextInc }}" title="Вперёд" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid #E4E4E7;background:#fff;color:#18181B;transition:all .15s" style-hover="background:#FAFAFA;border-color:#D4D4D8">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="rail-included" ref="{{ setIncRail }}" style="display:flex;gap:1px;background:#E4E4E7;border-top:1px solid #E4E4E7;border-bottom:1px solid #E4E4E7;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+      <sc-for list="{{ included }}" as="f" hint-placeholder-count="8">
+        <div style="flex:0 0 min(84%,340px);scroll-snap-align:start;background:#fff;display:flex;flex-direction:column">
+          <div style="margin:14px 14px 0;position:relative;height:312px;overflow:hidden;border:1px solid #E4E4E7;border-radius:10px;background:linear-gradient(to top,#F4F4F5,#FAFAFA)">
+            <div style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding:20px 18px;overflow:hidden">
+              <sc-if value="{{ f.isDomain }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border:1px solid #E4E4E7;border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span style="font-family:'Roboto Mono',monospace;font-size:11.5px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">vashmagazin.ru</span>
+                    <span style="margin-left:auto;width:6px;height:6px;border-radius:999px;background:#16A34A;flex:0 0 auto"></span>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-bottom:1px solid #F4F4F5">
+                      <span style="font-size:11px;font-weight:500;letter-spacing:.16em;color:#18181B;white-space:nowrap">ЛАМПА</span>
+                      <span style="font-size:11px;color:#71717A;white-space:nowrap">Каталог</span>
+                      <span style="font-size:11px;color:#71717A;white-space:nowrap">Доставка</span>
+                      <span style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;flex:0 0 auto">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2 3h3l2.4 11.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L21 7H6"></path></svg>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46">2</span>
+                      </span>
+                    </div>
+                    <div style="display:flex;gap:11px;padding:12px 11px">
+                      <img src="images/products/candle.png" alt="" loading="lazy" style="flex:0 0 auto;width:58px;height:58px;border-radius:7px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                      <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px">
+                        <span style="font-size:12px;color:#18181B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Свеча «Дым»</span>
+                        <span style="font-size:10.5px;color:#A1A1AA;white-space:nowrap">соя · 250 мл</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:12px;color:#18181B;white-space:nowrap">1 290 ₽</span>
+                      </div>
+                    </div>
+                    <div style="padding:0 11px 12px">
+                      <div style="display:flex;align-items:center;justify-content:center;height:28px;border-radius:7px;background:#2563EB;color:#fff;font-size:11.5px;white-space:nowrap">В корзину</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px">
+                    <span style="display:inline-flex;align-items:center;height:22px;padding:0 9px;border:1px solid #E4E4E7;border-radius:999px;background:#fff;font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">https · сертификат</span>
+                    <span style="display:inline-flex;align-items:center;height:22px;padding:0 9px;border:1px solid #E4E4E7;border-radius:999px;background:#fff;font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">390 px</span>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isCatalog }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;gap:10px">
+                  <div style="flex:0 0 22%;display:flex;flex-direction:column;gap:9px;padding-top:2px">
+                    <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#A1A1AA">каталог</span>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font-size:11px;color:#18181B;white-space:nowrap">Свечи</span>
+                      <span style="margin-left:10px;font-size:11px;color:#71717A;white-space:nowrap">Ароматические</span>
+                      <span style="margin-left:10px;font-size:11px;color:#71717A;white-space:nowrap">Интерьерные</span>
+                      <span style="font-size:11px;color:#71717A;white-space:nowrap">Диффузоры</span>
+                      <span style="font-size:11px;color:#A1A1AA;white-space:nowrap">Наборы</span>
+                      <span style="font-size:11px;color:#A1A1AA;white-space:nowrap">Подарочное</span>
+                    </div>
+                  </div>
+                  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:10px">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                      <div style="min-width:0;border:1px solid #E4E4E7;border-radius:9px;background:#fff;padding:6px;display:flex;flex-direction:column;gap:5px">
+                        <img src="images/products/candle.png" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#FAFAFA;border-radius:6px">
+                        <span style="font-size:10.5px;line-height:1.3;color:#3F3F46">Свеча «Дым»</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">1 290 ₽</span>
+                      </div>
+                      <div style="min-width:0;border:1px solid #E4E4E7;border-radius:9px;background:#fff;padding:6px;display:flex;flex-direction:column;gap:5px">
+                        <img src="images/products/diffuser.png" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#FAFAFA;border-radius:6px">
+                        <span style="font-size:10.5px;line-height:1.3;color:#3F3F46">Диффузор «Кедр»</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">4 900 ₽</span>
+                      </div>
+                    </div>
+                    <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:10px;display:flex;flex-direction:column;gap:9px">
+                      <div style="display:flex;align-items:center;gap:9px">
+                        <img src="images/products/candle.png" alt="" loading="lazy" style="flex:0 0 auto;width:34px;height:34px;border-radius:7px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                        <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px">
+                          <span style="font-size:11.5px;color:#18181B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Свеча «Дым»</span>
+                          <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">1 290 ₽ · есть</span>
+                        </div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:7px">
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;flex:0 0 auto;white-space:nowrap">размер</span>
+                        <div style="display:flex;gap:5px">
+                          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 5px;border:1px solid #E4E4E7;border-radius:5px;font-size:10.5px;color:#52525B">S</span>
+                          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 5px;border:1px solid #2563EB;border-radius:5px;font-size:10.5px;font-weight:500;color:#2563EB">M</span>
+                          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 5px;border:1px solid #E4E4E7;border-radius:5px;font-size:10.5px;color:#52525B">L</span>
+                        </div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:7px">
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;flex:0 0 auto;white-space:nowrap">цвет</span>
+                        <div style="display:flex;gap:6px;align-items:center">
+                          <span style="width:16px;height:16px;border-radius:999px;background:#18181B;box-shadow:0 0 0 1px #E4E4E7"></span>
+                          <span style="width:16px;height:16px;border-radius:999px;background:#D4D4D8;box-shadow:0 0 0 1px #E4E4E7"></span>
+                          <span style="width:16px;height:16px;border-radius:999px;background:#93A3B8;box-shadow:0 0 0 2px #fff,0 0 0 3px #2563EB"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isCart }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#A1A1AA;white-space:nowrap">шаг 2 из 3</span>
+                    <span style="flex:1 1 auto;height:3px;border-radius:2px;background:#E4E4E7;position:relative;overflow:hidden"><span style="position:absolute;inset:0 34% 0 0;background:#2563EB"></span></span>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:9px;display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <img src="images/products/candle.png" alt="" loading="lazy" style="flex:0 0 auto;width:34px;height:34px;border-radius:6px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                      <span style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;color:#27272A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Свеча «Дым»</span><span style="font-size:10.5px;color:#A1A1AA;white-space:nowrap">250 мл · графит</span></span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">×2</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">2 580 ₽</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <img src="images/products/diffuser.png" alt="" loading="lazy" style="flex:0 0 auto;width:34px;height:34px;border-radius:6px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                      <span style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;color:#27272A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Диффузор «Кедр»</span><span style="font-size:10.5px;color:#A1A1AA;white-space:nowrap">100 мл</span></span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">×1</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">4 900 ₽</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:11px;display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:11.5px;color:#71717A">Товары</span><span style="font-family:'Roboto Mono',monospace;font-size:11px;color:#3F3F46;white-space:nowrap">7 480 ₽</span></div>
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:11.5px;color:#71717A">Доставка · СДЭК</span><span style="font-family:'Roboto Mono',monospace;font-size:11px;color:#3F3F46;white-space:nowrap">380 ₽</span></div>
+                    <div style="height:1px;background:#F4F4F5"></div>
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:12.5px;font-weight:500">Итого</span><span style="font-family:'Roboto Mono',monospace;font-size:12.5px;font-weight:500;white-space:nowrap">7 860 ₽</span></div>
+                    <div style="display:flex;align-items:center;justify-content:center;height:28px;border-radius:7px;background:#2563EB;color:#fff;font-size:11.5px;white-space:nowrap">Оплатить 7 860 ₽</div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isPay }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="width:12px;height:12px;border-radius:999px;border:3.5px solid #2563EB;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">СБП — по QR-коду</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#16A34A;white-space:nowrap">0 %</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="width:12px;height:12px;border-radius:999px;border:1px solid #D4D4D8;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#71717A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Картой онлайн</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">visa · mir</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="width:12px;height:12px;border-radius:999px;border:1px solid #D4D4D8;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#71717A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">SberPay</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">в 1 клик</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:#FAFAFA">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">ещё 6 способов</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:11px;display:flex;flex-direction:column;gap:10px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#A1A1AA;white-space:nowrap">кассовый чек · 54-фз</span>
+                      <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-size:10.5px;color:#16A34A">в офд</span></span>
+                    </div>
+                    <div style="display:flex;gap:10px;align-items:flex-start">
+                      <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px">
+                        <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A">фн</span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">7280440500</span></div>
+                        <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A">фд</span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">10428</span></div>
+                        <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A">итого</span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#18181B;white-space:nowrap">7 860 ₽</span></div>
+                      </div>
+                      <div style="flex:0 0 auto;width:46px;height:46px;border:1px solid #E4E4E7;border-radius:5px;background:repeating-conic-gradient(#18181B 0% 25%,#fff 0% 50%) 0 0/9px 9px"></div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isShip }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:9px">
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">197101 · 2 дня</span>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="width:12px;height:12px;border-radius:999px;border:3.5px solid #2563EB;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Пункт выдачи СДЭК</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">180 ₽</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="width:12px;height:12px;border-radius:999px;border:1px solid #D4D4D8;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#71717A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Курьер до двери</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">380 ₽</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px">
+                      <span style="width:12px;height:12px;border-radius:999px;border:1px solid #D4D4D8;flex:0 0 auto"></span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:11.5px;color:#71717A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Почта России</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">240 ₽</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:11px;display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#A1A1AA;white-space:nowrap">ярлык · a6</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">CN 8471 2290 RU</span>
+                    </div>
+                    <div style="height:34px;background:repeating-linear-gradient(90deg,#18181B 0 2px,#fff 2px 4px,#18181B 4px 5px,#fff 5px 9px,#18181B 9px 12px,#fff 12px 14px)"></div>
+                    <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:10.5px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">СПб, наб. реки Фонтанки, 15</span><span style="font-size:10.5px;color:#71717A;white-space:nowrap">Иванова А. С.</span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">+7 921 ***-45-67</span></div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isAccount }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:9px">
+                  <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#A1A1AA">мои заказы</span>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid #F4F4F5">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">#1041</span>
+                      <span style="flex:1 1 auto"></span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">7 860 ₽</span>
+                      <span style="display:inline-flex;align-items:center;height:18px;padding:0 7px;border:1px solid #E4E4E7;border-radius:999px;background:#FAFAFA;font-size:10.5px;color:#71717A;white-space:nowrap">в пути</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:9px 10px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">#1040</span>
+                      <span style="flex:1 1 auto"></span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">2 190 ₽</span>
+                      <span style="display:inline-flex;align-items:center;height:18px;padding:0 7px;border:1px solid #E4E4E7;border-radius:999px;background:#FAFAFA;font-size:10.5px;color:#71717A;white-space:nowrap">собирается</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:12px;display:flex;flex-direction:column;gap:13px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:11px;color:#18181B;white-space:nowrap">#1042</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">12 авг</span>
+                    </div>
+                    <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
+                      <span style="position:absolute;left:5px;right:5px;top:5px;height:1.5px;background:#E4E4E7"></span>
+                      <span style="position:absolute;left:5px;width:44%;top:5px;height:1.5px;background:#2563EB"></span>
+                      <span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1 1 0"><span style="width:11px;height:11px;border-radius:999px;background:#2563EB"></span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">оплачен</span></span>
+                      <span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1 1 0"><span style="width:11px;height:11px;border-radius:999px;background:#2563EB"></span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">собран</span></span>
+                      <span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1 1 0"><span style="width:11px;height:11px;border-radius:999px;background:#fff;box-shadow:0 0 0 1.5px #D4D4D8"></span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">отправлен</span></span>
+                      <span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1 1 0"><span style="width:11px;height:11px;border-radius:999px;background:#fff;box-shadow:0 0 0 1.5px #D4D4D8"></span><span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">доставлен</span></span>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isAdmin }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;gap:10px">
+                  <div style="flex:0 0 25%;display:flex;flex-direction:column;gap:8px;padding-top:3px">
+                    <span style="display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:5px;background:#F4F4F5;font-size:10.5px;color:#18181B;white-space:nowrap">Товары</span>
+                    <span style="padding:0 7px;font-size:10.5px;color:#A1A1AA;white-space:nowrap">Заказы</span>
+                    <span style="padding:0 7px;font-size:10.5px;color:#A1A1AA;white-space:nowrap">Остатки</span>
+                    <span style="padding:0 7px;font-size:10.5px;color:#A1A1AA;white-space:nowrap">Скидки</span>
+                    <span style="padding:0 7px;font-size:10.5px;color:#A1A1AA;white-space:nowrap">Промо</span>
+                  </div>
+                  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:10px">
+                    <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);overflow:hidden">
+                      <div style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px solid #F4F4F5;background:#FAFAFA">
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;flex:1 1 auto">товар</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">остаток</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px solid #F4F4F5">
+                        <img src="images/products/candle.png" alt="" loading="lazy" style="flex:0 0 auto;width:22px;height:22px;border-radius:4px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                        <span style="flex:1 1 auto;min-width:0;font-size:11px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Свеча «Дым»</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">24 шт</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px solid #F4F4F5">
+                        <img src="images/products/diffuser.png" alt="" loading="lazy" style="flex:0 0 auto;width:22px;height:22px;border-radius:4px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                        <span style="flex:1 1 auto;min-width:0;font-size:11px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Диффузор «Кедр»</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#DC2626;white-space:nowrap">3 шт</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:7px 9px">
+                        <img src="images/products/set.png" alt="" loading="lazy" style="flex:0 0 auto;width:22px;height:22px;border-radius:4px;object-fit:contain;background:#FAFAFA;border:1px solid #F4F4F5">
+                        <span style="flex:1 1 auto;min-width:0;font-size:11px;color:#3F3F46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Набор «Вечер»</span>
+                        <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">11 шт</span>
+                      </div>
+                    </div>
+                    <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:10px;display:flex;align-items:center;gap:9px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:11.5px;color:#18181B;white-space:nowrap">LETO15</span>
+                      <span style="flex:1 1 auto;min-width:0;font-size:10.5px;color:#71717A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">42 раза</span>
+                      <span style="flex:0 0 auto;display:inline-flex;align-items:center;height:19px;padding:0 7px;border-radius:5px;background:#2563EB;color:#fff;font-family:'Roboto Mono',monospace;font-size:10.5px;white-space:nowrap">−15%</span>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isSeo }}" hint-placeholder-val="{{ true }}">
+                <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:10px;display:flex;flex-direction:column;gap:6px">
+                    <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#16A34A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">vashmagazin.ru › каталог</span>
+                    <span style="font-size:12.5px;color:#2563EB;line-height:1.3">Свечи и диффузоры ручной работы — купить</span>
+                    <p style="font-size:11px;line-height:1.45;color:#52525B">Свечи, диффузоры и наборы ручной работы. Доставка по России 1–3 дня.</p>
+                  </div>
+                  <div style="display:flex;gap:9px;align-items:stretch">
+                    <div style="flex:1 1 58%;min-width:0;border:1px solid #E4E4E7;border-radius:10px;background:#FAFAFA;padding:9px;display:flex;flex-direction:column;gap:5px;overflow:hidden">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">sitemap.xml</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#2563EB;white-space:nowrap">&lt;loc&gt;/каталог&lt;/loc&gt;</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#71717A;white-space:nowrap">&lt;lastmod&gt;12-08&lt;/&gt;</span>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#2563EB;white-space:nowrap">&lt;loc&gt;/товар/42&lt;/loc&gt;</span>
+                    </div>
+                    <div style="flex:1 1 42%;min-width:0;border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:9px;display:flex;flex-direction:column;gap:7px">
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">визиты · 30д</span>
+                      <svg viewBox="0 0 100 34" preserveAspectRatio="none" style="width:100%;height:34px"><path d="M0 30 L14 26 L28 28 L42 18 L56 21 L70 12 L84 9 L100 3" fill="none" stroke="#2563EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                      <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;color:#3F3F46;white-space:nowrap">+38%</span>
+                    </div>
+                  </div>
+                  <div style="border:1px solid #E4E4E7;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(24,24,27,.05);padding:9px 10px;display:flex;align-items:center;gap:8px">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M20 6 9 17l-5-5"></path></svg>
+                    <span style="font-size:11px;color:#3F3F46;white-space:nowrap">og-теги и schema.org</span>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.isStub }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px;color:#A1A1AA">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="m3 15 5-5 4 4 3-3 6 6"></path><circle cx="9" cy="8" r="1.4"></circle></svg>
+                  <span style="font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.06em">иллюстрация {{ f.n }}</span>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="padding:20px clamp(22px,2.6vw,30px) clamp(24px,2.6vw,30px);display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'Roboto Mono',monospace;font-size:11px;color:#C4C4CC">{{ f.n }}</span>
+            <p style="font-size:13px;line-height:1.55;color:#3F3F46">{{ f.t }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding:26px clamp(20px,4vw,56px) clamp(48px,6vw,76px)">
+      <p style="font-size:13.5px;line-height:1.65;color:#52525B;max-width:720px">Это готовое решение, которое мы разворачиваем и настраиваем под вас, — вы получаете работающий магазин, а не конструктор, в котором надо разбираться.</p>
+    </div>
+  </section>

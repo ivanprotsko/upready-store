@@ -1,0 +1,5 @@
+# apps/homepage/port is its OWN pnpm workspace root: this file stops pnpm from
+# walking up to the monorepo root (which excludes apps/homepage/** and must keep
+# its lockfile and Dockerfiles untouched). The harness has no sub-packages; the
+# root package here is the only importer. Install: `pnpm install` in this dir.
+packages: []
