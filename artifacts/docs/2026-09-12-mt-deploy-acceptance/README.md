@@ -606,3 +606,49 @@ db:migrate` (`Migration20260912061500` прошла, 15 с; таблица `tena
 
 Наблюдение по dev-стенду: значок Next «1 Issue» в правом нижнем углу на кадрах — `pageerror` во всех прогонах пуст, содержимое
 issue не снято.
+
+## Волна 7, продолжение — магазин мастера заведён, пункты 3 и 6 закрыты, смена адреса не применилась (2026-09-12, 14:26–14:4x WITA)
+
+Стенд трека 3 жив с 12:32 (бэкенд `:9034` 200, витрина `:8044`, панель `:5185` слушает `[::1]`, не `127.0.0.1` —
+`nc -z 127.0.0.1 5185` отвечает «молчит», хотя панель отдаёт 200 по `localhost`). Магазин мастера заведён впервые:
+`http://localhost:8044/start` → «Онбординг без оплаты» → `w7master14` («Приёмка волны 7»), владелец
+`owner@w7master14.test` / `supersecret`, 7 пресетов, экран завершения: «Каталог пустой — это новый магазин»
+(засев стартового набора — трек 1 `feat/abstract-datasets`, на этой ветке его нет). Скрипты прогона —
+`shots-w7/w3-wizard.mjs`, `w3-w7b.mjs`, `w3-w7-address.mjs`.
+
+**3. Разные анкоры у двух магазинов через `tenant.metadata.attribution` — ПРИНЯТО.** До правки оба магазина
+показывают платформенный дефолт: «создание интернет-магазина — upready», `href=https://upready.dev`,
+`rel=noopener target=_blank`. После `update tenant set metadata = metadata || '{"attribution":{"anchor":"интернет-магазин
+под ключ","href":"https://upready.dev/studio"}}'` у `w7master14` подвал стал «интернет-магазин под ключ — upready»
+с `href=https://upready.dev/studio`, у `acme` в тот же прогон — прежний дефолт. Мердж по полям виден: `brand`
+(«upready») и `rel` унаследованы от платформы, переопределены только `anchor` и `href`; кэша, который бы держал
+старый анкор, нет — первая же перезагрузка показала новый. Кадры `master-footer-post.png`, `acme-footer-post.png`.
+
+**6. Цифра цены — СНЯТЬ НЕ НА ЧЕМ, и это находка, а не пробел приёмки.** Товара `chino-pants` (2799 rub / 33 usd)
+на витрине тенанта нет вовсе: он не привязан ни к одному тенанту (`tenant_tenant_product_product` — 0 строк),
+это платформенный демо-товар. У ВСЕХ 60 товаров `acme` цены ТОЛЬКО в `eur` (как и у `globex` — 3, `initech` — 1);
+регионы `ru` (rub) и `us` (usd) в базе есть. Замер по DOM: на `/ru/products/acme-shirt-live` и `/en/...` — значок
+валюты в шапке `₽` / `$`, а цены на странице товара НЕТ ни одной (`main.innerText` не содержит ни числа с валютой),
+на `/ru/store` и `/en/store` — тоже ни одной; кнопка «В корзину» при этом на месте. Кадры `acme-product-{ru,en}-pre.png`.
+Значит пункт «цены = прайс региона, не пересчёт» подтверждён по механизму (разные `region_id` в запросах, волна 7)
+и НЕ опровергнут цифрой — цифры нет, потому что у товара нет цены в валюте региона. Кандидат в дефект (заводит Иван):
+«Товар без цены в валюте региона показывается на витрине без цены, но с кнопкой „В корзину“» — покупатель на `/ru`
+видит карточку без цены и может добавить её в корзину.
+
+**10. Смена адреса в панели — предупреждение ЕСТЬ, применение НЕ СРАБОТАЛО.** `/settings/domains` под владельцем
+`w7master14`: основной `w7master14.upready.dev` (кнопка «Change address»), технический
+`ten_01m2a541b9xjy2hqyq9f752snq.upready.dev`, блок «Your own domain» (CNAME на `stores.upready.dev`). Форма смены
+адреса раскрывается и несёт полный текст последствий: «The new address starts answering at once… The old address keeps
+working and forwards to the new one, each page to its own… Search needs time. Google and Yandex carry almost all of the
+accumulated weight over the redirect, but **re-indexing takes weeks, not days**… The old address stays reserved for your
+shop for good… Changing the address often hurts». Про недели сказано. Но после ввода `w7master15` в поле адреса и
+нажатия «Change address» экран через 9 с по-прежнему показывает `w7master14.upready.dev main`, а в базе ничего не
+изменилось: `tenant.handle` = `w7master14`, `tenant_handle_alias` пуста. Причина ещё не прочитана по коду — следующий шаг.
+Экран панели при этом англоязычный, хотя магазин и владелец русские (наблюдение, не пункт приёмки).
+
+**Находка сверх приёмки: ссылка «Открыть витрину» в мастере всегда `https://`.**
+`apps/storefront/src/app/api/demo/onboarding/route.ts:207` — `storefrontUrl: TENANT_BASE_DOMAIN ?
+\`https://${handle}.${TENANT_BASE_DOMAIN}\` : null`. На проде верно, на локальном стенде TLS нет, и по ссылке с экрана
+завершения браузер показывает «This site can't provide a secure connection» (Иван наткнулся на это 14:40 на своём
+магазине `barhat-i-stil`). По http тот же адрес отвечает: `http://barhat-i-stil.localhost:8044/` → 302 → `/ru` → 200.
+Кандидат в задачу: схему брать из адреса стенда (`x-forwarded-proto` / базовый URL витрины), а не константой.
