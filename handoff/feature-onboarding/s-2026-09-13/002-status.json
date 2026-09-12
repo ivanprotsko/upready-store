@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-13",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-13T02:14:30+08:00",
+  "status": "02:14 WITA — синк с dev сделан: origin/dev (порт лендинга L1, PR #1, ab9053b) влит в feature/onboarding мержем f89bdc6, конфликт был один — верхняя пара updated/status в HANDOFF.json, снят в пользу более свежей строки homepage; ветка теперь 0 позади origin/dev, 16 своих коммитов, дерево чистое. Ранее этим ходом: ASCII-схема границы онбординга (25c87e4) отдана Ивану в светлой версии. Два гварда починены и проверены прогоном: commit-hash-verify-guard (убит $' в замене — дубликат хвоста, не парсился, гейт был открыт во всех сессиях; 80/80 pass, aie-20260913-012039-a4a2) и pr-flow-guard (ложняк: осколок редиректа '2>' читался как чужая ветка задачи; dropRedirections в mergeRefs и pushIntoBase, selftest 54/54, aie-20260913-021353-3e44). Правка pr-flow-guard.js в ~/.claude НЕ закоммичена — репозиторий на master без remote и с 4577 грязными файлами, нужен флаг Ивана."
+}
