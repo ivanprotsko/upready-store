@@ -39,7 +39,7 @@ await p.goto(`${panel}/products/${PROD}/media?view=edit`, { waitUntil: "load", t
 if (phase === "light") {
   await p.waitForSelector('input[type="file"]:not([data-testid])', { state: "attached", timeout: 30000 });
   await p.setInputFiles('input[type="file"]:not([data-testid])', `${imgdir}/light-product.png`);
-  await p.waitForTimeout(2500);
+  await p.waitForTimeout(4500); // POST /tenants/uploads не успевает за 2.5 с — Save уходит впустую
 } else {
   await p.waitForSelector('[data-testid="product-image-dark-upload"]', { state: "attached", timeout: 30000 });
   await p.setInputFiles('[data-testid="product-image-dark-upload"]', `${imgdir}/dark-product.png`);
