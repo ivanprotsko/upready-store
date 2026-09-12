@@ -1,0 +1,275 @@
+/*
+ * editor.module.css — оформление режима редактирования.
+ *
+ * Палитра и правила: канон Geist, светлая тема
+ * (~/upready/packages/geist-kit/tokens.css + AGENTS.md). Значения продублированы
+ * сюда локальными переменными — пакет geist-kit в это приложение не подключён,
+ * а хардкодить хексы прямо в правилах канон запрещает.
+ *
+ * Слой редактора рендерится порталом в <body> и весь позиционируется fixed:
+ * координаты берутся из getBoundingClientRect() секции, поэтому ни один
+ * предок (sticky-шапка с backdrop-filter, контейнер с border) на позицию
+ * панели не влияет.
+ */
+
+.root {
+  --e-bg: #ffffff;
+  --e-fg: #000000;
+  --e-secondary: #f4f4f4;
+  --e-hover: #ececec;
+  --e-border: #e3e3e3;
+  --e-ring: #9a9a9a;
+  --e-muted: #171717;
+  --e-faint: #8f8f8f;
+  --e-link: #0068d6;
+  --e-green: #17803d;
+  --e-red: #d63640;
+  --e-elev: #ffffff;
+  --e-r-sm: 6px;
+  --e-r-md: 8px;
+  --e-r-lg: 12px;
+  --e-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --e-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --e-shadow: 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 8px -4px rgba(0, 0, 0, 0.06),
+    0 16px 24px -8px rgba(0, 0, 0, 0.07);
+
+  font-family: var(--e-font);
+  color: var(--e-fg);
+}
+
+/* Слой не перехватывает мышь: клики проходят на страницу, ловят их только
+   сами контролы, у которых pointer-events включён обратно. */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+}
+
+/* Рамка вокруг блока под курсором. */
+.outline {
+  position: fixed;
+  border: 1px solid var(--e-link);
+  background: rgba(0, 104, 214, 0.035);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.panel {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  background: var(--e-elev);
+  border: 1px solid var(--e-border);
+  border-radius: var(--e-r-md);
+  box-shadow: var(--e-shadow);
+  pointer-events: auto;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 8px 0 6px;
+  max-width: 260px;
+}
+
+.metaLabel {
+  font-size: 12.5px;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+  color: var(--e-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metaSub {
+  font-family: var(--e-mono);
+  font-size: 10.5px;
+  line-height: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--e-faint);
+  white-space: nowrap;
+}
+
+.metaSubOff {
+  color: var(--e-red);
+}
+
+.divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 3px 3px;
+  background: var(--e-border);
+}
+
+.btn {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--e-r-sm);
+  background: transparent;
+  color: var(--e-muted);
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--e-hover);
+  color: var(--e-fg);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 1px;
+}
+
+/* Блок выключен — глаз перечёркнут и подсвечен статусным цветом. */
+.btnOff {
+  color: var(--e-red);
+}
+
+/* Выключенный блок в режиме редактирования виден, но явно «не на странице». */
+.ghost {
+  opacity: 0.32;
+  filter: grayscale(1);
+}
+
+.toolbar {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 7px 7px 14px;
+  background: var(--e-elev);
+  border: 1px solid var(--e-border);
+  border-radius: var(--e-r-lg);
+  box-shadow: var(--e-shadow);
+  pointer-events: auto;
+  font-size: 12.5px;
+  line-height: 16px;
+}
+
+.toolbarTitle {
+  letter-spacing: -0.01em;
+}
+
+.count {
+  font-family: var(--e-mono);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--e-faint);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--e-faint);
+  font-family: var(--e-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--e-faint);
+  flex: 0 0 auto;
+}
+
+.dotSaving {
+  background: var(--e-link);
+}
+
+.dotSaved {
+  background: var(--e-green);
+}
+
+.dotError {
+  background: var(--e-red);
+}
+
+.statusError {
+  color: var(--e-red);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Единственная «первичная» кнопка: инверсия полярности — канон Geist. */
+.done {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: var(--e-r-sm);
+  background: var(--e-fg);
+  color: var(--e-bg);
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.done:hover {
+  background: #333333;
+}
+
+.done:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 1px;
+}
+
+.launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--e-border);
+  border-radius: var(--e-r-lg);
+  background: var(--e-elev);
+  box-shadow: var(--e-shadow);
+  color: var(--e-muted);
+  font-family: var(--e-font);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.launcher:hover {
+  background: var(--e-secondary);
+  color: var(--e-fg);
+}
+
+.launcher:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 1px;
+}
+
+.hint {
+  font-family: var(--e-mono);
+  font-size: 11px;
+  color: var(--e-faint);
+}
