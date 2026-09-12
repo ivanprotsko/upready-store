@@ -12,8 +12,8 @@ HANDOFF scope dev: t-2026-09-13-01 (цель, решения, приёмка —
 - [x] 1. Ориентация: resume-блок, порт лендинга (apps/homepage/port на dev), текущая страница на :5301 снята (текст + скриншот в скретчпаде).
 - [x] 2. Фан-аут 8 читателей → ~/upready/research/reports/2026-09-13-upready-store-product-strengths/*.md (запущены ~07:35).
 - [x] 3. Задача t-2026-09-13-01 заведена и утверждена (полномочия Ивана от 2026-09-13).
-- [ ] 4. Воркспейс superset: feature/homepage-rework от dev; pnpm install в apps/homepage/port.
-- [ ] 5. Синтез отчётов → концепция и копирайт: artifacts/docs/2026-09-13-homepage-concept.md (ключевые слова — развить/заменить; структура блоков; таблица честности «утверждение → код»).
+- [x] 4. Воркспейс superset `6add6bf9` (feature/homepage-rework от dev; привязка проекта в host.db исправлена на ivanprotsko/upready-store; dev выровнена с origin/dev rebase-ом; зависимости — `corepack pnpm@10.11.1 install --frozen-lockfile`).
+- [x] 5. Синтез отчётов → концепция и копирайт: `<ws>/artifacts/docs/2026-09-13-homepage-concept.md` (слова сохранены + «своё» под каждым, вариант B, 8 блоков, таблица честности, 3 факта с источниками; факт «7 июля» на старой странице неверен).
 - [ ] 6. Рабочий HTML-прототип героя и страницы: artifacts/docs/2026-09-13-homepage-prototype.html (цикл слов, панель, поток страницы).
 - [ ] 7. Вёрстка в React-порте: новые/переписанные секции, реестр, homepage.cfg.json; tsc + vite build чистые.
 - [ ] 8. Приёмка в реальном браузере (Playwright): 1440 и 390 px, клики по CTA и словам героя, 0 ошибок консоли, скриншоты в artifacts/.
