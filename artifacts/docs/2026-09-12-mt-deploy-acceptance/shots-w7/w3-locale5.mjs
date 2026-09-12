@@ -1,0 +1,17 @@
+import { chromium } from "playwright";
+const base = "http://acme.localhost:8044", out = process.argv[2];
+const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 900 }, locale: "ru-RU" });
+const errors = []; p.on("pageerror", (e) => errors.push(String(e.message).slice(0, 80)));
+const read = () => p.evaluate(() => { const card = [...document.querySelectorAll('[data-testid="product-wrapper"]')].map((c) => c.innerText.replace(/\s+/g, " ")).find((t) => /chino|чино/i.test(t)) ?? null; return { url: location.pathname, badge: document.querySelector("header")?.innerText.match(/RUB|USD|EUR|₽|\$|€/g)?.slice(0, 2) ?? null, lang: document.documentElement.lang, chino: card?.slice(0, 50) ?? null, cookie: (document.cookie.match(/_medusa_country=([^;]*)/) || [])[1] ?? null }; });
+const st = async (tag) => { const s = await read(); console.log(tag, JSON.stringify(s)); return s; };
+const box = `(() => { const all = [...document.querySelectorAll("div, section, form")].filter((e) => /Смена региона|Change region/.test(e.innerText) && e.getBoundingClientRect().height > 0 && e.innerText.length < 6000); return all.sort((a, b) => a.innerText.length - b.innerText.length).find((e) => /Страна|Country/.test(e.innerText)) ?? all[0] ?? null; })()`;
+const open = async () => { await p.evaluate(() => document.querySelector('[data-testid="nav-region-select-button"]')?.click()); await p.waitForFunction(`!!${box}`, null, { timeout: 15000 }); await p.waitForTimeout(500); };
+const pick = (re) => p.evaluate(`(() => { const d = ${box}; const re = /${re}/i; const el = d && [...d.querySelectorAll("label")].find((e) => re.test(e.textContent) && e.getBoundingClientRect().height > 0); if (!el) return null; el.click(); return el.textContent.trim().slice(0, 18); })()`);
+const apply = () => p.evaluate(`(() => { const d = ${box}; const el = d && [...d.querySelectorAll("button")].find((e) => /Примен|Apply/i.test(e.textContent)); if (!el) return null; el.click(); return el.textContent.trim(); })()`);
+const waitFor = async (cond, tag) => { try { await p.waitForFunction(cond, null, { timeout: 60000 }); } catch { console.log(tag, "TIMEOUT waiting:", cond); } await p.waitForLoadState("networkidle", { timeout: 60000 }).catch(() => null); await p.waitForTimeout(800); };
+await p.goto(`${base}/ru/store`, { waitUntil: "networkidle", timeout: 180000 }); await st("A ru/store:");
+await open(); console.log("pick:", await pick("English"), "apply:", await apply()); await waitFor(`location.pathname.startsWith("/en")`, "B"); await st("B lang→en:");
+await open(); console.log("pick:", await pick("Германия|Germany"), "apply:", await apply()); await waitFor(`/€|EUR/.test(document.querySelector("header")?.innerText ?? "")`, "C"); await st("C country→DE:"); await p.screenshot({ path: `${out}-country-de.png` });
+await open(); console.log("pick:", await pick("Русский|Russian"), "apply:", await apply()); await waitFor(`location.pathname.startsWith("/ru")`, "D"); await st("D lang→ru (страна должна остаться DE/€):"); await p.screenshot({ path: `${out}-lang-ru-after-de.png` });
+console.log("errors:", JSON.stringify(errors));
+await b.close();

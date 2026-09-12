@@ -554,3 +554,55 @@ disabled до `loaded`. Формулировка задачи: «Панель, H
 после сохранения `/home-settings` (POST `/tenants/uploads` ← `home-settings`, затем сохранение документа) строки
 ревалидации нет. Витрина при этом отдаёт кэш (`GET /store/tenant/home 200 … (cache hit)`), и главная показывала
 заголовок из кэша, которого в БД уже не было. Сброс вручную `POST /api/revalidate` работает (200).
+
+## Волна 7 — стенд трека 3 `feat/mt-storefront-wave2` (058fc00) поднят, пункты 1–14 замерены на acme (2026-09-12, 12:28–12:43 WITA)
+
+Стенд: БД `upready_store_wave2` = `pg_dump upready_store_mt` → файл (14 754 999 байт) → `psql -f` (0 ошибок) + `npx medusa
+db:migrate` (`Migration20260912061500` прошла, 15 с; таблица `tenant_handle_alias` и `tenant_domain.is_primary` есть); бэкенд
+`:9034`, витрина `:8044`, панель `:5185` (все три ответили 12:32; 9033/8043 — чужой стенд `feat/cherkashina-tenant`). Env инлайн по
+рецепту стенда 2 плюс `STOREFRONT_DEFAULT_LOCALE=ru LOCALE_COUNTRY_MAP=ru:ru,en:us LOCALE_PIN=true NEXT_PUBLIC_DEFAULT_LOCALE=ru`.
+В копии БД у acme шапка `h1` (не `h5`, как на проде) — RegionSelect есть, пункты 7–8 замерены на acme. Магазин, созданный
+мастером, НЕ заведён и НЕ замерен ни по одному пункту — это первое дело следующего окна. Скрипты `shots-w7/` (`w3-footer-locale.mjs`,
+`w3-locale5.mjs`, `w3-panel-domains.mjs` — копии в скретчпаде, в git положить со следующим коммитом), кадры `shots-w7/acme-*.png`.
+
+**Вердикт по пунктам передачи (по DOM и кадру, acme, 1280×900 / 390×844 / 360×780):**
+
+1. **Подвал: строка и ссылка — ПРИНЯТО.** `footer` содержит «создание интернет-магазина — upready», ссылка `https://upready.dev`
+   `rel=noopener target=_blank` видима (getBoundingClientRect) на всех трёх вьюпортах. Кадры `acme-footer-{1280,390,360}.png`.
+2. **Подвал на 360 px не исчез — ПРИНЯТО** (кадр `acme-footer-360.png`: строка под копирайтом, ссылка подчёркнута).
+3. **Разные анкоры у двух магазинов через `tenant.metadata.attribution` — НЕ ЗАМЕРЕНО** (второй магазин не заведён).
+4. **Следов стартера нет — ПРИНЯТО на acme:** `gorgojs=0 medusa-dtc-starter=0 docs.medusajs=0` в `outerHTML` на трёх вьюпортах;
+   одиночные стенды не проверялись.
+5. **Заход на `/` из английского браузера → `/ru` — ПРИНЯТО** (`accept-language: en-US`, цепочка `/` → `/ru`, 200).
+6. **Рубли на `/ru`, доллары на `/en` — ПРИНЯТО ПО ВАЛЮТЕ, ЦИФРЫ НЕ СНЯТЫ:** значок в шапке `₽` / `$`; витрина запрашивает товары
+   с РАЗНЫМИ `region_id` (`…DQCM5` на `/ru`, `…QJ84V5` на `/en`, лог витрины) — это прайс региона, не пересчёт; но на первой
+   странице каталога стоят e2e-товары без цен, а на странице `chino-pants` (2799 rub / 33 usd в БД) цифру цены регулярка не
+   взяла — снять числом в следующем окне.
+7. **Переключатель языка меняет валюту — ПРИНЯТО.** Диалог «Смена региона» (открывают оба контрола, `nav-region-select-button`
+   и `nav-country-select-button`; выбор — `label`, применение — кнопка «Применить»/«Apply»): English → `/en/store`, значок `$`,
+   cookie `_medusa_country=us`.
+8. **Явный выбор страны переживает смену языка — НЕ ПРИНЯТО, замер показал поломку.** Германия (регион `Germany`/eur есть в БД,
+   `reg_01M25SZDQZE5Y3EPV6WH3E3Q2B`) + «Apply»: cookie `_medusa_country=de`, но страница по `/en/store` на `acme.localhost:8044`
+   отрисовалась как ПЛАТФОРМЕННАЯ демо-страница «Четыре формы воронки, один магазин на выходе» (кадр `acme-country-de.png`),
+   без шапки магазина и значка валюты; лог витрины: `getTenantHome: /store/tenant/home did not answer; falling back to the
+   stand's own settings Error: Publishable API key required in the request header: x-publishable-api-key`, у бэкенда
+   `GET /store/tenant/home ← (400)`. То есть после выбора страны вне `LOCALE_COUNTRY_MAP` витрина теряет тенанта и показывает
+   посетителю магазина чужую страницу. Механизм по коду не читан — гипотеза (18h): ключ публикации берётся по региону/стране.
+   Кандидат в дефект трека (заводит Иван): «Выбор страны вне карты локалей на витрине тенанта показывает демо-лендинг платформы».
+   Следующий шаг после Германии (Русский → `/ru`) не замерен — диалог на демо-странице не открылся.
+9. **Экран «Адрес магазина» в панели — ПРИНЯТО** (`/settings/domains`, acme): основной адрес `acme.upready.dev` с кнопкой
+   «Change address», технический `ten_01m25v2xv2f7t1zgdyr4gmqhrh.upready.dev` («never changes, always redirects to the main
+   address, never shown in search»), блок «Your own domain» (`acme.example`, «Make main», ввод + «Add»). Кадр
+   `acme-panel-domains.png`. Базовый домен в тексте — `upready.dev`, стенду он не задан.
+10. **Смена адреса с предупреждением про недели — НЕ ЗАМЕРЕНО** (делать на втором магазине, не на acme).
+11. **Старый адрес → 301 на ту же внутреннюю страницу — НЕ ЗАМЕРЕНО** (нужна смена адреса, п. 10).
+12. **`<tenant_id>`-хост → 301 + `X-Robots-Tag: noindex` — ПРИНЯТО:** `Host: ten_01m25v2xv2f7t1zgdyr4gmqhrh.localhost:8044`
+    `/ru/store` → `301 location: http://acme.localhost:8044/ru/store`, `x-robots-tag: noindex`; `/` → 301 на `/`.
+13. **Повторный handle — отказ фразой — НЕ ЗАМЕРЕНО** (мастер не запускался).
+14. **canonical / sitemap / robots / og:url / JSON-LD называют основной адрес — ПРИНЯТО:** `<link rel="canonical"
+    href="http://acme.localhost:8044/ru"/>`, JSON-LD `"url":"http://acme.localhost:8044"` и `/ru`, `sitemap.xml` — `<loc>` на
+    `acme.localhost:8044`, `robots.txt` отдаётся (Disallow account/checkout/cart/order). Наблюдение, не дефект трека: первые
+    `<loc>` сайтмапа — `/ar`, `/ar/store`… (арабская локаль), тогда как локали витрины — en+ru; `og:url` в разметке `/ru` не найден.
+
+Наблюдение по dev-стенду: значок Next «1 Issue» в правом нижнем углу на кадрах — `pageerror` во всех прогонах пуст, содержимое
+issue не снято.

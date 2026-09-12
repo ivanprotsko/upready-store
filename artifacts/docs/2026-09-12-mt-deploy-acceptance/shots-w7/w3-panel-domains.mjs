@@ -1,0 +1,12 @@
+import { chromium } from "playwright";
+const [email, out] = process.argv.slice(2);
+const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 900 }, locale: "ru-RU" });
+await p.goto("http://localhost:5185/login", { waitUntil: "load", timeout: 120000 });
+await p.fill('input[name="email"]', email); await p.fill('input[name="password"]', "supersecret");
+await p.keyboard.press("Enter"); await p.waitForURL((u) => !u.pathname.includes("login"), { timeout: 60000 });
+await p.goto("http://localhost:5185/settings/domains", { waitUntil: "load", timeout: 120000 });
+await p.waitForLoadState("load").catch(() => null); await p.waitForTimeout(6000); console.log("at:", p.url());
+const r = await p.evaluate(() => ({ h: [...document.querySelectorAll("h1,h2,h3")].map((e) => e.textContent.trim().slice(0, 40)).slice(0, 8), tids: [...new Set([...document.querySelectorAll("[data-testid]")].map((e) => e.getAttribute("data-testid")))].slice(0, 30), text: document.querySelector("main")?.innerText.replace(/\s+/g, " ").slice(0, 700), inputs: [...document.querySelectorAll("input")].map((i) => (i.getAttribute("data-testid") || i.name || i.placeholder || i.type) + "=" + i.value.slice(0, 30)).slice(0, 8), buttons: [...document.querySelectorAll("main button")].map((e) => e.textContent.trim().slice(0, 30)).filter(Boolean).slice(0, 12) }));
+console.log(JSON.stringify(r));
+await p.screenshot({ path: `${out}-panel-domains.png`, fullPage: true });
+await b.close();
