@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 52,
+  "action": "status-set",
+  "ts": "2026-09-12T10:43:30+08:00",
+  "status": "Приёмщик: фаза light трека 2 закрыта, продолжение — после /clear по промпту v6 (artifacts/prompts/2026-09-12-acceptor-session-v6.md). 10:40 WITA обе витрины стендов были убиты сигналом (exit 137) и подняты заново: http://localhost:8041/start 200 за 23,3 с, http://acme.localhost:8042/ru 200 за 39,5 с; бэкенды 9031/9032 и панели 5182/5183 не падали, рецепт перезапуска — в памяти стенда. Первое дело нового окна — прод-проверка находки (docker inspect mt-backend на S3_BUCKET + прод-БД на localhost:9000), затем пункт 4 «магазин без пары»."
+}
