@@ -1,0 +1,90 @@
+/* Values copied 1:1 from reference/rendered/15-final-cta.html inline styles. */
+
+.section {
+  position: relative;
+  border-top: 1px solid rgb(228, 228, 231);
+  padding: clamp(64px, 8vw, 104px) clamp(20px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.corner {
+  position: absolute;
+  top: -6.5px;
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+  background:
+    linear-gradient(rgb(212, 212, 216), rgb(212, 212, 216)) center center / 1.2px 100% no-repeat,
+    linear-gradient(rgb(212, 212, 216), rgb(212, 212, 216)) center center / 100% 1.2px no-repeat;
+}
+
+.cornerLeft {
+  left: -6.5px;
+}
+
+.cornerRight {
+  right: -6.5px;
+}
+
+.heading {
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+  max-width: 16ch;
+}
+
+.paragraph {
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.6;
+  color: rgb(82, 82, 91);
+  max-width: 620px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgb(255, 247, 237);
+  border: 1px solid rgb(254, 215, 170);
+  color: rgb(154, 52, 18);
+  font-family: "Roboto Mono", monospace;
+  font-size: 10.5px;
+}
+
+/* Base state is the raw template's static style="…"; the hover state is
+   raw/15-final-cta.html's style-hover="background:#3F3F46;color:#fff",
+   applied by support.js via the `scp2` class. Re-implemented as React
+   state (see index.tsx) rather than a `:hover` rule, matching the
+   background swap 1:1. */
+.cta {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background: rgb(24, 24, 27);
+  color: rgb(255, 255, 255);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: rgba(24, 24, 27, 0.24) 0px 1px 2px;
+  transition: background 0.15s;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.ctaHover {
+  background: rgb(63, 63, 70);
+}
+
+.icon {
+  flex: 0 0 auto;
+}

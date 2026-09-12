@@ -1,0 +1,14 @@
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{max-width:100%;overflow-x:hidden;overscroll-behavior-x:none}
+  body{margin:0;background:#FAFAFA;color:#18181B;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,p,ul,figure{margin:0}
+  ul{padding:0;list-style:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  a{color:#2563EB;text-decoration:none}
+  a:hover{color:#18181B}
+  ::selection{background:#18181B;color:#fff}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @keyframes linein{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.16)}50%{box-shadow:0 0 0 5px rgba(16,185,129,.08)}}

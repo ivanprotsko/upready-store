@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro"
+import QuickViewsApp from "../components/QuickViewsApp"
+import raw from "../data/insales-vs-shopify-comparison.json"
+
+const PROVIDERS = raw.providers
+const COLUMNS = raw.columns
+const GROUPS = raw.groups
+const ROWS = raw.rows
+---
+
+<Layout title="InSales vs Shopify — тарифы">
+  <QuickViewsApp
+    client:load
+    providers={PROVIDERS}
+    columns={COLUMNS}
+    groups={GROUPS}
+    rows={ROWS}
+    description="Тарифные планы InSales и Shopify: цены, пробный период, комиссии, лимиты (снято 2026-09-12 с insales.ru/signup и shopify.com/id/pricing)."
+    colWidth={150}
+  />
+</Layout>

@@ -2,3 +2,7 @@ packages:
   - "apps/**"
   - "!apps/backend/.medusa/**"
   - "!apps/storefront/.next/**"
+  # apps/homepage/port is the landing-port harness (Vite + React 19): it installs
+  # standalone with its own lockfile, so the root lockfile and both Dockerfiles
+  # (which COPY only backend/storefront package.json) stay untouched.
+  - "!apps/homepage/**"

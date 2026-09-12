@@ -1,0 +1,93 @@
+/*
+ * 1:1 port of the inline styles on reference/rendered/01-hero.html.
+ * Values (colors, sizes, radii, spacing) are copied verbatim from the
+ * rendered DOM, not recomputed.
+ */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(52px, 7vw, 80px) clamp(20px, 4vw, 56px) clamp(40px, 4vw, 54px);
+}
+
+.row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 4vw, 60px);
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1.5 1 440px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heading {
+  font-size: clamp(34px, 4.6vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.03;
+}
+
+.heading15 {
+  max-width: 15ch;
+}
+
+.heading16 {
+  max-width: 16ch;
+}
+
+.paragraph {
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.6;
+  color: rgb(82, 82, 91);
+  max-width: 640px;
+}
+
+.right {
+  flex: 1 1 300px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.note {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(82, 82, 91);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background: rgb(24, 24, 27);
+  color: rgb(255, 255, 255);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: rgba(24, 24, 27, 0.24) 0px 1px 2px;
+  transition: background 0.15s;
+}
+
+/* raw template: style-hover="background:#3F3F46;color:#fff" */
+.cta:hover {
+  background: #3f3f46;
+  color: #fff;
+}

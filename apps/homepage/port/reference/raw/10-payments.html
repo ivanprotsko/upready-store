@@ -1,0 +1,55 @@
+<section id="sec-payments" data-screen-label="Оплата" style="position:relative;border-top:1px solid #E4E4E7;padding:clamp(48px,6vw,76px) clamp(20px,4vw,56px)">
+    <i style="position:absolute;top:-6.5px;left:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+    <i style="position:absolute;top:-6.5px;right:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px">
+      <span style="width:5px;height:5px;background:#18181B"></span>
+      <span style="font-family:'Roboto Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#71717A">{{ nPayments }} · оплата</span>
+    </div>
+    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-.035em;line-height:1.05;max-width:18ch">Покупатель платит так,<br />как привык</h2>
+    <p style="margin-top:18px;font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:#3F3F46;max-width:660px">В чекауте появляются все способы ниже — по одному договору с платёжным сервисом. Мы готовим магазин, помогаем собрать заявку и доводим дело до первого успешного платежа.</p>
+
+    <div style="margin-top:28px;display:grid;grid-template-columns:{{ gridPricing }};gap:1px;background:#E4E4E7;border:1px solid #E4E4E7">
+      <sc-for list="{{ payGroups }}" as="g" hint-placeholder-count="3">
+        <div style="background:#fff;padding:clamp(18px,2.2vw,24px);display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#71717A">{{ g.tag }}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ g.brands }}" as="br" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;height:32px;padding:0 10px;border:1px solid #E4E4E7;border-radius:7px;background:#fff">
+                <sc-if value="{{ br.hasLogo }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ br.logo }}" alt="{{ br.name }}" loading="lazy" style="display:block;width:{{ br.w }};height:18px" />
+                </sc-if>
+                <sc-if value="{{ br.noLogo }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:12.5px;font-weight:500;letter-spacing:-.01em;color:#18181B;white-space:nowrap">{{ br.name }}</span>
+                </sc-if>
+              </span>
+            </sc-for>
+          </div>
+          <p style="font-size:13px;line-height:1.6;color:#52525B">{{ g.note }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:32px;border:1px solid #E4E4E7">
+      <sc-for list="{{ payMore }}" as="m" hint-placeholder-count="4">
+        <div style="border-bottom:1px solid #E4E4E7">
+          <button onClick="{{ m.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px clamp(16px,2vw,22px);text-align:left;background:#fff;transition:background .15s" style-hover="background:#FAFAFA">
+            <span style="display:flex;align-items:baseline;gap:12px;min-width:0">
+              <span style="font-family:'Roboto Mono',monospace;font-size:11px;color:#71717A;flex:0 0 auto">{{ m.n }}</span>
+              <span style="font-size:14px;font-weight:500;letter-spacing:-.015em;color:#18181B">{{ m.title }}</span>
+            </span>
+            <span style="flex:0 0 auto;width:16px;height:16px;position:relative;transition:transform .25s;transform:{{ m.rot }}">
+              <span style="position:absolute;top:7.5px;left:0;width:16px;height:1.4px;background:#71717A"></span>
+              <span style="position:absolute;left:7.5px;top:0;width:1.4px;height:16px;background:#71717A"></span>
+            </span>
+          </button>
+          <sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 clamp(16px,2vw,22px) 18px;display:flex;flex-direction:column;gap:9px;max-width:760px">
+              <sc-for list="{{ m.lines }}" as="ln" hint-placeholder-count="2">
+                <p style="font-size:13px;line-height:1.65;color:#52525B">{{ ln.t }}</p>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>

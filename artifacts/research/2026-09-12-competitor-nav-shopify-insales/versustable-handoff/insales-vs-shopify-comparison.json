@@ -1,0 +1,122 @@
+{
+  "providers": [
+    { "slug": "insales", "name": "InSales", "sourceUrl": "https://www.insales.ru/signup" },
+    { "slug": "shopify", "name": "Shopify", "sourceUrl": "https://www.shopify.com/id/pricing" }
+  ],
+  "columns": [
+    { "id": "insales__vizitka", "providerSlug": "insales", "tierName": "Сайт-визитка", "price": "1 343", "currency": "RUB", "billingNote": "в месяц при оплате за год; 1 580 ₽/мес при помесячной оплате" },
+    { "id": "insales__internet-magazin", "providerSlug": "insales", "tierName": "Интернет-магазин", "price": "2 295", "currency": "RUB", "billingNote": "в месяц при оплате за год; 2 700 ₽/мес при помесячной оплате" },
+    { "id": "insales__seller", "providerSlug": "insales", "tierName": "Селлер", "price": "4 080", "currency": "RUB", "billingNote": "в месяц при оплате за год; 4 800 ₽/мес при помесячной оплате" },
+    { "id": "insales__combo", "providerSlug": "insales", "tierName": "Комбо", "price": "5 610", "currency": "RUB", "billingNote": "в месяц при оплате за год; 6 600 ₽/мес при помесячной оплате" },
+    { "id": "insales__ultra", "providerSlug": "insales", "tierName": "Ультра", "price": "25 415", "currency": "RUB", "billingNote": "в месяц при оплате за год; 29 900 ₽/мес при помесячной оплате" },
+    { "id": "shopify__basic", "providerSlug": "shopify", "tierName": "Basic", "price": "19", "currency": "USD", "billingNote": "в месяц при оплате за год; $25/мес при помесячной оплате" },
+    { "id": "shopify__grow", "providerSlug": "shopify", "tierName": "Grow", "price": "49", "currency": "USD", "billingNote": "в месяц при оплате за год; $65/мес при помесячной оплате" },
+    { "id": "shopify__advanced", "providerSlug": "shopify", "tierName": "Advanced", "price": "299", "currency": "USD", "billingNote": "в месяц при оплате за год; $399/мес при помесячной оплате" },
+    { "id": "shopify__plus", "providerSlug": "shopify", "tierName": "Plus", "price": "от 2 300", "currency": "USD", "billingNote": "в месяц; доступен контракт на 3 года с доп. скидкой" }
+  ],
+  "groups": ["Тарифы", "Условия и лимиты"],
+  "rows": [
+    {
+      "id": "price-year-equiv",
+      "group": "Тарифы",
+      "name": "Цена в месяц при оплате за год",
+      "description": null,
+      "cells": {
+        "insales__vizitka": "1 343 ₽/мес",
+        "insales__internet-magazin": "2 295 ₽/мес",
+        "insales__seller": "4 080 ₽/мес",
+        "insales__combo": "5 610 ₽/мес",
+        "insales__ultra": "25 415 ₽/мес",
+        "shopify__basic": "$19/мес",
+        "shopify__grow": "$49/мес",
+        "shopify__advanced": "$299/мес",
+        "shopify__plus": "от $2 300/мес"
+      }
+    },
+    {
+      "id": "price-month",
+      "group": "Тарифы",
+      "name": "Цена при помесячной оплате",
+      "description": null,
+      "cells": {
+        "insales__vizitka": "1 580 ₽/мес",
+        "insales__internet-magazin": "2 700 ₽/мес",
+        "insales__seller": "4 800 ₽/мес",
+        "insales__combo": "6 600 ₽/мес",
+        "insales__ultra": "29 900 ₽/мес",
+        "shopify__basic": "$25/мес",
+        "shopify__grow": "$65/мес",
+        "shopify__advanced": "$399/мес",
+        "shopify__plus": null
+      }
+    },
+    {
+      "id": "trial",
+      "group": "Условия и лимиты",
+      "name": "Бесплатный пробный период",
+      "description": null,
+      "cells": {
+        "insales__vizitka": "7 дней",
+        "insales__internet-magazin": "7 дней",
+        "insales__seller": "7 дней",
+        "insales__combo": "7 дней",
+        "insales__ultra": "7 дней",
+        "shopify__basic": "3 дня, затем $1/мес 3 месяца",
+        "shopify__grow": "3 дня, затем $1/мес 3 месяца",
+        "shopify__advanced": "3 дня, затем $1/мес 3 месяца",
+        "shopify__plus": null
+      }
+    },
+    {
+      "id": "commission",
+      "group": "Условия и лимиты",
+      "name": "Комиссия платформы с продаж / за приём платежей сторонним провайдером",
+      "description": "inSales не берёт комиссию с продаж (сайт заявляет отсутствие скрытых комиссий). У Shopify — только комиссия за приём платежей СТОРОННИМ провайдером (если не используется Shopify Payments); значения указаны для third-party payment providers.",
+      "cells": {
+        "insales__vizitka": "без комиссии",
+        "insales__internet-magazin": "без комиссии",
+        "insales__seller": "без комиссии",
+        "insales__combo": "без комиссии",
+        "insales__ultra": "без комиссии",
+        "shopify__basic": "2%",
+        "shopify__grow": "1%",
+        "shopify__advanced": "0.6%",
+        "shopify__plus": "0.2%"
+      }
+    },
+    {
+      "id": "staff-accounts",
+      "group": "Условия и лимиты",
+      "name": "Аккаунты сотрудников",
+      "description": null,
+      "cells": {
+        "insales__vizitka": null,
+        "insales__internet-magazin": null,
+        "insales__seller": null,
+        "insales__combo": null,
+        "insales__ultra": null,
+        "shopify__basic": "доп. аккаунты не включены",
+        "shopify__grow": "до 5",
+        "shopify__advanced": "до 15",
+        "shopify__plus": "неограниченно"
+      }
+    },
+    {
+      "id": "purpose",
+      "group": "Условия и лимиты",
+      "name": "Для какого сценария предназначен тариф",
+      "description": null,
+      "cells": {
+        "insales__vizitka": "Быстрый старт: простой сайт для товаров/услуг с помощью ИИ",
+        "insales__internet-magazin": "Свой интернет-магазин, приём заказов на собственном сайте",
+        "insales__seller": "Продажи и заказы из Ozon, Wildberries, Яндекс Маркет в одном окне",
+        "insales__combo": "Сайт и маркетплейсы одновременно из единого интерфейса",
+        "insales__ultra": "Крупный бизнес: сайт и маркетплейсы из единого интерфейса",
+        "shopify__basic": "Запуск и первые продажи (онлайн + офлайн + AI-чаты)",
+        "shopify__grow": "Растущий бизнес, собственные интеграции и приложения",
+        "shopify__advanced": "Высокие объёмы: расширенные лимиты API, живые ставки доставки",
+        "shopify__plus": "Крупный/enterprise-бизнес, индивидуальный контракт"
+      }
+    }
+  ]
+}

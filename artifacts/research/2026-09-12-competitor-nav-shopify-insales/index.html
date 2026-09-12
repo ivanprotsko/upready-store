@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Навигация: inSales vs Shopify</title>
+<style>
+  /* Светлая тема — значения по умолчанию */
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --fg: #111111;
+    --muted: #666666;
+    --faint: #8a8a8a;
+    --line: #e5e5e5;
+    --border: #cccccc;
+    --link: #0b5fff;
+    --chip-bg: #f4f4f4;
+    --chip-fg: #333333;
+    --chip-active-bg: #111111;
+    --chip-active-fg: #ffffff;
+    --warn: #b00020;
+    --badge-bg: #fdecea;
+    --badge-fg: #b00020;
+  }
+  /* Тёмная тема — явный выбор пользователя */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14171a;
+    --fg: #e8eaed;
+    --muted: #9aa0a6;
+    --faint: #7c8388;
+    --line: #2a2f35;
+    --border: #3a4149;
+    --link: #7aa7ff;
+    --chip-bg: #1e242a;
+    --chip-fg: #c8cdd3;
+    --chip-active-bg: #e8eaed;
+    --chip-active-fg: #14171a;
+    --warn: #ff7b72;
+    --badge-bg: #3a1f1d;
+    --badge-fg: #ff9b93;
+  }
+  /* Авто — тёмная только если её просит система */
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="auto"] {
+      color-scheme: dark;
+      --bg: #14171a;
+      --fg: #e8eaed;
+      --muted: #9aa0a6;
+      --faint: #7c8388;
+      --line: #2a2f35;
+      --border: #3a4149;
+      --link: #7aa7ff;
+      --chip-bg: #1e242a;
+      --chip-fg: #c8cdd3;
+      --chip-active-bg: #e8eaed;
+      --chip-active-fg: #14171a;
+      --warn: #ff7b72;
+      --badge-bg: #3a1f1d;
+      --badge-fg: #ff9b93;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; line-height: 1.45;
+    background: var(--bg); color: var(--fg);
+  }
+  h1 { font-size: 20px; margin-bottom: 4px; color: var(--fg); }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+
+  .bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .toggle button {
+    border: none; background: var(--chip-bg); color: var(--chip-fg);
+    padding: 8px 18px; font-size: 14px; cursor: pointer; font: inherit; font-size: 14px;
+  }
+  .toggle button.active { background: var(--chip-active-bg); color: var(--chip-active-fg); }
+
+  .themes { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .themes button {
+    border: none; background: var(--chip-bg); color: var(--chip-fg);
+    padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit;
+  }
+  .themes button.active { background: var(--chip-active-bg); color: var(--chip-active-fg); }
+
+  .count { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  li a { font-size: 16px; font-weight: 600; text-decoration: none; color: var(--link); }
+  li a:hover { text-decoration: underline; }
+  li .url { display: block; font-size: 12px; color: var(--faint); margin-top: 2px; word-break: break-all; }
+  li p { margin: 6px 0 0; font-size: 14px; color: var(--fg); }
+  li p.empty { color: var(--warn); font-style: italic; }
+  li .kw { display: block; margin-top: 6px; font-size: 12px; color: var(--faint); }
+  .badge {
+    display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; vertical-align: middle;
+    background: var(--badge-bg); color: var(--badge-fg);
+  }
+  .dead a { color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>Навигация в хедере и футере: inSales vs Shopify</h1>
+<div class="sub">Ссылки собраны 2026-09-12 из header/footer nav обоих сайтов, дедуплицированы; title/description/keywords взяты с самих целевых страниц.</div>
+
+<div class="bar">
+  <div class="toggle">
+    <button id="btn-insales" class="active" onclick="show('insales')">inSales (36)</button>
+    <button id="btn-shopify" onclick="show('shopify')">Shopify (59)</button>
+  </div>
+  <div class="themes" role="group" aria-label="Тема оформления">
+    <button id="th-light" onclick="setTheme('light')">Светлая</button>
+    <button id="th-dark" onclick="setTheme('dark')">Тёмная</button>
+    <button id="th-auto" onclick="setTheme('auto')">Авто</button>
+  </div>
+</div>
+
+<div class="count" id="count"></div>
+<ul id="list"></ul>
+<script>
+const DATA = {"insales": [{"url": "https://www.insales.ru/page/site-im", "title": "Конструктор интернет-магазина inSales - продающий сайт своими руками", "description": "Создание интернет-магазина без навыков программирования. Онлайн-конструктор с шаблонами и виджетами, бесплатным хостингом, редактором кода и адаптивным дизайном. Первые 14 дней бесплатно.", "keywords": ""}, {"url": "https://www.insales.ru/page/marketplace", "title": "Управление продажами на маркетплейсах от inSales: контроль остатков и цен, отчеты о продажах", "description": "Управляйте продажами на маркетплейсах с помощью облачного сервиса от inSales: бухгалтерия, контроль цен, остаток товаров и отчетность. Автоматизация для Wildberries, Ozon, Яндекс.Маркет, Мегамаркет и других маркетплейсов.", "keywords": ""}, {"url": "https://www.insales.ru/page/features", "title": "Возможности и инструменты платформы inSales", "description": "Ключевой функционал и инструменты платформы inSales для онлайн-бизнеса: настройка сайта, автоматизация продаж, аналитика продаж на маркетплейсах, инструменты маркетинга и другие.", "keywords": ""}, {"url": "https://www.insales.ru/collection/themes", "title": "Шаблоны интернет магазина бесплатно на InSales", "description": "Готовые шаблоны интернет магазина. Вы можете установить бесплатно или купить готовый шаблон для интернет магазина на платформе InSales", "keywords": ""}, {"url": "https://www.insales.ru/collection/apps", "title": "Магазин приложений и сервисов inSales", "description": "Более 300 интеграций с сервисами для электронной коммерции, доступные в один клик. Вы можете без проблем связать свой интернет-магазин с проверенными и полезными сервисами. Каждый модуль протестирован нашими специалистами. Готовые интеграции в маркетплейсе помогут вам сэкономить время и сделать свой бизнес в интернете более успешным.", "keywords": ""}, {"url": "https://www.insales.ru/page/delivery", "title": "inSales Доставка – сервис управления доставками", "description": "Подключите бесплатный сервис inSales Доставка и пользуйтесь сразу несколькими курьерскими службами по единому договору и из одного кабинета.", "keywords": ""}, {"url": "https://www.insales.ru/page/hosting", "title": "404 ошибка - страница не найдена", "description": "", "keywords": ""}, {"url": "https://www.insales.ru/page/dialogues-plus", "title": "Диалоги с клиентами в одном окне", "description": "«Диалоги +» созданы с целью увеличить качественные и финансовые показатели интернет-магазина, а так-же избавить менеджеров от рутины, благодаря автоматизации процессов сопровождения заказа, сбора отзывов и повторных продаж", "keywords": ""}, {"url": "https://www.insales.ru/page/ai-analyst", "title": "ИИ-аналитик продаж для маркетплейсов - Увеличивайте прибыль с помощью inSales", "description": "AI, который знает о ваших продажах на маркетплейсах всё. Прогнозы, аналитика конкурентов, умное ценообразование. Одна платформа для управления прибылью на всех маркетплейсах сразу. Попробуйте демо-доступ!", "keywords": ""}, {"url": "https://www.insales.ru/seo", "title": "Маркетинговый и SEO-функционал inSales - SEO-оптимизация интернет-магазина на inSales", "description": "Важную роль при выборе CMS для интернет-магазина играет Маркетинговый и SEO-функционал системы, а inSales не только одна из лучших платформ для создания интернет-магазина, но и оптимизированная на продажи CMS, включающая в себя все необходимое для успешного продвижения и лучшего ранжирования сайта интернет-магазина в поисковых системах.", "keywords": ""}, {"url": "https://www.insales.ru/page/utm", "title": "Генератор UTM-меток – Компоновщик ЮТМ-меток для Яндекс.Директ, Google Ads, ВКонтакте, Facebook, YouTube, Instagram и TikTok", "description": "Генератор UTM-меток для Яндекс.Директ, Google Ads, ВКонтакте, Facebook, YouTube, Instagram и TikTok, наш компоновщик ютм-меток автоматически исправляет ошибки в метках, имеет функции транслитерации и сокращения ссылок.", "keywords": ""}, {"url": "https://www.insales.ru/signup", "title": "Тарифные планы inSales для интернет-магазинов и маркетплейсов", "description": "Тарифные планы inSales для интернет-магазинов и маркетплейсов", "keywords": ""}, {"url": "https://www.insales.ru/page/move-to-insales", "title": "Как перенести сайт на платформу inSales?", "description": "Вас не устраивает используемый сейчас движок для интернет-магазина? Сайт устарел и любые правки требуют заметных затрат по времени и средствам? Мы поможем перенести Ваш магазин на современное решение и при этом предоставим скидку до 100% на наши услуги.", "keywords": ""}, {"url": "https://www.insales.ru/page/marketplaces-start", "title": "Помощь в выходе на маркетплейсы под ключ от inSales", "description": "Помощь в продвижении и работе на маркетплейсах Wildberries, Ozon, Яндекс.Маркет, Мегамаркет. Регистрация и выгрузка товаров. Обучение эффективным продажам на торговых площадках. Увеличим ваш доход.", "keywords": ""}, {"url": "https://www.insales.ru/page/custom-website", "title": "Заказать создание интернет-магазина под ключ на платформе inSales, цены в Москве и регионах", "description": "Создание продающего интернет-магазина под ключ включает: настройку шаблона и адаптивной верстки сайта, наполнение каталога товаров, интеграцию платежных систем и служб доставки, подключение инструментов веб-аналитики, сопровождение и техподдержку.", "keywords": ""}, {"url": "https://www.insales.ru/page/it-develop", "title": "Веб-студия InSales — дизайн, разработка, продвижение под ключ", "description": "Объединяем красивый дизайн и мощный функционал. Создаём уникальные визуальные концепции, разрабатываем интернет-магазины, лендинги, корпоративные сайты. Настраиваем интеграции, продвижение и аналитику. Ваш бизнес получит современный, удобный и эффективный инструмент продаж.", "keywords": ""}, {"url": "https://www.insales.ru/page/referral-program", "title": "Реферальная партнёрская программа inSales", "description": "Присоединяйтесь к партнёрской программе inSales и зарабатывайте вместе с нами уже сегодня. Предлагайте клиентам inSales в качестве подходящей CMS-платформы при разработке проектов и получайте до 45% с их оплат.", "keywords": ""}, {"url": "https://www.insales.ru/page/multilevel-program", "title": "Многоуровневая партнёрская программа", "description": "Многоуровневая партнёрская программа", "keywords": ""}, {"url": "https://www.insales.ru/collection/partners", "title": "Партнерские услуги магазинам", "description": "Партнерские услуги магазинам", "keywords": ""}, {"url": "https://liquidhub.ru/", "title": "Liquid HUB - Разработка и верстка сайтов для интернет продаж", "description": "Воспользуйтесь мощными инструментами для разработки тем на InSales.", "keywords": "Liquid HUB - Разработка и верстка сайтов для интернет продаж"}, {"url": "https://www.insales.ru/partnership", "title": "FAQ по Партнерской программе inSales", "description": "FAQ по Партнерской программе inSales", "keywords": ""}, {"url": "https://www.insales.ru/collection/documentation", "title": "Документация для пользователей inSales", "description": "Документация inSales: материалы для быстрого старта магазина и ответы на вопросы, часто задаваемые людьми, которые в первый раз открывают интернет-магазин.", "keywords": ""}, {"url": "https://www.insales.ru/faq", "title": "Часто задаваемые вопросы по платформе inSales", "description": "Часто задаваемые вопросы по платформе inSales", "keywords": ""}, {"url": "https://www.insales.ru/blogs/university", "title": "База знаний inSales", "description": "База знаний inSales: рассказываем о продажах в интернете, eCommerce и внутренних процессах интернет магазинов и меркетплейсов", "keywords": ""}, {"url": "https://www.insales.ru/blogs/cases", "title": "Истории успеха клиентов - кейсы inSales", "description": "Узнайте, как платформа inSales помогает интернет-магазинам достигать успеха. Истории реальных клиентов, использующих платформу для развития своего бизнеса.", "keywords": ""}, {"url": "https://www.insales.ru/kak-sozdat-i-otkryt-internet-magazin", "title": "Как открыть интернет-магазин в 2026 году - пошаговая инструкция", "description": "Пошаговая инструкция: как самостоятельно открыть свой интернет-магазин в 2026 году, с нуля, без больших вложений и заработать на этом.", "keywords": ""}, {"url": "https://www.insales.ru/collection/cases", "title": "Отзывы InSales — Истории магазинов на InSales", "description": "Почитайте отзывы о InSales и живые истории создания и развития бизнеса от владельцев интернет-магазинов, работающих на платформе InSales", "keywords": ""}, {"url": "https://www.insales.ru/contacts", "title": "Контакты inSales", "description": "Контакты inSales - ООО «Инсейлс Рус»", "keywords": ""}, {"url": "https://www.insales.ru/about", "title": "О компании inSales (ООО «Инсейлс Рус»)", "description": "inSales — российская ИТ-компания, которая работает в области информационных технологий и программного обеспечения. Платформа помогает управлять онлайн-продажами через все каналы: интернет-магазины, маркетплейсы, соцсети и мессенджеры. С inSales можно запустить сайт за 15 минут по готовым шаблонам, синхронизировать товары и цены между площадками, анализировать показатели бизнеса.", "keywords": ""}, {"url": "https://www.insales.ru/press", "title": "Пресс-релизы InSales, материалы и контакты для прессы", "description": "Пресс-релизы InSales, материалы и контакты для прессы", "keywords": ""}, {"url": "https://api.insales.ru", "title": "InSales API", "description": "", "keywords": ""}, {"url": "https://www.insales.ru/terms", "title": "Оферта и соглашения", "description": "Оферта и соглашения", "keywords": ""}, {"url": "https://www.insales.ru/page/compliance", "title": "Комплаенс и противодействие коррупции в inSales", "description": "Комплаенс и противодействие коррупции", "keywords": ""}, {"url": "https://www.insales.ru/page/cybersecurity", "title": "Ваша кибербезопасность", "description": "Ваша кибербезопасность", "keywords": ""}, {"url": "https://www.insales.ru/page/privacy", "title": "Политика конфиденциальности и обработки персональных данных", "description": "Политика конфиденциальности и обработки персональных данных", "keywords": ""}, {"url": "https://www.insales.ru/sitemap", "title": "Карта сайта InSales.ru", "description": "Карта сайта InSales", "keywords": ""}], "shopify": [{"url": "https://www.shopify.com/start", "title": "Start your online store today. Start selling tomorrow. - Shopify", "description": "Choose a design, add products, get paid. Get started for free.", "keywords": ""}, {"url": "https://www.shopify.com/sell", "title": "Sell more and spend less when you migrate to Shopify. - Shopify", "description": "Businesses do better on Shopify. It’s a fact. You can reach more customers, make more sales, and spend less on doing it all. Try free for 3 days, then get 1 month for $1.", "keywords": ""}, {"url": "https://www.shopify.com/enterprise", "title": "Enterprise Ecommerce Platform | Shopify Enterprise - Shopify", "description": "Shopify&#x27;s enterprise ecommerce platform delivers up to 36% higher conversion, 33% lower TCO, and 20% faster migration. Built for the world&#x27;s biggest brands.", "keywords": ""}, {"url": "https://www.shopify.com/checkout", "title": "Shopify Checkout: The Best-Converting Ecommerce Checkout - Shopify", "description": "Shopify Checkout, when paired with Shop Pay, is the fastest, highest-converting ecommerce checkout experience anywhere. And now with advanced customization options, you can make your checkout reflect your brand and give shoppers better ways to buy.", "keywords": ""}, {"url": "https://www.shopify.com/sidekick", "title": "AI-enabled commerce assistant, Sidekick, designed to make it easier for you to start, run, and grow your business on Shopify. - Shopify", "description": "Use Sidekick to help build your Shopify store and grow your business.", "keywords": ""}, {"url": "https://www.shopify.com/website/builder", "title": "Ecommerce Website Builder | Create a Free Store in Minutes - Shopify", "description": "Shopify&#x27;s ecommerce website builder allows you to create a free, custom online store with AI in minutes—no coding required. Choose from a variety of stunning templates and themes, leverage AI tools, and optimize your site for ecommerce and marketing. Start building your website today!", "keywords": ""}, {"url": "https://themes.shopify.com/", "title": "Ecommerce Website Templates - Free and Premium Themes for Your Online Store.", "description": "Explore all 800+ free and paid Shopify themes to launch your online store with.", "keywords": ""}, {"url": "https://www.shopify.com/domains", "title": "Buy a Domain Name - Domain Name Search & Registration - Shopify", "description": "Find and register the perfect domain for your online store at Shopify. Choose from a wide range of unique domain names to boost your brand&#x27;s visibility.", "keywords": ""}, {"url": "https://www.shopify.com/customer-accounts", "title": "Customer Accounts - Shopify", "description": "Save time and grow sales by giving each customer one secure, central place to take care of business.", "keywords": ""}, {"url": "https://www.shopify.com/online", "title": "Build Your Online Store: Use Themes or Go Headless - Shopify", "description": "Whether you’re looking to build a store from scratch or want something more move-in ready, Shopify has options for every business. Both now and as you grow.", "keywords": ""}, {"url": "https://www.shopify.com/agentic-storefronts", "title": "Sell in AI chats with Shopify", "description": "Agentic Storefronts puts your products in ChatGPT, Gemini, and more. Every sale runs through Shopify Checkout.", "keywords": ""}, {"url": "https://www.shopify.com/pos", "title": "Point of Sale (POS) for Business - Shopify", "description": "Shopify Point of Sale integrates everything to run your retail business, from inventory management to checkout. Start your free trial with Shopify POS today.", "keywords": ""}, {"url": "https://www.shopify.com/shop", "title": "Sell on Shop - Shopify", "description": "Reach millions of high-intent shoppers. Get more sales and repeat visits. Pay no marketplace fees.", "keywords": ""}, {"url": "https://www.shopify.com/channels", "title": "Sales channels on Shopify", "description": "Sync and sell your products on the largest marketplaces, social platforms, and everywhere people search with Shopify sales channels.", "keywords": ""}, {"url": "https://www.shopify.com/international", "title": "Sell to International Customers with Shopify", "description": "Sell globally and scale your business. Localize your store to increase global sales and use a native merchant of record to support rapid expansion.", "keywords": ""}, {"url": "https://www.shopify.com/plus/solutions/b2b-ecommerce", "title": "B2B Commerce Platform - Shopify", "description": "Run B2B and DTC on one platform with modern self-serve buying and specialized wholesale tools, including custom catalogs, pricing, and automatic inventory sync.", "keywords": ""}, {"url": "https://www.shopify.com/markets", "title": "Expand Into New Markets and Create Custom Experiences - Shopify", "description": "Customize your selling experience for each market. B2B or D2C. Online or in person. At home or across borders.", "keywords": ""}, {"url": "https://www.shopify.com/marketing", "title": "Marketing on Shopify - Shopify", "description": "Find more customers, automate your marketing, and analyze results, directly from Shopify.", "keywords": ""}, {"url": "https://www.shopify.com/marketing-automation-tools", "title": "Marketing Automation Tools - Shopify", "description": "Reach more customers, save time and money, and boost sales with connected marketing automation tools that work seamlessly together.", "keywords": ""}, {"url": "https://www.shopify.com/discounts", "title": "Launch Powerful Discount Promotions with Shopify", "description": "Take advantage of our robust discount tools to launch creative promotions that boost your sales and bring repeat customers to your business. You can even combine and stack discounts to create more compelling offers that drive higher conversion.", "keywords": ""}, {"url": "https://www.shopify.com/analytics", "title": "Shopify Analytics and Reporting Dashboards - Shopify", "description": "Discover all of Shopify’s free, built-in analytics, and real-time reporting features to help you run and scale your business", "keywords": ""}, {"url": "https://www.shopify.com/test-and-launch", "title": "Test and launch store changes on Shopify", "description": "Use built-in A/B testing, AI shopper simulations, and launch scheduling to update your Shopify store with confidence.", "keywords": ""}, {"url": "https://www.shopify.com/orders", "title": "Shopify Order Management & Delivery - Shopify", "description": "Save time and money with Shopify&#x27;s built-in solutions for order management, shipping labels, fulfillment automation, inventory, and returns. Streamline operations and enjoy the best shipping rates.", "keywords": ""}, {"url": "https://www.shopify.com/shipping", "title": "Ship on Shopify for unified fulfillment - Shopify", "description": "All the shipping rates and tools you need, no extra fees or apps. Shipping included in your Shopify plan.", "keywords": ""}, {"url": "https://www.shopify.com/finance", "title": "Manage Your Commerce Business Finances - Shopify Finance", "description": "Grow your business and your money with Shopify Finance. Spend, save, borrow, automate payments, and manage sales tax compliance—all from your Shopify admin.", "keywords": ""}, {"url": "https://www.shopify.com/flow", "title": "Workflow Automation made easy with Shopify Flow - Shopify", "description": "Workflow automation is easy with Shopify Flow. Anyone can become an ecommerce automation pro and automate refunds, manage inventory, and more.", "keywords": ""}, {"url": "https://www.shopify.com/payments", "title": "Shopify Payments: Accept Payments Online, In-Store, & On-the-Go - Shopify", "description": "Accept payments online, in-store, and on-the-go with Shopify Payments. Get faster payouts, unlock Shop Pay checkout, and access growth tools like Finance, unified retail, and Markets.", "keywords": ""}, {"url": "https://www.shopify.com/tax", "title": "Sales tax & filing in the United States | Shopify Tax - Shopify", "description": "Shopify Tax provides automated sales tax collection with rooftop accuracy, liability insights, and filing—all from the Shopify admin", "keywords": ""}, {"url": "https://www.shopify.com/ucp", "title": "Universal Commerce Protocol - Shopify", "description": "An open standard for integrating commerce with agents. Commerce is complex—UCP provides the core capabilities for what’s common and extensions for everything else.", "keywords": ""}, {"url": "https://apps.shopify.com/", "title": "Shopify App Store", "description": "Shopify App Store: customize your online store and grow your business with Shopify-approved apps for marketing, store design, fulfillment, and more.", "keywords": ""}, {"url": "https://shopify.dev", "title": "Shopify Dev Docs", "description": "Learn how to build an app, theme, custom storefront, or marketplace. Whether you&#x27;re just getting started, deep in the development process, or ready to distribute and monetize your work, Shopify&#x27;s docs, dev tools and frameworks make building easy and efficient.", "keywords": ""}, {"url": "https://www.shopify.com/editions", "title": "Shopify Editions", "description": "Everything new across Shopify. Every six months.", "keywords": ""}, {"url": "https://www.shopify.com/editions/spring2026", "title": "Shopify Editions | Spring â26", "description": "Sell face to face, online, in social channels, and AI chats with 150+ updates to Shopify. The only platform you need to sell everywhere.", "keywords": ""}, {"url": "https://www.shopify.com/pricing", "title": "Shopify Pricing: Find the Right Plan for Your Business - Shopify", "description": "Get detailed information on Shopify pricing and features. Find the right plan for you and start your business in seconds.", "keywords": ""}, {"url": "https://www.shopify.com/login", "title": "", "description": "", "keywords": ""}, {"url": "https://admin.shopify.com/signup", "title": "", "description": "", "keywords": ""}, {"url": "https://www.shopify.com/blog/what-is-shopify", "title": "What Is Shopify and How Does It Work? (2026) - Shopify", "description": "Discover how Shopify helps you sell online and in person. Explore features and pricing plans. Start your business journey with a free trial today.", "keywords": ""}, {"url": "https://www.shopify.com/careers", "title": "Careers, Internships, and Jobs at Shopify | Shopify Careers - Shopify", "description": "Careers at Shopify. Find a Remote Job at Shopify and Work from Anywhere in the World. Check our Engineering roles and Remote Work opportunities at Shopify.", "keywords": ""}, {"url": "https://www.shopify.com/investors", "title": "Shopify Investor Relations: Powering Entrepreneurship Everywhere", "description": "Shopify exists to make commerce better for everyone. We&#x27;re the platform that turns the hardest parts of building a business into simple, powerful tools", "keywords": ""}, {"url": "https://www.shopify.com/news", "title": "Shopify Newsroom", "description": "Explore the latest Shopify news, product innovation, and industry data. Get stories from the entrepreneurs who are shaping the future of commerce.", "keywords": ""}, {"url": "https://www.shopify.com/climate", "title": "Better commerce for a better planet | Shopify Climate - Shopify", "description": "Shopify brings merchants, customers, and climate entrepreneurs together in the fight against climate change.", "keywords": ""}, {"url": "https://shopify.dev/docs", "title": "Shopify Dev Docs", "description": "Learn how to build an app, theme, custom storefront, or marketplace. Whether you&#x27;re just getting started, deep in the development process, or ready to distribute and monetize your work, Shopify&#x27;s docs, dev tools and frameworks make building easy and efficient.", "keywords": ""}, {"url": "https://www.shopify.com/partners", "title": "Build. Earn. Grow. – Become a Shopify Partner Today - Shopify", "description": "Join 100,000+ partners turning apps, storefronts, and services into lasting revenue. Reach millions of merchants, unlock powerful tools, and grow your business your way.", "keywords": ""}, {"url": "https://www.shopify.com/affiliates", "title": "Shopify Affiliate Program | Join. Refer. Earn. - Shopify", "description": "Earn competitive commissions by referring entrepreneurs to the world&#x27;s leading commerce platform.", "keywords": ""}, {"url": "https://www.shopify.com/blog", "title": "Ecommerce Marketing Blog - Ecommerce News, Online Store Tips and More - Shopify", "description": "A blog about ecommerce marketing, running an online business and updates to Shopify&#x27;s ecommerce community.", "keywords": ""}, {"url": "https://www.shopify.com/compare", "title": "Compare Shopify - Millions of merchants choose Shopify", "description": "Compare ecommerce platforms and see how Shopify helps businesses of all sizes start, scale, and succeed.", "keywords": ""}, {"url": "https://www.shopify.com/blog/topics/guides", "title": "Guides | Ecommerce tips & how tos - Shopify", "description": "Read posts about Guides on Ecommerce Marketing Blog - Ecommerce News, Online Store Tips & More. Interact with a community of savvy online store owners.", "keywords": ""}, {"url": "https://www.shopifyacademy.com", "title": "Shopify Academy", "description": "Build your skills with free education. Stand out by earning credentials.", "keywords": ""}, {"url": "https://www.shopify.com/tools", "title": "Free Business Tools - Online Tools for Small Businesses - Shopify", "description": "Explore our free business tools that would help you sell more, improve and grow your retail business.", "keywords": ""}, {"url": "https://changelog.shopify.com", "title": "Shopify Changelog", "description": "Your source for recent updates to Shopify.", "keywords": ""}, {"url": "https://help.shopify.com/en", "title": "Shopify Help Center", "description": "", "keywords": ""}, {"url": "https://community.shopify.com/", "title": "Shopify Community", "description": "", "keywords": ""}, {"url": "https://www.shopify.com/partners/directory", "title": "Hire Shopify Experts, Developers, Designers & Freelancers", "description": "Hire developers, designers, and marketers focused on growing your Shopify business. Empower your business with Shopify Partners.", "keywords": ""}, {"url": "https://shopifystatus.com", "title": "Shopify Status", "description": "Welcome to Shopify's home for real-time and historical data on system performance.", "keywords": ""}, {"url": "https://www.shopify.com/legal/terms", "title": "Shopify Terms of Service - Shopify", "description": "Shopify’s list of terms and conditions that apply to all users that access or use the Shopify API or any associated information or other data.", "keywords": ""}, {"url": "https://www.shopify.com/legal", "title": "Shopify Legal - Shopify", "description": "Shopify’s list of terms and conditions that apply to all users that access or use the Shopify API or any associated information or other data.", "keywords": ""}, {"url": "https://www.shopify.com/legal/privacy", "title": "Shopify Privacy Policy - Shopify", "description": "", "keywords": ""}, {"url": "https://www.shopify.com/sitemap", "title": "Shopify", "description": "", "keywords": ""}, {"url": "https://privacy.shopify.com/en", "title": "Privacy controls | Control how Shopify uses your data", "description": "", "keywords": ""}]};
+
+const ENT = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ENT[c]; });
+}
+
+function plural(n) {
+  const d100 = n % 100, d10 = n % 10;
+  if (d100 >= 11 && d100 <= 14) return 'страниц';
+  if (d10 === 1) return 'страница';
+  if (d10 >= 2 && d10 <= 4) return 'страницы';
+  return 'страниц';
+}
+
+// title вида "404 ошибка — страница не найдена" означает битую ссылку в самой навигации сайта,
+// а не нашу ошибку сбора: помечаем явно, чтобы не читалось как обычная страница.
+function isDead(p) {
+  return /(^|\s)404(\s|$)|страница не найдена|not found/i.test(p.title || '');
+}
+
+function setTheme(mode) {
+  document.documentElement.setAttribute('data-theme', mode);
+  try { localStorage.setItem('nav-viewer-theme', mode); } catch (e) {}
+  ['light', 'dark', 'auto'].forEach(function (m) {
+    document.getElementById('th-' + m).classList.toggle('active', m === mode);
+  });
+}
+
+function show(source) {
+  document.getElementById('btn-insales').classList.toggle('active', source === 'insales');
+  document.getElementById('btn-shopify').classList.toggle('active', source === 'shopify');
+  const items = DATA[source];
+  document.getElementById('count').textContent = items.length + ' ' + plural(items.length);
+  document.getElementById('list').innerHTML = items.map(function (p) {
+    const dead = isDead(p);
+    const title = p.title
+      ? esc(p.title)
+      : '(страница недоступна для скрапинга \u2014 403/бот-защита или битая ссылка)';
+    const badge = dead ? '<span class="badge">битая ссылка</span>' : '';
+    const desc = p.description
+      ? '<p>' + esc(p.description) + '</p>'
+      : '<p class="empty">description отсутствует</p>';
+    const kw = p.keywords ? '<span class="kw">keywords: ' + esc(p.keywords) + '</span>' : '';
+    return '<li' + (dead ? ' class="dead"' : '') + '>'
+      + '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + title + '</a>' + badge
+      + '<span class="url">' + esc(p.url) + '</span>'
+      + desc + kw + '</li>';
+  }).join('');
+}
+
+let saved = 'light';
+try { saved = localStorage.getItem('nav-viewer-theme') || 'light'; } catch (e) {}
+setTheme(saved);
+show('insales');
+</script>
+</body>
+</html>

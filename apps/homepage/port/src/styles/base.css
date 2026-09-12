@@ -1,0 +1,101 @@
+/*
+ * base.css — global reset + fonts + the legacy <style> block from
+ * apps/homepage/index.html (verbatim, see reference/style.css), plus the
+ * page body/background it declares.
+ *
+ * Design canon for this port is the LEGACY PAGE itself (pixel reference),
+ * not the workspace Geist system — see artifacts/docs/2026-09-12-homepage-
+ * landing-port-brief.md §0: "Канон дизайна = сама текущая страница
+ * (пиксельный эталон)". This is a 1:1 port of an already-live bespoke
+ * design, not new UI authored against Geist.
+ *
+ * Fonts: legacy page uses Google Fonts <link> preconnect + stylesheet.
+ * Reproduced here as @import so a section rendered in isolation
+ * (?section=<slug>) still gets the right typefaces.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap");
+
+/* minimal reset (host page has no reset of its own beyond this) */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* --- legacy <style> block, verbatim (reference/style.css) --- */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+body {
+  margin: 0;
+  background: #fafafa;
+  color: #18181b;
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+figure {
+  margin: 0;
+}
+ul {
+  padding: 0;
+  list-style: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+a:hover {
+  color: #18181b;
+}
+::selection {
+  background: #18181b;
+  color: #fff;
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes linein {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08);
+  }
+}

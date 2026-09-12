@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-13",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-13T01:42:38+08:00",
+  "status": "Ветка homepage, 2026-09-13 01:42 WITA (сессия 01B7q8iX): порт L1 принят Иваном глазами; фикс монорепо закоммичен 252b82d — apps/homepage/** исключён из корневого workspace, порт — свой pnpm-корень (pnpm-workspace.yaml packages: [] + pnpm-lock.yaml; .npmrc ignore-workspace pnpm 10 не читает); замер pnpm 10.11.1: корневой frozen-lockfile rc=0, tsc/build чистые, full-page diff после переустановки 0.0003. PR #1 открыт в dev по s8: https://github.com/ivanprotsko/upready-store/pull/1 — слияние за Иваном (gh pr merge 1 --squash --delete-branch). Воронка WP0–WP8 — новая задача (создаёт Иван), база по решению о линии MT; открыто q-homepage-funnel-variant, стек RR7; O3 уходит в ветку воронки."
+}

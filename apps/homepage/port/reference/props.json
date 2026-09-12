@@ -1,0 +1,33 @@
+{
+  "$preview": {
+    "width": 1440
+  },
+  "defaultAudience": {
+    "editor": "enum",
+    "options": [
+      "cold",
+      "warm",
+      "price"
+    ],
+    "default": "cold",
+    "tsType": "'cold' | 'warm' | 'price'",
+    "section": "Аудитория"
+  },
+  "showTodoMarkers": {
+    "editor": "boolean",
+    "default": true,
+    "tsType": "boolean",
+    "section": "Черновик"
+  },
+  "accentColor": {
+    "editor": "color",
+    "default": "#2563EB",
+    "options": [
+      "#2563EB",
+      "#18181B",
+      "#0F766E"
+    ],
+    "tsType": "string",
+    "section": "Тема"
+  }
+}

@@ -1,0 +1,38 @@
+<!-- nav -->
+<nav style="display:flex;align-items:center;gap:2px;overflow-x:auto;flex:1 1 auto;min-width:0;justify-content:flex-start;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+      <span style="flex:1 0 auto"></span>
+      <sc-if value="{{ showIncluded }}" hint-placeholder-val="{{ false }}"><a href="#sec-included" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Состав</a></sc-if>
+      <sc-if value="{{ showPricing }}" hint-placeholder-val="{{ false }}"><a href="#sec-pricing" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Цены</a></sc-if>
+      <a href="#sec-payments" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Оплата</a>
+      <a href="#sec-tariffs" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Тарифы</a>
+      <a href="#sec-delivery" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Доставка</a>
+      <a href="#sec-showcase" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Примеры</a>
+      <sc-if value="{{ showFaq }}" hint-placeholder-val="{{ false }}"><a href="#sec-faq" style="font-size:13.5px;font-weight:500;color:#52525B;padding:7px 10px;border-radius:7px;white-space:nowrap" style-hover="color:#18181B;background:#F4F4F5">Вопросы</a></sc-if>
+      <a href="https://t.me/vladupready" target="_blank" rel="noopener" style="margin-left:10px;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:8px;background:#fff;border:1px solid #E4E4E7;color:#18181B;font-size:13px;font-weight:500;white-space:nowrap;flex:0 0 auto" style-hover="background:#FAFAFA;border-color:#D4D4D8;color:#18181B">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex:0 0 auto"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>
+        Связаться
+      </a>
+    </nav>
+
+<!-- footer -->
+<footer data-screen-label="Подвал" style="display:none;position:relative;border-top:1px solid #E4E4E7;background:#FAFAFA">
+    <i style="position:absolute;top:-6.5px;left:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+    <i style="position:absolute;top:-6.5px;right:-6.5px;width:13px;height:13px;pointer-events:none;background:linear-gradient(#D4D4D8,#D4D4D8) center/1.2px 100% no-repeat,linear-gradient(#D4D4D8,#D4D4D8) center/100% 1.2px no-repeat"></i>
+    <div style="padding:clamp(36px,4vw,52px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:15.5px;font-weight:600;letter-spacing:-.02em">upready</span>
+        <p style="font-size:12.5px;line-height:1.6;color:#71717A">Реквизиты продавца <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-family:'Roboto Mono',monospace;font-size:10.5px">todo: legal_requisites</span></p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="#" style="font-size:13px;color:#52525B" style-hover="color:#18181B">Публичная оферта <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-family:'Roboto Mono',monospace;font-size:10.5px">todo: url_offer</span></a>
+        <a href="#" style="font-size:13px;color:#52525B" style-hover="color:#18181B">Политика обработки персональных данных <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-family:'Roboto Mono',monospace;font-size:10.5px">todo: url_privacy</span></a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+        <a href="https://t.me/vladupready" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:9px;background:#18181B;color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 1px 2px rgba(24,24,27,.24)" style-hover="background:#3F3F46;color:#fff"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex:0 0 auto"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>Связаться</a>
+        <p style="font-size:12.5px;line-height:1.6;color:#71717A">Cookie-уведомление <span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;font-family:'Roboto Mono',monospace;font-size:10.5px">todo: cookie_notice</span></p>
+      </div>
+    </div>
+    <div style="padding:0 clamp(20px,4vw,56px) 28px">
+      <p style="font-family:'Roboto Mono',monospace;font-size:11px;color:#A1A1AA">doc-upready-planb-v2-ru · rev 1 · status draft · 10 открытых todo — страницу нельзя публиковать</p>
+    </div>
+  </footer>

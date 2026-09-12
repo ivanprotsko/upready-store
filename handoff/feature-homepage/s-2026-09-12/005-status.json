@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-12",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-12T23:56:11+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:56 WITA (сессия 01B7q8iX): Иван 23:46 — перенос лендинга по секциям запущен как Workflow homepage-landing-port (scaffold Sonnet → 16 секций Sonnet → merger Opus), бриф artifacts/docs/2026-09-12-homepage-landing-port-brief.md; порт живёт в apps/homepage/port (Vite+React), легаси index.html/support.js не трогаем; q-homepage-funnel-variant по-прежнему открыт"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-13",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-13T00:42:57+08:00",
+  "status": "Ветка homepage, 2026-09-13 00:42 WITA (сессия 01B7q8iX): перенос лендинга — Workflow wf_6a55005f-f87: scaffold прошёл гейт (16 эталонов), все 16 секций завершены (4 done ≤2 %, 12 partial 2.4–6.2 %, failed 0), merger (Opus) работает, REPORT.md ещё нет; после него — проверка в браузере, коммит apps/homepage/port, приёмка Ивана (vite --port 5299 против python http.server 4790). Попутно починен smoke-гвард 19c (правка сабагента ≠ правка родителя; канон видит subagents/workflows/<run>/) — коммит 80f9a165 в ~/.claude, aie-20260913-004029-4321; pr-flow-guard ложно бил git merge-base — aie-20260913-003306-af5c, не чинил. Открыто для Ивана: судьба линии MT (feat/mt-deploy 165 коммитов вне dev: PR в dev или вторая база) и q-homepage-funnel-variant"
+}
