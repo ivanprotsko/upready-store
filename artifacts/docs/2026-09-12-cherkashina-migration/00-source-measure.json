@@ -1,0 +1,723 @@
+{
+  "measured_at": "2026-09-12 10:10 WITA",
+  "source": "postgres://ivanprotsko@127.0.0.1:5433/medusa_chrxn",
+  "measures": {
+    "product_total": {
+      "sql": "select count(*)::int as n from product where deleted_at is null",
+      "value": 38
+    },
+    "product_by_status": {
+      "sql": "select status, count(*)::int as n from product where deleted_at is null group by status order by status",
+      "value": [
+        {
+          "status": "draft",
+          "n": 9
+        },
+        {
+          "status": "published",
+          "n": 29
+        }
+      ]
+    },
+    "product_deleted": {
+      "sql": "select count(*)::int as n from product where deleted_at is not null",
+      "value": 139
+    },
+    "product_variant_total": {
+      "sql": "select count(*)::int as n from product_variant where deleted_at is null",
+      "value": 38
+    },
+    "variants_per_product": {
+      "sql": "select cnt as variants, count(*)::int as products from (select product_id, count(*) cnt from product_variant where deleted_at is null group by product_id) x group by cnt order by cnt",
+      "value": [
+        {
+          "variants": 1,
+          "products": 38
+        }
+      ]
+    },
+    "variant_manage_inventory": {
+      "sql": "select manage_inventory, count(*)::int as n from product_variant where deleted_at is null group by manage_inventory",
+      "value": [
+        {
+          "manage_inventory": false,
+          "n": 38
+        }
+      ]
+    },
+    "product_option_total": {
+      "sql": "select count(*)::int as n from product_option where deleted_at is null",
+      "value": 38
+    },
+    "product_tag_total": {
+      "sql": "select count(*)::int as n from product_tag where deleted_at is null",
+      "value": 14
+    },
+    "product_type_total": {
+      "sql": "select count(*)::int as n from product_type where deleted_at is null",
+      "value": 8
+    },
+    "product_category_total": {
+      "sql": "select count(*)::int as n from product_category where deleted_at is null",
+      "value": 9
+    },
+    "product_category_with_parent": {
+      "sql": "select count(*)::int as n from product_category where deleted_at is null and parent_category_id is not null",
+      "value": 0
+    },
+    "product_category_product_links": {
+      "sql": "select count(*)::int as n from product_category_product",
+      "value": 131
+    },
+    "products_without_category": {
+      "sql": "select count(*)::int as n from product p where p.deleted_at is null and not exists (select 1 from product_category_product c where c.product_id = p.id)",
+      "value": 2
+    },
+    "product_collection_total": {
+      "sql": "select count(*)::int as n from product_collection where deleted_at is null",
+      "value": 2
+    },
+    "products_in_collection": {
+      "sql": "select count(*)::int as n from product where deleted_at is null and collection_id is not null",
+      "value": 0
+    },
+    "image_total": {
+      "sql": "select count(*)::int as n from image where deleted_at is null",
+      "value": 313
+    },
+    "image_relative_products_path": {
+      "sql": "select count(*)::int as n from image where deleted_at is null and url like '/products/%'",
+      "value": 273
+    },
+    "image_absolute_http": {
+      "sql": "select count(*)::int as n from image where deleted_at is null and url like 'http%'",
+      "value": 40
+    },
+    "image_rank_distribution": {
+      "sql": "select rank, count(*)::int as n from image where deleted_at is null group by rank order by rank",
+      "value": [
+        {
+          "rank": 0,
+          "n": 33
+        },
+        {
+          "rank": 1,
+          "n": 26
+        },
+        {
+          "rank": 2,
+          "n": 25
+        },
+        {
+          "rank": 3,
+          "n": 22
+        },
+        {
+          "rank": 4,
+          "n": 20
+        },
+        {
+          "rank": 5,
+          "n": 20
+        },
+        {
+          "rank": 6,
+          "n": 17
+        },
+        {
+          "rank": 7,
+          "n": 17
+        },
+        {
+          "rank": 8,
+          "n": 17
+        },
+        {
+          "rank": 9,
+          "n": 14
+        },
+        {
+          "rank": 10,
+          "n": 13
+        },
+        {
+          "rank": 11,
+          "n": 12
+        },
+        {
+          "rank": 12,
+          "n": 10
+        },
+        {
+          "rank": 13,
+          "n": 10
+        },
+        {
+          "rank": 14,
+          "n": 7
+        },
+        {
+          "rank": 15,
+          "n": 5
+        },
+        {
+          "rank": 16,
+          "n": 4
+        },
+        {
+          "rank": 17,
+          "n": 4
+        },
+        {
+          "rank": 18,
+          "n": 4
+        },
+        {
+          "rank": 19,
+          "n": 4
+        },
+        {
+          "rank": 20,
+          "n": 3
+        },
+        {
+          "rank": 21,
+          "n": 3
+        },
+        {
+          "rank": 22,
+          "n": 3
+        },
+        {
+          "rank": 23,
+          "n": 3
+        },
+        {
+          "rank": 24,
+          "n": 3
+        },
+        {
+          "rank": 25,
+          "n": 2
+        },
+        {
+          "rank": 26,
+          "n": 2
+        },
+        {
+          "rank": 27,
+          "n": 1
+        },
+        {
+          "rank": 28,
+          "n": 1
+        },
+        {
+          "rank": 29,
+          "n": 1
+        },
+        {
+          "rank": 30,
+          "n": 1
+        },
+        {
+          "rank": 31,
+          "n": 1
+        },
+        {
+          "rank": 32,
+          "n": 1
+        },
+        {
+          "rank": 33,
+          "n": 1
+        },
+        {
+          "rank": 34,
+          "n": 1
+        },
+        {
+          "rank": 35,
+          "n": 1
+        },
+        {
+          "rank": 36,
+          "n": 1
+        }
+      ]
+    },
+    "products_with_gallery": {
+      "sql": "select count(distinct product_id)::int as n from image where deleted_at is null",
+      "value": 33
+    },
+    "products_without_gallery": {
+      "sql": "select p.handle, p.thumbnail from product p where p.deleted_at is null and not exists (select 1 from image i where i.product_id = p.id and i.deleted_at is null) order by p.handle",
+      "value": [
+        {
+          "handle": "course-ochishchenie-pecheni-box",
+          "thumbnail": "/products/course-box-pecheni-1.jpg"
+        },
+        {
+          "handle": "med-matochnyy-125-gr",
+          "thumbnail": null
+        },
+        {
+          "handle": "med-trutnevoy-125-gr",
+          "thumbnail": null
+        },
+        {
+          "handle": "nabor-dlya-ochischeniya-limfy",
+          "thumbnail": null
+        },
+        {
+          "handle": "sulfat-magniya-75-gr",
+          "thumbnail": null
+        }
+      ]
+    },
+    "products_with_thumbnail": {
+      "sql": "select count(*)::int as n from product where deleted_at is null and thumbnail is not null and thumbnail <> ''",
+      "value": 34
+    },
+    "thumbnail_equals_gallery_rank0": {
+      "sql": "select count(*)::int as n from product p join image i on i.product_id = p.id and i.rank = 0 and i.deleted_at is null where p.deleted_at is null and p.thumbnail = i.url",
+      "value": 15
+    },
+    "thumbnail_not_in_gallery": {
+      "sql": "select count(*)::int as n from product p where p.deleted_at is null and p.thumbnail is not null and not exists (select 1 from image i where i.product_id = p.id and i.url = p.thumbnail and i.deleted_at is null)",
+      "value": 19
+    },
+    "region_rows": {
+      "sql": "select id, name, currency_code from region where deleted_at is null order by name",
+      "value": [
+        {
+          "id": "reg_01KTSD6P47G8CXT71KH0QHR1VN",
+          "name": "Россия и СНГ",
+          "currency_code": "rub"
+        },
+        {
+          "id": "reg_01KM5HB09CCHFXPKGMG5TQFFGD",
+          "name": "US",
+          "currency_code": "usd"
+        }
+      ]
+    },
+    "store_currency": {
+      "sql": "select currency_code, is_default from store_currency order by currency_code",
+      "value": [
+        {
+          "currency_code": "eur",
+          "is_default": false
+        },
+        {
+          "currency_code": "rub",
+          "is_default": true
+        }
+      ]
+    },
+    "price_by_currency": {
+      "sql": "select currency_code, count(*)::int as n from price where deleted_at is null group by currency_code order by currency_code",
+      "value": [
+        {
+          "currency_code": "eur",
+          "n": 2
+        },
+        {
+          "currency_code": "rub",
+          "n": 40
+        },
+        {
+          "currency_code": "usd",
+          "n": 98
+        }
+      ]
+    },
+    "price_list_total": {
+      "sql": "select count(*)::int as n from price_list where deleted_at is null",
+      "value": 0
+    },
+    "prices_with_rules": {
+      "sql": "select count(distinct p.id)::int as n from price p join price_rule r on r.price_id = p.id where p.deleted_at is null",
+      "value": 1
+    },
+    "rub_prices_per_variant": {
+      "sql": "select n as rub_prices, count(*)::int as variants from (select v.id, count(p.id) n from product_variant v left join product_variant_price_set vps on vps.variant_id = v.id left join price p on p.price_set_id = vps.price_set_id and p.currency_code = 'rub' and p.deleted_at is null where v.deleted_at is null group by v.id) x group by n order by n",
+      "value": [
+        {
+          "rub_prices": 1,
+          "variants": 38
+        }
+      ]
+    },
+    "site_locale_rows": {
+      "sql": "select code, enabled, is_default from site_locale order by code",
+      "value": [
+        {
+          "code": "en",
+          "enabled": true,
+          "is_default": false
+        },
+        {
+          "code": "ru",
+          "enabled": true,
+          "is_default": true
+        }
+      ]
+    },
+    "product_translation_total": {
+      "sql": "select count(*)::int as n from product_translation",
+      "value": 51
+    },
+    "product_translation_by_locale": {
+      "sql": "select locale, count(*)::int as n from product_translation group by locale order by locale",
+      "value": [
+        {
+          "locale": "en",
+          "n": 51
+        }
+      ]
+    },
+    "product_translation_for_live_products": {
+      "sql": "select count(*)::int as n from product_translation t where exists (select 1 from product p where p.handle = t.product_handle and p.deleted_at is null)",
+      "value": 6
+    },
+    "product_translation_for_deleted_products": {
+      "sql": "select count(*)::int as n from product_translation t where exists (select 1 from product p where p.handle = t.product_handle and p.deleted_at is not null)",
+      "value": 45
+    },
+    "product_metadata_i18n": {
+      "sql": "select count(*)::int as n from product where deleted_at is null and metadata ? 'i18n'",
+      "value": 0
+    },
+    "translation_by_resource_locale": {
+      "sql": "select resource, locale, count(*)::int as n from translation group by resource, locale order by resource, locale",
+      "value": [
+        {
+          "resource": "email",
+          "locale": "en",
+          "n": 2
+        },
+        {
+          "resource": "email",
+          "locale": "ru",
+          "n": 2
+        },
+        {
+          "resource": "product",
+          "locale": "el",
+          "n": 1
+        },
+        {
+          "resource": "review",
+          "locale": "en",
+          "n": 332
+        },
+        {
+          "resource": "review",
+          "locale": "ru",
+          "n": 332
+        },
+        {
+          "resource": "ui",
+          "locale": "en",
+          "n": 910
+        },
+        {
+          "resource": "ui",
+          "locale": "ru",
+          "n": 910
+        }
+      ]
+    },
+    "translation_ui_ru_by_prefix": {
+      "sql": "select p as prefix, count(*)::int as n from (select split_part(resource_key, '.', 1) p from translation where resource = 'ui' and locale = 'ru') x group by p order by n desc, p",
+      "value": [
+        {
+          "prefix": "courses",
+          "n": 146
+        },
+        {
+          "prefix": "checkout",
+          "n": 82
+        },
+        {
+          "prefix": "catalog",
+          "n": 80
+        },
+        {
+          "prefix": "account",
+          "n": 76
+        },
+        {
+          "prefix": "meta",
+          "n": 55
+        },
+        {
+          "prefix": "delivery",
+          "n": 47
+        },
+        {
+          "prefix": "cart",
+          "n": 38
+        },
+        {
+          "prefix": "page",
+          "n": 38
+        },
+        {
+          "prefix": "shipping",
+          "n": 30
+        },
+        {
+          "prefix": "advices",
+          "n": 23
+        },
+        {
+          "prefix": "journal",
+          "n": 22
+        },
+        {
+          "prefix": "footer",
+          "n": 21
+        },
+        {
+          "prefix": "home",
+          "n": 20
+        },
+        {
+          "prefix": "order",
+          "n": 19
+        },
+        {
+          "prefix": "palette",
+          "n": 18
+        },
+        {
+          "prefix": "nav",
+          "n": 17
+        },
+        {
+          "prefix": "category",
+          "n": 15
+        },
+        {
+          "prefix": "form",
+          "n": 13
+        },
+        {
+          "prefix": "og",
+          "n": 13
+        },
+        {
+          "prefix": "salonPro",
+          "n": 13
+        },
+        {
+          "prefix": "faq",
+          "n": 12
+        },
+        {
+          "prefix": "about",
+          "n": 10
+        },
+        {
+          "prefix": "wholesale",
+          "n": 9
+        },
+        {
+          "prefix": "sidemenu",
+          "n": 8
+        },
+        {
+          "prefix": "tab",
+          "n": 8
+        },
+        {
+          "prefix": "theme",
+          "n": 8
+        },
+        {
+          "prefix": "cartTotals",
+          "n": 7
+        },
+        {
+          "prefix": "cta",
+          "n": 7
+        },
+        {
+          "prefix": "megamenu",
+          "n": 7
+        },
+        {
+          "prefix": "agentDemo",
+          "n": 5
+        },
+        {
+          "prefix": "chat",
+          "n": 5
+        },
+        {
+          "prefix": "comingSoon",
+          "n": 5
+        },
+        {
+          "prefix": "favorites",
+          "n": 5
+        },
+        {
+          "prefix": "header",
+          "n": 5
+        },
+        {
+          "prefix": "search",
+          "n": 3
+        },
+        {
+          "prefix": "a11y",
+          "n": 2
+        },
+        {
+          "prefix": "brand",
+          "n": 2
+        },
+        {
+          "prefix": "burgerBtn",
+          "n": 2
+        },
+        {
+          "prefix": "carousel",
+          "n": 2
+        },
+        {
+          "prefix": "currency",
+          "n": 2
+        },
+        {
+          "prefix": "favorite",
+          "n": 2
+        },
+        {
+          "prefix": "languagePicker",
+          "n": 2
+        },
+        {
+          "prefix": "whatsapp",
+          "n": 2
+        },
+        {
+          "prefix": "common",
+          "n": 1
+        },
+        {
+          "prefix": "owner",
+          "n": 1
+        },
+        {
+          "prefix": "pdp",
+          "n": 1
+        },
+        {
+          "prefix": "product",
+          "n": 1
+        }
+      ]
+    },
+    "home_banner_total": {
+      "sql": "select count(*)::int as n from home_banner",
+      "value": 3
+    },
+    "home_banner_active": {
+      "sql": "select count(*)::int as n from home_banner where active and deleted_at is null",
+      "value": 3
+    },
+    "shipping_option_rows": {
+      "sql": "select id, name, provider_id, price_type from shipping_option where deleted_at is null order by name",
+      "value": [
+        {
+          "id": "so_01M0NKFYXMSTJDJ1V8J2PK0Q5Z",
+          "name": "Заберу сам",
+          "provider_id": "shipping_shipping",
+          "price_type": "calculated"
+        },
+        {
+          "id": "so_01M0NKFYW5CMKWZB4PJ06JPNC6",
+          "name": "Курьером до двери",
+          "provider_id": "shipping_shipping",
+          "price_type": "calculated"
+        }
+      ]
+    },
+    "customer_total": {
+      "sql": "select count(*)::int as n from customer where deleted_at is null",
+      "value": 46
+    },
+    "order_total": {
+      "sql": "select count(*)::int as n from \"order\" where deleted_at is null",
+      "value": 88
+    },
+    "article_total": {
+      "sql": "select count(*)::int as n from article",
+      "value": 18
+    },
+    "article_by_locale_status": {
+      "sql": "select locale, status, count(*)::int as n from article group by locale, status order by locale, status",
+      "value": [
+        {
+          "locale": "en",
+          "status": "published",
+          "n": 9
+        },
+        {
+          "locale": "ru",
+          "status": "published",
+          "n": 9
+        }
+      ]
+    },
+    "course_total": {
+      "sql": "select count(*)::int as n from course",
+      "value": 2
+    },
+    "course_entitlement_total": {
+      "sql": "select count(*)::int as n from course_entitlement",
+      "value": 10
+    },
+    "course_progress_total": {
+      "sql": "select count(*)::int as n from course_progress",
+      "value": 37
+    },
+    "pickup_point_record_total": {
+      "sql": "select count(*)::int as n from pickup_point_record",
+      "value": 3
+    },
+    "order_tracking_total": {
+      "sql": "select count(*)::int as n from order_tracking",
+      "value": 0
+    },
+    "loyalty_gift_card_total": {
+      "sql": "select count(*)::int as n from loyalty_gift_card",
+      "value": 0
+    },
+    "agent_conversation_total": {
+      "sql": "select count(*)::int as n from agent_conversation",
+      "value": 50
+    },
+    "ai_image_generation_total": {
+      "sql": "select count(*)::int as n from ai_image_generation",
+      "value": 4
+    },
+    "provider_identity_by_provider": {
+      "sql": "select provider, count(*)::int as n from provider_identity group by provider order by provider",
+      "value": [
+        {
+          "provider": "emailpass",
+          "n": 34
+        }
+      ]
+    },
+    "layout_configuration_total": {
+      "sql": "select count(*)::int as n from layout_configuration",
+      "value": 1
+    }
+  }
+}
