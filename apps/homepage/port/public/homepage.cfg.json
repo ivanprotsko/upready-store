@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-12T19:50:23.956Z",
+  "blocks": [
+    {
+      "slug": "hero",
+      "visible": true
+    },
+    {
+      "slug": "launch-artifact",
+      "visible": true
+    },
+    {
+      "slug": "social-proof",
+      "visible": true
+    },
+    {
+      "slug": "proof-full",
+      "visible": false
+    },
+    {
+      "slug": "proof-short",
+      "visible": false
+    },
+    {
+      "slug": "frame",
+      "visible": false
+    },
+    {
+      "slug": "included",
+      "visible": false
+    },
+    {
+      "slug": "operations",
+      "visible": true
+    },
+    {
+      "slug": "pricing",
+      "visible": false
+    },
+    {
+      "slug": "payments",
+      "visible": true
+    },
+    {
+      "slug": "delivery",
+      "visible": true
+    },
+    {
+      "slug": "showcase",
+      "visible": true
+    },
+    {
+      "slug": "faq",
+      "visible": false
+    },
+    {
+      "slug": "tariffs",
+      "visible": true
+    },
+    {
+      "slug": "final-cta",
+      "visible": true
+    }
+  ]
+}
