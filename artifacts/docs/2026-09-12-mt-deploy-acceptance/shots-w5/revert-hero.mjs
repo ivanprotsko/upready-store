@@ -1,0 +1,23 @@
+// node revert-hero.mjs [handle] [title] — panel /home-settings: set hero title, save, reload, read back
+import { chromium } from "playwright";
+const [handle = "abs-priem-0812", TITLE = "Приёмка абстракт"] = process.argv.slice(2);
+const panel = "http://localhost:5182";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: "ru-RU" });
+const p = await ctx.newPage();
+await p.goto(`${panel}/login`, { waitUntil: "networkidle" });
+await p.fill('input[name="email"]', `owner-${handle}@example.test`);
+await p.fill('input[name="password"]', "supersecret1");
+await Promise.all([p.waitForURL((u) => !u.pathname.startsWith("/login"), { timeout: 30000 }), p.click('button[type="submit"]')]);
+await p.goto(`${panel}/home-settings`, { waitUntil: "networkidle" });
+await p.waitForSelector("[data-testid=hero-title]", { timeout: 30000 });
+const before = await p.inputValue("[data-testid=hero-title]");
+await p.fill("[data-testid=hero-title]", TITLE);
+await p.click("[data-testid=home-settings-save]");
+await p.waitForLoadState("networkidle");
+await p.waitForTimeout(1500);
+await p.reload({ waitUntil: "networkidle" });
+await p.waitForSelector("[data-testid=hero-title]", { timeout: 30000 });
+const after = await p.inputValue("[data-testid=hero-title]");
+console.log(JSON.stringify({ before, after, expected: TITLE, ok: after === TITLE }));
+await browser.close();
