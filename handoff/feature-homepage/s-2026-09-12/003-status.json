@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-homepage",
+  "session": "s-2026-09-12",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-12T23:40:21+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:38 WITA (сессия 01B7q8iX): по вопросам Ивана к скоупу воронки добавлен §8 в artifacts/docs/2026-09-12-homepage-funnel-scope.md — (8.1) хранилище заказов/промокодов/талонов = apps/backend, модуль tenant линии MT (проверено: на feat/mt-deploy есть модели tenant/tenant-admin/tenant-domain/tenant-home-config/tenant-page с миграциями; на feature/homepage от dev модуля tenant НЕТ) → новые модели platform_order/promo_code/entitlement + маршруты /platform/* + вебхуки Polar/Tribute на бэкенде, RR7-приложение stateless, рантайм не блокирует; база ветки воронки — линия MT; (8.2) вариант E — контракты C0 (Fable) → шесть параллельных лейнов L1–L6 в своих worktree/папках (лендинг, мост DS, бэкенд платформы, UI воронки против мок-API, e2e-харнесс, разведка Tribute/Polar) → отдельная сессия-интегратор M → приёмка A; календарь 3–4 дня, токены +30–50 %. Открытые вопросы прежние (q-homepage-funnel-variant теперь A–E, -promo-admin, -acceptance-target); реализация не начата."
+}

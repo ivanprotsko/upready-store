@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T23:27:47+08:00",
-  "status": "Ветка homepage, 2026-09-12 23:20 WITA (сессия 01B7q8iX, Fable): директива Ивана 23:16 — воронка главной «тариф → оплата Tribute.top/Polar.sh или промокод (частичная скидка / 100% = онбординг без оплаты) → существующий UI онбординга в стиле Medusa UI и страницы → всё на React Router 7 как envoicer → автотесты всех сценариев → приёмка». Выполнен п. 5 (объём): artifacts/docs/2026-09-12-homepage-funnel-scope.md (коммит fba83c7) — схема состояний v0, 6 инвариантов, 12 сценариев, WP0–WP8 с моделями, варианты A соло / B соло-гибрид / C архитектор → один воркер Sonnet → приёмщик (рекомендован) / D полная оркестрация; оценки в @upready/estimation: est-homepage-funnel-solo-2026-09-12 ($45.60–151.80, 150–400 ходов, 3–6 дней) и est-homepage-funnel-orch-2026-09-12 ($35.66–109.50). Правило 6 выполнено: verbatim-промпт artifacts/prompts/2026-09-12-ivan-directive-homepage-funnel.md, особенности ~/upready/specs/prompt-features/features/2026-09-12-upready-store-homepage-funnel.json (10, валидно). Память: ~/upready/memory/upready-store-homepage-funnel-scope-2026-09-12.md. Ключевые факты: существующий онбординг ТОЛЬКО на feat/mt-deploy (apps/storefront/src/app/start/onboarding/wizard.tsx, 3c1e8bc); Polar create-session принимает discount_id/metadata/success_url, ответ is_payment_required, вебхук order.paid, образец кода в envoicer api.checkout.ts + api.polar-webhook.ts; Tribute — Payment Links + Webhooks в индексе wiki.tribute.tg, промокоды только для подписок, поля вебхука не прочитаны (WP0). Реализация (п. 1–4) НЕ начата: гейты — детали стека от Ивана (обещаны), выбор варианта (q-homepage-funnel-variant), ключи Polar sandbox / Tribute API, q-homepage-funnel-promo-admin, q-homepage-funnel-acceptance-target. Превью старой страницы всё ещё http://localhost:4790/index.html.",
+  "updated": "2026-09-12T23:41:03+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:38 WITA (сессия 01B7q8iX): по вопросам Ивана к скоупу воронки добавлен §8 в artifacts/docs/2026-09-12-homepage-funnel-scope.md — (8.1) хранилище заказов/промокодов/талонов = apps/backend, модуль tenant линии MT (проверено: на feat/mt-deploy есть модели tenant/tenant-admin/tenant-domain/tenant-home-config/tenant-page с миграциями; на feature/homepage от dev модуля tenant НЕТ) → новые модели platform_order/promo_code/entitlement + маршруты /platform/* + вебхуки Polar/Tribute на бэкенде, RR7-приложение stateless, рантайм не блокирует; база ветки воронки — линия MT; (8.2) вариант E — контракты C0 (Fable) → шесть параллельных лейнов L1–L6 в своих worktree/папках (лендинг, мост DS, бэкенд платформы, UI воронки против мок-API, e2e-харнесс, разведка Tribute/Polar) → отдельная сессия-интегратор M → приёмка A; календарь 3–4 дня, токены +30–50 %. Открытые вопросы прежние (q-homepage-funnel-variant теперь A–E, -promo-admin, -acceptance-target); реализация не начата.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -959,18 +959,6 @@
     {
       "id": "q-homepage-funnel-variant",
       "question": "Воронка главной (artifacts/docs/2026-09-12-homepage-funnel-scope.md, §5): какой вариант исполнения — A соло Fable, B соло-гибрид с фоновым Sonnet, C архитектор → один воркер Sonnet в Superset-workspace → отдельный приёмщик (рекомендован), D полная оркестрация? Для C нужен явный ок на оркестрацию (3b).",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-homepage-funnel-promo-admin",
-      "question": "Промокоды воронки: кто и где их администрирует — файл/таблица на сервере без UI (по умолчанию, YAGNI) или экран в панели? Влияет на WP5.",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-homepage-funnel-acceptance-target",
-      "question": "Куда онбординг воронки создаёт магазин при автотестах и приёмке — живой движок shipshift.dev (каждый проход = настоящий тенант, поддомен, см. q-demo-tenants-cleanup) или отдельный стенд/песочница?",
       "asked": "2026-09-12",
       "audience": "ivan"
     }
