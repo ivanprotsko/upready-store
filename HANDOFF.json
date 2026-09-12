@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T05:36:11+08:00",
-  "status": "fix/mt-storefront-head-footer (от feat/mt-deploy df921b0): четыре дефекта живых витрин починены классом — canonical/hreflang на своём origin (x-tenant-origin), подвал тенанта без чужих коллекций и ссылок стартера, опции на языке визитёра и без «Default option», копия профиля сборки и фото героя больше не говорят за тенанта, hero.i18n[locale], язык и страна — две кнопки. Коммиты 2be7e2a, 41a9eab, 9fdcf27, 03bb5bf, 815c53a; проверено локальной сборкой против прод-бэкенда по пяти хостам, tsc/lint/vitest 91 зелёные. НЕ задеплоено. После деплоя обязательно: пересобрать mt-backend, medusa exec seed-mt-demo.js, backfill-hero-copy.js, backfill-option-translations.js по трём профилям — иначе hero на /ru и «Colourway» останутся английскими.",
+  "updated": "2026-09-12T11:01:38+08:00",
+  "status": "2026-09-12 11:02 WITA · feat/cherkashina-tenant (соло, session_019QV998iE1r1fTWcDuQER3o): магазин Оксаны Черкашиной перенесён на локальный стенд как тенант cherkashino (ten_01M29Q4KYQHC70JZBENWZ8Z88M): 38 товаров (29 published/9 draft), 9 категорий, 313 картинок + 33 thumbnail (обе пометки подтверждены DOM-ом), цены rub/usd/eur, 6 en-переводов товаров, 5 страниц (contacts/offer/privacy ru, about ru+en), hero главной. Витрина http://cherkashino.localhost:8043/ru (бэкенд :9033, БД upready_store_cherkashina). Артефакты artifacts/docs/2026-09-12-cherkashina-migration/ (00 замер, 01 инвентарь, 02 реестр 956 строк, 03 отчёт, pages/, shots/). Код на ветке: страницы тенанта по локали с фолбэком (seam 9/9), file-local берёт адрес из MEDUSA_BACKEND_URL. Живое кольцо olavka по ssh недоступно — живая БД не замерена. Открыто Ивану: развилка пер-тенантных секретов Robokassa/ApiShip; покупатели/заказы не переносить; страницы без ключа tenant_page. Прод не трогался.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
