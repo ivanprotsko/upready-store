@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
 import {
   AUDIENCE_IDS,
@@ -72,6 +73,15 @@ export default function Hero() {
   const headingClass =
     variant.headingMaxWidth === "15ch" ? styles.heading15 : styles.heading16;
 
+  /**
+   * Куда ведёт кнопка. Вариант «price» зовёт в телеграм прямо своей надписью
+   * («Написать в телеграм»), поэтому у него адрес остаётся телеграмовским;
+   * «cold» и «warm» обещают магазин («Поставить магазин») — их место в
+   * сценарии воронки, где посетитель выбирает тариф и попадает в онбординг.
+   */
+  const ctaHref = audience === "price" ? heroCtaHref : funnelUrl(HERO_SCENARIO.path);
+  const ctaTitle = audience === "price" ? undefined : HERO_SCENARIO.title;
+
   return (
     <section data-section="hero" data-testid="sec-hero" className={styles.hero}>
       <div className={styles.row}>
@@ -87,10 +97,12 @@ export default function Hero() {
         <div className={styles.right}>
           <p className={styles.note}>{heroNote}</p>
           <a
-            href={heroCtaHref}
+            href={ctaHref}
+            title={ctaTitle}
             target="_blank"
             rel="noopener"
             className={styles.cta}
+            data-testid="hero-cta"
           >
             {heroCtaLabel(audience)}
             <svg

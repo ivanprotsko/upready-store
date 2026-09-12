@@ -1,7 +1,13 @@
-import { useState } from 'react';
 import styles from './styles.module.css';
+import { PLAN_SCENARIOS, SCENARIO_INDEX_PATH, funnelUrl } from '../../lib/funnel';
 import { plans, eyebrowNumber, eyebrowLabel, heading, intro, ctaLabel } from './data';
 
+// Куда ведёт «Оплатить». Модалка оплаты (телеграм-хэндл + ссылка Tribute) в порт НЕ
+// перенесена (открытый вопрос O3 в REPORT.md), а боевая воронка ещё не выбрана
+// (q-homepage-funnel-variant). До этого решения кнопка открывает ДЕМО-СЦЕНАРИЙ той же
+// цены на стенде воронки: 4 900 ₽ → сценарий 1 (прямая оплата), 9 900 ₽ → сценарий 3
+// (тариф «Бизнес» уже выбран). Сопоставление и его оговорка — в src/lib/funnel.ts.
+//
 // Behaviour ported from reference/dc-script.js `renderVals()`:
 //   const plans = this.planData.map(pl => Object.assign({}, pl, {
 //     open: () => this.setState({ payPlan: pl.id }),
@@ -19,7 +25,6 @@ import { plans, eyebrowNumber, eyebrowLabel, heading, intro, ctaLabel } from './
  * `?section=` preview, where the literal frozen in data.ts applies.
  */
 export default function Tariffs({ num }: { num?: string }) {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   return (
     <section data-section="tariffs" data-testid="sec-tariffs" id="sec-tariffs" className={styles.section}>
@@ -75,8 +80,15 @@ export default function Tariffs({ num }: { num?: string }) {
             <button
               type="button"
               className={`${styles.cta} ${plan.best ? styles.ctaBest : styles.ctaDefault}`}
-              onClick={() => setSelectedPlan(plan.id)}
-              aria-pressed={selectedPlan === plan.id}
+              title={PLAN_SCENARIOS[plan.id]?.title}
+              data-testid={`tariff-cta-${plan.id}`}
+              onClick={() =>
+                window.open(
+                  funnelUrl(PLAN_SCENARIOS[plan.id]?.path ?? SCENARIO_INDEX_PATH),
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
             >
               {ctaLabel}
             </button>
