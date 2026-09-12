@@ -11,22 +11,25 @@
  * storefront's publishable key; a draft, an unwritten page and a neighbouring
  * tenant's page are all the same 404 here, on purpose.
  *
- * Not locale-scoped: the backend serves the `en` row, and this calls
- * `fetchWithoutLocale` rather than the locale-aware `sdk.client.fetch` every
- * catalog loader uses — one document per key, one shared cache tag, the same
- * reason `storefront-settings.ts` and `app/llms.txt/route.ts` do it
- * (AGENTS.md, "Two pieces of locale plumbing"). A per-locale read needs a
- * per-locale cache tag first, and the panel edits one language today.
+ * Locale-scoped since the Cherkashina migration (2026-09-12): the request goes
+ * through the locale-aware `sdk.client.fetch` (it sends `x-medusa-locale`) and
+ * repeats the locale as `?locale=`, so the Next fetch cache holds one entry per
+ * language behind the shared tag. The backend answers the visitor's locale when
+ * that row exists and falls back (language part → `en` → any locale), which is
+ * what a shop whose default language is not English needs to be readable at
+ * all — before this it served the `en` row to every visitor.
  *
  * One shared cache tag, `"tenant-pages"`, cleared for everyone at once by
  * `POST /api/revalidate` with `{ "type": "tenant.pages" }`.
  */
 
-import { fetchWithoutLocale } from "@lib/config"
+import { sdk } from "@lib/config"
+import { getLocale } from "./locale-actions"
+import { defaultLocale } from "@i18n/config"
 
 const PAGES_TAG = "tenant-pages"
 
-export type TenantPageLink = { key: string; title: string }
+export type TenantPageLink = { key: string; title: string; locale: string }
 
 export type TenantPage = {
   id: string | null
@@ -51,8 +54,9 @@ let warnedUnreachable = false
  */
 export async function listTenantPages(): Promise<TenantPageLink[]> {
   try {
-    const { pages } = await fetchWithoutLocale<{ pages: TenantPageLink[] }>(
-      "/store/tenant/pages",
+    const locale = (await getLocale()) ?? defaultLocale
+    const { pages } = await sdk.client.fetch<{ pages: TenantPageLink[] }>(
+      `/store/tenant/pages?locale=${encodeURIComponent(locale)}`,
       { next: { tags: [PAGES_TAG] }, cache: "force-cache" }
     )
     return pages ?? []
@@ -75,8 +79,9 @@ export async function listTenantPages(): Promise<TenantPageLink[]> {
  */
 export async function getTenantPage(key: string): Promise<TenantPage | null> {
   try {
-    const { page } = await fetchWithoutLocale<{ page: TenantPage }>(
-      `/store/tenant/pages/${encodeURIComponent(key)}`,
+    const locale = (await getLocale()) ?? defaultLocale
+    const { page } = await sdk.client.fetch<{ page: TenantPage }>(
+      `/store/tenant/pages/${encodeURIComponent(key)}?locale=${encodeURIComponent(locale)}`,
       { next: { tags: [PAGES_TAG] }, cache: "force-cache" }
     )
     return page ?? null

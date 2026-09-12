@@ -65,6 +65,29 @@ const s3Module = {
   },
 };
 
+// Local file provider (every non-S3 environment). `@medusajs/file-local` builds
+// public URLs from its own `backend_url` option and falls back to
+// "http://localhost:9000/static" — it never reads MEDUSA_BACKEND_URL — so a
+// backend on another port, or behind a public domain without S3, hands the
+// panel and the storefront URLs nobody can open (measured 2026-09-12 on the
+// Cherkashina stand: 334 uploads on :9033 answered as :9000). MEDUSA_BACKEND_URL
+// is the one variable that names the backend's public origin, so it feeds the
+// option here; unset, the provider's own default stands as before.
+const localFileModule = {
+  resolve: "@medusajs/medusa/file",
+  options: {
+    providers: [
+      {
+        resolve: "@medusajs/medusa/file-local",
+        id: "local",
+        options: {
+          backend_url: `${process.env.MEDUSA_BACKEND_URL || "http://localhost:9000"}/static`,
+        },
+      },
+    ],
+  },
+};
+
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
@@ -118,6 +141,6 @@ module.exports = defineConfig({
       },
     },
     ...(useRedis ? redisModules : []),
-    ...(useS3 ? [s3Module] : []),
+    ...(useS3 ? [s3Module] : [localFileModule]),
   ],
 });
