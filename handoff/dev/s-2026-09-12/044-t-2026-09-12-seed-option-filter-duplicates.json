@@ -1,0 +1,28 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 44,
+  "action": "task-add",
+  "ts": "2026-09-12T08:17:24+08:00",
+  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs 4ab59fd (парные изображения под режим: дизайн-стадия + код на трёх поверхностях + проверка подмены в трёх движках; передача в artifacts/docs/2026-09-12-mode-image-pairs-handover.md, тёмных картинок в профилях ещё нет — пару надо завести руками в панели), feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Промпт следующей сессии: artifacts/prompts/2026-09-12-acceptor-session-v3.md",
+  "task": {
+    "id": "t-2026-09-12-seed-option-filter-duplicates",
+    "title": "Каталог засеянного магазина: фильтр «Size» повторяется по числу товаров (6 одинаковых селектов на /ru/store)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Замер локальной приёмки feat/abstract-datasets 2026-09-12 08:1x WITA (магазин мастера abs-priem-0812, /ru/store, кадр shots-w5/abs-priem-store-1280.png): в строке фильтров ШЕСТЬ селектов «Size» — по одному на каждый товар с вариантами. Причина по коду: option-filter-groups.ts:66-69 группирует по option.id, а засев createProducts заводит каждому товару СВОЮ опцию Size (is_exclusive:true, память upready-store-abstract-dataset-and-seed-2026-09-12 §Ловушки). У посеянных прод-магазинов опция общая — один селект. Чинить либо в засеве (одна опция Size на тенанта), либо в группировке (по title). Приёмка: на /ru/store магазина мастера ровно ОДИН фильтр Size, и он фильтрует все 6 товаров с вариантами.",
+    "files": [
+      "apps/storefront/src/lib/util/option-filter-groups.ts",
+      "apps/backend/src/migration-scripts/data/abstract-datasets.ts"
+    ],
+    "tags": [
+      "storefront",
+      "seed",
+      "abstract-datasets"
+    ],
+    "created": "2026-09-12T08:17:24+08:00",
+    "updated": "2026-09-12T08:17:24+08:00"
+  }
+}

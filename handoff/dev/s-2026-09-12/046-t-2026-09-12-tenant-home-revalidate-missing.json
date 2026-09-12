@@ -1,0 +1,31 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 46,
+  "action": "task-add",
+  "ts": "2026-09-12T08:25:00+08:00",
+  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs 4ab59fd (парные изображения под режим: дизайн-стадия + код на трёх поверхностях + проверка подмены в трёх движках; передача в artifacts/docs/2026-09-12-mode-image-pairs-handover.md, тёмных картинок в профилях ещё нет — пару надо завести руками в панели), feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Промпт следующей сессии: artifacts/prompts/2026-09-12-acceptor-session-v3.md",
+  "task": {
+    "id": "t-2026-09-12-tenant-home-revalidate-missing",
+    "title": "Правки главной в панели тенанта не доходят до витрины: инвалидацию tenant.home никто не шлёт (force-cache без вебхука)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Замер локальной приёмки feat/abstract-datasets 2026-09-12 08:1x-08:2x WITA, магазин мастера abs-priem-0812, лог shots-w5/themes2.log: заголовок hero «Приёмка абстракт · кэш», сохранённый в панели (/home-settings, Save, ответ 200, документ в БД обновлён), на витрине /ru не появился ни сразу, ни через +90 с — h1 остался «Приёмка абстракт»; тема при этом сменилась за 58–71 с (кэш by-host middleware 60 с). Причина по коду: tenant-home.ts:102 читает /store/tenant/home с cache:\"force-cache\" и тегами tenant-home-<handle>; /api/revalidate тип tenant.home принимает (route.ts:11), но отправителя нет ни в бэкенде (grep tenant.home → 0, product-updated.ts шлёт только события товаров), ни в панели (grep revalidate → 0). На проде владелец, поменявший hero/блоки в панели, не увидит правку до сброса кэша Next (перезапуск контейнера). Починка: после PUT /tenants/home бэкенд (или сабскрайбер) шлёт POST STOREFRONT_URL/api/revalidate {type:\"tenant.home\", handle}. Приёмка по живой витрине: смена заголовка hero в панели видна на витрине в течение 5 с без перезапуска; повтор на категории/товаре (metadata.image_url) — тот же путь.",
+    "files": [
+      "apps/storefront/src/lib/data/tenant-home.ts",
+      "apps/storefront/src/app/api/revalidate/route.ts",
+      "apps/backend/src/api/tenants/home/route.ts",
+      "apps/backend/src/subscribers/product-updated.ts"
+    ],
+    "tags": [
+      "storefront",
+      "tenant-panel",
+      "backend",
+      "cache"
+    ],
+    "created": "2026-09-12T08:25:00+08:00",
+    "updated": "2026-09-12T08:25:00+08:00"
+  }
+}

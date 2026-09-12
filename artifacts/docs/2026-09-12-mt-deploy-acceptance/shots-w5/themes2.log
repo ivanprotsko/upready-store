@@ -1,0 +1,10 @@
+label→id {"Ferrite":"electronics","Geist":"geist","Long Morning":"home-goods","Medusa default":"medusa","Kerbstone":"sneakers","Scruple":"supplements","Larchant":"womens-fashion"}
+{"label":"Medusa default","expect":"medusa","waitedS":2,"theme":"medusa","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(255, 255, 255)","file":"theme-1-medusa-light.png"}
+{"label":"Ferrite","expect":"electronics","waitedS":69,"theme":"electronics","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(255, 255, 255)","file":"theme-2-electronics-light.png"}
+{"label":"Geist","expect":"geist","waitedS":69,"theme":"geist","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(255, 255, 255)","file":"theme-3-geist-light.png"}
+{"label":"Long Morning","expect":"home-goods","waitedS":69,"theme":"home-goods","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(253, 251, 247)","file":"theme-4-home-goods-light.png"}
+{"label":"Kerbstone","expect":"sneakers","waitedS":71,"theme":"sneakers","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(255, 255, 255)","file":"theme-5-sneakers-light.png"}
+{"label":"Scruple","expect":"supplements","waitedS":58,"theme":"supplements","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(255, 255, 255)","file":"theme-6-supplements-light.png"}
+{"label":"Larchant","expect":"womens-fashion","waitedS":69,"theme":"womens-fashion","mode":"light","hero":true,"tiles":5,"cards":5,"h1":"Приёмка абстракт","bg":"rgb(247, 242, 233)","file":"theme-7-womens-fashion-light.png"}
+{"heroTitleCheck":"right after theme arrived","h1":"Приёмка абстракт","expected":"Приёмка абстракт · кэш"}
+{"heroTitleCheck":"+90s","h1":"Приёмка абстракт","expected":"Приёмка абстракт · кэш"}

@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 45,
+  "action": "task-add",
+  "ts": "2026-09-12T08:17:24+08:00",
+  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs 4ab59fd (парные изображения под режим: дизайн-стадия + код на трёх поверхностях + проверка подмены в трёх движках; передача в artifacts/docs/2026-09-12-mode-image-pairs-handover.md, тёмных картинок в профилях ещё нет — пару надо завести руками в панели), feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Промпт следующей сессии: artifacts/prompts/2026-09-12-acceptor-session-v3.md",
+  "task": {
+    "id": "t-2026-09-12-turbopack-use-server-type-export",
+    "title": "Витрина не поднимается через pnpm storefront:dev (Turbopack): export type в файле с \"use server\" — products.ts:101",
+    "state": "backlog",
+    "priority": "med",
+    "details": "Замер 2026-09-12 08:0x WITA на feat/abstract-datasets: next dev --turbopack -p 8041 отдаёт 500 на любую страницу [locale] с ошибкой «Only async functions are allowed to be exported in a \"use server\" file» на apps/storefront/src/lib/data/products.ts:101 (export type {ProductOptionFilterGroup, ProductOptionFilterValue} from \"@lib/util/option-filter-groups\"). Строка из коммита 9fdcf27 (t-2026-09-12-mt-storefront-by-host); ветки-носители: fix/mt-storefront-head-footer (прод), feat/abstract-datasets, feat/mode-image-pairs, feat/mt-storefront-wave2. Webpack (next dev без --turbopack и next build) принимает — прод жив. Скрипт \"dev\" в package.json витрины = next dev --turbopack, значит pnpm dev / storefront:dev по AGENTS.md сломаны на всех четырёх ветках. Починка: перенести type-реэкспорт из \"use server\"-модуля (импортировать типы напрямую из option-filter-groups). Приёмка: next dev --turbopack отдаёт 200 на /ru магазина.",
+    "files": [
+      "apps/storefront/src/lib/data/products.ts"
+    ],
+    "tags": [
+      "storefront",
+      "dx"
+    ],
+    "created": "2026-09-12T08:17:24+08:00",
+    "updated": "2026-09-12T08:17:24+08:00"
+  }
+}

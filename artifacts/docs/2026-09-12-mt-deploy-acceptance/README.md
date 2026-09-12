@@ -326,3 +326,47 @@ Orders / Categories / Promotions / Pages / Home page.
 **Отдельный деплой не нужен и сейчас невозможен:** трек 3 не закончен (грязное дерево). Порядок —
 `feat/abstract-datasets` отдельным проходом по слову Ивана, `feat/mt-storefront-wave2` следующим,
 когда исполнитель закончит.
+
+## Волна 5 — локальная приёмка трека 1 `feat/abstract-datasets` (2026-09-12, 08:01–08:20 WITA)
+
+Сессия приёмщика, промпт `artifacts/prompts/2026-09-12-acceptor-session-v3.md`. Решение Ивана: приёмка
+ЛОКАЛЬНО, прод не трогаем. Инструмент — Playwright глобальный; скрипты и кадры волны — `shots-w5/`
+(`wizard.mjs` мастер целиком, `shot.mjs` кадр+DOM, `themes2.mjs` семь тем через панель; PNG в git не входят).
+
+### Локальный стенд ветки (поднят этой сессией, живёт для Ивана)
+
+| Что | Как |
+|---|---|
+| Бэкенд `:9031` | `cd apps/backend && STOREFRONT_URL=http://localhost:8041 npx medusa develop` в worktree ветки; БД `upready_store_abstract` на 127.0.0.1:5433, `.env` исполнителя (gitignored) |
+| Витрина `:8041` | `cd apps/storefront && NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9031 NEXT_PUBLIC_BASE_URL=http://localhost:8041 DEMO_HOSTS=localhost DEMO_TENANT_BASE_DOMAIN=localhost:8041 DEMO_PANEL_URL=http://localhost:5182 npx next dev -p 8041` — **без `--turbopack`** (см. находку ниже) |
+| Панель `:5182` | `cd apps/tenant-panel && VITE_MEDUSA_BACKEND_URL=http://localhost:9031 VITE_MEDUSA_STOREFRONT_URL=http://localhost:8041 npx vite --port 5182` (5180/5181 заняты чужими стендами) |
+| Магазин мастера | `http://abs-priem-0812.localhost:8041/ru` — создан прогоном `/start/onboarding` с `localhost:8041`; `*.localhost` резолвится системным резолвером (curl ip=::1) |
+| Тенант исполнителя | `http://abstizrfj.localhost:8041/ru` — создан API без шага «главная»: hero там от сборочного профиля sneakers, не от набора |
+
+### Картина состояния на 08:04 WITA (git log -1 + status в одном вызове)
+
+A. В работе — пусто: все три worktree чистые (abstract 2e2d3b4 «2 hours ago», mode-image-pairs 318f0a9 «7 minutes ago», wave2 058fc00 «13 minutes ago»).
+B. Готово, ждёт приёмки — те же три ветки; на прод ни одна не уехала (проверено волной 4).
+C. Заведено, не запущено — бэклог из `handoff.mjs index --all`: `t-2026-09-12-seeded-hosts-no-locale-controls`, `t-2026-09-12-medusa-mark-bottom-nav`, `t-2026-09-12-abstract-sets-per-theme` + старое in_progress без движения (`t-store-profiles-pilot`, `t-ds-1-seam-tests`, `t-2026-09-09-02`, `t-2026-09-10-01`, `t-2026-09-10-02`) — вопрос Ивану «принимать или заморозить» открыт.
+
+### Пункты приёмки README трека — вердикт по кадру и DOM
+
+1. Мастер → магазин: **сходится.** `/start/onboarding` → «Создать магазин» → done за 2312 мс; экран завершения (`wizard-done.png`): «Каталог наполнен стартовым набором: 10 товаров в пяти категориях, картинки — абстрактные формы», `data-testid=demo-catalog-seeded`. Главная `/ru` (`abs-priem-ru-1280.png`, `-390.png`): hero = `abstract/home-hero.webp` 1280×720, 5 плиток (Spheres, Cubes, Cylinders, Pairs, Stacks — `tile-*.webp` 320×320, все видимы), «New arrivals» 5 карточек; `/ru/store` (`abs-priem-store-1280.png`): 10 `product-wrapper`, 10 ссылок `/products/<form>-<n>-abs-priem-0812`; страница товара (`abs-priem-product-1280.png`): галерея + 4 «похожих» из набора.
+2. Абстрактность глазами: **сходится.** Контакт-лист 16 ячеек и кадры витрины: только матовые гипсовые сферы/кубы/цилиндры/пары/стопки в белом, сером и графите; ни буквы, ни узнаваемого товара.
+3. Смена темы в панели: **сходится, 7 из 7.** Панель `/home-settings` → «Colour preset» → Save; витрина после каждой смены: medusa, electronics, geist, home-goods, sneakers, supplements, womens-fashion — везде hero загружен, 5 плиток и 5 карточек видимы, вёрстка не ломается (`theme-N-<id>-light.png`). Смена темы доезжает за 58–71 с (кэш by-host middleware), полный лог `shots-w5/themes2.log`. Тёмный режим ещё не снят — известное ограничение («светлые кадры светлее тёмной витрины») остаётся к замеру.
+4. Разметка 67 товаров (`products-mapping.tsv`) — документ, глазами не принимался; к витрине не относится.
+
+Что НЕ сходится или требует оговорки: цены на `/ru` в долларах (`40,00 $`) — ветка не содержит `aedbfe8` волны 2, ожидаемо; кнопка «Открыть» на экране завершения ведёт на `https://…localhost:8041` (схема зашита, локальный артефакт `DEMO_TENANT_BASE_DOMAIN`); на 390 в нижней панели виден знак Medusa — уже `t-2026-09-12-medusa-mark-bottom-nav`.
+
+### Найдено сверх приёмки
+
+- **Шесть фильтров «Size» на `/ru/store` магазина мастера** — `option-filter-groups.ts:66-69` группирует по `option.id`, а засев даёт каждому товару свою опцию. Заведено `t-2026-09-12-seed-option-filter-duplicates`.
+- **`next dev --turbopack` отдаёт 500** на любую страницу `[locale]`: «Only async functions are allowed to be exported in a "use server" file», `products.ts:101` (`export type … from`), коммит `9fdcf27` — стоит на всех четырёх ветках, включая прод (webpack принимает). Заведено `t-2026-09-12-turbopack-use-server-type-export`.
+- **Инвалидацию `tenant.home` не шлёт никто.** `tenant-home.ts:102` — `force-cache` с тегами, маршрут `/api/revalidate` тип `tenant.home` принимает, но grep по бэкенду и панели не находит отправителя; бэкенд шлёт только события товаров на `STOREFRONT_URL` (в `.env` исполнителя это `:8027` → ECONNREFUSED, поэтому бэкенд перезапущен с `STOREFRONT_URL=:8041`). Тема доезжает через кэш by-host middleware (замер: 58–71 с на смену), документ главной — только по вебхуку, которого нет. **Подтверждено замером:** заголовок hero «Приёмка абстракт · кэш», сохранённый в панели вместе с 7-й темой, на витрине НЕ появился ни сразу, ни через +90 с (h1 остался «Приёмка абстракт»), хотя тема за то же время сменилась. Заведено `t-2026-09-12-tenant-home-revalidate-missing`.
+
+### Порядок оставшихся треков — предложение
+
+1. `feat/mode-image-pairs` — второй: обе ветки (и wave2) растут от `1c5cd8e` и НЕ содержат набора, стенд 1 им не годится; пары — проверка одного механизма на одном магазине без миграций, и она закрывает единственное известное ограничение трека 1 (тёмный режим).
+2. `feat/mt-storefront-wave2` — третий: миграция `Migration20260912061500`, 14 пунктов на двух видах магазина, и требование Ивана про env (`STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`) заранее даёт возврат исполнителю по этой части; предложение приёмщика: переезд в документ тенанта, который отдаёт `/storefront/by-host` (рядом с theme/mode/header) и читает middleware, редактирование — экран панели.
+
+Порты стенда 2: 9032/8042/5183 свободны (замер 08:19).

@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T07:53:26+08:00",
-  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs 4ab59fd (парные изображения под режим: дизайн-стадия + код на трёх поверхностях + проверка подмены в трёх движках; передача в artifacts/docs/2026-09-12-mode-image-pairs-handover.md, тёмных картинок в профилях ещё нет — пару надо завести руками в панели), feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Промпт следующей сессии: artifacts/prompts/2026-09-12-acceptor-session-v3.md",
+  "updated": "2026-09-12T08:25:49+08:00",
+  "status": "Приёмщик: Иван решил принимать ЛОКАЛЬНО (q-deploy-abstract-dataset-now закрыт, прод не деплоим). Готовы и ждут приёмки три ветки с чистыми деревьями: feat/abstract-datasets 2e2d3b4, feat/mode-image-pairs 4ab59fd (парные изображения под режим: дизайн-стадия + код на трёх поверхностях + проверка подмены в трёх движках; передача в artifacts/docs/2026-09-12-mode-image-pairs-handover.md, тёмных картинок в профилях ещё нет — пару надо завести руками в панели), feat/mt-storefront-wave2 04571c1 (передача в artifacts/docs/2026-09-12-storefront-wave2-handover.md). На проде по-прежнему только волна 3. Новые требования Ивана: шапка = опциональные элементы у существующих вариантов (избранное, язык, регион, корзина, кабинет); в env только то, чему негде больше жить — локаль и валюта туда не относятся. Волна 5 (2026-09-12 08:20 WITA): трек 1 ПРИНЯТ локально по кадрам — мастер→магазин abs-priem-0812 за 2.3 с, 10 товаров, 5 плиток, баннер набора, 7/7 тем; стенд :9031/:8041/:5182 живёт для Ивана; сверх приёмки заведены t-2026-09-12-seed-option-filter-duplicates, t-2026-09-12-turbopack-use-server-type-export, t-2026-09-12-tenant-home-revalidate-missing. Порядок дальше: mode-image-pairs, потом wave2. Промпт продолжения после /clear: artifacts/prompts/2026-09-12-acceptor-session-v4.md — первое действие там: промпт соло-агенту под перенос магазина Черкашиной (сама работа не в сессии приёмщика).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -640,6 +640,61 @@
       ],
       "created": "2026-09-12T07:06:28+08:00",
       "updated": "2026-09-12T07:48:58+08:00"
+    },
+    {
+      "id": "t-2026-09-12-seed-option-filter-duplicates",
+      "title": "Каталог засеянного магазина: фильтр «Size» повторяется по числу товаров (6 одинаковых селектов на /ru/store)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Замер локальной приёмки feat/abstract-datasets 2026-09-12 08:1x WITA (магазин мастера abs-priem-0812, /ru/store, кадр shots-w5/abs-priem-store-1280.png): в строке фильтров ШЕСТЬ селектов «Size» — по одному на каждый товар с вариантами. Причина по коду: option-filter-groups.ts:66-69 группирует по option.id, а засев createProducts заводит каждому товару СВОЮ опцию Size (is_exclusive:true, память upready-store-abstract-dataset-and-seed-2026-09-12 §Ловушки). У посеянных прод-магазинов опция общая — один селект. Чинить либо в засеве (одна опция Size на тенанта), либо в группировке (по title). Приёмка: на /ru/store магазина мастера ровно ОДИН фильтр Size, и он фильтрует все 6 товаров с вариантами.",
+      "files": [
+        "apps/storefront/src/lib/util/option-filter-groups.ts",
+        "apps/backend/src/migration-scripts/data/abstract-datasets.ts"
+      ],
+      "tags": [
+        "storefront",
+        "seed",
+        "abstract-datasets"
+      ],
+      "created": "2026-09-12T08:17:24+08:00",
+      "updated": "2026-09-12T08:17:24+08:00"
+    },
+    {
+      "id": "t-2026-09-12-turbopack-use-server-type-export",
+      "title": "Витрина не поднимается через pnpm storefront:dev (Turbopack): export type в файле с \"use server\" — products.ts:101",
+      "state": "backlog",
+      "priority": "med",
+      "details": "Замер 2026-09-12 08:0x WITA на feat/abstract-datasets: next dev --turbopack -p 8041 отдаёт 500 на любую страницу [locale] с ошибкой «Only async functions are allowed to be exported in a \"use server\" file» на apps/storefront/src/lib/data/products.ts:101 (export type {ProductOptionFilterGroup, ProductOptionFilterValue} from \"@lib/util/option-filter-groups\"). Строка из коммита 9fdcf27 (t-2026-09-12-mt-storefront-by-host); ветки-носители: fix/mt-storefront-head-footer (прод), feat/abstract-datasets, feat/mode-image-pairs, feat/mt-storefront-wave2. Webpack (next dev без --turbopack и next build) принимает — прод жив. Скрипт \"dev\" в package.json витрины = next dev --turbopack, значит pnpm dev / storefront:dev по AGENTS.md сломаны на всех четырёх ветках. Починка: перенести type-реэкспорт из \"use server\"-модуля (импортировать типы напрямую из option-filter-groups). Приёмка: next dev --turbopack отдаёт 200 на /ru магазина.",
+      "files": [
+        "apps/storefront/src/lib/data/products.ts"
+      ],
+      "tags": [
+        "storefront",
+        "dx"
+      ],
+      "created": "2026-09-12T08:17:24+08:00",
+      "updated": "2026-09-12T08:17:24+08:00"
+    },
+    {
+      "id": "t-2026-09-12-tenant-home-revalidate-missing",
+      "title": "Правки главной в панели тенанта не доходят до витрины: инвалидацию tenant.home никто не шлёт (force-cache без вебхука)",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Замер локальной приёмки feat/abstract-datasets 2026-09-12 08:1x-08:2x WITA, магазин мастера abs-priem-0812, лог shots-w5/themes2.log: заголовок hero «Приёмка абстракт · кэш», сохранённый в панели (/home-settings, Save, ответ 200, документ в БД обновлён), на витрине /ru не появился ни сразу, ни через +90 с — h1 остался «Приёмка абстракт»; тема при этом сменилась за 58–71 с (кэш by-host middleware 60 с). Причина по коду: tenant-home.ts:102 читает /store/tenant/home с cache:\"force-cache\" и тегами tenant-home-<handle>; /api/revalidate тип tenant.home принимает (route.ts:11), но отправителя нет ни в бэкенде (grep tenant.home → 0, product-updated.ts шлёт только события товаров), ни в панели (grep revalidate → 0). На проде владелец, поменявший hero/блоки в панели, не увидит правку до сброса кэша Next (перезапуск контейнера). Починка: после PUT /tenants/home бэкенд (или сабскрайбер) шлёт POST STOREFRONT_URL/api/revalidate {type:\"tenant.home\", handle}. Приёмка по живой витрине: смена заголовка hero в панели видна на витрине в течение 5 с без перезапуска; повтор на категории/товаре (metadata.image_url) — тот же путь.",
+      "files": [
+        "apps/storefront/src/lib/data/tenant-home.ts",
+        "apps/storefront/src/app/api/revalidate/route.ts",
+        "apps/backend/src/api/tenants/home/route.ts",
+        "apps/backend/src/subscribers/product-updated.ts"
+      ],
+      "tags": [
+        "storefront",
+        "tenant-panel",
+        "backend",
+        "cache"
+      ],
+      "created": "2026-09-12T08:25:00+08:00",
+      "updated": "2026-09-12T08:25:00+08:00"
     }
   ],
   "questions": [
