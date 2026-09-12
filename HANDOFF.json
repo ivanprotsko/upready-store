@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T23:41:03+08:00",
-  "status": "Ветка homepage, 2026-09-12 23:38 WITA (сессия 01B7q8iX): по вопросам Ивана к скоупу воронки добавлен §8 в artifacts/docs/2026-09-12-homepage-funnel-scope.md — (8.1) хранилище заказов/промокодов/талонов = apps/backend, модуль tenant линии MT (проверено: на feat/mt-deploy есть модели tenant/tenant-admin/tenant-domain/tenant-home-config/tenant-page с миграциями; на feature/homepage от dev модуля tenant НЕТ) → новые модели platform_order/promo_code/entitlement + маршруты /platform/* + вебхуки Polar/Tribute на бэкенде, RR7-приложение stateless, рантайм не блокирует; база ветки воронки — линия MT; (8.2) вариант E — контракты C0 (Fable) → шесть параллельных лейнов L1–L6 в своих worktree/папках (лендинг, мост DS, бэкенд платформы, UI воронки против мок-API, e2e-харнесс, разведка Tribute/Polar) → отдельная сессия-интегратор M → приёмка A; календарь 3–4 дня, токены +30–50 %. Открытые вопросы прежние (q-homepage-funnel-variant теперь A–E, -promo-admin, -acceptance-target); реализация не начата.",
+  "updated": "2026-09-12T23:43:07+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:42 WITA (сессия 01B7q8iX): решения Ивана по воронке главной записаны в скоуп §9 (коммиты d8ec3ef, 15ed5b1, запушены): v1 — оплата ТОЛЬКО через Tribute ссылкой в телеграм (Polar в v2; автоподтверждения нет, талон после оплаты выдаёт оператор — моё прочтение), промокоды — файл, приёмка — настоящий тенант на живом движке, редирект в Tribute в e2e симулируется заглушкой под флагом тестового режима. Хранилище заказов/талонов — apps/backend, модуль tenant линии MT (на feature/homepage модуля нет → ветку воронки резать от линии MT). q-homepage-funnel-promo-admin и -acceptance-target закрыты; открыт только q-homepage-funnel-variant (A–E, §5+§8). Реализация не начата; ждём выбор варианта и детали стека (блокируют только каркас RR7). Иван: /clear больше не делаем — конец хода = заметка для /compact (resume-блок 2026-09-12-2342-01B7q8iX.md = latest).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
