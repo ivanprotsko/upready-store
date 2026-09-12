@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T23:43:07+08:00",
-  "status": "Ветка homepage, 2026-09-12 23:42 WITA (сессия 01B7q8iX): решения Ивана по воронке главной записаны в скоуп §9 (коммиты d8ec3ef, 15ed5b1, запушены): v1 — оплата ТОЛЬКО через Tribute ссылкой в телеграм (Polar в v2; автоподтверждения нет, талон после оплаты выдаёт оператор — моё прочтение), промокоды — файл, приёмка — настоящий тенант на живом движке, редирект в Tribute в e2e симулируется заглушкой под флагом тестового режима. Хранилище заказов/талонов — apps/backend, модуль tenant линии MT (на feature/homepage модуля нет → ветку воронки резать от линии MT). q-homepage-funnel-promo-admin и -acceptance-target закрыты; открыт только q-homepage-funnel-variant (A–E, §5+§8). Реализация не начата; ждём выбор варианта и детали стека (блокируют только каркас RR7). Иван: /clear больше не делаем — конец хода = заметка для /compact (resume-блок 2026-09-12-2342-01B7q8iX.md = latest).",
+  "updated": "2026-09-12T23:56:10+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:56 WITA (сессия 01B7q8iX): Иван 23:46 — перенос лендинга по секциям запущен как Workflow homepage-landing-port (scaffold Sonnet → 16 секций Sonnet → merger Opus), бриф artifacts/docs/2026-09-12-homepage-landing-port-brief.md; порт живёт в apps/homepage/port (Vite+React), легаси index.html/support.js не трогаем; q-homepage-funnel-variant по-прежнему открыт",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
