@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-12",
+  "index": 62,
+  "action": "status-append",
+  "ts": "2026-09-12T16:46:07+08:00",
+  "status": "Приёмщик (15:3x WITA, Opus): ТРЕК 1 abstract ПРИНЯТ — стенд для Ивана ЖИВ и переживает сессию (nohup+disown): бэкенд :9031 pid 80518, витрина :8041 pid 80657 на магазине absacc1451, логи abstract-{backend-9031,storefront-8041}.log в скретчпаде a8a0b385; http://localhost:8041/ru — баннер и 5 плиток, /ru/store — ОДИН фильтр «Размер» на 10 товаров. ТРЕК 3 wave2: п.3 и п.13 ПРИНЯТЫ, п.10/11 НЕ ПРИНЯТЫ (POST /tenants/handle 500 — change-tenant-handle.ts:43 зовёт listTenantHandleAlias вместо множественного; тестов у воркфлоу нет), п.6 цифру снять не на чем (цены тенантов только eur; товар без цены региона показан без цены, но с кнопкой «В корзину»), п.8 повтор подтвердил поломку, механизм не дочитан. Четыре находки ждут решения Ивана (22j). Журнал bd51e50, e1f27c1; HANDOFF 8580b18; гвард ::1 — 25722961 в ~/.claude. | Сессия upready-store-homepage (16:26 WITA, Fable): консультация по диспетчеру задач для сессий Claude Code — ответ дан, факты в ~/upready/memory/claude-code-session-control-facts-2026-09-12.md (66e06ae); решений Ивана нет, кода в магазине не трогали | upready-store-homepage (16:46 WITA, Fable): зонд stream-json на 2.1.258 выполнен — 3 result в одном процессе, /compact исполняется (compact_boundary); факты в memory claude-code-session-control-facts-2026-09-12.md; конспект Ивана → research/raw (d160eddaa); решение Ивана: /clear в диспетчере не использовать (depth superset)"
+}
