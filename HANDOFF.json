@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T10:12:29+08:00",
-  "status": "Приёмщик, трек 2 (feat/mode-image-pairs): фаза light — hero и категория acme загружены через панель, товар не сохранился (0 картинок в БД), разбираюсь; замер опроверг механизм находки: MEDUSA_BACKEND_URL СТОИТ в живом бэкенде (ps -E), адрес загрузки всё равно http://localhost:9000 — дело в выборе файлового провайдера (medusa-config.ts: S3 только при isProd && S3_BUCKET). Прод по просьбе Ивана — следующий шаг. Стенды 1 (8041) и 2 (8042) живы; /start прогрет: http://localhost:8041/start",
+  "updated": "2026-09-12T10:35:02+08:00",
+  "status": "Приёмщик, трек 2: фаза light ПРОЙДЕНА (hero acme, категория night-2-child, товар acme-shirt-live — проверено в БД), адреса стенда переписаны с localhost:9000 на :9032 (файл отдаётся 200). Дальше после /clear по промпту v6: пункт 4 «магазин без пары» ДО тёмных, фаза dark, пункты 1-3 подмены на 4 URL в двух вьюпортах, пункт 5 глазами, пункт 6 — прод-проверка находки по заданию Ивана (docker inspect mt-backend на S3_BUCKET + прод-БД на localhost:9000). Механизм находки перемерен: дело не в MEDUSA_BACKEND_URL, а в medusa-config.ts useS3 = isProd && S3_BUCKET. Стенды 1 (9031/8041/5182) и 2 (9032/8042/5183) живы.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
