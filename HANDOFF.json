@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-12T19:41:20+08:00",
-  "status": "Ветка homepage: по прямому запросу Ивана (не через task add/approve) собрал nav-исследование inSales/Shopify + черновик тарифной таблицы для versustable. Закоммичено и запушено: 7b70968 (95 уникальных nav-ссылок header/footer inSales+Shopify, title/description/keywords с самих страниц → artifacts/research/2026-09-12-competitor-nav-shopify-insales/pages.json + index.html-вьюер с переключателем), 702f6db (тарифы InSales/Shopify для НОВОЙ таблицы в чужом репо astro-quick-views/apps/versustable — providers/columns/groups/rows формата payments-ru-comparison.json, файлы и README в artifacts/.../versustable-handoff/, перенос НЕ выполнен — правило 5k блокирует запись в чужой репозиторий из этой сессии). Находка по пути: в stores-comparison.json того же versustable тариф insales__professionalnyy (8330₽/мес) устарел — на живом insales.ru/signup сейчас 5 тарифов, не 6, \"Профессиональный\" снят. Открыто: перенос handoff-файлов в versustable + npm run dev должен сделать сессия, открытая в самом versustable (или явный PROJECT_OK от Ивана). Дальше по этой ветке — проектирование главной страницы на основе собранной навигации. | Перенос в versustable выполнен по явному ОК Ивана: коммит 20b5a4e на ветке feature/insales-vs-shopify-tariffs (не смёржено), страница /insales-vs-shopify проверена живьём на dev-сервере. | ВАЖНАЯ ПОПРАВКА к предыдущей строке: заявление 'страница проверена живьём' было по curl/HTTP, не по клику. Проверил playwright-кликом честно (правило 18f) — SSR-контент ОК (200, все тарифы видны), но React-острова (SidebarNav, QuickViewsApp) НЕ гидрируются: 'react-dom/client createRoot' resolution error, react-dom@19.2.7/pnpm. Баг ПРЕДСУЩЕСТВУЮЩИЙ в versustable (воспроизведён и на старой /payments-ru), не мой. Вся интерактивность в dev сейчас не работает сайт-widely. См. q-versustable-astro-quick-views-apps-versustable-vse. | 2026-09-12 19:45 WITA: вьюер навигации (artifacts/research/2026-09-12-competitor-nav-shopify-insales/index.html) починен — коммит 15de2c7, запушен в origin/homepage. Причина поломки на скриншоте Ивана: color-scheme был 'light dark', а цвета захардкожены под светлую тему → в тёмной системе белый текст на #f4f4f4 в неактивной кнопке и #333 описания на тёмном фоне. Переведено на CSS-переменные, три режима (светлая по умолчанию / тёмная / авто), выбор в localStorage. Плюс viewport-мета, экранирование кавычек в esc(), склонение 'страница/страницы/страниц', бейдж 'битая ссылка' на insales.ru/page/hosting, вывод keywords. Проверка playwright: 4 комбинации система×тема + реальный клик по переключателю источника в каждой + сохранение темы после reload; контраст 5.13–18.88:1; ошибок консоли ноль. Скриншоты /tmp/viewer-light.png, /tmp/viewer-dark.png, /tmp/badge-{light,dark}.png; скрипт проверки в скретчпаде viewer_check.mjs.",
+  "updated": "2026-09-12T23:27:47+08:00",
+  "status": "Ветка homepage, 2026-09-12 23:20 WITA (сессия 01B7q8iX, Fable): директива Ивана 23:16 — воронка главной «тариф → оплата Tribute.top/Polar.sh или промокод (частичная скидка / 100% = онбординг без оплаты) → существующий UI онбординга в стиле Medusa UI и страницы → всё на React Router 7 как envoicer → автотесты всех сценариев → приёмка». Выполнен п. 5 (объём): artifacts/docs/2026-09-12-homepage-funnel-scope.md (коммит fba83c7) — схема состояний v0, 6 инвариантов, 12 сценариев, WP0–WP8 с моделями, варианты A соло / B соло-гибрид / C архитектор → один воркер Sonnet → приёмщик (рекомендован) / D полная оркестрация; оценки в @upready/estimation: est-homepage-funnel-solo-2026-09-12 ($45.60–151.80, 150–400 ходов, 3–6 дней) и est-homepage-funnel-orch-2026-09-12 ($35.66–109.50). Правило 6 выполнено: verbatim-промпт artifacts/prompts/2026-09-12-ivan-directive-homepage-funnel.md, особенности ~/upready/specs/prompt-features/features/2026-09-12-upready-store-homepage-funnel.json (10, валидно). Память: ~/upready/memory/upready-store-homepage-funnel-scope-2026-09-12.md. Ключевые факты: существующий онбординг ТОЛЬКО на feat/mt-deploy (apps/storefront/src/app/start/onboarding/wizard.tsx, 3c1e8bc); Polar create-session принимает discount_id/metadata/success_url, ответ is_payment_required, вебхук order.paid, образец кода в envoicer api.checkout.ts + api.polar-webhook.ts; Tribute — Payment Links + Webhooks в индексе wiki.tribute.tg, промокоды только для подписок, поля вебхука не прочитаны (WP0). Реализация (п. 1–4) НЕ начата: гейты — детали стека от Ивана (обещаны), выбор варианта (q-homepage-funnel-variant), ключи Polar sandbox / Tribute API, q-homepage-funnel-promo-admin, q-homepage-funnel-acceptance-target. Превью старой страницы всё ещё http://localhost:4790/index.html.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -953,6 +953,24 @@
     {
       "id": "q-versustable-astro-quick-views-apps-versustable-vse",
       "question": "versustable (astro-quick-views/apps/versustable): ВСЕ React-острова (SidebarNav.tsx, QuickViewsApp.tsx) не гидрируются на dev-сервере — console error 'react-dom/client... does not provide an export named createRoot' (react-dom@19.2.7 через pnpm). Воспроизведено playwright-кликом на /payments-ru (существующая страница, до моих правок) и на новой /insales-vs-shopify — баг ПРЕДСУЩЕСТВУЮЩИЙ, не внесён этой сессией. Итог: вся интерактивность (фильтры, sidebar toggle, drawer) в dev-режиме сейчас сломана сайт-widely; SSR-контент отдаётся нормально (200, все данные видны). Не чинил — чужой проект, чинить не просили.",
+      "asked": "2026-09-12",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-homepage-funnel-variant",
+      "question": "Воронка главной (artifacts/docs/2026-09-12-homepage-funnel-scope.md, §5): какой вариант исполнения — A соло Fable, B соло-гибрид с фоновым Sonnet, C архитектор → один воркер Sonnet в Superset-workspace → отдельный приёмщик (рекомендован), D полная оркестрация? Для C нужен явный ок на оркестрацию (3b).",
+      "asked": "2026-09-12",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-homepage-funnel-promo-admin",
+      "question": "Промокоды воронки: кто и где их администрирует — файл/таблица на сервере без UI (по умолчанию, YAGNI) или экран в панели? Влияет на WP5.",
+      "asked": "2026-09-12",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-homepage-funnel-acceptance-target",
+      "question": "Куда онбординг воронки создаёт магазин при автотестах и приёмке — живой движок shipshift.dev (каждый проход = настоящий тенант, поддомен, см. q-demo-tenants-cleanup) или отдельный стенд/песочница?",
       "asked": "2026-09-12",
       "audience": "ivan"
     }
