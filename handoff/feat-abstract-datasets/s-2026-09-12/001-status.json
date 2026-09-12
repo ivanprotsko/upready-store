@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-abstract-datasets",
+  "session": "s-2026-09-12",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-12T13:04:46+08:00",
+  "status": "Оркестратор трека abstract (13:1x WITA, Fable): дефект приёмщика t-2026-09-12-seed-option-filter-duplicates починен на ветке — 944c5a5, засев берёт ОБЩУЮ опцию Size (шаг ensure-shared-product-options), замер на стенде с новым кодом: 1 группа фильтра на 6 товаров; стенд :9031 поднят до правки и watcher её не подхватил — перезапустить перед приёмкой. Деплой и приёмка на проде — за приёмщиком (21c)."
+}
