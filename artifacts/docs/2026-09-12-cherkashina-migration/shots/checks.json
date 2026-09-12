@@ -1,0 +1,187 @@
+{
+  "shot_at": "2026-09-12T02:59:48.596Z",
+  "base": "http://cherkashino.localhost:8043",
+  "product": {
+    "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+    "card_image_expected": "http://localhost:9033/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789180160555-08-1.png",
+    "pdp_default_expected": "http://localhost:9033/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789180153812-08.png"
+  },
+  "frames": [
+    {
+      "name": "home",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru",
+      "status": 200,
+      "file": "home-1280x900.png"
+    },
+    {
+      "name": "catalog",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/store",
+      "status": 200,
+      "file": "catalog-1280x900.png"
+    },
+    {
+      "name": "product-svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "status": 200,
+      "file": "product-svechi-asd-s-chesnokom-10-sht-cherkashino-1280x900.png"
+    },
+    {
+      "name": "page-contacts-ru",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/pages/contacts",
+      "status": 200,
+      "file": "page-contacts-ru-1280x900.png"
+    },
+    {
+      "name": "page-offer-ru",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/pages/offer",
+      "status": 200,
+      "file": "page-offer-ru-1280x900.png"
+    },
+    {
+      "name": "page-privacy-ru",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/pages/privacy",
+      "status": 200,
+      "file": "page-privacy-ru-1280x900.png"
+    },
+    {
+      "name": "page-about-ru",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/ru/pages/about",
+      "status": 200,
+      "file": "page-about-ru-1280x900.png"
+    },
+    {
+      "name": "page-about-en",
+      "viewport": "1280x900",
+      "url": "http://cherkashino.localhost:8043/en/pages/about",
+      "status": 200,
+      "file": "page-about-en-1280x900.png"
+    },
+    {
+      "name": "home",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru",
+      "status": 200,
+      "file": "home-390x844.png"
+    },
+    {
+      "name": "catalog",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/store",
+      "status": 200,
+      "file": "catalog-390x844.png"
+    },
+    {
+      "name": "product-svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "status": 200,
+      "file": "product-svechi-asd-s-chesnokom-10-sht-cherkashino-390x844.png"
+    },
+    {
+      "name": "page-contacts-ru",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/pages/contacts",
+      "status": 200,
+      "file": "page-contacts-ru-390x844.png"
+    },
+    {
+      "name": "page-offer-ru",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/pages/offer",
+      "status": 200,
+      "file": "page-offer-ru-390x844.png"
+    },
+    {
+      "name": "page-privacy-ru",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/pages/privacy",
+      "status": 200,
+      "file": "page-privacy-ru-390x844.png"
+    },
+    {
+      "name": "page-about-ru",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/ru/pages/about",
+      "status": 200,
+      "file": "page-about-ru-390x844.png"
+    },
+    {
+      "name": "page-about-en",
+      "viewport": "390x844",
+      "url": "http://cherkashino.localhost:8043/en/pages/about",
+      "status": 200,
+      "file": "page-about-en-390x844.png"
+    }
+  ],
+  "dom": {
+    "card": {
+      "found": true,
+      "card_img_src": "http://cherkashino.localhost:8043/_next/image?url=http%3A%2F%2Flocalhost%3A9033%2Fstatic%2Ftenants%2Ften_01M29Q4KYQHC70JZBENWZ8Z88M%2F1789180160555-08-1.png&w=640&q=65",
+      "product_links": 9,
+      "h1": "Заказ от 5 кг — скидка 10%",
+      "seen_on": "home"
+    },
+    "home": {
+      "h1": "Заказ от 5 кг — скидка 10%",
+      "hero_text": "Заказ от 5 кг — скидка 10%Берёте курс на семью или впрок? При весе посылки от 5 килограммов автоматически применяется ск",
+      "data_theme": "supplements",
+      "data_mode": "light",
+      "footer_pages": [
+        "/pages/contacts",
+        "/pages/about",
+        "/pages/privacy",
+        "/pages/offer"
+      ]
+    },
+    "catalog": {
+      "found": false,
+      "card_img_src": null,
+      "product_links": 12,
+      "h1": "Все товары"
+    },
+    "product": {
+      "h1": "Свечи АСД с чесноком",
+      "first_img_src": "http://cherkashino.localhost:8043/_next/image?url=http%3A%2F%2Flocalhost%3A9033%2Fstatic%2Ftenants%2Ften_01M29Q4KYQHC70JZBENWZ8Z88M%2F1789180153812-08.png&w=1920&q=75",
+      "img_count": 21
+    },
+    "page-contacts-ru": {
+      "h1": "Контакты и реквизиты",
+      "paragraphs": 43,
+      "html_lang": "ru"
+    },
+    "page-offer-ru": {
+      "h1": "Публичная оферта",
+      "paragraphs": 137,
+      "html_lang": "ru"
+    },
+    "page-privacy-ru": {
+      "h1": "Политика конфиденциальности",
+      "paragraphs": 125,
+      "html_lang": "ru"
+    },
+    "page-about-ru": {
+      "h1": "Черкашина Оксана",
+      "paragraphs": 19,
+      "html_lang": "ru"
+    },
+    "page-about-en": {
+      "h1": "Oksana Cherkashina",
+      "paragraphs": 19,
+      "html_lang": "en"
+    }
+  },
+  "verdict": {
+    "card_image_matches": true,
+    "card_seen_on": "home",
+    "pdp_default_matches": true,
+    "card_img_seen": "http://localhost:9033/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789180160555-08-1.png",
+    "pdp_first_img_seen": "http://localhost:9033/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789180153812-08.png"
+  }
+}

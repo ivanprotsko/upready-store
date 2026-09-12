@@ -1,0 +1,59 @@
+{
+  "measured_at": "2026-09-12 10:59 WITA",
+  "target": "postgres://ivanprotsko@127.0.0.1:5433/upready_store_cherkashina",
+  "tenant_id": "ten_01M29Q4KYQHC70JZBENWZ8Z88M",
+  "measures": {
+    "products": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product tp join product p on p.id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and p.deleted_at is null",
+      "value": 38
+    },
+    "products_by_status": {
+      "sql": "select p.status, count(*)::int as n from tenant_tenant_product_product tp join product p on p.id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and p.deleted_at is null group by p.status order by p.status",
+      "value": "draft 9, published 29"
+    },
+    "variants": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product tp join product_variant v on v.product_id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and v.deleted_at is null",
+      "value": 38
+    },
+    "categories": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product_category where tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M'",
+      "value": 9
+    },
+    "category_links": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product tp join product_category_product cp on cp.product_id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M'",
+      "value": 36
+    },
+    "images": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product tp join image i on i.product_id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and i.deleted_at is null",
+      "value": 313
+    },
+    "thumbnails": {
+      "sql": "select count(*)::int as n from tenant_tenant_product_product tp join product p on p.id = tp.product_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and p.deleted_at is null and p.thumbnail is not null",
+      "value": 33
+    },
+    "prices_by_currency": {
+      "sql": "select pr.currency_code, count(*)::int as n from tenant_tenant_product_product tp join product_variant v on v.product_id = tp.product_id join product_variant_price_set vps on vps.variant_id = v.id join price pr on pr.price_set_id = vps.price_set_id and pr.deleted_at is null where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and v.deleted_at is null group by pr.currency_code order by pr.currency_code",
+      "value": "eur 2, rub 38, usd 38"
+    },
+    "product_translations": {
+      "sql": "select count(*)::int as n from translation t join tenant_tenant_product_product tp on tp.product_id = t.reference_id where tp.tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and t.reference = 'product'",
+      "value": 6
+    },
+    "pages": {
+      "sql": "select locale, count(*)::int as n from tenant_page where tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M' and deleted_at is null group by locale order by locale",
+      "value": "en 1, ru 4"
+    },
+    "home": {
+      "sql": "select count(*)::int as n from tenant_home_config where tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M'",
+      "value": 1
+    },
+    "domains": {
+      "sql": "select count(*)::int as n from tenant_domain where tenant_id = 'ten_01M29Q4KYQHC70JZBENWZ8Z88M'",
+      "value": 0
+    },
+    "files_on_disk": {
+      "sql": "readdirSync(/Users/ivanprotsko/upready/worktrees/upready-store/feat/cherkashina-tenant/apps/backend/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M).length",
+      "value": 334
+    }
+  }
+}
