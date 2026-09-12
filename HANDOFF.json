@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-13T01:32:50+08:00",
-  "status": "Ветка homepage, 2026-09-13 01:32 WITA (сессия 01B7q8iX): порт лендинга L1 ПРИНЯТ Иваном глазами (5299 против 4790 — «да, всё совпадает»). Дефект ветки для PR: apps/homepage/port — член pnpm-workspace (apps/**), а pnpm-lock.yaml его не знает — pnpm install --frozen-lockfile под pnpm 10.11.1 падает ERR_PNPM_OUTDATED_LOCKFILE (Docker-сборки живы: COPY только backend/storefront package.json). Рекомендация: исключить apps/homepage/** из workspace (или importer + COPY в оба Dockerfile), затем gh pr create --base dev и закрыть ветку; воронка WP0–WP8 — новая задача (создаёт Иван, 22j), база по решению о линии MT. Открыто: q-homepage-funnel-variant, стек RR7; O3 уходит в ветку воронки. Задачи t-2026-09-12-homepage-funnel в HANDOFF нет — id в коммитах лишь метка.",
+  "updated": "2026-09-13T01:42:38+08:00",
+  "status": "Ветка homepage, 2026-09-13 01:42 WITA (сессия 01B7q8iX): порт L1 принят Иваном глазами; фикс монорепо закоммичен 252b82d — apps/homepage/** исключён из корневого workspace, порт — свой pnpm-корень (pnpm-workspace.yaml packages: [] + pnpm-lock.yaml; .npmrc ignore-workspace pnpm 10 не читает); замер pnpm 10.11.1: корневой frozen-lockfile rc=0, tsc/build чистые, full-page diff после переустановки 0.0003. PR #1 открыт в dev по s8: https://github.com/ivanprotsko/upready-store/pull/1 — слияние за Иваном (gh pr merge 1 --squash --delete-branch). Воронка WP0–WP8 — новая задача (создаёт Иван), база по решению о линии MT; открыто q-homepage-funnel-variant, стек RR7; O3 уходит в ветку воронки.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
