@@ -152,6 +152,16 @@ export type SeedPlan = {
   mediaBase: string;
   categories: SeedPlanCategory[];
   collections: { handle: string; sourceHandle: string; title: string }[];
+  /**
+   * The options the products choose from, in the dataset's own order. A product option is a
+   * SHARED library row in Medusa 2.19 (`is_exclusive = false`, title unique across the
+   * database): the seed joins the existing row and contributes its values, exactly as the
+   * profile seed does (`lib/products.ts` `seedProductOptions`). Options created inline with a
+   * product are exclusive to it, and the storefront groups its filters by option id — six
+   * sized products then showed six "Size" selects on `/store` (measured 2026-09-12 on the
+   * wizard's shop, task t-2026-09-12-seed-option-filter-duplicates).
+   */
+  sharedOptions: { title: string; values: string[] }[];
   products: SeedPlanProduct[];
   heroImageUrl: string | null;
 };
@@ -241,12 +251,20 @@ export const buildSeedPlan = (dataset: AbstractDataset, { tenantHandle, mediaBas
     };
   });
 
+  // Only options some product actually uses, so a declared-but-unused option never lands in
+  // the shared library on a tenant's behalf.
+  const usedOptionTitles = new Set(products.flatMap((product) => product.options));
+  const sharedOptions = options
+    .filter((option) => usedOptionTitles.has(option.title))
+    .map((option) => ({ title: option.title, values: option.values.map((v) => v.value) }));
+
   return {
     datasetId: id,
     tenantHandle,
     mediaBase,
     categories: categories.map(planCategory),
     collections: planCollections,
+    sharedOptions,
     products: planProducts,
     heroImageUrl: heroRef ? url(heroRef) : null,
   };

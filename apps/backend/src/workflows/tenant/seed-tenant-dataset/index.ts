@@ -1,6 +1,6 @@
 import type { CreateProductWorkflowInputDTO } from "@medusajs/framework/types";
 import { MedusaError, Modules } from "@medusajs/framework/utils";
-import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import { createStep, createWorkflow, StepResponse, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
 import {
   createCollectionsWorkflow,
   createProductCategoriesWorkflow,
@@ -17,6 +17,53 @@ export type SeedTenantDatasetWorkflowInput = {
   shipping_profile_id: string;
   plan: SeedPlan;
 };
+
+/** Medusa's own name for the option a single-variant product gets when it has none. */
+const DEFAULT_OPTION_TITLE = "Default option";
+
+/**
+ * Find-or-join the SHARED library option for every option the plan's products choose from,
+ * contributing the plan's values (the UNION with what is there — `updateProductOptions`
+ * replaces the value set, and a value another shop's variants use must survive). Mirrors
+ * `seedProductOptions` in `migration-scripts/lib/products.ts`, the path the seeded shops on
+ * prod took, where one "Size" filter stands on `/store`.
+ *
+ * No compensation: a library row is global and idempotent (find-or-create by title), and
+ * removing it on a later failure would take the values other shops already use.
+ */
+const ensureSharedProductOptionsStep = createStep(
+  "ensure-shared-product-options",
+  async (input: { options: { title: string; values: string[] }[] }, { container }) => {
+    const optionIdsByTitle: Record<string, string> = {};
+    if (!input.options.length) return new StepResponse({ option_ids_by_title: optionIdsByTitle });
+
+    const productModuleService = container.resolve(Modules.PRODUCT);
+    const existing = (
+      await productModuleService.listProductOptions(
+        { title: input.options.map((option) => option.title) },
+        { relations: ["values"] },
+      )
+    ).filter((option) => option.is_exclusive === false);
+    const existingByTitle = new Map(existing.map((option) => [option.title, option]));
+
+    for (const option of input.options) {
+      const shared = existingByTitle.get(option.title);
+      if (!shared) {
+        const [created] = await productModuleService.createProductOptions([{ title: option.title, values: option.values }]);
+        optionIdsByTitle[option.title] = created.id;
+        continue;
+      }
+      const have = (shared.values ?? []).map((optionValue) => optionValue.value);
+      const seen = new Set(have);
+      const added = option.values.filter((value) => !seen.has(value));
+      if (added.length) {
+        await productModuleService.updateProductOptions(shared.id, { values: [...have, ...added] });
+      }
+      optionIdsByTitle[option.title] = shared.id;
+    }
+    return new StepResponse({ option_ids_by_title: optionIdsByTitle });
+  },
+);
 
 /**
  * Gives one tenant its own copy of an abstract dataset (specs/catalog-taxonomy/ABSTRACT-DATASETS.md
@@ -74,8 +121,12 @@ const seedTenantDatasetWorkflow = createWorkflow(
     }));
     const collections = createCollectionsWorkflow.runAsStep({ input: collectionsInput });
 
-    // 5. products, filed under their leaf and collection, on the tenant's channel
-    const productsInput = transform({ input, leaves, collections }, ({ input, leaves, collections }) => {
+    // 5. the shared library options the products choose from (one "Size" row for everyone)
+    const sharedOptionsInput = transform({ input }, ({ input }) => ({ options: input.plan.sharedOptions }));
+    const sharedOptions = ensureSharedProductOptionsStep(sharedOptionsInput);
+
+    // 6. products, filed under their leaf and collection, on the tenant's channel
+    const productsInput = transform({ input, leaves, collections, sharedOptions }, ({ input, leaves, collections, sharedOptions }) => {
       const leafIdBySource = new Map<string, string>();
       for (const leaf of leaves as { id: string; handle: string }[]) {
         const source = input.plan.categories.flatMap((r) => r.children).find((c) => c.handle === leaf.handle);
@@ -110,7 +161,20 @@ const seedTenantDatasetWorkflow = createWorkflow(
           shipping_profile_id: input.shipping_profile_id,
           images: product.images.map((url) => ({ url })),
           thumbnail: product.thumbnail,
-          options: product.options,
+          // A real option is referenced by the shared row's id (title/values inline would mint
+          // a private, exclusive copy per product); Medusa's placeholder option stays inline,
+          // as it is private to a single-variant product by design.
+          options: product.options.map((option) => {
+            if (option.title === DEFAULT_OPTION_TITLE) return option;
+            const optionId = sharedOptions.option_ids_by_title[option.title];
+            if (!optionId) {
+              throw new MedusaError(
+                MedusaError.Types.UNEXPECTED_STATE,
+                `seed-tenant-dataset: product "${product.sourceHandle}" uses option "${option.title}", which the plan's sharedOptions does not list.`,
+              );
+            }
+            return { id: optionId };
+          }),
           variants: product.variants,
           sales_channels: [{ id: input.sales_channel_id }],
         };

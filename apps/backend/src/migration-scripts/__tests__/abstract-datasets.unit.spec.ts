@@ -64,6 +64,16 @@ describe("abstract datasets", () => {
     expect(plan.collections.map((c) => c.handle)).toEqual(["new-arrivals-nochlavka", "bestsellers-nochlavka"]);
     expect(plan.heroImageUrl).toBe("https://shipshift.dev/static/store-profiles/abstract/home-hero.webp");
 
+    // One shared "Size" for the whole shop (t-2026-09-12-seed-option-filter-duplicates): every
+    // sized product names it by title, and the plan lists it once for the library step.
+    expect(plan.sharedOptions).toEqual([{ title: "Size", values: ["Small", "Medium", "Large"] }]);
+    const sized = plan.products.filter((p) => p.options.some((o) => o.title === "Size"));
+    expect(sized).toHaveLength(6);
+    for (const product of sized) {
+      expect(product.options).toEqual([{ title: "Size", values: ["Small", "Medium", "Large"] }]);
+      expect(product.variants.map((v) => v.options.Size)).toEqual(["Small", "Medium", "Large"]);
+    }
+
     for (const product of plan.products) {
       expect(product.handle).toBe(scopedHandle(product.sourceHandle, "nochlavka"));
       expect(product.thumbnail).toMatch(/^https:\/\/shipshift\.dev\/static\/store-profiles\/abstract\/[a-z0-9-]+\.webp$/);
