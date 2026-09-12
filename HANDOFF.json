@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-13T00:42:57+08:00",
-  "status": "Ветка homepage, 2026-09-13 00:42 WITA (сессия 01B7q8iX): перенос лендинга — Workflow wf_6a55005f-f87: scaffold прошёл гейт (16 эталонов), все 16 секций завершены (4 done ≤2 %, 12 partial 2.4–6.2 %, failed 0), merger (Opus) работает, REPORT.md ещё нет; после него — проверка в браузере, коммит apps/homepage/port, приёмка Ивана (vite --port 5299 против python http.server 4790). Попутно починен smoke-гвард 19c (правка сабагента ≠ правка родителя; канон видит subagents/workflows/<run>/) — коммит 80f9a165 в ~/.claude, aie-20260913-004029-4321; pr-flow-guard ложно бил git merge-base — aie-20260913-003306-af5c, не чинил. Открыто для Ивана: судьба линии MT (feat/mt-deploy 165 коммитов вне dev: PR в dev или вторая база) и q-homepage-funnel-variant",
+  "updated": "2026-09-13T01:06:56+08:00",
+  "status": "Ветка homepage, 2026-09-13 01:06 WITA (сессия 01B7q8iX): порт лендинга L1 завершён — workflow wf_6a55005f-f87 18/18, полная страница diffPct 0.0003 (перепроверено соло, 1440×5813), tsc чистый, порт закоммичен 6663050 (133 файла, PNG-фикстуры вне репо). Открыто: O3 — переносить ли модалки оплаты/админа и админ-панель (без них гейтованные секции невидимы, как на легаси); приёмка Ивана глазами 5299 против 4790; судьба линии MT (feat/mt-deploy 165 коммитов вне dev); q-homepage-funnel-variant; стек RR7. Воронка п.1–4 не начата.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
