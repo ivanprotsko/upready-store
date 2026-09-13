@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Прототип главной upready — герой с циклом слов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- токены (палитра порта = Geist light) ---------- */
+  :root {
+    --bg: #fafafa; --paper: #fff; --fg: #18181b; --muted: #52525b; --faint: #8f8f8f;
+    --line: #e4e4e7; --secondary: #f4f4f5; --link: #2563eb; --mark: rgba(37, 99, 235, .14);
+    --mark-strong: rgba(37, 99, 235, .28); --green: #17803d; --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
+    --pad-x: clamp(20px, 4vw, 56px);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  h1, h2, h3, p, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { color: var(--fg); }
+  ::selection { background: var(--fg); color: #fff; }
+  .mono { font-family: "Roboto Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .eyebrow { font-family: "Roboto Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+
+  /* ---------- хром страницы (как в порте) ---------- */
+  .page { min-height: 100vh; }
+  .bar { position: sticky; top: 0; z-index: 40; height: 60px; background: rgba(250,250,250,.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .bar-in { max-width: 1280px; margin: 0 auto; height: 100%; background: rgba(255,255,255,.5); border-left: 1px solid var(--line); border-right: 1px solid var(--line); padding: 0 var(--pad-x); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { font-size: 15.5px; font-weight: 600; letter-spacing: -.02em; color: var(--fg); }
+  .nav { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+  .nav a { color: var(--muted); }
+  .nav a:hover { color: var(--fg); }
+  .nav .btn { height: 36px; padding: 0 14px; font-size: 13.5px; }
+  .container { max-width: 1280px; margin: 0 auto; background: var(--paper); border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  section { padding: clamp(48px, 6vw, 88px) var(--pad-x); border-top: 1px solid var(--line); }
+  section:first-child { border-top: 0; }
+  h2 { font-size: clamp(26px, 3vw, 38px); font-weight: 600; letter-spacing: -.035em; line-height: 1.08; max-width: 22ch; }
+  .sub { font-size: clamp(15px, 1.4vw, 17px); color: var(--muted); max-width: 620px; margin-top: 14px; }
+  .head { display: flex; flex-direction: column; gap: 8px; margin-bottom: clamp(28px, 3vw, 44px); }
+
+  .btn { display: inline-flex; align-items: center; gap: 9px; height: 48px; padding: 0 22px; border-radius: var(--r-md); background: var(--fg); color: #fff; font-size: 14.5px; font-weight: 600; letter-spacing: -.01em; box-shadow: rgba(24,24,27,.24) 0 1px 2px; transition: background .15s; white-space: nowrap; }
+  .btn:hover { background: #3f3f46; color: #fff; }
+  .btn svg { width: 15px; height: 15px; }
+  .textlink { font-size: 14.5px; font-weight: 500; color: var(--muted); }
+  .textlink:hover { color: var(--fg); }
+
+  /* ---------- герой ---------- */
+  .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4vw, 64px); align-items: center; padding-top: clamp(52px, 7vw, 84px); }
+  .h1 { font-size: clamp(34px, 4.6vw, 58px); font-weight: 600; letter-spacing: -.04em; line-height: 1.04; max-width: 16ch; }
+  .w { position: relative; display: inline-block; padding: 0 .06em; margin: 0 -.06em; border-radius: 6px; transition: background-color .25s var(--ease), color .25s var(--ease); cursor: default; outline: none; }
+  .w::after { content: ""; position: absolute; left: .06em; right: .06em; bottom: -.04em; height: 2px; background: var(--fg); transform: scaleX(0); transform-origin: left; }
+  .w.is-on { background: var(--mark); }
+  .w.is-on::after { animation: fill 4s linear forwards; }
+  .hero.is-pinned .w.is-on::after { animation: none; transform: scaleX(1); }
+  .w:focus-visible { box-shadow: 0 0 0 2px rgba(135,135,135,.5); }
+  @keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .lead { margin-top: 22px; font-size: clamp(15px, 1.5vw, 17.5px); line-height: 1.6; color: var(--muted); max-width: 560px; }
+  .cta-row { display: flex; align-items: center; gap: 20px; margin-top: 28px; flex-wrap: wrap; }
+  .micro { margin-top: 14px; font-size: 13px; color: var(--faint); }
+
+  .panel { position: relative; }
+  .cap { font-size: 13.5px; color: var(--muted); min-height: 2.6em; margin-bottom: 10px; transition: opacity .25s; }
+  .stage { position: relative; aspect-ratio: 4 / 3; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg); overflow: hidden; }
+  .ill { position: absolute; inset: 0; opacity: 0; transition: opacity .25s var(--ease); pointer-events: none; padding: 20px; }
+  .ill.is-on { opacity: 1; pointer-events: auto; }
+  .ex { position: absolute; right: 12px; bottom: 8px; font-size: 10px; color: var(--faint); }
+
+  /* мини-окно */
+  .win { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.05); overflow: hidden; }
+  .win-bar { height: 26px; display: flex; align-items: center; gap: 6px; padding: 0 10px; border-bottom: 1px solid var(--line); background: var(--secondary); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .addr { margin-left: 8px; flex: 1; height: 16px; border-radius: 4px; background: var(--paper); border: 1px solid var(--line); font-size: 10px; display: flex; align-items: center; gap: 5px; padding: 0 7px; color: var(--muted); }
+  .addr svg { width: 9px; height: 9px; }
+
+  /* ill 0 — один магазин, любой вид */
+  .store { padding: 10px; transition: background .5s var(--ease), color .5s var(--ease); }
+  .s-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .s-logo { width: 46px; height: 8px; border-radius: 3px; background: currentColor; opacity: .85; }
+  .s-nav { display: flex; gap: 6px; }
+  .s-nav i { display: block; width: 22px; height: 6px; border-radius: 3px; background: currentColor; opacity: .25; }
+  .s-banner { height: 54px; border-radius: 6px; background: var(--secondary); display: flex; align-items: center; padding: 0 12px; gap: 8px; transition: all .5s var(--ease); }
+  .s-banner b { display: block; width: 90px; height: 8px; border-radius: 3px; background: currentColor; opacity: .8; }
+  .s-banner i { display: block; width: 46px; height: 6px; border-radius: 3px; background: currentColor; opacity: .35; margin-top: 5px; }
+  .s-badge { margin-left: auto; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 999px; background: var(--fg); color: #fff; opacity: 0; transform: translateY(4px); transition: all .5s var(--ease); }
+  .s-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; transition: all .5s var(--ease); }
+  .s-tile { border-radius: 6px; border: 1px solid var(--line); padding: 6px; }
+  .s-tile .img { height: 34px; border-radius: 4px; background: var(--secondary); }
+  .s-tile .t1 { width: 70%; height: 5px; margin-top: 6px; border-radius: 3px; background: currentColor; opacity: .7; }
+  .s-tile .t2 { width: 40%; height: 5px; margin-top: 4px; border-radius: 3px; background: currentColor; opacity: .35; }
+  .s-tile:nth-child(4) { display: none; }
+  /* вид B — тёмный */
+  .store.look-b { background: #18181b; color: #fafafa; }
+  .store.look-b .s-banner { background: #27272a; }
+  .store.look-b .s-tile { border-color: #3f3f46; }
+  .store.look-b .s-tile .img { background: #27272a; }
+  .store.look-b .s-badge { opacity: 1; transform: none; background: #fafafa; color: #18181b; }
+  /* вид C — акцентный баннер, четыре плитки */
+  .store.look-c .s-banner { background: var(--link); color: #fff; justify-content: center; }
+  .store.look-c .s-banner i { display: none; }
+  .store.look-c .s-badge { opacity: 1; transform: none; background: #fff; color: var(--link); margin-left: 8px; }
+  .store.look-c .s-grid { grid-template-columns: repeat(4, 1fr); }
+  .store.look-c .s-tile:nth-child(4) { display: block; }
+  .chat { position: absolute; right: 22px; bottom: 26px; width: 62%; display: flex; flex-direction: column; gap: 6px; }
+  .bub { max-width: 100%; padding: 8px 11px; border-radius: 12px; font-size: 12px; line-height: 1.35; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.08); }
+  .bub.me { align-self: flex-end; background: var(--fg); color: #fff; border-bottom-right-radius: 4px; }
+  .bub.ai { align-self: flex-start; background: var(--paper); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .bub.ai u { text-decoration: none; color: var(--link); font-weight: 500; margin-left: 6px; }
+
+  /* ill 1 — только ваши записи */
+  .log { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .log-h { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; }
+  .log-h span { font-weight: 400; color: var(--faint); font-size: 11px; }
+  .row { display: grid; grid-template-columns: 46px 1fr auto; gap: 10px; align-items: center; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; }
+  .row:last-child { border-bottom: 0; }
+  .row .d { color: var(--faint); font-size: 11px; }
+  .row .t small { display: block; color: var(--faint); font-size: 10.5px; margin-top: 1px; }
+  .row .u { color: var(--link); font-size: 11.5px; white-space: nowrap; }
+  .row .u.done { color: var(--green); }
+  .mp { position: relative; margin-top: 14px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 10px; background: var(--secondary); font-size: 12px; color: var(--muted); }
+  .mp b { display: block; font-size: 10.5px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
+  .mp::after { content: ""; position: absolute; left: 6px; right: 6px; top: 50%; height: 1px; background: var(--fg); transform: rotate(-3deg); opacity: .55; }
+  .mp-cap { font-size: 11px; color: var(--faint); margin-top: 6px; }
+
+  /* ill 2 — свой адрес, свои покупатели, свои данные */
+  .plates { display: grid; gap: 8px; padding: 12px; }
+  .plate { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: end; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+  .plate .k { font-size: 11px; color: var(--faint); }
+  .plate .v { font-size: 18px; font-weight: 600; letter-spacing: -.02em; font-family: "Roboto Mono", monospace; font-variant-numeric: tabular-nums; }
+  .plate .v small { font-family: Inter, sans-serif; font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 6px; }
+  .plate .a { font-size: 11.5px; color: var(--link); }
+
+  /* ---------- три слова на деле ---------- */
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
+  .three h3 { font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
+  .three h3 small { display: block; font-size: 13px; font-weight: 500; color: var(--faint); letter-spacing: 0; margin-top: 2px; }
+  .three ul { margin-top: 14px; display: grid; gap: 10px; }
+  .three li { font-size: 14.5px; line-height: 1.5; color: var(--muted); padding-left: 16px; position: relative; }
+  .three li::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--fg); }
+
+  /* ---------- почему сейчас ---------- */
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .fact { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; }
+  .fact .n { font-family: "Roboto Mono", monospace; font-variant-numeric: tabular-nums; font-size: clamp(28px, 3vw, 40px); font-weight: 500; letter-spacing: -.03em; line-height: 1; }
+  .fact .n sup { font-size: 12px; color: var(--faint); margin-left: 4px; }
+  .fact p { margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .close { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .close p { font-size: 17px; font-weight: 500; letter-spacing: -.01em; max-width: 560px; }
+  .foot { margin-top: 18px; font-size: 11.5px; color: var(--faint); line-height: 1.6; }
+  .foot a { color: var(--faint); text-decoration: underline; text-decoration-color: var(--line); }
+
+  /* ---------- как это работает ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+  .step { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; counter-increment: s; }
+  .step::before { content: counter(s, decimal-leading-zero); font-family: "Roboto Mono", monospace; font-size: 11px; color: var(--faint); }
+  .step h3 { font-size: 17px; font-weight: 600; letter-spacing: -.015em; margin-top: 8px; }
+  .step p { margin-top: 8px; font-size: 14px; color: var(--muted); }
+  .then { margin-top: 16px; font-size: 15px; color: var(--muted); }
+  .then b { color: var(--fg); font-weight: 600; }
+
+  /* ---------- примеры ---------- */
+  .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+  .card { display: block; color: var(--fg); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: var(--paper); transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.06); color: var(--fg); }
+  .shot { aspect-ratio: 4 / 5; background: var(--secondary) center top / cover no-repeat; border-bottom: 1px solid var(--line); }
+  .card .b { padding: 12px 14px 14px; }
+  .card .b .eyebrow { display: block; margin-bottom: 4px; }
+  .card .b b { font-size: 14.5px; font-weight: 600; letter-spacing: -.01em; }
+
+  /* ---------- тарифы ---------- */
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 900px; }
+  .plan { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px; display: flex; flex-direction: column; gap: 14px; }
+  .plan .price { font-size: 34px; font-weight: 600; letter-spacing: -.03em; line-height: 1; font-family: "Roboto Mono", monospace; font-variant-numeric: tabular-nums; }
+  .plan .price small { font-family: Inter, sans-serif; font-size: 13px; font-weight: 400; color: var(--faint); margin-left: 8px; letter-spacing: 0; }
+  .plan p { font-size: 14.5px; color: var(--muted); flex: 1; }
+  .plan .btn { align-self: flex-start; }
+  .pro { margin-top: 18px; font-size: 14px; color: var(--muted); }
+
+  /* ---------- вопросы ---------- */
+  .qa { max-width: 760px; display: grid; }
+  .qa details { border-top: 1px solid var(--line); }
+  .qa details:last-child { border-bottom: 1px solid var(--line); }
+  .qa summary { list-style: none; cursor: pointer; padding: 16px 0; font-size: 16px; font-weight: 500; letter-spacing: -.01em; display: flex; justify-content: space-between; gap: 16px; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::after { content: "+"; color: var(--faint); font-weight: 400; }
+  .qa details[open] summary::after { content: "–"; }
+  .qa p { padding: 0 0 18px; font-size: 14.5px; color: var(--muted); max-width: 640px; }
+
+  /* ---------- финал / подвал ---------- */
+  .final { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .final h2 { max-width: 18ch; }
+  .final .sub { margin-top: 0; text-align: center; }
+  .final .cta-row { margin-top: 10px; justify-content: center; }
+  footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 26px var(--pad-x); border-top: 1px solid var(--line); font-size: 13px; color: var(--faint); }
+  footer a { color: var(--muted); }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1024px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .three, .facts, .steps { grid-template-columns: 1fr; } .h1 { max-width: 18ch; } }
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; }
+    .nav a:not(.btn) { display: none; }
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .plans { grid-template-columns: 1fr; }
+    .cap { min-height: 4em; }              /* подпись в три строки — герой не прыгает */
+    .chat { width: 76%; right: 16px; bottom: 18px; }
+    .bub { font-size: 11px; padding: 7px 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .w.is-on::after { animation: none; transform: scaleX(1); }
+    .ill, .cap, .store, .s-banner, .s-grid { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="bar"><div class="bar-in">
+    <a class="logo" href="#">Upready</a>
+    <nav class="nav">
+      <a href="#plans">Тарифы</a><a href="#examples">Примеры</a><a href="#faq">Вопросы</a>
+      <a class="btn" href="#plans">Создать магазин</a>
+    </nav>
+  </div></div>
+
+  <div class="container">
+
+    <!-- 1. герой -->
+    <section class="hero" id="hero">
+      <div>
+        <h1 class="h1" id="h1"></h1>
+        <p class="lead" id="lead">Свой интернет-магазин на открытом движке. Вы решаете, что в нём есть, правила в нём не меняются без вас, а покупатели и данные остаются вашими.</p>
+        <div class="cta-row">
+          <a class="btn" href="#plans">Создать магазин <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <a class="textlink" href="#examples">Посмотреть примеры</a>
+        </div>
+        <p class="micro">От 4 900 ₽ · три экрана до открытой витрины</p>
+      </div>
+
+      <div class="panel">
+        <div class="cap" id="cap" aria-live="polite"></div>
+        <div class="stage" id="stage">
+
+          <!-- 0 · свобода -->
+          <div class="ill" data-ill="0">
+            <div class="win">
+              <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>вашбренд.ru</div></div>
+              <div class="store look-a" id="store">
+                <div class="s-head"><i class="s-logo"></i><div class="s-nav"><i></i><i></i><i></i></div></div>
+                <div class="s-banner"><div><b></b><i></i></div><span class="s-badge">−20 %</span></div>
+                <div class="s-grid">
+                  <div class="s-tile"><div class="img"></div><div class="t1"></div><div class="t2"></div></div>
+                  <div class="s-tile"><div class="img"></div><div class="t1"></div><div class="t2"></div></div>
+                  <div class="s-tile"><div class="img"></div><div class="t1"></div><div class="t2"></div></div>
+                  <div class="s-tile"><div class="img"></div><div class="t1"></div><div class="t2"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="chat">
+              <div class="bub me">Сделай тёмную тему и баннер со скидкой</div>
+              <div class="bub ai">Готово.<u>↶ вернуть прежний вид</u></div>
+            </div>
+          </div>
+
+          <!-- 1 · стабильность -->
+          <div class="ill" data-ill="1">
+            <div class="log">
+              <div class="log-h">Журнал изменений <span>вашбренд.ru</span></div>
+              <div class="row"><span class="d mono">12 сен</span><span class="t">Тема «Графит», тёмная<small>вы · оформление</small></span><a class="u" href="#hero">↶ вернуть</a></div>
+              <div class="row"><span class="d mono">9 сен</span><span class="t">Баннер «Осень −20 %»<small>вы · главная</small></span><a class="u" href="#hero">↶ вернуть</a></div>
+              <div class="row"><span class="d mono">3 сен</span><span class="t">Цена «Куртка Nord» 8 900 → 7 900 ₽<small>вы · каталог</small></span><span class="u done">возвращено</span></div>
+              <div class="row"><span class="d mono">28 авг</span><span class="t">Шрифты Inter → Rubik<small>вы · оформление</small></span><a class="u" href="#hero">↶ вернуть</a></div>
+            </div>
+            <div class="mp"><b>Маркетплейс · уведомление</b>Условия сотрудничества изменились. Новая редакция вступает в силу с 1-го числа.</div>
+            <div class="mp-cap">не про ваш магазин</div>
+            <span class="ex">пример</span>
+          </div>
+
+          <!-- 2 · независимость -->
+          <div class="ill" data-ill="2">
+            <div class="win">
+              <div class="win-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>вашбренд.ru — панель владельца</div></div>
+              <div class="plates">
+                <div class="plate"><div><div class="k">Покупатели</div><div class="v">1 248<small>контактов в вашей базе</small></div></div><a class="a" href="#hero">выгрузить</a></div>
+                <div class="plate"><div><div class="k">Заказы и выручка</div><div class="v">318<small>за месяц · на ваш счёт</small></div></div><a class="a" href="#hero">экспорт</a></div>
+                <div class="plate"><div><div class="k">Каталог и данные</div><div class="v">312<small>товаров · открытый движок Medusa</small></div></div><a class="a" href="#hero">забрать целиком</a></div>
+              </div>
+            </div>
+            <span class="ex">пример</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. три слова на деле -->
+    <section id="words">
+      <div class="head"><span class="eyebrow">Три слова на деле</span><h2>Что каждое слово значит для вашего магазина</h2></div>
+      <div class="three">
+        <div>
+          <h3>Свобода<small>своё содержание и свой вид</small></h3>
+          <ul>
+            <li>Вид магазина — настройка, а не код: сотни готовых вариантов блоков, темы и шрифты меняются в панели или одной фразой в чате.</li>
+            <li>Фото товара — из описания: изображения генерируются прямо в панели, каждая попытка сохраняется.</li>
+            <li>Продавайте не только коробки: цифровые товары и курсы уходят покупателю без доставки.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Стабильность<small>свои правила</small></h3>
+          <ul>
+            <li>Цены, комиссии и правила вашего магазина меняете только вы. Ни оферты, ни штрафов, ни «с первого числа».</li>
+            <li>Каждое изменение оформления записано, и любую прошлую версию можно вернуть одним нажатием.</li>
+            <li>Открытый движок Medusa: магазин не зависит от одного поставщика и не выключается по чужому решению.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Независимость<small>свой покупатель и свои деньги</small></h3>
+          <ul>
+            <li>Свой домен и постоянный адрес магазина.</li>
+            <li>Контакты и история заказов покупателей лежат в вашей базе, а не в чужом кабинете.</li>
+            <li>Экспорт каталога и заказов — в любой момент, целиком.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. почему сейчас -->
+    <section id="why">
+      <div class="head"><span class="eyebrow">Почему сейчас</span><h2>Маркетплейс меняет правила за вас</h2></div>
+      <div class="facts">
+        <div class="fact"><div class="n">12<sup>1</sup></div><p>раз за первое полугодие 2026 года менялась оферта продавца Wildberries.</p></div>
+        <div class="fact"><div class="n">95,6 %<sup>2</sup></div><p>опрошенных продавцов Wildberries не получили выплату в срок — около 20 млрд ₽ за одну неделю продаж.</p></div>
+        <div class="fact"><div class="n">13,6 %<sup>3</sup></div><p>продавцов Wildberries имеют хоть какие-то продажи в топ-500 ниш — год назад было 20,3 %.</p></div>
+      </div>
+      <div class="close">
+        <p>Свой магазин — единственный канал продаж, который остаётся вашим при любом сценарии.</p>
+        <a class="btn" href="#plans">Создать магазин</a>
+      </div>
+      <p class="foot">¹ CNews, 01.07.2026 — <a href="https://www.cnews.ru/news/top/2026-07-01_eto_vashi_problemywildberries" target="_blank" rel="noopener">cnews.ru</a> · ² Коммерсантъ, 03.09.2026 — <a href="https://www.kommersant.ru/doc/8938421" target="_blank" rel="noopener">kommersant.ru</a> · ³ CNews по данным Forbes и MPSTATS, 22.05.2026 — <a href="https://www.cnews.ru/news/top/2026-05-22_zarabatyvat_na_wildberries_stalo" target="_blank" rel="noopener">cnews.ru</a></p>
+    </section>
+
+    <!-- 4. как это работает -->
+    <section id="how">
+      <div class="head"><span class="eyebrow">Как это работает</span><h2>Три экрана — и витрина открыта</h2></div>
+      <div class="steps">
+        <div class="step"><h3>Название и адрес</h3><p>Пишете имя магазина — адрес подбирается сам. Свой домен подключается позже, в панели.</p></div>
+        <div class="step"><h3>Доступ владельца</h3><p>Почта и пароль — это вход в вашу панель управления.</p></div>
+        <div class="step"><h3>Оформление</h3><p>Семь тем, светлая или тёмная. Магазин открывается с каталогом-заготовкой, который вы заменяете своим.</p></div>
+      </div>
+      <p class="then"><b>Дальше</b> — товары, цены, доставка и оплата: в панели или одной фразой в чате.</p>
+    </section>
+
+    <!-- 5. примеры -->
+    <section id="examples">
+      <div class="head"><span class="eyebrow">Примеры</span><h2>Пять витрин на том же движке</h2><p class="sub">Разные тема, шрифты и фотография — движок один. Откройте любую.</p></div>
+      <div class="cards">
+        <a class="card" href="https://ferrite.upready.dev/" target="_blank" rel="noopener"><div class="shot" style="background-image:url(../../apps/homepage/port/public/showcase/electronics.jpg)"></div><div class="b"><span class="eyebrow">Электроника</span><b>Магазин наушников</b></div></a>
+        <a class="card" href="https://larchant.upready.dev/" target="_blank" rel="noopener"><div class="shot" style="background-image:url(../../apps/homepage/port/public/showcase/fashion.jpg)"></div><div class="b"><span class="eyebrow">Одежда</span><b>Магазин одежды</b></div></a>
+        <a class="card" href="https://long-morning.upready.dev/" target="_blank" rel="noopener"><div class="shot" style="background-image:url(../../apps/homepage/port/public/showcase/home.jpg)"></div><div class="b"><span class="eyebrow">Дом</span><b>Товары для дома</b></div></a>
+        <a class="card" href="https://scruple.upready.dev/" target="_blank" rel="noopener"><div class="shot" style="background-image:url(../../apps/homepage/port/public/showcase/supplements.jpg)"></div><div class="b"><span class="eyebrow">БАД</span><b>Магазин добавок</b></div></a>
+        <a class="card" href="https://kerbstone.upready.dev/" target="_blank" rel="noopener"><div class="shot" style="background-image:url(../../apps/homepage/port/public/showcase/sneakers.jpg)"></div><div class="b"><span class="eyebrow">Обувь</span><b>Магазин кроссовок</b></div></a>
+      </div>
+    </section>
+
+    <!-- 6. тарифы -->
+    <section id="plans">
+      <div class="head"><span class="eyebrow">Тарифы</span><h2>Два тарифа. Цена та же, что в кассе</h2></div>
+      <div class="plans">
+        <div class="plan"><span class="eyebrow">Старт</span><div class="price">4 900 ₽<small>разово</small></div><p>До 50 товаров, один язык витрины, домен третьего уровня.</p><a class="btn" href="#">Выбрать «Старт»</a></div>
+        <div class="plan"><span class="eyebrow">Бизнес</span><div class="price">9 900 ₽<small>разово</small></div><p>Без лимита каталога, свой домен, пять языков, приём платежей.</p><a class="btn" href="#">Выбрать «Бизнес»</a></div>
+      </div>
+      <p class="pro">Нужны интеграции складов и выделенная поддержка — тариф «Про», 19 900 ₽, в кассе.</p>
+    </section>
+
+    <!-- 7. вопросы -->
+    <section id="faq">
+      <div class="head"><span class="eyebrow">Вопросы</span><h2>Коротко о главном</h2></div>
+      <div class="qa">
+        <details open><summary>Кому принадлежит магазин?</summary><p>Вам. Открытый движок, свой домен, экспорт данных целиком — уйти можно в любой день, забрав всё.</p></details>
+        <details><summary>Нужно ли уметь программировать?</summary><p>Нет. Панель управления и чат: скажите, что поменять, — и подтвердите изменение.</p></details>
+        <details><summary>Что с оплатой?</summary><p>Платёжный сервис подключается по вашему договору: деньги идут на ваш счёт, а не через посредника.</p></details>
+        <details><summary>Что, если я передумаю после запуска?</summary><p>Любое изменение оформления обратимо, а магазин со всеми данными можно выгрузить.</p></details>
+        <details><summary>Как быстро откроется магазин?</summary><p>Три экрана мастера — и витрина открыта с каталогом-заготовкой. Дальше вы заменяете его своим.</p></details>
+      </div>
+    </section>
+
+    <!-- 8. финал -->
+    <section class="final" id="start">
+      <span class="eyebrow">Начать</span>
+      <h2>Начните с адреса магазина</h2>
+      <p class="sub">Название, адрес, доступ, оформление — и витрина открыта. Вопросы — в Telegram.</p>
+      <div class="cta-row"><a class="btn" href="#plans">Создать магазин</a><a class="textlink" href="https://t.me/vladupready" target="_blank" rel="noopener">Написать в Telegram</a></div>
+    </section>
+
+    <footer><span>Upready · © 2026</span><a href="https://t.me/vladupready" target="_blank" rel="noopener">Связаться</a></footer>
+  </div>
+</div>
+
+<script>
+(function () {
+  var variantB = new URLSearchParams(location.search).get('h') === 'b';
+  var NBSP = ' ';
+  var A = {
+    words: ['Свобода', 'стабильность', 'независимость'],
+    html: function (w) { return w[0] + ', ' + w[1] + ' и' + NBSP + w[2] + ' начинаются здесь'; },
+    caps: [
+      'Свобода — своё содержание и свой вид: из панели или одной фразой в чате.',
+      'Стабильность — свои правила: в журнале изменений только ваши записи, и каждую можно вернуть.',
+      'Независимость — свой покупатель и свои деньги: адрес, контакты и данные остаются вашими.'
+    ],
+    map: [0, 1, 2]
+  };
+  var B = {
+    words: ['Свои' + NBSP + 'правила.', 'Свои' + NBSP + 'деньги.', 'Свой' + NBSP + 'покупатель.'],
+    html: function (w) { return w[0] + ' ' + w[1] + ' ' + w[2]; },
+    caps: [
+      'Свои правила — цены, условия и оформление меняете только вы, и любое изменение обратимо.',
+      'Свои деньги — выручка идёт на ваш счёт по вашему договору, без посредника и без «выплаты задерживаются».',
+      'Свой покупатель — контакты и заказы лежат в вашей базе, и вы можете написать ему первым.'
+    ],
+    map: [1, 2, 2]
+  };
+  var V = variantB ? B : A;
+
+  // строим H1 из спанов, чтобы слова были отдельными узлами
+  var h1 = document.getElementById('h1');
+  var html = V.html(V.words.map(function (w, k) { return '<span class="w" tabindex="0" data-k="' + k + '">' + w + '</span>'; }));
+  h1.innerHTML = html;
+  var hero = document.getElementById('hero');
+  var cap = document.getElementById('cap');
+  var words = Array.prototype.slice.call(h1.querySelectorAll('.w'));
+  var ills = Array.prototype.slice.call(document.querySelectorAll('.ill'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cur = 0, timer = null, clickPinned = null;
+
+  function show(k) {
+    cur = k;
+    words.forEach(function (w, i) {
+      w.classList.toggle('is-on', i === k);
+      if (i === k) { // перезапуск анимации подчёркивания
+        var el = w; el.classList.remove('is-on'); void el.offsetWidth; el.classList.add('is-on');
+      }
+    });
+    ills.forEach(function (el, i) { el.classList.toggle('is-on', i === V.map[k]); });
+    cap.style.opacity = 0;
+    setTimeout(function () { cap.textContent = V.caps[k]; cap.style.opacity = 1; }, 120);
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function start() { stop(); if (reduced) return; timer = setInterval(function () { show((cur + 1) % words.length); }, 4000); }
+  function pin(k) { hero.classList.add('is-pinned'); stop(); show(k); }
+  function unpin() { if (clickPinned !== null) return; hero.classList.remove('is-pinned'); start(); }
+
+  words.forEach(function (w, k) {
+    w.addEventListener('mouseenter', function () { if (clickPinned === null) pin(k); });
+    w.addEventListener('mouseleave', unpin);
+    w.addEventListener('focus', function () { if (clickPinned === null) pin(k); });
+    w.addEventListener('blur', unpin);
+    w.addEventListener('click', function () {
+      if (clickPinned === k) { clickPinned = null; hero.classList.remove('is-pinned'); start(); }
+      else { clickPinned = k; pin(k); }
+    });
+  });
+
+  show(0);
+  start();
+
+  // иллюстрация «свобода»: мини-витрина сама меняет три вида
+  var store = document.getElementById('store');
+  var looks = ['look-a', 'look-b', 'look-c'], li = 0;
+  if (!reduced) setInterval(function () {
+    li = (li + 1) % looks.length;
+    store.className = 'store ' + looks[li];
+  }, 1400);
+})();
+</script>
+</body>
+</html>
