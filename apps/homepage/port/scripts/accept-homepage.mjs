@@ -6,9 +6,11 @@
  *   node scripts/accept-homepage.mjs [--url http://localhost:5333/]
  *
  * Проверяет ровно то, что нельзя увидеть в статике: цикл слов героя, высоту
- * героя при смене слова, раскладку на 390 px, адреса всех CTA, отсутствие
- * маркеров todo:, одиночный предпросмотр секций и чистую консоль на обеих
- * ширинах. Кадры кладёт в shots/out/.
+ * героя при смене слова, раскладку на 390 px, адреса всех CTA, тарифные
+ * карточки (названия, отсутствие подписей строк, высоту одноимённых строк,
+ * пробный период «Про» и сноску про включённые товары), отсутствие маркеров
+ * todo: и заглушек вместо цены, одиночный предпросмотр секций и чистую консоль
+ * на обеих ширинах. Кадры кладёт в shots/out/.
  *
  * Глазная приёмка (как это выглядит) остаётся за человеком: скрипт говорит
  * только про измеримое.
@@ -161,8 +163,8 @@ async function main() {
       "hero-cta",
       "nav-cta",
       "plan-cta-free",
-      "plan-cta-business",
       "plan-cta-pro",
+      "plan-cta-ultra",
       "final-cta",
     ];
     const hrefs = {};
@@ -173,12 +175,107 @@ async function main() {
       ctaIds.map((id) => `${id}=${hrefs[id]}`).join(" · "),
     );
 
+    /* ---------- тарифы (t-2026-09-14-01) ---------- */
+
+    const PLAN_KEYS = ["free", "pro", "ultra"];
+    const PLAN_NAMES = ["Бесплатный", "Про", "Ультра"];
+
+    const names = await page.$$eval("[data-testid^='plan-name-']", (nodes) =>
+      nodes.map((node) => node.textContent.trim()),
+    );
+    check(
+      "в карточках стоят названия Бесплатный / Про / Ультра",
+      names.length === PLAN_NAMES.length && names.every((n, i) => n === PLAN_NAMES[i]),
+      names.length === 0 ? "ни одного названия не найдено" : names.join(" · "),
+    );
+
+    /* Подписи строк убраны (приказ §3): в карточке не должно остаться ни
+       списка определений, ни его терминов. */
+    const labels = await page.evaluate(() =>
+      ["free", "pro", "ultra"].reduce((total, key) => {
+        const card = document.querySelector(`[data-testid="plan-${key}"]`);
+        return total + (card ? card.querySelectorAll("dl, dt").length : 0);
+      }, 0),
+    );
+    check(
+      "в карточках тарифов нет подписей строк слева",
+      labels === 0,
+      `найдено элементов dl/dt: ${labels}`,
+    );
+
+    /* Карточки читаются как сравнение только пока одноимённые строки стоят на
+       одной высоте: это замер, а не надежда на то, что копия не вырастет. */
+    const rowTops = await page.evaluate(() => {
+      const cards = ["free", "pro", "ultra"].map((key) =>
+        document.querySelector(`[data-testid="plan-${key}"]`),
+      );
+      if (cards.some((card) => card === null)) return null;
+      return cards.map((card) =>
+        Array.from(card.querySelectorAll("li")).map((li) =>
+          Math.round(li.getBoundingClientRect().top),
+        ),
+      );
+    });
+    const rowsAligned =
+      rowTops !== null &&
+      rowTops.every((tops) => tops.length === 5) &&
+      [0, 1, 2, 3, 4].every((i) => {
+        const column = rowTops.map((tops) => tops[i]);
+        return Math.max(...column) - Math.min(...column) <= 1;
+      });
+    check(
+      "одноимённые строки трёх карточек стоят на одной высоте (1440×900)",
+      rowsAligned,
+      rowTops === null
+        ? "карточки не найдены"
+        : rowTops.map((tops, i) => `${PLAN_KEYS[i]}=[${tops.join(",")}]`).join(" · "),
+    );
+
+    const ultraText = await page.$eval('[data-testid="plan-ultra"]', (node) => node.innerText);
+    check(
+      "у «Ультра» дизайн брендированный, а каталог неограниченный со сноской",
+      /брендированный дизайн/.test(ultraText) && /Неограниченное количество товаров/.test(ultraText),
+      ultraText.replace(/\s+/g, " ").slice(0, 120),
+    );
+
+    const trial = await page
+      .$eval('[data-testid="plan-trial-pro"]', (node) => node.innerText.replace(/\s+/g, " "))
+      .catch(() => null);
+    check(
+      "у «Про» строка пробного периода называет карту и автосписание после 7 дней",
+      trial !== null &&
+        /7 дней бесплатно/.test(trial) &&
+        /карт/i.test(trial) &&
+        /автоматически/.test(trial) &&
+        /отменить/.test(trial),
+      trial === null ? "строки пробного периода нет" : trial,
+    );
+
+    const footnotes = await page
+      .$eval('[data-testid="plans-footnotes"]', (node) => node.innerText.replace(/\s+/g, " "))
+      .catch(() => null);
+    check(
+      "сноска называет 500 включённых товаров",
+      footnotes !== null && /500 товаров/.test(footnotes),
+      footnotes === null ? "сноски нет" : footnotes,
+    );
+
     const bodyText = await page.evaluate(() => document.body.innerText);
     const todo = bodyText.match(/.{0,24}todo:.{0,24}/i);
     check(
       "на странице нет маркеров todo:",
       todo === null,
       todo === null ? "ни одного вхождения" : `найдено «${todo[0].trim()}»`,
+    );
+
+    /* Выдуманной цены на странице быть не должно (правило 17a): цифра сверх
+       включённых товаров приходит из t-2026-09-14-02, а до тех пор сноска
+       обходится без неё — и без заглушки на её месте. */
+    const stub = bodyText.match(/.{0,24}(\bTBD\b|\bN\s*₽|X{2,}\s*₽|\{\{|_{3,}).{0,24}/i);
+    check(
+      "на странице нет заглушек вместо цены",
+      stub === null,
+      stub === null ? "ни одного вхождения" : `найдено «${stub[0].trim()}»`,
     );
 
     await page.screenshot({ path: path.join(OUT, "homepage-1440.png"), fullPage: true });
