@@ -1,0 +1,63 @@
+/*
+ * «Как это работает». Канон — прототип, блок `.steps` (строки 155-162) и
+ * адаптив на 1024px (строка 201).
+ *
+ * Номер шага печатает CSS-счётчик `counter(s, decimal-leading-zero)`: в
+ * разметке цифр нет, поэтому перестановка шагов не рассинхронизирует нумерацию.
+ */
+
+.section {
+  padding: clamp(48px, 6vw, 88px) var(--pad-x);
+  border-top: 1px solid var(--line);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  counter-reset: s;
+}
+
+.step {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  counter-increment: s;
+}
+
+.step::before {
+  content: counter(s, decimal-leading-zero);
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.step h3 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 8px;
+}
+
+.step p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.then {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.then b {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}

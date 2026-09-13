@@ -1,93 +1,627 @@
 /*
- * 1:1 port of the inline styles on reference/rendered/01-hero.html.
- * Values (colors, sizes, radii, spacing) are copied verbatim from the
- * rendered DOM, not recomputed.
+ * Первый экран и три иллюстрации панели.
+ * Канон — прототип `artifacts/docs/2026-09-13-homepage-prototype.html`,
+ * блоки «герой» (строки 52-70), «мини-окно» (73-77), «ill 0» (79-111),
+ * «ill 1» (113-126), «ill 2» (128-134) и адаптив (201-214).
+ *
+ * Один модуль на всю секцию: три компонента иллюстраций (IllStore, IllLog,
+ * IllOwner) импортируют его же, потому что делят мини-окно и подпись
+ * «пример».
  */
 
 .hero {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(52px, 7vw, 80px) clamp(20px, 4vw, 56px) clamp(40px, 4vw, 54px);
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  padding: clamp(52px, 7vw, 84px) var(--pad-x) clamp(48px, 6vw, 88px);
+  border-top: 1px solid var(--line);
 }
 
-.row {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(28px, 4vw, 60px);
-  align-items: flex-start;
-}
-
-.left {
-  flex: 1.5 1 440px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.textGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.heading {
-  font-size: clamp(34px, 4.6vw, 56px);
+.h1 {
+  font-size: clamp(34px, 4.6vw, 58px);
   font-weight: 600;
   letter-spacing: -0.04em;
-  line-height: 1.03;
-}
-
-.heading15 {
-  max-width: 15ch;
-}
-
-.heading16 {
+  line-height: 1.04;
   max-width: 16ch;
 }
 
-.paragraph {
-  font-size: clamp(15px, 1.5vw, 17px);
-  line-height: 1.6;
-  color: rgb(82, 82, 91);
-  max-width: 640px;
+.word {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.06em;
+  margin: 0 -0.06em;
+  border-radius: 6px;
+  transition:
+    background-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+  cursor: default;
+  outline: none;
 }
 
-.right {
-  flex: 1 1 300px;
-  min-width: 0;
+.word::after {
+  content: "";
+  position: absolute;
+  left: 0.06em;
+  right: 0.06em;
+  bottom: -0.04em;
+  height: 2px;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.wordOn {
+  background: var(--mark);
+}
+
+.wordOn::after {
+  animation: fill 4s linear forwards;
+}
+
+/* Слово закреплено — полоса стоит заполненной, цикл не идёт. */
+.isPinned .wordOn::after {
+  animation: none;
+  transform: scaleX(1);
+}
+
+.word:focus-visible {
+  box-shadow: 0 0 0 2px rgba(135, 135, 135, 0.5);
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.lead {
+  margin-top: 22px;
+  font-size: clamp(15px, 1.5vw, 17.5px);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 560px;
+}
+
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.micro {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+/* ---------- панель ---------- */
+
+.panel {
+  position: relative;
+}
+
+.cap {
+  font-size: 13.5px;
+  color: var(--muted);
+  min-height: 2.6em;
+  margin-bottom: 10px;
+  transition: opacity 0.25s;
+}
+
+.capHidden {
+  opacity: 0;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.ill {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+  pointer-events: none;
+  padding: 20px;
+}
+
+.illOn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ex {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  font-size: 10px;
+  color: var(--faint);
+}
+
+/* ---------- мини-окно ---------- */
+
+.win {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.winBar {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--secondary);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.addr {
+  margin-left: 8px;
+  flex: 1;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 7px;
+  color: var(--muted);
+}
+
+.addr svg {
+  width: 9px;
+  height: 9px;
+}
+
+/* ---------- ill 0 — один магазин, любой вид ---------- */
+
+.store {
+  padding: 10px;
+  transition:
+    background 0.5s var(--ease),
+    color 0.5s var(--ease);
+}
+
+.sHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sLogo {
+  width: 46px;
+  height: 8px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.sNav {
+  display: flex;
+  gap: 6px;
+}
+
+.sNav i {
+  display: block;
+  width: 22px;
+  height: 6px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+.sBanner {
+  height: 54px;
+  border-radius: 6px;
+  background: var(--secondary);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  transition: all 0.5s var(--ease);
+}
+
+.sBanner b {
+  display: block;
+  width: 90px;
+  height: 8px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.sBanner i {
+  display: block;
+  width: 46px;
+  height: 6px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.35;
+  margin-top: 5px;
+}
+
+.sBadge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--fg);
+  color: #fff;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all 0.5s var(--ease);
+}
+
+.sGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  transition: all 0.5s var(--ease);
+}
+
+.sTile {
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  padding: 6px;
+}
+
+.sTile .img {
+  height: 34px;
+  border-radius: 4px;
+  background: var(--secondary);
+}
+
+.sTile .t1 {
+  width: 70%;
+  height: 5px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.sTile .t2 {
+  width: 40%;
+  height: 5px;
+  margin-top: 4px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.sTile:nth-child(4) {
+  display: none;
+}
+
+/* вид B — тёмный */
+.lookB {
+  background: #18181b;
+  color: #fafafa;
+}
+
+.lookB .sBanner {
+  background: #27272a;
+}
+
+.lookB .sTile {
+  border-color: #3f3f46;
+}
+
+.lookB .sTile .img {
+  background: #27272a;
+}
+
+.lookB .sBadge {
+  opacity: 1;
+  transform: none;
+  background: #fafafa;
+  color: #18181b;
+}
+
+/* вид C — акцентный баннер, четыре плитки */
+.lookC .sBanner {
+  background: var(--link);
+  color: #fff;
+  justify-content: center;
+}
+
+.lookC .sBanner i {
+  display: none;
+}
+
+.lookC .sBadge {
+  opacity: 1;
+  transform: none;
+  background: #fff;
+  color: var(--link);
+  margin-left: 8px;
+}
+
+.lookC .sGrid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.lookC .sTile:nth-child(4) {
+  display: block;
+}
+
+.chat {
+  position: absolute;
+  right: 22px;
+  bottom: 26px;
+  width: 62%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  padding-top: 8px;
+  gap: 6px;
 }
 
-.note {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: rgb(82, 82, 91);
+.bub {
+  max-width: 100%;
+  padding: 8px 11px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-.cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  height: 48px;
-  padding: 0 22px;
-  border-radius: 10px;
-  background: rgb(24, 24, 27);
-  color: rgb(255, 255, 255);
-  font-size: 14.5px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  box-shadow: rgba(24, 24, 27, 0.24) 0px 1px 2px;
-  transition: background 0.15s;
-}
-
-/* raw template: style-hover="background:#3F3F46;color:#fff" */
-.cta:hover {
-  background: #3f3f46;
+.bubMe {
+  align-self: flex-end;
+  background: var(--fg);
   color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.bubAi {
+  align-self: flex-start;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+
+.bubAi u {
+  text-decoration: none;
+  color: var(--link);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+/* ---------- ill 1 — только ваши записи ---------- */
+
+.log {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.logH {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.logH span {
+  font-weight: 400;
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.d {
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.t small {
+  display: block;
+  color: var(--faint);
+  font-size: 10.5px;
+  margin-top: 1px;
+}
+
+.u {
+  color: var(--link);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.uDone {
+  color: var(--green);
+}
+
+.mp {
+  position: relative;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  background: var(--secondary);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mp b {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 2px;
+}
+
+.mp::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 1px;
+  background: var(--fg);
+  transform: rotate(-3deg);
+  opacity: 0.55;
+}
+
+.mpCap {
+  font-size: 11px;
+  color: var(--faint);
+  margin-top: 6px;
+}
+
+/* ---------- ill 2 — свой адрес, свои покупатели, свои данные ---------- */
+
+.plates {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.plate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  align-items: end;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.k {
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.v {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-family: "Roboto Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.v small {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+.a {
+  font-size: 11.5px;
+  color: var(--link);
+}
+
+/* ---------- адаптив ---------- */
+
+@media (max-width: 1024px) {
+  .h1 {
+    max-width: 18ch;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /*
+   * Место под подпись в три строки — иначе герой прыгает при смене слова.
+   * line-height 1.5, значит три строки = 4.5em; прототип резервировал 4em,
+   * то есть 2,67 строки, и на 390 px самая длинная подпись («Стабильность…»,
+   * три строки, 60,75px) растила героя на 6px против 54px резерва.
+   */
+  .cap {
+    min-height: 4.5em;
+  }
+
+  .chat {
+    width: 76%;
+    right: 16px;
+    bottom: 18px;
+  }
+
+  .bub {
+    font-size: 11px;
+    padding: 7px 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordOn::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  .ill,
+  .cap,
+  .store,
+  .sBanner,
+  .sGrid {
+    transition: none;
+  }
+}
+
+/* На узком экране сцена 4:3 слишком низкая для журнала «Стабильность» (замер 390 px: подпись выходила на 84 px за сцену) — квадрат даёт запас, высота героя остаётся постоянной. */
+@media (max-width: 768px) {
+  .stage {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .ill {
+    padding: 14px;
+  }
+  .mp {
+    margin-top: 10px;
+  }
 }

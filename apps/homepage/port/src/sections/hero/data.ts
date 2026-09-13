@@ -1,60 +1,63 @@
+// Первый экран. Копирайт — концепция §3 «Герой» и §4 «Механика»,
+// разметка — прототип `artifacts/docs/2026-09-13-homepage-prototype.html`
+// (строки 230-295, вариант A скрипта, строки 404-413).
+//
+// Аудиторных вариантов (cold/warm/price) больше нет: одна страница — одно
+// сообщение (концепция §2).
+
+export interface HeroWord {
+  /** Слово в заголовке. */
+  text: string;
+  /** Подпись над иллюстрацией, пока подсвечено это слово. */
+  caption: string;
+  /** Какая из трёх иллюстраций показывается (порт `V.map` прототипа). */
+  ill: 0 | 1 | 2;
+}
+
+export const HERO_WORDS: HeroWord[] = [
+  {
+    text: "Свобода",
+    caption: "Свобода — своё содержание и свой вид: из панели или одной фразой в чате.",
+    ill: 0,
+  },
+  {
+    text: "стабильность",
+    caption:
+      "Стабильность — свои правила: в журнале изменений только ваши записи, и каждую можно вернуть.",
+    ill: 1,
+  },
+  {
+    text: "независимость",
+    caption:
+      "Независимость — свой покупатель и свои деньги: адрес, контакты и данные остаются вашими.",
+    ill: 2,
+  },
+];
+
 /**
- * Copy and props for the hero section, extracted verbatim from
- * reference/props.json + reference/dc-script.js (renderVals / resolveAudience).
- *
- * The legacy component picks one of three headline+paragraph variants by
- * "audience" (cold / warm / price), resolved from the `v` or `utm_content`
- * query param, falling back to a 30-minute sessionStorage value, falling
- * back to `defaultAudience` (props.json default: "cold").
+ * Куски заголовка между словами. Между «и» и «независимость» стоит настоящий
+ * U+00A0 (концепция §4): предлог не должен оставаться на своей строке.
+ * HTML-сущность `&nbsp;` в строке JSX не раскрывается, поэтому символ записан
+ * escape-последовательностью.
  */
+export const HEADLINE_JOINS = [", ", " и\u00A0"];
 
-export type Audience = "cold" | "warm" | "price";
+export const HEADLINE_TAIL = " начинаются здесь";
 
-export const AUDIENCE_IDS: Audience[] = ["cold", "warm", "price"];
+export const LEAD =
+  "Свой интернет-магазин на открытом движке. Вы решаете, что в нём есть, правила в нём не меняются без вас, а покупатели и данные остаются вашими.";
 
-/** props.json `defaultAudience.default` */
-export const defaultAudience: Audience = "cold";
+export const CTA_LABEL = "Создать магазин";
 
-export interface HeroVariant {
-  heading: string;
-  /** matches the per-variant `max-width` on the <h1> in reference/rendered/01-hero.html */
-  headingMaxWidth: "15ch" | "16ch";
-  paragraph: string;
-}
+export const SECONDARY_LINK = { label: "Посмотреть примеры", href: "#sec-showcase" };
 
-export const heroVariants: Record<Audience, HeroVariant> = {
-  cold: {
-    heading:
-      "Сколько вы потеряете, если ваш склад Wildberries остановится завтра?",
-    headingMaxWidth: "15ch",
-    paragraph:
-      "С 7 июля 2026 потеря товара на складе — форс-мажор по оферте. Свой магазин — единственный канал продаж, который остаётся вашим при любом сценарии.",
-  },
-  warm: {
-    heading: "Ваш план Б — за два дня и 4 900 ₽",
-    headingMaxWidth: "16ch",
-    paragraph:
-      "Разворачиваем готовое решение на вашем домене и настраиваем под ваш товар — вы получаете работающий магазин, а не конструктор.",
-  },
-  price: {
-    heading: "Готовый интернет-магазин за 4 900 ₽. Запуск за 24 часа",
-    headingMaxWidth: "16ch",
-    paragraph: "Выбираете пример из списка — разворачиваем его на вашем домене.",
-  },
-};
+export const MICRO = "От 4 900 ₽ · три экрана до открытой витрины";
 
-/** `heroNote` in renderVals(), constant across audiences */
-export const heroNote =
-  "Не подойдёт — вернём деньги в течение 7 дней после запуска.";
+/** Шаг цикла слов, мс (концепция §4: 4 с на слово). */
+export const WORD_MS = 4000;
 
-/** href is static on the raw template regardless of audience */
-export const heroCtaHref = "https://t.me/vladupready";
+/** Задержка подмены подписи внутри кросс-фейда 250 мс (прототип, строка 447). */
+export const CAPTION_SWAP_MS = 120;
 
-/** `heroCta` in renderVals(): `a === 'price' ? 'Написать в телеграм' : 'Поставить магазин'` */
-export function heroCtaLabel(audience: Audience): string {
-  return audience === "price" ? "Написать в телеграм" : "Поставить магазин";
-}
-
-/** sessionStorage key + TTL used by resolveAudience()/persist() in dc-script.js */
-export const AUDIENCE_STORAGE_KEY = "upready_v";
-export const AUDIENCE_STORAGE_TTL_MS = 30 * 60 * 1000;
+/** Шаг смены вида мини-витрины в иллюстрации «Свобода», мс. */
+export const LOOK_MS = 1400;

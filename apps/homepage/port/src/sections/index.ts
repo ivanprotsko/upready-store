@@ -2,35 +2,28 @@ import type { ComponentType, ReactNode } from "react";
 
 import Shell from "./shell/index";
 import Hero from "./hero/index";
-import LaunchArtifact from "./launch-artifact/index";
-import SocialProof from "./social-proof/index";
-import ProofFull from "./proof-full/index";
-import ProofShort from "./proof-short/index";
-import Frame from "./frame/index";
-import Included from "./included/index";
-import Operations from "./operations/index";
-import Pricing from "./pricing/index";
-import Payments from "./payments/index";
-import Delivery from "./delivery/index";
+import Words from "./words/index";
+import Why from "./why/index";
+import How from "./how/index";
 import Showcase from "./showcase/index";
-import Faq from "./faq/index";
 import Tariffs from "./tariffs/index";
+import Faq from "./faq/index";
 import FinalCta from "./final-cta/index";
 
 /**
- * Section registry — DOM order, frozen by
- * artifacts/docs/2026-09-12-homepage-landing-port-brief.md §2.
- * Section agents own their own folder only; this file is merger-owned.
+ * Реестр секций — канон КОДА: какие блоки существуют и каков их порядок по
+ * умолчанию. Порядок заморожен концепцией
+ * `artifacts/docs/2026-09-13-homepage-concept.md` §2 (восемь блоков вместо
+ * шестнадцати). Раскладку поверх реестра держит `public/homepage.cfg.json`
+ * (см. src/config/layout.ts).
  */
+
 /**
- * Props every registry component may receive from App.tsx.
+ * Что секция может получить от App.tsx.
  *
- * `num` is the page-wide ordinal from dc-script.js's `order`/`num` counter
- * (lines 319-322): it changes with the shared `show*` block flags, so it
- * cannot be computed inside a section. A section that prints an eyebrow
- * number accepts it and falls back to the literal its own data.ts carries
- * (the value the reference capture froze), which is what keeps the isolated
- * `?section=<slug>` preview identical to `reference/shots/<slug>.png`.
+ * `num` — сквозной номер блока на странице. Ни одна секция нынешней вёрстки
+ * номера не печатает, но счётчик оставлен рабочим: он понадобится, как только
+ * вернётся блок с надзаголовком «01 · Название».
  */
 export interface SectionProps {
   num?: string;
@@ -38,31 +31,24 @@ export interface SectionProps {
 }
 
 export interface SectionEntry {
-  /** frozen slug, also the folder name under src/sections/ */
+  /** slug = имя папки под src/sections/ и ключ в конфиге раскладки */
   slug: string;
-  /** data-screen-label from the legacy page */
+  /** Человеческая подпись для панели режима редактирования */
   label: string;
-  /** legacy anchor id, when the section had one (nav anchors target these) */
+  /** DOM-id секции, если на неё есть якорь */
   id?: string;
-  /** default export of ./<slug>/index.tsx */
+  /** default export из ./<slug>/index.tsx */
   Component: ComponentType<SectionProps>;
 }
 
 export const sections: SectionEntry[] = [
-  { slug: "shell", label: "Nav + Footer («Подвал»)", Component: Shell },
-  { slug: "hero", label: "Первый экран", Component: Hero },
-  { slug: "launch-artifact", label: "Артефакт: запуск", Component: LaunchArtifact },
-  { slug: "social-proof", label: "Кто уже на этой системе", Component: SocialProof },
-  { slug: "proof-full", label: "Почему это про вас", id: "proof-full", Component: ProofFull },
-  { slug: "proof-short", label: "Почему это про вас — коротко", Component: ProofShort },
-  { slug: "frame", label: "Рамка", Component: Frame },
-  { slug: "included", label: "Что входит", id: "sec-included", Component: Included },
-  { slug: "operations", label: "Операции", Component: Operations },
-  { slug: "pricing", label: "Цены", id: "sec-pricing", Component: Pricing },
-  { slug: "payments", label: "Оплата", id: "sec-payments", Component: Payments },
-  { slug: "delivery", label: "Доставка", id: "sec-delivery", Component: Delivery },
+  { slug: "shell", label: "Шапка и подвал", Component: Shell },
+  { slug: "hero", label: "Первый экран", id: "hero", Component: Hero },
+  { slug: "words", label: "Три слова на деле", id: "sec-words", Component: Words },
+  { slug: "why", label: "Почему сейчас", id: "sec-why", Component: Why },
+  { slug: "how", label: "Как это работает", id: "sec-how", Component: How },
   { slug: "showcase", label: "Примеры магазинов", id: "sec-showcase", Component: Showcase },
-  { slug: "faq", label: "Вопросы", id: "sec-faq", Component: Faq },
   { slug: "tariffs", label: "Тарифы", id: "sec-tariffs", Component: Tariffs },
-  { slug: "final-cta", label: "Финальный призыв", Component: FinalCta },
+  { slug: "faq", label: "Вопросы", id: "sec-faq", Component: Faq },
+  { slug: "final-cta", label: "Финальный призыв", id: "start", Component: FinalCta },
 ];
