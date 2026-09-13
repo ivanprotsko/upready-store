@@ -1,56 +1,35 @@
-import { useState } from "react";
-
+import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
-import {
-  ctaHref,
-  ctaLabel,
-  heading,
-  paragraphAfter,
-  paragraphBefore,
-  responseTimeBadge,
-} from "./data";
+import { CTA_LABEL, EYEBROW, HEADING, SUB, TELEGRAM_LINK } from "./data";
 
+/**
+ * Финальный блок: последний призыв и запасная дорога в Telegram
+ * (концепция §3 «Финал»).
+ */
 export default function FinalCta() {
-  // Ports the `scp2` hover behaviour from raw/15-final-cta.html
-  // (style-hover="background:#3F3F46;color:#fff"), applied generically by
-  // support.js for any element with the `scp2` class. That runtime is out
-  // of scope for the port (see brief §0), so it is re-expressed here as
-  // React state driving a second CSS-module class.
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <section
+      id="start"
       data-section="final-cta"
       data-testid="sec-final-cta"
       className={styles.section}
     >
-      <i className={`${styles.corner} ${styles.cornerLeft}`} />
-      <i className={`${styles.corner} ${styles.cornerRight}`} />
-      <h2 className={styles.heading}>{heading}</h2>
-      <p className={styles.paragraph}>
-        {paragraphBefore}
-        <span className={styles.badge}>{responseTimeBadge}</span>
-        {paragraphAfter}
-      </p>
-      <a
-        href={ctaHref}
-        target="_blank"
-        rel="noopener"
-        className={`${styles.cta} ${isHovered ? styles.ctaHover : ""}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className={styles.icon}
+      <span className="eyebrow">{EYEBROW}</span>
+      <h2>{HEADING}</h2>
+      <p className={`sub ${styles.sub}`}>{SUB}</p>
+      <div className={styles.ctaRow}>
+        <a
+          className="btn"
+          href={funnelUrl(HERO_SCENARIO)}
+          title={HERO_SCENARIO.title}
+          data-testid="final-cta"
         >
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-        </svg>
-        {ctaLabel}
-      </a>
+          {CTA_LABEL}
+        </a>
+        <a className="textlink" href={TELEGRAM_LINK.href} target="_blank" rel="noopener">
+          {TELEGRAM_LINK.label}
+        </a>
+      </div>
     </section>
   );
 }

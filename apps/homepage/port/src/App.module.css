@@ -1,36 +1,17 @@
 /*
- * App.module.css — page chrome that belongs to NO registered section:
- * the outer page background, the sticky header bar + logo, and the shared
- * 1280px content container every section renders inside.
+ * App.module.css — хром страницы, не принадлежащий ни одной секции: фон,
+ * липкая шапка с логотипом и общий контейнер шириной 1280px, внутри которого
+ * рисуются все блоки.
  *
- * Imported by src/PageShell.tsx (the component that renders this chrome for
- * both <App/> and main.tsx's single-section ?section=<slug> preview).
- *
- * Every value is copied verbatim from the legacy page
- * `apps/homepage/index.html` lines 55-79 (the pixel canon for this port):
- *
- *   55: <div style="min-height:100vh;background:#FAFAFA">
- *   57: <div style="position:sticky;top:0;z-index:40;height:60px;
- *        background:rgba(250,250,250,.85);backdrop-filter:blur(14px);
- *        border-bottom:1px solid #E4E4E7">
- *   58:   <div style="max-width:1280px;margin:0 auto;height:100%;
- *          background:rgba(255,255,255,.5);border-left:1px solid #E4E4E7;
- *          border-right:1px solid #E4E4E7;padding:0 clamp(20px,4vw,56px);
- *          display:flex;align-items:center;justify-content:space-between;gap:16px">
- *   59:     <a href="/" style="display:flex;align-items:center;color:#18181B;
- *            user-select:none;-webkit-user-select:none;flex:0 0 auto">
- *   60:       <span style="font-size:15.5px;font-weight:600;letter-spacing:-.02em">
- *   79: <div style="max-width:1280px;margin:0 auto;background:#fff;
- *        border-left:1px solid #E4E4E7;border-right:1px solid #E4E4E7">
- *
- * Requested by every section's NOTES.md ("Needs from merger": wrap the
- * assembled sections in the max-width:1280px bordered container) and by
- * shell/NOTES.md item 1 (the sticky bar + logo around <Nav/>).
+ * Канон — прототип `artifacts/docs/2026-09-13-homepage-prototype.html`,
+ * селекторы `.page`, `.bar`, `.bar-in`, `.container` (строки 30-40); палитра
+ * прототипа = Geist light, токены живут в `src/styles/base.css`.
+ * Импортируется из `src/PageShell.tsx`, то есть один и тот же хром получают и
+ * собранная страница, и одиночный предпросмотр `?section=<slug>`.
  */
 
 .page {
   min-height: 100vh;
-  background: #fafafa;
 }
 
 .headerBar {
@@ -40,7 +21,7 @@
   height: 60px;
   background: rgba(250, 250, 250, 0.85);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid #e4e4e7;
+  border-bottom: 1px solid var(--line);
 }
 
 .headerInner {
@@ -48,38 +29,26 @@
   margin: 0 auto;
   height: 100%;
   background: rgba(255, 255, 255, 0.5);
-  border-left: 1px solid #e4e4e7;
-  border-right: 1px solid #e4e4e7;
-  padding: 0 clamp(20px, 4vw, 56px);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  padding: 0 var(--pad-x);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
-/*
- * Cross-section seam: the legacy markup puts `<nav style="flex:1 1 auto">`
- * directly in this flex row, while the ported shell wraps that <nav> in a
- * <header data-section="shell-nav"> root (contract §3 item 2). Without this
- * rule the wrapper would size to its content and the nav would never reach
- * the 1088px it has on the reference page (shell/NOTES.md "Measured diff").
- */
-.headerInner > header[data-section="shell-nav"] {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
 .logo {
   display: flex;
   align-items: center;
-  color: #18181b;
+  color: var(--fg);
   user-select: none;
   -webkit-user-select: none;
   flex: 0 0 auto;
 }
 
 .logo:hover {
-  color: #18181b;
+  color: var(--fg);
 }
 
 .logoText {
@@ -91,7 +60,17 @@
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  background: #fff;
-  border-left: 1px solid #e4e4e7;
-  border-right: 1px solid #e4e4e7;
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+/*
+ * Прототип разделяет блоки линией сверху и снимает её у первого
+ * (`section:first-child { border-top: 0 }`). Каждая секция объявляет рамку
+ * сама, поэтому снимает её здесь контейнер: он один знает, кто оказался
+ * первым, — а в режиме редактирования порядок блоков меняется со страницы.
+ */
+.container > :first-child {
+  border-top: 0;
 }

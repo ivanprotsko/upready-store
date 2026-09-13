@@ -1,22 +1,43 @@
 /*
- * base.css — global reset + fonts + the legacy <style> block from
- * apps/homepage/index.html (verbatim, see reference/style.css), plus the
- * page body/background it declares.
+ * base.css — токены и общестраничные примитивы.
  *
- * Design canon for this port is the LEGACY PAGE itself (pixel reference),
- * not the workspace Geist system — see artifacts/docs/2026-09-12-homepage-
- * landing-port-brief.md §0: "Канон дизайна = сама текущая страница
- * (пиксельный эталон)". This is a 1:1 port of an already-live bespoke
- * design, not new UI authored against Geist.
+ * Канон — прототип `artifacts/docs/2026-09-13-homepage-prototype.html`
+ * (строки 10-49): блок `:root`, сброс, типографика и три утилиты, которые в
+ * прототипе живут глобально и переиспользуются всеми секциями: `.eyebrow`,
+ * `.mono`, `.head`/`.sub`, `.btn`/`.textlink`.
  *
- * Fonts: legacy page uses Google Fonts <link> preconnect + stylesheet.
- * Reproduced here as @import so a section rendered in isolation
- * (?section=<slug>) still gets the right typefaces.
+ * Почему они здесь, а не в модулях секций: раскладка каждой секции (сетки,
+ * карточки, плитки) лежит в её собственном `styles.module.css`, а вот кнопка
+ * и надзаголовок одинаковы в восьми блоках — восемь копий одного правила
+ * разъезжаются при первой же правке. Палитра прототипа = Geist light
+ * (`~/upready/packages/geist-kit/AGENTS.md`): один акцент, тонкие 1px рамки,
+ * sentence case, вес ≤ 600.
+ *
+ * Шрифты подключены @import'ом, а не <link>, чтобы секция, открытая в
+ * одиночку через `?section=<slug>`, получала те же гарнитуры.
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap");
 
-/* minimal reset (host page has no reset of its own beyond this) */
+:root {
+  --bg: #fafafa;
+  --paper: #fff;
+  --fg: #18181b;
+  --muted: #52525b;
+  --faint: #8f8f8f;
+  --line: #e4e4e7;
+  --secondary: #f4f4f5;
+  --link: #2563eb;
+  --mark: rgba(37, 99, 235, 0.14);
+  --mark-strong: rgba(37, 99, 235, 0.28);
+  --green: #17803d;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --pad-x: clamp(20px, 4vw, 56px);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,20 +46,15 @@ html {
   scroll-behavior: smooth;
 }
 
-/* --- legacy <style> block, verbatim (reference/style.css) --- */
-html,
-body {
-  max-width: 100%;
-  overflow-x: hidden;
-  overscroll-behavior-x: none;
-}
 body {
   margin: 0;
-  background: #fafafa;
-  color: #18181b;
+  background: var(--bg);
+  color: var(--fg);
   font-family: Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
 }
+
 h1,
 h2,
 h3,
@@ -48,10 +64,12 @@ ul,
 figure {
   margin: 0;
 }
+
 ul {
   padding: 0;
   list-style: none;
 }
+
 button {
   font: inherit;
   color: inherit;
@@ -59,43 +77,91 @@ button {
   border: 0;
   cursor: pointer;
 }
+
 a {
-  color: #2563eb;
+  color: var(--link);
   text-decoration: none;
 }
+
 a:hover {
-  color: #18181b;
+  color: var(--fg);
 }
+
 ::selection {
-  background: #18181b;
+  background: var(--fg);
   color: #fff;
 }
-@keyframes blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
+
+/* --- общестраничные утилиты (прототип, строки 26-27, 41-49) --- */
+
+.mono {
+  font-family: "Roboto Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
 }
-@keyframes linein {
-  from {
-    opacity: 0;
-    transform: translateY(3px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+
+.eyebrow {
+  font-family: "Roboto Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
-@keyframes pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
-  }
-  50% {
-    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08);
-  }
+
+h2 {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  max-width: 22ch;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: clamp(28px, 3vw, 44px);
+}
+
+.sub {
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: var(--muted);
+  max-width: 620px;
+  margin-top: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: var(--r-md);
+  background: var(--fg);
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: rgba(24, 24, 27, 0.24) 0 1px 2px;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #3f3f46;
+  color: #fff;
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.textlink {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.textlink:hover {
+  color: var(--fg);
 }

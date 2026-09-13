@@ -1,0 +1,62 @@
+/*
+ * «Три слова на деле». Канон — прототип, блок `.three` (строки 136-142) и
+ * адаптив `@media (max-width: 1024px)` (строка 201): три колонки схлопываются
+ * в одну.
+ */
+
+.section {
+  padding: clamp(48px, 6vw, 88px) var(--pad-x);
+  border-top: 1px solid var(--line);
+}
+
+.three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.title small {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--faint);
+  letter-spacing: 0;
+  margin-top: 2px;
+}
+
+.list {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.list li {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  padding-left: 16px;
+  position: relative;
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg);
+}
+
+@media (max-width: 1024px) {
+  .three {
+    grid-template-columns: 1fr;
+  }
+}

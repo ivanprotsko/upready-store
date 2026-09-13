@@ -114,7 +114,7 @@
   .log { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .log-h { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; }
   .log-h span { font-weight: 400; color: var(--faint); font-size: 11px; }
-  .row { display: grid; grid-template-columns: 46px 1fr auto; gap: 10px; align-items: center; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: 12px; }
+  .row { display: grid; grid-template-columns: 46px 1fr auto; gap: 10px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 12px; }
   .row:last-child { border-bottom: 0; }
   .row .d { color: var(--faint); font-size: 11px; }
   .row .t small { display: block; color: var(--faint); font-size: 10.5px; margin-top: 1px; }
@@ -204,7 +204,10 @@
     .nav a:not(.btn) { display: none; }
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .plans { grid-template-columns: 1fr; }
-    .cap { min-height: 4em; }              /* подпись в три строки — герой не прыгает */
+    .cap { min-height: 4.5em; }            /* подпись в три строки — герой не прыгает */
+    .stage { aspect-ratio: 1 / 1; }        /* журнал «Стабильность» не влезает в 4:3 при 350 px */
+    .ill { padding: 14px; }
+    .mp { margin-top: 10px; }
     .chat { width: 76%; right: 16px; bottom: 18px; }
     .bub { font-size: 11px; padding: 7px 9px; }
   }
@@ -270,7 +273,6 @@
               <div class="row"><span class="d mono">12 сен</span><span class="t">Тема «Графит», тёмная<small>вы · оформление</small></span><a class="u" href="#hero">↶ вернуть</a></div>
               <div class="row"><span class="d mono">9 сен</span><span class="t">Баннер «Осень −20 %»<small>вы · главная</small></span><a class="u" href="#hero">↶ вернуть</a></div>
               <div class="row"><span class="d mono">3 сен</span><span class="t">Цена «Куртка Nord» 8 900 → 7 900 ₽<small>вы · каталог</small></span><span class="u done">возвращено</span></div>
-              <div class="row"><span class="d mono">28 авг</span><span class="t">Шрифты Inter → Rubik<small>вы · оформление</small></span><a class="u" href="#hero">↶ вернуть</a></div>
             </div>
             <div class="mp"><b>Маркетплейс · уведомление</b>Условия сотрудничества изменились. Новая редакция вступает в силу с 1-го числа.</div>
             <div class="mp-cap">не про ваш магазин</div>

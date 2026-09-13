@@ -16,8 +16,6 @@
 
 import { sections } from "../sections";
 
-export type Audience = "cold" | "warm" | "price";
-
 /** Один блок страницы в конфиге. Позиция — это индекс в массиве. */
 export interface BlockConfig {
   slug: string;
@@ -50,39 +48,24 @@ export const sectionLabel = (slug: string): string =>
   layoutSections.find((s) => s.slug === slug)?.label ?? slug;
 
 /**
- * Блоки, участвующие в сквозной нумерации «01 · Название»
- * (порт счётчика `order`/`num`, reference/dc-script.js строки 319-322).
+ * Блоки, участвующие в сквозной нумерации «01 · Название».
  * Первый экран и финальный призыв номера не печатают.
+ *
+ * Ни одна секция нынешней вёрстки номер не рисует, поэтому счётчик сейчас ни
+ * на что не влияет; он оставлен рабочим на случай возвращения блока с
+ * надзаголовком «01 · Название».
  */
 const NUMBERED = new Set(
   layoutSections.map((s) => s.slug).filter((slug) => slug !== "hero" && slug !== "final-cta"),
 );
 
 /**
- * Аудиторное ограничение из `renderVals()` (dc-script.js строки 339-340):
- * длинная версия «Почему это про вас» показывается холодной аудитории,
- * короткая — тёплой. Конфиг этим не управляет: он говорит, включён ли блок
- * вообще, а аудитория решает, какая из двух версий выйдет на экран.
+ * Скрытых по умолчанию блоков нет: восемь блоков концепции §2 — это вся
+ * страница, и каждый из них показывается. Множество оставлено пустым, а не
+ * удалено, потому что `reconcile()` спрашивает его о секции, которая
+ * появилась в коде позже конфига.
  */
-export const AUDIENCE_ONLY: Record<string, Audience> = {
-  "proof-full": "cold",
-  "proof-short": "warm",
-};
-
-/**
- * Значения по умолчанию воспроизводят страницу ДО появления конфига:
- * `DEFAULT_BLOCKS` старого App.tsx держал proof/frame/included/pricing/faq
- * выключенными, остальные секции рендерились всегда. На живом рендере это
- * девять секций с нумерацией 01…07.
- */
-const DEFAULT_HIDDEN = new Set([
-  "proof-full",
-  "proof-short",
-  "frame",
-  "included",
-  "pricing",
-  "faq",
-]);
+const DEFAULT_HIDDEN = new Set<string>();
 
 export function defaultBlocks(): BlockConfig[] {
   return layoutSections.map((s) => ({ slug: s.slug, visible: !DEFAULT_HIDDEN.has(s.slug) }));
@@ -153,18 +136,13 @@ export function reconcile(raw: unknown): ReconcileResult {
 }
 
 /** Показывается ли блок на обычной (не редактируемой) странице. */
-export function isRendered(block: BlockConfig, audience: Audience): boolean {
-  if (!block.visible) return false;
-  const only = AUDIENCE_ONLY[block.slug];
-  return only === undefined || only === audience;
+export function isRendered(block: BlockConfig): boolean {
+  return block.visible;
 }
 
 /** Почему блока нет на странице — строкой для панели редактора. */
-export function hiddenReason(block: BlockConfig, audience: Audience): string | null {
-  if (!block.visible) return "выключен в конфиге";
-  const only = AUDIENCE_ONLY[block.slug];
-  if (only && only !== audience) return `только для аудитории «${only}»`;
-  return null;
+export function hiddenReason(block: BlockConfig): string | null {
+  return block.visible ? null : "выключен в конфиге";
 }
 
 /**
@@ -172,11 +150,11 @@ export function hiddenReason(block: BlockConfig, audience: Audience): string | n
  * нумеруемый блок в том порядке, в каком он стоит в конфиге. Поэтому
  * перестановка блока меняет номера — ровно как в старом счётчике.
  */
-export function numbering(blocks: BlockConfig[], audience: Audience): Record<string, string> {
+export function numbering(blocks: BlockConfig[]): Record<string, string> {
   const num: Record<string, string> = {};
   let n = 0;
   for (const block of blocks) {
-    if (!isRendered(block, audience)) continue;
+    if (!isRendered(block)) continue;
     if (!NUMBERED.has(block.slug)) continue;
     n += 1;
     num[block.slug] = String(n).padStart(2, "0");

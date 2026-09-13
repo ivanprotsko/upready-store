@@ -1,49 +1,21 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-12T19:50:23.956Z",
+  "updatedAt": "2026-09-13T00:00:00.000Z",
   "blocks": [
     {
       "slug": "hero",
       "visible": true
     },
     {
-      "slug": "launch-artifact",
+      "slug": "words",
       "visible": true
     },
     {
-      "slug": "social-proof",
+      "slug": "why",
       "visible": true
     },
     {
-      "slug": "proof-full",
-      "visible": false
-    },
-    {
-      "slug": "proof-short",
-      "visible": false
-    },
-    {
-      "slug": "frame",
-      "visible": false
-    },
-    {
-      "slug": "included",
-      "visible": false
-    },
-    {
-      "slug": "operations",
-      "visible": true
-    },
-    {
-      "slug": "pricing",
-      "visible": false
-    },
-    {
-      "slug": "payments",
-      "visible": true
-    },
-    {
-      "slug": "delivery",
+      "slug": "how",
       "visible": true
     },
     {
@@ -51,11 +23,11 @@
       "visible": true
     },
     {
-      "slug": "faq",
-      "visible": false
+      "slug": "tariffs",
+      "visible": true
     },
     {
-      "slug": "tariffs",
+      "slug": "faq",
       "visible": true
     },
     {

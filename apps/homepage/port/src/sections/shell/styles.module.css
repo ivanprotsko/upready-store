@@ -1,189 +1,56 @@
 /*
- * 1:1 port of the inline styles on reference/rendered/00-shell.html.
- * Values (colors, sizes, radii, spacing) are copied verbatim from the
- * rendered DOM, not recomputed. `:hover` rules are ported from the
- * `style-hover="…"` attributes on reference/raw/00-shell.html — the
- * rendered snapshot is static and carries no hover state.
+ * Шапка и подвал. Канон — прототип, селекторы `.nav`, `.nav a`, `.nav .btn`,
+ * `footer`, `footer a` (строки 34-37, 197-198) и правило адаптива
+ * `.nav a:not(.btn) { display: none }` при ширине ≤ 768px (строка 204).
+ *
+ * Ссылки скрываются по собственному классу `.navLink`, а не по `:not(.btn)`:
+ * `.btn` объявлен глобально в base.css, и внутри CSS-модуля селектор
+ * `:not(.btn)` пришлось бы оборачивать в `:global(...)`.
  */
-
-/* ---- nav ---- */
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 2px;
-  overflow-x: auto;
-  flex: 1 1 auto;
-  min-width: 0;
-  justify-content: flex-start;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.navSpacer {
-  flex: 1 0 auto;
+  gap: 22px;
+  font-size: 14px;
 }
 
 .navLink {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: rgb(82, 82, 91);
-  padding: 7px 10px;
-  border-radius: 7px;
-  white-space: nowrap;
+  color: var(--muted);
 }
 
 .navLink:hover {
-  color: #18181b;
-  background: #f4f4f5;
+  color: var(--fg);
 }
 
-.navContact {
-  margin-left: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+.navCta {
   height: 36px;
   padding: 0 14px;
-  border-radius: 8px;
-  background: rgb(255, 255, 255);
-  border: 1px solid rgb(228, 228, 231);
-  color: rgb(24, 24, 27);
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  flex: 0 0 auto;
+  font-size: 13.5px;
 }
-
-.navContact:hover {
-  background: #fafafa;
-  border-color: #d4d4d8;
-  color: #18181b;
-}
-
-.navContactIcon {
-  flex: 0 0 auto;
-}
-
-/* ---- footer ---- */
 
 .footer {
-  display: none;
-  position: relative;
-  border-top: 1px solid rgb(228, 228, 231);
-  background: rgb(250, 250, 250);
-}
-
-.cornerTL,
-.cornerTR {
-  position: absolute;
-  top: -6.5px;
-  width: 13px;
-  height: 13px;
-  pointer-events: none;
-  background:
-    linear-gradient(rgb(212, 212, 216), rgb(212, 212, 216)) center center /
-      1.2px 100% no-repeat,
-    linear-gradient(rgb(212, 212, 216), rgb(212, 212, 216)) center center /
-      100% 1.2px no-repeat;
-}
-
-.cornerTL {
-  left: -6.5px;
-}
-
-.cornerTR {
-  right: -6.5px;
-}
-
-.grid {
-  padding: clamp(36px, 4vw, 52px) clamp(20px, 4vw, 56px);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 32px;
-  align-items: start;
-}
-
-.brandCol {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.brandName {
-  font-size: 15.5px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.legalText {
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: rgb(113, 113, 122);
-}
-
-.todoBadge {
-  display: inline-block;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgb(255, 247, 237);
-  border: 1px solid rgb(254, 215, 170);
-  color: rgb(154, 52, 18);
-  font-family: "Roboto Mono", monospace;
-  font-size: 10.5px;
-}
-
-.linksCol {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footerLink {
-  font-size: 13px;
-  color: rgb(82, 82, 91);
-}
-
-.footerLink:hover {
-  color: #18181b;
-}
-
-.contactCol {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.footerContact {
-  display: inline-flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  height: 42px;
-  padding: 0 18px;
-  border-radius: 9px;
-  background: rgb(24, 24, 27);
-  color: rgb(255, 255, 255);
-  font-size: 13.5px;
-  font-weight: 600;
-  box-shadow: rgba(24, 24, 27, 0.24) 0px 1px 2px;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 26px var(--pad-x);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--faint);
 }
 
-.footerContact:hover {
-  background: #3f3f46;
-  color: #fff;
+.footer a {
+  color: var(--muted);
 }
 
-.footerContactIcon {
-  flex: 0 0 auto;
+.footer a:hover {
+  color: var(--fg);
 }
 
-.docStampWrap {
-  padding: 0 clamp(20px, 4vw, 56px) 28px;
-}
-
-.docStamp {
-  font-family: "Roboto Mono", monospace;
-  font-size: 11px;
-  color: rgb(161, 161, 170);
+@media (max-width: 768px) {
+  .navLink {
+    display: none;
+  }
 }
