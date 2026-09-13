@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-13",
+  "index": 23,
+  "action": "status-set",
+  "ts": "2026-09-13T21:15:53+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»)."
+}

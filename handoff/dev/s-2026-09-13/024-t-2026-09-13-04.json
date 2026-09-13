@@ -1,0 +1,27 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-13",
+  "index": 24,
+  "action": "task-update",
+  "ts": "2026-09-13T21:17:28+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»).",
+  "task": {
+    "id": "t-2026-09-13-04",
+    "title": "Telegram Mini App для магазина: тестовый магазин с абстрактными данными, затем автосоздание при инициализации магазина, пул заранее созданных магазинов",
+    "state": "in_progress",
+    "priority": "high",
+    "created": "2026-09-13T20:43:13+08:00",
+    "updated": "2026-09-13T21:17:28+08:00",
+    "goal": "Telegram Mini App для магазина upready-store: (1) для тестового магазина с абстрактными данными поднять работающий Telegram Mini App витрины; (2) разобраться и реализовать автоматическое создание Mini App вместе с инициализацией магазина; (3) осмыслить и, если создание в рантайме требует ожидания, спроектировать пул заранее созданных магазинов, у которых при инициализации (бесплатный тариф или после оплаты) меняется владелец и регенерируются seed-данные под сферу и категорию торговли. Ветка feature/telegram-miniapp от dev, PR в dev.",
+    "acceptance": [
+      "Mini App тестового магазина открывается в реальном Telegram-клиенте (телефон или десктоп) и показывает каталог с абстрактными данными, скриншот из Telegram приложен",
+      "Инициализация нового магазина через мастер создаёт или выдаёт Mini App без ручных шагов; замерено время от инициализации до открытия в Telegram",
+      "Записка artifacts/docs с решением по пулу заранее созданных магазинов: замеры времени создания в рантайме, схема смены владельца и регенерации seed, риски",
+      "PR feature/telegram-miniapp → dev смёржен на GitHub"
+    ],
+    "approved": "2026-09-13T20:44:21+08:00",
+    "details": "Воркспейс Superset 956b9c45 upready-store, ветка feature/telegram-miniapp от dev (a994249). Агент claude запущен с промптом (терминал 12562b7b, заголовок «Telegram Mini App storefront и pool strategy»). Смотреть: superset terminals read --workspace 956b9c45-5500-42bc-b297-e4ab8432e783 --terminal 12562b7b-5f13-44dc-97d4-e00cc69b706a\n\n2026-09-13 21:17 WITA, ветка feature/telegram-miniapp, коммит f16df2c, PR #5 (https://github.com/ivanprotsko/upready-store/pull/5): бэкенд src/telegram (Bot API клиент, provisioning, GET/POST/DELETE /admin/telegram-mini-app, GET /store/telegram-mini-app, 12 unit), витрина /[locale]/mini + MiniAppBridge (3 vitest), записка artifacts/docs/2026-09-13-telegram-miniapp-pool-decision.md — решение: пул не нужен (инициализация ≈3–8 с), схема платформенный бот + свой бот владельца. Замеры: RTT api.telegram.org с Contabo 59/258/60 мс, provisioning 5 вызовов через мок 12 мс, каталог ferrite FCP 1,27–1,38 с. Симулированный webview 15/15 PASS. НЕ сделано: реальный Telegram — нет токена бота upready-store, шаги BotFather для Ивана в §6; PR открыт."
+  }
+}
