@@ -1,0 +1,42 @@
+Ваша кибербезопасность
+Собрали материалы, которые помогут вам улучшить защиту персональных данных
+и сохранить ценную информацию на устройствах
+Статьи
+Все статьи [[https://www.insales.ru/blogs/cyberblog]]
+13.05.2025
+интернет-мошенничество [[/blogs/cyberblog/tags/internet-moshennichestvo]]
+Электронная почта: как не стать жертвой кибермошенников и работать безопасно [[/blogs/cyberblog/elektronnaya-pochta-kak-ne-stat-zhertvoj-kibermoshennikov]]
+23.09.2024
+защита данных [[/blogs/cyberblog/tags/zaschita-dannyh]]
+Двухфакторная аутентификация: зачем она нужна и почему важна [[/blogs/cyberblog/dvuhfaktornaya-autentifikaciya]]
+23.09.2024
+интернет-мошенничество [[/blogs/cyberblog/tags/internet-moshennichestvo]]
+Что такое фишинг и как от него защититься [[/blogs/cyberblog/chto-takoe-fishing]]
+Проверьте безопасность
+сайта по ссылкам ниже
+Проверить ссылку на вирусы... @Dr.Web [[https://vms.drweb.ru/online/]]
+Safe Browsing Яндекс [[https://yandex.ru/safety/]]
+VirusTotal - Home [[https://www.virustotal.com/gui/home/upload]]
+Проверка ссылки на вирусы и перенаправление [[https://smm-e.ru/services/security/check-link/]]
+Иногда, чтобы заразиться, достаточно попасть на вредоносный или мошеннический сайт, особенно если у вас нет антивирусной защиты. Даже самые популярные и достоверные внешние интернет-ресурсы могут быть взломаны злоумышленниками.
+А еще есть сайты, при посещении которых с компьютера ничего страшного не случится, а вот зайдя на него со смартфона, вы будете тайно перенаправлены на сайт с неприятным «сюрпризом».
+Памятки по кибербезопасности
+Памятка про фишинг
+Посмотреть [[https://static.insales-cdn.com/files/1/7910/31596262/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_%D1%84%D0%B8%D1%88%D0%B8%D0%BD%D0%B3%D0%BE%D0%B2%D1%8B%D0%B5_%D0%B0%D1%82%D0%B0%D0%BA%D0%B8.pdf]]
+Памятка про пароли
+Посмотреть [[https://static.insales-cdn.com/files/1/7909/31596261/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_%D0%BF%D0%B0%D1%80%D0%BE%D0%BB%D0%B8.pdf]]
+Памятка про wi-fi
+Посмотреть [[https://static.insales-cdn.com/files/1/7912/31596264/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_Wi-Fi.pdf]]
+Памятка про электронную почту
+Посмотреть [[https://static.insales-cdn.com/files/1/7907/31596259/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D1%83%D1%8E_%D0%BF%D0%BE%D1%87%D1%82%D1%83.pdf]]
+Памятка про двухфакторную аутентификацию
+Посмотреть [[https://static.insales-cdn.com/files/1/7908/31596260/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_%D0%B4%D0%B2%D1%83%D1%85%D1%84%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D1%83%D1%8E_%D0%B0%D1%83%D1%82%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8E.pdf]]
+Памятка про персональные данные
+Посмотреть [[https://static.insales-cdn.com/files/1/7913/31596265/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE_%D0%BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5.pdf]]
+Памятка про мобильный телефон
+Посмотреть [[https://static.insales-cdn.com/files/1/7911/31596263/original/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE__%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD.pdf]]
+Ещё
+Зарабатывайте больше
+Используйте единый инструмент
+для всех каналов интернет-продаж
+Попробовать бесплатно [[/]]
