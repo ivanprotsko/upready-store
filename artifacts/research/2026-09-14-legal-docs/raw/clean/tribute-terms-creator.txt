@@ -1,0 +1,203 @@
+User Agreement with a Сreator
+This document was last updated on December 23, 2025
+This User Agreement (the "Agreement") is a legally binding agreement between TRBT Limited (the "Company", "we", "our") and You (the "User", "you", "your") that sets out the terms of use for the Company&#x27;s website and telegram bot, “Tribute”, associated interface, and any other services provided by the Company, collectively referred to as the "Service".
+PLEASE READ THIS USER AGREEMENT CAREFULLY. BY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD AND FULLY AGREE TO ALL THE TERMS OF THIS AGREEMENT. YOU MAY NOT USE THE SERVICE IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT.
+By using the Service, you agree that you have read, understand and unconditionally accept all the terms of this Agreement. If you do not agree to any provision of this Agreement, or you believe that any provision of this Agreement infringes on your rights, or in any other way puts you at a disadvantage, then you must immediately stop any use of the Service.
+We constantly strive to improve our Service by providing you with new features and capabilities, so we may make changes to this Agreement from time to time. At the same time, we recommend that you periodically check the date of the last update of this Agreement, indicated at the top of it, and, if it is updated, get acquainted with the new version of the Agreement.
+We may change any part of the Agreement without prior notice, especially in the following cases:
+to reflect changes in laws and regulatory requirements that apply to Service and Service services, functions and programs, if such changes require that Service to change its terms;
+to eliminate the unforeseen and imminent danger associated with protecting Service, Creators or Followers from fraud, malware, spam, data leakage or other cybersecurity risks;
+As soon as any updated Agreement takes effect, you will be required to comply with them if you continue to use Service.
+General. You agree that:
+If any aspect of your agreement with us is unenforceable, the rest will remain in effect.
+If we fail to enforce any aspect of your agreement with us, it will not be a waiver of rights;
+We reserve all rights not hereby expressly granted to you.
+You may not transfer your rights or obligations under the agreement with us without our prior written consent.
+Terms of use of the Service
+We grant you a limited, non-exclusive, non-transferable license to access and use the Service. All rights to the Service, including software rights, are the exclusive property of the Company. You agree that you will not copy, transmit, distribute, sell, license, reverse engineer, modify, publish or participate in the transfer or sale, create derivative works based on our Service or its component parts, or otherwise use the software except for the purpose of using the Service.
+Eligibility
+By using the Service, you confirm that you have reached the required age in accordance with your personal law and that you have all the necessary powers and permissions for such use. If you are prohibited by your personal law from using our Service, you must refuse to use the Service, otherwise, you and only you will be solely responsible for using the Service in violation of the requirements of your personal law.
+To start using the Service on behalf of an organization, you must contact our support team via the Service with the appropriate message. By using the Service on behalf of an organization, you represent and warrant that i) you are an authorized representative of such an organization and you have the full legal authority to enter into this Agreement on behalf of such an organization; ii) the organization&#x27;s personal laws do not prohibit it from using our Service. If you do not have the appropriate authority or the organization is prohibited from using our Service in accordance with its personal laws, then you must refuse to use the Service on behalf of the organization, otherwise you and the organization you represent will be solely responsible for using the Service in violation of the requirements of your personal law.
+Registration in the Service
+To start using the Service, you must complete the registration process. You must provide all the information requested by the Company, as well as confirm your acceptance of the terms of this Agreement. You understand and agree that we may, in our sole discretion, refuse to register you without giving any reason for such refusal.
+By completing the registration process, you confirm that the information you provide is yours, accurate and reliable, and you agree to keep it up-to-date and update it if any information changes. When entering legal relations with you, the Company relies on the accuracy of the information provided by you.
+We may check the information you provide from time to time. You hereby authorize us, directly or through third parties, to make any requests that we deem reasonably necessary to verify your identity and the information you provide, and to take any actions based on the results of such requests that we deem reasonably necessary to protect us and other Users from fraud.
+You are responsible for ensuring that your credentials are properly secured. Loss or compromise of your credentials or your personal information may result in unauthorized access to your account by third parties, which may result in the loss or theft of your information, including related Bank accounts and credit cards. If you believe that your account has been compromised, please contact our support team immediately via the Service.
+Your role in the Service
+All users of the Service are divided into two groups: Creators and Followers. By accepting the terms of this Agreement, you start using the Service as a Creator. However, this does not prevent you from also using the Service as a Follower by entering into a corresponding agreement with the Company.
+Creators are users of the Service who create digital content. The Service provides Creators with the opportunity to sell access to their digital content to Followers through the Services and the Company is hereby authorized to conclude sale of access to digital content to Followers on behalf of Creators, as well as to accept financial support from Followers on behalf of Creators in the form of a gratuitous gift of funds.
+Creators&#x27; digital content
+You represent and warrant that you are a creator (author) of digital content, including Custom Digital Products (the "CDP"), and/or have the appropriate rights to publish digital content.
+The CDP are personalized digital content created by Creators at the request of Followers. Followers can purchase CDP through the Service, providing specific instructions or requests for the content.
+You also confirm and guarantee that the digital content, including the CDP:
+does not violate the terms of Service;
+does not violate applicable laws, the personal laws of a Follower and/or a Creator;
+does not violate the rights of third parties (copyright, exclusive rights, rights to means of individualization, etc.);
+does not discriminate on the basis of gender, sexual orientation, race, color, nationality, language, origin, attitude to religion or other beliefs;
+does not contain propaganda of certain political beliefs, as well as negative or critical statements about politics;
+does not call for violence, extremist activities, overthrow of the existing government or other establishments, the use or distribution of narcotic and psychotropic substances and other activities prohibited by applicable law;
+does not have a slanderous, insulting or discrediting character;
+does not intended to arouse sexual feelings or justify sexual behavior towards minors.
+complies with the requirements for CDP, which are analogous to the current requirements for digital content.
+We reserve the right to check the digital content of the Creator, including the CDP, for its compliance with this Agreement. We reserve the right to terminate any use of the Service by you without prior notice if we determine that your digital content, including the CDP, violates the terms of this Agreement.
+Cost of access to digital content
+You independently set the cost of access to your digital content. You can set the cost of access depending on the amount of access provided (for example: part of digital content or all digital content), the period of access (for example: "1 week", "1 month", "1 year", "forever"), the frequency of payment (for example: "one-time payment", "regular payment"), etc.
+The minimum cost of access to digital content that can be sold through the Service is 1 EUR (if the cost is lower than this amount, the commission of payment providers will eat up all the money, and you will not receive anything). The maximum cost of access to digital content that can be sold through the Service is 1,000 EUR.
+Goods
+The Service may allow Creators to sell physical goods, including merchandise (the " Goods "), through third-party partners. For any Goods sold through the Service:
+The Company does not manufacture, stock, or ship any Goods.
+Creators are solely responsible for the design, quality, safety, and legality of Goods they offer for sale. Creators must ensure all Goods comply with applicable laws and regulations.
+The Company reserves the right to remove or prohibit any Goods at its sole discretion.
+Creators are responsible for providing accurate Goods’ descriptions, pricing, and shipping information. The Company is not liable for errors in Goods listings.
+Creators must comply with all applicable consumer protection, product safety, and e-commerce laws related to the sale of physical goods.
+The Company does not guarantee the quality, safety or timely delivery of Products. Any Product issues or customer service matters must be resolved directly between Creators and Followers.
+The Company reserves the right to suspend or terminate a Creator&#x27;s ability to sell Goods through the Service at any time. By using the Service to sell Goods, Creators agree to indemnify and hold the Company harmless from any claims arising from the manufacture, sale, or use of Goods.
+Creators must ship Goods within the handling time stated in their listing, using the shipping service selected by the Follower at checkout.
+Creators are required to provide all details related to shipping and handling costs, including:
+Actual cost paid to the shipping service
+Handling costs, including the cost of packaging materials and insurance
+The actual cost of delivery confirmation or extra services (e.g., delivery confirmation, registered mail)
+Any other relevant shipping and handling details that may affect the total cost or delivery time
+Company is not responsible for reviewing the status, cost and speed of delivery.
+Creators are solely responsible for resolving any shipping-related issues, including but not limited to delays, lost packages, or damaged goods during transit. The Company is not liable for any shipping-related problems.
+The Company implements a payment protection system by holding funds for 15 business days after the confirmed delivery of Goods. This period allows buyers to inspect received items and raise any quality or delivery concerns. Funds will be automatically released to the Creator after the hold period expires, provided there are no active disputes and the delivery status has been confirmed.
+Relationship between Creator and Follower
+Selling access to digital content to a Follower, as well as accepting funds from a Follower by a Creator is a deal. All deals are made between a Creator and a Follower through the Services and the Company is authorized to conclude sale of access to digital content or Goods to Followers on behalf of Creators. Creators and Followers independently determine the terms and conditions of the deal, how the deal will be executed, and how the deal will be changed and terminated. Before entering the deal, you must ensure that it is legal and meets the requirements of your personal law.
+In the case of a change in an already concluded deal (change of a condition, a party to an obligation, etc.), you confirm that such changes are legal and made in accordance with the requirements of your personal law. If you do not agree with the contents of the deal or any changes made to it, you must repudiate the deal yourself and terminate it in accordance with the terms of the deal and applicable law.
+The Company participates in deals between Creators and Followers exclusively as an agent authorized by Creators to conclude sale of access to digital content or Goods to Followers on behalf of Creators. The Company does not determine terms of deals, does not monitor their proper execution.
+At the same time, we reserve the right to verify the reality of the deals concluded between you and a Follower, including to demand the provision of the terms of the concluded deals, as well as to confirm the fact of the provision of execution for these deals. If you are unable to confirm the reality of the deals you have made, we will consider your use of the Service as fraudulent.
+Appointment of the Company
+By joining this agreement, you appoint the Company as your agent authorized to conclude agreements with the Followers for the sale of content or Goods on behalf of Creator and for collecting funds on your behalf. You instruct us to perform all necessary actions to collect funds received from Followers to a Creator. Acting as your agent, we will act on our own behalf, but in any case, in your best interests.
+The Company operates as a commercial agent, authorized via this Agreement to conclude the sale of digital content on behalf of the Creators. The Company collects funds from Followers and transfers these funds to the Creators as part of this agency relationship.
+The Company does not provide payment services as defined under the Provision and Use of Payment Services and Access to Payment Systems Laws of 2018 and 2019 ("Payment Services Law"). All payment transactions, including the placement, transfer or withdrawal of funds, are executed by duly licensed payment service providers.
+For transactions involving the exchange between fiat currencies and cryptoassets, the Company does not offer exchange services between cryptoassets and fiat currencies, nor does it hold or safekeep Creators&#x27; cryptoassets. Any necessary exchanges are performed by authorized third-party cryptoasset service providers.
+Obligations of the Company
+The Company undertakes, on its own behalf, to
+organize the collection of funds received from Followers to a Creator, and
+transfer all collected funds to a Creator in accordance with the terms of this Agreement.
+Fees
+The Company’s compensation for its agency services is ten percent (10%) of each payment that the Company collects on behalf of the Creator (the "Agency Fee"). By using the Service, Creators authorize the Company to deduct and retain said Agency Fee from each amount received before remitting the balance to the Creator.
+The Company may establish special promotional periods during which Agency Fees may be reduced. The terms of the current promotions are available at the Company’s website [[https://wiki.tribute.tg/for-content-creators/promotions]] .
+We will deduct our Fees from the amount of each payment we collect for you. The Fees are calculated on the total amount of the payment.
+We reserve the right to change the amount of our Fees for individual Authors on the terms specified in special agreements.
+The cost of processing by the Company of one chargeback message in relation to the funds collected by the Company for you is 35 EUR. We will deduct this cost from the amount of funds to be transferred to you.
+In cases where funds must be returned to Followers due to Creator&#x27;s violations of this Agreement, applicable laws, or other misconduct of the Creator, such refunds will be processed with the deduction of (i) all applicable Fees as defined in this section of the Agreement; and (ii) an administrative processing fee of 50 EUR per refund case to reimburse Company&#x27;s costs in processing such refunds and investigating violations.
+In cases where Creator instructs the Company to issue a refund to Followers, such refunds will be processed with the deduction of (i) all applicable Fees as defined in this section of the Agreement and (ii) the Company’s costs associated with processing the refund.
+The Company will hold any unclaimed funds belonging to Creators for a period of one (1) year. After this one-year period, if the funds remain unclaimed, they shall be forfeited to the Company.
+Payment instruction
+The Company transfers funds to a Creator in accordance with the Payment instructions received from a Creator. When registering in the Service, a Creator must choose the payment method by which they want to receive funds from the Company, choose one of the supported payment currencies, and provide the Company with valid payment details to which the funds should be transferred.
+If the payment currency chosen by a Creator differs from the currency of the funds collected by the Company on behalf of a Creator, the Company converts the funds in accordance with the conversion rate of the payment method chosen by a Creator.
+If the payment method chosen by a Creator does not allow the transfer of all funds due to a Creator in one payment, the Company has the right, at its sole discretion, to transfer funds to a Creator in several payments in the maximum amounts possible for the payment method chosen by a Creator, during any amount of time necessary for the transfer of the entire amount of funds due to a Creator or suspend payments and require the Creator to change the previously selected payment method.
+Transfer of funds
+The Company transfers to the Creator all the funds collected by the Company twice a month:
+the funds collected from the 1st to 15th day of the month will be transferred on 25th day (or on the nearest business day) of the month;
+the funds collected from the 16th to 31st day of the month will be transferred on 10th day (or on the nearest business day) of the next month.
+The Company transfers to the Creator all the funds collected by the Company if the total amount of funds for withdrawal to a bank card is equal to or exceeds 100 EUR or an equivalent amount in other currencies, and for withdrawal to a bank account is equal to or exceeds an amount equivalent to 100 EUR.
+A Creator understands and agrees that the Company&#x27;s obligation to transfer the collected funds to a Creator arises only if the Company actually receives funds from Followers.
+The Company undertakes notifying a Creator if it is impossible to transfer funds to a Creator due to the invalidity of the payment details provided by a Creator. In this case a Creator is obliged to provide the Company with new, valid payment details. The Company has the right to suspend the transfer of funds to a Creator until new, valid payment details are received from a Creator.
+Disputes of payments by Followers
+By using the Service, you understand and agree that Followers may dispute any payment made to you regardless of the actual execution of the deal you entered with them. This right is given to them by international payment systems.
+If the amount or number of disputed payments of Followers does not exceed 20% of the total amount and/or number of payments collected by the Company for a Creator in the relevant month, the Company has the right to refuse to transfer the disputed payments to the Creator until it receives a decision on these disputed payments is received.
+If the amount or number of disputed payments of Followers exceeds 20% of the total amount and/or number of payments collected by the Company for a Creator in the relevant month, the Company has the right to refuse to transfer all the collected funds to the Creator until it receives a decision on all disputed payments.
+Refusal to transfer funds
+The Company has the right to unilaterally suspend any transfer of funds to a Creator or completely refuse to transfer all collected funds to a Creator if:
+Creator violates the terms of the Agreement;
+there are grounds to suspect a Creator of fraudulent or illegal activities;
+Creator has provided the Company with false information about themself and their activities, or could not confirm the accuracy of the information provided;
+Company has received a corresponding request from payment providers, payment systems or competent government authorities;
+the transfer of funds violates the requirements of applicable law, including those on countering the legalization (laundering) of proceeds from crime, the financing of terrorism, as well as international sanctions;
+in other cases provided for in this Agreement.
+In this case, the Company may, at its sole discretion, either return the funds to Followers, or withhold all collected funds as a penalty for violating the terms of this Agreement
+Prohibited use
+We strive to ensure that the Service is convenient and used by as many Users as possible, but there are areas of the possible use of the Service in which we would not want to participate for moral, ethical or other reasons.
+We strictly prohibit using the Service to buy, sell, distribute, or pay for:
+Any form of donation, contribution, financial support, fundraising, or monetary assistance related to war, armed conflict, military operations, paramilitary activities, weapons, defence efforts, or any similar events or causes, including any organisations, individuals, or groups engaged in or supporting such activities;
+Any criminal activity:
+Incitement, solicitation or promotion of Hate/Violence/Racism/Religious persecution;
+Encouragement, promotion, facilitation or instructing others to engage in illegal activity, fraud or the sale of dangerous or hazardous goods;
+Encouragement, promotion and sale of prohibited goods and services:
+Drugs / Illicit substances, steroids etc., and related drug paraphernalia;
+Weapons, firearms and ammunition;
+Cigarettes and any tobacco products;
+Medications, dietary supplements;
+Government ID’s or documents;
+Stolen goods including digital and virtual goods;
+Calling cards;
+Fraudulent / deceptive marketing practices;
+High Risk File hosting / sharing and cyberlockers;
+Any form of high yield ﬁnancial investments and get rich quick schemes:
+Pyramid or Ponzi schemes, matrix programs;
+Online trading services;
+Gambling business (casinos), betting, wagering on the Internet;
+Penny and Reverse Auctions.
+Self-transactions and artificial activity:
+Making payments, donations, or purchases to your own Creator account through alternate accounts;
+Creating multiple accounts to artificially inflate engagement metrics;
+Using automated systems or bots to generate fake transactions or interactions;
+Engaging in any form of self-dealing or wash trading;
+Any attempts to manipulate platform metrics, rankings, or revenue through artificial means.
+Any form of violation of intellectual property rights:
+Infringe any duly registered copyrights/trademarks or other violation of intellectual property rights;
+Distribution of music, video, software and other products with no license issued of by copyright holder / authorized organization;
+Distribution of counterfeits, distribution of products without any certificates.
+Any other goods that are prohibited or restricted by applicable law and/or the Personal law of a Creator or Follower.
+We reserve the right, at our sole discretion, to terminate our agreement and your access to Service for any reason. We may also suspend access to your user account or terminate your agreement with us and your access to Service immediately and without prior notice:
+if we believe that you have seriously or repeatedly violated any part of the Terms or if you attempt or threaten to violate any part of the Terms in a way that could have serious consequences for us or another User;
+if you take any action that, in our opinion, has caused or may cause us to suffer losses, or otherwise damage the reputation of Service.
+Special features
+In addition to the general features of using the Service, the Company may provide you with special features that will allow you to make the use of the Service more convenient.
+The Service gives you the opportunity to use your personal account, where you can find information about the amount of money collected by the Company, payment statistics and other information that will help make your user experience more convenient.
+As other special features, the Company may provide you with a personal manager in support team, priority message processing, consultations on setting up the Service and providing detailed statistics on the use of the Service can be provided. You can find out the possibility, conditions, and cost of enabling special features by contacting our support team via the Service.
+Suspension and termination of registration
+You understand and agree that the Company has the right at any time in its sole discretion to suspend or terminate your registration in the Service if we reasonably believe that you are violating the terms of this Agreement. We will notify you of our actions unless a government order or court order prohibits us from providing you with such notification.
+You acknowledge that the Company&#x27;s decision to suspend or terminate your registration may be based on confidential criteria that are necessary for the Company&#x27;s risk management and security protocols. You agree that the Company is not obligated to disclose to you the details of risk management and security procedures.
+You can terminate your registration in the Service at any time by writing a corresponding message to our support team via the Service. If the Company does not have funds to be transferred to you, then your registration will be terminated within 5 business days from the date we receive this message. If the Company has funds to be transferred to you, then your registration will be terminated after the next date for the transfers of funds
+Please note that if the Company has funds to be transferred to you, but their amount does not cover the Company&#x27;s costs of transferring them to you, you may, at your discretion:
+wait for the moment when the amount of funds collected by the Company is sufficient to make the transfer &#8212; in this case, your registration will be terminated after the next date for the transfers of funds;
+or send a message to the Company stating that you are leaving these funds for the benefit of the Company &#8212; in this case your registration will be terminated within 5 business days from the date we receive this message.
+You understand and agree that in order to fulfill our obligations to payment providers and government agencies, we have the right to store information about your registration and use of the Service for a period of 5 (five) years from the date of termination of your registration.
+Inactive Creator
+Creator inactive is a status that we assign to a Creator in the following cases:
+Creator has not used the Service within the last 90 (ninety) consecutive calendar days;
+and/or a Creator within 30 (thirty) calendar days from the date of the relevant request has not provided new, valid payment details;
+and/or a Creator within 10 (ten) calendar days from the date of the relevant request has not provided the Company tax information;
+and/or the information provided by a Creator during registration has not been verified in accordance with the Company&#x27;s internal procedures.
+If a Creator is assigned the status of "inactive Creator", the Company suspends the registration of such Creator in the Service, stops collecting funds to such Creator, as well as any transfer of funds to such Creator.
+If the Company does not have funds to be transferred to a Creator, the Company has the right to terminate a Creator&#x27;s registration in the Service after 30 (thirty) calendar days from the date when a Creator was assigned the "inactive Creator" status.
+If the Company has funds to be transferred to a Creator, the Company has the right to charge and withhold from a Creator a penalty of 1% (one percent), but in any case at least 1 EUR, of the amount of funds to be transferred to a Creator, for each calendar day of suspension of registration. The Company terminates registration of a Creator in the Service at the moment when the amount of money to be transferred to a Creator is zero.
+Taxes
+Generally, the Company does not carry out the calculation, withholding and payment of taxes. At the same time, the Company reserves the right to deduct and withhold from the funds to be transferred to a Creator the amount of any taxes, if such an obligation is imposed on the Company in accordance with applicable law. The Company has the right to request any tax information it needs from a Creator, and a Creator undertakes to provide it within 2 (two) calendar days from the date of receipt of the corresponding request.
+As is
+The Service is provided on an "as is" basis. The Company does not provide any express or implied warranties with respect to the Service, including, but not limited to, guarantees that: the Service and its functionality meet your requirements and/or expectations, the use of the Service will increase your profit, the Service will operate continuously, quickly, reliably and without errors; the results that can be obtained using the Service will be accurate and error-free; all errors in the Service will be corrected immediately.
+We make commercially reasonable efforts to ensure the operation of the Service around the clock, but we cannot guarantee that there will be no interruptions due to technical failures, or maintenance work, and we cannot guarantee the full and error-free operation of the Service.
+We can update and change Service for any reason, as well as change the design of the Service, its content, functionality, modify or supplement the scripts, software and other objects used or stored on Service, any server applications at any time with or without prior notification. We do not guarantee that Service or any of its Content will always be available or available without interruption. We may suspend, revoke or restrict the availability of all or any part of the Service for business or operational reasons.
+LIMITATION OF LIABILITY
+YOU CLEARLY UNDERSTAND AND AGREE THAT THE COMPANY AND ITS RESPECTIVE OFFICERS (EMPLOYEES AND REPRESENTATIVES) WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY DAMAGES OR LOST PROFITS THAT RESULT FROM THE USE OR INABILITY TO USE THE SERVICE. YOU UNDERSTAND AND AGREE THAT UNDER ANY CIRCUMSTANCES, THE COMPANY&#x27;S LIABILITY TO YOU WILL BE LIMITED TO THE AMOUNT OF 50 EUR AND CAN ONLY BE IMPOSED ON THE COMPANY ON THE BASIS OF AN EFFECTIVE COURT DECISION.
+Indemnification
+You agree to indemnify, defend, and hold harmless the Company and its representatives (directors and employees) from any claims, liabilities, damages, judgments, costs, expenses, or fees (including reasonable attorneys&#x27; fees) arising out of your use of the Service, including your violation of this Agreement.
+Force majeure
+The Company shall not be liable for any delay or failure to perform its obligations under this Agreement to the extent such delay or failure is caused by a Force Majeure Event, meaning any event or circumstance beyond the reasonable control of the affected party that directly prevents or materially impairs the performance of its obligations, including natural disasters, acts of terrorism, civil unrest, strikes or other labour disputes not involving the affected party’s workforce, epidemics or pandemics, acts of government or public authorities, interruption or failure of utilities, telecommunications or transportation systems, and war, armed conflict, hostilities or military actions only to the extent they directly affect the affected party’s ability to perform under this Agreement.
+Survival
+If any provision of this Agreement is found to be invalid or unenforceable under applicable law, such provision will be modified and interpreted to achieve the purposes of the provision to the greatest extent possible, and the validity and applicability of any other provision of this Agreement will not be affected.
+Assignment and Novation
+You agree and acknowledge that the Company may assign, novate, transfer, mortgage, charge, sub-contract, declare a trust over or deal in any other manner with any or all of its rights and obligations under this Agreement (or any other document referred to in it) to a third party without your prior written consent or prior notice to you. The Company will notify you on any assignment, novation, transfer, mortgage, charge, sub-contract, trust or other dealings as soon as practicable following such events. You further agree that your: a) continuation to use Services, and b) actions, behaviors and other circumstances during the provision of Services following the corresponding notice will constitute your implied consent.
+Third-party services
+The Service may contain references or links to third-party services or resources, including information, materials, products, that we do not own or control. These services are provided by third parties and their use is governed by separate agreements. Any use of third-party services is at your own risk, and we do not accept any responsibility for the consequences of such use.
+External links
+The Service may contain links to third-party websites that we are not owned or controlled. These links are placed in the Service solely for your convenience and any use of these links should be carried out by you at your own risk.
+You should understand that the placement of such links in the Service does not mean that we know the content and approves the content posted on such links. We disclaim any liability in relation to your use of such links.
+Use of your name or content
+By using the Service, you grant us the non-exclusive right to use, free of charge, your name (pseudonym) and legally owned digital content for the purpose of using them in our advertising and marketing materials, including both within the framework of the Service and by bringing such advertising and marketing materials to the public. This non-exclusive right is granted for the entire period of your use of the Service and extends its effect on the territory of countries around the world.
+The termination of your use of the Service and/or the validity period of the non-exclusive right does not entail the need to withdraw from circulation our advertising or marketing materials created using your digital content.
+Applicable law
+This Agreement is governed by the applicable laws of Cyprus. All and any disputes under this Agreement shall be settled exclusively in the courts of Cyprus.
+Privacy
+The collection, processing and use of personal data provided by you in connection with the use of the Service are carried out by the Company in accordance with the Privacy policy.
+Notifications
+The Company and the User hereby agree that any emails, notifications, requests, and documents transmitted to each other through the Service will be considered properly sent and received.
+Contact us
+If you have any suggestions, feedback, questions or complaints, you can send a corresponding message to our support team via the Service. Please include your name and any other information that will help us identify you in our Service.
+Company information
+TRBT Limited
+Registration number: HE 443898
+Address: Griva Digeni, 51 ATHINEON COURT, Flat/Office 202 8047, Paphos, Cyprus
