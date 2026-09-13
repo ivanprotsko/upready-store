@@ -1,10 +1,11 @@
 import { PLAN_SCENARIOS, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
-import { EYEBROW, HEADING, PLANS, PRO_LINE } from "./data";
+import { EYEBROW, HEADING, PLANS, ROWS } from "./data";
 
 /**
- * «Тарифы»: два тарифа, кнопка каждого ведёт в кассу с уже выбранным тарифом
- * (концепция §2, строка «воронка с выбранным тарифом»).
+ * «Тарифы»: три карточки с одинаковыми строками сравнения; кнопка каждой
+ * ведёт в воронку с уже выбранным тарифом (концепция §2, строка «воронка с
+ * выбранным тарифом»). Спецификация планов — t-2026-09-13-02.
  */
 export default function Tariffs() {
   return (
@@ -23,13 +24,23 @@ export default function Tariffs() {
         {PLANS.map((plan) => {
           const scenario = PLAN_SCENARIOS[plan.scenario];
           return (
-            <div key={plan.scenario} className={styles.plan}>
+            <div key={plan.scenario} className={styles.plan} data-testid={`plan-${plan.scenario}`}>
               <span className="eyebrow">{plan.name}</span>
               <div className={styles.price}>
                 {plan.price}
                 <small>{plan.period}</small>
               </div>
-              <p>{plan.summary}</p>
+              <p className={styles.annual}>{plan.annual || " "}</p>
+
+              <dl className={styles.rows}>
+                {ROWS.map((label, i) => (
+                  <div key={label} className={styles.row}>
+                    <dt>{label}</dt>
+                    <dd>{plan.values[i]}</dd>
+                  </div>
+                ))}
+              </dl>
+
               <a
                 className={`btn ${styles.planCta}`}
                 href={funnelUrl(scenario)}
@@ -42,8 +53,6 @@ export default function Tariffs() {
           );
         })}
       </div>
-
-      <p className={styles.pro}>{PRO_LINE}</p>
     </section>
   );
 }

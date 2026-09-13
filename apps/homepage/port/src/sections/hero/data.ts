@@ -51,7 +51,7 @@ export const CTA_LABEL = "Создать магазин";
 
 export const SECONDARY_LINK = { label: "Посмотреть примеры", href: "#sec-showcase" };
 
-export const MICRO = "От 4 900 ₽ · три экрана до открытой витрины";
+export const MICRO = "Бесплатно до 15 товаров · три экрана до открытой витрины";
 
 /** Шаг цикла слов, мс (концепция §4: 4 с на слово). */
 export const WORD_MS = 4000;
