@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-14",
+  "index": 8,
+  "action": "status-set",
+  "ts": "2026-09-14T05:22:18+08:00",
+  "status": "2026-09-14 05:22 WITA: durable-save перед сжатием (t-2026-09-13-02). Ветка feature/onboarding запушена, PR #12 OPEN. Сделано за сессию: кнопки главной разведены (мастер онбординга / телеграм-бот с plan_N), цепочка проверена живьём — магазин создаётся за 12 с; стенд MT поднят и вылечен (DEMO_HOSTS, STOREFRONT_STUDIO_PASSWORD, STOREFRONT_SETTINGS_SECRET на обоих процессах, publishable key тенанта), студия сохраняет композицию; воркспейс cef2827b feature/upreadystore_bot запущен, агент сдал PR #11. Открытые вопросы Ивану: q-gde-prinimat-onbording-lokalnyy-stend, q-shest-url-tribute-dlya-bota. Знание: ~/upready/memory/homepage-cta-routing-2026-09-14.md и mt-stand-local-run-2026-09-14.md."
+}

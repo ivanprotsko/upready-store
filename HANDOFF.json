@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T05:19:42+08:00",
-  "status": "2026-09-14 05:19 WITA: студия на стенде починена целиком (t-2026-09-13-02). Две строки с экрана Ивана — обе от незаданных переменных МОЕГО запуска стенда, потребители прочитаны: «сохранение отключено» = storefront api/studio/settings/route.ts:46 settingsSecret() null → secretConfigured false; «не удалось загрузить композицию» = тот же GET дергает /store/storefront-settings дефолтным клиентом БЕЗ publishable key → бэкенд 400 → loadError. Лечение: бэкенд :9031 перезапущен с STOREFRONT_SETTINGS_SECRET=supersecret (medusa start не поднялся — в дереве ветки нет сборки админки, ушёл на medusa develop, health 200), storefront :8041 — с тем же секретом, STOREFRONT_STUDIO_PASSWORD=upready-panel-2026 и NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY тенанта supershop24. Приёмка сквозная: unlock 200, GET /api/studio/settings → secretConfigured true без loadError, PUT композиции → ok:true, чтение обратно вернуло её же. В магазине supershop24 лежит ТЕСТОВАЯ композиция h1/k/on/p3/f1 светлая — Иван может сбросить кнопкой Reset to default.",
+  "updated": "2026-09-14T05:22:18+08:00",
+  "status": "2026-09-14 05:22 WITA: durable-save перед сжатием (t-2026-09-13-02). Ветка feature/onboarding запушена, PR #12 OPEN. Сделано за сессию: кнопки главной разведены (мастер онбординга / телеграм-бот с plan_N), цепочка проверена живьём — магазин создаётся за 12 с; стенд MT поднят и вылечен (DEMO_HOSTS, STOREFRONT_STUDIO_PASSWORD, STOREFRONT_SETTINGS_SECRET на обоих процессах, publishable key тенанта), студия сохраняет композицию; воркспейс cef2827b feature/upreadystore_bot запущен, агент сдал PR #11. Открытые вопросы Ивану: q-gde-prinimat-onbording-lokalnyy-stend, q-shest-url-tribute-dlya-bota. Знание: ~/upready/memory/homepage-cta-routing-2026-09-14.md и mt-stand-local-run-2026-09-14.md.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1216,6 +1216,18 @@
       "id": "q-homepage-funnel-variant",
       "question": "Воронка главной (artifacts/docs/2026-09-12-homepage-funnel-scope.md, §5): какой вариант исполнения — A соло Fable, B соло-гибрид с фоновым Sonnet, C архитектор → один воркер Sonnet в Superset-workspace → отдельный приёмщик (рекомендован), D полная оркестрация? Для C нужен явный ок на оркестрацию (3b).",
       "asked": "2026-09-12",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-gde-prinimat-onbording-lokalnyy-stend",
+      "question": "Где принимать онбординг: локальный стенд :8041 (адрес витрины http://<handle>.localhost:8041, мастер не называет адрес — в коде жёсткий https) или публичный shiftship.dev (DEMO_TENANT_BASE_DOMAIN задан, ссылка живая)? Для второго нужен ОК на создание тестового магазина на внешнем стенде",
+      "asked": "2026-09-14",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-shest-url-tribute-dlya-bota",
+      "question": "Шесть URL Tribute для бота @upreadystore_bot: по две ссылки на тариф — «Оплатить картой РФ или МИР» и «Оплатить картой Visa/MasterCard». Без них бот (ветка feature/upreadystore_bot, PR #11) не рисует кнопку, а пишет что ссылку подключают",
+      "asked": "2026-09-14",
       "audience": "ivan"
     }
   ],
