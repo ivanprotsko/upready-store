@@ -7,6 +7,7 @@ import { getLocale } from "next-intl/server"
 import { fontClassName, readProfileTheme, themePrePaintScript } from "@lib/theme"
 import { getStorefrontSettings } from "@lib/data/storefront-settings"
 import DevtoolsMount from "@modules/devtools/components/devtools-mount"
+import MiniAppBridge from "@modules/telegram/components/mini-app-bridge"
 import "styles/globals.css"
 
 export const metadata: Metadata = {
@@ -47,6 +48,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <body>
         <main className="relative">{props.children}</main>
+        {/* Telegram Mini App bridge: inert in a browser, active only when a Telegram
+            client opened the page (src/modules/telegram/components/mini-app-bridge). */}
+        <MiniAppBridge />
         {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         {/* Renders the hidden settings panel only for a browser that carries the
             devtools cookie; null for everybody else, including the HTML of a visitor.

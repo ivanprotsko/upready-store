@@ -97,6 +97,7 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `ADMIN_CORS` | Allowed origins for the Admin API | `http://localhost:5173,http://localhost:9000,…` |
 | `AUTH_CORS` | Allowed origins for authentication | `http://localhost:5173,http://localhost:9000,…` |
 | `JWT_SECRET` | Signing secret for JWTs | `supersecret` |
+| `TELEGRAM_API_BASE_URL` | Base URL of the Telegram Bot API used by `POST /admin/telegram-mini-app`; point it at a mock to provision a Mini App without a bot token | `https://api.telegram.org` |
 | `COOKIE_SECRET` | Signing secret for cookies | `supersecret` |
 | `COOKIE_SECURE` | Set to `true` to send cookies over HTTPS only | `false` |
 | `REDIS_URL` | Redis instance for the cache, event bus, and workflow engine in production | `redis://localhost:6379` |
