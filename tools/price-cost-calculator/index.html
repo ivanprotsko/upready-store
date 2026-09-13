@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Себестоимость и цена дополнительного товара — upready</title>
+<link rel="stylesheet" href="./tokens.css">
+<style>
+  /* Раскладка инструмента. Дизайн-система — Geist (tokens.css, vendor-копия канона):
+     один акцент, hairline-границы, моноширинный шрифт для всех чисел. */
+  body { margin: 0; }
+  .wrap { display: grid; grid-template-columns: minmax(380px, 520px) 1fr; min-height: 100vh; }
+  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+  .col { padding: 20px 22px 64px; }
+  .col + .col { border-left: 1px solid var(--border); }
+  @media (max-width: 900px) { .col + .col { border-left: 0; border-top: 1px solid var(--border); } }
+
+  h1 { font: 600 20px/1.2 var(--sans); letter-spacing: -.03em; margin: 6px 0 4px; }
+  h2 { font: 500 14px/1.3 var(--sans); margin: 26px 0 8px; }
+  h2:first-of-type { margin-top: 14px; }
+  p.note { color: var(--muted); margin: 4px 0 0; max-width: 62ch; }
+  p.hint { color: var(--faint); font-size: 12px; margin: 2px 0 0; max-width: 70ch; }
+  a { color: var(--link); }
+
+  .headline { border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px 18px;
+              background: var(--elev); margin-top: 12px; }
+  .headline .big { font: 500 40px/1 var(--mono); font-variant-numeric: tabular-nums;
+                   letter-spacing: -.03em; margin: 8px 0 2px; }
+  .headline .unit { color: var(--muted); font-size: 13px; }
+
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font: 500 10px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td.num, th.num { text-align: right; font-family: var(--mono); }
+  tr.total td { font-weight: 500; border-bottom: 1px solid var(--ring); }
+  td .meaning { color: var(--faint); font-size: 12px; display: block; }
+
+  fieldset { border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px 12px; margin: 0 0 10px; }
+  legend { font: 500 12px/1 var(--sans); color: var(--muted); padding: 0 6px; }
+  .row { display: grid; grid-template-columns: 1fr 110px; gap: 8px; align-items: center; padding: 3px 0; }
+  .row label { font-size: 13px; }
+  .row .u { color: var(--faint); font-size: 11px; }
+  input[type=number], input[type=text], select {
+    width: 100%; background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 5px 7px; font: 400 13px/1.2 var(--mono);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  select { text-align: left; font-family: var(--sans); }
+  input:focus, select:focus { border-color: var(--ring); outline: none; }
+  .check { display: flex; gap: 8px; align-items: center; padding: 4px 0; font-size: 13px; }
+  .check input { width: 15px; height: 15px; accent-color: var(--link); }
+  .seg-table input { padding: 3px 4px; font-size: 11px; min-width: 56px; }
+  .seg-table td, .seg-table th { padding: 4px 4px; }
+  .seg-table td:first-child { min-width: 132px; }
+  .seg-table .meaning { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+                        overflow: hidden; }
+  .scroll-x { overflow-x: auto; }
+
+  .warn { border: 1px solid var(--warning); border-radius: var(--r-md); padding: 10px 12px; margin: 12px 0;
+          background: color-mix(in srgb, var(--warning) 8%, transparent); }
+  .warn ul { margin: 6px 0 0; padding-left: 18px; }
+  .kicker { color: var(--muted); }
+  details { border-top: 1px solid var(--border); padding: 10px 0; }
+  summary { cursor: pointer; font-size: 13px; }
+  details .src { font-size: 12px; color: var(--muted); margin: 6px 0 10px; }
+  details .src b { color: var(--fg); font-weight: 500; }
+  .tag { display: inline-block; font: 500 10px/1.6 var(--mono); letter-spacing: .06em;
+         text-transform: uppercase; border: 1px solid var(--border); border-radius: 9999px;
+         padding: 0 7px; color: var(--muted); margin-right: 6px; }
+  .tag.measured { color: var(--link); border-color: color-mix(in srgb, var(--link) 45%, var(--border)); }
+  .tag.assumed { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 45%, var(--border)); }
+  .tag.planned { color: var(--faint); }
+  .bar { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+  button { background: var(--fg); color: var(--bg); border: 0; border-radius: var(--r-sm);
+           padding: 6px 12px; font: 500 13px/1 var(--sans); cursor: pointer; }
+  button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); }
+  button:hover { background: var(--fg-hover); color: var(--bg); }
+  button.ghost:hover { background: var(--hover); color: var(--fg); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="col">
+    <div class="eyebrow">t-2026-09-14-02 · модель цены</div>
+    <h1>Себестоимость и цена дополнительного товара</h1>
+    <p class="hint">Параметры меняются — результат справа пересчитывается сразу. Каждое число имеет паспорт:
+      замер, публикация с датой, наше допущение или плановый сценарий. Раздел «Откуда цифры» внизу правой колонки.</p>
+    <div class="bar">
+      <button id="reset" class="ghost" type="button">Вернуть значения по умолчанию</button>
+      <button id="theme" class="ghost" type="button">Светлая тема</button>
+    </div>
+    <form id="form"></form>
+  </div>
+  <div class="col" id="out"></div>
+</div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

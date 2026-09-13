@@ -1,0 +1,58 @@
+/*
+ * Vendor-копия geist-kit/tokens.css · source: geist-kit@b0e687bb22a6d035692a32fadfb70a3c764f1429 (2026-09-06)
+ * Взято для tools/price-cost-calculator (t-2026-09-14-02). Правки канона — только в канон:
+ * ~/upready/packages/geist-kit/. Регистрация копии в реестре design-docs отложена
+ * заявкой pending-registrations (правило 5p).
+ */
+:root {
+  /* ── палитра Geist dark ── */
+  --bg: #0a0a0a; --fg: #ededed;
+  --secondary: #1a1a1a; --hover: #1f1f1f;
+  --border: #2e2e2e; --ring: #878787;
+  --muted: #a1a1a1; --faint: #707070;
+  --link: #52a8ff; --green: #4cc38a; --red: #ff6166; --warning: #ff990a;
+  --mark: rgba(82,168,255,.22); --mark-strong: rgba(82,168,255,.4);
+  --elev: #111111; --code-bg: #111111; --code-fg: #c9c9c9;
+  --fg-hover: #d4d4d4; --kbd-bg: rgba(0,0,0,.14);
+  /* ── радиусы (dashboard-масштаб): контролы / карточки / меню+модали ── */
+  --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+  /* ── шрифты ── */
+  --sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+:root.light {
+  --bg: #ffffff; --fg: #000000;
+  --secondary: #f4f4f4; --hover: #ececec;
+  --border: #e3e3e3; --ring: #9a9a9a;
+  --muted: #171717; --faint: #8f8f8f;
+  --link: #0068d6; --green: #17803d; --red: #d63640; --warning: #f5a623;
+  --mark: rgba(0,104,214,.14); --mark-strong: rgba(0,104,214,.28);
+  --elev: #ffffff; --code-bg: #f5f5f5; --code-fg: #383838;
+  --fg-hover: #383838; --kbd-bg: rgba(255,255,255,.22);
+}
+
+/* ── базовый слой: сигнатурные детали системы.
+   Токены выше самодостаточны; блок ниже можно не подключать,
+   но инструменты мастерской подключают целиком. ── */
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  /* база = 14px (text-copy-14 / text-label-14 — официальный workhorse Geist);
+     13px — только плотный консольный профиль (terminus-style), opt-in */
+  font: 400 14px/1.45 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+code, pre, kbd, .mono { font-family: var(--mono); }
+::selection { background: var(--fg); color: var(--bg); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(161,161,161,.2); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(161,161,161,.35); }
+:focus-visible { outline: 2px solid rgba(135,135,135,.5); outline-offset: 1px; }
+svg.i { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.5; fill: none;
+        stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.eyebrow { font: 500 10px/1 var(--mono); letter-spacing: .08em;
+           text-transform: uppercase; color: var(--muted); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot.green { background: var(--green); }
+.dot.red { background: var(--red); }

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>smoke: ожидание</title></head>
+<body>
+<!--
+  Браузерная проверка пересчёта (t-2026-09-14-02): грузит сам калькулятор в iframe,
+  меняет поле, шлёт событие input и сверяет, что цена в DOM изменилась.
+  Запуск: python3 -m http.server 5399, затем
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+    --virtual-time-budget=8000 --dump-dom http://127.0.0.1:5399/smoke.html | grep SMOKE
+-->
+<iframe id="f" src="./index.html" style="width:1280px;height:900px;border:0"></iframe>
+<pre id="log">SMOKE: не запускалось</pre>
+<script type="module">
+const log = [];
+const fail = (m) => log.push("FAIL " + m);
+const ok = (m) => log.push("ok   " + m);
+const f = document.getElementById("f");
+f.addEventListener("load", () => {
+  const d = f.contentDocument;
+  const price = () => d.querySelector(".big").textContent.trim();
+  const before = price();
+  before && before !== "— ₽" ? ok("цена посчитана при открытии: " + before) : fail("цена не посчитана");
+
+  // 1. Числовое поле: маржа 30 % → 300 %
+  const margin = [...d.querySelectorAll(".row")].find((r) => r.textContent.includes("Маржа к себестоимости"))
+    ?.querySelector("input");
+  if (!margin) fail("поле маржи не найдено");
+  else {
+    margin.value = "300";
+    margin.dispatchEvent(new Event("input", { bubbles: true }));
+    const after = price();
+    after !== before ? ok(`маржа 30→300 % меняет цену: ${before} → ${after}`) : fail("цена не изменилась от маржи");
+  }
+
+  // 2. Переключатель бесплатных тарифов
+  const prev = price();
+  const box = [...d.querySelectorAll(".check")].find((c) => c.textContent.includes("бесплатном тарифе"))
+    ?.querySelector("input");
+  if (!box) fail("переключатель бесплатных тарифов не найден");
+  else {
+    box.click();
+    const after = price();
+    after !== prev ? ok(`переключатель бесплатных тарифов меняет цену: ${prev} → ${after}`) : fail("переключатель ничего не изменил");
+  }
+
+  // 3. Коэффициент сегмента в таблице сегментов
+  const prev2 = price();
+  const segInput = d.querySelector(".seg-table tbody tr:nth-child(4) td:nth-child(4) input");
+  if (!segInput) fail("поле коэффициента сегмента не найдено");
+  else {
+    segInput.value = String(Number(segInput.value) * 10);
+    segInput.dispatchEvent(new Event("input", { bubbles: true }));
+    const after = price();
+    after !== prev2 ? ok(`коэффициент визитов на товар меняет цену: ${prev2} → ${after}`) : fail("коэффициент ничего не изменил");
+  }
+
+  // 4. Возврат значений по умолчанию
+  d.getElementById("reset").click();
+  price() === before ? ok("сброс возвращает исходную цену") : fail(`сброс не вернул цену: ${price()} вместо ${before}`);
+
+  const failed = log.filter((l) => l.startsWith("FAIL")).length;
+  document.getElementById("log").textContent =
+    "SMOKE " + (failed ? `FAILED (${failed})` : "PASSED") + "\n" + log.join("\n");
+  document.title = "smoke: " + (failed ? "FAILED" : "PASSED");
+});
+</script>
+</body></html>
