@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-market-intelligence",
+  "session": "s-2026-09-14",
+  "index": 1,
+  "action": "status-append",
+  "ts": "2026-09-14T01:39:02+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»). | 2026-09-13 21:17 WITA · feature/telegram-miniapp (t-2026-09-13-04): код + записка закоммичены f16df2c, PR #5 в dev открыт; блок — токен бота для реальной приёмки в Telegram (BotFather /newbot → UPREADY_STORE_TELEGRAM_BOT_TOKEN в .env.keys) | 2026-09-14 01:39 WITA · feature/market-intelligence (t-2026-09-14-03): исследование сдано, PR #8 в dev открыт и НЕ смёржен — ждёт чтения Ивана. Дорожная карта: artifacts/docs/2026-09-14-market-intelligence-roadmap.md (девять веток B1..B9, четыре волны, ни одна не заведена); отчёт и источники: artifacts/research/2026-09-14-market-intelligence/; спеки: specs/market-intelligence/; стартовые промпты: artifacts/prompts/2026-09-14-market-intelligence-branch-prompts.md. Ключевое: два контура с экономикой ×1000 (селектор 0,07 ₽ против агента 0,59 ₽ за проход; 135 ₽ на магазин в месяц против тарифа 699 ₽), чат ЗАВОДИТ наблюдение а не ведёт его, robots.txt закрывает ровно оферты Tilda и InSales. Семь развилок: q-mi-shopify-tos, q-mi-manual-intake, q-mi-auto-reprice, q-mi-quotas, q-mi-buy-or-build, q-mi-competitor-set, q-mi-legal-review"
+}
