@@ -1,0 +1,60 @@
+Privacy Policy
+Last updated: October 9, 2025
+TRBT LIMITED (“ we ”, “ us ” or “ our ”) provides the website at https://tribute.tg/ [[/]] along with associated products, content, services, and a bot in Telegram (collectively referred to as the “ Platform ”).
+TRBT LIMITED is a controller of personal data of the users (" you " or " yours ") collected and processed through the Platform.
+This Privacy Policy (the “ Policy ”):
+describes how we collect, use, and otherwise handle personal data that you provide or make available to us, or that we collect from you, when you use our Platform,
+explains the circumstances in which we may transfer this to others; and
+explains the rights that you have in relation to this personal data.
+The policy does not cover how we handle information about our candidates, employees or business partners.
+If you have any questions regarding this Policy, please see the contact information at the end.
+WHAT DATA WE COLLECT FROM YOU
+We collect the following information about you through the Platform via a variety of methods, including but not limited to visiting our Platform, signing up, donating, and interacting with our services, features, or resources:
+Personal identification data : full name, username, profile picture, personal identification data, including live selfie, interface language, country (determined by user’s IP), Telegram user ID, and passport or other type of your ID.
+Communication data : email (if applicable), contact form inquiries, and information about devices and technologies used for communication.
+Financial data : transaction information, last 4 digits of the card number, card type, and country (for displaying the linked card in the UI).
+Website visitor data : browser name, computer type, IP address, operating system, internet service providers, and other similar information.
+Due diligence data : user’s connection with politically exposed persons, public source information, screening databases, activities for which our services are used, transaction details, and other data required for anti-money laundering and terrorism financing compliance.
+User Technical data : password, account details, marketing preferences.
+Transaction data : transaction information related to the services provided via the Platform, including amount charged, payment transaction information, date, and time the service was provided.
+Other data : any information we deem necessary to comply with various anti-money laundering obligations, such as the European Union’s AML Directives.
+HOW WE USE YOUR DATA
+We only process your personal data for specified purposes and do not process data unrelated to achieving legitimate purposes. We use your data for the following purposes:
+Service provision: enabling users to register and maintain an account, user onboarding, providing user support, non-marketing communications (such as notifications about the donations made or receipts), periodic review, transaction completion, recordkeeping, anti-money laundering and terrorism financing compliance.
+Legal basis: performance of our contract with you, necessity to comply with the legal obligations, and our legitimate interest to protect our users and their safety while using the Platform.
+Improving our Platform and developing new features: data analysis, testing, research, remembering user preferences.
+Legal basis: our legitimate interest to improve our Platform and services and provide the best user experience.
+Promoting our Platform and services : sending marketing notifications, ads, and pushes.
+Legal basis: our legitimate interest to promote our Platform and services. When the consent is needed, we will ask your consent separately.
+Compliance with legal requirements : ensuring compliance with our legal obligations, including those related to anti-money laundering and counter-terrorist financing, and with license/permit requirements, responding to the law enforcement authorities’ requests and inquires.
+Legal basis: necessity to comply with our legal obligations and our legitimate interest to protect our users and their safety while using the Platform.
+CHILDREN’S PRIVACY NOTICE
+The Platform is intended for users over 18 years of age. We do not knowingly collect personal information from children under 18. If we become aware that a user under 18 has provided personal information, we will take steps to delete such data from our records. We will prohibit any actions performed by users under 18 and not allow further use of the Platform. Parents or guardians who discover that a child has submitted personal information to us should contact us using the information provided at the end of this Privacy Policy.
+DATA SHARING
+We respect User confidentiality and do not transfer personal data to third parties except when necessary for providing services or when required by law. Personal data may be transferred:
+with third party service providers that assist us in processing payments and orders made through our Platform. We only share the minimum amount of data necessary for these third parties to perform services on our behalf
+with banks or other financial institutions (e. g. in case of a dispute, claim, chargeback, investigation)
+in case the transfer of your personal data is required by laws and regulations (e.g. possible inquiries from regulatory officials)
+with third party services that assist with advertising, analytics, and statistics. We may share non-identifying or aggregated data to better understand website usage and improve our services
+with legal services providers in order to protect our rights and comply with regulations
+with fraud prevention, identity verification, and risk analysis services; we may share personal data to detect and prevent fraud, spam, abuse, security incidents, and other harmful activity
+in case of merger, acquisition, bankruptcy, reorganization or steps in consideration of such activities
+in aggregated and/or anonymized form which cannot be used to identify you.
+YOUR RIGHTS AND CHOICES
+This section outlines your rights in relation to your personal data in accordance with the General Data Protection Regulation (“GDPR”):
+Right to be informed
+Right to access
+Right to be forgotten
+Right to restrict processing
+Right to object
+Right to delete
+We will only fulfill your request to the extent that it is allowed and required under data protection laws, as determined by our assessment of your request.
+NOTIFICATIONS IN CASE OF PERSONAL DATA BREACH
+In the event of a personal data breach that is likely to result in a high risk to the rights and freedoms of users, we will promptly inform the affected user(s) without undue delay.
+Users may be informed collectively.
+DATA STORAGE PERIOD
+We store your data for the duration of our legal relationship with you. Upon termination of our legal relationship, we will retain your data for at least five years in accordance with Article 68 of the Prevention and Suppression of Money Laundering and Terrorist Financing Law of 2007 (Law 188(I)/2007) as amended.
+CHANGES TO THIS POLICY
+We may update this Policy at any time to reflect the changes in the legislation or in a way we operate. When we do, we will post a notification on the main page of our Platform and update the date at the header of this page.
+CONTACT US
+If you have any questions, suggestion or complaints about this Policy, or you’d like to execute any of your rights, please contact us at legal@tribute.tg [[mailto:legal@tribute.tg]] .
