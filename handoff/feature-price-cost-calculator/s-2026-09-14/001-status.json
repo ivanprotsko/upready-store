@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-price-cost-calculator",
+  "session": "s-2026-09-14",
+  "index": 1,
+  "action": "status-append",
+  "ts": "2026-09-14T01:37:11+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»). | 2026-09-13 21:17 WITA · feature/telegram-miniapp (t-2026-09-13-04): код + записка закоммичены f16df2c, PR #5 в dev открыт; блок — токен бота для реальной приёмки в Telegram (BotFather /newbot → UPREADY_STORE_TELEGRAM_BOT_TOKEN в .env.keys) | 2026-09-14 01:37 WITA: t-2026-09-14-02 — цена дополнительного товара N = 0,10 ₽/товар/мес (до округления 0,0735 ₽, себестоимость 0,0475 ₽), PR #7 в dev, не мёржен — ждёт Ивана; модель+калькулятор tools/price-cost-calculator (model.js без UI — его берёт t-04), документ artifacts/docs/2026-09-14-price-cost-model.md; вопрос Ивану q-tsena-dop-tovara-n-0 (парк и маржа двигают N в разы)"
+}
