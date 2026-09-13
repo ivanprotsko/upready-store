@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T05:11:20+08:00",
-  "status": "2026-09-14 05:11 WITA: стенд воронки :8041 перезапущен с STOREFRONT_STUDIO_PASSWORD=upready-panel-2026 — до этого студия была выключена целиком (пустое значение → /api/studio/unlock 404, замерено). Проверено живьём на витрине supershop24.localhost:8041: верный пароль → 200 + кука upready_studio, неверный → 401, витрина 200. Пароль тот же, что на пяти демо-стендах и МТ-деплое shiftship.dev по замеру 2026-09-11 у контейнеров; ловушка канона — t0i-panel-2026 в .env.local чекаутов это dev-остаток. (t-2026-09-13-02)",
+  "updated": "2026-09-14T05:19:42+08:00",
+  "status": "2026-09-14 05:19 WITA: студия на стенде починена целиком (t-2026-09-13-02). Две строки с экрана Ивана — обе от незаданных переменных МОЕГО запуска стенда, потребители прочитаны: «сохранение отключено» = storefront api/studio/settings/route.ts:46 settingsSecret() null → secretConfigured false; «не удалось загрузить композицию» = тот же GET дергает /store/storefront-settings дефолтным клиентом БЕЗ publishable key → бэкенд 400 → loadError. Лечение: бэкенд :9031 перезапущен с STOREFRONT_SETTINGS_SECRET=supersecret (medusa start не поднялся — в дереве ветки нет сборки админки, ушёл на medusa develop, health 200), storefront :8041 — с тем же секретом, STOREFRONT_STUDIO_PASSWORD=upready-panel-2026 и NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY тенанта supershop24. Приёмка сквозная: unlock 200, GET /api/studio/settings → secretConfigured true без loadError, PUT композиции → ok:true, чтение обратно вернуло её же. В магазине supershop24 лежит ТЕСТОВАЯ композиция h1/k/on/p3/f1 светлая — Иван может сбросить кнопкой Reset to default.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
