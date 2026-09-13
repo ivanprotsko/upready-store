@@ -7,10 +7,11 @@
  *
  * Проверяет ровно то, что нельзя увидеть в статике: цикл слов героя, высоту
  * героя при смене слова, раскладку на 390 px, адреса всех CTA, тарифные
- * карточки (названия, отсутствие подписей строк, высоту одноимённых строк,
- * пробный период «Про» и сноску про включённые товары), отсутствие маркеров
- * todo: и заглушек вместо цены, одиночный предпросмотр секций и чистую консоль
- * на обеих ширинах. Кадры кладёт в shots/out/.
+ * карточки (названия, отсутствие подписей строк и разделительных линий,
+ * высоту одноимённых строк, переключатель периода оплаты, подсказки по
+ * наведению — включая пробный период «Про» и включённые в «Ультра» товары),
+ * отсутствие маркеров todo: и заглушек вместо цены, одиночный предпросмотр
+ * секций и чистую консоль на обеих ширинах. Кадры кладёт в shots/out/.
  *
  * Глазная приёмка (как это выглядит) остаётся за человеком: скрипт говорит
  * только про измеримое.
@@ -238,26 +239,143 @@ async function main() {
       ultraText.replace(/\s+/g, " ").slice(0, 120),
     );
 
-    const trial = await page
+    /* Условия переехали из сносок в подсказки по наведению (правка §5/§6):
+       проверяем не наличие текста в разметке, а то, что он ПОКАЗЫВАЕТСЯ. */
+    const tipOf = async (selector) => {
+      await page.hover(selector).catch(() => null);
+      await sleep(300);
+      const text = await page
+        .$eval(`${selector} [role="tooltip"]`, (node) => {
+          const visible = getComputedStyle(node).visibility === "visible";
+          return visible ? node.innerText.replace(/\s+/g, " ") : "";
+        })
+        .catch(() => null);
+      await page.mouse.move(0, 0);
+      await sleep(150);
+      return text;
+    };
+
+    const trialBadge = await page
       .$eval('[data-testid="plan-trial-pro"]', (node) => node.innerText.replace(/\s+/g, " "))
       .catch(() => null);
     check(
-      "у «Про» строка пробного периода называет карту и автосписание после 7 дней",
-      trial !== null &&
-        /7 дней бесплатно/.test(trial) &&
-        /карт/i.test(trial) &&
-        /автоматически/.test(trial) &&
-        /отменить/.test(trial),
-      trial === null ? "строки пробного периода нет" : trial,
+      "у «Про» в углу карточки стоит плашка «7 дней бесплатно» с маркером",
+      trialBadge !== null && /7 дней бесплатно/.test(trialBadge) && /2/.test(trialBadge),
+      trialBadge === null ? "плашки пробного периода нет" : trialBadge,
     );
 
-    const footnotes = await page
-      .$eval('[data-testid="plans-footnotes"]', (node) => node.innerText.replace(/\s+/g, " "))
-      .catch(() => null);
+    const trialTip = await tipOf('[data-testid="plan-trial-pro"]');
     check(
-      "сноска называет 500 включённых товаров",
-      footnotes !== null && /500 товаров/.test(footnotes),
-      footnotes === null ? "сноски нет" : footnotes,
+      "подсказка пробного периода называет карту и автосписание после 7 дней",
+      trialTip !== null &&
+        /карт/i.test(trialTip) &&
+        /автоматически/.test(trialTip) &&
+        /отменить/.test(trialTip),
+      trialTip ? trialTip : "подсказка не раскрылась по наведению",
+    );
+
+    const catalogTip = await tipOf(
+      '[data-testid="plan-ultra"] li:first-child [class*="hint"]',
+    );
+    check(
+      "подсказка каталога «Ультра» называет 500 включённых товаров",
+      catalogTip !== null && /500 товаров/.test(catalogTip),
+      catalogTip ? catalogTip : "подсказка не раскрылась по наведению",
+    );
+
+    check(
+      "блока сносок под карточками больше нет",
+      (await page.$('[data-testid="plans-footnotes"]')) === null,
+      "селектор plans-footnotes не найден",
+    );
+
+    /* Каждое значение обещает подсказку пунктиром — и обещание не пустое. */
+    const hints = await page.evaluate(() =>
+      ["free", "pro", "ultra"].flatMap((key) =>
+        Array.from(
+          document.querySelectorAll(`[data-testid="plan-${key}"] li [role="tooltip"]`),
+        ).map((tip) => {
+          const trigger = tip.parentElement;
+          const decorated = getComputedStyle(trigger).textDecorationStyle === "dashed";
+          return { text: tip.textContent.trim().length, decorated };
+        }),
+      ),
+    );
+    check(
+      "у всех 15 значений есть подсказка и пунктирное подчёркивание",
+      hints.length === 15 && hints.every((h) => h.decorated && h.text > 20),
+      `значений с подсказкой: ${hints.length}, без пунктира: ${
+        hints.filter((h) => !h.decorated).length
+      }, с пустой подсказкой: ${hints.filter((h) => h.text <= 20).length}`,
+    );
+
+    /* Разделительных линий между строками не осталось (правка §4). */
+    const rowBorders = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('[data-testid^="plan-"] li'))
+        .map((li) => {
+          const s = getComputedStyle(li);
+          return parseFloat(s.borderTopWidth) + parseFloat(s.borderBottomWidth);
+        })
+        .reduce((a, b) => a + b, 0),
+    );
+    check(
+      "между строками карточек нет разделительных линий",
+      rowBorders === 0,
+      `суммарная толщина рамок строк: ${rowBorders}px`,
+    );
+
+    /* Переключатель периода оплаты: смотрим не на клик, а на то, что цена
+       и подпись под ней действительно меняются (правка §2/§3). */
+    const priceOf = async (key) =>
+      await page
+        .$eval(`[data-testid="plan-price-${key}"]`, (n) => n.innerText.replace(/\s+/g, " "))
+        .catch(() => null);
+    const priceNoteOf = async (key) =>
+      await page
+        .$eval(`[data-testid="plan-price-note-${key}"]`, (n) => n.innerText.replace(/\s+/g, " "))
+        .catch(() => null);
+
+    const annualPro = await priceOf("pro");
+    const annualNote = await priceNoteOf("pro");
+    check(
+      "по умолчанию выбран год: у «Про» под ценой сказано «при оплате за год»",
+      annualPro !== null && /458/.test(annualPro) && /при оплате за год/.test(annualNote ?? ""),
+      `${annualPro} · ${annualNote}`,
+    );
+
+    await page.click('[data-testid="billing-monthly"]');
+    await sleep(200);
+    const monthlyPro = await priceOf("pro");
+    const monthlyNote = await priceNoteOf("pro");
+    check(
+      "переключение на месяц даёт 699 ₽ и убирает строку про год",
+      monthlyPro !== null &&
+        /699/.test(monthlyPro) &&
+        !/при оплате за год/.test(monthlyNote ?? ""),
+      `${monthlyPro} · «${monthlyNote}»`,
+    );
+    await page.click('[data-testid="billing-annual"]');
+    await sleep(200);
+
+    const freePrice = await priceOf("free");
+    check(
+      "в бесплатном тарифе вместо 0 ₽ написано «Бесплатно»",
+      freePrice !== null && /Бесплатно/.test(freePrice) && !/0\s*₽/.test(freePrice),
+      String(freePrice),
+    );
+
+    const proText = await page.$eval('[data-testid="plan-pro"]', (n) => n.innerText);
+    check(
+      "у «Про» две языковых версии, и старой строки про скидку за год нет",
+      /две языковых версии/.test(proText) && !/−35\s*%/.test(proText),
+      proText.replace(/\s+/g, " ").slice(0, 140),
+    );
+
+    const freeText = await page.$eval('[data-testid="plan-free"]', (n) => n.innerText);
+    check(
+      "в бесплатном тарифе строка Telegram Mini App с маркером",
+      /Telegram Mini App\s*1/.test(freeText.replace(/\s+/g, " ")),
+      freeText.replace(/\s+/g, " ").slice(0, 140),
     );
 
     const bodyText = await page.evaluate(() => document.body.innerText);
