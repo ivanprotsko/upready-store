@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://upready.dev/specs/market-intelligence/extraction-template.schema.json",
+  "title": "Шаблон разбора наблюдаемой страницы",
+  "description": "Якорь (что ищем) отделён от селектора (как нашли в прошлый раз). Селектор — кэш, якорь — идентичность. Версии не перезаписываются.",
+  "type": "object",
+  "required": ["version", "watched_page_id", "anchors", "created_by", "created_at", "health"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "watched_page_id": { "type": "string" },
+    "superseded_at": { "type": ["string", "null"], "format": "date-time" },
+    "created_by": {
+      "type": "string",
+      "enum": ["human", "agent", "import"],
+      "description": "Кто написал эту версию шаблона"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "agent_run": {
+      "type": ["object", "null"],
+      "description": "Заполнено при created_by=agent",
+      "required": ["model", "cost_rub"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string" },
+        "cost_rub": { "type": "number", "minimum": 0 },
+        "explanation": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Что именно мы отслеживаем на этой странице. Переживает редизайн.",
+      "items": {
+        "type": "object",
+        "required": ["anchor_id", "kind", "fields"],
+        "additionalProperties": false,
+        "properties": {
+          "anchor_id": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["product", "category_rule", "tariff_plan", "legal_document"]
+          },
+          "identity": {
+            "type": "object",
+            "description": "Признаки, по которым якорь узнаётся заново. Для товара — в порядке убывания надёжности.",
+            "additionalProperties": false,
+            "properties": {
+              "gtin": { "type": "string" },
+              "sku": { "type": "string" },
+              "brand": { "type": "string" },
+              "model": { "type": "string" },
+              "title": { "type": "string" },
+              "plan_name": { "type": "string" },
+              "document_type": {
+                "type": "string",
+                "enum": ["offer", "privacy_policy", "terms_of_service", "other"]
+              },
+              "selection_rule": {
+                "type": "string",
+                "description": "Для kind=category_rule, например: десять самых дешёвых товаров категории"
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["field", "selector", "normalization"],
+              "additionalProperties": false,
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "enum": [
+                    "price", "price_base", "price_discounted", "currency", "period",
+                    "availability", "plan_limit", "feature_flag", "document_body"
+                  ]
+                },
+                "selector": {
+                  "type": "object",
+                  "required": ["type", "expression"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": { "type": "string", "enum": ["css", "xpath", "regex", "jsonld", "none"] },
+                    "expression": { "type": "string" },
+                    "attribute": { "type": ["string", "null"] }
+                  }
+                },
+                "normalization": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "strip_thousands": { "type": "boolean", "default": true },
+                    "decimal_separator": { "type": "string", "enum": [".", ","] },
+                    "currency_hint": { "type": "string" },
+                    "vat_included": { "type": ["boolean", "null"] },
+                    "unit": { "type": ["string", "null"] },
+                    "multiplier": { "type": "number", "default": 1 }
+                  }
+                },
+                "plausibility": {
+                  "type": "object",
+                  "description": "Проверка правдоподобия. Нарушение любого условия делает изменение подозрением, а не фактом.",
+                  "additionalProperties": false,
+                  "properties": {
+                    "min": { "type": "number" },
+                    "max": { "type": "number" },
+                    "max_daily_step_rel": { "type": "number", "minimum": 0 },
+                    "required": { "type": "boolean", "default": true }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "health": {
+      "type": "object",
+      "required": ["state", "consecutive_failures"],
+      "additionalProperties": false,
+      "properties": {
+        "state": { "type": "string", "enum": ["hit", "miss", "implausible", "quarantined"] },
+        "consecutive_failures": { "type": "integer", "minimum": 0 },
+        "last_hit_at": { "type": ["string", "null"], "format": "date-time" },
+        "last_failure_reason": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
