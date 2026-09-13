@@ -15,8 +15,8 @@ HANDOFF scope dev: t-2026-09-13-01 (цель, решения, приёмка —
 - [x] 4. Воркспейс superset `6add6bf9` (feature/homepage-rework от dev; привязка проекта в host.db исправлена на ivanprotsko/upready-store; dev выровнена с origin/dev rebase-ом; зависимости — `corepack pnpm@10.11.1 install --frozen-lockfile`).
 - [x] 5. Синтез отчётов → концепция и копирайт: `<ws>/artifacts/docs/2026-09-13-homepage-concept.md` (слова сохранены + «своё» под каждым, вариант B, 8 блоков, таблица честности, 3 факта с источниками; факт «7 июля» на старой странице неверен).
 - [x] 6. Рабочий HTML-прототип: `<ws>/artifacts/docs/2026-09-13-homepage-prototype.html` — проверен Playwright (цикл, hover, 1440/390, вариант B `?h=b`, 0 ошибок); живые скриншоты 5 витрин в `port/public/showcase/`.
-- [ ] 7. Вёрстка в React-порте — отдана воркеру `w-homepage-react` (Opus, свежий контекст) по прототипу: секции hero/words/why/how/showcase/tariffs/faq/final-cta/shell, удаление 10 мёртвых секций, реестр, cfg, funnel, скрипт приёмки `scripts/accept-homepage.mjs`, tsc + build + прогон на :5333.
-- [ ] 8. Приёмка в реальном браузере (Playwright): 1440 и 390 px, клики по CTA и словам героя, 0 ошибок консоли, скриншоты в artifacts/.
+- [x] 7. Вёрстка в React-порте сделана воркером `w-homepage-react` (~08:00–08:32): секции hero (+IllStore/IllLog/IllOwner)/words/why/how/showcase/tariffs/faq/final-cta/shell, 10 мёртвых секций удалены, реестр, cfg, funnel, `scripts/accept-homepage.mjs`; tsc чист, build 252 kB js.
+- [x] 8. Приёмка приёмщиком: dev-сервер :5333 (nohup, лог `port/.logs/stand-5333.log`), `accept-homepage.mjs` — 13/13 PASS, скриншоты сняты; глазная приёмка — за Иваном.
 - [ ] 9. git push -u origin feature/homepage-rework → gh pr create --base dev → gh pr merge (по полномочиям Ивана).
 - [ ] 10. Стенд для Ивана: dev-сервер порта поднят nohup, адрес в HANDOFF.
 - [ ] 11. Durable-save: HANDOFF status, memory-заметка, resume-блок; отчёт Ивану с «Что дальше».
