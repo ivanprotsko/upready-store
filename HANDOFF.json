@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T03:20:58+08:00",
-  "status": "2026-09-14 03:20 WITA: пять правок Ивана по тарифам (годовая строка без цены, sup вне пунктира, пробные 3 дня у Про и 7 дней у Ультра, кнопки «Попробовать бесплатно»/«Создать магазин», имена Новичок/Профи/Мастер) относятся к ветке feature/pricing-copy (PR #6, стенд :5335), а не к feature/onboarding — в моей ветке секция тарифов старая (free/business/pro, без переключателя периода и подсказок). В чужое дерево не писал, правки переданы сессии-владельцу pricing-copy-c7 через SendMessage (t-2026-09-14-01)",
+  "updated": "2026-09-14T04:43:06+08:00",
+  "status": "2026-09-14 04:43 WITA: feature/onboarding (t-2026-09-13-02) — кнопки главной разведены по двум адресам: «Создать магазин» (шапка, герой, «Почему сейчас», финал, бесплатный тариф) → мастер /start/onboarding, платные тарифы → https://t.me/upreadystore_bot?start=plan_<номер карточки>, новая вкладка + rel=noopener. Коммит 23b8cdc, tsc и vite build чисто. Живой прогон Playwright на :5301 → :8041 (воронка MT из worktree feat/abstract-datasets, бэкенд :9031): клик по бесплатному привёл в мастер, магазин создан за 12 с, каталог 10 товаров в 5 категориях, консоль пуста; кадры artifacts/docs/2026-09-14-onboarding-link/ (вне git по 21f). Публичный стенд воронки https://shiftship.dev/start/onboarding отвечает 200 — для прода это значение VITE_FUNNEL_BASE_URL. Бот: getMe по TELEGRAM_UPREADY_STORE_BOT → username upreadystore_bot подтверждён; воркспейс cef2827b feature/upreadystore_bot от dev 674c3e9, агент claude работает. Локальная dev выровнена по origin/dev (журнал штаба сохранён коммитом febbfff). ВАЖНО: PLAN_SCENARIOS удалён из funnel.ts — при мёрже с feature/pricing-copy (PR #6) её tariffs/index.tsx надо привести к новым href.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
