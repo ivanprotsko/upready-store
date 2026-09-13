@@ -76,12 +76,14 @@ try {
     JSON.stringify(plain.map((s) => s.slug)) === JSON.stringify(visible(before)),
     `DOM: ${plain.map((s) => s.slug).join(",")}`,
   );
-  const nums = plain.filter((s) => s.num).map((s) => s.num);
-  check(
-    "сквозная нумерация идёт без пропусков",
-    JSON.stringify(nums) === JSON.stringify(["01", "02", "03", "04", "05", "06", "07"]),
-    `номера: ${nums.join(",")}`,
-  );
+  /*
+   * Проверки сквозной нумерации сняты 2026-09-13 вместе с блоками, которые
+   * печатали надзаголовок «NN · Название»: ни одна секция нынешней вёрстки
+   * номера не рисует, поэтому замер всегда вернул бы пустой список — а пустой
+   * список не доказательство (правило 20a). Счётчик `numbering()` в
+   * src/config/layout.ts жив и ждёт блока, которому номер снова понадобится;
+   * тогда сюда возвращается и проверка.
+   */
   check(
     "кнопка входа в режим есть на dev-стенде",
     (await page.$$eval("button", (b) => b.map((x) => x.innerText))).some((t) =>
@@ -148,30 +150,28 @@ try {
   );
 
   /* 7. Глаз выключает и включает блок. */
-  await hoverPanel(page, "delivery");
+  await hoverPanel(page, "how");
   await page.click('button[aria-label="Скрыть блок"]');
   await waitSaved(page);
   const hidden = readCfg();
   check(
     "глаз выключил блок в файле",
-    hidden.blocks.find((b) => b.slug === "delivery")?.visible === false,
-    `delivery.visible = ${hidden.blocks.find((b) => b.slug === "delivery")?.visible}`,
+    hidden.blocks.find((b) => b.slug === "how")?.visible === false,
+    `how.visible = ${hidden.blocks.find((b) => b.slug === "how")?.visible}`,
   );
   const after = await domSections(page);
   check(
-    "выключенный блок сразу стал призраком, а нумерация пересчиталась",
-    after.find((s) => s.slug === "delivery")?.ghost === true &&
-      JSON.stringify(after.filter((s) => !s.ghost && s.num).map((s) => s.num)) ===
-        JSON.stringify(["01", "02", "03", "04", "05", "06"]),
-    `номера после скрытия: ${after.filter((s) => !s.ghost && s.num).map((s) => s.num).join(",")}`,
+    "выключенный блок сразу стал призраком",
+    after.find((s) => s.slug === "how")?.ghost === true,
+    `призраки: ${after.filter((s) => s.ghost).map((s) => s.slug).join(",") || "нет"}`,
   );
   await page.screenshot({ path: path.join(OUT, "03-hidden.png") });
   await page.click('button[aria-label="Показать блок"]');
   await waitSaved(page);
   check(
     "тот же глаз вернул блок на страницу",
-    readCfg().blocks.find((b) => b.slug === "delivery")?.visible === true,
-    "delivery.visible = true",
+    readCfg().blocks.find((b) => b.slug === "how")?.visible === true,
+    "how.visible = true",
   );
 
   /* 8. Раскладка переживает перезагрузку — читается из файла, а не из памяти. */

@@ -1,116 +1,157 @@
-import { useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
+import IllLog from "./IllLog";
+import IllOwner from "./IllOwner";
+import IllStore from "./IllStore";
 import styles from "./styles.module.css";
 import {
-  AUDIENCE_IDS,
-  AUDIENCE_STORAGE_KEY,
-  AUDIENCE_STORAGE_TTL_MS,
-  defaultAudience,
-  heroCtaHref,
-  heroCtaLabel,
-  heroNote,
-  heroVariants,
-  type Audience,
+  CAPTION_SWAP_MS,
+  CTA_LABEL,
+  HEADLINE_JOINS,
+  HEADLINE_TAIL,
+  HERO_WORDS,
+  LEAD,
+  MICRO,
+  SECONDARY_LINK,
+  WORD_MS,
 } from "./data";
 
 /**
- * Port of dc-script.js `resolveAudience()`: `v` / `utm_content` query param,
- * else a sessionStorage value persisted for the last 30 minutes, else the
- * component default ("cold" — matches props.json `defaultAudience.default`;
- * this port has no `defaultAudience` prop plumbed in, so the fallback is
- * hardcoded rather than threaded through).
+ * Первый экран: заголовок, в котором три слова подсвечиваются по очереди, и
+ * панель справа, синхронная со словом. Порт скрипта прототипа
+ * (`artifacts/docs/2026-09-13-homepage-prototype.html`, строки 400-475).
+ *
+ * Правила механики (концепция §4):
+ * - 4 с на слово, кросс-фейд 250 мс, подсвечено ровно одно слово;
+ * - наведение и фокус закрепляют слово и останавливают цикл, уход — отпускает;
+ * - клик закрепляет до следующего клика (тач без hover);
+ * - `prefers-reduced-motion` — цикла нет, стоит первое слово, hover и клик
+ *   работают;
+ * - высота героя не меняется при смене слова: подпись держит min-height,
+ *   сцена — aspect-ratio, все три иллюстрации лежат друг на друге.
  */
-function resolveAudience(): Audience {
-  let v: string | null = null;
-  try {
-    const params = new URLSearchParams(window.location.search);
-    v = params.get("v") || params.get("utm_content");
-    if (!v) {
-      const raw = sessionStorage.getItem(AUDIENCE_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as { v?: string; t?: number };
-        if (
-          parsed &&
-          typeof parsed.t === "number" &&
-          Date.now() - parsed.t < AUDIENCE_STORAGE_TTL_MS
-        ) {
-          v = parsed.v ?? null;
-        }
-      }
-    }
-  } catch {
-    v = null;
-  }
-
-  const audience = (AUDIENCE_IDS as string[]).includes(v ?? "")
-    ? (v as Audience)
-    : defaultAudience;
-
-  try {
-    sessionStorage.setItem(
-      AUDIENCE_STORAGE_KEY,
-      JSON.stringify({ v: audience, t: Date.now() }),
-    );
-  } catch {
-    // sessionStorage unavailable (private mode, etc.) — audience just won't persist
-  }
-
-  return audience;
-}
-
 export default function Hero() {
-  // Matches state.audience === null on first render in dc-script.js: the
-  // component renders the default variant, then resolveAudience() runs in
-  // componentDidMount and may swap it — reproduced here as an effect.
-  const [audience, setAudience] = useState<Audience>(defaultAudience);
+  /* matchMedia отвечает синхронно, поэтому ответ берётся сразу в инициализаторе:
+     третьего состояния «ещё не знаем» здесь не возникает. */
+  const [reduced, setReduced] = useState(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [active, setActive] = useState(0);
+  /* Закрепление наведением/фокусом и закрепление кликом — разные вещи:
+     первое снимается уходом курсора, второе живёт до следующего клика. */
+  const [hoverPin, setHoverPin] = useState<number | null>(null);
+  const [clickPin, setClickPin] = useState<number | null>(null);
+  const [caption, setCaption] = useState(HERO_WORDS[0].caption);
+  const [captionVisible, setCaptionVisible] = useState(true);
+  /* Какая подпись уже показана: без этого StrictMode прогонял бы кросс-фейд
+     на повторном вызове эффекта, ничего не меняя. */
+  const shown = useRef(0);
+
+  const pinned = hoverPin !== null || clickPin !== null;
 
   useEffect(() => {
-    setAudience(resolveAudience());
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
   }, []);
 
-  const variant = heroVariants[audience];
-  const headingClass =
-    variant.headingMaxWidth === "15ch" ? styles.heading15 : styles.heading16;
+  useEffect(() => {
+    if (reduced || pinned) return;
+    const id = window.setInterval(
+      () => setActive((current) => (current + 1) % HERO_WORDS.length),
+      WORD_MS,
+    );
+    return () => window.clearInterval(id);
+  }, [reduced, pinned]);
 
-  /**
-   * Куда ведёт кнопка. Вариант «price» зовёт в телеграм прямо своей надписью
-   * («Написать в телеграм»), поэтому у него адрес остаётся телеграмовским;
-   * «cold» и «warm» обещают магазин («Поставить магазин») — их место в
-   * сценарии воронки, где посетитель выбирает тариф и попадает в онбординг.
-   */
-  const ctaHref = audience === "price" ? heroCtaHref : funnelUrl(HERO_SCENARIO.path);
-  const ctaTitle = audience === "price" ? undefined : HERO_SCENARIO.title;
+  useEffect(() => {
+    if (shown.current === active) return;
+    setCaptionVisible(false);
+    const id = window.setTimeout(() => {
+      shown.current = active;
+      setCaption(HERO_WORDS[active].caption);
+      setCaptionVisible(true);
+    }, CAPTION_SWAP_MS);
+    return () => window.clearTimeout(id);
+  }, [active]);
+
+  const enter = useCallback(
+    (index: number) => {
+      if (clickPin !== null) return;
+      setHoverPin(index);
+      setActive(index);
+    },
+    [clickPin],
+  );
+
+  const leave = useCallback(() => {
+    if (clickPin !== null) return;
+    setHoverPin(null);
+  }, [clickPin]);
+
+  const click = useCallback(
+    (index: number) => {
+      if (clickPin === index) {
+        setClickPin(null);
+        setHoverPin(null);
+        return;
+      }
+      setClickPin(index);
+      setHoverPin(index);
+      setActive(index);
+    },
+    [clickPin],
+  );
+
+  const ill = HERO_WORDS[active].ill;
 
   return (
-    <section data-section="hero" data-testid="sec-hero" className={styles.hero}>
-      <div className={styles.row}>
-        <div className={styles.left}>
-          <div className={styles.textGroup}>
-            <h1 className={`${styles.heading} ${headingClass}`}>
-              {variant.heading}
-            </h1>
-            <p className={styles.paragraph}>{variant.paragraph}</p>
-          </div>
-        </div>
+    <section
+      id="hero"
+      data-section="hero"
+      data-testid="sec-hero"
+      className={`${styles.hero} ${pinned ? styles.isPinned : ""}`}
+    >
+      <div>
+        <h1 className={styles.h1}>
+          {HERO_WORDS.map((word, index) => (
+            <Fragment key={word.text}>
+              {index > 0 ? HEADLINE_JOINS[index - 1] : null}
+              <span
+                className={`${styles.word} ${index === active ? styles.wordOn : ""}`}
+                data-hero-word=""
+                data-k={index}
+                data-on={index === active}
+                tabIndex={0}
+                onMouseEnter={() => enter(index)}
+                onMouseLeave={leave}
+                onFocus={() => enter(index)}
+                onBlur={leave}
+                onClick={() => click(index)}
+              >
+                {word.text}
+              </span>
+            </Fragment>
+          ))}
+          {HEADLINE_TAIL}
+        </h1>
 
-        <div className={styles.right}>
-          <p className={styles.note}>{heroNote}</p>
+        <p className={styles.lead}>{LEAD}</p>
+
+        <div className={styles.ctaRow}>
           <a
-            href={ctaHref}
-            title={ctaTitle}
-            target="_blank"
-            rel="noopener"
-            className={styles.cta}
+            className="btn"
+            href={funnelUrl(HERO_SCENARIO)}
+            title={HERO_SCENARIO.title}
             data-testid="hero-cta"
           >
-            {heroCtaLabel(audience)}
+            {CTA_LABEL}
             <svg
-              width="15"
-              height="15"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#fff"
+              stroke="currentColor"
               strokeWidth="1.7"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -119,6 +160,32 @@ export default function Hero() {
               <path d="m12 5 7 7-7 7" />
             </svg>
           </a>
+          <a className="textlink" href={SECONDARY_LINK.href}>
+            {SECONDARY_LINK.label}
+          </a>
+        </div>
+
+        <p className={styles.micro}>{MICRO}</p>
+      </div>
+
+      <div className={styles.panel} data-testid="hero-panel">
+        <div
+          className={`${styles.cap} ${captionVisible ? "" : styles.capHidden}`}
+          data-testid="hero-caption"
+          aria-live="polite"
+        >
+          {caption}
+        </div>
+        <div className={styles.stage} data-testid="hero-stage" data-ill-index={ill}>
+          <div className={`${styles.ill} ${ill === 0 ? styles.illOn : ""}`} data-ill="0">
+            <IllStore reduced={reduced} />
+          </div>
+          <div className={`${styles.ill} ${ill === 1 ? styles.illOn : ""}`} data-ill="1">
+            <IllLog />
+          </div>
+          <div className={`${styles.ill} ${ill === 2 ? styles.illOn : ""}`} data-ill="2">
+            <IllOwner />
+          </div>
         </div>
       </div>
     </section>

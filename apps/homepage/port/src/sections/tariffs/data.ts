@@ -1,68 +1,80 @@
-// Verbatim copy of `planData` from reference/dc-script.js, restricted to the two fields the
-// rendered `sec-tariffs` markup actually consumes (tag, title, price, term, desc, rows, fine,
-// and the `best` flag that decides button colour). Text is copied character-for-character from
-// reference/rendered/14-tariffs.html.
+// «Тарифы» — три плана по спецификации Ивана от 2026-09-13 (t-2026-09-13-02):
+// Бесплатный · Бизнес 699 ₽/мес (5 499 ₽/год, −35 %) · Про 4 499 ₽/мес.
+// Строки одинаковые у всех планов, отличаются только значения — так карточки
+// читаются как сравнение. Telegram Mini App входит в каждый тариф.
+//
+// Допущения, не названные в спецификации (инвентарь фич §2, решает Иван):
+// языки витрины в «Бесплатном» и «Бизнесе» — один; дизайн в «Про» — редактор,
+// как в «Бизнесе»; годовая цена «Про» не задана, поэтому строки нет.
+//
+// Касса воронки (`apps/storefront/src/lib/demo/catalog.ts`, ветка
+// feat/abstract-datasets) ещё знает старые планы 4 900 / 9 900 / 19 900 —
+// её надо привести к этим трём (инвентарь фич §5).
 
-export interface TariffPlan {
-  id: string;
-  tag: string;
-  title: string;
+export const EYEBROW = "Тарифы";
+
+export const HEADING = "Три тарифа. Начать можно бесплатно";
+
+/** Ключи планов — они же ключи сценариев воронки в `src/lib/funnel.ts`. */
+export type PlanKey = "free" | "business" | "pro";
+
+/** Строки сравнения — один порядок во всех карточках. */
+export const ROWS = [
+  "Товаров",
+  "Дизайн",
+  "Поддержка",
+  "Языки витрины",
+  "Telegram Mini App",
+] as const;
+
+export type PlanValues = readonly [string, string, string, string, string];
+
+export interface Plan {
+  scenario: PlanKey;
+  name: string;
+  /** Крупная цифра. */
   price: string;
-  term: string;
-  best: boolean;
-  desc: string;
-  rows: string[];
-  fine: string;
+  /** Подпись рядом с ценой. */
+  period: string;
+  /** Вторая строка цены — годовая оплата; пустая, если не задана. */
+  annual: string;
+  /** Значения по строкам `ROWS`, в том же порядке. */
+  values: PlanValues;
+  cta: string;
 }
 
-export const plans: TariffPlan[] = [
+export const PLANS: Plan[] = [
   {
-    id: 'install',
-    tag: 'установка',
-    title: 'Готовый магазин на вашем домене',
-    price: '4 900',
-    term: 'разово · за 24 часа',
-    best: true,
-    desc: 'Разворачиваем выбранный пример на вашем домене, подключаем приём оплаты и доставку и загружаем первые товары.',
-    rows: [
-      'Домен, HTTPS и мобильная версия',
-      'Витрина, корзина и оформление заказа — настроены и проверены',
-      'Приём оплаты привычными способами, чеки в налоговую',
-      'Расчёт доставки в чекауте и печать ярлыков',
-      'Загрузка 15 товаров: фото, описания, цены',
-    ],
-    fine: 'возврат 7 дней',
+    scenario: "free",
+    name: "Бесплатный",
+    price: "0 ₽",
+    period: "навсегда",
+    annual: "",
+    values: ["до 15", "выбор из шаблонов", "стандартная", "один язык", "включён"],
+    cta: "Начать бесплатно",
   },
   {
-    id: 'brand',
-    tag: 'оформление',
-    title: 'Оформление под ваш бренд',
-    price: '9 900',
-    term: 'к установке · за 48 часов',
-    best: false,
-    desc: 'Всё то же, что за 4 900 ₽, плюс доработка под ваш бренд: логотип, цвета, шрифты и тексты. Магазин выглядит как ваш, а не как шаблон.',
-    rows: [
-      'Всё из тарифа за 4 900 ₽',
-      'Загрузка до 40 товаров: фото, описания, цены',
-      'Логотип, палитра и шрифты',
-      'Главная, карточка товара и оформление заказа',
-      'Письма, чеки и баннеры в фирменном виде',
-      'Тексты о бренде, доставке и оплате',
+    scenario: "business",
+    name: "Бизнес",
+    price: "699 ₽",
+    period: "в месяц",
+    annual: "или 5 499 ₽ в год, это −35 %",
+    values: ["до 100", "редактор дизайна", "приоритетная", "один язык", "включён"],
+    cta: "Выбрать «Бизнес»",
+  },
+  {
+    scenario: "pro",
+    name: "Про",
+    price: "4 499 ₽",
+    period: "в месяц",
+    annual: "",
+    values: [
+      "без ограничений",
+      "редактор дизайна",
+      "персональный менеджер",
+      "любое количество",
+      "включён",
     ],
-    fine: 'без возврата',
+    cta: "Выбрать «Про»",
   },
 ];
-
-// `{{ nTariffs }}` in the raw template — the running section-order number computed at runtime by
-// dc-script.js `renderVals()` from the page's `blocks`/audience visibility state (order array in
-// dc-script.js line 319). That state is shared across the whole page and is not owned by this
-// section; the value below is the one baked into reference/rendered/14-tariffs.html (default
-// props: audience "cold", all `show*` blocks default off except the always-on ones ahead of
-// "tariffs" in the order array). See NOTES.md "Needs from merger".
-export const eyebrowNumber = '12';
-
-export const eyebrowLabel = 'выбор тарифа';
-export const heading = 'Выберите тариф';
-export const intro =
-  'Оплата картой или через СБП на стороне Tribute — счёт формируется сразу после выбора тарифа.';
-export const ctaLabel = 'Оплатить';

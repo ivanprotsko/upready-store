@@ -1,63 +1,59 @@
 /**
- * Переходы из лендинга в ДЕМО-СЦЕНАРИИ воронки.
+ * funnel.ts — единственное место, где страница знает адреса воронки.
  *
- * Воронка (`/start`) живёт не здесь: это storefront линии MT, отдельный стенд
- * и отдельный процесс. Поэтому адрес НЕ вшивается константой — тот же класс,
- * что дыра D1 в `artifacts/docs/2026-09-13-onboarding-boundary.html`, где схема
- * `https://` оказалась зашита в код и ссылка умерла на стенде без TLS.
- * База берётся из `VITE_FUNNEL_BASE_URL`; значение по умолчанию — локальный стенд.
+ * Концепция (`artifacts/docs/2026-09-13-homepage-concept.md` §2): один призыв
+ * «Создать магазин» ведёт в сценарий 3 воронки, а кнопки тарифов входят в тот
+ * же сценарий с уже выбранным тарифом и сразу ведут в кассу.
+ *
+ * База адреса берётся из `VITE_FUNNEL_BASE_URL`. Переменной нет — остаётся
+ * относительный путь `/start/…`: он работает и на dev-сервере, и когда воронка
+ * стоит на том же домене, что страница. Пустая строка переменной — это НЕ
+ * значение (правило 20a), она трактуется как «база не задана».
  */
-export const FUNNEL_BASE_URL: string =
-  import.meta.env.VITE_FUNNEL_BASE_URL ?? "http://localhost:8041";
 
-export function funnelUrl(path: string): string {
-  return new URL(path, FUNNEL_BASE_URL).toString();
-}
-
-export interface Scenario {
-  /** Номер формы воронки: 1 прямая оплата · 2 услуга→тариф · 3 только тариф · 4 только услуга. */
-  funnel: 1 | 2 | 3 | 4;
+export interface FunnelScenario {
+  /** Путь с параметрами сценария, всегда начинается с `/start/`. */
   path: string;
-  /** Что открывается по ссылке — этой строкой кнопка объясняет себя в title. */
+  /** Человеческая расшифровка — уезжает в `title` ссылки. */
   title: string;
 }
 
-/**
- * Тариф лендинга → сценарий, который продаёт РОВНО ЭТУ цену.
- *
- * Сверено по каталогу воронки (`apps/storefront/src/lib/demo/catalog.ts`,
- * worktree feat/abstract-datasets) и замерено на живом стенде 2026-09-13:
- *   /start/pay?f=1                              → «Старт», 4 900 ₽
- *   /start/pay?f=3&s=store&p=store-business      → «Бизнес», 9 900 ₽
- *
- * Совпадает ЦЕНА, а не состав: «Бизнес» в воронке — это каталог без лимита,
- * свой домен, пять языков и приём платежей, тогда как 9 900 ₽ на лендинге —
- * оформление под бренд. Пока боевая воронка не выбрана
- * (вопрос q-homepage-funnel-variant), кнопка ведёт в сценарий той же цены.
- */
-export const PLAN_SCENARIOS: Record<string, Scenario> = {
-  install: {
-    funnel: 1,
-    path: "/start/pay?f=1",
-    title: "Сценарий 1 · прямая оплата: касса сразу, тариф «Старт» 4 900 ₽",
-  },
-  brand: {
-    funnel: 3,
-    path: "/start/pay?f=3&s=store&p=store-business",
-    title: "Сценарий 3 · тариф «Бизнес» 9 900 ₽ выбран, дальше касса",
-  },
-};
+const rawBase: unknown = import.meta.env.VITE_FUNNEL_BASE_URL;
 
-/**
- * Куда ведёт главная кнопка героя. Лендинг продаёт ОДНУ услугу — готовый
- * магазин — и два её объёма, поэтому релевантен сценарий 3: услуга
- * подразумевается, посетитель выбирает только тариф.
- */
-export const HERO_SCENARIO: Scenario = {
-  funnel: 3,
+/** База без хвостового слэша либо пустая строка. */
+export const FUNNEL_BASE: string =
+  typeof rawBase === "string" && rawBase.trim() !== ""
+    ? rawBase.trim().replace(/\/+$/, "")
+    : "";
+
+/** Кнопка «Создать магазин»: шапка, герой, блок «Почему сейчас», финал. */
+export const HERO_SCENARIO: FunnelScenario = {
   path: "/start/plan?f=3",
-  title: "Сценарий 3 · выбор тарифа, затем касса и онбординг",
+  title: "Сценарий 3 · выбор тарифа, дальше касса",
 };
 
-/** Список всех четырёх сценариев — на случай, если тариф не сопоставлен. */
-export const SCENARIO_INDEX_PATH = "/start";
+/**
+ * Планы от 2026-09-13 (t-2026-09-13-02). Ключи `p=` — новые, касса воронки
+ * (`apps/storefront/src/lib/demo/catalog.ts`, feat/abstract-datasets) их ещё
+ * не знает и должна быть приведена к этим трём; для «Бесплатного» шаг кассы —
+ * подтверждение без оплаты.
+ */
+export const PLAN_SCENARIOS: Record<"free" | "business" | "pro", FunnelScenario> = {
+  free: {
+    path: "/start/pay?f=3&s=store&p=store-free",
+    title: "Сценарий 3 · тариф «Бесплатный» выбран, дальше подтверждение и мастер",
+  },
+  business: {
+    path: "/start/pay?f=3&s=store&p=store-business",
+    title: "Сценарий 3 · тариф «Бизнес» 699 ₽ в месяц выбран, дальше касса",
+  },
+  pro: {
+    path: "/start/pay?f=3&s=store&p=store-pro",
+    title: "Сценарий 3 · тариф «Про» 4 499 ₽ в месяц выбран, дальше касса",
+  },
+};
+
+/** Адрес для href. Каждый CTA страницы проходит через эту функцию. */
+export function funnelUrl(scenario: FunnelScenario): string {
+  return `${FUNNEL_BASE}${scenario.path}`;
+}

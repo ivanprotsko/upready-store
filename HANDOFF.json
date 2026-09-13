@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-13T05:15:43+08:00",
-  "status": "feature/onboarding синхронизирована с origin/dev (merge f83e54e): пришёл режим редактирования раскладки (PR #2, be918be). Конфликтов нет — файлы не пересекались. Проверено на живом :5301: tsc чист, приёмка режима 15/15, кнопки лендинга по-прежнему ведут в сценарии воронки (hero → /start/plan?f=3, «Старт» → /start/pay?f=1). Локальная ветка dev в главном чекауте НЕ синхронизирована: отстаёт от origin/dev на 2 (PR #1 и #2) и держит 13 своих коммитов-журналов.",
+  "updated": "2026-09-14T01:03:56+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»). | 2026-09-13 21:17 WITA · feature/telegram-miniapp (t-2026-09-13-04): код + записка закоммичены f16df2c, PR #5 в dev открыт; блок — токен бота для реальной приёмки в Telegram (BotFather /newbot → UPREADY_STORE_TELEGRAM_BOT_TOKEN в .env.keys) | 2026-09-14 01:03 WITA штаб (Opus, сессия 842abb6f): приказ Ивана по тарифам разложен на 4 задачи и раздан. t-2026-09-14-01 — имена Бесплатный/Про/Ультра, подписи строк слева убраны, значения самоописывающие, сноска про 500 включённых товаров, у Про 7 дней по привязанной карте (воркер Opus, ветка feature/pricing-copy). t-2026-09-14-02 — калькулятор стоимости доп. товара: трафик по сегментам, инфраструктура, комиссии и налоги, маржа, UI-инструмент в tools/ (воркер Opus, ветка feature/price-cost-calculator, ff до f381ebb). t-2026-09-14-03 — market intelligence, только отчёт + дорожная карта + промпты, реализацию не начинать (воркер Opus, ветка feature/market-intelligence). t-2026-09-14-04 pricing-manager (Medusa-расширение управления тарифами) в бэклоге, блокер t-02. Ответ на вопрос 1.1: пробный период по карте есть у обоих — Polar (любая длительность, карта на чекауте, автосписание в конце, отмена до конца без списания), Tribute (1/12/24 ч, 3 или 7 дней, доступ после привязки карты, автопродление платным; триал в существующей подписке только для новых подписчиков), первоисточники прочитаны 2026-09-14. Журнал задач f381ebb, dev запушена.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -713,6 +713,195 @@
       "updated": "2026-09-12T19:31:01+08:00"
     },
     {
+      "id": "t-2026-09-13-01",
+      "title": "Homepage rework: three-word hero (Свобода · стабильность · независимость) with a synced illustration panel and a minimal action-driven page (design stage first — canon ~/upready/packages/geist-kit/AGENTS.md for tokens and spacing; concept+copy doc artifacts/docs/2026-09-13-homepage-concept.md; working HTML prototype artifacts/docs/2026-09-13-homepage-prototype.html that DEMONSTRATES the hero word cycle and panel swap in a browser; human-eyes acceptance by Ivan on the live stand)",
+      "state": "todo",
+      "priority": "high",
+      "created": "2026-09-13T07:37:51+08:00",
+      "updated": "2026-09-13T08:37:50+08:00",
+      "details": "GOAL. Replace the current generic landing (apps/homepage/port, a 1:1 port of the legacy 'plan B' page) with a fully reworked page whose every block pushes the visitor to one action: start a store. Headline (Ivan's choice, verbatim): «Свобода, стабильность и независимость начинаются здесь». Hero: the headline on the left; on the right a panel that shows, in sync with the highlighted word, an illustration conveying what that word means for THIS product. Page must be simple, minimal, low-noise, easy to read, no filler, with a short path to the action.\n\nINPUTS. (a) Ivan's brief of 2026-09-13 07:2x WITA (this session): Свобода = the owner decides what to add/remove (open Medusa engine), manages the store from a phone via web or via a chat agent that can do anything the admin can (generate an image, translate pages, swap images, change block variants); blocks ship with pre-built variants, the agent edits only a config, every change is versioned and revertible; image generation via replicate/fal/evolink, one product-photo model. Стабильность = Ivan has no idea yet — asked me to develop it (own site vs marketplaces that change rules, ban categories, go bankrupt). Независимость = independence from the platform. Ivan asked me to think deeply, develop the keywords and CHANGE them if a sharper word conveys the product better. (b) Research reports written tonight by 8 readers: ~/upready/research/reports/2026-09-13-upready-store-product-strengths/*.md — strengths that can be built fast and well, taken from Ivan's reference projects (upready-studio, ui-upready-dev-monorepo, packshot/image-studio, chrxnasdmds chat/telegram/theme, upready-store today, market facts). (c) Competitor nav research artifacts/research/2026-09-12-competitor-nav-shopify-insales/.\n\nDESIGN STAGE (first deliverable, before any .tsx edit). Canon: ~/upready/packages/geist-kit/AGENTS.md (rule 27) for tokens, type scale (display: 20-48px, weight 600, negative tracking), spacing and the one-accent rule; the ported page's Inter/#fafafa chrome stays the visual reference for rhythm. Deliverables: (1) artifacts/docs/2026-09-13-homepage-concept.md — keyword development (kept or changed, with the reasoning), page structure block by block with the copy, the CTA logic, the illustration brief per word, and an honesty table: each claim on the page -> the code/branch that backs it; (2) artifacts/docs/2026-09-13-homepage-prototype.html — a WORKING self-contained HTML prototype that DEMONSTRATES in a browser the hero word cycle, hover pinning and the panel swap for all three words, plus the whole page flow top to bottom. Ivan sees these before/with the React work.\n\nRESOLVED DECISIONS. 1. Every claim on the page must be backed by code that exists (merged or on a named branch) or by a verified primary source; anything else is cut, not softened. 2. Social proof of Medusa's enterprise clients (Eight Sleep, Heineken…) is removed: it is not our proof. 3. Tariffs and prices stay as the funnel sells them (4 900 / 9 900 ₽ per apps/storefront/src/lib/demo/catalog.ts) unless the funnel says otherwise; the CTA leads into the /start funnel via lib/funnel.ts. 4. Hero cycle: 4 s per word, cross-fade 250 ms; hover/focus pins, leaving resumes; click pins until next click; below 768 px the panel moves under the headline; prefers-reduced-motion = no cycle, first word shown. 5. The hero stops being a 1:1 port; reference/shots/hero.png is not a baseline anymore; other sections that survive keep their look unless the concept changes them. 6. Illustrations: vector/CSS/SVG compositions or real product screenshots, not stock; no generated imagery on the page without a source note. 7. Work lands through a task branch feature/homepage-rework in a Superset workspace from dev and a GitHub PR merged by the acceptor (s8); Ivan gave blanket authorisation on 2026-09-13 for self-approval and merge.\n\nACCEPTANCE. Machine: pnpm exec tsc --noEmit clean; vite build clean; zero console errors in Playwright on load and after clicking every CTA and every hero word; all CTAs resolve to the funnel URL; no 'todo:' placeholder text visible anywhere on the page. Human eyes (Ivan, live stand, 18f): (a) reading the page top to bottom takes under two minutes and every block answers 'why act now'; (b) the hero highlights exactly one word at a time, the panel changes with it and the hero height does not jump; (c) each of the three illustrations reads as its word without the caption; (d) at 390 px nothing is clipped, no horizontal scroll, the panel sits under the headline; (e) no block on the page feels like filler — Ivan can name what he would remove and it is less than one block; (f) the CTA is visible above the fold at 1440 and 390 px.\n\nSCOPE. apps/homepage/port/** (sections may be deleted, rewritten or added; registry and layout config updated accordingly), artifacts/docs/2026-09-13-homepage-concept.md, artifacts/docs/2026-09-13-homepage-prototype.html. Payment and onboarding screens are a SEPARATE task/branch if time allows.\n\n\n\nPROGRESS 2026-09-13 (night session, Fable): concept + prototype + React build done; acceptance script 13/13 at 1440 and 390; PR #3 (feature/homepage-rework → dev) opened and merged by the session under Ivan's blanket authorisation. Stand for human-eyes acceptance: http://localhost:5333/ (workspace dev server, nohup). Task stays open until Ivan's eyes pass criteria (a)-(f).",
+      "goal": "The upready-store homepage is replaced by a minimal, honest, action-driven page whose hero cycles the three positioning words with a synced illustration panel, merged to dev through a PR and accepted on a live stand.",
+      "acceptance": [
+        "Machine: pnpm exec tsc --noEmit clean, vite build clean, zero Playwright console errors on load and after clicking every CTA and every hero word, every CTA resolves to the /start funnel URL, no 'todo:' text visible",
+        "Human eyes on the live stand (Ivan, 18f): (a) reading top to bottom takes under two minutes and every block answers why act now",
+        "(b) exactly one hero word is highlighted at a time, the panel changes with it and the hero height does not jump",
+        "(c) each of the three illustrations reads as its word without the caption",
+        "(d) at 390 px nothing is clipped, no horizontal scroll, the panel sits under the headline",
+        "(e) no block feels like filler: what Ivan would remove is less than one block",
+        "(f) the CTA is visible above the fold at 1440 and 390 px"
+      ],
+      "approved": "2026-09-13T07:40:41+08:00",
+      "files": [
+        "artifacts/docs/2026-09-13-homepage-concept.md",
+        "artifacts/docs/2026-09-13-homepage-prototype.html",
+        "apps/homepage/port/scripts/accept-homepage.mjs"
+      ],
+      "commits": [
+        "91123e7",
+        "f47f874",
+        "30c1363"
+      ]
+    },
+    {
+      "id": "t-2026-09-13-02",
+      "title": "Тарифы на главной: три плана (бесплатно / 699 ₽ мес / 4 499 ₽ мес), Telegram Mini App во всех, инвентарь фич для сравнительной таблицы",
+      "state": "in_progress",
+      "priority": "high",
+      "created": "2026-09-13T20:43:13+08:00",
+      "updated": "2026-09-13T20:52:23+08:00",
+      "goal": "Блок «Тарифы» на главной (apps/homepage/port) показывает три плана по спецификации Ивана от 2026-09-13: Бесплатный 0 ₽ (до 15 товаров, дизайн из шаблонов, поддержка стандартная), Бизнес 699 ₽/мес или 5 499 ₽/год (−35 %) (до 100 товаров, редактор дизайна, приоритетная поддержка), Про 4 499 ₽/мес (товары без ограничений, любое число языков, персональный менеджер); Telegram Mini App во всех; строки одинаковые, отличия только названные. Плюс markdown-инвентарь фич для сравнительной таблицы в artifacts/docs. Ветка feature/pricing-plans, PR в dev.",
+      "acceptance": [
+        "Стенд воркспейса в браузере: три карточки читаются как сравнение (одни и те же строки в одном порядке), цены и лимиты дословно по спецификации, Telegram Mini App в каждой",
+        "accept-homepage.mjs проходит с тремя CTA тарифов, все ведут в /start/…, консоль чиста на 1440 и 390, на 390 карточки в одну колонку без обрезки",
+        "Инвентарь фич artifacts/docs/2026-09-13-pricing-features-inventory.md: каждая фича помечена статусом (в dev / в соседнем репо / нет) со ссылкой на код или отчёт",
+        "PR feature/pricing-plans → dev смёржен на GitHub"
+      ],
+      "approved": "2026-09-13T20:44:21+08:00",
+      "details": "PR #4 feature/pricing-plans → dev смёржен squash 5c0f080 (2026-09-13 12:51Z). Приёмка машинная: tsc чист, build 253 kB js, accept-homepage.mjs 13/13 на http://localhost:5334/ (стенд воркспейса, nohup, лог apps/homepage/port/.logs/stand-5334.log), замер Playwright: 3 карточки × 5 строк, высота 420 px одинаковая, на 390 одна колонка, hscroll нет. Глазная приёмка Ивана — стенд :5334. Допущения (инвентарь §2): языки в Бесплатном/Бизнесе — один, дизайн в Про — редактор, годовой цены Про нет, названия Бесплатный/Бизнес/Про, период «навсегда». Касса воронки (catalog.ts, feat/abstract-datasets) ещё со старыми ценами — инвентарь §5.",
+      "files": [
+        "apps/homepage/port/src/sections/tariffs/data.ts",
+        "apps/homepage/port/src/sections/tariffs/index.tsx",
+        "apps/homepage/port/src/sections/tariffs/styles.module.css",
+        "apps/homepage/port/src/lib/funnel.ts",
+        "apps/homepage/port/src/sections/hero/data.ts",
+        "apps/homepage/port/scripts/accept-homepage.mjs",
+        "artifacts/docs/2026-09-13-pricing-features-inventory.md"
+      ],
+      "commits": [
+        "aa7c53f",
+        "5c0f080"
+      ]
+    },
+    {
+      "id": "t-2026-09-13-03",
+      "title": "Сравнительная таблица тарифов upready-store vs Tilda / Shopify / InSales на базе versustable (astro-quick-views)",
+      "state": "in_progress",
+      "priority": "high",
+      "created": "2026-09-13T20:43:13+08:00",
+      "updated": "2026-09-13T21:13:59+08:00",
+      "goal": "В astro-quick-views/apps/versustable собрать общую сравнительную таблицу тарифов: upready-store (три плана из t-2026-09-13-02) против Tilda (tilda.cc/ru/pricing), Shopify (shopify.com/id/pricing), InSales (insales.ru/page/site-im); данные конкурентов сняты с живых страниц с датой снятия; строки — из инвентаря фич. Ветка feature/pricing-plans-feat-table в Superset-воркспейсе проекта astro-quick-views, PR в master.",
+      "acceptance": [
+        "Страница versustable открывается в браузере, таблица показывает все четыре платформы и все их тарифы, фильтр по платформам и режим «только различия» работают",
+        "Каждая ячейка конкурента подтверждена живой страницей источника (sourceUrl + дата снятия в JSON), ни одного значения из памяти модели",
+        "Ячейки upready-store совпадают с инвентарём фич: статус «нет»/«в соседнем репо» не показан как «да»",
+        "PR feature/pricing-plans-feat-table смёржен на GitHub"
+      ],
+      "approved": "2026-09-13T20:44:21+08:00",
+      "details": "Воркспейс Superset 0e104cb6 проекта astro-quick-views, ветка feature/pricing-plans-feat-table от локальной feature/insales-vs-shopify-tariffs (master + 2 непушенных коммита ed90154, 20b5a4e). Агент claude запущен с промптом (терминал 91e20a80, заголовок «Таблица сравнения тарифов upready-store vs конкуренты»); инвентарь фич передан вложением. Смотреть: superset terminals read --workspace 0e104cb6-8eea-4356-a897-d2a9b16de710 --terminal 91e20a80-2844-4982-84f8-ecbeff9fd7d8\n\n[2026-09-13 21:13 WITA] Сделано и смёржено: PR #1 astro-quick-views (https://github.com/ivanprotsko/astro-quick-views/pull/1) → master, squash, mergedAt 2026-09-13T13:13:27Z, merge commit 7d4c65c. Страница apps/versustable /pricing-plans: 4 платформы, 12 тарифов, 31 строка; данные src/data/pricing-plans-comparison.json с sourceUrl/fetchedAt/fetchNote (Tilda RUB, Shopify /id — USD, InSales page/site-im — 2 тарифа, RUB), upready-store по инвентарю t-2026-09-13-02. Приёмка в headless Chromium: фильтр (Tilda off → 9 колонок), только различия (Shopify-only 31→8), drawer 12 значений, 390 px ок, ошибок консоли нет. Попутно починена гидрация React-островов (astro.config vite.optimizeDeps.include react-dom/client) — до фикса фильтры не работали ни на одной странице versustable. Скриншоты 1440/390: apps/versustable/artifacts/screenshots/ в worktree 57bce7d0…/feature/pricing-plans-feat-table (не в git, 21f). Открыто для Ивана: InSales на site-im только 2 тарифа (полный список на /signup); Telegram Mini App показан «включён · в работе»; комиссия с продаж не решена; ячейки «проверить» (адаптивная витрина, SEO, промокоды, пользователи, хранилище, свой код) пустые."
+    },
+    {
+      "id": "t-2026-09-13-04",
+      "title": "Telegram Mini App для магазина: тестовый магазин с абстрактными данными, затем автосоздание при инициализации магазина, пул заранее созданных магазинов",
+      "state": "in_progress",
+      "priority": "high",
+      "created": "2026-09-13T20:43:13+08:00",
+      "updated": "2026-09-13T21:17:28+08:00",
+      "goal": "Telegram Mini App для магазина upready-store: (1) для тестового магазина с абстрактными данными поднять работающий Telegram Mini App витрины; (2) разобраться и реализовать автоматическое создание Mini App вместе с инициализацией магазина; (3) осмыслить и, если создание в рантайме требует ожидания, спроектировать пул заранее созданных магазинов, у которых при инициализации (бесплатный тариф или после оплаты) меняется владелец и регенерируются seed-данные под сферу и категорию торговли. Ветка feature/telegram-miniapp от dev, PR в dev.",
+      "acceptance": [
+        "Mini App тестового магазина открывается в реальном Telegram-клиенте (телефон или десктоп) и показывает каталог с абстрактными данными, скриншот из Telegram приложен",
+        "Инициализация нового магазина через мастер создаёт или выдаёт Mini App без ручных шагов; замерено время от инициализации до открытия в Telegram",
+        "Записка artifacts/docs с решением по пулу заранее созданных магазинов: замеры времени создания в рантайме, схема смены владельца и регенерации seed, риски",
+        "PR feature/telegram-miniapp → dev смёржен на GitHub"
+      ],
+      "approved": "2026-09-13T20:44:21+08:00",
+      "details": "Воркспейс Superset 956b9c45 upready-store, ветка feature/telegram-miniapp от dev (a994249). Агент claude запущен с промптом (терминал 12562b7b, заголовок «Telegram Mini App storefront и pool strategy»). Смотреть: superset terminals read --workspace 956b9c45-5500-42bc-b297-e4ab8432e783 --terminal 12562b7b-5f13-44dc-97d4-e00cc69b706a\n\n2026-09-13 21:17 WITA, ветка feature/telegram-miniapp, коммит f16df2c, PR #5 (https://github.com/ivanprotsko/upready-store/pull/5): бэкенд src/telegram (Bot API клиент, provisioning, GET/POST/DELETE /admin/telegram-mini-app, GET /store/telegram-mini-app, 12 unit), витрина /[locale]/mini + MiniAppBridge (3 vitest), записка artifacts/docs/2026-09-13-telegram-miniapp-pool-decision.md — решение: пул не нужен (инициализация ≈3–8 с), схема платформенный бот + свой бот владельца. Замеры: RTT api.telegram.org с Contabo 59/258/60 мс, provisioning 5 вызовов через мок 12 мс, каталог ferrite FCP 1,27–1,38 с. Симулированный webview 15/15 PASS. НЕ сделано: реальный Telegram — нет токена бота upready-store, шаги BotFather для Ивана в §6; PR открыт."
+    },
+    {
+      "id": "t-2026-09-14-01",
+      "title": "Тарифы на главной: имена Бесплатный / Про / Ультра, самоописывающие свойства без подписей слева, пробный период 7 дней по карте",
+      "state": "in_progress",
+      "priority": "high",
+      "details": "Приказ Ивана 2026-09-14 00:49 WITA. (0) Названия тарифов: Бесплатный, Про, Ультра. Прежний Бизнес становится Про, прежний Про — Ультра; цены и периоды не меняются (0 ₽ навсегда / 699 ₽ в месяц или 5 499 ₽ в год / 4 499 ₽ в месяц). Ключи сценариев воронки и CTA переименовать вместе с названиями. (2) У Ультра значение строки Дизайн — брендированный. (3.1) Убрать подписи строк слева (Товаров, Дизайн, Поддержка, Языки витрины, Telegram Mini App): в карточке остаются только значения. (3.2) Значения переписать так, чтобы каждое читалось само по себе: 15 товаров / 100 товаров / Неограниченное количество товаров со сноской; выбор из шаблонов / редактор дизайна / брендированный дизайн; стандартная поддержка / приоритетная поддержка / персональный менеджер; один язык витрины / любое количество языков; Telegram Mini App включён. Сноска к неограниченному каталогу: в тариф входит 500 товаров бесплатно, каждый следующий — N ₽ в месяц. N приходит из задачи t-2026-09-14-02 (калькулятор себестоимости); пока её нет, цифру НЕ выдумывать (правило 17a) — сноска выходит без цены либо задача ждёт. (1) У тарифа Про (средний, прежний Бизнес) — 7 дней бесплатно; период активируется после привязки платёжной карты, по окончании списание происходит автоматически, если подписку не отменили. Проверено 2026-09-14 по первоисточникам: Polar polar.sh/docs/features/subscriptions/trials — длительность триала задаётся парой единица+число, карта собирается на чекауте, по окончании автосписание, отмена до конца = без списания, есть защита от повторных триалов по отпечатку карты; Tribute wiki.tribute.tg/for-content-creators/subscriptions/trial-subscription-period — фиксированные длительности 1/12/24 часа, 3 или 7 дней, доступ даётся после привязки карты, по окончании подписка автоматически становится платной, а триал, добавленный в существующую подписку, действует только для новых подписчиков. Оба провайдера схему поддерживают; выбор провайдера и подключение биллинга — отдельная задача, здесь только копия страницы и запись решения (касса воронки демонстрационная).",
+      "files": [
+        "apps/homepage/port/src/sections/tariffs/data.ts",
+        "apps/homepage/port/src/sections/tariffs/index.tsx",
+        "apps/homepage/port/src/sections/tariffs/styles.module.css",
+        "apps/homepage/port/src/lib/funnel.ts",
+        "apps/homepage/port/scripts/accept-homepage.mjs",
+        "artifacts/docs/2026-09-13-pricing-features-inventory.md"
+      ],
+      "created": "2026-09-14T00:57:39+08:00",
+      "updated": "2026-09-14T00:58:47+08:00",
+      "goal": "На главной стоят три тарифа Бесплатный / Про / Ультра: подписи строк слева убраны, каждое значение читается само по себе, у Ультра дизайн брендированный, у Про — 7 дней бесплатно по привязанной карте, а у неограниченного каталога сноска про 500 включённых товаров.",
+      "acceptance": [
+        "Машина: pnpm exec tsc --noEmit чисто, vite build чисто, scripts/accept-homepage.mjs зелёный на 1440 и 390",
+        "В карточках тарифов нет подписей строк слева, каждое значение самоописывающее (15 товаров, 100 товаров, Неограниченное количество товаров со сноской)",
+        "Названия: Бесплатный, Про, Ультра; цены и периоды прежние; ключи воронки и CTA переименованы вместе с названиями",
+        "У Ультра значение дизайна — брендированный",
+        "Сноска называет 500 включённых товаров и цену следующего ТОЛЬКО если она получена из t-2026-09-14-02; выдуманной цифры на странице нет",
+        "Строка про 7 дней бесплатно у Про говорит, что период начинается после привязки карты и по окончании списание идёт автоматически, если не отменить",
+        "Глазами Ивана на живом стенде (18f)"
+      ],
+      "approved": "2026-09-14T00:58:47+08:00"
+    },
+    {
+      "id": "t-2026-09-14-02",
+      "title": "Калькулятор себестоимости и цены дополнительного товара: модель трафика, инфраструктуры, маржи и сегментов + UI-инструмент",
+      "state": "in_progress",
+      "priority": "high",
+      "details": "Приказ Ивана 2026-09-14 00:49 WITA, ветка и воркспейс feature/price-cost-calculator (созданы заранее). Задача: определить формулу, по которой мы считаем стоимость дополнительного товара сверх включённых в тариф 500 — сейчас и потом, когда появятся реальные данные посещаемости магазинов. Сейчас опираться на открытые источники; там, где данных нет, писать допущение явно и называть источник (правило 17a — цифра без источника не едет в формулу). Ядро модели: предположить среднее число посетителей магазина в месяц, неделю, день, час, минуту и секунду в зависимости от количества товаров — это нужно, чтобы правильно считать, сколько мы платим за базовую подписку на сервер и за дополнительные мощности при возрастающей и пиковой нагрузке. Обязательно учесть: (1) процент и/или фиксированную сумму маржи бизнеса; (2) фиксированные платежи за сервисы инфраструктуры, комиссии и налоги, которые приходится платить за ведение бизнеса, оплату услуг и вывод средств в наличные; (3) опциональный переключатель — учитывать или нет долю товаров магазинов на бесплатных тарифах; (4) настраиваемые коэффициенты по сегментам магазинов (сегменты тоже определить), где сегмент X даёт N посещений за диапазон времени Y на 1 товар. Результат: (а) документ с моделью, допущениями, источниками и формулой; (б) UI-калькулятора, где параметры меняются и результат виден сразу; (в) инструмент положен в инструменты (репозиторный каталог tools/, чтобы уехать в PR), записан в реестр хранения ~/upready/specs/storage-registry и в память проекта ~/upready/memory/ + строка в knowledge-index.md — инструмент будем развивать; (г) формула и её параметры оформлены так, чтобы логика переносилась в расширение панели администратора (задача t-2026-09-14-04), а не переписывалась заново. Ветка мёржится в dev через PR (s8).",
+      "files": [
+        "tools/price-cost-calculator",
+        "artifacts/docs",
+        "specs"
+      ],
+      "created": "2026-09-14T00:58:01+08:00",
+      "updated": "2026-09-14T00:58:59+08:00",
+      "goal": "Есть формула стоимости дополнительного товара с явными допущениями и источниками, модель трафика по сегментам и модель затрат (инфраструктура, комиссии, налоги, маржа), а рядом — UI-калькулятор, положенный в инструменты, реестр и память проекта, откуда логика переносится в панель управления тарифами.",
+      "acceptance": [
+        "Документ модели называет каждое допущение и его источник; там, где данных нет, это написано прямо, а не заменено правдоподобной цифрой",
+        "Модель считает посетителей магазина в месяц, неделю, день, час, минуту и секунду в зависимости от количества товаров",
+        "Затратная часть включает базовую подписку на сервер и доплату за пиковую нагрузку, фиксированные платежи за инфраструктуру, комиссии и налоги на вывод средств",
+        "Маржа задаётся процентом и/или фиксированной суммой и видна в результате отдельной строкой",
+        "Переключатель учёта доли товаров на бесплатных тарифах работает и меняет результат",
+        "Сегменты магазинов определены, у каждого свой коэффициент посещений на 1 товар за диапазон времени, коэффициенты меняются в UI",
+        "UI-калькулятор открывается и пересчитывает результат при изменении любого параметра",
+        "Инструмент лежит в репозитории (tools/), записан в реестр хранения и в ~/upready/memory/ со строкой в knowledge-index.md",
+        "Ветка смёржена в dev через PR (s8)"
+      ],
+      "approved": "2026-09-14T00:58:59+08:00"
+    },
+    {
+      "id": "t-2026-09-14-03",
+      "title": "Market intelligence: исследование расширения для слежения за тарифами, офертами и ценами конкурентов — отчёт, дорожная карта, спеки, стартовые промпты",
+      "state": "in_progress",
+      "priority": "high",
+      "details": "Приказ Ивана 2026-09-14 00:49 WITA, ветка и воркспейс feature/market-intelligence. Только исследование и проектирование, код продукта не пишем. Предмет: расширение для отслеживания данных о товарах, тарифах и прочих деталях у конкурентов — через указание ссылок и шаблонов либо через встроенный чат с агентами, которые анализируют страницы и вносят обновления в данные о прайсинге конкурентов. Расширение двойного назначения. Для нас: следить за тарифами и фичами в сравнительных таблицах на сайтах конкурентов; следить за изменениями в политике конфиденциальности и офертах конкурентов. Для пользователей нашего сервиса: следить за ценами на категории и конкретные товары конкурентов, с настройками уведомлений при снижении или повышении цены, и с автоматическим изменением цены в своём магазине вслед за конкурентом, но не ниже заданного порога. Агент должен осмыслить идею, изучить дополнительную информацию (обученные знания плюс сеть, первоисточники обязательны для всего, что меняется — правило 17a), и составить отчёт со списком функциональности, нарезанным по веткам, зависимостям и этапам в контексте дорожной карты, по возможности со стартовыми промптами для каждой ветки. Результат, который идёт в PR и мёрж: опубликованные артефакты — дорожная карта, спеки, промпты, описания задач. Иван проверит и скажет, когда приступать к реализации: ни одной ветки реализации в этой задаче не заводить.",
+      "files": [
+        "artifacts/research",
+        "artifacts/docs",
+        "specs"
+      ],
+      "created": "2026-09-14T00:58:15+08:00",
+      "updated": "2026-09-14T00:59:09+08:00",
+      "goal": "Есть проработанная идея расширения market intelligence: отчёт с разбором предмета, список функциональности, нарезанный по веткам, зависимостям и этапам дорожной карты, спеки и стартовые промпты — всё опубликовано артефактами и смёржено, реализация не начата.",
+      "acceptance": [
+        "Отчёт разбирает оба назначения: наше (тарифы и фичи конкурентов, изменения в политике конфиденциальности и офертах) и пользовательское (цены на категории и товары конкурентов, уведомления о росте и снижении, автоизменение своей цены не ниже порога)",
+        "Рассмотрены оба способа задания источников: ссылки с шаблонами разбора и встроенный чат с агентами",
+        "Каждый внешний факт (правовые ограничения скрейпинга, готовые сервисы, цены API) приходит с первоисточником и датой",
+        "Список функциональности нарезан по веткам с зависимостями и этапами, у веток есть стартовые промпты",
+        "Артефакты лежат по правилу 4 и 43 и смёржены в dev через PR (s8)",
+        "Ни одной ветки реализации не заведено — Иван смотрит и говорит, когда приступать"
+      ],
+      "approved": "2026-09-14T00:59:09+08:00"
+    },
+    {
+      "id": "t-2026-09-14-04",
+      "title": "Pricing manager: расширение панели суперадмина Medusa для управления тарифами (цены, фичи, сравнительная таблица, виджеты) + калькулятор из t-02",
+      "state": "backlog",
+      "priority": "high",
+      "details": "Приказ Ивана 2026-09-14 00:49 WITA. Заводится ПОСЛЕ того, как t-2026-09-14-02 (калькулятор) смёржена в dev: тогда создаётся ветка и Superset-воркспейс feature/pricing-manager. Сессия сперва исследует предмет и проблемы определения стоимости тарифов — какие параметры бизнеса надо учитывать, в особенности те, что НЕ названы в приказе, но должны быть учтены: это вопрос размышления и исследования, а не переписывания готового списка. Результат работы: расширение к панели администрирования суперадмина Medusa, в котором можно вычислять стоимость по формуле и логике из ветки feature/price-cost-calculator, менять параметры, видеть результат и применять его к тарифам — одновременно с созданием задачи на обновление документов, в которых мы обязаны отражать изменения и уведомлять пользователей. ВАЖНО про объём: UI и вычисление стоимости одного товара — лишь малая часть, которую в будущем можно вынести из расширения. Ключевое назначение расширения — Управление тарифами: цены, фичи, сравнительная таблица, мини-виджеты тарифов, добавление, удаление, обновление и всё, что связано с управлением тарифами. Архитектуру закладывать под это, а не под калькулятор.",
+      "files": [
+        "apps/backend",
+        "artifacts/docs"
+      ],
+      "blockers": [
+        "t-2026-09-14-02"
+      ],
+      "created": "2026-09-14T00:58:27+08:00",
+      "updated": "2026-09-14T00:58:27+08:00"
+    },
+    {
       "id": "t-2026-09-12-03",
       "title": "Онбординг: ссылка на созданный магазин со схемой https:// зашита в код — на стенде без TLS мертва",
       "state": "backlog",
@@ -976,6 +1165,40 @@
       "id": "q-starye-zadachi-v-in-progress",
       "question": "Старые задачи в in_progress без движения — t-store-profiles-pilot, t-ds-1-seam-tests, t-2026-09-09-02, t-2026-09-10-01, t-2026-09-10-02: принимать их приёмкой этой волны или заморозить (перевести в backlog/blocked)? Задан дважды, ответа нет. Рекомендация: заморозить все пять в backlog и завести заново по факту возврата к теме — иначе картина трёх корзин врёт, показывая пять задач в работе, которой никто не ведёт.",
       "asked": "2026-09-12"
+    },
+    {
+      "id": "q-t-2026-09-13-03-v-pricing-plans-insales-pokazan",
+      "question": "t-2026-09-13-03: в /pricing-plans InSales показан двумя тарифами (Базовый, Профессиональный) со страницы page/site-im; добавлять ли остальные (визитка/селлер/комбо/ультра) вторым sourceUrl с /signup?",
+      "asked": "2026-09-13"
+    },
+    {
+      "id": "q-t-2026-09-13-03-telegram-mini-app-u",
+      "question": "t-2026-09-13-03: Telegram Mini App у upready-store показан «включён · в работе» (§1 инвентаря «включён», §3 «переносится»); комиссия платформы с продаж не решена (ячейки пустые); статусы «проверить» (адаптивная витрина, SEO, промокоды, пользователи панели, хранилище, свой код) — подтвердить по коду и заполнить.",
+      "asked": "2026-09-13"
+    },
+    {
+      "id": "q-tg-platform-bot",
+      "question": "Telegram Mini App (t-2026-09-13-04): username платформенного бота — upready_store_bot? Токен бота upready-store в .env.keys нужен как UPREADY_STORE_TELEGRAM_BOT_TOKEN; создаёт Иван через @BotFather /newbot",
+      "asked": "2026-09-13",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-13-04"
+      ]
+    },
+    {
+      "id": "q-tg-test-bot-reuse",
+      "question": "Telegram Mini App (t-2026-09-13-04): можно ли для скриншота приёмки временно поставить кнопку меню (только setChatMenuButton) у @superdupertesting_bot, созданного для приёмки svgnoon?",
+      "asked": "2026-09-13",
+      "audience": "ivan",
+      "blocks": [
+        "t-2026-09-13-04"
+      ]
+    },
+    {
+      "id": "q-tg-tenant-token-store",
+      "question": "Telegram Mini App на ветках MT: где хранить токен бота тенанта — колонка на тенанте с шифрованием или tenant.metadata (сейчас на dev: store.metadata открытым текстом, токен вырезан из ответов API)",
+      "asked": "2026-09-13",
+      "audience": "ivan"
     },
     {
       "id": "q-knowledge-index-md-monolit-72k-tokenov",

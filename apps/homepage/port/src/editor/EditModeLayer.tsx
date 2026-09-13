@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { type Audience, type BlockConfig, hiddenReason, isRendered, sectionLabel } from "../config/layout";
+import { type BlockConfig, hiddenReason, isRendered, sectionLabel } from "../config/layout";
 import styles from "./editor.module.css";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon, EyeIcon, EyeOffIcon } from "./icons";
 import type { SaveState } from "./useHomepageLayout";
@@ -12,7 +12,6 @@ const GAP = 10;
 
 interface Props {
   blocks: BlockConfig[];
-  audience: Audience;
   save: SaveState;
   onToggle: (slug: string) => void;
   onMove: (slug: string, delta: -1 | 1) => void;
@@ -45,7 +44,7 @@ function statusText(save: SaveState): { text: string; dot: string } {
  * из getBoundingClientRect(), поэтому оформление предков (sticky-шапка с
  * backdrop-filter, контейнер страницы с рамками) на него не влияет.
  */
-export default function EditModeLayer({ blocks, audience, save, onToggle, onMove, onExit }: Props) {
+export default function EditModeLayer({ blocks, save, onToggle, onMove, onExit }: Props) {
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [rect, setRect] = useState<DOMRect | null>(null);
   const frame = useRef<number | null>(null);
@@ -136,8 +135,8 @@ export default function EditModeLayer({ blocks, audience, save, onToggle, onMove
 
   const index = activeSlug ? blocks.findIndex((b) => b.slug === activeSlug) : -1;
   const block = index === -1 ? null : blocks[index];
-  const reason = block ? hiddenReason(block, audience) : null;
-  const shownCount = blocks.filter((b) => isRendered(b, audience)).length;
+  const reason = block ? hiddenReason(block) : null;
+  const shownCount = blocks.filter((b) => isRendered(b)).length;
   const status = statusText(save);
 
   const move = (delta: -1 | 1) => {
