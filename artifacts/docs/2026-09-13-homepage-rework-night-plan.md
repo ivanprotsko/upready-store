@@ -14,8 +14,8 @@ HANDOFF scope dev: t-2026-09-13-01 (цель, решения, приёмка —
 - [x] 3. Задача t-2026-09-13-01 заведена и утверждена (полномочия Ивана от 2026-09-13).
 - [x] 4. Воркспейс superset `6add6bf9` (feature/homepage-rework от dev; привязка проекта в host.db исправлена на ivanprotsko/upready-store; dev выровнена с origin/dev rebase-ом; зависимости — `corepack pnpm@10.11.1 install --frozen-lockfile`).
 - [x] 5. Синтез отчётов → концепция и копирайт: `<ws>/artifacts/docs/2026-09-13-homepage-concept.md` (слова сохранены + «своё» под каждым, вариант B, 8 блоков, таблица честности, 3 факта с источниками; факт «7 июля» на старой странице неверен).
-- [ ] 6. Рабочий HTML-прототип героя и страницы: artifacts/docs/2026-09-13-homepage-prototype.html (цикл слов, панель, поток страницы).
-- [ ] 7. Вёрстка в React-порте: новые/переписанные секции, реестр, homepage.cfg.json; tsc + vite build чистые.
+- [x] 6. Рабочий HTML-прототип: `<ws>/artifacts/docs/2026-09-13-homepage-prototype.html` — проверен Playwright (цикл, hover, 1440/390, вариант B `?h=b`, 0 ошибок); живые скриншоты 5 витрин в `port/public/showcase/`.
+- [ ] 7. Вёрстка в React-порте — отдана воркеру `w-homepage-react` (Opus, свежий контекст) по прототипу: секции hero/words/why/how/showcase/tariffs/faq/final-cta/shell, удаление 10 мёртвых секций, реестр, cfg, funnel, скрипт приёмки `scripts/accept-homepage.mjs`, tsc + build + прогон на :5333.
 - [ ] 8. Приёмка в реальном браузере (Playwright): 1440 и 390 px, клики по CTA и словам героя, 0 ошибок консоли, скриншоты в artifacts/.
 - [ ] 9. git push -u origin feature/homepage-rework → gh pr create --base dev → gh pr merge (по полномочиям Ивана).
 - [ ] 10. Стенд для Ивана: dev-сервер порта поднят nohup, адрес в HANDOFF.
