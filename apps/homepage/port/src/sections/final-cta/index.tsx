@@ -1,4 +1,4 @@
-import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
+import { ONBOARDING_SCENARIO, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
 import { CTA_LABEL, EYEBROW, HEADING, SUB, TELEGRAM_LINK } from "./data";
 
@@ -20,8 +20,8 @@ export default function FinalCta() {
       <div className={styles.ctaRow}>
         <a
           className="btn"
-          href={funnelUrl(HERO_SCENARIO)}
-          title={HERO_SCENARIO.title}
+          href={funnelUrl(ONBOARDING_SCENARIO)}
+          title={ONBOARDING_SCENARIO.title}
           data-testid="final-cta"
         >
           {CTA_LABEL}

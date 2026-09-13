@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
-import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
+import { ONBOARDING_SCENARIO, funnelUrl } from "../../lib/funnel";
 import IllLog from "./IllLog";
 import IllOwner from "./IllOwner";
 import IllStore from "./IllStore";
@@ -143,8 +143,8 @@ export default function Hero() {
         <div className={styles.ctaRow}>
           <a
             className="btn"
-            href={funnelUrl(HERO_SCENARIO)}
-            title={HERO_SCENARIO.title}
+            href={funnelUrl(ONBOARDING_SCENARIO)}
+            title={ONBOARDING_SCENARIO.title}
             data-testid="hero-cta"
           >
             {CTA_LABEL}
