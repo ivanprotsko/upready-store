@@ -157,7 +157,14 @@ async function main() {
     );
     await page.mouse.move(0, 0);
 
-    const ctaIds = ["hero-cta", "nav-cta", "plan-cta-start", "plan-cta-business", "final-cta"];
+    const ctaIds = [
+      "hero-cta",
+      "nav-cta",
+      "plan-cta-free",
+      "plan-cta-business",
+      "plan-cta-pro",
+      "final-cta",
+    ];
     const hrefs = {};
     for (const id of ctaIds) hrefs[id] = await hrefOf(page, id);
     check(
