@@ -17,10 +17,15 @@ HANDOFF scope dev: t-2026-09-13-01 (цель, решения, приёмка —
 - [x] 6. Рабочий HTML-прототип: `<ws>/artifacts/docs/2026-09-13-homepage-prototype.html` — проверен Playwright (цикл, hover, 1440/390, вариант B `?h=b`, 0 ошибок); живые скриншоты 5 витрин в `port/public/showcase/`.
 - [x] 7. Вёрстка в React-порте сделана воркером `w-homepage-react` (~08:00–08:32): секции hero (+IllStore/IllLog/IllOwner)/words/why/how/showcase/tariffs/faq/final-cta/shell, 10 мёртвых секций удалены, реестр, cfg, funnel, `scripts/accept-homepage.mjs`; tsc чист, build 252 kB js.
 - [x] 8. Приёмка приёмщиком: dev-сервер :5333 (nohup, лог `port/.logs/stand-5333.log`), `accept-homepage.mjs` — 13/13 PASS, скриншоты сняты; глазная приёмка — за Иваном.
-- [ ] 9. git push -u origin feature/homepage-rework → gh pr create --base dev → gh pr merge (по полномочиям Ивана).
-- [ ] 10. Стенд для Ивана: dev-сервер порта поднят nohup, адрес в HANDOFF.
-- [ ] 11. Durable-save: HANDOFF status, memory-заметка, resume-блок; отчёт Ивану с «Что дальше».
-- [ ] 12. (если останется время) Отдельная задача+ветка: экраны оплаты и онбординга (/start в apps/storefront, worktree feat/abstract-datasets) — воркер-сессия через superset ws create --agent claude.
+- [x] 9. PR #3 feature/homepage-rework → dev создан и смёржен squash (00baff4, 2026-09-13 00:37Z).
+- [x] 10. Стенд для Ивана: http://localhost:5333/ (воркспейс, nohup, лог `apps/homepage/port/.logs/stand-5333.log`); старая страница — :5301.
+- [x] 11. Durable-save: HANDOFF status + task update, память `project_homepage_rework_concept_2026-09-13.md`, resume-блоки 0752/0808/финальный; отчёт Ивану.
+- [ ] 12. НЕ начато сознательно (лимит Fable 93 %, общий 90 %): экраны оплаты и онбординга (/start в apps/storefront, worktree feat/abstract-datasets) — отдельная задача + воркспейс, промпт в разделе «Что дальше» отчёта.
+
+## Что дальше (для Ивана)
+1. Глазная приёмка стенда http://localhost:5333/ по критериям (a)–(f) задачи; вариант B заголовка — `artifacts/docs/2026-09-13-homepage-prototype.html?h=b`.
+2. Решения §7 концепции: период тарифа, «приём платежей» без PSP, обещания из соседних репо, тексты оферты/политики/реквизитов.
+3. Стретч (вторая подписка): задача «Payment + onboarding screens restyle» — тот же токен-сет, что и главная; воркспейс от dev; дизайн-стадия (прототип 3 экранов: план → касса → мастер) → вёрстка в apps/storefront/src/app/start/** → PR.
 
 ## Механизмы пробуждения
 - Cron этой сессии c4d117a2: каждые 25 мин, срабатывает только когда сессия простаивает; промпт велит перечитать этот файл и HANDOFF и продолжить с первого незакрытого шага.
