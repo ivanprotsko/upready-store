@@ -26,14 +26,19 @@ import {
  */
 function Hint({ text, note, hint }: PlanValue) {
   return (
+    // Верхний индекс стоит СНАРУЖИ подчёркнутой области: пунктир обещает
+    // подсказку у самого значения, а маркер сноски — знак другого рода, и
+    // подчёркивать его вместе с текстом значит смешивать два знака в один.
     // tabIndex — чтобы подсказка открывалась не только мышью: `:focus-within`
     // в CSS раскрывает её с клавиатуры и по тапу на узком экране.
-    <span className={styles.hint} tabIndex={0}>
-      {text}
-      {note ? <sup>{note}</sup> : null}
-      <span className={styles.tip} role="tooltip">
-        {hint}
+    <span className={styles.marked}>
+      <span className={styles.hint} tabIndex={0}>
+        {text}
+        <span className={styles.tip} role="tooltip">
+          {hint}
+        </span>
       </span>
+      {note ? <sup className={styles.mark}>{note}</sup> : null}
     </span>
   );
 }
@@ -81,15 +86,16 @@ export default function Tariffs() {
                 </span>
                 {plan.trial ? (
                   <span
-                    className={`${styles.hint} ${styles.trial}`}
-                    tabIndex={0}
+                    className={`${styles.marked} ${styles.trial}`}
                     data-testid={`plan-trial-${plan.scenario}`}
                   >
-                    {plan.trial.lead}
-                    <sup>{plan.trial.note}</sup>
-                    <span className={`${styles.tip} ${styles.tipRight}`} role="tooltip">
-                      {plan.trial.text}
+                    <span className={styles.hint} tabIndex={0}>
+                      {plan.trial.lead}
+                      <span className={`${styles.tip} ${styles.tipRight}`} role="tooltip">
+                        {plan.trial.text}
+                      </span>
                     </span>
+                    <sup className={styles.mark}>{plan.trial.note}</sup>
                   </span>
                 ) : null}
               </div>

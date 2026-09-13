@@ -179,13 +179,13 @@ async function main() {
     /* ---------- тарифы (t-2026-09-14-01) ---------- */
 
     const PLAN_KEYS = ["free", "pro", "ultra"];
-    const PLAN_NAMES = ["Бесплатный", "Про", "Ультра"];
+    const PLAN_NAMES = ["Новичок", "Профи", "Мастер"];
 
     const names = await page.$$eval("[data-testid^='plan-name-']", (nodes) =>
       nodes.map((node) => node.textContent.trim()),
     );
     check(
-      "в карточках стоят названия Бесплатный / Про / Ультра",
+      "в карточках стоят названия Новичок / Профи / Мастер",
       names.length === PLAN_NAMES.length && names.every((n, i) => n === PLAN_NAMES[i]),
       names.length === 0 ? "ни одного названия не найдено" : names.join(" · "),
     );
@@ -255,30 +255,49 @@ async function main() {
       return text;
     };
 
-    const trialBadge = await page
-      .$eval('[data-testid="plan-trial-pro"]', (node) => node.innerText.replace(/\s+/g, " "))
-      .catch(() => null);
-    check(
-      "у «Про» в углу карточки стоит плашка «7 дней бесплатно» с маркером",
-      trialBadge !== null && /7 дней бесплатно/.test(trialBadge) && /2/.test(trialBadge),
-      trialBadge === null ? "плашки пробного периода нет" : trialBadge,
-    );
+    const badges = { pro: "3 дня бесплатно", ultra: "7 дней бесплатно" };
+    for (const [key, lead] of Object.entries(badges)) {
+      const badge = await page
+        .$eval(`[data-testid="plan-trial-${key}"]`, (node) => node.innerText.replace(/\s+/g, " "))
+        .catch(() => null);
+      check(
+        `у «${key === "pro" ? "Профи" : "Мастера"}» в углу карточки плашка «${lead}» с маркером`,
+        badge !== null && badge.startsWith(lead) && /\d$/.test(badge.trim()),
+        badge === null ? "плашки пробного периода нет" : badge,
+      );
 
-    const trialTip = await tipOf('[data-testid="plan-trial-pro"]');
+      const tip = await tipOf(`[data-testid="plan-trial-${key}"]`);
+      const days = key === "pro" ? /Через 3 дня/ : /Через 7 дней/;
+      check(
+        `подсказка пробного периода «${key}» называет карту и автосписание в срок`,
+        tip !== null &&
+          /карт/i.test(tip) &&
+          days.test(tip) &&
+          /автоматически/.test(tip) &&
+          /отменить/.test(tip),
+        tip ? tip : "подсказка не раскрылась по наведению",
+      );
+    }
+
+    /* Маркер сноски не должен попадать под пунктир значения: он стоит
+       снаружи подчёркнутого узла (правка Ивана 2026-09-14). */
+    const marksOutside = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('[data-testid^="plan-"] sup')).every(
+        (sup) => getComputedStyle(sup.parentElement).textDecorationLine === "none",
+      ),
+    );
+    const marksCount = await page.$$eval('[data-testid^="plan-"] sup', (n) => n.length);
     check(
-      "подсказка пробного периода называет карту и автосписание после 7 дней",
-      trialTip !== null &&
-        /карт/i.test(trialTip) &&
-        /автоматически/.test(trialTip) &&
-        /отменить/.test(trialTip),
-      trialTip ? trialTip : "подсказка не раскрылась по наведению",
+      "верхние индексы стоят снаружи пунктирного подчёркивания, и их четыре",
+      marksOutside && marksCount === 4,
+      `маркеров ${marksCount}, вне подчёркивания: ${marksOutside}`,
     );
 
     const catalogTip = await tipOf(
       '[data-testid="plan-ultra"] li:first-child [class*="hint"]',
     );
     check(
-      "подсказка каталога «Ультра» называет 500 включённых товаров",
+      "подсказка каталога «Мастера» называет 500 включённых товаров",
       catalogTip !== null && /500 товаров/.test(catalogTip),
       catalogTip ? catalogTip : "подсказка не раскрылась по наведению",
     );
@@ -338,7 +357,7 @@ async function main() {
     const annualPro = await priceOf("pro");
     const annualNote = await priceNoteOf("pro");
     check(
-      "по умолчанию выбран год: у «Про» под ценой сказано «при оплате за год»",
+      "по умолчанию выбран год: у «Профи» под ценой сказано «при оплате за год»",
       annualPro !== null && /458/.test(annualPro) && /при оплате за год/.test(annualNote ?? ""),
       `${annualPro} · ${annualNote}`,
     );
@@ -366,9 +385,18 @@ async function main() {
 
     const proText = await page.$eval('[data-testid="plan-pro"]', (n) => n.innerText);
     check(
-      "у «Про» две языковых версии, и старой строки про скидку за год нет",
+      "у «Профи» две языковых версии, и старой строки про скидку за год нет",
       /две языковых версии/.test(proText) && !/−35\s*%/.test(proText),
       proText.replace(/\s+/g, " ").slice(0, 140),
+    );
+
+    const ctas = await page.$$eval("[data-testid^='plan-cta-']", (nodes) =>
+      nodes.map((node) => node.textContent.trim()),
+    );
+    check(
+      "кнопки: «Создать магазин» у бесплатного и «Попробовать бесплатно» у двух платных",
+      ctas.join(" · ") === "Создать магазин · Попробовать бесплатно · Попробовать бесплатно",
+      ctas.join(" · "),
     );
 
     const freeText = await page.$eval('[data-testid="plan-free"]', (n) => n.innerText);
