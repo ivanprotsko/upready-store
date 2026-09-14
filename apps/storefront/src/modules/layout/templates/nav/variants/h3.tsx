@@ -1,11 +1,10 @@
 import { getLocale, getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
@@ -40,13 +39,14 @@ const MAX_NAV_LINKS = 4
  * search and mode toggle on mobile.
  */
 export default async function NavH3() {
-  const [t, locale, categories, regions, countryCode, siteName] = await Promise.all([
+  const [t, locale, categories, regions, countryCode, siteName, locales] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -65,7 +65,7 @@ export default async function NavH3() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
               <Link

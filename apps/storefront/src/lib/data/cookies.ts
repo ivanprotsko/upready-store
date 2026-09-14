@@ -3,6 +3,7 @@ import { COUNTRY_CHOICE_COOKIE, COUNTRY_HEADER } from "@lib/geolocation"
 import { SITE_NAME, getBaseURL } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { appLocales, type Locale } from "@i18n/config"
 
 export const getAuthHeaders = async (): Promise<
   { authorization: string } | Record<string, never>
@@ -80,6 +81,47 @@ export const getSiteName = async (): Promise<string> => {
   } catch {}
 
   return SITE_NAME
+}
+
+/**
+ * The locales THIS shop's switcher may offer (`x-tenant-locales`,
+ * `src/middleware.ts`, t06-locale-currency), or null for a host with no tenant
+ * or a tenant that never saved `tenant_locale_settings` — the switcher then
+ * falls back to every locale the storefront ships (single-store behaviour,
+ * unchanged).
+ */
+export const getEnabledLocales = async (): Promise<string[] | null> => {
+  try {
+    const headers = await nextHeaders()
+    const raw = decodeTenantHeaderValue(headers.get("x-tenant-locales"))
+
+    if (!raw) {
+      return null
+    }
+
+    const codes = raw.split(",").filter(Boolean)
+
+    return codes.length ? codes : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The language switcher's own list: `appLocales` narrowed to `getEnabledLocales()`
+ * when a tenant resolved one, else every locale the storefront ships — the
+ * single-store fallback (t06-locale-currency). Every `nav/variants/h*.tsx` reads
+ * this instead of `appLocales` directly, so a shop that has not enabled a
+ * language never offers it in the switcher.
+ */
+export const getSwitcherLocales = async (): Promise<Locale[]> => {
+  const enabled = await getEnabledLocales()
+
+  if (!enabled) {
+    return appLocales
+  }
+
+  return appLocales.filter((locale) => enabled.includes(locale.code))
 }
 
 /**

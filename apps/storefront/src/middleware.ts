@@ -257,6 +257,17 @@ function tenantRequestHeaders(
     if (tenant.mode) {
       headers.set("x-tenant-mode", encodeTenantHeaderValue(tenant.mode))
     }
+    // The language switcher's own list (t06-locale-currency): comma-separated
+    // locale codes are plain ASCII, so `encodeTenantHeaderValue` never actually
+    // has anything to escape here, but it goes through the same pair as every
+    // other tenant value crossing this boundary rather than being a one-off
+    // exception to the rule above.
+    if (tenant.locale) {
+      headers.set(
+        "x-tenant-locales",
+        encodeTenantHeaderValue(tenant.locale.enabledLocales.join(","))
+      )
+    }
     // The origin the shop was resolved FROM, for every absolute URL a page emits
     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
     // `NEXT_PUBLIC_BASE_URL` is one value baked into the image for every shop this
@@ -339,13 +350,39 @@ export async function middleware(request: NextRequest) {
   // followed (t-2026-09-10-01).
   const chosenLocale = request.cookies.get(LOCALE_CHOICE_COOKIE)?.value
 
-  const entryLocale =
-    chosenLocale && isAppLocale(chosenLocale)
+  // A shop's own `default_locale`/`enabled_locales` (t06-locale-currency) win
+  // over the build's `defaultLocale`/`LOCALE_PIN`/`preferredLocales` once a host
+  // resolves to a tenant that saved them: a visitor whose browser asks for a
+  // language the shop never enabled gets the shop's OWN default rather than a
+  // language it ships no content for. A choice-cookie pick from a DIFFERENT
+  // tenant's switcher (or a stale cookie from before the shop narrowed its list)
+  // is honoured only while it is still one of THIS shop's enabled locales.
+  const tenantLocale = tenant?.locale
+
+  const entryLocale = tenantLocale
+    ? chosenLocale &&
+      isAppLocale(chosenLocale) &&
+      tenantLocale.enabledLocales.includes(chosenLocale)
+      ? chosenLocale
+      : (matchBrowserLocale(request.headers.get("accept-language"), {
+          allowed: tenantLocale.enabledLocales,
+          preferred: [tenantLocale.defaultLocale],
+        }) ?? (tenantLocale.defaultLocale as typeof defaultLocale))
+    : chosenLocale && isAppLocale(chosenLocale)
       ? chosenLocale
       : LOCALE_PINNED
         ? defaultLocale
         : (matchBrowserLocale(request.headers.get("accept-language")) ??
           defaultLocale)
+
+  // The tenant's own `default_locale → default_country` pairing overrides the
+  // deployment-wide `LOCALE_COUNTRY_MAP` for that one locale: which currency a
+  // shop's default language prices in is that shop's own pick, not the image's
+  // (t06-locale-currency). Locales the tenant enabled beyond its default still
+  // fall through to the deployment map (or to detection), same as today.
+  const tenantLocaleCountryMap = tenantLocale?.defaultCountry
+    ? new Map([[tenantLocale.defaultLocale, tenantLocale.defaultCountry]])
+    : null
 
   // The locale of THIS request, whether it came from the URL or was just
   // negotiated. The country is resolved from it, so it has to be known first.
@@ -359,7 +396,8 @@ export async function middleware(request: NextRequest) {
   const { countryCode, apply: applyCountry } = await resolveCountry(
     request,
     regionMap,
-    locale
+    locale,
+    tenantLocaleCountryMap
   )
 
   // Server components read this instead of waiting for the cookie to come back on
