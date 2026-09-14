@@ -82,6 +82,10 @@ services:
       # category covers, hero pictures). Without it @medusajs/file-local stamps
       # its own default `http://localhost:9000/static` into every stored URL.
       LOCAL_FILE_BACKEND_URL: https://${ENGINE_DOMAIN}/static
+      # The Result URL a shop owner pastes into Robokassa is built from this
+      # (`/tenants/payment-settings` → `<BACKEND_PUBLIC_URL>/robokassa/result`);
+      # the request host is the panel's behind nginx, so it cannot be derived.
+      BACKEND_PUBLIC_URL: https://${ENGINE_DOMAIN}
       # Which suffixes make a host a tenant's TECHNICAL subdomain
       # (api/storefront/by-host/hosts.ts). `localhost` is dropped on purpose:
       # this is a public deployment, not a stand.
