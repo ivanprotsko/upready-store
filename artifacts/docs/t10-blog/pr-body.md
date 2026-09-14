@@ -270,6 +270,55 @@ STORE_PROFILES_MEDIA_BASE_URL nor STORE_MEDIA_BASE_URL is set» на моём с
    уходит из ленты и запись из `/sitemap.xml` без перезапуска.
 5. `curl http://<другой-handle>.localhost:<порт>/sitemap.xml | grep -c journal` → `0`.
 
+## Слияние с `dev` и повторная приёмка после него
+
+PR открылся `CONFLICTING`: пока задача шла, в `dev` уехали t06 (локали), t08 (уведомления) и t09.
+`git merge origin/dev` дал шесть конфликтов, все — «обе стороны дописали по одной записи в один и
+тот же `Promise.all`»:
+
+- `apps/backend/src/modules/tenant/models/tenant.ts` — рядом встали `notification_settings` (t08) и
+  `articles` (t10);
+- `nav/variants/h1..h4`, `h6` — рядом встали `getSwitcherLocales()` (t06) и `hasPublishedArticles()`
+  (t10); в деструктуризации сохранены оба имени, порядок аргументов и имён совпадает.
+
+Отдельно: `.snapshot-tenant.json` — **генерируемый** файл, и текстовое слияние оставило только мою
+сторону (он знал `tenant_article`, но не знал `tenant_locale_settings` и
+`tenant_notification_settings`). Поймано не глазами, а прогоном: `npx medusa db:generate tenant`
+после слияния выдал лишнюю миграцию, дублирующую две уже лежащие в `dev`. Снапшот перегенерирован,
+дубль удалён, повторный `db:generate` → `Skipped. No changes detected in your models.` — теперь
+файл знает все десять таблиц модуля.
+
+Ещё одно следствие слияния: `.medusa/types/query-entry-points.d.ts` (гитигнор, локальный артефакт
+сборки) остался пред-слиятельным, и `tsc` ругался на `Property 'locale_settings' does not exist on
+type 'Tenant'` — при том, что поле в модели стоит. Лечится пересборкой бэкенда, не правкой кода.
+
+Все проверки прогнаны заново **на слитом дереве**:
+
+```
+$ cd apps/backend && npx medusa db:migrate            → rc=0
+$ npx medusa build                                    → rc=0
+$ npx tsc --noEmit                                    → rc=0
+$ npx medusa lint                                     → 0 errors, 21 warnings (предсуществующие)
+$ DB_HOST=localhost DB_PORT=5433 DB_USERNAME=postgres PORT=9261     pnpm test:integration:http -- tenants-articles
+Test Suites: 1 passed, 1 total ; Tests: 10 passed, 10 total
+
+$ cd apps/tenant-panel && npx tsc --noEmit             → rc=0
+$ npx eslint src                                       → 0 errors, 23 warnings (предсуществующие)
+
+$ cd apps/storefront && npx tsc --noEmit               → rc=0
+$ npx next lint                                        → ✔ No ESLint warnings or errors
+$ npx next build                                       → rc=0
+├ ƒ /[locale]/journal                                243 B         125 kB
+├ ƒ /[locale]/journal/[slug]                         243 B         125 kB
+```
+
+Состояние PR после `git push`: `mergeable: MERGEABLE`, `mergeStateStatus: CLEAN`.
+
+Скриншоты выше сняты ДО слияния. Слияние не тронуло ни один файл журнала, кроме шести строк
+навигации, и после него лента, статья и экран панели собираются и типизируются без ошибок; ставить
+стенд заново ради тех же кадров я не стал — если приёмщику нужны кадры именно на слитом дереве,
+скажите, пересниму.
+
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 https://claude.ai/code/session_0182rksZxCBmPrpV4WQixz7W
