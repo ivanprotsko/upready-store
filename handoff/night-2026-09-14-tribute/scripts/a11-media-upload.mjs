@@ -1,0 +1,34 @@
+import { open, login, PANEL, ART, SHOP } from "./lib.mjs";
+const ID = "prod_01M2EY6NV1RDYSW4KPAXGNWQ1A";
+const { b, p, errs, bad } = await open({ w: 1600, h: 950 });
+await login(p);
+await p.goto(`${PANEL}/products/${ID}/media`, { waitUntil: "domcontentloaded", timeout: 60000 });
+await p.waitForFunction(() => document.querySelectorAll("[role=dialog]").length > 0, { timeout: 60000 });
+await p.goto(`${PANEL}/products/${ID}/media?view=edit`, { waitUntil: "domcontentloaded", timeout: 60000 });
+await p.waitForSelector('input[type=file]', { state: 'attached', timeout: 60000 });
+console.log("edit mode OK, file input present");
+await p.screenshot({ path: `${ART}/a11-1-media-edit.png` });
+await p.setInputFiles('input[type=file]', "/tmp/night-upload-cube.webp");
+await p.waitForTimeout(3000);
+await p.screenshot({ path: `${ART}/a11-2-media-picked.png` });
+const btns = await p.$$eval('[role=dialog] button', els => [...new Set(els.map(e=>(e.innerText||"").trim()))].filter(Boolean));
+console.log("DIALOG BUTTONS:", JSON.stringify(btns));
+// make it the thumbnail (cover) if the action exists
+const imgs = await p.$$('[role=dialog] img');
+console.log("images in dialog:", imgs.length);
+await p.click('[role=dialog] button:has-text("Сохранить")').catch(async e => { console.log("no Сохранить:", String(e).slice(0,60)); });
+await p.waitForTimeout(10000);
+console.log("URL after save:", p.url());
+console.log("ERRS:", JSON.stringify(errs.slice(0,4)));
+console.log("BAD:", JSON.stringify(bad.slice(0,6)));
+await p.screenshot({ path: `${ART}/a11-3-media-after-save.png`, fullPage: true });
+await b.close();
+// storefront
+const { b: b2, p: p2, bad: bad2 } = await open();
+await p2.goto(`${SHOP}/ru/products/cube-1-accept-commerce-1106`, { waitUntil: "networkidle", timeout: 60000 });
+await p2.waitForTimeout(2500);
+const srcs = await p2.$$eval("img", els => els.map(e=>decodeURIComponent(e.currentSrc||e.src)).filter(s=>s.includes("static")||s.includes("uploads")||s.includes("http")));
+console.log("STOREFRONT IMG SRCS:", JSON.stringify([...new Set(srcs.map(s=>s.replace(/.*url=/,"").replace(/&w=.*/,"")))].slice(0,8)));
+console.log("STOREFRONT BAD:", JSON.stringify(bad2.slice(0,5)));
+await p2.screenshot({ path: `${ART}/a11-4-storefront-gallery.png`, fullPage: true });
+await b2.close();

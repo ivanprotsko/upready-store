@@ -1,0 +1,10 @@
+import { open, login, PANEL, SHOP, ART } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+console.log("LOGIN URL:", await login(p));
+await p.waitForTimeout(1500);
+const nav = await p.$$eval("a", els => [...new Set(els.map(e => `${e.getAttribute("href")} | ${(e.innerText||"").trim().slice(0,40)}`))]);
+console.log("NAV:", JSON.stringify(nav, null, 0));
+console.log("H1:", await p.innerText("body").then(t=>t.slice(0,300)));
+console.log("ERRS:", JSON.stringify(errs), "BAD:", JSON.stringify(bad));
+await p.screenshot({ path: `${ART}/a0-panel-home.png`, fullPage: true });
+await b.close();

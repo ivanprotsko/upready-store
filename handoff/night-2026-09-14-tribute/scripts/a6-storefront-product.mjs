@@ -1,0 +1,13 @@
+import { open, SHOP, ART } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await p.goto(`${SHOP}/ru/products/cube-1-accept-commerce-1106`, { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2000);
+const t = (await p.innerText("body")).replace(/\n+/g," | ");
+console.log("URL:", p.url());
+console.log("TEXT:", t.slice(0, 700));
+console.log("HAS ru title:", t.includes("Куб №1"), "| HAS 7 777:", /7\s?777/.test(t), "| HAS marker:", t.includes("NIGHT-PROD-EDIT-1"));
+const imgs = await p.$$eval("img", els => els.map(e=>e.currentSrc||e.src).slice(0,6));
+console.log("IMGS:", JSON.stringify(imgs));
+console.log("BAD:", JSON.stringify(bad.slice(0,6)), "ERRS:", JSON.stringify(errs.slice(0,3)));
+await p.screenshot({ path: `${ART}/a6-storefront-product.png`, fullPage: true });
+await b.close();

@@ -1,0 +1,23 @@
+import { open, login, PANEL, ART } from "./lib.mjs";
+const ID = "prod_01M2EY6NV1RDYSW4KPAXGNWQ1A";
+const { b, p, errs, bad } = await open({ w: 1600, h: 950 });
+await login(p);
+await p.goto(`${PANEL}/products/${ID}/media`, { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2500);
+const inputs = await p.$$eval("input", els => els.map(e=>`${e.type}|${e.name}|${e.accept||""}`));
+console.log("INPUTS:", JSON.stringify(inputs));
+console.log("MEDIA TEXT:", (await p.innerText("body")).replace(/\n+/g," | ").slice(120, 520));
+const fi = await p.$('input[type=file]');
+if (!fi) { console.log("NO FILE INPUT"); await b.close(); process.exit(0); }
+await fi.setInputFiles("/tmp/night-upload-cube.webp");
+await p.waitForTimeout(2500);
+await p.screenshot({ path: `${ART}/a8-1-media-picked.png` });
+const btns = await p.$$eval("button", els => [...new Set(els.map(e=>(e.innerText||"").trim()))].filter(Boolean));
+console.log("BUTTONS:", JSON.stringify(btns));
+await p.click('button[type=submit]:has-text("Сохранить"), button[type=submit]:has-text("Save")').catch(e=>console.log("save click fail", String(e).slice(0,60)));
+await p.waitForTimeout(6000);
+console.log("URL after:", p.url());
+await p.screenshot({ path: `${ART}/a8-2-media-saved.png`, fullPage: true });
+console.log("ERRS:", JSON.stringify(errs.slice(0,4)));
+console.log("BAD:", JSON.stringify(bad.slice(0,6)));
+await b.close();

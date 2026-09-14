@@ -1,0 +1,13 @@
+import { open, login, PANEL, ART } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+const t0 = Date.now();
+await p.goto(PANEL + "/products", { waitUntil: "networkidle", timeout: 90000 });
+await p.waitForTimeout(2000);
+console.log("products load ms:", Date.now() - t0);
+console.log("BODY:", (await p.innerText("body")).replace(/\n+/g," | ").slice(0, 900));
+const acts = await p.$$eval("a,button", els => [...new Set(els.map(e=>`${e.tagName}|${e.getAttribute("href")||""}|${(e.innerText||"").trim().slice(0,28)}`))]);
+console.log("ACTIONS:", JSON.stringify(acts));
+console.log("ERRS:", JSON.stringify(errs.slice(0,5)), "BAD:", JSON.stringify(bad.slice(0,5)));
+await p.screenshot({ path: `${ART}/a1-products-list.png`, fullPage: true });
+await b.close();
