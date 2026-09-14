@@ -36,6 +36,11 @@ export function OrderCreateShipmentForm({
   const form = useForm<zod.infer<typeof CreateShipmentSchema>>({
     defaultValues: {
       send_notification: !order.no_notification,
+      // tenant-panel (t04-shipping-tariffs): one tracking row open from the
+      // start — the owner types the number by hand, so the form should not
+      // begin with «Add tracking number» as its only control. An empty row is
+      // dropped on submit (see `addedLabels`).
+      labels: [{ tracking_number: "", tracking_url: "", label_url: "" }],
     },
     resolver: zodResolver(CreateShipmentSchema),
   })
