@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useTransition, useMemo } from "react"
 import { setShippingMethod, updateRegion } from "@lib/data/cart"
-import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
+import {
+  calculatePriceForShippingOption,
+  quoteShippingMethod,
+  TARIFF_PROVIDER_ID,
+} from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
@@ -57,6 +61,21 @@ function getLocalizedCountryName(
   }
 }
 
+/** `data.sort_order` of a tenant method; anything else sorts last, in API order. */
+const sortOrderOf = (option: HttpTypes.StoreCartShippingOption): number => {
+  const value = (option.data as { sort_order?: unknown } | null)?.sort_order
+  return typeof value === "number" ? value : Number.MAX_SAFE_INTEGER
+}
+
+/** A string the owner wrote into the method's `data` (description, delivery hint), or null. */
+const dataText = (
+  option: HttpTypes.StoreCartShippingOption,
+  key: "description" | "delivery_hint"
+): string | null => {
+  const value = (option.data as Record<string, unknown> | null)?.[key]
+  return typeof value === "string" && value.trim() ? value.trim() : null
+}
+
 export default function CheckoutShippingSection({
   cart,
   availableShippingOptions,
@@ -75,6 +94,11 @@ export default function CheckoutShippingSection({
   const [isLoadingPrices, setIsLoadingPrices] = useState(true)
   const [calculatedPricesMap, setCalculatedPricesMap] = useState<
     Record<string, number>
+  >({})
+  // t04-shipping-tariffs: the backend's one-line reason for a tariff price
+  // («2,4 кг × 180 ₽ + 150 ₽»), keyed by option id.
+  const [explanationsMap, setExplanationsMap] = useState<
+    Record<string, string>
   >({})
   const [shippingError, setShippingError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
@@ -170,18 +194,35 @@ export default function CheckoutShippingSection({
       return
     }
 
+    // A tenant tariff method is priced by the quote route (amount + the
+    // explanation line); every other calculated option by Medusa's own
+    // `/calculate`. Both run on the backend.
     Promise.allSettled(
-      calculatedMethods.map((sm) =>
-        calculatePriceForShippingOption(sm.id, cart.id)
-      )
+      calculatedMethods.map(async (sm) => {
+        if (sm.provider_id === TARIFF_PROVIDER_ID) {
+          const quote = await quoteShippingMethod(sm.id, cart.id)
+          return quote
+            ? { id: sm.id, amount: quote.amount, explanation: quote.explanation }
+            : null
+        }
+        const priced = await calculatePriceForShippingOption(sm.id, cart.id)
+        return priced?.id
+          ? { id: priced.id, amount: priced.amount ?? 0, explanation: "" }
+          : null
+      })
     ).then((results) => {
       const pricesMap: Record<string, number> = {}
+      const reasons: Record<string, string> = {}
       results.forEach((r) => {
         if (r.status === "fulfilled" && r.value?.id) {
-          pricesMap[r.value.id] = r.value.amount ?? 0
+          pricesMap[r.value.id] = r.value.amount
+          if (r.value.explanation) {
+            reasons[r.value.id] = r.value.explanation
+          }
         }
       })
       setCalculatedPricesMap(pricesMap)
+      setExplanationsMap(reasons)
       setIsLoadingPrices(false)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -241,7 +282,12 @@ export default function CheckoutShippingSection({
       | { kind: "pickup" }
     )[] = []
     let pickupEmitted = false
-    for (const option of shippingOptions ?? []) {
+    // The owner's order from the panel's /shipping screen (`data.sort_order`);
+    // options without one keep the API order after the ordered ones.
+    const ordered = [...(shippingOptions ?? [])].sort(
+      (a, b) => sortOrderOf(a) - sortOrderOf(b)
+    )
+    for (const option of ordered) {
       if (isPickupShippingOption(option)) {
         if (!pickupEmitted) {
           result.push({ kind: "pickup" })
@@ -326,8 +372,11 @@ export default function CheckoutShippingSection({
                 : option.id === shippingMethodId
 
               const days = getDeliveryDays(option)
+              const deliveryHint = dataText(option, "delivery_hint")
+              const description = dataText(option, "description")
+              const explanation = explanationsMap[option.id] ?? null
               const deliveryLabel = !days
-                ? null
+                ? deliveryHint
                 : days.max === 0
                   ? t("deliveryToday")
                   : !now
@@ -386,6 +435,14 @@ export default function CheckoutShippingSection({
                   <span className="txt-compact-medium-plus text-ui-fg-base">
                     {option.name}
                   </span>
+                  {description && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-muted line-clamp-2"
+                      data-testid="delivery-option-description"
+                    >
+                      {description}
+                    </span>
+                  )}
                   <div className="flex flex-col gap-y-0">
                     <div className="min-h-[20px]">
                       {deliveryLabel && (
@@ -425,6 +482,14 @@ export default function CheckoutShippingSection({
                         </div>
                       </div>
                     </div>
+                    {explanation && price !== null && (
+                      <span
+                        className="txt-compact-xsmall text-ui-fg-muted"
+                        data-testid="delivery-option-explanation"
+                      >
+                        {explanation}
+                      </span>
+                    )}
                   </div>
                 </div>
               )

@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sledovacie číslo"
   },
   "OrdersPage": {
     "description": "Zobrazte si svoje predchádzajúce objednávky a ich stav.",

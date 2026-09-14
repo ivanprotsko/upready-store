@@ -186,6 +186,7 @@ export default function CheckoutAddressSheet({
               values={addressFields}
               onChange={setAddressFields}
               required
+              countryCode={shippingAddress?.country_code}
             />
             <Input
               label={t("fieldCompany")}

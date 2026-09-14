@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Takip numarası"
   },
   "OrdersPage": {
     "description": "Önceki siparişlerinizi ve durumlarını görüntüleyin.",

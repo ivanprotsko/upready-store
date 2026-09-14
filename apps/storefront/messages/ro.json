@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Număr de urmărire"
   },
   "OrdersPage": {
     "description": "Vizualizați comenzile anterioare și statusul acestora.",

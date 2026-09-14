@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Siuntos sekimo numeris"
   },
   "OrdersPage": {
     "description": "Peržiūrėkite savo ankstesnius užsakymus ir jų būseną.",

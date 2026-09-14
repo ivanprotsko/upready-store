@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nyomkövetési szám"
   },
   "OrdersPage": {
     "description": "Tekintse meg korábbi rendeléseit és azok állapotát.",

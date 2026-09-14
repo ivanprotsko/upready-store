@@ -34,8 +34,12 @@ export const listCartShippingMethods = async (cartId: string) => {
           // checkout groups every option sharing `fulfillment_set.type ===
           // "pickup"` into a single visual card and reads this data to fill
           // the point sheet, no second fetch.
+          // `+data` and `+provider_id`: a tenant's own method (t04-shipping-
+          // tariffs) keeps its description, delivery hint and display order in
+          // `data`, and the checkout asks the quote route instead of Medusa's
+          // `/calculate` when `provider_id` is the tariff provider.
           fields:
-            "+metadata,+service_zone.fulfillment_set.type,+service_zone.fulfillment_set.location.*,+service_zone.fulfillment_set.location.address.*",
+            "+metadata,+data,+provider_id,+service_zone.fulfillment_set.type,+service_zone.fulfillment_set.location.*,+service_zone.fulfillment_set.location.address.*",
         },
         headers,
         next,
@@ -116,4 +120,69 @@ export const calculatePriceForShippingOption = async (
     .catch((_e) => {
       return null
     })
+}
+
+/** Provider id of a tenant's own tariff methods (apps/backend/src/modules/tariff-fulfillment). */
+export const TARIFF_PROVIDER_ID = "tariff_tariff"
+
+export type ShippingQuote = {
+  shipping_option_id: string
+  name: string
+  currency_code: string
+  kind: "flat" | "per_kg" | "free_above"
+  amount: number
+  weight_g: number
+  item_total: number
+  used_default_weight: boolean
+  /** One line under the price, e.g. «2,4 кг × 180 ₽ + 150 ₽»; empty for a plain flat price. */
+  explanation: string
+}
+
+/**
+ * Price + explanation of one tenant tariff method for the cart, from
+ * `POST /store/shipping-methods/quote`. The backend runs the same arithmetic
+ * the fulfillment provider runs when the method is set on the cart, so the
+ * number shown here is the number charged; nothing is computed in the browser.
+ */
+export const quoteShippingMethod = async (optionId: string, cartId: string) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  return sdk.client
+    .fetch<{ quote: ShippingQuote }>(`/store/shipping-methods/quote`, {
+      method: "POST",
+      body: { cart_id: cartId, shipping_option_id: optionId },
+      headers,
+      cache: "no-store",
+    })
+    .then(({ quote }) => quote)
+    .catch(() => null)
+}
+
+export type ShippingRegion = { code: string; name: string; province: string }
+
+/**
+ * Regions a shop can restrict a delivery zone to, per country
+ * (`GET /store/shipping-methods/regions`). The manual address form offers
+ * them in a select so the `province` it writes is the exact string a zone was
+ * built from. Empty for a country without a list.
+ */
+export const listShippingRegions = async (countryCode: string) => {
+  const next = {
+    ...(await getCacheOptions("fulfillment")),
+  }
+
+  return sdk.client
+    .fetch<{ country_code: string; regions: ShippingRegion[] }>(
+      `/store/shipping-methods/regions`,
+      {
+        method: "GET",
+        query: { country_code: countryCode.toLowerCase() },
+        next,
+        cache: "force-cache",
+      }
+    )
+    .then(({ regions }) => regions)
+    .catch(() => [] as ShippingRegion[])
 }

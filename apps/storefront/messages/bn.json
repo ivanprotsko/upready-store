@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "ট্র্যাকিং নম্বর"
   },
   "OrdersPage": {
     "description": "আপনার আগের অর্ডার এবং তাদের অবস্থা দেখুন।",

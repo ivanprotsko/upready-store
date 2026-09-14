@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Номер за проследяване"
   },
   "OrdersPage": {
     "description": "Преглеждайте предишните си поръчки и техния статус.",

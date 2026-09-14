@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Хянах дугаар"
   },
   "OrdersPage": {
     "description": "Өмнөх захиалгууд болон тэдгээрийн төлвийг харах боломжтой.",

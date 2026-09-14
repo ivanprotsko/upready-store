@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "Tingnan ang iyong mga nakaraang order at ang kanilang status.",

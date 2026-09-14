@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Αριθμός παρακολούθησης"
   },
   "OrdersPage": {
     "description": "Δείτε τις προηγούμενες παραγγελίες σας και την κατάστασή τους.",

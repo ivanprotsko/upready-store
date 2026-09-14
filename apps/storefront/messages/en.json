@@ -143,7 +143,7 @@
     "shippingDescription": "Choose how you want your order delivered",
     "shippingHeading": "Shipping method",
     "shippingLink": "Shipping",
-    "shippingUnavailable": "No shipping methods available",
+    "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "signIn": "Sign in",
     "total": "Total"
   },
@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "View your previous orders and their status.",

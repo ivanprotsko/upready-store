@@ -624,7 +624,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Numéro de suivi"
   },
   "OrdersPage": {
     "description": "Consultez vos commandes précédentes et leur statut.",
