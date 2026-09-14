@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next"
-import { sdk } from "@lib/config"
+import { sdk, fetchWithoutLocale } from "@lib/config"
 import { getRequestBaseURL } from "@lib/data/cookies"
 import { locales } from "@i18n/config"
 
@@ -70,9 +70,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {}
 
   try {
+    // `/store/product-categories`, unlike `/store/products`, is NOT scoped by
+    // the publishable key's sales channel — categories carry no sales-channel
+    // link in Medusa, so every shop's categories would answer here. The
+    // tenant-scoped read (`/store/tenant/product-categories`, wired through
+    // the tenant-product-category link) is what keeps two tenants' sitemaps
+    // disjoint (t11-seo-redirects step 3).
     const { product_categories } = await sdk.client.fetch<{
       product_categories: Array<{ handle?: string; updated_at?: string }>
-    }>("/store/product-categories", {
+    }>("/store/tenant/product-categories", {
       query: { fields: "handle,updated_at", limit: 500 },
       next: { tags: ["categories"] },
       cache: "force-cache",
@@ -92,6 +98,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {}
 
   try {
+    // Collections are global reference data in this repository, not owned by a
+    // tenant (`apps/backend/src/api/tenants/collections/route.ts`), so unlike
+    // the two blocks above this one is NOT known to be disjoint between shops.
+    // Out of scope for t11-seo-redirects: no tenant-collection link exists to
+    // scope it by, and the migration report for the one real shop this task
+    // ships redirects for lists 0 collections carrying products.
     const { collections } = await sdk.client.fetch<{
       collections: Array<{ handle?: string; updated_at?: string }>
     }>("/store/collections", {
@@ -110,6 +122,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.7,
         })
       }
+    }
+  } catch {}
+
+  try {
+    const { pages } = await fetchWithoutLocale<{
+      pages: Array<{ key: string; locale: string; updated_at?: string }>
+    }>("/store/tenant/pages/sitemap", {
+      next: { tags: ["tenant-pages"] },
+      cache: "force-cache",
+    })
+
+    for (const page of pages) {
+      entries.push({
+        url: url(base, page.locale, `/pages/${page.key}`),
+        lastModified: page.updated_at ? new Date(page.updated_at) : now,
+        changeFrequency: "monthly",
+        priority: 0.3,
+      })
     }
   } catch {}
 

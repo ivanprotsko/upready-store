@@ -38,6 +38,8 @@ export type TenantPage = {
   title: string
   body: string
   published: boolean
+  seo_title: string | null
+  seo_description: string | null
 }
 
 let warnedUnreachable = false

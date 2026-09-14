@@ -11,6 +11,7 @@ import {
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
 import { originForHost, requestOrigin } from "@lib/tenant/origin"
+import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -298,6 +299,12 @@ function tenantRequestHeaders(
         encodeTenantHeaderValue(JSON.stringify(tenant.attribution))
       )
     }
+    if (tenant.seoVerification) {
+      headers.set(
+        "x-tenant-seo-verification",
+        encodeTenantHeaderValue(JSON.stringify(tenant.seoVerification))
+      )
+    }
   }
 
   return headers
@@ -331,6 +338,29 @@ export async function middleware(request: NextRequest) {
   const requestHeaders = tenantRequestHeaders(request, tenant)
   const nextWithTenant = () =>
     NextResponse.next({ request: { headers: requestHeaders } })
+
+  // The tenant's own redirect table (t11-seo-redirects), before the locale
+  // logic below and before anything else this path would do: a page that
+  // moved because a handle changed, or a row imported from a previous shop's
+  // URL structure, both apply to the RAW incoming pathname, locale prefix and
+  // all — `specs/tenant-address/CANONICAL.md` covers the host moving, this is
+  // the path moving under one host.
+  const pathRedirects = await getTenantRedirects(BACKEND_URL ?? "", publishableKey)
+  const pathRedirect = resolveRedirect(request.nextUrl.pathname, pathRedirects)
+
+  if (pathRedirect.kind === "loop") {
+    return new NextResponse("Redirect loop detected", { status: 508 })
+  }
+
+  if (pathRedirect.kind === "redirect") {
+    // No X-Robots-Tag here, unlike primaryHostRedirect below: this is the
+    // shop's own content moving to a new URL of the SAME address, and a 301
+    // is exactly how that weight is meant to carry over into the index.
+    return NextResponse.redirect(
+      new URL(`${pathRedirect.to}${request.nextUrl.search}`, request.url),
+      pathRedirect.status
+    )
+  }
 
   if (request.nextUrl.pathname.includes(".")) {
     return nextWithTenant()

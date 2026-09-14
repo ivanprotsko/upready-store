@@ -11,6 +11,7 @@ import { DEFAULT_REGION } from "@lib/util/env"
 import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
+import { seoOverride } from "@lib/util/tenant-seo"
 
 type Props = {
   params: Promise<{ handle: string }>
@@ -58,11 +59,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const title = product.title
-    ? await pageTitle(product.title)
-    : await getSiteName()
+  const override = seoOverride(product, locale)
 
-  const description = metaDescription(product.description, product.subtitle)
+  const title = override.title
+    ? await pageTitle(override.title)
+    : product.title
+      ? await pageTitle(product.title)
+      : await getSiteName()
+
+  const description = metaDescription(
+    override.description,
+    product.description,
+    product.subtitle
+  )
 
   return {
     title,

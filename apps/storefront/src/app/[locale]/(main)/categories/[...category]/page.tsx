@@ -11,6 +11,7 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 import { getLocale, getTranslations } from "next-intl/server"
 import { DEFAULT_REGION } from "@lib/util/env"
 import { pageTitle } from "@lib/util/page-title"
+import { seoOverride } from "@lib/util/tenant-seo"
 
 type Props = {
   params: Promise<{ category: string[] }>
@@ -38,8 +39,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     if (!productCategory) {
       notFound()
     }
-    const title = await pageTitle(productCategory.name)
+    const override = seoOverride(productCategory, locale)
+    const title = await pageTitle(override.title || productCategory.name)
     const description =
+      override.description ||
       productCategory.description?.trim() ||
       t("description", {
         category: productCategory.name,

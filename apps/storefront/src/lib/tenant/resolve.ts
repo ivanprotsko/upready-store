@@ -49,6 +49,8 @@ export type ResolvedTenant = {
     enabledLocales: string[]
     defaultCountry: string | null
   } | null
+  /** Search-console ownership tags (t11-seo-redirects step 6), null when unset. */
+  seoVerification: { yandex: string | null; google: string | null } | null
 }
 
 const TTL_MS = 60_000
@@ -109,6 +111,7 @@ export async function resolveTenantByHost(
         publishable_key?: string | null
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
+        seo_verification?: { yandex?: string | null; google?: string | null } | null
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -136,6 +139,13 @@ export async function resolveTenantByHost(
           attribution: readAttribution(body.attribution),
           primaryHost: body.primary_host?.trim().toLowerCase() || null,
           locale,
+          seoVerification:
+            body.seo_verification?.yandex || body.seo_verification?.google
+              ? {
+                  yandex: body.seo_verification.yandex ?? null,
+                  google: body.seo_verification.google ?? null,
+                }
+              : null,
         }
       }
     }

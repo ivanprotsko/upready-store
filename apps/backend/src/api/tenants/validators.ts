@@ -100,6 +100,10 @@ export const PutTenantPageSchema = z.strictObject({
     .string()
     .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
     .optional(),
+  // t11-seo-redirects step 1: blank/omitted keeps (or leaves unset) the
+  // storefront's own fallback to `title` and the body's first sentence.
+  seo_title: z.string().max(70).nullable().optional(),
+  seo_description: z.string().max(320).nullable().optional(),
 });
 
 export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
@@ -198,3 +202,35 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   test_password2: optionalSecret,
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
+
+/**
+ * `POST /tenants/redirects` (t11-seo-redirects) — a manual redirect row. Both
+ * paths are exact pathnames: a leading slash, no host, no query string, so the
+ * storefront middleware can compare them to `request.nextUrl.pathname` byte for
+ * byte with no normalisation on either side.
+ */
+const redirectPath = z
+  .string()
+  .min(1)
+  .max(2048)
+  .regex(/^\/[^\s?#]*$/, "an absolute path starting with / and carrying no query string");
+
+export const PostTenantRedirectSchema = z.strictObject({
+  from_path: redirectPath,
+  to_path: redirectPath,
+  status_code: z.union([z.literal(301), z.literal(302), z.literal(307), z.literal(308)]).optional(),
+});
+
+export type PostTenantRedirectBody = z.infer<typeof PostTenantRedirectSchema>;
+
+/**
+ * `PUT /tenants/seo-verification` (t11-seo-redirects step 6) — the search
+ * console ownership tags. Empty string clears a tag rather than leaving the
+ * previous value, the same convention `optionalSecret` uses above.
+ */
+export const PutTenantSeoVerificationSchema = z.strictObject({
+  yandex: z.string().max(200).nullable().optional(),
+  google: z.string().max(200).nullable().optional(),
+});
+
+export type PutTenantSeoVerificationBody = z.infer<typeof PutTenantSeoVerificationSchema>;
