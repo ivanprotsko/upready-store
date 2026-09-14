@@ -560,6 +560,15 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/domains"),
           },
           {
+            // «Уведомления» (t08-order-notifications): who hears about a new
+            // order — the customer by e-mail, the owner in Telegram. No Admin
+            // counterpart: a native install notifies from medusa-config alone.
+            path: "/settings/notifications",
+            handle: { breadcrumb: () => t("notificationSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/notifications"),
+          },
+          {
             // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
             // payment account, stored encrypted per tenant. No Admin
             // counterpart — the Admin configures providers in medusa-config

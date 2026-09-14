@@ -1295,6 +1295,43 @@
     "numberOfKeys_one": "{{count}} key",
     "numberOfKeys_other": "{{count}} keys"
   },
+  "notificationSettings": {
+    "title": "Notifications",
+    "subtitle": "who hears about a new order: the customer by e-mail, you in Telegram",
+    "loading": "loading…",
+    "save": "Save",
+    "saved": "Notification settings saved",
+    "lastNever": "Nothing has been sent yet.",
+    "lastOk": "Last attempt: {{when}}, order {{order}} — delivered.",
+    "lastFailed": "Last attempt: {{when}}, order {{order}} — NOT delivered",
+    "email": {
+      "title": "E-mail to the customer",
+      "on": "on",
+      "off": "no mail server",
+      "hint": "The customer gets an order e-mail, and its links point at your shop: {{url}}",
+      "offHint": "This platform has no mail server configured, so customer letters are not sent. Orders still complete, and every undelivered letter is logged with its order number.",
+      "fromName": "Sender name",
+      "fromNameHint": "How the letter is signed in the customer's inbox. Currently: {{name}}",
+      "replyTo": "Reply-to address",
+      "replyToHint": "Where a customer's reply goes. The sender address stays the platform's: mail services reject a domain we cannot sign for."
+    },
+    "telegram": {
+      "title": "Telegram to you",
+      "connected": "connected",
+      "notConnected": "not connected",
+      "chat": "Orders arrive in: {{chat}}",
+      "chatUnnamed": "unnamed chat",
+      "hint": "Press Connect, open the link in Telegram and press Start. Orders will arrive in the chat you opened it from.",
+      "offHint": "The platform bot is not configured on this deployment, so linking will not work.",
+      "linkReady": "Open this link in Telegram. It lives 15 minutes and works once:",
+      "connect": "Connect Telegram",
+      "reconnect": "Connect another chat",
+      "test": "Send a test",
+      "testSent": "Test message sent",
+      "unlink": "Disconnect",
+      "unlinked": "Telegram disconnected — orders no longer arrive there"
+    }
+  },
   "notifications": {
     "accessibility": {
       "description": "Notifications about Medusa activities will be listed here."
