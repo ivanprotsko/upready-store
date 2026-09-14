@@ -615,6 +615,17 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/payments"),
           },
+          {
+            // Реквизиты продавца (t12-legal-requisites): значения, которыми на
+            // витрине заполняются {{ТОКЕНЫ}} в оферте, политике
+            // конфиденциальности и контактах. No Admin counterpart — a native
+            // install has one store and никуда не подставляет свои реквизиты
+            // автоматически.
+            path: "/settings/requisites",
+            handle: { breadcrumb: () => "Реквизиты продавца" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/requisites"),
+          },
         ],
       },
     ],

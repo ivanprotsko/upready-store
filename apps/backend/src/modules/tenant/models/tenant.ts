@@ -7,6 +7,7 @@ import TenantIntegrationSecret from "./tenant-integration-secret";
 import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
+import TenantRequisites from "./tenant-requisites";
 
 /**
  * One tenant = one storefront on the shared backend. The recipe this module
@@ -60,6 +61,11 @@ const Tenant = model.define("tenant", {
   // Who hears about a new order and how (`tenant-notification-settings.ts`,
   // t08-order-notifications). One row per shop, created on first use.
   notification_settings: model.hasOne(() => TenantNotificationSettings, {
+    mappedBy: "tenant",
+  }),
+  // The seller's legal details, used to fill the `{{ТОКЕН}}` placeholders left
+  // in this tenant's legal pages (t12-legal-requisites, `tenant-requisites.ts`).
+  requisites: model.hasOne(() => TenantRequisites, {
     mappedBy: "tenant",
   }),
 });

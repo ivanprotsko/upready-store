@@ -222,3 +222,41 @@ export const PutTenantNotificationSettingsSchema = z.strictObject({
 export type PutTenantNotificationSettingsBody = z.infer<
   typeof PutTenantNotificationSettingsSchema
 >;
+
+// ---- t12-legal-requisites: seller requisites (/tenants/requisites)
+
+/**
+ * `PUT /tenants/requisites` — every field optional and every field an empty
+ * string means "clear it", the same convention as
+ * `PutTenantNotificationSettingsSchema`: an owner has to be able to take a
+ * value back out as easily as they put it in, and a field simply omitted from
+ * the body must leave the stored value untouched (a partial save from a form
+ * that only shows some fields at a time).
+ *
+ * `phone_confirmed` has no free-text shape to police, so it is the one boolean
+ * here. Nothing here validates an ИНН/ОГРН checksum: this repository must not
+ * invent or "correct" a registration number, only store what the owner typed
+ * (step plan piece 4 and "What NOT to do").
+ */
+const optionalText = (max: number) => z.string().trim().max(max).optional();
+
+export const PutTenantRequisitesSchema = z.strictObject({
+  legal_name: optionalText(200),
+  inn: optionalText(20),
+  ogrn: optionalText(20),
+  legal_address: optionalText(500),
+  return_address: optionalText(500),
+  phone: optionalText(50),
+  phone_confirmed: z.boolean().optional(),
+  email: optionalText(200),
+  dpo_email: optionalText(200),
+  delivery_methods: optionalText(500),
+  effective_date: optionalText(100),
+  revision_date: optionalText(100),
+  document_date: optionalText(100),
+  rkn_notice_date: optionalText(100),
+  rkn_reg_number: optionalText(100),
+  newsletter_management_url: optionalText(500),
+  bank_details: optionalText(1000),
+});
+export type PutTenantRequisitesBody = z.infer<typeof PutTenantRequisitesSchema>;

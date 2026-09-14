@@ -101,6 +101,14 @@ export const Home = () => {
           >
             {t("notificationSettings.title")}
           </Link>
+          {/* t12-legal-requisites: значения, подставляемые вместо {{ТОКЕНОВ}}
+              в оферте, политике конфиденциальности и контактах магазина. */}
+          <Link
+            to="/settings/requisites"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            Реквизиты продавца
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>
