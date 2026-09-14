@@ -2,6 +2,7 @@ import { getLocaleHeader } from "@lib/util/get-locale-header"
 import Medusa, { type FetchArgs, type FetchInput } from "@medusajs/js-sdk"
 import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { resolveTenantByHost } from "@lib/tenant/resolve"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -34,6 +35,8 @@ const FALLBACK_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
  * the right answer, so the throw is the branch rather than an error.
  */
 async function getPublishableKeyHeader(): Promise<Record<string, string>> {
+  let host: string | null = null
+
   try {
     const requestHeaders = await nextHeaders()
     const tenantKey = decodeTenantHeaderValue(requestHeaders.get("x-tenant-key"))
@@ -41,7 +44,37 @@ async function getPublishableKeyHeader(): Promise<Record<string, string>> {
     if (tenantKey) {
       return { "x-publishable-api-key": tenantKey }
     }
+
+    host = requestHeaders.get("host")
   } catch {}
+
+  /*
+   * The middleware header is missing but the request still names a host: resolve
+   * the shop the same way the middleware does. `GET /storefront/by-host` needs no
+   * key itself (`lib/tenant/resolve.ts`) and answers from that module's own TTL
+   * cache, so this costs nothing on the warm path.
+   *
+   * Why it exists: a render that reaches here today gets NO key at all, because
+   * `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is deliberately unset on the
+   * multi-tenant deployment — so the Store API answers 400 with certainty. This
+   * branch can therefore add no failure that was not already guaranteed.
+   *
+   * It was written while chasing the post-payment «Application error» (digest
+   * 2524605575) on the order confirmation page, and it did NOT fix that: the
+   * error reproduced on a fourth order after this shipped, so in that particular
+   * render there is no `host` header either, or the failing call is elsewhere.
+   * That defect is still OPEN — see handoff/night-2026-09-14-tribute/REPORT.md.
+   * The fallback is kept on its own merits, not as that fix.
+   */
+  if (host) {
+    try {
+      const tenant = await resolveTenantByHost(MEDUSA_BACKEND_URL, host)
+
+      if (tenant?.publishableKey) {
+        return { "x-publishable-api-key": tenant.publishableKey }
+      }
+    } catch {}
+  }
 
   return FALLBACK_PUBLISHABLE_KEY
     ? { "x-publishable-api-key": FALLBACK_PUBLISHABLE_KEY }
