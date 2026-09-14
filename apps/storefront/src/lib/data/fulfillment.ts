@@ -122,9 +122,6 @@ export const calculatePriceForShippingOption = async (
     })
 }
 
-/** Provider id of a tenant's own tariff methods (apps/backend/src/modules/tariff-fulfillment). */
-export const TARIFF_PROVIDER_ID = "tariff_tariff"
-
 export type ShippingQuote = {
   shipping_option_id: string
   name: string

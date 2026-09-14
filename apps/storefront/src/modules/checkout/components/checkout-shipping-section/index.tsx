@@ -5,8 +5,8 @@ import { setShippingMethod, updateRegion } from "@lib/data/cart"
 import {
   calculatePriceForShippingOption,
   quoteShippingMethod,
-  TARIFF_PROVIDER_ID,
 } from "@lib/data/fulfillment"
+import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
