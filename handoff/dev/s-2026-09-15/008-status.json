@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 8,
+  "action": "status-append",
+  "ts": "2026-09-15T04:27:02+08:00",
+  "status": "2026-09-15 04:21 WITA: x01-tenant-live-import закрыт — тенант cherkashino живой на https://cherkashino.shipshift.dev/ru (29 published + 9 draft, 9 категорий, 331 картинка 200, 0 failed в реестре); блокер: 4 контентные страницы читаются по-английски/404, нужна волна деплоя 2 (dev >= 8b8b482, PR #21), данные уже лежат — импорт повторять не надо | 2026-09-15 04:27 WITA: приёмка t03-tenant-secrets-robokassa — PR #23 смёржен в dev (squash, mergedAt 2026-09-14T20:25:53Z); замерено приёмщиком на живом стенде :9047/:8047/pg:5433 — шифротекст в tenant_integration_secret, Robokassa видна только тенанту с реквизитами, чужой tis-id и подделанный data.tenant_id -> 404, bad_signature -> 400, заказ №9 captured 7980 rub и страница /confirmed с бейджем «Оплачен»; seam 8/8, tsc/lint чисто; отчёт file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/report.md"
+}

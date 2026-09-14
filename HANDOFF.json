@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T03:53:33+08:00",
-  "status": "2026-09-15 03:53 WITA: x03-orders-archive закрыт — архив Оксаны перевыпущен воспроизводимым export.py/verify.py (22/22 OK, суммы сошлись с агрегатом БД). Находка: 77 из 88 заказов и 40 из 46 покупателей — служебные тестовые записи, помечены колонкой «Служебная запись»; 694 211 ₽ выручкой НЕ являются (реальных покупок на 9 296 ₽). Коммиты 85ffd96 + 267866e на origin/dev, CSV с ПД вне git.",
+  "updated": "2026-09-15T04:27:59+08:00",
+  "status": "2026-09-15 04:27 WITA: приёмка t03 закрыта приёмщиком — PR #23 уже стоял MERGED к моменту моего gh pr merge (слит не мной, mergedAt 2026-09-14T20:25:53Z); мои собственные замеры: провайдеры A count:2 / B count:1, bad_signature+missing_params -> 400, payload 256 b64, 5 платежей captured is_test=true; seam 8/8, next build ok; предсуществующая краснота воспроизведена на dev — profile-data.unit.spec.ts и 1 кейс tenants-domains.spec.ts (is_primary); ниты отправлены комментарием в PR #23; отчёт file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/REPORT.md",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1208,6 +1208,16 @@
       "id": "q-lending-upready-dev-vo-vseh",
       "question": "Лендинг upready.dev во всех трёх тарифах обещает «Telegram Mini App» (подсказка: каталог, корзина и оплата внутри мессенджера), а feature/telegram-miniapp (PR #5) пропущен по твоему же указанию. Для заявки в tribute.top это страница, по которой смотрят сервис. Что делаем: поднимаем мини-приложение или убираем/смягчаем строку в apps/homepage/port/src/sections/tariffs/data.ts (строки 125, 156, 196 + TELEGRAM_HINT)?",
       "asked": "2026-09-14"
+    },
+    {
+      "id": "q-volna-deploya-2-dlya-kontentnyh",
+      "question": "Волна деплоя 2 для контентных страниц тенанта cherkashino. Замер 2026-09-15 04:1x: /ru/pages/{offer,contacts,privacy} отдают 404, /ru/pages/about — английский текст, при этом русские строки ЗАПИСАНЫ и опубликованы (offer 19274 б, privacy 15821 б, contacts 3417 б, about 561 б — GET /tenants/pages?locale=ru под владельцем). Потребитель прочитан в задеплоенном sha bd4ced7: apps/backend/src/api/store/tenant/pages/[key]/route.ts:26 подставляет locale: DEFAULT_PAGE_LOCALE (исходниковая константа \"en\" в page-helpers.ts:24, НЕ env — process.env её нигде не читает), селектора-ветки нет, запрос безусловный; ?locale=ru задеплоенный маршрут игнорирует. Фикс (requestedPageLocale + pickPageForLocale с фолбэком) уже в dev коммитом 8b8b482 (PR #21), пришёл ПОСЛЕ деплоя bd4ced7. Рекомендация: выкатить dev >= 8b8b482 — страницы станут русскими без повторного импорта, данные уже лежат. Деплой только по команде Ивана (21c), сам не деплоил.",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-peremezhayuschiysya-502-na-post-auth",
+      "question": "Перемежающийся 502 на POST /auth/tenant/emailpass движка shipshift.dev. Замер 2026-09-15 04:2x: 30 последовательных запросов с заведомо неверным паролем → 29 x 401 и 1 x 502 (~3%), при этом /health 10/10 = 200 — health этого не показывает. За прогон x01 уронил импорт трижды (фазы images, pages, замер картинок), обошёл ретраями. На этом же будет спотыкаться панель владельца и мастер онбординга. Рекомендация: снять логи mt-backend за сутки по auth-маршруту (docker logs mt-backend --since 24h | grep -i auth) и решить, это воркер/пул БД или ingress; завести задачу — сам задачу не заводил (22j).",
+      "asked": "2026-09-15"
     }
   ],
   "sessions": [
