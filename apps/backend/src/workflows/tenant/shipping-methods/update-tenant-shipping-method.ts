@@ -7,7 +7,7 @@ import {
 } from "@medusajs/medusa/core-flows";
 import type { TenantMethodData } from "../../../shipping-tariffs/tariff";
 import ensureLocationProviderLinkStep from "./steps/ensure-location-provider-link";
-import { geoZonesOf } from "./geo-zones";
+import { geoZonesOf, zoneNameFor } from "./geo-zones";
 import { priceTypeOf, shippingOptionRules } from "./create-tenant-shipping-method";
 
 export type UpdateTenantShippingMethodInput = {
@@ -39,7 +39,7 @@ const updateTenantShippingMethodWorkflow = createWorkflow(
     when("update-own-zone", input, (input) => input.current_own_zone && input.data.zone !== null).then(() => {
       const zoneUpdate = transform({ input }, ({ input }) => ({
         selector: { id: input.current_service_zone_id },
-        update: { name: input.name, geo_zones: geoZonesOf(input.data.zone!) },
+        update: { geo_zones: geoZonesOf(input.data.zone!) },
       }));
       return updateServiceZonesWorkflow.runAsStep({ input: zoneUpdate });
     });
@@ -52,7 +52,7 @@ const updateTenantShippingMethodWorkflow = createWorkflow(
       const zoneInput = transform({ input }, ({ input }) => ({
         data: [
           {
-            name: input.name,
+            name: zoneNameFor(input.name, input.fulfillment_set_id),
             fulfillment_set_id: input.fulfillment_set_id,
             geo_zones: geoZonesOf(input.data.zone!),
           },

@@ -46,16 +46,21 @@ export const POST = async (req: MedusaRequest<PostStoreShippingQuoteBody>, res: 
     filters: { id: shipping_option_id },
   });
 
+  const channelId = cart.sales_channel_id;
+  if (!channelId) {
+    throw new MedusaError(MedusaError.Types.NOT_FOUND, `Cart ${cart_id} has no sales channel`);
+  }
   const {
     data: [channel],
   } = await query.graph({
     entity: "sales_channels",
     fields: ["id", "stock_locations.fulfillment_sets.id"],
-    filters: { id: cart.sales_channel_id },
+    filters: { id: channelId },
   });
+  type LocationRow = { fulfillment_sets?: ({ id: string } | null)[] | null } | null;
   const reachable = new Set<string>(
-    (channel?.stock_locations ?? []).flatMap((location: { fulfillment_sets?: { id: string }[] }) =>
-      (location.fulfillment_sets ?? []).map((set) => set.id),
+    ((channel?.stock_locations ?? []) as LocationRow[]).flatMap((location) =>
+      (location?.fulfillment_sets ?? []).flatMap((set) => (set ? [set.id] : [])),
     ),
   );
 

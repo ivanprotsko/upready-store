@@ -49,7 +49,9 @@ export default async function renameDefaultShippingMethods({ container }: ExecAr
         const human = names[kind];
         const sortOrder = kind === "pickup" ? 0 : 1;
         const existing = isTenantMethodData(option.data) ? option.data : null;
-        const amount = Number(option.prices?.[0]?.amount ?? 0);
+        // `prices` is a pricing-module link the generated ShippingOption type does not carry.
+        const prices = (option as unknown as { prices?: { amount?: number | null }[] | null }).prices;
+        const amount = Number(prices?.[0]?.amount ?? 0);
         const data: TenantMethodData = existing ?? {
           schema: TENANT_METHOD_SCHEMA,
           tariff: { kind: "flat", amount },

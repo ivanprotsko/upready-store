@@ -11,6 +11,7 @@ import {
   type ShippingTariff,
   type TenantMethodData,
 } from "../../../shipping-tariffs/tariff";
+import { storeDefaultLocale } from "../../../shipping-tariffs/default-method-names";
 import { getTenantScope } from "../tenant-scope";
 
 /**
@@ -39,6 +40,8 @@ export type TenantWarehouse = {
 };
 
 export const DEFAULT_ITEM_WEIGHT_G = 500;
+/** Home country per store default locale, for picking the display currency. */
+const HOME_COUNTRY_BY_LOCALE: Record<string, string> = { ru: "ru", en: "us", de: "de", fr: "fr", es: "es", it: "it", pl: "pl", tr: "tr", uk: "ua", kk: "kz", be: "by" };
 export const WEIGHT_METADATA_KEY = "shipping_default_weight_g";
 
 /** The tenant's warehouse and zones; throws 404 when provisioning never ran for it. */
@@ -71,7 +74,11 @@ export const getTenantWarehouse = async (req: AuthenticatedMedusaRequest): Promi
   type Set = { id: string; name: string; type: string; service_zones?: Zone[] };
   type Location = { id: string; fulfillment_sets?: Set[] };
 
-  const locations: Location[] = channel?.stock_locations ?? [];
+  // The generated query types (`.medusa/types`) mark every linked row as
+  // `Maybe<>`; the shape below is what the fields list above actually reads.
+  const locations = ((channel?.stock_locations ?? []) as unknown as (Location | null)[]).filter(
+    (location): location is Location => location !== null,
+  );
   let found: { location: Location; set: Set } | null = null;
   for (const location of locations) {
     const set = (location.fulfillment_sets ?? []).find((candidate) => candidate.type === "shipping");
@@ -99,11 +106,20 @@ export const getTenantWarehouse = async (req: AuthenticatedMedusaRequest): Promi
 
   const { data: regions } = await query.graph({
     entity: "region",
-    fields: ["currency_code"],
+    fields: ["currency_code", "countries.iso_2"],
   });
   const currency_codes = Array.from(
     new Set(regions.map((region) => region.currency_code as string).filter(Boolean)),
   );
+  // The store has one region per country (241 on the stands), so «the shop's
+  // currency» is the currency of the region covering the store's home
+  // country — read from the default locale (ru → ru → rub, en → us → usd) —
+  // not whichever region sorts first (`aoa` did, measured 2026-09-15).
+  const homeCountry = HOME_COUNTRY_BY_LOCALE[storeDefaultLocale().toLowerCase().split(/[-_]/)[0]] ?? "us";
+  const homeRegion = regions.find((region) =>
+    (region.countries ?? []).some((country) => country?.iso_2 === homeCountry),
+  );
+  const currency_code = (homeRegion?.currency_code as string | undefined) ?? currency_codes[0] ?? "usd";
 
   const {
     data: [tenant],
@@ -121,7 +137,7 @@ export const getTenantWarehouse = async (req: AuthenticatedMedusaRequest): Promi
     base_service_zone_id: baseZone.id,
     service_zone_ids: zones.map((zone) => zone.id),
     currency_codes,
-    currency_code: currency_codes[0] ?? "usd",
+    currency_code,
     default_weight_g: Number.isFinite(storedWeight) && storedWeight > 0 ? storedWeight : DEFAULT_ITEM_WEIGHT_G,
   };
 };
@@ -231,7 +247,7 @@ export const listTenantMethods = async (
     fields: OPTION_FIELDS,
     filters: { service_zone_id: warehouse.service_zone_ids },
   });
-  const sorted = [...(rows as OptionRow[])].sort(
+  const sorted = [...(rows as unknown as OptionRow[])].sort(
     (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
   );
   return sorted

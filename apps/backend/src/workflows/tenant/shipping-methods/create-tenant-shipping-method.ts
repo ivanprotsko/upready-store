@@ -2,7 +2,7 @@ import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/fra
 import { createServiceZonesWorkflow, createShippingOptionsWorkflow } from "@medusajs/medusa/core-flows";
 import type { TenantMethodData } from "../../../shipping-tariffs/tariff";
 import ensureLocationProviderLinkStep from "./steps/ensure-location-provider-link";
-import { geoZonesOf } from "./geo-zones";
+import { geoZonesOf, zoneNameFor } from "./geo-zones";
 
 export type CreateTenantShippingMethodInput = {
   name: string;
@@ -40,7 +40,7 @@ const createTenantShippingMethodWorkflow = createWorkflow(
       const zoneInput = transform({ input }, ({ input }) => ({
         data: [
           {
-            name: input.name,
+            name: zoneNameFor(input.name, input.fulfillment_set_id),
             fulfillment_set_id: input.fulfillment_set_id,
             geo_zones: geoZonesOf(input.data.zone!),
           },

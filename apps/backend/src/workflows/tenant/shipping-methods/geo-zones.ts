@@ -17,3 +17,13 @@ export const geoZonesOf = (zone: MethodZone) => {
     province_code,
   }));
 };
+
+/**
+ * Service zone names are unique across the whole backend (the fulfillment
+ * module refuses a duplicate: «Service zone with name: X, already exists»,
+ * measured 2026-09-15 when a second shop created «Почтой России»). The zone
+ * is plumbing the customer never sees, so its name carries the set id and a
+ * time suffix; the METHOD name lives on the shipping option.
+ */
+export const zoneNameFor = (methodName: string, fulfillmentSetId: string): string =>
+  `${methodName} · ${fulfillmentSetId.slice(-8)} · ${Date.now().toString(36)}`;
