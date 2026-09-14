@@ -13,6 +13,7 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 import { sdk } from "../../../../../lib/client"
+import { mergeSeoMetadata, readSeoOverride } from "../../../../../lib/seo-metadata"
 
 const EditCategorySchema = z.object({
   name: z.string().min(1),
@@ -22,6 +23,8 @@ const EditCategorySchema = z.object({
   visibility: z.enum(["public", "internal"]),
   imageUrl: z.string().optional(),
   imageAlt: z.string().optional(),
+  seoTitle: z.string().max(70),
+  seoDescription: z.string().max(320),
 })
 
 /**
@@ -59,6 +62,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const { handleSuccess } = useRouteModal()
   const direction = useDocumentDirection()
   const metadata = (category.metadata ?? {}) as Record<string, unknown>
+  const seoOverride = readSeoOverride(metadata)
   const [uploading, setUploading] = useState(false)
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     defaultValues: {
@@ -69,6 +73,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
       visibility: category.is_internal ? "internal" : "public",
       imageUrl: typeof metadata.image_url === "string" ? metadata.image_url : "",
       imageAlt: typeof metadata.image_alt === "string" ? metadata.image_alt : "",
+      seoTitle: seoOverride.seo_title,
+      seoDescription: seoOverride.seo_description,
     },
     resolver: zodResolver(EditCategorySchema),
   })
@@ -106,7 +112,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
         is_active: data.status === "active",
         is_internal: data.visibility === "internal",
         metadata: {
-          ...metadata,
+          ...mergeSeoMetadata(metadata, data.seoTitle, data.seoDescription),
           image_url: data.imageUrl || null,
           image_alt: data.imageAlt || null,
         },
@@ -172,6 +178,46 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                     <Form.Label optional>{t("fields.description")}</Form.Label>
                     <Form.Control>
                       <Textarea {...field} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="seoTitle"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>
+                      {t("fields.seoTitle")}{" "}
+                      <span className="text-ui-fg-subtle">
+                        ({field.value.length}/70)
+                      </span>
+                    </Form.Label>
+                    <Form.Control>
+                      <Input autoComplete="off" {...field} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="seoDescription"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>
+                      {t("fields.seoDescription")}{" "}
+                      <span className="text-ui-fg-subtle">
+                        ({field.value.length}/320)
+                      </span>
+                    </Form.Label>
+                    <Form.Control>
+                      <Textarea {...field} rows={3} />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>

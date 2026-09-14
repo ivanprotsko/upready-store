@@ -832,6 +832,8 @@
     "sales_channels": "Каналы продаж",
     "search": "Поиск",
     "selectCountry": "Выберите страну",
+    "seoDescription": "Описание для поиска",
+    "seoTitle": "Заголовок для поиска",
     "sent": "Отправлено",
     "shipping": "Доставка",
     "shippingMethod": "Способ доставки",

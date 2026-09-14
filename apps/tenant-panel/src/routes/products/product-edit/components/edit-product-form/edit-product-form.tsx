@@ -14,6 +14,7 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { FormExtensionZone } from "../../../../../dashboard-app"
 import { useExtension } from "../../../../../providers/extension-provider"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
+import { mergeSeoMetadata, readSeoOverride } from "../../../../../lib/seo-metadata"
 
 type EditProductFormProps = {
   product: HttpTypes.AdminProduct
@@ -27,6 +28,8 @@ const EditProductSchema = zod.object({
   material: zod.string().optional(),
   description: zod.string().optional(),
   discountable: zod.boolean(),
+  seo_title: zod.string().max(70),
+  seo_description: zod.string().max(320),
 })
 
 export const EditProductForm = ({ product }: EditProductFormProps) => {
@@ -37,6 +40,10 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const fields = getFormFields("product", "edit")
   const configs = getFormConfigs("product", "edit")
 
+  const seoOverride = readSeoOverride(
+    product.metadata as Record<string, unknown> | null
+  )
+
   const form = useExtendableForm({
     defaultValues: {
       status: product.status,
@@ -46,6 +53,8 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
       handle: product.handle || "",
       description: product.description || "",
       discountable: product.discountable,
+      seo_title: seoOverride.seo_title,
+      seo_description: seoOverride.seo_description,
     },
     schema: EditProductSchema,
     configs: configs,
@@ -55,9 +64,15 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const { mutateAsync, isPending } = useUpdateProduct(product.id)
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    const { title, discountable, handle, status, ...optional } = data
+    const { title, discountable, handle, status, seo_title, seo_description, ...optional } =
+      data
 
     const nullableData = transformNullableFormData(optional)
+    const metadata = mergeSeoMetadata(
+      product.metadata as Record<string, unknown> | null,
+      seo_title,
+      seo_description
+    )
 
     await mutateAsync(
       {
@@ -65,6 +80,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
         discountable,
         handle,
         status: status as HttpTypes.AdminProductStatus,
+        metadata,
         ...nullableData,
       },
       {
@@ -212,6 +228,46 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                       </Form.Label>
                       <Form.Control>
                         <Textarea {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="seo_title"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>
+                        {t("fields.seoTitle")}{" "}
+                        <span className="text-ui-fg-subtle">
+                          ({field.value.length}/70)
+                        </span>
+                      </Form.Label>
+                      <Form.Control>
+                        <Input {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="seo_description"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>
+                        {t("fields.seoDescription")}{" "}
+                        <span className="text-ui-fg-subtle">
+                          ({field.value.length}/320)
+                        </span>
+                      </Form.Label>
+                      <Form.Control>
+                        <Textarea {...field} rows={3} />
                       </Form.Control>
                       <Form.ErrorMessage />
                     </Form.Item>

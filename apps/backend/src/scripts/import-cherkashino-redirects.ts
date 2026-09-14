@@ -72,7 +72,6 @@ export default async function importCherkashinoRedirects({ container, args }: Ex
   const existingFromPaths = new Set(existing.map((row) => row.from_path));
 
   const rows = registry.rows.filter((row) => row.kind === "product" || row.kind === "category");
-  const kindSegment: Record<string, string> = { product: "products", category: "categories" };
 
   let written = 0;
   let skipped = 0;
