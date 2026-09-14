@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Ödeme hâlâ onaylanıyor. Bir dakika bekleyip siparişinizi hesabınızdan açın ya da yeniden deneyin.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Takip numarası"
   },
   "OrdersPage": {
     "description": "Önceki siparişlerinizi ve durumlarını görüntüleyin.",
@@ -642,6 +644,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Öde",
+    "redirectUnavailable": "Ödeme sayfası henüz hazır değil. Birazdan tekrar deneyin.",
     "selectPaymentMethod": "Bir ödeme yöntemi seçin"
   },
   "PaymentContainer": {
@@ -657,6 +660,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kredi kartı",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredi kartı",

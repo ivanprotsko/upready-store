@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "भुगतान की पुष्टि अभी हो रही है। एक मिनट रुकें और खाते से अपना ऑर्डर खोलें, या फिर से प्रयास करें।",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "ट्रैकिंग नंबर"
   },
   "OrdersPage": {
     "description": "अपने पिछले ऑर्डर और उनकी स्थिति देखें।",
@@ -642,6 +644,7 @@
   },
   "PaymentButton": {
     "placeOrder": "भुगतान करें",
+    "redirectUnavailable": "भुगतान पृष्ठ अभी उपलब्ध नहीं है। कुछ देर बाद फिर से प्रयास करें।",
     "selectPaymentMethod": "भुगतान विधि चुनें"
   },
   "PaymentContainer": {
@@ -657,6 +660,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "क्रेडिट कार्ड",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "क्रेडिट कार्ड",

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-day16-tenant-secrets-psp",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T04:09:36+08:00",
+  "status": "2026-09-15 04:09 WITA: t03-tenant-secrets-robokassa — PR #23 открыт (feat/day16-tenant-secrets-psp → dev, слита с origin/dev): пер-тенантные секреты Robokassa + провайдер + панель «Приём оплат» + касса; seam 8/8, build ок; ждёт приёмки, боевой режим не включён (модерация Robokassa вне репо)"
+}

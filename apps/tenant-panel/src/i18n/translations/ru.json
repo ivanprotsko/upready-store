@@ -212,6 +212,7 @@
         "extensions": "Расширения"
       },
       "main": {
+        "shipping": "Доставка",
         "homeSettings": "Главная страница",
         "overview": "Обзор",
         "pages": "Страницы",
@@ -1591,6 +1592,8 @@
     },
     "shipment": {
       "addTracking": "Добавить номер отслеживания",
+      "carrier": "Перевозчик",
+      "carrierPlaceholder": "СДЭК, Почта России, Boxberry…",
       "sendNotification": "Отправить уведомление",
       "sendNotificationHint": "Уведомить клиента об этой отправке.",
       "title": "Отметить фулфилмент как отправленный",
@@ -3108,5 +3111,37 @@
     },
     "transactionIdLabel": "ID транзакции",
     "workflowIdLabel": "ID рабочего процесса"
+  },
+  "paymentSettings": {
+    "title": "Приём оплат",
+    "subtitle": "счёт вашего магазина в платёжном сервисе; ключи хранятся в зашифрованном виде и обратно не показываются",
+    "stateTest": "тестовый режим",
+    "stateLive": "боевой режим",
+    "stateOff": "выключено",
+    "stateNone": "не настроено",
+    "loading": "загружаем…",
+    "fields": {
+      "provider": "Платёжный сервис",
+      "merchant_login": "Идентификатор магазина (MerchantLogin)",
+      "password1": "Пароль #1",
+      "password2": "Пароль #2",
+      "test_password1": "Тестовый пароль #1",
+      "test_password2": "Тестовый пароль #2",
+      "hash_algorithm": "Алгоритм подписи",
+      "is_test": "Тестовый режим",
+      "is_enabled": "Принимать оплату"
+    },
+    "secretSet": "задано ····{{last4}}",
+    "secretNotSet": "не задано",
+    "keepPlaceholder": "оставьте пустым, чтобы не менять",
+    "emptyPlaceholder": "вставьте из кабинета Robokassa",
+    "testHint": "В тестовом режиме покупатель платит тестовой картой Robokassa, деньги не списываются. Боевой режим нужен только после модерации магазина в Robokassa.",
+    "merchantLoginRequired": "Укажите идентификатор магазина",
+    "save": "Сохранить",
+    "remove": "Удалить счёт",
+    "saved": "Настройки оплаты сохранены",
+    "removed": "Счёт удалён — Robokassa больше не предлагается на кассе",
+    "resultUrlTitle": "Result URL для кабинета Robokassa",
+    "resultUrlHint": "Вставьте этот адрес в настройки магазина в Robokassa (Технические настройки → Result URL, метод POST). По нему Robokassa сообщает нам об оплате; без него заказ не станет оплаченным."
   }
 }

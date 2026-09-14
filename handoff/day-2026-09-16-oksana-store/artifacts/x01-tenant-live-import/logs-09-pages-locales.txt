@@ -1,0 +1,7 @@
+GET /tenants/pages?limit=50&locale=ru → 5 rows: contacts/ru/pub=true/3417b | legal/ru/pub=false/0b | about/ru/pub=true/561b | privacy/ru/pub=true/15821b | offer/ru/pub=true/19274b
+GET /tenants/pages?limit=50&locale=en → 5 rows: contacts/en/pub=false/0b | legal/en/pub=false/0b | about/en/pub=true/580b | privacy/en/pub=false/0b | offer/en/pub=false/0b
+GET /tenants/pages → 5 rows: contacts/en/pub=false/0b | legal/en/pub=false/0b | about/en/pub=true/580b | privacy/en/pub=false/0b | offer/en/pub=false/0b
+
+-- single key, owner API --
+offer {"page":{"id":null,"key":"offer","locale":"en","title":"","body":"","published":false}}
+about {"page":{"id":"tpage_01M2GRGGM8BVGGBG84XT897RN7","key":"about","locale":"en","title":"Oksana Cherkashina","body":"Oksana Cherkashina's health store — natural remedies, dietary supplements and herbal preparations, tested by personal experien

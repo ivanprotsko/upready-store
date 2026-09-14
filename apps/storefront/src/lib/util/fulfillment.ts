@@ -109,3 +109,13 @@ export const getDeliveryDays = (
 
   return { min, max }
 }
+
+/**
+ * Provider id of a tenant's own tariff methods
+ * (apps/backend/src/modules/tariff-fulfillment). Lives here and not in
+ * `lib/data/fulfillment.ts`, because that file is `"use server"` and may export
+ * async functions only — a constant there fails the page with «Only async
+ * functions are allowed to be exported in a "use server" file» (measured on
+ * :8051, 2026-09-15; tsc and next lint both stay green on it).
+ */
+export const TARIFF_PROVIDER_ID = "tariff_tariff"

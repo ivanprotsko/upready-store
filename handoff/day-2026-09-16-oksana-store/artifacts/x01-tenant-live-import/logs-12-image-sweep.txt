@@ -1,0 +1,5 @@
+distinct product image URLs on the tenant: 331
+HEAD 200: 331/331
+not 200: 0
+localhost URLs: 0
+sample: https://shipshift.dev/static/tenants/ten_01M2GQVGEN1204CN90C510DNRG/1789416266499-08-1.png

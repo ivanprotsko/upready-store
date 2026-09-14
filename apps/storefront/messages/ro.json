@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Plata este încă în curs de confirmare. Așteptați un minut și deschideți comanda din cont sau încercați din nou.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Număr de urmărire"
   },
   "OrdersPage": {
     "description": "Vizualizați comenzile anterioare și statusul acestora.",
@@ -642,6 +644,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Plătește",
+    "redirectUnavailable": "Pagina de plată nu este încă disponibilă. Încercați din nou peste puțin timp.",
     "selectPaymentMethod": "Selectați o metodă de plată"
   },
   "PaymentContainer": {
@@ -657,6 +660,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Card de credit",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Card de credit",

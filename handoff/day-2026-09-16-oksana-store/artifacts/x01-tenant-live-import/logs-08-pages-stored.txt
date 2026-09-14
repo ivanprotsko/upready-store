@@ -1,0 +1,6 @@
+rows stored on the tenant: 5
+  key=contacts locale=en published=false title="" bodyBytes=0
+  key=legal locale=en published=false title="" bodyBytes=0
+  key=about locale=en published=true title="Oksana Cherkashina" bodyBytes=580
+  key=privacy locale=en published=false title="" bodyBytes=0
+  key=offer locale=en published=false title="" bodyBytes=0

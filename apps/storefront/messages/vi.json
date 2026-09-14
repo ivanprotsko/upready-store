@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Thanh toán vẫn đang được xác nhận. Hãy đợi một phút rồi mở đơn hàng trong tài khoản, hoặc thử lại.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Mã vận đơn"
   },
   "OrdersPage": {
     "description": "Xem các đơn hàng trước đây và trạng thái của chúng.",
@@ -642,6 +644,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Thanh toán",
+    "redirectUnavailable": "Trang thanh toán chưa sẵn sàng. Vui lòng thử lại sau giây lát.",
     "selectPaymentMethod": "Chọn phương thức thanh toán"
   },
   "PaymentContainer": {
@@ -657,6 +660,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Thẻ tín dụng",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Thẻ tín dụng",

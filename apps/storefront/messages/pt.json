@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "O pagamento ainda está sendo confirmado. Aguarde um minuto e abra o pedido na sua conta, ou tente novamente.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Número de rastreio"
   },
   "OrdersPage": {
     "description": "Veja as suas encomendas anteriores e o respetivo estado.",
@@ -642,6 +644,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Pagar",
+    "redirectUnavailable": "A página de pagamento ainda não está disponível. Tente novamente daqui a pouco.",
     "selectPaymentMethod": "Selecione um método de pagamento"
   },
   "PaymentContainer": {
@@ -657,6 +660,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Cartão de crédito",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Cartão de crédito",

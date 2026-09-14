@@ -126,6 +126,20 @@ module.exports = defineConfig({
   ],
   modules: [
     { resolve: "@medusajs/medusa/translation" },
+    // Naming the fulfillment module here replaces its default provider list,
+    // so the manual provider (`manual_manual`, what every existing option
+    // uses) is spelled out next to the tenant tariff provider
+    // (`tariff_tariff`, src/modules/tariff-fulfillment): weight and
+    // threshold tariffs a shop owner sets on /shipping in the panel.
+    {
+      resolve: "@medusajs/medusa/fulfillment",
+      options: {
+        providers: [
+          { resolve: "@medusajs/medusa/fulfillment-manual", id: "manual" },
+          { resolve: "./src/modules/tariff-fulfillment", id: "tariff" },
+        ],
+      },
+    },
     // Shared multitenancy: tenant + tenant admin, actor type "tenant", /tenants/*.
     { resolve: "./src/modules/tenant" },
     {
@@ -146,5 +160,22 @@ module.exports = defineConfig({
     },
     ...(useRedis ? redisModules : []),
     ...(useS3 ? [s3Module] : [localFileModule]),
+    {
+      // Payment. The framework registers the manual provider
+      // (`pp_system_default`) on its own whatever this list says
+      // (`@medusajs/payment` loaders/providers.js). Robokassa is one
+      // registration for every shop: it carries no credentials here, they are
+      // a per-tenant row resolved on each call
+      // (`src/modules/payment-robokassa`, `src/tenant-secrets/`).
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/payment-robokassa",
+            id: "robokassa",
+          },
+        ],
+      },
+    },
   ],
 });

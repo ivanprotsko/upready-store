@@ -1,0 +1,73 @@
+[03:56 WITA] import (dry-run) → https://shipshift.dev, tenant cherkashino, phases tenant,categories,images,products,pages,home,rest
+[03:56 WITA] tenant cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), channel sc_01M2GQVE0NVSWBRT9Q082MPDYE, key pk_8198573d6…
+[03:56 WITA] categories: 9 processed
+[03:56 WITA] images: 335 unique urls, 0 uploaded this run
+[03:56 WITA] products: 38 processed, 0 created this run
+[03:56 WITA] pages: 15 documents processed, 39 legacy entries listed
+[03:56 WITA] home: hero from banner "Заказ от 5 кг — скидка 10%"
+[03:56 WITA] rest: 20 datasets listed
+{
+ "tenant": {
+  "total": 1,
+  "migrated": 1,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "category": {
+  "total": 9,
+  "migrated": 0,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 9
+ },
+ "file": {
+  "total": 335,
+  "migrated": 0,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 334
+ },
+ "product": {
+  "total": 38,
+  "migrated": 0,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 38
+ },
+ "page": {
+  "total": 16,
+  "migrated": 0,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 15
+ },
+ "legacy_page": {
+  "total": 39,
+  "migrated": 0,
+  "skipped": 39,
+  "failed": 0,
+  "pending": 0
+ },
+ "banner": {
+  "total": 3,
+  "migrated": 0,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 3
+ },
+ "layout_configuration": {
+  "total": 1,
+  "migrated": 0,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 0
+ },
+ "dataset": {
+  "total": 20,
+  "migrated": 0,
+  "skipped": 13,
+  "failed": 0,
+  "pending": 7
+ }
+}

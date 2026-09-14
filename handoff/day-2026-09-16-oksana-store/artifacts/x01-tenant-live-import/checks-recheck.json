@@ -1,0 +1,25 @@
+{
+ "home-390x844": {
+  "total": 12,
+  "loaded": 12,
+  "broken": []
+ },
+ "catalog-390x844": {
+  "total": 14,
+  "loaded": 14,
+  "broken": []
+ },
+ "category-dobavki-390x844": {
+  "total": 14,
+  "loaded": 12,
+  "broken": [
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416289690-14-1.png&w=384&q=50",
+   "https://cherkashino.shipshift.dev/_next/image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ften_01M2GQVGEN1204CN90C510DNRG%2F1789416259767-1199734029__1.webp&w=384&q=50"
+  ]
+ },
+ "product-1280x900": {
+  "total": 23,
+  "loaded": 23,
+  "broken": []
+ }
+}

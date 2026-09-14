@@ -89,6 +89,12 @@ export const Home = () => {
           >
             {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
           </Link>
+          <Link
+            to="/settings/payments"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("paymentSettings.title")}
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>
