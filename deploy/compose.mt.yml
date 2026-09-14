@@ -90,6 +90,11 @@ services:
       ADMIN_CORS: ${ADMIN_CORS}
       AUTH_CORS: ${AUTH_CORS}
       STOREFRONT_URL: https://${ENGINE_DOMAIN}
+      # Where the cache-clearing webhook goes. NOT STOREFRONT_URL: that is the
+      # engine's domain (customer links in e-mails are built from it), while the
+      # storefront is this other container — posting there answered 404 and no
+      # shop ever saw its own edits.
+      STOREFRONT_REVALIDATE_URL: http://mt-storefront:8000
       STORE_NAME: ${STORE_NAME:-Shipshift}
       STORE_EMAIL: ${STORE_EMAIL:-hello@shipshift.dev}
       STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}

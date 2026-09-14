@@ -5,6 +5,7 @@ import type TenantModuleService from "../../../../modules/tenant/service";
 import type { PutTenantPageBody } from "../../validators";
 import { getTenantScope } from "../../tenant-scope";
 import { assertPageKey, blankPage, parsePageLocale, toPageDto } from "../page-helpers";
+import { notifyStorefrontRevalidate } from "../../../../storefront-revalidate";
 
 /**
  * `GET /tenants/pages/:key` — one section of the tenant behind the token. A key
@@ -79,6 +80,11 @@ export const PUT = async (
       });
 
   const row = Array.isArray(saved) ? saved[0] : saved;
+
+  // Same reason as the home document: the page bodies AND the footer's link list
+  // hang off the shared `tenant-pages` tag, so an unsent notification leaves both
+  // stale on the shop.
+  await notifyStorefrontRevalidate({ type: "tenant.pages", handle: scope.handle });
 
   res.json({ page: toPageDto(row) });
 };
