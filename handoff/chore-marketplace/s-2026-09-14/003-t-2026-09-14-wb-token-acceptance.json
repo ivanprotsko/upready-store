@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "chore-marketplace",
+  "session": "s-2026-09-14",
+  "index": 3,
+  "action": "task-add",
+  "ts": "2026-09-14T16:41:36+08:00",
+  "status": "2026-09-14 16:40 WITA: chore/marketplace (перебазирована на origin/dev, 0 своих коммитов, была от feat/cherkashina-tenant) — ответ по WB API-токену: artifacts/docs/2026-09-14-wb-api-token-categories.md (два источника без противоречий; базовый токен для облака; минимум для миграции = Контент+Цены и скидки+Маркетплейс+Вопросы и отзывы+Аналитика(+Статистика) только чтение; все вызовы миграции x-readonly-method=true по спекам WB; схема токенов A/B). Живого вызова нет — токен создаёт владелец. Следующее: токен A от Оксаны → приёмка §3.3",
+  "task": {
+    "id": "t-2026-09-14-wb-token-acceptance",
+    "title": "WB API: приёмка токена A Оксаны по §3.3 документа 2026-09-14-wb-api-token-categories.md (ping ×6, cards/list vs 221, feedbacks vs 24,7 тыс. публичных, warehouses+stocks)",
+    "state": "backlog",
+    "priority": "med",
+    "details": "Документ готов (c2ed863). Токена нет — создаёт владелец кабинета (базовый, только чтение, категории Контент+Цены и скидки+Маркетплейс+Вопросы и отзывы+Аналитика+Статистика). После получения: положить в ~/upready/.env.keys, прогнать §3.3, результаты — в раздел «Приёмка» того же документа.",
+    "files": [
+      "artifacts/docs/2026-09-14-wb-api-token-categories.md"
+    ],
+    "tags": [
+      "wildberries",
+      "marketplace"
+    ],
+    "created": "2026-09-14T16:41:36+08:00",
+    "updated": "2026-09-14T16:41:36+08:00"
+  }
+}
