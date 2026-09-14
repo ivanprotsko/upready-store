@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-14",
+  "index": 12,
+  "action": "status-set",
+  "ts": "2026-09-14T11:26:59+08:00",
+  "status": "2026-09-14 11:26 WITA: ночная миссия tribute — попытка №1 оркестратора умерла 11:17 на недельном лимите старого аккаунта, попытка №2 (после /login) принимает панель соло; родительская сессия ведёт воркера legal-pages-2, написала TRIBUTE-APPLICATION.md и PARENT-NOTES.md (находки погибших воркеров: картинки категорий → localhost:9000, страницы без ревалидации, seed без переводов)"
+}
