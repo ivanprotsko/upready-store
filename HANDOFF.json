@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T13:41:29+08:00",
-  "status": "2026-09-14 13:37 WITA: Ночная миссия закрыта. upready.dev живой: лендинг 34/34, онбординг → магазин тенанта по HTTPS → панель → ЗАКАЗ оформляется на витрине и виден владельцу. Починено 4 дефекта (битые картинки тенанта, ревалидация витрины, главная магазина, мёртвая касса), панель переведена на русский, PR #16/#18/#19 в dev. ОТКРЫТО: страница «Спасибо» один раз падает сразу после оплаты (digest 2524605575). БЛОКЕР НА ИВАНЕ: реквизиты для правовых страниц — 29 полей, node scripts/build-legal.mjs --check.",
+  "updated": "2026-09-14T21:54:55+08:00",
+  "status": "2026-09-14 21:54 WITA: upready.dev заменён на страницу агентства из ~/Downloads/upready-dev (Pages upready-landing, деплой 62ebca64, источник ~/upready/projects/upready-dev@48b9342). Прежняя сборка apps/homepage/port снята с домена, но жива: fbdb8855.upready-landing.pages.dev (OFFLINE-NOTICE.md, коммит a478a7c). DNS не трогался, простоя не было; start/panel/hooks по 200. Открыто: @username из формы никуда не уходит, правовые — модалки без URL.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
