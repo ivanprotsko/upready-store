@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:legal": "node scripts/build-legal.mjs --require",
+    "check:legal": "node scripts/build-legal.mjs --check"
   },
   "dependencies": {
     "react": "^19.0.0",
