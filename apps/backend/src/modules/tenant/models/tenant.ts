@@ -5,6 +5,7 @@ import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
 import TenantIntegrationSecret from "./tenant-integration-secret";
 import TenantNotificationSettings from "./tenant-notification-settings";
+import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
 
 /**
@@ -36,6 +37,11 @@ const Tenant = model.define("tenant", {
     mappedBy: "tenant",
   }),
   home_config: model.hasOne(() => TenantHomeConfig, {
+    mappedBy: "tenant",
+  }),
+  // t06-locale-currency: which of the 36 storefront locales this shop offers,
+  // its default, and the country its default prices in.
+  locale_settings: model.hasOne(() => TenantLocaleSettings, {
     mappedBy: "tenant",
   }),
   domains: model.hasMany(() => TenantDomain, {

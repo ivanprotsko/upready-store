@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "追跡番号"
   },
   "OrdersPage": {
     "description": "過去の注文とその状況を確認できます。",

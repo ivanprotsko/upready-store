@@ -212,6 +212,7 @@
         "extensions": "Расширения"
       },
       "main": {
+        "shipping": "Доставка",
         "homeSettings": "Главная страница",
         "overview": "Обзор",
         "pages": "Страницы",
@@ -1628,6 +1629,8 @@
     },
     "shipment": {
       "addTracking": "Добавить номер отслеживания",
+      "carrier": "Перевозчик",
+      "carrierPlaceholder": "СДЭК, Почта России, Boxberry…",
       "sendNotification": "Отправить уведомление",
       "sendNotificationHint": "Уведомить клиента об этой отправке.",
       "title": "Отметить фулфилмент как отправленный",

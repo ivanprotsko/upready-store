@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "מספר מעקב"
   },
   "OrdersPage": {
     "description": "צפו בהזמנות הקודמות שלכם ובסטטוס שלהן.",

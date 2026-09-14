@@ -40,15 +40,24 @@ export const parseLocaleCountryMap = (raw: string): Map<string, string> => {
 
 const localeCountryMap = parseLocaleCountryMap(process.env.LOCALE_COUNTRY_MAP ?? "")
 
-/** The configured country for a locale, or null when this deployment maps none. */
+/**
+ * The configured country for a locale, or null when neither an `override` (the
+ * tenant's own `default_country`, `src/middleware.ts`) nor this deployment's
+ * `LOCALE_COUNTRY_MAP` names one. `override` wins: a shop's own currency pick
+ * is a property of THAT shop, not of the image every tenant shares
+ * (t06-locale-currency).
+ */
 export const countryForLocale = (
-  locale: string | null | undefined
+  locale: string | null | undefined,
+  override?: Map<string, string> | null
 ): string | null => {
   if (!locale) {
     return null
   }
 
-  return localeCountryMap.get(locale.toLowerCase()) ?? null
+  const key = locale.toLowerCase()
+
+  return override?.get(key) ?? localeCountryMap.get(key) ?? null
 }
 
 /** True when this deployment maps any locale at all — for tests and diagnostics. */

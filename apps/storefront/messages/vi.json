@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Mã vận đơn"
   },
   "OrdersPage": {
     "description": "Xem các đơn hàng trước đây và trạng thái của chúng.",

@@ -35,11 +35,11 @@ export const PageEdit = () => {
             the rest of the row and puts it where a title belongs. */}
         <div className="flex flex-1 flex-col items-start">
           <RouteFocusModal.Title asChild>
-            <Heading>{section?.label ?? key}</Heading>
+            <Heading>{section?.label ?? page?.title?.trim() ?? key}</Heading>
           </RouteFocusModal.Title>
           <RouteFocusModal.Description asChild>
-            <Text size="small" className="text-ui-fg-subtle">
-              {section?.hint ?? "One of your storefront's content pages."}
+            <Text size="small" className="text-ui-fg-subtle font-mono">
+              {section?.hint ?? `/pages/${key}`}
             </Text>
           </RouteFocusModal.Description>
         </div>

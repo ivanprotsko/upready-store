@@ -78,6 +78,25 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
     received: done.received ? fulfillment?.delivered_at : null,
   }
 
+  // t04-shipping-tariffs: the tracking number(s) the shop owner typed on the
+  // shipment, with the carrier in front («СДЭК 1234567890»), exactly the
+  // strings the panel saved (fulfillment.labels / fulfillment.metadata.carrier).
+  type TrackedFulfillment = {
+    labels?: { tracking_number?: string | null }[] | null
+    metadata?: Record<string, unknown> | null
+  }
+  const tracking = ((order.fulfillments ?? []) as TrackedFulfillment[]).flatMap(
+    (item) => {
+      const carrierRaw = item.metadata?.carrier
+      const carrier =
+        typeof carrierRaw === "string" && carrierRaw.trim() ? carrierRaw.trim() : null
+      return (item.labels ?? [])
+        .map((label) => label.tracking_number?.trim())
+        .filter((number): number is string => Boolean(number))
+        .map((number) => (carrier ? `${carrier} ${number}` : number))
+    }
+  )
+
   const doneFlags = STEP_KEYS.map((key) => done[key])
   const firstPending = doneFlags.findIndex((flag) => !flag)
 
@@ -97,6 +116,7 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
   })
 
   return (
+    <div className="flex flex-col gap-y-4">
     <div
       className="flex items-start"
       data-testid="order-timeline"
@@ -147,6 +167,23 @@ const OrderTimeline = async ({ order }: OrderTimelineProps) => {
           </div>
         </div>
       ))}
+    </div>
+    {tracking.length > 0 && (
+      <div className="flex flex-col gap-y-0.5" data-testid="order-tracking">
+        <span className="txt-compact-small-plus text-ui-fg-base">
+          {t("trackingNumber")}
+        </span>
+        {tracking.map((line) => (
+          <span
+            key={line}
+            className="txt-compact-small text-ui-fg-subtle tabular-nums"
+            data-testid="order-tracking-number"
+          >
+            {line}
+          </span>
+        ))}
+      </div>
+    )}
     </div>
   )
 }

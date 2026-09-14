@@ -101,4 +101,31 @@ describe("groupOptionFilters", () => {
       ["Чёрный", "Мел"],
     ])
   })
+
+  it("merges by option TITLE, not by option.id (Medusa mints one option row per product)", () => {
+    // t-2026-09-12-seed-option-filter-duplicates: every product carries its own
+    // "Количество" option row with its own id, so id-based grouping rendered one
+    // chip per product instead of one chip per option name.
+    const a = product(
+      "a",
+      [{ id: "opt-a-qty", title: "Количество", values: [{ id: "a-1sht", value: "1 шт" }] }],
+      [["a-1sht"]]
+    )
+    const b = product(
+      "b",
+      [{ id: "opt-b-qty", title: "количество", values: [{ id: "b-2sht", value: "2 шт" }] }],
+      [["b-2sht"]]
+    )
+    const c = product(
+      "c",
+      [{ id: "opt-c-qty", title: "  Количество  ", values: [{ id: "c-3sht", value: "3 шт" }] }],
+      [["c-3sht"]]
+    )
+
+    const groups = groupOptionFilters([a, b, c])
+
+    expect(groups).toHaveLength(1)
+    expect(groups[0].title).toBe("Количество")
+    expect(groups[0].values.map((v) => v.label)).toEqual(["1 шт", "2 шт", "3 шт"])
+  })
 })

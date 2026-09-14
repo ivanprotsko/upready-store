@@ -10,4 +10,7 @@ export const CreateShipmentSchema = z.object({
     })
   ),
   send_notification: z.boolean().optional(),
+  // tenant-panel (t04-shipping-tariffs): the carrier the owner hands the parcel
+  // to, free text («СДЭК», «Почта России»); stored as fulfillment.metadata.carrier.
+  carrier: z.string().max(80).optional(),
 })
