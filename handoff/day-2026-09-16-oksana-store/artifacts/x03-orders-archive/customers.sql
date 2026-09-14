@@ -32,7 +32,13 @@ select
   coalesce(od.spent_usd, 0) as spent_usd,
   to_char(od.first_order at time zone 'Asia/Makassar', 'YYYY-MM-DD') as first_order,
   to_char(od.last_order at time zone 'Asia/Makassar', 'YYYY-MM-DD') as last_order,
-  la.address as last_address
+  la.address as last_address,
+  case
+    when split_part(c.email,'@',2) ~* '(\.local$|\.test$|^test\.|\.invalid$|^example\.|^upready\.dev$|^ivanprotsko\.com$|^smoke\.)'
+      then 'служебный (внутренний домен)'
+    when c.email ~* '^(test|demo|selfheal|p[0-9]+-)'
+      then 'служебный (тестовый ящик магазина)'
+    else '' end as record_kind
 from customer c
 left join ord od on od.customer_id = c.id
 left join last_addr la on la.customer_id = c.id

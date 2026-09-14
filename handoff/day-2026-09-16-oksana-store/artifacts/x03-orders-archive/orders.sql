@@ -60,11 +60,20 @@ select
   upper(o.currency_code) as currency,
   coalesce(i.subtotal, 0) as subtotal,
   coalesce(sh.shipping, 0) as shipping,
-  0 as discount,
+  coalesce((s.totals->>'discount_total')::numeric, 0)
+    + coalesce((select sum(adj.amount) from order_line_item_adjustment adj
+                join order_item oi2 on oi2.item_id = adj.item_id and oi2.deleted_at is null
+                where oi2.order_id = o.id and adj.deleted_at is null), 0) as discount,
   (s.totals->>'accounting_total')::numeric as total,
   (s.totals->>'paid_total')::numeric as paid,
   coalesce(i.qty, 0) as items_qty,
-  coalesce(i.items_text, '') as items
+  coalesce(i.items_text, '') as items,
+  case
+    when split_part(o.email,'@',2) ~* '(\.local$|\.test$|^test\.|\.invalid$|^example\.|^upready\.dev$|^ivanprotsko\.com$|^smoke\.)'
+      then 'служебный (внутренний домен)'
+    when o.email ~* '^(test|demo|selfheal|p[0-9]+-)'
+      then 'служебный (тестовый ящик магазина)'
+    else '' end as record_kind
 from "order" o
 join order_summary s on s.order_id = o.id and s.version = o.version and s.deleted_at is null
 left join order_address a on a.id = o.shipping_address_id
