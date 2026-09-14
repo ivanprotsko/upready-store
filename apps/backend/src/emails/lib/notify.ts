@@ -4,7 +4,6 @@ import type {
   Logger,
 } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
-import { render } from "@react-email/render";
 import { createElement, type ComponentType } from "react";
 import {
   type EmailLocale,
@@ -13,6 +12,22 @@ import {
   getLocaleFromMetadata,
   resolveEmailLocale,
 } from "../i18n";
+import { recordDelivery } from "../../tenant-notifications/delivery-status";
+import { resolveShopForOrder, type ShopIdentity } from "../../tenant-notifications/shop";
+import { type EmailShop, renderForShop } from "./shop";
+
+/**
+ * The shop identity a template renders under. `contactEmail` is what the
+ * letter's footer offers the customer to write to, and it is the owner's
+ * reply-to address when they set one (t08-order-notifications).
+ */
+export const emailShopFrom = (shop: ShopIdentity): EmailShop => ({
+  name: shop.name,
+  storefrontUrl: shop.storefrontUrl,
+  email: shop.contactEmail,
+  address: process.env.STORE_ADDRESS || "",
+  phone: process.env.STORE_PHONE || "",
+});
 
 /**
  * Shared plumbing for the order emails. Each subscriber differs only in which
@@ -83,8 +98,12 @@ type SendOrderEmailOptions<P> = {
   props?: Omit<P, "order" | "locale">;
   /** Message key holding the subject line, for example `Shipment.subject` */
   subjectKey: string;
-  /** Builds the plain-text alternative, given the resolved translator */
-  text: (t: EmailTranslator["t"], id: string | number) => string;
+  /**
+   * Builds the plain-text alternative. It receives the SHOP as well, because a
+   * link in the text part is a customer-facing URL like any other and must
+   * point at the shop the order belongs to, not at the engine.
+   */
+  text: (t: EmailTranslator["t"], id: string | number, shop: EmailShop) => string;
 };
 
 /**
@@ -120,7 +139,14 @@ export async function sendOrderEmail<P extends object>({
   const { t } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
 
-  const html = await render(
+  // WHICH shop this order belongs to decides both the links inside the letter
+  // and the name the inbox shows. One resolution per letter, used by the HTML,
+  // the text part and the sender identity alike.
+  const shop = await resolveShopForOrder(container, order.id);
+  const emailShop = emailShopFrom(shop);
+
+  const html = await renderForShop(
+    emailShop,
     createElement(Component, { ...(props ?? {}), order, locale } as P),
   );
 
@@ -137,20 +163,41 @@ export async function sendOrderEmail<P extends object>({
       content: {
         subject: t(subjectKey, { id }),
         html,
-        text: text(t, id),
+        text: text(t, id, emailShop),
+      },
+      // Read by the SMTP provider: the display name and the reply-to address of
+      // this shop. The `From` ADDRESS stays the platform's — letting a shop set
+      // its own is what SPF and DMARC reject and what an abuser asks for first.
+      data: {
+        sender: {
+          name: shop.fromName,
+          reply_to: shop.replyTo,
+        },
       },
     } as Parameters<INotificationModuleService["createNotifications"]>[0]);
 
     logger.info(
-      `[${tag}] Sent to ${order.email} for order ${order.id} (locale: ${locale})`,
+      `[${tag}] Sent to ${order.email} for order ${order.id} (locale: ${locale}, shop: ${
+        shop.tenantId ?? "platform"
+      }, links: ${emailShop.storefrontUrl})`,
     );
+    await recordDelivery(container, shop.tenantId, "email", {
+      status: "ok",
+      order: String(id),
+    });
     return true;
   } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err);
+    // Both ends, always (rule 20a): the operator's log names the order, and the
+    // owner sees the failed attempt on their own notifications screen.
     logger.error(
-      `[${tag}] Failed to send notification: ${
-        err instanceof Error ? err.message : String(err)
-      }`,
+      `[${tag}] Failed to send the letter for order ${order.id} to ${order.email}: ${reason}`,
     );
+    await recordDelivery(container, shop.tenantId, "email", {
+      status: "failed",
+      error: reason,
+      order: String(id),
+    });
     return false;
   }
 }

@@ -52,4 +52,41 @@ describe("matchBrowserLocale", () => {
     expect(matchBrowserLocale("sw, ga")).toBeUndefined()
     expect(matchBrowserLocale("*")).toBeUndefined()
   })
+
+  describe("options.allowed (t06-locale-currency: a tenant's enabled_locales)", () => {
+    it("never lands on a locale outside the allowed set", () => {
+      expect(
+        matchBrowserLocale("de-DE,de;q=0.9,en;q=0.8", { allowed: ["ru", "en"] })
+      ).toBe("en")
+    })
+
+    it("is undefined when none of the browser's languages is allowed", () => {
+      expect(
+        matchBrowserLocale("de-DE,de;q=0.9,fr;q=0.8", { allowed: ["ru", "en"] })
+      ).toBeUndefined()
+    })
+
+    it("still matches by language subtag inside the allowed set", () => {
+      expect(matchBrowserLocale("pt-BR", { allowed: ["ru", "en", "pt"] })).toBe(
+        "pt"
+      )
+    })
+  })
+
+  describe("options.preferred (a tenant's own default_locale)", () => {
+    it("overrides the deployment's preferredLocales for this call", () => {
+      expect(
+        matchBrowserLocale("en-US,en;q=0.9,de;q=0.8", { preferred: ["de"] })
+      ).toBe("de")
+    })
+
+    it("combines with allowed: the preferred locale still has to be allowed", () => {
+      expect(
+        matchBrowserLocale("en-US,en;q=0.9,de;q=0.8", {
+          allowed: ["en", "de"],
+          preferred: ["ru"],
+        })
+      ).toBe("en")
+    })
+  })
 })

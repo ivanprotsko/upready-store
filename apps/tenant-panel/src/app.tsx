@@ -605,6 +605,28 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/domains"),
           },
           {
+            // «Уведомления» (t08-order-notifications): who hears about a new
+            // order — the customer by e-mail, the owner in Telegram. No Admin
+            // counterpart: a native install notifies from medusa-config alone.
+            path: "/settings/notifications",
+            handle: { breadcrumb: () => t("notificationSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/notifications"),
+          },
+          {
+            // t06-locale-currency: which of the storefront's 36 locales this
+            // shop offers, its default, and the currency its default prices
+            // in. Same shape as /settings/domains next to it — one screen,
+            // no children, the document is edited in place.
+            path: "/settings/locale",
+            handle: {
+              breadcrumb: () =>
+                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/locale"),
+          },
+          {
             // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
             // payment account, stored encrypted per tenant. No Admin
             // counterpart — the Admin configures providers in medusa-config

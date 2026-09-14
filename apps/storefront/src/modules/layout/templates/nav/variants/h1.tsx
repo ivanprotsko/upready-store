@@ -1,10 +1,9 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -26,10 +25,11 @@ export default async function NavH1() {
   // t10-blog: the Journal entry of the side menu appears only once this shop
   // has published an article — measured here, on the server, because SideMenu
   // is a client component and must not read the backend itself (rule 19g).
-  const [regions, countryCode, siteName, showJournal] = await Promise.all([
+  const [regions, countryCode, siteName, locales, showJournal] = await Promise.all([
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
     hasPublishedArticles(),
   ])
 
@@ -66,7 +66,7 @@ export default async function NavH1() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

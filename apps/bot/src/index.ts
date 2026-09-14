@@ -5,10 +5,12 @@
  * Запуск:  node --env-file-if-exists=.env src/index.ts > run.log 2>&1
  * Токен:   TELEGRAM_UPREADY_STORE_BOT (файл .env, в git не уезжает)
  * Ссылки:  TRIBUTE_URL_PLAN_<1|2|3>_<RU_MIR|VISA_MC> — см. payments.ts
+ * Привязка магазина: UPREADY_BACKEND_URL + TELEGRAM_LINK_SECRET — см. link.ts
  */
 
 import { log } from "./log.ts";
-import { buildReply } from "./message.ts";
+import { buildReply, escapeHtml } from "./message.ts";
+import { isLinkPayload, readLinkConfig, redeemLinkCode } from "./link.ts";
 import { PLANS, METHOD_ORDER, METHOD_LABELS } from "./plans.ts";
 import { envNameFor, isResolved, linkFor, readPaymentLinks } from "./payments.ts";
 import {
@@ -74,6 +76,17 @@ async function handle(token: string, update: TelegramUpdate): Promise<void> {
     return;
   }
 
+  // Привязка чата к магазину (t08-order-notifications). Отдельная ветка до
+  // тарифного ядра: это другой payload и другой собеседник — владелец магазина,
+  // который уже всё оплатил, а не покупатель тарифа.
+  if (isLinkPayload(action.payload)) {
+    await handleLink(token, update, action.chatId, action.payload.trim());
+    if (action.callbackQueryId !== undefined) {
+      await answerCallbackQuery(token, action.callbackQueryId);
+    }
+    return;
+  }
+
   const { message, warnings } = buildReply(action.payload, readPaymentLinks(process.env));
   for (const warning of warnings) {
     log(warning.level, "payment.link.missing.onSend", { ...warning, chat_id: action.chatId });
@@ -98,6 +111,51 @@ async function handle(token: string, update: TelegramUpdate): Promise<void> {
   if (action.callbackQueryId !== undefined) {
     await answerCallbackQuery(token, action.callbackQueryId);
   }
+}
+
+/**
+ * Код из `/start lk_…` уходит на бэкенд, ответ печатается владельцу как есть.
+ * Ненастроенная привязка — это дырка оператора, и она видна в логе И в чате:
+ * человек, нажавший кнопку в панели, обязан получить ответ (правило 20a).
+ */
+async function handleLink(
+  token: string,
+  update: TelegramUpdate,
+  chatId: number,
+  code: string,
+): Promise<void> {
+  const config = readLinkConfig(process.env);
+  const chat = update.message?.chat ?? update.callback_query?.message?.chat;
+  const from = update.message?.from ?? update.callback_query?.from;
+
+  if (config === null || chat === undefined) {
+    log("error", "link.unconfigured", {
+      update_id: update.update_id,
+      chat_id: chatId,
+      hint: "нужны UPREADY_BACKEND_URL и TELEGRAM_LINK_SECRET, те же значения, что у бэкенда",
+      has_chat: chat !== undefined,
+    });
+    await sendMessage(token, chatId, {
+      text: "Привязка магазина на этом боте пока не настроена. Напишите в поддержку.",
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    });
+    return;
+  }
+
+  const outcome = await redeemLinkCode(config, code, chat, from);
+  log(outcome.status === "linked" ? "info" : "warn", "link.outcome", {
+    update_id: update.update_id,
+    chat_id: chatId,
+    status: outcome.status,
+  });
+
+  const sent = await sendMessage(token, chatId, {
+    text: escapeHtml(outcome.text),
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+  });
+  log("info", "link.reply.ok", { chat_id: chatId, message_id: sent.message_id });
 }
 
 async function main(): Promise<void> {

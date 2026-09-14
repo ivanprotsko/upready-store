@@ -14,9 +14,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 export type PaymentCapturedEmailProps = {
   order: {
@@ -44,6 +43,7 @@ export function PaymentCapturedEmail({
   order,
   locale = DEFAULT_EMAIL_LOCALE,
 }: PaymentCapturedEmailProps) {
+  const shop = useEmailShop();
   const { t, html, money } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
   const customerName = [
@@ -53,7 +53,7 @@ export function PaymentCapturedEmail({
     .filter(Boolean)
     .join(" ");
 
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const formatAmount = (amount: NumericValue) =>
     money(toNumber(amount), order.currency_code);
 
@@ -114,8 +114,8 @@ export function PaymentCapturedEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

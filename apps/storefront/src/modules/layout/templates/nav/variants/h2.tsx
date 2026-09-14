@@ -8,10 +8,9 @@ import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
-import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 
 const MAX_NAV_LINKS = 4
@@ -38,11 +37,12 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH2() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName, showJournal] = await Promise.all([
+  const [categories, regions, countryCode, siteName, locales, showJournal] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
     hasPublishedArticles(),
   ])
   const topLevelLinks = categories
@@ -105,7 +105,7 @@ export default async function NavH2() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

@@ -1,11 +1,10 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -37,12 +36,13 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode, siteName, showJournal] =
+  const [{ categories, totalCount }, regions, countryCode, siteName, locales, showJournal] =
     await Promise.all([
       listTopCategoriesWithCounts(),
       listRegions().then((regions: StoreRegion[]) => regions),
       getCountryCode(),
       getSiteName(),
+      getSwitcherLocales(),
       hasPublishedArticles(),
     ])
 
@@ -56,7 +56,7 @@ export default async function NavH6() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

@@ -13,11 +13,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STORE_ADDRESS,
-  STORE_EMAIL,
-  STORE_NAME,
-  STORE_PHONE,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 import * as s from "./lib/styles";
 
 type EmailLayoutProps = {
@@ -31,8 +28,9 @@ export function EmailLayout({
   children,
   locale = DEFAULT_EMAIL_LOCALE,
 }: EmailLayoutProps) {
+  const shop = useEmailShop();
   const { t, dir } = getEmailTranslator(locale);
-  const contactLine = [STORE_ADDRESS, STORE_EMAIL, STORE_PHONE]
+  const contactLine = [shop.address, shop.email, shop.phone]
     .filter(Boolean)
     .join(" · ");
 
@@ -43,7 +41,7 @@ export function EmailLayout({
       <Body style={s.body}>
         <Container style={{ ...s.container, direction: dir }}>
           <Section style={s.header}>
-            <Text style={s.brand}>{STORE_NAME}</Text>
+            <Text style={s.brand}>{shop.name}</Text>
           </Section>
 
           <Section style={s.content}>{children}</Section>

@@ -100,6 +100,28 @@ export const baseDomainOfHost = (host: string): string | null => {
 };
 
 /**
+ * The base domain that COVERS a host: the one it is a subdomain of, or the one
+ * it IS. `acme.localhost` and a bare `localhost` both answer `localhost`.
+ *
+ * `baseDomainOfHost` above answers only for `<label>.<base>`, which is right
+ * when the question is "whose technical subdomain is this". This one answers
+ * "which of our worlds does this address live in", and a deployment's own
+ * fallback address (`STOREFRONT_URL`) is exactly such a host: on the live
+ * multi-tenant deployment it is the base itself (`shipshift.dev`), on a stand
+ * it is `localhost:8041`. Used by `src/tenant-notifications/storefront-origin.ts`
+ * to pick the base a shop's subdomain is built on.
+ */
+export const baseDomainCovering = (host: string): string | null => {
+  for (const base of baseDomains()) {
+    if (host === base || host.endsWith(`.${base}`)) {
+      return base;
+    }
+  }
+
+  return null;
+};
+
+/**
  * The shop's MAIN public address: the custom domain its owner marked primary, or
  * the platform subdomain built from its handle. One source, and everything that
  * has to agree — `canonical`, `hreflang`, `sitemap`, `robots`, `JSON-LD`,
