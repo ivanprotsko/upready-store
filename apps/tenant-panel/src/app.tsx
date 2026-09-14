@@ -537,6 +537,30 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
+            // /pages: the list renders the Outlet, create/edit open as focus
+            // modals over it and return to the refreshed list on save.
+            path: "/shipping",
+            handle: { breadcrumb: () => t("app.nav.main.shipping", { defaultValue: "Доставка" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/shipping/shipping-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("./routes/shipping/shipping-create"),
+                  },
+                  {
+                    path: ":id/edit",
+                    lazy: () => import("./routes/shipping/shipping-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             // tenant-panel wave 2, piece 8 (home page settings): the panel's own
             // routes/home-settings screen (no Admin counterpart). One screen, no
             // children: the document is edited in place and saved with one

@@ -65,6 +65,9 @@ export function OrderCreateShipmentForm({
             })) || [],
         labels: [...addedLabels, ...(fulfillment?.labels || [])],
         no_notification: !data.send_notification,
+        // tenant-panel (t04-shipping-tariffs): the carrier name travels as
+        // metadata; the tenant route writes it onto the fulfillment.
+        ...(data.carrier?.trim() ? { metadata: { carrier: data.carrier.trim() } } : {}),
       },
       {
         onSuccess: () => {
@@ -95,6 +98,29 @@ export function OrderCreateShipmentForm({
                     {t("orders.shipment.title")}
                   </Heading>
 
+                  {/* tenant-panel (t04-shipping-tariffs): carrier as free text,
+                      shown to the customer in front of the tracking number. */}
+                  <Form.Field
+                    control={form.control}
+                    name="carrier"
+                    render={({ field }) => (
+                      <Form.Item className="mb-4">
+                        <Form.Label optional>
+                          {t("orders.shipment.carrier", { defaultValue: "Перевозчик" })}
+                        </Form.Label>
+                        <Form.Control>
+                          <Input
+                            {...field}
+                            value={field.value ?? ""}
+                            placeholder={t("orders.shipment.carrierPlaceholder", {
+                              defaultValue: "СДЭК, Почта России, Boxberry…",
+                            })}
+                          />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
                   <div className="flex flex-col max-md:gap-y-2 max-md:divide-y">
                     {labels.map((label, index) => (
                       <div
