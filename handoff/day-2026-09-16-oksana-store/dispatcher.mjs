@@ -99,6 +99,12 @@ function checkBuild(cfg, state, t) {
   const term = L.liveAgentTerminal(s.ws, s.terminalId);
   if (term) {
     s.terminalId = term.terminalId;
+    // Двойня агентов в одном workspace (t14: два claude с одним брифом с разницей 4 с в одном worktree) —
+    // лишних живых агентов закрываем, владелец задачи — терминал из state.
+    for (const x of L.wsTerminals(s.ws)) {
+      if (x.exited || x.terminalId === term.terminalId || !L.agentAliveOnScreen(s.ws, x.terminalId)) continue;
+      L.terminalClose(s.ws, x.terminalId); L.event(state, { task: t.id, type: 'dup-agent-closed', msg: `${x.terminalId} (${x.title || ''}) — второй живой агент в workspace, владелец ${term.terminalId}` });
+    }
     const screen = L.terminalRead(s.ws, term.terminalId, 40);
     s.lastScreen = screen.slice(-800); s.lastScreenAt = L.nowIso();
     if (L.LIMIT_RE.test(screen)) {
