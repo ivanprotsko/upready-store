@@ -135,7 +135,8 @@ function checkAccepting(cfg, state, t) {
   const s = state.tasks[t.id]; const a = s.acceptance.at(-1);
   if (L.pidAlive(a.pid)) { if (L.minutesSince(a.startedAt) > (cfg.acceptor?.maxMin || 90)) { try { process.kill(a.pid, 'SIGTERM'); } catch { } a.verdict = 'TIMEOUT'; } else return; }
   const tail = L.tailFile(a.log, 300);
-  const m = tail.match(/VERDICT:\s*(MERGED|REJECTED|BLOCKED)/g); const verdict = m ? m[m.length - 1].split(/\s+/)[1] : (a.verdict || 'NONE');
+  const m = tail.match(/VERDICT:\s*(MERGED|REJECTED|BLOCKED)/g); let verdict = m ? m[m.length - 1].split(/\s+/)[1] : (a.verdict || 'NONE');
+  if (verdict === 'NONE' && fs.existsSync(a.findings) && fs.statSync(a.findings).size > 50) { verdict = 'REJECTED'; L.event(state, { task: t.id, type: 'verdict-by-findings-file', msg: 'VERDICT не напечатан, но есть файл замечаний' }); }
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
   const pr = L.prView(cfg, s.pr.number);  // истина — GitHub, не текст приёмщика (17a)
   if (pr?.state === 'MERGED') { s.status = 'merged'; s.pr.mergedAt = pr.mergedAt; s.pr.state = 'MERGED'; s.finishedAt = L.nowIso(); a.verdict = 'MERGED'; L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
@@ -154,6 +155,7 @@ function checkRun(cfg, state, t) {
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
   if (!last && L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'queued'; s.attempt = Math.max(0, s.attempt - 1); L.event(state, { task: t.id, type: 'run-limit', msg: 'лимит — вернул в очередь' }); return; }
   let ok = !!last && /RESULT:\s*OK/.test(last);
+  if (!last && /✓ safe to \/clear/.test(tail) && /ARTIFACT:|file:\/\//.test(tail)) { ok = true; s.note = 'финал по маркеру auto-save (✓ safe to /clear) — RESULT не напечатан'; L.event(state, { task: t.id, type: 'result-by-autosave-marker', msg: 'RESULT отсутствует, принят по ✓ safe to /clear + артефакты' }); }
   if (ok && t.doneCheck?.url) {
     const rr = L.sh('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}', '--max-time', '30', '-L', t.doneCheck.url]);
     if (rr.out.trim() !== String(t.doneCheck.expect || 200)) { ok = false; s.error = `doneCheck ${t.doneCheck.url} → ${rr.out.trim() || 'нет ответа'}`; }
