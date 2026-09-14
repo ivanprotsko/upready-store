@@ -151,6 +151,7 @@ import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PutTenantPaymentSettingsSchema,
   PostTenantHandleSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
@@ -170,6 +171,9 @@ import {
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
+import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
 
 /**
  * `/tenants/*` is the tenant admin's own namespace, next to `/admin` (staff)
@@ -245,6 +249,29 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The shop's payment account (t03-tenant-secrets-robokassa).
+      matcher: "/tenants/payment-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // Robokassa needs the SERVER's word on which shop the cart belongs to;
+      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      matcher: "/store/payment-collections/:id/payment-sessions",
+      method: ["POST"],
+      middlewares: [injectRobokassaTenant],
+    },
+    {
+      // The shadowing route in `src/api/store/payment-providers/route.ts`
+      // reads `req.filterableFields` and `req.queryConfig` the way the core
+      // route does, so it is parsed by the core's own validator and config.
+      matcher: "/store/payment-providers",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetPaymentProvidersParams, listTransformPaymentProvidersQueryConfig),
+      ],
     },
     {
       // The starter catalog for an empty shop (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4).

@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "De betaling wordt nog bevestigd. Wacht een minuut en open je bestelling in je account, of probeer het opnieuw.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -642,6 +643,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betalen",
+    "redirectUnavailable": "De betaalpagina is nog niet beschikbaar. Probeer het zo opnieuw.",
     "selectPaymentMethod": "Selecteer een betaalmethode"
   },
   "PaymentContainer": {
@@ -657,6 +659,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Creditcard",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Creditcard",

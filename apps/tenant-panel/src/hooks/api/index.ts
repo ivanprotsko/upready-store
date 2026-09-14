@@ -48,3 +48,4 @@ export * from "./promotions"
 export * from "./campaigns"
 // tenant-panel: added by wave 2, piece 8 (home page document).
 export * from "./home"
+export * from "./payment-settings"

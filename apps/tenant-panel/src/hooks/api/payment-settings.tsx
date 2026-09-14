@@ -1,0 +1,104 @@
+import { FetchError } from "@medusajs/js-sdk"
+import {
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
+import { sdk } from "../../lib/client"
+import { queryClient } from "../../lib/query-client"
+import { queryKeysFactory } from "../../lib/query-key-factory"
+
+// The shop's payment account (t03-tenant-secrets-robokassa): the panel's own
+// hook, no Admin counterpart. Reads `/tenants/payment-settings`; every secret
+// arrives masked as `{ set, last4 }` and the value never reaches the browser.
+
+export type MaskedSecret = { set: boolean; last4: string | null }
+
+export type RobokassaHashAlgorithm = "md5" | "sha256" | "sha384" | "sha512"
+
+export type PaymentSettings = {
+  id: string
+  provider: "robokassa"
+  is_test: boolean
+  is_enabled: boolean
+  merchant_login: string
+  hash_algorithm: RobokassaHashAlgorithm
+  password1: MaskedSecret
+  password2: MaskedSecret
+  test_password1: MaskedSecret
+  test_password2: MaskedSecret
+}
+
+export type PaymentSettingsResponse = {
+  /** `null` until the owner saves an account. */
+  settings: PaymentSettings | null
+  /** What to paste into Robokassa's «Result URL» field. */
+  result_url: string
+  providers: Array<{ id: "robokassa"; title: string }>
+}
+
+export type PutPaymentSettingsBody = {
+  provider: "robokassa"
+  merchant_login: string
+  hash_algorithm?: RobokassaHashAlgorithm
+  is_test?: boolean
+  is_enabled?: boolean
+  /** Left out or empty: the stored value stays. */
+  password1?: string
+  password2?: string
+  test_password1?: string
+  test_password2?: string
+}
+
+const PAYMENT_SETTINGS_QUERY_KEY = "payment-settings" as const
+export const paymentSettingsQueryKeys = queryKeysFactory(PAYMENT_SETTINGS_QUERY_KEY)
+
+export const usePaymentSettings = (
+  options?: Omit<
+    UseQueryOptions<PaymentSettingsResponse, FetchError, PaymentSettingsResponse, QueryKey>,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryKey: paymentSettingsQueryKeys.details(),
+    queryFn: () => sdk.client.fetch<PaymentSettingsResponse>("/tenants/payment-settings"),
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}
+
+export const useUpdatePaymentSettings = (
+  options?: UseMutationOptions<PaymentSettingsResponse, FetchError, PutPaymentSettingsBody>
+) => {
+  return useMutation({
+    mutationFn: (payload) =>
+      sdk.client.fetch<PaymentSettingsResponse>("/tenants/payment-settings", {
+        method: "PUT",
+        body: payload,
+      }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: paymentSettingsQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+export const useDeletePaymentSettings = (
+  options?: UseMutationOptions<{ deleted: boolean }, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<{ deleted: boolean }>("/tenants/payment-settings", {
+        method: "DELETE",
+      }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: paymentSettingsQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}

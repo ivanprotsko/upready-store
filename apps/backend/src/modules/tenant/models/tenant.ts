@@ -3,6 +3,7 @@ import TenantAdmin from "./tenant-admin";
 import TenantDomain from "./tenant-domain";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
+import TenantIntegrationSecret from "./tenant-integration-secret";
 import TenantPage from "./tenant-page";
 
 /**
@@ -42,6 +43,11 @@ const Tenant = model.define("tenant", {
   // Every handle this shop has ever answered on, kept for the 301s and reserved
   // for good (`tenant-handle-alias.ts`, specs/tenant-address/CANONICAL.md §1.2).
   handle_aliases: model.hasMany(() => TenantHandleAlias, {
+    mappedBy: "tenant",
+  }),
+  // Credentials of the shop's own third-party accounts, encrypted at rest
+  // (`tenant-integration-secret.ts`, t03-tenant-secrets-robokassa).
+  integration_secrets: model.hasMany(() => TenantIntegrationSecret, {
     mappedBy: "tenant",
   }),
 });

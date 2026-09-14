@@ -559,6 +559,16 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
           },
+          {
+            // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
+            // payment account, stored encrypted per tenant. No Admin
+            // counterpart — the Admin configures providers in medusa-config
+            // for the one store it serves.
+            path: "/settings/payments",
+            handle: { breadcrumb: () => t("paymentSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/payments"),
+          },
         ],
       },
     ],
