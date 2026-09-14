@@ -1,0 +1,130 @@
+User Agreement with a Follower
+This document was last updated on December 23, 2025
+This User Agreement (the "Agreement") is a legally binding agreement between TRBT Limited (the "Company, "we, "our") and You (the "User", "you", "your") that sets out the terms of use for the Company&#x27;s software and services, collectively referred to as the "Service".
+PLEASE READ THIS USER AGREEMENT CAREFULLY. BY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD AND FULLY AGREE TO ALL THE TERMS OF THIS AGREEMENT. YOU MAY NOT USE THE SERVICE IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT.
+By using the Service, you agree that you have read, understand and unconditionally accept all the terms of this Agreement. If you do not agree to any provision of this Agreement, or you believe that any provision of this Agreement infringes on your rights, or in any other way puts you at a disadvantage, then you must immediately stop any use of the Service.
+We constantly strive to improve our Service by providing you with new features and capabilities, so we may make changes to this Agreement from time to time. At the same time, we recommend that you periodically check the date of the last update of this Agreement, indicated at the top of it, and, if it is updated, get acquainted with the new version of the Agreement.
+We may change any part of the Agreement, especially in the following cases:
+to reflect changes in laws and regulatory requirements that apply to Service and Service services, functions and programs, if such changes require that Service to change its terms;
+to eliminate the unforeseen and imminent danger associated with protecting Service, Creators or Followers from fraud, malware, spam, data leakage or other cybersecurity risks;
+As soon as any updated Agreement take effect, you will be required to comply with them if you continue to use Service.
+General. You agree that:
+If any aspect of your agreement with us is unenforceable, the rest will remain in effect.
+If we fail to enforce any aspect of your agreement with us, it will not be a waiver of rights;
+We reserve all rights not hereby expressly granted to you.
+You may not transfer your rights or obligations under the agreement with us without our prior written consent.
+Terms of use of the Service
+We grant you a limited, non-exclusive, non-transferable license to access and use the Service. All rights to the Service, including software rights, are the Exclusive property of the Company. You agree that you will not copy, transmit, distribute, sell, license, reverse engineer, modify, publish or participate in the transfer or sale, create derivative works based on our Service or its component parts, or otherwise use the software except for the purpose of using the Service.
+Except for specific services that may carry their own charges, the general use of the Service is provided to you free of charge. However, we reserve the right to introduce fees for the use of the Service, or to apply additional fees to particular features or services, at any time.
+Eligibility
+By using the Service, you confirm that you have reached the required age in accordance with your personal law, and that you have all the necessary powers and permissions for such use. If you are prohibited by your personal law from using our Service, you must refuse to use the Service, otherwise you and only you will be solely responsible for using the Service in violation of the requirements of your personal law.
+Your role in the Service
+All users of the Service are divided into two groups: Creators and Followers. By accepting the terms of this Agreement, you will start using the Service as a Follower. However, this does not prevent you from also using the Service as a Creator by entering into a corresponding agreement with the Company.
+Followers are users of the Service who view the Creators&#x27; digital content. The Service provides Followers with the opportunity to buy access to the content of Creators and/or financially support Creators they like – to give them money free of charge in a form of a gratuitous gift of funds.
+The relationship between a Follower and Creator
+A Follower&#x27;s gift of money to a Creator or buying a Follower access to digital content or Goods is a deal. All deals are made directly between a Creator and a Follower. Creators and Followers independently determine the terms and conditions of the deal, how the deal will be executed, and how the deal will be changed and terminated. Before entering the deal, you must ensure that it is legal and meets the requirements of your personal law.
+In the case of a change in an already concluded deal (change of a condition, a party to an obligation, etc.), you confirm that such changes are legal and made in accordance with the requirements of your personal law. If you do not agree with the contents of the deal or any changes made to it, you must repudiate the deal yourself and terminate it in accordance with the terms of the deal and applicable law.
+PLEASE NOTE! The Company does not participate in deals between a Creators and a Followers, does not determine their terms, does not monitor their proper execution, and is not responsible for their legality for both a Creator and a Follower. By using the Service, you confirm that you and only you are solely responsible for the legality and acceptability of your deal.
+At the same time, we reserve the right to verify the reality of the deals concluded between you and a Creator, including to demand the provision of the terms of the concluded deals, as well as to confirm the fact of the provision of execution for these deals. If you are unable to confirm the reality of the deals you have made, we will consider your use of the Service as fraudulent.
+Financial support for a Creator
+You can choose the amount of money that you want to give to the corresponding Creator. Minimum gift size: 1 EUR (if the gift size is lower, the fee of payment providers will eat up all the money, and a Creator will not receive anything). Maximum gift value: 2,000 EUR. You can choose the frequency of payment &#8212; it can be a one-time payment or a regular one.
+Financial support of a Creator is provided by a Follower&#x27;s transfer of funds to the Company. To transfer funds, you must choose one of the payment methods available in the Service.
+By providing financial support to a Creator, you acknowledge and agree that all your payments to a Creator are final and non-refundable. If you decide to request a refund despite this condition, you must contact the Company directly to resolve this issue.
+If we become aware that you are requesting a refund without contacting the Company, we reserve the right to immediately and unilaterally terminate any of your use of the Service.
+You agree that you will not make unreasonable refund requests in relation to any Followers/Creator Transaction, or unreasonable requests for a refund from your payment card provider in relation to any Followers/Creator Transaction. If we believe that any refund request has been made by you in bad faith, we have the right to suspend or delete your user account.
+You agree that Service fulfills its obligations at the moment when it provides the user with access to content by subscription.
+Remember that the financial support of a Creator is a gift of money, which means it is a gratuitous deal, i.e., a transaction that does not involve any counter-provision. A Creator who has received financial support from you does not become obligated to you in any way. You do not have the right to require a Creator to perform any actions.
+Purchase access to digital content
+Each Creator independently sets the cost of access to their digital content. The cost may depend on the amount of access provided (for example: part of digital content or all digital content), the period of access (for example: "1 week", "1 month", "1 year", "forever"), the frequency of payment (for example: "one-time payment", "regular payment"), etc.
+The minimum cost of access to digital content that can be sold through the Service is 1 EUR (if the cost is lower than this amount, the commission of payment providers will eat up all the money, and the Creator will not receive anything). The maximum cost of access to digital content that can be sold through the Service is 1,000 EUR.
+Purchase of Goods
+The Service may allow Followers to purchase physical goods, including merchandise (the " Goods "), offered for sale by Creators. For any Goods purchased through the Service:
+Company does not manufacture, stock, or ship any Goods. All Goods are manufactured, stocked and shipped by Creators or their third-party fulfillment partners.
+Followers must review all information provided by Creators about Goods, including descriptions, pricing, shipping times and costs, before making a purchase. The Company is not responsible for the accuracy or completeness of Goods listings.
+Followers acknowledge that Company does not guarantee the quality, safety, or legality of Goods sold through the Service.
+For all dispute matters related to Goods orders, including refunds, shipment, etc., Followers can contact Creator via Company&#x27;s support team.
+Creators are solely responsible for shipping Goods to Followers within the timeframe specified in their product listings. The Company does not guarantee delivery times and is not responsible for any delays, lost packages, or damages that occur during shipping. Followers can contact the Creator via the Company’s support team with any shipping-related inquiries or issues.
+Policies for returns and refunds are set by individual Creators. Followers should review these policies before making a purchase.
+Followers may not purchase Goods if they are subject to sanctions consistent with applicable laws. Followers must comply with all applicable export and re-export restrictions that may apply to Goods.
+The sale, purchase, or shipment of goods that violate applicable sanctions, export controls, or other laws is strictly prohibited.
+Payment frequency
+The Service allows you to choose the frequency of payments &#8212; these can be one-time payments or regular payments. The choice of payment frequency is available both for financial support and for purchasing access to digital content.
+PLEASE NOTE that If you choose periodic payments, you agree that every month on the date of your first payment (or on the nearest business day), the same amount of payment that you paid for the first time will be deducted from your payment method without acceptance. Periodic payments will occur until you cancel them yourself by sending a relevant message through the Service.
+The Company&#x27;s role in the Service
+The Company is a payment agent authorized by Creators to perform all necessary actions in their interests to collect funds received from Followers to Creators, including entering into appropriate agreements with payment providers, processing requests for refunds, etc.
+From the moment the Company receives a Follower&#x27;s funds, a Follower&#x27;s obligations to transfer funds to a Creator within the framework of the relevant deal are considered to be duly fulfilled.
+Company&#x27;s attitude to Creators&#x27; digital content or Goods
+THE COMPANY HAS NOTHING TO DO WITH A CREATORS&#x27; DIGITAL CONTENT OR GOODS.
+The Company does not control the content of a Creators&#x27; digital content and their Goods, including that digital content or Goods are:
+do not violate the terms of Service;
+do not violate applicable laws, the personal laws of a Follower and/or a Creator;
+do not violate the rights of third parties (copyright, exclusive rights, rights to means of individualization, etc.);
+do not discriminate on the basis of gender, sexual orientation, race, color, nationality, language, origin, attitude to religion or other beliefs;
+do not contain propaganda of certain political beliefs, as well as negative or critical statements about politics;
+do not call for violence, extremist activities, overthrow of the existing government or other establishments, use or distribution of narcotic and psychotropic substances and other activities prohibited by applicable law;
+do not have a slanderous, insulting or discrediting character;
+do not intended to arouse sexual feelings or justify sexual behavior towards underage human children.
+We ask you to inform us about Creators whose digital content you believe violates the terms of Service. We endeavor to consider each of your requests and take appropriate measures, up to the complete blocking of a Creator&#x27;s ability to use the Service. We hope to see you. Together, we will make our Service safe.
+Prohibited use
+We strive to ensure that the Service is convenient and used by as many Users as possible, but there are areas of the possible use of the Service in which we would not want to participate for moral, ethical or other reasons.
+We strictly prohibit using the Service to buy, sell, distribute, or pay for:
+Any criminal activity:
+Incitement, solicitation or promotion of Hate/Violence/Racism/Religious persecution;
+Encouragement, promotion, facilitation or instructing others to engage in illegal activity, fraud or the sale of dangerous or hazardous goods;
+Encouragement, promotion and sale of prohibited goods and services:
+Drugs / Illicit substances, steroids etc., and related drug paraphernalia;
+Weapons, firearms and ammunition;
+Cigarettes and any tobacco products;
+Medications, dietary supplements;
+Government ID’s or documents;
+Stolen goods including digital and virtual goods;
+Calling cards;
+Fraudulent / deceptive marketing practices;
+High Risk File hosting / sharing and cyberlockers;
+Any form of high yield ﬁnancial investments and get rich quick schemes:
+Pyramid or Ponzi schemes, matrix programs;
+Online trading services;
+Gambling business (casinos), betting, wagering on the Internet;
+Penny and Reverse Auctions.
+Any form of violation of intellectual property rights:
+Infringe any duly registered copyrights/trademarks or other violation of intellectual property rights;
+Distribution of music, video, software and other products with no license issued of by copyright holder / authorized organization;
+Distribution of counterfeits, distribution of products without any certificates.
+Any other goods that are prohibited or restricted by applicable law and/or the Personal law of a Creator or Follower.
+We reserve the right, at our sole discretion, to terminate our agreement and your access to Service for any reason. We may also suspend access to your user account or terminate your agreement with us and your access to Service immediately and without prior notice:
+if we believe that you have seriously or repeatedly violated any part of the Terms or if you attempt or threaten to violate any part of the Terms in a way that could have serious consequences for us or another User;
+if you take any action that, in our opinion, has caused or may cause us to suffer losses, or otherwise damage the reputation of Service.
+We strictly prohibit using the Service exclusively for the purpose of exchanging currencies or transferring funds between your own accounts. If such activity is detected, the User&#x27;s account and transactions may be blocked
+Taxes
+You are solely responsible for determining whether any taxes apply to payments that you make using the Service, as well as for withholding, collecting, reporting, and transferring the correct amounts of taxes in accordance with your personal tax laws.
+As is
+The Service is provided on an "as is" basis. The Company does not provide any express or implied warranties with respect to the Service, including, but not limited to, guarantees that: the Service and its functionality meet your requirements and/or expectations, the use of the Service will increase your profit, the Service will operate continuously, quickly, reliably and without errors; the results that can be obtained using the Service will be accurate and error-free; all errors in the Service will be corrected immediately.
+We make commercially reasonable efforts to ensure the operation of the Service around the clock, but we cannot guarantee that there will be no interruptions due to technical failures, or maintenance work, and we cannot guarantee the full and error-free operation of the Service.
+We can update and change Service for any reason, as well as change the design of the Service, its content, functionality, modify or supplement the scripts, software and other objects used or stored on Service, any server applications at any time with or without prior notification. We do not guarantee that Service or any of its Content will always be available or available without interruption. We may suspend, revoke or restrict the availability of all or any part of the Service for business or operational reasons.
+LIMITATION OF LIABILITY
+YOU CLEARLY UNDERSTAND AND AGREE THAT THE COMPANY AND ITS RESPECTIVE OFFICERS (EMPLOYEES AND REPRESENTATIVES) WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY DAMAGES OR LOST PROFITS THAT RESULT FROM THE USE OR INABILITY TO USE THE SERVICE. YOU UNDERSTAND AND AGREE THAT UNDER ANY CIRCUMSTANCES, THE COMPANY&#x27;S LIABILITY TO YOU WILL BE LIMITED TO THE AMOUNT OF 50 EUR AND CAN ONLY BE IMPOSED ON THE COMPANY ON THE BASIS OF AN EFFECTIVE COURT DECISION.
+Indemnification
+You agree to indemnify, defend, and hold harmless the Company and its representatives (directors and employees) from any claims, liabilities, damages, judgments, costs, expenses, or fees (including reasonable attorneys&#x27; fees) arising out of your use of the Service, including your violation of this Agreement.
+Force majeure
+The Company shall not be liable for any delay or failure to perform its obligations under this Agreement to the extent such delay or failure is caused by a Force Majeure Event, meaning any event or circumstance beyond the reasonable control of the affected party that directly prevents or materially impairs the performance of its obligations, including natural disasters, acts of terrorism, civil unrest, strikes or other labour disputes not involving the affected party’s workforce, epidemics or pandemics, acts of government or public authorities, interruption or failure of utilities, telecommunications or transportation systems, and war, armed conflict, hostilities or military actions only to the extent they directly affect the affected party’s ability to perform under this Agreement.
+Survival
+If any provision of this Agreement is found to be invalid or unenforceable under applicable law, such provision will be modified and interpreted to achieve the purposes of the provision to the greatest extent possible, and the validity and applicability of any other provision of this Agreement will not be affected.
+Assignment and Novation
+You agree and acknowledge that the Company may assign, novate, transfer, mortgage, charge, sub-contract, declare a trust over or deal in any other manner with any or all of its rights and obligations under this Agreement (or any other document referred to in it) to a third party without your prior written consent or prior notice to you. The Company will notify you on any assignment, novation, transfer, mortgage, charge, sub-contract, trust or other dealings as soon as practicable following such events. You further agree that your: a) continuation to use Services, and b) actions, behaviors and other circumstances during the provision of Services following the corresponding notice will constitute your implied consent.
+Third-party services
+The Service may contain references or links to third-party services or resources, including information, materials, products, that we do not own or control. These services are provided by third parties and their use is governed by separate agreements. Any use of third-party services is at your own risk, and we do not accept any responsibility for the consequences of such use.
+External links
+The Service may contain links to third-party websites that we are not owned or controlled. These links are placed in the Service solely for your convenience and any use of these links should be carried out by you at your own risk.
+You should understand that the placement of such links in the Service does not mean that we know the content and approve the content posted on such links. We disclaim any liability in relation to your use of such links.
+Applicable law
+This Agreement is governed by the applicable laws of Cyprus. All and any disputes under this Agreement shall be settled exclusively in the courts of Cyprus.
+Privacy
+The collection, processing and use of personal data provided by you in connection with the use of the Service are carried out by the Company in accordance with the Privacy policy.
+Notifications
+The Company and the User hereby agree that any emails, notifications, requests, and documents transmitted to each other through the Service will be considered properly sent and received.
+Contact us
+If you have any suggestions, feedback, questions or complaints, you can send a corresponding message to our support team via the Service. Please include your name and any other information that will help us identify you in our Service.
+Company information
+TRBT Limited
+Registration number: HE 443898
+Address: Griva Digeni, 51 ATHINEON COURT, Flat/Office 202 8047, Paphos, Cyprus

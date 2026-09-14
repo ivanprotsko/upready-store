@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-14",
+  "index": 11,
+  "action": "status-set",
+  "ts": "2026-09-14T10:15:17+08:00",
+  "status": "2026-09-14 10:15 WITA: ночная миссия tribute поставлена — handoff/night-2026-09-14-tribute/{MISSION,PROGRESS}.md, раннер run.sh с cron 11:08 + watchdog */20 12-18, caffeinate 9 ч; оркестратор стартует сам после обновления лимита"
+}
