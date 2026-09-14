@@ -537,16 +537,31 @@
       "successToast": "Клиент {{email}} успешно удален.",
       "title": "Удалить клиента"
     },
+    "detail": {
+      "addressesHeading": "Адреса",
+      "noAddresses": "У этого клиента нет сохранённых адресов.",
+      "noOrders": "У этого клиента ещё нет заказов."
+    },
     "domain": "Клиенты",
     "edit": {
       "emailDisabledTooltip": "Email нельзя изменить для зарегистрированных клиентов.",
       "header": "Редактировать клиента",
       "successToast": "Клиент {{email}} успешно обновлен."
     },
+    "export": {
+      "success": {
+        "description_few": "Файл содержит {{count}} клиентов.",
+        "description_many": "Файл содержит {{count}} клиентов.",
+        "description_one": "Файл содержит {{count}} клиента.",
+        "description_other": "Файл содержит {{count}} клиентов.",
+        "title": "CSV готов"
+      }
+    },
     "fields": {
       "groups": "Группы",
       "guest": "Гость",
-      "registered": "Зарегистрирован"
+      "registered": "Зарегистрирован",
+      "totalSpent": "Сумма покупок"
     },
     "groups": {
       "add": {
