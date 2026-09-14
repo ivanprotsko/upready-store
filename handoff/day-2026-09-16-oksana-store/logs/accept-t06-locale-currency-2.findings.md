@@ -1,59 +1,111 @@
-# Приёмка PR #26 · t06-locale-currency · раунд 2 — ПРОМЕЖУТОЧНОЕ СОСТОЯНИЕ
+# Приёмка PR #26 · t06-locale-currency · раунд 2 — MERGED
 
-Приёмщик: headless `claude -p`, главный чекаут `dev`. Промпт диспетчера пришёл 2026-09-15 05:12 WITA.
-PR: https://github.com/ivanprotsko/upready-store/pull/26 · ветка `feat/day16-locale-currency` · база `dev`.
+Отчёт составлен 2026-09-15 05:43 WITA. Приёмщик: headless-сессия в главном чекауте (ветка dev, кода здесь не коммитил).
+PR: https://github.com/ivanprotsko/upready-store/pull/26 · ветка `feat/day16-locale-currency` → `dev`.
+Итог: **MERGED** — `gh pr merge 26 --squash`, merge-коммит `3e5519bb042ca60658f1e9fe5ae31efa7b7852bf`, `mergedAt=2026-09-14T21:42:15Z` (леджер — GitHub).
 
-## Гонка с воркером (это НЕ находка против воркера)
+## Гонка с воркером в начале раунда (не находка)
 
-Раунд 2 приёмки запущен ОДНОВРЕМЕННО с началом ребейза, который потребовал раунд 1.
+Раунд 2 приёмки был запущен, пока воркер ещё делал ребейз, которого потребовал раунд 1:
+на 05:13 `origin/feat/day16-locale-currency` стоял на `efebc40` (как в раунде 1), PR — `CONFLICTING`/`DIRTY`,
+а в worktree лежал незавершённый мерж (`MERGE_HEAD` = `b2453fb` = `origin/dev`, mtime 05:11).
+Приёмщик дождался пуша (`65790ba`, 05:15:21) и мерил уже его.
 
-| Что | Замер |
-|---|---|
-| `git ls-remote origin refs/heads/feat/day16-locale-currency` (05:13:17) | `efebc4048a4a2e53644c36c6fff8099f2d4984ae` — не изменился с раунда 1 |
-| `gh pr view 26 --json mergeable,mergeStateStatus,updatedAt` | `CONFLICTING` / `DIRTY` / `2026-09-14T21:05:37Z` |
-| `.git/worktrees/day16-locale-currency/MERGE_HEAD` | `b2453fb2140ff8c8947d229e06cf9a13934a7da6` (== `origin/dev`), mtime 05:11 |
-| `git diff --name-only --diff-filter=U` в worktree (05:13) | пусто — все 5 конфликтов уже разрешены в индексе, коммита ещё нет |
-| `git rev-list --left-right --count origin/dev...HEAD` | 5 / 5 |
+Склейка конфликтов проверена поимённо — обе стороны сохранены во всех четырёх компиляционных местах:
+`tenant.ts` (`TenantIntegrationSecret` + `TenantLocaleSettings`), `service.ts` (обе модели в `MedusaService`),
+`app.tsx` (`/settings/locale` и `/settings/payments` — два отдельных маршрута), `home.tsx` (обе ссылки).
 
-Конфликтовавшие файлы (те же, что в раунде 1, плюс журнал): `HANDOFF.json`,
-`apps/backend/src/modules/tenant/models/tenant.ts`, `apps/backend/src/modules/tenant/service.ts`,
-`apps/tenant-panel/src/app.tsx`, `apps/tenant-panel/src/routes/home/home.tsx`.
+## Стенд (поднят приёмщиком с нуля)
 
-Прогоны проверок в worktree приёмщиком НЕ запускались: дерево в середине мержа, любой `tsc`/`pnpm test`
-там замерял бы промежуточное состояние, а не то, что уедет в PR (18f).
+- БД `upready_store_t06acc` на localhost:5433, `npx medusa db:migrate` + `pnpm seed` + `seed-tenants.ts` — rc=0.
+  Настоящий потребитель адреса БД — `DATABASE_URL` (`apps/backend/medusa-config.ts:97`); `DB_PORT` бэкендом не читается
+  (тестовый харнесс, наоборот, читает `DB_*`) — первый прогон на этом и упал, форма исправлена.
+- backend `medusa develop` на :9261 (`medusa start` требует прод-сборки), витрина `next dev -p 8161`
+  с **build-дефолтом `STOREFRONT_DEFAULT_LOCALE=en`** — это и делает замер дефолта тенанта дисположительным,
+  панель `vite --port 5281`.
+- Два тенанта в ОДНОМ процессе витрины: `acme` (default `ru`, enabled `[ru,en]`, country `ru`),
+  `globex` (default `en`, enabled `[en]`, country `us`) — выставлены через `PUT /tenants/locale-settings`.
 
-## Ревью запушенного кода (`origin/dev...origin/feat/day16-locale-currency`) — стоп-факторов нет
+## Критерии приёмки — измерено
 
-- Миграция `apps/backend/src/modules/tenant/migrations/Migration20260915042009.ts` аддитивная:
-  `create table if not exists "tenant_locale_settings"` + два партиальных индекса + FK на `tenant`;
-  `down` дропает только свою таблицу. Существующих таблиц не касается, бэкап не требуется.
-- Секретов в дифе нет. Удалений файлов нет. Protected-infra не затронута. Деплоя в дифе нет.
-- Env-переменные `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP` сохранены как fallback
-  для запроса, не разрешившего тенанта (`resolve.ts` возвращает `locale: null`, `middleware.ts` идёт
-  прежней веткой) — «What NOT to do» соблюдено.
-- `_medusa_locale` в решение о редиректе НЕ введён: решает `_medusa_locale_choice`, затем
-  `matchBrowserLocale(accept-language, {allowed: enabled_locales, preferred: [default_locale]})`,
-  затем `default_locale` тенанта.
-- Пересчёта курсов нет: `default_country` задаёт регион (`tenantLocaleCountryMap`), цены берутся
-  существующие.
-- Каталог 36 локалей не урезан, `messages/` не тронут.
-- Панель `routes/settings/locale/locale.tsx` следует 19h: `touchedRef` + третье состояние `loaded` +
-  `disabled={!loaded}` на всех трёх контролах.
-- Валидаторы: `enabled_locales` непустой, без повторов, обязан содержать `default_locale` (zod `.refine`).
-- Backfill `src/scripts/backfill-tenant-locale-settings.ts` идемпотентен по построению: строит
-  `covered` из `listTenantLocaleSettings({})` и пропускает покрытых; `dry-run` поддержан.
+| Критерий | Замер | Итог |
+|---|---|---|
+| Два тенанта с разными дефолтами из одного процесса витрины | `curl -I acme.localhost:8161/` → **302 → /ru**, `_medusa_country=ru`, `x-geo-source: locale`; `globex.localhost:8161/` → **302 → /en**, `_medusa_country=us` | ✅ |
+| Дефолт тенанта побеждает build-дефолт | build-дефолт стенда `en`, acme всё равно открывается на `/ru` | ✅ |
+| `Accept-Language: de` на русском магазине → `/ru` | `302 → /ru` (de не входит в enabled `[ru,en]`) | ✅ |
+| Браузерный язык из enabled уважается | `Accept-Language: en` на acme → `302 → /en` | ✅ |
+| Язык вне enabled у второго магазина | `Accept-Language: ru` на globex (`[en]`) → `302 → /en` | ✅ |
+| Переключатель показывает только включённые языки | В диалоге «Смена региона» колонка «Язык» = ровно `[en, ru]` у acme и ровно `[en]` у globex (селектор `id^="region-language-"`; глазами по скриншотам `acme-switcher-open.png`, `globex-switcher-open.png`) | ✅ |
+| Валюта магазина | триггер переключателя acme — «RU» + **«₽»**, globex — «EN» + **«$»**; регион выбран из `default_country` тенанта (`x-geo-provider: locale-map`) | ✅ (см. «Что НЕ удалось измерить») |
+| Cookie-выбор посетителя побеждает дефолт | `_medusa_locale_choice=en` на acme → `302 → /en` | ✅ |
+| Cookie вне enabled игнорируется | `_medusa_locale_choice=de` на acme → `/ru`; `=ru` на globex → `/en` | ✅ |
+| `_medusa_locale` не решает редирект | `-b "_medusa_locale=de"` на acme → `/ru` | ✅ |
+| Fallback на env без тенанта | `curl -I localhost:8161/` → `302 → /en` (build-дефолт), `by-host` до сохранения настроек отдавал `locale: null` | ✅ |
+| Storefront unit + `i18n/config.test.ts` | `pnpm test` → **Test Files 13 passed (13), Tests 134 passed (134)** | ✅ |
+| Бэкфилл дважды ничего не меняет | dry-run: «1 would be patched», строк в таблице после него **1** (не записал); real: «1 patched»; повтор: «**0 patched, 2 left alone**»; строка acme не тронута (`updated_at` тот же, `default_country=ru` сохранён) | ✅ |
+| Экран панели «Язык и валюта» | `/settings/locale` под `admin@acme.test` открывается, подхватывает сохранённое (чипы «Русский (ru)», «English (en)», дефолт «Русский (ru)», «Russian Federation»), селект дефолта предлагает ровно два включённых языка; скриншоты `panel-02-locale-loaded.png`, `panel-03-default-locale-open.png` | ✅ |
 
-## Что осталось замерить в следующем раунде (перенесено из раунда 1 + новое)
+## Проверки
 
-1. `origin/feat/day16-locale-currency` должен указывать на коммит с мержем `dev`, PR — `MERGEABLE`.
-2. Перепрогон после ручного склеивания четырёх компиляционных конфликтов (19c: склейка проверяется
-   только прогоном): `cd apps/backend && npx tsc --noEmit`; `cd apps/tenant-panel && pnpm typecheck`;
-   `cd apps/storefront && npx tsc --noEmit && pnpm test`.
-3. Живые замеры стенда двух тенантов, приёмщиком ещё не перепроверенные: `curl -I` по двум хостам
-   (`/ru` + ₽ и `/en` + своя валюта из ОДНОГО процесса витрины), `Accept-Language: de` → `/ru`,
-   скриншоты обеих главных и переключателя языков.
-4. Два предсуществующих падения, названные в теле PR (`tenants-domains.spec.ts`,
-   `profile-data.unit.spec.ts`) — читать строку `ℹ fail` целиком по файлу.
-5. Нит раунда 1: `apps/tenant-panel/src/lib/locale-catalog.ts` — третья рукописная копия каталога
-   локалей (storefront `i18n/config.ts`, backend `validators.ts`, панель). Расхождение возможно
-   молча. Кандидат в `@upready/*` либо тест-сверка. Не причина отказа.
+| Проверка | Команда | Результат |
+|---|---|---|
+| Backend typecheck | `npx tsc --noEmit` | rc=0 |
+| Panel typecheck | `pnpm typecheck` | rc=0 |
+| Storefront typecheck | `npx tsc --noEmit` | rc=0 |
+| Storefront unit | `pnpm test` | 13 файлов / 134 теста passed |
+| Seam `tenants-locale-settings` | `pnpm test:integration:http -- tenants-locale-settings` | **Test Suites: 1 passed, Tests: 12 passed, 12 total** |
+| Полный seam-сьют | `pnpm test:integration:http` | **Test Suites: 2 failed, 13 passed, 15 total; Tests: 3 failed, 153 passed, 156 total** — разбор ниже |
+| Backend unit | `pnpm test:unit` | Test Suites: 1 failed, 7 passed; Tests: 1 failed, 79 passed — падение `src/migration-scripts/__tests__/profile-data.unit.spec.ts`, предсуществующее (файл в дифе PR отсутствует) |
+
+### Разбор трёх падений полного seam-сьюта (не этот PR — атрибутировано замером)
+
+Первый прогон дал 11 падений; 8 из них (`tenants-payment-settings.spec.ts`) оказались дыркой МОЕГО стенда:
+`POST /tenants/seed` отдавал 500 с текстом «Neither STORE_PROFILES_MEDIA_BASE_URL nor STORE_MEDIA_BASE_URL is set».
+С этими переменными сьют **8/8 passed** — то есть это было окружение приёмщика, а не код.
+
+Остались три:
+1. `tenants-domains.spec.ts › resolves a custom host as soon as the tenant adds it` — лишнее поле `is_primary`.
+   Предсуществующее, задокументировано ещё приёмкой t05 (пришло из x02-domains).
+2–3. `tenants.spec.ts › resolves shipping options only from the tenant's own warehouse` и
+   `keeps two tenants' warehouses apart even in the same city`.
+
+Почему это не PR #26:
+- оба спек-файла **байт-в-байт идентичны `origin/dev`** (`git diff origin/dev...origin/feat/day16-locale-currency` по ним пуст);
+- в дифе PR **ноль** файлов со словами shipping/warehouse/fulfil/region/stock (проверено `--name-only | grep -ic`);
+- последнее изменение кода доставки/складов в `dev` — коммит `b2453fb` (PR #25, t04-shipping-tariffs), то есть сам HEAD `origin/dev`,
+  а спек с тех пор не менялся.
+
+**Отдельная задача для диспетчера: `dev` сейчас красный на этих трёх тестах** (2 из них приехали с PR #25).
+
+## Разбор диффа — стоп-факторов нет
+
+- Миграция `Migration20260915042009` аддитивная: `create table if not exists "tenant_locale_settings"`,
+  два партиальных индекса, FK на `tenant`; `down()` дропает только свою таблицу. Существующих таблиц не касается,
+  бэкап не нужен. На живой БД не запускалась (это дело deploy-задачи).
+- Секретов в коде нет, файлов не удалено, protected-infra не затронута, деплоя нет.
+- Env `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP` сохранены как fallback (`locale: null` → прежняя ветка) — измерено на `localhost:8161`.
+- Конвертации курсов нет: `default_country` выбирает регион, цены берутся заведённые.
+- Каталог 36 локалей не урезан, `messages/` не тронут (36 меток в HTML — это словарь `LanguageSelect.locales` из messages, а не отрисованный переключатель; проверено контекстом).
+- Правило 20 проверено: `getSwitcherLocales()` подключён в `h1,h2,h3,h4,h6`; `h5` переключателя не имеет по построению
+  («Region and account are absent from this variant»), других потребителей `appLocales` вне `i18n/config` нет.
+- Панель следует 19h: `touchedRef` + третье состояние `loaded` + `disabled={!loaded}` на всех трёх контролах.
+
+## Что НЕ удалось измерить (названо честно, не выдано за проверенное)
+
+- **Ценники в ₽ против $ на самой странице.** Каталог сид-тенантов пуст (`GET /store/products` под ключом acme → `products: 0`:
+  сид кладёт товары в дефолтный канал, у сид-тенантов свои каналы), поэтому цен на витрине нет вовсе.
+  Валюта замерена там, где её решает этот PR: выбор региона по `default_country` тенанта (`_medusa_country=ru`/`us`,
+  триггер «₽»/«$» в шапке). Рендер самой цены диф не трогает — в списке 34 файлов нет ни одного price-компонента.
+- **Переключатель на хосте без тенанта** (должен показывать все 36). На стенде не задан
+  `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`, поэтому single-store запросы к `/store/*` отвечали 400 и шапка регионов не отрисовалась.
+  Редирект-фallback при этом измерен и работает.
+
+## Ниты (в комментарий к PR, не причина отказа)
+
+1. `apps/tenant-panel/src/lib/locale-catalog.ts` — **третья** рукописная копия каталога локалей (storefront `i18n/config.ts`,
+   backend `validators.ts`, панель). Общего пакета между apps нет (признано в теле PR), расхождение теперь возможно молча.
+   Кандидат в `@upready/*` либо тест-сверка трёх списков.
+2. `routes/settings/locale/locale.tsx`: `if (isPending) return <SingleColumnPageSkeleton/>` стоит ПЕРЕД рендером,
+   поэтому ветка `disabled={!loaded}` почти недостижима — третье состояние по 19h реализовано, но на экране его показывает
+   скелетон, а не задизейбленный реальный контрол. Вреда нет, но заявленная форма 19h не та, что рендерится.
+3. Бездефисный флаг `dry-run` у бэкфилла — нестандартная форма; в моём прогоне сработала, но стоит одной строкой в README/деплой-инструкции.
