@@ -23,3 +23,12 @@ NEXT: Phase 0 (bootstrap) — read MISSION.md, verify stands, plan.
 | feature/content-pages, feature/editing-mode/commenting, homepage line worktrees | homepage line; #1–#4 merged | check whether anything unmerged is referenced by the tariff page | triage in Phase 1 |
 
 NEXT: Phase 0 — bootstrap, then Phase 2 (landing PRs #6→#12→#11) and Phase 3 (MT live acceptance) IN PARALLEL with workers.
+
+## 2026-09-14 10:23 WITA — Phase 0+2 (orchestrator, Opus 5)
+- Стенды замерены: :5335 = 200, https://upready.dev = 200 (СТАРЫЙ лендинг «Свой магазин для продавца Wildberries» из репозитория ~/upready/projects/upready-dev, не наш vite-порт), https://shiftship.dev/start/onboarding = 200, backend :9031 = 200. МЁРТВЫ: :8041 (storefront), :8010 (панель).
+- Фан-аут разрешён приказом Ивана в MISSION.md; маркер orch снят. Запущены два фоновых разведчика: mt-audit (opus, живая MT-платформа на 84.46.251.149, READ-ONLY) и bot-audit (sonnet, apps/bot / PR #11).
+- **DONE: PR #6 (feature/pricing-copy) смержен в dev.** Конфликт был только в HANDOFF.json (журнал) — взята версия dev; merge-коммит 2b4d883; merged_at 2026-09-14T02:22:24Z (GitHub, UTC).
+- feature/onboarding слита с новым dev (merge-коммит 20f38ba, конфликт только HANDOFF.json). tsc rc=0; vite build rc=0 (71 модуль, 252.93 kB js). В сборке подтверждены адреса: /start/onboarding, https://shiftship.dev, https://t.me/${bot}?start=plan_N.
+- Токен бота существует: .env.example PR #12 называет TELEGRAM_UPREADY_STORE_BOT в .env репозитория; getMe по username upreadystore_bot проверен автором PR 2026-09-14.
+
+NEXT: домержить PR #12 (GitHub ещё пересчитывал mergeable), затем PR #7 и #11; собрать лендинг и опубликовать на upready.dev (CF Pages проект upready-landing); параллельно — приёмка MT по отчётам разведчиков.
