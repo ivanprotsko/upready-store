@@ -402,6 +402,17 @@
     "goToImage": "Ugrás a(z) {index}. képre",
     "openFullImage": "Teljes méretű kép megnyitása"
   },
+  "Journal": {
+    "navLabel": "Magazin",
+    "feedTitle": "Magazin",
+    "feedDescription": "A(z) {siteName} cikkei.",
+    "empty": "Még nincsenek cikkek.",
+    "backToFeed": "Összes cikk",
+    "previous": "Előző",
+    "next": "Következő",
+    "pageOf": "Oldal: {page} / {lastPage}",
+    "pagination": "A magazin oldalai"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Fiók",
       "cart": "Kosár",
       "home": "Főoldal",
-      "store": "Bolt"
+      "store": "Bolt",
+      "journal": "Magazin"
     },
     "menuButton": "Menü"
   },

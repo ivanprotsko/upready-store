@@ -402,6 +402,17 @@
     "goToImage": "Перейти к изображению {index}",
     "openFullImage": "Открыть изображение целиком"
   },
+  "Journal": {
+    "navLabel": "Журнал",
+    "feedTitle": "Журнал",
+    "feedDescription": "Статьи магазина {siteName}.",
+    "empty": "Статей пока нет.",
+    "backToFeed": "Все статьи",
+    "previous": "Назад",
+    "next": "Вперёд",
+    "pageOf": "Страница {page} из {lastPage}",
+    "pagination": "Страницы журнала"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Профиль",
       "cart": "Корзина",
       "home": "Главная",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Журнал"
     },
     "menuButton": "Меню"
   },

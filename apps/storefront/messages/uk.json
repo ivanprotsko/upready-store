@@ -402,6 +402,17 @@
     "goToImage": "Перейти до зображення {index}",
     "openFullImage": "Відкрити зображення повністю"
   },
+  "Journal": {
+    "navLabel": "Журнал",
+    "feedTitle": "Журнал",
+    "feedDescription": "Статті магазину {siteName}.",
+    "empty": "Статей поки немає.",
+    "backToFeed": "Усі статті",
+    "previous": "Назад",
+    "next": "Далі",
+    "pageOf": "Сторінка {page} з {lastPage}",
+    "pagination": "Сторінки журналу"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Профіль",
       "cart": "Кошик",
       "home": "Головна",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Журнал"
     },
     "menuButton": "Меню"
   },

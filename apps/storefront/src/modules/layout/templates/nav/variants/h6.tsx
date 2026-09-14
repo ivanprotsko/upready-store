@@ -4,6 +4,7 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
@@ -36,12 +37,14 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode, siteName] = await Promise.all([
-    listTopCategoriesWithCounts(),
-    listRegions().then((regions: StoreRegion[]) => regions),
-    getCountryCode(),
-    getSiteName(),
-  ])
+  const [{ categories, totalCount }, regions, countryCode, siteName, showJournal] =
+    await Promise.all([
+      listTopCategoriesWithCounts(),
+      listRegions().then((regions: StoreRegion[]) => regions),
+      getCountryCode(),
+      getSiteName(),
+      hasPublishedArticles(),
+    ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -108,6 +111,16 @@ export default async function NavH6() {
         >
           {t("Store.allProducts")} {totalCount}
         </Link>
+        {/* t10-blog: only once this shop has published an article. */}
+        {showJournal ? (
+          <Link
+            href="/journal"
+            className="shrink-0 txt-compact-small rounded-full border border-ui-border-base px-3.5 py-1.5 text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+            data-testid="nav-journal-link"
+          >
+            {t("Journal.navLabel")}
+          </Link>
+        ) : null}
         {categories.map((category) => (
           <Link
             key={category.id}

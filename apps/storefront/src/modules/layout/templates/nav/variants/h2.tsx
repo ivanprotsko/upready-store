@@ -10,6 +10,7 @@ import Search from "@modules/layout/components/search"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 
@@ -37,11 +38,12 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH2() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName] = await Promise.all([
+  const [categories, regions, countryCode, siteName, showJournal] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    hasPublishedArticles(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -81,6 +83,16 @@ export default async function NavH2() {
             >
               {t("Store.allProducts")}
             </Link>
+            {/* t10-blog: only once this shop has published an article. */}
+            {showJournal ? (
+              <Link
+                href="/journal"
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                data-testid="nav-journal-link"
+              >
+                {t("Journal.navLabel")}
+              </Link>
+            ) : null}
           </div>
 
           <div className="flex-1 flex h-full items-center justify-end gap-x-4">

@@ -402,6 +402,17 @@
     "goToImage": "Ke gambar {index}",
     "openFullImage": "Buka gambar penuh"
   },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel dari {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageOf": "Halaman {page} dari {lastPage}",
+    "pagination": "Halaman jurnal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Akun",
       "cart": "Keranjang",
       "home": "Beranda",
-      "store": "Toko"
+      "store": "Toko",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

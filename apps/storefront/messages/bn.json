@@ -402,6 +402,17 @@
     "goToImage": "ছবি {index}-এ যান",
     "openFullImage": "সম্পূর্ণ ছবি খুলুন"
   },
+  "Journal": {
+    "navLabel": "ম্যাগাজিন",
+    "feedTitle": "ম্যাগাজিন",
+    "feedDescription": "{siteName}-এর লেখা।",
+    "empty": "এখনও কোনো লেখা নেই।",
+    "backToFeed": "সব লেখা",
+    "previous": "আগের",
+    "next": "পরের",
+    "pageOf": "পৃষ্ঠা {page} / {lastPage}",
+    "pagination": "ম্যাগাজিনের পৃষ্ঠা"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "অ্যাকাউন্ট",
       "cart": "কার্ট",
       "home": "হোম",
-      "store": "স্টোর"
+      "store": "স্টোর",
+      "journal": "ম্যাগাজিন"
     },
     "menuButton": "মেনু"
   },

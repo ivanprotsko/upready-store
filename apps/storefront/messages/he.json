@@ -402,6 +402,17 @@
     "goToImage": "מעבר לתמונה {index}",
     "openFullImage": "פתיחת התמונה המלאה"
   },
+  "Journal": {
+    "navLabel": "מגזין",
+    "feedTitle": "מגזין",
+    "feedDescription": "מאמרים מ־{siteName}.",
+    "empty": "אין עדיין מאמרים.",
+    "backToFeed": "כל המאמרים",
+    "previous": "הקודם",
+    "next": "הבא",
+    "pageOf": "עמוד {page} מתוך {lastPage}",
+    "pagination": "עמודי המגזין"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "חשבון",
       "cart": "עגלה",
       "home": "בית",
-      "store": "חנות"
+      "store": "חנות",
+      "journal": "מגזין"
     },
     "menuButton": "תפריט"
   },

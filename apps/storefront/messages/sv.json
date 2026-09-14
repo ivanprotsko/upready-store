@@ -402,6 +402,17 @@
     "goToImage": "Gå till bild {index}",
     "openFullImage": "Öppna bilden i full storlek"
   },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artiklar från {siteName}.",
+    "empty": "Inga artiklar ännu.",
+    "backToFeed": "Alla artiklar",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "pageOf": "Sida {page} av {lastPage}",
+    "pagination": "Magasinets sidor"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Konto",
       "cart": "Varukorg",
       "home": "Hem",
-      "store": "Butik"
+      "store": "Butik",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },
