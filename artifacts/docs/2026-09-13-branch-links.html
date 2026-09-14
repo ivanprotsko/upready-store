@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Навигатор ветки feature/onboarding — upready-store</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fbfaf7; color: #15181c;
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .sub { color: #6b7280; font-size: 13px; margin: 0 0 4px; }
+  .legend { color: #6b7280; font-size: 13px; margin: 16px 0 28px; padding: 10px 14px;
+    background: #fff; border: 1px solid #e7e5e0; border-radius: 8px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280;
+    margin: 32px 0 10px; font-weight: 600; }
+  .card { background: #fff; border: 1px solid #e7e5e0; border-radius: 10px; overflow: hidden; }
+  .row { display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #f0eee9; align-items: flex-start; }
+  .row:first-child { border-top: 0; }
+  .row:hover { background: #fdfcfa; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #d4d0c8; margin-top: 7px; flex: 0 0 9px; }
+  .dot.up { background: #16a34a; } .dot.down { background: #dc2626; } .dot.na { background: #d4d0c8; }
+  .body { min-width: 0; flex: 1; }
+  .name { font-weight: 600; }
+  .name a { color: #15181c; text-decoration: none; }
+  .name a:hover { text-decoration: underline; }
+  .url { font: 12px/1.45 ui-monospace, "SF Mono", Menlo, monospace; color: #2563eb;
+    word-break: break-all; display: block; margin-top: 2px; text-decoration: none; }
+  .url:hover { text-decoration: underline; }
+  .desc { color: #4b5563; font-size: 13px; margin-top: 4px; }
+  .cmd { margin-top: 6px; font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    background: #f6f5f2; border: 1px solid #eae7e1; border-radius: 6px; padding: 7px 10px;
+    color: #374151; white-space: pre-wrap; word-break: break-word; cursor: pointer; }
+  .cmd:hover { background: #f1efe9; }
+  .cmd::after { content: " ⧉"; color: #9ca3af; }
+  .note { font-size: 12px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a;
+    border-radius: 6px; padding: 6px 10px; margin-top: 6px; }
+  footer { margin-top: 40px; color: #6b7280; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Навигатор ветки feature/onboarding</h1>
+  <p class="sub">Все адреса, которые нужны по задачам этой ветки: стенды, сценарии воронки, документы, канон, репозиторий.</p>
+  <p class="sub">Worktree: <code>/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feature/onboarding</code></p>
+  <div class="legend">
+    Точка слева — живость, её проверяет сама страница при открытии (<b>зелёная</b> — ответил,
+    <b>красная</b> — не ответил, <b>серая</b> — не проверяется: локальные файлы).
+    Проверка приблизительная: браузер видит только факт ответа, не его код.
+    Блок с командой копируется по клику.
+  </div>
+  <div id="groups"></div>
+  <footer>
+    Собрано <span id="stamp"></span>. Файл живёт в ветке:
+    <code>artifacts/docs/2026-09-13-branch-links.html</code> — правится как обычный файл, ссылки добавляются в массив <code>DATA</code> внутри страницы.
+  </footer>
+</div>
+<script>
+const WT = "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feature/onboarding/";
+const MT = "file:///Users/ivanprotsko/upready/worktrees/upready-store/feat/abstract-datasets/";
+
+const DATA = [
+  { group: "Стенды — поднимаются локально", items: [
+    { name: "Лендинг homepage (порт на Vite)", url: "http://localhost:5301/",
+      desc: "apps/homepage/port этой ветки. Кнопки тарифов и кнопка героя ведут в демо-сценарии воронки.",
+      cmd: "cd apps/homepage/port && npx -y pnpm@10.11.1 install && npx -y pnpm@10.11.1 exec vite --port 5301 --strictPort" },
+    { name: "Лендинг · вариант «холодный»", url: "http://localhost:5301/?v=cold", desc: "Заголовок про склад Wildberries, кнопка «Поставить магазин» → сценарий 3." },
+    { name: "Лендинг · вариант «тёплый»", url: "http://localhost:5301/?v=warm", desc: "«Ваш план Б — за два дня и 4 900 ₽», та же кнопка в сценарий 3." },
+    { name: "Лендинг · вариант «по цене»", url: "http://localhost:5301/?v=price", desc: "Кнопка называется «Написать в телеграм» и ведёт в телеграм — сценарий тут неуместен." },
+    { name: "Витрина storefront (линия MT)", url: "http://localhost:8041/start",
+      desc: "Стенд воронки и мастера онбординга. Поднимается из worktree feat/abstract-datasets — БЕЗ --turbopack.",
+      cmd: "cd /Users/ivanprotsko/upready/worktrees/upready-store/feat/abstract-datasets/apps/storefront && NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9031 MEDUSA_BACKEND_URL=http://localhost:9031 NEXT_PUBLIC_BASE_URL=http://localhost:8041 DEMO_HOSTS=localhost DEMO_TENANT_BASE_DOMAIN=localhost:8041 DEMO_PANEL_URL=http://localhost:5182 nohup npx next dev -p 8041" },
+    { name: "Бэкенд Medusa · админка", url: "http://localhost:9031/app",
+      desc: "Панель администратора платформы.",
+      cmd: "cd /Users/ivanprotsko/upready/worktrees/upready-store/feat/abstract-datasets/apps/backend && STOREFRONT_URL=http://localhost:8041 nohup npx medusa develop" },
+    { name: "Бэкенд Medusa · health", url: "http://localhost:9031/health", desc: "Живость бэкенда одним запросом." },
+  ]},
+
+  { group: "Демо-воронка: четыре сценария и прямая дверь", items: [
+    { name: "Список сценариев", url: "http://localhost:8041/start", desc: "Четыре формы воронки одной страницей — точка входа для сравнения." },
+    { name: "Сценарий 1 · прямая оплата", url: "http://localhost:8041/start/pay?f=1", desc: "Касса сразу, тариф «Старт» 4 900 ₽. Сюда ведёт кнопка тарифа 4 900 ₽ на лендинге." },
+    { name: "Сценарий 2 · услуга, затем тариф", url: "http://localhost:8041/start/service?f=2", desc: "Полная воронка: что делаем → на каком тарифе → касса → онбординг." },
+    { name: "Сценарий 3 · только тариф", url: "http://localhost:8041/start/plan?f=3", desc: "Услуга подразумевается. Сюда ведёт кнопка героя на лендинге." },
+    { name: "Сценарий 3 · тариф «Бизнес» уже выбран", url: "http://localhost:8041/start/pay?f=3&s=store&p=store-business", desc: "Касса на 9 900 ₽. Сюда ведёт кнопка тарифа 9 900 ₽ на лендинге." },
+    { name: "Сценарий 4 · только услуга", url: "http://localhost:8041/start/service?f=4", desc: "У каждой услуги один тариф — цена появляется вместе с выбором." },
+    { name: "Онбординг без оплаты (прямая дверь)", url: "http://localhost:8041/start/onboarding", desc: "Тот же мастер, кассы нет вовсе. Здесь начинается граница онбординга." },
+  ]},
+
+  { group: "Магазины на стенде", items: [
+    { name: "supershop — магазин, созданный мастером", url: "http://supershop.localhost:8041/ru", desc: "Живой тенант, созданный прогоном онбординга. Первый ответ медленный (компиляция)." },
+    { name: "acme — посеянный магазин", url: "http://acme.localhost:8041/ru", desc: "На этом стенде отвечал 500 при последнем замере — посев в БД upready_store_abstract, а не upready_store_mt.", warn: "замер 2026-09-13: 500" },
+  ]},
+
+  { group: "Документы ветки", items: [
+    { name: "Граница онбординга — лента времени", url: WT + "artifacts/docs/2026-09-13-onboarding-boundary.html", desc: "Что считается онбордингом: события по оси времени, приёмка, дыры D1–D5." },
+    { name: "Скоуп воронки WP0–WP8", url: WT + "artifacts/docs/2026-09-12-homepage-funnel-scope.md", desc: "Пакеты работ по воронке и решения Ивана (§9)." },
+    { name: "Бриф порта лендинга", url: WT + "artifacts/docs/2026-09-12-homepage-landing-port-brief.md", desc: "Как лендинг портировался по секциям." },
+    { name: "Отчёт мержера порта (REPORT.md)", url: WT + "apps/homepage/port/REPORT.md", desc: "diffPct по секциям, открытые вопросы O1–O7 (модалка Tribute — O3)." },
+    { name: "Приёмка MT-деплоя", url: WT + "artifacts/docs/2026-09-12-mt-deploy-acceptance/README.md", desc: "Что проверено на линии мультитенантности." },
+    { name: "HANDOFF ветки", url: WT + "HANDOFF.json", desc: "Статус и задачи. Правится только через handoff.mjs." },
+    { name: "Канон терминов каталога", url: WT + "specs/catalog-taxonomy/GLOSSARY.md", desc: "Сфера торговли · торговая категория · категория товаров · профиль магазина." },
+    { name: "Абстрактные наборы данных", url: MT + "specs/catalog-taxonomy/ABSTRACT-DATASETS.md", desc: "Стартовый каталог, которым засевается новый магазин." },
+  ]},
+
+  { group: "Память и нить разговора", items: [
+    { name: "Рецепт локального стенда", url: "file:///Users/ivanprotsko/upready/memory/upready-store-local-stand-acceptance-2026-09-12.md", desc: "Как поднимать стенды, ловушки (turbopack, порты, env)." },
+    { name: "Термины Ивана и ловушка ветки", url: "file:///Users/ivanprotsko/upready/memory/store-profile-is-not-a-product-category-2026-09-12.md", desc: "Почему мастера /start нет на dev и где он живёт." },
+    { name: "Скоуп воронки — память", url: "file:///Users/ivanprotsko/upready/memory/upready-store-homepage-funnel-scope-2026-09-12.md", desc: "Итог L1: приёмка лендинга, PR #1." },
+    { name: "MT-деплой shipshift", url: "file:///Users/ivanprotsko/upready/memory/upready-store-mt-deploy-shipshift-2026-09-11.md", desc: "Как устроен прод мультитенантности." },
+    { name: "Свежий блок нити (resume)", url: "file:///Users/ivanprotsko/upready/.ai/resume/upready-store/latest.md", desc: "Чем закончилась прошлая сессия." },
+  ]},
+
+  { group: "Репозиторий", items: [
+    { name: "GitHub · upready-store", url: "https://github.com/ivanprotsko/upready-store", desc: "Origin ветки. Работа приземляется только через PR в dev." },
+    { name: "PR #1 · порт лендинга L1", url: "https://github.com/ivanprotsko/upready-store/pull/1", desc: "Слит 2026-09-12, squash ab9053b — тот самый apps/homepage/port." },
+  ]},
+
+  { group: "Прод-витрины из секции «Примеры магазинов»", items: [
+    { name: "Ferrite — электроника", url: "https://ferrite.upready.dev", desc: "Карточка «Магазин наушников» на лендинге." },
+    { name: "Larchant — одежда", url: "https://larchant.upready.dev", desc: "Карточка «Магазин одежды»." },
+    { name: "Long Morning — товары для дома", url: "https://long-morning.upready.dev", desc: "Карточка «Товары для дома»." },
+    { name: "Scruple — БАД", url: "https://scruple.upready.dev", desc: "Карточка из той же пятёрки." },
+    { name: "Kerbstone — обувь", url: "https://kerbstone.upready.dev", desc: "Карточка из той же пятёрки." },
+    { name: "acme.shipshift.dev — прод мультитенантности", url: "https://acme.shipshift.dev/ru", desc: "Живой тенант боевой MT-линии." },
+  ]},
+];
+
+const root = document.getElementById("groups");
+for (const g of DATA) {
+  const h = document.createElement("h2");
+  h.textContent = g.group;
+  root.appendChild(h);
+  const card = document.createElement("div");
+  card.className = "card";
+  for (const it of g.items) {
+    const row = document.createElement("div");
+    row.className = "row";
+    const dot = document.createElement("span");
+    dot.className = "dot na";
+    row.appendChild(dot);
+    const body = document.createElement("div");
+    body.className = "body";
+    const name = document.createElement("div");
+    name.className = "name";
+    const a = document.createElement("a");
+    a.href = it.url; a.textContent = it.name; a.target = "_blank"; a.rel = "noopener";
+    name.appendChild(a);
+    body.appendChild(name);
+    const u = document.createElement("a");
+    u.className = "url"; u.href = it.url; u.textContent = it.url; u.target = "_blank"; u.rel = "noopener";
+    body.appendChild(u);
+    if (it.desc) { const d = document.createElement("div"); d.className = "desc"; d.textContent = it.desc; body.appendChild(d); }
+    if (it.warn) { const w = document.createElement("div"); w.className = "note"; w.textContent = it.warn; body.appendChild(w); }
+    if (it.cmd) {
+      const c = document.createElement("div");
+      c.className = "cmd"; c.textContent = it.cmd;
+      c.title = "кликните, чтобы скопировать";
+      c.addEventListener("click", () => {
+        navigator.clipboard?.writeText(it.cmd).then(
+          () => { const old = c.textContent; c.textContent = "скопировано"; setTimeout(() => { c.textContent = old; }, 900); },
+          () => {}
+        );
+      });
+      body.appendChild(c);
+    }
+    row.appendChild(body);
+    card.appendChild(row);
+    if (/^https?:/.test(it.url)) ping(it.url, dot);
+  }
+  root.appendChild(card);
+}
+
+function ping(url, dot) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 5000);
+  fetch(url, { mode: "no-cors", cache: "no-store", signal: ctl.signal })
+    .then(() => { dot.className = "dot up"; dot.title = "ответил"; })
+    .catch(() => { dot.className = "dot down"; dot.title = "не ответил"; })
+    .finally(() => clearTimeout(timer));
+}
+
+document.getElementById("stamp").textContent = new Date().toLocaleString("ru-RU");
+</script>
+</body>
+</html>
