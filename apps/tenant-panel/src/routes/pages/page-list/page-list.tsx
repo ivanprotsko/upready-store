@@ -38,18 +38,18 @@ export const PageList = () => {
     <SingleColumnPage widgets={{ before: [], after: [] }} data={pages}>
       <Container className="divide-y p-0">
         <div className="flex flex-col gap-y-1 px-6 py-4">
-          <Heading level="h2">Pages</Heading>
+          <Heading level="h2">Страницы</Heading>
           <Text size="small" className="text-ui-fg-subtle">
-            The five pages your storefront can show. A published page appears
-            under Information in the storefront footer.
+            Пять страниц, которые может показывать ваш магазин. Опубликованная
+            страница появляется в подвале магазина, в блоке «Информация».
           </Text>
         </div>
         <Table>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Page</Table.HeaderCell>
-              <Table.HeaderCell>Address</Table.HeaderCell>
-              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Страница</Table.HeaderCell>
+              <Table.HeaderCell>Адрес</Table.HeaderCell>
+              <Table.HeaderCell>Статус</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

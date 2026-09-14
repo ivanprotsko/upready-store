@@ -521,7 +521,7 @@ const routes: RouteObject[] = [
             // modal over it, so Save returns to the list with the row already
             // refreshed by the mutation's own invalidation.
             path: "/pages",
-            handle: { breadcrumb: () => "Pages" },
+            handle: { breadcrumb: () => t("app.nav.main.pages", { defaultValue: "Страницы" }) },
             errorElement: <ErrorBoundary />,
             children: [
               {
@@ -542,7 +542,7 @@ const routes: RouteObject[] = [
             // children: the document is edited in place and saved with one
             // request, so there is no drawer or modal to nest under it.
             path: "/home-settings",
-            handle: { breadcrumb: () => "Home page" },
+            handle: { breadcrumb: () => t("app.nav.main.homeSettings", { defaultValue: "Главная страница" }) },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/home-settings"),
           },

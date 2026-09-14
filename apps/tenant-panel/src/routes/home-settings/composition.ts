@@ -64,148 +64,180 @@ export type Option<T extends string> = {
 }
 
 export const MODE_OPTIONS: Option<Mode>[] = [
-  { value: "light", label: "Light", why: "A visitor who never switched sees the light palette." },
-  { value: "dark", label: "Dark", why: "A visitor who never switched sees the dark palette." },
+  {
+    value: "light",
+    label: "Светлая",
+    why: "Посетитель, который ничего не переключал, видит светлую палитру.",
+  },
+  {
+    value: "dark",
+    label: "Тёмная",
+    why: "Посетитель, который ничего не переключал, видит тёмную палитру.",
+  },
 ]
 
 export const HEADER_OPTIONS: Option<HeaderKey>[] = [
   {
     value: "h1",
-    label: "As it is today",
-    why: "Burger menu left, wordmark centre, search, region, account and cart on the right.",
+    label: "Как сейчас",
+    why: "Бургер-меню слева, логотип по центру, поиск, регион, аккаунт и корзина справа.",
   },
   {
     value: "h2",
-    label: "Left, menu in a row",
-    why: "Wordmark left, up to four category links centred, utilities on the right.",
+    label: "Слева, меню в строку",
+    why: "Логотип слева, до четырёх ссылок на категории по центру, утилиты справа.",
   },
   {
     value: "h3",
-    label: "Two tiers",
-    why: "A slim promo line above a main row with the wordmark, menu and search.",
+    label: "Два яруса",
+    why: "Узкая промо-строка над основной строкой с логотипом, меню и поиском.",
   },
   {
     value: "h4",
-    label: "Accent",
-    why: "The header fills with the accent colour, wordmark left, menu centred.",
+    label: "Акцент",
+    why: "Шапка заливается акцентным цветом, логотип слева, меню по центру.",
   },
   {
     value: "h5",
-    label: "Slim + category strip",
-    why: "A slim bar plus a scrollable row of category chips with product counts.",
+    label: "Узкая + лента категорий",
+    why: "Узкая полоса и прокручиваемый ряд чипов категорий с числом товаров.",
   },
   {
     value: "h6",
-    label: "Centre + category strip",
-    why: "The same category chip row as Slim, but the bar keeps the wordmark centred.",
+    label: "По центру + лента категорий",
+    why: "Тот же ряд чипов категорий, что и в «Узкой», но логотип остаётся по центру.",
   },
 ]
 
 export const HERO_OPTIONS: Option<HeroKey>[] = [
-  { value: "none", label: "None", why: "No hero — the page opens straight into the next section." },
+  {
+    value: "none",
+    label: "Нет",
+    why: "Без хиро — страница сразу открывается следующим разделом.",
+  },
   {
     value: "g",
-    label: "Showcase",
-    why: "A split hero: a product's photo beside its title, price and an add-to-bag button.",
+    label: "Витрина",
+    why: "Разделённый хиро: фото товара рядом с названием, ценой и кнопкой добавления в корзину.",
   },
   {
     value: "h",
-    label: "Shelf",
-    why: "A three-product shelf beside a panel naming the collection and its starting price.",
+    label: "Полка",
+    why: "Полка из трёх товаров рядом с панелью, называющей коллекцию и стартовую цену.",
   },
   {
     value: "j",
-    label: "Three doors",
-    why: "Three large category tiles with item counts, in place of a hero image.",
+    label: "Три двери",
+    why: "Три крупные плитки категорий с числом товаров вместо хиро-изображения.",
   },
   {
     value: "k",
-    label: "Announcement",
-    why: "A flat accent band with a headline, subheadline and one call to action.",
+    label: "Анонс",
+    why: "Плоская акцентная полоса с заголовком, подзаголовком и одним призывом к действию.",
   },
   {
     value: "l",
-    label: "In motion",
-    why: "A full-bleed photo with a floating card for one product in the bottom-left corner.",
+    label: "В движении",
+    why: "Фото на всю ширину с плавающей карточкой одного товара в левом нижнем углу.",
   },
   {
     value: "m",
-    label: "No hero, text only",
-    why: "No image — a two-line tagline strip above the first collection's heading.",
+    label: "Без хиро, только текст",
+    why: "Без изображения — двухстрочный слоган над заголовком первой коллекции.",
   },
   {
     value: "ga",
-    label: "Carousel with neighbours",
-    why: "A carousel of category slides, the active one wider, with neighbours peeking in.",
+    label: "Карусель с соседями",
+    why: "Карусель слайдов категорий: активный слайд шире, соседние видны по краям.",
   },
   {
     value: "gb",
-    label: "Stripes",
-    why: "Vertical category stripes; the selected one expands to show its own copy.",
+    label: "Полосы",
+    why: "Вертикальные полосы категорий; выбранная полоса разворачивается со своим текстом.",
   },
 ]
 
 export const TILES_OPTIONS: Option<TilesKey>[] = [
-  { value: "on", label: "On", why: "A row of category tiles under the hero." },
-  { value: "off", label: "Off", why: "No category tiles on the home page." },
+  {
+    value: "on",
+    label: "Вкл",
+    why: "A row of category tiles under the hero.",
+  },
+  {
+    value: "off",
+    label: "Выкл",
+    why: "No category tiles on the home page.",
+  },
 ]
 
 export const LISTING_OPTIONS: Option<ListingKey>[] = [
-  { value: "none", label: "None", why: "No listing — the page ends after the hero and tiles." },
+  {
+    value: "none",
+    label: "Нет",
+    why: "Без списка товаров — страница заканчивается после хиро и плиток.",
+  },
   {
     value: "p1",
-    label: "Grid of 4",
-    why: "One collection, four columns, eight products, title and price shown.",
+    label: "Сетка из 4",
+    why: "Одна коллекция, четыре колонки, восемь товаров, показаны название и цена.",
   },
   {
     value: "p2",
-    label: "Dense 6",
-    why: "All products, six columns, a dense grid of twelve, title and price only.",
+    label: "Плотная 6",
+    why: "Все товары, шесть колонок, плотная сетка из двенадцати, только название и цена.",
   },
   {
     value: "p3",
-    label: "Spec list",
-    why: "A row list with image, title, a spec line and price for each product.",
+    label: "Список с характеристиками",
+    why: "Список строками: изображение, название, строка характеристик и цена для каждого товара.",
   },
   {
     value: "p4",
-    label: "Wall",
-    why: "A three-column masonry wall of nine products, image, title and price.",
+    label: "Стена",
+    why: "Трёхколоночная стена-мозаика из девяти товаров: изображение, название и цена.",
   },
   {
     value: "p5",
-    label: "Editorial",
-    why: "One large lead product beside four smaller ones, editorial layout.",
+    label: "Редакционная",
+    why: "Один крупный товар и четыре меньших рядом, редакционная вёрстка.",
   },
 ]
 
 export const FOOTER_OPTIONS: Option<FooterKey>[] = [
-  { value: "none", label: "None", why: "No footer." },
+  {
+    value: "none",
+    label: "Нет",
+    why: "Без подвала.",
+  },
   {
     value: "f1",
-    label: "Four columns",
-    why: "Four columns: brand, categories, collections and info links.",
+    label: "Четыре колонки",
+    why: "Четыре колонки: бренд, категории, коллекции и информационные ссылки.",
   },
   {
     value: "f2",
-    label: "One row",
-    why: "One row: wordmark and every link inline, with a legal line below.",
+    label: "Одна строка",
+    why: "Одна строка: логотип и все ссылки в ряд, юридическая строка снизу.",
   },
   {
     value: "f3",
-    label: "Giant wordmark",
-    why: "Link rows above a giant wordmark, sized to fit the width.",
+    label: "Огромный логотип",
+    why: "Ряды ссылок над огромным логотипом на всю ширину.",
   },
   {
     value: "f4",
-    label: "Inverted, with newsletter",
-    why: "Inverted colours: a newsletter form beside categories and collections.",
+    label: "Инвертированный, с рассылкой",
+    why: "Инвертированные цвета: форма рассылки рядом с категориями и коллекциями.",
   },
-  { value: "f5", label: "Terms as tiles", why: "Three fact cards above the usual columns." },
+  {
+    value: "f5",
+    label: "Условия плитками",
+    why: "Три карточки с фактами над обычными колонками.",
+  },
   {
     value: "f6",
-    label: "Inverted giant wordmark",
-    why: "Link rows above an inverted, giant wordmark.",
+    label: "Инвертированный огромный логотип",
+    why: "Ряды ссылок над инвертированным огромным логотипом.",
   },
 ]
 
