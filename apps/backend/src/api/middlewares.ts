@@ -10,6 +10,10 @@ import {
   retrieveTransformQueryConfig as retrieveCustomerQueryConfig,
 } from "@medusajs/medusa/api/admin/customers/query-config";
 import { AdminCustomerParams } from "@medusajs/medusa/api/admin/customers/validators";
+import {
+  TenantExportCustomersParams,
+  TenantGetCustomersParams,
+} from "./tenants/customers/validators";
 import { listTransformQueryConfig as listExchangeQueryConfig } from "@medusajs/medusa/api/admin/exchanges/query-config";
 import { listTransformQueryConfig as listFulfillmentProviderQueryConfig } from "@medusajs/medusa/api/admin/fulfillment-providers/query-config";
 import { AdminFulfillmentProvidersParams } from "@medusajs/medusa/api/admin/fulfillment-providers/validators";
@@ -728,6 +732,16 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(AdminGetReservationsParams, listReservationQueryConfig),
       ],
+    },
+    {
+      matcher: "/tenants/customers",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(TenantGetCustomersParams, { isList: true })],
+    },
+    {
+      matcher: "/tenants/customers/export",
+      method: ["POST"],
+      middlewares: [validateAndTransformQuery(TenantExportCustomersParams, { isList: true })],
     },
     {
       matcher: "/tenants/customers/:id",

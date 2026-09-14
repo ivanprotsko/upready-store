@@ -325,6 +325,26 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t13-customers-screen: the panel's own customers tree, no Admin
+            // counterpart at this path (the Admin's `/customers` is
+            // store-wide; this is `/tenants/customers`, scoped to the
+            // tenant). List and detail only — no create/edit, since a
+            // customer is created by checking out, not by the owner.
+            path: "/customers",
+            handle: { breadcrumb: () => t("customers.domain") },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/customers/customer-list"),
+              },
+              {
+                path: ":id",
+                lazy: () => import("./routes/customers/customer-detail"),
+              },
+            ],
+          },
+          {
             // tenant-panel wave 2, piece 4 (profile): the copied
             // routes/profile/profile-detail tree, with profile-edit as its
             // "edit" child (RouteDrawer), same nesting the Admin uses.
