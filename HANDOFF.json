@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T05:22:18+08:00",
-  "status": "2026-09-14 05:22 WITA: durable-save перед сжатием (t-2026-09-13-02). Ветка feature/onboarding запушена, PR #12 OPEN. Сделано за сессию: кнопки главной разведены (мастер онбординга / телеграм-бот с plan_N), цепочка проверена живьём — магазин создаётся за 12 с; стенд MT поднят и вылечен (DEMO_HOSTS, STOREFRONT_STUDIO_PASSWORD, STOREFRONT_SETTINGS_SECRET на обоих процессах, publishable key тенанта), студия сохраняет композицию; воркспейс cef2827b feature/upreadystore_bot запущен, агент сдал PR #11. Открытые вопросы Ивану: q-gde-prinimat-onbording-lokalnyy-stend, q-shest-url-tribute-dlya-bota. Знание: ~/upready/memory/homepage-cta-routing-2026-09-14.md и mt-stand-local-run-2026-09-14.md.",
+  "updated": "2026-09-14T04:09:09+08:00",
+  "status": "[2026-09-13 21:15 WITA] t-2026-09-13-03 выполнена: PR #1 astro-quick-views смёржен в master (7d4c65c), /pricing-plans принят в браузере; открытые пункты — в question add (InSales 2 тарифа на site-im, Telegram Mini App «включён · в работе», комиссия с продаж, статусы «проверить»). | 2026-09-13 21:17 WITA · feature/telegram-miniapp (t-2026-09-13-04): код + записка закоммичены f16df2c, PR #5 в dev открыт; блок — токен бота для реальной приёмки в Telegram (BotFather /newbot → UPREADY_STORE_TELEGRAM_BOT_TOKEN в .env.keys) | 2026-09-14 01:03 WITA штаб (Opus, сессия 842abb6f): приказ Ивана по тарифам разложен на 4 задачи и раздан. t-2026-09-14-01 — имена Бесплатный/Про/Ультра, подписи строк слева убраны, значения самоописывающие, сноска про 500 включённых товаров, у Про 7 дней по привязанной карте (воркер Opus, ветка feature/pricing-copy). t-2026-09-14-02 — калькулятор стоимости доп. товара: трафик по сегментам, инфраструктура, комиссии и налоги, маржа, UI-инструмент в tools/ (воркер Opus, ветка feature/price-cost-calculator, ff до f381ebb). t-2026-09-14-03 — market intelligence, только отчёт + дорожная карта + промпты, реализацию не начинать (воркер Opus, ветка feature/market-intelligence). t-2026-09-14-04 pricing-manager (Medusa-расширение управления тарифами) в бэклоге, блокер t-02. Ответ на вопрос 1.1: пробный период по карте есть у обоих — Polar (любая длительность, карта на чекауте, автосписание в конце, отмена до конца без списания), Tribute (1/12/24 ч, 3 или 7 дней, доступ после привязки карты, автопродление платным; триал в существующей подписке только для новых подписчиков), первоисточники прочитаны 2026-09-14. Журнал задач f381ebb, dev запушена. | 2026-09-14 04:05 WITA · feature/legal-docs: правовые документы сданы. Сохранены все 13 документов InSales и оба Tilda (оферты Tilda — policy_blocked в robots.txt, не брались); разбор + ответы в artifacts/research/2026-09-14-legal-docs/report.md; тексты в docs/legal/ (соглашение, политика, оферта, инструкция заполнения, 32 заполнителя). ГЛАВНОЕ: оферта от физлица законна по ст. 437 ГК, но для подписки = опубликованное доказательство систематичности → на ИП/ООО брата; разница ИП/ООО в тексте = девять мест, поэтому ОДИН текст с вариантами, не две редакции; НПД годится по предмету (письмо ФНС 09.07.2023) и ломается на лимите 2,4 млн, запрете перепродажи имущественных прав и агентских схем; Tribute оферту не требует, но п. 68 даёт право требовать условия сделок и называет их отсутствие fraudulent (+35 EUR chargeback, 50 EUR разбор возврата). НАХОДКА СВЕРХ ПОСТАНОВКИ: ст. 10.2-1 149-ФЗ — хостинг магазинов клиентов вне реестра РКН не допускается (развилка Q7, про продукт а не про текст). Восемь развилок Ивану, первая — юрисдикция брата (РФ или РБ). | 2026-09-14 03:09 WITA: t-2026-09-13-04 — ответ на приказ «бота создаём мы»: записка дополнена параграфом 9 (коммит 2c73fe7, запушен в feature/telegram-miniapp, PR #5). Заведены вопросы q-tg-botfather-account и q-tg-bot-limit-measure. Блок прежний: токена платформенного бота нет, скриншота из реального Telegram нет",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -795,7 +795,7 @@
       "state": "in_progress",
       "priority": "high",
       "created": "2026-09-13T20:43:13+08:00",
-      "updated": "2026-09-13T21:17:28+08:00",
+      "updated": "2026-09-14T03:08:37+08:00",
       "goal": "Telegram Mini App для магазина upready-store: (1) для тестового магазина с абстрактными данными поднять работающий Telegram Mini App витрины; (2) разобраться и реализовать автоматическое создание Mini App вместе с инициализацией магазина; (3) осмыслить и, если создание в рантайме требует ожидания, спроектировать пул заранее созданных магазинов, у которых при инициализации (бесплатный тариф или после оплаты) меняется владелец и регенерируются seed-данные под сферу и категорию торговли. Ветка feature/telegram-miniapp от dev, PR в dev.",
       "acceptance": [
         "Mini App тестового магазина открывается в реальном Telegram-клиенте (телефон или десктоп) и показывает каталог с абстрактными данными, скриншот из Telegram приложен",
@@ -804,7 +804,7 @@
         "PR feature/telegram-miniapp → dev смёржен на GitHub"
       ],
       "approved": "2026-09-13T20:44:21+08:00",
-      "details": "Воркспейс Superset 956b9c45 upready-store, ветка feature/telegram-miniapp от dev (a994249). Агент claude запущен с промптом (терминал 12562b7b, заголовок «Telegram Mini App storefront и pool strategy»). Смотреть: superset terminals read --workspace 956b9c45-5500-42bc-b297-e4ab8432e783 --terminal 12562b7b-5f13-44dc-97d4-e00cc69b706a\n\n2026-09-13 21:17 WITA, ветка feature/telegram-miniapp, коммит f16df2c, PR #5 (https://github.com/ivanprotsko/upready-store/pull/5): бэкенд src/telegram (Bot API клиент, provisioning, GET/POST/DELETE /admin/telegram-mini-app, GET /store/telegram-mini-app, 12 unit), витрина /[locale]/mini + MiniAppBridge (3 vitest), записка artifacts/docs/2026-09-13-telegram-miniapp-pool-decision.md — решение: пул не нужен (инициализация ≈3–8 с), схема платформенный бот + свой бот владельца. Замеры: RTT api.telegram.org с Contabo 59/258/60 мс, provisioning 5 вызовов через мок 12 мс, каталог ferrite FCP 1,27–1,38 с. Симулированный webview 15/15 PASS. НЕ сделано: реальный Telegram — нет токена бота upready-store, шаги BotFather для Ивана в §6; PR открыт."
+      "details": "Воркспейс Superset 956b9c45 upready-store, ветка feature/telegram-miniapp от dev (a994249). Агент claude запущен с промптом (терминал 12562b7b, заголовок «Telegram Mini App storefront и pool strategy»). Смотреть: superset terminals read --workspace 956b9c45-5500-42bc-b297-e4ab8432e783 --terminal 12562b7b-5f13-44dc-97d4-e00cc69b706a\n\n2026-09-13 21:17 WITA, ветка feature/telegram-miniapp, коммит f16df2c, PR #5 (https://github.com/ivanprotsko/upready-store/pull/5): бэкенд src/telegram (Bot API клиент, provisioning, GET/POST/DELETE /admin/telegram-mini-app, GET /store/telegram-mini-app, 12 unit), витрина /[locale]/mini + MiniAppBridge (3 vitest), записка artifacts/docs/2026-09-13-telegram-miniapp-pool-decision.md — решение: пул не нужен (инициализация ≈3–8 с), схема платформенный бот + свой бот владельца. Замеры: RTT api.telegram.org с Contabo 59/258/60 мс, provisioning 5 вызовов через мок 12 мс, каталог ferrite FCP 1,27–1,38 с. Симулированный webview 15/15 PASS. НЕ сделано: реальный Telegram — нет токена бота upready-store, шаги BotFather для Ивана в §6; PR открыт.\n\n2026-09-14 03:08 WITA: приказ Ивана — бота клиенту создаём МЫ, клиент в BotFather не ходит (конверсия воронки). Записка дополнена параграфом 9 (285 строк): новый факт первоисточника — username бота НЕЛЬЗЯ сменить после создания (core.telegram.org/bots/features), поэтому пул ботов обесценен как основной путь (бот из пула навсегда с генерическим username, а бренд — это ровно то, ради чего персональный бот и делается) и остаётся резервом на отказ /newbot; username собирается из handle магазина, выбранного клиентом в мастере. Схема стала четырёхуровневой: 0 платформенный бот, 1a свой бот руками оператора, 1b свой бот юзерботом (креды TELEGRAM_MASTER_USERBOT_* в хранилище), 2 бот на аккаунте клиента по его желанию. Боту одного магазина не нужен ни Main Mini App, ни /newapp — кнопка меню ставится по Bot API, значит ручной остаток уровня 1 это ровно одна команда /newbot. Потолок масштаба — число ботов на аккаунт: первоисточники его не называют (проверено bots/features и bots/faq), сообщество говорит 20 и 40 с Premium; замер требует OK (q-tg-bot-limit-measure). Форма разрешения для сессий — строки UPREADY_STORE_TELEGRAM_BOT_TOKEN и UPREADY_STORE_BOTFATHER_ACCOUNT с комментарием-разрешением в .env.keys; config telegram-master.config.json ничего не разрешает, так как навыка, который его читает, на диске нет"
     },
     {
       "id": "t-2026-09-14-01",
@@ -900,23 +900,6 @@
       ],
       "created": "2026-09-14T00:58:27+08:00",
       "updated": "2026-09-14T00:58:27+08:00"
-    },
-    {
-      "id": "t-2026-09-12-03",
-      "title": "Онбординг: ссылка на созданный магазин со схемой https:// зашита в код — на стенде без TLS мертва",
-      "state": "backlog",
-      "priority": "med",
-      "details": "Замер 2026-09-12 22:46 WITA (Иван прошёл мастер на локальном стенде :8041, магазин supershop): кнопка/ссылка экрана завершения ведёт на https://supershop.localhost:8041 → curl rc=35, TLS-ответа нет вовсе (next dev сертификата не имеет). По http тот же адрес живой: 307 → /en, 200 за 13,1 с, title supershop. Причина в коде: apps/storefront/src/app/api/demo/onboarding/route.ts:238 — storefrontUrl собирается как `https://${handle}.${TENANT_BASE_DOMAIN}`, схема константа. Предложение: брать схему из окружения (NEXT_PUBLIC_BASE_URL) или из протокола текущего запроса, http для локальных доменов. Ловушка известна с волны 5 (memory upready-store-local-stand-acceptance-2026-09-12), но задачей до сих пор не была — Иван поймал её руками. Класс (правило 20): проверить остальные места, где адрес витрины/панели собирается со вшитой схемой.",
-      "files": [
-        "apps/storefront/src/app/api/demo/onboarding/route.ts"
-      ],
-      "session": "session_017WXw8iTHb5AYU7bdq6AdeE",
-      "tags": [
-        "onboarding",
-        "stand"
-      ],
-      "created": "2026-09-12T23:00:34+08:00",
-      "updated": "2026-09-12T23:00:34+08:00"
     }
   ],
   "questions": [
@@ -1201,32 +1184,14 @@
       "audience": "ivan"
     },
     {
-      "id": "q-knowledge-index-md-monolit-72k-tokenov",
-      "question": "knowledge-index.md — монолит 72k токенов (873 строк), large-file-edit-guard блокирует Edit-дописку новой строки. Развилка по правилу 25f: (1) разбить на модули, (2) делегировать правку сабагенту, (3) принять как есть. Новый файл memory/versustable-insales-shopify-pricing-handoff.md написан, но НЕ проиндексирован в knowledge-index.md — решение нужно от Ивана.",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-versustable-astro-quick-views-apps-versustable-vse",
-      "question": "versustable (astro-quick-views/apps/versustable): ВСЕ React-острова (SidebarNav.tsx, QuickViewsApp.tsx) не гидрируются на dev-сервере — console error 'react-dom/client... does not provide an export named createRoot' (react-dom@19.2.7 через pnpm). Воспроизведено playwright-кликом на /payments-ru (существующая страница, до моих правок) и на новой /insales-vs-shopify — баг ПРЕДСУЩЕСТВУЮЩИЙ, не внесён этой сессией. Итог: вся интерактивность (фильтры, sidebar toggle, drawer) в dev-режиме сейчас сломана сайт-widely; SSR-контент отдаётся нормально (200, все данные видны). Не чинил — чужой проект, чинить не просили.",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-homepage-funnel-variant",
-      "question": "Воронка главной (artifacts/docs/2026-09-12-homepage-funnel-scope.md, §5): какой вариант исполнения — A соло Fable, B соло-гибрид с фоновым Sonnet, C архитектор → один воркер Sonnet в Superset-workspace → отдельный приёмщик (рекомендован), D полная оркестрация? Для C нужен явный ок на оркестрацию (3b).",
-      "asked": "2026-09-12",
-      "audience": "ivan"
-    },
-    {
-      "id": "q-gde-prinimat-onbording-lokalnyy-stend",
-      "question": "Где принимать онбординг: локальный стенд :8041 (адрес витрины http://<handle>.localhost:8041, мастер не называет адрес — в коде жёсткий https) или публичный shiftship.dev (DEMO_TENANT_BASE_DOMAIN задан, ссылка живая)? Для второго нужен ОК на создание тестового магазина на внешнем стенде",
+      "id": "q-tg-botfather-account",
+      "question": "Аккаунт-фабрика для создания ботов магазинам клиентов: личный аккаунт Ивана (быстро, но бан = бан всех ботов клиентов разом) или отдельный номер под фабрику (2FA, StringSession хранится как секрет)? От ответа зависит, годится ли сессия .tg_session_tgmaster (файл с 2026-08-16, авторизация не проверена) или нужна новая. Контекст: записка artifacts/docs/2026-09-13-telegram-miniapp-pool-decision.md параграф 9.4",
       "asked": "2026-09-14",
       "audience": "ivan"
     },
     {
-      "id": "q-shest-url-tribute-dlya-bota",
-      "question": "Шесть URL Tribute для бота @upreadystore_bot: по две ссылки на тариф — «Оплатить картой РФ или МИР» и «Оплатить картой Visa/MasterCard». Без них бот (ветка feature/upreadystore_bot, PR #11) не рисует кнопку, а пишет что ссылку подключают",
+      "id": "q-tg-bot-limit-measure",
+      "question": "Разрешение на замер потолка ботов: создавать ботов в BotFather подряд до отказа, чтобы узнать лимит на аккаунт (первоисточники Telegram его не называют, tginfo говорит 20 и 40 с Premium) и FloodWait между вызовами /newbot. Замер необратимо расходует слоты ботов аккаунта, поэтому без OK не делаю. Это первый по важности замер для уровня 1, важнее таймингов",
       "asked": "2026-09-14",
       "audience": "ivan"
     }
