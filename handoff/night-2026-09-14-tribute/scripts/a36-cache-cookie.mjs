@@ -1,0 +1,16 @@
+import { open, SHOP } from "./lib.mjs";
+const { b, p } = await open();
+await p.goto(`${SHOP}/ru`, { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2000);
+const c1 = (await p.context().cookies()).map(c=>c.name);
+console.log("cookies after home:", JSON.stringify(c1));
+await p.goto(`${SHOP}/ru/products/cube-1-accept-commerce-1106`, { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(1200);
+await p.click('button:has-text("Малый")').catch(()=>{});
+await p.waitForTimeout(500);
+await p.click('button:has-text("В корзину"), button:has-text("Добавить")');
+await p.waitForTimeout(3500);
+const c2 = (await p.context().cookies()).map(c=>c.name);
+console.log("cookies after add-to-cart:", JSON.stringify(c2));
+console.log("HAS _medusa_cache_id:", c2.includes("_medusa_cache_id"));
+await b.close();

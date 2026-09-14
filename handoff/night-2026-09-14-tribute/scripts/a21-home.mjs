@@ -1,0 +1,12 @@
+import { open, login, PANEL, SHOP, ART } from "./lib.mjs";
+const { b, p, errs, bad } = await open({ w: 1600, h: 950 });
+await login(p);
+await p.goto(`${PANEL}/home-settings`, { waitUntil: "networkidle", timeout: 90000 });
+await p.waitForTimeout(4000);
+const fields = await p.$$eval("input,textarea,select", els => els.map(e=>`${e.tagName}:${e.getAttribute("name")||e.type}:${(e.value||"").slice(0,24)}`));
+console.log("FIELDS:", JSON.stringify(fields.slice(0, 30)));
+const txt = (await p.innerText("body")).replace(/\n+/g," | ");
+console.log("HERO PART:", txt.slice(txt.indexOf("Hero") - 40, txt.indexOf("Hero") + 500));
+await p.screenshot({ path: `${ART}/a21-1-home-settings.png`, fullPage: true });
+console.log("ERRS:", JSON.stringify(errs.slice(0,3)), "BAD:", JSON.stringify(bad.slice(0,3)));
+await b.close();
