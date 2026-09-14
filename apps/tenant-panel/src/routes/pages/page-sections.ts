@@ -4,8 +4,9 @@ import type { TenantPage, TenantPageKey } from "../../hooks/api/pages"
 // The panel has no Admin counterpart to copy for this screen, so the labels are
 // written here rather than pulled from the Admin's i18n catalogue: the Admin has
 // no string for "the shop's public offer". They are deliberately the words a
-// shop owner would use, not the storage keys ("legal" is "Legal details", not
-// "legal"), per the piece prompt and rule 18e.
+// shop owner would use, not the storage keys ("legal" is "Реквизиты", not
+// "legal"), per the piece prompt and rule 18e. Written in Russian: the panel
+// serves Russian shop owners and every neighbouring screen is Russian.
 
 export type PageSection = {
   key: TenantPageKey
@@ -16,28 +17,28 @@ export type PageSection = {
 export const PAGE_SECTIONS: PageSection[] = [
   {
     key: "contacts",
-    label: "Contacts",
-    hint: "Address, phone, opening hours, how to reach you.",
+    label: "Контакты",
+    hint: "Адрес, телефон, часы работы, как вас найти.",
   },
   {
     key: "legal",
-    label: "Legal details",
-    hint: "Company name, registration and tax numbers, bank details.",
+    label: "Реквизиты",
+    hint: "Название, регистрационные и налоговые номера, банковские реквизиты.",
   },
   {
     key: "about",
-    label: "About the shop",
-    hint: "Who you are and what you sell.",
+    label: "О магазине",
+    hint: "Кто вы и что продаёте.",
   },
   {
     key: "privacy",
-    label: "Privacy policy",
-    hint: "What customer data you collect and what you do with it.",
+    label: "Политика конфиденциальности",
+    hint: "Какие данные покупателей вы собираете и что с ними делаете.",
   },
   {
     key: "offer",
-    label: "Public offer",
-    hint: "The terms a customer accepts when placing an order.",
+    label: "Публичная оферта",
+    hint: "Условия, которые покупатель принимает, оформляя заказ.",
   },
 ]
 
@@ -64,9 +65,9 @@ export const statusOf = (page: TenantPage): PageStatus => {
 }
 
 export const STATUS_LABEL: Record<PageStatus, string> = {
-  published: "Published",
-  draft: "Draft",
-  empty: "Empty",
+  published: "Опубликована",
+  draft: "Черновик",
+  empty: "Пусто",
 }
 
 export const STATUS_COLOR: Record<PageStatus, "green" | "orange" | "grey"> = {
