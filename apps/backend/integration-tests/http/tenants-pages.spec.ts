@@ -179,7 +179,7 @@ medusaIntegrationTestRunner({
 
         const list = await api.get("/store/tenant/pages", storeKey(a));
         expect(list.status).toBe(200);
-        expect(list.data.pages).toEqual([{ key: "contacts", title: "Contact Acme" }]);
+        expect(list.data.pages).toEqual([{ key: "contacts", title: "Contact Acme", locale: "en" }]);
 
         const page = await api.get("/store/tenant/pages/contacts", storeKey(a));
         expect(page.status).toBe(200);
@@ -199,6 +199,58 @@ medusaIntegrationTestRunner({
           .get("/store/tenant/pages/contacts", storeKey(b))
           .catch((e) => e.response);
         expect(pageB.status).toBe(404);
+      });
+
+      it("serves the visitor's locale on the storefront and falls back to en, then to any locale", async () => {
+        // Cherkashina case (2026-09-12): a shop whose default language is ru writes ru and en rows;
+        // the storefront sends x-medusa-locale (and repeats it as ?locale= for its cache key).
+        await api.put(
+          "/tenants/pages/about",
+          { title: "About Acme", body: "English body.", published: true },
+          bearer(a.token),
+        );
+        await api.put(
+          "/tenants/pages/about",
+          { title: "Об Acme", body: "Русский текст.", published: true, locale: "ru" },
+          bearer(a.token),
+        );
+        await api.put(
+          "/tenants/pages/offer",
+          { title: "Оферта", body: "Только по-русски.", published: true, locale: "ru" },
+          bearer(a.token),
+        );
+        const withHeader = { headers: { ...storeKey(a).headers, "x-medusa-locale": "ru" } };
+        const ru = await api.get("/store/tenant/pages/about", withHeader);
+        expect(ru.status).toBe(200);
+        expect(ru.data.page).toMatchObject({ key: "about", locale: "ru", title: "Об Acme" });
+        const viaQuery = await api.get("/store/tenant/pages/about?locale=ru", storeKey(a));
+        expect(viaQuery.data.page.locale).toBe("ru");
+        const en = await api.get("/store/tenant/pages/about", storeKey(a));
+        expect(en.data.page).toMatchObject({ locale: "en", title: "About Acme" });
+        // an unknown language falls back to en; a key that only exists in ru answers ru for everyone
+        const de = await api.get("/store/tenant/pages/about?locale=de", storeKey(a));
+        expect(de.data.page.locale).toBe("en");
+        const offerDe = await api.get("/store/tenant/pages/offer?locale=de", storeKey(a));
+        expect(offerDe.data.page).toMatchObject({ key: "offer", locale: "ru", title: "Оферта" });
+        // the list follows the same rule, one entry per key, in TENANT_PAGE_KEYS order
+        const listRu = await api.get("/store/tenant/pages?locale=ru", storeKey(a));
+        expect(listRu.data.pages).toEqual(
+          expect.arrayContaining([
+            { key: "about", title: "Об Acme", locale: "ru" },
+            { key: "offer", title: "Оферта", locale: "ru" },
+          ]),
+        );
+        const listEn = await api.get("/store/tenant/pages", storeKey(a));
+        expect(listEn.data.pages).toEqual(
+          expect.arrayContaining([
+            { key: "about", title: "About Acme", locale: "en" },
+            { key: "offer", title: "Оферта", locale: "ru" },
+          ]),
+        );
+        // a malformed locale is «no preference» on a public route, never a 400
+        const junk = await api.get("/store/tenant/pages/about?locale=%3Cscript%3E", storeKey(a));
+        expect(junk.status).toBe(200);
+        expect(junk.data.page.locale).toBe("en");
       });
 
       it("hides a draft from the storefront and shows it again when published", async () => {

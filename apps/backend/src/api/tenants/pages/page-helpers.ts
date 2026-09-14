@@ -103,3 +103,45 @@ export const fillPageList = (rows: PageRow[], locale: string): TenantPageDto[] =
     return row ? toPageDto(row) : blankPage(key, locale);
   });
 };
+
+const LOCALE_TAG = /^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
+
+/**
+ * The visitor's locale on the PUBLIC reads (`/store/tenant/pages*`). The
+ * framework's `applyLocale` middleware already resolves it into `req.locale`
+ * (`?locale=` first — which it DELETES from `req.query` — then the
+ * `x-medusa-locale` header the storefront sends on every SDK call), so this
+ * reads `req.locale` and only falls back to the raw header for a request that
+ * bypassed the middleware. A malformed value is not an error on a public route:
+ * it means «no preference», and the fallback chain of `pickPageForLocale`
+ * decides.
+ */
+export const requestedPageLocale = (req: {
+  locale?: string;
+  headers: Record<string, unknown>;
+}): string | null => {
+  const raw = req.locale ?? req.headers["x-medusa-locale"];
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return LOCALE_TAG.test(trimmed) ? trimmed : null;
+};
+
+/**
+ * One page per key for a visitor: their locale first, then its language part
+ * (`pt-BR` → `pt`), then `en` (what the panel wrote first), then whatever
+ * locale exists. A tenant whose default language is not English (the
+ * Cherkashina shop: ru default, en second) is otherwise unreadable on its own
+ * storefront, which served the `en` row alone before this fallback.
+ */
+export const pickPageForLocale = <T extends PageRow>(rows: T[], requested: string | null): T | null => {
+  if (!rows.length) return null;
+  const candidates = [requested, requested?.split("-")[0], DEFAULT_PAGE_LOCALE].filter(
+    (l): l is string => Boolean(l),
+  );
+  for (const locale of candidates) {
+    const hit = rows.find((row) => row.locale === locale);
+    if (hit) return hit;
+  }
+  return [...rows].sort((a, b) => a.locale.localeCompare(b.locale))[0];
+};
