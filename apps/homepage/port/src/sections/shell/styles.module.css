@@ -41,6 +41,12 @@
   color: var(--faint);
 }
 
+.footerLegal {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
 .footer a {
   color: var(--muted);
 }
