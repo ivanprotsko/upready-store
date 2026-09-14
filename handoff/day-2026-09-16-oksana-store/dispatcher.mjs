@@ -21,7 +21,7 @@ function laneCounts(cfg, state) {
 }
 const OKDEP = ['merged', 'done', 'skipped'];
 const BADDEP = ['failed', 'blocked', 'needs-ivan'];
-const depsSatisfied = (state, t) => (t.deps || []).every(d => OKDEP.includes(state.tasks[d]?.status));
+const depsSatisfied = (state, t) => (t.deps || []).every(d => OKDEP.includes(state.tasks[d]?.status)) && (t.softDeps || []).every(d => L.isTerminal(state.tasks[d]?.status));
 const depsFailed = (state, t) => (t.deps || []).filter(d => BADDEP.includes(state.tasks[d]?.status));
 function setLimit(state, text, task) { state.dispatcher.limitUntil = new Date(Date.now() + 15 * 60e3).toISOString(); L.event(state, { type: 'limit', task, msg: text.replace(/\s+/g, ' ').slice(0, 220) }); }
 const limited = (state) => !!(state.dispatcher.limitUntil && Date.parse(state.dispatcher.limitUntil) > Date.now());
@@ -98,7 +98,14 @@ function checkBuild(cfg, state, t) {
     s.terminalId = term.terminalId;
     const screen = L.terminalRead(s.ws, term.terminalId, 40);
     s.lastScreen = screen.slice(-800); s.lastScreenAt = L.nowIso();
-    if (L.LIMIT_RE.test(screen)) setLimit(state, screen, t.id);
+    if (L.LIMIT_RE.test(screen)) {
+      if (t.model === 'fable' && !s.modelFallback) { // лимит fable — та же задача на opus (PLAN §2)
+        s.modelFallback = true; t.model = 'opus'; L.saveTasks(cfg);
+        const r = L.agentCreate(s.ws, { prompt: L.buildWorkerPrompt(cfg, t), model: 'opus', effort: t.effort });
+        L.event(state, { task: t.id, type: 'model-fallback', msg: r.rc ? 'agents create failed: ' + String(r.error).slice(0, 200) : 'fable→opus, terminal ' + r.terminalId });
+        if (!r.rc) { s.terminalId = r.terminalId; s.launchedAt = L.nowIso(); }
+      } else setLimit(state, screen, t.id);
+    }
   }
   const since = L.minutesSince(s.fixStartedAt || s.launchedAt);
   const nudgeMin = cfg.stall?.nudgeMin || 150, relaunchMin = cfg.stall?.relaunchMin || 210;
