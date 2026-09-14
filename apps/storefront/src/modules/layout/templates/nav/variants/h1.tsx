@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -22,10 +21,11 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH1() {
   const t = await getTranslations()
-  const [regions, countryCode, siteName] = await Promise.all([
+  const [regions, countryCode, siteName, locales] = await Promise.all([
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
   ])
 
   return (
@@ -61,7 +61,7 @@ export default async function NavH1() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

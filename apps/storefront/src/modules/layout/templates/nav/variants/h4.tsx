@@ -1,10 +1,9 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -43,11 +42,12 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH4() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName] = await Promise.all([
+  const [categories, regions, countryCode, siteName, locales] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -99,7 +99,7 @@ export default async function NavH4() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

@@ -37,6 +37,18 @@ export type ResolvedTenant = {
    * (`specs/tenant-address/CANONICAL.md`).
    */
   primaryHost: string | null
+  /**
+   * Language and currency defaults owned by the shop (t06-locale-currency),
+   * not by the build. Null for a tenant that never saved
+   * `tenant_locale_settings` — the storefront then falls back to
+   * `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`, exactly the
+   * single-image behaviour every deployment ran before this change.
+   */
+  locale: {
+    defaultLocale: string
+    enabledLocales: string[]
+    defaultCountry: string | null
+  } | null
 }
 
 const TTL_MS = 60_000
@@ -98,9 +110,23 @@ export async function resolveTenantByHost(
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
         primary_host?: string | null
+        locale?: {
+          default_locale?: string | null
+          enabled_locales?: string[] | null
+          default_country?: string | null
+        } | null
       }
 
       if (body?.tenant?.handle) {
+        const locale =
+          body.locale?.default_locale && body.locale.enabled_locales?.length
+            ? {
+                defaultLocale: body.locale.default_locale,
+                enabledLocales: body.locale.enabled_locales,
+                defaultCountry: body.locale.default_country ?? null,
+              }
+            : null
+
         resolved = {
           handle: body.tenant.handle,
           name: body.tenant.name ?? body.tenant.handle,
@@ -109,6 +135,7 @@ export async function resolveTenantByHost(
           mode: body.theme?.mode ?? null,
           attribution: readAttribution(body.attribution),
           primaryHost: body.primary_host?.trim().toLowerCase() || null,
+          locale,
         }
       }
     }
