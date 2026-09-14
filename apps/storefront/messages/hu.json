@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Összes megtekintése"
   },
+  "ProductReviews": {
+    "heading": "Vélemények",
+    "ratingSummary": "{average} az 5-ből · {count, plural, one {# vélemény} other {# vélemény}}",
+    "ratingValue": "{value} az 5-ből",
+    "formHeading": "Az Ön véleménye",
+    "ratingLabel": "Értékelés",
+    "nameLabel": "Az Ön neve",
+    "titleLabel": "Cím (nem kötelező)",
+    "bodyLabel": "A vélemény szövege",
+    "submit": "Vélemény küldése",
+    "pendingNotice": "Köszönjük. A vélemény azután jelenik meg, hogy a bolt jóváhagyta.",
+    "signInPrompt": "Jelentkezzen be, hogy véleményt írhasson.",
+    "error": "A véleményt nem sikerült elküldeni. Próbálja újra.",
+    "ownerReply": "A bolt válasza",
+    "previousPage": "Előző",
+    "nextPage": "Következő",
+    "pageOf": "{pages} oldalból a(z) {page}."
+  },
   "ProductTabs": {
     "easyReturns": "Könnyű visszaküldés",
     "easyReturnsDesc": "Egyszerűen küldje vissza a terméket, mi pedig visszatérítjük a pénzét. Kérdés nélkül – mindent megteszünk, hogy a visszaküldés zökkenőmentes legyen.",

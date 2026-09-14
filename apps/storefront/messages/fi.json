@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Näytä kaikki"
   },
+  "ProductReviews": {
+    "heading": "Arvostelut",
+    "ratingSummary": "{average} / 5 · {count, plural, one {# arvostelu} other {# arvostelua}}",
+    "ratingValue": "{value} / 5",
+    "formHeading": "Arvostelusi",
+    "ratingLabel": "Arvosana",
+    "nameLabel": "Nimesi",
+    "titleLabel": "Otsikko (valinnainen)",
+    "bodyLabel": "Arvostelun teksti",
+    "submit": "Lähetä arvostelu",
+    "pendingNotice": "Kiitos. Arvostelu ilmestyy, kun kauppa on hyväksynyt sen.",
+    "signInPrompt": "Kirjaudu sisään jättääksesi arvostelun.",
+    "error": "Arvostelua ei voitu lähettää. Yritä uudelleen.",
+    "ownerReply": "Kaupan vastaus",
+    "previousPage": "Edellinen",
+    "nextPage": "Seuraava",
+    "pageOf": "Sivu {page} / {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Helppo palautus",
     "easyReturnsDesc": "Palauta vain tuote, niin hyvitämme rahasi. Ilman turhia kysymyksiä – teemme parhaamme, jotta palautus sujuu vaivattomasti.",

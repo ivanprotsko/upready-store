@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Tingnan lahat"
   },
+  "ProductReviews": {
+    "heading": "Mga review",
+    "ratingSummary": "{average} sa 5 · {count, plural, one {# review} other {# na review}}",
+    "ratingValue": "{value} sa 5",
+    "formHeading": "Ang iyong review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Ang pangalan mo",
+    "titleLabel": "Pamagat (opsyonal)",
+    "bodyLabel": "Teksto ng review",
+    "submit": "Ipadala ang review",
+    "pendingNotice": "Salamat. Lalabas ang review kapag inaprubahan na ito ng tindahan.",
+    "signInPrompt": "Mag-sign in para mag-iwan ng review.",
+    "error": "Hindi naipadala ang review. Subukan muli.",
+    "ownerReply": "Sagot ng tindahan",
+    "previousPage": "Nakaraan",
+    "nextPage": "Susunod",
+    "pageOf": "Pahina {page} ng {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Madaling Pagsauli",
     "easyReturnsDesc": "Isauli mo lang ang produkto at ire-refund namin ang iyong pera. Walang tanong-tanong – gagawin namin ang lahat para maging walang gulo ang iyong pagsauli.",

@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "सभी देखें"
   },
+  "ProductReviews": {
+    "heading": "समीक्षाएँ",
+    "ratingSummary": "5 में से {average} · {count, plural, one {# समीक्षा} other {# समीक्षाएँ}}",
+    "ratingValue": "5 में से {value}",
+    "formHeading": "आपकी समीक्षा",
+    "ratingLabel": "रेटिंग",
+    "nameLabel": "आपका नाम",
+    "titleLabel": "शीर्षक (वैकल्पिक)",
+    "bodyLabel": "समीक्षा का पाठ",
+    "submit": "समीक्षा भेजें",
+    "pendingNotice": "धन्यवाद। दुकान द्वारा स्वीकृत होने के बाद आपकी समीक्षा दिखाई देगी।",
+    "signInPrompt": "समीक्षा लिखने के लिए साइन इन करें।",
+    "error": "समीक्षा नहीं भेजी जा सकी। दोबारा कोशिश करें।",
+    "ownerReply": "दुकान का उत्तर",
+    "previousPage": "पिछला",
+    "nextPage": "अगला",
+    "pageOf": "पृष्ठ {page} / {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "आसान रिटर्न",
     "easyReturnsDesc": "बस अपना उत्पाद वापस करें और हम आपका पैसा वापस कर देंगे। कोई सवाल नहीं पूछा जाएगा – हम पूरी कोशिश करेंगे कि आपका रिटर्न बिना किसी परेशानी के हो।",

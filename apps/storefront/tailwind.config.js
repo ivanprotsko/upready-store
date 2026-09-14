@@ -27,6 +27,7 @@ module.exports = {
     "./node_modules/@medusajs/ui/dist/esm/components/status-badge/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/table/**/*.js",
     "./node_modules/@medusajs/ui/dist/esm/components/text/**/*.js",
+    "./node_modules/@medusajs/ui/dist/esm/components/textarea/**/*.js",
   ],
   theme: {
     extend: {

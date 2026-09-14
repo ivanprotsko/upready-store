@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Zobrazit vše"
   },
+  "ProductReviews": {
+    "heading": "Recenze",
+    "ratingSummary": "{average} z 5 · {count, plural, one {# recenze} few {# recenze} many {# recenze} other {# recenzí}}",
+    "ratingValue": "{value} z 5",
+    "formHeading": "Vaše recenze",
+    "ratingLabel": "Hodnocení",
+    "nameLabel": "Vaše jméno",
+    "titleLabel": "Nadpis (nepovinné)",
+    "bodyLabel": "Text recenze",
+    "submit": "Odeslat recenzi",
+    "pendingNotice": "Děkujeme. Recenze se zobrazí, jakmile ji obchod schválí.",
+    "signInPrompt": "Přihlaste se, abyste mohli napsat recenzi.",
+    "error": "Recenzi se nepodařilo odeslat. Zkuste to znovu.",
+    "ownerReply": "Odpověď obchodu",
+    "previousPage": "Zpět",
+    "nextPage": "Další",
+    "pageOf": "Strana {page} z {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Snadné vrácení",
     "easyReturnsDesc": "Stačí produkt vrátit a my vám vrátíme peníze. Bez zbytečných otázek – uděláme vše pro to, aby bylo vrácení co nejjednodušší.",

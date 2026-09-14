@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Zobacz wszystkie"
   },
+  "ProductReviews": {
+    "heading": "Opinie",
+    "ratingSummary": "{average} na 5 · {count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}",
+    "ratingValue": "{value} na 5",
+    "formHeading": "Twoja opinia",
+    "ratingLabel": "Ocena",
+    "nameLabel": "Twoje imię",
+    "titleLabel": "Tytuł (opcjonalnie)",
+    "bodyLabel": "Treść opinii",
+    "submit": "Wyślij opinię",
+    "pendingNotice": "Dziękujemy. Opinia pojawi się po zatwierdzeniu przez sklep.",
+    "signInPrompt": "Zaloguj się, aby dodać opinię.",
+    "error": "Nie udało się wysłać opinii. Spróbuj ponownie.",
+    "ownerReply": "Odpowiedź sklepu",
+    "previousPage": "Wstecz",
+    "nextPage": "Dalej",
+    "pageOf": "Strona {page} z {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Łatwe zwroty",
     "easyReturnsDesc": "Po prostu zwróć produkt, a my zwrócimy Ci pieniądze. Bez zbędnych pytań – zrobimy wszystko, aby zwrot przebiegł bezproblemowo.",

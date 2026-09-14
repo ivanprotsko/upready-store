@@ -698,6 +698,24 @@
   "ProductRail": {
     "viewAll": "Tümünü gör"
   },
+  "ProductReviews": {
+    "heading": "Değerlendirmeler",
+    "ratingSummary": "5 üzerinden {average} · {count, plural, one {# değerlendirme} other {# değerlendirme}}",
+    "ratingValue": "5 üzerinden {value}",
+    "formHeading": "Değerlendirmeniz",
+    "ratingLabel": "Puan",
+    "nameLabel": "Adınız",
+    "titleLabel": "Başlık (isteğe bağlı)",
+    "bodyLabel": "Değerlendirme metni",
+    "submit": "Değerlendirmeyi gönder",
+    "pendingNotice": "Teşekkürler. Değerlendirmeniz mağaza onayladıktan sonra görünecek.",
+    "signInPrompt": "Değerlendirme yazmak için giriş yapın.",
+    "error": "Değerlendirme gönderilemedi. Tekrar deneyin.",
+    "ownerReply": "Mağazanın yanıtı",
+    "previousPage": "Önceki",
+    "nextPage": "Sonraki",
+    "pageOf": "Sayfa {page} / {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Kolay iade",
     "easyReturnsDesc": "Ürününüzü iade etmeniz yeterli, paranızı geri veririz. Soru sormadan, iade işleminizi mümkün olduğunca sorunsuz hale getirmek için elimizden geleni yaparız.",
