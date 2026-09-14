@@ -43,3 +43,21 @@
 - **fix-seed-i18n** (`a34af13d5793638c7`, 48 вызовов): дефект подтверждён — **0 переводов на каждой засеянной
   строке**, путь чтения переводов живой; механизм найден, починка не начата.
 - **accept-domains** (`a9213e4dac20d9b8a`): умер на чтении канона, замеров нет.
+
+## Диагноз дефекта «картинка категории → localhost:9000» (прочитано по коду 2026-09-14 11:29 WITA, ветка feat/night-funnel-brand)
+- `apps/backend/medusa-config.ts:12` — `useS3 = isProd && Boolean(S3_BUCKET)`; на MT-стенде `S3_BUCKET` не задан
+  (в `deploy/mt/shipshift.env.example` нет ни одной `S3_*`), файловый модуль подключается только для S3
+  (`...(useS3 ? [s3Module] : [])`, строка 121), локальный провайдер приходит из дефолтов фреймворка БЕЗ опций.
+- `apps/backend/src/tenant-files/index.ts:49` — `LOCAL_BACKEND_URL_DEFAULT = "http://localhost:9000/static"`,
+  берётся, когда у провайдера `local` нет `backend_url` (строка 69). Это и есть URL в ответе загрузки.
+- **Патч (одно место):** в medusa-config.ts добавить явный локальный модуль для `!useS3`:
+  `{ resolve: "@medusajs/medusa/file", options: { providers: [{ resolve: "@medusajs/medusa/file-local", id: "local",
+  options: { backend_url: \`${process.env.STOREFRONT_URL ?? "http://localhost:9000"}/static\` } }] } }` —
+  `STOREFRONT_URL=https://${ENGINE_DOMAIN}` у mt-backend уже стоит (compose.mt.yml:88), а `/static` на движке
+  уже отдаётся по HTTPS (картинки профиля abstract). tenant-files прочитает `backend_url` из контейнера сам.
+- **Второй вопрос — персистентность:** загрузки ложатся в `/app/static/tenant-files/<tenant>/`, а на хост
+  смонтирован только `/opt/upready-store/media → /app/static/store-profiles`. Пересоздание контейнера сотрёт
+  загруженные картинки тенантов — нужен том/бинд на `/app/static/tenant-files` (проверить по compose на хосте).
+- Правка — на ветке деплоя оркестратора; родительская сессия её НЕ трогает, чтобы не столкнуться.
+
+## Ответ Ивана в 11:27 (он проснулся раньше): PR & merge через GitHub обязательны для всего, что идёт на сайт.
