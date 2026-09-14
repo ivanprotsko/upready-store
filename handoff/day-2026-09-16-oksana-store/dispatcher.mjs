@@ -1,0 +1,229 @@
+#!/usr/bin/env node
+// dispatcher.mjs — планировщик дня (спека ~/upready/specs/task-dispatcher/SPEC.md §3, полосы по типу задачи).
+// Команды: run (цикл) · tick (один проход) · status · cmd <op> [id] · add-task <file.json>
+import fs from 'node:fs';
+import path from 'node:path';
+import * as L from './lib.mjs';
+const { P } = L;
+
+const ACTIVE_BUILD = ['running', 'pr_open', 'fixing'];
+function ensure(state, t) { const s = (state.tasks[t.id] ||= { status: t.status || 'queued', attempt: 0, artifacts: [] }); if (!s.status) s.status = t.status || 'queued'; s.artifacts ||= []; return s; }
+function laneCounts(cfg, state) {
+  const c = {}; let total = 0;
+  for (const t of cfg.tasks) {
+    const s = state.tasks[t.id]; if (!s) continue;
+    if (t.kind === 'build') {
+      if (ACTIVE_BUILD.includes(s.status)) { c[t.lane] = (c[t.lane] || 0) + 1; total++; }
+      if (s.status === 'accepting') { c.accept = (c.accept || 0) + 1; total++; }
+    } else if (s.status === 'running') { c[t.lane] = (c[t.lane] || 0) + 1; total++; }
+  }
+  return { c, total };
+}
+const OKDEP = ['merged', 'done', 'skipped'];
+const BADDEP = ['failed', 'blocked', 'needs-ivan'];
+const depsSatisfied = (state, t) => (t.deps || []).every(d => OKDEP.includes(state.tasks[d]?.status));
+const depsFailed = (state, t) => (t.deps || []).filter(d => BADDEP.includes(state.tasks[d]?.status));
+function setLimit(state, text, task) { state.dispatcher.limitUntil = new Date(Date.now() + 15 * 60e3).toISOString(); L.event(state, { type: 'limit', task, msg: text.replace(/\s+/g, ' ').slice(0, 220) }); }
+const limited = (state) => !!(state.dispatcher.limitUntil && Date.parse(state.dispatcher.limitUntil) > Date.now());
+
+// ---------- запуск ----------
+function launchBuild(cfg, state, t) {
+  const s = ensure(state, t);
+  const prompt = L.buildWorkerPrompt(cfg, t);
+  const r = L.wsCreate(cfg, t, prompt);
+  if (r.rc) { s.status = 'failed'; s.error = 'superset ws create: ' + String(r.error).slice(0, 400); L.event(state, { task: t.id, type: 'ws-create-failed', msg: s.error }); return false; }
+  s.ws = r.id; s.worktree = r.worktreePath; s.terminalId = r.terminalId;
+  if (r.raw?.alreadyExists && !r.terminalId) { // workspace на этой ветке уже был — агента в нём нет, поднимаем
+    const a = L.agentCreate(r.id, { prompt, model: t.model, effort: t.effort });
+    if (a.rc) { s.status = 'failed'; s.error = 'agents create: ' + String(a.error).slice(0, 300); L.event(state, { task: t.id, type: 'agent-create-failed', msg: s.error }); return false; }
+    s.terminalId = a.terminalId;
+  }
+  s.status = 'running'; s.launchedAt = L.nowIso(); s.startedAt ||= s.launchedAt; s.attempt = (s.attempt || 0) + 1; s.nudges = 0; s.relaunched = false; s.error = null;
+  L.event(state, { task: t.id, type: 'launched', msg: `ws ${s.ws} · ${t.model || 'default'}/${t.effort || 'default'} · ${t.branch}` });
+  return true;
+}
+function launchRun(cfg, state, t) {
+  const s = ensure(state, t); const n = (s.attempt || 0) + 1;
+  const log = path.join(P.logs, `${t.id}-${n}.log`);
+  const cwd = L.runCwd(cfg, t);
+  if (!fs.existsSync(cwd)) { s.status = 'failed'; s.error = 'cwd не существует: ' + cwd; L.event(state, { task: t.id, type: 'run-failed', msg: s.error }); return false; }
+  const prompt = L.buildRunPrompt(cfg, t, { LOG_FILE: log, ATTEMPT: n, CWD: cwd });
+  const pid = L.runClaude({ cwd, prompt, model: t.model, effort: t.effort, logFile: log, name: t.id });
+  s.status = 'running'; s.attempt = n; s.run = { pid, log, startedAt: L.nowIso() }; s.startedAt ||= s.run.startedAt; s.error = null;
+  L.event(state, { task: t.id, type: 'launched', msg: `claude -p pid ${pid} · ${t.model || 'default'}/${t.effort || 'default'} · cwd ${cwd}` });
+  return true;
+}
+function launchAccept(cfg, state, t) {
+  const s = state.tasks[t.id]; const n = (s.acceptance?.length || 0) + 1;
+  const log = path.join(P.logs, `accept-${t.id}-${n}.log`); const findings = path.join(P.logs, `accept-${t.id}-${n}.findings.md`);
+  const prompt = L.buildTemplatePrompt(cfg, '_acceptor.md', t, { PR_NUMBER: s.pr.number, PR_URL: s.pr.url, FINDINGS_FILE: findings, ROUND: n, LOG_FILE: log });
+  const pid = L.runClaude({ cwd: cfg.project.mainCheckout, prompt, model: cfg.acceptor?.model || 'opus', effort: cfg.acceptor?.effort || 'medium', logFile: log, name: 'accept-' + t.id });
+  (s.acceptance ||= []).push({ n, pid, log, findings, startedAt: L.nowIso() });
+  s.status = 'accepting';
+  L.event(state, { task: t.id, type: 'accept-started', msg: `раунд ${n}, PR #${s.pr.number}, pid ${pid}` });
+}
+function sendToWorker(cfg, state, t, text, why) {
+  const s = state.tasks[t.id];
+  const term = L.liveAgentTerminal(s.ws);
+  if (term) { const r = L.terminalSend(s.ws, term.terminalId, text); if (!r.rc) { s.terminalId = term.terminalId; L.event(state, { task: t.id, type: why + '-sent', msg: 'в живой терминал ' + term.terminalId }); return true; } }
+  const r = L.agentCreate(s.ws, { prompt: text, model: t.model, effort: t.effort });
+  if (!r.rc) { s.terminalId = r.terminalId; L.event(state, { task: t.id, type: why + '-agent', msg: 'новый агент в workspace ' + s.ws }); return true; }
+  s.status = 'needs-ivan'; s.error = `не удалось передать ${why}: ${String(r.error).slice(0, 200)}`; L.event(state, { task: t.id, type: why + '-failed', msg: s.error }); return false;
+}
+function fixRound(cfg, state, t, findingsFile) {
+  const s = state.tasks[t.id];
+  if ((s.attempt || 1) >= (cfg.stall?.maxAttempts || 3)) { s.status = 'needs-ivan'; s.error = `приёмка отклонила ${s.acceptance.length} раз(а) — смотри ${findingsFile}`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
+  const findings = fs.existsSync(findingsFile) ? fs.readFileSync(findingsFile, 'utf8') : `(файл замечаний не найден — прочитай хвост лога приёмки ${s.acceptance.at(-1).log})`;
+  const prompt = L.buildTemplatePrompt(cfg, '_fix-round.md', t, { FINDINGS: findings, PR_NUMBER: s.pr.number, PR_URL: s.pr.url, ROUND: s.acceptance.length });
+  if (sendToWorker(cfg, state, t, prompt, 'fix')) { s.status = 'running'; s.attempt = (s.attempt || 1) + 1; s.fixStartedAt = L.nowIso(); s.nudges = 0; s.relaunched = false; }
+}
+
+// ---------- наблюдение ----------
+function checkBuild(cfg, state, t) {
+  const s = state.tasks[t.id];
+  const blockedFile = path.join(P.logs, `blocked-${t.id}.md`);
+  if (fs.existsSync(blockedFile)) { s.status = 'needs-ivan'; s.error = 'воркер заблокирован: ' + fs.readFileSync(blockedFile, 'utf8').slice(0, 300).replace(/\s+/g, ' '); L.event(state, { task: t.id, type: 'blocked-by-worker', msg: s.error }); return; }
+  const { pr, error } = L.prForBranch(cfg, t.branch);
+  if (error) { L.event(state, { task: t.id, type: 'gh-error', msg: String(error).slice(0, 200) }); }
+  if (pr) {
+    s.pr = { number: pr.number, url: pr.url, state: pr.state, mergedAt: pr.mergedAt, isDraft: pr.isDraft };
+    if (pr.state === 'MERGED') { s.status = 'merged'; s.finishedAt = L.nowIso(); L.event(state, { task: t.id, type: 'merged', msg: pr.url }); return; }
+    if (pr.state === 'OPEN' && !pr.isDraft && s.status === 'running') { s.status = 'pr_open'; s.prOpenedAt = L.nowIso(); L.event(state, { task: t.id, type: 'pr-open', msg: pr.url }); }
+    if (pr.state === 'CLOSED' && !pr.mergedAt) { s.status = 'needs-ivan'; s.error = 'PR закрыт без мержа: ' + pr.url; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
+  }
+  if (s.status !== 'running') return;
+  const term = L.liveAgentTerminal(s.ws);
+  if (term) {
+    s.terminalId = term.terminalId;
+    const screen = L.terminalRead(s.ws, term.terminalId, 40);
+    s.lastScreen = screen.slice(-800); s.lastScreenAt = L.nowIso();
+    if (L.LIMIT_RE.test(screen)) setLimit(state, screen, t.id);
+  }
+  const since = L.minutesSince(s.fixStartedAt || s.launchedAt);
+  const nudgeMin = cfg.stall?.nudgeMin || 150, relaunchMin = cfg.stall?.relaunchMin || 210;
+  const nudge = () => L.buildTemplatePrompt(cfg, '_finish-nudge.md', t, { MINUTES: Math.round(since) });
+  if (!term && L.minutesSince(s.launchedAt) > 5) {
+    const all = L.wsTerminals(s.ws);
+    if (!all.length || all.every(x => x.exited)) {
+      if (!s.relaunched) { s.relaunched = true; L.event(state, { task: t.id, type: 'agent-exited', msg: 'агент вышел без PR — поднимаю нового' }); sendToWorker(cfg, state, t, nudge(), 'relaunch'); }
+      else { s.status = 'needs-ivan'; s.error = 'агент дважды завершился без PR'; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); }
+      return;
+    }
+  }
+  if (since > relaunchMin * 1.6) { s.status = 'needs-ivan'; s.error = `воркер не открыл PR за ${Math.round(since)} мин`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
+  if (since > relaunchMin && s.nudges >= 1 && !s.relaunched) { s.relaunched = true; L.event(state, { task: t.id, type: 'stall-relaunch', msg: `${Math.round(since)} мин без PR` }); const r = L.agentCreate(s.ws, { prompt: nudge(), model: t.model, effort: t.effort }); if (!r.rc) s.terminalId = r.terminalId; return; }
+  if (since > nudgeMin && !s.nudges) { s.nudges = 1; L.event(state, { task: t.id, type: 'stall-nudge', msg: `${Math.round(since)} мин без PR` }); if (term) L.terminalSend(s.ws, term.terminalId, nudge()); }
+}
+function maybeAccept(cfg, state, t, counts) {
+  const s = state.tasks[t.id];
+  if ((counts.c.accept || 0) >= (cfg.lanes?.accept ?? 2)) return;
+  if (counts.total >= (cfg.maxSlots || 6)) return;
+  if (limited(state) || state.dispatcher.paused) return;
+  const head = L.branchHeadDate(cfg, t.branch); const ageMin = head ? (Date.now() - Date.parse(head)) / 60000 : 99;
+  if (ageMin < (cfg.acceptor?.headQuietMin ?? 4)) return; // воркер ещё пушит
+  launchAccept(cfg, state, t); counts.c.accept = (counts.c.accept || 0) + 1; counts.total++;
+}
+function checkAccepting(cfg, state, t) {
+  const s = state.tasks[t.id]; const a = s.acceptance.at(-1);
+  if (L.pidAlive(a.pid)) { if (L.minutesSince(a.startedAt) > (cfg.acceptor?.maxMin || 90)) { try { process.kill(a.pid, 'SIGTERM'); } catch { } a.verdict = 'TIMEOUT'; } else return; }
+  const tail = L.tailFile(a.log, 300);
+  const m = tail.match(/VERDICT:\s*(MERGED|REJECTED|BLOCKED)/g); const verdict = m ? m[m.length - 1].split(/\s+/)[1] : (a.verdict || 'NONE');
+  for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
+  const pr = L.prView(cfg, s.pr.number);  // истина — GitHub, не текст приёмщика (17a)
+  if (pr?.state === 'MERGED') { s.status = 'merged'; s.pr.mergedAt = pr.mergedAt; s.pr.state = 'MERGED'; s.finishedAt = L.nowIso(); a.verdict = 'MERGED'; L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
+  a.verdict = verdict;
+  if (verdict === 'REJECTED') { L.event(state, { task: t.id, type: 'rejected', msg: `раунд ${a.n}: ${a.findings}` }); fixRound(cfg, state, t, a.findings); return; }
+  if (verdict === 'MERGED') { L.event(state, { task: t.id, type: 'accept-claim-unverified', msg: 'приёмщик написал MERGED, GitHub не подтвердил — повтор' }); }
+  if (L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'pr_open'; return; }
+  if (s.acceptance.length < (cfg.acceptor?.maxRounds || 2)) { s.status = 'pr_open'; L.event(state, { task: t.id, type: 'accept-retry', msg: `вердикт ${verdict} — повтор приёмки` }); }
+  else { s.status = 'needs-ivan'; s.error = `приёмка без вердикта (${verdict}); лог ${a.log}`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); }
+}
+function checkRun(cfg, state, t) {
+  const s = state.tasks[t.id]; const r = s.run;
+  if (L.pidAlive(r.pid)) { if (L.minutesSince(r.startedAt) > (t.maxMin || 150)) { try { process.kill(r.pid, 'SIGTERM'); } catch { } r.timeout = true; } else return; }
+  const tail = L.tailFile(r.log, 300);
+  const m = tail.match(/RESULT:\s*(OK|FAIL)[^\n]*/g); const last = m ? m[m.length - 1] : null;
+  for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
+  if (!last && L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'queued'; s.attempt = Math.max(0, s.attempt - 1); L.event(state, { task: t.id, type: 'run-limit', msg: 'лимит — вернул в очередь' }); return; }
+  let ok = !!last && /RESULT:\s*OK/.test(last);
+  if (ok && t.doneCheck?.url) {
+    const rr = L.sh('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}', '--max-time', '30', '-L', t.doneCheck.url]);
+    if (rr.out.trim() !== String(t.doneCheck.expect || 200)) { ok = false; s.error = `doneCheck ${t.doneCheck.url} → ${rr.out.trim() || 'нет ответа'}`; }
+  }
+  if (ok) { s.status = 'done'; s.finishedAt = L.nowIso(); s.note = last.slice(0, 200); L.event(state, { task: t.id, type: 'done', msg: last.slice(0, 200) }); return; }
+  const reason = s.error || (last ? last.slice(0, 200) : (r.timeout ? 'таймаут' : 'нет строки RESULT в логе'));
+  if (s.attempt < (t.maxAttempts || 2)) { s.status = 'queued'; s.error = reason; L.event(state, { task: t.id, type: 'run-retry', msg: reason }); }
+  else { s.status = 'failed'; s.error = reason; L.event(state, { task: t.id, type: 'failed', msg: reason }); }
+}
+
+// ---------- команды из UI ----------
+function processCommands(cfg, state) {
+  fs.mkdirSync(P.commands, { recursive: true });
+  for (const f of fs.readdirSync(P.commands).filter(x => x.endsWith('.json')).sort()) {
+    const fp = path.join(P.commands, f); const c = L.readJson(fp, null); try { fs.unlinkSync(fp); } catch { }
+    if (!c) continue;
+    const t = c.id ? cfg.tasks.find(x => x.id === c.id) : null;
+    const s = t ? ensure(state, t) : null;
+    switch (c.op) {
+      case 'launch': if (s && !['running', 'pr_open', 'accepting', 'fixing'].includes(s.status)) { s.status = 'queued'; s.force = true; s.error = null; s.relaunched = false; s.nudges = 0; } break;
+      case 'skip': if (s && !['running', 'accepting'].includes(s.status)) s.status = 'skipped'; break;
+      case 'retry': if (s) { s.status = 'queued'; s.error = null; s.relaunched = false; s.nudges = 0; } break;
+      case 'mark-done': if (s) { s.status = t.kind === 'build' ? 'merged' : 'done'; s.note = 'отмечено вручную'; } break;
+      case 'pause': state.dispatcher.paused = true; break;
+      case 'resume': state.dispatcher.paused = false; state.dispatcher.limitUntil = null; try { fs.unlinkSync(P.stop); } catch { } break;
+      case 'clear-limit': state.dispatcher.limitUntil = null; break;
+    }
+    L.event(state, { type: 'command', task: c.id, msg: c.op });
+  }
+}
+
+// ---------- тик ----------
+export function tick() {
+  const cfg = L.loadTasks(); const state = L.loadState();
+  state.dispatcher.lastTick = L.nowIso(); state.dispatcher.ticks = (state.dispatcher.ticks || 0) + 1; state.dispatcher.pid = process.pid; state.dispatcher.startedAt ||= L.nowIso();
+  for (const t of cfg.tasks) ensure(state, t);
+  if (fs.existsSync(P.done)) { L.writeReport(cfg, cfg, state); L.saveState(state); return 'done'; }
+  if (fs.existsSync(P.stop)) state.dispatcher.paused = true;
+  processCommands(cfg, state);
+  for (const t of cfg.tasks) {
+    const s = state.tasks[t.id];
+    try {
+      if (t.kind === 'build') { if (['running', 'fixing', 'pr_open'].includes(s.status)) checkBuild(cfg, state, t); else if (s.status === 'accepting') checkAccepting(cfg, state, t); }
+      else if (s.status === 'running') checkRun(cfg, state, t);
+    } catch (e) { L.event(state, { task: t.id, type: 'monitor-error', msg: String(e.stack || e.message).slice(0, 400) }); }
+  }
+  for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s.status === 'queued' && !s.force) { const bad = depsFailed(state, t); if (bad.length) { s.status = 'blocked'; s.error = 'зависимость провалена: ' + bad.join(', '); L.event(state, { task: t.id, type: 'blocked', msg: s.error }); } } }
+  let counts = laneCounts(cfg, state);
+  for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (t.kind === 'build' && s.status === 'pr_open') { try { maybeAccept(cfg, state, t, counts); } catch (e) { L.event(state, { task: t.id, type: 'accept-error', msg: String(e.message).slice(0, 300) }); } } }
+  if (!state.dispatcher.paused && !limited(state)) {
+    counts = laneCounts(cfg, state);
+    const queue = cfg.tasks.filter(t => state.tasks[t.id].status === 'queued' && (state.tasks[t.id].force || depsSatisfied(state, t))).sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99));
+    for (const t of queue) {
+      if (counts.total >= (cfg.maxSlots || 6)) break;
+      const cap = cfg.lanes?.[t.lane] ?? 1; if ((counts.c[t.lane] || 0) >= cap) continue;
+      const ok = t.kind === 'build' ? launchBuild(cfg, state, t) : launchRun(cfg, state, t);
+      state.tasks[t.id].force = false;
+      if (ok) { counts.c[t.lane] = (counts.c[t.lane] || 0) + 1; counts.total++; }
+      L.saveState(state);
+    }
+  }
+  const allT = cfg.tasks.length > 0 && cfg.tasks.every(t => L.isTerminal(state.tasks[t.id].status));
+  state.dispatcher.allTerminalTicks = allT ? (state.dispatcher.allTerminalTicks || 0) + 1 : 0;
+  if (allT && state.dispatcher.allTerminalTicks >= 3) { fs.writeFileSync(P.done, L.wita() + ' все задачи в конечном статусе\n'); L.event(state, { type: 'all-terminal', msg: 'DONE' }); }
+  L.writeReport(cfg, cfg, state); L.saveState(state);
+  return 'ok';
+}
+
+const argv = process.argv.slice(2); const cmd = argv[0] || 'run';
+if (import.meta.url === `file://${process.argv[1]}`) {
+  if (cmd === 'tick') { console.log(tick()); }
+  else if (cmd === 'run') {
+    const sec = L.loadTasks().tickSec || 60; let busy = false;
+    const loop = () => { if (busy) return; busy = true; try { const r = tick(); if (r === 'done') { console.log('DONE — выхожу'); process.exit(0); } } catch (e) { L.journal({ type: 'tick-crash', msg: String(e.stack || e).slice(0, 800) }); } finally { busy = false; } };
+    loop(); setInterval(loop, sec * 1000); console.log(`dispatcher pid ${process.pid}, тик ${sec}с`);
+  }
+  else if (cmd === 'status') { const cfg = L.loadTasks(); const st = L.loadState(); for (const t of cfg.tasks) { const s = st.tasks[t.id] || {}; console.log(`${String(t.priority ?? '').padStart(3)} ${t.id.padEnd(28)} ${(s.status || t.status || 'queued').padEnd(11)} ${t.lane.padEnd(7)} ${(t.model || '-')}/${t.effort || '-'}  ${s.pr?.url || ''} ${s.error ? '! ' + s.error : ''}`); } console.log(`paused=${st.dispatcher.paused} limitUntil=${st.dispatcher.limitUntil || '-'} lastTick=${st.dispatcher.lastTick || '-'}`); }
+  else if (cmd === 'cmd') { fs.mkdirSync(P.commands, { recursive: true }); const f = path.join(P.commands, `${Date.now()}-${argv[1]}.json`); fs.writeFileSync(f, JSON.stringify({ op: argv[1], id: argv[2] || null })); console.log('queued', f); }
+  else if (cmd === 'add-task') { const cfg = L.loadTasks(); const add = JSON.parse(fs.readFileSync(argv[1], 'utf8')); const arr = Array.isArray(add) ? add : [add]; const ids = new Set(cfg.tasks.map(t => t.id)); let n = 0; for (const t of arr) { if (ids.has(t.id)) continue; cfg.tasks.push(t); n++; } L.saveTasks(cfg); console.log(`added ${n}`); }
+  else { console.log('usage: dispatcher.mjs run|tick|status|cmd <op> [id]|add-task <file>'); }
+}

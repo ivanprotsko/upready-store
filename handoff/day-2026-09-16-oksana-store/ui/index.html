@@ -1,0 +1,56 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Штаб дня — магазин Оксаны</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#0b0c0e;--fg:#e6e6e6;--mut:#8a8f98;--line:#23262b;--card:#121417;--acc:#4f8cff;--ok:#2bb673;--warn:#e2b93b;--bad:#e5484d;--pur:#a78bfa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,Inter,Segoe UI,sans-serif}
+header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;z-index:2}
+h1{font-size:16px;margin:0}.pill{padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mut);font-size:12px}.pill.on{border-color:var(--ok);color:var(--ok)}.pill.off{border-color:var(--bad);color:var(--bad)}.pill.warn{border-color:var(--warn);color:var(--warn)}
+button{background:#1a1d22;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px}button:hover{border-color:var(--acc)}button.run{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}button.danger{border-color:var(--bad);color:var(--bad)}
+main{padding:12px 16px;max-width:1500px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mut);font-weight:500;font-size:12px}
+tr.row{cursor:pointer}tr.row:hover{background:#111318}.st{font-weight:600}.st.queued{color:var(--mut)}.st.running,.st.pr_open,.st.accepting,.st.fixing{color:var(--acc)}.st.merged,.st.done{color:var(--ok)}.st.failed,.st.blocked,.st.needs-ivan{color:var(--bad)}.st.skipped{color:var(--pur)}
+.det{background:var(--card);padding:12px;border-bottom:1px solid var(--line)}textarea{width:100%;min-height:360px;background:#0e1013;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px;font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+select,input{background:#0e1013;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 6px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:8px}label{font-size:12px;color:var(--mut);display:block}
+pre{background:#0e1013;border:1px solid var(--line);border-radius:6px;padding:8px;max-height:420px;overflow:auto;font-size:12px;white-space:pre-wrap}.tabs{display:flex;gap:6px;margin:8px 0}.tabs button.on{border-color:var(--acc);color:var(--acc)}
+a{color:var(--acc)}.mut{color:var(--mut);font-size:12px}.err{color:var(--bad);font-size:12px}.ev{font-size:12px;color:var(--mut)}
+</style></head><body>
+<header><h1>Штаб дня · магазин Оксаны · upready-store</h1><span id="alive" class="pill">…</span><span id="paused" class="pill"></span><span id="limit" class="pill"></span><span id="slots" class="pill"></span><span id="now" class="mut"></span>
+<span style="flex:1"></span><button onclick="cmd('pause')">⏸ Пауза</button><button onclick="cmd('resume')">▶ Возобновить</button><button onclick="cmd('clear-limit')">Сбросить лимит</button><button onclick="show('report')">📄 Отчёт</button><button onclick="show('tasks')">📋 Задачи</button><button onclick="show('events')">🕒 События</button><button onclick="show('templates')">🧩 Шаблоны</button></header>
+<main>
+<section id="tasks"><table><thead><tr><th>#</th><th>id</th><th>задача</th><th>полоса</th><th>модель/усилие</th><th>ветка / cwd</th><th>статус</th><th>PR</th><th>попыт.</th><th>после</th></tr></thead><tbody id="tb"></tbody></table></section>
+<section id="report" hidden><pre id="reportPre"></pre></section>
+<section id="events" hidden><div id="evList"></div></section>
+<section id="templates" hidden><div class="tabs" id="tplTabs"></div><textarea id="tplText"></textarea><div style="margin-top:6px"><button onclick="saveTpl()">💾 Сохранить шаблон</button> <span class="mut" id="tplName"></span></div></section>
+</main>
+<script>
+let S=null, open=null, editing=false, view='tasks', tplCur=null;
+const $=s=>document.querySelector(s);
+async function api(p,o){const r=await fetch(p,o);return r.headers.get('content-type')?.includes('json')?r.json():r.text()}
+async function load(){ if(editing) return; S=await api('/api/state'); render(); }
+function render(){ const d=S.state.dispatcher||{}; $('#alive').textContent=S.alive?'диспетчер жив · тик '+(d.ticks||0):'диспетчер НЕ работает'; $('#alive').className='pill '+(S.alive?'on':'off'); $('#paused').textContent=(d.paused||S.stopFile)?'ПАУЗА':'работает'; $('#paused').className='pill '+((d.paused||S.stopFile)?'warn':'on'); const lim=d.limitUntil&&Date.parse(d.limitUntil)>Date.now(); $('#limit').textContent=lim?'лимит до '+d.limitUntil.slice(11,16)+'Z':'лимита нет'; $('#limit').className='pill '+(lim?'warn':''); $('#now').textContent=S.now+(S.doneFile?' · DONE':'');
+  const cnt={};for(const t of S.cfg.tasks){const st=S.state.tasks[t.id]?.status||t.status||'queued';cnt[st]=(cnt[st]||0)+1} $('#slots').textContent=Object.entries(cnt).map(([k,v])=>k+':'+v).join(' · ');
+  const tb=$('#tb'); tb.innerHTML=''; for(const t of S.cfg.tasks){ const s=S.state.tasks[t.id]||{}; const st=s.status||t.status||'queued'; const tr=document.createElement('tr'); tr.className='row'; tr.onclick=()=>toggle(t.id);
+    tr.innerHTML=`<td>${t.priority??''}</td><td><code>${t.id}</code></td><td>${esc(t.title)}${s.error?`<div class="err">${esc(s.error)}</div>`:''}</td><td>${t.lane}</td><td>${t.model||'-'}/${t.effort||'-'}</td><td class="mut">${esc(t.branch||t.cwd||'')}</td><td class="st ${st}">${st}</td><td>${s.pr?.url?`<a href="${s.pr.url}" target="_blank" onclick="event.stopPropagation()">#${s.pr.number}</a>`:''}</td><td>${s.attempt||0}</td><td class="mut">${(t.deps||[]).join(', ')}</td>`;
+    tb.appendChild(tr); if(open===t.id){ const d=document.createElement('tr'); d.innerHTML=`<td colspan="10" class="det" id="det-${cssid(t.id)}"></td>`; tb.appendChild(d); fillDetail(t,s); } }
+  $('#evList').innerHTML=(S.state.events||[]).slice().reverse().map(e=>`<div class="ev">${e.ts.replace('T',' ').slice(0,19)} · <b>${esc(e.task||'')}</b> · ${esc(e.type)}${e.msg?': '+esc(e.msg):''}</div>`).join('');
+}
+function cssid(s){return s.replace(/[^a-z0-9]/gi,'_')}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function toggle(id){ open=open===id?null:id; render(); }
+async function fillDetail(t,s){ const el=$('#det-'+cssid(t.id)); const p=await api('/api/prompt?id='+encodeURIComponent(t.id)); const models=['opus','sonnet','fable','haiku'], efforts=['low','medium','high','xhigh','max'], lanes=Object.keys(S.cfg.lanes||{build:1});
+  el.innerHTML=`<div class="grid"><div><label>модель</label><select id="m-${cssid(t.id)}">${models.map(m=>`<option ${t.model===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>усилие</label><select id="e-${cssid(t.id)}">${efforts.map(m=>`<option ${t.effort===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>полоса</label><select id="l-${cssid(t.id)}">${lanes.map(m=>`<option ${t.lane===m?'selected':''}>${m}</option>`).join('')}</select></div><div><label>приоритет</label><input id="p-${cssid(t.id)}" value="${t.priority??''}" size="4"></div><div><label>ветка / cwd</label><input id="b-${cssid(t.id)}" value="${esc(t.branch||t.cwd||'')}" style="width:100%"></div><div><label>зависимости (через запятую)</label><input id="d-${cssid(t.id)}" value="${esc((t.deps||[]).join(', '))}" style="width:100%"></div></div>
+  <div class="mut">файл промпта: ${esc(p.file)} · kind=${t.kind} · workspace ${s.ws?`<code>${s.ws}</code>`:'—'} · worktree ${esc(s.worktree||'')} ${s.pr?.url?`· <a target="_blank" href="${s.pr.url}">PR #${s.pr.number}</a>`:''}</div>
+  <div class="mut" style="margin:6px 0">Критерии приёмки: ${esc(t.acceptance||'(в промпте)')}</div>
+  <textarea id="t-${cssid(t.id)}" onfocus="editing=true" onblur="editing=false">${esc(p.text)}</textarea>
+  <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="run" onclick="runTask('${t.id}')">▶ RUN — ветка + workspace + агент</button><button onclick="savePrompt('${t.id}')">💾 Сохранить промпт и параметры</button><button onclick="cmd('retry','${t.id}')">↻ Retry</button><button onclick="cmd('skip','${t.id}')">⤼ Skip</button><button onclick="cmd('mark-done','${t.id}')">✓ Отметить сделанной</button><button onclick="preview('${t.id}')">👁 Полный промпт (с преамбулой)</button><button onclick="screen('${t.id}')">🖥 Экран агента</button>${(s.acceptance||[]).map(a=>`<button onclick="log('${a.log.split('/').pop()}')">лог приёмки ${a.n} (${a.verdict||'…'})</button>`).join('')}${s.run?`<button onclick="log('${s.run.log.split('/').pop()}')">лог запуска</button>`:''}</div>
+  <pre id="x-${cssid(t.id)}" hidden></pre>`; }
+async function savePrompt(id){ const t=S.cfg.tasks.find(x=>x.id===id); const c=cssid(id); await fetch('/api/prompt?id='+encodeURIComponent(id),{method:'PUT',body:$('#t-'+c).value}); const patch={model:$('#m-'+c).value,effort:$('#e-'+c).value,lane:$('#l-'+c).value,priority:Number($('#p-'+c).value)||null,deps:$('#d-'+c).value.split(',').map(s=>s.trim()).filter(Boolean)}; if(t.kind==='build') patch.branch=$('#b-'+c).value; else patch.cwd=$('#b-'+c).value; await fetch('/api/task?id='+encodeURIComponent(id),{method:'PUT',body:JSON.stringify(patch)}); editing=false; await load(); }
+async function runTask(id){ await savePrompt(id); await cmd('launch',id); }
+async function cmd(op,id){ const r=await api('/api/cmd',{method:'POST',body:JSON.stringify({op,id})}); if(r.ranInline) alert('Диспетчер не запущен — команда выполнена разово. Запусти run.sh, чтобы очередь шла сама.'); setTimeout(load,800); }
+async function preview(id){ const p=await api('/api/prompt?id='+encodeURIComponent(id)+'&rendered=1'); const x=$('#x-'+cssid(id)); x.hidden=false; x.textContent=p.rendered; }
+async function screen(id){ const x=$('#x-'+cssid(id)); x.hidden=false; x.textContent=await api('/api/screen?id='+encodeURIComponent(id)); }
+async function log(f){ const x=document.querySelector('.det pre'); if(x){x.hidden=false; x.textContent=await api('/api/log?file='+encodeURIComponent(f));} }
+function show(v){ view=v; for(const s of ['tasks','report','events','templates']) $('#'+s).hidden=s!==v; if(v==='report') api('/api/report').then(t=>$('#reportPre').textContent=t); if(v==='templates') loadTpls(); }
+async function loadTpls(){ const list=await api('/api/templates'); $('#tplTabs').innerHTML=list.map(n=>`<button class="${tplCur===n?'on':''}" onclick="openTpl('${n}')">${n}</button>`).join(''); if(!tplCur&&list[0]) openTpl(list[0]); }
+async function openTpl(n){ tplCur=n; const t=await api('/api/template?name='+encodeURIComponent(n)); $('#tplText').value=t.text; $('#tplName').textContent=n; loadTpls(); }
+async function saveTpl(){ await fetch('/api/template?name='+encodeURIComponent(tplCur),{method:'PUT',body:$('#tplText').value}); alert('сохранено'); }
+load(); setInterval(load, 10000);
+</script></body></html>

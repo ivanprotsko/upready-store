@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+// ui/server.mjs — локальный UI диспетчера: таблица задач, редактор промптов, RUN/SKIP/RETRY, пауза, отчёт, логи. http://localhost:5390
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import * as L from '../lib.mjs';
+const { P } = L;
+const cfg0 = L.loadTasks(); const PORT = Number(process.env.PORT || cfg0.ui?.port || 5390);
+const HTML = path.join(L.DIR, 'ui', 'index.html');
+const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+const text = (res, code, s, ct = 'text/plain; charset=utf-8') => { res.writeHead(code, { 'content-type': ct, 'cache-control': 'no-store' }); res.end(s); };
+const body = (req) => new Promise(r => { let b = ''; req.on('data', d => b += d); req.on('end', () => r(b)); });
+const safe = (base, f) => { const p = path.resolve(base, f); return p.startsWith(base) ? p : null; };
+function cmd(op, id) { fs.mkdirSync(P.commands, { recursive: true }); const f = path.join(P.commands, `${Date.now()}-${op}-${id || 'all'}.json`); fs.writeFileSync(f, JSON.stringify({ op, id: id || null, ts: L.nowIso() })); return f; }
+function dispatcherAlive(state) { const d = state.dispatcher || {}; return L.pidAlive(d.pid) && L.minutesSince(d.lastTick) < 5; }
+
+const server = http.createServer(async (req, res) => {
+  const u = new URL(req.url, 'http://x'); const q = Object.fromEntries(u.searchParams);
+  try {
+    if (u.pathname === '/') return text(res, 200, fs.readFileSync(HTML, 'utf8'), 'text/html; charset=utf-8');
+    if (u.pathname === '/api/state') { const cfg = L.loadTasks(); const state = L.loadState(); return json(res, 200, { cfg: { ...cfg, tasks: cfg.tasks.map(t => ({ ...t, promptFile: path.relative(L.DIR, L.promptFile(t)) })) }, state, alive: dispatcherAlive(state), now: L.wita(), dir: L.DIR, doneFile: fs.existsSync(P.done), stopFile: fs.existsSync(P.stop) }); }
+    if (u.pathname === '/api/prompt') {
+      const cfg = L.loadTasks(); const t = cfg.tasks.find(x => x.id === q.id); if (!t) return json(res, 404, { error: 'no task' });
+      if (req.method === 'PUT') { fs.mkdirSync(P.prompts, { recursive: true }); fs.writeFileSync(L.promptFile(t), await body(req)); return json(res, 200, { ok: true }); }
+      const rendered = q.rendered ? (t.kind === 'build' ? L.buildWorkerPrompt(cfg, t) : L.buildRunPrompt(cfg, t, { LOG_FILE: '<log>', ATTEMPT: '<n>', CWD: L.runCwd(cfg, t) })) : null;
+      return json(res, 200, { text: L.loadPromptText(t), file: L.promptFile(t), rendered });
+    }
+    if (u.pathname === '/api/template') { const f = safe(P.prompts, q.name || ''); if (!f) return json(res, 400, { error: 'bad name' }); if (req.method === 'PUT') { fs.writeFileSync(f, await body(req)); return json(res, 200, { ok: true }); } return json(res, 200, { text: fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '' }); }
+    if (u.pathname === '/api/templates') return json(res, 200, fs.readdirSync(P.prompts).filter(f => f.startsWith('_')));
+    if (u.pathname === '/api/task' && req.method === 'PUT') { const cfg = L.loadTasks(); const t = cfg.tasks.find(x => x.id === q.id); if (!t) return json(res, 404, { error: 'no task' }); const patch = JSON.parse(await body(req)); for (const k of ['model', 'effort', 'priority', 'lane', 'title', 'deps', 'branch', 'acceptance', 'maxMin']) if (k in patch) t[k] = patch[k]; L.saveTasks(cfg); return json(res, 200, { ok: true, task: t }); }
+    if (u.pathname === '/api/task' && req.method === 'POST') { const cfg = L.loadTasks(); const t = JSON.parse(await body(req)); if (!t.id || cfg.tasks.some(x => x.id === t.id)) return json(res, 400, { error: 'id пустой или занят' }); cfg.tasks.push(t); L.saveTasks(cfg); return json(res, 200, { ok: true }); }
+    if (u.pathname === '/api/cmd' && req.method === 'POST') { const c = JSON.parse(await body(req)); const f = cmd(c.op, c.id); const state = L.loadState(); if (!dispatcherAlive(state)) { const { tick } = await import('../dispatcher.mjs'); tick(); return json(res, 200, { ok: true, ranInline: true }); } return json(res, 200, { ok: true, queued: path.basename(f) }); }
+    if (u.pathname === '/api/report') return text(res, 200, fs.existsSync(P.report) ? fs.readFileSync(P.report, 'utf8') : 'отчёта ещё нет');
+    if (u.pathname === '/api/log') { const f = safe(P.logs, q.file || '') || safe(P.artifacts, q.file || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, L.tailFile(f, Number(q.n || 400))); }
+    if (u.pathname === '/api/logs') return json(res, 200, fs.existsSync(P.logs) ? fs.readdirSync(P.logs).map(f => ({ f, size: fs.statSync(path.join(P.logs, f)).size, m: fs.statSync(path.join(P.logs, f)).mtime })).sort((a, b) => b.m - a.m) : []);
+    if (u.pathname === '/api/screen') { const state = L.loadState(); const s = state.tasks[q.id]; if (!s?.ws) return text(res, 404, 'нет workspace'); const term = L.liveAgentTerminal(s.ws); if (!term) return text(res, 200, '(живого терминала нет)\n' + (s.lastScreen || '')); return text(res, 200, L.terminalRead(s.ws, term.terminalId, Number(q.n || 60))); }
+    if (u.pathname === '/api/file') { const f = safe(L.DIR, q.f || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, fs.readFileSync(f, 'utf8')); }
+    return text(res, 404, 'not found');
+  } catch (e) { return json(res, 500, { error: String(e.stack || e) }); }
+});
+server.listen(PORT, '127.0.0.1', () => console.log(`ui http://localhost:${PORT} (${L.DIR})`));
