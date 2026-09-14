@@ -140,6 +140,15 @@ importers:
         specifier: ^1.0.0-pre.53
         version: 1.0.0-pre.53
 
+  apps/bot:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   apps/storefront:
     dependencies:
       '@ariakit/react':
