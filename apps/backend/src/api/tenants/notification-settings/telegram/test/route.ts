@@ -4,6 +4,7 @@ import { recordDelivery } from "../../../../../tenant-notifications/delivery-sta
 import {
   defaultOwnerLocale,
   ownerText,
+  resolveOwnerLocale,
 } from "../../../../../tenant-notifications/owner-messages";
 import { resolveShopForTenant } from "../../../../../tenant-notifications/shop";
 import { botToken, sendTelegramMessage } from "../../../../../tenant-notifications/telegram";
@@ -38,7 +39,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   const shop = await resolveShopForTenant(req.scope, tenant.id);
-  const locale = defaultOwnerLocale();
+  const locale = resolveOwnerLocale(shop.defaultLocale, defaultOwnerLocale());
   const text = [
     ownerText(locale, "testTitle"),
     "",

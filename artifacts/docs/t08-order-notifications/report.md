@@ -159,15 +159,24 @@ error: [order-placed-email] Failed to send the letter for order order_01M2GXRF21
 
 Сырьё приёмки: `telegram-capture.jsonl` и `mail-capture.jsonl` рядом с этим файлом.
 
+## Стык с t06 (язык магазина)
+
+Ветка смержена с `dev`, куда вошли пер-тенантные настройки языка (`tenant_locale_settings`).
+Сообщение владельцу теперь пишется на языке МАГАЗИНА (`default_locale`), а `STOREFRONT_DEFAULT_LOCALE`
+деплоя остался фолбэком. Конфликты слияния (три файла, все вида «сосед добавил соседа»)
+разрешены сохранением обеих сторон: у тенанта теперь и `locale_settings`, и `notification_settings`,
+в панели — и `/settings/locale`, и `/settings/notifications`.
+
 ## Проверки
 
 Результат по ФАЙЛУ целиком, а не по своим строкам:
 
 ```
-cd apps/backend && npx medusa lint            → rc=0, 0 errors, 10 warnings (все — довесок @medusajs
-                                                 no-service-mutations-in-api-route на давних маршрутах)
+cd apps/backend && npx medusa lint            → rc=0, 0 errors, 18 warnings (все — довесок @medusajs
+                                                 no-service-mutations-in-api-route на давних маршрутах,
+                                                 в том числе пришедших с dev)
 cd apps/backend && npx tsc --noEmit            → rc=0
-cd apps/backend && pnpm test:unit              → Tests: 1 failed, 85 passed, 86 total
+cd apps/backend && pnpm test:unit              → Tests: 1 failed, 95 passed, 96 total (после мержа dev)
     из них своя сюита: src/tenant-notifications → Tests: 16 passed, 16 total (Test Suites: 1 passed)
     единственный красный файл — src/migration-scripts/__tests__/profile-data.unit.spec.ts, он ПАДАЛ
     и до этой ветки: тот же тест на dev в основном чекауте даёт «Tests: 1 failed, 14 passed, 15 total»

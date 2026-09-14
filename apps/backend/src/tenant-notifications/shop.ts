@@ -33,6 +33,13 @@ export type ShopNotificationSettings = {
 export type ShopIdentity = {
   /** `null` on a single-store install, or when the order's channel belongs to nobody. */
   tenantId: string | null;
+  /**
+   * The shop's OWN default language (`tenant_locale_settings.default_locale`,
+   * t06-locale-currency), or `null` when it has never picked one. The owner's
+   * Telegram message is written in it; the deployment's
+   * `STOREFRONT_DEFAULT_LOCALE` is the fallback.
+   */
+  defaultLocale: string | null;
   handle: string | null;
   /** What the letter signs itself with and what the owner's message calls the shop. */
   name: string;
@@ -47,6 +54,7 @@ export type ShopIdentity = {
 
 const platformShop = (): ShopIdentity => ({
   tenantId: null,
+  defaultLocale: null,
   handle: null,
   name: STORE_NAME,
   storefrontUrl: STOREFRONT_URL.replace(/\/$/, ""),
@@ -98,6 +106,7 @@ type TenantRow = {
   name?: string;
   handle?: string;
   domains?: Array<{ host?: string; is_primary?: boolean }> | null;
+  locale_settings?: { default_locale?: string | null } | null;
 };
 
 const identityFor = async (
@@ -115,6 +124,7 @@ const identityFor = async (
 
   return {
     tenantId: tenant.id,
+    defaultLocale: tenant.locale_settings?.default_locale ?? null,
     handle: tenant.handle,
     name,
     storefrontUrl: shopOrigin({ handle: tenant.handle, primaryDomain }),
@@ -125,7 +135,14 @@ const identityFor = async (
   };
 };
 
-const TENANT_FIELDS = ["id", "name", "handle", "domains.host", "domains.is_primary"];
+const TENANT_FIELDS = [
+  "id",
+  "name",
+  "handle",
+  "domains.host",
+  "domains.is_primary",
+  "locale_settings.default_locale",
+];
 
 const tenantById = async (
   container: MedusaContainer,

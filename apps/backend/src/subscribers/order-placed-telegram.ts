@@ -3,7 +3,7 @@ import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { recordDelivery } from "../tenant-notifications/delivery-status";
 import { formatOrderMessage, type OwnerOrder } from "../tenant-notifications/order-message";
-import { defaultOwnerLocale } from "../tenant-notifications/owner-messages";
+import { defaultOwnerLocale, resolveOwnerLocale } from "../tenant-notifications/owner-messages";
 import { resolveShopForOrder } from "../tenant-notifications/shop";
 import { panelOrderUrl } from "../tenant-notifications/storefront-origin";
 import { botToken, sendTelegramMessage } from "../tenant-notifications/telegram";
@@ -93,7 +93,9 @@ export default async function orderPlacedTelegramHandler({
   const text = formatOrderMessage({
     order,
     shopName: shop.name,
-    locale: defaultOwnerLocale(),
+    // The shop's own language first (t06-locale-currency), the deployment's
+    // default second.
+    locale: resolveOwnerLocale(shop.defaultLocale, defaultOwnerLocale()),
     panelUrl: panelOrderUrl(order.id),
   });
 
