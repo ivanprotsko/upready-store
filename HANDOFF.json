@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T06:51:12+08:00",
-  "status": "2026-09-15 06:51 WITA: d02-deploy-mt-2 — DONE. sha 2508708 (8 PR с волны 1: #21-28), 5/5 health-checks 200 (включая cherkashino/ru), дамп mt-medusa_mt-20260915-000508.sql.gz 5069981 байт, 4 миграции tenant применены (уже attempt 1), каталог клиента 29 реальных товаров (не демо), SMTP/Telegram для order-notifications не настроены на хосте — решение Ивана, отчёт handoff/day-2026-09-16-oksana-store/artifacts/d02-deploy-mt-2/report.md",
+  "updated": "2026-09-15T07:27:57+08:00",
+  "status": "2026-09-15 07:27 WITA: приёмка t10-blog завершена — PR #31 слит (merge 8a47879), все критерии перемеряны на своём стенде; помарка published_at заведена комментарием к PR и в logs/accept-t10-blog-1.findings.md",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1234,6 +1234,12 @@
       "id": "q-t08-prinyat-pr-28-merged",
       "question": "t08 принят (PR #28 MERGED), но сквозная проверка Telegram на БОЕВОМ боте не делалась: нужна одна строка «шли тестовое в мой чат» (отправка наружу, гейт 17b). Плюс живой бот на хосте пока не умеет привязку — в /opt/upready-store-bot/.env нет UPREADY_BACKEND_URL и TELEGRAM_LINK_SECRET, порядок выкатки в apps/bot/DEPLOY.md",
       "asked": "2026-09-15"
+    },
+    {
+      "id": "q-git-push-origin-dev-zablokirovan",
+      "question": "git push origin dev заблокирован: локальный dev разошёлся с origin (15 непушенных локальных коммитов против 6 на origin — журналы приёмки t03/t05/t06/t07/t08/x01/x02 плюс два чекпойнта d02, все сделаны сегодня разными параллельными сессиями диспетчера дня в ОДНОМ общем checkout upready-store). git rebase origin/dev упёрся в конфликт в HANDOFF.json уже на 3-м из 15 коммитов (2fb6165, статус t03) — не резолвил сам, rebase --abort, откатился без потерь. Мой коммит 7c0978b (d02-deploy-mt-2, отчёт о деплое) остался локально, не запушен. Нужно решение: либо ручной разбор конфликтов HANDOFF.json по всем 15 коммитам, либо переиграть журналы через handoff.mjs заново на чистом origin/dev. Похоже на системную проблему диспетчера дня — общий checkout вместо per-task worktree (rule 21e).",
+      "asked": "2026-09-15",
+      "audience": "ivan"
     }
   ],
   "sessions": [
