@@ -4,15 +4,16 @@ import type {
   Logger,
 } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
-import { render } from "@react-email/render";
 import { createElement } from "react";
 import { OrderTransferRequestEmail } from "../emails/order-transfer-request";
 import {
   getEmailTranslator,
   getLocaleFromMetadata,
   resolveEmailLocale,
-  STOREFRONT_URL,
 } from "../emails/i18n";
+import { emailShopFrom } from "../emails/lib/notify";
+import { renderForShop } from "../emails/lib/shop";
+import { resolveShopForOrder } from "../tenant-notifications/shop";
 
 export default async function orderTransferRequestedEmailHandler({
   event,
@@ -85,9 +86,14 @@ export default async function orderTransferRequestedEmailHandler({
   const { t } = getEmailTranslator(locale);
   const displayId = order?.display_id ?? orderId;
 
-  const transferUrl = `${STOREFRONT_URL}/order/${orderId}/transfer/${encodeURIComponent(token)}`;
+  // The transfer link is a customer-facing URL like any other, so it points at
+  // the SHOP the order belongs to (t08-order-notifications), not at the engine.
+  const shop = await resolveShopForOrder(container, orderId);
+  const emailShop = emailShopFrom(shop);
+  const transferUrl = `${emailShop.storefrontUrl}/order/${orderId}/transfer/${encodeURIComponent(token)}`;
 
-  const html = await render(
+  const html = await renderForShop(
+    emailShop,
     createElement(OrderTransferRequestEmail, {
       displayId,
       transferUrl,
@@ -112,6 +118,9 @@ export default async function orderTransferRequestedEmailHandler({
         subject: t("OrderTransfer.subject", { id: displayId }),
         html,
         text,
+      },
+      data: {
+        sender: { name: shop.fromName, reply_to: shop.replyTo },
       },
     } as any);
 

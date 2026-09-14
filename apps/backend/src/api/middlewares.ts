@@ -152,6 +152,7 @@ import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
   PutTenantPaymentSettingsSchema,
+  PutTenantNotificationSettingsSchema,
   PostTenantHandleSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
@@ -255,6 +256,12 @@ export default defineMiddlewares({
       matcher: "/tenants/payment-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // Who hears about this shop's orders (t08-order-notifications).
+      matcher: "/tenants/notification-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantNotificationSettingsSchema)],
     },
     {
       // Robokassa needs the SERVER's word on which shop the cart belongs to;

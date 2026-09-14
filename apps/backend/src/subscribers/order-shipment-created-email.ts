@@ -5,7 +5,6 @@ import {
   OrderShipmentCreatedEmail,
   type FulfillmentLabel,
 } from "../emails/order-shipment-created";
-import { STOREFRONT_URL } from "../emails/i18n";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -63,7 +62,7 @@ export default async function orderShipmentCreatedEmailHandler({
     Component: OrderShipmentCreatedEmail,
     props: { labels },
     subjectKey: "Shipment.subject",
-    text: (t, id) => {
+    text: (t, id, shop) => {
       const numbers = labels
         .map((label) => label.tracking_number)
         .filter(Boolean)
@@ -75,7 +74,7 @@ export default async function orderShipmentCreatedEmailHandler({
         "",
         t("Shipment.textDelivery"),
         "",
-        `${STOREFRONT_URL}/account/orders`,
+        `${shop.storefrontUrl}/account/orders`,
       ].join("\n");
     },
   });

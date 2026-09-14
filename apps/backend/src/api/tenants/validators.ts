@@ -167,3 +167,27 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   test_password2: optionalSecret,
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
+
+/**
+ * `PUT /tenants/notification-settings` — the two fields the owner controls over
+ * their customers' letters (t08-order-notifications). The `From` ADDRESS is
+ * deliberately absent: the platform's SMTP account sends for every shop, and an
+ * address a shop owner typed would be a domain we cannot sign for.
+ *
+ * An empty string is a legal value and means «clear it», which is why neither
+ * field trims down to `undefined` the way a secret does.
+ */
+export const PutTenantNotificationSettingsSchema = z.strictObject({
+  email_from_name: z.string().trim().max(100).optional(),
+  email_reply_to: z
+    .string()
+    .trim()
+    .max(200)
+    .refine((value) => value === "" || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value), {
+      message: "a valid e-mail address, or empty to clear it",
+    })
+    .optional(),
+});
+export type PutTenantNotificationSettingsBody = z.infer<
+  typeof PutTenantNotificationSettingsSchema
+>;

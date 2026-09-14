@@ -13,10 +13,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
-  STORE_PHONE,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 /**
  * A shipping label as the Fulfillment Module stores it. Tracking lives here and
@@ -48,6 +46,7 @@ export function OrderShipmentCreatedEmail({
   labels = [],
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderShipmentCreatedEmailProps) {
+  const shop = useEmailShop();
   const { t, html } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
   const customerName = [
@@ -57,7 +56,7 @@ export function OrderShipmentCreatedEmail({
     .filter(Boolean)
     .join(" ");
 
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
 
@@ -116,15 +115,15 @@ export function OrderShipmentCreatedEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
-        {STORE_PHONE ? (
+        {shop.phone ? (
           <>
             {" "}
             {t("Common.orCall")}{" "}
-            <a href={`tel:${STORE_PHONE.replace(/\s/g, "")}`} style={s.link}>
-              {STORE_PHONE}
+            <a href={`tel:${shop.phone.replace(/\s/g, "")}`} style={s.link}>
+              {shop.phone}
             </a>
           </>
         ) : null}
