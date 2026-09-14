@@ -187,7 +187,8 @@ AFTER  /en/pages/offer  http=200  <title>Публичная оферта | Ок�
 1. `node apps/backend/scripts/cherkashina-migration/import.mjs --help` — печатает usage, rc=0.
    То же у остальных семи скриптов.
 2. `cd apps/backend && npx medusa lint && npx tsc --noEmit` — оба rc=0.
-3. Стенд: `createdb -h localhost -p 5433 -U ivanprotsko -T upready_store_cherkashina upready_store_t02`,
+3. Стенд: `createdb -h localhost -p 5433 -U ivanprotsko -T upready_store_cherkashina upready_store_t02`
+   (эта БД уже создана на машине замера — тогда шаг пропускается),
    `apps/backend/.env` с `PORT=9088` и `DATABASE_URL=postgres://ivanprotsko@localhost:5433/upready_store_t02`,
    `npx medusa db:migrate`, `npx medusa develop`; ключ тенанта —
    `select k.token from api_key k join tenant_tenant_api_key_api_key t on t.api_key_id=k.id where t.tenant_id='ten_01M29Q4KYQHC70JZBENWZ8Z88M'`.
