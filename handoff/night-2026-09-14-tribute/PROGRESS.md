@@ -46,3 +46,33 @@ NEXT: домержить PR #12 (GitHub ещё пересчитывал mergeabl
 - Разведка бота (bot-audit, замеры): токен TELEGRAM_UPREADY_STORE_BOT лежит в apps/bot/.env, getMe подтвердил username upreadystore_bot; тесты 15/15, tsc rc=0; бот СЕЙЧАС работает как голый foreground-процесс pid 93693 на Маке Ивана (без супервизора, умрёт со сном ноутбука); на Coolify-хосте его нет; 6 переменных TRIBUTE_URL_PLAN_* не заданы — бот честно пишет «оплата подключается» вместо мёртвых кнопок. Отчёт: handoff/night-2026-09-14-tribute/recon-bot.md.
 
 NEXT: Phase 3 — MT-платформа. Дождаться mt-audit, поднять/проверить воронку → создание магазина → субдомен по HTTPS → канонический домен → панель тенанта; затем надёжный деплой бота на always-on хост.
+
+
+## bot-deploy (2026-09-14 10:51 WITA)
+
+Бот @upreadystore_bot снят с ноутбука и живёт на always-on хосте как СВОЙ изолированный docker-стек. Ниже только замеры.
+
+**Упаковка (PR #14, слит в dev, merge-коммит da1194b3, mergedAt 2026-09-14T02:50:32Z).** Ветка `feature/bot-docker-deploy` от `origin/dev`. Добавлено: `apps/bot/Dockerfile` (node:22-alpine), `apps/bot/docker-compose.yml`, `apps/bot/.dockerignore`, `apps/bot/DEPLOY.md`, правка `apps/bot/.env.example`.
+
+**Шага сборки нет — это проверено, а не предположено.** В ТОМ ЖЕ образе: `docker run --rm --entrypoint node upreadystore-bot:local --version` → `v22.23.2` (engines требует `>=22.18.0`), `--test src/message.test.ts src/route.test.ts` → `# tests 15 / # pass 15 / # fail 0`. Локально до деплоя `node --test src/*.test.ts` → `ℹ pass 15 / ℹ fail 0`.
+
+**Перенос.** `rsync -av --delete --exclude=.env` в `/opt/upready-store-bot/` (явный каталог-приёмник). Приёмка по ЦЕЛЕВОМУ пути (правило 42c): md5 совпали по 11 файлам, финально `Dockerfile f4bb621b…`, `docker-compose.yml 3ec6fb25…`, `DEPLOY.md 015a2361…`, `.env.example 2eb45289…`, `package.json 89e64dc1…`, `src/index.ts e296200d…`. Токен доставлен отдельным `scp` в `/opt/upready-store-bot/.env` (mode 600, md5 совпал с локальным), значение нигде не печаталось.
+
+**Один потребитель getUpdates.** Локальный поллер убит ПЕРЕД стартом удалённого: `kill 93693` rc=0, затем `ps -p 93693` → rc=1 (строки нет), других процессов `apps/bot` на Маке нет. Только после этого `docker compose -f /opt/upready-store-bot/docker-compose.yml up -d --build`.
+
+**Стек.** `docker ps` → `upreadystore-bot | Up | upreadystore-bot:local`. `docker inspect` → `restart=unless-stopped`, `project=upready-store-bot`, `ports=map[]` (ни одного опубликованного порта, ни меток traefik, ни DNS — бот на длинном опросе). Лог старта: `bot.start id=8710049173 username=upreadystore_bot`, следом шесть `payment.link.missing` (Tribute намеренно не подключён).
+
+**Контейнер действительно ОПРАШИВАЕТ, а не просто запущен.** Конкурирующий `getUpdates` с моей стороны получил `{"ok":false,"error_code":409,"description":"Conflict: terminated by other getUpdates request…"}`, и в логе контейнера в ту же секунду встал зеркальный `{"event":"getUpdates.failed","error":"getUpdates: 409 Conflict…"}` — обе стороны увидели конфликт, значит слот опроса держит контейнер.
+
+**СКВОЗНАЯ ПРОВЕРКА ДИПЛИНКА — СДЕЛАНА, живым клиентом Telegram.** Через `open "tg://resolve?domain=upreadystore_bot&start=plan_2"` (аккаунт Ивана, chat_id 51632224). В логе УДАЛЁННОГО контейнера:
+`{"event":"sendMessage.request","payload":"plan_2","source":"command","update_id":861312826,"chat_id":51632224}` → `{"event":"sendMessage.ok","message_id":7}`, текст ответа начинается «Здравствуйте! Это бот upready.dev …», далее `<b>Профи</b> — 458 ₽ в месяц при оплате за год`, `reply_markup: null` и честная строка «Оплату сейчас подключаем: платёжные ссылки появятся здесь в ближайшее время.» То же для `plan_3` (`update_id=861312825`, тариф «Мастер»). Имена тарифов бота (Новичок/Профи/Мастер) совпали с `apps/homepage/port/src/sections/tariffs/data.ts` на dev — расхождения нет.
+
+**Защищённый контур соседей цел после ВСЕХ операций.** `curl -s -o /dev/null -w '%{http_code}' https://hooks.svgnoon.upready.dev/health` → `200`; `agentcreatr-bridge Up 8 hours`, `coolify-proxy Up 2 days (healthy)`. Ни одного `down`/`stop`/`rm`/`prune`/`volume`, ни одной правки под `/opt/agent-creatr`, ни одной записи DNS.
+
+**Дырки, оставленные открытыми.**
+1. Шесть `TRIBUTE_URL_PLAN_{1,2,3}_{RU_MIR,VISA_MC}` не заданы (замысел на сегодня): кнопок оплаты нет, вместо них честная строка. Когда Tribute отдаст адреса — дописать в `/opt/upready-store-bot/.env` и `up -d`; `payment.link.missing` в логе сменится на `payment.link.ready`.
+2. Токен по-прежнему НЕ зарегистрирован в `~/upready/.env.keys` — он живёт в gitignored `apps/bot/.env` воркдерева `feature/upreadystore_bot` и на хосте в `/opt/upready-store-bot/.env`. Если воркдерево вычистят, ссылка на источник теряется.
+3. Юзербот-сессии Telethon (`tg-reply-copilot/.tg_session*`) МЕРТВЫ: `get_me()` → `None` на обеих. Сквозная проверка прошла не через них, а через десктопный клиент; автоматического регрессионного e2e для бота нет.
+4. Стек поднят руками через compose, а не как ресурс Coolify: в UI Coolify его не видно, автодеплой по push не настроен. Обновление — `rsync` + `up -d --build` по `apps/bot/DEPLOY.md`.
+
+NEXT (bot-deploy): дырок, блокирующих tribute.top, нет. Остаётся отдать Ивану шесть адресов Tribute и дописать их в `/opt/upready-store-bot/.env`.
