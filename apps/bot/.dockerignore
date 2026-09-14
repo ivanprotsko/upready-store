@@ -1,0 +1,6 @@
+.env
+node_modules
+*.log
+DEPLOY.md
+README.md
+docker-compose.yml

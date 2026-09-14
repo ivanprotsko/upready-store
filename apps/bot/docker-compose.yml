@@ -1,0 +1,25 @@
+# Изолированный стек бота @upreadystore_bot.
+#
+# Отдельное имя проекта, отдельное имя контейнера, отдельная сеть, отдельный
+# .env — на хосте рядом живут чужие стеки (agent-creatr, coolify-proxy, MT),
+# и ничего из них этот файл не касается: ни портов, ни меток traefik, ни томов.
+name: upready-store-bot
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: upreadystore-bot:local
+    container_name: upreadystore-bot
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      TZ: UTC
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
