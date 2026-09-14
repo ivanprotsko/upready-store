@@ -1,5 +1,9 @@
 import type { MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
-import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import {
+  ContainerRegistrationKeys,
+  MedusaError,
+  remoteQueryObjectFromString,
+} from "@medusajs/framework/utils";
 import type { HttpTypes } from "@medusajs/framework/types";
 import { ROBOKASSA_PROVIDER_ID, robokassaAvailableFor } from "../tenant/robokassa";
 
@@ -20,22 +24,38 @@ export const GET = async (
   req: MedusaStoreRequest<HttpTypes.StorePaymentProviderFilters>,
   res: MedusaResponse<HttpTypes.StorePaymentProviderListResponse>,
 ) => {
-  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
-  const { data: providers, metadata } = await query.graph({
-    entity: "payment_provider",
-    filters: { ...req.filterableFields, is_enabled: true },
-    fields: req.queryConfig?.fields?.length ? req.queryConfig.fields : ["id"],
-    pagination: req.queryConfig?.pagination,
-  });
+  if (!req.filterableFields.region_id) {
+    throw new MedusaError(
+      MedusaError.Types.NOT_ALLOWED,
+      "You must provide the region_id to list payment providers",
+    );
+  }
+
+  // The same read the core route makes (`@medusajs/medusa` dist/api/store/payment-providers/route.js):
+  // the region ↔ provider link, one row per provider offered in the region.
+  const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY);
+  const { rows, metadata } = await remoteQuery(
+    remoteQueryObjectFromString({
+      entryPoint: "region_payment_provider",
+      variables: {
+        filters: { region_id: req.filterableFields.region_id },
+        ...req.queryConfig.pagination,
+      },
+      fields: req.queryConfig.fields.map((field) => `payment_provider.${field}`),
+    }),
+  );
+  const providers = (rows as Array<{ payment_provider: HttpTypes.StorePaymentProvider }>).map(
+    (relation) => relation.payment_provider,
+  );
 
   const withRobokassa = providers.some((provider) => provider.id === ROBOKASSA_PROVIDER_ID);
   const hide = withRobokassa && !(await robokassaAvailableFor(req));
   const visible = hide ? providers.filter((provider) => provider.id !== ROBOKASSA_PROVIDER_ID) : providers;
 
   res.json({
-    payment_providers: visible as HttpTypes.StorePaymentProvider[],
-    count: hide ? (metadata?.count ?? visible.length) - 1 : (metadata?.count ?? visible.length),
-    offset: metadata?.skip ?? 0,
-    limit: metadata?.take ?? visible.length,
+    payment_providers: visible,
+    count: hide ? metadata.count - 1 : metadata.count,
+    offset: metadata.skip,
+    limit: metadata.take,
   });
 };
