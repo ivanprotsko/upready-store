@@ -3858,5 +3858,37 @@
     },
     "transactionIdLabel": "Transaction ID",
     "workflowIdLabel": "Workflow ID"
+  },
+  "paymentSettings": {
+    "title": "Payments",
+    "subtitle": "your shop's own account at the payment service; the keys are stored encrypted and never shown back",
+    "stateTest": "test mode",
+    "stateLive": "live mode",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "loading": "loading…",
+    "fields": {
+      "provider": "Payment service",
+      "merchant_login": "Shop identifier (MerchantLogin)",
+      "password1": "Password #1",
+      "password2": "Password #2",
+      "test_password1": "Test password #1",
+      "test_password2": "Test password #2",
+      "hash_algorithm": "Signature algorithm",
+      "is_test": "Test mode",
+      "is_enabled": "Accept payments"
+    },
+    "secretSet": "set ····{{last4}}",
+    "secretNotSet": "not set",
+    "keepPlaceholder": "leave empty to keep the current one",
+    "emptyPlaceholder": "paste from the Robokassa dashboard",
+    "testHint": "In test mode the customer pays with Robokassa's test card and no money moves. Live mode is for after Robokassa has approved the shop.",
+    "merchantLoginRequired": "Enter the shop identifier",
+    "save": "Save",
+    "remove": "Remove account",
+    "saved": "Payment settings saved",
+    "removed": "Account removed — Robokassa is no longer offered at checkout",
+    "resultUrlTitle": "Result URL for the Robokassa dashboard",
+    "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid."
   }
 }
