@@ -3,6 +3,7 @@
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
 import { getCacheOptions, getTenantHandle } from "./cookies"
+import { siteWideRead } from "./site-wide"
 
 export const retrieveCollection = async (id: string) => {
   const next = {
@@ -30,17 +31,25 @@ export const listCollections = async (
   queryParams.limit = queryParams.limit || "100"
   queryParams.offset = queryParams.offset || "0"
 
-  return await sdk.client
-    .fetch<{ collections: HttpTypes.StoreCollection[]; count: number }>(
-      "/store/collections",
-      {
-        query: queryParams,
-        next,
-        cache: "force-cache",
-      }
-    )
-    .then(({ collections }) => ownedByThisShop(collections))
-    .then((collections) => ({ collections, count: collections.length }))
+  // Site-wide: the footer's link lists render on every route under `(main)`,
+  // so this read follows the rule in `lib/data/site-wide.ts` and degrades to an
+  // empty list instead of throwing the whole page away.
+  return siteWideRead(
+    "listCollections /store/collections",
+    () =>
+      sdk.client
+        .fetch<{ collections: HttpTypes.StoreCollection[]; count: number }>(
+          "/store/collections",
+          {
+            query: queryParams,
+            next,
+            cache: "force-cache",
+          }
+        )
+        .then(({ collections }) => ownedByThisShop(collections))
+        .then((collections) => ({ collections, count: collections.length })),
+    { collections: [], count: 0 }
+  )
 }
 
 /**
