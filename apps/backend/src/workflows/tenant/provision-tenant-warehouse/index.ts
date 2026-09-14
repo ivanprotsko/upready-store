@@ -7,22 +7,28 @@ import {
 } from "@medusajs/medusa/core-flows";
 import createTenantFulfillmentSetStep from "./steps/create-tenant-fulfillment-set";
 import resolveDefaultShippingProfileStep from "./steps/resolve-default-shipping-profile";
+import { defaultMethodNames, storeDefaultLocale } from "../../../shipping-tariffs/default-method-names";
+import { TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../shipping-tariffs/tariff";
 
 export type ProvisionTenantWarehouseWorkflowInput = {
   sales_channel_id: string;
-  /** Names the warehouse, its service zone and (with a suffix) its options. */
+  /** Names the warehouse and its service zone; the options get human names from `default-method-names.ts`. */
   tenant_name: string;
   /** Physical city of the warehouse; two tenants may share one. */
   city?: string | null;
   /** ISO-2 country of the warehouse address. */
   country_code?: string;
+  /** Locale the two default method names are written in; the store default when omitted. */
+  locale?: string | null;
 };
 
 /** The one fulfillment provider this starter ships with (`manual_manual`). */
 const DEFAULT_PROVIDER_ID = "manual_manual";
-/** Placeholder flat tariffs; the tenant edits these once it owns real rates. */
+/** Placeholder flat tariffs; the tenant edits these on /shipping in the panel. */
 const DEFAULT_PICKUP_AMOUNT = 0;
 const DEFAULT_COURIER_AMOUNT = 10;
+/** Fallback weight (grams) for a cart line whose variant has none, until the tenant sets its own. */
+const DEFAULT_ITEM_WEIGHT_G = 500;
 
 /**
  * Gives one tenant its own warehouse so its storefront can check out from the
@@ -33,7 +39,9 @@ const DEFAULT_COURIER_AMOUNT = 10;
  * put every tenant on shared inventory and shared shipping options. Here each
  * tenant gets exactly one stock location, one base service zone covering every
  * country the store has a region for, and two flat shipping options (pickup +
- * courier, provider `manual_manual`). The tenant reprices later.
+ * courier, provider `manual_manual`) named in the store's default locale
+ * («Самовывоз» / «Курьером» for ru). The tenant renames and reprices them on
+ * /shipping in the panel.
  *
  * Isolation is the sales-channel <-> stock-location link: a cart in a tenant's
  * channel resolves shipping options through that tenant's warehouse alone. Two
@@ -123,19 +131,34 @@ const provisionTenantWarehouseWorkflow = createWorkflow(
           { attribute: "enabled_in_store", value: "true", operator: "eq" as const },
           { attribute: "is_return", value: "false", operator: "eq" as const },
         ];
+        const names = defaultMethodNames(input.locale ?? storeDefaultLocale());
+        // The same `data` shape the panel writes for a method the owner
+        // creates (`src/api/tenants/shipping-methods`), so the two defaults
+        // show up on /shipping as editable flat methods in the base zone.
+        const methodData = (sortOrder: number, description: string, amount: number): TenantMethodData => ({
+          schema: TENANT_METHOD_SCHEMA,
+          tariff: { kind: "flat", amount },
+          description,
+          delivery_hint: null,
+          sort_order: sortOrder,
+          default_weight_g: DEFAULT_ITEM_WEIGHT_G,
+          own_zone: false,
+          zone: null,
+        });
         const option = (
           code: string,
           name: string,
-          label: string,
           description: string,
           amount: number,
+          sortOrder: number,
         ) => ({
           name,
           price_type: "flat" as const,
           provider_id: DEFAULT_PROVIDER_ID,
           service_zone_id: fulfillmentSet.service_zone_id,
           shipping_profile_id: shippingProfileId,
-          type: { label, description, code },
+          type: { label: name, description, code },
+          data: methodData(sortOrder, description, amount),
           prices: geography.currency_codes.map((currency_code) => ({
             currency_code,
             amount,
@@ -143,20 +166,8 @@ const provisionTenantWarehouseWorkflow = createWorkflow(
           rules,
         });
         return [
-          option(
-            "pickup",
-            `${input.tenant_name} pickup`,
-            "Pickup",
-            "Pick up at the warehouse.",
-            DEFAULT_PICKUP_AMOUNT,
-          ),
-          option(
-            "courier",
-            `${input.tenant_name} courier`,
-            "Courier",
-            "Courier delivery.",
-            DEFAULT_COURIER_AMOUNT,
-          ),
+          option("pickup", names.pickup.name, names.pickup.description, DEFAULT_PICKUP_AMOUNT, 0),
+          option("courier", names.courier.name, names.courier.description, DEFAULT_COURIER_AMOUNT, 1),
         ];
       },
     );

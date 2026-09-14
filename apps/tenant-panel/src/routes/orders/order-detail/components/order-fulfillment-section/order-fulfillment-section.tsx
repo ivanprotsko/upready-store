@@ -423,6 +423,14 @@ const Fulfillment = ({
           {t("orders.fulfillment.trackingLabel")}
         </Text>
         <div>
+          {/* tenant-panel (t04-shipping-tariffs): the carrier the owner typed
+              on the shipment form, from fulfillment.metadata.carrier. */}
+          {typeof fulfillment.metadata?.carrier === "string" &&
+            fulfillment.metadata.carrier && (
+              <Text size="small" leading="compact" className="mb-1">
+                {fulfillment.metadata.carrier}
+              </Text>
+            )}
           {fulfillment.labels && fulfillment.labels.length > 0 ? (
             <ul>
               {fulfillment.labels.map((tlink) => {

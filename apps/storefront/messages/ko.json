@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "운송장 번호"
   },
   "OrdersPage": {
     "description": "이전 주문 내역과 상태를 확인할 수 있습니다.",

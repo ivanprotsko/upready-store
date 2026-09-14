@@ -214,6 +214,7 @@
         "extensions": "Extensions"
       },
       "main": {
+        "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",
         "pages": "Pages",
@@ -1763,6 +1764,8 @@
     },
     "shipment": {
       "addTracking": "Add tracking number",
+      "carrier": "Carrier",
+      "carrierPlaceholder": "CDEK, Russian Post, Boxberry…",
       "labelUrl": "Label URL",
       "sendNotification": "Send notification",
       "sendNotificationHint": "Notify the customer about this shipment.",

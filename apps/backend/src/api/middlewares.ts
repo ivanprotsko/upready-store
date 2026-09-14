@@ -159,6 +159,14 @@ import {
   PutTenantPageSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
+import {
+  GetShippingRegionsSchema,
+  PostStoreShippingQuoteSchema,
+  PostTenantShippingMethodSchema,
+  PostTenantShippingMethodsReorderSchema,
+  PostTenantShippingMethodUpdateSchema,
+  PostTenantShippingSettingsSchema,
+} from "./tenants/shipping-methods/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
@@ -1036,6 +1044,48 @@ export default defineMiddlewares({
       matcher: "/admin/tenants/:id/admins/:adminId",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostAdminTenantAdminUpdateSchema)],
+    },
+
+    // ---- t04-shipping-tariffs (day-2026-09-16): the shop's own delivery
+    // methods (/tenants/shipping-methods/**, behind the "/tenants/*"
+    // authenticate above) and the checkout's quote/regions reads
+    // (/store/shipping-methods/**, behind the framework's publishable-key gate).
+    // The static segments (settings, reorder, regions) are matched before the
+    // ":id" routes by Medusa's router, so they never read as an id.
+    {
+      matcher: "/tenants/shipping-methods",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/reorder",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodsReorderSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/settings",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingSettingsSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+    {
+      matcher: "/tenants/shipping-methods/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodUpdateSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/quote",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostStoreShippingQuoteSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
     },
   ],
 });

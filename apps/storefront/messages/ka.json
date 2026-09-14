@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "თვალთვალის ნომერი"
   },
   "OrdersPage": {
     "description": "იხილეთ თქვენი წინა შეკვეთები და მათი სტატუსი.",

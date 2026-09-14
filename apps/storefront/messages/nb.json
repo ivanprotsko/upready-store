@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sporingsnummer"
   },
   "OrdersPage": {
     "description": "Se dine tidligere bestillinger og deres status.",

@@ -625,7 +625,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nomor pelacakan"
   },
   "OrdersPage": {
     "description": "Lihat pesanan sebelumnya beserta statusnya.",
