@@ -61,3 +61,16 @@
 - Правка — на ветке деплоя оркестратора; родительская сессия её НЕ трогает, чтобы не столкнуться.
 
 ## Ответ Ивана в 11:27 (он проснулся раньше): PR & merge через GitHub обязательны для всего, что идёт на сайт.
+
+## legal-pages — ГОТОВО (2026-09-14 11:56 WITA, воркер legal-pages-2 родительской сессии)
+- **PR #17 feature/legal-pages → dev смержен на GitHub** (merged_at 2026-09-14T03:52:57Z UTC, merge d56a2c6).
+- `apps/homepage/port/scripts/build-legal.mjs`: три страницы `dist/{terms,offer,privacy}/index.html` в облике
+  лендинга из `docs/legal/*.md` + `docs/legal/requisites.json`. Режимы: `pnpm build` — при пустых реквизитах
+  страницы пропускаются с предупреждением, rc=0 (лендинг выкатываем); `pnpm build:legal` — rc=1 с перечнем
+  незаполненных ключей; `pnpm check:legal` — только отчёт. Ссылки подвала стоят за `__LEGAL_PAGES_READY__` —
+  при пустых реквизитах в бандле их физически нет (ноль вхождений «/terms»).
+- **Сегодня опубликовать нельзя:** заполнено 3 поля из 32 (две даты, телеграм с живого сайта); **29 полей
+  заполняет Иван** в `docs/legal/requisites.json`; полный список с пояснениями — `legal-pages.md` рядом.
+- **Деплой после реквизитов (оркестратор):**
+  `cd apps/homepage/port && pnpm build && npx --yes wrangler@4 pages deploy dist --project-name upready-landing --branch main --commit-dirty=true`
+- Лендинг можно передеплоить с dev и сейчас — поведение страницы не меняется, пока реквизиты пусты.
