@@ -74,9 +74,12 @@ function sendToWorker(cfg, state, t, text, why) {
 function fixRound(cfg, state, t, findingsFile) {
   const s = state.tasks[t.id];
   if ((s.attempt || 1) >= (cfg.stall?.maxAttempts || 3)) { s.status = 'needs-ivan'; s.error = `приёмка отклонила ${s.acceptance.length} раз(а) — смотри ${findingsFile}`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
+  if (sendToWorker(cfg, state, t, fixPrompt(cfg, state, t, findingsFile), 'fix')) { s.status = 'running'; s.attempt = (s.attempt || 1) + 1; s.fixStartedAt = L.nowIso(); s.nudges = 0; s.relaunched = false; s.fixRelaunched = false; }
+}
+function fixPrompt(cfg, state, t, findingsFile) {
+  const s = state.tasks[t.id];
   const findings = fs.existsSync(findingsFile) ? fs.readFileSync(findingsFile, 'utf8') : `(файл замечаний не найден — прочитай хвост лога приёмки ${s.acceptance.at(-1).log})`;
-  const prompt = L.buildTemplatePrompt(cfg, '_fix-round.md', t, { FINDINGS: findings, PR_NUMBER: s.pr.number, PR_URL: s.pr.url, ROUND: s.acceptance.length });
-  if (sendToWorker(cfg, state, t, prompt, 'fix')) { s.status = 'running'; s.attempt = (s.attempt || 1) + 1; s.fixStartedAt = L.nowIso(); s.nudges = 0; s.relaunched = false; }
+  return L.buildTemplatePrompt(cfg, '_fix-round.md', t, { FINDINGS: findings, PR_NUMBER: s.pr.number, PR_URL: s.pr.url, ROUND: s.acceptance.length });
 }
 
 // ---------- наблюдение ----------
@@ -125,11 +128,20 @@ function checkBuild(cfg, state, t) {
 function maybeAccept(cfg, state, t, counts) {
   const s = state.tasks[t.id];
   if ((counts.c.accept || 0) >= (cfg.lanes?.accept ?? 2)) return;
-  if (counts.total >= (cfg.maxSlots || 6)) return;
+  // pr_open уже сидит в ACTIVE_BUILD и в counts.total — переход в accepting слотов не добавляет; проверка total здесь
+  // давала взаимную блокировку (4 pr_open + 1 accepting + 1 run = 6 → приёмка не стартует, слоты не освобождаются).
   if (limited(state) || state.dispatcher.paused) return;
   const head = L.branchHeadDate(cfg, t.branch); const ageMin = head ? (Date.now() - Date.parse(head)) / 60000 : 99;
+  if (s.fixStartedAt && (!head || Date.parse(head) < Date.parse(s.fixStartedAt))) { // правка после отказа ещё не запушена
+    const term = L.liveAgentTerminal(s.ws, s.terminalId);
+    if (!term) {
+      if (!s.fixRelaunched) { s.fixRelaunched = true; L.event(state, { task: t.id, type: 'fix-relaunch', msg: 'агент вышел, не запушив правку — поднимаю нового с теми же замечаниями' }); if (sendToWorker(cfg, state, t, fixPrompt(cfg, state, t, s.acceptance.at(-1).findings), 'fix-relaunch')) s.fixStartedAt = L.nowIso(); }
+      else { s.status = 'needs-ivan'; s.error = `агент дважды вышел, не запушив правку раунда ${s.acceptance?.length || 0}`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); }
+    } else if (L.minutesSince(s.fixStartedAt) > (cfg.stall?.relaunchMin || 210)) { s.status = 'needs-ivan'; s.error = `правка после приёмки не запушена за ${Math.round(L.minutesSince(s.fixStartedAt))} мин`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); }
+    return;
+  }
   if (ageMin < (cfg.acceptor?.headQuietMin ?? 4)) return; // воркер ещё пушит
-  launchAccept(cfg, state, t); counts.c.accept = (counts.c.accept || 0) + 1; counts.total++;
+  launchAccept(cfg, state, t); counts.c.accept = (counts.c.accept || 0) + 1;
 }
 function checkAccepting(cfg, state, t) {
   const s = state.tasks[t.id]; const a = s.acceptance.at(-1);
@@ -182,6 +194,7 @@ function processCommands(cfg, state) {
       case 'pause': state.dispatcher.paused = true; break;
       case 'resume': state.dispatcher.paused = false; state.dispatcher.limitUntil = null; try { fs.unlinkSync(P.stop); } catch { } break;
       case 'clear-limit': state.dispatcher.limitUntil = null; break;
+      case 'fix': if (s && t.kind === 'build' && s.acceptance?.length && !['accepting'].includes(s.status)) { s.attempt = Math.min(s.attempt || 1, (cfg.stall?.maxAttempts || 3) - 1); fixRound(cfg, state, t, s.acceptance.at(-1).findings); } break;
     }
     L.event(state, { type: 'command', task: c.id, msg: c.op });
   }
@@ -228,6 +241,8 @@ const argv = process.argv.slice(2); const cmd = argv[0] || 'run';
 if (import.meta.url === `file://${process.argv[1]}`) {
   if (cmd === 'tick') { console.log(tick()); }
   else if (cmd === 'run') {
+    const others = String(L.sh('pgrep', ['-f', 'node dispatcher.mjs run']).out || '').split(/\s+/).map(Number).filter(p => p && p !== process.pid);
+    if (others.length) { console.error(`dispatcher уже работает (pid ${others.join(', ')}) — второй экземпляр не запускаю (по пульсу сторожа 07:12 WITA три экземпляра дали дубли запусков у 10 задач)`); process.exit(3); }
     const sec = L.loadTasks().tickSec || 60; let busy = false;
     const loop = () => { if (busy) return; busy = true; try { const r = tick(); if (r === 'done') { console.log('DONE — выхожу'); process.exit(0); } } catch (e) { L.journal({ type: 'tick-crash', msg: String(e.stack || e).slice(0, 800) }); } finally { busy = false; } };
     loop(); setInterval(loop, sec * 1000); console.log(`dispatcher pid ${process.pid}, тик ${sec}с`);
