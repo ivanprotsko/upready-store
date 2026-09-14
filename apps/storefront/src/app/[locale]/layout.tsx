@@ -13,7 +13,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
-      <JsonLd data={buildSiteJsonLd(locale)} />
+      <JsonLd data={await buildSiteJsonLd(locale)} />
       <HtmlDirSync />
       {children}
     </NextIntlClientProvider>

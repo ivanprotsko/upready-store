@@ -1,11 +1,47 @@
 "use server"
 
+import { LOCALE_CHOICE_COOKIE, LOCALE_COOKIE } from "@i18n/config"
 import { sdk } from "@lib/config"
+import {
+  COUNTRY_CHOICE_COOKIE,
+  COUNTRY_COOKIE,
+  countryForLocale,
+} from "@lib/geolocation"
 import { revalidateTag } from "next/cache"
 import { cookies as nextCookies } from "next/headers"
+import { applyRegion } from "./cart"
 import { getAuthHeaders, getCacheTag, getCartId } from "./cookies"
 
-const LOCALE_COOKIE_NAME = "_medusa_locale"
+/**
+ * A language pick moves the region too, on a deployment that maps locales to
+ * countries (`LOCALE_COUNTRY_MAP`): the currency is a property of the region, so
+ * "Russian" and "prices in roubles" have to travel together — in the header, in
+ * the cart and at checkout alike (`t-2026-09-12-locale-currency`).
+ *
+ * Two things it deliberately does NOT do. It never overrides a country the
+ * visitor PICKED (`COUNTRY_CHOICE_COOKIE`): someone shipping to Germany keeps
+ * EUR whichever language they read the shop in. And it is not an explicit choice
+ * itself, so the next language pick may move the region again.
+ */
+const followLocaleRegion = async (localeCode: string) => {
+  const country = countryForLocale(localeCode)
+
+  if (!country) {
+    return
+  }
+
+  const cookies = await nextCookies()
+
+  if (cookies.get(COUNTRY_CHOICE_COOKIE)?.value === "1") {
+    return
+  }
+
+  if (cookies.get(COUNTRY_COOKIE)?.value === country) {
+    return
+  }
+
+  await applyRegion(country, { explicit: false })
+}
 
 /**
  * Gets the current locale from cookies
@@ -13,23 +49,26 @@ const LOCALE_COOKIE_NAME = "_medusa_locale"
 export const getLocale = async (): Promise<string | null> => {
   try {
     const cookies = await nextCookies()
-    return cookies.get(LOCALE_COOKIE_NAME)?.value ?? null
+    return cookies.get(LOCALE_COOKIE)?.value ?? null
   } catch {
     return null
   }
 }
 
 /**
- * Sets the locale cookie
+ * Sets the locale cookie and, because this runs only for a pick made in the language
+ * switcher, the choice cookie the middleware honours over Accept-Language.
  */
 export const setLocaleCookie = async (locale: string) => {
   const cookies = await nextCookies()
-  cookies.set(LOCALE_COOKIE_NAME, locale, {
+  const options = {
     maxAge: 60 * 60 * 24 * 365, // 1 year
     httpOnly: false, // Allow client-side access
-    sameSite: "strict",
+    sameSite: "strict" as const,
     secure: process.env.NODE_ENV === "production",
-  })
+  }
+  cookies.set(LOCALE_COOKIE, locale, options)
+  cookies.set(LOCALE_CHOICE_COOKIE, locale, options)
 }
 
 /**
@@ -38,6 +77,8 @@ export const setLocaleCookie = async (locale: string) => {
  */
 export const updateLocale = async (localeCode: string): Promise<string> => {
   await setLocaleCookie(localeCode)
+
+  await followLocaleRegion(localeCode)
 
   const authHeaders = await getAuthHeaders()
 

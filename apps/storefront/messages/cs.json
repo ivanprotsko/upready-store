@@ -152,7 +152,6 @@
     "close": "Zavřít",
     "hidePassword": "Skrýt heslo",
     "orderNumber": "Objednávka č. {id}",
-    "poweredBy": "Powered by",
     "remove": "Odstranit",
     "showPassword": "Zobrazit heslo"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategorie",
     "collectionsHeading": "Kolekce",
     "copyright": "© {year} {siteName}. Všechna práva vyhrazena.",
-    "infoHeading": "Informace",
-    "medusaDocs": "Dokumentace Medusa",
-    "sourceCode": "Zdrojový kód starteru",
-    "starterDocs": "Dokumentace starteru"
+    "infoHeading": "Informace"
   },
   "ForgotPassword": {
     "backToSignIn": "Zpět na přihlášení",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Vrácení a výměna zboží"
   },
   "Hero": {
-    "eyebrow": "Na klíč · Open-source",
-    "features": [
-      {
-        "description": "vylepšený, bez zbytečných kroků, s automatickým doplňováním adresy",
-        "label": "Checkout optimalizovaný pro konverze"
-      },
-      {
-        "description": "vyhledávání, katalog s filtry, víceúrovňové kategorie a mobile-first",
-        "label": "Plnohodnotný e-shop"
-      },
-      {
-        "description": "meta tagy, Open Graph a Twitter cards, JSON-LD, sitemap, robots, llms.txt a 100/100 v PageSpeed Insights",
-        "label": "Optimalizováno pro SEO a AI"
-      },
-      {
-        "description": "36 jazyků obchodu včetně RTL a 241 zemí pro prodejní regiony, rozpoznání země, nepotřebné se snadno osekají",
-        "label": "Kompletní lokalizace"
-      },
-      {
-        "description": "šablony React Email přes SMTP",
-        "label": "Transakční e-maily"
-      },
-      {
-        "description": "při změnách v katalogu produktů",
-        "label": "Revalidace cache na vyžádání"
-      },
-      {
-        "badge": "Novinka",
-        "description": "spravujte nastavení svých poskytovatelů přes Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Modul integrací"
-      }
-    ],
-    "featuresHeading": "Funkce",
-    "readDocs": "Dokumentace",
     "subtitle": "Vše, co v oficiálním Medusa DTC starteru chybí.",
-    "title": "Produkčně připravený Medusa DTC Starter",
-    "viewOnGitHub": "Zobrazit na GitHubu"
+    "title": "Produkčně připravený Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Zavřít",
-    "cta": "Vyzkoušet",
     "message": "Plnohodnotný, produkčně připravený DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Všechny produkty"
+  },
+  "TenantPage": {
+    "emptyBody": "Tato stránka zatím nemá žádný text.",
+    "metaDescription": "{title} v {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Přijmout převod",

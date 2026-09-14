@@ -1,0 +1,544 @@
+/*
+ * The paywall→onboarding demo surface (t-2026-09-12-paywall-onboarding-demo).
+ * Geist canon (~/upready/packages/geist-kit/AGENTS.md) expressed in THIS
+ * storefront's token names, which are the shadcn-flavoured ones themes.css
+ * generates: --background/--foreground/--border/--muted-foreground/--secondary
+ * /--link/--destructive. No hardcoded hex — the palette follows data-theme and
+ * data-mode like every other surface here.
+ *
+ * A CSS module rather than Tailwind classes because these pages live outside
+ * [locale] and outside every shop template: nothing here is shared with the
+ * storefront's own components, and keeping the demo's look in one file is what
+ * makes it cheap to delete when it has served its purpose.
+ */
+
+.shell {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.wordmark {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.topbarNote {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  text-align: right;
+}
+
+.page {
+  padding: 48px 24px 72px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.narrow {
+  max-width: 560px;
+}
+
+.lede {
+  max-width: 640px;
+  margin: 0 0 32px;
+}
+.lede h1,
+.lede h2 {
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.narrow .lede h1,
+.narrow .lede h2 {
+  font-size: 24px;
+}
+.lede p {
+  color: var(--muted-foreground);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.eyebrow {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+}
+.card h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.card p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.cardFoot {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.chip {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 11px;
+  background: var(--secondary);
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+.arrow {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+.btnPrimary {
+  background: var(--foreground);
+  color: var(--background);
+}
+.btnSecondary {
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.btnBlock {
+  width: 100%;
+}
+.btnLarge {
+  height: 44px;
+  font-size: 15px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 2px;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+.direct {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.direct p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  flex: 1;
+  min-width: 260px;
+}
+.direct strong {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  cursor: pointer;
+}
+.option:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 2px;
+}
+.optionSelected {
+  border-color: var(--ring, var(--border));
+  background: var(--secondary);
+}
+.radio {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid var(--ring, var(--border));
+  flex: none;
+  margin-top: 2px;
+  position: relative;
+}
+.optionSelected .radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: var(--foreground);
+}
+.optionBody {
+  flex: 1;
+  min-width: 0;
+}
+.optionBody strong {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+}
+.optionBody span {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  margin-top: 3px;
+  line-height: 1.45;
+}
+.price {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.stepNumber {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 10px;
+}
+.stepCurrent {
+  color: var(--foreground);
+}
+.stepCurrent .stepNumber {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+.stepDone .stepNumber {
+  border-color: var(--ring, var(--border));
+}
+.stepSeparator {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  min-width: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.field label {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.input {
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0 12px;
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+}
+/*
+ * The placeholder must read as a HINT, not as a filled field. Nothing in this stack sets
+ * one, so every input inherited the preset's hardcoded rgb(156,163,175) — a grey that is
+ * muted against white and bright against near-black. Measured on the live demo 2026-09-12:
+ * identical in both modes, so in DARK the till showed «4242 4242 4242 4242», «12 / 30»,
+ * «123» and «IVAN PROTSKO» at 8.2:1 against the page while the real ink sits at 17.0:1 —
+ * a card that looks already typed in, on the one screen where that matters.
+ *
+ * A fixed grey cannot be right in both modes, because "muted" is a RATIO to the ink, not a
+ * colour: the hint is mixed from this mode's own foreground toward its own background, so
+ * it lands at ~16% of the ink's contrast in light and ~25% in dark instead of 15% and 48%.
+ * The plain declaration above it is the fallback for a browser without color-mix.
+ */
+.input::placeholder {
+  color: var(--muted-foreground);
+  color: color-mix(in srgb, var(--foreground) 42%, var(--background));
+  opacity: 1; /* Firefox dims placeholders by default, which would double the muting. */
+}
+.input:focus-visible {
+  outline: 2px solid rgba(135, 135, 135, 0.5);
+  outline-offset: 1px;
+}
+.inputMono {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-variant-numeric: tabular-nums;
+}
+.inputInvalid {
+  border-color: var(--destructive);
+}
+.hint {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.hintError {
+  color: var(--destructive);
+}
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.prefixed {
+  display: flex;
+  align-items: stretch;
+}
+.prefixed .input {
+  border-radius: 6px 0 0 6px;
+}
+.suffix {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-left: 0;
+  border-radius: 0 6px 6px 0;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.summary {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.summaryLine {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+  padding: 5px 0;
+}
+.summaryLine .key {
+  color: var(--muted-foreground);
+}
+.summaryLine .value {
+  margin-left: auto;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-variant-numeric: tabular-nums;
+}
+.summaryTotal {
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  padding-top: 12px;
+  font-size: 15px;
+}
+
+.banner {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: var(--muted-foreground);
+}
+.bannerError {
+  border-color: var(--destructive);
+  color: var(--foreground);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex: none;
+  margin-top: 6px;
+  background: var(--muted-foreground);
+}
+.dotError {
+  background: var(--destructive);
+}
+.dotLive {
+  background: var(--link, var(--foreground));
+}
+.banner code {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  color: var(--foreground);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+.actions .grow {
+  flex: 1;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 24px 0 0;
+}
+.linkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.linkRow .body strong {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+}
+.linkRow .body span {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+}
+.linkRow .btn {
+  margin-left: auto;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.swatch {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--background);
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.swatchSelected {
+  border-color: var(--ring, var(--foreground));
+}
+.swatchBars {
+  height: 56px;
+  display: flex;
+}
+.swatchBars i {
+  flex: 1;
+}
+.swatchName {
+  padding: 8px 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.swatchName .radio {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+/* The chosen preset must READ as chosen: the border alone is a 1px difference
+   nobody notices, and the swatch's own radio was inheriting only the ring, not
+   the dot the option rows get. */
+.swatchSelected .radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: var(--foreground);
+}
+.swatchSelected .swatchName {
+  font-weight: 500;
+}

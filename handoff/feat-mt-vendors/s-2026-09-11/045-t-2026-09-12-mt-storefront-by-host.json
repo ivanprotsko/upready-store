@@ -1,0 +1,37 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 45,
+  "action": "task-approve",
+  "ts": "2026-09-11T07:49:50+08:00",
+  "status": "Ночь 2 идёт: промпты A (feat/mt-panel-2, PORT 9026/5181) и B (feat/mt-platform, PORT 9024) выданы Ивану 07:43, worktrees на d1c19c5; сторож watch-ready-2.sh под Monitor (task bvl3igi1i) ждёт READY в artifacts/docs/2026-09-12-{tenant-panel,platform}-night.md; приёмку утром делает эта сессия. Ответ Ивану 07:5x: бэкенд один на всех (shared), витрины на стенде — три процесса одного кода с ключом в env (middleware.ts:7), резолва по Host нет; целевая «одна витрина, тенант по Host, дизайн из БД» — отдельная задача t-…-mt-storefront-by-host, заводит Иван утром. Хук doc-structure-guard освобождён от ложняка на resume.mjs fold|add (~/.claude 9dbcbe27). Push не делать",
+  "task": {
+    "id": "t-2026-09-12-mt-storefront-by-host",
+    "title": "Витрина одна на всех: тенант по Host, его publishable key, тема/пресет и композиция главной из БД — вместо процесса на тенанта с ключом в env",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Иван 11.09 08:0x на объяснение «сейчас три процесса одного кода с ключом в env, слой дизайна per-tenant не написан»: «надо написать». Основание: решение 11.09 «publishable key витрины — в БД» (memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md). Замер стенда 08:05: три next-server из одного каталога apps/storefront, RSS 20 MB каждый + дочерние компиляторы turbopack (у :8000 — 2,6 GB), резолва по Host в src/middleware.ts нет. Объём: (1) домены тенанта в конфиге (modules/tenant — поле/модель domains), (2) middleware: Host → GET /store/tenant/by-host → publishable key + theme + home config (кэш), (3) lib/config.ts перестаёт быть синглтоном с ключом на процесс, (4) пресет темы тенанта из БД поверх существующих пресетов витрины (store-theme-surface / geist-kit theme.css; если пресетов нет — минимум primary + light/dark и развилка), (5) стенд: acme.localhost:8000 и globex.localhost:8000 на одном процессе. Исполняет сессия A (feat/mt-panel-2) как кусок 9 после куска 8 — она владеет apps/storefront и tenant_home_config.",
+    "files": [
+      "apps/storefront/src/middleware.ts",
+      "apps/storefront/src/lib/config.ts"
+    ],
+    "tags": [
+      "multitenancy",
+      "storefront",
+      "theme"
+    ],
+    "created": "2026-09-11T07:49:28+08:00",
+    "updated": "2026-09-11T07:49:49+08:00",
+    "goal": "Один процесс витрины обслуживает всех тенантов: по Host он находит тенанта, берёт его publishable key, пресет темы и композицию главной из БД и показывает только его магазин в его дизайне; новый тенант появляется без пересборки и рестарта",
+    "acceptance": [
+      "acme.localhost:8000 и globex.localhost:8000 на ОДНОМ процессе next показывают разные каталоги (9 и 3 карточки на /en/store) и разные пресеты темы — замер скриншотами обеих (18f)",
+      "ключ читается не из NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY, а из ответа бэкенда по Host; env-ключ остаётся только как fallback для одиночного режима",
+      "домены тенанта редактируются в панели тенанта или в админке магазинов и хранятся в БД",
+      "тенант, добавленный через API, открывается по своему Host без рестарта витрины (замер)",
+      "seam-тест GET /store/tenant/by-host и e2e витрины зелёные, tsc/lint rc=0"
+    ],
+    "approved": "2026-09-11T07:49:49+08:00"
+  }
+}

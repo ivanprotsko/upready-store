@@ -2,7 +2,6 @@
 
 import { Popover, PopoverPanel, Transition, PopoverButton } from "@headlessui/react"
 import useScrollLock from "@lib/hooks/use-scroll-lock"
-import { SITE_NAME } from "@lib/util/env"
 import { BarsThree, XMark } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import { Text } from "@medusajs/ui"
@@ -21,7 +20,14 @@ const sideMenuItems = [
   { key: "cart" as const, href: "/cart" },
 ]
 
-const SideMenu = () => {
+/**
+ * `siteName` comes from the server parent (the tenant's `x-tenant-name`
+ * header, single-store `SITE_NAME` fallback) as a PROP: this is a client
+ * component, so it must never import the `next/headers`-reading accessor
+ * directly (rule 19g — a `"use client"` directive colours the whole import
+ * graph below it).
+ */
+const SideMenu = ({ siteName }: { siteName: string }) => {
   const t = useTranslations()
 
   return (
@@ -100,7 +106,7 @@ const SideMenu = () => {
                       <Text className="flex justify-between txt-compact-small">
                         {t("SideMenu.copyright", {
                           year: new Date().getFullYear(),
-                          siteName: SITE_NAME,
+                          siteName,
                         })}
                       </Text>
                     </div>

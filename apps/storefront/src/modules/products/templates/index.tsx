@@ -57,7 +57,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
     { label: product.title },
   ]
 
-  const jsonLd = buildProductJsonLd({
+  const jsonLd = await buildProductJsonLd({
     product,
     locale,
     breadcrumbs: breadcrumbItems,

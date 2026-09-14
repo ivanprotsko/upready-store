@@ -48,7 +48,7 @@ export default async function CollectionTemplate({
     { label: collection.title },
   ]
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd({
+  const breadcrumbJsonLd = await buildBreadcrumbJsonLd({
     crumbs: breadcrumbItems,
     locale,
     path: `/collections/${collection.handle}`,

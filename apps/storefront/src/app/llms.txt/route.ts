@@ -1,8 +1,7 @@
 import { fetchWithoutLocale } from "@lib/config"
-import { SITE_NAME, getBaseURL } from "@lib/util/env"
+import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 import { locales, localeLabels } from "@i18n/config"
 
-const BASE_URL = getBaseURL().replace(/\/$/, "")
 
 // Catalog sections are capped so the file stays scannable. Whatever is cut is
 // stated in the output rather than silently dropped.
@@ -28,8 +27,8 @@ type Entry = {
 
 // Links omit the locale prefix: middleware 302s to the visitor's language, and
 // every locale root is listed under ## Optional.
-function url(path: string) {
-  return `${BASE_URL}${path}`
+function absolute(base: string, path: string) {
+  return `${base}${path}`
 }
 
 /** Collapse to a single line — a stray newline would break the list item. */
@@ -45,6 +44,7 @@ function listItem(label: string, href: string, description?: string | null) {
 }
 
 function section(
+  base: string,
   heading: string,
   items: string[],
   truncated?: { shown: number; total: number }
@@ -55,7 +55,7 @@ function section(
     lines.push(
       `- _${
         truncated.total - truncated.shown
-      } more not listed here; the full set is in [sitemap.xml](${BASE_URL}/sitemap.xml)._`
+      } more not listed here; the full set is in [sitemap.xml](${base}/sitemap.xml)._`
     )
   }
   return [...lines, ""]
@@ -100,14 +100,18 @@ async function fetchProducts() {
 }
 
 export async function GET() {
-  const [collections, categories, catalog] = await Promise.all([
+  // The base is the origin of THIS request: one process serves every shop by Host
+  // (`lib/tenant/origin.ts`), and the file has to name the shop that was asked.
+  const [collections, categories, catalog, siteName, base] = await Promise.all([
     fetchCollections().catch(() => [] as Entry[]),
     fetchCategories().catch(() => [] as Entry[]),
     fetchProducts().catch(() => ({ products: [] as Entry[], count: 0 })),
+    getSiteName(),
+    getRequestBaseURL(),
   ])
 
   const lines: string[] = [
-    `# ${SITE_NAME}`,
+    `# ${siteName}`,
     "",
     "> Live demo of the Gorgo Medusa DTC Starter — an open-source, production-ready",
     "> direct-to-consumer storefront built on Next.js 15 (App Router) and Medusa 2.",
@@ -127,77 +131,60 @@ export async function GET() {
     "language of the URL. Cart, checkout and account pages are deliberately absent",
     "from this file: they are per-session and disallowed in robots.txt.",
     "",
-    ...section("Browse", [
+    ...section(base, "Browse", [
       listItem(
         "Home",
-        url(""),
+        absolute(base, ""),
         "Landing page describing the starter, with featured collections"
       ),
       listItem(
         "All products",
-        url("/store"),
+        absolute(base, "/store"),
         "Full catalog with search, filtering and sorting"
       ),
     ]),
-    ...section("Project", [
-      listItem(
-        "Source code",
-        "https://github.com/gorgojs/medusa-dtc-starter",
-        "The starter this demo runs on — setup, configuration and deployment"
-      ),
-      listItem(
-        "Gorgo",
-        "https://gorgojs.com",
-        "Medusa plugins and integrations"
-      ),
-      listItem(
-        "Documentation",
-        "https://docs.gorgojs.com",
-        "Docs for the integrations and tools used by this storefront"
-      ),
-    ]),
-    ...section("Optional", [
+    ...section(base, "Optional", [
       ...locales.map((locale) =>
         listItem(
           `${localeLabels[locale]} storefront`,
-          `${BASE_URL}/${locale}`,
+          `${base}/${locale}`,
           `Same store in ${localeLabels[locale]}`
         )
       ),
       listItem(
         "sitemap.xml",
-        `${BASE_URL}/sitemap.xml`,
+        `${base}/sitemap.xml`,
         `Every product, category and collection URL across all ${locales.length} locales`
       ),
     ]),
-    ...section(
+    ...section(base, 
       "Collections",
       collections
         .filter((c) => c.handle)
         .map((c) =>
-          listItem(c.title || c.handle!, url(`/collections/${c.handle}`))
+          listItem(c.title || c.handle!, absolute(base, `/collections/${c.handle}`))
         )
     ),
-    ...section(
+    ...section(base, 
       "Categories",
       categories
         .filter((c) => c.handle)
         .map((c) =>
           listItem(
             c.name || c.handle!,
-            url(`/categories/${c.handle}`),
+            absolute(base, `/categories/${c.handle}`),
             c.description
           )
         )
     ),
-    ...section(
+    ...section(base, 
       "Products",
       catalog.products
         .filter((p) => p.handle)
         .map((p) =>
           listItem(
             p.title || p.handle!,
-            url(`/products/${p.handle}`),
+            absolute(base, `/products/${p.handle}`),
             p.subtitle || p.description
           )
         ),

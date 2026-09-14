@@ -152,7 +152,6 @@
     "close": "Κλείσιμο",
     "hidePassword": "Απόκρυψη κωδικού",
     "orderNumber": "Παραγγελία #{id}",
-    "poweredBy": "Powered by",
     "remove": "Αφαίρεση",
     "showPassword": "Εμφάνιση κωδικού"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Κατηγορίες",
     "collectionsHeading": "Συλλογές",
     "copyright": "© {year} {siteName}. Με επιφύλαξη παντός δικαιώματος.",
-    "infoHeading": "Πληροφορίες",
-    "medusaDocs": "Τεκμηρίωση Medusa",
-    "sourceCode": "Πηγαίος κώδικας του starter",
-    "starterDocs": "Τεκμηρίωση του starter"
+    "infoHeading": "Πληροφορίες"
   },
   "ForgotPassword": {
     "backToSignIn": "Επιστροφή στη σύνδεση",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Επιστροφές & Ανταλλαγές"
   },
   "Hero": {
-    "eyebrow": "Έτοιμο προς χρήση · Ανοιχτού κώδικα",
-    "features": [
-      {
-        "description": "βελτιωμένη, χωρίς περιττά βήματα, με αυτόματη συμπλήρωση διεύθυνσης",
-        "label": "Ολοκλήρωση αγοράς βελτιστοποιημένη για μετατροπές"
-      },
-      {
-        "description": "αναζήτηση, κατάλογος με φίλτρα, πολυεπίπεδες κατηγορίες & mobile-first",
-        "label": "Πλήρης βιτρίνα καταστήματος"
-      },
-      {
-        "description": "meta tags, Open Graph και Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 στο PageSpeed Insights",
-        "label": "Βελτιστοποιημένο για SEO και AI"
-      },
-      {
-        "description": "36 γλώσσες για το κατάστημα με υποστήριξη RTL και 241 χώρες για περιοχές πωλήσεων, εντοπισμός χώρας, εύκολα περιορίζονται σε όσες χρειάζεστε",
-        "label": "Πλήρης τοπικοποίηση"
-      },
-      {
-        "description": "Πρότυπα React Email μέσω SMTP",
-        "label": "Συναλλακτικά emails"
-      },
-      {
-        "description": "σε αλλαγές του καταλόγου προϊόντων",
-        "label": "Επαναεπικύρωση cache κατ' απαίτηση"
-      },
-      {
-        "badge": "Νέο",
-        "description": "διαχειριστείτε τις ρυθμίσεις των παρόχων σας μέσω του Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Ενότητα ενσωματώσεων"
-      }
-    ],
-    "featuresHeading": "Χαρακτηριστικά",
-    "readDocs": "Τεκμηρίωση",
     "subtitle": "Όλα όσα λείπουν από το επίσημο Medusa DTC starter.",
-    "title": "Έτοιμο για παραγωγή Medusa DTC Starter",
-    "viewOnGitHub": "Δείτε στο GitHub"
+    "title": "Έτοιμο για παραγωγή Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Κλείσιμο",
-    "cta": "Δοκιμάστε το",
     "message": "Πλήρες, έτοιμο για παραγωγή DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Όλα τα προϊόντα"
+  },
+  "TenantPage": {
+    "emptyBody": "Αυτή η σελίδα δεν έχει ακόμη κείμενο.",
+    "metaDescription": "{title} στο {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Αποδοχή μεταβίβασης",

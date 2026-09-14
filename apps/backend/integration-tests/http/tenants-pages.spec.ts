@@ -1,0 +1,245 @@
+import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
+
+jest.setTimeout(180_000);
+
+/**
+ * Seam test for tenant-panel wave 2, piece 7 (content pages). A sibling of
+ * `tenants.spec.ts` rather than an extension of it: eight pieces of the same
+ * wave touch that file's `describe` block in parallel worktrees, so this one
+ * keeps its own copy of the small tenant-registration helper (nothing there is
+ * exported; each `describe` callback is its own closure).
+ *
+ * Two seams are under test, and they fail differently:
+ *
+ * - `/tenants/pages/**`, scoped by the tenant behind the bearer token. Tenant B
+ *   asking for its own list must never see a row tenant A wrote, and there is no
+ *   id in these routes to smuggle one in with — the key is one of five fixed
+ *   words, so isolation here means B's list comes back as five blanks after A
+ *   has filled all five.
+ * - `/store/tenant/pages/**`, scoped by the storefront's publishable key. A
+ *   draft, an unwritten page and a NEIGHBOUR's page all answer 404, which is the
+ *   property a visitor could otherwise probe.
+ */
+const PASSWORD = "supersecret";
+
+type Registered = {
+  token: string;
+  publishableKey: { id: string; token: string };
+};
+
+medusaIntegrationTestRunner({
+  testSuite: ({ api }) => {
+    describe("tenants: content pages (/tenants/pages, /store/tenant/pages)", () => {
+      let a: Registered;
+      let b: Registered;
+
+      const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });
+      const storeKey = (owner: Registered) => ({
+        headers: { "x-publishable-api-key": owner.publishableKey.token },
+      });
+
+      const registerTenant = async (handle: string, name: string): Promise<Registered> => {
+        const email = `admin@${handle}.test`;
+        const registration = await api.post("/auth/tenant/emailpass/register", {
+          email,
+          password: PASSWORD,
+        });
+        expect(registration.status).toBe(200);
+
+        const created = await api.post(
+          "/tenants",
+          { name, handle, admin: { email, first_name: name } },
+          bearer(registration.data.token),
+        );
+        expect(created.status).toBe(201);
+
+        const login = await api.post("/auth/tenant/emailpass", { email, password: PASSWORD });
+        expect(login.status).toBe(200);
+
+        return {
+          token: login.data.token,
+          publishableKey: created.data.tenant.api_key,
+        };
+      };
+
+      beforeAll(async () => {
+        a = await registerTenant("acme", "Acme");
+        b = await registerTenant("globex", "Globex");
+      });
+
+      it("rejects the tenant routes without a token", async () => {
+        const list = await api.get("/tenants/pages").catch((e) => e.response);
+        expect(list.status).toBe(401);
+
+        const write = await api
+          .put("/tenants/pages/contacts", { title: "X", body: "", published: false })
+          .catch((e) => e.response);
+        expect(write.status).toBe(401);
+      });
+
+      it("lists all five sections as blanks before anything is saved", async () => {
+        const list = await api.get("/tenants/pages", bearer(a.token));
+        expect(list.status).toBe(200);
+        expect(list.data.pages.map((page: { key: string }) => page.key)).toEqual([
+          "contacts",
+          "legal",
+          "about",
+          "privacy",
+          "offer",
+        ]);
+        expect(list.data.pages.every((page: { id: string | null }) => page.id === null)).toBe(true);
+        expect(list.data.pages[0]).toMatchObject({
+          key: "contacts",
+          locale: "en",
+          title: "",
+          body: "",
+          published: false,
+        });
+      });
+
+      it("404s an unknown key on both read and write", async () => {
+        const read = await api.get("/tenants/pages/shipping", bearer(a.token)).catch((e) => e.response);
+        expect(read.status).toBe(404);
+
+        const write = await api
+          .put("/tenants/pages/shipping", { title: "X", body: "", published: false }, bearer(a.token))
+          .catch((e) => e.response);
+        expect(write.status).toBe(404);
+      });
+
+      it("400s an unknown body field and a published page without a title", async () => {
+        const extra = await api
+          .put(
+            "/tenants/pages/contacts",
+            { title: "X", body: "", published: false, tenant_id: "ten_evil" },
+            bearer(a.token),
+          )
+          .catch((e) => e.response);
+        expect(extra.status).toBe(400);
+
+        const nameless = await api
+          .put("/tenants/pages/contacts", { title: "  ", body: "Text", published: true }, bearer(a.token))
+          .catch((e) => e.response);
+        expect(nameless.status).toBe(400);
+      });
+
+      it("upserts a page for A: PUT, then GET list and GET detail show it, B's list stays empty", async () => {
+        const saved = await api.put(
+          "/tenants/pages/contacts",
+          { title: "Contact Acme", body: "# Visit us\n\n10 Market Street.", published: true },
+          bearer(a.token),
+        );
+        expect(saved.status).toBe(200);
+        expect(saved.data.page).toMatchObject({
+          key: "contacts",
+          locale: "en",
+          title: "Contact Acme",
+          published: true,
+        });
+        expect(saved.data.page.id).toEqual(expect.any(String));
+
+        // A second PUT on the same key updates the same row rather than adding one.
+        const updated = await api.put(
+          "/tenants/pages/contacts",
+          { title: "Contact Acme", body: "# Visit us\n\n11 Market Street.", published: true },
+          bearer(a.token),
+        );
+        expect(updated.status).toBe(200);
+        expect(updated.data.page.id).toBe(saved.data.page.id);
+        expect(updated.data.page.body).toContain("11 Market Street");
+
+        const list = await api.get("/tenants/pages", bearer(a.token));
+        expect(list.data.pages).toHaveLength(5);
+        expect(list.data.pages.find((page: { key: string }) => page.key === "contacts")).toMatchObject({
+          id: saved.data.page.id,
+          title: "Contact Acme",
+          published: true,
+        });
+
+        const detail = await api.get("/tenants/pages/contacts", bearer(a.token));
+        expect(detail.status).toBe(200);
+        expect(detail.data.page.title).toBe("Contact Acme");
+
+        // Isolation: B's own list is untouched by A's write — five blanks.
+        const listB = await api.get("/tenants/pages", bearer(b.token));
+        expect(listB.data.pages).toHaveLength(5);
+        expect(listB.data.pages.every((page: { id: string | null }) => page.id === null)).toBe(true);
+
+        const detailB = await api.get("/tenants/pages/contacts", bearer(b.token));
+        expect(detailB.status).toBe(200);
+        expect(detailB.data.page).toMatchObject({ id: null, title: "", published: false });
+      });
+
+      it("serves a published page to its own storefront key and 404s it to the neighbour's", async () => {
+        await api.put(
+          "/tenants/pages/contacts",
+          { title: "Contact Acme", body: "10 Market Street.", published: true },
+          bearer(a.token),
+        );
+
+        const list = await api.get("/store/tenant/pages", storeKey(a));
+        expect(list.status).toBe(200);
+        expect(list.data.pages).toEqual([{ key: "contacts", title: "Contact Acme" }]);
+
+        const page = await api.get("/store/tenant/pages/contacts", storeKey(a));
+        expect(page.status).toBe(200);
+        expect(page.data.page).toMatchObject({
+          key: "contacts",
+          title: "Contact Acme",
+          body: "10 Market Street.",
+          published: true,
+        });
+
+        // The neighbour's storefront key never reaches A's page.
+        const listB = await api.get("/store/tenant/pages", storeKey(b));
+        expect(listB.status).toBe(200);
+        expect(listB.data.pages).toEqual([]);
+
+        const pageB = await api
+          .get("/store/tenant/pages/contacts", storeKey(b))
+          .catch((e) => e.response);
+        expect(pageB.status).toBe(404);
+      });
+
+      it("hides a draft from the storefront and shows it again when published", async () => {
+        await api.put(
+          "/tenants/pages/legal",
+          { title: "Legal details", body: "Acme Ltd.", published: false },
+          bearer(a.token),
+        );
+
+        const draft = await api.get("/store/tenant/pages/legal", storeKey(a)).catch((e) => e.response);
+        expect(draft.status).toBe(404);
+
+        const list = await api.get("/store/tenant/pages", storeKey(a));
+        expect(list.data.pages.map((page: { key: string }) => page.key)).not.toContain("legal");
+
+        // The tenant still sees its own draft.
+        const own = await api.get("/tenants/pages/legal", bearer(a.token));
+        expect(own.data.page).toMatchObject({ title: "Legal details", published: false });
+
+        await api.put(
+          "/tenants/pages/legal",
+          { title: "Legal details", body: "Acme Ltd.", published: true },
+          bearer(a.token),
+        );
+
+        const published = await api.get("/store/tenant/pages/legal", storeKey(a));
+        expect(published.status).toBe(200);
+        expect(published.data.page.title).toBe("Legal details");
+      });
+
+      it("404s an unknown key and an unwritten page on the storefront, the same as a draft", async () => {
+        const unknown = await api
+          .get("/store/tenant/pages/shipping", storeKey(a))
+          .catch((e) => e.response);
+        expect(unknown.status).toBe(404);
+
+        const unwritten = await api
+          .get("/store/tenant/pages/offer", storeKey(a))
+          .catch((e) => e.response);
+        expect(unwritten.status).toBe(404);
+      });
+    });
+  },
+});

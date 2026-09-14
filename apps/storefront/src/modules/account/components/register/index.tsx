@@ -9,13 +9,14 @@ import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { Link } from "@i18n/navigation"
 import { signup } from "@lib/data/customer"
 import { useTranslations } from "next-intl"
-import { SITE_NAME } from "@lib/util/env"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
+  /** From the server page, through `LoginTemplate` — see the note there (rule 19g). */
+  siteName: string
 }
 
-const Register = ({ setCurrentView }: Props) => {
+const Register = ({ setCurrentView, siteName }: Props) => {
   const t = useTranslations("Register")
   const [message, formAction] = useActionState(signup as (state: string | null, formData: FormData) => Promise<string | null>, null as string | null)
 
@@ -25,10 +26,10 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="text-large-semi uppercase mb-6">
-        {t("heading", { siteName: SITE_NAME })}
+        {t("heading", { siteName: siteName })}
       </h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        {t("description", { siteName: SITE_NAME })}
+        {t("description", { siteName: siteName })}
       </p>
       <form className="w-full flex flex-col" action={formAction}>
         <div className="flex flex-col w-full gap-y-2">
@@ -73,7 +74,7 @@ const Register = ({ setCurrentView }: Props) => {
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          {t("agreeText", { siteName: SITE_NAME })}{" "}
+          {t("agreeText", { siteName: siteName })}{" "}
           <Link href="/privacy" className="underline">
             {t("privacyPolicy")}
           </Link>{" "}

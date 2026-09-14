@@ -1,4 +1,4 @@
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { getEffectiveSettings } from "@lib/data/tenant-home"
 
 import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
 
@@ -12,9 +12,12 @@ import { DEFAULT_FOOTER, FOOTER_VARIANTS } from "./variants"
  *
  * No saved settings (`panel-composition-mockup.md` §C1 "Absent" row) → `DEFAULT_FOOTER`
  * ("f1"), today's baseline, unchanged.
+ *
+ * Tenant panel wave 2, piece 8: same swap as `nav/index.tsx` — `getEffectiveSettings()`
+ * prefers the tenant's own home-page document and falls back to the stand's settings.
  */
 export default async function Footer() {
-  const settings = await getStorefrontSettings()
+  const settings = await getEffectiveSettings()
   const footer = settings?.footer ?? DEFAULT_FOOTER
 
   if (footer === "none") {

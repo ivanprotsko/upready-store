@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-11T08:47:37+08:00",
+  "status": "Волна 2 панели: каркас 0fd518d (модели tenant_page/home_config/domain + миграция накатана на стенд, links category/promotion/campaign, якоря app.tsx/middlewares, сайдбар). Стенд оркестратора :9026/:5181, план и решения в artifacts/docs/2026-09-12-tenant-panel-progress.md. Дальше: контракт волны 2 в docs/tenant-panel/api-contract.md, common-промпт, спавн 4/1/2+3, затем 5/6/7, затем 8/9 (docs/multitenancy/storefront-by-host.md до кода). База доменов = upready.dev (Иван 08:5x)."
+}

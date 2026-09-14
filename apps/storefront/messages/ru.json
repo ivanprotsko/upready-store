@@ -152,7 +152,6 @@
     "close": "Закрыть",
     "hidePassword": "Скрыть пароль",
     "orderNumber": "Заказ №{id}",
-    "poweredBy": "Powered by",
     "remove": "Удалить",
     "showPassword": "Показать пароль"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Категории",
     "collectionsHeading": "Коллекции",
     "copyright": "© {year} {siteName}. Все права защищены.",
-    "infoHeading": "Информация",
-    "medusaDocs": "Документация Medusa",
-    "sourceCode": "Исходный код стартера",
-    "starterDocs": "Документация стартера"
+    "infoHeading": "Информация"
   },
   "ForgotPassword": {
     "backToSignIn": "Вернуться ко входу",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Возврат и обмен"
   },
   "Hero": {
-    "eyebrow": "Под ключ · Open-source",
-    "features": [
-      {
-        "description": "улучшенный, без лишних шагов, с автозаполнением адреса",
-        "label": "Чекаут под конверсию"
-      },
-      {
-        "description": "поиск, каталог с фильтрами, многоуровневые категории и mobile-first",
-        "label": "Полноценная витрина"
-      },
-      {
-        "description": "meta-теги, карточки Open Graph и Twitter, JSON-LD, sitemap, robots, llms.txt и 100/100 в PageSpeed Insights",
-        "label": "Оптимизация под SEO и AI"
-      },
-      {
-        "description": "36 языков для витрины с поддержкой RTL и 241 страна для регионов продаж, определение страны, лишние легко убрать",
-        "label": "Полная локализация"
-      },
-      {
-        "description": "шаблоны на React Email через SMTP",
-        "label": "Транзакционные письма"
-      },
-      {
-        "description": "при изменениях в каталоге товаров",
-        "label": "Ревалидация кэша по запросу"
-      },
-      {
-        "badge": "New",
-        "description": "управление настройками провайдеров через Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Модуль интеграций"
-      }
-    ],
-    "featuresHeading": "Возможности",
-    "readDocs": "Читать документацию",
     "subtitle": "Всё, что не вошло в официальный Medusa DTC Starter.",
-    "title": "Готовый к продакшену Medusa DTC Starter",
-    "viewOnGitHub": "Смотреть на GitHub"
+    "title": "Готовый к продакшену Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Закрыть",
-    "cta": "Попробовать",
     "message": "Полнофункциональный, готовый к продакшену DTC-стартер."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Все товары"
+  },
+  "TenantPage": {
+    "emptyBody": "На этой странице пока нет текста.",
+    "metaDescription": "{title} в {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Принять перенос",

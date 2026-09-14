@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 15,
+  "action": "status-set",
+  "ts": "2026-09-11T11:27:36+08:00",
+  "status": "Волна 2: все 9 кусков слиты в feat/mt-panel-2 (407389d); идут финальные замеры витрины по Host на :8010 без env-ключа и tsc/lint trunk; затем by-host e2e, полный e2e панели, READY в night.md, финальные записи. Push не делался."
+}

@@ -152,7 +152,6 @@
     "close": "Sulje",
     "hidePassword": "Piilota salasana",
     "orderNumber": "Tilaus #{id}",
-    "poweredBy": "Powered by",
     "remove": "Poista",
     "showPassword": "Näytä salasana"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategoriat",
     "collectionsHeading": "Kokoelmat",
     "copyright": "© {year} {siteName}. Kaikki oikeudet pidätetään.",
-    "infoHeading": "Tietoa",
-    "medusaDocs": "Medusan dokumentaatio",
-    "sourceCode": "Starterin lähdekoodi",
-    "starterDocs": "Starterin dokumentaatio"
+    "infoHeading": "Tietoa"
   },
   "ForgotPassword": {
     "backToSignIn": "Takaisin kirjautumiseen",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Palautukset ja vaihdot"
   },
   "Hero": {
-    "eyebrow": "Avaimet käteen · Avoin lähdekoodi",
-    "features": [
-      {
-        "description": "parannettu, ilman turhia vaiheita, osoitteen automaattinen täyttö",
-        "label": "Konversioon optimoitu kassa"
-      },
-      {
-        "description": "haku, suodatettava tuoteluettelo, monitasoiset kategoriat ja mobile-first",
-        "label": "Täysiverinen verkkokauppa"
-      },
-      {
-        "description": "meta-tagit, Open Graph ja Twitter cards, JSON-LD, sitemap, robots, llms.txt ja 100/100 PageSpeed Insightsissa",
-        "label": "Optimoitu SEO:lle ja tekoälylle"
-      },
-      {
-        "description": "36 verkkokaupan kieltä RTL-tuella ja 241 maata myyntialueille, maan tunnistus, helppo karsia tarvittaviin",
-        "label": "Täysi lokalisointi"
-      },
-      {
-        "description": "React Email -pohjat SMTP:n kautta",
-        "label": "Transaktiosähköpostit"
-      },
-      {
-        "description": "tuoteluettelon muutosten yhteydessä",
-        "label": "Välimuistin päivitys tarpeen mukaan"
-      },
-      {
-        "badge": "Uusi",
-        "description": "hallinnoi palveluntarjoajien asetuksia Adminin kautta",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integraatiomoduuli"
-      }
-    ],
-    "featuresHeading": "Ominaisuudet",
-    "readDocs": "Lue dokumentaatio",
     "subtitle": "Kaikki, mitä virallisesta Medusa DTC Starterista puuttuu.",
-    "title": "Tuotantovalmis Medusa DTC Starter",
-    "viewOnGitHub": "Katso GitHubissa"
+    "title": "Tuotantovalmis Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Sulje",
-    "cta": "Kokeile",
     "message": "Täysiverinen, tuotantovalmis DTC-starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Kaikki tuotteet"
+  },
+  "TenantPage": {
+    "emptyBody": "Tällä sivulla ei ole vielä tekstiä.",
+    "metaDescription": "{title} – {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Hyväksy siirto",

@@ -5,6 +5,7 @@ import {
   createSalesChannelsWorkflow,
   createStoresWorkflow,
   linkSalesChannelsToApiKeyWorkflow,
+  updateSalesChannelsWorkflow,
 } from "@medusajs/medusa/core-flows";
 import { SEED_LOCALES } from "../data/i18n";
 import { SEED_REGIONS } from "../data/regions";
@@ -31,8 +32,41 @@ export type SeedMode = "full" | "add-profile" | "skip";
 export const getSalesChannel = async (container: MedusaContainer) => {
   const { data } = await getQuery(container).graph({
     entity: "sales_channel",
-    fields: ["id"],
+    fields: ["id", "metadata"],
     filters: { name: SEED_STORE.sales_channel.name },
+  });
+  return data[0];
+};
+
+/**
+ * The stamp that says this profile's seed reached its last step. Written on the
+ * profile's own sales channel, because that is the one row a profile always has
+ * exactly one of.
+ */
+export const SEED_COMPLETED_AT = "seed_completed_at";
+
+export const markProfileSeeded = async (container: MedusaContainer) => {
+  const salesChannel = await getSalesChannel(container);
+  if (!salesChannel) return;
+
+  await updateSalesChannelsWorkflow(container).run({
+    input: {
+      selector: { id: salesChannel.id },
+      update: {
+        metadata: {
+          ...(salesChannel.metadata ?? {}),
+          [SEED_COMPLETED_AT]: new Date().toISOString(),
+        },
+      },
+    },
+  });
+};
+
+export const getApiKey = async (container: MedusaContainer) => {
+  const { data } = await getQuery(container).graph({
+    entity: "api_key",
+    fields: ["id", "sales_channels.id"],
+    filters: { title: SEED_STORE.publishable_api_key.title },
   });
   return data[0];
 };
@@ -48,11 +82,32 @@ export const getStore = async (container: MedusaContainer) => {
 export const resolveSeedMode = async (
   container: MedusaContainer,
 ): Promise<SeedMode> => {
-  if (await getSalesChannel(container)) {
-    logger.info(
-      `Sales channel "${SEED_STORE.sales_channel.name}" already exists — skipping initial data seed.`,
+  const salesChannel = await getSalesChannel(container);
+
+  if (salesChannel) {
+    // A channel is not a seeded profile — a channel whose seed REACHED ITS LAST
+    // STEP is. The seed is not transactional: on shipshift.dev the home-goods
+    // run died twice against rows the sneakers profile already owned (the
+    // shared `Colour` option, then that option's translations), each time after
+    // committing part of the profile. Reading "the channel is there" as "this
+    // profile is done" made every such crash permanent, because the only repair
+    // left was deleting rows by hand. The stamp is written by
+    // `markProfileSeeded` after the last step, so anything else is a run that
+    // did not finish and is resumed loudly rather than skipped in silence
+    // (rule 20a). Every step below it is find-or-create for the same reason.
+    const completedAt = (salesChannel.metadata ?? {})[SEED_COMPLETED_AT];
+
+    if (completedAt) {
+      logger.info(
+        `Sales channel "${SEED_STORE.sales_channel.name}" was fully seeded at ${completedAt} — skipping initial data seed.`,
+      );
+      return "skip";
+    }
+
+    logger.warn(
+      `Sales channel "${SEED_STORE.sales_channel.name}" exists but carries no completion stamp — a previous run of this profile did not reach its last step. Resuming it: every row already created is reused, not duplicated.`,
     );
-    return "skip";
+    return "add-profile";
   }
 
   if (await getStore(container)) {
@@ -74,29 +129,46 @@ export const isAlreadySeeded = async (container: MedusaContainer) =>
  * `/store/products` filters by, so it is the whole of catalog isolation.
  */
 export const seedSalesChannel = async (container: MedusaContainer) => {
-  const {
-    result: [salesChannel],
-  } = await createSalesChannelsWorkflow(container).run({
-    input: { salesChannelsData: [SEED_STORE.sales_channel] },
-  });
+  // Find-or-create at every step, so a resumed run (see `resolveSeedMode`)
+  // joins the rows its crashed predecessor already committed instead of
+  // minting a second "<brand> Sales Channel" and a second publishable key —
+  // two keys for one profile is a storefront that shows the wrong catalog
+  // depending on which one the resolver happened to pick.
+  const existingChannel = await getSalesChannel(container);
+  const salesChannel =
+    existingChannel ??
+    (
+      await createSalesChannelsWorkflow(container).run({
+        input: { salesChannelsData: [SEED_STORE.sales_channel] },
+      })
+    ).result[0];
 
-  const {
-    result: [publishableApiKey],
-  } = await createApiKeysWorkflow(container).run({
-    input: {
-      api_keys: [
-        {
-          title: SEED_STORE.publishable_api_key.title,
-          type: "publishable",
-          created_by: "",
+  const existingKey = await getApiKey(container);
+  const publishableApiKey =
+    existingKey ??
+    (
+      await createApiKeysWorkflow(container).run({
+        input: {
+          api_keys: [
+            {
+              title: SEED_STORE.publishable_api_key.title,
+              type: "publishable",
+              created_by: "",
+            },
+          ],
         },
-      ],
-    },
-  });
+      })
+    ).result[0];
 
-  await linkSalesChannelsToApiKeyWorkflow(container).run({
-    input: { id: publishableApiKey.id, add: [salesChannel.id] },
-  });
+  const linked = (existingKey?.sales_channels ?? []).some(
+    (channel) => channel?.id === salesChannel.id,
+  );
+
+  if (!linked) {
+    await linkSalesChannelsToApiKeyWorkflow(container).run({
+      input: { id: publishableApiKey.id, add: [salesChannel.id] },
+    });
+  }
 
   return salesChannel;
 };

@@ -4,15 +4,14 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { profile, promoText } from "@lib/profile"
-import { SITE_NAME } from "@lib/util/env"
-import { getCountryCode } from "@lib/data/cookies"
+import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const MAX_NAV_LINKS = 4
 
@@ -41,17 +40,18 @@ const MAX_NAV_LINKS = 4
  * search and mode toggle on mobile.
  */
 export default async function NavH3() {
-  const [t, locale, categories, regions, countryCode] = await Promise.all([
+  const [t, locale, categories, regions, countryCode, siteName] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
+    getSiteName(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
     .slice(0, MAX_NAV_LINKS)
-  const serviceMessage = promoText(locale) ?? profile.brand?.tagline
+  const serviceMessage = (await shopPromoText(locale)) ?? (await shopTagline())
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -88,7 +88,7 @@ export default async function NavH3() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {SITE_NAME}
+                {siteName}
               </Link>
             </BrandUnlock>
           </div>

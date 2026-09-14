@@ -1,13 +1,20 @@
 const c = require("ansi-colors");
 
-const requiredEnvs = [
-  {
-    key: "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
-    // TODO: we need a good doc to point this to
-    description:
-      "Learn how to create a publishable key: https://docs.medusajs.com/v2/resources/storefront-development/publishable-api-keys",
-  },
-];
+/**
+ * Was `[{ key: "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY" }]`, and the missing key
+ * exited the process before Next started — `next.config.js` calls this at the
+ * top, so `next dev`, `next build` and `next lint` all died on it.
+ *
+ * Since piece 9 (docs/multitenancy/storefront-by-host.md) the publishable key
+ * is resolved PER REQUEST from the Host header, so a multi-shop deployment
+ * legitimately runs with no key in its environment at all; the variable is now
+ * the single-store fallback for a host that resolves to no shop. Requiring it
+ * would make the supported configuration unstartable.
+ *
+ * Nothing else was required here, so the list is empty rather than deleted: the
+ * next required variable goes back in as one entry.
+ */
+const requiredEnvs = [];
 
 function checkEnvVariables() {
   const missingEnvs = requiredEnvs.filter((env) => {

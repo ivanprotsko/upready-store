@@ -1,0 +1,21 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-deploy",
+  "session": "s-2026-09-12",
+  "index": 3,
+  "action": "task-add",
+  "ts": "2026-09-12T00:48:06+08:00",
+  "status": "МТ-деплой, ночь 2: ответы Ивана исполнены. (в) shiftship.dev снят с Initech через DELETE /tenants/domains (продуктовый путь), ingress держит ровно пять витринных хостов, публичный 502 — чужой роутер студии. Фан-аут свёрнут в ОДНОГО воркера (Sonnet 5, worktree feat/mt-tenant-identity от 09d5408, бриф artifacts/prompts/2026-09-12-w-tenant-identity.md, порядок W1 имя магазина → W2 категории → W3 картинки, коммит после каждой), три пустых worktree удалены. Сделана аналитика агентов: agent-usage.mjs + реестр .ai/logs/agent-usage.jsonl + документы по ночам в ~/upready/artifacts/deliverables/agent-usage/ + хук SessionEnd. Замер init: safe-mode 20-28k на модель, с нашими правилами 37-49k; boot сабагента = 0.5-1.5% его расхода, 97.2% токенов за 7 дней — оборот контекста. Осталось: приёмка работы воркера + мерж, потом страница ссылок (оплата→онбординг, онбординг прототипа, ночные документы).",
+  "task": {
+    "id": "t-2026-09-12-paywall-onboarding-demo",
+    "title": "Тестовый UI на shiftship.dev: четыре входа оплата→онбординг + прямой вход в онбординг",
+    "state": "backlog",
+    "priority": "high",
+    "files": [
+      "artifacts/docs/2026-09-12-paywall-onboarding-demo-requirements.md"
+    ],
+    "created": "2026-09-12T00:48:06+08:00",
+    "updated": "2026-09-12T00:48:06+08:00"
+  }
+}

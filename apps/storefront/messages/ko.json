@@ -152,7 +152,6 @@
     "close": "닫기",
     "hidePassword": "비밀번호 숨기기",
     "orderNumber": "주문 #{id}",
-    "poweredBy": "제공",
     "remove": "삭제",
     "showPassword": "비밀번호 표시"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "카테고리",
     "collectionsHeading": "컬렉션",
     "copyright": "© {year} {siteName}. 모든 권리 보유.",
-    "infoHeading": "정보",
-    "medusaDocs": "Medusa 문서",
-    "sourceCode": "스타터 소스 코드",
-    "starterDocs": "스타터 문서"
+    "infoHeading": "정보"
   },
   "ForgotPassword": {
     "backToSignIn": "로그인으로 돌아가기",
@@ -345,44 +341,8 @@
     "returnsExchanges": "반품 및 교환"
   },
   "Hero": {
-    "eyebrow": "간편 설치 · 오픈소스",
-    "features": [
-      {
-        "description": "개선된 흐름, 불필요한 단계 없음, 주소 자동완성",
-        "label": "전환율에 최적화된 체크아웃"
-      },
-      {
-        "description": "검색, 필터링 가능한 카탈로그, 다단계 카테고리, 모바일 퍼스트",
-        "label": "모든 기능을 갖춘 스토어프론트"
-      },
-      {
-        "description": "meta 태그, Open Graph·Twitter 카드, JSON-LD, sitemap, robots, llms.txt, PageSpeed Insights 100점",
-        "label": "SEO·AI 최적화"
-      },
-      {
-        "description": "스토어프런트용 36개 언어(RTL 지원), 판매 지역용 241개 국가, 국가 감지, 필요한 것만 남기기 쉬움",
-        "label": "완전한 현지화"
-      },
-      {
-        "description": "SMTP 기반 React Email 템플릿",
-        "label": "트랜잭션 이메일"
-      },
-      {
-        "description": "상품 카탈로그 변경 시",
-        "label": "온디맨드 캐시 재검증"
-      },
-      {
-        "badge": "신규",
-        "description": "관리자에서 공급자 설정을 관리하세요",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "통합 모듈"
-      }
-    ],
-    "featuresHeading": "주요 기능",
-    "readDocs": "문서 보기",
     "subtitle": "공식 Medusa DTC 스타터에 없는 모든 것을 담았습니다.",
-    "title": "프로덕션 준비 완료 Medusa DTC 스타터",
-    "viewOnGitHub": "GitHub에서 보기"
+    "title": "프로덕션 준비 완료 Medusa DTC 스타터"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "닫기",
-    "cta": "사용해 보기",
     "message": "모든 기능을 갖춘 프로덕션 준비 완료 DTC 스타터."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "전체 상품"
+  },
+  "TenantPage": {
+    "emptyBody": "이 페이지에는 아직 내용이 없습니다.",
+    "metaDescription": "{siteName}의 {title}."
   },
   "TransferActions": {
     "acceptTransfer": "이전 수락",

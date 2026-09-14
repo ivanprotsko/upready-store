@@ -1,0 +1,39 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 17,
+  "action": "task-update",
+  "ts": "2026-09-11T11:29:20+08:00",
+  "status": "Волна 2: все 9 кусков слиты в feat/mt-panel-2 (407389d); идут финальные замеры витрины по Host на :8010 без env-ключа и tsc/lint trunk; затем by-host e2e, полный e2e панели, READY в night.md, финальные записи. Push не делался.",
+  "task": {
+    "id": "t-2026-09-12-mt-storefront-by-host",
+    "title": "Витрина одна на всех: тенант по Host, его publishable key, тема/пресет и композиция главной из БД — вместо процесса на тенанта с ключом в env",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Иван 11.09 08:0x на объяснение «сейчас три процесса одного кода с ключом в env, слой дизайна per-tenant не написан»: «надо написать». Основание: решение 11.09 «publishable key витрины — в БД» (memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md). Замер стенда 08:05: три next-server из одного каталога apps/storefront, RSS 20 MB каждый + дочерние компиляторы turbopack (у :8000 — 2,6 GB), резолва по Host в src/middleware.ts нет. Объём: (1) домены тенанта в конфиге (modules/tenant — поле/модель domains), (2) middleware: Host → GET /store/tenant/by-host → publishable key + theme + home config (кэш), (3) lib/config.ts перестаёт быть синглтоном с ключом на процесс, (4) пресет темы тенанта из БД поверх существующих пресетов витрины (store-theme-surface / geist-kit theme.css; если пресетов нет — минимум primary + light/dark и развилка), (5) стенд: acme.localhost:8000 и globex.localhost:8000 на одном процессе. Исполняет сессия A (feat/mt-panel-2) как кусок 9 после куска 8 — она владеет apps/storefront и tenant_home_config.\n\n11.09 ~08:10 Иван: «заводи эту задачу и расписывай. Я снимаю все ограничения по задачам в рамках всех задач по направлению мультитенантности» — задача уже активна (69b506b); решение о снятии 22j для направления МТ записано в memory/decisions/2026-09-10-multitenancy-target-first-config-in-db.md (последний раздел). Дизайн куска (модель domains, маршрут GET /store/tenant/by-host, кэш в middleware, fallback на env для одиночного режима, пресеты темы) расписывает сессия A в docs/multitenancy/storefront-by-host.md ДО кода, приёмка — критерии задачи.\n\n11.09 08:1x Иван (пример vasya.com / petya.ru): да, по своим доменам каждый видит только свой магазин; в объём добавлены два ограничения — домен УНИКАЛЕН между тенантами (unique-индекс), у тенанта ВСЕГДА есть технический субдомен (<handle>.upready.store) для работы до настройки DNS и для отката; изоляция стоит на ключ→канал, домен лишь выбирает ключ.\n\n11.09 08:2x Иван: «не вижу пункта, что сайты тенантов получают постоянный домен <tenant>.upready.dev и что тенантам можно прописать свой домен petya.com». УТОЧНЕНИЕ ОБЪЁМА: базовый домен платформы = upready.dev (слово Ивана; ранее в задаче стояло upready.store — ошибка, отменено). (1) При создании тенанта ему АВТОМАТИЧЕСКИ назначается постоянный технический домен <handle>.upready.dev — запись в БД, витрина отвечает на нём сразу. (2) Тенант в панели (Settings → Домены) и платформа в админке магазинов добавляют свой домен (petya.com): проверка уникальности, статус «ожидает DNS / активен», текст инструкции для регистратора (CNAME на stores.upready.dev или A на IP платформы) показан прямо в панели. (3) На стенде без внешнего DNS кастомный домен проверяется через alias в /etc/hosts или *.localhost; TLS/прокси для реальных доменов — hosting-spec сессии B (B4).\n\n11.09 09:03 (сессия A): дизайн написан ДО кода — docs/multitenancy/storefront-by-host.md (bb40bb7): tenant_domain (кастомные хосты, unique) + технический <handle>.upready.dev выводится из handle (база upready.dev по поправке Ивана; wildcard/CNAME stores.upready.dev/on-demand TLS — hosting-spec B4 сессии B), резолвер GET /storefront/by-host (не /store/*: гейт publishable key отвечает 400 без ключа, замер на :9026), middleware витрины → заголовки x-tenant-*, lib/config.ts ключ из headers() с env-fallback, пресеты темы витрины подходят (7 штук, развилки по пресету нет). Промпт воркера artifacts/prompts/2026-09-12-tenant-panel-piece-9.md; стенд витрины :8010 (старые :8000–8002 не трогаем до приёмки). Кусок 9 стартует после 8.\n\n11.09 11:29 (сессия A): реализовано и принято оркестратором — GET /storefront/by-host (вне /store/*), tenant_domain + /tenants/domains + экран Domains, middleware витрины ставит x-tenant-* и ключ per request, env-ключ = fallback; слияние с куском 8 (документ главной) — один lib/data/tenant-home.ts; замер на одном next без env-ключа: acme.localhost:8010 sneakers/dark, globex.localhost:8010 home-goods/light, каталоги разные; seam tenants-domains 12/12, by-host e2e у воркера 18/18 (мой прогон на :8010 — в progress.md). Коммиты eff0577, c3b9194, 51313a2, merge 407389d. Не в объёме: прокси/wildcard TLS (hosting-spec B4 сессии B), перенос старых стендов :8000–8002.",
+    "files": [
+      "apps/storefront/src/middleware.ts",
+      "apps/storefront/src/lib/config.ts"
+    ],
+    "tags": [
+      "multitenancy",
+      "storefront",
+      "theme"
+    ],
+    "created": "2026-09-11T07:49:28+08:00",
+    "updated": "2026-09-11T11:29:20+08:00",
+    "goal": "Один процесс витрины обслуживает всех тенантов: по Host он находит тенанта, берёт его publishable key, пресет темы и композицию главной из БД и показывает только его магазин в его дизайне; новый тенант появляется без пересборки и рестарта",
+    "acceptance": [
+      "acme.localhost:8000 и globex.localhost:8000 на ОДНОМ процессе next показывают разные каталоги (9 и 3 карточки на /en/store) и разные пресеты темы — замер скриншотами обеих (18f)",
+      "ключ читается не из NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY, а из ответа бэкенда по Host; env-ключ остаётся только как fallback для одиночного режима",
+      "домены тенанта редактируются в панели тенанта или в админке магазинов и хранятся в БД",
+      "тенант, добавленный через API, открывается по своему Host без рестарта витрины (замер)",
+      "seam-тест GET /store/tenant/by-host и e2e витрины зелёные, tsc/lint rc=0",
+      "созданный тенант сразу отвечает на <handle>.upready.dev (на стенде — <handle>.localhost:8000) без действий владельца",
+      "владелец добавил petya.com в панели (Settings → Домены), витрина отвечает на нём (стенд: alias в /etc/hosts), тот же домен у второго тенанта отклоняется; в панели показана DNS-инструкция и статус домена"
+    ],
+    "approved": "2026-09-11T07:49:49+08:00"
+  }
+}

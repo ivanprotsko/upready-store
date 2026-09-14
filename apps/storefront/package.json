@@ -37,9 +37,9 @@
     "test:profile": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e PROFILE_URL mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/profile/playwright.config.ts",
     "themes:extract": "node scripts/extract-theme-sources.mjs",
     "themes:coverage": "node scripts/theme-coverage-gate.mjs",
-    "test:devtools": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e DEVTOOLS_URL -e DEVTOOLS_PASSWORD -e DEVTOOLS_DISABLED_URL -e DEVTOOLS_SHOTS mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/devtools/playwright.config.ts",
-    "test:stands": "docker run --rm -v \"$PWD/../..\":/work -w /work/apps/storefront -e STAND_URL -e STAND_API_URL -e DEVTOOLS_PASSWORD -e CUSTOMER_EMAIL -e CUSTOMER_PASSWORD -e FRAMES_DIR mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/stands/playwright.config.ts",
-    "test:stands:frames": "docker run --rm -v \"$PWD/../..\":/work -w /work/apps/storefront -e STAND_URL -e STAND_API_URL -e DEVTOOLS_PASSWORD -e CUSTOMER_EMAIL -e CUSTOMER_PASSWORD -e FRAMES_DIR mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/stands/playwright.config.ts --grep \"@frames\""
+    "test:studio": "docker run --rm --add-host=host.docker.internal:host-gateway -v \"$PWD/../..\":/work -w /work/apps/storefront -e STUDIO_URL -e STUDIO_PASSWORD -e STUDIO_DISABLED_URL -e STUDIO_SHOTS mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/studio/playwright.config.ts",
+    "test:stands": "docker run --rm -v \"$PWD/../..\":/work -w /work/apps/storefront -e STAND_URL -e STAND_API_URL -e STUDIO_PASSWORD -e CUSTOMER_EMAIL -e CUSTOMER_PASSWORD -e FRAMES_DIR mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/stands/playwright.config.ts",
+    "test:stands:frames": "docker run --rm -v \"$PWD/../..\":/work -w /work/apps/storefront -e STAND_URL -e STAND_API_URL -e STUDIO_PASSWORD -e CUSTOMER_EMAIL -e CUSTOMER_PASSWORD -e FRAMES_DIR mcr.microsoft.com/playwright:v1.63.0-noble npx playwright test --config tests/stands/playwright.config.ts --grep \"@frames\""
   },
   "dependencies": {
     "@ariakit/react": "^0.4.32",

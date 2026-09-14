@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 17,
+  "action": "status-set",
+  "ts": "2026-09-11T04:48:45+08:00",
+  "status": "11.09 04:50 WITA: приёмщик ночной волны панели тенанта (t-2026-09-11-mt-tenant-panel), ветка feat/mt-vendors. READY от оркестратора нет — жду сторожем на файл (5h), дедлайн отката 06:15 по последней строке прогресса 04:45. Оркестратор пишет в feat/mt-panel + подветки mt-panel-skeleton/mt-panel-backend, но три коммита положил и в feat/mt-vendors (05f7397, 78f1949, 2e8f651) — дерево общее, коммичу только литеральными путями. Сделано до приёмки: стенд жив (:9023 OK, витрины :8000/:8001/:8002), замер /tenants/* — acme 6 товаров/6 заказов, globex 3/0, initech 1/0, чужих строк нигде нет; витрины после ревалидации 6/3/1; заказ #6 order_01M26GXCR6FXXEHHEY013YZVGS размещён браузером через витрину :8000 — виден у Acme, нет у Globex/Initech; сняты эталонные кадры админки (admin-ref-*.png). Найдено: числа acceptance (4/2) устарели — на стенде 6/3 из-за прогонов mt-live-scenario; витрина кэширует каталог force-cache и без POST /api/revalidate проверка «не виден у соседа» ничего не доказывает; дефект №1 записан — scripts/tenant-panel-shots.mjs снимает кадр «после входа» на спиннере. Отчёт artifacts/docs/2026-09-11-tenant-panel-morning.md (6fe932d), дефекты 274decc. Push не делался."
+}

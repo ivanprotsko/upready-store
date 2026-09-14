@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-11T01:19:41+08:00",
+  "status": "MT срез 11.09: дыра корзины закрыта (validate-hooks на канал), склад per-tenant (provision-tenant-warehouse + reprovision существующих acme/globex/initech), tsc+lint чисто, seam 14/14, живой 9/9 на :9023. Resolved q-mt-publishable-key-storage/stock-locations/order-not-split; открыты columns-vs-links и tenants-namespace (ждут Ивана)."
+}

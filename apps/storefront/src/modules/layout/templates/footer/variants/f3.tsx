@@ -2,10 +2,11 @@ import { Link } from "@i18n/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
-import { promoText } from "@lib/profile"
-import { SITE_NAME } from "@lib/util/env"
+import { listTenantPages } from "@lib/data/tenant-pages"
+import { shopPromoText } from "@lib/data/shop-copy"
+import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F3 · "Гигантский wordmark" — a link row (categories + collections) and a promo-clause
@@ -23,14 +24,20 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * breaks the layout (Ivan's own acceptance: "the wordmark never overflows at 390").
  */
 export default async function FooterF3() {
-  const t = await getTranslations("Footer")
-  const locale = await getLocale()
+  const [t, locale, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getLocale(),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
   )
   const { collections } = await listCollections()
-  const clauses = promoText(locale)?.split(" · ") ?? []
+  // tenant-panel wave 2, piece 7: the shop owner's own published content
+  // pages, in the same link row as the categories and collections.
+  const tenantPages = await listTenantPages()
+  const clauses = (await shopPromoText(locale))?.split(" · ") ?? []
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">
@@ -57,6 +64,16 @@ export default async function FooterF3() {
                 </Link>
               </li>
             ))}
+            {tenantPages.map((page) => (
+              <li key={page.key}>
+                <Link
+                  href={`/pages/${page.key}`}
+                  className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                >
+                  {page.title}
+                </Link>
+              </li>
+            ))}
           </ul>
           {clauses.length > 0 && (
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-ui-fg-muted">
@@ -71,21 +88,21 @@ export default async function FooterF3() {
 
         <Link
           href="/"
-          aria-label={SITE_NAME}
+          aria-label={siteName}
           className="block w-full uppercase font-semibold leading-[0.95] tracking-tight text-ui-fg-base hover:text-ui-fg-subtle transition-colors overflow-hidden whitespace-nowrap my-3"
           style={{ fontSize: "clamp(44px, 13vw, 190px)" }}
         >
-          {SITE_NAME}
+          {siteName}
         </Link>
 
-        <div className="flex w-full mt-2.5 pt-4 justify-between items-center border-t border-ui-border-base text-ui-fg-muted">
+        <div className="flex flex-col gap-y-2 sm:flex-row w-full mt-2.5 pt-4 sm:justify-between items-start sm:items-center border-t border-ui-border-base text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

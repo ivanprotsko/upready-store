@@ -152,7 +152,6 @@
     "close": "Isara",
     "hidePassword": "Itago ang password",
     "orderNumber": "Order #{id}",
-    "poweredBy": "Pinapagana ng",
     "remove": "Alisin",
     "showPassword": "Ipakita ang password"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Mga Kategorya",
     "collectionsHeading": "Mga Koleksyon",
     "copyright": "© {year} {siteName}. Lahat ng karapatan ay nakalaan.",
-    "infoHeading": "Impormasyon",
-    "medusaDocs": "Dokumentasyon ng Medusa",
-    "sourceCode": "Source code ng starter",
-    "starterDocs": "Dokumentasyon ng starter"
+    "infoHeading": "Impormasyon"
   },
   "ForgotPassword": {
     "backToSignIn": "Bumalik sa pag-sign in",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Pagsauli at Palitan"
   },
   "Hero": {
-    "eyebrow": "Handang-gamitin · Open-source",
-    "features": [
-      {
-        "description": "pinahusay, walang sobrang hakbang, may autocomplete ng address",
-        "label": "Checkout na na-optimize para sa conversion"
-      },
-      {
-        "description": "search, catalog na may filter, multi-level na kategorya, at mobile-first",
-        "label": "Full-featured na storefront"
-      },
-      {
-        "description": "meta tags, Open Graph at Twitter cards, JSON-LD, sitemap, robots, llms.txt, at 100/100 sa PageSpeed Insights",
-        "label": "Optimized para sa SEO at AI"
-      },
-      {
-        "description": "36 wika para sa storefront na may suportang RTL at 241 bansa para sa mga rehiyon ng benta, pagtukoy ng bansa, madaling bawasan sa kailangan lang",
-        "label": "Kumpletong lokalisasyon"
-      },
-      {
-        "description": "Mga template ng React Email sa SMTP",
-        "label": "Transactional na Email"
-      },
-      {
-        "description": "kapag nagbago ang product catalog",
-        "label": "On-demand na Cache Revalidation"
-      },
-      {
-        "badge": "Bago",
-        "description": "pamahalaan ang settings ng iyong mga provider sa pamamagitan ng Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integration Module"
-      }
-    ],
-    "featuresHeading": "Mga Feature",
-    "readDocs": "Basahin ang dokumentasyon",
     "subtitle": "Lahat ng nawawala sa opisyal na Medusa DTC starter.",
-    "title": "Production-ready na Medusa DTC Starter",
-    "viewOnGitHub": "Tingnan sa GitHub"
+    "title": "Production-ready na Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Isara",
-    "cta": "Subukan",
     "message": "Full-featured at production-ready na DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Lahat ng produkto"
+  },
+  "TenantPage": {
+    "emptyBody": "Wala pang teksto ang pahinang ito.",
+    "metaDescription": "{title} sa {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Tanggapin ang paglipat",

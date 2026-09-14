@@ -152,7 +152,6 @@
     "close": "Затвори",
     "hidePassword": "Скриване на паролата",
     "orderNumber": "Поръчка №{id}",
-    "poweredBy": "Powered by",
     "remove": "Премахни",
     "showPassword": "Показване на паролата"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Категории",
     "collectionsHeading": "Колекции",
     "copyright": "© {year} {siteName}. Всички права запазени.",
-    "infoHeading": "Информация",
-    "medusaDocs": "Документация на Medusa",
-    "sourceCode": "Изходен код на стартера",
-    "starterDocs": "Документация на стартера"
+    "infoHeading": "Информация"
   },
   "ForgotPassword": {
     "backToSignIn": "Обратно към входа",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Връщания и замени"
   },
   "Hero": {
-    "eyebrow": "Готово решение · Отворен код",
-    "features": [
-      {
-        "description": "подобрен, без излишни стъпки, с автоматично попълване на адрес",
-        "label": "Чекаут, оптимизиран за конверсия"
-      },
-      {
-        "description": "търсене, каталог с филтри, многостепенни категории и mobile-first дизайн",
-        "label": "Пълнофункционален онлайн магазин"
-      },
-      {
-        "description": "meta тагове, Open Graph и Twitter карти, JSON-LD, sitemap, robots, llms.txt и 100/100 в PageSpeed Insights",
-        "label": "Оптимизиран за SEO и AI"
-      },
-      {
-        "description": "36 езика за витрината с поддръжка на RTL и 241 държави за търговските региони, разпознаване на страната, ненужните се махат лесно",
-        "label": "Пълна локализация"
-      },
-      {
-        "description": "React Email шаблони през SMTP",
-        "label": "Транзакционни имейли"
-      },
-      {
-        "description": "при промени в каталога с продукти",
-        "label": "Ревалидиране на кеша при поискване"
-      },
-      {
-        "badge": "Ново",
-        "description": "управлявай настройките на доставчиците си през Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Модул за интеграции"
-      }
-    ],
-    "featuresHeading": "Функции",
-    "readDocs": "Документация",
     "subtitle": "Всичко, което официалният Medusa DTC starter пропуска.",
-    "title": "Готов за продукция Medusa DTC Starter",
-    "viewOnGitHub": "Виж в GitHub"
+    "title": "Готов за продукция Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Затвори",
-    "cta": "Опитай",
     "message": "Пълнофункционален, готов за продукция DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Всички продукти"
+  },
+  "TenantPage": {
+    "emptyBody": "Тази страница все още няма текст.",
+    "metaDescription": "{title} в {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Приеми прехвърлянето",

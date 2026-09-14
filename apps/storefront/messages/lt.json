@@ -152,7 +152,6 @@
     "close": "Uždaryti",
     "hidePassword": "Slėpti slaptažodį",
     "orderNumber": "Užsakymas Nr. {id}",
-    "poweredBy": "Powered by",
     "remove": "Pašalinti",
     "showPassword": "Rodyti slaptažodį"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategorijos",
     "collectionsHeading": "Kolekcijos",
     "copyright": "© {year} {siteName}. Visos teisės saugomos.",
-    "infoHeading": "Informacija",
-    "medusaDocs": "Medusa dokumentacija",
-    "sourceCode": "Starterio išeities kodas",
-    "starterDocs": "Starterio dokumentacija"
+    "infoHeading": "Informacija"
   },
   "ForgotPassword": {
     "backToSignIn": "Grįžti prie prisijungimo",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Grąžinimai ir keitimai"
   },
   "Hero": {
-    "eyebrow": "Paruošta naudoti · Atviro kodo",
-    "features": [
-      {
-        "description": "patobulintas, be nereikalingų žingsnių, su automatiniu adreso užpildymu",
-        "label": "Konversijoms pritaikytas atsiskaitymas"
-      },
-      {
-        "description": "paieška, filtruojamas katalogas, kelių lygių kategorijos ir mobile-first",
-        "label": "Pilnavertė parduotuvės sąsaja"
-      },
-      {
-        "description": "meta žymos, Open Graph ir Twitter cards, JSON-LD, sitemap, robots, llms.txt ir 100/100 „PageSpeed Insights“",
-        "label": "Optimizuota SEO ir AI"
-      },
-      {
-        "description": "36 parduotuvės kalbos su RTL palaikymu ir 241 šalis pardavimo regionams, šalies nustatymas, nereikalingas lengva pašalinti",
-        "label": "Visiška lokalizacija"
-      },
-      {
-        "description": "React Email šablonai per SMTP",
-        "label": "Tranzakciniai el. laiškai"
-      },
-      {
-        "description": "keičiantis produktų katalogui",
-        "label": "Talpyklos atnaujinimas pagal poreikį"
-      },
-      {
-        "badge": "Naujiena",
-        "description": "valdykite savo tiekėjų nustatymus per Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integracijų modulis"
-      }
-    ],
-    "featuresHeading": "Funkcijos",
-    "readDocs": "Skaityti dokumentaciją",
     "subtitle": "Viskas, ko trūksta oficialiame Medusa DTC starteryje.",
-    "title": "Gamybai paruoštas Medusa DTC Starter",
-    "viewOnGitHub": "Žiūrėti GitHub"
+    "title": "Gamybai paruoštas Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Uždaryti",
-    "cta": "Išbandyti",
     "message": "Pilnavertis, gamybai paruoštas DTC starteris."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Visi produktai"
+  },
+  "TenantPage": {
+    "emptyBody": "Šiame puslapyje dar nėra teksto.",
+    "metaDescription": "{title} parduotuvėje {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Patvirtinti perdavimą",

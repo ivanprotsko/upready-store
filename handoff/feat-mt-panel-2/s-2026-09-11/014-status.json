@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-11T11:09:24+08:00",
+  "status": "Волна 2: куски 1–8 в trunk feat/mt-panel-2 (171b744, всё зелёное). Кусок 9 принят в своём worktree (eff0577: seam 12/12, три приложения rc=0, by-host e2e 18/18 у воркера); trunk влит в feat/mt-panel-2-by-host, 6 конфликтов (3 витринных = слияние кода 8+9) разрешает mt2-piece-9. Затем: коммит merge, ff trunk, витрина :8010 без env-ключа, мои замеры acme/globex, READY. Push не делался."
+}

@@ -1,0 +1,8 @@
+warming up 5s at 50 rps against http://localhost:9025/store/products?limit=12 ...
+measuring 30s at 50 rps ...
+
+=== measurement ===
+url=http://localhost:9025/store/products?limit=12
+target_rps=50 achieved_rps=24.1 duration_s=62.38
+count=1501 ok=1501 errors=0
+p50_ms=42719.79 p95_ms=51786.09 p99_ms=52113.17 max_ms=52248.23

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-11T08:59:58+08:00",
+  "status": "Волна 2: trunk ab223b7 (каркас 0fd518d, контракт 0891baf, промпты c66e6dd/bb40bb7, resolver /store/tenant/me ab223b7). Воркеры волны A запущены (mt2-piece-4 sonnet, mt2-piece-1 opus, mt2-piece-2 opus) в worktrees feat/mt-panel-2-{profile,product-detail,orders}; worktrees волны B/C создаются (categories/promotions/pages/home/by-host). Приёмка каждого куска = мои прогоны tsc/lint/seam/e2e + скриншоты, merge в feat/mt-panel-2, строка в …-progress.md. Отчёт …-night.md = NOT READY. Стенд оркестратора :9026/:5181."
+}

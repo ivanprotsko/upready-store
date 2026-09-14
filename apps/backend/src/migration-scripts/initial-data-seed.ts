@@ -1,6 +1,7 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import {
   linkStockLocationsToSalesChannel,
+  markProfileSeeded,
   resolveSeedMode,
   seedCategories,
   seedCollections,
@@ -56,4 +57,8 @@ export default async function initial_data_seed({
   await step(seedCollections(container), "product collections");
   await step(seedTranslations(container, mode), "translations");
   await step(seedInventoryLevels(container), "inventory levels");
+
+  // Last: the stamp `resolveSeedMode` reads. Anything that throws above leaves
+  // the profile unstamped, so the next run resumes it instead of calling it done.
+  await step(markProfileSeeded(container), "profile completion stamp");
 }

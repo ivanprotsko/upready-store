@@ -8,16 +8,16 @@ import { defineConfig, devices } from "@playwright/test"
  * One config drives a desktop pass and a mobile pass. The mobile pass only runs specs
  * whose title carries the literal string "@mobile" (see the `grep`/`grepInvert` split
  * on the two projects below) — same tagging-by-title convention, just inverted, as
- * tests/devtools/disabled.pw.ts's own "other half" comment.
+ * tests/studio/disabled.pw.ts's own "other half" comment.
  *
  * Spec files are *.pw.ts: `test:unit` runs vitest over its default include and would
- * otherwise try to collect a Playwright suite (tests/devtools/playwright.config.ts,
+ * otherwise try to collect a Playwright suite (tests/studio/playwright.config.ts,
  * tests/profile/playwright.config.ts already use the same extension for the same
  * reason).
  *
  * The browser does not start from an agent shell on macOS, so this runs inside the
  * Playwright Docker image whose tag equals the @playwright/test version in
- * package.json — same shape as test:devtools and test:profile.
+ * package.json — same shape as test:studio and test:profile.
  */
 const baseURL = process.env.STAND_URL ?? "http://host.docker.internal:8000"
 

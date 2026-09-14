@@ -13,6 +13,7 @@ import PaginatedProducts, {
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
 import { listProductOptionFilters } from "@lib/data/products"
+import CategoryChildTiles from "@modules/categories/components/category-child-tiles"
 import { getCategoryAncestors } from "@lib/util/category-ancestors"
 import type { HttpTypes } from "@medusajs/types"
 import Breadcrumb, {
@@ -73,7 +74,7 @@ export default async function CategoryTemplate({
       : []),
   ]
 
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd({
+  const breadcrumbJsonLd = await buildBreadcrumbJsonLd({
     crumbs: breadcrumbItems,
     locale,
     path: `/categories/${category.handle}`,
@@ -112,6 +113,13 @@ export default async function CategoryTemplate({
           />
         </div>
       </div>
+
+      {/* No heading here on purpose: a real one needs a catalog key in all 36
+          locales (AGENTS.md, "Localization"), out of scope for this pass —
+          the tiles read as a continuation of the category page above them. */}
+      {selectedSubcategories.length === 0 ? (
+        <CategoryChildTiles categories={subcategories} />
+      ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
         <CategorySidebar

@@ -152,7 +152,6 @@
     "close": "Sluiten",
     "hidePassword": "Wachtwoord verbergen",
     "orderNumber": "Bestelling #{id}",
-    "poweredBy": "Powered by",
     "remove": "Verwijderen",
     "showPassword": "Wachtwoord tonen"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Categorieën",
     "collectionsHeading": "Collecties",
     "copyright": "© {year} {siteName}. Alle rechten voorbehouden.",
-    "infoHeading": "Informatie",
-    "medusaDocs": "Medusa-documentatie",
-    "sourceCode": "Broncode van de starter",
-    "starterDocs": "Documentatie van de starter"
+    "infoHeading": "Informatie"
   },
   "ForgotPassword": {
     "backToSignIn": "Terug naar inloggen",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Retourneren & Ruilen"
   },
   "Hero": {
-    "eyebrow": "Kant-en-klaar · Open source",
-    "features": [
-      {
-        "description": "verbeterd, zonder onnodige stappen, met automatisch aanvullen van adressen",
-        "label": "Checkout geoptimaliseerd voor conversie"
-      },
-      {
-        "description": "zoeken, filterbare catalogus, meerlaagse categorieën & mobile-first",
-        "label": "Volledig uitgeruste winkel"
-      },
-      {
-        "description": "metatags, Open Graph en Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 in PageSpeed Insights",
-        "label": "Geoptimaliseerd voor SEO en AI"
-      },
-      {
-        "description": "36 talen voor de storefront met RTL-ondersteuning en 241 landen voor verkoopregio's, landdetectie, eenvoudig terug te brengen tot wat je nodig hebt",
-        "label": "Volledige lokalisatie"
-      },
-      {
-        "description": "React Email-templates via SMTP",
-        "label": "Transactionele e-mails"
-      },
-      {
-        "description": "bij wijzigingen in de productcatalogus",
-        "label": "Cache-revalidatie op aanvraag"
-      },
-      {
-        "badge": "New",
-        "description": "beheer de instellingen van uw providers via Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integratiemodule"
-      }
-    ],
-    "featuresHeading": "Functies",
-    "readDocs": "Documentatie lezen",
     "subtitle": "Alles wat de officiële Medusa DTC starter niet biedt.",
-    "title": "Productieklare Medusa DTC Starter",
-    "viewOnGitHub": "Bekijk op GitHub"
+    "title": "Productieklare Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Sluiten",
-    "cta": "Probeer het",
     "message": "Volledig uitgeruste, productieklare DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Alle producten"
+  },
+  "TenantPage": {
+    "emptyBody": "Deze pagina heeft nog geen tekst.",
+    "metaDescription": "{title} bij {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Overdracht accepteren",

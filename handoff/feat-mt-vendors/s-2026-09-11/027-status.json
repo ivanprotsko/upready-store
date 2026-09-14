@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 27,
+  "action": "status-set",
+  "ts": "2026-09-11T06:38:20+08:00",
+  "status": "t-2026-09-11-mt-tenant-panel: READY 06:36 — панель тенанта (4 экрана) на feat/mt-panel 0d43329, e2e 41/41, seam 35/35, lint/tsc зелёные, пары скриншотов admin/panel сняты; ждёт глаз Ивана (http://localhost:5180, admin@acme.test / supersecret); push не делался"
+}

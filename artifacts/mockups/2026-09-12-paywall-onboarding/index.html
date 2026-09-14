@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макет — оплата → онбординг (shiftship.dev)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  :root { color-scheme: light dark; }
+  html[data-theme="light"] { color-scheme: light; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 400 14px/1.45 var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+  code, .mono, .num { font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); font-variant-numeric: tabular-nums; }
+
+  /* ---- contact sheet chrome (not part of the product) ---- */
+  .sheet { max-width: 1180px; margin: 0 auto; padding: 40px 24px 96px; }
+  .sheet > header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 32px; }
+  .eyebrow { font-family: var(--font-mono, monospace); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 8px 0 6px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 0; }
+  .frame { margin: 0 0 44px; }
+  .frame > figcaption { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .frame > figcaption .id { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--link); }
+  .frame > figcaption .ttl { font-size: 13px; font-weight: 500; }
+  .frame > figcaption .note { font-size: 12px; color: var(--faint); margin-left: auto; }
+  .viewport { border: 1px solid var(--border); border-radius: var(--r-lg, 12px); overflow: hidden; background: var(--bg); }
+
+  /* ---- product surface ---- */
+  .page { padding: 56px 40px 64px; }
+  .page--narrow { max-width: 560px; margin: 0 auto; }
+  .topbar { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .wordmark { font-weight: 600; letter-spacing: -0.01em; }
+  .topbar .tag { font-family: var(--font-mono, monospace); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
+  .topbar .right { margin-left: auto; color: var(--faint); font-size: 12px; }
+
+  .lede { max-width: 640px; margin: 0 0 36px; }
+  .lede h2 { font-size: 32px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 10px; }
+  .lede p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.5; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+  .card { border: 1px solid var(--border); border-radius: var(--r-md, 8px); padding: 20px; background: var(--bg); display: flex; flex-direction: column; gap: 10px; }
+  .card .step-eyebrow { font-family: var(--font-mono, monospace); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+  .card h3 { font-size: 16px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
+  .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
+  .chip { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--fg); background: var(--secondary); border-radius: var(--r-sm, 6px); padding: 3px 7px; }
+  .chain .arr { color: var(--faint); font-size: 11px; }
+  .card .foot { margin-top: auto; padding-top: 12px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--r-sm, 6px); font-size: 14px; font-weight: 500; border: 1px solid transparent; cursor: pointer; text-decoration: none; }
+  .btn--primary { background: var(--fg); color: var(--bg); }
+  .btn--secondary { background: var(--bg); color: var(--fg); border-color: var(--border); }
+  .btn--block { width: 100%; }
+  .btn--lg { height: 44px; font-size: 15px; }
+  .btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+  .rule { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+  .direct { display: flex; align-items: center; gap: 12px; border: 1px dashed var(--border); border-radius: var(--r-md, 8px); padding: 14px 16px; }
+  .direct p { margin: 0; font-size: 13px; color: var(--muted); }
+  .direct .btn { margin-left: auto; }
+
+  /* option rows (service / tariff pickers) */
+  .opts { display: flex; flex-direction: column; gap: 10px; }
+  .opt { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--border); border-radius: var(--r-md, 8px); padding: 14px 16px; }
+  .opt[data-selected] { border-color: var(--ring); background: var(--secondary); }
+  .radio { width: 16px; height: 16px; border-radius: 999px; border: 1px solid var(--ring); flex: none; margin-top: 2px; position: relative; }
+  .opt[data-selected] .radio::after { content: ""; position: absolute; inset: 3px; border-radius: 999px; background: var(--fg); }
+  .opt .body { flex: 1; min-width: 0; }
+  .opt .body strong { display: block; font-weight: 500; font-size: 14px; }
+  .opt .body span { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; line-height: 1.45; }
+  .opt .price { font-family: var(--font-mono, monospace); font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+
+  /* progress */
+  .steps { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; }
+  .steps .s { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--faint); }
+  .steps .s .n { width: 18px; height: 18px; border-radius: 999px; border: 1px solid var(--border); display: grid; place-items: center; font-family: var(--font-mono, monospace); font-size: 10px; }
+  .steps .s[data-on] { color: var(--fg); }
+  .steps .s[data-on] .n { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .steps .s[data-done] .n { border-color: var(--ring); color: var(--muted); }
+  .steps .sep { flex: 1; height: 1px; background: var(--border); }
+
+  /* forms */
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .field label { font-size: 13px; color: var(--muted); }
+  .input { height: 40px; border: 1px solid var(--border); border-radius: var(--r-sm, 6px); background: var(--bg); color: var(--fg); padding: 0 12px; font-size: 14px; display: flex; align-items: center; }
+  .input.mono { font-family: var(--font-mono, monospace); font-variant-numeric: tabular-nums; }
+  .input[data-placeholder] { color: var(--faint); }
+  .input[data-invalid] { border-color: var(--red); }
+  .hint { font-size: 12px; color: var(--faint); }
+  .hint.err { color: var(--red); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .prefixed { display: flex; align-items: stretch; }
+  .prefixed .input { flex: 1; border-radius: var(--r-sm,6px) 0 0 var(--r-sm,6px); }
+  .prefixed .suffix { display: flex; align-items: center; padding: 0 12px; border: 1px solid var(--border); border-left: 0; border-radius: 0 var(--r-sm,6px) var(--r-sm,6px) 0; background: var(--secondary); color: var(--muted); font-family: var(--font-mono, monospace); font-size: 13px; }
+
+  .summary { border: 1px solid var(--border); border-radius: var(--r-md,8px); padding: 16px; margin-bottom: 24px; }
+  .summary .line { display: flex; align-items: baseline; gap: 12px; font-size: 13px; padding: 5px 0; }
+  .summary .line .k { color: var(--muted); }
+  .summary .line .v { margin-left: auto; font-family: var(--font-mono, monospace); font-variant-numeric: tabular-nums; }
+  .summary .line.total { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 12px; font-size: 15px; }
+  .summary .line.total .v { font-size: 15px; }
+
+  .banner { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--border); border-radius: var(--r-md,8px); padding: 12px 14px; font-size: 13px; line-height: 1.5; margin-bottom: 20px; color: var(--muted); }
+  .banner[data-tone="warn"] { border-color: color-mix(in srgb, var(--warning) 40%, var(--border)); }
+  .banner[data-tone="err"] { border-color: color-mix(in srgb, var(--red) 45%, var(--border)); color: var(--fg); }
+  .dot { width: 8px; height: 8px; border-radius: 999px; flex: none; margin-top: 6px; background: var(--muted); }
+  .dot--warn { background: var(--warning); } .dot--err { background: var(--red); } .dot--ok { background: var(--link); }
+
+  .done h2 { font-size: 26px; letter-spacing: -0.025em; font-weight: 600; margin: 0 0 8px; }
+  .linklist { display: flex; flex-direction: column; gap: 10px; margin: 24px 0 0; }
+  .linkrow { display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: var(--r-md,8px); padding: 14px 16px; }
+  .linkrow .body strong { display: block; font-weight: 500; font-size: 14px; }
+  .linkrow .body span { color: var(--faint); font-size: 12px; font-family: var(--font-mono, monospace); }
+  .linkrow .btn { margin-left: auto; }
+
+  .theme-swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .sw { border: 1px solid var(--border); border-radius: var(--r-md,8px); overflow: hidden; }
+  .sw[data-selected] { border-color: var(--ring); }
+  .sw .bars { height: 56px; display: flex; }
+  .sw .bars i { flex: 1; }
+  .sw .name { padding: 8px 10px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .sw .name .radio { width: 14px; height: 14px; margin: 0; }
+
+  .caption { font-size: 12px; color: var(--faint); margin: 8px 2px 0; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div class="eyebrow">mockup · 2026-09-12 · geist canon</div>
+    <h1>Оплата → онбординг магазина — макет для shiftship.dev</h1>
+    <p class="sub">Восемь кадров продукта. Канон — Geist (<code>~/upready/packages/geist-kit/tokens.css</code>): чернила вместо цвета, один акцент (синий), моно+tabular-nums на всех данных, границы вместо теней, sentence case, вес ≤600.</p>
+  </header>
+
+  <!-- ============ S1 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S1</span><span class="ttl">Витрина сценариев — <code>shiftship.dev/start</code></span><span class="note">холодный старт, вход в любую из четырёх воронок</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">тестовый стенд · настоящих платежей нет</span></div>
+      <div class="page">
+        <div class="lede">
+          <h2>Четыре формы воронки, один магазин на выходе</h2>
+          <p>Каждая карточка — рабочий путь целиком: оплата тестовой картой, затем онбординг, где вы задаёте настройки своего магазина и получаете его адрес.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="step-eyebrow">Сценарий 1</div>
+            <h3>Прямая оплата</h3>
+            <p>Ни выбора услуги, ни выбора тарифа — сразу касса. Самая короткая воронка.</p>
+            <div class="chain"><span class="chip">оплата</span><span class="arr">→</span><span class="chip">онбординг</span></div>
+            <div class="foot"><a class="btn btn--primary btn--block" href="#">Перейти к оплате · 4 900 ₽</a></div>
+          </div>
+          <div class="card">
+            <div class="step-eyebrow">Сценарий 2</div>
+            <h3>Услуга, затем тариф</h3>
+            <p>Полная воронка: сначала что делаем, потом на каком тарифе.</p>
+            <div class="chain"><span class="chip">услуга</span><span class="arr">→</span><span class="chip">тариф</span><span class="arr">→</span><span class="chip">оплата</span><span class="arr">→</span><span class="chip">онбординг</span></div>
+            <div class="foot"><a class="btn btn--primary btn--block" href="#">Выбрать услугу</a></div>
+          </div>
+          <div class="card">
+            <div class="step-eyebrow">Сценарий 3</div>
+            <h3>Только тариф</h3>
+            <p>Услуга одна и подразумевается. Покупатель выбирает лишь объём.</p>
+            <div class="chain"><span class="chip">тариф</span><span class="arr">→</span><span class="chip">оплата</span><span class="arr">→</span><span class="chip">онбординг</span></div>
+            <div class="foot"><a class="btn btn--primary btn--block" href="#">Выбрать тариф</a></div>
+          </div>
+          <div class="card">
+            <div class="step-eyebrow">Сценарий 4</div>
+            <h3>Только услуга</h3>
+            <p>У каждой услуги один тариф — цена появляется вместе с выбором.</p>
+            <div class="chain"><span class="chip">услуга</span><span class="arr">→</span><span class="chip">оплата</span><span class="arr">→</span><span class="chip">онбординг</span></div>
+            <div class="foot"><a class="btn btn--primary btn--block" href="#">Выбрать услугу</a></div>
+          </div>
+        </div>
+        <hr class="rule">
+        <div class="direct">
+          <p><strong style="color:var(--fg);font-weight:500">Онбординг без оплаты.</strong> Прямая ссылка в тот же мастер — чтобы смотреть сам сценарий заведения магазина.</p>
+          <a class="btn btn--secondary" href="#">Открыть онбординг</a>
+        </div>
+      </div>
+    </div>
+    <p class="caption">Сетка 2×2 — четыре равноправных входа, ни один не выделен как «правильный». Цепочка шагов на карточке (<span class="chip">чип</span> + стрелка) показывает длину воронки до клика.</p>
+  </figure>
+
+  <!-- ============ S2 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S2</span><span class="ttl">Выбор услуги — <code>/start/s2/service</code></span><span class="note">сценарии 2 и 4; в 4-м цена = единственный тариф услуги</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">сценарий 2 · услуга + тариф</span></div>
+      <div class="page page--narrow">
+        <div class="steps">
+          <span class="s" data-on><span class="n">1</span>Услуга</span><span class="sep"></span>
+          <span class="s"><span class="n">2</span>Тариф</span><span class="sep"></span>
+          <span class="s"><span class="n">3</span>Оплата</span><span class="sep"></span>
+          <span class="s"><span class="n">4</span>Магазин</span>
+        </div>
+        <div class="lede"><h2 style="font-size:24px">Что делаем</h2><p>Одна услуга — одна воронка. Выбор можно поменять на шаге оплаты.</p></div>
+        <div class="opts">
+          <div class="opt" data-selected><span class="radio"></span><span class="body"><strong>Интернет-магазин</strong><span>Каталог, корзина, оплата, доставка. Готовая витрина на вашем домене.</span></span><span class="price">от 4 900 ₽</span></div>
+          <div class="opt"><span class="radio"></span><span class="body"><strong>Телеграм-магазин</strong><span>Тот же каталог внутри Telegram: бот, оплата, уведомления о заказах.</span></span><span class="price">от 3 400 ₽</span></div>
+          <div class="opt"><span class="radio"></span><span class="body"><strong>Лендинг с оплатой</strong><span>Одна страница под один товар или услугу и приём платежей на ней.</span></span><span class="price">от 1 900 ₽</span></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:28px"><a class="btn btn--secondary" href="#">Назад</a><a class="btn btn--primary" style="flex:1" href="#">Дальше · тариф</a></div>
+      </div>
+    </div>
+    <p class="caption">Строка-опция, а не карточка: три варианта читаются сверху вниз одним движением глаз, цена справа выровнена моно-цифрами. В сценарии 4 та же страница, но кнопка — «Дальше · оплата» и цена конкретная, без «от».</p>
+  </figure>
+
+  <!-- ============ S3 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S3</span><span class="ttl">Выбор тарифа — <code>/start/s3/plan</code></span><span class="note">сценарии 2 и 3; в 3-м шаг «услуга» отсутствует</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">сценарий 3 · только тариф</span></div>
+      <div class="page page--narrow">
+        <div class="steps">
+          <span class="s" data-on><span class="n">1</span>Тариф</span><span class="sep"></span>
+          <span class="s"><span class="n">2</span>Оплата</span><span class="sep"></span>
+          <span class="s"><span class="n">3</span>Магазин</span>
+        </div>
+        <div class="lede"><h2 style="font-size:24px">Тариф</h2><p>Услуга одна — интернет-магазин. Отличается объёмом каталога и поддержкой.</p></div>
+        <div class="opts">
+          <div class="opt"><span class="radio"></span><span class="body"><strong>Старт</strong><span>До 50 товаров, один язык витрины, домен третьего уровня.</span></span><span class="price">4 900 ₽</span></div>
+          <div class="opt" data-selected><span class="radio"></span><span class="body"><strong>Бизнес</strong><span>Без лимита каталога, свой домен, пять языков, приём платежей.</span></span><span class="price">9 900 ₽</span></div>
+          <div class="opt"><span class="radio"></span><span class="body"><strong>Про</strong><span>Всё из «Бизнеса» плюс интеграции складов и выделенная поддержка.</span></span><span class="price">19 900 ₽</span></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:28px"><a class="btn btn--secondary" href="#">Назад</a><a class="btn btn--primary" style="flex:1" href="#">Дальше · оплата</a></div>
+      </div>
+    </div>
+    <p class="caption">Тот же компонент строки, что и на S2 — разница только в подписи шагов сверху. Четыре воронки не плодят четыре вёрстки.</p>
+  </figure>
+
+  <!-- ============ S4 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S4</span><span class="ttl">Тестовая оплата — <code>/start/pay</code></span><span class="note">общая для всех четырёх сценариев</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">сценарий 2 · шаг 3 из 4</span></div>
+      <div class="page page--narrow">
+        <div class="steps">
+          <span class="s" data-done><span class="n">1</span>Услуга</span><span class="sep"></span>
+          <span class="s" data-done><span class="n">2</span>Тариф</span><span class="sep"></span>
+          <span class="s" data-on><span class="n">3</span>Оплата</span><span class="sep"></span>
+          <span class="s"><span class="n">4</span>Магазин</span>
+        </div>
+        <div class="summary">
+          <div class="line"><span class="k">Услуга</span><span class="v">Интернет-магазин</span></div>
+          <div class="line"><span class="k">Тариф</span><span class="v">Бизнес</span></div>
+          <div class="line total"><span class="k">К оплате</span><span class="v">9 900 ₽</span></div>
+        </div>
+        <div class="banner" data-tone="warn"><span class="dot dot--warn"></span><span>Тестовая касса. Деньги не списываются. Номер, оканчивающийся на <code>0000</code>, платёж отклоняет; на <code>9999</code> — уводит на подтверждение банка; любой валидный по Луну — проходит. Например <code>4242 4242 4242 4242</code>.</span></div>
+        <div class="field"><label>Номер карты</label><div class="input mono">4242 4242 4242 4242</div></div>
+        <div class="row2">
+          <div class="field"><label>Срок действия</label><div class="input mono">12 / 30</div></div>
+          <div class="field"><label>CVC</label><div class="input mono">123</div></div>
+        </div>
+        <div class="field"><label>Имя на карте</label><div class="input" data-placeholder>IVAN PROTSKO</div></div>
+        <a class="btn btn--primary btn--lg btn--block" href="#">Оплатить 9 900 ₽</a>
+      </div>
+    </div>
+    <p class="caption">Форма — ровно те же правила, что на пяти стендах (<code>modules/checkout/components/demo-card-fields</code>): чистые функции <code>isDemoCardComplete</code> и <code>classifyDemoCard</code> переиспользуются, вёрстка своя (демо вне <code>[locale]</code>, без next-intl).</p>
+  </figure>
+
+  <!-- ============ S4b ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S4b</span><span class="ttl">Отказ банка</span><span class="note">номер оканчивается на 0000 — состояние, которое требует приёмка</span></figcaption>
+    <div class="viewport">
+      <div class="page page--narrow" style="padding-top:32px">
+        <div class="banner" data-tone="err"><span class="dot dot--err"></span><span><strong style="font-weight:500">Платёж отклонён.</strong> Банк не подтвердил операцию по этой карте. Попробуйте другую — например <code>4242 4242 4242 4242</code>.</span></div>
+        <div class="field"><label>Номер карты</label><div class="input mono" data-invalid>4000 0000 0000 0000</div><span class="hint err">Этот номер отклоняется тестовой кассой намеренно.</span></div>
+        <div class="row2">
+          <div class="field"><label>Срок действия</label><div class="input mono">12 / 30</div></div>
+          <div class="field"><label>CVC</label><div class="input mono">123</div></div>
+        </div>
+        <a class="btn btn--primary btn--lg btn--block" href="#">Оплатить 9 900 ₽</a>
+      </div>
+    </div>
+    <p class="caption">Отказ — это баннер над формой плюс красная рамка на поле-причине. Кнопка остаётся активной: повтор возможен без перезагрузки.</p>
+  </figure>
+
+  <!-- ============ S5 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S5</span><span class="ttl">Онбординг, шаг 1 — магазин</span><span class="note"><code>/start/onboarding</code> · сюда же ведёт прямая ссылка с витрины</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">оплачено · 9 900 ₽</span></div>
+      <div class="page page--narrow">
+        <div class="steps">
+          <span class="s" data-on><span class="n">1</span>Магазин</span><span class="sep"></span>
+          <span class="s"><span class="n">2</span>Доступ</span><span class="sep"></span>
+          <span class="s"><span class="n">3</span>Оформление</span>
+        </div>
+        <div class="lede"><h2 style="font-size:24px">Настройки вашего магазина</h2><p>Название видно покупателям в шапке и во вкладке браузера. Адрес — это поддомен, который заработает сразу после создания.</p></div>
+        <div class="field"><label>Название магазина</label><div class="input">Бархат и сталь</div></div>
+        <div class="field"><label>Адрес магазина</label>
+          <div class="prefixed"><div class="input mono">barhat-i-stal</div><span class="suffix">.shipshift.dev</span></div>
+          <span class="hint">Строчные латинские буквы, цифры и дефис. Позже к магазину можно привязать свой домен.</span>
+        </div>
+        <a class="btn btn--primary btn--lg btn--block" href="#">Дальше · доступ</a>
+      </div>
+    </div>
+    <p class="caption">Адрес — поле с приклеенным суффиксом зоны, а не свободная строка: человек видит будущий URL целиком и не может ввести чужой формат. Значение предлагается транслитерацией названия и остаётся правимым.</p>
+  </figure>
+
+  <!-- ============ S6 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S6</span><span class="ttl">Онбординг, шаг 2 — доступ</span><span class="note">этой парой владелец войдёт в панель</span></figcaption>
+    <div class="viewport">
+      <div class="page page--narrow" style="padding-top:32px">
+        <div class="steps">
+          <span class="s" data-done><span class="n">1</span>Магазин</span><span class="sep"></span>
+          <span class="s" data-on><span class="n">2</span>Доступ</span><span class="sep"></span>
+          <span class="s"><span class="n">3</span>Оформление</span>
+        </div>
+        <div class="lede"><h2 style="font-size:24px">Вход владельца</h2><p>Этой парой вы войдёте в панель управления магазином — там товары, заказы и домены.</p></div>
+        <div class="field"><label>Почта</label><div class="input mono">owner@barhat.test</div></div>
+        <div class="field"><label>Пароль</label><div class="input mono">••••••••••</div><span class="hint">Не короче 8 знаков.</span></div>
+        <div style="display:flex;gap:12px;margin-top:4px"><a class="btn btn--secondary" href="#">Назад</a><a class="btn btn--primary" style="flex:1" href="#">Дальше · оформление</a></div>
+      </div>
+    </div>
+  </figure>
+
+  <!-- ============ S7 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S7</span><span class="ttl">Онбординг, шаг 3 — оформление</span><span class="note">пресет темы, который реально применяется к витрине</span></figcaption>
+    <div class="viewport">
+      <div class="page page--narrow" style="padding-top:32px">
+        <div class="steps">
+          <span class="s" data-done><span class="n">1</span>Магазин</span><span class="sep"></span>
+          <span class="s" data-done><span class="n">2</span>Доступ</span><span class="sep"></span>
+          <span class="s" data-on><span class="n">3</span>Оформление</span>
+        </div>
+        <div class="lede"><h2 style="font-size:24px">Как магазин будет выглядеть</h2><p>Выбор можно поменять в панели в любой момент. Он сохраняется в документ главной страницы магазина.</p></div>
+        <div class="theme-swatches">
+          <div class="sw" data-selected><div class="bars"><i style="background:#ffffff"></i><i style="background:#000000"></i><i style="background:#0068d6"></i></div><div class="name"><span class="radio"></span>Geist</div></div>
+          <div class="sw"><div class="bars"><i style="background:#f9f9fb"></i><i style="background:#3b3b3b"></i><i style="background:#7c3aed"></i></div><div class="name"><span class="radio"></span>Medusa</div></div>
+          <div class="sw"><div class="bars"><i style="background:#f5f1ea"></i><i style="background:#1c1917"></i><i style="background:#d6ff3b"></i></div><div class="name"><span class="radio"></span>Kerbstone</div></div>
+        </div>
+        <div style="margin-top:20px" class="field"><label>Режим по умолчанию</label>
+          <div class="opts" style="gap:8px">
+            <div class="opt" data-selected style="padding:10px 14px"><span class="radio"></span><span class="body"><strong>Светлый</strong></span></div>
+            <div class="opt" style="padding:10px 14px"><span class="radio"></span><span class="body"><strong>Тёмный</strong></span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px"><a class="btn btn--secondary" href="#">Назад</a><a class="btn btn--primary" style="flex:1" href="#">Создать магазин</a></div>
+      </div>
+    </div>
+    <p class="caption">Свотч — три полосы реальных значений пресета (фон / чернила / акцент), а не картинка. Список пресетов берётся из <code>THEME_PRESETS</code>, который валидатор <code>PUT /tenants/home</code> и так требует.</p>
+  </figure>
+
+  <!-- ============ S8 ============ -->
+  <figure class="frame">
+    <figcaption><span class="id">S8</span><span class="ttl">Магазин создан</span><span class="note">конец всех четырёх воронок</span></figcaption>
+    <div class="viewport">
+      <div class="topbar"><span class="wordmark">Shiftship</span><span class="tag">demo</span><span class="right">магазин № 4</span></div>
+      <div class="page page--narrow done">
+        <h2>«Бархат и сталь» создан</h2>
+        <p class="sub" style="color:var(--muted)">Витрина уже отвечает по своему адресу. Сертификат выпускается автоматически — обычно около минуты после создания.</p>
+        <div class="linklist">
+          <div class="linkrow"><span class="dot dot--ok"></span><span class="body"><strong>Ваша витрина</strong><span>barhat-i-stal.shipshift.dev</span></span><a class="btn btn--primary" href="#">Открыть</a></div>
+          <div class="linkrow"><span class="dot"></span><span class="body"><strong>Панель управления</strong><span>panel.shipshift.dev</span></span><a class="btn btn--secondary" href="#">Войти</a></div>
+        </div>
+        <div class="banner" data-tone="warn" style="margin-top:24px"><span class="dot dot--warn"></span><span>Каталог пустой — это новый магазин. Товары, категории и свой домен добавляются в панели.</span></div>
+      </div>
+    </div>
+    <p class="caption">Экран отдаёт РАБОЧИЕ ссылки, а не поздравление. Пустой каталог назван прямо: обещать наполненную витрину и показать пустую — хуже, чем предупредить.</p>
+  </figure>
+</div>
+</body>
+</html>

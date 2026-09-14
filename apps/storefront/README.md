@@ -82,7 +82,10 @@ Copy [`.env.template`](.env.template) to `.env.local`. The Default column below 
 | `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` | Publishable API key from the Medusa backend. Required | — |
 | `NEXT_PUBLIC_MEDUSA_BACKEND_URL` | Backend base URL | `http://localhost:9000` |
 | `NEXT_PUBLIC_DEFAULT_REGION` | Country code (ISO 3166-1 alpha-2, lowercase) the middleware falls back to when neither the cookie nor a geo header resolves a region. The template's `en` matches no seeded region, in which case the first region the backend returns wins | `en` |
-| `NEXT_PUBLIC_BASE_URL` | Storefront base URL, used for absolute URLs in metadata, the sitemap, and `llms.txt` | `https://localhost:8000` |
+| `NEXT_PUBLIC_DEFAULT_LOCALE` | The locale a visitor gets when the URL carries none, the switcher was never used, and the browser lists no language this storefront ships. Read in the browser too, so it is baked at build time | `en` |
+| `LOCALE_PIN` | `true` gives every visitor without a locale in the URL `NEXT_PUBLIC_DEFAULT_LOCALE`, whatever `Accept-Language` says. A pick in the language switcher still wins. `false` negotiates with the browser: a `preferredLocales` entry wins wherever it stands in the list, otherwise the visitor's own order | `false` |
+| `LOCALE_COUNTRY_MAP` | `"<locale>:<country>,…"`, e.g. `ru:ru,en:us`. Which country a locale implies, and therefore which region prices the page and in which currency. Amounts come from the region's own price rows, nothing is converted in the markup. An explicit country pick by the visitor outranks this map. Empty means one currency for every language | — |
+| `NEXT_PUBLIC_BASE_URL` | Storefront base URL for a single-store deployment, used for absolute URLs in metadata, the sitemap, and `llms.txt`. A shop served by Host (`src/middleware.ts`) uses its own origin instead, read per request | `https://localhost:8000` |
 | `NEXT_PUBLIC_SITE_NAME` | Store name in the header, footer, checkout, `schema.org` markup, and `llms.txt` | `Gorgo Medusa Store` |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 measurement ID, `G-XXXXXXXXXX`. Leave empty to ship no analytics at all | — |
 | `NEXT_PUBLIC_STRIPE_KEY` | Stripe publishable key, only needed when paying through Stripe | — |
@@ -91,7 +94,7 @@ Copy [`.env.template`](.env.template) to `.env.local`. The Default column below 
 | `GEOLOCATION_PROVIDER` | Country detection provider the middleware uses for a first-time visitor; `ip-api`, or anything else to rely on hosting platform geo headers only | `ip-api` |
 | `GEOLOCATION_PROVIDER_API_KEY` | API key for the geolocation provider. `ip-api` works without one against the free `http://ip-api.com` endpoint (45 requests/minute, HTTP only, non-commercial use only), which is fine for local development. A live shop needs a [pro key](https://members.ip-api.com), which switches the lookup to `https://pro.ip-api.com` | — |
 | `REVALIDATE_SECRET` | Shared secret checked on `api/revalidate`; must match the backend's value | `supersecret` |
-| `STOREFRONT_DEVTOOLS_PASSWORD` | Password for the hidden theme settings panel: hold the logo for two seconds, enter it, and a signed httpOnly cookie (seven days) turns on a small floating button that switches the theme preset and the light/dark mode. Server-only — it never reaches the browser bundle. Leave it empty to switch the feature off entirely: `api/devtools/unlock` then answers 404 and no markup is rendered | — |
+| `STOREFRONT_STUDIO_PASSWORD` | Password for the hidden theme settings panel: hold the logo for two seconds, enter it, and a signed httpOnly cookie (seven days) turns on a small floating button that switches the theme preset and the light/dark mode. Server-only — it never reaches the browser bundle. Leave it empty to switch the feature off entirely: `api/studio/unlock` then answers 404 and no markup is rendered | — |
 | `MEDUSA_CLOUD_S3_HOSTNAME`, `MEDUSA_CLOUD_S3_PATHNAME` | Add the Medusa Cloud bucket to the allowed image hosts | — |
 | `GEOLOCATION_DEBUG` | Emit `x-geo-*` response headers explaining how the region was resolved | `false` |
 | `NODE_ENV` | Node environment | `development` |

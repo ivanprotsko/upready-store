@@ -1,29 +1,103 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
+import { Fragment, Suspense } from "react"
 
 import CategoryTiles from "@modules/home/components/category-tiles"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import {
+  DEFAULT_BLOCK_ORDER,
   DEFAULT_HERO,
   DEFAULT_LISTING,
   DEFAULT_TILES,
   HERO_VARIANTS,
   LISTING_VARIANTS,
+  type HomeBlockKey,
 } from "@modules/home/variants"
+import type { HomeHeroProps } from "@modules/home/variants/types"
 import { buildAlternates } from "@lib/util/alternates"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import { getEffectiveSettings, getTenantHome } from "@lib/data/tenant-home"
+import { localizedHero } from "@lib/util/localized-hero"
 import { getTranslations, getLocale } from "next-intl/server"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
+import { listCategories } from "@lib/data/categories"
+import { categoryTiles as profileCategoryTiles } from "@lib/profile"
+import type { ProfileCategoryTile } from "@lib/profile/types"
+
+/**
+ * The category tiles THIS shop may show. The list in the build profile belongs to the
+ * profile the image was built from, and on the shared engine that is another shop's
+ * goods: a tenant created through the onboarding wizard opened with four photographs of
+ * sneakers over links into a catalog it does not have (measured on
+ * https://nochlavka.shipshift.dev, 2026-09-12) — worse than the empty shop the final
+ * onboarding screen honestly promises.
+ *
+ * So a tile is kept only when this shop really owns that category. `listCategories()` is
+ * already tenant-scoped (it travels with the key the Host resolved), so a single-store
+ * stand keeps every tile it kept before — its own categories are the ones the profile
+ * names — and any tile that survives is a link that resolves rather than a 404 dressed as
+ * a photograph.
+ *
+ * A failed read is not an empty catalog (rule 20a): the profile's own list is returned
+ * unchanged and the reason is written to the server log, because blanking the block on a
+ * network blip would look exactly like a shop that has no categories.
+ */
+async function tilesForThisShop(): Promise<readonly ProfileCategoryTile[]> {
+  try {
+    const categories = await listCategories({
+      fields: "id,handle,name,rank,metadata,parent_category_id,*category_children",
+    })
+
+    // A shop's OWN pictures first (t-2026-09-12-catalog-taxonomy): a tenant seeded with the
+    // starter catalog, or one whose owner gave a category an image in the panel, has leaf
+    // categories carrying `metadata.image_url` — those are its tiles, in the category order,
+    // at most six (the tile grid's own limit). The build profile's list cannot know them.
+    const own = categories
+      .filter(
+        (category) =>
+          !(category.category_children ?? []).length &&
+          typeof category.metadata?.image_url === "string" &&
+          category.metadata.image_url
+      )
+      .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
+      .slice(0, 6)
+      .map((category) => ({
+        categoryHandle: category.handle as string,
+        label: category.name,
+        image: category.metadata!.image_url as string,
+      }))
+
+    if (own.length >= 3) {
+      return own
+    }
+
+    if (!profileCategoryTiles.length) {
+      return profileCategoryTiles
+    }
+
+    const owned = new Set(
+      categories.map((category) => category.handle).filter(Boolean) as string[]
+    )
+
+    return profileCategoryTiles.filter((tile) => owned.has(tile.categoryHandle))
+  } catch (error) {
+    console.warn(
+      "[home] category tiles: could not read this shop's categories, falling back to the " +
+        "build profile's whole list — the tiles below may belong to another shop.",
+      error
+    )
+    return profileCategoryTiles
+  }
+}
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [t, locale] = await Promise.all([
+  const [t, locale, siteName] = await Promise.all([
     getTranslations("Metadata.home"),
     getLocale(),
+    getSiteName(),
   ])
   return {
-    title: SITE_NAME,
+    title: siteName,
     description: t("description"),
-    alternates: buildAlternates(locale, "/"),
+    alternates: await buildAlternates(locale, "/"),
   }
 }
 
@@ -36,18 +110,35 @@ export async function generateMetadata(): Promise<Metadata> {
  * The three home slots (hero, tiles, listing) now come from the site-wide composition
  * document, `store.metadata.storefrontSettings` (`2026-09-09-panel-composition-mockup.md`
  * §C1), not straight from `profile.generated.json` — this is the home switch,
- * `getStorefrontSettings()` read ONCE here and passed down as the three slot keys, the way
+ * `getEffectiveSettings()` read ONCE here and passed down as the three slot keys, the way
  * `nav/index.tsx`/`footer/index.tsx` each read it once for their own single slot
  * (`block-port-map.md` §9). No saved settings (§C1 "Absent" row) falls back to the three
  * `DEFAULT_*` constants in `home/variants/index.ts`, which reproduce today's unswitched
  * behaviour exactly: the profile's own hero unaffected, tiles-if-present, the existing
  * product listing — so the `default` profile (no composition ever saved for it) renders
  * identically to before this switch existed.
+ *
+ * Tenant panel wave 2, piece 8: when this storefront's publishable key has a tenant behind
+ * it and that tenant saved a home-page document (`upready.tenant-home/v1`), the document
+ * decides three more things on top of the composition it already carries — the hero's own
+ * copy (`content.hero`), which products the listing shows (`content.products`) and the
+ * order the three blocks render in (`content.order`, a block left out of it is not
+ * rendered). Without a document every one of those is `undefined` and each block keeps
+ * its own behaviour, which is the state of the five old stands.
  */
 export default async function Home() {
-  const [t, settings] = await Promise.all([
+  // Piece 9: one process serves every shop, so both reads below are per REQUEST — the
+  // publishable key they travel with comes from the `Host` header
+  // (`lib/data/tenant-home.ts`, `lib/config.ts`). `getEffectiveSettings()` is already
+  // "this shop's document, else the site-wide one", which is why there is no second
+  // fallback here; a single-store deployment resolves no shop and reads exactly what it
+  // read before either piece existed.
+  const [t, settings, home, tileList, locale] = await Promise.all([
     getTranslations("CategoryMenu"),
-    getStorefrontSettings(),
+    getEffectiveSettings(),
+    getTenantHome(),
+    tilesForThisShop(),
+    getLocale(),
   ])
 
   const hero = settings?.hero ?? DEFAULT_HERO
@@ -58,25 +149,50 @@ export default async function Home() {
   const Listing =
     listing === "none" ? null : LISTING_VARIANTS[listing] ?? LISTING_VARIANTS[DEFAULT_LISTING]
 
+  // An empty string in the document means "the tenant left this field blank", which is the
+  // same thing as "not set" for every hero: each falls back to its own copy per field.
+  const heroContent = localizedHero(home?.content.hero, locale)
+  const heroProps: HomeHeroProps = heroContent
+    ? {
+        title: heroContent.title || null,
+        subtitle: heroContent.subtitle || null,
+        ctaLabel: heroContent.cta_label || null,
+        ctaHref: heroContent.cta_href || null,
+        imageUrl: heroContent.image_url || null,
+        profileFallback: false,
+      }
+    : {}
+
+  const order: readonly HomeBlockKey[] = home?.content.order?.length
+    ? home.content.order
+    : DEFAULT_BLOCK_ORDER
+
+  const blocks: Record<HomeBlockKey, React.ReactNode> = {
+    hero: Hero ? <Hero {...heroProps} /> : null,
+    categories:
+      tiles === "on" ? <CategoryTiles heading={t("title")} tiles={tileList} /> : null,
+    products: Listing ? (
+      <div className="py-12">
+        <ul className="flex flex-col gap-x-6">
+          <Suspense
+            fallback={
+              <li className="content-container py-12 small:py-24">
+                <SkeletonProductGrid numberOfProducts={4} />
+              </li>
+            }
+          >
+            <Listing products={home?.content.products} />
+          </Suspense>
+        </ul>
+      </div>
+    ) : null,
+  }
+
   return (
     <>
-      {Hero ? <Hero /> : null}
-      {tiles === "on" ? <CategoryTiles heading={t("title")} /> : null}
-      {Listing ? (
-        <div className="py-12">
-          <ul className="flex flex-col gap-x-6">
-            <Suspense
-              fallback={
-                <li className="content-container py-12 small:py-24">
-                  <SkeletonProductGrid numberOfProducts={4} />
-                </li>
-              }
-            >
-              <Listing />
-            </Suspense>
-          </ul>
-        </div>
-      ) : null}
+      {order.map((block) => (
+        <Fragment key={block}>{blocks[block]}</Fragment>
+      ))}
     </>
   )
 }

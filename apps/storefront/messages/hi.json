@@ -152,7 +152,6 @@
     "close": "बंद करें",
     "hidePassword": "पासवर्ड छिपाएं",
     "orderNumber": "ऑर्डर #{id}",
-    "poweredBy": "द्वारा संचालित",
     "remove": "हटाएं",
     "showPassword": "पासवर्ड दिखाएं"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "श्रेणियां",
     "collectionsHeading": "संग्रह",
     "copyright": "© {year} {siteName}. सर्वाधिकार सुरक्षित।",
-    "infoHeading": "जानकारी",
-    "medusaDocs": "Medusa दस्तावेज़",
-    "sourceCode": "स्टार्टर सोर्स कोड",
-    "starterDocs": "स्टार्टर दस्तावेज़"
+    "infoHeading": "जानकारी"
   },
   "ForgotPassword": {
     "backToSignIn": "साइन इन पर लौटें",
@@ -345,44 +341,8 @@
     "returnsExchanges": "रिटर्न और एक्सचेंज"
   },
   "Hero": {
-    "eyebrow": "टर्नकी · ओपन-सोर्स",
-    "features": [
-      {
-        "description": "बेहतर, बिना अतिरिक्त चरणों के, पता ऑटोकम्पलीट के साथ",
-        "label": "कन्वर्जन के लिए तैयार चेकआउट"
-      },
-      {
-        "description": "खोज, फ़िल्टर करने योग्य कैटलॉग, बहु-स्तरीय श्रेणियाँ और mobile-first",
-        "label": "पूर्ण-सुविधा युक्त स्टोरफ्रंट"
-      },
-      {
-        "description": "meta टैग, Open Graph और Twitter कार्ड, JSON-LD, sitemap, robots, llms.txt और PageSpeed Insights पर 100/100",
-        "label": "SEO और AI के लिए ऑप्टिमाइज़्ड"
-      },
-      {
-        "description": "स्टोरफ्रंट के लिए 36 भाषाएं (RTL सहित) और बिक्री क्षेत्रों के लिए 241 देश, देश की पहचान, ज़रूरत के मुताबिक आसानी से घटाए जा सकते हैं",
-        "label": "पूर्ण लोकलाइज़ेशन"
-      },
-      {
-        "description": "SMTP पर React Email टेम्पलेट",
-        "label": "लेन-देन संबंधी ईमेल"
-      },
-      {
-        "description": "उत्पाद कैटलॉग में बदलाव पर",
-        "label": "मांग पर कैश पुनर्सत्यापन"
-      },
-      {
-        "badge": "नया",
-        "description": "एडमिन के ज़रिए अपने प्रदाताओं की सेटिंग्स प्रबंधित करें",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "इंटीग्रेशन मॉड्यूल"
-      }
-    ],
-    "featuresHeading": "विशेषताएं",
-    "readDocs": "डॉक्यूमेंटेशन पढ़ें",
     "subtitle": "वह सब कुछ जो आधिकारिक Medusa DTC स्टार्टर में शामिल नहीं है।",
-    "title": "प्रोडक्शन के लिए तैयार Medusa DTC स्टार्टर",
-    "viewOnGitHub": "GitHub पर देखें"
+    "title": "प्रोडक्शन के लिए तैयार Medusa DTC स्टार्टर"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "बंद करें",
-    "cta": "आज़माएं",
     "message": "पूर्ण-सुविधा युक्त, प्रोडक्शन के लिए तैयार DTC स्टार्टर।"
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "सभी उत्पाद"
+  },
+  "TenantPage": {
+    "emptyBody": "इस पेज पर अभी कोई टेक्स्ट नहीं है।",
+    "metaDescription": "{siteName} पर {title}।"
   },
   "TransferActions": {
     "acceptTransfer": "ट्रांसफर स्वीकार करें",

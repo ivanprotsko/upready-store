@@ -10,7 +10,7 @@ import {
   currentProfile,
   getSettings,
   holdBrand,
-  unlockDevtools,
+  unlockStudio,
   withRestoredComposition,
 } from "./helpers"
 
@@ -23,7 +23,7 @@ import {
  * it in `finally`, never to fake the save itself.
  */
 
-const DEVTOOLS_PASSWORD = process.env.DEVTOOLS_PASSWORD ?? "upready-panel-2026"
+const STUDIO_PASSWORD = process.env.STUDIO_PASSWORD ?? "upready-panel-2026"
 
 // The proxy answers with updatedAt on top of the document; the comparison below is about the
 // document the operator chose, not about the timestamp.
@@ -39,7 +39,7 @@ test.describe("panel-composition", () => {
     context,
     browser,
   }) => {
-    await unlockDevtools(context)
+    await unlockStudio(context)
 
     const before = await getSettings(context.request)
     expect(
@@ -54,13 +54,13 @@ test.describe("panel-composition", () => {
     await withRestoredComposition(context, async () => {
       await page.goto("/en")
       await holdBrand(page, 2200)
-      await expect(page.getByTestId("devtools-unlock-dialog")).toBeVisible()
-      await page.getByTestId("devtools-password").fill(DEVTOOLS_PASSWORD)
-      await page.getByTestId("devtools-unlock-submit").click()
-      await expect(page.getByTestId("devtools-button")).toBeVisible()
+      await expect(page.getByTestId("studio-unlock-dialog")).toBeVisible()
+      await page.getByTestId("studio-password").fill(STUDIO_PASSWORD)
+      await page.getByTestId("studio-unlock-submit").click()
+      await expect(page.getByTestId("studio-button")).toBeVisible()
 
-      await page.getByTestId("devtools-button").click()
-      await expect(page.getByTestId("devtools-popover")).toBeVisible()
+      await page.getByTestId("studio-button").click()
+      await expect(page.getByTestId("studio-popover")).toBeVisible()
 
       const rows: Array<[string, string]> = [
         ["header", target.header],
@@ -70,21 +70,21 @@ test.describe("panel-composition", () => {
         ["footer", target.footer],
       ]
       for (const [slug, value] of rows) {
-        await page.getByTestId(`devtools-slot-${slug}`).click()
-        await page.getByTestId(`devtools-slot-${slug}-option-${value}`).click()
+        await page.getByTestId(`studio-slot-${slug}`).click()
+        await page.getByTestId(`studio-slot-${slug}-option-${value}`).click()
       }
       // The default mode goes LAST: the contract forbids footer f6 with a dark default, and a
       // stand seeded with f6 (scruple, larchant) keeps the dark option disabled until the footer
       // pick above has moved away from f6 — picking the mode first waits on a disabled button.
-      await page.getByTestId(`devtools-default-mode-${targetMode}`).click()
+      await page.getByTestId(`studio-default-mode-${targetMode}`).click()
 
-      await expect(page.getByTestId("devtools-composition-dirty")).toBeVisible()
-      await page.getByTestId("devtools-composition-save").click()
+      await expect(page.getByTestId("studio-composition-dirty")).toBeVisible()
+      await page.getByTestId("studio-composition-save").click()
       // The button shows data-state="saved" for two seconds and then returns to idle
       // (popover.tsx), which a polling assertion can miss on a slow stand; the durable
       // evidence of a successful save is the dirty marker going away and the document the
       // proxy now serves being the one the operator chose.
-      await expect(page.getByTestId("devtools-composition-dirty")).toBeHidden({ timeout: 15_000 })
+      await expect(page.getByTestId("studio-composition-dirty")).toBeHidden({ timeout: 15_000 })
       await expect
         .poll(async () => stripUpdatedAt((await getSettings(context.request)).settings), { timeout: 15_000 })
         .toEqual(target)

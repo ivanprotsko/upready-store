@@ -1,6 +1,7 @@
 import { Text } from "@medusajs/ui"
 import { getProductPrice } from "@lib/util/get-product-price"
 import type { HttpTypes } from "@medusajs/types"
+import { isPlaceholderOption } from "@lib/util/option-filter-groups"
 import { Link } from "@i18n/navigation"
 import { getOptionValueHex, isColorOption } from "@lib/util/color-option"
 import Thumbnail from "../thumbnail"
@@ -39,9 +40,12 @@ export default async function ProductPreview({
     ) ?? []
   )
 
+  // Medusa's "Default option" of a product created without options is bookkeeping,
+  // not a choice: every single-variant card said "Default option value" under its
+  // price (measured on acme/globex/initech `/ru/store`, 2026-09-12).
   const textOptions =
     product.options
-      ?.filter((o) => !isColorOption(o))
+      ?.filter((o) => !isColorOption(o) && !isPlaceholderOption(o))
       .flatMap(
         (o) =>
           o.values

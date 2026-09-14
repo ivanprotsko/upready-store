@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import { Link } from "@i18n/navigation"
 import { hero } from "@lib/profile"
+import type { HomeHeroProps } from "@modules/home/variants/types"
 
 /**
  * The home hero, driven entirely by home.hero of the store profile. Three layouts:
@@ -17,27 +18,72 @@ import { hero } from "@lib/profile"
  *
  * No hero in the profile means no markup at all — not an empty band, not a placeholder.
  * Server component with no request-scoped input, so the page stays statically renderable.
+ *
+ * Tenant panel wave 2, piece 8: every line of copy can also come from the tenant's own
+ * home-page document (`content.hero` of `upready.tenant-home/v1`), handed down by
+ * `(main)/page.tsx` as the optional props below. A field the tenant left empty falls back
+ * to the build profile's own hero, so a stand with no tenant document renders exactly what
+ * it rendered before. A tenant that filled in a headline but whose build profile has no
+ * hero at all still gets the announcement band: that layout needs no photograph, which is
+ * the one layout that can be composed from text alone.
  */
-export default function ProfileHero() {
-  if (!hero) {
-    return null
-  }
-  if (hero.layout === "announcement") {
-    return <AnnouncementHero />
-  }
-  if (!hero.image) {
-    return null
-  }
+function resolveHero(props: HomeHeroProps) {
+  // A shop with its own home document never borrows from the build profile
+  // (`HomeHeroProps.profileFallback`): the profile is a fallback for a single-store
+  // stand, not another shop's voice or photograph.
+  const fallback = props.profileFallback === false ? null : hero
+  const headline = props.title || fallback?.headline || null
+  const subheadline = props.subtitle || fallback?.subheadline || null
+  const image = props.imageUrl || fallback?.image || null
+  const cta =
+    props.ctaLabel && props.ctaHref
+      ? { label: props.ctaLabel, href: props.ctaHref }
+      : fallback?.cta ?? null
+  // Which layout, when the build profile and the tenant disagree. `announcement` is the
+  // one layout that renders NO photograph — it exists for a profile that has none to offer
+  // — so a tenant that filled `content.hero.image_url` under a profile pinned to it would
+  // have its image stored in the database and invisible on the screen. Measured on the live
+  // shops 2026-09-12: all three demo tenants carried a hero image and none showed one.
+  // A tenant image therefore overrides an image-less profile layout; every other case keeps
+  // the profile's choice, so a single-store stand (no tenant document, no `props.imageUrl`)
+  // renders exactly what it rendered before.
+  const profileLayout = fallback?.layout ?? null
+  const layout =
+    props.imageUrl && (!profileLayout || profileLayout === "announcement")
+      ? "full-bleed"
+      : profileLayout ?? (image ? "full-bleed" : "announcement")
 
-  return hero.layout === "split" ? <SplitHero /> : <FullBleedHero />
+  return { headline, subheadline, image, cta, layout }
 }
 
-function Cta({ onImage }: { onImage: boolean }) {
-  if (!hero?.cta) return null
+export default function ProfileHero(props: HomeHeroProps = {}) {
+  const resolved = resolveHero(props)
+
+  if (!resolved.headline) {
+    return null
+  }
+  if (resolved.layout === "announcement") {
+    return <AnnouncementHero {...resolved} />
+  }
+  if (!resolved.image) {
+    return null
+  }
+
+  return resolved.layout === "split" ? (
+    <SplitHero {...resolved} />
+  ) : (
+    <FullBleedHero {...resolved} />
+  )
+}
+
+type ResolvedHero = ReturnType<typeof resolveHero>
+
+function Cta({ onImage, cta }: { onImage: boolean; cta: ResolvedHero["cta"] }) {
+  if (!cta) return null
 
   return (
     <Link
-      href={hero.cta.href}
+      href={cta.href}
       data-testid="profile-hero-cta"
       className={
         "inline-flex h-11 items-center justify-center rounded-full px-6 text-base font-medium " +
@@ -47,7 +93,7 @@ function Cta({ onImage }: { onImage: boolean }) {
           : "w-fit bg-ui-contrast-bg-base text-ui-contrast-fg-primary hover:bg-ui-contrast-bg-base-hover")
       }
     >
-      {hero.cta.label}
+      {cta.label}
     </Link>
   )
 }
@@ -74,8 +120,8 @@ const SCRIM_DESKTOP =
 const SCRIM_MOBILE =
   "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.46) 46%, rgba(0,0,0,0) 84%)"
 
-function FullBleedHero() {
-  if (!hero?.image) return null
+function FullBleedHero({ headline, subheadline, image, cta }: ResolvedHero) {
+  if (!image) return null
 
   return (
     <section
@@ -84,7 +130,7 @@ function FullBleedHero() {
       className="relative isolate h-[440px] w-full overflow-hidden small:h-[560px]"
     >
       <Image
-        src={hero.image}
+        src={image}
         alt=""
         fill
         priority
@@ -100,15 +146,15 @@ function FullBleedHero() {
             data-testid="profile-hero-headline"
             className="text-balance text-[30px] font-semibold leading-[1.06] tracking-[-0.02em] text-white small:text-[48px] small:tracking-[-0.035em]"
           >
-            {hero.headline}
+            {headline}
           </h1>
-          {hero.subheadline ? (
+          {subheadline ? (
             <p className="mt-4 max-w-[46ch] text-balance text-sm leading-relaxed text-[rgba(255,255,255,0.86)] small:text-base">
-              {hero.subheadline}
+              {subheadline}
             </p>
           ) : null}
           <div className="mt-7">
-            <Cta onImage />
+            <Cta onImage cta={cta} />
           </div>
         </div>
       </div>
@@ -135,8 +181,8 @@ function FullBleedHero() {
  * section's re-pointed custom properties (they only reach the two --contrast-fg-* names),
  * so it reads as a light or dark chip standing off the accent band rather than inheriting it.
  */
-function AnnouncementHero() {
-  if (!hero) return null
+function AnnouncementHero({ headline, subheadline, cta }: ResolvedHero) {
+  if (!headline) return null
 
   return (
     <section
@@ -149,23 +195,23 @@ function AnnouncementHero() {
           data-testid="profile-hero-headline"
           className="text-balance text-[30px] font-semibold leading-[1.08] tracking-[-0.02em] text-ui-contrast-fg-primary small:max-w-[720px] small:text-[46px] small:tracking-[-0.03em]"
         >
-          {hero.headline}
+          {headline}
         </h1>
-        {hero.subheadline ? (
+        {subheadline ? (
           <p className="max-w-[60ch] text-balance text-sm leading-relaxed text-ui-contrast-fg-primary small:text-base">
-            {hero.subheadline}
+            {subheadline}
           </p>
         ) : null}
         <div className="mt-2">
-          <Cta onImage />
+          <Cta onImage cta={cta} />
         </div>
       </div>
     </section>
   )
 }
 
-function SplitHero() {
-  if (!hero?.image) return null
+function SplitHero({ headline, subheadline, image, cta }: ResolvedHero) {
+  if (!image) return null
 
   return (
     <section
@@ -176,7 +222,7 @@ function SplitHero() {
       {/* Image first in the DOM so the mobile stack needs no order override. */}
       <div className="relative order-first aspect-[4/5] w-full small:order-last small:aspect-auto small:h-full small:border-l small:border-ui-border-base">
         <Image
-          src={hero.image}
+          src={image}
           alt=""
           fill
           priority
@@ -191,15 +237,15 @@ function SplitHero() {
             data-testid="profile-hero-headline"
             className="text-balance text-[30px] font-semibold leading-[1.1] tracking-[-0.03em] text-ui-fg-base small:text-[44px] small:tracking-[-0.04em]"
           >
-            {hero.headline}
+            {headline}
           </h1>
-          {hero.subheadline ? (
+          {subheadline ? (
             <p className="mt-4 text-balance text-sm leading-relaxed text-ui-fg-subtle small:text-base">
-              {hero.subheadline}
+              {subheadline}
             </p>
           ) : null}
           <div className="mt-8">
-            <Cta onImage={false} />
+            <Cta onImage={false} cta={cta} />
           </div>
         </div>
       </div>

@@ -152,7 +152,6 @@
     "close": "Închide",
     "hidePassword": "Ascunde parola",
     "orderNumber": "Comanda #{id}",
-    "poweredBy": "Powered by",
     "remove": "Elimină",
     "showPassword": "Afișează parola"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Categorii",
     "collectionsHeading": "Colecții",
     "copyright": "© {year} {siteName}. Toate drepturile rezervate.",
-    "infoHeading": "Informații",
-    "medusaDocs": "Documentația Medusa",
-    "sourceCode": "Codul sursă al starter-ului",
-    "starterDocs": "Documentația starter-ului"
+    "infoHeading": "Informații"
   },
   "ForgotPassword": {
     "backToSignIn": "Înapoi la autentificare",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Retururi și schimburi"
   },
   "Hero": {
-    "eyebrow": "La cheie · Open-source",
-    "features": [
-      {
-        "description": "îmbunătățit, fără pași în plus, cu autocompletare adresă",
-        "label": "Checkout optimizat pentru conversie"
-      },
-      {
-        "description": "căutare, catalog filtrabil, categorii pe mai multe niveluri și mobile-first",
-        "label": "Vitrină completă"
-      },
-      {
-        "description": "metataguri, Open Graph și Twitter cards, JSON-LD, sitemap, robots, llms.txt și 100/100 în PageSpeed Insights",
-        "label": "Optimizat pentru SEO și AI"
-      },
-      {
-        "description": "36 de limbi pentru magazin cu suport RTL și 241 de țări pentru regiunile de vânzare, detectarea țării, ușor de redus la cele necesare",
-        "label": "Localizare completă"
-      },
-      {
-        "description": "șabloane React Email prin SMTP",
-        "label": "Emailuri tranzacționale"
-      },
-      {
-        "description": "la modificările catalogului de produse",
-        "label": "Revalidare cache la cerere"
-      },
-      {
-        "badge": "New",
-        "description": "gestionați setările furnizorilor prin Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Modul de integrare"
-      }
-    ],
-    "featuresHeading": "Funcționalități",
-    "readDocs": "Citește documentația",
     "subtitle": "Tot ce lipsește din starterul oficial Medusa DTC.",
-    "title": "Medusa DTC Starter gata pentru producție",
-    "viewOnGitHub": "Vezi pe GitHub"
+    "title": "Medusa DTC Starter gata pentru producție"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Închide",
-    "cta": "Încearcă",
     "message": "Starter DTC complet, gata pentru producție."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Toate produsele"
+  },
+  "TenantPage": {
+    "emptyBody": "Această pagină nu are încă text.",
+    "metaDescription": "{title} la {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Acceptă transferul",

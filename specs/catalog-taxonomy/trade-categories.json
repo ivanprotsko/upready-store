@@ -1,0 +1,1187 @@
+{
+  "schema": "upready.trade-categories/v0",
+  "generatedBy": "apps/backend/scripts/catalog-taxonomy/build.mjs",
+  "source": {
+    "name": "Google Product Taxonomy",
+    "version": "2021-09-21",
+    "locales": [
+      "en-US",
+      "ru-RU"
+    ],
+    "urls": [
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt",
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.ru-RU.txt"
+    ],
+    "fetchedAt": "2026-09-12",
+    "rawDir": "~/upready/research/raw/2026-09-12-google-product-taxonomy/"
+  },
+  "rule": "Level 2 of the source under every kept sphere, minus the nodes that are not consumer retail of physical goods or are regulated; kept verbatim otherwise.",
+  "optional": true,
+  "counts": {
+    "sourceUnderKeptSpheres": 135,
+    "kept": 116,
+    "excluded": 19
+  },
+  "categories": [
+    {
+      "slug": "pet-supplies",
+      "gptId": 2,
+      "sphere": "animals-and-pet-supplies",
+      "name": {
+        "en": "Pet Supplies",
+        "ru": "Товары для домашних животных"
+      }
+    },
+    {
+      "slug": "clothing",
+      "gptId": 1604,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Clothing",
+        "ru": "Одежда"
+      }
+    },
+    {
+      "slug": "clothing-accessories",
+      "gptId": 167,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Clothing Accessories",
+        "ru": "Принадлежности для одежды"
+      }
+    },
+    {
+      "slug": "costumes-and-accessories",
+      "gptId": 184,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Costumes & Accessories",
+        "ru": "Маскарадные костюмы и принадлежности"
+      }
+    },
+    {
+      "slug": "handbag-and-wallet-accessories",
+      "gptId": 6552,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Handbag & Wallet Accessories",
+        "ru": "Принадлежности для ручных сумок и кошельков"
+      }
+    },
+    {
+      "slug": "handbags-wallets-and-cases",
+      "gptId": 6551,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Handbags, Wallets & Cases",
+        "ru": "Ручные сумки, кошельки и чехлы"
+      }
+    },
+    {
+      "slug": "jewelry",
+      "gptId": 188,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Jewelry",
+        "ru": "Ювелирные украшения"
+      }
+    },
+    {
+      "slug": "shoe-accessories",
+      "gptId": 1933,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Shoe Accessories",
+        "ru": "Принадлежности для обуви"
+      }
+    },
+    {
+      "slug": "shoes",
+      "gptId": 187,
+      "sphere": "apparel-and-accessories",
+      "name": {
+        "en": "Shoes",
+        "ru": "Обувь"
+      }
+    },
+    {
+      "slug": "hobbies-and-creative-arts",
+      "gptId": 5710,
+      "sphere": "arts-and-entertainment",
+      "name": {
+        "en": "Hobbies & Creative Arts",
+        "ru": "Хобби и творчество"
+      }
+    },
+    {
+      "slug": "party-and-celebration",
+      "gptId": 5709,
+      "sphere": "arts-and-entertainment",
+      "name": {
+        "en": "Party & Celebration",
+        "ru": "Вечеринки и праздники"
+      }
+    },
+    {
+      "slug": "baby-bathing",
+      "gptId": 4678,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Bathing",
+        "ru": "Товары для купания детей"
+      }
+    },
+    {
+      "slug": "baby-gift-sets",
+      "gptId": 5859,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Gift Sets",
+        "ru": "Наборы подарков для младенцев"
+      }
+    },
+    {
+      "slug": "baby-health",
+      "gptId": 5252,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Health",
+        "ru": "Товары для здоровья младенцев"
+      }
+    },
+    {
+      "slug": "baby-safety",
+      "gptId": 540,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Safety",
+        "ru": "Товары для обеспечения безопасности детей"
+      }
+    },
+    {
+      "slug": "baby-toys-and-activity-equipment",
+      "gptId": 2847,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Toys & Activity Equipment",
+        "ru": "Детские игрушки"
+      }
+    },
+    {
+      "slug": "baby-transport",
+      "gptId": 2764,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Transport",
+        "ru": "Средства для перевозки детей"
+      }
+    },
+    {
+      "slug": "baby-transport-accessories",
+      "gptId": 4386,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Baby Transport Accessories",
+        "ru": "Принадлежности изделий для перевозки детей"
+      }
+    },
+    {
+      "slug": "diapering",
+      "gptId": 548,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Diapering",
+        "ru": "Товары для пеленания"
+      }
+    },
+    {
+      "slug": "nursing-and-feeding",
+      "gptId": 561,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Nursing & Feeding",
+        "ru": "Товары для кормпления детей"
+      }
+    },
+    {
+      "slug": "potty-training",
+      "gptId": 6952,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Potty Training",
+        "ru": "Товары для приучения к горшку"
+      }
+    },
+    {
+      "slug": "swaddling-and-receiving-blankets",
+      "gptId": 6899,
+      "sphere": "baby-and-toddler",
+      "name": {
+        "en": "Swaddling & Receiving Blankets",
+        "ru": "Одеяла для пеленания"
+      }
+    },
+    {
+      "slug": "camera-and-optic-accessories",
+      "gptId": 2096,
+      "sphere": "cameras-and-optics",
+      "name": {
+        "en": "Camera & Optic Accessories",
+        "ru": "Принадлежности для камер и другой оптики"
+      }
+    },
+    {
+      "slug": "cameras",
+      "gptId": 142,
+      "sphere": "cameras-and-optics",
+      "name": {
+        "en": "Cameras",
+        "ru": "Камеры"
+      }
+    },
+    {
+      "slug": "optics",
+      "gptId": 156,
+      "sphere": "cameras-and-optics",
+      "name": {
+        "en": "Optics",
+        "ru": "Оптика"
+      }
+    },
+    {
+      "slug": "photography",
+      "gptId": 39,
+      "sphere": "cameras-and-optics",
+      "name": {
+        "en": "Photography",
+        "ru": "Фотография"
+      }
+    },
+    {
+      "slug": "audio",
+      "gptId": 223,
+      "sphere": "electronics",
+      "name": {
+        "en": "Audio",
+        "ru": "Аудиосистемы"
+      }
+    },
+    {
+      "slug": "communications",
+      "gptId": 262,
+      "sphere": "electronics",
+      "name": {
+        "en": "Communications",
+        "ru": "Связь"
+      }
+    },
+    {
+      "slug": "computers",
+      "gptId": 278,
+      "sphere": "electronics",
+      "name": {
+        "en": "Computers",
+        "ru": "Компьютеры"
+      }
+    },
+    {
+      "slug": "electronics-accessories",
+      "gptId": 2082,
+      "sphere": "electronics",
+      "name": {
+        "en": "Electronics Accessories",
+        "ru": "Принадлежности для электроники"
+      }
+    },
+    {
+      "slug": "gps-accessories",
+      "gptId": 3895,
+      "sphere": "electronics",
+      "name": {
+        "en": "GPS Accessories",
+        "ru": "Принадлежности для устройств GPS"
+      }
+    },
+    {
+      "slug": "gps-navigation-systems",
+      "gptId": 339,
+      "sphere": "electronics",
+      "name": {
+        "en": "GPS Navigation Systems",
+        "ru": "GPS-навигаторы"
+      }
+    },
+    {
+      "slug": "networking",
+      "gptId": 342,
+      "sphere": "electronics",
+      "name": {
+        "en": "Networking",
+        "ru": "Сетевое оборудование"
+      }
+    },
+    {
+      "slug": "print-copy-scan-and-fax",
+      "gptId": 345,
+      "sphere": "electronics",
+      "name": {
+        "en": "Print, Copy, Scan & Fax",
+        "ru": "Печать, копирование, сканирование и факсимильная связь"
+      }
+    },
+    {
+      "slug": "video",
+      "gptId": 386,
+      "sphere": "electronics",
+      "name": {
+        "en": "Video",
+        "ru": "Видеоаппаратура"
+      }
+    },
+    {
+      "slug": "video-game-console-accessories",
+      "gptId": 1270,
+      "sphere": "electronics",
+      "name": {
+        "en": "Video Game Console Accessories",
+        "ru": "Принадлежности для консолей видеоигр"
+      }
+    },
+    {
+      "slug": "video-game-consoles",
+      "gptId": 1294,
+      "sphere": "electronics",
+      "name": {
+        "en": "Video Game Consoles",
+        "ru": "Консоли для видеоигр"
+      }
+    },
+    {
+      "slug": "beverages",
+      "gptId": 413,
+      "sphere": "food-beverages-and-tobacco",
+      "name": {
+        "en": "Beverages",
+        "ru": "Напитки"
+      }
+    },
+    {
+      "slug": "food-items",
+      "gptId": 422,
+      "sphere": "food-beverages-and-tobacco",
+      "name": {
+        "en": "Food Items",
+        "ru": "Пищевые продукты"
+      }
+    },
+    {
+      "slug": "baby-and-toddler-furniture",
+      "gptId": 554,
+      "sphere": "furniture",
+      "name": {
+        "en": "Baby & Toddler Furniture",
+        "ru": "Мебель для младенцев"
+      }
+    },
+    {
+      "slug": "beds-and-accessories",
+      "gptId": 6433,
+      "sphere": "furniture",
+      "name": {
+        "en": "Beds & Accessories",
+        "ru": "Кровати и постельные принадлежности"
+      }
+    },
+    {
+      "slug": "benches",
+      "gptId": 441,
+      "sphere": "furniture",
+      "name": {
+        "en": "Benches",
+        "ru": "Скамьи"
+      }
+    },
+    {
+      "slug": "cabinets-and-storage",
+      "gptId": 6356,
+      "sphere": "furniture",
+      "name": {
+        "en": "Cabinets & Storage",
+        "ru": "Шкафы и мебель для хранения"
+      }
+    },
+    {
+      "slug": "carts-and-islands",
+      "gptId": 442,
+      "sphere": "furniture",
+      "name": {
+        "en": "Carts & Islands",
+        "ru": "Тележки"
+      }
+    },
+    {
+      "slug": "chair-accessories",
+      "gptId": 7248,
+      "sphere": "furniture",
+      "name": {
+        "en": "Chair Accessories",
+        "ru": "Принадлежности для стульев"
+      }
+    },
+    {
+      "slug": "chairs",
+      "gptId": 443,
+      "sphere": "furniture",
+      "name": {
+        "en": "Chairs",
+        "ru": "Кресла и стулья"
+      }
+    },
+    {
+      "slug": "entertainment-centers-and-tv-stands",
+      "gptId": 457,
+      "sphere": "furniture",
+      "name": {
+        "en": "Entertainment Centers & TV Stands",
+        "ru": "Стойки для телевизоров и аппаратуры"
+      }
+    },
+    {
+      "slug": "furniture-sets",
+      "gptId": 6345,
+      "sphere": "furniture",
+      "name": {
+        "en": "Furniture Sets",
+        "ru": "Наборы мебели"
+      }
+    },
+    {
+      "slug": "futon-frames",
+      "gptId": 6860,
+      "sphere": "furniture",
+      "name": {
+        "en": "Futon Frames",
+        "ru": "Рамы для футонов"
+      }
+    },
+    {
+      "slug": "futon-pads",
+      "gptId": 2786,
+      "sphere": "furniture",
+      "name": {
+        "en": "Futon Pads",
+        "ru": "Перины для футонов"
+      }
+    },
+    {
+      "slug": "futons",
+      "gptId": 450,
+      "sphere": "furniture",
+      "name": {
+        "en": "Futons",
+        "ru": "Футоны"
+      }
+    },
+    {
+      "slug": "office-furniture",
+      "gptId": 6362,
+      "sphere": "furniture",
+      "name": {
+        "en": "Office Furniture",
+        "ru": "Офисная мебель"
+      }
+    },
+    {
+      "slug": "office-furniture-accessories",
+      "gptId": 503765,
+      "sphere": "furniture",
+      "name": {
+        "en": "Office Furniture Accessories",
+        "ru": "Принадлежности для офисной мебели"
+      }
+    },
+    {
+      "slug": "ottomans",
+      "gptId": 458,
+      "sphere": "furniture",
+      "name": {
+        "en": "Ottomans",
+        "ru": "Оттоманки"
+      }
+    },
+    {
+      "slug": "outdoor-furniture",
+      "gptId": 4299,
+      "sphere": "furniture",
+      "name": {
+        "en": "Outdoor Furniture",
+        "ru": "Садовая мебель"
+      }
+    },
+    {
+      "slug": "outdoor-furniture-accessories",
+      "gptId": 6963,
+      "sphere": "furniture",
+      "name": {
+        "en": "Outdoor Furniture Accessories",
+        "ru": "Принадлежности для садовой мебели"
+      }
+    },
+    {
+      "slug": "room-divider-accessories",
+      "gptId": 6915,
+      "sphere": "furniture",
+      "name": {
+        "en": "Room Divider Accessories",
+        "ru": "Принадлежности для декоративных перегородок"
+      }
+    },
+    {
+      "slug": "room-dividers",
+      "gptId": 4163,
+      "sphere": "furniture",
+      "name": {
+        "en": "Room Dividers",
+        "ru": "Перегородки для помещений"
+      }
+    },
+    {
+      "slug": "shelving",
+      "gptId": 464,
+      "sphere": "furniture",
+      "name": {
+        "en": "Shelving",
+        "ru": "Стеллажи"
+      }
+    },
+    {
+      "slug": "shelving-accessories",
+      "gptId": 8023,
+      "sphere": "furniture",
+      "name": {
+        "en": "Shelving Accessories",
+        "ru": "Принадлежности для стеллажей"
+      }
+    },
+    {
+      "slug": "sofa-accessories",
+      "gptId": 7212,
+      "sphere": "furniture",
+      "name": {
+        "en": "Sofa Accessories",
+        "ru": "Принадлежности для соф"
+      }
+    },
+    {
+      "slug": "sofas",
+      "gptId": 460,
+      "sphere": "furniture",
+      "name": {
+        "en": "Sofas",
+        "ru": "Диваны"
+      }
+    },
+    {
+      "slug": "table-accessories",
+      "gptId": 6913,
+      "sphere": "furniture",
+      "name": {
+        "en": "Table Accessories",
+        "ru": "Принадлежности для столов"
+      }
+    },
+    {
+      "slug": "tables",
+      "gptId": 6392,
+      "sphere": "furniture",
+      "name": {
+        "en": "Tables",
+        "ru": "Столы"
+      }
+    },
+    {
+      "slug": "health-care",
+      "gptId": 491,
+      "sphere": "health-and-beauty",
+      "name": {
+        "en": "Health Care",
+        "ru": "Медицинские средства"
+      }
+    },
+    {
+      "slug": "jewelry-cleaning-and-care",
+      "gptId": 5573,
+      "sphere": "health-and-beauty",
+      "name": {
+        "en": "Jewelry Cleaning & Care",
+        "ru": "Средства для ухода за ювелирными изделиями"
+      }
+    },
+    {
+      "slug": "personal-care",
+      "gptId": 2915,
+      "sphere": "health-and-beauty",
+      "name": {
+        "en": "Personal Care",
+        "ru": "Личная гигиена"
+      }
+    },
+    {
+      "slug": "bathroom-accessories",
+      "gptId": 574,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Bathroom Accessories",
+        "ru": "Принадлежности для ванной и туалета"
+      }
+    },
+    {
+      "slug": "decor",
+      "gptId": 696,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Decor",
+        "ru": "Декоративные элементы"
+      }
+    },
+    {
+      "slug": "household-appliance-accessories",
+      "gptId": 3348,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Household Appliance Accessories",
+        "ru": "Принадлежности для бытовых приборов"
+      }
+    },
+    {
+      "slug": "household-appliances",
+      "gptId": 604,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Household Appliances",
+        "ru": "Бытовые приборы"
+      }
+    },
+    {
+      "slug": "household-supplies",
+      "gptId": 630,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Household Supplies",
+        "ru": "Хозяйственные товары"
+      }
+    },
+    {
+      "slug": "kitchen-and-dining",
+      "gptId": 638,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Kitchen & Dining",
+        "ru": "Товары для кухни и столовой"
+      }
+    },
+    {
+      "slug": "lawn-and-garden",
+      "gptId": 689,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Lawn & Garden",
+        "ru": "Товары для газонов и садовых участков"
+      }
+    },
+    {
+      "slug": "lighting",
+      "gptId": 594,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Lighting",
+        "ru": "Осветительные приборы"
+      }
+    },
+    {
+      "slug": "lighting-accessories",
+      "gptId": 2956,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Lighting Accessories",
+        "ru": "Принадлежности для освещения"
+      }
+    },
+    {
+      "slug": "linens-and-bedding",
+      "gptId": 4171,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Linens & Bedding",
+        "ru": "Постельное бельё"
+      }
+    },
+    {
+      "slug": "parasols-and-rain-umbrellas",
+      "gptId": 4358,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Parasols & Rain Umbrellas",
+        "ru": "Зонты"
+      }
+    },
+    {
+      "slug": "plants",
+      "gptId": 985,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Plants",
+        "ru": "Растения"
+      }
+    },
+    {
+      "slug": "umbrella-sleeves-and-cases",
+      "gptId": 6173,
+      "sphere": "home-and-garden",
+      "name": {
+        "en": "Umbrella Sleeves & Cases",
+        "ru": "Чехлы для зонтов"
+      }
+    },
+    {
+      "slug": "backpacks",
+      "gptId": 100,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Backpacks",
+        "ru": "Рюкзаки"
+      }
+    },
+    {
+      "slug": "briefcases",
+      "gptId": 101,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Briefcases",
+        "ru": "Портфели"
+      }
+    },
+    {
+      "slug": "cosmetic-and-toiletry-bags",
+      "gptId": 108,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Cosmetic & Toiletry Bags",
+        "ru": "Сумки для туалетных принадлежностей"
+      }
+    },
+    {
+      "slug": "diaper-bags",
+      "gptId": 549,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Diaper Bags",
+        "ru": "Сумки для подгузников"
+      }
+    },
+    {
+      "slug": "dry-boxes",
+      "gptId": 502974,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Dry Boxes",
+        "ru": "Сухие контейнеры"
+      }
+    },
+    {
+      "slug": "duffel-bags",
+      "gptId": 103,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Duffel Bags",
+        "ru": "Большие спортивные сумки"
+      }
+    },
+    {
+      "slug": "fanny-packs",
+      "gptId": 104,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Fanny Packs",
+        "ru": "Поясные сумки"
+      }
+    },
+    {
+      "slug": "garment-bags",
+      "gptId": 105,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Garment Bags",
+        "ru": "Сумки-чехлы для одежды"
+      }
+    },
+    {
+      "slug": "luggage-accessories",
+      "gptId": 110,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Luggage Accessories",
+        "ru": "Багажные принадлежности"
+      }
+    },
+    {
+      "slug": "messenger-bags",
+      "gptId": 106,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Messenger Bags",
+        "ru": "Сумки почтальонов"
+      }
+    },
+    {
+      "slug": "shopping-totes",
+      "gptId": 5608,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Shopping Totes",
+        "ru": "Сумки для покупок"
+      }
+    },
+    {
+      "slug": "suitcases",
+      "gptId": 107,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Suitcases",
+        "ru": "Чемоданы"
+      }
+    },
+    {
+      "slug": "train-cases",
+      "gptId": 6553,
+      "sphere": "luggage-and-bags",
+      "name": {
+        "en": "Train Cases",
+        "ru": "Дорожные косметички"
+      }
+    },
+    {
+      "slug": "book-accessories",
+      "gptId": 6174,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Book Accessories",
+        "ru": "Принадлежности для книг"
+      }
+    },
+    {
+      "slug": "desk-pads-and-blotters",
+      "gptId": 8078,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Desk Pads & Blotters",
+        "ru": "Настольные коврики"
+      }
+    },
+    {
+      "slug": "filing-and-organization",
+      "gptId": 923,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Filing & Organization",
+        "ru": "Товары для хранения документов и архивов"
+      }
+    },
+    {
+      "slug": "general-office-supplies",
+      "gptId": 932,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "General Office Supplies",
+        "ru": "Общие принадлежности"
+      }
+    },
+    {
+      "slug": "impulse-sealers",
+      "gptId": 5829,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Impulse Sealers",
+        "ru": "Машины для импульсной сварки"
+      }
+    },
+    {
+      "slug": "lap-desks",
+      "gptId": 8499,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Lap Desks",
+        "ru": "Наколенные столики"
+      }
+    },
+    {
+      "slug": "name-plates",
+      "gptId": 2435,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Name Plates",
+        "ru": "Именные таблички"
+      }
+    },
+    {
+      "slug": "office-and-chair-mats",
+      "gptId": 6519,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Office & Chair Mats",
+        "ru": "Офисные коврики"
+      }
+    },
+    {
+      "slug": "office-carts",
+      "gptId": 6373,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Office Carts",
+        "ru": "Офисные тележки"
+      }
+    },
+    {
+      "slug": "office-equipment",
+      "gptId": 950,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Office Equipment",
+        "ru": "Офисное оборудование"
+      }
+    },
+    {
+      "slug": "office-instruments",
+      "gptId": 2986,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Office Instruments",
+        "ru": "Офисные принадлежности"
+      }
+    },
+    {
+      "slug": "paper-handling",
+      "gptId": 2014,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Paper Handling",
+        "ru": "Обработка бумаги"
+      }
+    },
+    {
+      "slug": "presentation-supplies",
+      "gptId": 964,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Presentation Supplies",
+        "ru": "Расходные материалы для презентаций"
+      }
+    },
+    {
+      "slug": "shipping-supplies",
+      "gptId": 2636,
+      "sphere": "office-supplies",
+      "name": {
+        "en": "Shipping Supplies",
+        "ru": "Упаковочные материалы"
+      }
+    },
+    {
+      "slug": "athletics",
+      "gptId": 499713,
+      "sphere": "sporting-goods",
+      "name": {
+        "en": "Athletics",
+        "ru": "Товары для атлетических видов спорта"
+      }
+    },
+    {
+      "slug": "exercise-and-fitness",
+      "gptId": 990,
+      "sphere": "sporting-goods",
+      "name": {
+        "en": "Exercise & Fitness",
+        "ru": "Товары для фитнеса"
+      }
+    },
+    {
+      "slug": "indoor-games",
+      "gptId": 1001,
+      "sphere": "sporting-goods",
+      "name": {
+        "en": "Indoor Games",
+        "ru": "Зальные игры"
+      }
+    },
+    {
+      "slug": "outdoor-recreation",
+      "gptId": 1011,
+      "sphere": "sporting-goods",
+      "name": {
+        "en": "Outdoor Recreation",
+        "ru": "Товары для отдыха на открытом воздухе"
+      }
+    },
+    {
+      "slug": "game-timers",
+      "gptId": 4648,
+      "sphere": "toys-and-games",
+      "name": {
+        "en": "Game Timers",
+        "ru": "Игровые таймеры"
+      }
+    },
+    {
+      "slug": "games",
+      "gptId": 3793,
+      "sphere": "toys-and-games",
+      "name": {
+        "en": "Games",
+        "ru": "Игры"
+      }
+    },
+    {
+      "slug": "outdoor-play-equipment",
+      "gptId": 1249,
+      "sphere": "toys-and-games",
+      "name": {
+        "en": "Outdoor Play Equipment",
+        "ru": "Оборудование для игр на открытом воздухе"
+      }
+    },
+    {
+      "slug": "puzzles",
+      "gptId": 3867,
+      "sphere": "toys-and-games",
+      "name": {
+        "en": "Puzzles",
+        "ru": "Пазлы и головоломки"
+      }
+    },
+    {
+      "slug": "toys",
+      "gptId": 1253,
+      "sphere": "toys-and-games",
+      "name": {
+        "en": "Toys",
+        "ru": "Игрушки"
+      }
+    }
+  ],
+  "excluded": [
+    {
+      "gptId": 3237,
+      "sphere": "animals-and-pet-supplies",
+      "name": "Live Animals",
+      "reason": "Live Animals — not goods"
+    },
+    {
+      "gptId": 499969,
+      "sphere": "arts-and-entertainment",
+      "name": "Event Tickets",
+      "reason": "Event Tickets — not physical goods"
+    },
+    {
+      "gptId": 3356,
+      "sphere": "electronics",
+      "name": "Arcade Equipment",
+      "reason": "Arcade Equipment — commercial equipment"
+    },
+    {
+      "gptId": 3702,
+      "sphere": "electronics",
+      "name": "Circuit Boards & Components",
+      "reason": "Circuit Boards & Components — industrial supply"
+    },
+    {
+      "gptId": 1801,
+      "sphere": "electronics",
+      "name": "Components",
+      "reason": "Components — industrial supply"
+    },
+    {
+      "gptId": 6544,
+      "sphere": "electronics",
+      "name": "GPS Tracking Devices",
+      "reason": "GPS Tracking Devices — regulated telematics"
+    },
+    {
+      "gptId": 340,
+      "sphere": "electronics",
+      "name": "Marine Electronics",
+      "reason": "Marine Electronics — specialist trade"
+    },
+    {
+      "gptId": 912,
+      "sphere": "electronics",
+      "name": "Radar Detectors",
+      "reason": "Radar Detectors — regulated"
+    },
+    {
+      "gptId": 500091,
+      "sphere": "electronics",
+      "name": "Speed Radars",
+      "reason": "Speed Radars — regulated"
+    },
+    {
+      "gptId": 4488,
+      "sphere": "electronics",
+      "name": "Toll Collection Devices",
+      "reason": "Toll Collection Devices — operator-issued"
+    },
+    {
+      "gptId": 435,
+      "sphere": "food-beverages-and-tobacco",
+      "name": "Tobacco Products",
+      "reason": "Tobacco Products — regulated, age-gated"
+    },
+    {
+      "gptId": 359,
+      "sphere": "home-and-garden",
+      "name": "Business & Home Security",
+      "reason": "Business & Home Security — installation trade"
+    },
+    {
+      "gptId": 5835,
+      "sphere": "home-and-garden",
+      "name": "Emergency Preparedness",
+      "reason": "Emergency Preparedness — regulated supplies"
+    },
+    {
+      "gptId": 2862,
+      "sphere": "home-and-garden",
+      "name": "Fireplace & Wood Stove Accessories",
+      "reason": "Fireplace & Wood Stove Accessories — installation trade"
+    },
+    {
+      "gptId": 6792,
+      "sphere": "home-and-garden",
+      "name": "Fireplaces",
+      "reason": "Fireplaces — installation trade, heavy freight"
+    },
+    {
+      "gptId": 1679,
+      "sphere": "home-and-garden",
+      "name": "Flood, Fire & Gas Safety",
+      "reason": "Flood, Fire & Gas Safety — certified safety equipment"
+    },
+    {
+      "gptId": 729,
+      "sphere": "home-and-garden",
+      "name": "Pool & Spa",
+      "reason": "Pool & Spa — installation trade"
+    },
+    {
+      "gptId": 600,
+      "sphere": "home-and-garden",
+      "name": "Smoking Accessories",
+      "reason": "Smoking Accessories — age-gated"
+    },
+    {
+      "gptId": 2639,
+      "sphere": "home-and-garden",
+      "name": "Wood Stoves",
+      "reason": "Wood Stoves — installation trade, heavy freight"
+    }
+  ]
+}

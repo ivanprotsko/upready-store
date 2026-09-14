@@ -1,0 +1,30 @@
+== database size ==
+ pg_size_pretty | pg_database_size 
+----------------+------------------
+ 49 MB          |         51149847
+(1 row)
+
+== ten largest tables ==
+                table                | total_size |  bytes   
+-------------------------------------+------------+----------
+ public.translation                  | 20 MB      | 20922368
+ public.inventory_level              | 4192 kB    |  4292608
+ public.price                        | 1592 kB    |  1630208
+ public.sales_channel_stock_location | 472 kB     |   483328
+ public.workflow_execution           | 400 kB     |   409600
+ public.shipping_option              | 344 kB     |   352256
+ public.geo_zone                     | 328 kB     |   335872
+ public.shipping_option_rule         | 296 kB     |   303104
+ public.shipping_option_price_set    | 296 kB     |   303104
+ public.region_country               | 240 kB     |   245760
+(10 rows)
+
+== row counts ==
+       t       | count 
+---------------+-------
+ product       |    24
+ order         |     6
+ tenant        |     3
+ sales_channel |     4
+(4 rows)
+

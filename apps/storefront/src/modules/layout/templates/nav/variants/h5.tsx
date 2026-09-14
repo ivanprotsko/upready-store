@@ -2,11 +2,11 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import Search from "@modules/layout/components/search"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
  * H5 · "Slim + category strip" (`2026-09-09-composition-contract.json` `header.h5`).
@@ -28,8 +28,11 @@ import BrandUnlock from "@modules/devtools/components/brand-unlock"
  * 8px 16px }`) — it is not truncated with an ellipsis, it scrolls.
  */
 export default async function NavH5() {
-  const t = await getTranslations()
-  const { categories, totalCount } = await listTopCategoriesWithCounts()
+  const [t, { categories, totalCount }, siteName] = await Promise.all([
+    getTranslations(),
+    listTopCategoriesWithCounts(),
+    getSiteName(),
+  ])
 
   return (
     <div className="relative lg:sticky lg:top-0 inset-x-0 z-[60] group">
@@ -42,7 +45,7 @@ export default async function NavH5() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {SITE_NAME}
+                {siteName}
               </Link>
             </BrandUnlock>
           </div>
@@ -60,10 +63,18 @@ export default async function NavH5() {
         </nav>
       </header>
 
+      {/* The strip travels with the sticky wrapper but sits outside <header>, which is
+          the element carrying the background — without its own it rode transparent
+          over the product grid (kerbstone, 2026-09-10). The band is full-width so the
+          gutters beside content-container stay opaque on screens wider than it. */}
       <div
-        className="content-container flex items-center gap-2 overflow-x-auto py-2.5 border-b border-ui-border-base [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        data-testid="nav-category-strip"
+        className="border-b border-ui-border-base bg-ui-bg-base"
+        data-testid="nav-category-band"
       >
+        <div
+          className="content-container flex items-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          data-testid="nav-category-strip"
+        >
         <Link
           href="/store"
           className="shrink-0 txt-compact-small rounded-full border border-ui-fg-base bg-ui-fg-base px-3.5 py-1.5 text-ui-bg-base"
@@ -82,6 +93,7 @@ export default async function NavH5() {
             <span className="text-ui-fg-muted">{category.count}</span>
           </Link>
         ))}
+        </div>
       </div>
     </div>
   )

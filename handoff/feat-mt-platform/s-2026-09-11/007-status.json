@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-platform",
+  "session": "s-2026-09-11",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-11T09:24:38+08:00",
+  "status": "READY: платформенная ночь 11→12.09 завершена — «Магазины» в родной админке (:9025/app/tenants), /admin/tenants API + soft-delete, файлы под tenants/<id>/, экспорт тенанта, спеки onboarding/detach/backup/hosting; tsc+lint 0, seam 11/11; отчёт artifacts/docs/2026-09-12-platform-night.md; 5 вопросов Ивану q-mt-onb-*/q-mt-tenant-delete-mode; оговорки: p95 нагрузки скомпрометирован чужими PG-соединениями, R2 TLS, цены Hetzner. Push не делался."
+}

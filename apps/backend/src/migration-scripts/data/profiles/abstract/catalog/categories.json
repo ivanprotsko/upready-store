@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "forms",
+    "name": "Forms",
+    "children": [
+      {
+        "handle": "spheres",
+        "name": "Spheres"
+      },
+      {
+        "handle": "cubes",
+        "name": "Cubes"
+      },
+      {
+        "handle": "cylinders",
+        "name": "Cylinders"
+      }
+    ]
+  },
+  {
+    "handle": "sets",
+    "name": "Sets",
+    "children": [
+      {
+        "handle": "pairs",
+        "name": "Pairs"
+      },
+      {
+        "handle": "stacks",
+        "name": "Stacks"
+      }
+    ]
+  }
+]
