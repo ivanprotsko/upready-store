@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 25,
+  "action": "status-set",
+  "ts": "2026-09-15T06:51:12+08:00",
+  "status": "2026-09-15 06:51 WITA: d02-deploy-mt-2 — DONE. sha 2508708 (8 PR с волны 1: #21-28), 5/5 health-checks 200 (включая cherkashino/ru), дамп mt-medusa_mt-20260915-000508.sql.gz 5069981 байт, 4 миграции tenant применены (уже attempt 1), каталог клиента 29 реальных товаров (не демо), SMTP/Telegram для order-notifications не настроены на хосте — решение Ивана, отчёт handoff/day-2026-09-16-oksana-store/artifacts/d02-deploy-mt-2/report.md"
+}
