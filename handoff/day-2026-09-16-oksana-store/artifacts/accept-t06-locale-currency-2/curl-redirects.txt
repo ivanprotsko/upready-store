@@ -1,0 +1,68 @@
+### 1. acme.localhost:8161 (tenant default ru, build default en)
+HTTP/1.1 302 Found
+location: /ru
+set-cookie: _medusa_cache_id=50d69213-8efe-45cd-b4d8-ec1fdc7d7f6f; Path=/; Expires=Tue, 15 Sep 2026 21:20:34 GMT; Max-Age=86400
+set-cookie: _medusa_locale=ru; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+set-cookie: _medusa_country=ru; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+x-geo-client-ip: none
+x-geo-country: ru
+x-geo-detected: none
+x-geo-provider: locale-map
+x-geo-source: locale
+
+### 2. globex.localhost:8161 (tenant default en, enabled [en], country us)
+HTTP/1.1 302 Found
+location: /en
+set-cookie: _medusa_cache_id=74558d9d-f176-4e44-b945-4193e82b24af; Path=/; Expires=Tue, 15 Sep 2026 21:20:34 GMT; Max-Age=86400
+set-cookie: _medusa_locale=en; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+set-cookie: _medusa_country=us; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+x-geo-client-ip: none
+x-geo-country: us
+x-geo-detected: none
+x-geo-provider: locale-map
+x-geo-source: locale
+
+### 3. Accept-Language: de → acme (de НЕ в enabled [ru,en])
+HTTP/1.1 302 Found
+location: /ru
+set-cookie: _medusa_cache_id=aee6e40d-ab4c-483e-bb21-3a73a1afcbfe; Path=/; Expires=Tue, 15 Sep 2026 21:20:34 GMT; Max-Age=86400
+set-cookie: _medusa_locale=ru; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+set-cookie: _medusa_country=ru; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+x-geo-client-ip: none
+x-geo-country: ru
+x-geo-detected: none
+x-geo-provider: locale-map
+x-geo-source: locale
+
+### 4. Accept-Language: en → acme (en В enabled)
+HTTP/1.1 302 Found
+location: /en
+
+### 5. Accept-Language: ru → globex (ru НЕ в enabled [en])
+HTTP/1.1 302 Found
+location: /en
+set-cookie: _medusa_cache_id=c84e9bfd-ea48-437b-b7db-e8ca1c10d88a; Path=/; Expires=Tue, 15 Sep 2026 21:20:34 GMT; Max-Age=86400
+set-cookie: _medusa_locale=en; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+set-cookie: _medusa_country=us; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+
+### 6. localhost:8161 без тенанта (fallback на build-дефолт en)
+HTTP/1.1 302 Found
+location: /en
+set-cookie: _medusa_cache_id=bd47e3d8-7790-4b3e-8847-416c28510406; Path=/; Expires=Tue, 15 Sep 2026 21:20:34 GMT; Max-Age=86400
+set-cookie: _medusa_locale=en; Path=/; Expires=Tue, 14 Sep 2027 21:20:34 GMT; Max-Age=31536000; SameSite=lax
+set-cookie: _medusa_country=us; Path=/; Expires=Mon, 14 Sep 2026 21:25:34 GMT; Max-Age=300; SameSite=lax
+### 7. cookie _medusa_locale_choice=en на acme (en В enabled) — выбор посетителя побеждает
+HTTP/1.1 302 Found
+location: /en
+
+### 8. cookie _medusa_locale_choice=de на acme (de НЕ в enabled) — игнорируется, дефолт тенанта
+HTTP/1.1 302 Found
+location: /ru
+
+### 9. cookie _medusa_locale_choice=ru на globex (ru НЕ в enabled [en]) — игнорируется
+HTTP/1.1 302 Found
+location: /en
+
+### 10. _medusa_locale=de (последний ОТДАННЫЙ, не выбор) не решает редирект
+HTTP/1.1 302 Found
+location: /ru

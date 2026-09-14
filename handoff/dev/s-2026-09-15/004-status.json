@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-15T03:39:34+08:00",
+  "status": "2026-09-15 03:39 WITA: x03-orders-archive готов — архив старого магазина Оксаны выгружен из живой БД medusa_chrxn (только чтение): 88 заказов, 135 позиций, 46 покупателей. Суммы сошлись с агрегатом БД (RUB 694211, USD 7264.11), 3 заказа сверены поштучно по 10 полям. CSV с ПД лежат вне git (.gitignore), в коммите 2fbb6ac только README+SQL+лог сверки. Артефакты: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x03-orders-archive/"
+}
