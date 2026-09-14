@@ -54,6 +54,13 @@ export async function POST(req: NextRequest) {
     revalidatePath(`/[locale]/(main)/store`, "page")
     revalidatePath(`/[locale]/(main)/categories/[...category]`, "page")
     revalidatePath(`/[locale]/(main)/collections/[handle]`, "page")
+    // The shop's HOME page shows category tiles and a product listing, so a
+    // catalog change has to clear it too. Measured 2026-09-14 on the live stand:
+    // renaming a tile category to «Шары» and replacing its picture answered
+    // status=200 here and the home page still served the old tile five reloads
+    // later — the paths below listed every catalog page EXCEPT the one the
+    // storefront opens on.
+    revalidatePath("/[locale]/(main)", "page")
     revalidatePath("/llms.txt")
     revalidatePath("/sitemap.xml")
   }
@@ -68,6 +75,7 @@ export async function POST(req: NextRequest) {
     revalidatePath(`/[locale]/(main)/store`, "page")
     revalidatePath(`/[locale]/(main)/categories/[...category]`, "page")
     revalidatePath(`/[locale]/(main)/collections/[handle]`, "page")
+    revalidatePath("/[locale]/(main)", "page")
     revalidatePath("/llms.txt")
     revalidatePath("/sitemap.xml")
   }
@@ -80,6 +88,7 @@ export async function POST(req: NextRequest) {
     revalidateTag("collections")
     revalidatePath(`/[locale]/(main)/collections/[handle]`, "page")
     revalidatePath(`/[locale]/(main)/store`, "page")
+    revalidatePath("/[locale]/(main)", "page")
     revalidatePath("/llms.txt")
     revalidatePath("/sitemap.xml")
   }
@@ -96,6 +105,7 @@ export async function POST(req: NextRequest) {
     revalidatePath(`/[locale]/(main)/store`, "page")
     revalidatePath(`/[locale]/(main)/categories/[...category]`, "page")
     revalidatePath(`/[locale]/(main)/collections/[handle]`, "page")
+    revalidatePath("/[locale]/(main)", "page")
     revalidatePath("/llms.txt")
     revalidatePath("/sitemap.xml")
   }
