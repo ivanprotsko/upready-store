@@ -1,4 +1,9 @@
-# The paywall→onboarding demo's hosts (t-2026-09-12-paywall-onboarding-demo).
+# Хосты воронки «оплата → онбординг» (t-2026-09-12-paywall-onboarding-demo).
+#
+# 2026-09-14 (t-2026-09-14-01): первым в правиле стоит start.upready.dev —
+# в эту воронку ведёт главная кнопка лендинга upready.dev, и отправлять
+# человека (и платёжного провайдера, который проверяет сайт) на чужой домен
+# не годится. shiftship.dev оставлен: по нему уже ходят и он ничего не ломает.
 #
 # Copied by hand to ${TRAEFIK_DYNAMIC_HOST_PATH}/mt-demo-hosts.yml. NOT written by
 # deploy/scripts/tenant-ingress-sync.sh: that script publishes hosts that belong
@@ -17,14 +22,14 @@
 http:
   routers:
     mt-demo-shiftship:
-      rule: "Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
+      rule: "Host(`start.upready.dev`) || Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
       entryPoints: ["https"]
       service: mt-demo-storefront
       priority: 200
       tls:
         certResolver: letsencrypt
     mt-demo-shiftship-http:
-      rule: "Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
+      rule: "Host(`start.upready.dev`) || Host(`shiftship.dev`) || Host(`www.shiftship.dev`)"
       entryPoints: ["http"]
       service: mt-demo-storefront
       priority: 200

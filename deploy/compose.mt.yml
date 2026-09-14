@@ -257,11 +257,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
-      - traefik.http.routers.mt-panel-http.rule=Host(`${PANEL_DOMAIN}`)
+      - traefik.http.routers.mt-panel-http.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT}`)
       - traefik.http.routers.mt-panel-http.entrypoints=http
       - traefik.http.routers.mt-panel-http.middlewares=mt-https
       - traefik.http.routers.mt-panel-http.service=mt-panel
-      - traefik.http.routers.mt-panel.rule=Host(`${PANEL_DOMAIN}`)
+      - traefik.http.routers.mt-panel.rule=Host(`${PANEL_DOMAIN}`) || Host(`${PANEL_DOMAIN_ALT}`)
       - traefik.http.routers.mt-panel.entrypoints=https
       - traefik.http.routers.mt-panel.tls=true
       - traefik.http.routers.mt-panel.tls.certresolver=letsencrypt
