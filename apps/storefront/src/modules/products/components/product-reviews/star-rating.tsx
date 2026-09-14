@@ -12,6 +12,15 @@ type StarRatingProps = {
  * Five stars, filled up to `value`. The icons are decorative and the number is
  * carried by `aria-label` on the group, so a screen reader hears "4.3 out of 5"
  * once instead of the word "star" five times.
+ *
+ * The two colours are `fg-base` and `fg-disabled`, not the `tag-orange` pair a
+ * star usually gets: a tenant's theme preset overrides the chart palette those
+ * tag tokens are built on, and on this shop's own preset
+ * `--tag-orange-icon` resolves to a pale mint (`#d7e3de`, measured on the
+ * stand 2026-09-15) LIGHTER than the muted grey of the empty stars — the
+ * rating read as five empty stars whatever the score. `fg-base` and
+ * `fg-disabled` are theme-aware and always on opposite ends of the contrast
+ * range, so the filled half is visible on every preset and in both modes.
  */
 const StarRating = ({ value, size = "base", label }: StarRatingProps) => {
   const filled = Math.round(value)
@@ -19,7 +28,7 @@ const StarRating = ({ value, size = "base", label }: StarRatingProps) => {
 
   return (
     <span
-      className="inline-flex items-center gap-x-0.5 text-ui-tag-orange-icon"
+      className="inline-flex items-center gap-x-0.5 text-ui-fg-base"
       role="img"
       aria-label={label}
     >
@@ -27,7 +36,7 @@ const StarRating = ({ value, size = "base", label }: StarRatingProps) => {
         position <= filled ? (
           <StarSolid key={position} className={dimension} aria-hidden />
         ) : (
-          <Star key={position} className={`${dimension} text-ui-fg-muted`} aria-hidden />
+          <Star key={position} className={`${dimension} text-ui-fg-disabled`} aria-hidden />
         )
       )}
     </span>

@@ -305,9 +305,14 @@ export const ReviewList = () => {
                   <Table.Cell className="max-w-xl align-top">
                     <div className="flex flex-col gap-y-2 py-2">
                       <Text size="small" weight="plus">
-                        {"★".repeat(review.rating)}
-                        <span className="text-ui-fg-muted">{"★".repeat(5 - review.rating)}</span>{" "}
-                        {review.author_name}
+                        <span aria-hidden>
+                          {"★".repeat(review.rating)}
+                          <span className="text-ui-fg-muted">{"★".repeat(5 - review.rating)}</span>
+                        </span>{" "}
+                        {/* The stars are decoration; the number is what a
+                            reader (and a screen reader) can actually count. */}
+                        <span className="text-ui-fg-subtle">{review.rating} из 5</span>{" "}
+                        · {review.author_name}
                         <span className="text-ui-fg-subtle">
                           {" "}
                           · {formatReviewDate(review.written_at)}

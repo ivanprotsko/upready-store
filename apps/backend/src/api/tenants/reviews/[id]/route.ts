@@ -2,6 +2,7 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { MedusaError } from "@medusajs/framework/utils";
 import { PRODUCT_REVIEW_MODULE } from "../../../../modules/product-review";
 import type ProductReviewModuleService from "../../../../modules/product-review/service";
+import { notifyStorefrontRevalidate } from "../../../../storefront-revalidate";
 import { getTenantScope } from "../../tenant-scope";
 import { toReviewDto, type ReviewRow } from "../review-helpers";
 import type { PostTenantReviewBody } from "../validators";
@@ -14,7 +15,7 @@ import type { PostTenantReviewBody } from "../validators";
 const loadOwnedReview = async (
   req: AuthenticatedMedusaRequest,
   id: string,
-): Promise<ReviewRow> => {
+): Promise<{ row: ReviewRow; handle: string }> => {
   const scope = await getTenantScope(req);
   const reviewService: ProductReviewModuleService = req.scope.resolve(PRODUCT_REVIEW_MODULE);
   const [row] = await reviewService.listProductReviews({ id, tenant_id: scope.id });
@@ -23,7 +24,7 @@ const loadOwnedReview = async (
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Review with id "${id}" was not found`);
   }
 
-  return row as ReviewRow;
+  return { row: row as ReviewRow, handle: scope.handle };
 };
 
 /**
@@ -38,7 +39,7 @@ export const POST = async (
   req: AuthenticatedMedusaRequest<PostTenantReviewBody>,
   res: MedusaResponse,
 ) => {
-  const existing = await loadOwnedReview(req, req.params.id);
+  const { row: existing, handle } = await loadOwnedReview(req, req.params.id);
   const { status, reply } = req.validatedBody;
 
   if (status === undefined && reply === undefined) {
@@ -61,6 +62,12 @@ export const POST = async (
         : { reply: null, replied_at: null }),
   });
 
+  // Publishing, hiding or answering a review changes what the storefront shows
+  // and what its average is, and that page is cached under the shared
+  // `product-reviews` tag. Without this the owner's act stays invisible until
+  // the cache ages out.
+  await notifyStorefrontRevalidate({ type: "tenant.reviews", handle, id: existing.id });
+
   const [updated] = await reviewService.listProductReviews({ id: existing.id });
   res.json({ review: toReviewDto(updated as ReviewRow) });
 };
@@ -71,10 +78,11 @@ export const POST = async (
  * import idempotent stops counting the row and a re-import may write it again.
  */
 export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
-  const existing = await loadOwnedReview(req, req.params.id);
+  const { row: existing, handle } = await loadOwnedReview(req, req.params.id);
   const reviewService: ProductReviewModuleService = req.scope.resolve(PRODUCT_REVIEW_MODULE);
 
   await reviewService.softDeleteProductReviews([existing.id]);
+  await notifyStorefrontRevalidate({ type: "tenant.reviews", handle, id: existing.id });
 
   res.json({ id: existing.id, object: "product_review", deleted: true });
 };
