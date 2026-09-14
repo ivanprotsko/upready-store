@@ -160,6 +160,7 @@ import {
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -946,6 +947,14 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+
+    // t06-locale-currency: the tenant's default storefront locale, its enabled
+    // subset of the 36 shipped locales, and the country its default prices in.
+    {
+      matcher: "/tenants/locale-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
