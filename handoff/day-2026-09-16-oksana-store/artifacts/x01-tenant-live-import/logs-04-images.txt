@@ -1,0 +1,49 @@
+=== attempt 1 of phase images at 03:58:42 ===
+[03:58 WITA] import → https://shipshift.dev, tenant cherkashino, phases images
+[03:58 WITA] tenant cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), channel sc_01M2GQVE0NVSWBRT9Q082MPDYE, key pk_8198573d6…
+[03:59 WITA] images: 25 uploaded
+[03:59 WITA] images: 50 uploaded
+[04:00 WITA] images: 75 uploaded
+[04:00 WITA] images: 100 uploaded
+[04:01 WITA] images: 125 uploaded
+[04:01 WITA] images: 150 uploaded
+[04:02 WITA] images: 175 uploaded
+[04:02 WITA] images: 200 uploaded
+[04:03 WITA] images: 225 uploaded
+[04:03 WITA] images: 250 uploaded
+[04:03 WITA] images: 275 uploaded
+[04:04 WITA] images: 300 uploaded
+[04:04 WITA] images: 325 uploaded
+[04:04 WITA] images: 335 unique urls, 334 uploaded this run
+{
+ "tenant": {
+  "total": 1,
+  "migrated": 1,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "dataset": {
+  "total": 20,
+  "migrated": 0,
+  "skipped": 13,
+  "failed": 0,
+  "pending": 7
+ },
+ "category": {
+  "total": 9,
+  "migrated": 9,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "file": {
+  "total": 335,
+  "migrated": 334,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 0
+ }
+}
+=== attempt 1 rc=0 ===
+PHASE-DONE images rc=0

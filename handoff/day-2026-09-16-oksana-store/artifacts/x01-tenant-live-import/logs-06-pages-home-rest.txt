@@ -1,0 +1,112 @@
+=== attempt 1 of phase pages,home,rest at 04:07:13 ===
+[04:07 WITA] import → https://shipshift.dev, tenant cherkashino, phases pages,home,rest
+import aborted: POST /auth/tenant/emailpass → 502 Bad Gateway
+=== attempt 1 rc=1 ===
+=== attempt 2 of phase pages,home,rest at 04:07:33 ===
+[04:07 WITA] import → https://shipshift.dev, tenant cherkashino, phases pages,home,rest
+[04:07 WITA] tenant cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), channel sc_01M2GQVE0NVSWBRT9Q082MPDYE, key pk_8198573d6…
+[04:07 WITA] pages: 15 documents processed, 39 legacy entries listed
+[04:07 WITA] home: hero from banner "Заказ от 5 кг — скидка 10%"
+[04:07 WITA] rest: 20 datasets listed
+{
+ "tenant": {
+  "total": 1,
+  "migrated": 1,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "dataset": {
+  "total": 20,
+  "migrated": 0,
+  "skipped": 13,
+  "failed": 0,
+  "pending": 7
+ },
+ "category": {
+  "total": 9,
+  "migrated": 9,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "file": {
+  "total": 335,
+  "migrated": 334,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 0
+ },
+ "product": {
+  "total": 38,
+  "migrated": 38,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "variant": {
+  "total": 38,
+  "migrated": 38,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "price": {
+  "total": 78,
+  "migrated": 78,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "category_link": {
+  "total": 36,
+  "migrated": 36,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "image": {
+  "total": 336,
+  "migrated": 331,
+  "skipped": 5,
+  "failed": 0,
+  "pending": 0
+ },
+ "product_translation": {
+  "total": 6,
+  "migrated": 0,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 6
+ },
+ "page": {
+  "total": 16,
+  "migrated": 5,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 10
+ },
+ "legacy_page": {
+  "total": 39,
+  "migrated": 0,
+  "skipped": 39,
+  "failed": 0,
+  "pending": 0
+ },
+ "banner": {
+  "total": 3,
+  "migrated": 1,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 2
+ },
+ "layout_configuration": {
+  "total": 1,
+  "migrated": 0,
+  "skipped": 1,
+  "failed": 0,
+  "pending": 0
+ }
+}
+=== attempt 2 rc=0 ===
+PHASE-DONE pages,home,rest rc=0

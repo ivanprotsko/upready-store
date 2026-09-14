@@ -1,0 +1,19 @@
+[03:56 WITA] import → https://shipshift.dev, tenant cherkashino, phases tenant
+[03:56 WITA] registering tenant admin ivanprotsko+cherkashino@ivanprotsko.com and tenant "cherkashino"
+[03:56 WITA] tenant cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), channel sc_01M2GQVE0NVSWBRT9Q082MPDYE, key pk_8198573d6…
+{
+ "tenant": {
+  "total": 1,
+  "migrated": 1,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 0
+ },
+ "dataset": {
+  "total": 20,
+  "migrated": 0,
+  "skipped": 13,
+  "failed": 0,
+  "pending": 7
+ }
+}

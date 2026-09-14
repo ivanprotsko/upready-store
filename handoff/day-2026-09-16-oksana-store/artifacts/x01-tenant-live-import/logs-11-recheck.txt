@@ -1,0 +1,4 @@
+home 390x844: total=12 loaded=12 broken=0
+catalog 390x844: total=14 loaded=14 broken=0
+category-dobavki 390x844: total=14 loaded=12 broken=2
+product 1280x900: total=23 loaded=23 broken=0
