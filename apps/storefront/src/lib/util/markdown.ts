@@ -1,7 +1,15 @@
 /**
  * The smallest markdown reader that covers what a shop owner writes into a
- * content page from the tenant panel: headings, paragraphs, bullet and numbered
- * lists, links, bold, italic and inline code.
+ * content page or a journal article from the tenant panel: headings,
+ * paragraphs, bullet and numbered lists, blockquotes, thematic breaks, links,
+ * bold, italic and inline code.
+ *
+ * t10-blog added the last two. Measured over the 18 articles of the shop this
+ * journal was built for (`select body from article where status='published'`,
+ * source `medusa_chrxn`): 190 lines are a `---` rule and 72 are `>` quote
+ * lines. Without these two block types both render as literal text — a
+ * paragraph reading «---» and a quote keeping its «> » prefix — on every
+ * article page.
  *
  * It returns a block list, not an HTML string, on purpose. The text comes from a
  * tenant, so it is untrusted; a renderer that builds HTML would need escaping
@@ -26,6 +34,8 @@ export type MarkdownBlock =
   | { type: "heading"; level: 1 | 2 | 3; content: MarkdownInline[] }
   | { type: "paragraph"; content: MarkdownInline[] }
   | { type: "list"; ordered: boolean; items: MarkdownInline[][] }
+  | { type: "quote"; content: MarkdownInline[][] }
+  | { type: "rule" }
 
 /**
  * Only these four forms become links: an absolute http(s) URL, a `mailto:` or
@@ -82,9 +92,13 @@ export function parseInline(source: string): MarkdownInline[] {
   return out.filter((node) => node.type !== "text" || node.value.length > 0)
 }
 
-const HEADING = /^(#{1,3})\s+(.*)$/
+const HEADING = /^(#{1,6})\s+(.*)$/
 const BULLET = /^[-*+]\s+(.*)$/
 const ORDERED = /^\d+[.)]\s+(.*)$/
+const QUOTE = /^>\s?(.*)$/
+// Three or more of the same mark on a line of its own. Checked BEFORE the
+// bullet pattern, or `---` reads as a bullet list item whose text is `--`.
+const RULE = /^(?:-{3,}|\*{3,}|_{3,})$/
 
 /**
  * Parses a whole document. Lines that belong together (consecutive non-blank
@@ -92,6 +106,10 @@ const ORDERED = /^\d+[.)]\s+(.*)$/
  * block it follows. A heading deeper than `###` is read as `###`, because the
  * page renders its own `h1` from the title and a fourth level has nothing left
  * to be.
+ *
+ * A blockquote is one block per run of `>` lines, its own lines kept apart so
+ * a quoted list of points does not collapse into one paragraph (the summary
+ * box every article of the source journal opens with is exactly that shape).
  */
 export function parseMarkdown(source: string): MarkdownBlock[] {
   const blocks: MarkdownBlock[] = []
@@ -99,11 +117,28 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
 
   let paragraph: string[] = []
   let list: { ordered: boolean; items: string[] } | null = null
+  let quote: string[] | null = null
 
   const flushParagraph = () => {
     if (paragraph.length > 0) {
       blocks.push({ type: "paragraph", content: parseInline(paragraph.join(" ")) })
       paragraph = []
+    }
+  }
+
+  const flushQuote = () => {
+    if (quote) {
+      // A quoted bullet (`> - point`) keeps its dash after the `>` is gone.
+      // Each quoted line already renders as its own paragraph, which is what
+      // the dash was there to say, so the marker itself is dropped rather than
+      // left on the page as literal text.
+      const lines = quote
+        .map((line) => line.replace(/^[-*+]\s+/, ""))
+        .filter((line) => line.length > 0)
+      if (lines.length > 0) {
+        blocks.push({ type: "quote", content: lines.map((line) => parseInline(line)) })
+      }
+      quote = null
     }
   }
 
@@ -124,6 +159,24 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
     if (line.length === 0) {
       flushParagraph()
       flushList()
+      flushQuote()
+      continue
+    }
+
+    if (RULE.test(line)) {
+      flushParagraph()
+      flushList()
+      flushQuote()
+      blocks.push({ type: "rule" })
+      continue
+    }
+
+    const quoted = QUOTE.exec(line)
+    if (quoted) {
+      flushParagraph()
+      flushList()
+      quote ??= []
+      quote.push(quoted[1].trim())
       continue
     }
 
@@ -131,9 +184,10 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
     if (heading) {
       flushParagraph()
       flushList()
+      flushQuote()
       blocks.push({
         type: "heading",
-        level: heading[1].length as 1 | 2 | 3,
+        level: Math.min(heading[1].length, 3) as 1 | 2 | 3,
         content: parseInline(heading[2]),
       })
       continue
@@ -144,6 +198,7 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
 
     if (bullet || ordered) {
       flushParagraph()
+      flushQuote()
       const isOrdered = Boolean(ordered)
       const text = (bullet ? bullet[1] : ordered![1]).trim()
 
@@ -160,11 +215,13 @@ export function parseMarkdown(source: string): MarkdownBlock[] {
     }
 
     flushList()
+    flushQuote()
     paragraph.push(line)
   }
 
   flushParagraph()
   flushList()
+  flushQuote()
 
   return blocks
 }

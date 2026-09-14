@@ -154,11 +154,13 @@ import {
   PutTenantPaymentSettingsSchema,
   PutTenantNotificationSettingsSchema,
   PostTenantHandleSchema,
+  PostTenantArticleSchema,
   PostTenantPageSchema,
   PostTenantRedirectSchema,
   PutTenantSeoVerificationSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
+  PutTenantArticleSchema,
   PutTenantPageSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
@@ -985,6 +987,23 @@ export default defineMiddlewares({
       matcher: "/tenants/pages/:key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPageSchema)],
+    },
+
+    // ---- t10-blog: journal articles (/tenants/articles/**, /store/tenant/articles/**)
+    // Same reasoning as the pages block above: only the write verbs take a
+    // body. The two tenant reads parse their one optional `?locale=` in the
+    // route (this resource has no Admin counterpart to borrow a query config
+    // from), and the public `/store/tenant/articles/**` reads ride the
+    // framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/articles",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantArticleSchema)],
+    },
+    {
+      matcher: "/tenants/articles/:slug",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantArticleSchema)],
     },
 
     // ---- piece 8: home page document (/tenants/home, /store/tenant/home)

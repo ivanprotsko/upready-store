@@ -3,6 +3,7 @@ import { Link } from "@i18n/navigation"
 
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
@@ -42,12 +43,13 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH4() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName, locales] = await Promise.all([
+  const [categories, regions, countryCode, siteName, locales, showJournal] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
     getSwitcherLocales(),
+    hasPublishedArticles(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -87,6 +89,16 @@ export default async function NavH4() {
             >
               {t("Store.allProducts")}
             </Link>
+            {/* t10-blog: only once this shop has published an article. */}
+            {showJournal ? (
+              <Link
+                href="/journal"
+                className="hover:opacity-80 transition-opacity"
+                data-testid="nav-journal-link"
+              >
+                {t("Journal.navLabel")}
+              </Link>
+            ) : null}
           </div>
 
           <div className="flex-1 flex h-full items-center justify-end gap-x-4">

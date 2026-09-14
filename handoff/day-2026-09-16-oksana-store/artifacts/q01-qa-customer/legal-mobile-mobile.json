@@ -1,0 +1,171 @@
+{
+  "res": [
+    {
+      "name": "11-offer",
+      "url": "/ru/pages/offer",
+      "status": 200,
+      "ms": 6752,
+      "len": 19093,
+      "tokens": 8,
+      "rawTable": true,
+      "latin": [
+        "INCI",
+        "Robokassa",
+        "Kassa",
+        "CloudPayments"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Публичная оферта 1. Общие положения и термины 1.1. Настоящий документ является публичной офертой (далее — Оферта) — предложением Инди",
+      "errs": []
+    },
+    {
+      "name": "11-privacy",
+      "url": "/ru/pages/privacy",
+      "status": 200,
+      "ms": 8541,
+      "len": 15683,
+      "tokens": 12,
+      "rawTable": true,
+      "latin": [
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "cookie",
+        "Robokassa"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Политика конфиденциальности Дата редакции: {{ДАТА_РЕДАКЦИИ}} --- 1. Общие положения 1.1. Настоящая Политика обработки персональных да",
+      "errs": []
+    },
+    {
+      "name": "11-contacts",
+      "url": "/ru/pages/contacts",
+      "status": 200,
+      "ms": 7494,
+      "len": 3526,
+      "tokens": 8,
+      "rawTable": true,
+      "latin": [
+        "cherkashina",
+        "cherkashina",
+        "rospotrebnadzor"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Контакты и реквизиты Продавец Индивидуальный предприниматель {{ФИО_ИП}} | | | |---|---| | ОГРНИП | {{ОГРНИП}} | | ИНН | {{ИНН}} | | А",
+      "errs": []
+    },
+    {
+      "name": "11-about",
+      "url": "/ru/pages/about",
+      "status": 200,
+      "ms": 8081,
+      "len": 863,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [
+        "WhatsApp"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Черкашина Оксана Магазин здоровья Оксаны Черкашиной — натуральные средства, биодобавки и фитопрепараты, проверенные собственным опыто",
+      "errs": []
+    },
+    {
+      "name": "11-terms-stub",
+      "url": "/ru/terms",
+      "status": 200,
+      "ms": 8241,
+      "len": 454,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Условия использования Прочитайте правила, с которыми вы соглашаетесь при покупке. Это страница-заглушка из стартера. Замените текст с",
+      "errs": []
+    },
+    {
+      "name": "11-shipping-stub",
+      "url": "/ru/shipping",
+      "status": 200,
+      "ms": 6915,
+      "len": 435,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Доставка Узнайте, как доставляются заказы и сколько это стоит. Это страница-заглушка из стартера. Замените текст своим до запуска маг",
+      "errs": []
+    },
+    {
+      "name": "12-bottom-nav",
+      "count": 1,
+      "texts": [
+        ""
+      ],
+      "svgs": [
+        "<path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" strok",
+        "<path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" strok",
+        "<path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" strok",
+        "<g clip-path=\"url(#a)\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M1.631.3",
+        "<g clip-path=\"url(#a)\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke"
+      ],
+      "imgs": [
+        "https://cherkashino.shipshift.dev/medusa.svg"
+      ],
+      "hscroll": false,
+      "sw": 390,
+      "w": 390
+    },
+    {
+      "name": "12-sticky-add",
+      "sticky": [
+        {
+          "txt": "В корзину",
+          "pos": "static",
+          "top": -388,
+          "visible": false
+        },
+        {
+          "txt": "В корзину",
+          "pos": "static",
+          "top": 724,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "12-hscroll",
+      "hs": [
+        {
+          "u": "/ru",
+          "sw": 390,
+          "w": 390
+        },
+        {
+          "u": "/ru/store",
+          "sw": 390,
+          "w": 390
+        },
+        {
+          "u": "/ru/cart",
+          "sw": 390,
+          "w": 390
+        },
+        {
+          "u": "/ru/pages/offer",
+          "sw": 390,
+          "w": 390
+        }
+      ]
+    }
+  ],
+  "errors": [
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ]
+}

@@ -128,6 +128,66 @@ export const PostTenantPageSchema = z.strictObject({
 
 export type PostTenantPageBody = z.infer<typeof PostTenantPageSchema>;
 
+// ---- t10-blog: journal articles (/tenants/articles/**)
+
+const ARTICLE_LOCALE = z
+  .string()
+  .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR");
+
+const ARTICLE_SLUG = z
+  .string()
+  .min(2)
+  .max(96)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens");
+
+/**
+ * `POST /tenants/articles` body — brings one language row of one article into
+ * existence, empty and unpublished. `locale` is required and has no default:
+ * an article exists per language, and guessing `en` for a shop that writes in
+ * Russian is exactly the bug the pages screen had before the Cherkashina
+ * migration. `title` is required because the panel's «new article» dialog asks
+ * for a name up front and the list has to show something.
+ */
+export const PostTenantArticleSchema = z.strictObject({
+  slug: ARTICLE_SLUG,
+  locale: ARTICLE_LOCALE,
+  title: z.string().min(1).max(300),
+});
+
+export type PostTenantArticleBody = z.infer<typeof PostTenantArticleSchema>;
+
+/**
+ * `PUT /tenants/articles/:slug` body — the whole text of one language row.
+ * `published_at` is an ISO-8601 instant; OMITTING it lets the route stamp the
+ * first publish and keep the date on every later save, while sending `null`
+ * clears it explicitly — the two are different intents and the route reads
+ * them apart (`undefined` vs `null`), which is why this field is
+ * `.nullish()` rather than `.nullable()`.
+ *
+ * `cover_url` is whatever `POST /tenants/uploads` answered for the image, so
+ * it is checked as a URL or a site-relative path and nothing more: the file
+ * lives under the tenant's own prefix and the upload route is what put it
+ * there.
+ */
+export const PutTenantArticleSchema = z.strictObject({
+  locale: ARTICLE_LOCALE.optional(),
+  title: z.string().max(300),
+  excerpt: z.string().max(1_000).nullish(),
+  cover_url: z
+    .string()
+    .max(2_000)
+    .regex(/^(https?:\/\/|\/)/, "an absolute http(s) URL or a site-relative path")
+    .nullish(),
+  body: z.string().max(200_000),
+  published: z.boolean(),
+  published_at: z.string().datetime({ offset: true }).nullish(),
+  tags: z.array(z.string().min(1).max(60)).max(20).nullish(),
+  seo_title: z.string().max(300).nullish(),
+  seo_description: z.string().max(1_000).nullish(),
+});
+
+export type PutTenantArticleBody = z.infer<typeof PutTenantArticleSchema>;
+
 // ---- piece 9: storefront by host (/tenants/domains)
 
 /**

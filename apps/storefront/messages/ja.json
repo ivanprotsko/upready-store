@@ -402,6 +402,17 @@
     "goToImage": "画像 {index} へ移動",
     "openFullImage": "画像を拡大表示"
   },
+  "Journal": {
+    "navLabel": "読みもの",
+    "feedTitle": "読みもの",
+    "feedDescription": "{siteName}の記事。",
+    "empty": "記事はまだありません。",
+    "backToFeed": "記事一覧",
+    "previous": "前へ",
+    "next": "次へ",
+    "pageOf": "{lastPage} ページ中 {page} ページ",
+    "pagination": "読みもののページ"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "アカウント",
       "cart": "カート",
       "home": "ホーム",
-      "store": "ストア"
+      "store": "ストア",
+      "journal": "読みもの"
     },
     "menuButton": "メニュー"
   },

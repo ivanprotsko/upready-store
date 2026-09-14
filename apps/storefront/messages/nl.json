@@ -402,6 +402,17 @@
     "goToImage": "Naar afbeelding {index}",
     "openFullImage": "Volledige afbeelding openen"
   },
+  "Journal": {
+    "navLabel": "Magazine",
+    "feedTitle": "Magazine",
+    "feedDescription": "Artikelen van {siteName}.",
+    "empty": "Nog geen artikelen.",
+    "backToFeed": "Alle artikelen",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "pageOf": "Pagina {page} van {lastPage}",
+    "pagination": "Magazinepagina's"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Account",
       "cart": "Winkelwagen",
       "home": "Home",
-      "store": "Winkel"
+      "store": "Winkel",
+      "journal": "Magazine"
     },
     "menuButton": "Menu"
   },

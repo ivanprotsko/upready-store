@@ -402,6 +402,17 @@
     "goToImage": "Mergi la imaginea {index}",
     "openFullImage": "Deschide imaginea completă"
   },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Articole de la {siteName}.",
+    "empty": "Încă nu există articole.",
+    "backToFeed": "Toate articolele",
+    "previous": "Anterior",
+    "next": "Următor",
+    "pageOf": "Pagina {page} din {lastPage}",
+    "pagination": "Paginile jurnalului"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Cont",
       "cart": "Coș",
       "home": "Acasă",
-      "store": "Magazin"
+      "store": "Magazin",
+      "journal": "Jurnal"
     },
     "menuButton": "Meniu"
   },

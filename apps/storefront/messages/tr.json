@@ -402,6 +402,17 @@
     "goToImage": "{index}. görsele git",
     "openFullImage": "Görseli tam boyutta aç"
   },
+  "Journal": {
+    "navLabel": "Dergi",
+    "feedTitle": "Dergi",
+    "feedDescription": "{siteName} yazıları.",
+    "empty": "Henüz yazı yok.",
+    "backToFeed": "Tüm yazılar",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "pageOf": "Sayfa {page} / {lastPage}",
+    "pagination": "Dergi sayfaları"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Hesap",
       "cart": "Sepet",
       "home": "Ana Sayfa",
-      "store": "Mağaza"
+      "store": "Mağaza",
+      "journal": "Dergi"
     },
     "menuButton": "Menü"
   },

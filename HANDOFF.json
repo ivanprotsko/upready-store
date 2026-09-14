@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T07:11:48+08:00",
-  "status": "2026-09-15 07:11 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — PR #29 раунд 2 отправлен после отказа приёмщика. Исправлено: (1) конфликт с dev (git merge origin/dev, 3 конфликта разрешены «оставить обе стороны»: tenant/service.ts и tenant/models/tenant.ts — TenantNotificationSettings vs TenantRedirect, validators.ts — PutTenantNotificationSettingsSchema vs PostTenantRedirectSchema/PutTenantSeoVerificationSchema; PR теперь MERGEABLE/CLEAN); (2) панель — добавлены SEO-поля (search title/description, en, со счётчиком длины) в edit-product-form.tsx и edit-category-form.tsx через общий apps/tenant-panel/src/lib/seo-metadata.ts (metadata.seo.<locale>), плюс переводы fields.seoTitle/seoDescription в en.json/ru.json; (3) нит — убран неиспользуемый kindSegment в import-cherkashino-redirects.ts. Живьём перепроверено на временном стенде (та же t11acc DB, поднята заново): категория с новым metadata.seo.en рендерит <title>/<meta description> на storefront, импортированный редирект (/ru/ru/categories/dobavki) всё ещё 301 после мержа. tsc чисто везде (backend/storefront/panel), backend test:unit 95 passed/1 failed (тот же предсуществующий profile-data.unit.spec.ts). PR-комментарий с разбором по каждому пункту оставлен (issuecomment-5672058419), workers.log обновлён. НЕ исправлено по решению (не просили в раунде 2): экран панели для таблицы редиректов и seo-verification — остаются API-only; мультиязычность SEO-полей — один язык en, как и у tenant_page. ВАЖНО (побочный инцидент): при уборке стенда после раунда 1 я выполнил pkill -9 -f \"medusa develop\" без scope по PID — убил backend-процессы ДРУГИХ параллельных day16-* воркеров на этой машине; залогировано aie-20260915-065444-bd79 и в workers.log, при уборке раунда-2-стенда использовал только PID-scoped kill. Стенд снова остановлен (PID-scoped), DB upready_store_t11acc дропается в фоне.",
+  "updated": "2026-09-15T07:34:24+08:00",
+  "status": "2026-09-15 07:11 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — PR #29 раунд 2 отправлен после отказа приёмщика. Исправлено: (1) конфликт с dev (git merge origin/dev, 3 конфликта разрешены «оставить обе стороны»: tenant/service.ts и tenant/models/tenant.ts — TenantNotificationSettings vs TenantRedirect, validators.ts — PutTenantNotificationSettingsSchema vs PostTenantRedirectSchema/PutTenantSeoVerificationSchema; PR теперь MERGEABLE/CLEAN); (2) панель — добавлены SEO-поля (search title/description, en, со счётчиком длины) в edit-product-form.tsx и edit-category-form.tsx через общий apps/tenant-panel/src/lib/seo-metadata.ts (metadata.seo.<locale>), плюс переводы fields.seoTitle/seoDescription в en.json/ru.json; (3) нит — убран неиспользуемый kindSegment в import-cherkashino-redirects.ts. Живьём перепроверено на временном стенде (та же t11acc DB, поднята заново): категория с новым metadata.seo.en рендерит <title>/<meta description> на storefront, импортированный редирект (/ru/ru/categories/dobavki) всё ещё 301 после мержа. tsc чисто везде (backend/storefront/panel), backend test:unit 95 passed/1 failed (тот же предсуществующий profile-data.unit.spec.ts). PR-комментарий с разбором по каждому пункту оставлен (issuecomment-5672058419), workers.log обновлён. НЕ исправлено по решению (не просили в раунде 2): экран панели для таблицы редиректов и seo-verification — остаются API-only; мультиязычность SEO-полей — один язык en, как и у tenant_page. ВАЖНО (побочный инцидент): при уборке стенда после раунда 1 я выполнил pkill -9 -f \"medusa develop\" без scope по PID — убил backend-процессы ДРУГИХ параллельных day16-* воркеров на этой машине; залогировано aie-20260915-065444-bd79 и в workers.log, при уборке раунда-2-стенда использовал только PID-scoped kill. Стенд снова остановлен (PID-scoped), DB upready_store_t11acc дропается в фоне. | 2026-09-15 07:34 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — приёмка PR #29 раунд 2: REJECTED. (1) снова CONFLICTING: dev уехал на 8a47879 (t10-blog #31) после мержа воркера, свой merge-tree даёт 2 конфликтных файла — apps/storefront/src/app/sitemap.ts (импорты listTenantArticles vs fetchWithoutLocale; хвост: блок статей vs блок /store/tenant/pages/sitemap — нужны ОБА) и HANDOFF.json. (2) SEO-поля товара/категории в панели пишут в литерал локали 'en' (seo-metadata.ts:12), витрина читает seo[locale] без фолбэка (tenant-seo.ts:20) — у ру-магазина cherkashino поле не доходит до head; обоснование 'как у tenant_page' неверно, там строка одна на локаль. Живьём не мерил сознательно: конфликт лежит в sitemap.ts, который сам под критерием непересечения — замер до мержа ничего не доказывает, в раунде 3 обязателен. Зелёное зафиксировано таблицей в findings. Экран редиректов и seo-verification в панели остаются API-only — диспетчеру записать в PLAN.md как перенос. Комментарий в PR: issuecomment-5672296607.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1208,6 +1208,38 @@
       "id": "q-lending-upready-dev-vo-vseh",
       "question": "Лендинг upready.dev во всех трёх тарифах обещает «Telegram Mini App» (подсказка: каталог, корзина и оплата внутри мессенджера), а feature/telegram-miniapp (PR #5) пропущен по твоему же указанию. Для заявки в tribute.top это страница, по которой смотрят сервис. Что делаем: поднимаем мини-приложение или убираем/смягчаем строку в apps/homepage/port/src/sections/tariffs/data.ts (строки 125, 156, 196 + TELEGRAM_HINT)?",
       "asked": "2026-09-14"
+    },
+    {
+      "id": "q-volna-deploya-2-dlya-kontentnyh",
+      "question": "Волна деплоя 2 для контентных страниц тенанта cherkashino. Замер 2026-09-15 04:1x: /ru/pages/{offer,contacts,privacy} отдают 404, /ru/pages/about — английский текст, при этом русские строки ЗАПИСАНЫ и опубликованы (offer 19274 б, privacy 15821 б, contacts 3417 б, about 561 б — GET /tenants/pages?locale=ru под владельцем). Потребитель прочитан в задеплоенном sha bd4ced7: apps/backend/src/api/store/tenant/pages/[key]/route.ts:26 подставляет locale: DEFAULT_PAGE_LOCALE (исходниковая константа \"en\" в page-helpers.ts:24, НЕ env — process.env её нигде не читает), селектора-ветки нет, запрос безусловный; ?locale=ru задеплоенный маршрут игнорирует. Фикс (requestedPageLocale + pickPageForLocale с фолбэком) уже в dev коммитом 8b8b482 (PR #21), пришёл ПОСЛЕ деплоя bd4ced7. Рекомендация: выкатить dev >= 8b8b482 — страницы станут русскими без повторного импорта, данные уже лежат. Деплой только по команде Ивана (21c), сам не деплоил.",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-peremezhayuschiysya-502-na-post-auth",
+      "question": "Перемежающийся 502 на POST /auth/tenant/emailpass движка shipshift.dev. Замер 2026-09-15 04:2x: 30 последовательных запросов с заведомо неверным паролем → 29 x 401 и 1 x 502 (~3%), при этом /health 10/10 = 200 — health этого не показывает. За прогон x01 уронил импорт трижды (фазы images, pages, замер картинок), обошёл ретраями. На этом же будет спотыкаться панель владельца и мастер онбординга. Рекомендация: снять логи mt-backend за сутки по auth-маршруту (docker logs mt-backend --since 24h | grep -i auth) и решить, это воркер/пул БД или ingress; завести задачу — сам задачу не заводил (22j).",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-kakoy-cname-adres-panel-vladeltsa-pokazyvaet",
+      "question": "Какой CNAME-адрес панель владельца показывает вживую? В бандле mt-panel (/assets/index-BgEosJYB.js, образ от 2026-09-14) нет ни одной строки stores.*, хотя STORES_DOMAIN=stores.shipshift.dev на стенде задан. Фолбэк в коде (apps/tenant-panel/src/routes/settings/domains/domains.tsx:45) — stores.upready.dev, который НЕ резолвится. Если панель показывает фолбэк, владельцам выдаётся нерабочая инструкция. Проверяется открытием https://panel-store.upready.dev → Настройки → Адрес магазина.",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-dispetcher-dnya-2026-09-16-oksana-cherkashina",
+      "question": "Диспетчер дня 2026-09-16 (Оксана Черкашина) запустил ДВА процесса-воркера на один и тот же таск t07-catalog-filters-hero в один и тот же worktree одновременно (PID 99137+99144, разные SUPERSET_TERMINAL_ID, общий SUPERSET_WORKSPACE_PATH) — оба конкурентно правили те же файлы. Я убил дубликат (99137) и продолжил. Не проверял, был ли этот баг у остальных тасков дня (t05/t06/t08…) — стоит проверить superset ws list на дубли workspace/agent на один task_id и почему dispatcher.mjs это допустил.",
+      "asked": "2026-09-15",
+      "audience": "ivan"
+    },
+    {
+      "id": "q-t08-prinyat-pr-28-merged",
+      "question": "t08 принят (PR #28 MERGED), но сквозная проверка Telegram на БОЕВОМ боте не делалась: нужна одна строка «шли тестовое в мой чат» (отправка наружу, гейт 17b). Плюс живой бот на хосте пока не умеет привязку — в /opt/upready-store-bot/.env нет UPREADY_BACKEND_URL и TELEGRAM_LINK_SECRET, порядок выкатки в apps/bot/DEPLOY.md",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-git-push-origin-dev-zablokirovan",
+      "question": "git push origin dev заблокирован: локальный dev разошёлся с origin (15 непушенных локальных коммитов против 6 на origin — журналы приёмки t03/t05/t06/t07/t08/x01/x02 плюс два чекпойнта d02, все сделаны сегодня разными параллельными сессиями диспетчера дня в ОДНОМ общем checkout upready-store). git rebase origin/dev упёрся в конфликт в HANDOFF.json уже на 3-м из 15 коммитов (2fb6165, статус t03) — не резолвил сам, rebase --abort, откатился без потерь. Мой коммит 7c0978b (d02-deploy-mt-2, отчёт о деплое) остался локально, не запушен. Нужно решение: либо ручной разбор конфликтов HANDOFF.json по всем 15 коммитам, либо переиграть журналы через handoff.mjs заново на чистом origin/dev. Похоже на системную проблему диспетчера дня — общий checkout вместо per-task worktree (rule 21e).",
+      "asked": "2026-09-15",
+      "audience": "ivan"
     }
   ],
   "sessions": [

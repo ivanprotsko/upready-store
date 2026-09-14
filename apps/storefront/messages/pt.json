@@ -402,6 +402,17 @@
     "goToImage": "Ir para a imagem {index}",
     "openFullImage": "Abrir a imagem completa"
   },
+  "Journal": {
+    "navLabel": "Revista",
+    "feedTitle": "Revista",
+    "feedDescription": "Artigos de {siteName}.",
+    "empty": "Ainda não há artigos.",
+    "backToFeed": "Todos os artigos",
+    "previous": "Anterior",
+    "next": "Seguinte",
+    "pageOf": "Página {page} de {lastPage}",
+    "pagination": "Páginas da revista"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Conta",
       "cart": "Carrinho",
       "home": "Início",
-      "store": "Loja"
+      "store": "Loja",
+      "journal": "Revista"
     },
     "menuButton": "Menu"
   },

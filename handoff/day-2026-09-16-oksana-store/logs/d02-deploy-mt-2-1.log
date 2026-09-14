@@ -1,0 +1,4 @@
+
+===== 2026-09-14T21:46:06.682Z start d02-deploy-mt-2 cwd=/Users/ivanprotsko/upready/projects/upready-store model=sonnet effort=medium =====
+Background tasks still running after 600s; terminating. Set CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0 to wait indefinitely.
+Build-launch command returned cleanly. The build itself is still running on the host — I'm continuing to wait for the Monitor watching the build log to report completion.

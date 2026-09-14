@@ -1,0 +1,182 @@
+{
+ "format": "upready.cherkashina-migration-registry/v1",
+ "created_at": "2026-09-15 05:53 WITA",
+ "updated_at": "2026-09-15 05:55 WITA",
+ "tenant": {
+  "id": "ten_01M2GV25H80DNDC1HKFX50CMT4",
+  "handle": "oksana-t05"
+ },
+ "rows": [
+  {
+   "kind": "article",
+   "source_id": "21-dnevnaya-programma-ochishcheniya:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSBKDVS913V3723R2BZ7",
+   "target_url": "/journal/21-dnevnaya-programma-ochishcheniya"
+  },
+  {
+   "kind": "article",
+   "source_id": "21-dnevnaya-programma-ochishcheniya:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSD3PQE43CP29EJ2PYJC",
+   "target_url": "/journal/21-dnevnaya-programma-ochishcheniya"
+  },
+  {
+   "kind": "article",
+   "source_id": "antiparazitarka-na-travah:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSFP5YM3GT58RZG7N207",
+   "target_url": "/journal/antiparazitarka-na-travah"
+  },
+  {
+   "kind": "article",
+   "source_id": "antiparazitarka-na-travah:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSH1HTXPV2NX5261P5Z0",
+   "target_url": "/journal/antiparazitarka-na-travah"
+  },
+  {
+   "kind": "article",
+   "source_id": "detoks-i-kortizol:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSJWBN5F43J4HEB9W5RF",
+   "target_url": "/journal/detoks-i-kortizol"
+  },
+  {
+   "kind": "article",
+   "source_id": "detoks-i-kortizol:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSKPA7TWE3J3YNVWWJ34",
+   "target_url": "/journal/detoks-i-kortizol"
+  },
+  {
+   "kind": "article",
+   "source_id": "detoks-pitanie-7-dney:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSNPMNVVXGMWQA07VTAX",
+   "target_url": "/journal/detoks-pitanie-7-dney"
+  },
+  {
+   "kind": "article",
+   "source_id": "detoks-pitanie-7-dney:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSPY9D2KSG00BMX237EX",
+   "target_url": "/journal/detoks-pitanie-7-dney"
+  },
+  {
+   "kind": "article",
+   "source_id": "intervalnoe-golodanie-i-detoks:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSRTVGY9DT84Y87YC3TJ",
+   "target_url": "/journal/intervalnoe-golodanie-i-detoks"
+  },
+  {
+   "kind": "article",
+   "source_id": "intervalnoe-golodanie-i-detoks:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSSKVXTA6HAJ6TNTCKS3",
+   "target_url": "/journal/intervalnoe-golodanie-i-detoks"
+  },
+  {
+   "kind": "article",
+   "source_id": "peptidy-dlya-muzhchin-40-plus:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSVJ8C3E7RHD25J656NB",
+   "target_url": "/journal/peptidy-dlya-muzhchin-40-plus"
+  },
+  {
+   "kind": "article",
+   "source_id": "peptidy-dlya-muzhchin-40-plus:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSWFZ0EWMBHZS3A3EE9C",
+   "target_url": "/journal/peptidy-dlya-muzhchin-40-plus"
+  },
+  {
+   "kind": "article",
+   "source_id": "peptidy-havinsona-vvedenie:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSYK8TJF3HNA42714ZDA",
+   "target_url": "/journal/peptidy-havinsona-vvedenie"
+  },
+  {
+   "kind": "article",
+   "source_id": "peptidy-havinsona-vvedenie:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHSZJ08420SFVSEBKDXA1",
+   "target_url": "/journal/peptidy-havinsona-vvedenie"
+  },
+  {
+   "kind": "article",
+   "source_id": "thyreogen-shchitovidka:en",
+   "status": "migrated",
+   "reason": "updated in place",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHT2AP58Z2ZSJMZA64T09",
+   "target_url": "/journal/thyreogen-shchitovidka"
+  },
+  {
+   "kind": "article",
+   "source_id": "thyreogen-shchitovidka:ru",
+   "status": "migrated",
+   "reason": "updated in place",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHT3Q5PJNHDQ4R48ZGHTP",
+   "target_url": "/journal/thyreogen-shchitovidka"
+  },
+  {
+   "kind": "article",
+   "source_id": "vyvod-tyazhelyh-metallov:en",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHT5GNXFR3JWACY9W4DS3",
+   "target_url": "/journal/vyvod-tyazhelyh-metallov"
+  },
+  {
+   "kind": "article",
+   "source_id": "vyvod-tyazhelyh-metallov:ru",
+   "status": "migrated",
+   "reason": "already identical on the target; nothing written",
+   "checked_at": "2026-09-15 05:55 WITA",
+   "target_id": "tart_01M2GYHT6K8ZPTK4QGEZM85W37",
+   "target_url": "/journal/vyvod-tyazhelyh-metallov"
+  }
+ ],
+ "summary": {
+  "article": {
+   "total": 18,
+   "migrated": 18,
+   "skipped": 0,
+   "failed": 0,
+   "pending": 0
+  }
+ }
+}

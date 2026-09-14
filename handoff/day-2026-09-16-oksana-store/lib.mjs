@@ -80,7 +80,21 @@ export function agentCreate(wsId, { prompt, model, effort }) {
 }
 export function terminalClose(wsId, termId) { return shJson('superset', ['terminals', 'close', '--workspace', wsId, '--terminal', termId, '--json']); }
 export function terminalById(wsId, termId) { if (!termId) return null; return wsTerminals(wsId).find(s => s.terminalId === termId && !s.exited) || null; }
-export function liveAgentTerminal(wsId, preferId) { const p = terminalById(wsId, preferId); if (p) return p; const t = wsTerminals(wsId).filter(s => !s.exited); return t.find(s => /claude/i.test(s.title || '')) || t[0] || null; }
+// Терминал жив (exited=false) и после выхода claude: на экране «Resume this session with:» и zsh-prompt «%».
+// Текст, отправленный в такой терминал, печатается в zsh (t09: «zsh: parse error»), поэтому агент считается живым
+// только если хвост экрана не похож на shell-prompt.
+export function agentAliveOnScreen(wsId, termId) {
+  const tail = String(terminalRead(wsId, termId, 12) || '').split('\n').filter(x => x.trim()).slice(-3).join('\n');
+  if (!tail) return true; // экран не прочитался — не считаем мёртвым
+  return !/Resume this session with:|claude --resume [0-9a-f-]{36}|%\s*$/.test(tail);
+}
+export function liveAgentTerminal(wsId, preferId) {
+  const cand = wsTerminals(wsId).filter(s => !s.exited);
+  const ordered = [cand.find(s => s.terminalId === preferId), ...cand.filter(s => /claude/i.test(s.title || '')), ...cand].filter(Boolean);
+  const seen = new Set();
+  for (const t of ordered) { if (seen.has(t.terminalId)) continue; seen.add(t.terminalId); if (agentAliveOnScreen(wsId, t.terminalId)) return t; }
+  return null;
+}
 
 // ---------- GitHub ----------
 export function prForBranch(cfg, branch) {

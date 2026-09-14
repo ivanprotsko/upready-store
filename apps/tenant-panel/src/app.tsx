@@ -537,6 +537,27 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t10-blog: the shop's journal. Same nesting as /pages — the list
+            // renders the Outlet and `:slug` mounts the focus modal over it, so
+            // Save returns to the list with the row already refreshed by the
+            // mutation's own invalidation.
+            path: "/journal",
+            handle: { breadcrumb: () => t("app.nav.main.journal", { defaultValue: "Журнал" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/journal/article-list"),
+                children: [
+                  {
+                    path: ":slug",
+                    lazy: () => import("./routes/journal/article-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
             // /pages: the list renders the Outlet, create/edit open as focus
             // modals over it and return to the refreshed list on save.
