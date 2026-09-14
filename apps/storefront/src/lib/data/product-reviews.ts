@@ -28,7 +28,12 @@ export type ProductReview = {
   language: string
   reply: string | null
   replied_at: string | null
-  written_at: string
+  /**
+   * When the review was written, or `null` when the shop holds no readable
+   * date for it (9 of the imported reviews). The block shows no date then
+   * rather than the day the review was copied into the shop.
+   */
+  written_at: string | null
 }
 
 export type ProductReviewSummary = {

@@ -44,8 +44,18 @@ export type ReviewDto = {
   source: ReviewSource;
   reply: string | null;
   replied_at: string | null;
-  /** When the review was written: the old shop's date for an imported one. */
-  written_at: string;
+  /**
+   * When the review was WRITTEN: the old shop's date for an imported one,
+   * the moment of submission for one left on the storefront.
+   *
+   * `null` where the source carried a date nothing could read (9 of the 166
+   * imported reviews spell theirs «изменен 7 апреля 2026» and the import
+   * refuses to guess). It is NOT filled in from `created_at`: that would date
+   * a 2023 review by the day it was copied over, and a legal-looking wrong
+   * date outranks a missing one in every list that sorts (rule 20a). A caller
+   * with no date shows no date.
+   */
+  written_at: string | null;
   created_at: string;
 };
 
@@ -66,7 +76,7 @@ export const toReviewDto = (row: ReviewRow): ReviewDto => ({
   source: row.source,
   reply: row.reply,
   replied_at: iso(row.replied_at),
-  written_at: iso(row.review_date) ?? iso(row.created_at)!,
+  written_at: iso(row.review_date),
   created_at: iso(row.created_at)!,
 });
 
@@ -134,11 +144,15 @@ export const pickReviewsForLocale = <T extends ReviewRow>(
  * Newest first, by the date the review was WRITTEN (an imported review keeps
  * the old shop's date), and by id where two share a date so the order does not
  * wander between two requests for the same page.
+ *
+ * A review whose source date could not be read sorts LAST, never first: it is
+ * undated, and dating it by `created_at` would put the oldest reviews in the
+ * shop at the top on the day they were imported.
  */
 export const sortReviewsNewestFirst = <T extends ReviewRow>(rows: T[]): T[] =>
   [...rows].sort((a, b) => {
-    const dateA = new Date(a.review_date ?? a.created_at).getTime();
-    const dateB = new Date(b.review_date ?? b.created_at).getTime();
+    const dateA = a.review_date ? new Date(a.review_date).getTime() : -Infinity;
+    const dateB = b.review_date ? new Date(b.review_date).getTime() : -Infinity;
     if (dateA !== dateB) return dateB - dateA;
     return a.id.localeCompare(b.id);
   });

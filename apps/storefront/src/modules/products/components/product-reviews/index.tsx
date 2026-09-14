@@ -106,9 +106,11 @@ const ProductReviews = async ({
                 <Text className="font-medium" data-testid="product-review-author">
                   {review.author_name}
                 </Text>
-                <Text size="small" className="text-ui-fg-muted">
-                  {formatDate.format(new Date(review.written_at))}
-                </Text>
+                {review.written_at && (
+                  <Text size="small" className="text-ui-fg-muted">
+                    {formatDate.format(new Date(review.written_at))}
+                  </Text>
+                )}
               </div>
               {review.title && <Text className="font-medium">{review.title}</Text>}
               <Text className="whitespace-pre-line">{review.body}</Text>

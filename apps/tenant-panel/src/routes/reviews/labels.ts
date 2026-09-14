@@ -40,8 +40,14 @@ const LANGUAGE_LABEL: Record<string, string> = {
 export const languageLabel = (tag: string): string =>
   LANGUAGE_LABEL[tag.toLowerCase()] ?? tag
 
-/** «11 сентября 2026» — the date the review was written, in the owner's language. */
-export const formatReviewDate = (iso: string): string => {
+/**
+ * «11 сентября 2026» — the date the review was written, in the owner's
+ * language. `null` in, «дата неизвестна» out: 9 of the imported reviews carry
+ * a date the import could not read, and the row says so instead of showing the
+ * day it was copied over.
+ */
+export const formatReviewDate = (iso: string | null): string => {
+  if (!iso) return "дата неизвестна"
   const date = new Date(iso)
   if (Number.isNaN(date.getTime())) return iso
   return new Intl.DateTimeFormat("ru-RU", {

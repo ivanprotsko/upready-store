@@ -33,8 +33,12 @@ export type TenantReview = {
   source: ReviewSource
   reply: string | null
   replied_at: string | null
-  /** When the review was written; an imported one keeps the old shop's date. */
-  written_at: string
+  /**
+   * When the review was written; an imported one keeps the old shop's date.
+   * `null` where the source carried a date nothing could read — the list shows
+   * no date then, never the day it was imported.
+   */
+  written_at: string | null
   created_at: string
   product: {
     id: string

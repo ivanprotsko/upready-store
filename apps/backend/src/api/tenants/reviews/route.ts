@@ -82,17 +82,26 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     { skip: offset, take: limit, order: { review_date: "DESC", id: "DESC" } },
   );
 
+  type ProductCard = {
+    id: string;
+    title: string;
+    handle: string;
+    thumbnail: string | null;
+  };
+
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
   const pageProductIds = [...new Set((rows as ReviewRow[]).map((row) => row.product_id))];
-  const { data: products } = pageProductIds.length
-    ? await query.graph({
-        entity: "product",
-        fields: ["id", "title", "handle", "thumbnail"],
-        filters: { id: pageProductIds },
-      })
-    : { data: [] as { id: string; title: string; handle: string; thumbnail: string | null }[] };
+  const products: ProductCard[] = pageProductIds.length
+    ? ((
+        await query.graph({
+          entity: "product",
+          fields: ["id", "title", "handle", "thumbnail"],
+          filters: { id: pageProductIds },
+        })
+      ).data as unknown as ProductCard[])
+    : [];
 
-  const byId = new Map(products.map((product) => [product.id, product]));
+  const byId = new Map<string, ProductCard>(products.map((product) => [product.id, product]));
 
   res.json({
     reviews: (rows as ReviewRow[]).map((row) => {

@@ -90,7 +90,6 @@ const readJson = <T>(file: string): T => {
  * database.
  */
 const loadOverlay = async (connectionString: string, logger: Logger): Promise<Map<Locale, Overlay>> => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { Client } = require("pg") as typeof import("pg");
   const client = new Client({ connectionString });
   await client.connect();
@@ -124,10 +123,47 @@ const loadOverlay = async (connectionString: string, logger: Logger): Promise<Ma
   }
 };
 
+const RU_MONTHS = [
+  "января",
+  "февраля",
+  "марта",
+  "апреля",
+  "мая",
+  "июня",
+  "июля",
+  "августа",
+  "сентября",
+  "октября",
+  "ноября",
+  "декабря",
+];
+
+/**
+ * The corpus spells a date two ways: ISO (`2026-04-11`, 157 of the 166) and
+ * the marketplace's own Russian «изменен 7 апреля 2026» (the other 9, measured
+ * 2026-09-15). Both are read here.
+ *
+ * A date neither form can read comes back null and the review is imported
+ * WITHOUT one. It is never replaced with today: a review from 2023 dated by
+ * the day it was copied would sort to the top of every list and read as new
+ * (rule 20a).
+ */
 const parseDate = (raw: string | undefined): Date | null => {
   if (!raw) return null;
-  const parsed = new Date(raw);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
+
+  const iso = new Date(raw);
+  if (!Number.isNaN(iso.getTime())) return iso;
+
+  const ru = raw.match(/(\d{1,2})\s+([а-яё]+)\s+(\d{4})/i);
+  if (ru) {
+    const month = RU_MONTHS.indexOf(ru[2].toLowerCase());
+    if (month >= 0) {
+      const parsed = new Date(Date.UTC(Number(ru[3]), month, Number(ru[1])));
+      if (!Number.isNaN(parsed.getTime())) return parsed;
+    }
+  }
+
+  return null;
 };
 
 export default async function importCherkashinaReviews({
@@ -229,6 +265,7 @@ export default async function importCherkashinaReviews({
   const perProduct = new Map<string, number>();
   let overlayHits = 0;
   let overlayDiffers = 0;
+  const undatedReviews = new Set<string>();
 
   for (const review of ru) {
     const key = String(review.id);
@@ -283,6 +320,11 @@ export default async function importCherkashinaReviews({
         const body = (edit?.text ?? base.text ?? "").trim();
         if (!author || !body) continue;
 
+        const reviewDate = parseDate(review.date);
+        if (!reviewDate) {
+          undatedReviews.add(`${key} («${String(review.date)}»)`);
+        }
+
         planned.push({
           product_id: target.target_id,
           source_key: `${SOURCE_PREFIX}:${key}`,
@@ -290,7 +332,7 @@ export default async function importCherkashinaReviews({
           author_name: author,
           body,
           rating: review.rating,
-          review_date: parseDate(review.date),
+          review_date: reviewDate,
         });
       }
     }
@@ -333,6 +375,12 @@ export default async function importCherkashinaReviews({
     logger.info(`   ${String(count).padStart(3)}  ${handle} → ${handleToTarget.get(handle)?.target_id}`);
   }
 
+  if (undatedReviews.size) {
+    logger.info(
+      `reviews imported WITHOUT a date (the source date could not be read): ${undatedReviews.size} — ` +
+        [...undatedReviews].join(", "),
+    );
+  }
   logger.info(`unmapped reviews: ${unmappedReviews}`);
   for (const [name, count] of notSoldHere) {
     logger.info(`   ${count}  «${name}» — узнано правилом, в этом магазине не продаётся`);

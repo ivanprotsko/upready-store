@@ -101,6 +101,19 @@ describe("sortReviewsNewestFirst", () => {
     ]);
   });
 
+  it("puts a review with no readable date last, not first", () => {
+    const dated = row({ id: "prev_dated", review_date: "2024-01-01T00:00:00.000Z" })
+    const undated = row({
+      id: "prev_undated",
+      review_date: null,
+      created_at: "2026-09-15T00:00:00.000Z",
+    });
+    expect(sortReviewsNewestFirst([undated, dated]).map((r) => r.id)).toEqual([
+      "prev_dated",
+      "prev_undated",
+    ]);
+  });
+
   it("breaks a tie by id so two requests agree", () => {
     const a = row({ id: "prev_a" });
     const b = row({ id: "prev_b" });
