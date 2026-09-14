@@ -146,5 +146,22 @@ module.exports = defineConfig({
     },
     ...(useRedis ? redisModules : []),
     ...(useS3 ? [s3Module] : [localFileModule]),
+    {
+      // Payment. The framework registers the manual provider
+      // (`pp_system_default`) on its own whatever this list says
+      // (`@medusajs/payment` loaders/providers.js). Robokassa is one
+      // registration for every shop: it carries no credentials here, they are
+      // a per-tenant row resolved on each call
+      // (`src/modules/payment-robokassa`, `src/tenant-secrets/`).
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/payment-robokassa",
+            id: "robokassa",
+          },
+        ],
+      },
+    },
   ],
 });

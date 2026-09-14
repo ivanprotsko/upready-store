@@ -141,3 +141,29 @@ export const PostTenantHandleSchema = z.strictObject({
 });
 
 export type PostTenantHandleBody = z.infer<typeof PostTenantHandleSchema>;
+
+/**
+ * `PUT /tenants/payment-settings` — the shop's Robokassa account
+ * (t03-tenant-secrets-robokassa). A password left out or sent empty keeps the
+ * stored value, so the owner can rotate one password without retyping four;
+ * the first save has to carry every password of the pair its mode uses,
+ * which the route checks against the merged result, not this schema.
+ */
+const optionalSecret = z
+  .string()
+  .max(200)
+  .optional()
+  .transform((value) => (value && value.trim().length > 0 ? value.trim() : undefined));
+
+export const PutTenantPaymentSettingsSchema = z.strictObject({
+  provider: z.literal("robokassa"),
+  merchant_login: z.string().trim().min(1).max(100),
+  hash_algorithm: z.enum(["md5", "sha256", "sha384", "sha512"]).optional(),
+  is_test: z.boolean().optional(),
+  is_enabled: z.boolean().optional(),
+  password1: optionalSecret,
+  password2: optionalSecret,
+  test_password1: optionalSecret,
+  test_password2: optionalSecret,
+});
+export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
