@@ -152,7 +152,6 @@
     "close": "Bezárás",
     "hidePassword": "Jelszó elrejtése",
     "orderNumber": "Rendelés #{id}",
-    "poweredBy": "Powered by",
     "remove": "Eltávolítás",
     "showPassword": "Jelszó megjelenítése"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategóriák",
     "collectionsHeading": "Kollekciók",
     "copyright": "© {year} {siteName}. Minden jog fenntartva.",
-    "infoHeading": "Információ",
-    "medusaDocs": "Medusa dokumentáció",
-    "sourceCode": "Starter forráskódja",
-    "starterDocs": "Starter dokumentáció"
+    "infoHeading": "Információ"
   },
   "ForgotPassword": {
     "backToSignIn": "Vissza a bejelentkezéshez",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Visszaküldés és csere"
   },
   "Hero": {
-    "eyebrow": "Kulcsrakész · Open-source",
-    "features": [
-      {
-        "description": "továbbfejlesztett, felesleges lépések nélkül, automatikus címkiegészítéssel",
-        "label": "Konverzióra optimalizált fizetési folyamat"
-      },
-      {
-        "description": "keresés, szűrhető katalógus, többszintű kategóriák és mobile-first",
-        "label": "Teljes funkciós webáruház"
-      },
-      {
-        "description": "meta tagek, Open Graph és Twitter cards, JSON-LD, sitemap, robots, llms.txt és 100/100 a PageSpeed Insightsban",
-        "label": "SEO- és AI-optimalizált"
-      },
-      {
-        "description": "36 nyelv a bolti felülethez RTL-támogatással és 241 ország az értékesítési régiókhoz, országfelismerés, könnyen a szükségesekre szűkíthető",
-        "label": "Teljes lokalizáció"
-      },
-      {
-        "description": "React Email sablonok SMTP-n keresztül",
-        "label": "Tranzakciós e-mailek"
-      },
-      {
-        "description": "a termékkatalógus változásakor",
-        "label": "Igény szerinti gyorsítótár-frissítés"
-      },
-      {
-        "badge": "Új",
-        "description": "szolgáltatói beállítások kezelése az Adminban",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integrációs modul"
-      }
-    ],
-    "featuresHeading": "Funkciók",
-    "readDocs": "Dokumentáció",
     "subtitle": "Minden, amit a hivatalos Medusa DTC starter kihagy.",
-    "title": "Éles környezetre kész Medusa DTC Starter",
-    "viewOnGitHub": "Megtekintés a GitHubon"
+    "title": "Éles környezetre kész Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Bezárás",
-    "cta": "Kipróbálom",
     "message": "Teljes funkciós, éles környezetre kész DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Összes termék"
+  },
+  "TenantPage": {
+    "emptyBody": "Ezen az oldalon még nincs szöveg.",
+    "metaDescription": "{title} a(z) {siteName} oldalon."
   },
   "TransferActions": {
     "acceptTransfer": "Átadás elfogadása",

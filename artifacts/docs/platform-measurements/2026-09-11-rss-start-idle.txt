@@ -1,0 +1,2 @@
+  PID    RSS COMMAND
+62801  79232 node /Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-platform/apps/backend/node_modules/.bin/../@medusajs/cli/cli.js start

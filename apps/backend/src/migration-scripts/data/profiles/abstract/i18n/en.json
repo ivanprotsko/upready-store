@@ -1,0 +1,70 @@
+{
+  "name": "English",
+  "translations": {
+    "categories": {
+      "forms": "Forms",
+      "sets": "Sets",
+      "spheres": "Spheres",
+      "cubes": "Cubes",
+      "cylinders": "Cylinders",
+      "pairs": "Pairs",
+      "stacks": "Stacks"
+    },
+    "collections": {
+      "newArrivals": "New arrivals",
+      "bestsellers": "Bestsellers"
+    },
+    "productOptions": {
+      "size": {
+        "title": "Size",
+        "values": {
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large"
+        }
+      }
+    },
+    "products": {
+      "sphere1": {
+        "title": "Sphere No. 1 · Chalk white",
+        "description": "Sphere No. 1 is a single matte chalk white plaster sphere with a faintly chalky surface. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "sphere2": {
+        "title": "Sphere No. 2 · Graphite",
+        "description": "Sphere No. 2 is a single matte graphite plaster sphere with a soft velvet-like surface. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "cube1": {
+        "title": "Cube No. 1 · Chalk white",
+        "description": "Cube No. 1 is a matte chalk white plaster cube with softly rounded edges, resting flat and turned twenty degrees. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "cube2": {
+        "title": "Cube No. 2 · Mid grey",
+        "description": "Cube No. 2 is a matte mid grey plaster cube with softly rounded edges, resting flat and turned twenty degrees. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in one size, about 12 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "cylinder1": {
+        "title": "Cylinder No. 1 · Chalk white",
+        "description": "Cylinder No. 1 is a short matte chalk white plaster cylinder standing upright. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "cylinder2": {
+        "title": "Cylinder No. 2 · Graphite",
+        "description": "Cylinder No. 2 is a tall matte graphite plaster cylinder standing upright. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in one size, about 12 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "pair1": {
+        "title": "Pair No. 1 · White and graphite",
+        "description": "Pair No. 1 is a matte chalk white plaster sphere beside a matte graphite plaster cube, touching. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "pair2": {
+        "title": "Pair No. 2 · Two greys",
+        "description": "Pair No. 2 is two matte mid grey plaster cylinders of different heights standing side by side. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in one size, about 12 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "stack1": {
+        "title": "Stack No. 1 · Three whites",
+        "description": "Stack No. 1 is three matte chalk white plaster discs stacked, the largest at the bottom. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      },
+      "stack2": {
+        "title": "Stack No. 2 · Graphite on white",
+        "description": "Stack No. 2 is a small matte graphite plaster cube resting on a larger matte chalk white plaster cube. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in one size, about 12 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready."
+      }
+    }
+  }
+}

@@ -152,7 +152,6 @@
     "close": "Kapat",
     "hidePassword": "Parolayı gizle",
     "orderNumber": "Sipariş #{id}",
-    "poweredBy": "Powered by",
     "remove": "Kaldır",
     "showPassword": "Parolayı göster"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategoriler",
     "collectionsHeading": "Koleksiyonlar",
     "copyright": "© {year} {siteName}. Tüm hakları saklıdır.",
-    "infoHeading": "Bilgi",
-    "medusaDocs": "Medusa dokümantasyonu",
-    "sourceCode": "Starter kaynak kodu",
-    "starterDocs": "Starter dokümantasyonu"
+    "infoHeading": "Bilgi"
   },
   "ForgotPassword": {
     "backToSignIn": "Girişe dön",
@@ -345,44 +341,8 @@
     "returnsExchanges": "İade ve Değişim"
   },
   "Hero": {
-    "eyebrow": "Anahtar teslim · Açık kaynak",
-    "features": [
-      {
-        "description": "geliştirilmiş, gereksiz adım yok, adres otomatik tamamlama",
-        "label": "Dönüşüm için optimize edilmiş ödeme akışı"
-      },
-      {
-        "description": "arama, filtrelenebilir katalog, çok seviyeli kategoriler ve mobile-first",
-        "label": "Tam donanımlı mağaza"
-      },
-      {
-        "description": "meta etiketleri, Open Graph ve Twitter cards, JSON-LD, sitemap, robots, llms.txt ve PageSpeed Insights'ta 100/100",
-        "label": "SEO ve AI için optimize"
-      },
-      {
-        "description": "Vitrin için RTL destekli 36 dil ve satış bölgeleri için 241 ülke, ülke algılama, gereksizleri kolayca çıkarılır",
-        "label": "Tam yerelleştirme"
-      },
-      {
-        "description": "SMTP üzerinden React Email şablonları",
-        "label": "İşlemsel e-postalar"
-      },
-      {
-        "description": "ürün kataloğu değişikliklerinde",
-        "label": "Talep üzerine önbellek yenileme"
-      },
-      {
-        "badge": "Yeni",
-        "description": "sağlayıcı ayarlarınızı Admin üzerinden yönetin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Entegrasyon Modülü"
-      }
-    ],
-    "featuresHeading": "Özellikler",
-    "readDocs": "Dokümanları oku",
     "subtitle": "Resmi Medusa DTC starter'ının eksik bıraktığı her şey.",
-    "title": "Üretime hazır Medusa DTC Starter",
-    "viewOnGitHub": "GitHub'da görüntüle"
+    "title": "Üretime hazır Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Kapat",
-    "cta": "Dene",
     "message": "Tam donanımlı, üretime hazır DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Tüm ürünler"
+  },
+  "TenantPage": {
+    "emptyBody": "Bu sayfada henüz metin yok.",
+    "metaDescription": "{title} – {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Devri kabul et",

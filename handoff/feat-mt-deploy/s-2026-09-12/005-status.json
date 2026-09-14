@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-deploy",
+  "session": "s-2026-09-12",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-12T00:48:33+08:00",
+  "status": "МТ-деплой. Ночь 2 закрыта: (в) shiftship.dev возвращён студии, фан-аут свёрнут в одного воркера feat/mt-tenant-identity (Sonnet 5, W1 имя -> W2 категории -> W3 картинки, коммит после каждой) — на момент сейва воркер ЕЩЁ РАБОТАЛ и умрёт вместе с сессией при /clear: его результат искать в git log ветки feat/mt-tenant-identity, недоделанное перезапустить по брифу artifacts/prompts/2026-09-12-w-tenant-identity.md. Сдана аналитика агентов (agent-usage.mjs + реестр + документы по ночам + хук SessionEnd). НОВАЯ задача Ивана t-2026-09-12-paywall-onboarding-demo: тестовый UI на shiftship.dev/www — четыре входа оплата->онбординг плюс прямой вход в онбординг, требования в artifacts/docs/2026-09-12-paywall-onboarding-demo-requirements.md; чтобы занять хост, нужен наш роутер с приоритетом выше 100 (чужой файл студии не трогать). Дальше по брифу оркестратора остаётся задача 4 — страница живых ссылок."
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 16,
+  "action": "status-set",
+  "ts": "2026-09-11T04:46:04+08:00",
+  "status": "Ночная волна панели тенанта идёт (оркестратор session_01KustDWwx6wKgao7kqUhHPm): feat/mt-panel 8a85e6a (каркас apps/tenant-panel собирается, контракт docs/tenant-panel/api-contract.md, e2e-черновик), воркеры кусок 1 (каркас, Sonnet, feat/mt-panel-skeleton) и кусок 2 (backend, Opus, feat/mt-panel-backend) работают; куски 3/4 после интеграции; READY ещё нет; admin-скриншоты сняты в artifacts/docs/tenant-panel-shots/"
+}

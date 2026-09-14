@@ -5,9 +5,7 @@ import {
   getPricesForVariant,
   type VariantWithPrice,
 } from "@lib/util/get-product-price"
-import { SITE_NAME, getBaseURL } from "@lib/util/env"
-
-const BASE = getBaseURL().replace(/\/$/, "")
+import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 
 /**
  * Fields Medusa has no column for. Set them on the product's `metadata` in
@@ -40,16 +38,16 @@ export type JsonLdCrumb = {
  * Absolute URL for a locale-scoped app path. Paths come from the same place
  * `<Link>` gets them, so they carry no locale prefix yet.
  */
-export function localeUrl(locale: string, path: string) {
+export function localeUrl(base: string, locale: string, path: string) {
   const suffix = path === "/" ? "" : path
-  return `${BASE}/${locale}${suffix}`
+  return `${base}/${locale}${suffix}`
 }
 
 /** File-module URLs are absolute already; a local `/uploads/…` one is not. */
-function assetUrl(src: string) {
+function assetUrl(base: string, src: string) {
   return /^https?:\/\//.test(src)
     ? src
-    : `${BASE}${src.startsWith("/") ? "" : "/"}${src}`
+    : `${base}${src.startsWith("/") ? "" : "/"}${src}`
 }
 
 function strMeta(value: unknown): string | undefined {
@@ -85,10 +83,12 @@ function buildOffer({
   variant,
   productUrl,
   condition,
+  siteName,
 }: {
   variant: VariantWithPrice
   productUrl: string
   condition: string
+  siteName: string
 }): JsonLdNode | null {
   const price = getPricesForVariant(variant)
 
@@ -103,7 +103,7 @@ function buildOffer({
     itemCondition: condition,
     ...(variant.sku ? { sku: variant.sku } : {}),
     ...identifiers(variant),
-    seller: { "@type": "Organization", name: SITE_NAME },
+    seller: { "@type": "Organization", name: siteName },
   }
 }
 
@@ -119,6 +119,7 @@ function categoryPath(product: HttpTypes.StoreProduct) {
 }
 
 function buildBreadcrumbList(
+  base: string,
   crumbs: JsonLdCrumb[],
   locale: string,
   id: string
@@ -134,26 +135,28 @@ function buildBreadcrumbList(
       name: crumb.label,
       // The current page is the last crumb and links nowhere, which
       // schema.org allows for the trailing element only.
-      ...(crumb.href ? { item: localeUrl(locale, crumb.href) } : {}),
+      ...(crumb.href ? { item: localeUrl(base, locale, crumb.href) } : {}),
     })),
   }
 }
 
-export function buildSiteJsonLd(locale: string): JsonLdNode {
+export async function buildSiteJsonLd(locale: string): Promise<JsonLdNode> {
+  const [siteName, base] = await Promise.all([getSiteName(), getRequestBaseURL()])
+
   const organization: JsonLdNode = {
     "@type": "Organization",
-    "@id": `${BASE}/#organization`,
-    name: SITE_NAME,
-    url: BASE,
+    "@id": `${base}/#organization`,
+    name: siteName,
+    url: base,
   }
 
   const website: JsonLdNode = {
     "@type": "WebSite",
-    "@id": `${BASE}/#website`,
-    name: SITE_NAME,
-    url: localeUrl(locale, "/"),
+    "@id": `${base}/#website`,
+    name: siteName,
+    url: localeUrl(base, locale, "/"),
     inLanguage: locale,
-    publisher: { "@id": `${BASE}/#organization` },
+    publisher: { "@id": `${base}/#organization` },
   }
 
   return {
@@ -162,7 +165,7 @@ export function buildSiteJsonLd(locale: string): JsonLdNode {
   }
 }
 
-export function buildBreadcrumbJsonLd({
+export async function buildBreadcrumbJsonLd({
   crumbs,
   locale,
   path,
@@ -170,11 +173,13 @@ export function buildBreadcrumbJsonLd({
   crumbs: JsonLdCrumb[]
   locale: string
   path: string
-}): JsonLdNode | null {
+}): Promise<JsonLdNode | null> {
+  const base = await getRequestBaseURL()
   const node = buildBreadcrumbList(
+    base,
     crumbs,
     locale,
-    `${localeUrl(locale, path)}#breadcrumb`
+    `${localeUrl(base, locale, path)}#breadcrumb`
   )
 
   if (!node) return null
@@ -189,7 +194,7 @@ export function buildBreadcrumbJsonLd({
  * `Product` plus one `Offer` per priced variant, and the page's
  * `BreadcrumbList`, as a single `@graph` so both nodes ship in one script tag.
  */
-export function buildProductJsonLd({
+export async function buildProductJsonLd({
   product,
   locale,
   breadcrumbs = [],
@@ -197,8 +202,9 @@ export function buildProductJsonLd({
   product: HttpTypes.StoreProduct
   locale: string
   breadcrumbs?: JsonLdCrumb[]
-}): JsonLdNode {
-  const url = localeUrl(locale, `/products/${product.handle}`)
+}): Promise<JsonLdNode> {
+  const [siteName, base] = await Promise.all([getSiteName(), getRequestBaseURL()])
+  const url = localeUrl(base, locale, `/products/${product.handle}`)
   const meta = (product.metadata ?? {}) as Record<string, unknown>
   const condition =
     CONDITIONS[strMeta(meta.condition)?.toLowerCase() ?? ""] ?? CONDITIONS.new
@@ -209,13 +215,15 @@ export function buildProductJsonLd({
       : [product.thumbnail]
   )
     .filter((src): src is string => !!src)
-    .map(assetUrl)
+    .map((src) => assetUrl(base, src))
 
   const offers = ((product.variants ?? []) as VariantWithPrice[])
-    .map((variant) => buildOffer({ variant, productUrl: url, condition }))
+    .map((variant) =>
+      buildOffer({ variant, productUrl: url, condition, siteName })
+    )
     .filter((offer): offer is JsonLdNode => offer !== null)
 
-  const brand = strMeta(meta.brand) ?? SITE_NAME
+  const brand = strMeta(meta.brand) ?? siteName
   const description = stripHtml(product.description ?? product.subtitle)
   const category = categoryPath(product)
 
@@ -239,6 +247,7 @@ export function buildProductJsonLd({
   }
 
   const breadcrumbNode = buildBreadcrumbList(
+    base,
     breadcrumbs,
     locale,
     `${url}#breadcrumb`

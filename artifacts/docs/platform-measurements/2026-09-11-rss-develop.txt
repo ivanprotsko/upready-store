@@ -1,0 +1,3 @@
+pid=93808
+  PID    RSS COMMAND
+93808  42736 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/upready-store/feat/mt-platform/node_modules/.pnpm/@medusajs+cli@2.19.0_@types+node@20.19.26/node_modules/@medusajs/cli/cli.js start --types

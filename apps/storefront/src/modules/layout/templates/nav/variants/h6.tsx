@@ -4,15 +4,14 @@ import { Link } from "@i18n/navigation"
 import { appLocales } from "@i18n/config"
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
-import { SITE_NAME } from "@lib/util/env"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
  * H6 · "Centre + category strip" (`2026-09-09-composition-contract.json` `header.h6`).
@@ -37,10 +36,11 @@ import BrandUnlock from "@modules/devtools/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode] = await Promise.all([
+  const [{ categories, totalCount }, regions, countryCode, siteName] = await Promise.all([
     listTopCategoriesWithCounts(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
+    getSiteName(),
   ])
 
   return (
@@ -65,7 +65,7 @@ export default async function NavH6() {
               className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="nav-store-link"
             >
-              {SITE_NAME}
+              {siteName}
             </Link>
           </BrandUnlock>
 
@@ -89,10 +89,18 @@ export default async function NavH6() {
         </nav>
       </header>
 
+      {/* The strip travels with the sticky wrapper but sits outside <header>, which is
+          the element carrying the background — without its own it rode transparent
+          over the product grid (kerbstone, 2026-09-10). The band is full-width so the
+          gutters beside content-container stay opaque on screens wider than it. */}
       <div
-        className="content-container flex items-center justify-center gap-2 overflow-x-auto py-2.5 border-b border-ui-border-base [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        data-testid="nav-category-strip"
+        className="border-b border-ui-border-base bg-ui-bg-base"
+        data-testid="nav-category-band"
       >
+        <div
+          className="content-container flex items-center justify-center gap-2 overflow-x-auto py-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          data-testid="nav-category-strip"
+        >
         <Link
           href="/store"
           className="shrink-0 txt-compact-small rounded-full border border-ui-fg-base bg-ui-fg-base px-3.5 py-1.5 text-ui-bg-base"
@@ -111,6 +119,7 @@ export default async function NavH6() {
             <span className="text-ui-fg-muted">{category.count}</span>
           </Link>
         ))}
+        </div>
       </div>
     </div>
   )

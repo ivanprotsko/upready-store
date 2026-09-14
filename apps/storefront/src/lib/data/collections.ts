@@ -2,7 +2,7 @@
 
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
-import { getCacheOptions } from "./cookies"
+import { getCacheOptions, getTenantHandle } from "./cookies"
 
 export const retrieveCollection = async (id: string) => {
   const next = {
@@ -39,7 +39,54 @@ export const listCollections = async (
         cache: "force-cache",
       }
     )
-    .then(({ collections }) => ({ collections, count: collections.length }))
+    .then(({ collections }) => ownedByThisShop(collections))
+    .then((collections) => ({ collections, count: collections.length }))
+}
+
+/**
+ * Collections are global rows: `/store/collections` lists every one in the database
+ * whichever publishable key asks. Products are not — the key selects the sales
+ * channel — so on the shared engine a shop owns a collection only through the products
+ * it can see in it. Without this, a wizard-created shop with an empty catalog listed
+ * the sneakers profile's four collections in its footer, every link leading to an
+ * empty page (measured on nochlavka.shipshift.dev, 2026-09-12). One `limit=1` product
+ * probe per collection, cached under this shop's `products` tag like every other
+ * product read. A single-store deployment resolves no tenant and keeps the whole list.
+ *
+ * A probe that fails drops its collection and says so on stderr: hiding a collection
+ * the shop owns is the visible failure, listing a neighbour's is the silent one.
+ */
+const ownedByThisShop = async (
+  collections: HttpTypes.StoreCollection[]
+): Promise<HttpTypes.StoreCollection[]> => {
+  if (!collections.length || (await getTenantHandle()) === null) {
+    return collections
+  }
+
+  const next = {
+    ...(await getCacheOptions("products")),
+  }
+
+  const owned = await Promise.all(
+    collections.map((collection) =>
+      sdk.client
+        .fetch<{ products: { id: string }[] }>("/store/products", {
+          query: { collection_id: collection.id, limit: 1, fields: "id" },
+          next,
+          cache: "force-cache",
+        })
+        .then(({ products }) => products.length > 0)
+        .catch((error) => {
+          console.error(
+            `listCollections: could not probe collection "${collection.handle}" for this shop; leaving it out`,
+            error
+          )
+          return false
+        })
+    )
+  )
+
+  return collections.filter((_, index) => owned[index])
 }
 
 export const getCollectionByHandle = async (

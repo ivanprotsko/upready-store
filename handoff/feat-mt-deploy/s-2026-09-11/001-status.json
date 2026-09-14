@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-deploy",
+  "session": "s-2026-09-11",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-11T22:40:27+08:00",
+  "status": "МТ-деплой на shipshift.dev (заказ Ивана 2026-09-11 вечер). Ветка feat/mt-deploy = волна A (bece22a) + слитая волна B (07f7987), коммиты fbdbdcf и aeff2fe, push не делался; tsc/lint/build rc=0 и в backend, и в панели. DNS применён (14 правок, бэкап 27 записей в artifacts/deliverables/mt-deploy/dns-backup-2026-09-11.json): shipshift.dev + panel./stores./*.shipshift.dev, апексы и www у custombot.space, setpomo.com, shiftship.dev — все A на 84.46.251.149 proxied=false. На хосте /opt/upready-store/mt идёт docker compose -p mt up -d --build (лог /opt/upready-store/mt-build.log). Осталось: дождаться сборки, прогнать сид профилей (sneakers, home-goods, electronics) и seed-mt-demo, проверить живьём каждый домен и сертификаты. Динамический ingress — mt-ingress-sync пишет /data/coolify/proxy/dynamic/mt-tenants.yml."
+}

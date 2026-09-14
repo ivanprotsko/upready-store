@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 21,
+  "action": "status-set",
+  "ts": "2026-09-11T05:09:02+08:00",
+  "status": "Стенд Mercur проверен живьём (18f): бэкенд :9000 отвечает 200 (грузится 318 с — прошлые «зависания» были моим слишком ранним kill, не поломкой), панель продавца :9000/seller 200, админка :9000/dashboard 200, витрина :3000 → 307 на /de → 200 (title «Home | Mercur Demo Storefront», 383 095 байт), каталог отдаёт 12 товаров по publishable-ключу. Патч сработал: GET /vendor/stores теперь возвращает supported_currencies = eur (default) + usd — селект валюты в онбординге наполнен; Ивану нужен жёсткий перезагруз страницы, его браузер держал 304. Причина бага замерена по коду: @mercurjs/core 2.3.3 кладёт в allowed те же строки, что и в defaults, СО звёздами, а AllowedFieldFilter в @medusajs/framework 2.20.1 сверяет разобранное имя без звезды — связь вырезается молча; фильтр включается всегда при непустом allowed, флаг rbac_filter_fields (false) ни при чём; родная админка Medusa не страдает — у неё allowed не задан. Патч живёт в node_modules и теряется при bun install. Перенос на нас: /tenants/products|orders строятся через query-config админки — при приёмке проверить, что allowed либо нет, либо в нём имена без звезды. Реестр 43 пополнен (r-2026-09-11-mercur-demo, 790bce051), память d3c1c44, worktree fb91133+2543a8b. Ночная волна панели идёт сама: feat/mt-panel 6482944+8a85e6a, приёмщик session_01HqysBVaN4S8qDwkauRQdvB уже подал дефект №1, дедлайн отката 06:15."
+}

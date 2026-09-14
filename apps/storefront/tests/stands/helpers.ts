@@ -8,7 +8,7 @@ import { expect } from "@playwright/test"
  * here drives the LIVE product the way a visitor or the demo customer would — the
  * hidden panel through its own unlock route, checkout through its real forms, login
  * through the real /en/account form. Nothing here reaches into React state or mocks a
- * response; it is the same contract tests/devtools/panel.pw.ts already exercises,
+ * response; it is the same contract tests/studio/panel.pw.ts already exercises,
  * extended to the composition/checkout/account surface wave 2 shipped.
  *
  * Contracts read from (not re-derived at runtime, since this is a test fixture, not
@@ -19,7 +19,7 @@ import { expect } from "@playwright/test"
  *     FOOTER_KEYS, PROFILE_DEFAULTS, the two FORBIDDEN pairs)
  */
 
-export const DEVTOOLS_PASSWORD = process.env.DEVTOOLS_PASSWORD ?? "upready-panel-2026"
+export const STUDIO_PASSWORD = process.env.STUDIO_PASSWORD ?? "upready-panel-2026"
 export const CUSTOMER_EMAIL = process.env.CUSTOMER_EMAIL ?? "user@upready.dev"
 export const CUSTOMER_PASSWORD = process.env.CUSTOMER_PASSWORD ?? "supersecret"
 
@@ -143,14 +143,14 @@ type GetSettingsResponse = {
 
 /** Reads the panel's own document through the same proxy the popover calls. */
 export async function getSettings(request: APIRequestContext): Promise<GetSettingsResponse> {
-  const res = await request.get("/api/devtools/settings")
-  if (!res.ok()) throw new Error(`GET /api/devtools/settings -> ${res.status()}`)
+  const res = await request.get("/api/studio/settings")
+  if (!res.ok()) throw new Error(`GET /api/studio/settings -> ${res.status()}`)
   return res.json()
 }
 
 /** Writes a composition doc through the same proxy the popover's Save button calls. */
 export async function putSettings(request: APIRequestContext, doc: CompositionDoc) {
-  return request.put("/api/devtools/settings", { data: doc })
+  return request.put("/api/studio/settings", { data: doc })
 }
 
 /**
@@ -158,12 +158,12 @@ export async function putSettings(request: APIRequestContext, doc: CompositionDo
  * cookie on `context` — every `page`/`request` made from this context afterwards
  * carries it, the same way a real browser would after the password dialog succeeds.
  */
-export async function unlockDevtools(context: BrowserContext) {
-  const res = await context.request.post("/api/devtools/unlock", {
-    data: { password: DEVTOOLS_PASSWORD },
+export async function unlockStudio(context: BrowserContext) {
+  const res = await context.request.post("/api/studio/unlock", {
+    data: { password: STUDIO_PASSWORD },
   })
   if (!res.ok()) {
-    throw new Error(`POST /api/devtools/unlock -> ${res.status()} (check DEVTOOLS_PASSWORD)`)
+    throw new Error(`POST /api/studio/unlock -> ${res.status()} (check STUDIO_PASSWORD)`)
   }
 }
 

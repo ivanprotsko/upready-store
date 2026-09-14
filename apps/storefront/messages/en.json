@@ -152,7 +152,6 @@
     "close": "Close",
     "hidePassword": "Hide password",
     "orderNumber": "Order #{id}",
-    "poweredBy": "Powered by",
     "remove": "Remove",
     "showPassword": "Show password"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Categories",
     "collectionsHeading": "Collections",
     "copyright": "© {year} {siteName}. All rights reserved.",
-    "infoHeading": "Information",
-    "medusaDocs": "Medusa documentation",
-    "sourceCode": "Starter source code",
-    "starterDocs": "Starter documentation"
+    "infoHeading": "Information"
   },
   "ForgotPassword": {
     "backToSignIn": "Back to sign in",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Returns and exchanges"
   },
   "Hero": {
-    "eyebrow": "Turnkey · Open-source",
-    "features": [
-      {
-        "description": "improved, no extra steps, address autocomplete",
-        "label": "Checkout tuned for conversion"
-      },
-      {
-        "description": "search, filterable catalog, multi-level categories & mobile-first",
-        "label": "Full-featured storefront"
-      },
-      {
-        "description": "meta tags, Open Graph and Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 PageSpeed Insights",
-        "label": "SEO and AI optimized"
-      },
-      {
-        "description": "36 storefront languages with RTL support and 241 countries for sales regions, country detection, easy to trim to the ones you need",
-        "label": "Full localization"
-      },
-      {
-        "description": "React Email templates over SMTP",
-        "label": "Transactional emails"
-      },
-      {
-        "description": "on product catalog changes",
-        "label": "On-demand cache revalidation"
-      },
-      {
-        "badge": "New",
-        "description": "manage your providers' settings via Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integration Module"
-      }
-    ],
-    "featuresHeading": "Features",
-    "readDocs": "Read docs",
     "subtitle": "Everything the official Medusa DTC starter leaves out.",
-    "title": "Production-ready Medusa DTC Starter",
-    "viewOnGitHub": "View on GitHub"
+    "title": "Production-ready Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Close",
-    "cta": "Try it",
     "message": "Full-featured production ready DTC starter."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "All products"
+  },
+  "TenantPage": {
+    "emptyBody": "This page has no text yet.",
+    "metaDescription": "{title} at {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Accept transfer",

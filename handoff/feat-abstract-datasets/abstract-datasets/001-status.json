@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-abstract-datasets",
+  "session": "abstract-datasets",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-12T06:30:13+08:00",
+  "status": "Трек абстрактных наборов (t-2026-09-12-catalog-taxonomy, ветка feat/abstract-datasets): объём по второму решению Ивана — ОДИН нейтральный набор abstract, светлая версия картинок. Сделано и закоммичено: справочники сфер/торговых категорий из Google Product Taxonomy с разметкой 67/67 товаров (ef67edd); набор data/profiles/abstract в формате профиля, одна сетка 4x4 nano-banana-pro /bin/zsh.30, гейт серии 16/16, манифест (7e4ad3f); засев POST /tenants/seed + воркфлоу seed-tenant-dataset + шаг мастера + плитки главной из своих категорий (361ddc9); замеры и артефакты приёмки artifacts/docs/2026-09-12-abstract-dataset/. Живая проверка на локальном стенде ветки: seed 201 за 1.1 с, 10 товаров/7 категорий с картинками, главная витрины с 5 плитками. НЕ сделано (21c): деплой — sync-media.sh abstract на хост + пересборка mt-backend и витрины с ветки; тёмный близнец картинок ждёт t-2026-09-12-mode-image-pairs."
+}

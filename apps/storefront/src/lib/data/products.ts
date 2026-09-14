@@ -3,7 +3,10 @@
 import { sdk } from "@lib/config"
 import type { OptionValueIds } from "@lib/util/product-option-filters"
 import { sortProducts } from "@lib/util/sort-products"
-import { getOptionValueHex } from "@lib/util/color-option"
+import {
+  groupOptionFilters,
+  type ProductOptionFilterGroup,
+} from "@lib/util/option-filter-groups"
 import type { HttpTypes } from "@medusajs/types"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getAuthHeaders, getCacheOptions, getCountryCode } from "./cookies"
@@ -95,17 +98,10 @@ export const listProducts = async ({
     })
 }
 
-export type ProductOptionFilterValue = {
-  id: string
-  label: string
-  hex?: string
-}
-
-export type ProductOptionFilterGroup = {
-  id: string
-  title: string
-  values: ProductOptionFilterValue[]
-}
+export type {
+  ProductOptionFilterGroup,
+  ProductOptionFilterValue,
+} from "@lib/util/option-filter-groups"
 
 export const listProductOptionFilters = async (
   queryParams?: Pick<ProductListQueryParams, "category_id" | "collection_id">
@@ -123,8 +119,12 @@ export const listProductOptionFilters = async (
       method: "GET",
       query: {
         limit: 100,
+        // Wildcards, not `options.title`: the Store API translates a nested relation
+        // into the request's locale only when it is asked for whole (measured on
+        // shipshift.dev 2026-09-12 — `options.title` answered "Size", `*options`
+        // answered "Размер" for the same `x-medusa-locale: ru`).
         fields:
-          "id,options.id,options.title,options.values.id,options.values.value,options.values.metadata,variants.options.id,variants.options.option_id",
+          "id,*options,*options.values,variants.options.id,variants.options.option_id",
         ...queryParams,
       },
       headers,
@@ -133,50 +133,7 @@ export const listProductOptionFilters = async (
     })
     .catch(() => ({ products: [] as HttpTypes.StoreProduct[] }))
 
-  const groups = new Map<
-    string,
-    { title: string; values: Map<string, { label: string; hex?: string }> }
-  >()
-
-  for (const product of products) {
-    const usedByOption = new Map<string, Set<string>>()
-    for (const variant of product.variants ?? []) {
-      for (const optionValue of variant.options ?? []) {
-        const optionId = optionValue.option_id
-        if (!optionId || optionValue.id == null) continue
-        if (!usedByOption.has(optionId)) usedByOption.set(optionId, new Set())
-        usedByOption.get(optionId)!.add(optionValue.id)
-      }
-    }
-
-    for (const option of product.options ?? []) {
-      if (!option.id) continue
-      const usedValues = usedByOption.get(option.id)
-      let group = groups.get(option.id)
-      if (!group) {
-        group = { title: option.title ?? "", values: new Map() }
-        groups.set(option.id, group)
-      }
-      for (const optionValue of option.values ?? []) {
-        if (!optionValue.id || !optionValue.value) continue
-        if (usedValues && !usedValues.has(optionValue.id)) continue
-        group.values.set(optionValue.id, {
-          label: optionValue.value,
-          hex: getOptionValueHex(optionValue),
-        })
-      }
-    }
-  }
-
-  return Array.from(groups, ([id, group]) => ({
-    id,
-    title: group.title,
-    values: Array.from(group.values, ([valueId, { label, hex }]) => ({
-      id: valueId,
-      label,
-      hex,
-    })),
-  }))
+  return groupOptionFilters(products)
 }
 
 export const listProductsWithSort = async ({

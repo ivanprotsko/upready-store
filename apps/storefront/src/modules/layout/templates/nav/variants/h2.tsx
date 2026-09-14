@@ -2,16 +2,15 @@ import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
 import { listCategories } from "@lib/data/categories"
-import { SITE_NAME } from "@lib/util/env"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 
 const MAX_NAV_LINKS = 4
@@ -38,10 +37,11 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH2() {
   const t = await getTranslations()
-  const [categories, regions, countryCode] = await Promise.all([
+  const [categories, regions, countryCode, siteName] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
+    getSiteName(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -58,7 +58,7 @@ export default async function NavH2() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {SITE_NAME}
+                {siteName}
               </Link>
             </BrandUnlock>
           </div>

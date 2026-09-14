@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-10",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-10T22:03:43+08:00",
+  "status": "feat/mt-vendors 6018ef9: срез shared-МТ по рецепту vendors НАПИСАН (модуль tenant, links, workflows, /tenants/*, subscriber order.placed, seed, jest seam-тест); tsc+lint чисто, миграции применены на БД upready_store_mt (PG 127.0.0.1:5433, .env worktree: PORT=9023); jest и живой curl-сценарий НЕ запускались — следующий шаг"
+}

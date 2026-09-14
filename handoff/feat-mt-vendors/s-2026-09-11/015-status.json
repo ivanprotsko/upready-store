@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 15,
+  "action": "status-set",
+  "ts": "2026-09-11T04:33:36+08:00",
+  "status": "11.09 04:33 WITA: панель тенанта — решено «копируем файлы экранов», Geist снят; ночная волна спланирована (оркестратор Fable + приёмщик Opus, протокол через artifacts/docs/2026-09-11-tenant-panel-*.md), запуск — Иван; Mercur поднят локально (:9000/seller, seller@mercur.dev), Иван хочет ещё витрину Mercur — в новой сессии; push не делался"
+}

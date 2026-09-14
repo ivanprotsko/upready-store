@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://upready.dev/schemas/tenant-bundle/v1.json",
+  "title": "upready.tenant-bundle/v1",
+  "description": "One tenant's full export: identity, catalog, orders, warehouse and files. Produced by exportTenantWorkflow (src/workflows/tenant/export-tenant). Every array is present and empty ([]) rather than omitted when the tenant has no rows of that kind; nothing in here is invented, each value is copied from a query.graph result. See docs/multitenancy/tenant-bundle-format.md for what each section holds.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "exported_at",
+    "source",
+    "tenant",
+    "admins",
+    "sales_channel",
+    "api_key",
+    "warehouse",
+    "products",
+    "inventory",
+    "categories",
+    "collections",
+    "customers",
+    "orders",
+    "regions",
+    "files",
+    "pages",
+    "manifest"
+  ],
+  "properties": {
+    "format": {
+      "const": "upready.tenant-bundle/v1"
+    },
+    "exported_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backend_version", "tenant_id"],
+      "properties": {
+        "backend_version": { "type": "string" },
+        "tenant_id": { "type": "string" }
+      }
+    },
+    "tenant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "handle", "name", "metadata"],
+      "properties": {
+        "id": { "type": "string" },
+        "handle": { "type": "string" },
+        "name": { "type": "string" },
+        "metadata": { "type": ["object", "null"] }
+      }
+    },
+    "admins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "email", "first_name", "last_name"],
+        "properties": {
+          "id": { "type": "string" },
+          "email": { "type": "string" },
+          "first_name": { "type": ["string", "null"] },
+          "last_name": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "sales_channel": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "is_disabled": { "type": "boolean" }
+      }
+    },
+    "api_key": {
+      "description": "The tenant's publishable key. A publishable key's token is public by design — see contract §6.",
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "type": { "type": "string" },
+        "token": { "type": "string" }
+      }
+    },
+    "warehouse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stock_locations"],
+      "properties": {
+        "stock_locations": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "products": {
+      "description": "Full product graph: variants, options, prices, images, tags, type, collection, categories, inventory items.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "inventory": {
+      "description": "Inventory items (+ location levels) referenced by the tenant's product variants.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "categories": {
+      "description": "Product categories referenced by the tenant's products (no owner link table on this branch — see format doc).",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "collections": {
+      "description": "Product collections referenced by the tenant's products.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "customers": {
+      "description": "Customers of the tenant's orders, with addresses.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "orders": {
+      "description": "Full order graph, as history: items, totals, shipping methods, payment collections, fulfillments.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "regions": {
+      "description": "Regions referenced by the tenant's orders, as reference data.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "url", "size"],
+        "properties": {
+          "key": { "type": "string" },
+          "url": { "type": "string" },
+          "size": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "pages": {
+      "description": "Content pages / home config of the panel branch (feat/mt-panel-2). Not on this branch tonight — always null here.",
+      "const": null
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["counts", "bytes"],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

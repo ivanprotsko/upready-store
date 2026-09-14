@@ -58,15 +58,27 @@ ARG NEXT_PUBLIC_MEDUSA_BACKEND_URL
 ARG NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_DEFAULT_REGION=us
+# The locale a visitor gets when the URL carries none. NEXT_PUBLIC_ because
+# next-intl's routing and the x-default hreflang read it in the browser too, so
+# it has to be baked at build time; LOCALE_PIN and LOCALE_COUNTRY_MAP are read by
+# the middleware at runtime and stay out of the image.
+ARG NEXT_PUBLIC_DEFAULT_LOCALE=en
 ARG NEXT_PUBLIC_SITE_NAME="Gorgo Medusa Store"
 ARG STORE_MEDIA_BASE_URL
+# The zone a new shop's technical subdomain lands in, e.g. `shipshift.dev`. It is
+# NEXT_PUBLIC_ because the onboarding wizard is a client component and prints it
+# beside the handle field, so it has to be baked at build time; the server half
+# reads the plain DEMO_TENANT_BASE_DOMAIN at runtime instead.
+ARG NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN
 ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL \
     NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY \
     NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL \
     NEXT_PUBLIC_DEFAULT_REGION=$NEXT_PUBLIC_DEFAULT_REGION \
+    NEXT_PUBLIC_DEFAULT_LOCALE=$NEXT_PUBLIC_DEFAULT_LOCALE \
     NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME \
     STORE_MEDIA_BASE_URL=$STORE_MEDIA_BASE_URL \
+    NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN=$NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN \
     NODE_ENV=production \
     REGION_PIN=true
 WORKDIR /repo/apps/storefront

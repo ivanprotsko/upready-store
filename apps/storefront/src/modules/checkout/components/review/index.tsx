@@ -2,13 +2,28 @@
 
 import { Heading, Text, clx } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
-import { SITE_NAME } from "@lib/util/env"
 
 import PaymentButton from "../payment-button"
 import { useSearchParams } from "next/navigation"
 import type { HttpTypes } from "@medusajs/types"
 
-const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
+/**
+ * Not currently rendered anywhere (`grep -rn "checkout/components/review"` finds
+ * only this file) — the live checkout flow composes its steps through
+ * `checkout-form/`/`checkout-info-rows` instead. Fixed for consistency with the
+ * rest of the class (rule 20) so it does not silently regress to the build
+ * constant if it is ever wired back in, but this could not be exercised in a
+ * browser as part of this change (see the report). `siteName` comes from a
+ * server parent as a PROP: this is a client component and must never import the
+ * `next/headers`-reading accessor directly (rule 19g).
+ */
+const Review = ({
+  cart,
+  siteName,
+}: {
+  cart: HttpTypes.StoreCart
+  siteName: string
+}) => {
   const t = useTranslations("Review")
   const searchParams = useSearchParams()
 
@@ -43,7 +58,7 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           <div className="flex items-start gap-x-1 w-full mb-6">
             <div className="w-full">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                {t("confirmText", { siteName: SITE_NAME })}
+                {t("confirmText", { siteName: siteName })}
               </Text>
             </div>
           </div>

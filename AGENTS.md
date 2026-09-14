@@ -101,11 +101,18 @@ Run these from the repository root.
 | `pnpm lint` | Lint both apps |
 
 Two of these come with a catch. `pnpm lint` covers both apps, `medusa lint` in the backend and
-`next lint` in the storefront, and the storefront half loads `next.config.js` and exits when
-`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is absent from the environment. `pnpm test` executes nothing at
+`next lint` in the storefront. The storefront half used to load `next.config.js` and exit when
+`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` was absent; since the storefront resolves the shop, and its
+key, from the `Host` header (`docs/multitenancy/storefront-by-host.md`), that variable is the
+single-store fallback rather than a requirement, and `check-env-variables.js` requires nothing. `pnpm test` executes nothing at
 all, because neither app defines a `test` task. The backend suites are `test:unit`,
 `test:integration:http` and `test:integration:modules`, run from `apps/backend` against a live
-Postgres.
+Postgres. Three more catches for the integration suites, measured on `@medusajs/test-utils` 2.19:
+the runner forces SSL on every `DB_HOST` other than the literal `localhost`, so a local Postgres is
+addressed as `DB_HOST=localhost` (with `127.0.0.1` the boot hangs on «Timeout acquiring a
+connection»); the app under test listens on `PORT` from `.env`, so pass a free `PORT=…` while
+`medusa develop` is running; and the database is restored from its post-`beforeAll` snapshot before
+every test, so a test reads only the rows it created itself.
 
 ## Verifying Your Work
 
@@ -205,10 +212,17 @@ Two pieces of locale plumbing are worth knowing before you touch either.
 
 Routing does not use next-intl's own prefixing. [routing.ts](apps/storefront/src/i18n/routing.ts)
 sets `localePrefix` to `never`, and [middleware.ts](apps/storefront/src/middleware.ts) does the work
-by hand. It resolves the locale from the URL, the `_medusa_locale` cookie or `Accept-Language`,
-redirects a prefix-less path to `/{locale}/…`, and passes the locale to next-intl through the
-`X-NEXT-INTL-LOCALE` header. [request.ts](apps/storefront/src/i18n/request.ts) falls back to the
-cookie when there is no locale in the request.
+by hand. A prefixed path is served as is. A prefix-less path is redirected to `/{locale}/…`, where
+the locale is the `_medusa_locale_choice` cookie (written only by the language switcher, through
+`setLocaleCookie` in [locale-actions.ts](apps/storefront/src/lib/data/locale-actions.ts)), else
+`matchBrowserLocale` over the whole `Accept-Language` list (a `preferredLocales` entry — Russian —
+wins wherever it stands, otherwise the visitor's own order), else `defaultLocale`. Both cookie
+names and the matcher live in [config.ts](apps/storefront/src/i18n/config.ts), with its own
+`config.test.ts`. `_medusa_locale` is the locale of the page last served: the middleware writes it
+on every response and it must not decide the redirect, or the first `/en/…` link a visitor follows
+pins English for a year. The middleware passes the locale to next-intl through the
+`X-NEXT-INTL-LOCALE` header, and [request.ts](apps/storefront/src/i18n/request.ts) falls back to
+`_medusa_locale` when there is no locale in the request.
 
 Translated catalog content comes from an `x-medusa-locale` header that
 [lib/config.ts](apps/storefront/src/lib/config.ts) attaches to every SDK call. A route that is not

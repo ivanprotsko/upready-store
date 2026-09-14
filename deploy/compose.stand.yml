@@ -94,8 +94,8 @@ services:
       COOKIE_SECRET: ${COOKIE_SECRET}
       INTEGRATION_ENCRYPTION_KEY: ${INTEGRATION_ENCRYPTION_KEY}
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
-      # Shared with the storefront service below: the storefront's devtools
-      # proxy (app/api/devtools/settings/route.ts:46) signs its PUT with this
+      # Shared with the storefront service below: the storefront's studio
+      # proxy (app/api/studio/settings/route.ts:46) signs its PUT with this
       # value and api/store/storefront-settings/route.ts:39 checks it. Absent
       # from P-deploy's compose because C3 landed the routes afterwards; a
       # stand without it cannot save a composition from the hidden panel.
@@ -216,7 +216,7 @@ services:
       NEXT_PUBLIC_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
       REGION_PIN: "true"
       REVALIDATE_SECRET: ${REVALIDATE_SECRET}
-      STOREFRONT_DEVTOOLS_PASSWORD: ${STOREFRONT_DEVTOOLS_PASSWORD}
+      STOREFRONT_STUDIO_PASSWORD: ${STOREFRONT_STUDIO_PASSWORD}
       # Same value as the backend service's own STOREFRONT_SETTINGS_SECRET —
       # the panel never sees it, the proxy route does.
       STOREFRONT_SETTINGS_SECRET: ${STOREFRONT_SETTINGS_SECRET}

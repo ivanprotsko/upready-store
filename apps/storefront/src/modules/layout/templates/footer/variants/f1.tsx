@@ -2,9 +2,10 @@ import { Link } from "@i18n/navigation"
 import { getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
-import { SITE_NAME } from "@lib/util/env"
+import { listTenantPages } from "@lib/data/tenant-pages"
+import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F1 · "Четыре колонки" — the storefront's original Footer markup, unchanged, moved here
@@ -14,12 +15,18 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * (`footer/variants/index.ts`).
  */
 export default async function FooterF1() {
-  const t = await getTranslations("Footer")
+  const [t, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
   )
   const { collections } = await listCollections()
+  // tenant-panel wave 2, piece 7: the shop owner's own published content pages,
+  // ahead of the starter's outbound links in the same Information column.
+  const tenantPages = await listTenantPages()
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">
@@ -30,7 +37,7 @@ export default async function FooterF1() {
               href="/"
               className="txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase transition-colors"
             >
-              {SITE_NAME}
+              {siteName}
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-3 gap-x-10 md:gap-x-16">
@@ -74,66 +81,41 @@ export default async function FooterF1() {
               </div>
             )}
 
+            {/* No heading over nothing: with the starter's outbound links gone
+                (t-2026-09-12-footer-attribution), this column exists only for the
+                shop owner's own published pages. */}
+            {tenantPages.length > 0 && (
             <div className="flex flex-col gap-y-3">
               <span className="txt-medium-plus text-ui-fg-base font-medium">
                 {t("infoHeading")}
               </span>
               <ul className="flex flex-col gap-y-2">
-                <li>
-                  <a
-                    href="https://gorgojs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                  >
-                    Gorgo
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/gorgojs/medusa-dtc-starter"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                  >
-                    {t("sourceCode")}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.gorgojs.com/tools/medusa-dtc-starter"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                  >
-                    {t("starterDocs")}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                  >
-                    {t("medusaDocs")}
-                  </a>
-                </li>
+                {tenantPages.map((page) => (
+                  <li key={page.key}>
+                    <Link
+                      href={`/pages/${page.key}`}
+                      className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                    >
+                      {page.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="border-t border-ui-border-base w-full">
-        <div className="content-container flex w-full mb-6 justify-between items-center pt-4 text-ui-fg-muted">
+        <div className="content-container flex flex-col gap-y-2 sm:flex-row w-full mb-6 sm:justify-between items-start sm:items-center pt-4 text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

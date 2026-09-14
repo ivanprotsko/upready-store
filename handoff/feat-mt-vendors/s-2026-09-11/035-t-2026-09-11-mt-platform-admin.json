@@ -1,0 +1,28 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 35,
+  "action": "task-add",
+  "ts": "2026-09-11T07:38:38+08:00",
+  "status": "Resume разложен по блокам по команде Ивана «делай» (вопрос q-dekompozirovat-li-resume-fayly-vopros-ivana закрыт). Канон: ~/upready/.ai/resume/<project>/<дата>-<время>-<session8>.md + latest.md (свежий по ВРЕМЕНИ блок, его инжектит хук) + index.jsonl + archive/; плоский <project>.md стал инбоксом с указателем, дописанный туда блок разбирает resume.mjs fold, которую context-restore-guard зовёт сам при старте. Коммиты: 90aa36c06 (~/upready — .ai/scripts/resume.mjs, git add -f), c291a2ff (~/.claude — оба хука), 9fa7cca (memory — шаблон). Замер миграции upready-store: 30 заголовков → 30 файлов, потеряно 0, тело крупнейшего блока сверено со снимком doc-structure-guard; latest.md 3609 байт против 230 827; archive --days 2 унёс 14 блоков. Свой блок нити эта сессия сдала уже новым способом (resume.mjs add → 2026-09-11-0730-01Q23zCF.md). Остальные проекты в .ai/resume пока плоские — fold разберёт их при первом старте сессии в них. Стенд Mercur полностью доступен: витрина :3000, панель продавца :9000/seller, админка :9000/dashboard (admin@mercur.local/supersecret, заведена этой сессией). Push не делался (21b).",
+  "task": {
+    "id": "t-2026-09-11-mt-platform-admin",
+    "title": "Платформа: админка магазинов в родной админке Medusa — список/создание/редактирование/удаление тенантов, админы тенанта (добавить, сменить email и пароль)",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Иван 11.09 07:1x, пункт 6.1 дословно в docs/multitenancy/2026-09-11-night-2-platform-brief.md (часть A1). Плюс A2 — файлы тенантов под префиксом tenants/<id>/ и удаление по префиксу (пункт 7.1), A3 — exportTenantWorkflow как основа 7.2/7.3. Ветка feat/mt-platform.",
+    "files": [
+      "apps/backend/src/admin",
+      "apps/backend/src/api/admin/tenants"
+    ],
+    "tags": [
+      "multitenancy",
+      "platform",
+      "admin"
+    ],
+    "created": "2026-09-11T07:38:37+08:00",
+    "updated": "2026-09-11T07:38:37+08:00"
+  }
+}

@@ -14,6 +14,7 @@ export {
 } from "./stock-locations";
 export {
   isAlreadySeeded,
+  markProfileSeeded,
   resolveSeedMode,
   seedSalesChannel,
   seedStore,

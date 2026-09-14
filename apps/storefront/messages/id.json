@@ -152,7 +152,6 @@
     "close": "Tutup",
     "hidePassword": "Sembunyikan kata sandi",
     "orderNumber": "Pesanan #{id}",
-    "poweredBy": "Powered by",
     "remove": "Hapus",
     "showPassword": "Tampilkan kata sandi"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategori",
     "collectionsHeading": "Koleksi",
     "copyright": "© {year} {siteName}. Hak cipta dilindungi.",
-    "infoHeading": "Informasi",
-    "medusaDocs": "Dokumentasi Medusa",
-    "sourceCode": "Kode sumber starter",
-    "starterDocs": "Dokumentasi starter"
+    "infoHeading": "Informasi"
   },
   "ForgotPassword": {
     "backToSignIn": "Kembali ke masuk",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Pengembalian & Penukaran"
   },
   "Hero": {
-    "eyebrow": "Siap pakai · Open-source",
-    "features": [
-      {
-        "description": "ditingkatkan, tanpa langkah berlebih, dengan pelengkapan otomatis alamat",
-        "label": "Checkout yang dioptimalkan untuk konversi"
-      },
-      {
-        "description": "pencarian, katalog dengan filter, kategori bertingkat & mobile-first",
-        "label": "Storefront lengkap dengan fitur"
-      },
-      {
-        "description": "meta tag, Open Graph dan Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 di PageSpeed Insights",
-        "label": "Dioptimalkan untuk SEO dan AI"
-      },
-      {
-        "description": "36 bahasa untuk etalase dengan dukungan RTL dan 241 negara untuk wilayah penjualan, deteksi negara, mudah dipangkas sesuai kebutuhan",
-        "label": "Lokalisasi penuh"
-      },
-      {
-        "description": "template React Email melalui SMTP",
-        "label": "Email transaksional"
-      },
-      {
-        "description": "saat ada perubahan katalog produk",
-        "label": "Revalidasi cache sesuai permintaan"
-      },
-      {
-        "badge": "New",
-        "description": "kelola pengaturan provider Anda melalui Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Modul Integrasi"
-      }
-    ],
-    "featuresHeading": "Fitur",
-    "readDocs": "Baca dokumentasi",
     "subtitle": "Semuanya yang tidak ada di Medusa DTC starter resmi.",
-    "title": "Medusa DTC Starter yang Siap Produksi",
-    "viewOnGitHub": "Lihat di GitHub"
+    "title": "Medusa DTC Starter yang Siap Produksi"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Tutup",
-    "cta": "Coba sekarang",
     "message": "DTC starter lengkap dan siap produksi."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Semua produk"
+  },
+  "TenantPage": {
+    "emptyBody": "Halaman ini belum memiliki teks.",
+    "metaDescription": "{title} di {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Terima transfer",

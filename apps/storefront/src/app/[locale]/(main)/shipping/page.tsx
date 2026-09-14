@@ -12,9 +12,9 @@ export async function generateMetadata(): Promise<Metadata> {
   ])
 
   return {
-    title: pageTitle(t("title")),
+    title: await pageTitle(t("title")),
     description: t("description"),
-    alternates: buildAlternates(locale, "/shipping"),
+    alternates: await buildAlternates(locale, "/shipping"),
   }
 }
 

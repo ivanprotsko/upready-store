@@ -1,0 +1,39 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 3,
+  "action": "task-update",
+  "ts": "2026-09-11T09:03:20+08:00",
+  "status": "Волна 2: trunk ab223b7 (каркас 0fd518d, контракт 0891baf, промпты c66e6dd/bb40bb7, resolver /store/tenant/me ab223b7). Воркеры волны A запущены (mt2-piece-4 sonnet, mt2-piece-1 opus, mt2-piece-2 opus) в worktrees feat/mt-panel-2-{profile,product-detail,orders}; worktrees волны B/C создаются (categories/promotions/pages/home/by-host). Приёмка каждого куска = мои прогоны tsc/lint/seam/e2e + скриншоты, merge в feat/mt-panel-2, строка в …-progress.md. Отчёт …-night.md = NOT READY. Стенд оркестратора :9026/:5181.",
+  "task": {
+    "id": "t-2026-09-11-mt-panel-wave-2",
+    "title": "Панель тенанта, волна 2: карточки товара и заказа, экспорт заказов, профиль, категории, промо, контент-разделы, настройки главной",
+    "state": "in_progress",
+    "priority": "high",
+    "details": "Иван 11.09 07:1x (пункты 1, 4, 5, 5.1, 5.2 его сообщения): «составь ТЗ и начни внедрение». ТЗ v0 = docs/multitenancy/2026-09-11-night-2-panel-brief.md (инвентарь Mercur замерен по @mercurjs/core dist/api/vendor и бандлу @mercurjs/vendor; список разделов Ивана 5.1; куски 1–8 с приёмкой). Механизм неизменен: копия экранов админки 2.19.0 + свой слой /tenants/*; изоляция через links. Ветка feat/mt-panel-2 от feat/mt-vendors (после merge волны 1, 3bd16a8).\n\n11.09 09:03 (сессия A, архитектор-оркестратор session_01477g3q3qsvgSsc4QHptDUh, feat/mt-panel-2): каркас 0fd518d (модели tenant_page/tenant_home_config/tenant_domain + миграция накатана на стенд-БД, links category/promotion/campaign, якоря панели), контракт волны 2 на куски 1–9 в docs/tenant-panel/api-contract.md (0891baf), resolver ключ→тенант ab223b7. Воркеры 4 (sonnet), 1 и 2+3 (opus) запущены в worktrees feat/mt-panel-2-{profile,product-detail,orders}; 5/6/7/8 — следом по слотам. Стенд оркестратора :9026/:5181. Схема главной одна: документ stands-composition + content-расширение (развилки нет). Отчёт artifacts/docs/2026-09-12-tenant-panel-night.md = NOT READY.",
+    "files": [
+      "apps/tenant-panel",
+      "apps/backend/src/api/tenants"
+    ],
+    "tags": [
+      "multitenancy",
+      "panel",
+      "ui"
+    ],
+    "created": "2026-09-11T07:38:37+08:00",
+    "updated": "2026-09-11T09:03:19+08:00",
+    "goal": "Владелец магазина в своей панели открывает и редактирует карточку товара, открывает карточку заказа и выполняет базовые действия (fulfill/ship/capture/cancel), выгружает заказы CSV, правит свой профиль и пароль, ведёт категории и промо только своих товаров, заполняет контент-разделы (контакты, реквизиты, о магазине, политика, оферта) и настраивает главную (hero + блоки) — и всё это видно на его витрине и не видно на витринах соседей",
+    "acceptance": [
+      "seam-тесты /tenants/* по каждому новому разделу зелёные с проверкой изоляции (строка тенанта A не читается и не правится токеном B)",
+      "e2e панели на живой :5180 расширен на новые экраны и зелёный",
+      "tsc+eslint панели, tsc+medusa lint backend rc=0",
+      "пары скриншотов admin/panel на каждый новый экран в artifacts/docs/tenant-panel-shots",
+      "контент-страницы и главная Acme после правки из панели отличаются на :8000 (после revalidate), :8001/:8002 не изменились (18f)",
+      "Иван утром своими глазами: заголовки не обрезаны, статусы словами, формы заполняются без инструкции (18e)",
+      "схема композиции главной одна на проект — взята из feat/stands-composition или зафиксирована развилка в отчёте"
+    ],
+    "approved": "2026-09-11T07:39:44+08:00"
+  }
+}

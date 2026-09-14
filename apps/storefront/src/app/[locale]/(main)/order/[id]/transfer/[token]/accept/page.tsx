@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Metadata.orderTransfer")
 
   return {
-    title: pageTitle(t("title")),
+    title: await pageTitle(t("title")),
     robots: NOINDEX,
   }
 }

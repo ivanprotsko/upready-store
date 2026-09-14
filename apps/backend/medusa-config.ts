@@ -99,6 +99,8 @@ module.exports = defineConfig({
   ],
   modules: [
     { resolve: "@medusajs/medusa/translation" },
+    // Shared multitenancy: tenant + tenant admin, actor type "tenant", /tenants/*.
+    { resolve: "./src/modules/tenant" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

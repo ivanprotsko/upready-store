@@ -1,12 +1,12 @@
 import { retrieveCustomer } from "@lib/data/customer"
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 import { ArrowLeft, UserMini } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 import { NOINDEX } from "@lib/util/robots"
-import BrandUnlock from "@modules/devtools/components/brand-unlock"
+import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 export const metadata: Metadata = {
   robots: NOINDEX,
@@ -17,9 +17,10 @@ export default async function CheckoutLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [customer, t] = await Promise.all([
+  const [customer, t, siteName] = await Promise.all([
     retrieveCustomer(),
     getTranslations("CheckoutPage"),
+    getSiteName(),
   ])
 
   return (
@@ -35,7 +36,7 @@ export default async function CheckoutLayout({
               <ArrowLeft className="rtl:rotate-180" />
               <span className="hidden sm:inline">{t("backToCart")}</span>
               <span className="sm:hidden font-semibold uppercase whitespace-nowrap">
-                {SITE_NAME}
+                {siteName}
               </span>
             </Link>
           </div>
@@ -46,7 +47,7 @@ export default async function CheckoutLayout({
               className="hidden sm:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="store-link"
             >
-              {SITE_NAME}
+              {siteName}
             </Link>
           </BrandUnlock>
 
@@ -85,16 +86,16 @@ export default async function CheckoutLayout({
           <span className="text-base font-light text-ui-fg-subtle">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
         </div>
 
         <div className="hidden lg:flex items-center justify-between content-container gap-2 h-16">
           <span className="txt-compact-medium font-semibold text-ui-fg-subtle uppercase">
-            {SITE_NAME}
+            {siteName}
           </span>
-          <PoweredBy />
+          <SiteAttribution />
         </div>
       </footer>
     </div>

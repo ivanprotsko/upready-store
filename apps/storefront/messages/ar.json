@@ -152,7 +152,6 @@
     "close": "إغلاق",
     "hidePassword": "إخفاء كلمة المرور",
     "orderNumber": "الطلب رقم {id}",
-    "poweredBy": "بدعم من",
     "remove": "إزالة",
     "showPassword": "إظهار كلمة المرور"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "الفئات",
     "collectionsHeading": "المجموعات",
     "copyright": "© {year} {siteName}. جميع الحقوق محفوظة.",
-    "infoHeading": "معلومات",
-    "medusaDocs": "توثيق Medusa",
-    "sourceCode": "الكود المصدري للستارتر",
-    "starterDocs": "توثيق الستارتر"
+    "infoHeading": "معلومات"
   },
   "ForgotPassword": {
     "backToSignIn": "العودة إلى تسجيل الدخول",
@@ -345,44 +341,8 @@
     "returnsExchanges": "الإرجاع والاستبدال"
   },
   "Hero": {
-    "eyebrow": "جاهز للاستخدام · مفتوح المصدر",
-    "features": [
-      {
-        "description": "مطوَّرة، بدون خطوات زائدة، مع إكمال تلقائي للعنوان",
-        "label": "صفحة دفع مُحسّنة لزيادة التحويلات"
-      },
-      {
-        "description": "بحث، كتالوج قابل للتصفية، فئات متعددة المستويات، وتصميم mobile-first",
-        "label": "واجهة متجر متكاملة"
-      },
-      {
-        "description": "وسوم meta، بطاقات Open Graph و Twitter، JSON-LD، sitemap، robots، llms.txt، و100/100 في PageSpeed Insights",
-        "label": "محسّن لمحركات البحث والذكاء الاصطناعي"
-      },
-      {
-        "description": "36 لغة للواجهة مع دعم RTL و241 دولة لمناطق البيع، تحديد الدولة، ويسهل الاقتصار على ما تحتاجه",
-        "label": "توطين كامل"
-      },
-      {
-        "description": "قوالب React Email عبر SMTP",
-        "label": "رسائل بريدية معاملاتية"
-      },
-      {
-        "description": "عند تغييرات كتالوج المنتجات",
-        "label": "إعادة تحقق من الذاكرة المؤقتة عند الطلب"
-      },
-      {
-        "badge": "جديد",
-        "description": "إدارة إعدادات مزوّديك عبر لوحة التحكم",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "وحدة التكاملات"
-      }
-    ],
-    "featuresHeading": "المميزات",
-    "readDocs": "قراءة الوثائق",
     "subtitle": "كل ما أغفله قالب Medusa DTC Starter الرسمي.",
-    "title": "قالب Medusa DTC Starter الجاهز للإنتاج",
-    "viewOnGitHub": "عرض على GitHub"
+    "title": "قالب Medusa DTC Starter الجاهز للإنتاج"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "إغلاق",
-    "cta": "جرّبه",
     "message": "قالب DTC متكامل المميزات وجاهز للإنتاج."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "جميع المنتجات"
+  },
+  "TenantPage": {
+    "emptyBody": "لا يوجد نص في هذه الصفحة بعد.",
+    "metaDescription": "{title} في {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "قبول النقل",

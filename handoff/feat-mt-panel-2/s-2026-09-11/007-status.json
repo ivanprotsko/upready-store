@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-panel-2",
+  "session": "s-2026-09-11",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-11T10:02:05+08:00",
+  "status": "Волна 2: приняты и слиты куски 1, 4, 2+3 (trunk feat/mt-panel-2 = 952ea2e, tsc/eslint/lint зелёные); e2e trunk идёт. В работе: mt2-piece-5 (categories), mt2-piece-6 (promotions), mt2-piece-7 (pages, стартует). Далее 8 → 9. night.md = NOT READY."
+}

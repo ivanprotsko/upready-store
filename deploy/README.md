@@ -111,7 +111,7 @@ chmod 600 deploy/stands/kerbstone.env
 
 Fill every blank the `.example` file leaves empty. Generate each secret separately
 (`openssl rand -hex 32`) — `POSTGRES_PASSWORD`, `JWT_SECRET`, `COOKIE_SECRET`,
-`INTEGRATION_ENCRYPTION_KEY`, `REVALIDATE_SECRET`, `STOREFRONT_DEVTOOLS_PASSWORD`. Leave
+`INTEGRATION_ENCRYPTION_KEY`, `REVALIDATE_SECRET`, `STOREFRONT_STUDIO_PASSWORD`. Leave
 `MEDUSA_PUBLISHABLE_KEY` blank for now — step 5 fills it in, after the seed mints it.
 
 Four variables arrive already filled and are meant to stay that way: `MEDUSA_ADMIN_EMAIL`,
@@ -218,7 +218,7 @@ curl -sS -o /dev/null -w '%{http_code} %{redirect_url} tls=%{ssl_verify_result}\
 curl -sS -w '\n%{http_code}\n' https://api-kerbstone.upready.dev/health
 curl -sS -o /dev/null -w '%{http_code}\n' -X POST https://api-kerbstone.upready.dev/auth/user/emailpass \
   -H 'Content-Type: application/json' -d '{"email":"admin@upready.dev","password":"<the password>"}'
-curl -sS -o /dev/null -w '%{http_code}\n' -X POST https://kerbstone.upready.dev/api/devtools/unlock \
+curl -sS -o /dev/null -w '%{http_code}\n' -X POST https://kerbstone.upready.dev/api/studio/unlock \
   -H 'Content-Type: application/json' -d '{"password":"<the panel password>"}'
 ```
 
@@ -417,10 +417,10 @@ certificate: issuer C=US, O=Let's Encrypt, CN=YR2
 POST https://api-kerbstone.upready.dev/auth/user/emailpass  {admin@upready.dev, <password>}
                                                -> 200, body {"token": <432 chars>}
 
-POST https://kerbstone.upready.dev/api/devtools/unlock  {"password": "<wrong>"}   -> 401
-POST https://kerbstone.upready.dev/api/devtools/unlock  {"password": "<real>"}    -> 200 {"unlocked":true}
-     set-cookie: upready_devtools=<redacted>; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=lax
-GET  https://kerbstone.upready.dev/api/devtools/settings  (with that cookie)      -> 200
+POST https://kerbstone.upready.dev/api/studio/unlock  {"password": "<wrong>"}   -> 401
+POST https://kerbstone.upready.dev/api/studio/unlock  {"password": "<real>"}    -> 200 {"unlocked":true}
+     set-cookie: upready_studio=<redacted>; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=lax
+GET  https://kerbstone.upready.dev/api/studio/settings  (with that cookie)      -> 200
      {"settings":{"header":"h5","hero":"k","tiles":"off","listing":"p2","footer":"f3",
        "defaultMode":"dark","updatedAt":"2026-09-09T16:19:32.781Z"},"secretConfigured":true}
 ```
@@ -595,7 +595,7 @@ verification 25 s — **about 7 minutes per stand**, one after another as the go
 
 The public checks the script runs and every stand passed at 02:08–02:12 WITA (from a laptop, TLS
 verified, no `-k`): `/en` 200, `/health` 200, `POST /auth/user/emailpass admin@upready.dev` 200,
-`POST /auth/customer/emailpass user@upready.dev` 200, `/api/devtools/unlock` 401 on a wrong password
+`POST /auth/customer/emailpass user@upready.dev` 200, `/api/studio/unlock` 401 on a wrong password
 and 200 on the panel password, the profile's hero file and every category tile file on
 `https://api-<stand>.upready.dev/static/store-profiles/<profile>/` 200, every tile the HTML
 references 200, one product image through `/_next/image` 200, the profile the storefront image

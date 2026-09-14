@@ -3,12 +3,12 @@ import { notFound } from "next/navigation"
 
 import { getCollectionByHandle } from "@lib/data/collections"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import CollectionTemplate from "@modules/collections/templates"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getLocale, getTranslations } from "next-intl/server"
-import { DEFAULT_REGION, SITE_NAME } from "@lib/util/env"
+import { DEFAULT_REGION } from "@lib/util/env"
 import { pageTitle } from "@lib/util/page-title"
 
 type Props = {
@@ -36,12 +36,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: pageTitle(collection.title),
+    title: await pageTitle(collection.title),
     description: t("description", {
       collection: collection.title,
-      siteName: SITE_NAME,
+      siteName: await getSiteName(),
     }),
-    alternates: buildAlternates(locale, `/collections/${params.handle}`),
+    alternates: await buildAlternates(locale, `/collections/${params.handle}`),
   }
 }
 

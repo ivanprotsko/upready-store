@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Metadata.cart")
 
   return {
-    title: pageTitle(t("title")),
+    title: await pageTitle(t("title")),
     description: t("description"),
     robots: NOINDEX,
   }

@@ -1,11 +1,16 @@
-import { SITE_NAME } from "@lib/util/env"
+import { getSiteName } from "@lib/data/cookies"
 
 /**
  * Suffixes a page title with the store name: `Cart | <store name>`. Keeps the
  * separator in one place so every route reads the same in search results and
  * browser tabs. The home page is the exception: its title is the store name on
- * its own, so it uses `SITE_NAME` directly.
+ * its own, so it reads `getSiteName()` directly there instead of calling this.
+ *
+ * Async because the name is per-request (the tenant resolved from the Host,
+ * `docs/multitenancy/storefront-by-host.md` §2), not a build constant — every
+ * caller is already inside an async `generateMetadata`/server component, so
+ * this costs an `await` at the call site, nothing more.
  */
-export function pageTitle(title: string) {
-  return `${title} | ${SITE_NAME}`
+export async function pageTitle(title: string) {
+  return `${title} | ${await getSiteName()}`
 }

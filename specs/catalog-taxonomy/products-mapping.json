@@ -1,0 +1,761 @@
+{
+  "schema": "upready.products-taxonomy-mapping/v0",
+  "generatedBy": "apps/backend/scripts/catalog-taxonomy/build.mjs",
+  "source": {
+    "name": "Google Product Taxonomy",
+    "version": "2021-09-21",
+    "locales": [
+      "en-US",
+      "ru-RU"
+    ],
+    "urls": [
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt",
+      "https://www.google.com/basepages/producttype/taxonomy-with-ids.ru-RU.txt"
+    ],
+    "fetchedAt": "2026-09-12",
+    "rawDir": "~/upready/research/raw/2026-09-12-google-product-taxonomy/"
+  },
+  "inventory": "artifacts/docs/2026-09-12-catalog-taxonomy-inventory-products.tsv",
+  "counts": {
+    "products": 67,
+    "covered": 67,
+    "uncovered": 0,
+    "crossSphere": 1
+  },
+  "datasets": [
+    {
+      "profile": "electronics",
+      "sphere": "electronics",
+      "tradeCategories": [
+        "audio",
+        "electronics-accessories"
+      ],
+      "products": 14,
+      "crossSphere": 0
+    },
+    {
+      "profile": "home-goods",
+      "sphere": "home-and-garden",
+      "tradeCategories": [
+        "decor",
+        "kitchen-and-dining",
+        "linens-and-bedding"
+      ],
+      "products": 12,
+      "crossSphere": 0
+    },
+    {
+      "profile": "sneakers",
+      "sphere": "apparel-and-accessories",
+      "tradeCategories": [
+        "shoe-accessories",
+        "shoes"
+      ],
+      "products": 14,
+      "crossSphere": 1
+    },
+    {
+      "profile": "supplements",
+      "sphere": "health-and-beauty",
+      "tradeCategories": [
+        "health-care"
+      ],
+      "products": 15,
+      "crossSphere": 0
+    },
+    {
+      "profile": "womens-fashion",
+      "sphere": "apparel-and-accessories",
+      "tradeCategories": [
+        "clothing",
+        "clothing-accessories"
+      ],
+      "products": 12,
+      "crossSphere": 0
+    }
+  ],
+  "uncovered": [],
+  "crossSphere": [
+    {
+      "profile": "sneakers",
+      "handle": "care-kit",
+      "title": "Care kit · three piece",
+      "sphere": "home-and-garden",
+      "datasetSphere": "apparel-and-accessories",
+      "gptLeafPath": "Home & Garden > Household Supplies > Shoe Care & Tools"
+    }
+  ],
+  "products": [
+    {
+      "profile": "electronics",
+      "handle": "bench-over-ear",
+      "title": "Bench 1 · over-ear headphones",
+      "category": "headphones",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 505771,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Headphones & Headsets"
+    },
+    {
+      "profile": "electronics",
+      "handle": "bench-studio",
+      "title": "Bench S · closed-back studio headphones",
+      "category": "headphones",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 505771,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Headphones & Headsets"
+    },
+    {
+      "profile": "electronics",
+      "handle": "pad-set",
+      "title": "Pad set · replaceable earpads for Bench",
+      "category": "headphones",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 505771,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Headphones & Headsets"
+    },
+    {
+      "profile": "electronics",
+      "handle": "pin-earbuds",
+      "title": "Pin · in-ear buds",
+      "category": "earbuds",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 505771,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Headphones & Headsets"
+    },
+    {
+      "profile": "electronics",
+      "handle": "pin-open",
+      "title": "Pin Open · open-ear clips",
+      "category": "earbuds",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 505771,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Headphones & Headsets"
+    },
+    {
+      "profile": "electronics",
+      "handle": "slab-portable",
+      "title": "Slab · portable speaker",
+      "category": "speakers",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 249,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Speakers"
+    },
+    {
+      "profile": "electronics",
+      "handle": "shelf-monitor",
+      "title": "Shelf 4 · powered monitors, pair",
+      "category": "speakers",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 249,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Speakers"
+    },
+    {
+      "profile": "electronics",
+      "handle": "puck-speaker",
+      "title": "Puck · pocket speaker",
+      "category": "speakers",
+      "sphere": "electronics",
+      "tradeCategory": "audio",
+      "gptLeafId": 249,
+      "gptLeafPath": "Electronics > Audio > Audio Components > Speakers"
+    },
+    {
+      "profile": "electronics",
+      "handle": "brick-pack",
+      "title": "Brick · power bank",
+      "category": "power-banks",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 276,
+      "gptLeafPath": "Electronics > Electronics Accessories > Power > Batteries"
+    },
+    {
+      "profile": "electronics",
+      "handle": "slip-pack",
+      "title": "Slip · magnetic pack",
+      "category": "power-banks",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 276,
+      "gptLeafPath": "Electronics > Electronics Accessories > Power > Batteries"
+    },
+    {
+      "profile": "electronics",
+      "handle": "crate-station",
+      "title": "Crate · desk power station",
+      "category": "power-banks",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 276,
+      "gptLeafPath": "Electronics > Electronics Accessories > Power > Batteries"
+    },
+    {
+      "profile": "electronics",
+      "handle": "stack-charger",
+      "title": "Stack 65 · GaN wall charger",
+      "category": "cables-and-chargers",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 505295,
+      "gptLeafPath": "Electronics > Electronics Accessories > Power > Power Adapters & Chargers"
+    },
+    {
+      "profile": "electronics",
+      "handle": "braid-cable",
+      "title": "Braid · USB-C cable, 2 m",
+      "category": "cables-and-chargers",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 259,
+      "gptLeafPath": "Electronics > Electronics Accessories > Cables"
+    },
+    {
+      "profile": "electronics",
+      "handle": "hub-dock",
+      "title": "Hub 7 · desk dock",
+      "category": "cables-and-chargers",
+      "sphere": "electronics",
+      "tradeCategory": "electronics-accessories",
+      "gptLeafId": 300,
+      "gptLeafPath": "Electronics > Electronics Accessories > Computer Accessories > Laptop Docking Stations"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "braiser",
+      "title": "Braiser · enamelled cast iron",
+      "category": "cookware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 654,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "bean-pot",
+      "title": "Bean pot · unglazed clay",
+      "category": "cookware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 654,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "skillet",
+      "title": "Skillet · sand-polished cast iron",
+      "category": "cookware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 654,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "dinner-plates",
+      "title": "Dinner plates, set of four",
+      "category": "tableware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 673,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "mug",
+      "title": "Mug · thumb-notch handle",
+      "category": "tableware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 674,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Tableware > Drinkware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "serving-board",
+      "title": "Serving board · olive wood",
+      "category": "tableware",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 4026,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Tableware > Serveware"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "waffle-towels",
+      "title": "Waffle towels, set of three",
+      "category": "kitchen-textiles",
+      "sphere": "home-and-garden",
+      "tradeCategory": "linens-and-bedding",
+      "gptLeafId": 4257,
+      "gptLeafPath": "Home & Garden > Linens & Bedding > Towels > Kitchen Towels"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "cross-back-apron",
+      "title": "Cross-back apron · washed linen",
+      "category": "kitchen-textiles",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 639,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Aprons"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "table-runner",
+      "title": "Table runner · heavy linen",
+      "category": "kitchen-textiles",
+      "sphere": "home-and-garden",
+      "tradeCategory": "linens-and-bedding",
+      "gptLeafId": 6325,
+      "gptLeafPath": "Home & Garden > Linens & Bedding > Table Linens > Table Runners"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "canister",
+      "title": "Canister · stoneware with cork lid",
+      "category": "storage-and-light",
+      "sphere": "home-and-garden",
+      "tradeCategory": "kitchen-and-dining",
+      "gptLeafId": 2626,
+      "gptLeafPath": "Home & Garden > Kitchen & Dining > Food Storage"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "candle-holder",
+      "title": "Candle holder · turned oak",
+      "category": "storage-and-light",
+      "sphere": "home-and-garden",
+      "tradeCategory": "decor",
+      "gptLeafId": 2784,
+      "gptLeafPath": "Home & Garden > Decor > Home Fragrance Accessories > Candle Holders"
+    },
+    {
+      "profile": "home-goods",
+      "handle": "hook-rail",
+      "title": "Hook rail · blackened steel",
+      "category": "storage-and-light",
+      "sphere": "home-and-garden",
+      "tradeCategory": "decor",
+      "gptLeafId": 5708,
+      "gptLeafPath": "Home & Garden > Decor > Coat & Hat Racks"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "gutter-low",
+      "title": "Gutter low · Tar black",
+      "category": "low-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "sett-low",
+      "title": "Sett low · Chalk",
+      "category": "low-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "flagstone-low",
+      "title": "Flagstone low · Concrete",
+      "category": "low-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "bollard-high",
+      "title": "Bollard high · Tar black",
+      "category": "high-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "gantry-high",
+      "title": "Gantry high · Diesel",
+      "category": "high-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "stanchion-high",
+      "title": "Stanchion high · Oxblood",
+      "category": "high-tops",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "verge-runner",
+      "title": "Verge runner · Chalk",
+      "category": "runners",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "camber-runner",
+      "title": "Camber runner · Sulphur",
+      "category": "runners",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "towpath-runner",
+      "title": "Towpath runner · Concrete",
+      "category": "runners",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "culvert-trail",
+      "title": "Culvert trail · Diesel",
+      "category": "trail",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "cattle-grid-trail",
+      "title": "Cattle grid trail · Oxblood",
+      "category": "trail",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoes",
+      "gptLeafId": 187,
+      "gptLeafPath": "Apparel & Accessories > Shoes"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "care-kit",
+      "title": "Care kit · three piece",
+      "category": "care-and-spares",
+      "sphere": "home-and-garden",
+      "tradeCategory": "household-supplies",
+      "gptLeafId": 628,
+      "gptLeafPath": "Home & Garden > Household Supplies > Shoe Care & Tools",
+      "crossSphere": true
+    },
+    {
+      "profile": "sneakers",
+      "handle": "flat-waxed-laces",
+      "title": "Flat waxed laces · Tar black",
+      "category": "care-and-spares",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoe-accessories",
+      "gptLeafId": 1856,
+      "gptLeafPath": "Apparel & Accessories > Shoe Accessories > Shoelaces"
+    },
+    {
+      "profile": "sneakers",
+      "handle": "round-waxed-laces",
+      "title": "Round waxed laces · three colours",
+      "category": "care-and-spares",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "shoe-accessories",
+      "gptLeafId": 1856,
+      "gptLeafPath": "Apparel & Accessories > Shoe Accessories > Shoelaces"
+    },
+    {
+      "profile": "supplements",
+      "handle": "baseline-daily",
+      "title": "Baseline Daily · multivitamin",
+      "category": "multivitamins",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "baseline-fifty-plus",
+      "title": "Baseline 50+ · multivitamin",
+      "category": "multivitamins",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "baseline-prenatal",
+      "title": "Baseline Prenatal · multivitamin",
+      "category": "multivitamins",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "starter-fortnight",
+      "title": "The Starter Fortnight",
+      "category": "multivitamins",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "vitamin-d3-k2",
+      "title": "Vitamin D3 + K2",
+      "category": "vitamins-and-minerals",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "magnesium-glycinate",
+      "title": "Magnesium Glycinate",
+      "category": "vitamins-and-minerals",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "zinc-picolinate",
+      "title": "Zinc Picolinate",
+      "category": "vitamins-and-minerals",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "vitamin-d3-drops",
+      "title": "Vitamin D3 Drops · 15 ml",
+      "category": "vitamins-and-minerals",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "night-ledger",
+      "title": "Night Ledger · sleep formula",
+      "category": "sleep-and-calm",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "ashwagandha-ksm",
+      "title": "Ashwagandha KSM-66",
+      "category": "sleep-and-calm",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "evening-calm",
+      "title": "Evening Calm · magnesium drink",
+      "category": "sleep-and-calm",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "omega-3-rtg",
+      "title": "Omega-3 · rTG",
+      "category": "joints-and-mobility",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "collagen-peptides",
+      "title": "Collagen Peptides",
+      "category": "joints-and-mobility",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "probiotic-12-strain",
+      "title": "Probiotic · 12 strain",
+      "category": "gut-health",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "supplements",
+      "handle": "digestive-enzymes",
+      "title": "Digestive Enzymes",
+      "category": "gut-health",
+      "sphere": "health-and-beauty",
+      "tradeCategory": "health-care",
+      "gptLeafId": 525,
+      "gptLeafPath": "Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "ondine-slip-dress",
+      "title": "Ondine bias-cut slip dress",
+      "category": "dresses",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 2271,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Dresses"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "perrin-knit-dress",
+      "title": "Perrin ribbed column dress",
+      "category": "dresses",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 2271,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Dresses"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "sevre-wrap-dress",
+      "title": "Sèvre wrap midi dress",
+      "category": "dresses",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 2271,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Dresses"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "aubin-merino-crew",
+      "title": "Aubin merino crewneck",
+      "category": "knitwear",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 212,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Shirts & Tops"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "vaux-longline-cardigan",
+      "title": "Vaux longline cardigan",
+      "category": "knitwear",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 212,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Shirts & Tops"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "orne-wool-scarf",
+      "title": "Orne oversized wool scarf",
+      "category": "knitwear",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing-accessories",
+      "gptLeafId": 177,
+      "gptLeafPath": "Apparel & Accessories > Clothing Accessories > Scarves & Shawls"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "mazan-silk-shirt",
+      "title": "Mazan silk shirt",
+      "category": "shirts-and-blouses",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 212,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Shirts & Tops"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "carre-silk-square",
+      "title": "Carré printed silk square",
+      "category": "shirts-and-blouses",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing-accessories",
+      "gptLeafId": 177,
+      "gptLeafPath": "Apparel & Accessories > Clothing Accessories > Scarves & Shawls"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "tille-wide-trouser",
+      "title": "Tille pleated straight trouser",
+      "category": "trousers-and-skirts",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 204,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Pants"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "noyer-bias-skirt",
+      "title": "Noyer bias-cut midi skirt",
+      "category": "trousers-and-skirts",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 1581,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Skirts"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "belair-wool-overcoat",
+      "title": "Bel-Air wool overcoat",
+      "category": "coats-and-jackets",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 203,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Outerwear"
+    },
+    {
+      "profile": "womens-fashion",
+      "handle": "quessant-quilted-jacket",
+      "title": "Quessant quilted jacket",
+      "category": "coats-and-jackets",
+      "sphere": "apparel-and-accessories",
+      "tradeCategory": "clothing",
+      "gptLeafId": 203,
+      "gptLeafPath": "Apparel & Accessories > Clothing > Outerwear"
+    }
+  ]
+}

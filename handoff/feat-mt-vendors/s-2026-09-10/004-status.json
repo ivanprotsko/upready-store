@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-10",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-10T22:37:58+08:00",
+  "status": "t-2026-09-10-mt-vendors: срез принят на живом стенде :9023 (коммит 8ba234a): jest seam-тест 10/10 за 15 с (все 5 циклов падений — стенд/раннер test-utils 2.19, не код среза: DB_HOST=localhost из-за принудительного SSL, .tsx transform в jest.config, свободный PORT, самодостаточные тесты из-за снимка БД перед каждым it), живой сценарий 18/18 (два тенанта, изолированные каталоги, витринный заказ по ключу acme виден только acme), tsc+lint чистые; отчёт artifacts/docs/2026-09-10-mt-vendors-acceptance.md; endpoint'ов 5 (+1 /tenants/me). Гейт Ивана: открыть :9023 и прогнать scripts/mt-live-scenario.mjs; задача остаётся in_progress до его приёмки. Вопросы дизайну q-mt-* открыты. Push не делался (21b)."
+}

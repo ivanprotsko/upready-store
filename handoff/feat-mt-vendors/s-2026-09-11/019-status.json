@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-mt-vendors",
+  "session": "s-2026-09-11",
+  "index": 19,
+  "action": "status-set",
+  "ts": "2026-09-11T05:02:53+08:00",
+  "status": "Витрина Mercur поставлена локально (apps/storefront из tar.gz main репозитория mercurjs/mercur, Next.js 15.5.21 + React 19, npm-пакеты доставлены bun install; .env витрины с publishable-ключом pk_1fcb9a15…, STORE_CORS бэкенда расширен на :3000). Найдена и починена причина пустого селекта валюты в онбординге Mercur (жалоба Ивана): GET /vendor/stores не отдаёт supported_currencies, потому что @mercurjs/core 2.3.3 кладёт в allowed те же строки, что и в defaults, СО звёздами, а AllowedFieldFilter в @medusajs/framework 2.20.1 сверяет уже разобранное имя без звезды и требует точного совпадения — связь молча вырезается (фильтр включается всегда при непустом allowed, флаг rbac_filter_fields замерен как false и тут ни при чём; родная админка Medusa не страдает, у неё allowed не задан вовсе). Патч наложен в активной копии пакета, оригинал рядом (.orig-2026-09-11); класс просканирован: из 57 query-config.js в core allowed задают три, живой случай один. Перезапуск стенда идёт, проверка живьём (:9000 + :3000) в полёте. Реестр исследований пополнен записью r-2026-09-11-mercur-demo (правило 43, коммит 790bce051), разбор ловушки записан в память (d3c1c44 в сабмодуле memory). Ночная волна панели ЖИВА: на feat/mt-panel два коммита (каркас apps/tenant-panel + черновик e2e), строк прогресса пока нет — волна идёт 25 минут, по протоколу строка раз в час."
+}

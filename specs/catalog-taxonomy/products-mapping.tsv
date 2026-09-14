@@ -1,0 +1,68 @@
+profile	handle	category	sphere	tradeCategory	gptLeafId	gptLeafPath	crossSphere
+electronics	bench-over-ear	headphones	electronics	audio	505771	Electronics > Audio > Audio Components > Headphones & Headsets	
+electronics	bench-studio	headphones	electronics	audio	505771	Electronics > Audio > Audio Components > Headphones & Headsets	
+electronics	pad-set	headphones	electronics	audio	505771	Electronics > Audio > Audio Components > Headphones & Headsets	
+electronics	pin-earbuds	earbuds	electronics	audio	505771	Electronics > Audio > Audio Components > Headphones & Headsets	
+electronics	pin-open	earbuds	electronics	audio	505771	Electronics > Audio > Audio Components > Headphones & Headsets	
+electronics	slab-portable	speakers	electronics	audio	249	Electronics > Audio > Audio Components > Speakers	
+electronics	shelf-monitor	speakers	electronics	audio	249	Electronics > Audio > Audio Components > Speakers	
+electronics	puck-speaker	speakers	electronics	audio	249	Electronics > Audio > Audio Components > Speakers	
+electronics	brick-pack	power-banks	electronics	electronics-accessories	276	Electronics > Electronics Accessories > Power > Batteries	
+electronics	slip-pack	power-banks	electronics	electronics-accessories	276	Electronics > Electronics Accessories > Power > Batteries	
+electronics	crate-station	power-banks	electronics	electronics-accessories	276	Electronics > Electronics Accessories > Power > Batteries	
+electronics	stack-charger	cables-and-chargers	electronics	electronics-accessories	505295	Electronics > Electronics Accessories > Power > Power Adapters & Chargers	
+electronics	braid-cable	cables-and-chargers	electronics	electronics-accessories	259	Electronics > Electronics Accessories > Cables	
+electronics	hub-dock	cables-and-chargers	electronics	electronics-accessories	300	Electronics > Electronics Accessories > Computer Accessories > Laptop Docking Stations	
+home-goods	braiser	cookware	home-and-garden	kitchen-and-dining	654	Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware	
+home-goods	bean-pot	cookware	home-and-garden	kitchen-and-dining	654	Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware	
+home-goods	skillet	cookware	home-and-garden	kitchen-and-dining	654	Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware	
+home-goods	dinner-plates	tableware	home-and-garden	kitchen-and-dining	673	Home & Garden > Kitchen & Dining > Tableware > Dinnerware	
+home-goods	mug	tableware	home-and-garden	kitchen-and-dining	674	Home & Garden > Kitchen & Dining > Tableware > Drinkware	
+home-goods	serving-board	tableware	home-and-garden	kitchen-and-dining	4026	Home & Garden > Kitchen & Dining > Tableware > Serveware	
+home-goods	waffle-towels	kitchen-textiles	home-and-garden	linens-and-bedding	4257	Home & Garden > Linens & Bedding > Towels > Kitchen Towels	
+home-goods	cross-back-apron	kitchen-textiles	home-and-garden	kitchen-and-dining	639	Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Aprons	
+home-goods	table-runner	kitchen-textiles	home-and-garden	linens-and-bedding	6325	Home & Garden > Linens & Bedding > Table Linens > Table Runners	
+home-goods	canister	storage-and-light	home-and-garden	kitchen-and-dining	2626	Home & Garden > Kitchen & Dining > Food Storage	
+home-goods	candle-holder	storage-and-light	home-and-garden	decor	2784	Home & Garden > Decor > Home Fragrance Accessories > Candle Holders	
+home-goods	hook-rail	storage-and-light	home-and-garden	decor	5708	Home & Garden > Decor > Coat & Hat Racks	
+sneakers	gutter-low	low-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	sett-low	low-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	flagstone-low	low-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	bollard-high	high-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	gantry-high	high-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	stanchion-high	high-tops	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	verge-runner	runners	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	camber-runner	runners	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	towpath-runner	runners	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	culvert-trail	trail	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	cattle-grid-trail	trail	apparel-and-accessories	shoes	187	Apparel & Accessories > Shoes	
+sneakers	care-kit	care-and-spares	home-and-garden	household-supplies	628	Home & Garden > Household Supplies > Shoe Care & Tools	yes
+sneakers	flat-waxed-laces	care-and-spares	apparel-and-accessories	shoe-accessories	1856	Apparel & Accessories > Shoe Accessories > Shoelaces	
+sneakers	round-waxed-laces	care-and-spares	apparel-and-accessories	shoe-accessories	1856	Apparel & Accessories > Shoe Accessories > Shoelaces	
+supplements	baseline-daily	multivitamins	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	baseline-fifty-plus	multivitamins	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	baseline-prenatal	multivitamins	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	starter-fortnight	multivitamins	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	vitamin-d3-k2	vitamins-and-minerals	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	magnesium-glycinate	vitamins-and-minerals	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	zinc-picolinate	vitamins-and-minerals	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	vitamin-d3-drops	vitamins-and-minerals	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	night-ledger	sleep-and-calm	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	ashwagandha-ksm	sleep-and-calm	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	evening-calm	sleep-and-calm	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	omega-3-rtg	joints-and-mobility	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	collagen-peptides	joints-and-mobility	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	probiotic-12-strain	gut-health	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+supplements	digestive-enzymes	gut-health	health-and-beauty	health-care	525	Health & Beauty > Health Care > Fitness & Nutrition > Vitamins & Supplements	
+womens-fashion	ondine-slip-dress	dresses	apparel-and-accessories	clothing	2271	Apparel & Accessories > Clothing > Dresses	
+womens-fashion	perrin-knit-dress	dresses	apparel-and-accessories	clothing	2271	Apparel & Accessories > Clothing > Dresses	
+womens-fashion	sevre-wrap-dress	dresses	apparel-and-accessories	clothing	2271	Apparel & Accessories > Clothing > Dresses	
+womens-fashion	aubin-merino-crew	knitwear	apparel-and-accessories	clothing	212	Apparel & Accessories > Clothing > Shirts & Tops	
+womens-fashion	vaux-longline-cardigan	knitwear	apparel-and-accessories	clothing	212	Apparel & Accessories > Clothing > Shirts & Tops	
+womens-fashion	orne-wool-scarf	knitwear	apparel-and-accessories	clothing-accessories	177	Apparel & Accessories > Clothing Accessories > Scarves & Shawls	
+womens-fashion	mazan-silk-shirt	shirts-and-blouses	apparel-and-accessories	clothing	212	Apparel & Accessories > Clothing > Shirts & Tops	
+womens-fashion	carre-silk-square	shirts-and-blouses	apparel-and-accessories	clothing-accessories	177	Apparel & Accessories > Clothing Accessories > Scarves & Shawls	
+womens-fashion	tille-wide-trouser	trousers-and-skirts	apparel-and-accessories	clothing	204	Apparel & Accessories > Clothing > Pants	
+womens-fashion	noyer-bias-skirt	trousers-and-skirts	apparel-and-accessories	clothing	1581	Apparel & Accessories > Clothing > Skirts	
+womens-fashion	belair-wool-overcoat	coats-and-jackets	apparel-and-accessories	clothing	203	Apparel & Accessories > Clothing > Outerwear	
+womens-fashion	quessant-quilted-jacket	coats-and-jackets	apparel-and-accessories	clothing	203	Apparel & Accessories > Clothing > Outerwear	

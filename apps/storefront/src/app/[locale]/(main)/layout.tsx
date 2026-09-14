@@ -1,31 +1,50 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 
-import { getPromoBannerDismissed } from "@lib/data/cookies"
-import { getStorefrontSettings } from "@lib/data/storefront-settings"
+import {
+  getPromoBannerDismissed,
+  getRequestBaseURL,
+  getTenantHandle,
+} from "@lib/data/cookies"
+import { getEffectiveSettings } from "@lib/data/tenant-home"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
-import { getBaseURL } from "@lib/util/env"
 import BottomNav from "@modules/layout/components/bottom-nav"
 import CartNotifications from "@modules/layout/components/cart-notifications"
 import PromoBanner from "@modules/layout/components/promo-banner"
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getBaseURL()),
+// Per request, same reason as the root layout: see `lib/tenant/origin.ts`.
+export async function generateMetadata(): Promise<Metadata> {
+  return { metadataBase: new URL(await getRequestBaseURL()) }
 }
 
 export default async function PageLayout(props: { children: React.ReactNode }) {
   // The promo-banner cookie is a cookie lookup, not a fetch. The settings read
   // shares its cache tag with `Nav`'s own read below (`storefront-settings`,
   // Next's fetch request memoization) so this costs no second round trip.
-  const [promoBannerDismissed, settings] = await Promise.all([
+  const [promoBannerDismissed, settings, tenantHandle] = await Promise.all([
     getPromoBannerDismissed(),
-    getStorefrontSettings(),
+    getEffectiveSettings(),
+    getTenantHandle(),
   ])
-  // H3's service tier already carries the same promo text (`nav/variants/h3.tsx`'s
-  // own doc comment) — showing the site-wide strip too would double it.
-  const suppressPromoBanner = (settings?.header ?? DEFAULT_HEADER) === "h3"
+  // Two reasons the site-wide strip does not render.
+  //
+  // H3's service tier already carries the same promo text (`nav/variants/h3.tsx`'s own
+  // doc comment) — showing the site-wide strip too would double it.
+  //
+  // And a shop on the SHARED ENGINE has no promo of its own: `promoText()` reads the
+  // profile baked into the image, so every tenant was making the sneakers profile's
+  // promise — "Free shipping over $120 · 30-day returns · every pair ships in 48 hours",
+  // measured on globex.shipshift.dev (kitchenware) and on a wizard-created shop with an
+  // empty catalog, 2026-09-12. A shop that says nothing beats a shop that promises
+  // another shop's shipping terms; a per-tenant strip is a field the tenant document does
+  // not have yet. A single-store deployment resolves no tenant and is untouched.
+  //
+  // Every other reader of the build profile's copy (footers f3/f5/f6, heroes h/m, nav
+  // h3) goes through `lib/data/shop-copy.ts`, which answers null for a tenant.
+  const suppressPromoBanner =
+    (settings?.header ?? DEFAULT_HEADER) === "h3" || tenantHandle !== null
 
   return (
     <>

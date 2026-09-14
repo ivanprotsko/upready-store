@@ -2,10 +2,11 @@ import { Link } from "@i18n/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
-import { promoText } from "@lib/profile"
-import { SITE_NAME } from "@lib/util/env"
+import { listTenantPages } from "@lib/data/tenant-pages"
+import { shopPromoText } from "@lib/data/shop-copy"
+import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F5 · "Условия плитками" — up to 3 fact cards built from the profile's promo clauses,
@@ -22,14 +23,21 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * broken grid.
  */
 export default async function FooterF5() {
-  const t = await getTranslations("Footer")
-  const locale = await getLocale()
+  const [t, locale, siteName] = await Promise.all([
+    getTranslations("Footer"),
+    getLocale(),
+    getSiteName(),
+  ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
     (category) => !category.parent_category_id
   )
   const { collections } = await listCollections()
-  const facts = (promoText(locale)?.split(" · ") ?? []).slice(0, 3)
+  // tenant-panel wave 2, piece 7: the shop owner's own published content pages
+  // get their own Information column here — F5's brand block has only the two
+  // catalog columns, so there is no existing column to append them to.
+  const tenantPages = await listTenantPages()
+  const facts = ((await shopPromoText(locale))?.split(" · ") ?? []).slice(0, 3)
 
   return (
     <footer className="border-t border-ui-border-base w-full bg-ui-bg-base">
@@ -57,9 +65,15 @@ export default async function FooterF5() {
             href="/"
             className="txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase transition-colors"
           >
-            {SITE_NAME}
+            {siteName}
           </Link>
-          <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 gap-x-10 md:gap-x-16">
+          <div
+            className={
+              tenantPages.length > 0
+                ? "grid grid-cols-1 gap-y-8 sm:grid-cols-3 gap-x-10 md:gap-x-16"
+                : "grid grid-cols-1 gap-y-8 sm:grid-cols-2 gap-x-10 md:gap-x-16"
+            }
+          >
             {topLevelCategories?.length > 0 && (
               <div className="flex flex-col gap-y-3">
                 <span className="txt-medium-plus text-ui-fg-base font-medium">
@@ -99,19 +113,39 @@ export default async function FooterF5() {
                 </ul>
               </div>
             )}
+
+            {tenantPages.length > 0 && (
+              <div className="flex flex-col gap-y-3">
+                <span className="txt-medium-plus text-ui-fg-base font-medium">
+                  {t("infoHeading")}
+                </span>
+                <ul className="flex flex-col gap-y-2">
+                  {tenantPages.map((page) => (
+                    <li key={page.key}>
+                      <Link
+                        href={`/pages/${page.key}`}
+                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                      >
+                        {page.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="border-t border-ui-border-base w-full">
-        <div className="content-container flex w-full mb-6 justify-between items-center pt-4 text-ui-fg-muted">
+        <div className="content-container flex flex-col gap-y-2 sm:flex-row w-full mb-6 sm:justify-between items-start sm:items-center pt-4 text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
-              siteName: SITE_NAME,
+              siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

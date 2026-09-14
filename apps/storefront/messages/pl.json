@@ -152,7 +152,6 @@
     "close": "Zamknij",
     "hidePassword": "Ukryj hasło",
     "orderNumber": "Zamówienie nr {id}",
-    "poweredBy": "Powered by",
     "remove": "Usuń",
     "showPassword": "Pokaż hasło"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategorie",
     "collectionsHeading": "Kolekcje",
     "copyright": "© {year} {siteName}. Wszelkie prawa zastrzeżone.",
-    "infoHeading": "Informacje",
-    "medusaDocs": "Dokumentacja Medusa",
-    "sourceCode": "Kod źródłowy startera",
-    "starterDocs": "Dokumentacja startera"
+    "infoHeading": "Informacje"
   },
   "ForgotPassword": {
     "backToSignIn": "Powrót do logowania",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Zwroty i wymiany"
   },
   "Hero": {
-    "eyebrow": "Gotowe rozwiązanie · Open-source",
-    "features": [
-      {
-        "description": "ulepszona, bez zbędnych kroków, z autouzupełnianiem adresu",
-        "label": "Kasa zoptymalizowana pod konwersję"
-      },
-      {
-        "description": "wyszukiwarka, katalog z filtrami, wielopoziomowe kategorie i mobile-first",
-        "label": "W pełni funkcjonalny sklep"
-      },
-      {
-        "description": "metatagi, Open Graph i Twitter cards, JSON-LD, sitemap, robots, llms.txt i 100/100 w PageSpeed Insights",
-        "label": "Zoptymalizowane pod SEO i AI"
-      },
-      {
-        "description": "36 języków witryny sklepu z obsługą RTL i 241 krajów dla regionów sprzedaży, rozpoznawanie kraju, łatwo ograniczyć do potrzebnych",
-        "label": "Pełna lokalizacja"
-      },
-      {
-        "description": "szablony React Email wysyłane przez SMTP",
-        "label": "E-maile transakcyjne"
-      },
-      {
-        "description": "przy zmianach w katalogu produktów",
-        "label": "Rewalidacja cache na żądanie"
-      },
-      {
-        "badge": "Nowość",
-        "description": "zarządzaj ustawieniami dostawców przez panel administratora",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Moduł integracji"
-      }
-    ],
-    "featuresHeading": "Funkcje",
-    "readDocs": "Dokumentacja",
     "subtitle": "Wszystko, czego brakuje w oficjalnym Medusa DTC starterze.",
-    "title": "Gotowy do produkcji Medusa DTC Starter",
-    "viewOnGitHub": "Zobacz na GitHub"
+    "title": "Gotowy do produkcji Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Zamknij",
-    "cta": "Wypróbuj",
     "message": "W pełni funkcjonalny, gotowy do produkcji starter DTC."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Wszystkie produkty"
+  },
+  "TenantPage": {
+    "emptyBody": "Ta strona nie ma jeszcze treści.",
+    "metaDescription": "{title} w {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Zaakceptuj przeniesienie",

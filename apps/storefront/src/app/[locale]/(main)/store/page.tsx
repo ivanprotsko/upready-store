@@ -24,9 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
     getLocale(),
   ])
   return {
-    title: pageTitle(t("title")),
+    title: await pageTitle(t("title")),
     description: t("description"),
-    alternates: buildAlternates(locale, "/store"),
+    alternates: await buildAlternates(locale, "/store"),
   }
 }
 

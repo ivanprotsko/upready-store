@@ -11,9 +11,20 @@ module.exports = {
         },
       },
     ],
+    // Subscribers import the React Email templates in src/emails/*.tsx, so the
+    // app cannot boot under Jest unless .tsx is transformed too (tsconfig: react-jsx).
+    "^.+\\.tsx$": [
+      "@swc/jest",
+      {
+        jsc: {
+          parser: { syntax: "typescript", tsx: true, decorators: true },
+          transform: { react: { runtime: "automatic" } },
+        },
+      },
+    ],
   },
   testEnvironment: "node",
-  moduleFileExtensions: ["js", "ts", "json"],
+  moduleFileExtensions: ["js", "ts", "tsx", "json"],
   modulePathIgnorePatterns: ["dist/", "<rootDir>/.medusa/"],
   setupFiles: ["./integration-tests/setup.js"],
 };

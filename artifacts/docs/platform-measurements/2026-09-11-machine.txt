@@ -1,0 +1,9 @@
+hw.memsize / hw.ncpu:
+17179869184
+10
+macOS version:
+26.2
+node -v:
+v26.8.1
+psql --version:
+psql (PostgreSQL) 17.11 (Homebrew)

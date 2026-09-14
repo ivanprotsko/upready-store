@@ -152,7 +152,6 @@
     "close": "Fechar",
     "hidePassword": "Ocultar a palavra-passe",
     "orderNumber": "Encomenda n.º {id}",
-    "poweredBy": "Desenvolvido por",
     "remove": "Remover",
     "showPassword": "Mostrar a palavra-passe"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Categorias",
     "collectionsHeading": "Coleções",
     "copyright": "© {year} {siteName}. Todos os direitos reservados.",
-    "infoHeading": "Informação",
-    "medusaDocs": "Documentação Medusa",
-    "sourceCode": "Código-fonte do starter",
-    "starterDocs": "Documentação do starter"
+    "infoHeading": "Informação"
   },
   "ForgotPassword": {
     "backToSignIn": "Voltar ao início de sessão",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Devoluções e Trocas"
   },
   "Hero": {
-    "eyebrow": "Chave na mão · Open-source",
-    "features": [
-      {
-        "description": "melhorado, sem passos desnecessários, com preenchimento automático de morada",
-        "label": "Checkout otimizado para conversão"
-      },
-      {
-        "description": "pesquisa, catálogo com filtros, categorias multinível e mobile-first",
-        "label": "Loja online completa"
-      },
-      {
-        "description": "metatags, Open Graph e Twitter cards, JSON-LD, sitemap, robots, llms.txt e 100/100 no PageSpeed Insights",
-        "label": "Otimizado para SEO e IA"
-      },
-      {
-        "description": "36 idiomas para a loja com suporte a RTL e 241 países para as regiões de venda, detecção do país, fáceis de reduzir aos necessários",
-        "label": "Localização completa"
-      },
-      {
-        "description": "modelos React Email via SMTP",
-        "label": "Emails transacionais"
-      },
-      {
-        "description": "em alterações ao catálogo de produtos",
-        "label": "Revalidação de cache sob pedido"
-      },
-      {
-        "badge": "Novo",
-        "description": "faça a gestão das definições dos seus fornecedores através do Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Módulo de Integrações"
-      }
-    ],
-    "featuresHeading": "Funcionalidades",
-    "readDocs": "Ler a documentação",
     "subtitle": "Tudo o que o starter DTC oficial da Medusa deixa de fora.",
-    "title": "Medusa DTC Starter pronto para produção",
-    "viewOnGitHub": "Ver no GitHub"
+    "title": "Medusa DTC Starter pronto para produção"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Fechar",
-    "cta": "Experimentar",
     "message": "Starter DTC completo, pronto para produção."
   },
   "RegionSelect": {
@@ -867,6 +826,10 @@
   },
   "Store": {
     "allProducts": "Todos os produtos"
+  },
+  "TenantPage": {
+    "emptyBody": "Esta página ainda não tem texto.",
+    "metaDescription": "{title} na {siteName}."
   },
   "TransferActions": {
     "acceptTransfer": "Aceitar transferência",

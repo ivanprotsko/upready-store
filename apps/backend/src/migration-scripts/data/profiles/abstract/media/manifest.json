@@ -1,0 +1,959 @@
+{
+  "schema": "upready.store-media-manifest/v0",
+  "profileId": "abstract",
+  "provider": "fal.ai",
+  "generatedAt": "2026-09-11T22:18:15.467Z",
+  "entries": [
+    {
+      "file": "media/sphere-1-hero.webp",
+      "role": "hero",
+      "productHandle": "sphere-1",
+      "sha256": "48cb8a039de51ec75a437fbf7b999fc75c6cab774e02288449a0896168440492",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 15334,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na single matte chalk white plaster sphere with a faintly chalky surface. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 0,
+        "cellRowCol": [
+          1,
+          1
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          6,
+          6,
+          1007,
+          1007
+        ],
+        "backdropLuma": 182.4,
+        "backdropRgb": [
+          183,
+          182,
+          184
+        ],
+        "foreground": 0.204,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/sphere-2-hero.webp",
+      "role": "hero",
+      "productHandle": "sphere-2",
+      "sha256": "13408c89e1a7bba76d0595be05d47a4c1b7d54100095738737703c67e0c8609a",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 19792,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na single matte graphite plaster sphere with a soft velvet-like surface. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 1,
+        "cellRowCol": [
+          1,
+          2
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          1051,
+          6,
+          2019,
+          1007
+        ],
+        "backdropLuma": 181.6,
+        "backdropRgb": [
+          183,
+          181,
+          184
+        ],
+        "foreground": 0.301,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/cube-1-hero.webp",
+      "role": "hero",
+      "productHandle": "cube-1",
+      "sha256": "e33a3c80adc3c94d96d83cc1d037fb432c5ecec7c34ff3676412f80396b095c8",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 13604,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na matte chalk white plaster cube with softly rounded edges, resting flat and turned twenty degrees. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 2,
+        "cellRowCol": [
+          1,
+          3
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          2063,
+          6,
+          3046,
+          1007
+        ],
+        "backdropLuma": 184.6,
+        "backdropRgb": [
+          186,
+          184,
+          187
+        ],
+        "foreground": 0.29,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/cube-2-hero.webp",
+      "role": "hero",
+      "productHandle": "cube-2",
+      "sha256": "d872de129f8aaab87c6fce3e06d0e9c2c8a7aa08f9886fb76536df686d833145",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 13076,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na matte mid grey plaster cube with softly rounded edges, resting flat and turned twenty degrees. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 3,
+        "cellRowCol": [
+          1,
+          4
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          3090,
+          6,
+          4090,
+          1007
+        ],
+        "backdropLuma": 182.7,
+        "backdropRgb": [
+          184,
+          182,
+          186
+        ],
+        "foreground": 0.158,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/cylinder-1-hero.webp",
+      "role": "hero",
+      "productHandle": "cylinder-1",
+      "sha256": "4b213b589f12dd9d504bf4bed81aec463e06a45aa32624f6799c1a7a4a358656",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 11224,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na short matte chalk white plaster cylinder standing upright. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 4,
+        "cellRowCol": [
+          2,
+          1
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          6,
+          1051,
+          1007,
+          2034
+        ],
+        "backdropLuma": 184.6,
+        "backdropRgb": [
+          186,
+          184,
+          187
+        ],
+        "foreground": 0.155,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/cylinder-2-hero.webp",
+      "role": "hero",
+      "productHandle": "cylinder-2",
+      "sha256": "3fb07d75d6287f00c73a03491d0be30b7c0be59d0ccc6f2405a935da27894d9b",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 15854,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na tall matte graphite plaster cylinder standing upright. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 5,
+        "cellRowCol": [
+          2,
+          2
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          1051,
+          1051,
+          2019,
+          2034
+        ],
+        "backdropLuma": 183.6,
+        "backdropRgb": [
+          185,
+          183,
+          186
+        ],
+        "foreground": 0.245,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/pair-1-hero.webp",
+      "role": "hero",
+      "productHandle": "pair-1",
+      "sha256": "8e523068f2531bf4dfea8d8de81fa456ac5d1f65a4cf0f4d921ab5d7f2eded9e",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 17582,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na matte chalk white plaster sphere beside a matte graphite plaster cube, touching. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 6,
+        "cellRowCol": [
+          2,
+          3
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          2063,
+          1051,
+          3046,
+          2034
+        ],
+        "backdropLuma": 185.9,
+        "backdropRgb": [
+          188,
+          185,
+          188
+        ],
+        "foreground": 0.257,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/pair-2-hero.webp",
+      "role": "hero",
+      "productHandle": "pair-2",
+      "sha256": "e258cf533f17fb78a8c61e4130b715bc9fd4fcf3e177d1305fd4bdaac7678bf7",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 15438,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\ntwo matte mid grey plaster cylinders of different heights standing side by side. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 7,
+        "cellRowCol": [
+          2,
+          4
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          3090,
+          1051,
+          4090,
+          2034
+        ],
+        "backdropLuma": 184.4,
+        "backdropRgb": [
+          185,
+          184,
+          186
+        ],
+        "foreground": 0.203,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/stack-1-hero.webp",
+      "role": "hero",
+      "productHandle": "stack-1",
+      "sha256": "9567ab87cb80c5d58b06f8ab7f29931259590573329018c36077e5a7b885a5e9",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 15758,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\nthree matte chalk white plaster discs stacked, the largest at the bottom. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 8,
+        "cellRowCol": [
+          3,
+          1
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          6,
+          2078,
+          1007,
+          3059
+        ],
+        "backdropLuma": 182.7,
+        "backdropRgb": [
+          184,
+          182,
+          186
+        ],
+        "foreground": 0.203,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/stack-2-hero.webp",
+      "role": "hero",
+      "productHandle": "stack-2",
+      "sha256": "f51ab29bd6a357f758414fb2bc9e16b83dde1887b4511738f8fb95cddeb882ac",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 17400,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na small matte graphite plaster cube resting on a larger matte chalk white plaster cube. One subject alone in the panel, three-quarter view, its most characteristic face towards the camera.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 9,
+        "cellRowCol": [
+          3,
+          2
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          1051,
+          2078,
+          2019,
+          3059
+        ],
+        "backdropLuma": 180.6,
+        "backdropRgb": [
+          182,
+          180,
+          183
+        ],
+        "foreground": 0.279,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/tile-spheres.webp",
+      "role": "category-tile",
+      "categoryHandle": "spheres",
+      "sha256": "ad12ed76f285801bb103a429cd0341478aafe55a14a2808e00382c2b1ff1bd84",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 16162,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\nthree matte plaster spheres of three sizes, chalk white, mid grey and graphite, in a loose row. The group is centred and fills 70 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 10,
+        "cellRowCol": [
+          3,
+          3
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          2063,
+          2078,
+          3046,
+          3059
+        ],
+        "backdropLuma": 182.6,
+        "backdropRgb": [
+          184,
+          182,
+          184
+        ],
+        "foreground": 0.185,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/tile-cubes.webp",
+      "role": "category-tile",
+      "categoryHandle": "cubes",
+      "sha256": "eb10dea98a2f0013e8cf598e7077bcce606b543b5fb4b7cfff07cac99ae131af",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 16662,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\nthree matte plaster cubes of three sizes, chalk white, mid grey and graphite, standing flat in a loose row. The group is centred and fills 70 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 11,
+        "cellRowCol": [
+          3,
+          4
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          3090,
+          2078,
+          4090,
+          3059
+        ],
+        "backdropLuma": 180.7,
+        "backdropRgb": [
+          182,
+          180,
+          184
+        ],
+        "foreground": 0.197,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/tile-cylinders.webp",
+      "role": "category-tile",
+      "categoryHandle": "cylinders",
+      "sha256": "a1244793fbff63efaac27c4e6fe89ed4eac5b3b524f1c7b1f4bc086a72b8cddb",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 16052,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\nthree matte plaster cylinders of different heights, chalk white, mid grey and graphite, standing upright in a loose row. The group is centred and fills 70 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 12,
+        "cellRowCol": [
+          4,
+          1
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          6,
+          3103,
+          1007,
+          4090
+        ],
+        "backdropLuma": 181.6,
+        "backdropRgb": [
+          183,
+          181,
+          184
+        ],
+        "foreground": 0.237,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/tile-pairs.webp",
+      "role": "category-tile",
+      "categoryHandle": "pairs",
+      "sha256": "090f2f480a3fe33c9c9c32c5e32b87b730fbe38f391719a411f6f982a32e9b8d",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 16662,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\ntwo pairs of matte plaster forms, a chalk white sphere with a graphite cube and two mid grey cylinders, spaced apart. The group is centred and fills 70 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 13,
+        "cellRowCol": [
+          4,
+          2
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          1051,
+          3103,
+          2019,
+          4090
+        ],
+        "backdropLuma": 180.6,
+        "backdropRgb": [
+          182,
+          180,
+          183
+        ],
+        "foreground": 0.193,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/tile-stacks.webp",
+      "role": "category-tile",
+      "categoryHandle": "stacks",
+      "sha256": "0b3cca483a709e68611f0bc2dacbba072e300ccbe2ea31b59e5f94b7adeb19f6",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 20210,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na stack of five matte plaster discs alternating chalk white and graphite, largest at the bottom. The group is centred and fills 70 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 14,
+        "cellRowCol": [
+          4,
+          3
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          2063,
+          3103,
+          3046,
+          4090
+        ],
+        "backdropLuma": 181.9,
+        "backdropRgb": [
+          184,
+          181,
+          184
+        ],
+        "foreground": 0.257,
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    },
+    {
+      "file": "media/home-hero.webp",
+      "role": "banner",
+      "sha256": "de3fb4eb78518636cf1a6029e6c203f0c1a76ba939c8e99f6cb0c74c98b2a6a0",
+      "width": 2400,
+      "height": 1350,
+      "bytes": 31376,
+      "model": "fal-ai/nano-banana-pro",
+      "predictionId": "01a09288-cf74-7853-aab8-b7b9965fdfca",
+      "prompt": "The image is a 4 by 4 grid of sixteen separate square photographs, four rows and four columns, of equal size, edge to edge with no gutter, no border, no caption and no number. The sixteen panels are identical in exposure, white balance, background tone, camera height and subject scale, as if shot in one session on one set.\n\nStudio still-life photography contact sheet. Every panel shares one identical setup: seamless matte light-grey cyclorama background, flat pale neutral grey about one stop below white, a touch lighter at the top, no seam between floor and wall, no horizon. One large softbox key at 45 degrees camera-left and 30 degrees above, one white bounce card camera-right for a soft open shadow side, neutral 5600K daylight, no coloured light. All objects are matte plaster, either chalk white, mid grey or graphite, with no gloss, no colour and no texture beyond a faint chalky grain. 85mm lens at f/8, camera at the height of the object mid-point so each object is seen very slightly from below and reads as solid. In every panel the object is centred, fills 70 percent of that panel width, has clear space beneath it, and carries exactly one soft feathered contact shadow directly under it. Sharp focus front to back, material texture clearly visible, matte surfaces stay matte.\n\na wide loose arrangement of seven matte plaster forms, chalk white, mid grey and graphite spheres, cubes and cylinders, spaced apart across the panel. The group is centred and fills 85 percent of the panel width.",
+      "negativePrompt": "real logos, brand marks or wordmarks of any kind, legible text, letters or numbers anywhere in the frame, any recognisable manufactured product (no phones, bottles, shoes, garments, headphones, cups, jars, furniture), human faces, hands or bodies, props, plinths, boxes, tissue paper, plants or foliage, coloured or gradient backgrounds, coloured gels, neon or rim-light flare, any colour on the objects, wet, glossy or mirrored floor, reflections, a second shadow, a floating subject, top-down flat lay, dutch angle or tilted horizon, shallow depth of field, bokeh or motion blur, HDR, oversaturation, heavy vignette or visible upscaling artefacts, caption, label, number, grid line, border, drop shadow between panels, collage frame, transparency, checkerboard pattern",
+      "params": {
+        "aspect_ratio": "1:1",
+        "resolution": "4K",
+        "output_format": "png",
+        "num_images": 1,
+        "mode": "light",
+        "gridId": "abstract-light-grid-4x4",
+        "gridKind": "grid-4x4",
+        "cellIndex": 15,
+        "cellRowCol": [
+          4,
+          4
+        ],
+        "bordersX": [
+          1029,
+          2041,
+          3068
+        ],
+        "bordersY": [
+          1029,
+          2056,
+          3081
+        ],
+        "seamInset": 22,
+        "edgeInset": 6,
+        "cropBox": [
+          3090,
+          3103,
+          4090,
+          4090
+        ],
+        "backdropLuma": 174.6,
+        "backdropRgb": [
+          176,
+          174,
+          176
+        ],
+        "foreground": 0.235,
+        "derived": "cell extended to 16:9 on its own backdrop tone, no separate prediction",
+        "ledgerRow": "r-d139658e",
+        "fullGridPromptSha256": "7e11c4ce2835cbc86feac63ad96f01dc068bd0af4452e89b7560a4ecb410f21a"
+      },
+      "referenceFiles": [],
+      "sourceFile": "artifacts/media/abstract/raw/abstract-light-grid-4x4.png",
+      "costUsd": 0.0187,
+      "status": "accepted",
+      "createdAt": "2026-09-11T22:18:15.467Z"
+    }
+  ],
+  "totals": {
+    "renders": 1,
+    "accepted": 16,
+    "flagged": 0,
+    "rejected": 0,
+    "costUsd": 0.3
+  }
+}
