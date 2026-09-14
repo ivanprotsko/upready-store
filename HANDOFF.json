@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T05:00:36+08:00",
-  "status": "2026-09-15 05:00 WITA: приёмка t05-page-keys — PR #24 MERGED (9979339), замеры: seam 12/12, миграция на копии реальной БД (backfill in_footer/footer_order), живой стенд 200/200/404 + подвал; два нита в комментарии к PR",
+  "updated": "2026-09-15T05:03:03+08:00",
+  "status": "2026-09-15 05:03 WITA: приёмка t05-page-keys раунд 1 — PR #24 MERGED (997933900b, GitHub-леджер); независимые замеры стенда :9250/:8141 зелёные, сьют 12/12, полный 128/129 (падение tenants-domains предсуществующее); ниты в комментарии к PR",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
