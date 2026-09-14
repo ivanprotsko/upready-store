@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T07:34:24+08:00",
-  "status": "2026-09-15 07:34 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — приёмка PR #29 раунд 2: REJECTED. (1) снова CONFLICTING: dev уехал на 8a47879 (t10-blog #31) после мержа воркера, свой merge-tree даёт 2 конфликтных файла — apps/storefront/src/app/sitemap.ts (импорты listTenantArticles vs fetchWithoutLocale; хвост: блок статей vs блок /store/tenant/pages/sitemap — нужны ОБА) и HANDOFF.json. (2) SEO-поля товара/категории в панели пишут в литерал локали 'en' (seo-metadata.ts:12), витрина читает seo[locale] без фолбэка (tenant-seo.ts:20) — у ру-магазина cherkashino поле не доходит до head; обоснование 'как у tenant_page' неверно, там строка одна на локаль. Живьём не мерил сознательно: конфликт лежит в sitemap.ts, который сам под критерием непересечения — замер до мержа ничего не доказывает, в раунде 3 обязателен. Зелёное зафиксировано таблицей в findings. Экран редиректов и seo-verification в панели остаются API-only — диспетчеру записать в PLAN.md как перенос. Комментарий в PR: issuecomment-5672296607.",
+  "updated": "2026-09-15T07:44:00+08:00",
+  "status": "2026-09-15 07:44 WITA: приёмка PR #33 t13-customers-screen — MERGED (mergedAt 2026-09-14T23:42:36Z). Замеры приёмщика: изоляция 202/1 + чужой id 404, поиск, CSV 202 строки, экран 2351 мс при пороге 3 с, пагинация серверная. Упавший unit profile-data.unit.spec.ts к ветке не относится (0 строк диффа по migration-scripts) — кандидат в дефекты дня. Отчёт: handoff/day-2026-09-16-oksana-store/logs/accept-t13-customers-screen-1.report.md",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
