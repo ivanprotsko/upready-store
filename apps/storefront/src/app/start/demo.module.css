@@ -33,16 +33,6 @@
   color: var(--foreground);
   text-decoration: none;
 }
-.tag {
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted-foreground);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 2px 8px;
-}
 .topbarNote {
   margin-left: auto;
   color: var(--muted-foreground);

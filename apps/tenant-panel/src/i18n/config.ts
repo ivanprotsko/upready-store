@@ -8,7 +8,10 @@ export const defaultI18nOptions: InitOptions = {
     lookupLocalStorage: "lng",
     order: ["cookie", "localStorage", "header"],
   },
-  fallbackLng: "en",
+  // Русский: панель открывает владелец магазина, пришедший с русского
+  // лендинга upready.dev. Английский остаётся — его выберет определение по
+  // заголовку браузера или переключатель языка.
+  fallbackLng: "ru",
   fallbackNS: "translation",
   interpolation: {
     escapeValue: false,
