@@ -69,10 +69,10 @@ export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswo
 // ---- piece 7: content pages (/tenants/pages/**)
 
 /**
- * `PUT /tenants/pages/:key` body. The key is in the path (one of
- * `TENANT_PAGE_KEYS`), never in the body, so a tenant cannot rename a section
- * by posting a different key; `locale` is optional and defaults to `en`, the
- * model's own default, because the panel edits one language today.
+ * `PUT /tenants/pages/:key` body. The key is in the path, never in the body,
+ * so a tenant cannot rename a page by posting a different key; `locale` is
+ * optional and defaults to `en`, the model's own default, because the panel
+ * edits one language today.
  *
  * `title` and `body` are accepted empty — that is how a tenant clears a draft
  * it has already saved — and the route, not zod, refuses `published: true`
@@ -80,11 +80,22 @@ export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswo
  * raised in the route carries the same `invalid_data` type and 400 status the
  * validator would, without turning this schema into a refined one (only a
  * plain object schema survives `zodValidator`'s own `.strict()` call).
+ *
+ * `in_footer` and `footer_order` are t05-page-keys additions: whether the page
+ * is linked from the storefront's footer, and where among the other
+ * footer-linked pages (nulls sort last, then by title — the route never
+ * assigns one on its own, so the panel is the only writer of an explicit
+ * position). Both are optional so a caller written before this task (an
+ * older panel build, a script) keeps its old behaviour: the route leaves an
+ * omitted field at whatever it already was, or the reserved key's own default
+ * the first time a row is created.
  */
 export const PutTenantPageSchema = z.strictObject({
   title: z.string().max(200),
   body: z.string().max(50_000),
   published: z.boolean(),
+  in_footer: z.boolean().optional(),
+  footer_order: z.number().int().min(0).max(100_000).nullable().optional(),
   locale: z
     .string()
     .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
@@ -92,6 +103,26 @@ export const PutTenantPageSchema = z.strictObject({
 });
 
 export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
+
+/**
+ * `POST /tenants/pages` body — creates a custom page. `slug` is the free key
+ * (`PAGE_SLUG_PATTERN` in the model: lowercase letters, digits and single
+ * hyphens, 2 to 48 characters); the route itself checks it is not one of the
+ * five reserved keys, because that check needs the model's own list, not just
+ * a shape. `title` is required here (unlike the PUT body, which accepts a
+ * blank one for a draft already on file) because a page is created from the
+ * panel's own "new page" dialog, which asks for a name up front.
+ */
+export const PostTenantPageSchema = z.strictObject({
+  slug: z
+    .string()
+    .min(2)
+    .max(48)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens"),
+  title: z.string().min(1).max(200),
+});
+
+export type PostTenantPageBody = z.infer<typeof PostTenantPageSchema>;
 
 // ---- piece 9: storefront by host (/tenants/domains)
 
