@@ -5,6 +5,7 @@ import TenantDomain from "./models/tenant-domain";
 import TenantHandleAlias from "./models/tenant-handle-alias";
 import TenantHomeConfig from "./models/tenant-home-config";
 import TenantIntegrationSecret from "./models/tenant-integration-secret";
+import TenantNotificationSettings from "./models/tenant-notification-settings";
 import TenantLocaleSettings from "./models/tenant-locale-settings";
 import TenantPage from "./models/tenant-page";
 import TenantRedirect from "./models/tenant-redirect";
@@ -18,6 +19,7 @@ class TenantModuleService extends MedusaService({
   TenantDomain,
   TenantHandleAlias,
   TenantIntegrationSecret,
+  TenantNotificationSettings,
   TenantRedirect,
 }) {}
 

@@ -6,9 +6,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 /**
  * Sent on `order.fulfillment_created`, which fires when the warehouse packs the
@@ -35,6 +34,7 @@ export function OrderFulfillmentCreatedEmail({
   order,
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderFulfillmentCreatedEmailProps) {
+  const shop = useEmailShop();
   const { t, html } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
   const customerName = [
@@ -44,7 +44,7 @@ export function OrderFulfillmentCreatedEmail({
     .filter(Boolean)
     .join(" ");
 
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
 
   return (
@@ -77,8 +77,8 @@ export function OrderFulfillmentCreatedEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

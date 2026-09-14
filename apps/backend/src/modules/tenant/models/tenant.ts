@@ -4,6 +4,7 @@ import TenantDomain from "./tenant-domain";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
 import TenantIntegrationSecret from "./tenant-integration-secret";
+import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
 import TenantRedirect from "./tenant-redirect";
@@ -61,6 +62,11 @@ const Tenant = model.define("tenant", {
   // or a row imported from a previous shop's URL structure (t11-seo-redirects,
   // `tenant-redirect.ts`).
   redirects: model.hasMany(() => TenantRedirect, {
+    mappedBy: "tenant",
+  }),
+  // Who hears about a new order and how (`tenant-notification-settings.ts`,
+  // t08-order-notifications). One row per shop, created on first use.
+  notification_settings: model.hasOne(() => TenantNotificationSettings, {
     mappedBy: "tenant",
   }),
 });
