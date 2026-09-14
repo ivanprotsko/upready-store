@@ -1,6 +1,7 @@
 import { MedusaService } from "@medusajs/framework/utils";
 import Tenant from "./models/tenant";
 import TenantAdmin from "./models/tenant-admin";
+import TenantArticle from "./models/tenant-article";
 import TenantDomain from "./models/tenant-domain";
 import TenantHandleAlias from "./models/tenant-handle-alias";
 import TenantHomeConfig from "./models/tenant-home-config";
@@ -13,6 +14,7 @@ class TenantModuleService extends MedusaService({
   Tenant,
   TenantAdmin,
   TenantPage,
+  TenantArticle,
   TenantHomeConfig,
   TenantLocaleSettings,
   TenantDomain,

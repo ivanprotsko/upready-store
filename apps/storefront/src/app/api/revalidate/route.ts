@@ -146,5 +146,20 @@ export async function POST(req: NextRequest) {
     revalidatePath("/[locale]/(main)", "page")
   }
 
+  // t10-blog: the shop's journal. One shared cache tag
+  // (`lib/data/tenant-articles.ts`) carries the feed, every article page, the
+  // «does this shop have a journal» check the navigation reads, and the
+  // sitemap's article list — so clearing it clears all four. The paths below
+  // are the rendered pages that hold them; the `(main)` LAYOUT is in the list
+  // because the navigation's Journal link lives there, and publishing a shop's
+  // FIRST article has to make that link appear without a rebuild.
+  if (body.type === "tenant.articles") {
+    revalidateTag("tenant-articles")
+    revalidatePath(`/[locale]/(main)/journal`, "page")
+    revalidatePath(`/[locale]/(main)/journal/[slug]`, "page")
+    revalidatePath(`/[locale]/(main)`, "layout")
+    revalidatePath("/sitemap.xml")
+  }
+
   return NextResponse.json({ revalidated: true })
 }

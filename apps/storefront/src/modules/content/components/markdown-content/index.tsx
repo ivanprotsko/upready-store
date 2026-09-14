@@ -104,6 +104,26 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
     )
   }
 
+  // t10-blog: the two block types the journal's articles need. A quote is the
+  // summary box every article of this shop opens with, so it is a real card
+  // (border + subtle ground) rather than an italic indent; a rule separates
+  // the sections of a long read.
+  if (block.type === "quote") {
+    return (
+      <blockquote className="border-s-2 border-ui-border-interactive bg-ui-bg-subtle rounded-e-rounded ps-4 pe-4 py-3 flex flex-col gap-y-2">
+        {block.content.map((line, index) => (
+          <p key={index} className="text-base-regular text-ui-fg-subtle">
+            <Inline nodes={line} />
+          </p>
+        ))}
+      </blockquote>
+    )
+  }
+
+  if (block.type === "rule") {
+    return <hr className="border-t border-ui-border-base my-2" />
+  }
+
   return (
     <p className="text-base-regular text-ui-fg-base">
       <Inline nodes={block.content} />

@@ -402,6 +402,17 @@
     "goToImage": "跳转到第 {index} 张图片",
     "openFullImage": "查看大图"
   },
+  "Journal": {
+    "navLabel": "专栏",
+    "feedTitle": "专栏",
+    "feedDescription": "{siteName} 的文章。",
+    "empty": "暂时还没有文章。",
+    "backToFeed": "全部文章",
+    "previous": "上一页",
+    "next": "下一页",
+    "pageOf": "第 {page} 页，共 {lastPage} 页",
+    "pagination": "专栏页码"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "账户",
       "cart": "购物车",
       "home": "首页",
-      "store": "商店"
+      "store": "商店",
+      "journal": "专栏"
     },
     "menuButton": "菜单"
   },

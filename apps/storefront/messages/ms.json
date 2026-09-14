@@ -402,6 +402,17 @@
     "goToImage": "Ke imej {index}",
     "openFullImage": "Buka imej penuh"
   },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel daripada {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {lastPage}",
+    "pagination": "Halaman jurnal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Akaun",
       "cart": "Troli",
       "home": "Utama",
-      "store": "Kedai"
+      "store": "Kedai",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

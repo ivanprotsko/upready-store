@@ -402,6 +402,17 @@
     "goToImage": "Към изображение {index}",
     "openFullImage": "Отваряне на цялото изображение"
   },
+  "Journal": {
+    "navLabel": "Списание",
+    "feedTitle": "Списание",
+    "feedDescription": "Статии от {siteName}.",
+    "empty": "Все още няма статии.",
+    "backToFeed": "Всички статии",
+    "previous": "Назад",
+    "next": "Напред",
+    "pageOf": "Страница {page} от {lastPage}",
+    "pagination": "Страници на списанието"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -813,7 +824,8 @@
       "account": "Профил",
       "cart": "Кошница",
       "home": "Начало",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Списание"
     },
     "menuButton": "Меню"
   },

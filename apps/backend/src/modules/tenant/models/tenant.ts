@@ -1,5 +1,6 @@
 import { model } from "@medusajs/framework/utils";
 import TenantAdmin from "./tenant-admin";
+import TenantArticle from "./tenant-article";
 import TenantDomain from "./tenant-domain";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
@@ -60,6 +61,10 @@ const Tenant = model.define("tenant", {
   // Who hears about a new order and how (`tenant-notification-settings.ts`,
   // t08-order-notifications). One row per shop, created on first use.
   notification_settings: model.hasOne(() => TenantNotificationSettings, {
+    mappedBy: "tenant",
+  }),
+  // The shop's journal (t10-blog): one row per article per locale.
+  articles: model.hasMany(() => TenantArticle, {
     mappedBy: "tenant",
   }),
 });
