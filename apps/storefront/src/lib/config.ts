@@ -54,14 +54,17 @@ async function getPublishableKeyHeader(): Promise<Record<string, string>> {
    * key itself (`lib/tenant/resolve.ts`) and answers from that module's own TTL
    * cache, so this costs nothing on the warm path.
    *
-   * Why it exists: after `placeOrder()` redirects, the confirmation page rendered
-   * WITHOUT `x-tenant-key`, and with `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`
-   * deliberately unset on the multi-tenant deployment the fallback below was an
-   * empty object — so the Store API answered 400 and the customer who had just
-   * paid saw «Application error» (measured on the live stand 2026-09-14, three
-   * orders in a row, digest 2524605575; any later visit to the same URL rendered
-   * the order fine). This branch only ever runs where the old code returned no
-   * key at all, so it can add no failure that was not already certain.
+   * Why it exists: a render that reaches here today gets NO key at all, because
+   * `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is deliberately unset on the
+   * multi-tenant deployment — so the Store API answers 400 with certainty. This
+   * branch can therefore add no failure that was not already guaranteed.
+   *
+   * It was written while chasing the post-payment «Application error» (digest
+   * 2524605575) on the order confirmation page, and it did NOT fix that: the
+   * error reproduced on a fourth order after this shipped, so in that particular
+   * render there is no `host` header either, or the failing call is elsewhere.
+   * That defect is still OPEN — see handoff/night-2026-09-14-tribute/REPORT.md.
+   * The fallback is kept on its own merits, not as that fix.
    */
   if (host) {
     try {
