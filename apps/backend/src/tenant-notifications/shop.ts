@@ -2,6 +2,7 @@ import type { MedusaContainer } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { STORE_EMAIL, STORE_NAME, STOREFRONT_URL } from "../emails/i18n";
+import tenantSalesChannelLink from "../links/tenant-sales-channel";
 import { TENANT_MODULE } from "../modules/tenant";
 import type TenantModuleService from "../modules/tenant/service";
 import { shopOrigin } from "./storefront-origin";
@@ -124,19 +125,39 @@ const identityFor = async (
   };
 };
 
-const TENANT_FIELDS = [
-  "tenant.id",
-  "tenant.name",
-  "tenant.handle",
-  "tenant.domains.host",
-  "tenant.domains.is_primary",
-];
+const TENANT_FIELDS = ["id", "name", "handle", "domains.host", "domains.is_primary"];
+
+const tenantById = async (
+  container: MedusaContainer,
+  tenantId: string,
+): Promise<TenantRow | null> => {
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  const { data } = await query.graph({
+    entity: "tenant",
+    fields: TENANT_FIELDS,
+    filters: { id: tenantId },
+  });
+
+  return (data[0] as TenantRow | undefined) ?? null;
+};
 
 /**
- * The shop an ORDER was placed in, walked through the `tenant-order` link the
- * `order.placed` subscriber writes (`src/links/tenant-order.ts`). An order
- * whose link is not written yet resolves to the platform shop, and the letter
- * still goes out — a missing link must not cost the customer their confirmation.
+ * The shop an ORDER was placed in, found through its SALES CHANNEL — the same
+ * road `linkOrderToTenantStep` walks, and for the same reason: a shop owns its
+ * channel from the moment it is created, so the answer is there before the
+ * order exists.
+ *
+ * Why not the `tenant-order` link: that link is written by a SIBLING subscriber
+ * of the same `order.placed` event (`order-placed-tenant-link.ts`). Two
+ * subscribers of one event run concurrently, so reading it here is a race — and
+ * a race whose losing side is silent, because an unresolved shop still produces
+ * a perfectly valid letter with the wrong links in it. Measured on the seam
+ * test 2026-09-15: every letter of the first run carried
+ * `http://localhost:8061/account/orders`, the engine's own address, instead of
+ * the shop's `http://acme.localhost:8061/...`.
+ *
+ * An order in a channel no tenant owns (staff orders, the seed profile's own
+ * channel) resolves to the platform shop, and the letter still goes out.
  */
 export const resolveShopForOrder = async (
   container: MedusaContainer,
@@ -146,16 +167,28 @@ export const resolveShopForOrder = async (
 
   try {
     const query = container.resolve(ContainerRegistrationKeys.QUERY);
-    const { data } = await query.graph({
+    const { data: orders } = await query.graph({
       entity: "order",
-      fields: ["id", ...TENANT_FIELDS],
+      fields: ["id", "sales_channel_id"],
       filters: { id: orderId },
     });
 
-    const tenant = (data[0] as { tenant?: TenantRow | TenantRow[] } | undefined)?.tenant;
-    const row = Array.isArray(tenant) ? (tenant[0] ?? null) : (tenant ?? null);
+    const salesChannelId = (orders[0] as { sales_channel_id?: string | null } | undefined)
+      ?.sales_channel_id;
 
-    return await identityFor(container, row);
+    if (!salesChannelId) {
+      return platformShop();
+    }
+
+    const { data: owners } = await query.graph({
+      entity: tenantSalesChannelLink.entryPoint,
+      fields: ["tenant_id"],
+      filters: { sales_channel_id: salesChannelId },
+    });
+
+    const tenantId = (owners[0] as { tenant_id?: string } | undefined)?.tenant_id;
+
+    return await identityFor(container, tenantId ? await tenantById(container, tenantId) : null);
   } catch (error) {
     // A shop that cannot be read is a defect worth a log line, never a reason
     // to drop the notification: the platform identity still produces a valid
@@ -173,13 +206,4 @@ export const resolveShopForOrder = async (
 export const resolveShopForTenant = async (
   container: MedusaContainer,
   tenantId: string,
-): Promise<ShopIdentity> => {
-  const query = container.resolve(ContainerRegistrationKeys.QUERY);
-  const { data } = await query.graph({
-    entity: "tenant",
-    fields: ["id", "name", "handle", "domains.host", "domains.is_primary"],
-    filters: { id: tenantId },
-  });
-
-  return identityFor(container, (data[0] as TenantRow | undefined) ?? null);
-};
+): Promise<ShopIdentity> => identityFor(container, await tenantById(container, tenantId));

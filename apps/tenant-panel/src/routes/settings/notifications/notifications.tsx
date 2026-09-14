@@ -30,7 +30,7 @@ type Draft = { email_from_name: string; email_reply_to: string }
 const EMPTY_DRAFT: Draft = { email_from_name: "", email_reply_to: "" }
 
 const LastDelivery = ({ last }: { last: DeliveryStatus | undefined }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   if (!last || !last.status) {
     return (
@@ -40,7 +40,9 @@ const LastDelivery = ({ last }: { last: DeliveryStatus | undefined }) => {
     )
   }
 
-  const when = last.at ? new Date(last.at).toLocaleString() : ""
+  // The panel's own language, not the browser's: a Russian screen showing
+  // «9/15/2026, 5:35 AM» reads as somebody else's date.
+  const when = last.at ? new Date(last.at).toLocaleString(i18n.language) : ""
 
   if (last.status === "ok") {
     return (
