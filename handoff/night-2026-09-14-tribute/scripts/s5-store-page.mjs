@@ -1,0 +1,20 @@
+import { open, shot, SHOP } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await p.goto(SHOP + "/ru/pages/contacts", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(1500);
+console.log("URL:", p.url(), "STATUS-title:", await p.title());
+const body = await p.innerText("body");
+console.log("HAS MARK:", body.includes("NIGHT-1106-V1"));
+console.log("HAS TITLE:", body.includes("Доставка и оплата"));
+console.log("BODY:", body.slice(0, 900));
+await shot(p, "13-store-page");
+// footer
+await p.goto(SHOP + "/ru", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(1500);
+const foot = await p.$eval("footer", e => e.innerText).catch(()=>"(no footer)");
+console.log("FOOTER:", foot.slice(0,600));
+const flinks = await p.$$eval("footer a", els => els.map(e=>`${e.getAttribute("href")} :: ${e.innerText.trim()}`)).catch(()=>[]);
+console.log("FOOTER LINKS:", JSON.stringify(flinks));
+await shot(p, "14-store-footer");
+console.log("ERRS:", JSON.stringify(errs)); console.log("BAD:", JSON.stringify(bad));
+await b.close();

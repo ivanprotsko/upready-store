@@ -1,0 +1,11 @@
+import { open, login, shot, PANEL } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+await p.goto(PANEL + "/orders", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(3000);
+await shot(p, "07-orders-empty");
+console.log("URL:", p.url());
+console.log("BODY:", (await p.innerText("body")).slice(0, 1500));
+console.log("ERRS:", JSON.stringify(errs));
+console.log("BAD:", JSON.stringify(bad));
+await b.close();

@@ -1,0 +1,13 @@
+import { open, login, shot, PANEL } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+await p.goto(PANEL + "/pages", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2500);
+await shot(p, "08-pages-list");
+console.log("BODY:", (await p.innerText("body")).slice(400, 2200));
+const links = await p.$$eval("a", els => els.map(e => e.getAttribute("href")).filter(h => h && h.includes("page")));
+console.log("PAGE LINKS:", JSON.stringify([...new Set(links)]));
+const rows = await p.$$eval("tr, [role=row]", els => els.map(e => (e.innerText||"").replace(/\n/g," | ").trim()).filter(Boolean));
+console.log("ROWS:", JSON.stringify(rows, null, 1));
+console.log("ERRS:", JSON.stringify(errs)); console.log("BAD:", JSON.stringify(bad));
+await b.close();

@@ -1,0 +1,11 @@
+import { open, login, shot, PANEL } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+await p.goto(PANEL + "/promotions", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(3000);
+await shot(p, "17-promotions-empty");
+console.log("BODY:", (await p.innerText("body")).slice(400, 1400));
+console.log("ERRS:", JSON.stringify(errs)); console.log("BAD:", JSON.stringify(bad));
+const btns = await p.$$eval("a,button", els => els.map(e=>`${e.tagName}:${e.getAttribute("href")||""}:${(e.innerText||"").trim().slice(0,30)}`).filter(x=>x.split(":")[2]));
+console.log("ACTIONS:", JSON.stringify([...new Set(btns)]));
+await b.close();

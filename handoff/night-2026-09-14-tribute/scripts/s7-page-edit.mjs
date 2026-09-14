@@ -1,0 +1,21 @@
+import { open, login, shot, PANEL, SHOP } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+await p.goto(PANEL + "/pages/contacts", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2500);
+console.log("LOADED TITLE:", await p.$eval('input[name=title]', e=>e.value));
+console.log("LOADED BODY startsWith:", (await p.$eval('textarea[name=body]', e=>e.value)).slice(0,50));
+await p.fill('textarea[name=body]', "Доставляем по России за 2-5 дней.\n\nОплата картой при получении.\n\nМетка приёмки: NIGHT-1106-V2-EDITED");
+await p.click('button[type=submit]:has-text("Save")');
+await p.waitForTimeout(3000);
+await shot(p, "15-page-edited");
+console.log("SAVE ERRS:", JSON.stringify(errs)); console.log("SAVE BAD:", JSON.stringify(bad));
+await b.close();
+// storefront check WITHOUT manual revalidate
+const { b: b2, p: p2 } = await open();
+await p2.goto(SHOP + "/ru/pages/contacts", { waitUntil: "networkidle", timeout: 60000 });
+await p2.waitForTimeout(1200);
+const t = await p2.innerText("body");
+console.log("STOREFRONT sees V2 (no manual revalidate):", t.includes("NIGHT-1106-V2-EDITED"), "| still V1:", t.includes("NIGHT-1106-V1"));
+await shot(p2, "16-store-page-after-edit");
+await b2.close();

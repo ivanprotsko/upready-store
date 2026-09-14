@@ -1,0 +1,10 @@
+import { open, login, shot, PANEL } from "./lib.mjs";
+const { b, p, errs, bad } = await open();
+await login(p);
+await p.goto(PANEL + "/pages/contacts", { waitUntil: "networkidle", timeout: 60000 });
+await p.waitForTimeout(2500);
+await shot(p, "09-page-editor");
+console.log("BODY:", (await p.innerText("body")).slice(400, 1600));
+const ctl = await p.$$eval("input,textarea,button,[role=switch]", els => els.map(e=>({t:e.tagName,ty:e.type||e.getAttribute("role")||"",id:e.id||"",name:e.name||"",ph:e.placeholder||"",tx:(e.innerText||"").trim().slice(0,40)})));
+console.log("CONTROLS:", JSON.stringify(ctl,null,1));
+await b.close();
