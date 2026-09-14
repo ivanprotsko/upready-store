@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-14",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-14T04:43:07+08:00",
+  "status": "2026-09-14 04:43 WITA: feature/onboarding (t-2026-09-13-02) — кнопки главной разведены по двум адресам: «Создать магазин» (шапка, герой, «Почему сейчас», финал, бесплатный тариф) → мастер /start/onboarding, платные тарифы → https://t.me/upreadystore_bot?start=plan_<номер карточки>, новая вкладка + rel=noopener. Коммит 23b8cdc, tsc и vite build чисто. Живой прогон Playwright на :5301 → :8041 (воронка MT из worktree feat/abstract-datasets, бэкенд :9031): клик по бесплатному привёл в мастер, магазин создан за 12 с, каталог 10 товаров в 5 категориях, консоль пуста; кадры artifacts/docs/2026-09-14-onboarding-link/ (вне git по 21f). Публичный стенд воронки https://shiftship.dev/start/onboarding отвечает 200 — для прода это значение VITE_FUNNEL_BASE_URL. Бот: getMe по TELEGRAM_UPREADY_STORE_BOT → username upreadystore_bot подтверждён; воркспейс cef2827b feature/upreadystore_bot от dev 674c3e9, агент claude работает. Локальная dev выровнена по origin/dev (журнал штаба сохранён коммитом febbfff). ВАЖНО: PLAN_SCENARIOS удалён из funnel.ts — при мёрже с feature/pricing-copy (PR #6) её tariffs/index.tsx надо привести к новым href."
+}

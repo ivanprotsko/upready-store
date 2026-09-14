@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-14",
+  "index": 5,
+  "action": "status-set",
+  "ts": "2026-09-14T05:07:55+08:00",
+  "status": "2026-09-14 05:07 WITA: диагностика стенда воронки (t-2026-09-13-02). Магазин Ивана СОЗДАН и живёт: tenant ten_01M2E98WZ8HTSDA5BVZFHBDKF6, handle supershop24, имя supershop3; http://supershop24.localhost:8041/ru → 200, title «supershop3». Ошибка «Publishable API key required» на http://supershop3.localhost:8041 — адрес собран из ИМЕНИ, а технический хост строится из HANDLE: GET :9031/storefront/by-host?host=supershop3.localhost → 404, storefront падает в одиночный режим, где NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY не задан → Store API 400, страница 500. Воспроизведено на nosuchshop.localhost (500, тот же текст) против supershop24.localhost (200). Базовые домены — дефолт КОДА hosts.ts «upready.dev,localhost», TENANT_BASE_DOMAINS в .env бэкенда нет, tenant_domain пуста (0 строк): технический хост derived, не строка в БД. Красный баннер про DEMO_TENANT_BASE_DOMAIN — мой стенд :8041 поднят без этой переменной; потребитель route.ts:238 storefrontUrl = TENANT_BASE_DOMAIN ? https://<handle>.<base> : null. Схема в коде жёстко https, поэтому локально задать её мало — ссылка будет битой; настоящая проверка адреса — публичный shiftship.dev."
+}

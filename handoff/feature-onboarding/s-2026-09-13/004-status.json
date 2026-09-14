@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-13",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-13T02:49:38+08:00",
+  "status": "02:49 — лендинг поднят на :5301 (Vite 6, worktree feature/onboarding) и связан с демо-сценариями воронки на :8041: кнопка героя cold/warm → /start/plan?f=3, тариф 4 900 ₽ → /start/pay?f=1 («Старт»), тариф 9 900 ₽ → /start/pay?f=3&s=store&p=store-business («Бизнес»); база адреса из VITE_FUNNEL_BASE_URL, не константой. Приёмка в живом Chrome пройдена, tsc чист. Плюс навигатор ветки artifacts/docs/2026-09-13-branch-links.html — 37 адресов, команды запуска стендов, проверка живости. Коммит 4045d3a"
+}

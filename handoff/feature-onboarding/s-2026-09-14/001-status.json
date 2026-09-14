@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-14",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-14T01:28:11+08:00",
+  "status": "2026-09-14 01:28 WITA: feature/onboarding синхронизирована с origin/dev — merge b609a50, 19 коммитов базы (новая главная PR #3 00baff4, тарифы в три плана 5c0f080). Четыре конфликта разрешены: src/lib/funnel.ts (add/add), sections/hero/index.tsx и sections/tariffs/index.tsx взяты от dev целиком — моя связка лендинга с воронкой была прототипом, dev реализовал её же на новой главной (funnelUrl(scenario), планы free/business/pro, относительная база вместо вшитого http://localhost:8041); HANDOFF.json слит программно — база dev плюс задача t-2026-09-12-03 и вопросы q-knowledge-index-md-monolit-72k-tokenov, q-versustable-astro-quick-views-apps-versustable-vse, q-homepage-funnel-variant, которых в dev не было (итог 43 задачи, 42 вопроса, форматирование round-trip идентично). Приёмка на живом :5301: accept-homepage 13/13 (все CTA ведут в воронку, консоль чиста на 1440 и 390), accept-edit-mode 14/14, tsc rc=0, vite build rc=0. В дереве лежала незакоммиченная правка заголовка героя от 2026-09-13 06:17 (Сколько вы потеряете → Независимость и безопасность) — dev с тех пор переписал героя целиком на три слова, правка откачена, патч сохранён в скретчпаде uncommitted-hero-data-2026-09-13.patch. Ветка не пушилась, PR не открыт."
+}

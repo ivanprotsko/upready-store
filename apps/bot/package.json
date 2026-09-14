@@ -1,0 +1,19 @@
+{
+  "name": "@upready/upreadystore-bot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Telegram-бот @upreadystore_bot — вход в платные тарифы upready.dev",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "poll": "node --env-file-if-exists=.env src/index.ts",
+    "test": "node --test src/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.3"
+  }
+}

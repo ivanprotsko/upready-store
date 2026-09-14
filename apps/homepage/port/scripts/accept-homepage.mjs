@@ -170,10 +170,43 @@ async function main() {
     ];
     const hrefs = {};
     for (const id of ctaIds) hrefs[id] = await hrefOf(page, id);
+    /* Решение Ивана от 2026-09-14 (PR #12): кнопки ведут в РАЗНЫЕ места —
+       общие CTA и бесплатный тариф в мастер онбординга «/start/onboarding»,
+       платные тарифы в телеграм-бот диплинком «?start=plan_N», где N — номер
+       карточки. Проверяем каждый адрес по его назначению, а не все одним
+       «/start/»: иначе диплинк бота прошёл бы мимо проверки. */
+    const FUNNEL_CTA = ["hero-cta", "nav-cta", "plan-cta-free", "final-cta"];
+    const BOT_CTA = { "plan-cta-pro": 2, "plan-cta-ultra": 3 };
+    const ctaOk =
+      FUNNEL_CTA.every(
+        (id) => typeof hrefs[id] === "string" && hrefs[id].endsWith("/start/onboarding"),
+      ) &&
+      Object.entries(BOT_CTA).every(
+        ([id, n]) =>
+          typeof hrefs[id] === "string" &&
+          /^https:\/\/t\.me\/[A-Za-z0-9_]+\?start=plan_\d$/.test(hrefs[id]) &&
+          hrefs[id].endsWith(`?start=plan_${n}`),
+      );
     check(
-      "каждый CTA ведёт в воронку",
-      ctaIds.every((id) => typeof hrefs[id] === "string" && hrefs[id].includes("/start/")),
+      "бесплатные CTA ведут в мастер онбординга, платные — диплинком в бота",
+      ctaOk,
       ctaIds.map((id) => `${id}=${hrefs[id]}`).join(" · "),
+    );
+
+    /* Ссылка в бота обязана открываться в новой вкладке и с rel, закрывающим
+       доступ к opener: это внешний домен. */
+    const botTargets = await page.evaluate(
+      (ids) =>
+        ids.map((id) => {
+          const a = document.querySelector(`[data-testid="${id}"]`);
+          return a ? `${a.target}|${a.rel}` : "нет узла";
+        }),
+      Object.keys(BOT_CTA),
+    );
+    check(
+      "кнопки платных тарифов открывают бота в новой вкладке с noopener",
+      botTargets.every((t) => t === "_blank|noopener noreferrer"),
+      botTargets.join(" · "),
     );
 
     /* ---------- тарифы (t-2026-09-14-01) ---------- */
