@@ -402,6 +402,17 @@
     "goToImage": "Đến ảnh {index}",
     "openFullImage": "Mở ảnh đầy đủ"
   },
+  "Journal": {
+    "navLabel": "Tạp chí",
+    "feedTitle": "Tạp chí",
+    "feedDescription": "Bài viết của {siteName}.",
+    "empty": "Chưa có bài viết nào.",
+    "backToFeed": "Tất cả bài viết",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "pageOf": "Trang {page} trên {lastPage}",
+    "pagination": "Các trang tạp chí"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Tài khoản",
       "cart": "Giỏ hàng",
       "home": "Trang chủ",
-      "store": "Cửa hàng"
+      "store": "Cửa hàng",
+      "journal": "Tạp chí"
     },
     "menuButton": "Menu"
   },

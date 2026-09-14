@@ -2,7 +2,6 @@ import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { OrderFulfillmentCreatedEmail } from "../emails/order-fulfillment-created";
-import { STOREFRONT_URL } from "../emails/i18n";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -51,13 +50,13 @@ export default async function orderFulfillmentCreatedEmailHandler({
     idempotencyKey: `order-packed:${order.id}:${event.data.fulfillment_id ?? "nofulfillment"}`,
     Component: OrderFulfillmentCreatedEmail,
     subjectKey: "Fulfillment.subject",
-    text: (t, id) =>
+    text: (t, id, shop) =>
       [
         t("Fulfillment.textFallback", { id }),
         "",
         t("Fulfillment.nextStep"),
         "",
-        `${STOREFRONT_URL}/account/orders`,
+        `${shop.storefrontUrl}/account/orders`,
       ].join("\n"),
   });
 }

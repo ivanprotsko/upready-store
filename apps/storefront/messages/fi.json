@@ -402,6 +402,17 @@
     "goToImage": "Siirry kuvaan {index}",
     "openFullImage": "Avaa kuva täysikokoisena"
   },
+  "Journal": {
+    "navLabel": "Lehti",
+    "feedTitle": "Lehti",
+    "feedDescription": "Kaupan {siteName} artikkelit.",
+    "empty": "Artikkeleita ei ole vielä.",
+    "backToFeed": "Kaikki artikkelit",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "pageOf": "Sivu {page} / {lastPage}",
+    "pagination": "Lehden sivut"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Tili",
       "cart": "Ostoskori",
       "home": "Etusivu",
-      "store": "Kauppa"
+      "store": "Kauppa",
+      "journal": "Lehti"
     },
     "menuButton": "Valikko"
   },

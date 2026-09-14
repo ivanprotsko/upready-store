@@ -402,6 +402,17 @@
     "goToImage": "Μετάβαση στην εικόνα {index}",
     "openFullImage": "Άνοιγμα πλήρους εικόνας"
   },
+  "Journal": {
+    "navLabel": "Άρθρα",
+    "feedTitle": "Άρθρα",
+    "feedDescription": "Άρθρα από το {siteName}.",
+    "empty": "Δεν υπάρχουν ακόμη άρθρα.",
+    "backToFeed": "Όλα τα άρθρα",
+    "previous": "Προηγούμενη",
+    "next": "Επόμενη",
+    "pageOf": "Σελίδα {page} από {lastPage}",
+    "pagination": "Σελίδες άρθρων"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Λογαριασμός",
       "cart": "Καλάθι",
       "home": "Αρχική",
-      "store": "Κατάστημα"
+      "store": "Κατάστημα",
+      "journal": "Άρθρα"
     },
     "menuButton": "Μενού"
   },

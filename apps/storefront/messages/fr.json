@@ -402,6 +402,17 @@
     "goToImage": "Aller à l'image {index}",
     "openFullImage": "Ouvrir l'image en grand"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles de {siteName}.",
+    "empty": "Aucun article pour le moment.",
+    "backToFeed": "Tous les articles",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {lastPage}",
+    "pagination": "Pages du journal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Compte",
       "cart": "Panier",
       "home": "Accueil",
-      "store": "Boutique"
+      "store": "Boutique",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

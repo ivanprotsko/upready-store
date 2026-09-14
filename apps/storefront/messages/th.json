@@ -402,6 +402,17 @@
     "goToImage": "ไปที่ภาพ {index}",
     "openFullImage": "เปิดภาพเต็ม"
   },
+  "Journal": {
+    "navLabel": "บทความ",
+    "feedTitle": "บทความ",
+    "feedDescription": "บทความจาก {siteName}",
+    "empty": "ยังไม่มีบทความ",
+    "backToFeed": "บทความทั้งหมด",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {lastPage}",
+    "pagination": "หน้าของบทความ"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "บัญชี",
       "cart": "ตะกร้า",
       "home": "หน้าแรก",
-      "store": "ร้านค้า"
+      "store": "ร้านค้า",
+      "journal": "บทความ"
     },
     "menuButton": "เมนู"
   },

@@ -402,6 +402,17 @@
     "goToImage": "Przejdź do obrazu {index}",
     "openFullImage": "Otwórz pełny obraz"
   },
+  "Journal": {
+    "navLabel": "Magazyn",
+    "feedTitle": "Magazyn",
+    "feedDescription": "Artykuły sklepu {siteName}.",
+    "empty": "Nie ma jeszcze artykułów.",
+    "backToFeed": "Wszystkie artykuły",
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "pageOf": "Strona {page} z {lastPage}",
+    "pagination": "Strony magazynu"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Konto",
       "cart": "Koszyk",
       "home": "Strona główna",
-      "store": "Sklep"
+      "store": "Sklep",
+      "journal": "Magazyn"
     },
     "menuButton": "Menu"
   },

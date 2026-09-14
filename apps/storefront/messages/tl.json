@@ -402,6 +402,17 @@
     "goToImage": "Pumunta sa larawan {index}",
     "openFullImage": "Buksan ang buong larawan"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Mga artikulo mula sa {siteName}.",
+    "empty": "Wala pang artikulo.",
+    "backToFeed": "Lahat ng artikulo",
+    "previous": "Nakaraan",
+    "next": "Susunod",
+    "pageOf": "Pahina {page} ng {lastPage}",
+    "pagination": "Mga pahina ng journal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Tindahan"
+      "store": "Tindahan",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

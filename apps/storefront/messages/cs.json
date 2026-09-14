@@ -402,6 +402,17 @@
     "goToImage": "Přejít na obrázek {index}",
     "openFullImage": "Otevřít obrázek v plné velikosti"
   },
+  "Journal": {
+    "navLabel": "Magazín",
+    "feedTitle": "Magazín",
+    "feedDescription": "Články obchodu {siteName}.",
+    "empty": "Zatím tu nejsou žádné články.",
+    "backToFeed": "Všechny články",
+    "previous": "Předchozí",
+    "next": "Další",
+    "pageOf": "Stránka {page} z {lastPage}",
+    "pagination": "Stránky magazínu"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Účet",
       "cart": "Košík",
       "home": "Domů",
-      "store": "Obchod"
+      "store": "Obchod",
+      "journal": "Magazín"
     },
     "menuButton": "Menu"
   },

@@ -402,6 +402,17 @@
     "goToImage": "Go to image {index}",
     "openFullImage": "Open full image"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles from {siteName}.",
+    "empty": "No articles yet.",
+    "backToFeed": "All articles",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {lastPage}",
+    "pagination": "Journal pages"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Store"
+      "store": "Store",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

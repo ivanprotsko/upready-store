@@ -402,6 +402,17 @@
     "goToImage": "გადასვლა სურათზე {index}",
     "openFullImage": "სრული სურათის გახსნა"
   },
+  "Journal": {
+    "navLabel": "ჟურნალი",
+    "feedTitle": "ჟურნალი",
+    "feedDescription": "{siteName}-ის სტატიები.",
+    "empty": "სტატიები ჯერ არ არის.",
+    "backToFeed": "ყველა სტატია",
+    "previous": "წინა",
+    "next": "შემდეგი",
+    "pageOf": "გვერდი {page} / {lastPage}",
+    "pagination": "ჟურნალის გვერდები"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "ანგარიში",
       "cart": "კალათა",
       "home": "მთავარი",
-      "store": "მაღაზია"
+      "store": "მაღაზია",
+      "journal": "ჟურნალი"
     },
     "menuButton": "მენიუ"
   },

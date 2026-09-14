@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server"
 import { Link } from "@i18n/navigation"
 
-import { appLocales } from "@i18n/config"
 import { listRegions } from "@lib/data/regions"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
+import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -22,10 +22,15 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH1() {
   const t = await getTranslations()
-  const [regions, countryCode, siteName] = await Promise.all([
+  // t10-blog: the Journal entry of the side menu appears only once this shop
+  // has published an article — measured here, on the server, because SideMenu
+  // is a client component and must not read the backend itself (rule 19g).
+  const [regions, countryCode, siteName, locales, showJournal] = await Promise.all([
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
+    getSwitcherLocales(),
+    hasPublishedArticles(),
   ])
 
   return (
@@ -33,7 +38,7 @@ export default async function NavH1() {
       <header className="relative h-[64px] border-b mx-auto duration-200 bg-ui-bg-base">
         <nav className="content-container txt-compact-xsmall text-ui-fg-subtle flex items-center gap-x-4 md:justify-between w-full h-full">
           <div className="flex flex-1 items-center h-full">
-            <SideMenu siteName={siteName} />
+            <SideMenu siteName={siteName} showJournal={showJournal} />
           </div>
 
           {/* A two-second press opens the hidden settings panel's password dialog;
@@ -61,7 +66,7 @@ export default async function NavH1() {
               <RegionSelect
                 regions={regions}
                 currentCountryCode={countryCode ?? undefined}
-                locales={appLocales}
+                locales={locales}
                 className="min-w-0"
               />
             </div>

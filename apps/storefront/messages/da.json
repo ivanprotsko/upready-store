@@ -402,6 +402,17 @@
     "goToImage": "Gå til billede {index}",
     "openFullImage": "Åbn billedet i fuld størrelse"
   },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artikler fra {siteName}.",
+    "empty": "Der er ingen artikler endnu.",
+    "backToFeed": "Alle artikler",
+    "previous": "Forrige",
+    "next": "Næste",
+    "pageOf": "Side {page} af {lastPage}",
+    "pagination": "Magasinets sider"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Konto",
       "cart": "Kurv",
       "home": "Forside",
-      "store": "Butik"
+      "store": "Butik",
+      "journal": "Magasin"
     },
     "menuButton": "Menu"
   },

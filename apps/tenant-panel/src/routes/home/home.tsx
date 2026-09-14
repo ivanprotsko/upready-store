@@ -81,11 +81,25 @@ export const Home = () => {
           >
             {t("tenantAddress.title")}
           </Link>
+          {/* t06-locale-currency: the shop's own default language and its
+              enabled subset of the storefront's 36 locales. */}
+          <Link
+            to="/settings/locale"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
+          </Link>
           <Link
             to="/settings/payments"
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
           >
             {t("paymentSettings.title")}
+          </Link>
+          <Link
+            to="/settings/notifications"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("notificationSettings.title")}
           </Link>
         </div>
       </Container>

@@ -537,6 +537,27 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t10-blog: the shop's journal. Same nesting as /pages — the list
+            // renders the Outlet and `:slug` mounts the focus modal over it, so
+            // Save returns to the list with the row already refreshed by the
+            // mutation's own invalidation.
+            path: "/journal",
+            handle: { breadcrumb: () => t("app.nav.main.journal", { defaultValue: "Журнал" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/journal/article-list"),
+                children: [
+                  {
+                    path: ":slug",
+                    lazy: () => import("./routes/journal/article-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
             // /pages: the list renders the Outlet, create/edit open as focus
             // modals over it and return to the refreshed list on save.
@@ -592,6 +613,28 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("tenantAddress.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
+          },
+          {
+            // «Уведомления» (t08-order-notifications): who hears about a new
+            // order — the customer by e-mail, the owner in Telegram. No Admin
+            // counterpart: a native install notifies from medusa-config alone.
+            path: "/settings/notifications",
+            handle: { breadcrumb: () => t("notificationSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/notifications"),
+          },
+          {
+            // t06-locale-currency: which of the storefront's 36 locales this
+            // shop offers, its default, and the currency its default prices
+            // in. Same shape as /settings/domains next to it — one screen,
+            // no children, the document is edited in place.
+            path: "/settings/locale",
+            handle: {
+              breadcrumb: () =>
+                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/locale"),
           },
           {
             // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own

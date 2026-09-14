@@ -402,6 +402,17 @@
     "goToImage": "الانتقال إلى الصورة {index}",
     "openFullImage": "فتح الصورة بالحجم الكامل"
   },
+  "Journal": {
+    "navLabel": "المجلة",
+    "feedTitle": "المجلة",
+    "feedDescription": "مقالات من {siteName}.",
+    "empty": "لا توجد مقالات بعد.",
+    "backToFeed": "كل المقالات",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageOf": "الصفحة {page} من {lastPage}",
+    "pagination": "صفحات المجلة"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "الحساب",
       "cart": "السلة",
       "home": "الرئيسية",
-      "store": "المتجر"
+      "store": "المتجر",
+      "journal": "المجلة"
     },
     "menuButton": "القائمة"
   },

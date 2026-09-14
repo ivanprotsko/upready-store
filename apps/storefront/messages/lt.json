@@ -402,6 +402,17 @@
     "goToImage": "Pereiti prie vaizdo {index}",
     "openFullImage": "Atverti visą vaizdą"
   },
+  "Journal": {
+    "navLabel": "Žurnalas",
+    "feedTitle": "Žurnalas",
+    "feedDescription": "{siteName} straipsniai.",
+    "empty": "Straipsnių kol kas nėra.",
+    "backToFeed": "Visi straipsniai",
+    "previous": "Ankstesnis",
+    "next": "Kitas",
+    "pageOf": "{page} puslapis iš {lastPage}",
+    "pagination": "Žurnalo puslapiai"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "Paskyra",
       "cart": "Krepšelis",
       "home": "Pradžia",
-      "store": "Parduotuvė"
+      "store": "Parduotuvė",
+      "journal": "Žurnalas"
     },
     "menuButton": "Meniu"
   },

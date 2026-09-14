@@ -116,6 +116,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       "home_config.config",
       "domains.host",
       "domains.is_primary",
+      "locale_settings.default_locale",
+      "locale_settings.enabled_locales",
+      "locale_settings.default_country",
     ],
     filters: { id: [tenantId] },
   });
@@ -171,5 +174,16 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     ),
     settings,
     home,
+    // t06-locale-currency: absent (null) for a tenant that never saved
+    // `tenant_locale_settings` — the storefront then falls back to its own
+    // build-time `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`,
+    // exactly today's single-image behaviour.
+    locale: tenant.locale_settings
+      ? {
+          default_locale: tenant.locale_settings.default_locale,
+          enabled_locales: tenant.locale_settings.enabled_locales,
+          default_country: tenant.locale_settings.default_country ?? null,
+        }
+      : null,
   });
 };

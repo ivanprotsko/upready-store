@@ -402,6 +402,17 @@
     "goToImage": "छवि {index} पर जाएं",
     "openFullImage": "पूरी छवि खोलें"
   },
+  "Journal": {
+    "navLabel": "पत्रिका",
+    "feedTitle": "पत्रिका",
+    "feedDescription": "{siteName} के लेख।",
+    "empty": "अभी कोई लेख नहीं है।",
+    "backToFeed": "सभी लेख",
+    "previous": "पिछला",
+    "next": "अगला",
+    "pageOf": "पृष्ठ {page} / {lastPage}",
+    "pagination": "पत्रिका के पृष्ठ"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -831,7 +842,8 @@
       "account": "खाता",
       "cart": "कार्ट",
       "home": "होम",
-      "store": "स्टोर"
+      "store": "स्टोर",
+      "journal": "पत्रिका"
     },
     "menuButton": "मेनू"
   },

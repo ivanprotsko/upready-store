@@ -6,8 +6,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 export type OrderTransferRequestEmailProps = {
   displayId: string | number;
@@ -20,6 +20,7 @@ export function OrderTransferRequestEmail({
   transferUrl,
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderTransferRequestEmailProps) {
+  const shop = useEmailShop();
   const { t, html } = getEmailTranslator(locale);
 
   return (
@@ -49,8 +50,8 @@ export function OrderTransferRequestEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

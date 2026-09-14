@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next"
 import { sdk } from "@lib/config"
+import { listTenantArticles } from "@lib/data/tenant-articles"
 import { getRequestBaseURL } from "@lib/data/cookies"
 import { locales } from "@i18n/config"
 
@@ -109,6 +110,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "weekly",
           priority: 0.7,
         })
+      }
+    }
+  } catch {}
+
+  // t10-blog: the shop's journal. The loader goes through `sdk.client.fetch`,
+  // which carries THIS request's publishable key, and the backend scopes the
+  // answer to the tenant behind that key — so a shop's articles appear in its
+  // own sitemap and in no other shop's, the same way the catalog above is
+  // already per-shop. A shop with no journal adds nothing here, not even the
+  // feed URL: a sitemap entry for an empty page is a crawl budget spent on
+  // nothing.
+  try {
+    const limit = 100
+    let offset = 0
+    const seen: Array<{ slug: string; published_at: string | null }> = []
+
+    while (true) {
+      const { articles, count } = await listTenantArticles({ limit, offset })
+      seen.push(...articles)
+      offset += limit
+      if (articles.length === 0 || offset >= count) break
+    }
+
+    if (seen.length > 0) {
+      for (const locale of locales) {
+        entries.push({
+          url: url(base, locale, "/journal"),
+          lastModified: now,
+          changeFrequency: "weekly",
+          priority: 0.6,
+        })
+      }
+
+      for (const article of seen) {
+        for (const locale of locales) {
+          entries.push({
+            url: url(base, locale, `/journal/${article.slug}`),
+            lastModified: article.published_at ? new Date(article.published_at) : now,
+            changeFrequency: "monthly",
+            priority: 0.65,
+          })
+        }
       }
     }
   } catch {}
