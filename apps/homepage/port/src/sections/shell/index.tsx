@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { HERO_SCENARIO, funnelUrl } from "../../lib/funnel";
+import { ONBOARDING_SCENARIO, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
 import { CONTACT_LINK, FOOTER_BRAND, NAV_CTA_LABEL, NAV_LINKS } from "./data";
 
@@ -20,8 +20,8 @@ export function Nav() {
         ))}
         <a
           className={`btn ${styles.navCta}`}
-          href={funnelUrl(HERO_SCENARIO)}
-          title={HERO_SCENARIO.title}
+          href={funnelUrl(ONBOARDING_SCENARIO)}
+          title={ONBOARDING_SCENARIO.title}
           data-testid="nav-cta"
         >
           {NAV_CTA_LABEL}

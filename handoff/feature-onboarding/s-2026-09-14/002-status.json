@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feature-onboarding",
+  "session": "s-2026-09-14",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-14T02:52:03+08:00",
+  "status": "2026-09-14 02:52 WITA: найдены и сняты все состояния оплаты старого upready.dev (apps/homepage/index.html): точка входа — только две кнопки «Оплатить» в #sec-tariffs; модалка в 5 состояниях — установка 4 900 ₽, оформление 9 900 ₽, ошибка телеграма, телеграм введён (href достраивается ?tg=), телеграм из localStorage; плюс секция «Оплата» (5 пунктов). Кадры и галерея: artifacts/docs/2026-09-14-payment-modal-states/ (вне git по 21f). Настоящей оплаты нет — все ссылки ведут на t.me/tribute (t-2026-09-13-02)"
+}

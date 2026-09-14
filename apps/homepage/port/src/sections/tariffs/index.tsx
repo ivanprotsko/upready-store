@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { PLAN_SCENARIOS, funnelUrl } from "../../lib/funnel";
+import { ONBOARDING_SCENARIO, funnelUrl, telegramPlanUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
 import {
   BILLING_OPTIONS,
@@ -13,9 +13,19 @@ import {
 } from "./data";
 
 /**
- * «Тарифы»: переключатель периода оплаты и три карточки, кнопка каждой ведёт в
- * воронку с уже выбранным тарифом (концепция §2, строка «воронка с выбранным
- * тарифом»). Спецификация планов — t-2026-09-14-01.
+ * «Тарифы»: переключатель периода оплаты и три карточки. Кнопки ведут в разные
+ * места — решение Ивана от 2026-09-14 (t-2026-09-13-02):
+ *
+ *   • бесплатный тариф → мастер онбординга, магазин создаётся сразу и
+ *     бесплатно, платить нечем и незачем;
+ *   • платные → телеграм-бот с номером тарифа в диплинке; бот показывает, что
+ *     входит в тариф, и принимает оплату.
+ *
+ * Ссылка в бот уходит НАРУЖУ (target="_blank"), мастер — на свой домен, в той
+ * же вкладке: пользователь, который пошёл создавать магазин, не должен
+ * возвращаться к прайсу через историю браузера.
+ *
+ * Спецификация планов — t-2026-09-14-01.
  *
  * Подписей строк слева нет и разделительных линий между строками нет:
  * значения самоописывающие, а сравнение держится на позиции — пять строк в
@@ -75,8 +85,15 @@ export default function Tariffs() {
       </div>
 
       <div className={styles.plans}>
-        {PLANS.map((plan) => {
-          const scenario = PLAN_SCENARIOS[plan.scenario];
+        {PLANS.map((plan, index) => {
+          // Номер в диплинке — ПОРЯДОК КАРТОЧКИ (1 — первая), а не ключ плана:
+          // имена и ключи тарифов менялись дважды за сутки, порядок «от дешёвой
+          // к дорогой» — ни разу, и боту достаточно знать, какой из трёх выбран.
+          const free = plan.scenario === "free";
+          const href = free ? funnelUrl(ONBOARDING_SCENARIO) : telegramPlanUrl(index + 1);
+          const title = free
+            ? ONBOARDING_SCENARIO.title
+            : `Тариф «${plan.name}» — бот расскажет, что входит, и примет оплату`;
           const price = plan.prices[billing];
           return (
             <div key={plan.scenario} className={styles.plan} data-testid={`plan-${plan.scenario}`}>
@@ -120,9 +137,10 @@ export default function Tariffs() {
 
               <a
                 className={`btn ${styles.planCta}`}
-                href={funnelUrl(scenario)}
-                title={scenario.title}
+                href={href}
+                title={title}
                 data-testid={`plan-cta-${plan.scenario}`}
+                {...(free ? {} : { target: "_blank", rel: "noopener noreferrer" })}
               >
                 {plan.cta}
               </a>
