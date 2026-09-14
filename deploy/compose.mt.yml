@@ -78,6 +78,10 @@ services:
       # initial-data-seed.ts's own header documents that second-run behaviour.
       STORE_PROFILE: ${PROFILE:-sneakers}
       STORE_MEDIA_BASE_URL: https://${ENGINE_DOMAIN}/static/store-profiles/${PROFILE:-sneakers}
+      # Public base for files a TENANT uploads from the panel (product images,
+      # category covers, hero pictures). Without it @medusajs/file-local stamps
+      # its own default `http://localhost:9000/static` into every stored URL.
+      LOCAL_FILE_BACKEND_URL: https://${ENGINE_DOMAIN}/static
       # Which suffixes make a host a tenant's TECHNICAL subdomain
       # (api/storefront/by-host/hosts.ts). `localhost` is dropped on purpose:
       # this is a public deployment, not a stand.
@@ -86,6 +90,11 @@ services:
       ADMIN_CORS: ${ADMIN_CORS}
       AUTH_CORS: ${AUTH_CORS}
       STOREFRONT_URL: https://${ENGINE_DOMAIN}
+      # Where the cache-clearing webhook goes. NOT STOREFRONT_URL: that is the
+      # engine's domain (customer links in e-mails are built from it), while the
+      # storefront is this other container — posting there answered 404 and no
+      # shop ever saw its own edits.
+      STOREFRONT_REVALIDATE_URL: http://mt-storefront:8000
       STORE_NAME: ${STORE_NAME:-Shipshift}
       STORE_EMAIL: ${STORE_EMAIL:-hello@shipshift.dev}
       STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}
@@ -103,6 +112,10 @@ services:
       # The WHOLE media tree, not one profile's: this backend serves several
       # catalogs at once, one per tenant.
       - ${MEDIA_HOST_PATH:-/opt/upready-store/media}:/app/static/store-profiles
+      # Tenant uploads live OUTSIDE the image: `static/tenants/<tenant_id>/…`
+      # is written at runtime, so without this bind mount every picture a shop
+      # owner uploads is destroyed by the next `up -d --build`.
+      - ${TENANT_MEDIA_HOST_PATH:-/opt/upready-store/media-tenants}:/app/static/tenants
     networks:
       - coolify
     healthcheck: *backend-healthcheck

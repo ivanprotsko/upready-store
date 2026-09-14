@@ -3,6 +3,7 @@ import { MedusaError } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import upsertTenantHomeWorkflow from "../../../workflows/tenant/upsert-tenant-home";
+import { notifyStorefrontRevalidate } from "../../../storefront-revalidate";
 import { getTenantScope, listTenantCategoryIds } from "../tenant-scope";
 import {
   isForbidden,
@@ -111,6 +112,13 @@ export const PUT = async (
   await upsertTenantHomeWorkflow(req.scope).run({
     input: { tenant_id: tenant.id, config: document },
   });
+
+  // The storefront caches this document (tag `tenant-home-<handle>`), so without
+  // this call the shop keeps rendering its previous theme, hero and home blocks
+  // until the process restarts. The receiver has always understood the
+  // `tenant.home` type — nobody was sending it (measured 2026-09-14: the only
+  // caller of /api/revalidate in this app was the product subscriber).
+  await notifyStorefrontRevalidate({ type: "tenant.home", handle: tenant.handle });
 
   res.json({ home: document });
 };

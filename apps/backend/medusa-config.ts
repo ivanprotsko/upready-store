@@ -65,6 +65,33 @@ const s3Module = {
   },
 };
 
+// Without S3 the framework falls back to `@medusajs/file-local`, whose own
+// default `backend_url` is `http://localhost:9000/static` — a dead address on
+// every public storefront (measured 2026-09-14: a product image uploaded from
+// the tenant panel was stored as `http://localhost:9000/static/tenants/…` and
+// the browser answered ERR_CONNECTION_REFUSED, while the very same file WAS
+// served under `https://shipshift.dev/static/…` with 200 image/webp). The
+// provider is therefore declared explicitly, so the public base is a
+// deployment value and not a library default. `src/tenant-files/index.ts`
+// already reads these options off the container in preference to its own
+// fallbacks — this entry is what it was written to find.
+const localFileModule = {
+  resolve: "@medusajs/medusa/file",
+  options: {
+    providers: [
+      {
+        resolve: "@medusajs/medusa/file-local",
+        id: "local",
+        options: {
+          upload_dir: process.env.LOCAL_FILE_UPLOAD_DIR || "static",
+          backend_url:
+            process.env.LOCAL_FILE_BACKEND_URL || "http://localhost:9000/static",
+        },
+      },
+    ],
+  },
+};
+
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
@@ -118,6 +145,6 @@ module.exports = defineConfig({
       },
     },
     ...(useRedis ? redisModules : []),
-    ...(useS3 ? [s3Module] : []),
+    ...(useS3 ? [s3Module] : [localFileModule]),
   ],
 });

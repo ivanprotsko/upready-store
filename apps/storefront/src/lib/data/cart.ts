@@ -42,6 +42,22 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     ...(await getCacheOptions("carts")),
   }
 
+  /*
+   * `cache: "no-store"`, not "force-cache". A cart is per-visitor state that
+   * changes on almost every click, and Next's Data Cache is keyed by the
+   * request (URL + options) while the invalidation TAG carries the visitor's
+   * own `_medusa_cache_id` (lib/data/cookies.ts `getCacheTag`) — so one
+   * visitor's cached response can be handed to another whose tag will never
+   * clear it.
+   *
+   * What that cost, measured on the live stand 2026-09-14: with a cart that the
+   * Store API returned complete (email, shipping and billing addresses, one
+   * shipping method, a pending `pp_system_default` session), the checkout's own
+   * React props held `email: false, billing: false, methods: 0, sessions: []`
+   * — read off the fiber of the pay button. `PaymentButton`'s `notReady` is
+   * computed from exactly those fields, so «Оплатить» stayed disabled forever
+   * and NO order could be placed on any tenant shop.
+   */
   return await sdk.client
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
@@ -50,7 +66,7 @@ export async function retrieveCart(cartId?: string, fields?: string) {
       },
       headers,
       next,
-      cache: "force-cache",
+      cache: "no-store",
     })
     .then(({ cart }: { cart: HttpTypes.StoreCart }) => cart)
     .catch(() => null)
