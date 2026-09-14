@@ -1,5 +1,6 @@
 import { model } from "@medusajs/framework/utils";
 import TenantAdmin from "./tenant-admin";
+import TenantArticle from "./tenant-article";
 import TenantDomain from "./tenant-domain";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
@@ -48,6 +49,10 @@ const Tenant = model.define("tenant", {
   // Credentials of the shop's own third-party accounts, encrypted at rest
   // (`tenant-integration-secret.ts`, t03-tenant-secrets-robokassa).
   integration_secrets: model.hasMany(() => TenantIntegrationSecret, {
+    mappedBy: "tenant",
+  }),
+  // The shop's journal (t10-blog): one row per article per locale.
+  articles: model.hasMany(() => TenantArticle, {
     mappedBy: "tenant",
   }),
 });
