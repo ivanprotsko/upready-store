@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "お支払いはまだ確認中です。1分ほど待ってアカウントから注文を開くか、もう一度お試しください。",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -642,6 +643,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支払う",
+    "redirectUnavailable": "決済ページはまだ利用できません。しばらくしてからもう一度お試しください。",
     "selectPaymentMethod": "支払い方法を選択してください"
   },
   "PaymentContainer": {
@@ -657,6 +659,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "クレジットカード",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "クレジットカード",

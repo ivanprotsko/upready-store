@@ -602,6 +602,7 @@
     "heading": "Платёж не прошёл",
     "orderFailedReason": "Платёж прошёл, но оформить заказ не удалось. Содержимое корзины не изменилось.",
     "paymentFailedReason": "Банк не одобрил эту карту. Содержимое корзины не изменилось.",
+    "paymentPendingReason": "Оплата ещё подтверждается. Подождите минуту и откройте заказ в личном кабинете или повторите оформление.",
     "retryCheckout": "Вернуться к оформлению"
   },
   "OrderOverview": {
@@ -642,6 +643,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Оплатить",
+    "redirectUnavailable": "Страница оплаты пока недоступна. Попробуйте ещё раз через минуту.",
     "selectPaymentMethod": "Выберите способ оплаты"
   },
   "PaymentContainer": {
@@ -657,6 +659,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Банковская карта",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Банковская карта",

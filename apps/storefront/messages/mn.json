@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Төлбөр баталгаажиж байна. Нэг минут хүлээгээд захиалгаа бүртгэлээсээ нээнэ үү, эсвэл дахин оролдоно уу.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -642,6 +643,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Төлөх",
+    "redirectUnavailable": "Төлбөрийн хуудас хараахан бэлэн болоогүй байна. Хэсэг хугацааны дараа дахин оролдоно уу.",
     "selectPaymentMethod": "Төлбөрийн аргаа сонгоно уу"
   },
   "PaymentContainer": {
@@ -657,6 +659,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Кредит карт",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Кредит карт",

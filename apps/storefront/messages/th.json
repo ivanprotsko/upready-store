@@ -602,6 +602,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "การชำระเงินยังอยู่ระหว่างการยืนยัน โปรดรอสักครู่แล้วเปิดคำสั่งซื้อจากบัญชีของคุณ หรือลองใหม่อีกครั้ง",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -642,6 +643,7 @@
   },
   "PaymentButton": {
     "placeOrder": "ชำระเงิน",
+    "redirectUnavailable": "หน้าชำระเงินยังไม่พร้อมใช้งาน โปรดลองอีกครั้งในอีกสักครู่",
     "selectPaymentMethod": "เลือกวิธีการชำระเงิน"
   },
   "PaymentContainer": {
@@ -657,6 +659,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "บัตรเครดิต",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "บัตรเครดิต",
