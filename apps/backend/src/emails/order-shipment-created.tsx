@@ -40,12 +40,15 @@ export type OrderShipmentCreatedEmailProps = {
     };
   };
   labels?: FulfillmentLabel[];
+  /** Carrier name the owner typed next to the tracking number (`fulfillment.metadata.carrier`). */
+  carrier?: string | null;
   locale?: EmailLocale;
 };
 
 export function OrderShipmentCreatedEmail({
   order,
   labels = [],
+  carrier = null,
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderShipmentCreatedEmailProps) {
   const { t, html } = getEmailTranslator(locale);
@@ -60,6 +63,9 @@ export function OrderShipmentCreatedEmail({
   const ordersUrl = `${STOREFRONT_URL}/account/orders`;
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
+  // «СДЭК 1234567890»: the carrier in front of the number, no new catalog key.
+  const trackingText = (label: FulfillmentLabel) =>
+    carrier ? `${carrier} ${trackingText(label)}` : `${trackingText(label)}`;
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>
@@ -91,10 +97,10 @@ export function OrderShipmentCreatedEmail({
                 <Text style={s.trackLabel}>{t("Shipment.trackLabel")}</Text>
                 {label.tracking_url ? (
                   <a href={label.tracking_url} style={s.trackLink}>
-                    {label.tracking_number}
+                    {trackingText(label)}
                   </a>
                 ) : (
-                  <Text style={s.trackValue}>{label.tracking_number}</Text>
+                  <Text style={s.trackValue}>{trackingText(label)}</Text>
                 )}
               </Column>
             </Row>
