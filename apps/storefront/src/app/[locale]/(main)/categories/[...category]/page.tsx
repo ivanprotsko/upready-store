@@ -31,6 +31,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       getTranslations("Metadata.category"),
       getCategoryByHandle(params.category),
     ])
+    // No such category, or the read failed and `siteWideRead` has already said
+    // so by name in the log. Both reach the visitor as a 404; the `catch` below
+    // did the same by dereferencing undefined, which only read as intentional
+    // once the loader's type admitted the case.
+    if (!productCategory) {
+      notFound()
+    }
     const title = await pageTitle(productCategory.name)
     const description =
       productCategory.description?.trim() ||

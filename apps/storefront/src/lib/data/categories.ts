@@ -1,6 +1,7 @@
 import { sdk } from "@lib/config"
 import type { HttpTypes } from "@medusajs/types"
 import { getCacheOptions, getTenantHandle } from "./cookies"
+import { siteWideRead } from "./site-wide"
 
 type CategoryListResponse = { product_categories: HttpTypes.StoreProductCategory[] }
 
@@ -21,24 +22,42 @@ type CategoryListResponse = { product_categories: HttpTypes.StoreProductCategory
 async function fetchTenantCategories(
   query: Record<string, unknown>,
   next: Record<string, unknown>
-): Promise<HttpTypes.StoreProductCategory[]> {
-  try {
-    const { product_categories } = await sdk.client.fetch<CategoryListResponse>(
-      "/store/tenant/product-categories",
-      { query, next, cache: "force-cache" }
-    )
-    return product_categories
-  } catch (error) {
-    if ((error as { status?: number })?.status !== 404) {
-      throw error
-    }
+): Promise<HttpTypes.StoreProductCategory[] | null> {
+  /*
+   * `null` for "the read failed", an array for an answer — including an empty
+   * one. The nav and the footer render on every route under `(main)`, so an
+   * error thrown here is not an empty strip, it is `Application error` in place
+   * of the whole page; measured 2026-09-15 on `/{locale}/order/{id}/confirmed`,
+   * where a request that could not name a shop got `400 Publishable API key
+   * required` from the route below, which is not the 404 the fallback tests
+   * for, and the buyer's confirmation answered 500. `lib/data/site-wide.ts`
+   * carries the rule and the log line.
+   */
+  return siteWideRead<HttpTypes.StoreProductCategory[] | null>(
+    "listCategories /store/tenant/product-categories",
+    async () => {
+      try {
+        const { product_categories } =
+          await sdk.client.fetch<CategoryListResponse>(
+            "/store/tenant/product-categories",
+            { query, next, cache: "force-cache" }
+          )
+        return product_categories
+      } catch (error) {
+        if ((error as { status?: number })?.status !== 404) {
+          throw error
+        }
 
-    const { product_categories } = await sdk.client.fetch<CategoryListResponse>(
-      "/store/product-categories",
-      { query, next, cache: "force-cache" }
-    )
-    return product_categories
-  }
+        const { product_categories } =
+          await sdk.client.fetch<CategoryListResponse>(
+            "/store/product-categories",
+            { query, next, cache: "force-cache" }
+          )
+        return product_categories
+      }
+    },
+    null
+  )
 }
 
 export const listCategories = async (query?: Record<string, unknown>) => {
@@ -64,6 +83,13 @@ export const listCategories = async (query?: Record<string, unknown>) => {
   // empty nav/footer. Only checked for the unfiltered tree read: a `handle`
   // that does not exist is `getCategoryByHandle`'s own, legitimate, empty
   // result below.
+  // A failed read is not an empty catalog (rule 20a): it has already been
+  // reported by name in `siteWideRead`, and letting it fall into the zero-check
+  // below would report it a second time as a seeding bug it is not.
+  if (product_categories === null) {
+    return []
+  }
+
   if (product_categories.length === 0 && !query?.handle) {
     // SWEEP_OK — getTenantHandle() never throws and a missing handle is
     // never an error (its own doc comment in cookies.ts); `if (handle)`
@@ -114,6 +140,21 @@ export type TopCategoryWithCount = {
  * `fields` override.
  */
 export const listTopCategoriesWithCounts = async (): Promise<{
+  categories: TopCategoryWithCount[]
+  totalCount: number
+}> => {
+  // Site-wide: header H5/H6 renders this chip row on every route under
+  // `(main)`, and the count queries below are a second `/store/*` read that the
+  // category read's own guard does not cover. Same rule, same file:
+  // `lib/data/site-wide.ts`.
+  return siteWideRead(
+    "listTopCategoriesWithCounts /store/products",
+    () => readTopCategoriesWithCounts(),
+    { categories: [], totalCount: 0 }
+  )
+}
+
+const readTopCategoriesWithCounts = async (): Promise<{
   categories: TopCategoryWithCount[]
   totalCount: number
 }> => {
@@ -176,5 +217,8 @@ export const getCategoryByHandle = async (categoryHandle: string[]) => {
     next
   )
 
-  return product_categories[0]
+  // A failed read is not "no such category": both answer undefined here, and the
+  // caller (a category page) turns that into a 404. The difference is already in
+  // the log, by name, from `siteWideRead`.
+  return product_categories?.[0]
 }
