@@ -29,7 +29,21 @@ export const retrieveOrder = async (id: string) => {
       },
       headers,
       next,
-      cache: "force-cache",
+      /*
+       * `no-store`, for the same reason the cart is not cached: an order is one
+       * customer's data. On this stack there is a second, sharper edge — the
+       * tenant's publishable key is taken from the REQUEST headers
+       * (`lib/config.ts` getPublishableKeyHeader), and a cached fetch that Next
+       * runs outside a request context has none: `headers()` throws, the env
+       * fallback `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` is deliberately unset on
+       * the multi-tenant deployment, and the Store API answers 400.
+       *
+       * Measured 2026-09-14 on the live stand: a customer who had just paid
+       * landed on «Application error … Digest: 2524605575», and the storefront
+       * log carried `Publishable API key required in the request header`. It
+       * reproduced on two separate orders, so it is not a restart race.
+       */
+      cache: "no-store",
     })
     .then(({ order }) => order)
     .catch((err) => medusaError(err))
@@ -63,7 +77,7 @@ export const listOrders = async (
       },
       headers,
       next,
-      cache: "force-cache",
+      cache: "no-store",
     })
     .then(({ orders }) => orders)
     .catch((err) => medusaError(err))
