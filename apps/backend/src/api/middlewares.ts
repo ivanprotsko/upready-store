@@ -153,6 +153,7 @@ import {
   PostTenantDomainSchema,
   PutTenantPaymentSettingsSchema,
   PostTenantHandleSchema,
+  PostTenantPageSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantPageSchema,
@@ -949,13 +950,19 @@ export default defineMiddlewares({
     },
 
     // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
-    // Only the write verb needs a middleware here: the two tenant reads take no
+    // Only the write verbs need a middleware here: the two tenant reads take no
     // body, and their one query parameter (`locale`) is parsed in the route —
     // this resource has no Admin counterpart whose validator and query config
-    // could be reused, and the contract's shape for the list is the whole fixed
-    // set of five sections, not an Admin `count/offset/limit` page. The public
-    // `/store/tenant/pages/**` reads sit behind the framework's own global
-    // publishable-key gate and take neither body nor query.
+    // could be reused, and the contract's shape for the list is the reserved
+    // five plus the tenant's own custom pages, not an Admin `count/offset/limit`
+    // page. The public `/store/tenant/pages/**` reads sit behind the
+    // framework's own global publishable-key gate and take neither body nor
+    // query. `POST` (t05-page-keys) creates a custom page; `DELETE` removes one.
+    {
+      matcher: "/tenants/pages",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantPageSchema)],
+    },
     {
       matcher: "/tenants/pages/:key",
       method: ["PUT"],
