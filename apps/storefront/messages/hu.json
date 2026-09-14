@@ -402,6 +402,17 @@
     "goToImage": "Ugrás a(z) {index}. képre",
     "openFullImage": "Teljes méretű kép megnyitása"
   },
+  "Journal": {
+    "navLabel": "Magazin",
+    "feedTitle": "Magazin",
+    "feedDescription": "A(z) {siteName} cikkei.",
+    "empty": "Még nincsenek cikkek.",
+    "backToFeed": "Összes cikk",
+    "previous": "Előző",
+    "next": "Következő",
+    "pageOf": "Oldal: {page} / {lastPage}",
+    "pagination": "A magazin oldalai"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "A fizetés megerősítése még folyamatban van. Várjon egy percet, és nyissa meg a rendelést a fiókjából, vagy próbálja újra.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nyomkövetési szám"
   },
   "OrdersPage": {
     "description": "Tekintse meg korábbi rendeléseit és azok állapotát.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Fizetés",
+    "redirectUnavailable": "A fizetési oldal még nem érhető el. Próbálja újra egy pillanat múlva.",
     "selectPaymentMethod": "Válasszon fizetési módot"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Bankkártya",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Bankkártya",
@@ -809,7 +824,8 @@
       "account": "Fiók",
       "cart": "Kosár",
       "home": "Főoldal",
-      "store": "Bolt"
+      "store": "Bolt",
+      "journal": "Magazin"
     },
     "menuButton": "Menü"
   },

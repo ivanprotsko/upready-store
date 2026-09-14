@@ -402,6 +402,17 @@
     "goToImage": "{index}번 이미지로 이동",
     "openFullImage": "전체 이미지 열기"
   },
+  "Journal": {
+    "navLabel": "매거진",
+    "feedTitle": "매거진",
+    "feedDescription": "{siteName}의 글.",
+    "empty": "아직 글이 없습니다.",
+    "backToFeed": "전체 글",
+    "previous": "이전",
+    "next": "다음",
+    "pageOf": "{lastPage}페이지 중 {page}페이지",
+    "pagination": "매거진 페이지"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "결제가 아직 확인 중입니다. 잠시 후 계정에서 주문을 열어 보거나 다시 시도해 주세요.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "운송장 번호"
   },
   "OrdersPage": {
     "description": "이전 주문 내역과 상태를 확인할 수 있습니다.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "결제하기",
+    "redirectUnavailable": "결제 페이지를 아직 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
     "selectPaymentMethod": "결제 방법을 선택하세요"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "신용카드",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "신용카드",
@@ -809,7 +824,8 @@
       "account": "계정",
       "cart": "장바구니",
       "home": "홈",
-      "store": "스토어"
+      "store": "스토어",
+      "journal": "매거진"
     },
     "menuButton": "메뉴"
   },

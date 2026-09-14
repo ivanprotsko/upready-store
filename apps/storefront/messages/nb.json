@@ -402,6 +402,17 @@
     "goToImage": "Gå til bilde {index}",
     "openFullImage": "Åpne bildet i full størrelse"
   },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artikler fra {siteName}.",
+    "empty": "Ingen artikler ennå.",
+    "backToFeed": "Alle artikler",
+    "previous": "Forrige",
+    "next": "Neste",
+    "pageOf": "Side {page} av {lastPage}",
+    "pagination": "Magasinsider"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Betalingen bekreftes fortsatt. Vent et minutt og åpne bestillingen fra kontoen, eller prøv igjen.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sporingsnummer"
   },
   "OrdersPage": {
     "description": "Se dine tidligere bestillinger og deres status.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Betal",
+    "redirectUnavailable": "Betalingssiden er ikke tilgjengelig ennå. Prøv igjen om et øyeblikk.",
     "selectPaymentMethod": "Velg en betalingsmetode"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Betalingskort",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Betalingskort",
@@ -809,7 +824,8 @@
       "account": "Konto",
       "cart": "Handlekurv",
       "home": "Hjem",
-      "store": "Butikk"
+      "store": "Butikk",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },

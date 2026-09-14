@@ -11,7 +11,9 @@ import { getTranslations } from "next-intl/server"
  * banner never repeats a raw query-string value on the screen (rule 27d
  * acceptance 1).
  */
-const FAILURE_REASONS = ["payment_failed", "order_failed"] as const
+// `payment_pending`: a redirect provider (Robokassa) sent the customer back
+// before its webhook confirmed the payment (t03-tenant-secrets-robokassa).
+const FAILURE_REASONS = ["payment_failed", "order_failed", "payment_pending"] as const
 type FailureReason = (typeof FAILURE_REASONS)[number]
 
 const isFailureReason = (value: string | null | undefined): value is FailureReason =>
@@ -27,7 +29,12 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
   }
 
   const t = await getTranslations("OrderFailed")
-  const reasonKey = error === "payment_failed" ? "paymentFailedReason" : "orderFailedReason"
+  const reasonKey =
+    error === "payment_failed"
+      ? "paymentFailedReason"
+      : error === "payment_pending"
+        ? "paymentPendingReason"
+        : "orderFailedReason"
 
   return (
     <div

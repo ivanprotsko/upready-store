@@ -14,9 +14,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STOREFRONT_URL,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 export type OrderPlacedEmailProps = {
   order: {
@@ -44,6 +43,7 @@ export function OrderPlacedEmail({
   order,
   locale = DEFAULT_EMAIL_LOCALE,
 }: OrderPlacedEmailProps) {
+  const shop = useEmailShop();
   const { t, html, money } = getEmailTranslator(locale);
   const id = order.display_id ?? order.id;
   const customerName = [
@@ -60,8 +60,8 @@ export function OrderPlacedEmail({
    * the id is the secret, and this email already goes to the order's own
    * address.
    */
-  const orderUrl = `${STOREFRONT_URL}/order/${order.id}/confirmed`;
-  const ordersUrl = `${STOREFRONT_URL}/account/orders`;
+  const orderUrl = `${shop.storefrontUrl}/order/${order.id}/confirmed`;
+  const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const formatAmount = (amount: NumericValue) =>
     money(toNumber(amount), order.currency_code);
@@ -137,8 +137,8 @@ export function OrderPlacedEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

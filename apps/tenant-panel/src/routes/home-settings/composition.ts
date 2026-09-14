@@ -157,6 +157,27 @@ export const HERO_OPTIONS: Option<HeroKey>[] = [
   },
 ]
 
+/**
+ * Whether the storefront's hero variant renders `content.hero.image_url`
+ * (`home/variants/index.ts`/`hero-*.tsx` on the storefront, transcribed here for the
+ * same reason as the rest of this file — no shared package). Shelf (h), Three doors
+ * (j), Text only (m) and both galleries (ga, gb) compose their own photographs (three
+ * product shots, category tiles, category slides) or carry none at all, and ignore the
+ * field outright; Витрина (g), Анонс (k) and В движении (l) all still resolve to
+ * `ProfileHero`/`HeroG`, which do render it. A variant that ignores the field must not
+ * offer it (t07-catalog-filters-hero: Shelf did, on the Cherkashina tenant's hero).
+ */
+export const HERO_SUPPORTS_IMAGE: Record<Exclude<HeroKey, "none">, boolean> = {
+  g: true,
+  h: false,
+  j: false,
+  k: true,
+  l: true,
+  m: false,
+  ga: false,
+  gb: false,
+}
+
 export const TILES_OPTIONS: Option<TilesKey>[] = [
   {
     value: "on",

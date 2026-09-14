@@ -402,6 +402,17 @@
     "goToImage": "מעבר לתמונה {index}",
     "openFullImage": "פתיחת התמונה המלאה"
   },
+  "Journal": {
+    "navLabel": "מגזין",
+    "feedTitle": "מגזין",
+    "feedDescription": "מאמרים מ־{siteName}.",
+    "empty": "אין עדיין מאמרים.",
+    "backToFeed": "כל המאמרים",
+    "previous": "הקודם",
+    "next": "הבא",
+    "pageOf": "עמוד {page} מתוך {lastPage}",
+    "pagination": "עמודי המגזין"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "התשלום עדיין באישור. המתינו דקה ופתחו את ההזמנה מהחשבון, או נסו שוב.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "מספר מעקב"
   },
   "OrdersPage": {
     "description": "צפו בהזמנות הקודמות שלכם ובסטטוס שלהן.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "לתשלום",
+    "redirectUnavailable": "דף התשלום עדיין אינו זמין. נסו שוב בעוד רגע.",
     "selectPaymentMethod": "בחר אמצעי תשלום"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "כרטיס אשראי",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "כרטיס אשראי",
@@ -809,7 +824,8 @@
       "account": "חשבון",
       "cart": "עגלה",
       "home": "בית",
-      "store": "חנות"
+      "store": "חנות",
+      "journal": "מגזין"
     },
     "menuButton": "תפריט"
   },

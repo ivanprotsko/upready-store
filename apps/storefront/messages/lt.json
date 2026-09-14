@@ -402,6 +402,17 @@
     "goToImage": "Pereiti prie vaizdo {index}",
     "openFullImage": "Atverti visą vaizdą"
   },
+  "Journal": {
+    "navLabel": "Žurnalas",
+    "feedTitle": "Žurnalas",
+    "feedDescription": "{siteName} straipsniai.",
+    "empty": "Straipsnių kol kas nėra.",
+    "backToFeed": "Visi straipsniai",
+    "previous": "Ankstesnis",
+    "next": "Kitas",
+    "pageOf": "{page} puslapis iš {lastPage}",
+    "pagination": "Žurnalo puslapiai"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Mokėjimas dar tvirtinamas. Palaukite minutę ir atidarykite užsakymą paskyroje arba bandykite dar kartą.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Siuntos sekimo numeris"
   },
   "OrdersPage": {
     "description": "Peržiūrėkite savo ankstesnius užsakymus ir jų būseną.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Mokėti",
+    "redirectUnavailable": "Mokėjimo puslapis dar nepasiekiamas. Pabandykite dar kartą po akimirkos.",
     "selectPaymentMethod": "Pasirinkite mokėjimo būdą"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kredito kortelė",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kredito kortelė",
@@ -809,7 +824,8 @@
       "account": "Paskyra",
       "cart": "Krepšelis",
       "home": "Pradžia",
-      "store": "Parduotuvė"
+      "store": "Parduotuvė",
+      "journal": "Žurnalas"
     },
     "menuButton": "Meniu"
   },

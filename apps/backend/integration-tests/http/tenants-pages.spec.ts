@@ -292,6 +292,171 @@ medusaIntegrationTestRunner({
           .catch((e) => e.response);
         expect(unwritten.status).toBe(404);
       });
+
+      // t05-page-keys: the closed five-key enum became a free slug per tenant.
+      describe("custom pages (t05-page-keys)", () => {
+        it("400s an invalid slug and a reserved slug on create", async () => {
+          const tooShort = await api
+            .post("/tenants/pages", { slug: "a", title: "X" }, bearer(a.token))
+            .catch((e) => e.response);
+          expect(tooShort.status).toBe(400);
+
+          const upper = await api
+            .post("/tenants/pages", { slug: "Delivery", title: "X" }, bearer(a.token))
+            .catch((e) => e.response);
+          expect(upper.status).toBe(400);
+
+          const underscore = await api
+            .post("/tenants/pages", { slug: "de_livery", title: "X" }, bearer(a.token))
+            .catch((e) => e.response);
+          expect(underscore.status).toBe(400);
+
+          const reserved = await api
+            .post("/tenants/pages", { slug: "contacts", title: "X" }, bearer(a.token))
+            .catch((e) => e.response);
+          expect(reserved.status).toBe(400);
+        });
+
+        it("creates, edits, publishes, links from the footer, reorders and deletes a custom slug — round trip", async () => {
+          const created = await api.post(
+            "/tenants/pages",
+            { slug: "delivery", title: "Доставка" },
+            bearer(a.token),
+          );
+          expect(created.status).toBe(201);
+          expect(created.data.page).toMatchObject({
+            key: "delivery",
+            title: "Доставка",
+            published: false,
+            in_footer: false,
+            reserved: false,
+          });
+          expect(created.data.page.id).toEqual(expect.any(String));
+
+          // It shows up in the panel's list, appended after the reserved five.
+          const list = await api.get("/tenants/pages", bearer(a.token));
+          expect(list.data.pages.map((page: { key: string }) => page.key)).toEqual([
+            "contacts",
+            "legal",
+            "about",
+            "privacy",
+            "offer",
+            "delivery",
+          ]);
+
+          // A second create on the same slug is INVALID_DATA, not a silent overwrite.
+          const duplicate = await api
+            .post("/tenants/pages", { slug: "delivery", title: "Ещё раз" }, bearer(a.token))
+            .catch((e) => e.response);
+          expect(duplicate.status).toBe(400);
+
+          // Publish it and turn on the footer link.
+          const published = await api.put(
+            "/tenants/pages/delivery",
+            {
+              title: "Доставка",
+              body: "# Доставка\n\nПо всей стране за 3-5 дней.",
+              published: true,
+              in_footer: true,
+            },
+            bearer(a.token),
+          );
+          expect(published.status).toBe(200);
+          expect(published.data.page).toMatchObject({
+            key: "delivery",
+            published: true,
+            in_footer: true,
+          });
+
+          // It is now on the storefront, own tenant only.
+          const storefrontPage = await api.get("/store/tenant/pages/delivery", storeKey(a));
+          expect(storefrontPage.status).toBe(200);
+          expect(storefrontPage.data.page).toMatchObject({
+            key: "delivery",
+            title: "Доставка",
+            published: true,
+          });
+          const storefrontListA = await api.get("/store/tenant/pages", storeKey(a));
+          expect(storefrontListA.data.pages).toEqual(
+            expect.arrayContaining([{ key: "delivery", title: "Доставка", locale: "en" }]),
+          );
+
+          // The neighbour tenant sees neither the page nor the slug.
+          const storefrontPageB = await api
+            .get("/store/tenant/pages/delivery", storeKey(b))
+            .catch((e) => e.response);
+          expect(storefrontPageB.status).toBe(404);
+          const storefrontListB = await api.get("/store/tenant/pages", storeKey(b));
+          expect(
+            storefrontListB.data.pages.map((page: { key: string }) => page.key),
+          ).not.toContain("delivery");
+          const panelListB = await api.get("/tenants/pages", bearer(b.token));
+          expect(
+            panelListB.data.pages.map((page: { key: string }) => page.key),
+          ).not.toContain("delivery");
+
+          // Reorder against a reserved footer entry: add a second custom page,
+          // put both in the footer explicitly ordered, then swap them.
+          await api.post("/tenants/pages", { slug: "faq", title: "Вопросы и ответы" }, bearer(a.token));
+          await api.put(
+            "/tenants/pages/faq",
+            { title: "Вопросы и ответы", body: "…", published: true, in_footer: true, footer_order: 10 },
+            bearer(a.token),
+          );
+          await api.put(
+            "/tenants/pages/delivery",
+            {
+              title: "Доставка",
+              body: "# Доставка\n\nПо всей стране за 3-5 дней.",
+              published: true,
+              in_footer: true,
+              footer_order: 20,
+            },
+            bearer(a.token),
+          );
+          const orderedFooter = await api.get("/store/tenant/pages", storeKey(a));
+          const positions = orderedFooter.data.pages
+            .map((page: { key: string }, index: number) => [page.key, index])
+            .filter(([key]: [string]) => key === "faq" || key === "delivery");
+          expect(positions).toEqual([
+            ["faq", positions[0][1]],
+            ["delivery", positions[1][1]],
+          ]);
+          expect(positions[0][1]).toBeLessThan(positions[1][1]);
+
+          // Delete: removed from the panel list and 404s everywhere else.
+          const deleted = await api.delete("/tenants/pages/delivery", bearer(a.token));
+          expect(deleted.status).toBe(200);
+          expect(deleted.data).toMatchObject({ id: "delivery", deleted: true });
+
+          const afterDelete = await api
+            .get("/tenants/pages/delivery", bearer(a.token))
+            .catch((e) => e.response);
+          expect(afterDelete.status).toBe(404);
+
+          const afterDeleteStorefront = await api
+            .get("/store/tenant/pages/delivery", storeKey(a))
+            .catch((e) => e.response);
+          expect(afterDeleteStorefront.status).toBe(404);
+        });
+
+        it("keeps a reserved key working as before: cannot be deleted, upserts without in_footer default to on", async () => {
+          const deleteReserved = await api
+            .delete("/tenants/pages/about", bearer(a.token))
+            .catch((e) => e.response);
+          expect(deleteReserved.status).toBe(400);
+
+          // A PUT that never mentions in_footer (the old contract shape) still
+          // defaults a fresh reserved row to "on", same as before this task.
+          const legacyShapePut = await api.put(
+            "/tenants/pages/privacy",
+            { title: "Privacy", body: "Text.", published: true },
+            bearer(a.token),
+          );
+          expect(legacyShapePut.status).toBe(200);
+          expect(legacyShapePut.data.page.in_footer).toBe(true);
+        });
+      });
     });
   },
 });

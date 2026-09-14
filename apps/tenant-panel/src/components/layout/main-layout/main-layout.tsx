@@ -4,6 +4,7 @@ import {
   EllipsisHorizontal,
   Folder,
   House,
+  RocketLaunch,
   OpenRectArrowOut,
   ReceiptPercent,
   ShoppingCart,
@@ -216,6 +217,18 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <House />,
       label: t("app.nav.main.homeSettings", { defaultValue: "Home page" }),
       to: "/home-settings",
+    },
+    {
+      // t10-blog: the shop's journal (routes/journal).
+      icon: <DocumentText />,
+      label: t("app.nav.main.journal", { defaultValue: "Journal" }),
+      to: "/journal",
+    },
+    {
+      // t04-shipping-tariffs: the shop's delivery methods (routes/shipping).
+      icon: <RocketLaunch />,
+      label: t("app.nav.main.shipping", { defaultValue: "Delivery" }),
+      to: "/shipping",
     },
   ]
 }

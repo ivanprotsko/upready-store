@@ -3,6 +3,7 @@ import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { getSiteName } from "@lib/data/cookies"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import Search from "@modules/layout/components/search"
@@ -28,10 +29,11 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  * 8px 16px }`) — it is not truncated with an ellipsis, it scrolls.
  */
 export default async function NavH5() {
-  const [t, { categories, totalCount }, siteName] = await Promise.all([
+  const [t, { categories, totalCount }, siteName, showJournal] = await Promise.all([
     getTranslations(),
     listTopCategoriesWithCounts(),
     getSiteName(),
+    hasPublishedArticles(),
   ])
 
   return (
@@ -82,6 +84,16 @@ export default async function NavH5() {
         >
           {t("Nav.allWithCount", { count: totalCount })}
         </Link>
+        {/* t10-blog: only once this shop has published an article. */}
+        {showJournal ? (
+          <Link
+            href="/journal"
+            className="shrink-0 txt-compact-small rounded-full border border-ui-border-base px-3.5 py-1.5 text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+            data-testid="nav-journal-link"
+          >
+            {t("Journal.navLabel")}
+          </Link>
+        ) : null}
         {categories.map((category) => (
           <Link
             key={category.id}

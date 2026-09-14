@@ -402,6 +402,17 @@
     "goToImage": "跳转到第 {index} 张图片",
     "openFullImage": "查看大图"
   },
+  "Journal": {
+    "navLabel": "专栏",
+    "feedTitle": "专栏",
+    "feedDescription": "{siteName} 的文章。",
+    "empty": "暂时还没有文章。",
+    "backToFeed": "全部文章",
+    "previous": "上一页",
+    "next": "下一页",
+    "pageOf": "第 {page} 页，共 {lastPage} 页",
+    "pagination": "专栏页码"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "付款仍在确认中。请稍等一分钟后在账户中查看订单，或重新结账。",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "物流单号"
   },
   "OrdersPage": {
     "description": "查看您以往的订单及其状态。",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "支付",
+    "redirectUnavailable": "支付页面暂不可用。请稍后再试。",
     "selectPaymentMethod": "选择支付方式"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "信用卡",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "信用卡",
@@ -809,7 +824,8 @@
       "account": "账户",
       "cart": "购物车",
       "home": "首页",
-      "store": "商店"
+      "store": "商店",
+      "journal": "专栏"
     },
     "menuButton": "菜单"
   },

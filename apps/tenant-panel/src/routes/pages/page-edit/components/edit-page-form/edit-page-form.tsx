@@ -17,6 +17,7 @@ const EditPageSchema = zod
     title: zod.string().max(200),
     body: zod.string().max(50_000),
     published: zod.boolean(),
+    in_footer: zod.boolean(),
   })
   .refine((values) => !values.published || values.title.trim().length > 0, {
     // Mirrors the backend's own rule (`PUT /tenants/pages/:key` answers
@@ -38,6 +39,7 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
       title: page.title,
       body: page.body,
       published: page.published,
+      in_footer: page.in_footer,
     },
     resolver: zodResolver(EditPageSchema),
   })
@@ -50,6 +52,8 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
         title: values.title,
         body: values.body,
         published: values.published,
+        in_footer: values.in_footer,
+        footer_order: page.footer_order,
       },
       {
         onError: (error) => {
@@ -119,9 +123,32 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
                     </Form.Control>
                   </div>
                   <Form.Hint>
-                    A published page is open to shoppers at /pages/{pageKey} and
-                    linked from the storefront footer. A draft is visible to you
-                    alone.
+                    A published page is open to shoppers at /pages/{pageKey}. A
+                    draft is visible to you alone.
+                  </Form.Hint>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
+            <Form.Field
+              control={form.control}
+              name="in_footer"
+              render={({ field: { value, onChange, ...rest } }) => (
+                <Form.Item>
+                  <div className="flex items-center justify-between">
+                    <Form.Label>In the footer</Form.Label>
+                    <Form.Control>
+                      <Switch
+                        {...rest}
+                        checked={value}
+                        onCheckedChange={onChange}
+                      />
+                    </Form.Control>
+                  </div>
+                  <Form.Hint>
+                    A published page marked here is linked from the storefront
+                    footer&apos;s Information column, alongside the shop&apos;s
+                    other footer pages. Reorder it from the pages list.
                   </Form.Hint>
                   <Form.ErrorMessage />
                 </Form.Item>

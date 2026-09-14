@@ -82,6 +82,10 @@ services:
       # category covers, hero pictures). Without it @medusajs/file-local stamps
       # its own default `http://localhost:9000/static` into every stored URL.
       LOCAL_FILE_BACKEND_URL: https://${ENGINE_DOMAIN}/static
+      # The Result URL a shop owner pastes into Robokassa is built from this
+      # (`/tenants/payment-settings` → `<BACKEND_PUBLIC_URL>/robokassa/result`);
+      # the request host is the panel's behind nginx, so it cannot be derived.
+      BACKEND_PUBLIC_URL: https://${ENGINE_DOMAIN}
       # Which suffixes make a host a tenant's TECHNICAL subdomain
       # (api/storefront/by-host/hosts.ts). `localhost` is dropped on purpose:
       # this is a public deployment, not a stand.
@@ -97,6 +101,26 @@ services:
       STOREFRONT_REVALIDATE_URL: http://mt-storefront:8000
       STORE_NAME: ${STORE_NAME:-Shipshift}
       STORE_EMAIL: ${STORE_EMAIL:-hello@shipshift.dev}
+      # Transactional e-mail (t08-order-notifications). Optional, like every
+      # other piece of infrastructure here: with SMTP_HOST empty the provider is
+      # never registered, the backend boots the same, and each undelivered
+      # letter is logged with its order id. The links INSIDE a letter are built
+      # from the shop the order belongs to, not from STOREFRONT_URL above.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_REPLY_TO: ${SMTP_REPLY_TO:-}
+      # The owner's Telegram. The backend only SENDS; the bot container keeps
+      # its long polling, which Telegram allows exactly one of per token.
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+      TELEGRAM_LINK_SECRET: ${TELEGRAM_LINK_SECRET:-}
+      # Where the owner opens an order: the panel, not the engine. The Telegram
+      # message links here.
+      PANEL_PUBLIC_URL: https://${PANEL_DOMAIN}
       STOREFRONT_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-en}
       # The footer's attribution line, resolved per shop by GET /storefront/by-host
       # (src/api/storefront/by-host/attribution.ts): a shop's own override wins over

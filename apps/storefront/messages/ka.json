@@ -402,6 +402,17 @@
     "goToImage": "გადასვლა სურათზე {index}",
     "openFullImage": "სრული სურათის გახსნა"
   },
+  "Journal": {
+    "navLabel": "ჟურნალი",
+    "feedTitle": "ჟურნალი",
+    "feedDescription": "{siteName}-ის სტატიები.",
+    "empty": "სტატიები ჯერ არ არის.",
+    "backToFeed": "ყველა სტატია",
+    "previous": "წინა",
+    "next": "შემდეგი",
+    "pageOf": "გვერდი {page} / {lastPage}",
+    "pagination": "ჟურნალის გვერდები"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "გადახდა ჯერ კიდევ დასტურდება. დაელოდეთ ერთ წუთს და გახსენით შეკვეთა ანგარიშიდან, ან სცადეთ თავიდან.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "თვალთვალის ნომერი"
   },
   "OrdersPage": {
     "description": "იხილეთ თქვენი წინა შეკვეთები და მათი სტატუსი.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "გადახდა",
+    "redirectUnavailable": "გადახდის გვერდი ჯერ მიუწვდომელია. სცადეთ ხელახლა ცოტა ხანში.",
     "selectPaymentMethod": "აირჩიეთ გადახდის მეთოდი"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "საკრედიტო ბარათი",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "საკრედიტო ბარათი",
@@ -809,7 +824,8 @@
       "account": "ანგარიში",
       "cart": "კალათა",
       "home": "მთავარი",
-      "store": "მაღაზია"
+      "store": "მაღაზია",
+      "journal": "ჟურნალი"
     },
     "menuButton": "მენიუ"
   },

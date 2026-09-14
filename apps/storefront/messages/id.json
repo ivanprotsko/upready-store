@@ -402,6 +402,17 @@
     "goToImage": "Ke gambar {index}",
     "openFullImage": "Buka gambar penuh"
   },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel dari {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageOf": "Halaman {page} dari {lastPage}",
+    "pagination": "Halaman jurnal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Pembayaran masih dikonfirmasi. Tunggu satu menit dan buka pesanan dari akun Anda, atau coba lagi.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Nomor pelacakan"
   },
   "OrdersPage": {
     "description": "Lihat pesanan sebelumnya beserta statusnya.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayar",
+    "redirectUnavailable": "Halaman pembayaran belum tersedia. Coba lagi sebentar lagi.",
     "selectPaymentMethod": "Pilih metode pembayaran"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kartu kredit",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kartu kredit",
@@ -809,7 +824,8 @@
       "account": "Akun",
       "cart": "Keranjang",
       "home": "Beranda",
-      "store": "Toko"
+      "store": "Toko",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

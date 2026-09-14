@@ -402,6 +402,17 @@
     "goToImage": "Siirry kuvaan {index}",
     "openFullImage": "Avaa kuva täysikokoisena"
   },
+  "Journal": {
+    "navLabel": "Lehti",
+    "feedTitle": "Lehti",
+    "feedDescription": "Kaupan {siteName} artikkelit.",
+    "empty": "Artikkeleita ei ole vielä.",
+    "backToFeed": "Kaikki artikkelit",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "pageOf": "Sivu {page} / {lastPage}",
+    "pagination": "Lehden sivut"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Maksua vahvistetaan vielä. Odota minuutti ja avaa tilaus tililtäsi tai yritä uudelleen.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Seurantanumero"
   },
   "OrdersPage": {
     "description": "Tarkastele aiempia tilauksiasi ja niiden tilaa.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Maksa",
+    "redirectUnavailable": "Maksusivu ei ole vielä käytettävissä. Yritä hetken kuluttua uudelleen.",
     "selectPaymentMethod": "Valitse maksutapa"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Luottokortti",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Luottokortti",
@@ -809,7 +824,8 @@
       "account": "Tili",
       "cart": "Ostoskori",
       "home": "Etusivu",
-      "store": "Kauppa"
+      "store": "Kauppa",
+      "journal": "Lehti"
     },
     "menuButton": "Valikko"
   },

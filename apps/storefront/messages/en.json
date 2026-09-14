@@ -143,7 +143,7 @@
     "shippingDescription": "Choose how you want your order delivered",
     "shippingHeading": "Shipping method",
     "shippingLink": "Shipping",
-    "shippingUnavailable": "No shipping methods available",
+    "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "signIn": "Sign in",
     "total": "Total"
   },
@@ -402,6 +402,17 @@
     "goToImage": "Go to image {index}",
     "openFullImage": "Open full image"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles from {siteName}.",
+    "empty": "No articles yet.",
+    "backToFeed": "All articles",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {lastPage}",
+    "pagination": "Journal pages"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "The payment is still being confirmed. Wait a minute and open your order from the account, or try the checkout again.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "View your previous orders and their status.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Pay",
+    "redirectUnavailable": "The payment page is not available yet. Try again in a moment.",
     "selectPaymentMethod": "Select a payment method"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Credit card",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
@@ -809,7 +824,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Store"
+      "store": "Store",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

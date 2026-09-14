@@ -6,8 +6,8 @@ import {
   type EmailLocale,
   DEFAULT_EMAIL_LOCALE,
   getEmailTranslator,
-  STORE_EMAIL,
 } from "./i18n";
+import { useEmailShop } from "./lib/shop";
 
 export type PasswordResetEmailProps = {
   email: string;
@@ -21,6 +21,7 @@ export function PasswordResetEmail({
   resetUrl,
   locale = DEFAULT_EMAIL_LOCALE,
 }: PasswordResetEmailProps) {
+  const shop = useEmailShop();
   const { t, html } = getEmailTranslator(locale);
 
   return (
@@ -47,8 +48,8 @@ export function PasswordResetEmail({
 
       <Text style={s.footerNote}>
         {t("Common.questionsPrefix")}{" "}
-        <a href={`mailto:${STORE_EMAIL}`} style={s.link}>
-          {STORE_EMAIL}
+        <a href={`mailto:${shop.email}`} style={s.link}>
+          {shop.email}
         </a>
       </Text>
     </EmailLayout>

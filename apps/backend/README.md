@@ -102,14 +102,19 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `REDIS_URL` | Redis instance for the cache, event bus, and workflow engine in production | `redis://localhost:6379` |
 | `USE_REDIS` | Set it to `true` to use `REDIS_URL` in development too | unset |
 | `CACHE_REDIS_URL` | Separate Redis instance for the cache | `REDIS_URL` |
-| `INTEGRATION_ENCRYPTION_KEY` | Encrypts the secret fields the Integration Module stores | `supersecret` |
+| `INTEGRATION_ENCRYPTION_KEY` | Encrypts the secret fields the Integration Module stores, and the per-shop payment credentials in `tenant_integration_secret` (`src/tenant-secrets/`) | `supersecret` |
+| `BACKEND_PUBLIC_URL` | Public address of this backend, shown to shop owners as the Robokassa Result URL (`<BACKEND_PUBLIC_URL>/robokassa/result`). Falls back to the request host, which is wrong behind the panel proxy | unset |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | SMTP transport for transactional emails | `smtp.example.com`, `587`, `false` |
 | `SMTP_USER`, `SMTP_PASS` | SMTP credentials | — |
-| `SMTP_FROM`, `SMTP_REPLY_TO` | Sender and reply-to addresses. `SMTP_FROM` carries the address; the name beside it comes from `STORE_NAME` | — |
-| `STOREFRONT_URL` | Storefront base URL used in email links and revalidation webhooks | `http://localhost:8000` |
+| `SMTP_FROM`, `SMTP_REPLY_TO` | Sender and reply-to addresses. `SMTP_FROM` carries the address; the name beside it is the shop's own (`tenant_notification_settings.email_from_name`), falling back to `STORE_NAME` | — |
+| `TELEGRAM_BOT_TOKEN` | The platform bot that tells a shop owner about a new order. The backend only sends; the long polling belongs to `apps/bot`, which Telegram allows one of per token. Unset means no owner is notified, and each skipped order says so in the log | — |
+| `TELEGRAM_BOT_USERNAME` | The `@name` the panel builds its `?start=` deep link on | `upreadystore_bot` |
+| `TELEGRAM_LINK_SECRET` | Shared secret for `POST /telegram/link`, the one call the bot makes here. Unset refuses every link attempt | — |
+| `PANEL_PUBLIC_URL` | Where the owner opens an order. The Telegram message links to `<PANEL_PUBLIC_URL>/orders/<id>`; falls back to `DEMO_PANEL_URL`, and with neither set the message carries no link | — |
+| `STOREFRONT_URL` | Storefront base URL for revalidation webhooks, and the FALLBACK address in customer e-mails. On a multi-tenant deployment the links in a letter are built from the shop the order belongs to (`src/tenant-notifications/storefront-origin.ts`), and this variable only donates the scheme and the port | `http://localhost:8000` |
 | `REVALIDATE_SECRET` | Sent as `x-revalidate-secret` to the storefront; must match its value | `supersecret` |
 | `STOREFRONT_DEFAULT_LOCALE` | Fallback email language when the buyer's is unknown, one of the locales under `src/emails/i18n` | `en` |
-| `STORE_NAME`, `STORE_EMAIL`, `STORE_PHONE`, `STORE_ADDRESS` | Store branding in email templates. `STORE_NAME` is also the sender name emails arrive under | — |
+| `STORE_NAME`, `STORE_EMAIL`, `STORE_PHONE`, `STORE_ADDRESS` | Store branding in email templates, and the fallback for a shop that has set none of its own | — |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` | S3-compatible file storage, used when `NODE_ENV=production` | — |
 | `MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY` | Storefront directory for Medusa's onboarding flow | `medusa-storefront` |
 

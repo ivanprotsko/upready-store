@@ -402,6 +402,17 @@
     "goToImage": "Aller à l'image {index}",
     "openFullImage": "Ouvrir l'image en grand"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles de {siteName}.",
+    "empty": "Aucun article pour le moment.",
+    "backToFeed": "Tous les articles",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {lastPage}",
+    "pagination": "Pages du journal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Le paiement est encore en cours de confirmation. Patientez une minute et ouvrez votre commande depuis votre compte, ou recommencez.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Numéro de suivi"
   },
   "OrdersPage": {
     "description": "Consultez vos commandes précédentes et leur statut.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Payer",
+    "redirectUnavailable": "La page de paiement n'est pas encore disponible. Réessayez dans un instant.",
     "selectPaymentMethod": "Sélectionnez un mode de paiement"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Carte bancaire",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Carte bancaire",
@@ -809,7 +824,8 @@
       "account": "Compte",
       "cart": "Panier",
       "home": "Accueil",
-      "store": "Boutique"
+      "store": "Boutique",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

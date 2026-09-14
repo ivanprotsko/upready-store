@@ -36,17 +36,28 @@ export function isPlaceholderOption(
 }
 
 /**
- * One filter group per product option across the listing, each holding only the
- * values some variant actually uses. Titles and values arrive already in the
- * request's locale when the products were fetched with `*options,*options.values`
- * (`lib/data/products.ts`); the placeholder option above is left out.
+ * Medusa mints one `product_option` row per product, so the same option title
+ * ("Количество", "Размер"…) gets a distinct `option.id` on every product. Grouping
+ * by that id used to render one filter chip per PRODUCT instead of per option name
+ * (`t-2026-09-12-seed-option-filter-duplicates`; live on Cherkashina's 38 products
+ * as ~25 chips). Group by the normalised title instead and union the values.
+ */
+const normalizeOptionTitle = (title: string): string => title.trim().toLocaleLowerCase()
+
+/**
+ * One filter group per distinct option NAME across the listing (not per
+ * `option.id`, see above), each holding the union of the values some variant
+ * actually uses across every product carrying that name. Titles and values arrive
+ * already in the request's locale when the products were fetched with
+ * `*options,*options.values` (`lib/data/products.ts`); the placeholder option above
+ * is left out.
  */
 export function groupOptionFilters(
   products: HttpTypes.StoreProduct[]
 ): ProductOptionFilterGroup[] {
   const groups = new Map<
     string,
-    { title: string; values: Map<string, { label: string; hex?: string }> }
+    { id: string; title: string; values: Map<string, { label: string; hex?: string }> }
   >()
 
   for (const product of products) {
@@ -63,10 +74,12 @@ export function groupOptionFilters(
     for (const option of product.options ?? []) {
       if (!option.id || isPlaceholderOption(option)) continue
       const usedValues = usedByOption.get(option.id)
-      let group = groups.get(option.id)
+      const title = option.title ?? ""
+      const normalizedTitle = normalizeOptionTitle(title)
+      let group = groups.get(normalizedTitle)
       if (!group) {
-        group = { title: option.title ?? "", values: new Map() }
-        groups.set(option.id, group)
+        group = { id: option.id, title, values: new Map() }
+        groups.set(normalizedTitle, group)
       }
       for (const optionValue of option.values ?? []) {
         if (!optionValue.id || !optionValue.value) continue
@@ -79,8 +92,8 @@ export function groupOptionFilters(
     }
   }
 
-  return Array.from(groups, ([id, group]) => ({
-    id,
+  return Array.from(groups.values(), (group) => ({
+    id: group.id,
     title: group.title,
     values: Array.from(group.values, ([valueId, { label, hex }]) => ({
       id: valueId,

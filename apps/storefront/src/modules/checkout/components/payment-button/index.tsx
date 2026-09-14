@@ -1,6 +1,11 @@
 "use client"
 
-import { isManual, isPaymentSessionReady, isStripeLike } from "@lib/constants"
+import {
+  isManual,
+  isPaymentSessionReady,
+  isRobokassa,
+  isStripeLike,
+} from "@lib/constants"
 import { convertToLocale } from "@lib/util/money"
 import type { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
@@ -13,6 +18,7 @@ import {
 import { useLocale, useTranslations } from "next-intl"
 import type React from "react"
 import ManualPaymentButton from "./providers/manual"
+import RobokassaPaymentButton from "./providers/robokassa"
 import StripePaymentButton from "./providers/stripe"
 
 type PaymentButtonProps = {
@@ -82,6 +88,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       return <StripePaymentButton {...providerProps} />
     case isManual(activePaymentMethod):
       return <ManualPaymentButton {...providerProps} />
+    case isRobokassa(activePaymentMethod):
+      return <RobokassaPaymentButton {...providerProps} />
     default:
       return (
         <Button disabled size="large" className="w-full">

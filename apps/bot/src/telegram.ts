@@ -17,12 +17,23 @@ export interface TelegramChat {
   readonly id: number;
   readonly type: string;
   readonly username?: string;
+  /** У группы — её название; у лички его нет, там имя берётся из `from`. */
+  readonly title?: string;
+}
+
+/** Кто написал: имя для подписи чата в панели и язык для текста ответа. */
+export interface TelegramUser {
+  readonly id: number;
+  readonly first_name?: string;
+  readonly last_name?: string;
+  readonly language_code?: string;
 }
 
 export interface TelegramMessage {
   readonly message_id: number;
   readonly chat: TelegramChat;
   readonly text?: string;
+  readonly from?: TelegramUser;
 }
 
 export interface TelegramUpdate {
@@ -32,7 +43,7 @@ export interface TelegramUpdate {
     readonly id: string;
     readonly data?: string;
     readonly message?: TelegramMessage;
-    readonly from: { readonly id: number };
+    readonly from: TelegramUser;
   };
 }
 

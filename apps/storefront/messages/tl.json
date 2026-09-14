@@ -402,6 +402,17 @@
     "goToImage": "Pumunta sa larawan {index}",
     "openFullImage": "Buksan ang buong larawan"
   },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Mga artikulo mula sa {siteName}.",
+    "empty": "Wala pang artikulo.",
+    "backToFeed": "Lahat ng artikulo",
+    "previous": "Nakaraan",
+    "next": "Susunod",
+    "pageOf": "Pahina {page} ng {lastPage}",
+    "pagination": "Mga pahina ng journal"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Kinukumpirma pa ang bayad. Maghintay ng isang minuto at buksan ang order mula sa iyong account, o subukan muli.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Tracking number"
   },
   "OrdersPage": {
     "description": "Tingnan ang iyong mga nakaraang order at ang kanilang status.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bayaran",
+    "redirectUnavailable": "Hindi pa available ang pahina ng pagbabayad. Subukan muli sa ilang sandali.",
     "selectPaymentMethod": "Pumili ng paraan ng bayad"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Credit card",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Credit card",
@@ -809,7 +824,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Tindahan"
+      "store": "Tindahan",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

@@ -402,6 +402,17 @@
     "goToImage": "Zu Bild {index} wechseln",
     "openFullImage": "Bild in voller Größe öffnen"
   },
+  "Journal": {
+    "navLabel": "Magazin",
+    "feedTitle": "Magazin",
+    "feedDescription": "Artikel von {siteName}.",
+    "empty": "Noch keine Artikel.",
+    "backToFeed": "Alle Artikel",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "pageOf": "Seite {page} von {lastPage}",
+    "pagination": "Magazinseiten"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Die Zahlung wird noch bestätigt. Warten Sie eine Minute und öffnen Sie Ihre Bestellung im Konto, oder versuchen Sie es erneut.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Sendungsnummer"
   },
   "OrdersPage": {
     "description": "Sehen Sie sich Ihre bisherigen Bestellungen und deren Status an.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Bezahlen",
+    "redirectUnavailable": "Die Zahlungsseite ist noch nicht verfügbar. Versuchen Sie es gleich noch einmal.",
     "selectPaymentMethod": "Zahlungsart auswählen"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Kreditkarte",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Kreditkarte",
@@ -809,7 +824,8 @@
       "account": "Konto",
       "cart": "Warenkorb",
       "home": "Startseite",
-      "store": "Shop"
+      "store": "Shop",
+      "journal": "Magazin"
     },
     "menuButton": "Menü"
   },

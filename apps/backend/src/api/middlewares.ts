@@ -151,15 +151,29 @@ import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PutTenantPaymentSettingsSchema,
+  PutTenantNotificationSettingsSchema,
   PostTenantHandleSchema,
+  PostTenantArticleSchema,
+  PostTenantPageSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
+  PutTenantArticleSchema,
   PutTenantPageSchema,
   TenantGetProductOptionsParams,
 } from "./tenants/validators";
+import {
+  GetShippingRegionsSchema,
+  PostStoreShippingQuoteSchema,
+  PostTenantShippingMethodSchema,
+  PostTenantShippingMethodsReorderSchema,
+  PostTenantShippingMethodUpdateSchema,
+  PostTenantShippingSettingsSchema,
+} from "./tenants/shipping-methods/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -170,6 +184,9 @@ import {
   PostAdminTenantUpdateSchema,
 } from "./admin/tenants/validators";
 import { blockArchivedTenantAdmin, blockArchivedTenantLogin } from "./tenants/archived-tenant-gate";
+import { injectRobokassaTenant } from "./store/tenant/robokassa";
+import { StoreGetPaymentProvidersParams } from "@medusajs/medusa/api/store/payment-providers/validators";
+import { listTransformPaymentProvidersQueryConfig } from "@medusajs/medusa/api/store/payment-providers/query-config";
 
 /**
  * `/tenants/*` is the tenant admin's own namespace, next to `/admin` (staff)
@@ -245,6 +262,35 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The shop's payment account (t03-tenant-secrets-robokassa).
+      matcher: "/tenants/payment-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // Who hears about this shop's orders (t08-order-notifications).
+      matcher: "/tenants/notification-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantNotificationSettingsSchema)],
+    },
+    {
+      // Robokassa needs the SERVER's word on which shop the cart belongs to;
+      // the client's `data.tenant_id`, if any, is overwritten (step 4 of the task).
+      matcher: "/store/payment-collections/:id/payment-sessions",
+      method: ["POST"],
+      middlewares: [injectRobokassaTenant],
+    },
+    {
+      // The shadowing route in `src/api/store/payment-providers/route.ts`
+      // reads `req.filterableFields` and `req.queryConfig` the way the core
+      // route does, so it is parsed by the core's own validator and config.
+      matcher: "/store/payment-providers",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetPaymentProvidersParams, listTransformPaymentProvidersQueryConfig),
+      ],
     },
     {
       // The starter catalog for an empty shop (specs/catalog-taxonomy/ABSTRACT-DATASETS.md §4).
@@ -922,17 +968,40 @@ export default defineMiddlewares({
     },
 
     // ---- piece 7: content pages (/tenants/pages/**, /store/tenant/pages/**)
-    // Only the write verb needs a middleware here: the two tenant reads take no
+    // Only the write verbs need a middleware here: the two tenant reads take no
     // body, and their one query parameter (`locale`) is parsed in the route —
     // this resource has no Admin counterpart whose validator and query config
-    // could be reused, and the contract's shape for the list is the whole fixed
-    // set of five sections, not an Admin `count/offset/limit` page. The public
-    // `/store/tenant/pages/**` reads sit behind the framework's own global
-    // publishable-key gate and take neither body nor query.
+    // could be reused, and the contract's shape for the list is the reserved
+    // five plus the tenant's own custom pages, not an Admin `count/offset/limit`
+    // page. The public `/store/tenant/pages/**` reads sit behind the
+    // framework's own global publishable-key gate and take neither body nor
+    // query. `POST` (t05-page-keys) creates a custom page; `DELETE` removes one.
+    {
+      matcher: "/tenants/pages",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantPageSchema)],
+    },
     {
       matcher: "/tenants/pages/:key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPageSchema)],
+    },
+
+    // ---- t10-blog: journal articles (/tenants/articles/**, /store/tenant/articles/**)
+    // Same reasoning as the pages block above: only the write verbs take a
+    // body. The two tenant reads parse their one optional `?locale=` in the
+    // route (this resource has no Admin counterpart to borrow a query config
+    // from), and the public `/store/tenant/articles/**` reads ride the
+    // framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/articles",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantArticleSchema)],
+    },
+    {
+      matcher: "/tenants/articles/:slug",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantArticleSchema)],
     },
 
     // ---- piece 8: home page document (/tenants/home, /store/tenant/home)
@@ -946,6 +1015,14 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+
+    // t06-locale-currency: the tenant's default storefront locale, its enabled
+    // subset of the 36 shipped locales, and the country its default prices in.
+    {
+      matcher: "/tenants/locale-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
@@ -1002,6 +1079,48 @@ export default defineMiddlewares({
       matcher: "/admin/tenants/:id/admins/:adminId",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostAdminTenantAdminUpdateSchema)],
+    },
+
+    // ---- t04-shipping-tariffs (day-2026-09-16): the shop's own delivery
+    // methods (/tenants/shipping-methods/**, behind the "/tenants/*"
+    // authenticate above) and the checkout's quote/regions reads
+    // (/store/shipping-methods/**, behind the framework's publishable-key gate).
+    // The static segments (settings, reorder, regions) are matched before the
+    // ":id" routes by Medusa's router, so they never read as an id.
+    {
+      matcher: "/tenants/shipping-methods",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/reorder",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodsReorderSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/settings",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingSettingsSchema)],
+    },
+    {
+      matcher: "/tenants/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+    {
+      matcher: "/tenants/shipping-methods/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantShippingMethodUpdateSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/quote",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostStoreShippingQuoteSchema)],
+    },
+    {
+      matcher: "/store/shipping-methods/regions",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
     },
   ],
 });

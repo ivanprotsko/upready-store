@@ -402,6 +402,17 @@
     "goToImage": "Vai all'immagine {index}",
     "openFullImage": "Apri l'immagine intera"
   },
+  "Journal": {
+    "navLabel": "Rivista",
+    "feedTitle": "Rivista",
+    "feedDescription": "Articoli di {siteName}.",
+    "empty": "Non ci sono ancora articoli.",
+    "backToFeed": "Tutti gli articoli",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "pageOf": "Pagina {page} di {lastPage}",
+    "pagination": "Pagine della rivista"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "Il pagamento è ancora in conferma. Attendi un minuto e apri l'ordine dal tuo account, oppure riprova.",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "Numero di tracciamento"
   },
   "OrdersPage": {
     "description": "Visualizza i tuoi ordini precedenti e il loro stato.",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "Paga",
+    "redirectUnavailable": "La pagina di pagamento non è ancora disponibile. Riprova tra un istante.",
     "selectPaymentMethod": "Seleziona un metodo di pagamento"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "Carta di credito",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "Carta di credito",
@@ -809,7 +824,8 @@
       "account": "Account",
       "cart": "Carrello",
       "home": "Home",
-      "store": "Negozio"
+      "store": "Negozio",
+      "journal": "Rivista"
     },
     "menuButton": "Menu"
   },

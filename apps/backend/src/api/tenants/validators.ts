@@ -69,10 +69,10 @@ export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswo
 // ---- piece 7: content pages (/tenants/pages/**)
 
 /**
- * `PUT /tenants/pages/:key` body. The key is in the path (one of
- * `TENANT_PAGE_KEYS`), never in the body, so a tenant cannot rename a section
- * by posting a different key; `locale` is optional and defaults to `en`, the
- * model's own default, because the panel edits one language today.
+ * `PUT /tenants/pages/:key` body. The key is in the path, never in the body,
+ * so a tenant cannot rename a page by posting a different key; `locale` is
+ * optional and defaults to `en`, the model's own default, because the panel
+ * edits one language today.
  *
  * `title` and `body` are accepted empty — that is how a tenant clears a draft
  * it has already saved — and the route, not zod, refuses `published: true`
@@ -80,11 +80,22 @@ export type PostTenantUpdatePasswordBody = z.infer<typeof PostTenantUpdatePasswo
  * raised in the route carries the same `invalid_data` type and 400 status the
  * validator would, without turning this schema into a refined one (only a
  * plain object schema survives `zodValidator`'s own `.strict()` call).
+ *
+ * `in_footer` and `footer_order` are t05-page-keys additions: whether the page
+ * is linked from the storefront's footer, and where among the other
+ * footer-linked pages (nulls sort last, then by title — the route never
+ * assigns one on its own, so the panel is the only writer of an explicit
+ * position). Both are optional so a caller written before this task (an
+ * older panel build, a script) keeps its old behaviour: the route leaves an
+ * omitted field at whatever it already was, or the reserved key's own default
+ * the first time a row is created.
  */
 export const PutTenantPageSchema = z.strictObject({
   title: z.string().max(200),
   body: z.string().max(50_000),
   published: z.boolean(),
+  in_footer: z.boolean().optional(),
+  footer_order: z.number().int().min(0).max(100_000).nullable().optional(),
   locale: z
     .string()
     .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
@@ -92,6 +103,86 @@ export const PutTenantPageSchema = z.strictObject({
 });
 
 export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
+
+/**
+ * `POST /tenants/pages` body — creates a custom page. `slug` is the free key
+ * (`PAGE_SLUG_PATTERN` in the model: lowercase letters, digits and single
+ * hyphens, 2 to 48 characters); the route itself checks it is not one of the
+ * five reserved keys, because that check needs the model's own list, not just
+ * a shape. `title` is required here (unlike the PUT body, which accepts a
+ * blank one for a draft already on file) because a page is created from the
+ * panel's own "new page" dialog, which asks for a name up front.
+ */
+export const PostTenantPageSchema = z.strictObject({
+  slug: z
+    .string()
+    .min(2)
+    .max(48)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens"),
+  title: z.string().min(1).max(200),
+});
+
+export type PostTenantPageBody = z.infer<typeof PostTenantPageSchema>;
+
+// ---- t10-blog: journal articles (/tenants/articles/**)
+
+const ARTICLE_LOCALE = z
+  .string()
+  .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR");
+
+const ARTICLE_SLUG = z
+  .string()
+  .min(2)
+  .max(96)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens");
+
+/**
+ * `POST /tenants/articles` body — brings one language row of one article into
+ * existence, empty and unpublished. `locale` is required and has no default:
+ * an article exists per language, and guessing `en` for a shop that writes in
+ * Russian is exactly the bug the pages screen had before the Cherkashina
+ * migration. `title` is required because the panel's «new article» dialog asks
+ * for a name up front and the list has to show something.
+ */
+export const PostTenantArticleSchema = z.strictObject({
+  slug: ARTICLE_SLUG,
+  locale: ARTICLE_LOCALE,
+  title: z.string().min(1).max(300),
+});
+
+export type PostTenantArticleBody = z.infer<typeof PostTenantArticleSchema>;
+
+/**
+ * `PUT /tenants/articles/:slug` body — the whole text of one language row.
+ * `published_at` is an ISO-8601 instant; OMITTING it lets the route stamp the
+ * first publish and keep the date on every later save, while sending `null`
+ * clears it explicitly — the two are different intents and the route reads
+ * them apart (`undefined` vs `null`), which is why this field is
+ * `.nullish()` rather than `.nullable()`.
+ *
+ * `cover_url` is whatever `POST /tenants/uploads` answered for the image, so
+ * it is checked as a URL or a site-relative path and nothing more: the file
+ * lives under the tenant's own prefix and the upload route is what put it
+ * there.
+ */
+export const PutTenantArticleSchema = z.strictObject({
+  locale: ARTICLE_LOCALE.optional(),
+  title: z.string().max(300),
+  excerpt: z.string().max(1_000).nullish(),
+  cover_url: z
+    .string()
+    .max(2_000)
+    .regex(/^(https?:\/\/|\/)/, "an absolute http(s) URL or a site-relative path")
+    .nullish(),
+  body: z.string().max(200_000),
+  published: z.boolean(),
+  published_at: z.string().datetime({ offset: true }).nullish(),
+  tags: z.array(z.string().min(1).max(60)).max(20).nullish(),
+  seo_title: z.string().max(300).nullish(),
+  seo_description: z.string().max(1_000).nullish(),
+});
+
+export type PutTenantArticleBody = z.infer<typeof PutTenantArticleSchema>;
 
 // ---- piece 9: storefront by host (/tenants/domains)
 
@@ -141,3 +232,53 @@ export const PostTenantHandleSchema = z.strictObject({
 });
 
 export type PostTenantHandleBody = z.infer<typeof PostTenantHandleSchema>;
+
+/**
+ * `PUT /tenants/payment-settings` — the shop's Robokassa account
+ * (t03-tenant-secrets-robokassa). A password left out or sent empty keeps the
+ * stored value, so the owner can rotate one password without retyping four;
+ * the first save has to carry every password of the pair its mode uses,
+ * which the route checks against the merged result, not this schema.
+ */
+const optionalSecret = z
+  .string()
+  .max(200)
+  .optional()
+  .transform((value) => (value && value.trim().length > 0 ? value.trim() : undefined));
+
+export const PutTenantPaymentSettingsSchema = z.strictObject({
+  provider: z.literal("robokassa"),
+  merchant_login: z.string().trim().min(1).max(100),
+  hash_algorithm: z.enum(["md5", "sha256", "sha384", "sha512"]).optional(),
+  is_test: z.boolean().optional(),
+  is_enabled: z.boolean().optional(),
+  password1: optionalSecret,
+  password2: optionalSecret,
+  test_password1: optionalSecret,
+  test_password2: optionalSecret,
+});
+export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
+
+/**
+ * `PUT /tenants/notification-settings` — the two fields the owner controls over
+ * their customers' letters (t08-order-notifications). The `From` ADDRESS is
+ * deliberately absent: the platform's SMTP account sends for every shop, and an
+ * address a shop owner typed would be a domain we cannot sign for.
+ *
+ * An empty string is a legal value and means «clear it», which is why neither
+ * field trims down to `undefined` the way a secret does.
+ */
+export const PutTenantNotificationSettingsSchema = z.strictObject({
+  email_from_name: z.string().trim().max(100).optional(),
+  email_reply_to: z
+    .string()
+    .trim()
+    .max(200)
+    .refine((value) => value === "" || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value), {
+      message: "a valid e-mail address, or empty to clear it",
+    })
+    .optional(),
+});
+export type PutTenantNotificationSettingsBody = z.infer<
+  typeof PutTenantNotificationSettingsSchema
+>;

@@ -402,6 +402,17 @@
     "goToImage": "ছবি {index}-এ যান",
     "openFullImage": "সম্পূর্ণ ছবি খুলুন"
   },
+  "Journal": {
+    "navLabel": "ম্যাগাজিন",
+    "feedTitle": "ম্যাগাজিন",
+    "feedDescription": "{siteName}-এর লেখা।",
+    "empty": "এখনও কোনো লেখা নেই।",
+    "backToFeed": "সব লেখা",
+    "previous": "আগের",
+    "next": "পরের",
+    "pageOf": "পৃষ্ঠা {page} / {lastPage}",
+    "pagination": "ম্যাগাজিনের পৃষ্ঠা"
+  },
   "LanguageSelect": {
     "locales": {
       "ar": "العربية",
@@ -602,6 +613,7 @@
     "heading": "This payment didn't go through",
     "orderFailedReason": "The payment cleared, but this order couldn't be completed. Your cart is unchanged.",
     "paymentFailedReason": "Your bank didn't approve this card. Your cart is unchanged.",
+    "paymentPendingReason": "পেমেন্ট এখনও নিশ্চিত হচ্ছে। এক মিনিট অপেক্ষা করে অ্যাকাউন্ট থেকে অর্ডারটি খুলুন, অথবা আবার চেষ্টা করুন।",
     "retryCheckout": "Return to checkout"
   },
   "OrderOverview": {
@@ -624,7 +636,8 @@
     "canceledUnknownDate": "This order was canceled.",
     "confirmed": "Confirmed",
     "placed": "Placed",
-    "received": "Received"
+    "received": "Received",
+    "trackingNumber": "ট্র্যাকিং নম্বর"
   },
   "OrdersPage": {
     "description": "আপনার আগের অর্ডার এবং তাদের অবস্থা দেখুন।",
@@ -642,6 +655,7 @@
   },
   "PaymentButton": {
     "placeOrder": "পে করুন",
+    "redirectUnavailable": "পেমেন্ট পৃষ্ঠা এখনও উপলব্ধ নয়। একটু পরে আবার চেষ্টা করুন।",
     "selectPaymentMethod": "একটি পেমেন্ট পদ্ধতি নির্বাচন করুন"
   },
   "PaymentContainer": {
@@ -657,6 +671,7 @@
   "PaymentMethods": {
     "pp_medusa-payments_default": "ক্রেডিট কার্ড",
     "pp_paypal_paypal": "PayPal",
+    "pp_robokassa_robokassa": "Robokassa",
     "pp_stripe-bancontact_stripe": "Bancontact",
     "pp_stripe-ideal_stripe": "iDeal",
     "pp_stripe_stripe": "ক্রেডিট কার্ড",
@@ -809,7 +824,8 @@
       "account": "অ্যাকাউন্ট",
       "cart": "কার্ট",
       "home": "হোম",
-      "store": "স্টোর"
+      "store": "স্টোর",
+      "journal": "ম্যাগাজিন"
     },
     "menuButton": "মেনু"
   },
