@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-14",
+  "index": 13,
+  "action": "status-set",
+  "ts": "2026-09-14T11:57:12+08:00",
+  "status": "2026-09-14 11:57 WITA: ночная миссия tribute — PR #17 (генератор /terms /offer /privacy) смержен, публикация ждёт 29 полей docs/legal/requisites.json; оркестратор №2 починил блокер загрузки картинок (557e99b) и принимает панель; открыт q-tribute-payment-scheme; TRIBUTE-APPLICATION.md и PARENT-NOTES.md в handoff/night-2026-09-14-tribute"
+}

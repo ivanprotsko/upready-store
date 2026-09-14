@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-14T11:30:56+08:00",
-  "status": "2026-09-14 11:26 WITA: ночная миссия tribute — попытка №1 оркестратора умерла 11:17 на недельном лимите старого аккаунта, попытка №2 (после /login) принимает панель соло; родительская сессия ведёт воркера legal-pages-2, написала TRIBUTE-APPLICATION.md и PARENT-NOTES.md (находки погибших воркеров: картинки категорий → localhost:9000, страницы без ревалидации, seed без переводов)",
+  "updated": "2026-09-14T11:57:12+08:00",
+  "status": "2026-09-14 11:57 WITA: ночная миссия tribute — PR #17 (генератор /terms /offer /privacy) смержен, публикация ждёт 29 полей docs/legal/requisites.json; оркестратор №2 починил блокер загрузки картинок (557e99b) и принимает панель; открыт q-tribute-payment-scheme; TRIBUTE-APPLICATION.md и PARENT-NOTES.md в handoff/night-2026-09-14-tribute",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
