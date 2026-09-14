@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T04:27:59+08:00",
-  "status": "2026-09-15 04:27 WITA: приёмка t03 закрыта приёмщиком — PR #23 уже стоял MERGED к моменту моего gh pr merge (слит не мной, mergedAt 2026-09-14T20:25:53Z); мои собственные замеры: провайдеры A count:2 / B count:1, bad_signature+missing_params -> 400, payload 256 b64, 5 платежей captured is_test=true; seam 8/8, next build ok; предсуществующая краснота воспроизведена на dev — profile-data.unit.spec.ts и 1 кейс tenants-domains.spec.ts (is_primary); ниты отправлены комментарием в PR #23; отчёт file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t03-tenant-secrets-robokassa-1/REPORT.md",
+  "updated": "2026-09-15T05:00:36+08:00",
+  "status": "2026-09-15 05:00 WITA: приёмка t05-page-keys — PR #24 MERGED (9979339), замеры: seam 12/12, миграция на копии реальной БД (backfill in_footer/footer_order), живой стенд 200/200/404 + подвал; два нита в комментарии к PR",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1217,6 +1217,11 @@
     {
       "id": "q-peremezhayuschiysya-502-na-post-auth",
       "question": "Перемежающийся 502 на POST /auth/tenant/emailpass движка shipshift.dev. Замер 2026-09-15 04:2x: 30 последовательных запросов с заведомо неверным паролем → 29 x 401 и 1 x 502 (~3%), при этом /health 10/10 = 200 — health этого не показывает. За прогон x01 уронил импорт трижды (фазы images, pages, замер картинок), обошёл ретраями. На этом же будет спотыкаться панель владельца и мастер онбординга. Рекомендация: снять логи mt-backend за сутки по auth-маршруту (docker logs mt-backend --since 24h | grep -i auth) и решить, это воркер/пул БД или ingress; завести задачу — сам задачу не заводил (22j).",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-kakoy-cname-adres-panel-vladeltsa-pokazyvaet",
+      "question": "Какой CNAME-адрес панель владельца показывает вживую? В бандле mt-panel (/assets/index-BgEosJYB.js, образ от 2026-09-14) нет ни одной строки stores.*, хотя STORES_DOMAIN=stores.shipshift.dev на стенде задан. Фолбэк в коде (apps/tenant-panel/src/routes/settings/domains/domains.tsx:45) — stores.upready.dev, который НЕ резолвится. Если панель показывает фолбэк, владельцам выдаётся нерабочая инструкция. Проверяется открытием https://panel-store.upready.dev → Настройки → Адрес магазина.",
       "asked": "2026-09-15"
     }
   ],
