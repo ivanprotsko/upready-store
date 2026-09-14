@@ -59,7 +59,8 @@ export function wsCreate(cfg, task, promptText) {
   if (r.rc) return r;
   const w = r.json.workspace || r.json;
   const agents = r.json.agents || [];
-  return { rc: 0, id: w.id, branch: w.branch, worktreePath: w.worktreePath || worktreePath(cfg, task.branch), terminalId: agents[0]?.terminalId || agents[0]?.sessionId || null, raw: r.json };
+  const g = wsGet(w.id); const wt = g?.worktreePath || w.worktreePath || worktreePath(cfg, task.branch);
+  return { rc: 0, id: w.id, branch: w.branch, worktreePath: wt, terminalId: agents[0]?.terminalId || agents[0]?.sessionId || null, raw: r.json };
 }
 export function wsGet(id) { const r = shJson('superset', ['ws', 'get', id, '--json']); return r.rc ? null : r.json; }
 export function wsDelete(id) { return shJson('superset', ['ws', 'delete', id, '--json']); }
@@ -77,7 +78,9 @@ export function agentCreate(wsId, { prompt, model, effort }) {
   if (r.rc) return r;
   const j = r.json; return { rc: 0, terminalId: j.terminalId || j.sessionId || j.agent?.terminalId || null, raw: j };
 }
-export function liveAgentTerminal(wsId) { const t = wsTerminals(wsId).filter(s => !s.exited); return t.find(s => /claude/i.test(s.title || '')) || t[0] || null; }
+export function terminalClose(wsId, termId) { return shJson('superset', ['terminals', 'close', '--workspace', wsId, '--terminal', termId, '--json']); }
+export function terminalById(wsId, termId) { if (!termId) return null; return wsTerminals(wsId).find(s => s.terminalId === termId && !s.exited) || null; }
+export function liveAgentTerminal(wsId, preferId) { const p = terminalById(wsId, preferId); if (p) return p; const t = wsTerminals(wsId).filter(s => !s.exited); return t.find(s => /claude/i.test(s.title || '')) || t[0] || null; }
 
 // ---------- GitHub ----------
 export function prForBranch(cfg, branch) {

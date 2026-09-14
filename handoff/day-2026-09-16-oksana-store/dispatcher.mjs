@@ -33,7 +33,8 @@ function launchBuild(cfg, state, t) {
   const r = L.wsCreate(cfg, t, prompt);
   if (r.rc) { s.status = 'failed'; s.error = 'superset ws create: ' + String(r.error).slice(0, 400); L.event(state, { task: t.id, type: 'ws-create-failed', msg: s.error }); return false; }
   s.ws = r.id; s.worktree = r.worktreePath; s.terminalId = r.terminalId;
-  if (r.raw?.alreadyExists && !r.terminalId) { // workspace на этой ветке уже был — агента в нём нет, поднимаем
+  if (r.raw?.alreadyExists && !r.terminalId) { // workspace на этой ветке уже был — чужие/мёртвые терминалы закрываем, агента поднимаем
+    for (const tt of L.wsTerminals(r.id)) { if (!tt.exited) { L.terminalClose(r.id, tt.terminalId); L.event(state, { task: t.id, type: 'terminal-closed', msg: `${tt.terminalId} (${tt.title || ''})` }); } }
     const a = L.agentCreate(r.id, { prompt, model: t.model, effort: t.effort });
     if (a.rc) { s.status = 'failed'; s.error = 'agents create: ' + String(a.error).slice(0, 300); L.event(state, { task: t.id, type: 'agent-create-failed', msg: s.error }); return false; }
     s.terminalId = a.terminalId;
@@ -64,7 +65,7 @@ function launchAccept(cfg, state, t) {
 }
 function sendToWorker(cfg, state, t, text, why) {
   const s = state.tasks[t.id];
-  const term = L.liveAgentTerminal(s.ws);
+  const term = L.liveAgentTerminal(s.ws, s.terminalId);
   if (term) { const r = L.terminalSend(s.ws, term.terminalId, text); if (!r.rc) { s.terminalId = term.terminalId; L.event(state, { task: t.id, type: why + '-sent', msg: 'в живой терминал ' + term.terminalId }); return true; } }
   const r = L.agentCreate(s.ws, { prompt: text, model: t.model, effort: t.effort });
   if (!r.rc) { s.terminalId = r.terminalId; L.event(state, { task: t.id, type: why + '-agent', msg: 'новый агент в workspace ' + s.ws }); return true; }
@@ -92,7 +93,7 @@ function checkBuild(cfg, state, t) {
     if (pr.state === 'CLOSED' && !pr.mergedAt) { s.status = 'needs-ivan'; s.error = 'PR закрыт без мержа: ' + pr.url; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
   }
   if (s.status !== 'running') return;
-  const term = L.liveAgentTerminal(s.ws);
+  const term = L.liveAgentTerminal(s.ws, s.terminalId);
   if (term) {
     s.terminalId = term.terminalId;
     const screen = L.terminalRead(s.ws, term.terminalId, 40);

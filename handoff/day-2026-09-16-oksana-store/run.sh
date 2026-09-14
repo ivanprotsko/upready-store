@@ -36,3 +36,5 @@ if alive "$D/dispatcher.pid"; then
     echo "[$(ts)] dispatcher stale tick → restart" >> "$LOG/runner.log"; kill "$(cat "$D/dispatcher.pid")" 2>/dev/null; rm -f "$D/dispatcher.pid"
   fi
 fi
+# 6. Сводка Ивану в его же «Избранное» Telegram — не чаще раза в час и только при изменении отчёта (получатель — сам Иван)
+if [ -f "$D/ARMED" ]; then OUTREACH_OK=1 /Users/ivanprotsko/upready/projects/tg-reply-copilot/.venv/bin/python "$D/notify.py" >> "$LOG/notify.log" 2>&1; fi
