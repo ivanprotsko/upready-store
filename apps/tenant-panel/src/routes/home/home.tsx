@@ -81,6 +81,14 @@ export const Home = () => {
           >
             {t("tenantAddress.title")}
           </Link>
+          {/* t06-locale-currency: the shop's own default language and its
+              enabled subset of the storefront's 36 locales. */}
+          <Link
+            to="/settings/locale"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>

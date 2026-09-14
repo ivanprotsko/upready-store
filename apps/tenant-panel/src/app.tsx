@@ -559,6 +559,19 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/domains"),
           },
+          {
+            // t06-locale-currency: which of the storefront's 36 locales this
+            // shop offers, its default, and the currency its default prices
+            // in. Same shape as /settings/domains next to it — one screen,
+            // no children, the document is edited in place.
+            path: "/settings/locale",
+            handle: {
+              breadcrumb: () =>
+                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/locale"),
+          },
         ],
       },
     ],
