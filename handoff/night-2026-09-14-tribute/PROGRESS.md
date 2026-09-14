@@ -96,3 +96,21 @@ NEXT (bot-deploy): дырок, блокирующих tribute.top, нет. Ос�
 - Запущена пересборка образов backend+storefront+panel: лог /opt/upready-store/mt-build-20260914.log.
 
 NEXT: дождаться сборки → docker compose up -d → скопировать traefik-demo-hosts.yml в /data/coolify/proxy/dynamic → проверить start.upready.dev и panel-store.upready.dev по HTTPS → создать новый магазин и убедиться, что каталог засеян и витрина русская → приёмка панели (товары, категории, hero, страницы, заказы, промо) → пересобрать лендинг с VITE_FUNNEL_BASE_URL=https://start.upready.dev и передеплоить CF Pages.
+
+## 2026-09-14 11:04 WITA — Phase 3 DONE (ядро): вся цепочка живёт на upready.dev
+- **Деплой MT выполнен.** Образы mt-backend/mt-storefront/mt-panel пересобраны из feat/night-funnel-brand, `docker compose -p mt … up -d --no-build --no-deps backend storefront panel` rc=0, все три контейнера healthy. Защищённые agentcreatr-bridge и coolify-proxy не тронуты; https://hooks.svgnoon.upready.dev/health = 200 после всех операций.
+- **Живые адреса (замер):**
+  - https://start.upready.dev/start/onboarding → 200, заголовок «Создать магазин · Upready», сертификат CN=start.upready.dev (Let's Encrypt, до 2026-12-13), ssl_verify_result=0.
+  - https://shiftship.dev/start/onboarding → 200, тот же заголовок (старый адрес оставлен рабочим).
+  - https://panel-store.upready.dev → 200, заголовок «Панель магазина · Upready», сертификат выпущен. panel.shipshift.dev тоже жив.
+- **Магазин, созданный через НОВЫЙ адрес:** handle zolotaya-nit-1057, «Золотая нить», создан за **6.9 с**. Витрина https://zolotaya-nit-1057.shipshift.dev → редирект на **/ru**, цены в **₽**, canonical = собственный адрес магазина (а не stores.\*, дефект из CANONICAL.md §1.1 не воспроизводится). Каталог **засеян: 10 товаров в пяти категориях**. Ссылка на панель в мастере теперь panel-store.upready.dev.
+- **Найден и починен дефект: все картинки витрины отдавали 404.** Причина (замер, не гипотеза): витрина просит https://shipshift.dev/static/store-profiles/abstract/*.webp; бэкенд монтирует /opt/upready-store/media → /app/static/store-profiles, а на хосте лежали только пять СТАРЫХ профилей (electronics, home-goods, sneakers, supplements, womens-fashion) — каталога `abstract` не было вовсе. 16 .webp профиля abstract нашлись в worktree feat/abstract-datasets (они gitignored — «media never enter git»), скопированы в ветку деплоя и синхронизированы на хост; приёмка по ЦЕЛЕВОМУ пути: 16 файлов, md5 сошлись, https://shipshift.dev/static/store-profiles/abstract/home-hero.webp = 200 image/webp. Повторный обход витрины: **неудачных запросов 0** (было 11). Кадр artifacts/tenant-storefront-images-ok.png — hero, пять категорий с картинками, товары с картинками и ценами в рублях.
+- **Лендинг пересобран и передеплоен** на VITE_FUNNEL_BASE_URL=https://start.upready.dev (CF Pages деплой fbdb8855). Живая приёмка https://upready.dev/ — снова **34 из 34**; адреса кнопок: hero/nav/plan-free/final → https://start.upready.dev/start/onboarding, plan-pro/ultra → t.me/upreadystore_bot?start=plan_2|3.
+- **Бот жив** (воркер bot-deploy): контейнер upreadystore-bot на том же хосте, restart=unless-stopped, ответ на `/start plan_2` подтверждён реальным клиентом Telegram (message_id 7), PR #14 смержен в dev.
+
+### Открытые дефекты и дырки (не блокеры показа, но записаны честно)
+1. Медиа профиля `abstract` существуют ТОЛЬКО в worktree feat/abstract-datasets и на хосте — в git их нет по решению «media never enter git». Любой новый чекаут снова даст витрину без картинок. Нужен либо реестр медиа, либо S3/R2.
+2. Названия товаров, категорий и заголовки секций стартового каталога — английские («Spheres», «Cube No. 1 · Chalk white», «New arrivals»), хотя витрина русская. У профиля abstract есть каталог i18n — перевод не применяется.
+3. Магазин night-tribute-1045 создан ДО деплоя и остался с пустым каталогом — это тестовый магазин, трогать не нужно.
+
+NEXT: приёмка панели тенанта на живом стенде — товары (создание; картинки, обложка, цена, варианты, опции, описание, характеристики), категории (картинки + содержание), hero/главная, страницы, заказы, промо; каждое изменение проверяется НА ВИТРИНЕ. Дальше — REPORT.md.
