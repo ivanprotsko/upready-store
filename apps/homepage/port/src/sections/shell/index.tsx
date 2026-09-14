@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { ONBOARDING_SCENARIO, funnelUrl } from "../../lib/funnel";
 import styles from "./styles.module.css";
-import { CONTACT_LINK, FOOTER_BRAND, NAV_CTA_LABEL, NAV_LINKS } from "./data";
+import { CONTACT_LINK, FOOTER_BRAND, LEGAL_LINKS, NAV_CTA_LABEL, NAV_LINKS } from "./data";
 
 /**
  * Шапка и подвал. Раскладкой не управляются: `PageShell` рисует шапку, а
@@ -35,6 +35,16 @@ export function Footer() {
   return (
     <footer data-section="shell-footer" data-testid="sec-shell-footer" className={styles.footer}>
       <span>{FOOTER_BRAND}</span>
+      {/* Правовые ссылки появляются только вместе со страницами — см. LEGAL_LINKS в ./data. */}
+      {LEGAL_LINKS.length > 0 && (
+        <nav className={styles.footerLegal} data-testid="footer-legal">
+          {LEGAL_LINKS.map((link) => (
+            <a key={link.href} href={link.href}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      )}
       <a href={CONTACT_LINK.href} target="_blank" rel="noopener">
         {CONTACT_LINK.label}
       </a>
