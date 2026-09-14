@@ -76,3 +76,23 @@ NEXT: Phase 3 — MT-платформа. Дождаться mt-audit, подня
 4. Стек поднят руками через compose, а не как ресурс Coolify: в UI Coolify его не видно, автодеплой по push не настроен. Обновление — `rsync` + `up -d --build` по `apps/bot/DEPLOY.md`.
 
 NEXT (bot-deploy): дырок, блокирующих tribute.top, нет. Остаётся отдать Ивану шесть адресов Tribute и дописать их в `/opt/upready-store-bot/.env`.
+
+## 2026-09-14 10:54 WITA — Phase 3: замеры живой платформы и деплой ветки feat/night-funnel-brand
+### Что измерено на ЖИВОМ стенде (до изменений)
+- Хост 84.46.251.149: контейнеры mt-storefront, mt-backend, mt-panel, mt-postgres, mt-ingress-sync — Up 2 days (healthy). Код в /opt/upready-store/mt — НЕ git-чекаут, а rsync-копия от 11.09 23:01, то есть ЖИВОЕ старше типа MT (e370939 от 12.09).
+- Воронка https://shiftship.dev/start/onboarding: заголовок был «Оплата → онбординг · тестовый стенд», в шапке «Shiftship · demo · настоящих платежей нет». Для заявки в tribute.top это блокер: туда ведёт главная кнопка upready.dev.
+- **Мастер создаёт НАСТОЯЩИЙ магазин** (route.ts: register → POST /tenants → seed → PUT /tenants/home). Пройден живьём: handle night-tribute-1045, магазин создан за **4.8 с**, витрина https://night-tribute-1045.shipshift.dev/ отвечает 200 с ВАЛИДНЫМ wildcard-сертификатом *.shipshift.dev (Let's Encrypt, до 2026-12-10), ssl_verify_result=0, заголовок = имя магазина. Кадры: artifacts/onb-1..4, tenant-storefront.png.
+- ДЕФЕКТЫ живого стенда: каталог после создания ПУСТОЙ («Каталог пустой — это новый магазин» — текст старше типа, в типе есть сид), витрина открывается на EN/USD, подвал англоязычный.
+- Панель https://panel.shipshift.dev: 200, SPA редиректит на /login и рисует форму входа, но с надписью «Welcome to Medusa» и по-английски. 401 на /tenants/me до входа — ожидаемо.
+- Зоны shiftship.dev, shipshift.dev, upready.dev — все НАШИ (Cloudflare). Канон specs/tenant-address/CANONICAL.md называет целевой зоной платформы upready.dev; перенос зоны магазинов объявлен там отдельной задачей — сегодня НЕ делается.
+
+### Что сделано
+- Ветка **feat/night-funnel-brand** от типа MT e370939. Коммиты: 061c173 (ребрендинг воронки и панели), f952143 (merge feat/mt-storefront-wave2 — русский по умолчанию, валюта по локали, 301 со старых адресов, подвал-атрибуция), ed24fa7 (адреса зоны upready.dev в traefik/compose).
+- Проверки ветки: storefront tsc rc=0, storefront vitest **117/117**, tenant-panel build (tsc+vite) rc=0.
+- DNS в зоне upready.dev: созданы A start.upready.dev и A panel-store.upready.dev → 84.46.251.149, proxied=false. Защищённая запись hooks.svgnoon.upready.dev НЕ тронута.
+- **Бэкап живой БД снят ДО изменений**: /opt/upready-store/backups/mt-medusa_mt-20260914-044751.sql.gz (4 449 960 B, 179 678 строк, gzip -t пройден).
+- env стенда обновлён на хосте (md5 сверен по целевому пути, b788f188…): DEMO_HOSTS += start.upready.dev, DEMO_PANEL_URL=https://panel-store.upready.dev, STOREFRONT_DEFAULT_LOCALE=ru, DEFAULT_REGION=ru (регион Russia/rub в базе ЕСТЬ — замер), STORE_NAME=Upready, PANEL_DOMAIN_ALT, CORS дополнены. Прежний env сохранён: /tmp/mt-env-backup/shipshift.env.
+- Код синхронизирован на хост (rsync -az --delete, env исключён; удалено 26 файлов — только убранные волной 2 и артефакты).
+- Запущена пересборка образов backend+storefront+panel: лог /opt/upready-store/mt-build-20260914.log.
+
+NEXT: дождаться сборки → docker compose up -d → скопировать traefik-demo-hosts.yml в /data/coolify/proxy/dynamic → проверить start.upready.dev и panel-store.upready.dev по HTTPS → создать новый магазин и убедиться, что каталог засеян и витрина русская → приёмка панели (товары, категории, hero, страницы, заказы, промо) → пересобрать лендинг с VITE_FUNNEL_BASE_URL=https://start.upready.dev и передеплоить CF Pages.
