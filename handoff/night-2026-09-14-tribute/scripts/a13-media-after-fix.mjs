@@ -1,0 +1,24 @@
+import { open, login, PANEL, ART, SHOP } from "./lib.mjs";
+const ID = "prod_01M2EY6NV1RDYSW4KPAXGNWQ1A";
+const { b, p, errs, bad } = await open({ w: 1600, h: 950 });
+await login(p);
+await p.goto(`${PANEL}/products/${ID}/media?view=edit`, { waitUntil: "domcontentloaded", timeout: 60000 });
+await p.waitForSelector('input[type=file]', { state: 'attached', timeout: 60000 });
+await p.setInputFiles('input[type=file]', "/tmp/night-upload-fixed.webp");
+await p.waitForTimeout(2500);
+await p.click('[role=dialog] button:has-text("Сохранить")');
+await p.waitForTimeout(12000);
+console.log("URL after save:", p.url());
+console.log("PANEL ERRS:", JSON.stringify(errs.slice(0,3)));
+await p.screenshot({ path: `${ART}/a13-1-media-saved.png`, fullPage: true });
+await b.close();
+
+const { b: b2, p: p2, bad: bad2, errs: errs2 } = await open();
+await p2.goto(`${SHOP}/ru/products/cube-1-accept-commerce-1106`, { waitUntil: "networkidle", timeout: 60000 });
+await p2.waitForTimeout(3000);
+const srcs = await p2.$$eval("img", els => els.map(e=>decodeURIComponent(e.currentSrc||e.src)));
+const uploaded = [...new Set(srcs.map(s=>s.replace(/.*url=/,"").replace(/&w=.*/,"")))].filter(s=>s.includes("/tenants/"));
+console.log("UPLOADED IMG ON STOREFRONT:", JSON.stringify(uploaded));
+console.log("STOREFRONT BAD:", JSON.stringify(bad2.slice(0,5)), "ERRS:", JSON.stringify(errs2.slice(0,3)));
+await p2.screenshot({ path: `${ART}/a13-2-storefront-with-upload.png`, fullPage: true });
+await b2.close();
