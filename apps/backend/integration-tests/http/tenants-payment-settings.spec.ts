@@ -73,9 +73,8 @@ medusaIntegrationTestRunner({
       };
 
       beforeAll(async () => {
-        a = await registerTenant("acme", "Acme");
-        b = await registerTenant("globex", "Globex");
-
+        // The RUB region first: `createTenantWorkflow` prices the shop's two
+        // shipping options in every region currency that exists at that moment.
         const container = getContainer();
         const regionModule = container.resolve(Modules.REGION);
         const region = await regionModule.createRegions({
@@ -88,6 +87,13 @@ medusaIntegrationTestRunner({
         await updateRegionsWorkflow(container).run({
           input: { selector: { id: regionId }, update: { payment_providers: ["pp_system_default", PROVIDER] } },
         });
+
+        a = await registerTenant("acme", "Acme");
+        b = await registerTenant("globex", "Globex");
+
+        // A's starter catalog, the way the onboarding wizard seeds it: priced in RUB.
+        const seeded = await api.post("/tenants/seed", { preset: "geist" }, bearer(a.token));
+        expect(seeded.status).toBe(201);
 
         const saved = await api.put("/tenants/payment-settings", CREDENTIALS, bearer(a.token));
         expect(saved.status).toBe(200);
@@ -172,7 +178,10 @@ medusaIntegrationTestRunner({
       describe("payment session and Result webhook", () => {
         const cartFor = async (tenant: Registered) => {
           const headers = withKey(tenant.tenant.api_key.token);
-          const cart = (await api.post("/store/carts", { region_id: regionId, email: `buyer@${tenant.tenant.handle}.test` }, headers)).data.cart;
+          const products = await api.get(`/store/products?region_id=${regionId}&limit=1&fields=id,*variants`, headers);
+          const variant = products.data.products[0]?.variants?.[0];
+          const items = variant ? [{ variant_id: variant.id, quantity: 1 }] : [];
+          const cart = (await api.post("/store/carts", { region_id: regionId, email: `buyer@${tenant.tenant.handle}.test`, items }, headers)).data.cart;
           const address = {
             first_name: "Test",
             last_name: "Buyer",
@@ -182,6 +191,10 @@ medusaIntegrationTestRunner({
             country_code: "ru",
           };
           await api.post(`/store/carts/${cart.id}`, { shipping_address: address, billing_address: address }, headers);
+          const options = (await api.get(`/store/shipping-options?cart_id=${cart.id}`, headers)).data.shipping_options ?? [];
+          if (options[0]) {
+            await api.post(`/store/carts/${cart.id}/shipping-methods`, { option_id: options[0].id }, headers);
+          }
           const collection = (await api.post("/store/payment-collections", { cart_id: cart.id }, headers)).data.payment_collection;
           return { cart, collection, headers };
         };
@@ -243,6 +256,7 @@ medusaIntegrationTestRunner({
           );
           const session = created.data.payment_collection.payment_sessions.find((s: { provider_id: string }) => s.provider_id === PROVIDER);
           const { out_sum: outSum, invoice_id: invId } = session.data;
+          expect(Number(outSum)).toBeGreaterThan(0);
           const sign = (password: string) =>
             createHash("sha256").update(`${outSum}:${invId}:${password}:Shp_SessionID=${session.id}`).digest("hex").toUpperCase();
           const form = (signature: string) =>
@@ -261,9 +275,22 @@ medusaIntegrationTestRunner({
           const orders = await pg("order_cart").select("order_id").where({ cart_id: cart.id });
           expect(orders).toHaveLength(1);
 
-          const seen = await api.get(`/tenants/orders/${orders[0].order_id}?fields=id,payment_status`, bearer(a.token));
-          expect(seen.status).toBe(200);
-          expect(seen.data.order.payment_status).toBe("captured");
+          // The payment itself: captured at the provider's word, read off the payment module.
+          const paymentModule = getContainer().resolve(Modules.PAYMENT);
+          const [payment] = await paymentModule.listPayments({ payment_session_id: session.id });
+          expect(payment).toBeDefined();
+          expect(payment.captured_at).not.toBeNull();
+
+          // The owner sees it: the order→tenant link is written by the `order.placed`
+          // subscriber, which the in-memory bus delivers a moment after the workflow.
+          let seen: { status: number; data: { order?: { payment_status?: string } } } | undefined;
+          for (let attempt = 0; attempt < 20; attempt += 1) {
+            seen = await failed(api.get(`/tenants/orders/${orders[0].order_id}?fields=id,payment_status`, bearer(a.token)));
+            if (seen?.status === 200) break;
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+          expect(seen?.status).toBe(200);
+          expect(seen?.data.order?.payment_status).toBe("captured");
 
           const replay = await api.post("/robokassa/result", form(sign(CREDENTIALS.test_password2)), formHeaders);
           expect(replay.status).toBe(200);

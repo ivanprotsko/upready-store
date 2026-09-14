@@ -104,12 +104,22 @@ const handle = async (req: MedusaRequest, res: MedusaResponse) => {
     logger.info(`[robokassa/result] replay of confirmed invoice ${payload.InvId}, answering OK again`);
   }
 
-  await processPaymentWorkflow(req.scope).run({
-    input: {
-      action: PaymentActions.SUCCESSFUL,
-      data: { session_id: session.id, amount: Number(payload.OutSum) },
-    },
-  });
+  try {
+    await processPaymentWorkflow(req.scope).run({
+      input: {
+        action: PaymentActions.SUCCESSFUL,
+        data: { session_id: session.id, amount: Number(payload.OutSum) },
+      },
+    });
+  } catch (error) {
+    // The confirmation is already on the session, so the browser return can
+    // still complete the cart; a non-OK answer makes Robokassa retry, which is
+    // one more chance for the order to be created server-side.
+    logger.error(
+      `[robokassa/result] confirmed invoice ${payload.InvId} but the cart could not be completed: ${(error as Error).message}`,
+    );
+    return res.status(500).type("text/plain").send("ERROR completion_failed");
+  }
 
   res.type("text/plain").send(`OK${payload.InvId}`);
 };
