@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T03:53:33+08:00",
-  "status": "2026-09-15 03:53 WITA: x03-orders-archive закрыт — архив Оксаны перевыпущен воспроизводимым export.py/verify.py (22/22 OK, суммы сошлись с агрегатом БД). Находка: 77 из 88 заказов и 40 из 46 покупателей — служебные тестовые записи, помечены колонкой «Служебная запись»; 694 211 ₽ выручкой НЕ являются (реальных покупок на 9 296 ₽). Коммиты 85ffd96 + 267866e на origin/dev, CSV с ПД вне git.",
+  "updated": "2026-09-15T05:06:33+08:00",
+  "status": "2026-09-15 05:06 WITA: t06-locale-currency (day-2026-09-16-oksana-store) — PR #26 открыт (feat/day16-locale-currency → dev), worker остановлен по брифу. Backend: модель tenant_locale_settings + GET/PUT /tenants/locale-settings + поле locale в /storefront/by-host + идемпотентный backfill-скрипт. Storefront: middleware учитывает default_locale/enabled_locales/default_country тенанта, переключатель языка режется до enabled_locales. Panel: экран «Язык и валюта». Все tsc/lint/unit/seam зелёные (backend+storefront+panel), живьём проверено на 2 тенантах (demo1 ru/₽, demo2 en/$, Accept-Language:de не пробивает enabled_locales). По пути: диспетчер продублировал воркера (day16-locale-currency-7a) в тот же worktree — скоординировались через SendMessage, конфликтов в истории нет. Не мои предсуществующие падения: tenants-domains.spec.ts (is_primary), profile-data.unit.spec.ts (i18n fr productOptions).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
