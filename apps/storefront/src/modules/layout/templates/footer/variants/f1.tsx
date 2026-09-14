@@ -3,9 +3,9 @@ import { getTranslations } from "next-intl/server"
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { listTenantPages } from "@lib/data/tenant-pages"
-import { getSiteName, getTenantHandle } from "@lib/data/cookies"
+import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F1 · "Четыре колонки" — the storefront's original Footer markup, unchanged, moved here
@@ -15,10 +15,9 @@ import PoweredBy from "@modules/layout/components/powered-by"
  * (`footer/variants/index.ts`).
  */
 export default async function FooterF1() {
-  const [t, siteName, tenantHandle] = await Promise.all([
+  const [t, siteName] = await Promise.all([
     getTranslations("Footer"),
     getSiteName(),
-    getTenantHandle(),
   ])
   const productCategories = await listCategories()
   const topLevelCategories = productCategories.filter(
@@ -82,10 +81,10 @@ export default async function FooterF1() {
               </div>
             )}
 
-            {/* No heading over nothing: a tenant with no published page and the
-                starter links off would show a bare "Information" (measured on the
-                local build for nochlavka, 2026-09-12). */}
-            {(tenantPages.length > 0 || tenantHandle === null) && (
+            {/* No heading over nothing: with the starter's outbound links gone
+                (t-2026-09-12-footer-attribution), this column exists only for the
+                shop owner's own published pages. */}
+            {tenantPages.length > 0 && (
             <div className="flex flex-col gap-y-3">
               <span className="txt-medium-plus text-ui-fg-base font-medium">
                 {t("infoHeading")}
@@ -101,55 +100,6 @@ export default async function FooterF1() {
                     </Link>
                   </li>
                 ))}
-                {/* The starter's own outbound links, for the starter's single-store
-                    demo only. A shop on the shared engine is its owner's product: on
-                    nochlavka.shipshift.dev, created minutes earlier, the footer offered
-                    Gorgo, the starter's source and two documentation sites (measured
-                    2026-09-12). `PoweredBy` below applies the same rule to itself. */}
-                {tenantHandle === null && (
-                  <>
-                    <li>
-                      <a
-                        href="https://gorgojs.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                      >
-                        Gorgo
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://github.com/gorgojs/medusa-dtc-starter"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                      >
-                        {t("sourceCode")}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://docs.gorgojs.com/tools/medusa-dtc-starter"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                      >
-                        {t("starterDocs")}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://docs.medusajs.com/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="txt-compact-medium text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-                      >
-                        {t("medusaDocs")}
-                      </a>
-                    </li>
-                  </>
-                )}
               </ul>
             </div>
             )}
@@ -158,14 +108,14 @@ export default async function FooterF1() {
       </div>
 
       <div className="border-t border-ui-border-base w-full">
-        <div className="content-container flex w-full mb-6 justify-between items-center pt-4 text-ui-fg-muted">
+        <div className="content-container flex flex-col gap-y-2 sm:flex-row w-full mb-6 sm:justify-between items-start sm:items-center pt-4 text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
               siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

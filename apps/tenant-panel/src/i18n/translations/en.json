@@ -3779,5 +3779,33 @@
       "update": "Edit",
       "delete": "Delete"
     }
+  },
+  "tenantAddress": {
+    "title": "Shop address",
+    "subtitle": "This is where customers and search engines find you",
+    "primaryBadge": "main",
+    "primaryHint": "the address search is pointed at",
+    "previousBadge": "previous",
+    "previousHint": "still answers, redirects to the main address, reserved for you for good",
+    "technicalBadge": "technical",
+    "technicalHint": "never changes, always redirects to the main address, never shown in search",
+    "changeAction": "Change address",
+    "cancel": "Cancel",
+    "warningTitle": "What happens after the change",
+    "warningNewWorks": "The new address starts answering at once, its certificate is already in place.",
+    "warningOldRedirects": "The old address keeps working and forwards to the new one, each page to its own. Links in letters, in social posts and on other people's sites do not break.",
+    "warningReindex": "Search needs time. Google and Yandex carry almost all of the accumulated weight over the redirect, but re-indexing takes weeks, not days. Until it finishes, the old address still shows up in results.",
+    "warningReserved": "The old address stays reserved for your shop for good: no other shop can take it, even if you never use it again.",
+    "warningRepeat": "Changing the address often hurts: every change starts another round of re-indexing.",
+    "changed": "Your shop now answers at {{host}}",
+    "customTitle": "Your own domain",
+    "cname": "CNAME to {{target}}",
+    "customHint": "Add the domain, point its CNAME at us, then press «Make main» — we check that the domain answers as your shop and move the address search sees onto it.",
+    "makePrimary": "Make main",
+    "madePrimary": "{{host}} is now your shop's main address",
+    "addDomain": "Add",
+    "domainAdded": "{{host}} added",
+    "domainRemoved": "{{host}} removed",
+    "noCustomDomains": "No domain of your own yet — your shop answers at the address above."
   }
 }

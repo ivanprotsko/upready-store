@@ -151,6 +151,7 @@ import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PostTenantHandleSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantPageSchema,
@@ -956,6 +957,14 @@ export default defineMiddlewares({
       matcher: "/tenants/domains",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantDomainSchema)],
+    },
+    // The shop's own address (t-2026-09-12-tenant-address-canonical). Same shape
+    // as the handle either creation route accepts; the reservations are checked
+    // by the route.
+    {
+      matcher: "/tenants/handle",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantHandleSchema)],
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware

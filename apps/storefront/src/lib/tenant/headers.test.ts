@@ -57,6 +57,7 @@ describe("tenant header values", () => {
       "x-tenant-theme",
       "x-tenant-mode",
       "x-tenant-origin",
+      "x-tenant-attribution",
     ])
   })
 })

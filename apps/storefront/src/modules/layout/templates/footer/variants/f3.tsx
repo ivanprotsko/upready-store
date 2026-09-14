@@ -6,7 +6,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
-import PoweredBy from "@modules/layout/components/powered-by"
+import SiteAttribution from "@modules/layout/components/site-attribution"
 
 /**
  * F3 · "Гигантский wordmark" — a link row (categories + collections) and a promo-clause
@@ -95,14 +95,14 @@ export default async function FooterF3() {
           {siteName}
         </Link>
 
-        <div className="flex w-full mt-2.5 pt-4 justify-between items-center border-t border-ui-border-base text-ui-fg-muted">
+        <div className="flex flex-col gap-y-2 sm:flex-row w-full mt-2.5 pt-4 sm:justify-between items-start sm:items-center border-t border-ui-border-base text-ui-fg-muted">
           <span className="txt-medium">
             {t("copyright", {
               year: new Date().getFullYear(),
               siteName: siteName,
             })}
           </span>
-          <PoweredBy className="hidden lg:flex" />
+          <SiteAttribution />
         </div>
       </div>
     </footer>

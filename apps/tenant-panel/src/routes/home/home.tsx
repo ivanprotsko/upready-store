@@ -72,14 +72,14 @@ export const Home = () => {
           >
             {t("orders.domain")}
           </Link>
-          {/* tenant-panel wave 2, piece 9: the Domains screen. Plain English,
-              like every other panel-own label — the copied i18n catalogs are the
-              Admin's and hold no key for a storefront host. */}
+          {/* The shop's address (t-2026-09-12-tenant-address-canonical). Its
+              own key now: the screen went from "Domains" to the address a shop
+              lives on, and it is read by shop owners, not by staff. */}
           <Link
             to="/settings/domains"
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
           >
-            Domains
+            {t("tenantAddress.title")}
           </Link>
         </div>
       </Container>

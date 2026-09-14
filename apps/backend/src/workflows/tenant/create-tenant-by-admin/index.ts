@@ -1,4 +1,5 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import assertHandleAvailableStep from "../shared/steps/assert-handle-available";
 import createTenantWorkflow from "../create-tenant";
 import registerTenantAdminAuthIdentityStep from "./steps/register-tenant-admin-auth-identity";
 
@@ -27,6 +28,10 @@ export type CreateTenantByAdminWorkflowInput = {
 const createTenantByAdminWorkflow = createWorkflow(
   "create-tenant-by-admin",
   function (input: CreateTenantByAdminWorkflowInput) {
+    // A handle another shop holds or ever held is refused before anything is
+    // written (specs/tenant-address/CANONICAL.md §1.2).
+    assertHandleAvailableStep({ handle: input.handle });
+
     const authIdentity = registerTenantAdminAuthIdentityStep({
       email: input.admin.email,
       password: input.admin.password,

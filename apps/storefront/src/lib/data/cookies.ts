@@ -1,5 +1,5 @@
 import "server-only"
-import { COUNTRY_CHOICE_COOKIE } from "@lib/geolocation"
+import { COUNTRY_CHOICE_COOKIE, COUNTRY_HEADER } from "@lib/geolocation"
 import { SITE_NAME, getBaseURL } from "@lib/util/env"
 import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
@@ -178,7 +178,26 @@ export const getPromoBannerDismissed = async (): Promise<boolean> => {
   }
 }
 
+/**
+ * The country this request is priced in. The middleware resolves it and writes it
+ * BOTH as a request header (this request) and as a response cookie (the next
+ * ones); the header wins, because the cookie a visitor sends is the one from
+ * their previous visit and on the first one there is none at all — which is how a
+ * page could paint prices in the wrong currency before settling.
+ *
+ * A visitor cannot forge the header: `tenantRequestHeaders` in `src/middleware.ts`
+ * deletes it from the incoming request before writing ours.
+ */
 export const getCountryCode = async (): Promise<string | null> => {
+  try {
+    const headers = await nextHeaders()
+    const fromMiddleware = headers.get(COUNTRY_HEADER)
+
+    if (fromMiddleware) {
+      return fromMiddleware
+    }
+  } catch {}
+
   try {
     const cookies = await nextCookies()
     return cookies.get("_medusa_country")?.value ?? null
@@ -187,7 +206,18 @@ export const getCountryCode = async (): Promise<string | null> => {
   }
 }
 
-export const setCountryCode = async (countryCode: string) => {
+/**
+ * `explicit` is the difference between the visitor PICKING a country and the
+ * storefront DERIVING one for them. Only a pick writes `COUNTRY_CHOICE_COOKIE`,
+ * the marker that outranks the locale map, the pinned default region and
+ * detection alike (@lib/geolocation). Switching the language moves the region
+ * too, but it must not impersonate a country the visitor never chose — otherwise
+ * one language pick would overwrite "ship it to Germany" for a year.
+ */
+export const setCountryCode = async (
+  countryCode: string,
+  { explicit = true }: { explicit?: boolean } = {}
+) => {
   const cookies = await nextCookies()
   const options = {
     maxAge: 60 * 60 * 24 * 365,
@@ -198,8 +228,8 @@ export const setCountryCode = async (countryCode: string) => {
     secure: process.env.NODE_ENV === "production",
   }
   cookies.set("_medusa_country", countryCode, options)
-  // This setter is reached only from updateRegion(), i.e. the visitor picked the
-  // country. The marker tells middleware to keep it even when the deployment
-  // pins a default region (@lib/geolocation, REGION_PIN).
-  cookies.set(COUNTRY_CHOICE_COOKIE, "1", options)
+
+  if (explicit) {
+    cookies.set(COUNTRY_CHOICE_COOKIE, "1", options)
+  }
 }

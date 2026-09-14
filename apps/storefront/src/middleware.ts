@@ -1,10 +1,16 @@
-import { isAppLocale, defaultLocale, matchBrowserLocale } from "@i18n/config"
-import { resolveCountry, type RegionMap } from "@lib/geolocation"
+import {
+  LOCALE_CHOICE_COOKIE,
+  LOCALE_COOKIE,
+  defaultLocale,
+  isAppLocale,
+  matchBrowserLocale,
+} from "@i18n/config"
+import { COUNTRY_HEADER, resolveCountry, type RegionMap } from "@lib/geolocation"
 import {
   TENANT_HEADERS,
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
-import { requestOrigin } from "@lib/tenant/origin"
+import { originForHost, requestOrigin } from "@lib/tenant/origin"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -18,7 +24,25 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
  * deployment. It may be unset, and then an unknown host has no key at all.
  */
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const LOCALE_COOKIE = "_medusa_locale"
+
+/**
+ * Pin the entry locale to `defaultLocale` instead of negotiating it with the
+ * browser. The same shape as `REGION_PIN` in `@lib/geolocation`, and for the same
+ * kind of reason: which language a shop opens in is a property of the DEPLOYMENT,
+ * not of the code.
+ *
+ * `false` (the default) keeps the rule of `t-2026-09-10-01`: the whole
+ * Accept-Language list is parsed, a `preferredLocales` entry wins wherever it
+ * stands, otherwise the visitor's own order decides. That is what the five
+ * single-store stands run.
+ *
+ * `true` is the multi-tenant storefront (Ivan's order 4.1, 2026-09-12): its
+ * audience is Russian-speaking, so a visitor arriving without a locale in the URL
+ * gets `defaultLocale` whatever their browser sends. A pick in the language
+ * switcher (`LOCALE_CHOICE_COOKIE`) still outranks the pin — a pin is a default,
+ * not a cage.
+ */
+const LOCALE_PINNED = process.env.LOCALE_PIN === "true"
 
 /**
  * Hosts that carry the paywall→onboarding DEMO instead of a shop
@@ -155,6 +179,57 @@ async function getRegionMap(
   return regionMap
 }
 
+/**
+ * A request that arrived on any address of the shop OTHER than its main one —
+ * the handle it used to answer on, its technical `<tenant_id>` address, its
+ * platform subdomain once a custom domain became primary — is answered with a
+ * permanent redirect to the SAME page of the main address
+ * (`specs/tenant-address/CANONICAL.md` §1.2, §1.3).
+ *
+ * Page for page, not everything to the home page: a redirect to `/` throws away
+ * the link someone actually shared and, with it, most of what the old address
+ * had earned. 301 rather than 302 because the move is permanent and that is what
+ * carries the accumulated weight over.
+ *
+ * `X-Robots-Tag: noindex` rides along so that even the redirect itself, and any
+ * page ever served from a non-main address, stays out of the index — the
+ * `<tenant_id>` address exists for support and monitoring, never for search.
+ *
+ * Null when there is nothing to redirect: no tenant (single-store), no main
+ * address known, or this request is already on it.
+ */
+function primaryHostRedirect(
+  request: NextRequest,
+  tenant: ResolvedTenant | null
+): NextResponse | null {
+  const primary = tenant?.primaryHost
+
+  if (!primary) {
+    return null
+  }
+
+  const rawHost = (request.headers.get("host") ?? "").trim().toLowerCase()
+  const hostname = rawHost.replace(/:\d+$/, "").replace(/\.$/, "")
+
+  if (!hostname || hostname === primary) {
+    return null
+  }
+
+  const origin = originForHost(request.headers, request.nextUrl.protocol, primary)
+
+  if (!origin) {
+    return null
+  }
+
+  const response = NextResponse.redirect(
+    `${origin}${request.nextUrl.pathname}${request.nextUrl.search}`,
+    301
+  )
+  response.headers.set("X-Robots-Tag", "noindex")
+
+  return response
+}
+
 /** Request headers the route handlers and server components see, tenant included. */
 function tenantRequestHeaders(
   request: NextRequest,
@@ -165,6 +240,10 @@ function tenantRequestHeaders(
   for (const name of TENANT_HEADERS) {
     headers.delete(name)
   }
+
+  // Whatever a visitor sends under this name is deleted before we write ours:
+  // the country decides the currency, and a forged header would price the page.
+  headers.delete(COUNTRY_HEADER)
 
   if (tenant) {
     if (tenant.publishableKey) {
@@ -182,9 +261,31 @@ function tenantRequestHeaders(
     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
     // `NEXT_PUBLIC_BASE_URL` is one value baked into the image for every shop this
     // process serves, so it can name at most one of them — `lib/tenant/origin.ts`.
-    const origin = requestOrigin(request.headers, request.nextUrl.protocol)
+    // The shop's MAIN address, not the host this request happened to arrive on:
+    // one source for canonical, hreflang, sitemap, robots, JSON-LD and og:url
+    // (`specs/tenant-address/CANONICAL.md` §1.1). In practice the two are equal,
+    // because a request on any other address of the shop is redirected below —
+    // but the page must name the main address even if it is ever served from
+    // somewhere else.
+    const origin = tenant.primaryHost
+      ? originForHost(
+          request.headers,
+          request.nextUrl.protocol,
+          tenant.primaryHost
+        )
+      : requestOrigin(request.headers, request.nextUrl.protocol)
     if (origin) {
       headers.set("x-tenant-origin", encodeTenantHeaderValue(origin))
+    }
+    // The footer's attribution line, resolved per shop by the backend
+    // (`api/storefront/by-host/attribution.ts`). It rides the same header channel
+    // as the rest of the tenant's identity rather than costing the footer its own
+    // fetch on every page.
+    if (tenant.attribution) {
+      headers.set(
+        "x-tenant-attribution",
+        encodeTenantHeaderValue(JSON.stringify(tenant.attribution))
+      )
     }
   }
 
@@ -206,6 +307,15 @@ export async function middleware(request: NextRequest) {
     BACKEND_URL,
     request.headers.get("host")
   )
+  // Before anything else this shop's pages would do: an address that is not the
+  // shop's main one answers a permanent redirect to the same page of the one
+  // that is, assets included.
+  const redirectToPrimary = primaryHostRedirect(request, tenant)
+
+  if (redirectToPrimary) {
+    return redirectToPrimary
+  }
+
   const publishableKey = tenant?.publishableKey ?? PUBLISHABLE_API_KEY ?? null
   const requestHeaders = tenantRequestHeaders(request, tenant)
   const nextWithTenant = () =>
@@ -219,15 +329,43 @@ export async function middleware(request: NextRequest) {
   const cacheId = cacheIdCookie?.value || crypto.randomUUID()
   const regionMap: RegionMap = await getRegionMap(cacheId, publishableKey)
 
-  // Region detection is owned by @lib/geolocation. It reads the visitor's
-  // country from the _medusa_country cookie, or resolves it through the
-  // configured geolocation provider, and returns a function that writes the
-  // cookie (plus the x-geo-* debug headers) onto the response we return below.
-  const applyCountry = await resolveCountry(request, regionMap)
-
   const segments = request.nextUrl.pathname.split("/").filter(Boolean)
   const firstSegment = segments[0]
   const hasLocaleInUrl = firstSegment && isAppLocale(firstSegment)
+
+  // Only an explicit pick in the language switcher (the choice cookie) outranks
+  // the browser; _medusa_locale is the locale of whatever page was served last,
+  // and reading it here pinned every visitor to the first prefixed link they ever
+  // followed (t-2026-09-10-01).
+  const chosenLocale = request.cookies.get(LOCALE_CHOICE_COOKIE)?.value
+
+  const entryLocale =
+    chosenLocale && isAppLocale(chosenLocale)
+      ? chosenLocale
+      : LOCALE_PINNED
+        ? defaultLocale
+        : (matchBrowserLocale(request.headers.get("accept-language")) ??
+          defaultLocale)
+
+  // The locale of THIS request, whether it came from the URL or was just
+  // negotiated. The country is resolved from it, so it has to be known first.
+  const locale = hasLocaleInUrl ? (firstSegment as string) : entryLocale
+
+  // Region detection is owned by @lib/geolocation. It reads the visitor's
+  // country from the _medusa_country cookie, or the locale map, or resolves it
+  // through the configured geolocation provider, and returns the country plus a
+  // function that writes the cookie (and the x-geo-* debug headers) onto the
+  // response we return below.
+  const { countryCode, apply: applyCountry } = await resolveCountry(
+    request,
+    regionMap,
+    locale
+  )
+
+  // Server components read this instead of waiting for the cookie to come back on
+  // the next request, so the first page a visitor sees is already priced in the
+  // currency of their region (@lib/data/cookies `getCountryCode`).
+  requestHeaders.set(COUNTRY_HEADER, countryCode)
 
   const persistentCookieOpts = {
     maxAge: 60 * 60 * 24 * 365,
@@ -245,8 +383,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (hasLocaleInUrl) {
-    const locale = firstSegment
-
     // Every page under /account beyond the entry point belongs to a signed-in
     // customer, and the account layout only renders the sign-in form for
     // /account itself. Send a signed-out visitor there rather than letting the
@@ -267,15 +403,7 @@ export async function middleware(request: NextRequest) {
     return withCookies(res, locale)
   }
 
-  // No locale in URL — detect and redirect 302
-  const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value
-
-  const locale =
-    cookieLocale && isAppLocale(cookieLocale)
-      ? cookieLocale
-      : (matchBrowserLocale(request.headers.get("accept-language")) ??
-        defaultLocale)
-
+  // No locale in URL — redirect 302 to the one negotiated above.
   const trailingPath =
     request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
   const redirectUrl = new URL(`/${locale}${trailingPath}${request.nextUrl.search}`, request.url)

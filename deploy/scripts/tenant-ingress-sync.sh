@@ -50,11 +50,26 @@ hosts() {
     "select host from tenant_domain where deleted_at is null order by host" 2>/dev/null || return 1
   for base in $(echo "${TENANT_BASE_DOMAINS:-}" | tr ',' ' '); do
     [ -n "$base" ] || continue
-    psql "$DATABASE_URL" -At -c \
-      "select handle from tenant where deleted_at is null order by handle" 2>/dev/null \
-      | while read -r handle; do
-          [ -n "$handle" ] && echo "$handle.$base"
-        done
+    # Three labels under one zone, all covered by the same wildcard certificate:
+    # the shop's current handle, its tenant id, and every handle it used to
+    # answer on. The last two exist so the storefront can answer them with a 301
+    # to the main address — a host traefik does not route cannot redirect
+    # anybody (specs/tenant-address/CANONICAL.md §1.2, §1.3).
+    #
+    # Three separate queries, not one union: tenant_handle_alias arrives with a
+    # migration, and on the deploy where the image is newer than the database a
+    # union would fail WHOLE and take every shop's router down with it. Each
+    # query stands or falls alone.
+    for statement in \
+      "select handle from tenant where deleted_at is null order by handle" \
+      "select lower(id) from tenant where deleted_at is null order by 1" \
+      "select handle from tenant_handle_alias where deleted_at is null order by handle"
+    do
+      psql "$DATABASE_URL" -At -c "$statement" 2>/dev/null \
+        | while read -r label; do
+            [ -n "$label" ] && echo "$label.$base"
+          done
+    done
   done
 }
 

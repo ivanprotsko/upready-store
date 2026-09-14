@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ru" class="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макет — витрина тенанта, волна 2 (подвал · адрес · валюта)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  :root { color-scheme: light dark; }
+  html.light { color-scheme: light; }
+  body { margin: 0; }
+  .sheet { max-width: 1180px; margin: 0 auto; padding: 40px 24px 96px; }
+  .sheet > header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 32px; }
+  .eyebrow { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 8px 0 6px; }
+  h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; margin: 48px 0 4px; }
+  h3 { font-size: 14px; font-weight: 500; margin: 28px 0 10px; }
+  p.sub, p.note { color: var(--muted); margin: 0 0 4px; }
+  p.note { font-size: 13px; }
+  a { color: var(--link); }
+  code, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 12.5px; }
+  .toggle { position: fixed; top: 16px; right: 16px; z-index: 9;
+    background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: 6px 12px; font: 500 13px var(--sans); cursor: pointer; }
+  .toggle:hover { background: var(--hover); }
+
+  /* каркас кадра: подпись сверху, рамка вокруг «продукта» */
+  .frame { margin: 0 0 20px; }
+  .frame > figcaption { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; }
+  .frame > figcaption .t { font-weight: 500; }
+  .frame > figcaption .d { color: var(--faint); font-size: 12px; }
+  .box { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+  .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+
+  /* ── витрина тенанта: реальные токены пресета sneakers (src/styles/themes.css) ── */
+  .sf { font: 400 14px/1.45 var(--sans); }
+  .sf.lightmode { --sfbg:#ffffff; --sffg:#0a0a0a; --sfborder:#e4e4e4; --sfmuted:#5c5c5c; --sflink:#4c6600; }
+  .sf.darkmode  { --sfbg:#0a0a0a; --sffg:#ededed; --sfborder:#262626; --sfmuted:#a1a1a1; --sflink:#d6ff3b; }
+  .sf { background: var(--sfbg); color: var(--sffg); }
+  .sf .bar { border-top: 1px solid var(--sfborder); display: flex; justify-content: space-between;
+             align-items: center; gap: 16px; padding: 16px 24px 20px; color: var(--sfmuted); font-size: 14px; }
+  .sf .bar.narrow { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px 18px; }
+  .sf .cols { display: flex; justify-content: space-between; gap: 40px; padding: 28px 24px; }
+  .sf .cols .col { display: flex; flex-direction: column; gap: 8px; }
+  .sf .cols .h { font-weight: 500; color: var(--sffg); }
+  .sf .cols .l { color: var(--sfmuted); font-size: 13px; }
+  .sf .brandline { text-transform: uppercase; letter-spacing: .02em; color: var(--sfmuted); font-size: 13px; }
+  .sf a.attr { color: var(--sflink); text-decoration: underline; text-underline-offset: 2px; }
+  .sf .attr-wrap { white-space: nowrap; }
+  .phone { width: 360px; }
+
+  /* ── панель владельца: словарь @medusajs/ui, серый лист + белые карточки ── */
+  .pnl { background: #f4f4f5; color: #18181b; font: 400 14px/1.45 var(--sans); padding: 20px; }
+  html:not(.light) .pnl { background: #18181b; color: #fafafa; }
+  .card { background: #ffffff; border: 1px solid #e4e4e7; border-radius: 8px; padding: 0; margin: 0 0 16px;
+          box-shadow: 0 1px 2px rgba(0,0,0,.06), inset 0 0 0 1px rgba(0,0,0,.02); }
+  html:not(.light) .card { background: #27272a; border-color: #3f3f46; box-shadow: none; }
+  .card > .hd { padding: 16px 20px; border-bottom: 1px solid #e4e4e7; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  html:not(.light) .card > .hd { border-color: #3f3f46; }
+  .card > .bd { padding: 16px 20px; }
+  .card h4 { margin: 0; font-size: 15px; font-weight: 500; }
+  .dim { color: #71717a; font-size: 13px; }
+  html:not(.light) .dim { color: #a1a1aa; }
+  .hostrow { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f4f4f5; }
+  html:not(.light) .hostrow { border-color: #3f3f46; }
+  .hostrow:last-child { border-bottom: 0; }
+  .hostrow .host { font-family: var(--mono); font-size: 13px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 9999px; border: 1px solid #e4e4e7; color: #52525b; white-space: nowrap; }
+  html:not(.light) .badge { border-color: #3f3f46; color: #a1a1aa; }
+  .badge.primary { border-color: #18181b; color: #18181b; font-weight: 500; }
+  html:not(.light) .badge.primary { border-color: #fafafa; color: #fafafa; }
+  .btn { border: 1px solid #e4e4e7; background: #fff; border-radius: 6px; padding: 6px 12px; font: 500 13px var(--sans); color: #18181b; }
+  html:not(.light) .btn { background: #27272a; border-color: #52525b; color: #fafafa; }
+  .btn.pri { background: #18181b; color: #fff; border-color: #18181b; }
+  html:not(.light) .btn.pri { background: #fafafa; color: #18181b; border-color: #fafafa; }
+  .btn.danger { color: #b91c1c; }
+  .inp { display: flex; align-items: stretch; border: 1px solid #e4e4e7; border-radius: 6px; overflow: hidden; background: #fff; max-width: 420px; }
+  html:not(.light) .inp { background: #27272a; border-color: #52525b; }
+  .inp input { border: 0; outline: 0; padding: 8px 10px; font: 400 14px var(--mono); flex: 1; background: transparent; color: inherit; }
+  .inp .suffix { padding: 8px 10px; background: #f4f4f5; color: #71717a; font: 400 14px var(--mono); border-left: 1px solid #e4e4e7; }
+  html:not(.light) .inp .suffix { background: #3f3f46; color: #a1a1aa; border-color: #52525b; }
+  .hint { font-size: 12px; color: #71717a; margin-top: 6px; }
+  .err { font-size: 12px; color: #b91c1c; margin-top: 6px; }
+  .warn { border: 1px solid #fde68a; background: #fffbeb; color: #78350f; border-radius: 6px; padding: 12px 14px; font-size: 13px; }
+  html:not(.light) .warn { border-color: #78350f; background: #271c0a; color: #fcd34d; }
+  .warn ul { margin: 8px 0 0; padding-left: 18px; }
+  .warn li { margin: 3px 0; }
+
+  /* ── контрол языка и валюты ── */
+  .hdr { display: flex; justify-content: flex-end; gap: 14px; padding: 12px 20px; }
+  .ctl { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--sfmuted); }
+  .ctl .flag { width: 16px; height: 12px; border-radius: 2px; display: inline-block; }
+  .flag.us { background: linear-gradient(#b22234 0 33%, #fff 33% 66%, #3c3b6e 66%); }
+  .flag.ru { background: linear-gradient(#fff 0 33%, #0039a6 33% 66%, #d52b1e 66%); }
+  .dlg { background: var(--sfbg); border: 1px solid var(--sfborder); border-radius: 10px; width: 380px; }
+  .dlg .sec { padding: 14px 16px; border-bottom: 1px solid var(--sfborder); }
+  .dlg .sec:last-child { border-bottom: 0; }
+  .dlg .lab { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--sfmuted); margin-bottom: 8px; font-family: var(--mono); }
+  .opt { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px; font-size: 13.5px; }
+  .opt.on { background: color-mix(in srgb, var(--sffg) 8%, transparent); font-weight: 500; }
+  .opt .cur { margin-left: auto; color: var(--sfmuted); font-family: var(--mono); font-size: 12.5px; }
+  .price { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  table.m { border-collapse: collapse; width: 100%; font-size: 13px; margin: 10px 0 0; }
+  table.m th, table.m td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.m th { font: 500 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--faint); }
+  table.m td.num, table.m th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  ul.d { margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
+  ul.d li { margin: 5px 0; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .dot.g { background: var(--green); } .dot.r { background: var(--red); } .dot.w { background: var(--warning); }
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.classList.toggle('light')">режим страницы</button>
+<div class="sheet">
+
+<header>
+  <div class="eyebrow">upready-store · витрина тенанта · дизайн-стадия</div>
+  <h1>Волна 2: подвал-атрибуция, адрес магазина, валюта по локали</h1>
+  <p class="sub">Задачи <code>t-2026-09-12-footer-attribution</code> · <code>t-2026-09-12-tenant-address-canonical</code> ·
+  <code>t-2026-09-12-locale-currency</code>. Решения и развилки — в <code>artifacts/docs/2026-09-12-storefront-wave2-mockup.md</code>.</p>
+  <p class="note">Кадры витрины нарисованы РЕАЛЬНЫМИ токенами пресета <code>sneakers</code> (магазин acme) из
+  <code>apps/storefront/src/styles/themes.css</code>, светлый и тёмный блоки. Кадры панели — словарём
+  <code>@medusajs/ui</code>, как остальные экраны панели. Чром самой этой страницы — канон Geist
+  (<code>tokens.css</code>, vendor-copy).</p>
+</header>
+
+<!-- ══════════════════ 1. ПОДВАЛ ══════════════════ -->
+<h2>1. Подвал: «создание интернет-магазина — upready»</h2>
+<p class="sub">Строка живёт в нижней планке подвала, справа от копирайта — там, где сейчас стоит скрытая на узком
+экране надпись «Powered by». Ссылка — на анкоре, остальное текст.</p>
+
+<h3>1.1. Оба режима, широкий экран (нижняя планка подвала f1, магазин acme)</h3>
+<div class="grid2">
+  <figure class="frame">
+    <figcaption><span class="t">Светлый режим</span><span class="d">acme · 1180 px</span></figcaption>
+    <div class="box"><div class="sf lightmode">
+      <div class="cols">
+        <div class="col"><span class="brandline">Acme</span></div>
+        <div class="col"><span class="h">Категории</span><span class="l">Обувь</span><span class="l">Аксессуары</span></div>
+        <div class="col"><span class="h">Коллекции</span><span class="l">Новинки</span><span class="l">Хиты продаж</span></div>
+      </div>
+      <div class="bar">
+        <span>© 2026 Acme. Все права защищены.</span>
+        <span class="attr-wrap"><a class="attr" href="https://upready.dev">создание интернет-магазина</a> — upready</span>
+      </div>
+    </div></div>
+  </figure>
+  <figure class="frame">
+    <figcaption><span class="t">Тёмный режим</span><span class="d">acme · режим магазина по умолчанию — dark</span></figcaption>
+    <div class="box"><div class="sf darkmode">
+      <div class="cols">
+        <div class="col"><span class="brandline">Acme</span></div>
+        <div class="col"><span class="h">Категории</span><span class="l">Обувь</span><span class="l">Аксессуары</span></div>
+        <div class="col"><span class="h">Коллекции</span><span class="l">Новинки</span><span class="l">Хиты продаж</span></div>
+      </div>
+      <div class="bar">
+        <span>© 2026 Acme. Все права защищены.</span>
+        <span class="attr-wrap"><a class="attr" href="https://upready.dev">создание интернет-магазина</a> — upready</span>
+      </div>
+    </div></div>
+  </figure>
+</div>
+
+<h3>1.2. Узкий экран (360 px): строка НЕ прячется, а встаёт под копирайт</h3>
+<div class="row">
+  <figure class="frame phone">
+    <figcaption><span class="t">Светлый · 360 px</span><span class="d">acme</span></figcaption>
+    <div class="box"><div class="sf lightmode">
+      <div class="bar narrow">
+        <span>© 2026 Acme. Все права защищены.</span>
+        <span class="attr-wrap"><a class="attr" href="https://upready.dev">создание интернет-магазина</a> — upready</span>
+      </div>
+    </div></div>
+  </figure>
+  <figure class="frame phone">
+    <figcaption><span class="t">Тёмный · 360 px</span><span class="d">acme</span></figcaption>
+    <div class="box"><div class="sf darkmode">
+      <div class="bar narrow">
+        <span>© 2026 Acme. Все права защищены.</span>
+        <span class="attr-wrap"><a class="attr" href="https://upready.dev">создание интернет-магазина</a> — upready</span>
+      </div>
+    </div></div>
+  </figure>
+</div>
+<p class="note">Сегодня «Powered by» висит под <code>hidden lg:flex</code> и на телефоне исчезает. Наша ссылка —
+предмет задачи, а не украшение: она видна на любой ширине, поэтому планка на узком экране складывается в столбик.</p>
+
+<h3>1.3. Механизм анкоров: три уровня, ни один не в шаблоне</h3>
+<div class="row">
+  <figure class="frame" style="flex:1; min-width:330px">
+    <figcaption><span class="t">nochlavka</span><span class="d">ничего не задано — дефолт платформы</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="bar">
+      <span>© 2026 Ночная лавка.</span>
+      <span class="attr-wrap"><a class="attr" href="https://upready.dev">создание интернет-магазина</a> — upready</span>
+    </div></div></div>
+  </figure>
+  <figure class="frame" style="flex:1; min-width:330px">
+    <figcaption><span class="t">globex</span><span class="d">анкор группы</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="bar">
+      <span>© 2026 Globex.</span>
+      <span class="attr-wrap"><a class="attr" href="https://upready.dev">интернет-магазин под ключ</a> — upready</span>
+    </div></div></div>
+  </figure>
+  <figure class="frame" style="flex:1; min-width:330px">
+    <figcaption><span class="t">initech</span><span class="d">анкор этого магазина</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="bar">
+      <span>© 2026 Initech.</span>
+      <span class="attr-wrap"><a class="attr" href="https://upready.dev">разработка интернет-магазина</a> — upready</span>
+    </div></div></div>
+  </figure>
+</div>
+<table class="m">
+  <tr><th>Уровень</th><th>Где лежит</th><th>Что задаёт</th><th>Кто меняет</th></tr>
+  <tr><td>магазин</td><td><code>tenant.metadata.attribution</code></td><td>анкор / адрес / rel одного магазина</td><td>админ платформы, одним запросом</td></tr>
+  <tr><td>группа</td><td><code>tenant.metadata.attribution_group</code> + карта групп в конфиге платформы</td><td>анкор сразу для пачки магазинов</td><td>запись группы магазину, анкор — в карте</td></tr>
+  <tr><td>дефолт</td><td>конфиг платформы <code>ATTRIBUTION_ANCHOR</code> / <code>ATTRIBUTION_HREF</code></td><td>то, что видит магазин, которому ничего не задали</td><td>деплой платформы</td></tr>
+</table>
+<p class="note">Слияние — по полям: магазин может переопределить ТОЛЬКО анкор и унаследовать адрес группы.
+Шаблон подвала не знает ни одного анкора, он рисует то, что пришло с данными магазина; поменять подпись —
+значит записать данные, а не править вёрстку по магазинам.</p>
+
+<!-- ══════════════════ 2. АДРЕС ══════════════════ -->
+<h2>2. Экран смены адреса в панели владельца</h2>
+<p class="sub">Настройки → Адрес магазина. Заменяет сегодняшний экран «Domains», который умеет только добавлять
+свой домен и не говорит ни слова про выданный поддомен.</p>
+
+<h3>2.1. Обычное состояние: что владелец видит</h3>
+<figure class="frame">
+  <figcaption><span class="t">Адрес магазина</span><span class="d">магазин acme, своего домена нет</span></figcaption>
+  <div class="box"><div class="pnl">
+    <div class="card">
+      <div class="hd"><h4>Адрес магазина</h4><span class="dim">по этому адресу вас находят покупатели и поиск</span></div>
+      <div class="bd">
+        <div class="hostrow">
+          <span class="host">acme.shipshift.dev</span>
+          <span class="badge primary">основной</span>
+          <span class="dim">канонический адрес в поиске</span>
+          <span style="margin-left:auto"><button class="btn">Сменить адрес</button></span>
+        </div>
+        <div class="hostrow">
+          <span class="host">ten_01M28GBEV6SBGBWKFCHTHREN9N.shipshift.dev</span>
+          <span class="badge">технический</span>
+          <span class="dim">не меняется никогда, всегда ведёт на основной; в поиск не попадает</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="hd"><h4>Свой домен</h4><span class="dim">CNAME на <code class="mono">stores.shipshift.dev</code></span></div>
+      <div class="bd">
+        <div class="inp"><input value="vasya.com" readonly></div>
+        <div class="hint">Добавьте домен, пропишите CNAME, затем нажмите «Сделать основным» — проверим, что домен
+          отвечает нашим магазином, и переведём канонический адрес на него.</div>
+      </div>
+    </div>
+  </div></div>
+</figure>
+
+<h3>2.2. Смена адреса: чем владелец предупреждён</h3>
+<figure class="frame">
+  <figcaption><span class="t">Диалог подтверждения</span><span class="d">после ввода нового адреса</span></figcaption>
+  <div class="box"><div class="pnl">
+    <div class="card">
+      <div class="hd"><h4>Сменить адрес магазина</h4></div>
+      <div class="bd">
+        <div class="inp"><input value="acme-store"><span class="suffix">.shipshift.dev</span></div>
+        <div class="hint">Сейчас: <code class="mono">acme.shipshift.dev</code> → станет: <code class="mono">acme-store.shipshift.dev</code></div>
+        <div style="height:14px"></div>
+        <div class="warn">
+          <strong>Что произойдёт после смены</strong>
+          <ul>
+            <li>Новый адрес начинает отвечать сразу, сертификат уже готов.</li>
+            <li>Старый адрес <strong>продолжает работать</strong> и перебрасывает на новый — каждая страница на свою,
+                а не все на главную. Ссылки из писем, соцсетей и чужих сайтов не ломаются.</li>
+            <li><strong>Поиску нужно время.</strong> Google и Яндекс переносят накопленный вес по редиректу почти
+                полностью, но переиндексация занимает <strong>недели</strong>, а не дни. Пока она идёт, в выдаче
+                встречается старый адрес.</li>
+            <li>Старый адрес <strong>навсегда закреплён за вашим магазином</strong>: его не получит другой магазин,
+                даже если вы им больше не пользуетесь.</li>
+            <li>Менять адрес часто вредно: каждая смена — новый круг переиндексации.</li>
+          </ul>
+        </div>
+        <div style="margin-top:14px; display:flex; gap:10px">
+          <button class="btn pri">Сменить адрес</button><button class="btn">Отмена</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</figure>
+
+<h3>2.3. После смены: что стало с прежним адресом</h3>
+<figure class="frame">
+  <figcaption><span class="t">Адрес магазина</span><span class="d">через минуту после смены</span></figcaption>
+  <div class="box"><div class="pnl">
+    <div class="card">
+      <div class="hd"><h4>Адрес магазина</h4></div>
+      <div class="bd">
+        <div class="hostrow">
+          <span class="host">acme-store.shipshift.dev</span><span class="badge primary">основной</span>
+          <span class="dim">канонический адрес в поиске</span>
+          <span style="margin-left:auto"><button class="btn">Сменить адрес</button></span>
+        </div>
+        <div class="hostrow">
+          <span class="host">acme.shipshift.dev</span><span class="badge">прежний</span>
+          <span class="dim"><span class="dot g"></span>отвечает, ведёт на основной (301), закреплён за вами бессрочно</span>
+        </div>
+        <div class="hostrow">
+          <span class="host">ten_01M28GBEV6SBGBWKFCHTHREN9N.shipshift.dev</span><span class="badge">технический</span>
+          <span class="dim">ведёт на основной (301)</span>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</figure>
+
+<h3>2.4. Отказы — словами, а не кодом ошибки</h3>
+<figure class="frame">
+  <div class="box"><div class="pnl">
+    <div class="card"><div class="bd">
+      <div class="inp"><input value="globex"><span class="suffix">.shipshift.dev</span></div>
+      <div class="err">Этот адрес занят другим магазином. Выберите другой.</div>
+      <div style="height:16px"></div>
+      <div class="inp"><input value="Acme Store!"><span class="suffix">.shipshift.dev</span></div>
+      <div class="err">Только латинские буквы, цифры и дефис — например <code class="mono">acme-store</code>.</div>
+      <div style="height:16px"></div>
+      <div class="inp"><input value="acme"><span class="suffix">.shipshift.dev</span></div>
+      <div class="err">Это и есть ваш текущий адрес.</div>
+    </div></div>
+  </div></div>
+</figure>
+
+<!-- ══════════════════ 3. ЯЗЫК И ВАЛЮТА ══════════════════ -->
+<h2>3. Контрол языка и валюты</h2>
+
+<h3>3.1. Что в шапке: сегодня против того, что будет</h3>
+<div class="grid2">
+  <figure class="frame">
+    <figcaption><span class="t">Сегодня</span><span class="d">замер на acme.shipshift.dev/ru, 2026-09-12</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="hdr">
+      <span class="ctl">ru <span style="font-size:9px">▾</span></span>
+      <span class="ctl"><span class="flag us"></span>$ <span style="font-size:9px">▾</span></span>
+    </div>
+    <div style="padding: 0 20px 18px"><span class="price">128,99 $</span> <span style="color:var(--sfmuted)">· flagstone-low</span></div>
+    </div></div>
+  </figure>
+  <figure class="frame">
+    <figcaption><span class="t">Будет</span><span class="d">та же страница /ru</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="hdr">
+      <span class="ctl">ru <span style="font-size:9px">▾</span></span>
+      <span class="ctl"><span class="flag ru"></span>₽ <span style="font-size:9px">▾</span></span>
+    </div>
+    <div style="padding: 0 20px 18px"><span class="price">11 170,99 ₽</span> <span style="color:var(--sfmuted)">· flagstone-low</span></div>
+    </div></div>
+  </figure>
+</div>
+<p class="note">Обе цены — из БД, не пересчёт в вёрстке: замер живого бэкенда 2026-09-12,
+<code>flagstone-low</code> = <span class="mono">128.99 usd</span> в регионе United States и
+<span class="mono">11170.99 rub</span> в регионе Russia. Формат («11 170,99 ₽», а не «RUB 11,170.99») даёт
+<code>Intl.NumberFormat</code> с локалью страницы.</p>
+
+<h3>3.1a. Символ или код в шапке</h3>
+<div class="row">
+  <figure class="frame">
+    <figcaption><span class="t">Символ — принято</span><span class="d">флаг рядом снимает двусмысленность «$»</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="hdr">
+      <span class="ctl">ru <span style="font-size:9px">▾</span></span>
+      <span class="ctl"><span class="flag ru"></span>₽ <span style="font-size:9px">▾</span></span>
+    </div></div></div>
+  </figure>
+  <figure class="frame">
+    <figcaption><span class="t">Код — как сейчас</span><span class="d">точнее, но длиннее и суше</span></figcaption>
+    <div class="box"><div class="sf lightmode"><div class="hdr">
+      <span class="ctl">ru <span style="font-size:9px">▾</span></span>
+      <span class="ctl"><span class="flag ru"></span>RUB <span style="font-size:9px">▾</span></span>
+    </div></div></div>
+  </figure>
+</div>
+<p class="note">Берём символ: Иван назвал целевой вид «ru ₽», а флаг слева отвечает на «какой именно доллар».
+Трёхбуквенный код остаётся в строках диалога, где страна и валюта названы полностью.</p>
+
+<h3>3.2. Что меняется по клику</h3>
+<div class="row">
+  <figure class="frame">
+    <figcaption><span class="t">Диалог</span><span class="d">один диалог, две секции — как сейчас</span></figcaption>
+    <div class="box"><div class="sf lightmode" style="padding:16px">
+      <div class="dlg">
+        <div class="sec">
+          <div class="lab">Язык</div>
+          <div class="opt on">Русский <span class="cur">ru</span></div>
+          <div class="opt">English <span class="cur">en</span></div>
+        </div>
+        <div class="sec">
+          <div class="lab">Страна доставки и валюта</div>
+          <div class="opt on"><span class="flag ru"></span>Россия <span class="cur">RUB</span></div>
+          <div class="opt"><span class="flag us"></span>США <span class="cur">USD</span></div>
+          <div class="dim" style="margin-top:8px; font-size:12px; color:var(--sfmuted)">Цены и доставка — в валюте выбранной страны.</div>
+        </div>
+      </div>
+    </div></div>
+  </figure>
+  <div style="flex:1; min-width:320px">
+    <table class="m">
+      <tr><th>Действие</th><th>Что меняется</th></tr>
+      <tr><td>выбрал «English»</td><td>URL → <code>/en/…</code>, цены → <span class="price">128,99 $</span>, корзина и чекаут → USD, флаг → US</td></tr>
+      <tr><td>выбрал «Русский»</td><td>URL → <code>/ru/…</code>, цены → <span class="price">11 170,99 ₽</span>, корзина и чекаут → RUB, флаг → RU</td></tr>
+      <tr><td>выбрал страну сам (Германия)</td><td>валюта → EUR и <strong>остаётся</strong> при смене языка: явный выбор человека старше правила «язык → валюта»</td></tr>
+      <tr><td>зашёл на <code>/</code> без локали</td><td>302 → <code>/ru</code>, валюта RUB (на этом деплое язык прибит русским)</td></tr>
+    </table>
+    <ul class="d">
+      <li><span class="dot w"></span>Смена языка меняет регион, а значит и корзину: цены в корзине пересчитываются
+        по прайсу региона из БД, адрес доставки чистится при смене страны — это уже поведение
+        <code>updateRegion</code>, отдельного механизма не заводим.</li>
+      <li><span class="dot g"></span>Контрол остаётся двумя кнопками (язык отдельно, страна+валюта отдельно) —
+        решение волны 1; здесь меняется только то, ЧТО в них показано.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+<script>
+  // Режим страницы: кнопка или якорь #dark (чтобы кадр снимался снимком файла, без сервера).
+  if (location.hash === "#dark") document.documentElement.classList.remove("light");
+</script>
+</body>
+</html>

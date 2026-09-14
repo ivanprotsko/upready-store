@@ -143,23 +143,6 @@ export async function GET() {
         "Full catalog with search, filtering and sorting"
       ),
     ]),
-    ...section(base, "Project", [
-      listItem(
-        "Source code",
-        "https://github.com/gorgojs/medusa-dtc-starter",
-        "The starter this demo runs on — setup, configuration and deployment"
-      ),
-      listItem(
-        "Gorgo",
-        "https://gorgojs.com",
-        "Medusa plugins and integrations"
-      ),
-      listItem(
-        "Documentation",
-        "https://docs.gorgojs.com",
-        "Docs for the integrations and tools used by this storefront"
-      ),
-    ]),
     ...section(base, "Optional", [
       ...locales.map((locale) =>
         listItem(

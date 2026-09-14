@@ -31,6 +31,7 @@ export const TENANT_HEADERS = [
   "x-tenant-theme",
   "x-tenant-mode",
   "x-tenant-origin",
+  "x-tenant-attribution",
 ] as const
 
 export type TenantHeaderName = (typeof TENANT_HEADERS)[number]

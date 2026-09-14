@@ -152,7 +152,6 @@
     "close": "סגירה",
     "hidePassword": "הסתרת הסיסמה",
     "orderNumber": "הזמנה מספר {id}",
-    "poweredBy": "Powered by",
     "remove": "הסרה",
     "showPassword": "הצגת הסיסמה"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "קטגוריות",
     "collectionsHeading": "קולקציות",
     "copyright": "© {year} {siteName}. כל הזכויות שמורות.",
-    "infoHeading": "מידע",
-    "medusaDocs": "תיעוד Medusa",
-    "sourceCode": "קוד המקור של הסטארטר",
-    "starterDocs": "תיעוד הסטארטר"
+    "infoHeading": "מידע"
   },
   "ForgotPassword": {
     "backToSignIn": "חזרה להתחברות",
@@ -345,44 +341,8 @@
     "returnsExchanges": "החזרות והחלפות"
   },
   "Hero": {
-    "eyebrow": "מוכן לשימוש · קוד פתוח",
-    "features": [
-      {
-        "description": "משופר, בלי שלבים מיותרים, עם השלמה אוטומטית של כתובות",
-        "label": "תהליך רכישה מותאם להמרות"
-      },
-      {
-        "description": "חיפוש, קטלוג עם סינון, קטגוריות מרובות רמות ו-mobile-first",
-        "label": "חזית חנות מלאת יכולות"
-      },
-      {
-        "description": "תגי meta, כרטיסי Open Graph ו-Twitter, JSON-LD, sitemap, robots, llms.txt ו-100/100 ב-PageSpeed Insights",
-        "label": "מותאם ל-SEO ולבינה מלאכותית"
-      },
-      {
-        "description": "36 שפות לחזית החנות עם תמיכה ב-RTL ו-241 מדינות לאזורי מכירה, זיהוי המדינה, קל לצמצם לאלה שצריך",
-        "label": "לוקליזציה מלאה"
-      },
-      {
-        "description": "תבניות React Email דרך SMTP",
-        "label": "אימיילים טרנזקציונליים"
-      },
-      {
-        "description": "בעת שינויים בקטלוג המוצרים",
-        "label": "רענון מטמון לפי דרישה"
-      },
-      {
-        "badge": "חדש",
-        "description": "ניהול הגדרות הספקים שלך דרך הממשק הניהולי",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "מודול אינטגרציות"
-      }
-    ],
-    "featuresHeading": "יכולות",
-    "readDocs": "קראו את התיעוד",
     "subtitle": "כל מה שהסטארטר הרשמי של Medusa DTC משמיט.",
-    "title": "מוכן לסביבת ייצור Medusa DTC Starter",
-    "viewOnGitHub": "צפייה ב-GitHub"
+    "title": "מוכן לסביבת ייצור Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "סגירה",
-    "cta": "נסה עכשיו",
     "message": "סטארטר DTC מלא יכולות ומוכן לסביבת ייצור."
   },
   "RegionSelect": {

@@ -76,17 +76,6 @@ function PromoBanner(props: { dismissed: boolean; suppressed?: boolean }) {
             {profileMessage ?? t("message")}
           </span>
 
-          {/* Starter attribution, kept only while the strip still shows the starter copy. */}
-          {profileMessage ? null : (
-            <a
-              href="https://gorgojs.com"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-[linear-gradient(163deg,#deba92_20%,#9f724e_45%,#deba92_90%)] bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-            >
-              {t("cta")} →
-            </a>
-          )}
         </div>
 
         <button

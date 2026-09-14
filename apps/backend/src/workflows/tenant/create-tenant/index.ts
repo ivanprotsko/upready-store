@@ -1,6 +1,7 @@
 import type { LinkDefinition } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
+import assertHandleAvailableStep from "../shared/steps/assert-handle-available";
 import {
   createApiKeysWorkflow,
   createRemoteLinkStep,
@@ -40,6 +41,10 @@ export type CreateTenantWorkflowInput = {
 const createTenantWorkflow = createWorkflow(
   "create-tenant",
   function (input: CreateTenantWorkflowInput) {
+    // A handle another shop holds or ever held is refused before anything is
+    // written (specs/tenant-address/CANONICAL.md §1.2).
+    assertHandleAvailableStep({ handle: input.handle });
+
     const salesChannelsInput = transform({ input }, ({ input }) => ({
       salesChannelsData: [
         {

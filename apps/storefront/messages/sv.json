@@ -152,7 +152,6 @@
     "close": "Stäng",
     "hidePassword": "Dölj lösenord",
     "orderNumber": "Order #{id}",
-    "poweredBy": "Powered by",
     "remove": "Ta bort",
     "showPassword": "Visa lösenord"
   },
@@ -314,10 +313,7 @@
     "categoriesHeading": "Kategorier",
     "collectionsHeading": "Kollektioner",
     "copyright": "© {year} {siteName}. Alla rättigheter förbehållna.",
-    "infoHeading": "Information",
-    "medusaDocs": "Medusa-dokumentation",
-    "sourceCode": "Källkod för startern",
-    "starterDocs": "Dokumentation för startern"
+    "infoHeading": "Information"
   },
   "ForgotPassword": {
     "backToSignIn": "Tillbaka till inloggningen",
@@ -345,44 +341,8 @@
     "returnsExchanges": "Returer och byten"
   },
   "Hero": {
-    "eyebrow": "Nyckelfärdig · Öppen källkod",
-    "features": [
-      {
-        "description": "förbättrad, utan onödiga steg, med adressautofyll",
-        "label": "Kassa optimerad för konvertering"
-      },
-      {
-        "description": "sök, filtrerbar katalog, kategorier i flera nivåer & mobile-first",
-        "label": "Fullfjädrad butiksfront"
-      },
-      {
-        "description": "metataggar, Open Graph och Twitter cards, JSON-LD, sitemap, robots, llms.txt & 100/100 i PageSpeed Insights",
-        "label": "Optimerad för SEO och AI"
-      },
-      {
-        "description": "36 språk för butiken med RTL-stöd och 241 länder för försäljningsregioner, identifiering av land, lätta att skala ner till de du behöver",
-        "label": "Fullständig lokalisering"
-      },
-      {
-        "description": "React Email-mallar via SMTP",
-        "label": "Transaktionsmejl"
-      },
-      {
-        "description": "vid ändringar i produktkatalogen",
-        "label": "Cacherevalidering på begäran"
-      },
-      {
-        "badge": "Nytt",
-        "description": "hantera dina leverantörers inställningar via Admin",
-        "href": "https://gorgojs.com/medusa-integration-module",
-        "label": "Integrationsmodul"
-      }
-    ],
-    "featuresHeading": "Funktioner",
-    "readDocs": "Läs dokumentationen",
     "subtitle": "Allt som den officiella Medusa DTC-startern saknar.",
-    "title": "Produktionsklar Medusa DTC Starter",
-    "viewOnGitHub": "Visa på GitHub"
+    "title": "Produktionsklar Medusa DTC Starter"
   },
   "Home": {
     "gallery": {
@@ -775,7 +735,6 @@
   },
   "PromoBanner": {
     "close": "Stäng",
-    "cta": "Prova",
     "message": "Fullfjädrad produktionsklar DTC-starter."
   },
   "RegionSelect": {
