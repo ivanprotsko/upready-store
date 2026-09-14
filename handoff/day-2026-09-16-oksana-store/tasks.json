@@ -1,0 +1,527 @@
+{
+  "project": {
+    "id": "b29f7dd2-d35c-442d-9636-3c55da1eccf7",
+    "base": "dev",
+    "repo": "ivanprotsko/upready-store",
+    "mainCheckout": "/Users/ivanprotsko/upready/projects/upready-store"
+  },
+  "tag": "day-2026-09-16",
+  "tickSec": 60,
+  "maxSlots": 6,
+  "lanes": {
+    "build": 3,
+    "data": 1,
+    "deploy": 1,
+    "qa": 1,
+    "accept": 2
+  },
+  "stall": {
+    "nudgeMin": 150,
+    "relaunchMin": 210,
+    "maxAttempts": 3
+  },
+  "acceptor": {
+    "model": "opus",
+    "effort": "medium",
+    "maxMin": 90,
+    "maxRounds": 2,
+    "headQuietMin": 4
+  },
+  "ui": {
+    "port": 5390
+  },
+  "live": {
+    "links": [
+      "https://cherkashino.shipshift.dev/ru — витрина магазина Оксаны (после x01; сейчас 502, тенанта ещё нет)",
+      "https://panel-store.upready.dev — панель владельца магазина",
+      "https://start.upready.dev/start/onboarding — мастер создания магазина",
+      "https://shipshift.dev/app — суперадминка движка (раздел «Магазины»)",
+      "https://upready.dev — лендинг платформы"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "t01-checkout-thankyou",
+      "title": "Чинить «Application error» на странице «Спасибо» после оплаты",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-checkout-thankyou",
+      "deps": [],
+      "priority": 1,
+      "prompt": "t01-checkout-thankyou.md",
+      "acceptance": "После оформления заказа на витрине тенанта страница подтверждения отдаёт 200 и показывает номер заказа; в логе витрины нет digest 2524605575; репро-скрипт a37-order-final.mjs проходит до конца",
+      "why": "Разрыв №2 из инвентаря возможностей: покупатель видит краш ровно в момент оплаты — без этого магазин нельзя показывать покупателям"
+    },
+    {
+      "id": "t02-cherkashina-port",
+      "title": "Перенести миграцию магазина Оксаны в dev (скрипты + локаль страниц)",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-cherkashina-port",
+      "deps": [],
+      "priority": 2,
+      "prompt": "t02-cherkashina-port.md",
+      "acceptance": "На dev лежат скрипты cherkashina-migration и правка локали публичных страниц тенанта; seam-тест tenants-pages.spec.ts зелёный; GET /store/tenant/pages?locale=ru отдаёт русский текст на локальном стенде",
+      "why": "Ветка feat/cherkashina-tenant не слита, база отстала, в ней 43k строк снимка каталога — в dev нужны только скрипты импорта и правка локали, иначе живой магазин Оксаны нечем наполнить и его страницы будут по-английски"
+    },
+    {
+      "id": "t03-tenant-secrets-robokassa",
+      "title": "Пер-тенантные секреты интеграций и приём оплат Robokassa (тестовый режим)",
+      "kind": "build",
+      "lane": "build",
+      "model": "fable",
+      "effort": "high",
+      "branch": "feat/day16-tenant-secrets-psp",
+      "deps": [],
+      "priority": 3,
+      "prompt": "t03-tenant-secrets-robokassa.md",
+      "acceptance": "Владелец сохраняет ключи Robokassa в панели, значение в БД зашифровано; заказ на витрине тенанта уходит на страницу оплаты Robokassa в тестовом режиме и возвращается оплаченным; у другого тенанта провайдер не появляется",
+      "why": "Разрыв №1: платить в магазине нечем. Открытый вопрос q-cherkashina-tenant-secrets блокирует и Robokassa, и ApiShip — его надо закрыть кодом"
+    },
+    {
+      "id": "r01-gap-matrix",
+      "title": "Матрица разрывов против InSales Комбо с приоритетом",
+      "kind": "run",
+      "lane": "data",
+      "model": "sonnet",
+      "effort": "medium",
+      "cwd": "mission",
+      "deps": [],
+      "priority": 4,
+      "prompt": "r01-gap-matrix.md",
+      "maxMin": 90,
+      "maxAttempts": 2,
+      "why": "Мерка дня: 169 функций конкурента против инвентаря нашей платформы — нужен один файл, по которому вечером считают, что закрыто",
+      "acceptance": "Файл research/gap-matrix.md: каждая функция InSales Комбо с вердиктом есть/частично/нет, ссылкой на путь в нашем коде и приоритетом для реального магазина"
+    },
+    {
+      "id": "t04-shipping-tariffs",
+      "title": "Доставка тенанта: зоны, тарифы по весу, экран в панели, трек вручную",
+      "kind": "build",
+      "lane": "build",
+      "model": "fable",
+      "effort": "high",
+      "branch": "feat/day16-shipping-tariffs",
+      "deps": [],
+      "priority": 5,
+      "prompt": "t04-shipping-tariffs.md",
+      "acceptance": "Владелец заводит способ доставки с человеческим названием и тарифом по весу и зоне; в чекауте цена доставки считается от веса корзины и региона; владелец вписывает трек-номер в заказ и покупатель видит его в кабинете",
+      "why": "Оксана согласовала ручную отправку с формулой «цена за кг» и ручным треком (#463839, #463691); сейчас у тенанта две плоские опции с машинными названиями"
+    },
+    {
+      "id": "t05-page-keys",
+      "title": "Произвольные страницы магазина: доставка, FAQ, возврат, опт, согласия",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-page-keys",
+      "deps": [],
+      "priority": 6,
+      "prompt": "t05-page-keys.md",
+      "acceptance": "Владелец создаёт страницу со своим ключом и заголовком, она открывается по /<locale>/pages/<key> и появляется в подвале; пять прежних ключей продолжают работать",
+      "why": "Ключей tenant_page только пять, а у Оксаны не переносятся delivery, faq, wholesale, returns, consent, consent-marketing, return-memo"
+    },
+    {
+      "id": "t06-locale-currency",
+      "title": "Язык и валюта магазина настраиваются владельцем, а не сборкой",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-locale-currency",
+      "deps": [],
+      "priority": 7,
+      "prompt": "t06-locale-currency.md",
+      "acceptance": "В панели владелец выбирает язык по умолчанию и список включённых языков; витрина этого тенанта открывается на выбранном языке с его валютой, переключатель показывает только включённые языки",
+      "why": "Магазину Оксаны нужен русский по умолчанию и рубль, а сейчас это переменные сборки на все магазины сразу; 36 языков в переключателе на всех"
+    },
+    {
+      "id": "d01-deploy-mt-1",
+      "title": "Деплой dev на живой хост, волна 1",
+      "kind": "run",
+      "lane": "deploy",
+      "model": "sonnet",
+      "effort": "medium",
+      "cwd": "main",
+      "deps": [],
+      "priority": 8,
+      "prompt": "d01-deploy-mt-1.md",
+      "maxMin": 120,
+      "maxAttempts": 2,
+      "doneCheck": {
+        "url": "https://start.upready.dev/start/onboarding",
+        "expect": 200
+      },
+      "acceptance": "Образы пересобраны, контейнеры подняты, витрина, панель и движок отвечают 200, дамп БД снят до операции",
+      "why": "Живой хост должен нести сегодняшний код до создания магазина Оксаны; первый деплой заодно проверяет, что рецепт рабочий"
+    },
+    {
+      "id": "t07-catalog-filters-hero",
+      "title": "Фильтры каталога без дублей и главная с собственным hero",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-catalog-filters-hero",
+      "deps": [],
+      "priority": 9,
+      "prompt": "t07-catalog-filters-hero.md",
+      "acceptance": "В каталоге один фильтр на одинаковое имя опции (было 25 чипов на 38 товаров); hero главной показывает заголовок, текст и картинку из панели в выбранной композиции",
+      "why": "У каталога Оксаны 38 собственных опций дают ряд из 25 чипов, а выбранная композиция hero игнорирует картинку владельца"
+    },
+    {
+      "id": "x01-tenant-live-import",
+      "title": "Создать тенанта cherkashino на живом хосте и залить каталог",
+      "kind": "run",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "cwd": "/Users/ivanprotsko/upready/worktrees/upready-store/feat/cherkashina-tenant",
+      "deps": [
+        "d01-deploy-mt-1"
+      ],
+      "priority": 10,
+      "prompt": "x01-tenant-live-import.md",
+      "maxMin": 150,
+      "maxAttempts": 2,
+      "doneCheck": {
+        "url": "https://cherkashino.shipshift.dev/ru",
+        "expect": 200
+      },
+      "acceptance": "https://cherkashino.shipshift.dev/ru отдаёт 200 с 29 опубликованными товарами в 9 категориях, картинки открываются по своим URL, страницы оферты и контактов читаются по-русски",
+      "why": "Главная цель дня: магазин Оксаны должен стоять на живом хосте с её каталогом, а не на локальном стенде"
+    },
+    {
+      "id": "t08-order-notifications",
+      "title": "Уведомления о заказе: письмо покупателю и Telegram владельцу",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-order-notifications",
+      "deps": [],
+      "priority": 11,
+      "prompt": "t08-order-notifications.md",
+      "acceptance": "После заказа покупателю уходит письмо со ссылкой на витрину его магазина, владельцу приходит сообщение в Telegram с номером, суммой и составом заказа; оба канала настраиваются владельцем в панели",
+      "why": "Разрыв №3: писем нет вовсе, владельцу о заказе не сообщает никто, а ссылки в письмах ведут на домен движка"
+    },
+    {
+      "id": "t09-reviews",
+      "title": "Отзывы о товарах: модель, панель, витрина, импорт 332 отзывов",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-reviews",
+      "deps": [],
+      "priority": 12,
+      "prompt": "t09-reviews.md",
+      "acceptance": "Покупатель оставляет отзыв с оценкой, владелец публикует или скрывает его в панели, на карточке товара видны средняя оценка и отзывы; скрипт импорта заливает отзывы Оксаны из выгрузки",
+      "why": "Функции нет вовсе, у Оксаны 332 отзыва и 14 461 отзыв в архиве WB; у InSales отзывы — базовая функция карточки"
+    },
+    {
+      "id": "t10-blog",
+      "title": "Журнал магазина: статьи в панели, лента и статья на витрине",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-blog",
+      "deps": [],
+      "priority": 13,
+      "prompt": "t10-blog.md",
+      "acceptance": "Владелец пишет и публикует статью в панели, она открывается на витрине по /<locale>/journal/<slug>, лента журнала и ссылка в меню работают, статья попадает в sitemap",
+      "why": "Функции нет, у Оксаны 18 готовых статей и вся концепция «магазин-журнал» и SEO-трафика построена на блоге (#460352)"
+    },
+    {
+      "id": "t11-seo-redirects",
+      "title": "SEO магазина: мета-поля, sitemap тенанта, 301 со старых адресов",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-seo-redirects",
+      "deps": [],
+      "priority": 14,
+      "prompt": "t11-seo-redirects.md",
+      "acceptance": "У товара, категории и страницы владелец задаёт title и description, они попадают в head; sitemap.xml тенанта перечисляет только его товары; постраничные 301 со старых адресов olavka.ru отдают 301 на новый адрес",
+      "why": "Разрыв №13: SEO-полей нет, а у Оксаны 38 товаров и 9 категорий с живыми адресами на olavka.ru, которые нельзя терять"
+    },
+    {
+      "id": "t12-legal-requisites",
+      "title": "Реквизиты продавца подставляются в юридические тексты",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-legal-requisites",
+      "deps": [],
+      "priority": 15,
+      "prompt": "t12-legal-requisites.md",
+      "acceptance": "Владелец заполняет реквизиты в панели, плейсхолдеры в оферте и политике заменяются значениями, незаполненные видны как есть и перечислены владельцу списком «чего не хватает»",
+      "why": "В перенесённых текстах 16 плейсхолдеров и подставлять их нечем; без оферты и политики Robokassa не пройдёт модерацию (#463427)"
+    },
+    {
+      "id": "x02-domains",
+      "title": "Привязать домены cherkashino.ru и черкашино.рф к магазину",
+      "kind": "run",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "cwd": "main",
+      "deps": [
+        "x01-tenant-live-import"
+      ],
+      "priority": 16,
+      "prompt": "x02-domains.md",
+      "maxMin": 90,
+      "maxAttempts": 2,
+      "acceptance": "Домен записан в тенанте и виден в ingress; если DNS недоступен — файл с точной инструкцией для Ивана и работающий канонический адрес на поддомене",
+      "why": "Магазину нужен собственный адрес; домены куплены, но данные администратора с ошибкой и идентификация не пройдена — без доступа к DNS задача обязана оставить точную инструкцию, а не догадку"
+    },
+    {
+      "id": "t13-customers-screen",
+      "title": "Клиенты в панели: список, поиск, карточка, выгрузка",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-customers-screen",
+      "deps": [],
+      "priority": 17,
+      "prompt": "t13-customers-screen.md",
+      "acceptance": "В панели есть раздел «Клиенты»: список только своих покупателей, поиск по имени и почте, карточка с заказами, выгрузка CSV",
+      "why": "Разрыв №7: экрана нет вовсе, API только на одного клиента; у InSales клиентская база — базовая функция"
+    },
+    {
+      "id": "t14-product-import",
+      "title": "Импорт и выгрузка каталога таблицей CSV или XLSX",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-product-import",
+      "deps": [],
+      "priority": 18,
+      "prompt": "t14-product-import.md",
+      "acceptance": "Владелец выгружает каталог в CSV, правит цену и остаток, загружает обратно и видит изменения на витрине; файл с ошибками отклоняется построчным отчётом, ничего не ломая",
+      "why": "Разрыв №8: импорта нет; у InSales Комбо это платная опора тарифа, а Оксане нужно править 38 позиций пачкой, а не по одной"
+    },
+    {
+      "id": "t15-product-attributes",
+      "title": "Произвольные характеристики товара и фильтры по ним",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-product-attributes",
+      "deps": [],
+      "priority": 19,
+      "prompt": "t15-product-attributes.md",
+      "acceptance": "Владелец заводит характеристику (состав, объём, страна) и заполняет её у товара; она видна на карточке блоком «Характеристики» и работает фильтром в каталоге",
+      "why": "У InSales свойства товара — основа карточки и SEO-фильтров; в макетах Оксаны характеристики названы прямо (артикул, состав, объём, страна), а у нас только вес и габариты Medusa"
+    },
+    {
+      "id": "t16-owner-branding",
+      "title": "Бренд владельца: логотип, цвета, фавикон, картинка для соцсетей",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-owner-branding",
+      "deps": [],
+      "priority": 20,
+      "prompt": "t16-owner-branding.md",
+      "acceptance": "Владелец загружает логотип и фавикон и задаёт основной цвет; витрина показывает их в шапке, во вкладке браузера и в карточке ссылки, у другого тенанта остаётся его оформление",
+      "why": "Разрыв №9: владелец меняет только пресет темы; у Оксаны согласован единый фирстиль и блок студии в подвале (#469140, #469345)"
+    },
+    {
+      "id": "t17-analytics",
+      "title": "Счётчики магазина и сводка продаж в панели",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day16-analytics",
+      "deps": [],
+      "priority": 21,
+      "prompt": "t17-analytics.md",
+      "acceptance": "Владелец вписывает свой счётчик Яндекс.Метрики или GA4, он подключается только на его витрине; главная панели показывает выручку, число заказов и средний чек за период",
+      "why": "Разрыв №10: один идентификатор GA4 на все магазины и тот не задан; дашборда продаж нет, а Оксана просила сводную аналитику (#468851)"
+    },
+    {
+      "id": "d02-deploy-mt-2",
+      "title": "Деплой dev на живой хост, волна 2",
+      "kind": "run",
+      "lane": "deploy",
+      "model": "sonnet",
+      "effort": "medium",
+      "cwd": "main",
+      "deps": [
+        "d01-deploy-mt-1"
+      ],
+      "priority": 22,
+      "prompt": "d02-deploy-mt-2.md",
+      "maxMin": 120,
+      "maxAttempts": 2,
+      "doneCheck": {
+        "url": "https://cherkashino.shipshift.dev/ru",
+        "expect": 200
+      },
+      "acceptance": "На живом хосте стоит dev со всеми смёрженными к этому часу задачами, магазин Оксаны и панель отвечают 200, дамп снят до операции",
+      "why": "Без второго деплоя смёрженные за день задачи не попадут на живой магазин и QA проверит вчерашний код",
+      "softDeps": [
+        "t01-checkout-thankyou",
+        "t02-cherkashina-port",
+        "t03-tenant-secrets-robokassa",
+        "t04-shipping-tariffs",
+        "t05-page-keys",
+        "t06-locale-currency",
+        "t07-catalog-filters-hero"
+      ]
+    },
+    {
+      "id": "x03-orders-archive",
+      "title": "Архив заказов и покупателей старого магазина для Оксаны",
+      "kind": "run",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "cwd": "mission",
+      "deps": [],
+      "priority": 23,
+      "prompt": "x03-orders-archive.md",
+      "maxMin": 90,
+      "maxAttempts": 2,
+      "acceptance": "Два файла CSV и краткая записка: 88 заказов с составом и суммами и 46 покупателей с контактами, числа сверены с запросом к исходной базе",
+      "why": "Заказы и покупатели сознательно не переносятся между операторами, но история продаж Оксане нужна — отдаём выгрузкой"
+    },
+    {
+      "id": "q01-qa-customer",
+      "title": "Живая приёмка магазина глазами покупателя",
+      "kind": "run",
+      "lane": "qa",
+      "model": "opus",
+      "effort": "high",
+      "cwd": "main",
+      "deps": [
+        "x01-tenant-live-import",
+        "d02-deploy-mt-2"
+      ],
+      "priority": 24,
+      "prompt": "q01-qa-customer.md",
+      "maxMin": 150,
+      "maxAttempts": 2,
+      "acceptance": "Пройден путь главная → каталог → товар → корзина → чекаут → оплата → «Спасибо» → письмо, на 1280 и на 390 px, со снимками каждого шага; каждый дефект заведён задачей через add-task с готовым промптом",
+      "why": "Приёмка = реальность (18f): продукт считается готовым к покупателям только когда покупателем прошли живой магазин клиента"
+    },
+    {
+      "id": "q02-qa-owner",
+      "title": "Живая приёмка панели глазами владелицы магазина",
+      "kind": "run",
+      "lane": "qa",
+      "model": "opus",
+      "effort": "high",
+      "cwd": "main",
+      "deps": [
+        "x01-tenant-live-import",
+        "d02-deploy-mt-2"
+      ],
+      "priority": 25,
+      "prompt": "q02-qa-owner.md",
+      "maxMin": 150,
+      "maxAttempts": 2,
+      "acceptance": "Владелец входит в панель, правит товар и цену, меняет главную, заводит страницу и промокод, обрабатывает заказ и вписывает трек — каждый шаг со снимком и временем отклика; дефекты заведены задачами",
+      "why": "Вторая половина приёмки: магазин готов, только если им может управлять сама Оксана, а не разработчик через API"
+    },
+    {
+      "id": "d03-deploy-mt-3",
+      "title": "Деплой dev на живой хост, волна 3",
+      "kind": "run",
+      "lane": "deploy",
+      "model": "sonnet",
+      "effort": "medium",
+      "cwd": "main",
+      "deps": [
+        "d02-deploy-mt-2"
+      ],
+      "priority": 26,
+      "prompt": "d03-deploy-mt-3.md",
+      "maxMin": 120,
+      "maxAttempts": 2,
+      "doneCheck": {
+        "url": "https://cherkashino.shipshift.dev/ru",
+        "expect": 200
+      },
+      "acceptance": "На живом хосте стоит финальный dev дня, магазин и панель отвечают 200, список смёрженных за день задач записан в отчёт",
+      "why": "Последний деплой перед итоговой сверкой — чтобы отчёт Ивану описывал то, что действительно стоит на живом магазине",
+      "softDeps": [
+        "t08-order-notifications",
+        "t09-reviews",
+        "t10-blog",
+        "t11-seo-redirects",
+        "t12-legal-requisites",
+        "t13-customers-screen",
+        "t14-product-import",
+        "t15-product-attributes",
+        "t16-owner-branding",
+        "t17-analytics"
+      ]
+    },
+    {
+      "id": "q03-gap-recheck",
+      "title": "Итоговая сверка с матрицей разрывов и отчёт по мерке InSales",
+      "kind": "run",
+      "lane": "qa",
+      "model": "opus",
+      "effort": "high",
+      "cwd": "main",
+      "deps": [
+        "q01-qa-customer",
+        "q02-qa-owner",
+        "d03-deploy-mt-3"
+      ],
+      "priority": 27,
+      "prompt": "q03-gap-recheck.md",
+      "maxMin": 120,
+      "maxAttempts": 2,
+      "acceptance": "Каждая строка gap-matrix.md получила статус на утро и на вечер с доказательством по живому адресу; посчитано, сколько функций мерки закрыто и что осталось",
+      "why": "Цель Ивана сформулирована как «весь функционал конкурента, проверенный на живом магазине» — её надо измерить, а не объявить",
+      "softDeps": [
+        "t08-order-notifications",
+        "t09-reviews",
+        "t10-blog",
+        "t11-seo-redirects",
+        "t12-legal-requisites",
+        "t13-customers-screen",
+        "t14-product-import",
+        "t15-product-attributes",
+        "t16-owner-branding",
+        "t17-analytics"
+      ]
+    },
+    {
+      "id": "r02-handover",
+      "title": "Итог для Ивана и письмо Оксане одним списком",
+      "kind": "run",
+      "lane": "data",
+      "model": "sonnet",
+      "effort": "medium",
+      "cwd": "mission",
+      "deps": [
+        "q03-gap-recheck"
+      ],
+      "priority": 28,
+      "prompt": "r02-handover.md",
+      "maxMin": 60,
+      "maxAttempts": 2,
+      "acceptance": "Два файла: сводка для Ивана со ссылками и нерешёнными развилками и готовый текст сообщения Оксане — пронумерованный список того, что от неё нужно, простым языком",
+      "why": "Оксана читает только короткие пронумерованные списки (#469363, §7 дайджеста), а Ивану нужен один экран со ссылками и решениями"
+    }
+  ]
+}

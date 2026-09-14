@@ -31,7 +31,7 @@ if [ -f "$D/ARMED" ] && [ -f "$D/tasks.json" ] && node -e 'const t=JSON.parse(re
   fi
 fi
 # 5. Пульс диспетчера: если процесс жив, но тик старше 10 мин — перезапуск
-if alive "$D/dispatcher.pid"; then
+if alive "$D/dispatcher.pid" && [ "$(ps -o etimes= -p "$(cat "$D/dispatcher.pid")" 2>/dev/null | tr -d " ")" -gt 600 ] 2>/dev/null; then
   if ! node -e 'const s=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));const t=Date.parse(s.dispatcher.lastTick||0);process.exit(Date.now()-t<600000?0:1)' "$D/state.json" 2>/dev/null; then
     echo "[$(ts)] dispatcher stale tick → restart" >> "$LOG/runner.log"; kill "$(cat "$D/dispatcher.pid")" 2>/dev/null; rm -f "$D/dispatcher.pid"
   fi
