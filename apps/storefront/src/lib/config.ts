@@ -2,6 +2,7 @@ import { getLocaleHeader } from "@lib/util/get-locale-header"
 import Medusa, { type FetchArgs, type FetchInput } from "@medusajs/js-sdk"
 import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
+import { resolveTenantByHost } from "@lib/tenant/resolve"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -34,6 +35,8 @@ const FALLBACK_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
  * the right answer, so the throw is the branch rather than an error.
  */
 async function getPublishableKeyHeader(): Promise<Record<string, string>> {
+  let host: string | null = null
+
   try {
     const requestHeaders = await nextHeaders()
     const tenantKey = decodeTenantHeaderValue(requestHeaders.get("x-tenant-key"))
@@ -41,7 +44,34 @@ async function getPublishableKeyHeader(): Promise<Record<string, string>> {
     if (tenantKey) {
       return { "x-publishable-api-key": tenantKey }
     }
+
+    host = requestHeaders.get("host")
   } catch {}
+
+  /*
+   * The middleware header is missing but the request still names a host: resolve
+   * the shop the same way the middleware does. `GET /storefront/by-host` needs no
+   * key itself (`lib/tenant/resolve.ts`) and answers from that module's own TTL
+   * cache, so this costs nothing on the warm path.
+   *
+   * Why it exists: after `placeOrder()` redirects, the confirmation page rendered
+   * WITHOUT `x-tenant-key`, and with `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`
+   * deliberately unset on the multi-tenant deployment the fallback below was an
+   * empty object — so the Store API answered 400 and the customer who had just
+   * paid saw «Application error» (measured on the live stand 2026-09-14, three
+   * orders in a row, digest 2524605575; any later visit to the same URL rendered
+   * the order fine). This branch only ever runs where the old code returned no
+   * key at all, so it can add no failure that was not already certain.
+   */
+  if (host) {
+    try {
+      const tenant = await resolveTenantByHost(MEDUSA_BACKEND_URL, host)
+
+      if (tenant?.publishableKey) {
+        return { "x-publishable-api-key": tenant.publishableKey }
+      }
+    } catch {}
+  }
 
   return FALLBACK_PUBLISHABLE_KEY
     ? { "x-publishable-api-key": FALLBACK_PUBLISHABLE_KEY }
