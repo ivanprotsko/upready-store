@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "chore-marketplace",
+  "session": "s-2026-09-14",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-14T17:25:47+08:00",
+  "status": "2026-09-14 17:25 WITA: chore/marketplace — по просьбе Ивана добавлена короткая памятка для сотрудника магазина artifacts/docs/2026-09-14-wb-api-token-instruction-for-seller.md (10 шагов: базовый токен, 6 категорий, только чтение; важно — токен создаёт только владелец кабинета). Техническая версия 2026-09-14-wb-api-token-categories.md сохранена как есть. Следующее: токен A от владельца → приёмка §3.3 (t-2026-09-14-wb-token-acceptance)"
+}
