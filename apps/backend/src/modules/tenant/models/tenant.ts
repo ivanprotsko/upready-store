@@ -4,6 +4,7 @@ import TenantDomain from "./tenant-domain";
 import TenantHandleAlias from "./tenant-handle-alias";
 import TenantHomeConfig from "./tenant-home-config";
 import TenantIntegrationSecret from "./tenant-integration-secret";
+import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
 
@@ -54,6 +55,11 @@ const Tenant = model.define("tenant", {
   // Credentials of the shop's own third-party accounts, encrypted at rest
   // (`tenant-integration-secret.ts`, t03-tenant-secrets-robokassa).
   integration_secrets: model.hasMany(() => TenantIntegrationSecret, {
+    mappedBy: "tenant",
+  }),
+  // Who hears about a new order and how (`tenant-notification-settings.ts`,
+  // t08-order-notifications). One row per shop, created on first use.
+  notification_settings: model.hasOne(() => TenantNotificationSettings, {
     mappedBy: "tenant",
   }),
 });

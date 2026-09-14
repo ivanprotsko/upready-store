@@ -95,6 +95,12 @@ export const Home = () => {
           >
             {t("paymentSettings.title")}
           </Link>
+          <Link
+            to="/settings/notifications"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("notificationSettings.title")}
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>
