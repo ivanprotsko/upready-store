@@ -32,3 +32,17 @@ NEXT: Phase 0 — bootstrap, then Phase 2 (landing PRs #6→#12→#11) and Phase
 - Токен бота существует: .env.example PR #12 называет TELEGRAM_UPREADY_STORE_BOT в .env репозитория; getMe по username upreadystore_bot проверен автором PR 2026-09-14.
 
 NEXT: домержить PR #12 (GitHub ещё пересчитывал mergeable), затем PR #7 и #11; собрать лендинг и опубликовать на upready.dev (CF Pages проект upready-landing); параллельно — приёмка MT по отчётам разведчиков.
+
+## 2026-09-14 10:34 WITA — Phase 2 ЗАКРЫТА: лендинг живёт на upready.dev
+- **DONE: PR #12 (feature/onboarding) смержен в dev.** Конфликт был содержательный: в dev от PR #6 — переключатель периода оплаты и новая структура карточки, в #12 — маршруты кнопок. Слито ОБА: структура карточки из #6, маршрут кнопки из #12 (merge-коммит f0ec52b). merged_at 2026-09-14T02:27:06Z.
+- **DONE: PR #11 (feature/upreadystore_bot) смержен в dev** (конфликт только HANDOFF.json). merged_at 2026-09-14T02:27:34Z.
+- **DONE: PR #13 — продакшен-head лендинга** (title/description/canonical/og/twitter, og-обложка 1200×630 с живой страницы, favicon.svg) + починена устаревшая проверка CTA в scripts/accept-homepage.mjs. merged_at 2026-09-14T02:33:38Z.
+- **DONE: ДЕПЛОЙ.** `apps/homepage/port/dist` опубликован в Cloudflare Pages, проект upready-landing, ветка main (прод): деплой 219cc618. Превью для проверки было 7bccc644 / night-tribute.upready-landing.pages.dev. Сборка: VITE_FUNNEL_BASE_URL=https://shiftship.dev, VITE_TELEGRAM_BOT=upreadystore_bot.
+- **Живая приёмка https://upready.dev/ — PASS 34 из 34** (node scripts/accept-homepage.mjs --url https://upready.dev/), консоль чиста на 1440×900 и 390×844. upready.dev и www.upready.dev = 200, /og-cover.png = 200, /favicon.svg = 200.
+  - Адреса кнопок на ЖИВОЙ странице: hero/nav/plan-free/final → https://shiftship.dev/start/onboarding; plan-pro → https://t.me/upreadystore_bot?start=plan_2; plan-ultra → …plan_3.
+  - Кадры и лог: handoff/night-2026-09-14-tribute/artifacts/{live-upready-dev-1440.png,live-upready-dev-390.png,accept-upready-dev.log}.
+- Защищённая инфраструктура цела: https://hooks.svgnoon.upready.dev/health = 200 после всех операций.
+- Откат, если понадобится: предыдущий прод-деплой CF Pages — 7494722c (старый лендинг из репозитория ~/upready/projects/upready-dev, коммит 445b8b6).
+- Разведка бота (bot-audit, замеры): токен TELEGRAM_UPREADY_STORE_BOT лежит в apps/bot/.env, getMe подтвердил username upreadystore_bot; тесты 15/15, tsc rc=0; бот СЕЙЧАС работает как голый foreground-процесс pid 93693 на Маке Ивана (без супервизора, умрёт со сном ноутбука); на Coolify-хосте его нет; 6 переменных TRIBUTE_URL_PLAN_* не заданы — бот честно пишет «оплата подключается» вместо мёртвых кнопок. Отчёт: handoff/night-2026-09-14-tribute/recon-bot.md.
+
+NEXT: Phase 3 — MT-платформа. Дождаться mt-audit, поднять/проверить воронку → создание магазина → субдомен по HTTPS → канонический домен → панель тенанта; затем надёжный деплой бота на always-on хост.
