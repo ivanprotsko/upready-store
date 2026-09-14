@@ -1,0 +1,38 @@
+[32minfo[39m:    Linting project...
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/telegram/link/route.ts
+  105:9  warning  Avoid calling `tenantModule.updateTenantNotificationSettings(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/tenants/domains/[id]/primary/route.ts
+   86:11  warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+   89:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  115:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/tenants/me/password/route.ts
+  76:45  warning  Avoid calling `authModuleService.updateProvider(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/tenants/pages/[key]/route.ts
+  102:13  warning  Avoid calling `tenantModuleService.updateTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  110:13  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  160:9   warning  Avoid calling `tenantModuleService.deleteTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/tenants/pages/route.ts
+  78:25  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/api/tenants/payment-settings/route.ts
+  70:11  warning  Avoid calling `tenantModule.updateTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  77:11  warning  Avoid calling `tenantModule.createTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  96:11  warning  Avoid calling `tenantModule.softDeleteTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/modules/tariff-fulfillment/service.ts
+  50:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend/src/shipping-tariffs/tariff.ts
+  198:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  213:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  219:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  229:15  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  245:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+✖ 18 problems (0 errors, 18 warnings)
+[33mwarn[39m:    Lint produced 18 warning(s).

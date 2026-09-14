@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T05:03:03+08:00",
-  "status": "2026-09-15 05:03 WITA: приёмка t05-page-keys раунд 1 — PR #24 MERGED (997933900b, GitHub-леджер); независимые замеры стенда :9250/:8141 зелёные, сьют 12/12, полный 128/129 (падение tenants-domains предсуществующее); ниты в комментарии к PR",
+  "updated": "2026-09-15T05:54:44+08:00",
+  "status": "2026-09-15 05:54 WITA: приёмка PR #28 t08-order-notifications — MERGED; свои замеры: seam 9/9, unit 95/96 (падение давнее и на dev), tsc/lint/бот/панель зелёные, изоляция двух магазинов и ссылки на витрину подтверждены",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1223,6 +1223,12 @@
       "id": "q-kakoy-cname-adres-panel-vladeltsa-pokazyvaet",
       "question": "Какой CNAME-адрес панель владельца показывает вживую? В бандле mt-panel (/assets/index-BgEosJYB.js, образ от 2026-09-14) нет ни одной строки stores.*, хотя STORES_DOMAIN=stores.shipshift.dev на стенде задан. Фолбэк в коде (apps/tenant-panel/src/routes/settings/domains/domains.tsx:45) — stores.upready.dev, который НЕ резолвится. Если панель показывает фолбэк, владельцам выдаётся нерабочая инструкция. Проверяется открытием https://panel-store.upready.dev → Настройки → Адрес магазина.",
       "asked": "2026-09-15"
+    },
+    {
+      "id": "q-dispetcher-dnya-2026-09-16-oksana-cherkashina",
+      "question": "Диспетчер дня 2026-09-16 (Оксана Черкашина) запустил ДВА процесса-воркера на один и тот же таск t07-catalog-filters-hero в один и тот же worktree одновременно (PID 99137+99144, разные SUPERSET_TERMINAL_ID, общий SUPERSET_WORKSPACE_PATH) — оба конкурентно правили те же файлы. Я убил дубликат (99137) и продолжил. Не проверял, был ли этот баг у остальных тасков дня (t05/t06/t08…) — стоит проверить superset ws list на дубли workspace/agent на один task_id и почему dispatcher.mjs это допустил.",
+      "asked": "2026-09-15",
+      "audience": "ivan"
     }
   ],
   "sessions": [
