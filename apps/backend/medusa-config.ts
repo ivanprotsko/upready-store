@@ -142,6 +142,8 @@ module.exports = defineConfig({
     },
     // Shared multitenancy: tenant + tenant admin, actor type "tenant", /tenants/*.
     { resolve: "./src/modules/tenant" },
+    // Product reviews, one row per (tenant, product, language) — t09-reviews.
+    { resolve: "./src/modules/product-review" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

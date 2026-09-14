@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "Alle anzeigen"
   },
+  "ProductReviews": {
+    "heading": "Bewertungen",
+    "ratingSummary": "{average} von 5 · {count, plural, one {# Bewertung} other {# Bewertungen}}",
+    "ratingValue": "{value} von 5",
+    "formHeading": "Ihre Bewertung",
+    "ratingLabel": "Bewertung",
+    "nameLabel": "Ihr Name",
+    "titleLabel": "Überschrift (optional)",
+    "bodyLabel": "Ihr Text",
+    "submit": "Bewertung senden",
+    "pendingNotice": "Vielen Dank. Ihre Bewertung erscheint, sobald der Shop sie freigegeben hat.",
+    "signInPrompt": "Melden Sie sich an, um eine Bewertung zu schreiben.",
+    "error": "Die Bewertung konnte nicht gesendet werden. Bitte erneut versuchen.",
+    "ownerReply": "Antwort des Shops",
+    "previousPage": "Zurück",
+    "nextPage": "Weiter",
+    "pageOf": "Seite {page} von {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Einfache Rückgabe",
     "easyReturnsDesc": "Senden Sie Ihr Produkt einfach zurück und wir erstatten Ihr Geld. Ohne Rückfragen – wir sorgen dafür, dass Ihre Rückgabe unkompliziert verläuft.",

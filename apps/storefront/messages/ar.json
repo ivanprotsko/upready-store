@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "عرض الكل"
   },
+  "ProductReviews": {
+    "heading": "التقييمات",
+    "ratingSummary": "{average} من 5 · {count, plural, one {تقييم واحد} two {تقييمان} few {# تقييمات} many {# تقييمًا} other {# تقييم}}",
+    "ratingValue": "{value} من 5",
+    "formHeading": "تقييمك",
+    "ratingLabel": "التقييم",
+    "nameLabel": "اسمك",
+    "titleLabel": "عنوان (اختياري)",
+    "bodyLabel": "نص التقييم",
+    "submit": "إرسال التقييم",
+    "pendingNotice": "شكرًا لك. سيظهر تقييمك بعد موافقة المتجر عليه.",
+    "signInPrompt": "سجّل الدخول لكتابة تقييم.",
+    "error": "تعذّر إرسال التقييم. حاول مرة أخرى.",
+    "ownerReply": "رد المتجر",
+    "previousPage": "السابق",
+    "nextPage": "التالي",
+    "pageOf": "صفحة {page} من {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "إرجاع سهل",
     "easyReturnsDesc": "ما عليك سوى إرجاع المنتج وسنقوم برد أموالك. دون أي أسئلة، وسنبذل قصارى جهدنا لجعل عملية الإرجاع سهلة وخالية من المتاعب.",

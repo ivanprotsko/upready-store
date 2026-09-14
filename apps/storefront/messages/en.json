@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "View all"
   },
+  "ProductReviews": {
+    "heading": "Reviews",
+    "ratingSummary": "{average} out of 5 · {count, plural, one {# review} other {# reviews}}",
+    "ratingValue": "{value} out of 5",
+    "formHeading": "Your review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Your name",
+    "titleLabel": "Headline (optional)",
+    "bodyLabel": "Your review",
+    "submit": "Send review",
+    "pendingNotice": "Thank you. Your review will appear once the shop has approved it.",
+    "signInPrompt": "Sign in to leave a review.",
+    "error": "The review could not be sent. Please try again.",
+    "ownerReply": "Shop reply",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Straightforward returns",
     "easyReturnsDesc": "Send your product back and we refund your money. We do our best to keep the return straightforward.",

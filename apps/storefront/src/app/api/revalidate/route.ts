@@ -146,6 +146,21 @@ export async function POST(req: NextRequest) {
     revalidatePath("/[locale]/(main)", "page")
   }
 
+  // t09-reviews: the shop's product reviews. The list and the average the
+  // product page shows come from one fetch with the shared `product-reviews`
+  // tag, and the moderation act that changes them happens in the PANEL, not on
+  // the storefront — so without this the owner publishes a review and the page
+  // keeps showing the old list and the old average until the cache entry ages
+  // out. Measured on the stand 2026-09-15: the API answered «3 отзыва, 4.7»
+  // while the page still read «5 из 5 · 2 отзыва».
+  //
+  // The product page is also the page that carries the rating next to the title
+  // and the `aggregateRating` in its JSON-LD, so the path goes with the tag.
+  if (body.type === "tenant.reviews") {
+    revalidateTag("product-reviews")
+    revalidatePath(`/[locale]/(main)/products/[handle]`, "page")
+  }
+
   // t10-blog: the shop's journal. One shared cache tag
   // (`lib/data/tenant-articles.ts`) carries the feed, every article page, the
   // «does this shop have a journal» check the navigation reads, and the

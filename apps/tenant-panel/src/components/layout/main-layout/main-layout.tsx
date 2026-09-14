@@ -1,5 +1,6 @@
 import {
   ChartBar,
+  ChatBubbleLeftRight,
   DocumentText,
   EllipsisHorizontal,
   Folder,
@@ -236,6 +237,12 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <RocketLaunch />,
       label: t("app.nav.main.shipping", { defaultValue: "Delivery" }),
       to: "/shipping",
+    },
+    {
+      // t09-reviews: product reviews and their moderation (routes/reviews).
+      icon: <ChatBubbleLeftRight />,
+      label: t("app.nav.main.reviews", { defaultValue: "Reviews" }),
+      to: "/reviews",
     },
   ]
 }

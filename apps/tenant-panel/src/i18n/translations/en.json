@@ -214,6 +214,7 @@
         "extensions": "Extensions"
       },
       "main": {
+        "reviews": "Reviews",
         "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",

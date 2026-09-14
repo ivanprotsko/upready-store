@@ -191,6 +191,27 @@ export async function buildBreadcrumbJsonLd({
 }
 
 /**
+ * The product's reviews as schema.org sees them. `null` unless the shop holds
+ * at least one PUBLISHED review of this product: Google treats
+ * `aggregateRating` as a claim about real ratings, and a shop with none has no
+ * claim to make. The number is the one the page itself shows, never a default
+ * (rule 20a: a value substituted for an absence is worse than the absence).
+ */
+function buildAggregateRating(
+  reviews: { count: number; average: number | null } | undefined
+): JsonLdNode | null {
+  if (!reviews || !reviews.count || reviews.average === null) return null
+
+  return {
+    "@type": "AggregateRating",
+    ratingValue: reviews.average,
+    reviewCount: reviews.count,
+    bestRating: 5,
+    worstRating: 1,
+  }
+}
+
+/**
  * `Product` plus one `Offer` per priced variant, and the page's
  * `BreadcrumbList`, as a single `@graph` so both nodes ship in one script tag.
  */
@@ -198,10 +219,12 @@ export async function buildProductJsonLd({
   product,
   locale,
   breadcrumbs = [],
+  reviews,
 }: {
   product: HttpTypes.StoreProduct
   locale: string
   breadcrumbs?: JsonLdCrumb[]
+  reviews?: { count: number; average: number | null }
 }): Promise<JsonLdNode> {
   const [siteName, base] = await Promise.all([getSiteName(), getRequestBaseURL()])
   const url = localeUrl(base, locale, `/products/${product.handle}`)
@@ -227,6 +250,8 @@ export async function buildProductJsonLd({
   const description = stripHtml(product.description ?? product.subtitle)
   const category = categoryPath(product)
 
+  const aggregateRating = buildAggregateRating(reviews)
+
   const productNode: JsonLdNode = {
     "@type": "Product",
     "@id": `${url}#product`,
@@ -239,6 +264,7 @@ export async function buildProductJsonLd({
     ...(category ? { category } : {}),
     ...(product.material ? { material: product.material } : {}),
     ...(strMeta(meta.mpn) ? { mpn: strMeta(meta.mpn) } : {}),
+    ...(aggregateRating ? { aggregateRating } : {}),
     // A single offer stays an object: an array of one reads as a list of
     // choices to validators.
     ...(offers.length
