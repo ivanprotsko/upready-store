@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "chore-marketplace",
+  "session": "s-2026-09-14",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-14T16:40:07+08:00",
+  "status": "2026-09-14 16:40 WITA: chore/marketplace (перебазирована на origin/dev, 0 своих коммитов, была от feat/cherkashina-tenant) — ответ по WB API-токену: artifacts/docs/2026-09-14-wb-api-token-categories.md (два источника без противоречий; базовый токен для облака; минимум для миграции = Контент+Цены и скидки+Маркетплейс+Вопросы и отзывы+Аналитика(+Статистика) только чтение; все вызовы миграции x-readonly-method=true по спекам WB; схема токенов A/B). Живого вызова нет — токен создаёт владелец. Следующее: токен A от Оксаны → приёмка §3.3"
+}
