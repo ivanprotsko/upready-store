@@ -1,0 +1,213 @@
+import type {
+  CredentialFacts,
+  MarketplaceAdapter,
+  MpKind,
+  ReadOptions,
+  ReadResult,
+  SyncDeps,
+  SyncOutcome,
+} from "../marketplace/contract";
+import { EXPIRY_WARNING_DAYS } from "../marketplace/contract";
+import { validateAdapter } from "../marketplace/guards";
+import { WB_MODULE } from "./index";
+import type WbModuleService from "./service";
+import { WB_READ_ENDPOINTS } from "./endpoints";
+import { WB_SYNC_KINDS, type WbSyncKind } from "./models/wb-sync-run";
+import { WB_MUTATIONS } from "./mutations";
+import * as normalize from "./normalize";
+import { inspectToken } from "./token";
+import { wbRead } from "./transport";
+import { runSync } from "./sync";
+
+/**
+ * Wildberries under the common contract (w12-marketplace-core).
+ *
+ * THIS FILE ADDS NOTHING TO WHAT WB CAN DO. `endpoints.ts`, `transport.ts`,
+ * `sync.ts`, `token.ts` and the `wb_*` models are untouched by this task:
+ * `wbRead` is still the single I/O point towards Wildberries and still the
+ * only one this repository has. What is new is that the core can now hold
+ * Wildberries the same way it holds Ozon, so the conformance suite, the repo
+ * lint, the panel and the projector are written once instead of twice.
+ *
+ * There is no `write`, no method parameter and no URL parameter anywhere
+ * below, and there is nowhere to add one: the contract has no member for it
+ * and `validateAdapter` refuses an adapter that grows one.
+ */
+
+/** The token a WB read needs, narrowed from the contract's `unknown`. */
+const asToken = (credentials: unknown): string => {
+  if (typeof credentials === "string") {
+    return credentials;
+  }
+  if (credentials && typeof credentials === "object" && "token" in credentials) {
+    const token = (credentials as { token?: unknown }).token;
+    if (typeof token === "string") {
+      return token;
+    }
+  }
+  throw new Error(
+    "The Wildberries adapter takes the shop's API key as a string. It was given " +
+      `${credentials === null || credentials === undefined ? "nothing" : typeof credentials}.`,
+  );
+};
+
+const read = async <T>(endpointId: string, options: ReadOptions): Promise<ReadResult<T>> => {
+  const result = await wbRead<T>(endpointId, {
+    token: asToken(options.credentials),
+    params: options.params,
+    query: options.query,
+    body: options.body,
+    tenantId: options.tenantId,
+    syncRunId: options.syncRunId,
+    journal: options.journal,
+    logger: options.logger,
+  });
+  return { status: result.status, data: result.data, endpoint: result.endpoint };
+};
+
+/**
+ * What the WB key says about itself: the JWT payload, read against WB's own
+ * documented bit table (`token.ts`, PR #71). No network call — a WB key
+ * carries its own scope, unlike Ozon's opaque string.
+ */
+const inspectCredentials = async (credentials: unknown): Promise<CredentialFacts> => {
+  const key = typeof credentials === "string" ? credentials : null;
+  const facts = inspectToken(key);
+
+  return {
+    set: Boolean(key),
+    last4: key ? (key.length >= 4 ? key.slice(-4) : "•".repeat(key.length)) : null,
+    expiresAt: facts.expiresAt,
+    expired: facts.expiresAt ? facts.expired : null,
+    expiresInDays: facts.expiresInDays,
+    expiringSoon: facts.expiringSoon,
+    readOnly: facts.readOnly,
+    readOnlySource:
+      facts.readOnly === "unknown"
+        ? null
+        : `Бит ${30} маски «s» ключа, таблица полей токена: ${facts.docUrl}`,
+    scopes: facts.categories.map((category) => ({
+      name: category.name,
+      granted: category.granted,
+    })),
+    raw: {
+      token_id: facts.tokenId,
+      seller_id: facts.sellerId,
+      kind: facts.kind,
+      sandbox: facts.sandbox,
+      mask: facts.mask,
+      bits: facts.bits,
+      doc_url: facts.docUrl,
+      expiry_warning_days: EXPIRY_WARNING_DAYS,
+    },
+    error: facts.error,
+  };
+};
+
+const wbService = (deps: SyncDeps): WbModuleService =>
+  deps.container.resolve<WbModuleService>(WB_MODULE);
+
+const runSyncForKind = async (deps: SyncDeps, kind: string): Promise<SyncOutcome> => {
+  if (!WB_SYNC_KINDS.includes(kind as WbSyncKind)) {
+    throw new Error(
+      `Wildberries has no sync kind ${kind}. Known kinds: ${WB_SYNC_KINDS.join(", ")}.`,
+    );
+  }
+  const outcome = await runSync(
+    {
+      wb: wbService(deps),
+      tenantId: deps.tenantId,
+      token: asToken(deps.credentials),
+      logger: deps.logger,
+    },
+    kind as WbSyncKind,
+  );
+  return { ...outcome, kind: outcome.kind };
+};
+
+/**
+ * The raw rows one normalized kind is computed from.
+ *
+ * The JOINS live here, not in `normalize.ts`: a feedback carries no
+ * `vendorCode` and an offer needs both the price and the stock table, so the
+ * loader is where the mirrors are read and stitched, and `normalize` stays a
+ * pure function of whatever it is handed.
+ */
+const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
+  const wb = wbService(deps);
+  const scope = { tenant_id: deps.tenantId };
+
+  if (kind === "products") {
+    return (await wb.listWbProducts(scope)) as unknown[];
+  }
+
+  if (kind === "offers") {
+    const [prices, stocks] = await Promise.all([
+      wb.listWbPrices(scope) as Promise<Record<string, unknown>[]>,
+      wb.listWbStocks(scope) as Promise<Record<string, unknown>[]>,
+    ]);
+    return [
+      ...prices.map((row) => ({ source: "price" as const, row })),
+      ...stocks.map((row) => ({ source: "stock" as const, row })),
+    ];
+  }
+
+  if (kind === "orders") {
+    return (await wb.listWbOrders(scope)) as unknown[];
+  }
+
+  if (kind === "reviews") {
+    const [feedbacks, products] = await Promise.all([
+      wb.listWbFeedbacks(scope) as Promise<Record<string, unknown>[]>,
+      wb.listWbProducts(scope) as Promise<Record<string, unknown>[]>,
+    ]);
+    const vendorCodeByNmId = new Map<string, string | null>(
+      products.map((product) => [
+        String(product.nm_id),
+        product.vendor_code ? String(product.vendor_code) : null,
+      ]),
+    );
+    return feedbacks.map((feedback) => ({
+      ...feedback,
+      vendor_code: vendorCodeByNmId.get(String(feedback.nm_id)) ?? null,
+    }));
+  }
+
+  /**
+   * Questions. WB's questions method is not registered in `endpoints.ts`, so
+   * there is no mirror to read and this is an empty list rather than a missing
+   * one: `projectFromMirrors` records the kind with zero rows and the panel
+   * says so (rule 20a).
+   */
+  return [];
+};
+
+export const wbAdapter: MarketplaceAdapter = {
+  id: "wb",
+  label: "Wildberries",
+  hostSuffixes: [".wildberries.ru"],
+  endpoints: WB_READ_ENDPOINTS,
+  mutationDenyList: WB_MUTATIONS,
+  read,
+  inspectCredentials,
+  syncKinds: WB_SYNC_KINDS,
+  runSync: runSyncForKind,
+  loadMirror,
+  normalize: {
+    products: normalize.products,
+    offers: normalize.offers,
+    orders: normalize.orders,
+    reviews: normalize.reviews,
+    questions: normalize.questions,
+  },
+};
+
+/**
+ * Runs at module load, so a registry entry that names a mutation, a foreign
+ * host or a write verb fails the process at boot rather than at the first
+ * sync. The conformance suite runs the same check again over every adapter in
+ * `MARKETPLACES`.
+ */
+validateAdapter(wbAdapter);
+
+export default wbAdapter;
