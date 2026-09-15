@@ -1,0 +1,73 @@
+{
+  "task": "b08-seo-storefront",
+  "branch": "fix/day16-seo-storefront",
+  "pr": {
+    "number": 69,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/69"
+  },
+  "done": [
+    {
+      "item": "Карта сайта магазина перечисляет только его языки: было 1481 адрес на 36 языках, стало 92 на двух (ru, en).",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/report.md"
+      ]
+    },
+    {
+      "item": "В <head> каждой страницы было 37 ссылок hreflang на переводы, которых магазин не предлагает, стало 3.",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/report.md"
+      ]
+    },
+    {
+      "item": "Коллекции больше не текут между магазинами: у соседних тенантов было 36 общих адресов коллекций, стало 0, каждый видит только свои.",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/raw/collections-api.txt"
+      ]
+    },
+    {
+      "item": "Восемь старых адресов страниц olavka.ru отдают 301 вместо 404 — и три из них включились сами, когда соседняя задача b14 завела страницы, без правки кода.",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/raw/redirects-after.txt"
+      ]
+    },
+    {
+      "item": "Чужой домен olavka.ru исчез из HTML витрины: в карточке товара было 52 вхождения, на главной 37, в каталоге 48 — на всех 94 проверенных адресах стало 0.",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/raw/leak-sweep-after.txt"
+      ]
+    },
+    {
+      "item": "Замерено и записано: 39 «старых страниц» реестра — это выгрузка чужого сайта asd2-3.com, а не адреса магазина; редиректы для них не заводились, и тест не даст их завести.",
+      "links": [
+        "artifacts/docs/b08-seo-storefront/report.md"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #69 — код, замеры и разбор",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/69"
+    },
+    {
+      "label": "Отчёт с замерами до/после",
+      "path": "artifacts/docs/b08-seo-storefront/report.md",
+      "note": "путь от корня репозитория upready-store, ветка fix/day16-seo-storefront"
+    },
+    {
+      "label": "Сырьё замеров: обход витрины на чужой домен",
+      "path": "artifacts/docs/b08-seo-storefront/raw/leak-sweep-after.txt"
+    },
+    {
+      "label": "Карта сайта магазина на стенде (92 адреса, 2 языка)",
+      "url": "http://cherkashino.localhost:8208/sitemap.xml",
+      "note": "стенд поднимается по рецепту из отчёта; постоянно не работает"
+    }
+  ],
+  "notes": [
+    "Живой магазин в момент работы лежал: cherkashino.shipshift.dev, shipshift.dev/health и zolotaya-nit-1057.shipshift.dev отвечали 502 (замер 2026-09-16 00:10 WITA). Похоже на f17-backend-image-sharp.",
+    "На живом магазине sitemap останется 36-язычным, пока тенанту не поставят enabled_locales: docker exec mt-backend node_modules/.bin/medusa exec ./src/scripts/backfill-tenant-locale-settings.js",
+    "Решение Ивану: подключать ли этот скрипт к каждому старту контейнера. Он меняет переключатель языков у ВСЕХ магазинов платформы (36 языков → 2), поэтому сам я его не подключал.",
+    "Семь старых адресов (consent, consent-marketing, return-memo, wholesale и английские delivery/faq/wholesale) остаются 404 — таких страниц у магазина нет. Тексты согласий и оптового раздела решает владелица; механизм подхватит их сам.",
+    "Красный тест profile-data.unit.spec.ts на бэкенде — предсуществующий на dev, задача b15-quality-debt; эта ветка файлов migration-scripts не касается."
+  ]
+}

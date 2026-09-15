@@ -1,0 +1,70 @@
+{
+  "task": "q02-qa-owner",
+  "done": [
+    {
+      "item": "Проведена живая приёмка панели глазами владелицы: 12 шагов, 99 скриншотов, замерено время отклика на каждое действие.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/report.md"
+      ]
+    },
+    {
+      "item": "Подтверждено: цена, фото, категория, страница, акция и главная меняются из панели и доезжают до витрины за 6–19 секунд.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s03-prices-route-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s02-home-1280x900.png"
+      ]
+    },
+    {
+      "item": "Промокод 10% применён в корзине живым покупательским путём (1 355 → 1 219,50 ₽).",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s07-storefront-variant-1280x900.png"
+      ]
+    },
+    {
+      "item": "Найдены и заведены 8 дефектов (f09–f16) с промптами: рублёвая цена не находится (89-я колонка, её нет в мастере создания), новый товар отдаёт 404 у покупателя, нет восстановления пароля, акции и редактор страниц не переведены, «Обзор» показывает API-ключ вместо цифр.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/prompts/f11-new-product-404.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/prompts/f10-price-save-silently-lost.md"
+      ]
+    },
+    {
+      "item": "Шаг «собрать → отгрузить → доставлен» пройден не полностью: оба заказа магазина были отменены предыдущей приёмкой, свой заказ оформить не удалось — кнопка оплаты осталась неактивной.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/report.md"
+      ]
+    },
+    {
+      "item": "Всё созданное в ходе приёмки убрано и проверено на витрине, кроме намеренно оставленного черновика страницы qa-test-q02 (панель не умеет удалять страницы, витрина отдаёт по ней 404).",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/drv/s99-cleanup.mjs"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Отчёт о приёмке (report.md)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/report.md"
+    },
+    {
+      "label": "Скриншот: маршрут изменения цены",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s03-prices-route-1280x900.png"
+    },
+    {
+      "label": "Скриншот: главная страница",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s02-home-1280x900.png"
+    },
+    {
+      "label": "Промпт находки: новый товар отдаёт 404",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/prompts/f11-new-product-404.md"
+    },
+    {
+      "label": "Resume-блок сессии",
+      "path": "file:///Users/ivanprotsko/.ai/resume/upready-store/2026-09-15-0850-unknown.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Критично: рублёвая цена недоступна владелице (поле вне мастера создания), новый товар открывается у покупателя 404, восстановления пароля нет.",
+    "Шаг «доставлен» не пройден до конца: оба заказа магазина были отменены раньше, свой заказ оформить не удалось (оплата неактивна)."
+  ]
+}

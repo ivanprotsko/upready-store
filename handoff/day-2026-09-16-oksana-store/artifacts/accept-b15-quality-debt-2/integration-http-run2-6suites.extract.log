@@ -1,0 +1,9 @@
+PASS integration-tests/http/tenants-requisites.spec.ts (12.777 s)
+PASS integration-tests/http/tenants-reviews.spec.ts (10.161 s)
+PASS integration-tests/http/tenants-categories.spec.ts (15.653 s)
+PASS integration-tests/http/tenant-export.spec.ts (17.156 s)
+PASS integration-tests/http/tenants-owner-numbers.spec.ts (10.907 s)
+PASS integration-tests/http/tenant-uploads.spec.ts (10.614 s)
+Test Suites: 6 passed, 6 total
+Tests:       30 passed, 30 total
+Snapshots:   0 total

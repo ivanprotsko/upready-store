@@ -1,0 +1,49 @@
+FAIL integration-tests/http/tenants.spec.ts (74.336 s)
+      ✓ gives each tenant its own sales channel and publishable key (6874 ms)
+      ✓ reports the tenant behind the token on GET /tenants/me (1486 ms)
+      ✓ reads the tenant's sales channel and publishable key through the links on GET /tenants/me (478 ms)
+      ✓ loses the link, not the tenant, when the sales channel is deleted (1390 ms)
+      ✓ refuses a registration token that already belongs to a tenant admin (561 ms)
+      ✓ creates each tenant's product inside its own sales channel (535 ms)
+      ✓ ignores foreign sales channels sent in the product body (923 ms)
+      ✓ lists only the tenant's own products on GET /tenants/products (2408 ms)
+      ✓ shows each storefront key only its own catalog on GET /store/products (1551 ms)
+      ✓ refuses a line item whose variant is not sold in the cart's sales channel (2775 ms)
+      ✓ refuses a cart created with a foreign variant in its items (1573 ms)
+      ✕ resolves shipping options only from the tenant's own warehouse (1440 ms)
+      ✕ keeps two tenants' warehouses apart even in the same city (3442 ms)
+      ✓ links an order placed in tenant A's sales channel to tenant A only (579 ms)
+      ✓ leaves an order from a sales channel no tenant owns unlinked (455 ms)
+      ✓ rejects /tenants/* without a tenant token (865 ms)
+      ✓ answers GET /tenants/products in the Admin's list shape (2413 ms)
+      ✓ filters GET /tenants/products by q and narrows it by fields (1392 ms)
+      ✓ shows tenant B an empty page on GET /tenants/products, not the whole catalog (1289 ms)
+      ✓ answers 404 on another tenant's product for GET and DELETE (722 ms)
+      ✓ deletes the tenant's own product on DELETE /tenants/products/:id (710 ms)
+      ✓ answers GET /tenants/orders in the Admin's list shape (1639 ms)
+      ✓ shows tenant B an empty page on GET /tenants/orders (1326 ms)
+      ✓ lists only the tenant's own channel on GET /tenants/sales-channels (904 ms)
+      ✓ answers 404 on another tenant's sales channel (1045 ms)
+      ✓ carries the tenant's name and channel on GET /tenants/store (779 ms)
+      ✓ lists only the options of the tenant's own products on GET /tenants/product-options (679 ms)
+      ✓ lists only the inventory items of the tenant's own variants (1742 ms)
+      ✓ answers GET /tenants/regions in the Admin's list shape (1271 ms)
+      ✓ answers GET /tenants/price-preferences in the Admin's list shape (1128 ms)
+      ✓ answers GET /tenants/product-types in the Admin's list shape (2259 ms)
+      ✓ answers GET /tenants/product-tags in the Admin's list shape (438 ms)
+      ✓ answers GET /tenants/collections in the Admin's list shape (1067 ms)
+      ✓ answers GET /tenants/shipping-profiles in the Admin's list shape (1820 ms)
+  ●  › tenants: shared multitenancy slice › resolves shipping options only from the tenant's own warehouse
+    expect(received).toBe(expected) // Object.is equality
+    Expected: true
+    Received: false
+      308 |         expect(names.length).toBeGreaterThan(0);
+    > 309 |         expect(names.every((name) => name.startsWith("Acme"))).toBe(true);
+      310 |         expect(names.some((name) => name.startsWith("Globex"))).toBe(false);
+  ●  › tenants: shared multitenancy slice › keeps two tenants' warehouses apart even in the same city
+    expect(received).toBe(expected) // Object.is equality
+    Expected: true
+    Received: false
+    > 350 |         expect(options.data.shipping_options.every((option) => option.name.startsWith("Acme"))).toBe(
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 32 passed, 34 total

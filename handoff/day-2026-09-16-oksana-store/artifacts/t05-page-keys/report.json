@@ -1,0 +1,62 @@
+{
+  "task": "t05-page-keys",
+  "branch": "feat/day16-page-keys",
+  "pr": {
+    "number": 24,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/24"
+  },
+  "done": [
+    {
+      "item": "Ключ страницы (tenant-page.key) стал свободным slug вместо списка из пяти слов; пять старых ключей (contacts, legal, about, privacy, offer) зарезервированы и работают как раньше."
+    },
+    {
+      "item": "Добавлены поля in_footer и footer_order, миграция Migration20260915040800 бэкфиллит существующие страницы, сохраняя прежний порядок в подвале."
+    },
+    {
+      "item": "API /tenants/pages: создание, апсерт и удаление кастомных страниц с валидацией slug и защитой зарезервированных ключей от удаления."
+    },
+    {
+      "item": "API /store/tenant/pages: список для подвала строится из любых опубликованных страниц с in_footer=true в порядке footer_order."
+    },
+    {
+      "item": "Панель управления: форма создания страницы, переключатель «В подвале», ручной реордер стрелками, удаление кастомной страницы с подтверждением."
+    },
+    {
+      "item": "Тесты tenants-pages.spec.ts расширены тремя блоками (валидация slug, полный round-trip кастомной страницы, защита зарезервированного ключа); 12/12 проходят."
+    },
+    {
+      "item": "На живом стенде подтверждено: создание и открытие /pages/delivery (200), появление и исчезновение ссылки в футере, работа /ru/pages/about без изменений, 404 на неизвестный slug, 400 на удаление зарезервированного ключа."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #24 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/24"
+    },
+    {
+      "label": "Текст PR",
+      "path": "artifacts/docs/t05-page-keys/pr-body.md"
+    },
+    {
+      "label": "Скриншот: страница delivery",
+      "path": "artifacts/docs/t05-page-keys/delivery-page.png"
+    },
+    {
+      "label": "Скриншот: футер со страницей delivery",
+      "path": "artifacts/docs/t05-page-keys/footer-with-delivery.png"
+    },
+    {
+      "label": "Скриншот: футер без страницы delivery",
+      "path": "artifacts/docs/t05-page-keys/footer-without-delivery.png"
+    },
+    {
+      "label": "Скриншот: зарезервированная страница about без изменений",
+      "path": "artifacts/docs/t05-page-keys/about-page-unchanged.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Реальные тексты магазина Оксаны (delivery/faq/…) этой задачей не переносились — перенос в x01-tenant-live-import/t12-legal-requisites.",
+    "Реордер в подвале — только ручной (стрелки ▲▼), без drag-and-drop; деплой не выполнялся."
+  ]
+}

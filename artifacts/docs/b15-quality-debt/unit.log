@@ -1,0 +1,38 @@
+
+> @dtc/gorgo-medusa-backend@1.0.0 test:unit /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/apps/backend
+> TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit
+
+PASS src/product-csv/__tests__/prices.unit.spec.ts
+PASS src/product-csv/__tests__/currencies.unit.spec.ts
+PASS src/api/tenants/reviews/__tests__/review-helpers.unit.spec.ts
+PASS src/migration-scripts/__tests__/prices.unit.spec.ts
+PASS src/tenant-secrets/__tests__/crypto.unit.spec.ts
+PASS src/migration-scripts/__tests__/abstract-datasets.unit.spec.ts
+PASS src/workflows/hooks/__tests__/validate-cart-shipping-address.unit.spec.ts
+PASS src/workflows/hooks/__tests__/complete-cart-validate.unit.spec.ts
+PASS src/migration-scripts/__tests__/profile-data.unit.spec.ts
+PASS src/scripts/__tests__/fixtures-outside-src.unit.spec.ts
+PASS src/tenant-notifications/__tests__/notifications.unit.spec.ts
+PASS src/migration-scripts/__tests__/store-profile.unit.spec.ts
+PASS src/product-csv/__tests__/plan.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/default-method-names.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/tariff.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/attribution.unit.spec.ts
+PASS src/product-csv/__tests__/csv.unit.spec.ts
+PASS src/product-csv/__tests__/images.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/weight-from-metadata.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/ru-zone-presets.unit.spec.ts
+PASS src/product-csv/__tests__/rows.unit.spec.ts
+PASS src/guest-order-claim/__tests__/select-claimable-orders.unit.spec.ts
+PASS src/product-attributes-fill/__tests__/parse-characteristics.unit.spec.ts
+PASS src/tenant-legal/__tests__/requisites.unit.spec.ts
+PASS src/product-csv/__tests__/columns.unit.spec.ts
+PASS src/product-csv/__tests__/slugify-twin.unit.spec.ts
+PASS src/reviews-import/__tests__/cherkashina-rules.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/hosts.unit.spec.ts
+
+Test Suites: 28 passed, 28 total
+Tests:       306 passed, 306 total
+Snapshots:   0 total
+Time:        7.635 s, estimated 14 s
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

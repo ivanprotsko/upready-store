@@ -1,0 +1,62 @@
+{
+  "task": "f08-medusa-mark-bottom-nav",
+  "branch": "fix/day16-bottom-nav-mark",
+  "pr": {
+    "number": 46,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/46"
+  },
+  "done": [
+    {
+      "item": "Центральная кнопка нижней навигации (мобильный вид) больше не грузит /medusa.svg — резолвит бренд через getSiteBranding()+site-logo, тем же путём, что и хедер; чужой бренд Medusa не показывается."
+    },
+    {
+      "item": "git grep -n medusa.svg по apps/storefront (до правки) показал единственное вхождение — в bottom-nav/index.tsx:37, зафиксировано в PR."
+    },
+    {
+      "item": "aria-label и data-testid кнопки не тронуты — она сохраняет доступное имя магазина и ведёт на /."
+    },
+    {
+      "item": "Функциональная проверка на боевых данных тенанта cherkashino (390x844, HTTP-прокси с подменой Host): 0 запросов medusa.svg на главной/карточке/корзине, aria-label = «Оксана Черкашина»."
+    },
+    {
+      "item": "tsc --noEmit, next lint и next build прошли с rc=0 (43 роута собраны)."
+    },
+    {
+      "item": "Сняты скриншоты 390x844 главной, карточки товара и корзины на реальных данных тенанта cherkashino."
+    },
+    {
+      "item": "PR #46 смержен 2026-09-15; живая приёмка подтвердила вердикт MERGED."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #46",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/46"
+    },
+    {
+      "label": "Отчёт приёмки (REPORT.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/REPORT.md"
+    },
+    {
+      "label": "Скриншот главной 390x844",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/home-390x844.png"
+    },
+    {
+      "label": "Скриншот карточки товара 390x844",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/product-390x844.png"
+    },
+    {
+      "label": "Скриншот корзины 390x844",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/cart-390x844.png"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f08-medusa-mark-bottom-nav-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Проверка сделана против боевых данных тенанта cherkashino через прокси, а не на задеплоенном https://cherkashino.shipshift.dev — деплой в задачу не входил.",
+    "Ниты по PR записаны в комментарий PR и в REPORT.md приёмки."
+  ]
+}

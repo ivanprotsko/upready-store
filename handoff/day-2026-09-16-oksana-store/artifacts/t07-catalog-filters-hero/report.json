@@ -1,0 +1,82 @@
+{
+  "task": "t07-catalog-filters-hero",
+  "branch": "feat/day16-catalog-filters-hero",
+  "pr": {
+    "number": 27,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/27"
+  },
+  "done": [
+    {
+      "item": "Группировка чипов фильтра каталога переведена с option.id на нормализованное название опции (trim + toLocaleLowerCase), значения объединяются union по всем товарам.",
+      "links": [
+        "apps/storefront/src/lib/util/option-filter-groups.ts"
+      ]
+    },
+    {
+      "item": "Добавлен юнит-тест на объединение трёх написаний одного названия опции с разными option.id в один чип.",
+      "links": [
+        "apps/storefront/src/lib/util/option-filter-groups.test.ts"
+      ]
+    },
+    {
+      "item": "Живым замером на каталоге Черкашиной подтверждено: было 29 чипов (по числу option.id), стало 5 (по названиям — Количество, Фасовка, Объём, Комплектация, Формат).",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/before-desktop-1280x900.png",
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/after-desktop-1280x900.png",
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/before-mobile-390x844.png",
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/after-mobile-390x844.png"
+      ]
+    },
+    {
+      "item": "Проверено, что фильтрация по option_value_id внутри объединённой группы не сломалась — оба значения одной группы отдают ровно свой товар по HTTP.",
+      "links": []
+    },
+    {
+      "item": "В панели владельца добавлен реестр HERO_SUPPORTS_IMAGE: поле «Адрес картинки» показывается только для вариантов hero, которые реально используют image_url на витрине (g, k, l).",
+      "links": [
+        "apps/tenant-panel/src/routes/home-settings/composition.ts",
+        "apps/tenant-panel/src/routes/home-settings/home-settings.tsx"
+      ]
+    },
+    {
+      "item": "Живыми прогонами проверено поведение hero-h (image_url игнорируется, страница не падает) и hero-k (картинка, заголовок, подзаголовок и CTA владельца отображаются как заданы).",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/hero-h-ignores-image-1280x900.png",
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/hero-k-owner-image-1280x900.png"
+      ]
+    },
+    {
+      "item": "Прогнаны все проверки: storefront tsc/lint/build/vitest (126 тестов зелёных), tenant-panel tsc/eslint, backend medusa lint/tsc — везде rc=0.",
+      "links": []
+    },
+    {
+      "item": "PR #27 смёржен в dev (squash 478fb5f), приёмка вынесла вердикт MERGED.",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/27"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #27 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/27"
+    },
+    {
+      "label": "Отчёт воркера по задаче",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero/report.md"
+    },
+    {
+      "label": "Скриншоты до/после (каталог и hero)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t07-catalog-filters-hero"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t07-catalog-filters-hero-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Вариант hero g (Витрина) проверен только по коду — живой рендер не поставлен из-за отсутствия тестового тенанта с collections.",
+    "Локальный коммит журнала приёмки (7ff4817) не запушен из-за расхождения dev с origin/dev; сам результат уже смёржен в origin/dev (squash 478fb5f)."
+  ]
+}

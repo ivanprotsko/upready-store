@@ -1,0 +1,52 @@
+{
+  "task": "x01-tenant-live-import",
+  "done": [
+    {
+      "item": "Тенант cherkashino зарегистрирован на живом хосте shipshift.dev (ten_01M2GQVGEN1204CN90C510DNRG, admin ivanprotsko+cherkashino@ivanprotsko.com).",
+      "links": ["artifacts/x01-tenant-live-import/logs-01-tenant.txt"]
+    },
+    {
+      "item": "Каталог перенесён на живой хост: 956 строк реестра миграции, failed=0 (38 товаров, 9 категорий, 336 картинок, 335 файлов, 78 цен, 38 вариантов).",
+      "links": [
+        "artifacts/x01-tenant-live-import/logs-15-registry-summary-attempt2.txt",
+        "artifacts/x01-tenant-live-import/02-mapping-registry-live.json"
+      ]
+    },
+    {
+      "item": "Независимо перепроверено: https://cherkashino.shipshift.dev/ru отдаёт 200, 29 опубликованных товаров (9 черновиков) в 9 категориях.",
+      "links": ["artifacts/x01-tenant-live-import/logs-14-owner-verify-attempt2.txt"]
+    },
+    {
+      "item": "Независимо перепроверено: 320 из 320 URL картинок каталога отдают 200.",
+      "links": ["artifacts/x01-tenant-live-import/logs-13-image-verify-attempt2.txt"]
+    },
+    {
+      "item": "Сделаны контрольные скриншоты главной, каталога, товара, корзины и категории (десктоп и мобильная раскладка).",
+      "links": [
+        "artifacts/x01-tenant-live-import/home-1280x900.png",
+        "artifacts/x01-tenant-live-import/catalog-1280x900.png",
+        "artifacts/x01-tenant-live-import/product-1280x900.png",
+        "artifacts/x01-tenant-live-import/cart-1280x900.png"
+      ]
+    },
+    {
+      "item": "Найдено и зафиксировано: русские страницы оферты и контактов не открываются на живом хосте — данные на месте (offer/ru опубликован, 19274b), но фикс локалей из PR #21 (коммит 8b8b482) на живой хост не задеплоен, /store/tenant/pages/offer отдаёт not_found независимо от locale.",
+      "links": ["artifacts/x01-tenant-live-import/logs-09-pages-locales.txt"]
+    },
+    {
+      "item": "Push в origin/dev осознанно не сделан: локальная ветка содержит 2 неотправленных коммита сессии t03, интеграцию оставили владельцу t03 и Ивану."
+    }
+  ],
+  "results": [
+    { "label": "Живой магазин cherkashino", "url": "https://cherkashino.shipshift.dev/ru" },
+    { "label": "Отчёт воркера", "path": "artifacts/x01-tenant-live-import/report.md" },
+    { "label": "Реестр миграции (956 строк, failed=0)", "path": "artifacts/x01-tenant-live-import/02-mapping-registry-live.json" },
+    { "label": "Скриншот главной страницы", "path": "artifacts/x01-tenant-live-import/home-1280x900.png" },
+    { "label": "Скриншот карточки товара", "path": "artifacts/x01-tenant-live-import/product-1280x900.png" }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Русские страницы (оферта/контакты) отдают not_found — деплой фикса локалей 8b8b482 (PR #21) ещё не выполнен, каталог этому не мешает.",
+    "Push в origin/dev не сделан: 2 чужих коммита сессии t03 стоят впереди — интеграцию должен провести Иван или t03."
+  ]
+}

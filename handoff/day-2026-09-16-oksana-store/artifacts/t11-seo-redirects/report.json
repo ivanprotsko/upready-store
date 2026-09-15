@@ -1,0 +1,63 @@
+{
+  "task": "t11-seo-redirects",
+  "branch": "feat/day16-seo-redirects",
+  "pr": {
+    "number": 29,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/29"
+  },
+  "done": [
+    {
+      "item": "SEO-поля title/description на товаре и категории (metadata.seo.<locale>) и на странице тенанта (колонки seo_title/seo_description), подхватываются в <head> сторефронта."
+    },
+    {
+      "item": "Смена handle товара/категории пишет 301-редирект на каждую включённую локаль тенанта; коллизия handle возвращает ошибку вместо молчаливого суффикса."
+    },
+    {
+      "item": "Исправлена утечка sitemap.xml: категории тенанта раньше брались из нетенантного эндпойнта и отдавали одни и те же 600+ категорий двум магазинам — переключено на тенант-скоуп."
+    },
+    {
+      "item": "Таблица редиректов (модель tenant_redirect) с CRUD-эндпойнтами и панельными формами; middleware разворачивает цепочки до 20 хопов и отдаёт 508 при цикле."
+    },
+    {
+      "item": "Идемпотентный скрипт импорта 47 редиректов со старых адресов olavka.ru для тенанта cherkashino по реестру миграции."
+    },
+    {
+      "item": "Поля верификации Яндекса и Google (meta-теги) с формой в панели и записью в metadata тенанта."
+    },
+    {
+      "item": "После двух отклонений на приёмке добавлены формы SEO-полей товара/категории в панели и исправлена запись/чтение под default_locale тенанта вместо жёстко зашитого 'en'."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #29 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/29"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "artifacts/docs/t11-seo-redirects/report.md"
+    },
+    {
+      "label": "Отчёт приёмки, раунд 3 (MERGED)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t11-seo-redirects-3/REPORT.md"
+    },
+    {
+      "label": "Скриншот: SEO-поля товара в панели сохранены",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t11-seo-redirects-3/panel-product-seo-saved-1280x900.png"
+    },
+    {
+      "label": "Скриншот: заголовок на витрине (ru)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t11-seo-redirects-3/storefront-product-ru-1280x900.png"
+    },
+    {
+      "label": "Сравнение sitemap двух тенантов",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t11-seo-redirects-3/sitemap-compare.txt"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Раунд 1 отклонён: PR конфликтовал с dev (общая модель/связи/схема с t08), панель не позволяла задать SEO товара/категории/редиректов/верификации.",
+    "Раунд 2 отклонён: новый конфликт с t10-blog в sitemap.ts, а SEO-поля товара/категории панель писала только в локаль 'en', из-за чего для русского магазина title/description не попадали в head.",
+    "Раунд 3 принят: конфликты разведены, запись/чтение переведены на default_locale тенанта, живыми замерами подтверждены мета-поля, 301, цикл-508, sitemap и верификация."
+  ]
+}

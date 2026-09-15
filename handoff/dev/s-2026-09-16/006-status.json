@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 6,
+  "action": "status-set",
+  "ts": "2026-09-16T01:00:22+08:00",
+  "status": "2026-09-16 01:00 WITA: задним числом (sonnet) составлен report.json для x01-tenant-live-import (закрытая задача) — карточка: тенант cherkashino на живом хосте, 956 строк реестра failed=0, 29 товаров/9 категорий, 320/320 картинок 200; находка перенесена в notes — офер/контакты на русском 404, фикс локалей 8b8b482 (PR #21) не задеплоен. Коммит 8dac9981 в dev (handoff/, exemption 21k), push НЕ сделан — local dev расходится с origin/dev (7/6), origin ушёл вперёд PR #62-#67, merge/rebase на базовой ветке запрещён (21l) — интеграция за Иваном/владельцем расхождения."
+}

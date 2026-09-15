@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 9,
+  "action": "status-set",
+  "ts": "2026-09-16T02:41:24+08:00",
+  "status": "2026-09-16 02:41 WITA: штаб дня Оксаны — лимит подписки в 01:5x остановил волну (Иван сменил подписку 02:40, лимит снят); инцидент 01:06: сессия заполнения отчётов для UI сделала git stash на state.json/REPORT.md/HANDOFF.json, диспетчер сохранил откаченный снимок, d06 запущен повторно (оба прогона OK, деплой 25bc1ec2), b08/b14 восстановлены из stash 9bcd85dd; заполнение отчётов остановлено до починки (запрет Bash/Write, cwd вне репо); merged 46, done 16, b15 #68 pr_open, b08 #69 open, b10 running, b16 ждёт Ивана"
+}

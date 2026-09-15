@@ -1,0 +1,73 @@
+{
+  "task": "b12-analytics-accuracy",
+  "branch": "fix/day16-analytics-accuracy",
+  "pr": { "number": 66, "url": "https://github.com/ivanprotsko/upready-store/pull/66" },
+  "done": [
+    {
+      "item": "Выручка, заказы и средний чек больше не складываются по разным валютам: экран «Обзор» показывает одну валюту за раз, а не сумму ₽ и $ под рублёвым ярлыком.",
+      "links": ["https://github.com/ivanprotsko/upready-store/pull/66"]
+    },
+    {
+      "item": "Если магазин брал деньги в двух валютах, рядом с периодами появляется переключатель валют, а под карточками — строка «Ещё заказы в других валютах: … В цифры выше они не входят».",
+      "links": ["/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/05-after-overview-rub-1280x900.png"]
+    },
+    {
+      "item": "У магазина с одной валютой (как у Оксаны сегодня) экран не меняется вовсе — переключатель не показывается.",
+      "links": []
+    },
+    {
+      "item": "Топ товаров считается по актуальной версии строк заказа: отредактированный заказ больше не задваивает количество и выручку товара.",
+      "links": ["/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/08-before-versionfix-topproducts-1280x900.png"]
+    },
+    {
+      "item": "22 юнит-теста на обе фикстуры (смешанные валюты и отредактированный заказ) плюс фикстура стенда, которая заводит оба случая настоящими воркфлоу Medusa.",
+      "links": ["artifacts/b12-analytics-accuracy/report.json"]
+    },
+    {
+      "item": "Замеры ДО и ПОСЛЕ сняты на живом стенде с каталогом Оксаны и сверены своим SQL по базе; отчёт со всеми командами и выводами лежит в ветке.",
+      "links": ["/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/report.md"]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #66 — вся пачка одним запросом",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/66"
+    },
+    {
+      "label": "Отчёт с командами и выводами замеров",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/report.md"
+    },
+    {
+      "label": "ДО — «Обзор» со смешанной суммой 5 900,00 ₽",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/02-before-overview-1280x900.png"
+    },
+    {
+      "label": "ПОСЛЕ — «Обзор» в рублях: 5 700,00 ₽, 4 заказа, плюс строка про $200",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/05-after-overview-rub-1280x900.png"
+    },
+    {
+      "label": "ПОСЛЕ — тот же экран в долларах: 200,00 $, 2 заказа",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/06-after-overview-usd-1280x900.png"
+    },
+    {
+      "label": "ДО — задвоенный топ товаров (5 шт / 2 500 ₽ вместо 3 шт / 1 500 ₽)",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy/artifacts/docs/b12-analytics-accuracy/08-before-versionfix-topproducts-1280x900.png",
+      "note": "Дефект воспроизведён на стенде: фильтр по версии снят на один замер и возвращён."
+    }
+  ],
+  "access": [
+    {
+      "url": "http://localhost:5411",
+      "login": "owner-cherkashino@example.test",
+      "password": "b12-stand-2026",
+      "note": "Локальный стенд b12 (БД upready_store_b12, бэкенд :9411). Серверы остановлены после замеров — поднимать по рецепту из report.md."
+    }
+  ],
+  "notes": [
+    "Решение по валютам моё, Иван не выбирал: разбивка с переключателем, а не фильтр по валюте магазина. Фильтр молча выбросил бы заказы в другой валюте.",
+    "Пер-тенантной настройки «валюта магазина» в платформе нет; если Иван решит её завести, дефолт переключателя возьмётся оттуда — правка в pickCurrency.",
+    "Курсового пересчёта нет и быть не может честно: источника курса в проекте нет, курс на дату заказа не хранится.",
+    "Нит 5 (версии строк) на SQL-уровне уже был закрыт в b01 (b1a86507); здесь фильтр вынесен в чистую функцию, чтобы он вообще поддавался юнит-тесту.",
+    "Общая юнит-сюита красная одним тестом migration-scripts/profile-data (ключ productOptions), ветка его входов не касается — долг из t-2026-09-12-catalog-taxonomy."
+  ]
+}

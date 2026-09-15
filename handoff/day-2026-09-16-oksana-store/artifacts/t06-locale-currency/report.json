@@ -1,0 +1,53 @@
+{
+  "task": "t06-locale-currency",
+  "branch": "feat/day16-locale-currency",
+  "pr": {
+    "number": 26,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/26"
+  },
+  "done": [
+    {
+      "item": "Добавлена модель tenant_locale_settings (default_locale, enabled_locales, default_country) и API GET/PUT /tenants/locale-settings с zod-валидацией."
+    },
+    {
+      "item": "Workflow upsert-tenant-locale-settings и идемпотентный скрипт бэкфилла для тенантов без своих настроек локали."
+    },
+    {
+      "item": "Middleware витрины: дефолт тенанта побеждает build-дефолт и LOCALE_PIN, переключатель языка ограничен списком enabled_locales тенанта."
+    },
+    {
+      "item": "Валюта и страна витрины берутся из default_country тенанта через override-карту geolocation."
+    },
+    {
+      "item": "В панели владельца добавлен экран «Язык и валюта» с мультиселектом включённых языков и выбором дефолтного."
+    },
+    {
+      "item": "Живой замер на стенде с двумя тенантами (acme/ru, globex/en) подтвердил редиректы, переключатель и обработку Accept-Language/cookie строго по критериям приёмки."
+    },
+    {
+      "item": "Найден и исправлен баг парсинга флага --dry-run в medusa exec (CLI либо ругается, либо тихо съедает флаг) — скрипт переведён на бездефисную форму."
+    },
+    {
+      "item": "PR отклонён в раунде 1 из-за отставания от dev на 5 коммитов и 4 конфликтов слияния; после ребейза и повторного прогона проверок — смёржен."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #26",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/26"
+    },
+    {
+      "label": "Находки приёмки, раунд 1 (REJECTED)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t06-locale-currency-1.findings.md"
+    },
+    {
+      "label": "Находки приёмки, раунд 2 (MERGED)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t06-locale-currency-2.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Каталог локалей apps/tenant-panel/src/lib/locale-catalog.ts переписан вручную из списка storefront — общего пакета между apps нет, расхождение возможно молча (кандидат в reuse-library).",
+    "Предсуществующие падения tests (profile-data.unit.spec.ts, tenants-domains.spec.ts, часть tenants.spec.ts) не относятся к этому PR, но перепроверены отдельным замером в раунде 2."
+  ]
+}

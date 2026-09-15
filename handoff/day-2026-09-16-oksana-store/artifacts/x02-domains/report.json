@@ -1,0 +1,58 @@
+{
+  "task": "x02-domains",
+  "done": [
+    {
+      "item": "На тенанте Оксаны (ten_01M2GQVGEN1204CN90C510DNRG) зарегистрированы четыре хоста: cherkashino.ru, www.cherkashino.ru, xn--80ajkgrgj8cn.xn--p1ai и www.xn--80ajkgrgj8cn.xn--p1ai, все видны в ingress.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/api-domains.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/ingress-check.log"
+      ]
+    },
+    {
+      "item": "Маршрут до магазина проверен в обход DNS запросом с нужным заголовком Host прямо на IP ingress — все четыре хоста доходят до магазина.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/measurements.log"
+      ]
+    },
+    {
+      "item": "Впервые проверено живьём постраничное 301-поведение канонического адреса: путь при редиректе сохраняется.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/canonical-301.log"
+      ]
+    },
+    {
+      "item": "Найдено и зафиксировано: punycode в исходном задании указывал на чужой домен (кирилица.рф на beget), а не на черкашино.рф — регистрация по брифу привязала бы чужое имя к тенанту.",
+      "links": []
+    },
+    {
+      "item": "DNS не менялся — доступа к зонам reg.ru нет (обе зоны делегированы на NS reg.ru, Cloudflare-переменные пустые); составлена точная инструкция для Ивана по правке зон, идентификации и переключению на основной домен.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/domain-instruction.md"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Инструкция для Ивана (DNS в reg.ru, идентификация, переключение на основной домен)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/domain-instruction.md"
+    },
+    {
+      "label": "Отчёт о проверке (report.md)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/report.md"
+    },
+    {
+      "label": "Лог проверки canonical 301",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/canonical-301.log"
+    },
+    {
+      "label": "Лог проверки ingress",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/x02-domains/ingress-check.log"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Открыт вопрос q-kakoy-cname-adres-panel-vladeltsa-pokazyvaet: какой CNAME-адрес панель владельца показывает вживую — не проверено, в UI панели не заходили.",
+    "DNS не менялся — идентификация администратора домена по 569-ФЗ ещё не пройдена, это блокирует делегирование.",
+    "Push в dev намеренно не делался: локальная ветка несла два неотправленных коммита чужой сессии t03."
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "task": "f05-checkout-legal-stubs",
+  "branch": "fix/day16-checkout-legal-links",
+  "pr": {
+    "number": 41,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/41"
+  },
+  "done": [
+    {
+      "item": "Ссылки под кнопкой «Оплатить» теперь резолвятся по слоту (terms, privacy, returns, shipping, support, contact) через новую карту legal-links.ts, а не по маршрутам стартера."
+    },
+    {
+      "item": "Согласие под «Оплатить» и под кнопкой регистрации ведёт на настоящие документы тенанта (оферта, политика конфиденциальности) вместо заглушек стартера."
+    },
+    {
+      "item": "Шесть страниц-заглушек стартера (terms, privacy, returns, shipping, customer-service, contact) на магазине тенанта отдают 307 на страницу магазина или 404, если такой страницы нет."
+    },
+    {
+      "item": "Карта сайта (sitemap.ts) больше не включает шесть стартовых путей-заглушек для магазина тенанта."
+    },
+    {
+      "item": "Добавлены 11 unit-тестов на карту слотов (legal-links.test.ts), включая набор реальных страниц магазина Оксаны."
+    },
+    {
+      "item": "На стенде (копия БД upready_store_cherkashina) проверено: все четыре ссылки под «Оплатить» на десктопе и мобайле открывают /pages/offer и /pages/privacy, слово «заглушка» на них не встречается."
+    },
+    {
+      "item": "PR #41 смержен в ветку dev."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #41 (смержен)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/41"
+    },
+    {
+      "label": "Отчёт воркера с текстами страниц и таблицей редиректов",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f05-checkout-legal-stubs/report.md"
+    },
+    {
+      "label": "Скриншот чекаута 1280x900",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f05-checkout-legal-stubs/checkout-tenant-1280x900.png"
+    },
+    {
+      "label": "Скриншот чекаута 390x844",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f05-checkout-legal-stubs/checkout-tenant-390x844.png"
+    },
+    {
+      "label": "Журнал приёмки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f05-checkout-legal-stubs-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал."
+  ]
+}

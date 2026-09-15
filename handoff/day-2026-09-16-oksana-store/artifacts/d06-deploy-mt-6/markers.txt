@@ -1,0 +1,39 @@
+# маркеры «отвечает код волны 5b» 2026-09-16 00:46 WITA
+
+## b02 — 301 со старых адресов мигрированного каталога (живьём)
+/ru/ru/products/asd-2-fraktsiya-armavir-dorogova               301 -> https://cherkashino.shipshift.dev/ru/products/asd-2-fraktsiya-armavir-dorogova-cherkashino
+/ru/ru/products/kastorovoe-maslo-kastorka-indiyskaya           301 -> https://cherkashino.shipshift.dev/ru/products/kastorovoe-maslo-kastorka-indiyskaya-cherkashino
+КОНТРОЛЬ: /ru/ru/products/net-takogo-tovara-12345              404
+
+## b03/b04 — новые маршруты бэкенда (без авторизации)
+/tenants/shipping-methods/zone-presets         401
+/tenants/product-attribute-presets             401
+/tenants/product-attribute-coverage            401
+КОНТРОЛЬ: /tenants/net-takogo-marshruta        401
+   (код 401 неинформативен: контроль тоже 401 — авторизация стоит перед маршрутизацией)
+
+## Маркеры внутри РАБОТАЮЩЕГО контейнера против образа d05
+
+## b07 — Store API: чужой заказ без авторизации (попытка СЛОМАТЬ инвариант)
+GET /store/orders/order_01M2HX98WP8S6GA94DESNFYANF без токена покупателя 404
+   тело ответа: {"type":"not_found","message":"Order with id: order_01M2HX98WP8S6GA94DESNFYANF was not found"}
+
+## Панель — живой бандл сменился и несёт строки волны
+бандл d05: /assets/index-esiPz-of.js
+бандл сейчас: /assets/index-bdU5S6A2.js ( 1260124 байт)
+  Ожидает сборки                       вхождений: 1
+  Собрать заказ                        вхождений: 1
+  Отметить заказ как отправленный      вхождений: 1
+  Товары к сборке                      вхождений: 1
+  Сумма покупок                        вхождений: 1
+
+## b02/b09 — юридические страницы витрины: {{ТОКЕНЫ}} и сырой markdown
+  /ru/legal/offer        код 404, {{токенов}}: 0, строк сырых markdown-таблиц: 0
+  /ru/legal/privacy      код 404, {{токенов}}: 0, строк сырых markdown-таблиц: 0
+  /ru/legal/terms        код 404, {{токенов}}: 0, строк сырых markdown-таблиц: 0
+
+## b02/b09 — юридические страницы витрины (адреса взяты из футера, не угаданы)
+  /ru/pages/offer        код 200, {{токенов}}: 0, бэктиков: 0, сырых markdown-строк таблиц: 0
+  /ru/pages/privacy      код 200, {{токенов}}: 0, бэктиков: 0, сырых markdown-строк таблиц: 0
+  /ru/pages/about        код 200, {{токенов}}: 0, бэктиков: 0, сырых markdown-строк таблиц: 0
+  /ru/pages/contacts     код 200, {{токенов}}: 0, бэктиков: 0, сырых markdown-строк таблиц: 0

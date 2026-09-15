@@ -1,0 +1,59 @@
+{
+  "task": "t17-analytics",
+  "branch": "feat/day16-analytics",
+  "pr": {
+    "number": 37,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/37"
+  },
+  "done": [
+    {
+      "item": "Бэкенд: поля аналитики тенанта (yandex_metrica_id, ga4_measurement_id) через PUT/GET /tenants/analytics, отдаются витрине через /storefront/by-host."
+    },
+    {
+      "item": "Бэкенд: GET /tenants/analytics/summary считает выручку, число заказов и средний чек за период (today/7d/30d/custom) с разбивкой по дням и топ-5 товаров."
+    },
+    {
+      "item": "Витрина: счётчик подключается только на домене своего магазина, баннер согласия на аналитику блокирует загрузку скриптов Метрики и GA4 до клика «Принять»."
+    },
+    {
+      "item": "Витрина: добавлены SPA-пейджвью при переходах без перезагрузки и событие purchase/reachGoal на странице подтверждения заказа."
+    },
+    {
+      "item": "Панель тенанта: страница /settings/analytics для ввода счётчиков и блок «Продажи» на главной — переключатель периода, график по дням, топ-5 товаров."
+    },
+    {
+      "item": "По находкам приёмки: разрешён конфликт слияния с PR #36 (сохранены оба заголовка и оба блока на главной), добавлен произвольный период и границы суток в часовом поясе магазина вместо UTC."
+    },
+    {
+      "item": "Прогоны tsc/lint/build зелёные во всех трёх приложениях (backend, storefront, tenant-panel); vitest витрины — 15 файлов, 144 теста."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #37 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/37"
+    },
+    {
+      "label": "Текст PR (архив)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t17-analytics/pr-body.md"
+    },
+    {
+      "label": "Журнал приёмки, раунд 3 (MERGED)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t17-analytics-3.findings.md"
+    },
+    {
+      "label": "Скриншот: сводка продаж на панели",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t17-analytics/panel-shopA-home-sales-summary.png"
+    },
+    {
+      "label": "Скриншот: магазин без счётчиков",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t17-analytics/shopB-no-analytics.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "test:integration:http бэкенда не прогонялся — тестовая БД пересоздаётся на каждый тест, несовместимо с уже поднятым стендом; на новые /tenants/* роуты юнит-тестов в проекте нет ни у одного подобного роута.",
+    "Версионность строк заказа (order_item.version) не учитывается в топ-товарах — при редактировании заказа после отправки суммы может задвоиться.",
+    "Приёмка раунда 3 оставила три нита не-блокера, вынесенных комментарием в PR."
+  ]
+}

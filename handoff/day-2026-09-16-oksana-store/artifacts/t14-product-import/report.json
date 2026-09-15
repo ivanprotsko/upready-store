@@ -1,0 +1,65 @@
+{
+  "task": "t14-product-import",
+  "branch": "feat/day16-product-import",
+  "pr": {
+    "number": 34,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/34"
+  },
+  "done": [
+    {
+      "item": "Реализована выгрузка каталога в CSV (GET /tenants/products/export) с контрактом колонок и русскими заголовками, принимаются технические синонимы.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t14-product-import/report.md"
+      ]
+    },
+    {
+      "item": "Реализован сухой прогон импорта (POST /tenants/products/import) с построчным отчётом об ошибках, не пишущий ничего в каталог до подтверждения."
+    },
+    {
+      "item": "Добавлено подтверждение импорта (POST /tenants/products/import/:id/confirm) — единственный маршрут, применяющий изменения к каталогу, плюс просмотр и отмена загрузки."
+    },
+    {
+      "item": "Отчёт по импорту хранится в БД (модель tenant_product_import, миграция Migration20260914235154) и переживает перезагрузку страницы."
+    },
+    {
+      "item": "В панели владельца появились рабочие экраны «Выгрузить CSV» и «Загрузить CSV» — прежние кнопки никуда не вели."
+    },
+    {
+      "item": "Закрыт SSRF при скачивании картинок по ссылке (запрет приватных адресов, ограничение переадресаций и размера тела), покрыто юнит-тестами."
+    },
+    {
+      "item": "Приёмка на живом стенде: 6 из 6 seam-тестов кругового рейса и записи прошли, backend tsc rc=0, 190 из 191 юнитов (падение не регрессия PR), панель typecheck и lint rc=0.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t14-product-import-1.findings.md"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Pull Request #34",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/34"
+    },
+    {
+      "label": "Отчёт воркера (report.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t14-product-import/report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t14-product-import-1.findings.md"
+    },
+    {
+      "label": "Скриншот: отчёт импорта в панели",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t14-product-import-1/panel-4-import-report.png"
+    },
+    {
+      "label": "Скриншот: новая цена на витрине",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t14-product-import-1/storefront-2-variant-price.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "XLSX не читается — принимается только CSV, для xlsx-файла показывается понятный отказ с подсказкой сохранить как CSV UTF-8.",
+    "В приёмке отмечены нитки: расхождение прозы PR со скриншотом и битые картинки на стенде — оставлены комментарием в PR.",
+    "Полная test:integration:http на PORT=9199 упала из-за занятого чужим процессом порта — это окружение, не регрессия PR."
+  ]
+}

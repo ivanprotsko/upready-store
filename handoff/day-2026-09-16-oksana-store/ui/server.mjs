@@ -12,6 +12,9 @@ const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'applic
 const text = (res, code, s, ct = 'text/plain; charset=utf-8') => { res.writeHead(code, { 'content-type': ct, 'cache-control': 'no-store' }); res.end(s); };
 const body = (req) => new Promise(r => { let b = ''; req.on('data', d => b += d); req.on('end', () => r(b)); });
 const safe = (base, f) => { const p = path.resolve(base, f); return p.startsWith(base) ? p : null; };
+const REPO = path.resolve(L.DIR, '..', '..');
+// Путь из отчёта воркера может быть относительным к корню репозитория (как в PR) — сначала папка штаба, затем репо.
+const safeAny = (f) => { const a = safe(L.DIR, f); if (a && fs.existsSync(a)) return a; const b = safe(REPO, f); return b && fs.existsSync(b) ? b : a; };
 function cmd(op, id) { fs.mkdirSync(P.commands, { recursive: true }); const f = path.join(P.commands, `${Date.now()}-${op}-${id || 'all'}.json`); fs.writeFileSync(f, JSON.stringify({ op, id: id || null, ts: L.nowIso() })); return f; }
 function dispatcherAlive(state) { const d = state.dispatcher || {}; return L.pidAlive(d.pid) && L.minutesSince(d.lastTick) < 5; }
 
@@ -36,8 +39,8 @@ const server = http.createServer(async (req, res) => {
     if (u.pathname === '/api/logs') return json(res, 200, fs.existsSync(P.logs) ? fs.readdirSync(P.logs).map(f => ({ f, size: fs.statSync(path.join(P.logs, f)).size, m: fs.statSync(path.join(P.logs, f)).mtime })).sort((a, b) => b.m - a.m) : []);
     if (u.pathname === '/api/screen') { const state = L.loadState(); const s = state.tasks[q.id]; if (!s?.ws) return text(res, 404, 'нет workspace'); const term = L.liveAgentTerminal(s.ws); if (!term) return text(res, 200, '(живого терминала нет)\n' + (s.lastScreen || '')); return text(res, 200, L.terminalRead(s.ws, term.terminalId, Number(q.n || 60))); }
     if (u.pathname === '/api/summary') { const cfg = L.loadTasks(); const state = L.loadState(); const sm = summary(cfg, state, q.id); if (!sm) return json(res, 404, { error: 'no task' }); return json(res, 200, sm); }
-    if (u.pathname === '/api/artifact') { const f = safe(L.DIR, q.f || ''); if (!f || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return text(res, 404, 'нет файла'); const ext = path.extname(f).slice(1).toLowerCase(); const ct = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml', json: 'application/json; charset=utf-8', pdf: 'application/pdf' }[ext] || 'text/plain; charset=utf-8'; res.writeHead(200, { 'content-type': ct, 'cache-control': 'no-store' }); return fs.createReadStream(f).pipe(res); }
-    if (u.pathname === '/api/file') { const f = safe(L.DIR, q.f || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, fs.readFileSync(f, 'utf8')); }
+    if (u.pathname === '/api/artifact') { const f = safeAny(q.f || ''); if (!f || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return text(res, 404, 'нет файла'); const ext = path.extname(f).slice(1).toLowerCase(); const ct = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml', json: 'application/json; charset=utf-8', pdf: 'application/pdf' }[ext] || 'text/plain; charset=utf-8'; res.writeHead(200, { 'content-type': ct, 'cache-control': 'no-store' }); return fs.createReadStream(f).pipe(res); }
+    if (u.pathname === '/api/file') { const f = safeAny(q.f || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, fs.readFileSync(f, 'utf8')); }
     return text(res, 404, 'not found');
   } catch (e) { return json(res, 500, { error: String(e.stack || e) }); }
 });

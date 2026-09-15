@@ -126,7 +126,13 @@ medusaIntegrationTestRunner({
         expect(resolved.data.publishable_key).toBe(a.tenant.api_key.token);
 
         const listA = await api.get("/tenants/domains", bearer(a.token));
-        expect(listA.data.domains).toEqual([{ id: created.data.domain.id, host: "acme.example" }]);
+        // The address task (`specs/tenant-address/CANONICAL.md`) added `is_primary`
+        // to every row of this list, because the panel has to show which address is
+        // the MAIN one. A host the tenant just added is not it: the model defaults
+        // the flag to false and only an explicit PUT promotes a row.
+        expect(listA.data.domains).toEqual([
+          { id: created.data.domain.id, host: "acme.example", is_primary: false },
+        ]);
       });
 
       it("refuses a host another tenant already holds, with 409 and no hint who holds it", async () => {

@@ -1,0 +1,65 @@
+{
+  "task": "f06-shipping-method-names",
+  "branch": "fix/day16-shipping-names",
+  "pr": {
+    "number": 45,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/45"
+  },
+  "done": [
+    {
+      "item": "Способы доставки магазина Оксаны переименованы: «Оксана Черкашина pickup»/«courier» → «Самовывоз»/«Курьером», добавлены пояснения для покупателя."
+    },
+    {
+      "item": "Цена курьера рассчитывается по валюте региона (300 ₽ в рублёвой, 10 $ в долларовой) вместо одного числа на все валюты."
+    },
+    {
+      "item": "На живом магазине Оксаны выполнено разовое переименование (f06-rename-oneoff.js): 2 способа переименованы, курьер переоценён с плейсхолдера 10 ₽."
+    },
+    {
+      "item": "В панели владелицы у способа с неподтверждённым тарифом появилась пометка «Стоимость по умолчанию — укажите свою», снимается после сохранения своей цены."
+    },
+    {
+      "item": "Переименование встроено в docker-entrypoint.sh (шаг 5): следующая волна деплоя сходится сама для остальных тенантов."
+    },
+    {
+      "item": "Добавлены 5 unit-тестов default-method-names.unit.spec.ts, tsc и jest проходят без ошибок."
+    },
+    {
+      "item": "Приёмка (2 раунда) подтвердила все критерии задачи: русские названия без имени магазина и английских слов, цена и пояснение на чекауте, идемпотентность повторного прогона, соседний тенант не затронут."
+    },
+    {
+      "item": "PR смёржен после ребейза, устранившего единственный конфликт (поле статуса в HANDOFF.json)."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #45 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/45"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f06-shipping-method-names/report.md"
+    },
+    {
+      "label": "Скриншоты чекаута (приёмка, раунд 2)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f06-shipping-method-names-2/accept-checkout-1280x900.png"
+    },
+    {
+      "label": "Замер /store/shipping-options (приёмка, раунд 2)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f06-shipping-method-names-2/shipping-options-cherkashino.json"
+    },
+    {
+      "label": "Findings приёмки, раунд 1 (REJECTED — merge-конфликт)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f06-shipping-method-names-1.findings.md"
+    },
+    {
+      "label": "Findings приёмки, раунд 2 (MERGED)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f06-shipping-method-names-2.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Мелочь из раунда 1, не блокирует: на карточке «Самовывоз» подсказка переносится на две строки и прижимает «Бесплатно» — лечится одной строкой в default-method-names.ts.",
+    "Локаль в шаге 5 entrypoint одна на весь бэкенд (STOREFRONT_DEFAULT_LOCALE) — отмечено приёмщиком как не блокирующее."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "task": "d02-deploy-mt-2",
+  "done": [
+    {
+      "item": "Задеплоен dev на живой хост (sha 2508708): код взят чисто из origin/dev через git archive, чтобы не задеплоить устаревший локальный чекаут."
+    },
+    {
+      "item": "Снят дамп БД до операции: /opt/upready-store/backups/mt-medusa_mt-20260915-000636.sql.gz, 5 069 986 байт."
+    },
+    {
+      "item": "Применены 4 новые миграции модуля tenant (PR #21/#23/#24), ошибок нет."
+    },
+    {
+      "item": "Прогнаны бэкфиллы backfill-hero-copy.js и backfill-option-translations.js, повторный прогон подтвердил идемпотентность."
+    },
+    {
+      "item": "5 из 5 health-checks вернули 200: shipshift.dev/health, onboarding, панель, cherkashino.shipshift.dev/ru, zolotaya-nit-1057.shipshift.dev/ru."
+    },
+    {
+      "item": "Проверен каталог Оксаны через публикуемый ключ тенанта cherkashino — 29 опубликованных товаров, не demo-данные."
+    },
+    {
+      "item": "Найден баг: deploy/compose.mt.yml не прокидывает новые переменные SMTP_*/TELEGRAM_*/BACKEND_PUBLIC_URL в контейнер backend."
+    },
+    {
+      "item": "По ошибке дописанная в shipshift.env переменная LOCALE_COUNTRY_MAP откачена, md5 файла после отката совпал с исходным."
+    }
+  ],
+  "results": [
+    {
+      "label": "Итоговый отчёт по деплою",
+      "path": "artifacts/d02-deploy-mt-2/report.md"
+    },
+    {
+      "label": "Скриншот магазина cherkashino после деплоя",
+      "path": "artifacts/d02-deploy-mt-2/cherkashino-store.png"
+    },
+    {
+      "label": "Промежуточный чекпойнт (durable-save)",
+      "path": "artifacts/d02-deploy-mt-2/progress-2026-09-15-0612.md"
+    },
+    {
+      "label": "Магазин Cherkashino (health-check)",
+      "url": "https://cherkashino.shipshift.dev/ru"
+    },
+    {
+      "label": "Панель управления",
+      "url": "https://panel-store.upready.dev/"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "deploy/compose.mt.yml не прокидывает новые переменные SMTP_*/TELEGRAM_*/BACKEND_PUBLIC_URL в контейнер backend — нужен отдельный фикс, деплой это не чинит.",
+    "SMTP и Telegram не настроены на хосте: письмо о заказе и уведомление владельцу логируют недоставку без падения сервиса.",
+    "Attempt 1 оборвался до печати RESULT (как в кейсе x03); attempt 2 повторил rsync и build (100% cache-hit) с тем же sha."
+  ]
+}
