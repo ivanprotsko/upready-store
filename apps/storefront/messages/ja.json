@@ -586,12 +586,13 @@
     "seeDetails": "詳細を見る"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "注文番号を保管してください。ショップへのお問い合わせの際に必要です。",
     "orderSuccess": "ご注文が完了しました。",
     "thankYou": "ありがとうございます！"
   },
   "OrderDetails": {
     "backToOrders": "注文一覧に戻る",
-    "confirmationSentBefore": "注文確認の詳細を以下の宛先にお送りしました：",
+    "contactEmailBefore": "このご注文の連絡先アドレス",
     "fulfillmentStatuses": {
       "canceled": "キャンセル済み",
       "delivered": "配達済み",

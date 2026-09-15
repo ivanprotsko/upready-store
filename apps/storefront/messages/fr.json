@@ -586,12 +586,13 @@
     "seeDetails": "Voir les détails"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Conservez le numéro de commande. Vous en aurez besoin pour contacter la boutique.",
     "orderSuccess": "Votre commande a été passée avec succès.",
     "thankYou": "Merci !"
   },
   "OrderDetails": {
     "backToOrders": "Retour aux commandes",
-    "confirmationSentBefore": "Nous avons envoyé les détails de confirmation de commande à",
+    "contactEmailBefore": "L'adresse de contact de cette commande est",
     "fulfillmentStatuses": {
       "canceled": "Annulée",
       "delivered": "Livrée",

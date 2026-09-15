@@ -586,12 +586,13 @@
     "seeDetails": "Lihat butiran"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nombor pesanan anda. Anda memerlukannya apabila menghubungi kedai.",
     "orderSuccess": "Pesanan anda berjaya dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah menghantar butiran pengesahan pesanan ke",
+    "contactEmailBefore": "Alamat hubungan untuk pesanan ini ialah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",

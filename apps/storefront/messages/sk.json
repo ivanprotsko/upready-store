@@ -586,12 +586,13 @@
     "seeDetails": "Zobraziť detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovajte si číslo objednávky. Budete ho potrebovať pri kontakte s obchodom.",
     "orderSuccess": "Vaša objednávka bola úspešne vytvorená.",
     "thankYou": "Ďakujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",
-    "confirmationSentBefore": "Potvrdenie objednávky sme odoslali na",
+    "contactEmailBefore": "Kontaktná adresa tejto objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušené",
       "delivered": "Doručené",

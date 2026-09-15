@@ -586,12 +586,13 @@
     "seeDetails": "לפרטים נוספים"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "שמרו את מספר ההזמנה. תזדקקו לו כשתפנו לחנות.",
     "orderSuccess": "ההזמנה שלך בוצעה בהצלחה.",
     "thankYou": "תודה!"
   },
   "OrderDetails": {
     "backToOrders": "חזרה להזמנות",
-    "confirmationSentBefore": "שלחנו את פרטי אישור ההזמנה אל",
+    "contactEmailBefore": "כתובת הקשר של הזמנה זו היא",
     "fulfillmentStatuses": {
       "canceled": "בוטלה",
       "delivered": "נמסרה",

@@ -586,12 +586,13 @@
     "seeDetails": "Se detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Gem ordrenummeret. Du får brug for det, når du kontakter butikken.",
     "orderSuccess": "Din ordre er blevet afgivet.",
     "thankYou": "Tak!"
   },
   "OrderDetails": {
     "backToOrders": "Tilbage til ordrer",
-    "confirmationSentBefore": "Vi har sendt ordrebekræftelsen til",
+    "contactEmailBefore": "Kontaktadressen for denne ordre er",
     "fulfillmentStatuses": {
       "canceled": "Annulleret",
       "delivered": "Leveret",

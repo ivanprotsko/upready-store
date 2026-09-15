@@ -586,12 +586,13 @@
     "seeDetails": "Δείτε λεπτομέρειες"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Κρατήστε τον αριθμό παραγγελίας. Θα τον χρειαστείτε όταν επικοινωνήσετε με το κατάστημα.",
     "orderSuccess": "Η παραγγελία σας ολοκληρώθηκε με επιτυχία.",
     "thankYou": "Ευχαριστούμε!"
   },
   "OrderDetails": {
     "backToOrders": "Πίσω στις παραγγελίες",
-    "confirmationSentBefore": "Στείλαμε τα στοιχεία επιβεβαίωσης της παραγγελίας στο",
+    "contactEmailBefore": "Η διεύθυνση επικοινωνίας για αυτήν την παραγγελία είναι",
     "fulfillmentStatuses": {
       "canceled": "Ακυρώθηκε",
       "delivered": "Παραδόθηκε",

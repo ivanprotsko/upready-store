@@ -586,12 +586,13 @@
     "seeDetails": "Lihat detail"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nomor pesanan Anda. Anda memerlukannya saat menghubungi toko.",
     "orderSuccess": "Pesanan Anda berhasil dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah mengirimkan detail konfirmasi pesanan ke",
+    "contactEmailBefore": "Alamat kontak untuk pesanan ini adalah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",

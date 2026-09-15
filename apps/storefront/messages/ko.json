@@ -586,12 +586,13 @@
     "seeDetails": "상세 보기"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "주문 번호를 보관하세요. 매장에 문의할 때 필요합니다.",
     "orderSuccess": "주문이 성공적으로 완료되었습니다.",
     "thankYou": "감사합니다!"
   },
   "OrderDetails": {
     "backToOrders": "주문 목록으로",
-    "confirmationSentBefore": "주문 확인 내역을 다음 주소로 보내드렸습니다",
+    "contactEmailBefore": "이 주문의 연락처 주소",
     "fulfillmentStatuses": {
       "canceled": "취소됨",
       "delivered": "배송 완료",

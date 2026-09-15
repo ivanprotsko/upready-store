@@ -586,12 +586,13 @@
     "seeDetails": "عرض التفاصيل"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "احتفظ برقم الطلب، فستحتاج إليه عند التواصل مع المتجر.",
     "orderSuccess": "تم تقديم طلبك بنجاح.",
     "thankYou": "شكرًا لك!"
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",
-    "confirmationSentBefore": "لقد أرسلنا تفاصيل تأكيد الطلب إلى",
+    "contactEmailBefore": "عنوان التواصل لهذا الطلب هو",
     "fulfillmentStatuses": {
       "canceled": "ملغى",
       "delivered": "تم التسليم",
