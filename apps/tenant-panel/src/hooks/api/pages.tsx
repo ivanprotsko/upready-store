@@ -51,6 +51,8 @@ export type TenantPage = {
   published: boolean
   in_footer: boolean
   footer_order: number | null
+  seo_title: string | null
+  seo_description: string | null
   reserved: boolean
 }
 
@@ -64,6 +66,8 @@ export type PutTenantPageBody = {
   in_footer: boolean
   footer_order?: number | null
   locale?: string
+  seo_title?: string | null
+  seo_description?: string | null
 }
 
 export type CreateTenantPageBody = {

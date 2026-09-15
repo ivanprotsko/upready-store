@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Lihat semua"
   },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} dari 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} dari 5",
+    "formHeading": "Ulasan Anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama Anda",
+    "titleLabel": "Judul (opsional)",
+    "bodyLabel": "Isi ulasan",
+    "submit": "Kirim ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan tampil setelah disetujui toko.",
+    "signInPrompt": "Masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dikirim. Coba lagi.",
+    "ownerReply": "Balasan toko",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Berikutnya",
+    "pageOf": "Halaman {page} dari {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Pengembalian mudah",
     "easyReturnsDesc": "Cukup kembalikan produk Anda dan kami akan mengembalikan uang Anda. Tanpa banyak tanya - kami akan memastikan proses pengembalian berjalan tanpa repot.",

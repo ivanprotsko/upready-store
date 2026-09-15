@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Бүгдийг харах"
   },
+  "ProductReviews": {
+    "heading": "Сэтгэгдэл",
+    "ratingSummary": "5-аас {average} · {count, plural, one {# сэтгэгдэл} other {# сэтгэгдэл}}",
+    "ratingValue": "5-аас {value}",
+    "formHeading": "Таны сэтгэгдэл",
+    "ratingLabel": "Үнэлгээ",
+    "nameLabel": "Таны нэр",
+    "titleLabel": "Гарчиг (заавал биш)",
+    "bodyLabel": "Сэтгэгдлийн текст",
+    "submit": "Сэтгэгдэл илгээх",
+    "pendingNotice": "Баярлалаа. Дэлгүүр баталсны дараа сэтгэгдэл харагдана.",
+    "signInPrompt": "Сэтгэгдэл үлдээхийн тулд нэвтэрнэ үү.",
+    "error": "Сэтгэгдэл илгээгдсэнгүй. Дахин оролдоно уу.",
+    "ownerReply": "Дэлгүүрийн хариу",
+    "previousPage": "Өмнөх",
+    "nextPage": "Дараах",
+    "pageOf": "{pages}-аас {page} хуудас"
+  },
   "ProductTabs": {
     "easyReturns": "Хялбар буцаалт",
     "easyReturnsDesc": "Бүтээгдэхүүнээ буцаахад л хангалттай, бид мөнгийг тань буцаана. Ямар ч асуулт байхгүй - буцаалтыг тань аль болох хялбар байлгахыг хичээх болно.",

@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Виж всички"
   },
+  "ProductReviews": {
+    "heading": "Отзиви",
+    "ratingSummary": "{average} от 5 · {count, plural, one {# отзив} other {# отзива}}",
+    "ratingValue": "{value} от 5",
+    "formHeading": "Вашият отзив",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Вашето име",
+    "titleLabel": "Заглавие (по избор)",
+    "bodyLabel": "Текст на отзива",
+    "submit": "Изпрати отзив",
+    "pendingNotice": "Благодарим ви. Отзивът ще се появи, след като магазинът го одобри.",
+    "signInPrompt": "Влезте, за да оставите отзив.",
+    "error": "Отзивът не беше изпратен. Опитайте отново.",
+    "ownerReply": "Отговор от магазина",
+    "previousPage": "Назад",
+    "nextPage": "Напред",
+    "pageOf": "Страница {page} от {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Лесно връщане",
     "easyReturnsDesc": "Просто върнете продукта и ние ще възстановим парите ви. Без излишни въпроси — ще направим всичко възможно връщането да бъде без затруднения.",

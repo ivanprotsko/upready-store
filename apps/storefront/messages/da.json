@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Se alle"
   },
+  "ProductReviews": {
+    "heading": "Anmeldelser",
+    "ratingSummary": "{average} ud af 5 · {count, plural, one {# anmeldelse} other {# anmeldelser}}",
+    "ratingValue": "{value} ud af 5",
+    "formHeading": "Din anmeldelse",
+    "ratingLabel": "Bedømmelse",
+    "nameLabel": "Dit navn",
+    "titleLabel": "Overskrift (valgfrit)",
+    "bodyLabel": "Din tekst",
+    "submit": "Send anmeldelse",
+    "pendingNotice": "Tak. Din anmeldelse vises, når butikken har godkendt den.",
+    "signInPrompt": "Log ind for at skrive en anmeldelse.",
+    "error": "Anmeldelsen kunne ikke sendes. Prøv igen.",
+    "ownerReply": "Svar fra butikken",
+    "previousPage": "Forrige",
+    "nextPage": "Næste",
+    "pageOf": "Side {page} af {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Nem retur",
     "easyReturnsDesc": "Returnér blot dit produkt, så refunderer vi dine penge. Ingen spørgsmål – vi gør vores bedste for at gøre din retur problemfri.",

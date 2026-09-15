@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getTenantDefaultLocale } from "@lib/data/cookies"
 import ProductTemplate from "@modules/products/templates"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale } from "next-intl/server"
@@ -11,10 +11,17 @@ import { DEFAULT_REGION } from "@lib/util/env"
 import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
+import { seoOverride } from "@lib/util/tenant-seo"
 
 type Props = {
   params: Promise<{ handle: string }>
-  searchParams: Promise<{ v_id?: string }>
+  searchParams: Promise<{ v_id?: string; rp?: string }>
+}
+
+/** `?rp=` — the 1-based page of the reviews list. Anything else is page 1. */
+function parseReviewsPage(raw: string | undefined): number {
+  const value = Number(raw)
+  return Number.isInteger(value) && value > 0 ? value : 1
 }
 
 function getImagesForVariant(
@@ -35,10 +42,11 @@ function getImagesForVariant(
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const [params, countryCode, locale] = await Promise.all([
+  const [params, countryCode, locale, defaultLocale] = await Promise.all([
     props.params,
     getCountryCode(),
     getLocale(),
+    getTenantDefaultLocale(),
   ])
 
   const cc = countryCode ?? DEFAULT_REGION
@@ -58,11 +66,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const title = product.title
-    ? await pageTitle(product.title)
-    : await getSiteName()
+  const override = seoOverride(product, locale, defaultLocale)
 
-  const description = metaDescription(product.description, product.subtitle)
+  const title = override.title
+    ? await pageTitle(override.title)
+    : product.title
+      ? await pageTitle(product.title)
+      : await getSiteName()
+
+  const description = metaDescription(
+    override.description,
+    product.description,
+    product.subtitle
+  )
 
   return {
     title,
@@ -108,6 +124,7 @@ export default async function ProductPage(props: Props) {
       region={region}
       countryCode={cc}
       images={images ?? []}
+      reviewsPage={parseReviewsPage(searchParams.rp)}
     />
   )
 }

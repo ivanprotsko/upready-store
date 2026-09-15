@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Vedi tutti"
   },
+  "ProductReviews": {
+    "heading": "Recensioni",
+    "ratingSummary": "{average} su 5 · {count, plural, one {# recensione} other {# recensioni}}",
+    "ratingValue": "{value} su 5",
+    "formHeading": "La tua recensione",
+    "ratingLabel": "Valutazione",
+    "nameLabel": "Il tuo nome",
+    "titleLabel": "Titolo (facoltativo)",
+    "bodyLabel": "La tua recensione",
+    "submit": "Invia recensione",
+    "pendingNotice": "Grazie. La recensione comparirà dopo l'approvazione del negozio.",
+    "signInPrompt": "Accedi per lasciare una recensione.",
+    "error": "Impossibile inviare la recensione. Riprova.",
+    "ownerReply": "Risposta del negozio",
+    "previousPage": "Precedente",
+    "nextPage": "Successiva",
+    "pageOf": "Pagina {page} di {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Resi facili",
     "easyReturnsDesc": "Restituisci semplicemente il prodotto e ti rimborseremo. Senza fare domande - faremo del nostro meglio per rendere il reso il più semplice possibile.",

@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Xem tất cả"
   },
+  "ProductReviews": {
+    "heading": "Đánh giá",
+    "ratingSummary": "{average} trên 5 · {count, plural, other {# đánh giá}}",
+    "ratingValue": "{value} trên 5",
+    "formHeading": "Đánh giá của bạn",
+    "ratingLabel": "Điểm",
+    "nameLabel": "Tên của bạn",
+    "titleLabel": "Tiêu đề (không bắt buộc)",
+    "bodyLabel": "Nội dung đánh giá",
+    "submit": "Gửi đánh giá",
+    "pendingNotice": "Cảm ơn bạn. Đánh giá sẽ hiển thị sau khi cửa hàng duyệt.",
+    "signInPrompt": "Đăng nhập để viết đánh giá.",
+    "error": "Không gửi được đánh giá. Hãy thử lại.",
+    "ownerReply": "Phản hồi của cửa hàng",
+    "previousPage": "Trước",
+    "nextPage": "Sau",
+    "pageOf": "Trang {page} / {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Trả hàng dễ dàng",
     "easyReturnsDesc": "Chỉ cần trả lại sản phẩm, chúng tôi sẽ hoàn tiền cho bạn. Không cần giải thích lý do - chúng tôi sẽ đảm bảo việc trả hàng diễn ra thuận tiện nhất.",

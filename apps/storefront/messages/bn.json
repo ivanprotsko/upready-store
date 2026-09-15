@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "সব দেখুন"
   },
+  "ProductReviews": {
+    "heading": "রিভিউ",
+    "ratingSummary": "৫-এর মধ্যে {average} · {count, plural, one {# রিভিউ} other {# রিভিউ}}",
+    "ratingValue": "৫-এর মধ্যে {value}",
+    "formHeading": "আপনার রিভিউ",
+    "ratingLabel": "রেটিং",
+    "nameLabel": "আপনার নাম",
+    "titleLabel": "শিরোনাম (ঐচ্ছিক)",
+    "bodyLabel": "রিভিউয়ের লেখা",
+    "submit": "রিভিউ পাঠান",
+    "pendingNotice": "ধন্যবাদ। দোকান অনুমোদন করলে আপনার রিভিউ দেখা যাবে।",
+    "signInPrompt": "রিভিউ লিখতে সাইন ইন করুন।",
+    "error": "রিভিউ পাঠানো যায়নি। আবার চেষ্টা করুন।",
+    "ownerReply": "দোকানের উত্তর",
+    "previousPage": "পূর্ববর্তী",
+    "nextPage": "পরবর্তী",
+    "pageOf": "পৃষ্ঠা {page} / {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "সহজ রিটার্ন",
     "easyReturnsDesc": "শুধু আপনার পণ্যটি ফেরত দিন এবং আমরা আপনার টাকা ফেরত দেব। কোনো প্রশ্ন ছাড়াই – আপনার রিটার্ন যেন ঝামেলামুক্ত হয় তা নিশ্চিত করতে আমরা সর্বোচ্চ চেষ্টা করব।",

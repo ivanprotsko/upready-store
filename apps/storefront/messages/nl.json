@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Alles bekijken"
   },
+  "ProductReviews": {
+    "heading": "Beoordelingen",
+    "ratingSummary": "{average} van 5 · {count, plural, one {# beoordeling} other {# beoordelingen}}",
+    "ratingValue": "{value} van 5",
+    "formHeading": "Jouw beoordeling",
+    "ratingLabel": "Cijfer",
+    "nameLabel": "Jouw naam",
+    "titleLabel": "Kop (optioneel)",
+    "bodyLabel": "Jouw beoordeling",
+    "submit": "Beoordeling versturen",
+    "pendingNotice": "Bedankt. Je beoordeling verschijnt zodra de winkel deze heeft goedgekeurd.",
+    "signInPrompt": "Log in om een beoordeling te schrijven.",
+    "error": "De beoordeling kon niet worden verstuurd. Probeer het opnieuw.",
+    "ownerReply": "Reactie van de winkel",
+    "previousPage": "Vorige",
+    "nextPage": "Volgende",
+    "pageOf": "Pagina {page} van {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Gemakkelijk retourneren",
     "easyReturnsDesc": "Retourneer eenvoudig uw product en wij betalen uw geld terug. Geen vragen gesteld – we doen ons best om uw retour zo moeiteloos mogelijk te maken.",

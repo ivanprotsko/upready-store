@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "ดูทั้งหมด"
   },
+  "ProductReviews": {
+    "heading": "รีวิว",
+    "ratingSummary": "{average} จาก 5 · {count, plural, other {# รีวิว}}",
+    "ratingValue": "{value} จาก 5",
+    "formHeading": "รีวิวของคุณ",
+    "ratingLabel": "คะแนน",
+    "nameLabel": "ชื่อของคุณ",
+    "titleLabel": "หัวข้อ (ไม่บังคับ)",
+    "bodyLabel": "ข้อความรีวิว",
+    "submit": "ส่งรีวิว",
+    "pendingNotice": "ขอบคุณ รีวิวจะแสดงหลังจากร้านค้าอนุมัติแล้ว",
+    "signInPrompt": "เข้าสู่ระบบเพื่อเขียนรีวิว",
+    "error": "ส่งรีวิวไม่สำเร็จ ลองอีกครั้ง",
+    "ownerReply": "คำตอบจากร้านค้า",
+    "previousPage": "ก่อนหน้า",
+    "nextPage": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "คืนสินค้าง่ายๆ",
     "easyReturnsDesc": "เพียงส่งคืนสินค้า แล้วเราจะคืนเงินให้คุณ โดยไม่ต้องถามคำถามใดๆ เราจะพยายามอย่างเต็มที่เพื่อให้การคืนสินค้าเป็นไปอย่างราบรื่น",

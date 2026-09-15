@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Lihat semua"
   },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} daripada 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} daripada 5",
+    "formHeading": "Ulasan anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama anda",
+    "titleLabel": "Tajuk (pilihan)",
+    "bodyLabel": "Teks ulasan",
+    "submit": "Hantar ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan dipaparkan selepas kedai meluluskannya.",
+    "signInPrompt": "Log masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dihantar. Cuba lagi.",
+    "ownerReply": "Jawapan kedai",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Pemulangan mudah",
     "easyReturnsDesc": "Hanya pulangkan produk anda dan kami akan memulangkan wang anda. Tiada soalan ditanya - kami akan pastikan proses pemulangan anda lancar.",

@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "查看全部"
   },
+  "ProductReviews": {
+    "heading": "评价",
+    "ratingSummary": "{average} 分（满分 5 分）· {count, plural, other {# 条评价}}",
+    "ratingValue": "{value} 分（满分 5 分）",
+    "formHeading": "您的评价",
+    "ratingLabel": "评分",
+    "nameLabel": "您的姓名",
+    "titleLabel": "标题（选填）",
+    "bodyLabel": "评价内容",
+    "submit": "提交评价",
+    "pendingNotice": "感谢您。店铺审核通过后，评价将会显示。",
+    "signInPrompt": "登录后即可发表评价。",
+    "error": "评价发送失败，请重试。",
+    "ownerReply": "店铺回复",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "pageOf": "第 {page} 页，共 {pages} 页"
+  },
   "ProductTabs": {
     "easyReturns": "轻松退货",
     "easyReturnsDesc": "只需退回商品，我们即为您全额退款。无需说明理由，我们会尽力让退货过程简单无忧。",

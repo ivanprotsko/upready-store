@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Žiūrėti visus"
   },
+  "ProductReviews": {
+    "heading": "Atsiliepimai",
+    "ratingSummary": "{average} iš 5 · {count, plural, one {# atsiliepimas} few {# atsiliepimai} other {# atsiliepimų}}",
+    "ratingValue": "{value} iš 5",
+    "formHeading": "Jūsų atsiliepimas",
+    "ratingLabel": "Įvertinimas",
+    "nameLabel": "Jūsų vardas",
+    "titleLabel": "Antraštė (nebūtina)",
+    "bodyLabel": "Atsiliepimo tekstas",
+    "submit": "Siųsti atsiliepimą",
+    "pendingNotice": "Ačiū. Atsiliepimas pasirodys, kai parduotuvė jį patvirtins.",
+    "signInPrompt": "Prisijunkite, kad paliktumėte atsiliepimą.",
+    "error": "Atsiliepimo išsiųsti nepavyko. Bandykite dar kartą.",
+    "ownerReply": "Parduotuvės atsakymas",
+    "previousPage": "Atgal",
+    "nextPage": "Pirmyn",
+    "pageOf": "Puslapis {page} iš {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Lengvas grąžinimas",
     "easyReturnsDesc": "Tiesiog grąžinkite prekę, o mes grąžinsime jūsų pinigus. Jokių papildomų klausimų — pasistengsime, kad grąžinimas būtų kuo paprastesnis.",

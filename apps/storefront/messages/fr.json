@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Tout voir"
   },
+  "ProductReviews": {
+    "heading": "Avis",
+    "ratingSummary": "{average} sur 5 · {count, plural, one {# avis} other {# avis}}",
+    "ratingValue": "{value} sur 5",
+    "formHeading": "Votre avis",
+    "ratingLabel": "Note",
+    "nameLabel": "Votre nom",
+    "titleLabel": "Titre (facultatif)",
+    "bodyLabel": "Votre avis",
+    "submit": "Envoyer l'avis",
+    "pendingNotice": "Merci. Votre avis paraîtra une fois validé par la boutique.",
+    "signInPrompt": "Connectez-vous pour laisser un avis.",
+    "error": "L'avis n'a pas pu être envoyé. Réessayez.",
+    "ownerReply": "Réponse de la boutique",
+    "previousPage": "Précédent",
+    "nextPage": "Suivant",
+    "pageOf": "Page {page} sur {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Retours faciles",
     "easyReturnsDesc": "Retournez simplement votre produit et nous vous remboursons. Sans poser de questions – nous ferons de notre mieux pour que votre retour se passe sans souci.",

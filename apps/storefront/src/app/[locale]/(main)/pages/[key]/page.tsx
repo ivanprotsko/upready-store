@@ -38,9 +38,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: await pageTitle(page.title),
+    title: await pageTitle(page.seo_title || page.title),
     description:
-      metaDescription(page.body) ??
+      metaDescription(page.seo_description, page.body) ??
       t("metaDescription", { title: page.title, siteName: await getSiteName() }),
     alternates: await buildAlternates(locale, `/pages/${params.key}`),
   }

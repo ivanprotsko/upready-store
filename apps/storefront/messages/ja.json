@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "すべて見る"
   },
+  "ProductReviews": {
+    "heading": "レビュー",
+    "ratingSummary": "5段階中{average} · {count, plural, other {#件のレビュー}}",
+    "ratingValue": "5段階中{value}",
+    "formHeading": "あなたのレビュー",
+    "ratingLabel": "評価",
+    "nameLabel": "お名前",
+    "titleLabel": "タイトル（任意）",
+    "bodyLabel": "レビュー本文",
+    "submit": "レビューを送信",
+    "pendingNotice": "ありがとうございます。ショップの承認後にレビューが表示されます。",
+    "signInPrompt": "レビューを書くにはログインしてください。",
+    "error": "レビューを送信できませんでした。もう一度お試しください。",
+    "ownerReply": "ショップからの返信",
+    "previousPage": "前へ",
+    "nextPage": "次へ",
+    "pageOf": "{pages}ページ中{page}ページ"
+  },
   "ProductTabs": {
     "easyReturns": "簡単な返品",
     "easyReturnsDesc": "商品を返送いただくだけで、返金いたします。理由は問いません。返品ができるだけスムーズに完了するよう努めます。",

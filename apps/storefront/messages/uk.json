@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Переглянути всі"
   },
+  "ProductReviews": {
+    "heading": "Відгуки",
+    "ratingSummary": "{average} із 5 · {count, plural, one {# відгук} few {# відгуки} many {# відгуків} other {# відгуку}}",
+    "ratingValue": "{value} із 5",
+    "formHeading": "Ваш відгук",
+    "ratingLabel": "Оцінка",
+    "nameLabel": "Ваше ім'я",
+    "titleLabel": "Заголовок (необов'язково)",
+    "bodyLabel": "Текст відгуку",
+    "submit": "Надіслати відгук",
+    "pendingNotice": "Дякуємо. Відгук з'явиться на сторінці після перевірки магазином.",
+    "signInPrompt": "Увійдіть, щоб залишити відгук.",
+    "error": "Відгук не надіслано. Спробуйте ще раз.",
+    "ownerReply": "Відповідь магазину",
+    "previousPage": "Назад",
+    "nextPage": "Далі",
+    "pageOf": "Сторінка {page} з {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Легке повернення",
     "easyReturnsDesc": "Просто поверніть товар, і ми повернемо ваші гроші. Жодних зайвих запитань — ми зробимо все можливе, щоб повернення пройшло без проблем.",

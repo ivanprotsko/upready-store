@@ -718,6 +718,24 @@
   "ProductRail": {
     "viewAll": "Ver tudo"
   },
+  "ProductReviews": {
+    "heading": "Avaliações",
+    "ratingSummary": "{average} de 5 · {count, plural, one {# avaliação} other {# avaliações}}",
+    "ratingValue": "{value} de 5",
+    "formHeading": "A sua avaliação",
+    "ratingLabel": "Classificação",
+    "nameLabel": "O seu nome",
+    "titleLabel": "Título (opcional)",
+    "bodyLabel": "A sua avaliação",
+    "submit": "Enviar avaliação",
+    "pendingNotice": "Obrigado. A avaliação aparece assim que a loja a aprovar.",
+    "signInPrompt": "Inicie sessão para deixar uma avaliação.",
+    "error": "Não foi possível enviar a avaliação. Tente novamente.",
+    "ownerReply": "Resposta da loja",
+    "previousPage": "Anterior",
+    "nextPage": "Seguinte",
+    "pageOf": "Página {page} de {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Devoluções fáceis",
     "easyReturnsDesc": "Basta devolver o seu produto e reembolsamos o seu dinheiro. Sem perguntas – faremos os possíveis para que a sua devolução seja simples e sem complicações.",

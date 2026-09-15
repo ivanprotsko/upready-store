@@ -212,6 +212,7 @@
         "extensions": "Расширения"
       },
       "main": {
+        "reviews": "Отзывы",
         "shipping": "Доставка",
         "homeSettings": "Главная страница",
         "overview": "Обзор",
@@ -848,6 +849,8 @@
     "sales_channels": "Каналы продаж",
     "search": "Поиск",
     "selectCountry": "Выберите страну",
+    "seoDescription": "Описание для поиска",
+    "seoTitle": "Заголовок для поиска",
     "sent": "Отправлено",
     "shipping": "Доставка",
     "shippingMethod": "Способ доставки",

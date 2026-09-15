@@ -214,6 +214,7 @@
         "extensions": "Extensions"
       },
       "main": {
+        "reviews": "Reviews",
         "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",
@@ -906,6 +907,8 @@
     "sales_channels": "Sales Channels",
     "search": "Search",
     "selectCountry": "Select country",
+    "seoDescription": "Search description",
+    "seoTitle": "Search title",
     "sent": "Sent",
     "serviceZone": "Service Zone",
     "shipping": "Shipping",
