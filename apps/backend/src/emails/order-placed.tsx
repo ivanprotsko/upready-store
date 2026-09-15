@@ -16,6 +16,7 @@ import {
   getEmailTranslator,
 } from "./i18n";
 import { useEmailShop } from "./lib/shop";
+import { guestOrderToken } from "../store-order-access/token";
 
 export type OrderPlacedEmailProps = {
   order: {
@@ -56,11 +57,18 @@ export function OrderPlacedEmail({
   /**
    * The only place a customer ever sees the order's id. Everything else shows
    * the display number, and the transfer flow that links a guest order to an
-   * account needs the id. Medusa serves an order to anyone holding its id, so
-   * the id is the secret, and this email already goes to the order's own
-   * address.
+   * account needs the id.
+   *
+   * The id alone no longer opens the order: since b07-store-api-isolation the
+   * Store API answers `GET /store/orders/:id` only for the order's logged-in
+   * owner or for the holder of its access token. A guest has no account, so
+   * the link this email carries has to carry the token too — this email
+   * already goes to the order's own address, so the capability goes exactly
+   * where the order does.
    */
-  const orderUrl = `${shop.storefrontUrl}/order/${order.id}/confirmed`;
+  const orderUrl = `${shop.storefrontUrl}/order/${order.id}/confirmed?token=${encodeURIComponent(
+    guestOrderToken(order.id),
+  )}`;
   const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const formatAmount = (amount: NumericValue) =>

@@ -6,9 +6,24 @@ import { getAuthHeaders, getCacheOptions, getCacheTag } from "./cookies"
 import type { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 
-export const retrieveOrder = async (id: string) => {
+/**
+ * One order, by id.
+ *
+ * `token` is the order's own access token (b07-store-api-isolation). The Store
+ * API used to answer this call for anybody holding the id; it now wants either
+ * the logged-in owner behind `authorization`, or this token. A guest has no
+ * account, so the token is what keeps the "Thank you" page and the link in the
+ * order email working: the checkout redirect and the email both carry it in
+ * the URL, and it is read back out of the URL here.
+ */
+export const retrieveOrder = async (id: string, token?: string) => {
   const headers = {
     ...(await getAuthHeaders()),
+    // The Store API takes the order token as a header and not as a query
+    // parameter: its query validator is strict and answers
+    // `400 … Unrecognized fields: 'token'`. The token still travels through
+    // the page URL, which is what a link in an email can carry.
+    ...(token ? { "x-order-token": token } : {}),
   }
 
   const next = {
