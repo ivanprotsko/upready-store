@@ -25,7 +25,7 @@ const EditPageSchema = zod
     // Mirrors the backend's own rule (`PUT /tenants/pages/:key` answers
     // `invalid_data` for it): the title is the storefront's footer link and the
     // page heading, so a published page without one ships a nameless link.
-    message: "A published page needs a title.",
+    message: "У опубликованной страницы должен быть заголовок.",
     path: ["title"],
   })
 
@@ -66,7 +66,7 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
           toast.error(error.message)
         },
         onSuccess: () => {
-          toast.success("Page saved")
+          toast.success("Страница сохранена")
           handleSuccess()
         },
       }
@@ -83,10 +83,9 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               name="title"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Заголовок</Form.Label>
                   <Form.Hint>
-                    The heading of the page, and the wording of its link in the
-                    storefront footer.
+                    Заголовок страницы и текст её ссылки в подвале магазина.
                   </Form.Hint>
                   <Form.Control>
                     <Input {...field} />
@@ -100,11 +99,11 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               name="body"
               render={({ field }) => (
                 <Form.Item>
-                  <Form.Label>Text</Form.Label>
+                  <Form.Label>Текст</Form.Label>
                   <Form.Hint>
-                    Markdown: {"#"} for a heading, {"-"} for a list item,
-                    [text](https://example.com) for a link, a blank line between
-                    paragraphs.
+                    Markdown: {"#"} перед строкой — заголовок, {"-"} перед
+                    строкой — пункт списка, [текст](https://example.com) —
+                    ссылка, пустая строка между абзацами.
                   </Form.Hint>
                   <Form.Control>
                     <Textarea {...field} rows={18} className="font-mono" />
@@ -119,7 +118,7 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               render={({ field: { value, onChange, ...rest } }) => (
                 <Form.Item>
                   <div className="flex items-center justify-between">
-                    <Form.Label>Published</Form.Label>
+                    <Form.Label>Опубликована</Form.Label>
                     <Form.Control>
                       <Switch
                         {...rest}
@@ -129,8 +128,8 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
                     </Form.Control>
                   </div>
                   <Form.Hint>
-                    A published page is open to shoppers at /pages/{pageKey}. A
-                    draft is visible to you alone.
+                    Опубликованная страница открыта покупателям по адресу
+                    /pages/{pageKey}. Черновик видите только вы.
                   </Form.Hint>
                   <Form.ErrorMessage />
                 </Form.Item>
@@ -142,7 +141,7 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               render={({ field: { value, onChange, ...rest } }) => (
                 <Form.Item>
                   <div className="flex items-center justify-between">
-                    <Form.Label>In the footer</Form.Label>
+                    <Form.Label>В подвале</Form.Label>
                     <Form.Control>
                       <Switch
                         {...rest}
@@ -152,9 +151,9 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
                     </Form.Control>
                   </div>
                   <Form.Hint>
-                    A published page marked here is linked from the storefront
-                    footer&apos;s Information column, alongside the shop&apos;s
-                    other footer pages. Reorder it from the pages list.
+                    Опубликованная страница, отмеченная здесь, появляется в
+                    подвале магазина, в блоке «Информация», рядом с другими
+                    страницами подвала. Порядок меняется в списке страниц.
                   </Form.Hint>
                   <Form.ErrorMessage />
                 </Form.Item>
@@ -166,12 +165,12 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               render={({ field }) => (
                 <Form.Item>
                   <Form.Label>
-                    Search title{" "}
+                    Заголовок для поиска{" "}
                     <span className="text-ui-fg-subtle">({field.value.length}/70)</span>
                   </Form.Label>
                   <Form.Hint>
-                    Shown as the page&apos;s title in search results. Empty
-                    falls back to the title above.
+                    Показывается как заголовок страницы в результатах поиска.
+                    Пусто — берётся заголовок выше.
                   </Form.Hint>
                   <Form.Control>
                     <Input {...field} />
@@ -186,12 +185,12 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
               render={({ field }) => (
                 <Form.Item>
                   <Form.Label>
-                    Search description{" "}
+                    Описание для поиска{" "}
                     <span className="text-ui-fg-subtle">({field.value.length}/320)</span>
                   </Form.Label>
                   <Form.Hint>
-                    Shown under the title in search results. Empty falls back
-                    to the page&apos;s first sentence.
+                    Показывается под заголовком в результатах поиска. Пусто —
+                    берётся первое предложение страницы.
                   </Form.Hint>
                   <Form.Control>
                     <Textarea {...field} rows={3} />
@@ -206,11 +205,11 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
           <div className="flex items-center gap-x-2">
             <RouteFocusModal.Close asChild>
               <Button size="small" variant="secondary">
-                Cancel
+                Отмена
               </Button>
             </RouteFocusModal.Close>
             <Button size="small" type="submit" isLoading={isPending}>
-              Save
+              Сохранить
             </Button>
           </div>
         </RouteFocusModal.Footer>
