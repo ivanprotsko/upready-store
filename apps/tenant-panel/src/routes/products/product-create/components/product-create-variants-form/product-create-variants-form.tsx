@@ -130,6 +130,10 @@ const useColumns = ({
         },
         disableHiding: true,
       }),
+      // f09-price-editor-currencies: the price the owner came here to set sits
+      // right after the variant's name, ahead of SKU and the inventory
+      // switches — it used to be the last block on the row, past the fold on a
+      // narrow screen.
       columnHelper.column({
         id: "title",
         name: t("fields.title"),
@@ -140,6 +144,22 @@ const useColumns = ({
         cell: (context) => {
           return <DataGrid.TextCell context={context} />
         },
+      }),
+      ...createDataGridPriceColumns<
+        ProductCreateVariantSchema & { originalIndex: number },
+        ProductCreateSchemaType
+      >({
+        currencies,
+        regions,
+        pricePreferences,
+        currencyLabel,
+        getFieldName: (context, value) => {
+          if (context.column.id?.startsWith("currency_prices")) {
+            return `variants.${context.row.original.originalIndex}.prices.${value}`
+          }
+          return `variants.${context.row.original.originalIndex}.prices.${value}`
+        },
+        t,
       }),
       columnHelper.column({
         id: "sku",
@@ -192,22 +212,6 @@ const useColumns = ({
         },
       }),
 
-      ...createDataGridPriceColumns<
-        ProductCreateVariantSchema & { originalIndex: number },
-        ProductCreateSchemaType
-      >({
-        currencies,
-        regions,
-        pricePreferences,
-        currencyLabel,
-        getFieldName: (context, value) => {
-          if (context.column.id?.startsWith("currency_prices")) {
-            return `variants.${context.row.original.originalIndex}.prices.${value}`
-          }
-          return `variants.${context.row.original.originalIndex}.prices.${value}`
-        },
-        t,
-      }),
     ],
     [currencies, regions, options, pricePreferences, currencyLabel, t]
   )
