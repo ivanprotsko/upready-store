@@ -484,7 +484,16 @@
     "joinUs": "Junte-se a nós",
     "notMember": "Ainda não é membro?",
     "password": "Palavra-passe",
-    "signIn": "Iniciar sessão"
+    "signIn": "Iniciar sessão",
+    "yandexCta": "Entrar com Yandex ID",
+    "yandexDivider": "ou",
+    "yandexErrorDenied": "Você cancelou o acesso na página do Yandex.",
+    "yandexErrorEmailTaken": "Já existe uma conta com este e-mail. Entre com a sua senha.",
+    "yandexErrorExpired": "Este link de acesso expirou. Comece de novo.",
+    "yandexErrorFailed": "O acesso não foi concluído. Tente de novo em instantes.",
+    "yandexErrorNoEmail": "O Yandex não informou um endereço de e-mail, então a conta não pode ser criada.",
+    "yandexErrorRejected": "O Yandex não confirmou este acesso. Tente novamente.",
+    "yandexErrorUnconfigured": "O acesso pelo Yandex ainda não está ativado nesta loja."
   },
   "Metadata": {
     "account": {

@@ -484,7 +484,16 @@
     "joinUs": "Sumali sa amin",
     "notMember": "Hindi pa miyembro?",
     "password": "Password",
-    "signIn": "Mag-sign in"
+    "signIn": "Mag-sign in",
+    "yandexCta": "Mag-sign in gamit ang Yandex ID",
+    "yandexDivider": "o",
+    "yandexErrorDenied": "Kinansela mo ang pag-sign in sa pahina ng Yandex.",
+    "yandexErrorEmailTaken": "May account nang gumagamit ng email na ito. Mag-sign in gamit ang password mo.",
+    "yandexErrorExpired": "Napaso na ang link ng pag-sign in. Magsimula ulit.",
+    "yandexErrorFailed": "Hindi natuloy ang pag-sign in. Subukan ulit maya-maya.",
+    "yandexErrorNoEmail": "Walang ibinigay na email address ang Yandex, kaya hindi magagawa ang account.",
+    "yandexErrorRejected": "Hindi nakumpirma ng Yandex ang pag-sign in na ito. Subukan ulit.",
+    "yandexErrorUnconfigured": "Hindi pa naka-on ang pag-sign in gamit ang Yandex sa tindahang ito."
   },
   "Metadata": {
     "account": {

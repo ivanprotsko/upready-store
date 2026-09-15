@@ -484,7 +484,16 @@
     "joinUs": "Rejoignez-nous",
     "notMember": "Pas encore membre ?",
     "password": "Mot de passe",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "yandexCta": "Se connecter avec Yandex ID",
+    "yandexDivider": "ou",
+    "yandexErrorDenied": "Vous avez annulé la connexion sur la page Yandex.",
+    "yandexErrorEmailTaken": "Un compte utilise déjà cette adresse e-mail. Connectez-vous avec votre mot de passe.",
+    "yandexErrorExpired": "Ce lien de connexion a expiré. Veuillez recommencer.",
+    "yandexErrorFailed": "La connexion n'a pas abouti. Réessayez dans un instant.",
+    "yandexErrorNoEmail": "Yandex n'a pas transmis d'adresse e-mail, le compte ne peut donc pas être créé.",
+    "yandexErrorRejected": "Yandex n'a pas pu confirmer cette connexion. Veuillez réessayer.",
+    "yandexErrorUnconfigured": "La connexion via Yandex n'est pas encore activée dans cette boutique."
   },
   "Metadata": {
     "account": {

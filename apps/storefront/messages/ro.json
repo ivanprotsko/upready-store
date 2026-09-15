@@ -484,7 +484,16 @@
     "joinUs": "Alătură-te",
     "notMember": "Nu aveți cont?",
     "password": "Parolă",
-    "signIn": "Autentificare"
+    "signIn": "Autentificare",
+    "yandexCta": "Autentificare cu Yandex ID",
+    "yandexDivider": "sau",
+    "yandexErrorDenied": "Ați anulat autentificarea pe pagina Yandex.",
+    "yandexErrorEmailTaken": "Există deja un cont cu această adresă de e-mail. Autentificați-vă cu parola.",
+    "yandexErrorExpired": "Linkul de autentificare a expirat. Reluați de la început.",
+    "yandexErrorFailed": "Autentificarea nu a reușit. Încercați din nou peste un moment.",
+    "yandexErrorNoEmail": "Yandex nu a transmis o adresă de e-mail, așa că nu se poate crea un cont.",
+    "yandexErrorRejected": "Yandex nu a confirmat această autentificare. Încercați din nou.",
+    "yandexErrorUnconfigured": "Autentificarea prin Yandex nu este încă activată în acest magazin."
   },
   "Metadata": {
     "account": {

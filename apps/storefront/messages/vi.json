@@ -484,7 +484,16 @@
     "joinUs": "Tham gia ngay",
     "notMember": "Chưa có tài khoản?",
     "password": "Mật khẩu",
-    "signIn": "Đăng nhập"
+    "signIn": "Đăng nhập",
+    "yandexCta": "Đăng nhập bằng Yandex ID",
+    "yandexDivider": "hoặc",
+    "yandexErrorDenied": "Bạn đã hủy đăng nhập trên trang Yandex.",
+    "yandexErrorEmailTaken": "Đã có tài khoản dùng email này. Hãy đăng nhập bằng mật khẩu.",
+    "yandexErrorExpired": "Liên kết đăng nhập đã hết hạn. Vui lòng bắt đầu lại.",
+    "yandexErrorFailed": "Đăng nhập chưa thành công. Vui lòng thử lại sau giây lát.",
+    "yandexErrorNoEmail": "Yandex không cung cấp địa chỉ email nên không thể tạo tài khoản.",
+    "yandexErrorRejected": "Yandex không xác nhận được lần đăng nhập này. Vui lòng thử lại.",
+    "yandexErrorUnconfigured": "Cửa hàng này chưa bật đăng nhập bằng Yandex."
   },
   "Metadata": {
     "account": {

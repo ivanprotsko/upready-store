@@ -484,7 +484,16 @@
     "joinUs": "انضم إلينا",
     "notMember": "لست عضوًا؟",
     "password": "كلمة المرور",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "yandexCta": "تسجيل الدخول عبر Yandex ID",
+    "yandexDivider": "أو",
+    "yandexErrorDenied": "لقد ألغيت تسجيل الدخول في صفحة Yandex.",
+    "yandexErrorEmailTaken": "يوجد حساب بهذا البريد الإلكتروني بالفعل. سجّل الدخول بكلمة المرور.",
+    "yandexErrorExpired": "انتهت صلاحية رابط تسجيل الدخول. ابدأ من جديد.",
+    "yandexErrorFailed": "لم يكتمل تسجيل الدخول. حاول بعد قليل.",
+    "yandexErrorNoEmail": "لم يزوّدنا Yandex بعنوان بريد إلكتروني، لذا لا يمكن إنشاء الحساب.",
+    "yandexErrorRejected": "لم يتمكن Yandex من تأكيد تسجيل الدخول. حاول مرة أخرى.",
+    "yandexErrorUnconfigured": "تسجيل الدخول عبر Yandex غير مُفعَّل بعد في هذا المتجر."
   },
   "Metadata": {
     "account": {
