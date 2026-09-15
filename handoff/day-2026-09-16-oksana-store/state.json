@@ -3,9 +3,9 @@
     "paused": false,
     "limitUntil": "2026-09-15T21:10:32.286Z",
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-15T22:34:44.267Z",
+    "lastTick": "2026-09-15T22:38:44.268Z",
     "pid": 66960,
-    "ticks": 1766,
+    "ticks": 1770,
     "allTerminalTicks": 0
   },
   "tasks": {
@@ -3113,9 +3113,15 @@
       "fixRelaunched": false
     },
     "w07-tenant-catalog-enrich": {
-      "status": "accepting",
+      "status": "merged",
       "attempt": 1,
-      "artifacts": [],
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/measurements.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/top-before-mumie.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/top-after-mumie.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/bottom-after-mumie.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/thumbs-after-mumie.png"
+      ],
       "ws": "0e04f1e4-3125-45fd-9d02-b2e2f79c3c6c",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-catalog-enrich",
       "terminalId": "fa9e3824-0eac-4b19-a1cb-c2c2495a0672",
@@ -3130,8 +3136,8 @@
       "pr": {
         "number": 74,
         "url": "https://github.com/ivanprotsko/upready-store/pull/74",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T22:35:19Z",
         "isDraft": false
       },
       "prOpenedAt": "2026-09-15T21:38:26.755Z",
@@ -3143,18 +3149,30 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w07-tenant-catalog-enrich-1.findings.md",
           "startedAt": "2026-09-15T22:30:48.087Z",
           "session": "ef8b56e5-e9a5-46c9-999d-ae4f129a0ceb",
-          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
       ],
-      "note": "приёмка перезапущена штабом 2026-09-16 06:2x WITA: оба раунда NONE не по существу — раунд 1 оборван жёстким сбросом Mac в 05:42, раунд 2 умер на OAuth из cron-контекста; частичные замеры прежнего приёмщика: logs/accept-w07-tenant-catalog-enrich-2.measurements.md (дефект dry-run apply.ts:465 — select-характеристики всегда «к записи»)"
+      "note": "приёмка перезапущена штабом 2026-09-16 06:2x WITA: оба раунда NONE не по существу — раунд 1 оборван жёстким сбросом Mac в 05:42, раунд 2 умер на OAuth из cron-контекста; частичные замеры прежнего приёмщика: logs/accept-w07-tenant-catalog-enrich-2.measurements.md (дефект dry-run apply.ts:465 — select-характеристики всегда «к записи»)",
+      "finishedAt": "2026-09-15T22:36:45.700Z",
+      "closedAt": "2026-09-15T22:36:46.466Z"
     },
     "d07-deploy-catalog-enrich": {
-      "status": "queued",
-      "attempt": 0,
+      "status": "running",
+      "attempt": 1,
       "artifacts": [],
       "error": null,
       "relaunched": false,
-      "nudges": 0
+      "nudges": 0,
+      "ws": "6f9f10c6-5f2c-42fa-8de6-3a7cb549c16f",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-deploy-catalog-enrich",
+      "terminalId": "ba330d82-d999-4c19-a2ff-25a6c4dfbbb8",
+      "launchedAt": "2026-09-15T22:37:03.964Z",
+      "startedAt": "2026-09-15T22:37:03.964Z",
+      "force": false,
+      "lastScreen": "» и делаю дамп.\n\n⏺ Containers and images on host before deploy\n  ⎿  $ ssh -n -o ConnectTimeout=10 contabo 'docker ps --format \"{{.Names}}\\t{{.Status}}\" | sort; echo \"--- images ---\"; \n     docker images --format \"{{.Repository}}:{{.Tag}} {{.ID}} {{.CreatedAt}}\" | grep -i \"^mt-\" | head -20; echo \"--- df \n     ---\"; df -h /opt | tail -1' 2>&1\n\n✶ Sketching… (1m 42s · ↓ 4.4k tokens · thinking with high effort)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-deploy-catalog-enrich (feat/day16-deploy-catalog-enrich) | Opus 5 | ctx 87%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T22:38:48.339Z"
     },
     "w20-wb-write-core": {
       "status": "pr_open",
@@ -3225,8 +3243,8 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "астоящие import-методы и действия FBS\n  ⎿  $ T=artifacts/docs/w10-marketplace-spec/docs/ozon-methods-index.tsv \n     echo \"=== import* ===\"; awk -F'\\t' '$2 ~ /import/{print $1\"\\t\"$2\"\\t\"$3}' \"$T\"\n     echo \"=== posting/fbs actions (не list/get) ===\"; awk -F'\\t' '$2 ~ /^\\/v[0-9]+\\/posting\\/fbs\\//{print \n     $1\"\\t\"$2\"\\t\"$3}' \"$T\" | head -60\n\n✶ Flowing… (1m 43s · ↓ 5.9k tokens · still thinking with high effort)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-ozon-readonly-client (feat/day16-ozon-readonly-client) | Opus 5 | ctx 83%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T22:34:48.637Z"
+      "lastScreen": ". Off: env TURNCOST_OK=1. [turn-cost-guard]\n \n⏺ Дальше читаю точечно (grep вместо полных файлов) — объём первых чтений был нужен, чтобы точно скопировать форму\n  wb-модуля, а не изобретать вторую.\n     \n⏺ Как w01 поднимал локальный стенд\n  ⎿  $ export MEMORY_FIRST_OK=1\n     sed -n '280,340p' artifacts/docs/w01-wb-readonly-client/report.md\n\n· Flowing… (5m 47s · ↓ 20.2k tokens · thinking more with high effort)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-ozon-readonly-client (feat/day16-ozon-readonly-client) | Opus 5 | ctx 79%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T22:38:52.010Z"
     },
     "w12-marketplace-core": {
       "status": "queued",
@@ -3246,8 +3264,8 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "      \n  ⎿  UserPromptSubmit says: 🕐 06:32:57 GMT+8 · твой промпт\n\n  Searched for 1 pattern, read 9 files, ran 6 shell commands \n     \n⏺ Only two locales for the panel (ru/en) — good, manageable. Let me look at the existing wildberries keys.\n     \n⏺ Reading 1 file, running 1 shell command…\n  ⎿  apps/tenant-panel/src/routes/settings/wildberries/components/wb-sync-table.tsx\n\n✻ Whirlpooling… (1m 53s · ↓ 9.1k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-wb-readonly-flag (feat/day16-wb-readonly-flag) | Sonnet 5 | ctx 86%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T22:34:51.988Z"
+      "lastScreen": "file ℹ fail 0 line) and typecheck/lint.\n\n  Running 1 shell command · 4s…\n  ⎿  $ cd \n     /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-wb-readonly-flag/apps/backend\n     TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules npx jest --silent --runInBand --forceExit 2>&1 | tail -40 \n     (4s)\n     (ctrl+b to run in background)\n\n· Whirlpooling… (5m 56s · ↓ 28.5k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-wb-readonly-flag/backend (feat/day16-wb-readonly-flag) | Sonnet 5 | ctx 82%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T22:38:55.170Z"
     },
     "w14-mp-catalog-link": {
       "status": "queued",
@@ -3281,18 +3299,6 @@
     }
   },
   "events": [
-    {
-      "ts": "2026-09-15T06:42:21.952Z",
-      "task": "f08-medusa-mark-bottom-nav",
-      "type": "stall-nudge",
-      "msg": "151 мин без PR"
-    },
-    {
-      "ts": "2026-09-15T06:44:18.948Z",
-      "task": "f08-medusa-mark-bottom-nav",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/46"
-    },
     {
       "ts": "2026-09-15T06:47:20.213Z",
       "task": "f08-medusa-mark-bottom-nav",
@@ -5677,6 +5683,18 @@
       "task": "w03-wb-sales-questions-mirror",
       "type": "pr-open",
       "msg": "https://github.com/ivanprotsko/upready-store/pull/76"
+    },
+    {
+      "ts": "2026-09-15T22:36:46.466Z",
+      "task": "w07-tenant-catalog-enrich",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/74 (приёмка раунд 1)"
+    },
+    {
+      "ts": "2026-09-15T22:37:03.964Z",
+      "task": "d07-deploy-catalog-enrich",
+      "type": "launched",
+      "msg": "ws 6f9f10c6-5f2c-42fa-8de6-3a7cb549c16f · opus/high · feat/day16-deploy-catalog-enrich"
     }
   ],
   "sessions": {
@@ -5692,7 +5710,7 @@
         "id": "ef8b56e5-e9a5-46c9-999d-ae4f129a0ceb",
         "uses": 2,
         "createdAt": "2026-09-15T22:27:44.209Z",
-        "inUse": true,
+        "inUse": false,
         "lastUsed": "2026-09-15T22:30:48.086Z"
       }
     ],

@@ -106,9 +106,14 @@ export function prForBranch(cfg, branch) {
 }
 export function prView(cfg, n) { const r = shJson('gh', ['pr', 'view', String(n), '--repo', cfg.project.repo, '--json', 'number,state,mergedAt,url,title,mergeable,headRefName']); return r.rc ? null : r.json; }
 export function branchHeadDate(cfg, branch) {
-  const r = shJson('gh', ['api', `repos/${cfg.project.repo}/commits?sha=${encodeURIComponent(branch)}&per_page=1`]);
-  if (r.rc || !Array.isArray(r.json) || !r.json[0]) return null;
-  return r.json[0].commit?.committer?.date || null;
+  // Через git, не через REST GitHub API: квота 5000/ч одна на все инструменты и хост Superset,
+  // 2026-09-16 она была исчерпана целиком (resume 0638). git fetch по HTTPS в квоту API не входит.
+  const cwd = cfg.project.mainCheckout;
+  const f = sh('git', ['fetch', '-q', 'origin', `+refs/heads/${branch}:refs/remotes/origin/${branch}`], { cwd, timeout: 60000 });
+  if (f.rc) return null;
+  const r = sh('git', ['log', '-1', '--format=%cI', `refs/remotes/origin/${branch}`], { cwd });
+  const d = r.rc ? '' : String(r.out || '').trim();
+  return d || null;
 }
 
 // ---------- claude -p (headless) ----------
