@@ -1,0 +1,15 @@
+b08 приёмка — живые 301 на старые адреса страниц (витрина :8191, после backfill-tenant-redirects)
+
+/ru/ru/delivery -> 301 /ru/pages/delivery
+/ru/ru/faq      -> 301 /ru/pages/faq
+/ru/ru/returns  -> 301 /ru/pages/returns
+/ru/ru/about    -> 301 /ru/pages/about
+/ru/en/about    -> 301 /en/pages/about
+/ru/ru/terms    -> 301 /ru/pages/offer
+адрес не из таблицы -> 404
+
+Строк в tenant_redirect: 55 (47 каталожных b02 + 8 страничных)
+Реестр живого импорта, замер приёмщика: legacy_page -> (нет адреса): 39, page -> olavka.ru: 15, page -> (нет адреса): 1
+То есть 301 для 39 legacy_page невозможен: у строк нет нашего старого адреса.
+
+olavka.ru в HTML трёх карточек товара на свежем рендере: 0 (первые 2 вхождения оказались кэшем .next от 00:47)

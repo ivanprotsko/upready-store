@@ -1,0 +1,19 @@
+b10 приёмка — замеры кликами (панель :5201, витрина :8201, клон upready_store_b10acc)
+
+1. Редиректы, полный цикл владелицы:
+   /ru/acc-b10-cycle ДО заведения            -> 404
+   после создания и правки цели              -> 301 -> /ru/pages/about
+   после удаления (с подтверждением)         -> 404 (два замера подряд), строка из таблицы ушла
+
+2. SEO-верификация: GET /tenants/seo-verification -> {"yandex":"acc-b10-yandex-verify-9f3a","google":null}
+   на главной магазина в <head>: <meta name="yandex-verification" content="acc-b10-yandex-verify-9f3a"/>
+   (первый замер кода не нашёл — кэш резолвера /storefront/by-host, 60 с)
+
+3. Result URL:
+   x-forwarded-host: panel.shipshift.dev + x-forwarded-proto: http -> https://panel.shipshift.dev/robokassa/result
+   без заголовков (localhost)                                      -> http://localhost:9201/robokassa/result (задумано)
+
+4. Seam-спеки: Test Suites 2 passed, Tests 17 passed, 17 total
+
+5. Удаление страниц: PR экран страниц не трогает, оно приехало с t05 и предлагается только для нестандартных
+   страниц (pages.filter(p => !p.reserved)); у зарезервированной contacts кнопки нет — по замыслу.

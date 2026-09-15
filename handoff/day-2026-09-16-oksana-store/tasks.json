@@ -1146,6 +1146,38 @@
       "status": "blocked",
       "note": "ждёт Ивана: бакет R2 (needs-ivan B2) и OK на удаление клонов баз upready_store_* (правило 9); снять — cmd launch b16-media-and-backup",
       "source": "artifacts/c01-wave5-composer/tasks.json"
+    },
+    {
+      "id": "w01-wb-readonly-client",
+      "title": "WB Seller API: клиент только на чтение по конструкции, зеркальные таблицы wb_*, первый импорт кабинета (карточки, цены, остатки)",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-readonly-client",
+      "deps": [],
+      "softDeps": [],
+      "priority": 92,
+      "prompt": "w01-wb-readonly-client.md",
+      "acceptance": "На origin/dev после PR: единственная точка сетевых вызовов к *.wildberries.ru — apps/backend/src/modules/wb/transport.ts (тест-линт по репо, показан красным при втором месте и зелёным после); юнит-тест, пытающийся выполнить POST на незарегистрированный путь, PUT, PATCH, DELETE или запрос на чужой хост через транспорт, падает ДО сетевого вызова (fetch-шпион 0 вызовов), зелёный; список POST-чтений продублирован руками в тесте; проверка прав ключа GET /tenants/wb/status отдаёт маску s, срок, t и readOnly с ссылкой на документацию либо unknown — без утверждений по памяти и без самого ключа; зеркала wb_product/wb_price/wb_stock заполнены на ЛОКАЛЬНОМ стенде реальным чтением кабинета (count(*) и wb_sync_run в PR); журнал wb_api_call содержит только зарегистрированные чтения; git grep eyJhbGci = 0; живой хост не тронут",
+      "why": "приказ Ивана 2026-09-16 02:46 WITA (INTAKE.md): ключ WB мог получить права на запись — запись в WB исключить кодом и тестом, данные только читать в локальную БД; проба штаба 03:06 (INTAKE.md)",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w02-yandex-id-auth",
+      "title": "Вход через Яндекс ID для покупателей витрины: OAuth-провайдер yandex в auth-модуле, кнопка и callback на витрине, тесты",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-yandex-id-auth",
+      "deps": [],
+      "softDeps": [],
+      "priority": 90,
+      "prompt": "w02-yandex-id-auth.md",
+      "acceptance": "На локальном стенде: кнопка «Войти через Яндекс» на странице входа витрины ведёт на https://oauth.yandex.ru/authorize с client_id, redirect_uri, state, scope и response_type=code (замер curl -I на POST /auth/customer/yandex + скриншот); провайдер yandex зарегистрирован в auth-модуле бэкенда; юнит-тесты провайдера (URL, обмен кода, подделанный state, отсутствие email, секрет не в логах) и HTTP-тест auth-yandex зелёные (строка fail всего файла); покупатель привязан к тенанту как при emailpass, существующий покупатель того же тенанта с тем же email связывается, а не дублируется; при зарегистрированном Redirect URI полный круг заканчивается в /account с именем из Яндекса и строкой provider_identity в БД (скриншот); YANDEX_* не в git; если Redirect URI не зарегистрирован — в PR и blocked-файле перечислены точные URI и scope для регистрации",
+      "why": "приказ Ивана 2026-09-16 02:46 WITA (INTAKE.md): ключи Yandex ID переданы, «можно будет сделать авторизацию»; планка InSales Combo — соцвход покупателя",
+      "source": "INTAKE.md"
     }
   ]
 }
