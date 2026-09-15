@@ -484,7 +484,16 @@
     "joinUs": "Liity meihin",
     "notMember": "Eikö sinulla ole vielä tiliä?",
     "password": "Salasana",
-    "signIn": "Kirjaudu sisään"
+    "signIn": "Kirjaudu sisään",
+    "yandexCta": "Kirjaudu Yandex ID:llä",
+    "yandexDivider": "tai",
+    "yandexErrorDenied": "Peruutit kirjautumisen Yandexin sivulla.",
+    "yandexErrorEmailTaken": "Tällä sähköpostiosoitteella on jo tili. Kirjaudu salasanallasi.",
+    "yandexErrorExpired": "Kirjautumislinkki on vanhentunut. Aloita alusta.",
+    "yandexErrorFailed": "Kirjautuminen ei onnistunut. Yritä hetken kuluttua uudelleen.",
+    "yandexErrorNoEmail": "Yandex ei antanut sähköpostiosoitetta, joten tiliä ei voi luoda.",
+    "yandexErrorRejected": "Yandex ei vahvistanut tätä kirjautumista. Yritä uudelleen.",
+    "yandexErrorUnconfigured": "Yandex-kirjautumista ei ole vielä otettu käyttöön tässä kaupassa."
   },
   "Metadata": {
     "account": {

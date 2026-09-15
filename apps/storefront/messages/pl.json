@@ -484,7 +484,16 @@
     "joinUs": "Dołącz do nas",
     "notMember": "Nie masz konta?",
     "password": "Hasło",
-    "signIn": "Zaloguj się"
+    "signIn": "Zaloguj się",
+    "yandexCta": "Zaloguj się przez Yandex ID",
+    "yandexDivider": "lub",
+    "yandexErrorDenied": "Logowanie zostało anulowane na stronie Yandeksa.",
+    "yandexErrorEmailTaken": "Konto z tym adresem e-mail już istnieje. Zaloguj się hasłem.",
+    "yandexErrorExpired": "Ten link do logowania wygasł. Zacznij od nowa.",
+    "yandexErrorFailed": "Logowanie się nie powiodło. Spróbuj za chwilę.",
+    "yandexErrorNoEmail": "Yandex nie przekazał adresu e-mail, więc konta nie można utworzyć.",
+    "yandexErrorRejected": "Yandex nie potwierdził tego logowania. Spróbuj ponownie.",
+    "yandexErrorUnconfigured": "Logowanie przez Yandex nie jest jeszcze włączone w tym sklepie."
   },
   "Metadata": {
     "account": {

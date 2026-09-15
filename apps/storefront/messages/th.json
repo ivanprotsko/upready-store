@@ -484,7 +484,16 @@
     "joinUs": "สมัครสมาชิก",
     "notMember": "ยังไม่ได้เป็นสมาชิก?",
     "password": "รหัสผ่าน",
-    "signIn": "เข้าสู่ระบบ"
+    "signIn": "เข้าสู่ระบบ",
+    "yandexCta": "เข้าสู่ระบบด้วย Yandex ID",
+    "yandexDivider": "หรือ",
+    "yandexErrorDenied": "คุณยกเลิกการเข้าสู่ระบบบนหน้า Yandex",
+    "yandexErrorEmailTaken": "มีบัญชีที่ใช้อีเมลนี้อยู่แล้ว กรุณาเข้าสู่ระบบด้วยรหัสผ่าน",
+    "yandexErrorExpired": "ลิงก์เข้าสู่ระบบหมดอายุแล้ว กรุณาเริ่มใหม่",
+    "yandexErrorFailed": "เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+    "yandexErrorNoEmail": "Yandex ไม่ได้ให้ที่อยู่อีเมล จึงสร้างบัญชีไม่ได้",
+    "yandexErrorRejected": "Yandex ยืนยันการเข้าสู่ระบบนี้ไม่ได้ กรุณาลองใหม่",
+    "yandexErrorUnconfigured": "ร้านนี้ยังไม่ได้เปิดใช้การเข้าสู่ระบบด้วย Yandex"
   },
   "Metadata": {
     "account": {

@@ -1303,6 +1303,20 @@ export default defineMiddlewares({
       middlewares: [authenticate("customer", ["session", "bearer"])],
     },
 
+    // ---- w02-yandex-id-auth: the buyer who already has an account signs in
+    // with Yandex ID for the first time. The token this runs with is the one
+    // the OAuth callback issued, and it carries NO customer yet
+    // (`actor_id` empty), which is exactly what `allowUnregistered` admits —
+    // the same setting Medusa's own `POST /store/customers` uses for the
+    // registration leg of email-and-password signup.
+    {
+      matcher: "/store/customers/oauth-link",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["bearer"], { allowUnregistered: true }),
+      ],
+    },
+
     // ---- b07-store-api-isolation: the Store API stops handing one shop's
     // orders to another shop's key, and one buyer's order to anybody holding
     // its id. The checks live next to the data they guard

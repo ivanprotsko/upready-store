@@ -484,7 +484,16 @@
     "joinUs": "შემოგვიერთდით",
     "notMember": "არ ხართ წევრი?",
     "password": "პაროლი",
-    "signIn": "შესვლა"
+    "signIn": "შესვლა",
+    "yandexCta": "შესვლა Yandex ID-ით",
+    "yandexDivider": "ან",
+    "yandexErrorDenied": "თქვენ გააუქმეთ შესვლა Yandex-ის გვერდზე.",
+    "yandexErrorEmailTaken": "ამ ელფოსტით ანგარიში უკვე არსებობს. შედით პაროლით.",
+    "yandexErrorExpired": "შესვლის ბმულს ვადა გაუვიდა. დაიწყეთ თავიდან.",
+    "yandexErrorFailed": "შესვლა ვერ მოხერხდა. სცადეთ ცოტა ხანში.",
+    "yandexErrorNoEmail": "Yandex-მა ელფოსტის მისამართი არ გადმოგვცა, ამიტომ ანგარიშის შექმნა ვერ ხერხდება.",
+    "yandexErrorRejected": "Yandex-მა ვერ დაადასტურა ეს შესვლა. სცადეთ თავიდან.",
+    "yandexErrorUnconfigured": "Yandex-ით შესვლა ამ მაღაზიაში ჯერ არ არის ჩართული."
   },
   "Metadata": {
     "account": {

@@ -484,7 +484,16 @@
     "joinUs": "가입하기",
     "notMember": "아직 회원이 아니신가요?",
     "password": "비밀번호",
-    "signIn": "로그인"
+    "signIn": "로그인",
+    "yandexCta": "Yandex ID로 로그인",
+    "yandexDivider": "또는",
+    "yandexErrorDenied": "Yandex 페이지에서 로그인을 취소했습니다.",
+    "yandexErrorEmailTaken": "이 이메일로 만든 계정이 이미 있습니다. 비밀번호로 로그인해 주세요.",
+    "yandexErrorExpired": "로그인 링크가 만료되었습니다. 처음부터 다시 시작해 주세요.",
+    "yandexErrorFailed": "로그인이 완료되지 않았습니다. 잠시 후 다시 시도해 주세요.",
+    "yandexErrorNoEmail": "Yandex가 이메일 주소를 주지 않아 계정을 만들 수 없습니다.",
+    "yandexErrorRejected": "Yandex가 이 로그인을 확인하지 못했습니다. 다시 시도해 주세요.",
+    "yandexErrorUnconfigured": "이 상점에서는 Yandex 로그인이 아직 켜져 있지 않습니다."
   },
   "Metadata": {
     "account": {

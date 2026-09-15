@@ -75,6 +75,57 @@ const s3Module = {
 // deployment value and not a library default. `src/tenant-files/index.ts`
 // already reads these options off the container in preference to its own
 // fallbacks — this entry is what it was written to find.
+// Sign in with Yandex ID for storefront buyers (w02-yandex-id-auth).
+//
+// Two things about this block are load-bearing.
+//
+// 1. Naming the auth module here REPLACES Medusa's own registration of it.
+//    `resolveModules` in @medusajs/utils/dist/common/define-config.js adds the
+//    auth module with `providers: [{ resolve: "@medusajs/medusa/auth-emailpass",
+//    id: "emailpass" }]`, and `transformModules` keys modules by service name
+//    with the LAST entry winning, so the list below is the whole list. Drop
+//    `emailpass` from it and every email-and-password login in the storefront
+//    and in the owner panel stops working at once.
+// 2. Yandex is registered only when its client id is present, the same shape
+//    Redis, SMTP and S3 already use above and AGENTS.md asks new optional
+//    infrastructure to keep. An install with no Yandex keys boots exactly as it
+//    did before; turning the feature on is an .env change, not a code change.
+//    A HALF-configured one (id present, secret or callback missing) fails at
+//    boot through `YandexAuthService.validateOptions` rather than at a buyer's
+//    consent screen.
+const yandexClientId = process.env.YANDEX_CLIENT_ID;
+const useYandexAuth = Boolean(yandexClientId);
+
+const yandexAuthProvider = {
+  resolve: "./src/modules/auth-yandex",
+  id: "yandex",
+  options: {
+    clientId: yandexClientId,
+    clientSecret: process.env.YANDEX_CLIENT_SECRET,
+    callbackUrl: process.env.YANDEX_CALLBACK_URL,
+    // The state is signed, not stored: see src/modules/auth-yandex/lib/state.ts
+    // for why the framework's own state store cannot carry this flow.
+    stateSecret:
+      process.env.JWT_SECRET || process.env.COOKIE_SECRET || "supersecret",
+    allowedCallbackOrigins: (process.env.YANDEX_CALLBACK_ORIGINS || "")
+      .split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+    scope: process.env.YANDEX_SCOPE || undefined,
+    forceConfirm: process.env.YANDEX_FORCE_CONFIRM === "true",
+  },
+};
+
+const authModule = {
+  resolve: "@medusajs/medusa/auth",
+  options: {
+    providers: [
+      { resolve: "@medusajs/medusa/auth-emailpass", id: "emailpass" },
+      ...(useYandexAuth ? [yandexAuthProvider] : []),
+    ],
+  },
+};
+
 const localFileModule = {
   resolve: "@medusajs/medusa/file",
   options: {
@@ -140,6 +191,10 @@ module.exports = defineConfig({
         ],
       },
     },
+    // Buyer and owner authentication. `emailpass` is spelled out here because
+    // this entry replaces Medusa's default one; Yandex ID joins it only when
+    // YANDEX_CLIENT_ID is set. See the comment above `authModule`.
+    authModule,
     // Shared multitenancy: tenant + tenant admin, actor type "tenant", /tenants/*.
     { resolve: "./src/modules/tenant" },
     // Product reviews, one row per (tenant, product, language) — t09-reviews.

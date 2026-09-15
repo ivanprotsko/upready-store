@@ -484,7 +484,16 @@
     "joinUs": "הצטרף אלינו",
     "notMember": "עדיין אין לך חשבון?",
     "password": "סיסמה",
-    "signIn": "התחברות"
+    "signIn": "התחברות",
+    "yandexCta": "כניסה עם Yandex ID",
+    "yandexDivider": "או",
+    "yandexErrorDenied": "ביטלת את הכניסה בעמוד של Yandex.",
+    "yandexErrorEmailTaken": "כבר קיים חשבון עם כתובת המייל הזו. היכנסו עם הסיסמה שלכם.",
+    "yandexErrorExpired": "תוקף קישור הכניסה פג. התחילו מחדש.",
+    "yandexErrorFailed": "הכניסה לא הושלמה. נסו שוב עוד רגע.",
+    "yandexErrorNoEmail": "Yandex לא מסרה כתובת מייל, ולכן אי אפשר ליצור חשבון.",
+    "yandexErrorRejected": "Yandex לא אישרה את הכניסה הזו. נסו שוב.",
+    "yandexErrorUnconfigured": "כניסה דרך Yandex עדיין לא הופעלה בחנות הזו."
   },
   "Metadata": {
     "account": {

@@ -484,7 +484,16 @@
     "joinUs": "Csatlakozzon hozzánk",
     "notMember": "Még nincs fiókja?",
     "password": "Jelszó",
-    "signIn": "Bejelentkezés"
+    "signIn": "Bejelentkezés",
+    "yandexCta": "Belépés Yandex ID-val",
+    "yandexDivider": "vagy",
+    "yandexErrorDenied": "A Yandex oldalán megszakította a belépést.",
+    "yandexErrorEmailTaken": "Ezzel az e-mail-címmel már van fiók. Lépjen be a jelszavával.",
+    "yandexErrorExpired": "Ez a belépési hivatkozás lejárt. Kezdje elölről.",
+    "yandexErrorFailed": "A belépés nem sikerült. Próbálja újra egy pillanat múlva.",
+    "yandexErrorNoEmail": "A Yandex nem adott meg e-mail-címet, ezért a fiók nem hozható létre.",
+    "yandexErrorRejected": "A Yandex nem erősítette meg ezt a belépést. Próbálja újra.",
+    "yandexErrorUnconfigured": "A Yandexszel való belépés ebben a boltban még nincs bekapcsolva."
   },
   "Metadata": {
     "account": {

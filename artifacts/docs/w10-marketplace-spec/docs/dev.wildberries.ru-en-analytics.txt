@@ -1,0 +1,3132 @@
+URL: https://dev.wildberries.ru/en/docs/openapi/analytics
+FINAL-URL: https://dev.wildberries.ru/en/docs/openapi/analytics
+HTTP: 200
+TITLE: Documentation — WB API
+SAVED: 2026-09-15T20:53:21.235Z (UTC) — headed Google Chrome over CDP, Ivan's permission 2026-09-16 04:41 WITA
+TEXT-CHARS: 46580  LINKS: 84
+==============================================================================
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+Sign In
+General
+Item Management
+FBS Orders
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Rates
+Analytics and Data
+Sales Funnel
+Order Feed
+Search Queries for Your Items
+Stocks Report
+Item Rating
+Seller Analytics CSV
+Reports
+Documents and Accounting
+Analytics and Data
+
+Data on seller analytics.
+
+Sales Funnel
+To access the methods, use a token for the Analytics category
+You can learn how to use methods in business cases in the instructions on working with Sales Funnel
+
+Methods for getting statistics for:
+
+Listings per period
+Listings per days
+Grouped listings per days
+Timezones are presented in IANA format, the current list can be viewed here
+Listings Statistics per Period
+/api/analytics/v3/sales-funnel/products
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v3/sales-funnel/products
+Method description
+
+The method generates a report on items by comparing key metrics for the current period with a similar past one.
+
+
+
+The report data is updated once an hour.
+
+
+
+Most of the data appears within an hour of the event:
+
+orders
+click-throughs
+adds-to-Cart
+
+A small part of this data may appear within a few days.
+
+
+
+Purchases, cancellations, and returns are displayed in report for the day an item was ordered. For example, if an order was placed on January 1, and the customer returned the item on January 10, data about this return will appear in the report for January 1.
+You can track the final sales results using details for the realization reports.
+
+
+
+The brandNames, subjectIds, tagIds, and nmIds parameters can be empty [], in which case the response will return all of the seller listings.
+
+
+
+If you specify multiple parameters, the response will include listings that match all of these parameters simultaneously. If no listings match the request parameters, an empty response [] will be returned.
+
+
+
+You can get a report for a maximum of the last 365 days.
+
+
+
+In the previous period's data:
+
+The data in pastPeriod covers the same duration as in selectedPeriod
+If the pastPeriod start date is more than a year before the current date, it will be adjusted to: pastPeriod.start = current date - 365 days
+
+Pagination can be used.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+selectedPeriod
+required
+	
+object
+
+Requested period
+
+
+pastPeriod	
+object
+
+Period for comparison
+
+
+nmIds	
+Array of integers <uint64> [ 0 .. 1000 ] items [ items <uint64 > ]
+
+WB item numbers to include in the report. Leave empty to get a report for all items
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+subjectIds	
+Array of integers <uint64> [ items <uint64 > ]
+
+List of subcategory IDs for filtering
+
+
+tagIds	
+Array of integers <uint64> [ items <uint64 > ]
+
+List of label IDs for filtering
+
+
+skipDeletedNm	
+boolean
+
+Skip deleted items
+
+
+orderBy	
+object
+
+Sorting parameters
+
+
+limit	
+integer <uint32> <= 1000
+Default: 50
+
+Number of listings in the response
+
+
+offset	
+integer <uint32>
+Default: 0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"selectedPeriod": 
+{
+"start": "2023-06-01",
+"end": "2024-03-01"
+},
+"pastPeriod": 
+{
+"start": "2023-06-01",
+"end": "2024-03-01"
+},
+"nmIds": 
+[
+1234567
+],
+"brandNames": 
+[
+"nike",
+"adidas"
+],
+"subjectIds": 
+[
+64,
+334
+],
+"tagIds": 
+[
+32,
+53
+],
+"skipDeletedNm": false,
+"orderBy": 
+{
+"field": "openCard",
+"mode": "asc"
+},
+"limit": 231,
+"offset": 10
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"products": 
+[],
+"currency": "RUB"
+}
+}
+Listings Statistics per Days
+/api/analytics/v3/sales-funnel/products/history
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v3/sales-funnel/products/history
+Method description
+
+The method returns statistics for listings by day or by week.
+You can get data for a maximum of the last week.
+
+
+
+The report data is updated once an hour.
+
+
+
+Most of the data appears within an hour of the event:
+
+orders
+click-throughs
+adds-to-Cart
+
+A small part of this data may appear within a few days.
+
+
+
+Purchases, cancellations, and returns are displayed in report for the day an item was ordered. For example, if an order was placed on January 1, and the customer returned the item on January 10, data about this return will appear in the report for January 1.
+You can track the final sales results using details for the realization reports.
+
+To get reports for a period of up to a year, use the Seller Analytics CSV methods — the DETAIL_HISTORY_REPORT type. Reports of this type are available only with Jam subscription
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+selectedPeriod
+required
+	
+object
+
+Requested period
+
+
+nmIds
+required
+	
+Array of integers <uint64> [ 1 .. 20 ] items [ items <uint64 > ]
+
+WB item numbers to include in the report
+
+
+skipDeletedNm	
+boolean
+
+Skip deleted items
+
+
+aggregationLevel	
+string
+Default: "day"
+Enum: "day" "week"
+
+Aggregation Type. If not specified, the default is aggregation by days.
+Available aggregation levels: day, week
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"selectedPeriod": 
+{
+"start": "2023-06-01",
+"end": "2024-03-01"
+},
+"nmIds": 
+[
+0
+],
+"skipDeletedNm": true,
+"aggregationLevel": "day"
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+[
+{
+"product": 
+{},
+"history": 
+[],
+"currency": "RUB"
+}
+]
+Grouped Listings Statistics per Days
+/api/analytics/v3/sales-funnel/grouped/history
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v3/sales-funnel/grouped/history
+Method description
+
+The method returns statistics for listings by day or by week.
+Listings are grouped by subcategories, brands and labels.
+You can get data for a maximum of the last week.
+
+
+
+The report data is updated once an hour.
+
+Most of the data appears within an hour of the event:
+
+orders
+click-throughs
+adds-to-Cart
+
+A small part of this data may appear within a few days.
+
+
+
+Purchases, cancellations, and returns are displayed in report for the day an item was ordered. For example, if an order was placed on January 1, and the customer returned the item on January 10, data about this return will appear in the report for January 1.
+You can track the final sales results using details for the realization reports.
+
+
+
+The brandNames, subjectIDs, tagIds, and nmIds parameters can be empty [], in which case the response will return all of the seller listings.
+
+
+
+The item of the number of subcategories, brands, and labels in the request cannot be more than 16. For example, 4 brands and 4 subcategories or 2 subcategories, 2 labels, and 4 brands.
+
+To get reports for a period of up to a year, use the Seller Analytics CSV methods — the GROUPED_HISTORY_REPORT type. Reports of this type are available only with Jam subscription
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+selectedPeriod
+required
+	
+object
+
+Requested period
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+subjectIds	
+Array of integers <uint64> [ items <uint64 > ]
+
+List of subcategory IDs for filtering
+
+
+tagIds	
+Array of integers <uint64> [ items <uint64 > ]
+
+List of label IDs for filtering
+
+
+skipDeletedNm	
+boolean
+
+Skip deleted items
+
+
+aggregationLevel	
+string
+Default: "day"
+Enum: "day" "week"
+
+Aggregation Type. If not specified, the default is aggregation by days.
+Available aggregation levels: day, week
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"selectedPeriod": 
+{
+"start": "2023-06-01",
+"end": "2024-03-01"
+},
+"brandNames": 
+[
+"nike",
+"adidas"
+],
+"subjectIds": 
+[
+64,
+334
+],
+"tagIds": 
+[
+32,
+53
+],
+"skipDeletedNm": false,
+"aggregationLevel": "day"
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Order Feed
+To access the method, use a token for the Analytics category
+
+Method for getting the Order Feed report
+
+Get Report
+/api/analytics/v1/order-feed
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/order-feed
+Method description
+
+The method forms a dataset for orders and sales.
+
+The report data is updated in real time.
+
+
+
+1 order means 1 assembly order and means 1 item
+
+The brandNames, subjectIds, tagIds, and nmIds parameters can be empty [], in which case the response will return all of the seller orders.
+If you specify multiple parameters, the response will include orders that match all of these parameters simultaneously. If no orders match the request parameters, an empty array [] will be returned.
+
+You can get a report for a maximum of the last 31 days.
+
+Orders are sorted by current status time, from the newest to the earliest.
+
+Pagination can be used.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	3 h	1 request	3 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+selectedPeriod
+required
+	
+object
+
+Requested period. By date of the current order status
+
+
+nmIds	
+Array of integers <uint64> <= 1000 items [ items <uint64 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIds	
+Array of integers <uint64> <= 50 items [ items <uint64 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings <= 50 items
+
+List of brands for filtering
+
+
+tagIds	
+Array of integers <uint64> <= 50 items [ items <uint64 > ]
+
+List of label IDs for filtering
+
+
+pagination	
+object
+
+Pagination
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"selectedPeriod": 
+{
+"start": "2026-07-23T00:00:00.00000+03:00",
+"end": "2026-07-31T00:00:00.00000+03:00"
+},
+"nmIds": 
+[
+162579635,
+166699779
+],
+"subjectIds": 
+[
+232,
+1364
+],
+"brandNames": 
+[
+"Abikas",
+"Tike"
+],
+"tagIds": 
+[
+3,
+5,
+6
+],
+"pagination": 
+{
+"snapshotTime": "2026-07-28T15:04:05Z",
+"offset": 211,
+"limit": 4030
+}
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"snapshotTime": "2026-07-03T15:04:05Z",
+"currency": "RUB",
+"orders": 
+[]
+}
+}
+Search Queries for Your Items
+To access the methods, use a token for the Analytics category
+You can learn how to use methods in business cases in the instructions on working with Search Queries for Your Items
+
+These methods can be used to get a report on search queries for your items.
+
+You can use these methods only with Jam subscription
+Main Page
+/api/v2/search-report/report
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/search-report/report
+Method description
+
+Forms a dataset for the main report page with:
+
+General information
+Item positions
+Data on visibility and transitions to the listing
+Data for the table by groups
+
+To get additional data in the table, use a separate request for:
+
+Pagination by groups
+Retrieval of items within a group
+
+Additional parameters for selecting the list of items in the table:
+
+positionCluster — average position in search
+
+The parameters includeSubstitutedSKUs and includeSearchTexts cannot both be set to false.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+currentPeriod
+required
+	
+object
+
+Current period
+
+
+pastPeriod	
+object
+
+Previous period for comparison. Number of days — less than or equal to currentPeriod
+
+
+nmIds	
+Array of integers <int32> [ items <int32 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIds	
+Array of integers <int32> [ items <int32 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+tagIds	
+Array of integers <int64> [ items <int64 > ]
+
+List of label IDs for filtering
+
+
+positionCluster
+required
+	
+string
+Enum: "all" "firstHundred" "secondHundred" "below"
+
+Which average search position of items to display in the report:
+
+all — all
+firstHundred — from 1 to 100
+secondHundred — from 101 to 200
+below — from 201 and below
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+includeSubstitutedSKUs	
+boolean
+Default: true
+
+Show data for direct queries with promo items
+
+
+includeSearchTexts	
+boolean
+Default: true
+
+Show data for search queries without promo items
+
+
+limit
+required
+	
+integer <uint32> <= 1000
+
+Number of item groups in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+From which element to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"pastPeriod": 
+{
+"start": "2024-02-08",
+"end": "2024-02-08"
+},
+"nmIds": 
+[
+162579635,
+166699779
+],
+"subjectIds": 
+[
+32,
+64
+],
+"brandNames": 
+[
+"Adidas",
+"Nike"
+],
+"tagIds": 
+[
+3,
+5,
+6
+],
+"positionCluster": "all",
+"orderBy": 
+{
+"field": "avgPosition",
+"mode": "asc"
+},
+"includeSubstitutedSKUs": true,
+"includeSearchTexts": false,
+"limit": 130,
+"offset": 50
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"commonInfo": 
+{},
+"positionInfo": 
+{},
+"visibilityInfo": 
+{},
+"groups": 
+[],
+"currency": "RUB"
+}
+}
+Pagination by Groups
+/api/v2/search-report/table/groups
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/search-report/table/groups
+Method description
+
+Pagination by groups in the report. It is possible only if there is a filter by brand, subcategory, or label.
+
+Additional parameters for selecting the list of items in the table:
+
+positionCluster — average position in search
+
+The parameters includeSubstitutedSKUs and includeSearchTexts cannot both be set to false.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+currentPeriod
+required
+	
+object
+
+Current period
+
+
+pastPeriod	
+object
+
+Previous period for comparison. Number of days — less than or equal to currentPeriod
+
+
+nmIds	
+Array of integers <int32> [ items <int32 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIds	
+Array of integers <int32> [ items <int32 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+tagIds	
+Array of integers <int64> [ items <int64 > ]
+
+List of label IDs for filtering
+
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+positionCluster
+required
+	
+string
+Enum: "all" "firstHundred" "secondHundred" "below"
+
+Which average search position of items to display in the report:
+
+all — all
+firstHundred — from 1 to 100
+secondHundred — from 101 to 200
+below — from 201 and below
+
+includeSubstitutedSKUs	
+boolean
+Default: true
+
+Show data for direct queries with promo items
+
+
+includeSearchTexts	
+boolean
+Default: true
+
+Show data for search queries without promo items
+
+
+limit
+required
+	
+integer <uint32> <= 1000
+
+Number of item groups in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+From which element to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"pastPeriod": 
+{
+"start": "2024-02-08",
+"end": "2024-02-08"
+},
+"nmIds": 
+[
+162579635,
+166699779
+],
+"subjectIds": 
+[
+64,
+334
+],
+"brandNames": 
+[
+"nikkle",
+"abikas"
+],
+"tagIds": 
+[
+32,
+53
+],
+"orderBy": 
+{
+"field": "avgPosition",
+"mode": "asc"
+},
+"positionCluster": "all",
+"includeSubstitutedSKUs": true,
+"includeSearchTexts": false,
+"limit": 130,
+"offset": 50
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"groups": 
+[],
+"currency": "RUB"
+}
+}
+Pagination by Items Within a Group
+/api/v2/search-report/table/details
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/search-report/table/details
+Method description
+
+Pagination by items within a group. It is possible regardless of the presence of filters.
+
+Filters for pagination by items within a group or without filters:
+
+tuple subjectId, brandName, tagId — filter for the group
+nmIds — filter by listings
+
+Additional parameters for selecting the list of items in the table:
+
+positionCluster — average position in search
+
+The parameters includeSubstitutedSKUs and includeSearchTexts cannot both be set to false.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+currentPeriod
+required
+	
+object
+
+Current period
+
+
+pastPeriod	
+object
+
+Previous period for comparison. Number of days — less than or equal to currentPeriod
+
+
+subjectId	
+integer <int32>
+
+Subcategory ID
+
+
+brandName	
+string
+
+Item name
+
+
+tagId	
+integer <int64>
+
+Label ID
+
+
+nmIds	
+Array of integers <uint64> <= 50 items [ items <uint64 > ]
+
+WB item numbers list
+
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+positionCluster
+required
+	
+string
+Enum: "all" "firstHundred" "secondHundred" "below"
+
+Which average search position of items to display in the report:
+
+all — all
+firstHundred — from 1 to 100
+secondHundred — from 101 to 200
+below — from 201 and below
+
+includeSubstitutedSKUs	
+boolean
+Default: true
+
+Show data for direct queries with promo items
+
+
+includeSearchTexts	
+boolean
+Default: true
+
+Show data for search queries without promo items
+
+
+limit
+required
+	
+integer <uint32> <= 1000
+
+Number of items in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+From which element to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"pastPeriod": 
+{
+"start": "2024-02-08",
+"end": "2024-02-08"
+},
+"subjectId": 123,
+"brandName": "Apple",
+"tagId": 45,
+"nmIds": 
+[
+162579635,
+166699779
+],
+"orderBy": 
+{
+"field": "avgPosition",
+"mode": "asc"
+},
+"positionCluster": "all",
+"includeSubstitutedSKUs": true,
+"includeSearchTexts": false,
+"limit": 150,
+"offset": 100
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"products": 
+[],
+"currency": "RUB"
+}
+}
+Search Texts by Item
+/api/v2/search-report/product/search-texts
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/search-report/product/search-texts
+Method description
+
+Forms the top search texts by item.
+
+Search text selection parameters:
+
+limit — number of queries, maximum 30. For the Advanced and Premium Jam rates, the maximum is 100.
+topOrderBy — method for selecting the top queries
+
+The parameters includeSubstitutedSKUs and includeSearchTexts cannot both be set to false.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+currentPeriod
+required
+	
+object
+
+Current period
+
+
+pastPeriod	
+object
+
+Previous period for comparison. Number of days — less than or equal to currentPeriod
+
+
+nmIds
+required
+	
+Array of integers <uint64> <= 50 items [ items <uint64 > ]
+
+WB item numbers list
+
+
+topOrderBy
+required
+	
+string
+Enum: "openCard" "addToCart" "openToCart" "orders" "cartToOrder"
+
+Filtering by the search queries that brought the most:
+
+openCard — click-throughs
+addToCart — adds-to-Cart
+openToCart — conversion to cart
+orders — items ordered
+cartToOrder — conversion to order
+
+includeSubstitutedSKUs	
+boolean
+Default: true
+
+Show data for direct queries with promo items
+
+
+includeSearchTexts	
+boolean
+Default: true
+
+Show data for search queries without promo items
+
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+limit
+required
+	
+StandardTariff (integer) or AdvancedTariff (integer)
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"pastPeriod": 
+{
+"start": "2024-02-08",
+"end": "2024-02-08"
+},
+"nmIds": 
+[
+162579635,
+166699779
+],
+"topOrderBy": "openToCart",
+"includeSubstitutedSKUs": true,
+"includeSearchTexts": false,
+"orderBy": 
+{
+"field": "avgPosition",
+"mode": "asc"
+},
+"limit": 20
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"items": 
+[],
+"currency": "RUB"
+}
+}
+Orders and Positions by Item Search Texts
+/api/v2/search-report/product/orders
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/search-report/product/orders
+Method description
+
+The method forms data for the table:
+
+about orders for each search query for a specific item
+about item positions in search results for each query
+
+The data is provided within the period for the requested item and grouped by day. The maximum period is 7 days.
+
+
+
+The report data is updated once per hour.
+
+You can get a report for a maximum of the last 365 days from the moment of the request
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+period
+required
+	
+object
+
+Current period. Maximum of 7 days
+
+
+nmId
+required
+	
+integer <uint64>
+
+WB item number
+
+
+searchTexts
+required
+	
+Array of strings [ 1 .. 30 ] items
+
+Search texts. For the Advanced and Premium Jam rates, the maximum is 100
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"period": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"nmId": 211131895,
+"searchTexts": 
+[
+"костюм",
+"пиджак"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"total": 
+[],
+"items": 
+[]
+}
+}
+Stocks Report
+To access the methods, use a token for the Analytics category
+
+These methods can be used to get a report on inventory metrics.
+
+This is information from the detailed item table and the region and warehouse detail widget.
+
+Inventory in responses of these methods is displayed for the current day.
+
+To get daily inventory for the period up to 3 months from the current date, use the Seller Analytics CSV methods — the STOCK_HISTORY_DAILY_CSV report type
+WB Warehouses Inventory
+/api/analytics/v1/stocks-report/wb-warehouses
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/stocks-report/wb-warehouses
+Method description
+Method is available by Personal token, Service token, Base token with secret
+
+The method returns current WB warehouses inventory.
+
+The data is updated once every 30 minutes.
+
+1 response row means data on 1 item size in 1 WB warehouse.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	3 requests	20 s	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIds	
+Array of integers <int64> [ 0 .. 1000 ] items [ items <int64 > ]
+
+WB item numbers
+
+
+chrtIds	
+Array of integers <int64> [ items <int64 > ]
+
+Size IDs. It is used only for the item numbers specified in the nmIds array
+
+
+limit	
+integer <uint32> <= 250000
+Default: 250000
+
+Number of rows in the response
+
+
+offset	
+integer <uint32>
+Default: 0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIds": 
+[
+111222333,
+47254354
+],
+"chrtIds": 
+[
+111222333,
+91663228
+],
+"limit": 250000,
+"offset": 500000
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"items": 
+[]
+}
+}
+Seller Warehouses Inventory
+/api/analytics/v1/stocks-report/seller-warehouses
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/stocks-report/seller-warehouses
+Method description
+Method is available by Personal token, Service token
+
+The method returns current seller warehouses inventory.
+
+The data is updated once every 30 minutes.
+
+1 response row means data on 1 item size in 1 seller warehouse.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	3 requests	20 s	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIds	
+Array of integers <int64> [ 0 .. 1000 ] items [ items <int64 > ]
+
+WB item numbers
+
+
+chrtIds	
+Array of integers <int64> [ items <int64 > ]
+
+Size IDs. It is used only for the item numbers specified in the nmIds array
+
+
+limit	
+integer <uint32> <= 250000
+Default: 250000
+
+Number of rows in the response
+
+
+offset	
+integer <uint32>
+Default: 0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIds": 
+[
+111222333,
+47254354
+],
+"chrtIds": 
+[
+111222333,
+91663228
+],
+"limit": 250000,
+"offset": 500000
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"items": 
+[]
+}
+}
+Group Data
+/api/v2/stocks-report/products/groups
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/stocks-report/products/groups
+Method description
+
+Forms a dataset for inventory by item group.
+
+The item group is described by a tuple of subjectID, brandName, tagID.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIDs	
+Array of integers <int64> [ items <int64 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIDs	
+Array of integers <int32> [ items <int32 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+tagIDs	
+Array of integers <int64> [ items <int64 > ]
+
+List of label IDs for filtering
+
+
+currentPeriod
+required
+	
+object
+
+Period
+
+
+stockType
+required
+	
+string
+Enum: "" "wb" "mp"
+
+Type of items storage warehouse:
+
+"" — all
+wb — WB warehouses
+mp — seller warehouses
+
+skipDeletedNm
+required
+	
+boolean
+
+Skip deleted items
+
+
+availabilityFilters
+required
+	
+Array of strings
+Items Enum: "deficient" "actual" "balanced" "nonActual" "nonLiquid" "invalidData"
+
+Item availability:
+
+deficient — Low stock
+actual — Selling well
+balanced — Selling steadily
+nonActual — Selling poorly
+nonLiquid — Struggling
+invalidData — Not calculated
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+limit	
+integer <uint32> <= 1000
+Default: 100
+
+Number of groups in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+From which element to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIDs": 
+[
+111222333,
+444555666
+],
+"subjectIDs": 
+[
+123,
+456
+],
+"brandNames": 
+[
+"Эрк",
+"Дент"
+],
+"tagIDs": 
+[
+3,
+4,
+5
+],
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"stockType": "mp",
+"skipDeletedNm": true,
+"availabilityFilters": 
+[
+"deficient",
+"balanced"
+],
+"orderBy": 
+{
+"field": "avgOrders",
+"mode": "asc"
+},
+"limit": 150,
+"offset": 100
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"groups": 
+[],
+"currency": "RUB"
+}
+}
+Item Data
+/api/v2/stocks-report/products/products
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/stocks-report/products/products
+Method description
+
+Forms a dataset for inventory by items.
+
+You can get data for individual items as well as for the entire report if there are no filters in the query: nmIDs, subjectID, brandName, tagID.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIDs	
+Array of integers <int64> [ items <int64 > ]
+
+List of WB item numbers for filtering
+
+
+subjectID	
+integer <int32>
+
+Subcategory ID
+
+
+brandName	
+string
+
+Brand
+
+
+tagID	
+integer <int64>
+
+Label ID
+
+
+currentPeriod
+required
+	
+object
+
+Period
+
+
+stockType
+required
+	
+string
+Enum: "" "wb" "mp"
+
+Type of items storage warehouse:
+
+"" — all
+wb — WB warehouses
+mp — seller warehouses
+
+skipDeletedNm
+required
+	
+boolean
+
+Skip deleted items
+
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+availabilityFilters
+required
+	
+Array of strings
+Items Enum: "deficient" "actual" "balanced" "nonActual" "nonLiquid" "invalidData"
+
+Item availability:
+
+deficient — Low stock
+actual — Selling well
+balanced — Selling steadily
+nonActual — Selling poorly
+nonLiquid — Struggling
+invalidData — Not calculated
+
+limit	
+integer <uint32> <= 1000
+Default: 100
+
+Number of groups in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+From which element to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIDs": 
+[
+111222333,
+444555666
+],
+"subjectID": 123456,
+"brandName": "Спортик",
+"tagID": 25345,
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"stockType": "mp",
+"skipDeletedNm": true,
+"orderBy": 
+{
+"field": "avgOrders",
+"mode": "asc"
+},
+"availabilityFilters": 
+[
+"deficient",
+"balanced"
+],
+"limit": 150,
+"offset": 100
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"items": 
+[],
+"currency": "RUB"
+}
+}
+Size Data
+/api/v2/stocks-report/products/sizes
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/stocks-report/products/sizes
+Method description
+
+Forms a dataset for inventory by the size of the item.
+
+Possible cases:
+
+The item has dimensions and "includeOffice":true, then the response body will contain data on the inventory for each of the sizes with nested details by warehouse.
+The item has dimensions and "includeOffice":false, then the response body will contain data on the inventory for each of the sizes without nested details by warehouse.
+The item has no size and "include Office":true, then the response body will contain details by warehouse without data on the inventory for each of the sizes.
+The item has no size and "include Office":false, then the response body will be empty.
+
+The item has no size means the size of the item is the same and has "techSize":"0". In responses of the method for getting data on items, such items have hasSizes':false.
+
+The data on the seller warehouses are in an aggregated form — for all of them together without detailing specific warehouses — and responses contain "regionName":"Свой склад" and "officeName":"" in such cases.
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmID
+required
+	
+integer <int64>
+
+WB item number
+
+
+currentPeriod
+required
+	
+object
+
+Period
+
+
+stockType
+required
+	
+string
+Enum: "" "wb" "mp"
+
+Type of items storage warehouse:
+
+"" — all
+wb — WB warehouses
+mp — seller warehouses
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+includeOffice
+required
+	
+boolean
+
+Include warehouse details
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmID": 123456789,
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"stockType": "mp",
+"orderBy": 
+{
+"field": "avgOrders",
+"mode": "asc"
+},
+"includeOffice": true
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"offices": 
+[],
+"sizes": 
+[],
+"currency": "RUB"
+}
+}
+Warehouse Data
+/api/v2/stocks-report/offices
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/stocks-report/offices
+Method description
+
+Forms a dataset for inventory by warehouses.
+
+The data on the seller warehouses are in an aggregated form — for all of them together without detailing specific warehouses — and responses contain "regionName":"Свой склад" and "offices":[].
+
+
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIDs	
+Array of integers <int64> [ items <int64 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIDs	
+Array of integers <int32> [ items <int32 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings
+
+List of brands for filtering
+
+
+tagIDs	
+Array of integers <int64> [ items <int64 > ]
+
+List of label IDs for filtering
+
+
+currentPeriod
+required
+	
+object
+
+Period
+
+
+stockType
+required
+	
+string
+Enum: "" "wb" "mp"
+
+Type of items storage warehouse:
+
+"" — all
+wb — WB warehouses
+mp — seller warehouses
+
+skipDeletedNm
+required
+	
+boolean
+
+Skip deleted items
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIDs": 
+[
+111222333,
+444555666
+],
+"subjectIDs": 
+[
+123,
+456
+],
+"brandNames": 
+[
+"Эшк",
+"ЗлатА",
+"ОТК",
+"арк"
+],
+"tagIDs": 
+[
+123,
+456,
+789
+],
+"currentPeriod": 
+{
+"start": "2024-02-10",
+"end": "2024-02-10"
+},
+"stockType": "mp",
+"skipDeletedNm": false
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"regions": 
+[],
+"currency": "RUB"
+}
+}
+Item Rating
+To access the method, use a token for the Analytics category
+
+Method for getting the Item Rating report
+
+Get Report
+/api/analytics/v2/item-rating
+POST
+https://seller-analytics-api.wildberries.ru/api/analytics/v2/item-rating
+Method description
+Method is available by Personal token, Service token
+
+The method forms a dataset for item rating.
+
+The report data is updated once an hour.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	3 requests	20 s	3 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+currentPeriod
+required
+	
+object
+
+Current period
+
+
+pastPeriod	
+object
+
+Previous period for comparison. Number of days — less than or equal to currentPeriod
+
+
+nmIds	
+Array of integers <int32> <= 50 items [ items <int32 > ]
+
+List of WB item numbers for filtering
+
+
+subjectIds	
+Array of integers <int32> <= 50 items [ items <int32 > ]
+
+List of subcategory IDs for filtering
+
+
+brandNames	
+Array of strings <= 50 items
+
+List of brands for filtering
+
+
+tagIds	
+Array of integers <int64> <= 50 items [ items <int64 > ]
+
+List of label IDs for filtering
+
+
+isNotIncludeNmsWithoutSales	
+boolean
+Default: false
+
+Are items with no sales returned:
+
+true — yes, the method returns only items without sales for the period specified in the currentPeriod object
+false — no, the method returns all items unless other parameters are specified
+
+onlyShadowedNms	
+boolean
+Default: false
+
+Are only hidden items returned in the response:
+
+true — yes, the method returns only items hidden from catalog
+false — no, the method returns all items unless other parameters are specified
+
+orderBy
+required
+	
+object
+
+Sorting parameters
+
+
+limit	
+integer <uint32> <= 1000
+Default: 100
+
+Number of items in the response
+
+
+offset
+required
+	
+integer <uint32>
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"currentPeriod": 
+{
+"start": "2026-02-10",
+"end": "2026-02-10"
+},
+"pastPeriod": 
+{
+"start": "2026-02-08",
+"end": "2026-02-08"
+},
+"nmIds": 
+[
+162579635,
+166699779
+],
+"subjectIds": 
+[
+232,
+1364
+],
+"brandNames": 
+[
+"Abikas",
+"Tike"
+],
+"tagIds": 
+[
+3,
+5,
+6
+],
+"isNotIncludeNmsWithoutSales": true,
+"onlyShadowedNms": true,
+"orderBy": 
+{
+"field": "feedbackCount",
+"mode": "desc"
+},
+"limit": 130,
+"offset": 50
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"sellerRating": 
+{},
+"feedbackIncrease": 
+{},
+"items": 
+[]
+}
+}
+Seller Analytics CSV
+To access the methods, use a token for the Analytics category
+You can learn how to use methods in business cases in the instructions on working with Seller Analytics CSV
+
+To get a report:
+
+Generate it using the method Create the report.
+Wait until the report is ready. You can check the status with the method Get the reports list. The report is stored for 48 hours after it is ready, and it cannot be retrieved after.
+If you receive a status of FAILED, regenerate the report.
+Download the report.
+
+You can get a report for a maximum of one year. Inventory reports can be gotten for a maximum of 3 months
+
+The maximum number of reports that can be generated per day is 20
+
+You can use these methods — except for inventory reports — only with Jam subscription
+Create the Report
+/api/v2/nm-report/downloads
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/nm-report/downloads
+Method description
+
+The method creates a task for generating a report with advanced seller analytics.
+
+You can create a CSV-version of sales funnel or search parameters report with grouping:
+
+by WB item numbers
+by categories, brands, and labels
+
+In each of reports on sales funnel, you can group data by days, weeks, or months.
+
+Also you can create a CSV-version of search texts or inventory report.
+
+
+
+Each new report must have a unique ID.
+
+Do not use the same ID for different reports — this may cause errors during generation
+
+The set of parameters in the params object depends on the report type. To get a description of the parameters, select the report type from the dropdown list in the description of the reportType parameter.
+
+The parameters includeSubstitutedSKUs and includeSearchTexts cannot both be set to false
+
+If it was not possible to get report, you can create a repeat generation task. You can also get a list and check the statuses of reports.
+
+Inventory reports — the STOCK_HISTORY_REPORT_CSV and STOCK_HISTORY_DAILY_CSV types — can be created without Jam subscription
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+id
+required
+	
+string <uuid>
+
+Report ID in UUID format. Generated by the seller independently
+
+
+reportType
+required
+	
+string
+
+Report type DETAIL_HISTORY_REPORT — Sales funnel report. By WB item numbers
+
+DETAIL_HISTORY_REPORT
+GROUPED_HISTORY_REPORT
+SEARCH_QUERIES_PREMIUM_REPORT_GROUP
+SEARCH_QUERIES_PREMIUM_REPORT_PRODUCT
+SEARCH_QUERIES_PREMIUM_REPORT_TEXT
+STOCK_HISTORY_REPORT_CSV
+STOCK_HISTORY_DAILY_CSV
+DETAIL_HISTORY_REPORT
+
+userReportName	
+string
+
+Report name. If not specified, it will be generated automatically
+
+
+params
+required
+	
+object
+
+Report parameters
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Example
+SalesFunnelItemReq
+SalesFunnelGroupReq
+SearchReportGroupReq
+SearchReportItemReq
+SearchReportTextReq
+InventoryMetricsReportReq
+InventoryHistoryReportReq
+SalesFunnelItemReq
+
+Sales funnel report. By WB item numbers
+
+Copy
+Expand
+{
+"id": "06eae887-9d9f-491f-b16a-bb1766fcb8d2",
+"reportType": "DETAIL_HISTORY_REPORT",
+"userReportName": "Listing report",
+"params": 
+{
+"nmIDs": 
+[],
+"subjectIds": 
+[],
+"brandNames": 
+[],
+"tagIds": 
+[],
+"startDate": "2024-06-21",
+"endDate": "2024-06-23",
+"timezone": "Europe/Moscow",
+"aggregationLevel": "day",
+"skipDeletedNm": false
+}
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": "Началось формирование файла/отчета"
+}
+Get the Reports List
+/api/v2/nm-report/downloads
+GET
+https://seller-analytics-api.wildberries.ru/api/v2/nm-report/downloads
+Method description
+
+The method provides a list of reports with advanced seller analytics. The response contains report IDs and generation statuses.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+filter[downloadIds]	
+Array of strings <uuid> [ items <uuid > ]
+
+Report ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Regenerate the Report
+/api/v2/nm-report/downloads/retry
+POST
+https://seller-analytics-api.wildberries.ru/api/v2/nm-report/downloads/retry
+Method description
+
+The method creates a repeated generation task of report with advanced seller analytics. This is necessary if you received the status FAILED when generating the report.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+downloadId	
+string <uuid>
+
+Report ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"downloadId": "06eea887-9d9f-491f-b16a-bb1766fcb8d2"
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+{
+"data": "Retry"
+}
+Get the Report
+/api/v2/nm-report/downloads/file/{downloadId}
+GET
+https://seller-analytics-api.wildberries.ru/api/v2/nm-report/downloads/file/{downloadId}
+Method description
+
+The method provides a report with advanced seller analytics by generation task ID.
+
+You can get a report that was generated within the last 48 hours.
+The report will be downloaded inside a ZIP archive in CSV format.
+
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	3 requests
+Service	1 min	3 requests	20 s	3 requests
+Base with secret	1 min	3 requests	20 s	3 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+downloadId
+required
+	
+string <uuid>
+
+Report ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/zip
+Example
+SalesFunnelItemRes
+SalesFunnelGroupRes
+SearchReportGroupRes
+SearchReportItemRes
+SearchReportTextRes
+InventoryMetricsReportRes
+InventoryHistoryReportRes
+SalesFunnelItemRes
+Copy
+nmID, dt, openCardCount, addToCartCount, ordersCount, ordersSumRub, buyoutsCount, buyoutsSumRub, cancelCount, cancelSumRub, addToCartConversion, cartToOrderConversion, buyoutPercent, addToWishlist, currency
+70027655,2024-11-21,1,0,0,0,0,0,0,0,0,0,0,0,RUB
+...
+...
+150317666,2024-11-21,2,0,0,0,0,0,0,0,0,0,0,0,RUB
+
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

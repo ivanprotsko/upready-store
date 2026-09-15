@@ -484,7 +484,16 @@
     "joinUs": "Tapkite nariu",
     "notMember": "Dar nesate narys?",
     "password": "Slaptažodis",
-    "signIn": "Prisijungti"
+    "signIn": "Prisijungti",
+    "yandexCta": "Prisijungti su Yandex ID",
+    "yandexDivider": "arba",
+    "yandexErrorDenied": "Atšaukėte prisijungimą Yandex puslapyje.",
+    "yandexErrorEmailTaken": "Paskyra su šiuo el. pašto adresu jau yra. Prisijunkite slaptažodžiu.",
+    "yandexErrorExpired": "Prisijungimo nuoroda nebegalioja. Pradėkite iš naujo.",
+    "yandexErrorFailed": "Prisijungti nepavyko. Pabandykite po akimirkos.",
+    "yandexErrorNoEmail": "Yandex nepateikė el. pašto adreso, todėl paskyros sukurti negalima.",
+    "yandexErrorRejected": "Yandex nepatvirtino šio prisijungimo. Bandykite dar kartą.",
+    "yandexErrorUnconfigured": "Prisijungimas per Yandex šioje parduotuvėje dar neįjungtas."
   },
   "Metadata": {
     "account": {
