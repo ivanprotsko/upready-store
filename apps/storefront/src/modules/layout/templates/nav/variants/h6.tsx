@@ -5,12 +5,14 @@ import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
@@ -36,7 +38,7 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  */
 export default async function NavH6() {
   const t = await getTranslations()
-  const [{ categories, totalCount }, regions, countryCode, siteName, locales, showJournal] =
+  const [{ categories, totalCount }, regions, countryCode, siteName, locales, showJournal, branding] =
     await Promise.all([
       listTopCategoriesWithCounts(),
       listRegions().then((regions: StoreRegion[]) => regions),
@@ -44,6 +46,7 @@ export default async function NavH6() {
       getSiteName(),
       getSwitcherLocales(),
       hasPublishedArticles(),
+      getSiteBranding(),
     ])
 
   return (
@@ -68,7 +71,7 @@ export default async function NavH6() {
               className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="nav-store-link"
             >
-              {siteName}
+              <SiteLogo siteName={siteName} branding={branding} />
             </Link>
           </BrandUnlock>
 

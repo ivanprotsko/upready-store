@@ -2,6 +2,7 @@ import { getLocaleDir } from "@i18n/config"
 import { getRequestBaseURL } from "@lib/data/cookies"
 import { getTenantAnalytics } from "@lib/data/analytics"
 import Analytics from "@modules/common/components/analytics"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
@@ -17,8 +18,25 @@ import "styles/globals.css"
 // Per request: the base a relative metadata URL (an Open Graph image) resolves
 // against is the shop that was asked, not the one value baked into the image
 // (`lib/tenant/origin.ts`).
+//
+// t16-owner-branding, step 3: the tenant's own favicon overrides the build's
+// default (config-based `icons` wins over the static `icon.svg` file
+// convention at the same segment — measured, not the case for og/twitter
+// images below). The og/twitter image itself is NOT set here: a tenant's own
+// image is served by `opengraph-image.tsx`/`twitter-image.tsx`, because the
+// static `opengraph-image.png`/`twitter-image.png` file convention always
+// wins over a same-named field set from `generateMetadata` — setting it here
+// too would risk a duplicate `og:image` tag once both are present.
 export async function generateMetadata(): Promise<Metadata> {
-  return { metadataBase: new URL(await getRequestBaseURL()) }
+  const [baseURL, branding] = await Promise.all([getRequestBaseURL(), getSiteBranding()])
+
+  const metadata: Metadata = { metadataBase: new URL(baseURL) }
+
+  if (branding.favicon_url) {
+    metadata.icons = { icon: branding.favicon_url, shortcut: branding.favicon_url, apple: branding.favicon_url }
+  }
+
+  return metadata
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -53,11 +71,12 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode, analytics] = await Promise.all([
+  const [settings, tenantPreset, tenantMode, analytics, branding] = await Promise.all([
     getEffectiveSettings(),
     getTenantThemePreset(),
     getTenantModeDefault(),
     getTenantAnalytics(),
+    getSiteBranding(),
   ])
   // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
   // this parse only ever produces a clean integer or null, never NaN reaching
@@ -75,6 +94,22 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     settings?.defaultMode ??
     profileMode
 
+  // t16-owner-branding, step 3/4: the owner's primary colour, applied as an
+  // inline style so it outranks the `[data-theme][data-mode]` attribute
+  // selectors in themes.css in both modes, the same tokens those presets
+  // already write (`--primary`/`--primary-foreground`/`--ring`). The colour
+  // itself is never altered — only the foreground text on top of it is
+  // picked for contrast (`primary_foreground`, computed backend-side). No
+  // `primary_color` means no style prop at all, so a shop that set nothing
+  // renders byte-identical to today.
+  const brandStyle = branding.primary_color
+    ? ({
+        "--primary": branding.primary_color,
+        "--primary-foreground": branding.primary_foreground ?? "#ffffff",
+        "--ring": branding.primary_color,
+      } as React.CSSProperties)
+    : undefined
+
   return (
     <html
       lang={locale}
@@ -82,6 +117,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       data-theme={theme}
       data-mode={mode}
       className={fontClassName || undefined}
+      style={brandStyle}
     >
       <head>
         {/* Applies the visitor's stored choice before the first paint, so a reload

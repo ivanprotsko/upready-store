@@ -319,6 +319,39 @@ export const PutTenantAnalyticsSchema = z.strictObject({
 export type PutTenantAnalyticsBody = z.infer<typeof PutTenantAnalyticsSchema>;
 
 /**
+ * `PUT /tenants/branding` (t16-owner-branding) — logo, favicon, og image,
+ * primary colour and the footer credit line. Every field is optional so a
+ * PUT changes only what it names; `null` clears a field the same way
+ * `PutTenantSeoVerificationSchema` above treats an empty string. URLs are
+ * never validated as files here — that already happened at
+ * `POST /tenants/branding/upload`, and this schema only bounds their length.
+ */
+const brandingUrl = z.string().min(1).max(2048).nullable().optional();
+
+export const PutTenantBrandingSchema = z.strictObject({
+  logo_light_url: brandingUrl,
+  logo_dark_url: brandingUrl,
+  favicon_url: brandingUrl,
+  og_image_url: brandingUrl,
+  primary_color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/, "a 6-digit hex color, e.g. #1a2b3c")
+    .nullable()
+    .optional(),
+  shop_name_short: z.string().max(60).nullable().optional(),
+  footer_credit: z
+    .strictObject({
+      enabled: z.boolean(),
+      text: z.string().max(200),
+      href: z.string().max(2048).nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+
+export type PutTenantBrandingBody = z.infer<typeof PutTenantBrandingSchema>;
+
+/**
  * `PUT /tenants/notification-settings` — the two fields the owner controls over
  * their customers' letters (t08-order-notifications). The `From` ADDRESS is
  * deliberately absent: the platform's SMTP account sends for every shop, and an

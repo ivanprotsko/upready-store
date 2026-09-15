@@ -5,12 +5,14 @@ import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const MAX_NAV_LINKS = 4
@@ -43,13 +45,14 @@ const MAX_NAV_LINKS = 4
  */
 export default async function NavH4() {
   const t = await getTranslations()
-  const [categories, regions, countryCode, siteName, locales, showJournal] = await Promise.all([
+  const [categories, regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
     listCategories(),
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
     getSwitcherLocales(),
     hasPublishedArticles(),
+    getSiteBranding(),
   ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
@@ -66,7 +69,7 @@ export default async function NavH4() {
                 className="shrink-0 txt-compact-medium font-semibold uppercase hover:opacity-80 transition-opacity"
                 data-testid="nav-store-link"
               >
-                {siteName}
+                <SiteLogo siteName={siteName} branding={branding} />
               </Link>
             </BrandUnlock>
           </div>

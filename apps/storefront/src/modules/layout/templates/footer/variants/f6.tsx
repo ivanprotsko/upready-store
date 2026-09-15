@@ -7,6 +7,7 @@ import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
 import SiteAttribution from "@modules/layout/components/site-attribution"
+import FooterCredit from "@modules/layout/components/footer-credit"
 
 /**
  * F6 · "Инверсия с гигантским wordmark" — F3's link rows, wordmark and legal row, on the
@@ -112,7 +113,10 @@ export default async function FooterF6() {
               inverted plane. `!` forces the override regardless of Tailwind's own utility
               order, the same technique `globals.css`'s `!bg-ui-bg-disabled` selector
               already relies on. */}
-          <SiteAttribution className="!text-ui-contrast-fg-secondary" />
+          <div className="flex flex-col items-start gap-y-1 sm:items-end">
+            <SiteAttribution className="!text-ui-contrast-fg-secondary" />
+            <FooterCredit className="!text-ui-contrast-fg-secondary" />
+          </div>
         </div>
       </div>
     </footer>

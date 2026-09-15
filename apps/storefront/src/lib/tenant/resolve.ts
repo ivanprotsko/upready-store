@@ -18,8 +18,10 @@ import {
   readAttribution,
   type TenantAttribution,
 } from "./attribution"
+import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 
 export type { TenantAttribution }
+export type { TenantBranding }
 
 export type ResolvedTenant = {
   handle: string
@@ -59,6 +61,8 @@ export type ResolvedTenant = {
    * this process.
    */
   analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null } | null
+  /** Logo, favicon, og image, primary colour, footer credit (t16-owner-branding). */
+  branding: TenantBranding
 }
 
 const TTL_MS = 60_000
@@ -121,6 +125,7 @@ export async function resolveTenantByHost(
         attribution?: Partial<TenantAttribution> | null
         seo_verification?: { yandex?: string | null; google?: string | null } | null
         analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
+        branding?: Partial<TenantBranding> | null
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -162,6 +167,7 @@ export async function resolveTenantByHost(
                   ga4MeasurementId: body.analytics.ga4_measurement_id ?? null,
                 }
               : null,
+          branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
         }
       }
     }

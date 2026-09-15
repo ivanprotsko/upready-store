@@ -62,6 +62,7 @@ describe("tenant header values", () => {
       "x-tenant-default-locale",
       "x-tenant-seo-verification",
       "x-tenant-analytics",
+      "x-tenant-branding",
     ])
   })
 })

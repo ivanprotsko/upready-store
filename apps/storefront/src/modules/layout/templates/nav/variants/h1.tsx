@@ -4,6 +4,7 @@ import { Link } from "@i18n/navigation"
 import { listRegions } from "@lib/data/regions"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import { User } from "@medusajs/icons"
 import CartButton from "@modules/layout/components/cart-button"
@@ -11,6 +12,7 @@ import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
 import SideMenu from "@modules/layout/components/side-menu"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
@@ -25,12 +27,13 @@ export default async function NavH1() {
   // t10-blog: the Journal entry of the side menu appears only once this shop
   // has published an article — measured here, on the server, because SideMenu
   // is a client component and must not read the backend itself (rule 19g).
-  const [regions, countryCode, siteName, locales, showJournal] = await Promise.all([
+  const [regions, countryCode, siteName, locales, showJournal, branding] = await Promise.all([
     listRegions().then((regions: StoreRegion[]) => regions),
     getCountryCode(),
     getSiteName(),
     getSwitcherLocales(),
     hasPublishedArticles(),
+    getSiteBranding(),
   ])
 
   return (
@@ -49,7 +52,7 @@ export default async function NavH1() {
               className="hidden lg:block shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
               data-testid="nav-store-link"
             >
-              {siteName}
+              <SiteLogo siteName={siteName} branding={branding} />
             </Link>
           </BrandUnlock>
 

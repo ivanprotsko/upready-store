@@ -719,6 +719,18 @@ const routes: RouteObject[] = [
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/analytics"),
           },
+          {
+            // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
+            // картинка для соцсетей, основной цвет, подпись в подвале. No
+            // Admin counterpart — a native install has one build-time theme
+            // profile for the whole platform.
+            path: "/settings/branding",
+            handle: {
+              breadcrumb: () => t("brandingSettings.title", { defaultValue: "Бренд" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/branding"),
+          },
         ],
       },
     ],

@@ -161,6 +161,7 @@ import {
   PostTenantArticleSchema,
   PostTenantPageSchema,
   PostTenantRedirectSchema,
+  PutTenantBrandingSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
   PostTenantUpdateMeSchema,
@@ -1132,6 +1133,19 @@ export default defineMiddlewares({
       matcher: "/tenants/analytics",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantAnalyticsSchema)],
+    },
+    // t16-owner-branding: logo/favicon/og-image/primary-colour/footer-credit.
+    // The upload route reuses the same multipart middlewares as
+    // `/tenants/uploads` (`adminUploadPostMiddlewares`, defined above).
+    {
+      matcher: "/tenants/branding",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantBrandingSchema)],
+    },
+    {
+      matcher: "/tenants/branding/upload",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware
