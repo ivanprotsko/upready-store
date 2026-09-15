@@ -1,0 +1,50 @@
+{
+  "productId": "prod_01M29Q5AVB4VJGSBPE2VBH02BH",
+  "field": "variants.0.prices.rub",
+  "narrow": {
+    "headers": [
+      "Заголовок",
+      "Цена, ₽",
+      "Цена USD"
+    ],
+    "columnCount": 3,
+    "openingCell": "variants.0.prices.rub",
+    "tabsToField": 0,
+    "fieldBox": {
+      "x": 175,
+      "right": 292,
+      "scrollLeft": 0,
+      "scrollWidth": 1262,
+      "clientWidth": 1262
+    },
+    "horizontalScrollNeeded": false,
+    "fieldWithinViewport": true
+  },
+  "showAll": {
+    "renderedHeaders": 9,
+    "firstHeaders": [
+      "Заголовок",
+      "Цена, ₽",
+      "Цена EUR",
+      "Цена AED",
+      "Цена AFN",
+      "Цена USD"
+    ],
+    "scroller": {
+      "scrollWidth": 54000,
+      "clientWidth": 1262
+    }
+  },
+  "shots": {
+    "narrow": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-currencies/artifacts/docs/f09-price-editor-currencies/shots/s01-prices-shop-currency-1280x900.png",
+    "all": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-currencies/artifacts/docs/f09-price-editor-currencies/shots/s01-prices-all-currencies-1280x900.png"
+  },
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

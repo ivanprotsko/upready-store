@@ -10,6 +10,10 @@ import {
 } from "../../../../../components/data-grid"
 import { useRouteModal } from "../../../../../components/modals"
 import {
+  PricingCurrencyToggle,
+  usePricingScope,
+} from "../../../common/use-pricing-scope"
+import {
   ProductCreateOptionSchema,
   ProductCreateVariantSchema,
 } from "../../constants"
@@ -24,16 +28,16 @@ type ProductCreateVariantsFormProps = {
 
 export const ProductCreateVariantsForm = ({
   form,
-  regions,
-  store,
   pricePreferences,
 }: ProductCreateVariantsFormProps) => {
   const { setCloseOnEscape } = useRouteModal()
 
-  const currencyCodes = useMemo(
-    () => store?.supported_currencies?.map((c) => c.currency_code) || [],
-    [store]
-  )
+  // f09-price-editor-currencies: a new product has no prices yet, so the grid
+  // opens on the shop's own currency alone. `regions`/`store` still arrive as
+  // props (the wizard blocks on them before it renders) but the scope hook
+  // reads them from the same cached queries, together with the owner's
+  // «Валюта по умолчанию» pick.
+  const scope = usePricingScope()
 
   const variants = useWatch({
     control: form.control,
@@ -52,9 +56,10 @@ export const ProductCreateVariantsForm = ({
    */
   const columns = useColumns({
     options,
-    currencies: currencyCodes,
-    regions,
+    currencies: scope.currencies,
+    regions: scope.regions,
     pricePreferences,
+    currencyLabel: scope.currencyLabel,
   })
 
   const variantData = useMemo(() => {
@@ -76,6 +81,8 @@ export const ProductCreateVariantsForm = ({
         data={variantData}
         state={form}
         onEditingChange={(editing) => setCloseOnEscape(!editing)}
+        headerContent={<PricingCurrencyToggle {...scope} />}
+        isLoading={!scope.isReady}
       />
     </div>
   )
@@ -91,11 +98,13 @@ const useColumns = ({
   currencies = [],
   regions = [],
   pricePreferences = [],
+  currencyLabel,
 }: {
   options: ProductCreateOptionSchema[]
   currencies?: string[]
   regions?: HttpTypes.AdminRegion[]
   pricePreferences?: HttpTypes.AdminPricePreference[]
+  currencyLabel?: (code: string) => string
 }) => {
   const { t } = useTranslation()
 
@@ -121,6 +130,10 @@ const useColumns = ({
         },
         disableHiding: true,
       }),
+      // f09-price-editor-currencies: the price the owner came here to set sits
+      // right after the variant's name, ahead of SKU and the inventory
+      // switches — it used to be the last block on the row, past the fold on a
+      // narrow screen.
       columnHelper.column({
         id: "title",
         name: t("fields.title"),
@@ -131,6 +144,22 @@ const useColumns = ({
         cell: (context) => {
           return <DataGrid.TextCell context={context} />
         },
+      }),
+      ...createDataGridPriceColumns<
+        ProductCreateVariantSchema & { originalIndex: number },
+        ProductCreateSchemaType
+      >({
+        currencies,
+        regions,
+        pricePreferences,
+        currencyLabel,
+        getFieldName: (context, value) => {
+          if (context.column.id?.startsWith("currency_prices")) {
+            return `variants.${context.row.original.originalIndex}.prices.${value}`
+          }
+          return `variants.${context.row.original.originalIndex}.prices.${value}`
+        },
+        t,
       }),
       columnHelper.column({
         id: "sku",
@@ -183,22 +212,7 @@ const useColumns = ({
         },
       }),
 
-      ...createDataGridPriceColumns<
-        ProductCreateVariantSchema & { originalIndex: number },
-        ProductCreateSchemaType
-      >({
-        currencies,
-        regions,
-        pricePreferences,
-        getFieldName: (context, value) => {
-          if (context.column.id?.startsWith("currency_prices")) {
-            return `variants.${context.row.original.originalIndex}.prices.${value}`
-          }
-          return `variants.${context.row.original.originalIndex}.prices.${value}`
-        },
-        t,
-      }),
     ],
-    [currencies, regions, options, pricePreferences, t]
+    [currencies, regions, options, pricePreferences, currencyLabel, t]
   )
 }

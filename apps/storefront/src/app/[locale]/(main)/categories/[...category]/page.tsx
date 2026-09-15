@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { getCategoryByHandle } from "@lib/data/categories"
 import { buildAlternates } from "@lib/util/alternates"
+import { decodeSegments } from "@lib/util/decode-segment"
 import { getCountryCode, getSiteName, getTenantDefaultLocale } from "@lib/data/cookies"
 import { parseAttributeSelection } from "@lib/util/product-attribute-filters"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
@@ -31,7 +32,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     const [locale, t, productCategory, defaultLocale] = await Promise.all([
       getLocale(),
       getTranslations("Metadata.category"),
-      getCategoryByHandle(params.category),
+      getCategoryByHandle(decodeSegments(params.category)),
       getTenantDefaultLocale(),
     ])
     // No such category, or the read failed and `siteWideRead` has already said
@@ -74,7 +75,7 @@ export default async function CategoryPage(props: Props) {
   const attributeSelection = parseAttributeSelection(searchParams)
   const subcategoryHandles = parseSubcategoryHandles(searchParams)
 
-  const productCategory = await getCategoryByHandle(params.category)
+  const productCategory = await getCategoryByHandle(decodeSegments(params.category))
 
   if (!productCategory) {
     notFound()

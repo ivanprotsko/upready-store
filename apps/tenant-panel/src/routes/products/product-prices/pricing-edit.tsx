@@ -55,6 +55,35 @@ export const PricingEdit = ({
     ? product.variants?.filter((v) => v.id === variantId)
     : product.variants
 
+  // f09-price-editor-currencies: the grid opens on the shop's own currency, so
+  // the currencies and regions this product is ALREADY priced in are named
+  // explicitly — otherwise an existing price would have no column to edit it in.
+  const usedCurrencies = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (variants ?? []).flatMap((v: any) =>
+            (v.prices ?? []).map((p: any) => p.currency_code as string)
+          )
+        )
+      ),
+    [variants]
+  )
+
+  const usedRegionIds = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (variants ?? []).flatMap((v: any) =>
+            (v.prices ?? [])
+              .map((p: any) => p.rules?.region_id as string | undefined)
+              .filter(Boolean)
+          )
+        )
+      ) as string[],
+    [variants]
+  )
+
   const form = useForm<UpdateVariantPricesSchemaType>({
     defaultValues: {
       variants: variants?.map((variant: any) => ({
@@ -162,7 +191,11 @@ export const PricingEdit = ({
       <KeyboundForm onSubmit={handleSubmit} className="flex size-full flex-col">
         <RouteFocusModal.Header />
         <RouteFocusModal.Body className="flex flex-col overflow-hidden">
-          <VariantPricingForm form={form as any} />
+          <VariantPricingForm
+            form={form as any}
+            usedCurrencies={usedCurrencies}
+            usedRegionIds={usedRegionIds}
+          />
         </RouteFocusModal.Body>
         <RouteFocusModal.Footer>
           <div className="flex w-full items-center justify-end gap-x-2">
