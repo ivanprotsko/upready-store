@@ -47,27 +47,12 @@ export default async function seedF12TestOrder({ container }: { container: Medus
     return;
   }
 
-  // Asked from the CHANNEL side, not as a relation filter on `product`: the
-  // generated filter type of an entity covers its own columns only, so
-  // `filters: { sales_channels: { id: [...] } }` typechecks as `undefined` and
-  // fails `medusa build` — which the Dockerfile runs as `RUN npx medusa build
-  // --lint false && …`, so the backend IMAGE could not be built at all
-  // (measured 2026-09-15 on `dev`: rc=1, `TS2322` at this line, b02 report §3).
-  // The relation filter is passed through a plain object: the generated filter
-  // type of `product` covers its own columns only, so writing
-  // `filters: { sales_channels: { id: [...] } }` inline typechecks as
-  // `undefined` and fails `medusa build`, which the Dockerfile runs as
-  // `RUN npx medusa build --lint false && …` — so the backend IMAGE could not
-  // be built at all (measured 2026-09-15 on `dev`: rc=1, TS2322 at this line;
-  // b02-legal-and-redirects report §3). The query itself is unchanged and is
-  // what Medusa's own docs show for filtering across a link.
-  const productFilters: Record<string, unknown> = { sales_channels: { id: [salesChannelId] } };
   const {
     data: [product],
   } = await query.graph({
     entity: "product",
     fields: ["id", "title"],
-    filters: productFilters,
+    filters: { sales_channels: { id: [salesChannelId] } },
     pagination: { take: 1 },
   });
   const productId = (product?.id as string | undefined) ?? null;
