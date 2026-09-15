@@ -61,7 +61,16 @@ const regionWord = (count: number): string => {
   return "регионов"
 }
 
-export const ShippingZones = () => {
+export const ShippingZones = () => (
+  // `useRouteModal` reads a context <RouteFocusModal> itself provides, so the
+  // screen lives one component deeper — the same split `shipping-create` makes
+  // between its route and `ShippingMethodForm`.
+  <RouteFocusModal>
+    <ZonesScreen />
+  </RouteFocusModal>
+)
+
+const ZonesScreen = () => {
   const { handleSuccess } = useRouteModal()
   const {
     presets,
@@ -143,7 +152,7 @@ export const ShippingZones = () => {
   }
 
   return (
-    <RouteFocusModal>
+    <>
       <RouteFocusModal.Header>
         <div className="flex flex-1 flex-col items-start">
           <RouteFocusModal.Title asChild>
@@ -332,6 +341,6 @@ export const ShippingZones = () => {
           </Button>
         </div>
       </RouteFocusModal.Footer>
-    </RouteFocusModal>
+    </>
   )
 }
