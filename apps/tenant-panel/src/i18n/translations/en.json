@@ -2498,6 +2498,12 @@
           "description": "{{title}} was successfully deleted.",
           "header": "Product deleted"
         }
+      },
+      "prices": {
+        "error": {
+          "header": "Prices were not saved",
+          "invalid": "Enter the price as a number, for example 1400"
+        }
       }
     },
     "variant": {

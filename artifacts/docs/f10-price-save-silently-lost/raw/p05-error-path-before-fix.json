@@ -1,0 +1,64 @@
+{
+  "PANEL": "http://localhost:5193",
+  "status": 500,
+  "before": {
+    "status": 200,
+    "usd": 15,
+    "rub": 1465,
+    "rsd": 1355
+  },
+  "after": {
+    "status": 200,
+    "usd": 15,
+    "rub": 1465,
+    "rsd": 1355
+  },
+  "drawerStillOpen": true,
+  "errorVisible": false,
+  "serverMessageVisible": false,
+  "samples": [
+    {
+      "at": 600,
+      "toasters": 0,
+      "text": [],
+      "bodyHasError": false
+    },
+    {
+      "at": 900,
+      "toasters": 0,
+      "text": [],
+      "bodyHasError": false
+    },
+    {
+      "at": 1500,
+      "toasters": 0,
+      "text": [],
+      "bodyHasError": false
+    },
+    {
+      "at": 2500,
+      "toasters": 0,
+      "text": [],
+      "bodyHasError": false
+    }
+  ],
+  "shotToast": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/p05-error-toast-1280x900.png",
+  "screen": {
+    "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+    "dialogs": 1,
+    "toast": [
+      "Товары",
+      "Характеристики",
+      "Товары",
+      "Свечи АСД с чесноком"
+    ],
+    "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, свечи мумиё. Набор свечей восстанавливает утраченное, повышает иммунитет, улучшает обмен веществ, антипаразитарные. Профилактика и лечение кандидоза, молочницы, цистита, простатита. Противоопухолевое, противомикробное, противовирусное средство, для лечения парапроктитов, геморроя и трещин прямой кишки, язвенно-некротических поражений прямой кишки, колитов; при переломах костей, костно-гнойных инфекциях, для лечения ран, ожогов, трофических язв и пролежней; при угнетении иммунитета и кроветворной функции у детей и больных после внешнего и внутреннего облучения; для лечения артритов, радикулитов, невралгии, невритов периферических нервов. Препарат показан как профилактическое средство при нарушениях липидного обмена, лицам пожилого возраста, ослабленным больным и детям для восстановления резистентности организма, улучшения процессов адаптации и повышения сопротивляемости организма к действ"
+  },
+  "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/p05-error-path-1280x900.png",
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "pageerror: FetchError: Цена отклонена сервером (тест)"
+  ]
+}
