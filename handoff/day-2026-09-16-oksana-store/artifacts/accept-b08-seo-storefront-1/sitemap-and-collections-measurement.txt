@@ -1,0 +1,13 @@
+b08 приёмка — замер sitemap на клоне базы Оксаны (upready_store_b08acc), витрина :8191
+
+ДО (нет строки tenant_locale_settings): cherkashino loc=1445, языков=36
+ПОСЛЕ backfill-tenant-locale-settings (ru/en):
+  cherkashino loc=85, языки: en ru 
+  acme        loc=77, языки: en ru 
+
+Общих путей коллекций между двумя магазинами (было 108): 0
+Всего общих путей: 4 — это штатные корни:
+  /en
+  /en/store
+  /ru
+  /ru/store
