@@ -441,6 +441,25 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
     },
 
+    // ---- t14-product-import: catalogue export and import (/tenants/products/export,
+    // /tenants/products/import/**)
+    //
+    // These come BEFORE `/tenants/products/:id` for the same reason the
+    // variants batch comes before `:variant_id` further down: Express hands a
+    // path to every matching entry in the order they are declared, and
+    // `/tenants/products/:id` matches `/tenants/products/import` just as well
+    // as it matches a product id. Declaring the upload first is what puts
+    // multer in front of the body validator, so `req.files` is populated by the
+    // time the route runs.
+    //
+    // `GET /tenants/products/export` takes no query parameters and answers the
+    // CSV bytes, so it needs no validator of its own.
+    {
+      matcher: "/tenants/products/import",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
+    },
+
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
     {
       matcher: "/tenants/products/:id",

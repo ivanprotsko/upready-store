@@ -504,3 +504,80 @@ Design doc: `docs/multitenancy/storefront-by-host.md` (written before the code).
   on `/en/store` and different presets (seed: acme → `sneakers` dark, globex → `home-goods` light
   through `PUT /tenants/home`), screenshots of both; a tenant created through the API opens on its
   host without a restart.
+
+## Piece 10: catalogue spreadsheet (`t14-product-import`)
+
+Design doc = this section, written against measurements on the stand (2026-09-15).
+Screens: `routes/products/product-export` and `routes/products/product-import`; hooks in
+`hooks/api/product-csv.tsx`; the file machinery in `apps/backend/src/product-csv/`.
+
+- `GET /tenants/products/export` → the CSV ITSELF (`text/csv; charset=utf-8`,
+  `content-disposition: attachment`, plus `x-product-count`). Not `{ url }` like the
+  orders export: this file is the import's contract, so a round trip has to be one request
+  each, and the file module's local provider answers URLs on port 9000 whatever port the
+  backend listens on (see the note in `api/tenants/orders/export/route.ts`).
+- `POST /tenants/products/import` — multipart, field `files`, parsed by the Admin's own
+  multer array (the same reuse `POST /tenants/uploads` documents). Answers
+  `200 { product_import }` with a per-row DRY RUN. WRITES NOTHING.
+- `GET /tenants/products/import` → `{ product_imports, limits }`, newest first, no file
+  bodies. `GET /tenants/products/import/:id` → one stored report (this is what makes the
+  report survive a page reload). `DELETE /tenants/products/import/:id` drops it.
+- `POST /tenants/products/import/:id/confirm` — the ONLY route that writes. It re-parses
+  the stored file and RE-PLANS against the catalogue as it stands at that moment, so a
+  product edited in the panel in between cannot be overwritten by a stale diff. A rejected
+  or already-applied upload answers 400/409 rather than importing twice.
+- Model `tenant_product_import` (tenant module): `filename`, `bytes`, `status`,
+  `delimiter`, `source` (the normalised file), `report` (JSON), `confirmed_at`.
+
+### The column contract
+
+One row per VARIANT; product-level columns repeat on every row of a handle and are read
+from its FIRST row. Headers are Russian, with technical aliases accepted
+(`src/product-csv/columns.ts`): `Код товара` (handle), `Название`, `Подзаголовок`,
+`Описание`, `Статус`, `Категория` (`A / B` path), `Вариант`, `SKU`, `Остаток`, `Вес, г`,
+`Длина, мм`, `Ширина, мм`, `Высота, мм`, `Цена, <CUR>`, `Метаданные: <ключ>`, `Картинки`.
+
+Decisions worth knowing before changing any of this, each one measured:
+
+- **An empty cell means «no change».** Uniformly. Clearing a field stays the panel's job;
+  the alternative reading turns one careless Ctrl+A into a nameless, priceless catalogue.
+- **One price column: the shop's own currency**, from `tenant_locale_settings.
+  default_country` → region → currency, else the store default. A seeded stand prices a
+  variant in 118 currencies (`select count(distinct currency_code) from price`), so «a
+  column per currency found» would be unusable. The import accepts a column for any
+  currency the STORE prices in.
+- **An update resends EVERY unscoped price of the variant by id.** `updatePriceSets`
+  deletes every price of the set whose id is absent from the update
+  (`@medusajs/pricing`, `updatePriceSets_`: `pricesToDelete` = existing minus incoming),
+  so a one-column price list would otherwise wipe the other 117 currencies. Price-list
+  prices are left out of the payload: that listing filters `price_list_id: null`, so they
+  are not candidates for deletion. See `pricePayload` in `product-csv/apply.ts`.
+- **Variants are written through `batchProductVariantsWorkflow`, never through
+  `updateProductsWorkflow`'s `variants` array** — the latter DELETES variants missing from
+  the array, which for a file carrying one row of a multi-variant product is data loss.
+- **`handle` and `sku` are unique platform-wide**, not per tenant
+  (`IDX_product_handle_unique`, `IDX_product_variant_sku_unique`). `product-csv/uniqueness.ts`
+  checks them during the dry run: a code the owner TYPED and somebody else holds is a
+  rejected row; a code generated from the name gets a `-2` suffix and says so.
+- **`1,234` is refused, not guessed.** A Russian Excel means 1.234, an American one 1234,
+  and the difference lands on a live price tag.
+- **New products are created as `draft`**, whatever the file's `Статус` says.
+- **Encoding is decided, not assumed**: UTF-8 is tried strictly, and a file that is not
+  valid UTF-8 is read as Windows-1251 — Excel's two CSV menu entries produce exactly those
+  two, and the owner cannot tell them apart.
+- **Limits**: 10 MB and 5 000 rows, answered by `GET /tenants/products/import` and shown
+  in the panel BEFORE the upload. Mind `client_max_body_size 25m` in the panel's nginx.
+- **Images by URL** are fetched by the backend, so: only http(s), no credentials in the
+  URL, every resolved address must be public (loopback, RFC 1918, link-local and the
+  metadata address are refused), redirects followed by hand with a 3-hop limit and
+  re-checked at each hop, 8 MB cap enforced while reading the body, and an allowlist of
+  image content types. A URL already on the product is kept, not re-downloaded.
+- **Not transactional, and said so out loud.** Everything is validated first and nothing is
+  written until the whole file passes; on an unexpected failure mid-write the import stops,
+  records `stopped_at_line` and marks every row it had already applied.
+- **XLSX is not read.** A ZIP/OLE magic number answers «сохраните как CSV UTF-8» instead of
+  a parse error.
+
+Seam test: `integration-tests/http/tenants-product-csv.spec.ts` (round trip unchanged,
+price change applied only on confirm, duplicate row rejects the file whole, report readable
+by id, one shop's export never carries another's product, XLSX refused).

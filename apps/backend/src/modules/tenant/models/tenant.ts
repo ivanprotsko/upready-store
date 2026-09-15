@@ -8,6 +8,7 @@ import TenantIntegrationSecret from "./tenant-integration-secret";
 import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
+import TenantProductImport from "./tenant-product-import";
 import TenantRedirect from "./tenant-redirect";
 
 /**
@@ -72,6 +73,11 @@ const Tenant = model.define("tenant", {
   }),
   // The shop's journal (t10-blog): one row per article per locale.
   articles: model.hasMany(() => TenantArticle, {
+    mappedBy: "tenant",
+  }),
+  // Catalogue files the owner uploaded (t14-product-import): one row per
+  // upload, holding the dry-run report and the file it was made from.
+  product_imports: model.hasMany(() => TenantProductImport, {
     mappedBy: "tenant",
   }),
 });
