@@ -1,0 +1,22 @@
+# b08 — старые адреса магазина Оксаны, ПОСЛЕ (прод-сборка витрины, стенд upready_store_b08)
+
+## kind=page (реестр миграции, 15 адресов с source_url)
+/ru/ru/contact -> 301 http://cherkashino.localhost:8208/ru/pages/contacts
+/ru/ru/terms -> 301 http://cherkashino.localhost:8208/ru/pages/offer
+/ru/ru/privacy -> 301 http://cherkashino.localhost:8208/ru/pages/privacy
+/ru/ru/about -> 301 http://cherkashino.localhost:8208/ru/pages/about
+/ru/en/about -> 301 http://cherkashino.localhost:8208/en/pages/about
+/ru/ru/delivery -> 301 http://cherkashino.localhost:8208/ru/pages/delivery
+/ru/ru/faq -> 404 
+/ru/ru/returns -> 404 
+/ru/ru/consent -> 404 
+/ru/ru/wholesale -> 404 
+
+## kind=legacy_page (3 из 39)
+/ru/ru/pages/asd-istoriya -> 404 
+/ru/ru/pages/otzyvy -> 404 
+/ru/ru/pages/kupit-asd -> 404 
+
+## каталог (47 правил задачи b02, не трогались)
+/ru/ru/products/svechi-asd-s-chesnokom-10-sht -> 301 http://cherkashino.localhost:8208/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino
+/ru/ru/categories/dobavki -> 301 http://cherkashino.localhost:8208/ru/categories/dobavki-cherkashino
