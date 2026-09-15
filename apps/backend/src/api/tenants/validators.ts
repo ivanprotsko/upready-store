@@ -284,6 +284,19 @@ export const PostTenantRedirectSchema = z.strictObject({
 export type PostTenantRedirectBody = z.infer<typeof PostTenantRedirectSchema>;
 
 /**
+ * `PUT /tenants/redirects/:id` (b10-panel-gaps) — the same three fields, every
+ * one optional: a body names only what it changes, and the route keeps the rest
+ * of the row as it stands.
+ */
+export const PutTenantRedirectSchema = z.strictObject({
+  from_path: redirectPath.optional(),
+  to_path: redirectPath.optional(),
+  status_code: z.union([z.literal(301), z.literal(302), z.literal(307), z.literal(308)]).optional(),
+});
+
+export type PutTenantRedirectBody = z.infer<typeof PutTenantRedirectSchema>;
+
+/**
  * `PUT /tenants/seo-verification` (t11-seo-redirects step 6) — the search
  * console ownership tags. Empty string clears a tag rather than leaving the
  * previous value, the same convention `optionalSecret` uses above.

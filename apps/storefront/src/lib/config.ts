@@ -3,6 +3,7 @@ import Medusa, { type FetchArgs, type FetchInput } from "@medusajs/js-sdk"
 import { headers as nextHeaders } from "next/headers"
 import { decodeTenantHeaderValue } from "@lib/tenant/headers"
 import { resolveTenantByHost } from "@lib/tenant/resolve"
+import { redactMigrationMetadata } from "@lib/util/migration-metadata"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -99,13 +100,15 @@ export const fetchWithoutLocale = async <T>(
 ): Promise<T> => {
   const keyHeader = await getPublishableKeyHeader()
 
-  return originalFetch<T>(input, {
-    ...init,
-    headers: {
-      ...keyHeader,
-      ...(init?.headers ?? {}),
-    },
-  })
+  return redactMigrationMetadata(
+    await originalFetch<T>(input, {
+      ...init,
+      headers: {
+        ...keyHeader,
+        ...(init?.headers ?? {}),
+      },
+    })
+  )
 }
 
 sdk.client.fetch = async <T>(
@@ -130,5 +133,16 @@ sdk.client.fetch = async <T>(
     ...init,
     headers: newHeaders,
   }
-  return originalFetch(input, init)
+
+  /*
+   * The one place the import's provenance is cut out of a Store API answer
+   * (b08-seo-storefront, `util/migration-metadata.ts`). Both readers pass
+   * through here or through `fetchWithoutLocale` above, so a loader written
+   * tomorrow is covered without remembering anything: `migrated_from` and
+   * `source_url` were reaching the HTML through THREE different queries
+   * (`+metadata` on a product, `*products` on a category, `*products` on a
+   * collection), and cleaning them one at a time is how the second and third
+   * were found.
+   */
+  return redactMigrationMetadata(await originalFetch<T>(input, init))
 }

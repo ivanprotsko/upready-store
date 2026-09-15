@@ -156,6 +156,8 @@ import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validator
 import { applyCategoryFilters as applyStoreCategoryFilters } from "@medusajs/medusa/api/store/product-categories/helpers";
 import { listProductCategoryConfig as listStoreProductCategoryConfig } from "@medusajs/medusa/api/store/product-categories/query-config";
 import { StoreProductCategoriesParams } from "@medusajs/medusa/api/store/product-categories/validators";
+import { listTransformQueryConfig as listStoreCollectionConfig } from "@medusajs/medusa/api/store/collections/query-config";
+import { StoreGetCollectionsParams } from "@medusajs/medusa/api/store/collections/validators";
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
@@ -169,6 +171,7 @@ import {
   PostTenantArticleSchema,
   PostTenantPageSchema,
   PostTenantRedirectSchema,
+  PutTenantRedirectSchema,
   PutTenantBrandingSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
@@ -881,6 +884,17 @@ export default defineMiddlewares({
         applyStoreCategoryFilters,
       ],
     },
+    // b08-seo-storefront: the same public read for collections. A collection
+    // carries no sales-channel link, so `/store/collections` answers with every
+    // shop's; this one lists only the collections the tenant's own products sit
+    // in (`api/store/tenant/collections/route.ts`).
+    {
+      matcher: "/store/tenant/collections",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetCollectionsParams, listStoreCollectionConfig),
+      ],
+    },
 
     // ---- piece 6: promotions + campaigns (/tenants/promotions/**, /tenants/campaigns/**)
     // The two static children of /tenants/promotions come FIRST: Express hands
@@ -1136,6 +1150,13 @@ export default defineMiddlewares({
       matcher: "/tenants/redirects",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
+    },
+    {
+      // b10-panel-gaps: editing one rule in place, so the owner's screen can fix
+      // a target without dropping the rule and re-typing its source path.
+      matcher: "/tenants/redirects/:id",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantRedirectSchema)],
     },
     {
       matcher: "/tenants/seo-verification",

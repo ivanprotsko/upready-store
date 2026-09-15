@@ -1,0 +1,7 @@
+# /store/collections (нескоупленный маршрут, его читал sitemap ДО)
+cherkashino: acme-picks,cherkashino-picks,new
+acme:        acme-picks,cherkashino-picks,new
+
+# /store/tenant/collections (новый маршрут b08)
+cherkashino: cherkashino-picks
+acme:        acme-picks
