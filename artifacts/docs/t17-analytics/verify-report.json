@@ -1,0 +1,16 @@
+{
+  "shopA": {
+    "bannerVisibleBeforeConsent": true,
+    "scriptsBeforeConsentCount": 0,
+    "hasGtagAfterConsent": true,
+    "hasYmAfterConsent": true,
+    "gaScriptLoadedAfterConsent": true,
+    "ymScriptLoadedAfterConsent": true,
+    "bannerGoneAfterConsent": true,
+    "spaNavigationFiredYandexHit": true
+  },
+  "shopB": {
+    "bannerVisible": false,
+    "analyticsScriptRequestCount": 0
+  }
+}

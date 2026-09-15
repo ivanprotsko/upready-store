@@ -62,6 +62,11 @@
     "description": "Se og opdater dine leveringsadresser – du kan tilføje lige så mange, du vil. Gemte adresser bliver tilgængelige under checkout.",
     "heading": "Leveringsadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi bruger cookies til at forstå, hvordan besøgende bruger dette websted.",
+    "accept": "Accepter",
+    "decline": "Afvis"
+  },
   "Breadcrumb": {
     "home": "Forside",
     "store": "Butik"

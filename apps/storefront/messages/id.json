@@ -62,6 +62,11 @@
     "description": "Lihat dan perbarui alamat pengiriman Anda, Anda dapat menambahkan sebanyak yang Anda mau. Alamat yang tersimpan akan tersedia saat checkout.",
     "heading": "Alamat Pengiriman"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan cookie untuk memahami bagaimana pengunjung menggunakan situs ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Beranda",
     "store": "Toko"

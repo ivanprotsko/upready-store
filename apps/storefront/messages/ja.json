@@ -62,6 +62,11 @@
     "description": "配送先住所の確認・更新ができ、いくつでも追加登録できます。登録した住所はチェックアウト時に利用できます。",
     "heading": "配送先住所"
   },
+  "AnalyticsConsent": {
+    "message": "訪問者がこのサイトをどのように利用しているかを把握するためにCookieを使用しています。",
+    "accept": "同意する",
+    "decline": "拒否する"
+  },
   "Breadcrumb": {
     "home": "ホーム",
     "store": "ストア"

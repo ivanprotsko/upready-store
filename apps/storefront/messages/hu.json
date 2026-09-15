@@ -62,6 +62,11 @@
     "description": "Tekintse meg és frissítse szállítási címeit, tetszőleges számút hozzáadhat. A mentett címek elérhetők lesznek a fizetés során.",
     "heading": "Szállítási címek"
   },
+  "AnalyticsConsent": {
+    "message": "Sütiket használunk, hogy megértsük, hogyan használják látogatóink ezt az oldalt.",
+    "accept": "Elfogadom",
+    "decline": "Elutasítom"
+  },
   "Breadcrumb": {
     "home": "Főoldal",
     "store": "Bolt"

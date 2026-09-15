@@ -62,6 +62,11 @@
     "description": "View and update your shipping addresses, and add as many as you like. Saved addresses are offered during checkout.",
     "heading": "Shipping addresses"
   },
+  "AnalyticsConsent": {
+    "message": "We use cookies to see how visitors use this site.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Store"

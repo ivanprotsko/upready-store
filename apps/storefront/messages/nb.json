@@ -62,6 +62,11 @@
     "description": "Se og oppdater leveringsadressene dine, du kan legge til så mange du vil. Lagrede adresser vil være tilgjengelige ved utsjekking.",
     "heading": "Leveringsadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi bruker informasjonskapsler for å forstå hvordan besøkende bruker dette nettstedet.",
+    "accept": "Godta",
+    "decline": "Avvis"
+  },
   "Breadcrumb": {
     "home": "Hjem",
     "store": "Butikk"

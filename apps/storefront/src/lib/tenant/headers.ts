@@ -35,6 +35,7 @@ export const TENANT_HEADERS = [
   "x-tenant-locales",
   "x-tenant-default-locale",
   "x-tenant-seo-verification",
+  "x-tenant-analytics",
   "x-tenant-branding",
 ] as const
 

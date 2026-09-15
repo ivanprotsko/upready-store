@@ -711,6 +711,15 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/payments"),
           },
           {
+            // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
+            // No Admin counterpart — a native install has one build-time GA
+            // id, set in the environment.
+            path: "/settings/analytics",
+            handle: { breadcrumb: () => t("analyticsSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/analytics"),
+          },
+          {
             // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
             // картинка для соцсетей, основной цвет, подпись в подвале. No
             // Admin counterpart — a native install has one build-time theme

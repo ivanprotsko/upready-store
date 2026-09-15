@@ -62,6 +62,11 @@
     "description": "Veja e atualize as suas moradas de entrega, pode adicionar quantas quiser. Guardar as suas moradas torna-as disponíveis durante a finalização da compra.",
     "heading": "Moradas de Entrega"
   },
+  "AnalyticsConsent": {
+    "message": "Usamos cookies para entender como os visitantes usam este site.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
   "Breadcrumb": {
     "home": "Início",
     "store": "Loja"

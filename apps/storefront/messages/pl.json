@@ -62,6 +62,11 @@
     "description": "Przeglądaj i aktualizuj swoje adresy dostawy — możesz dodać ich dowolną liczbę. Zapisane adresy będą dostępne podczas składania zamówienia.",
     "heading": "Adresy dostawy"
   },
+  "AnalyticsConsent": {
+    "message": "Używamy plików cookie, aby zrozumieć, jak odwiedzający korzystają z tej strony.",
+    "accept": "Akceptuj",
+    "decline": "Odrzuć"
+  },
   "Breadcrumb": {
     "home": "Strona główna",
     "store": "Sklep"
