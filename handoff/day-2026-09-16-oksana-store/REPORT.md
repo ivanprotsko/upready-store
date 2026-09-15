@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-16 04:52 WITA диспетчером (тик 1685; работает). UI: http://localhost:5390
+Обновлено 2026-09-16 06:38 WITA диспетчером (тик 1770; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 51 · done: 16 · blocked: 1 · running: 2
+merged: 54 · done: 16 · blocked: 1 · pr_open: 2 · running: 3 · queued: 10
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -623,6 +623,23 @@ merged: 51 · done: 16 · blocked: 1 · running: 2
 - b15-quality-debt: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b15-quality-debt-2/db-generate-tenant.log
 - w01-wb-readonly-client «WB Seller API: клиент только на чтение по конструкции, зеркальные таблицы wb_*, первый импорт кабинета (карточки, цены, остатки)» — PR https://github.com/ivanprotsko/upready-store/pull/71 (merged)
 - w01-wb-readonly-client: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w01-wb-readonly-client-1/measurements.txt
+- w02-yandex-id-auth «Вход через Яндекс ID для покупателей витрины: OAuth-провайдер yandex в auth-модуле, кнопка и callback на витрине, тесты» — PR https://github.com/ivanprotsko/upready-store/pull/72 (merged)
+- w02-yandex-id-auth: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w02-yandex-id-auth-1.findings.md
+- w02-yandex-id-auth: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w02-yandex-id-auth-2/01-login-page.png
+- w02-yandex-id-auth: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w02-yandex-id-auth-2/02-yandex-consent.png
+- w02-yandex-id-auth: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w02-yandex-id-auth-2/03-account-after-yandex-login.png
+- w02-yandex-id-auth: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w02-yandex-id-auth-2/04-login-error-denied.png
+- w10-marketplace-spec «Спецификация маркетплейсов WB + Ozon по мерке InSales Combo: матрица паритета, архитектура общего ядра marketplace с адаптерами, разбивка на задачи с промптами» — PR https://github.com/ivanprotsko/upready-store/pull/73 (merged)
+- w03-wb-sales-questions-mirror «WB зеркала, часть 2: продажи, вопросы покупателей, воронка seller-analytics (+ таблицы в панели), лимиты токена как факты» — PR https://github.com/ivanprotsko/upready-store/pull/76 (pr_open)
+- w03-wb-sales-questions-mirror: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w03-wb-sales-questions-mirror-1.findings.md
+- w07-tenant-catalog-enrich «Обогащение СУЩЕСТВУЮЩИХ товаров тенанта из зеркала WB: заголовки, цены, характеристики, отзывы, фото (наша белая обложка остаётся первой) — локальный стенд + экспорт датасета» — PR https://github.com/ivanprotsko/upready-store/pull/74 (merged)
+- w07-tenant-catalog-enrich: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/measurements.md
+- w07-tenant-catalog-enrich: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/top-before-mumie.png
+- w07-tenant-catalog-enrich: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/top-after-mumie.png
+- w07-tenant-catalog-enrich: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/bottom-after-mumie.png
+- w07-tenant-catalog-enrich: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-w07-tenant-catalog-enrich-1/thumbs-after-mumie.png
+- w20-wb-write-core «Слой записи в WB, ядро: отдельный модуль с allowlist мутаций, dry-run по умолчанию, журнал аудита, подтверждение владелицы на класс операций, отдельный ключ; живой записи нет» — PR https://github.com/ivanprotsko/upready-store/pull/75 (pr_open)
+- w20-wb-write-core: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w20-wb-write-core-1.findings.md
 - живой адрес: https://cherkashino.shipshift.dev/ru — витрина магазина Оксаны (после x01; сейчас 502, тенанта ещё нет)
 - живой адрес: https://panel-store.upready.dev — панель владельца магазина
 - живой адрес: https://start.upready.dev/start/onboarding — мастер создания магазина
@@ -703,49 +720,109 @@ merged: 51 · done: 16 · blocked: 1 · running: 2
 | 88 | b15-quality-debt | Пачка: краснота dev — четыре падающих теста, снапшот модуля tenant без tenant_requisites, нет HTTP-сюит на отзывы | build | opus/high | fix/day16-quality-debt | **merged** | [#68](https://github.com/ivanprotsko/upready-store/pull/68) | 1 | 2026-09-15 23:54 WITA |
 | 89 | b16-media-and-backup | Пачка: медиа магазина без бэкапа и без S3, 30 клонов базы съели диск машины разработки | data | opus/high | main | **blocked** |  | 0 |  |
 | 92 | w01-wb-readonly-client | WB Seller API: клиент только на чтение по конструкции, зеркальные таблицы wb_*, первый импорт кабинета (карточки, цены, остатки) | build | opus/high | feat/day16-wb-readonly-client | **merged** | [#71](https://github.com/ivanprotsko/upready-store/pull/71) | 1 | 2026-09-16 03:47 WITA |
-| 90 | w02-yandex-id-auth | Вход через Яндекс ID для покупателей витрины: OAuth-провайдер yandex в auth-модуле, кнопка и callback на витрине, тесты | build | opus/high | feat/day16-yandex-id-auth | **running** |  | 1 | 2026-09-16 03:47 WITA |
-| 95 | w10-marketplace-spec | Спецификация маркетплейсов WB + Ozon по мерке InSales Combo: матрица паритета, архитектура общего ядра marketplace с адаптерами, разбивка на задачи с промптами | build | opus/high | feat/day16-marketplace-spec | **running** |  | 1 | 2026-09-16 04:46 WITA |
+| 90 | w02-yandex-id-auth | Вход через Яндекс ID для покупателей витрины: OAuth-провайдер yandex в auth-модуле, кнопка и callback на витрине, тесты | build | opus/high | feat/day16-yandex-id-auth | **merged** | [#72](https://github.com/ivanprotsko/upready-store/pull/72) | 2 | 2026-09-16 03:47 WITA |
+| 95 | w10-marketplace-spec | Спецификация маркетплейсов WB + Ozon по мерке InSales Combo: матрица паритета, архитектура общего ядра marketplace с адаптерами, разбивка на задачи с промптами | build | opus/high | feat/day16-marketplace-spec | **merged** | [#73](https://github.com/ivanprotsko/upready-store/pull/73) | 1 | 2026-09-16 04:46 WITA |
+| 91 | w03-wb-sales-questions-mirror | WB зеркала, часть 2: продажи, вопросы покупателей, воронка seller-analytics (+ таблицы в панели), лимиты токена как факты (после w01-wb-readonly-client) | build | opus/high | feat/day16-wb-sales-questions-mirror | **pr_open** | [#76](https://github.com/ivanprotsko/upready-store/pull/76) | 2 | 2026-09-16 04:53 WITA |
+| 94 | w07-tenant-catalog-enrich | Обогащение СУЩЕСТВУЮЩИХ товаров тенанта из зеркала WB: заголовки, цены, характеристики, отзывы, фото (наша белая обложка остаётся первой) — локальный стенд + экспорт датасета (после w01-wb-readonly-client) | build | opus/high | feat/day16-tenant-catalog-enrich | **merged** | [#74](https://github.com/ivanprotsko/upready-store/pull/74) | 1 | 2026-09-16 04:53 WITA |
+| 93 | d07-deploy-catalog-enrich | Деплой обогащения каталога на живой сайт тенанта cherkashino.shipshift.dev: pg_dump, dry-run, apply, проверка 3 страниц (после w07-tenant-catalog-enrich) | deploy | opus/high | feat/day16-deploy-catalog-enrich | **running** |  | 1 | 2026-09-16 06:37 WITA |
+| 88 | w20-wb-write-core | Слой записи в WB, ядро: отдельный модуль с allowlist мутаций, dry-run по умолчанию, журнал аудита, подтверждение владелицы на класс операций, отдельный ключ; живой записи нет (после w01-wb-readonly-client) | build | opus/high | feat/day16-wb-write-core | **pr_open** | [#75](https://github.com/ivanprotsko/upready-store/pull/75) | 2 | 2026-09-16 05:29 WITA |
+| 87 | w21-wb-write-stocks-prices | Запись в WB, классы «остатки» и «цены»: диф магазин→WB, предпросмотр в панели, dry-run push через ядро записи; живой записи нет (после w20-wb-write-core) | build | opus/high | feat/day16-wb-write-stocks-prices | **queued** |  | 0 |  |
+| 86 | w22-wb-write-feedback-answers | Запись в WB, класс «ответы на отзывы и вопросы»: черновики, шаблоны, подтверждение на каждый ответ, dry-run через ядро записи; живой записи нет (после w20-wb-write-core) | build | opus/high | feat/day16-wb-write-feedback-answers | **queued** |  | 0 |  |
+| 85 | w23-wb-write-fbs-orders | Заказы FBS: зеркало новых заказов и поставок (чтение) + действия сборки/отмены через ядро записи (класс fbs_orders), dry-run; живой записи нет (после w20-wb-write-core) | build | opus/high | feat/day16-wb-write-fbs-orders | **queued** |  | 0 |  |
+| 88 | w11-ozon-readonly-client | Ozon Seller API: клиент только на чтение по конструкции, зеркала ozon_*, проверка прав ключа через /v1/roles, импорт на фикстурах | build | opus/high | feat/day16-ozon-readonly-client | **running** |  | 1 | 2026-09-16 06:33 WITA |
+| 86 | w12-marketplace-core | Ядро marketplace: контракт адаптера, общий конформанс-тест, нормализованный слой mp_*, WB через ядро, раздел «Маркетплейсы» в панели | build | opus/high | feat/day16-marketplace-core | **queued** |  | 0 |  |
+| 84 | w13-wb-readonly-flag | WB: закрыть readOnly=unknown документированным битом 30, показать категории ключа и срок действия, предупредить об истечении | build | sonnet/medium | feat/day16-wb-readonly-flag | **running** |  | 1 | 2026-09-16 06:32 WITA |
+| 80 | w14-mp-catalog-link | Связь карточек площадок с товарами магазина по артикулу: автосвязка, ручная привязка, таблица расхождений (после w12-marketplace-core) | build | opus/high | feat/day16-mp-catalog-link | **queued** |  | 0 |  |
+| 78 | w15-mp-orders-desk | Единая лента заказов «магазин + WB + Ozon»: фильтры по площадке, схеме, статусу и периоду, карточка заказа, экспорт CSV (после w12-marketplace-core) | build | opus/high | feat/day16-mp-orders-desk | **queued** |  | 0 |  |
+| 76 | w16-mp-scheduler-ops | Планировщик синхронизации по (тенант × площадка × вид): одиночность прогона, backoff по 429, экран «Синхронизация», предупреждения об ошибках и протухшем ключе (после w12-marketplace-core) | build | opus/high | feat/day16-mp-scheduler-ops | **queued** |  | 0 |  |
+| 74 | w17-mp-price-stock-table | Одна таблица цен и остатков: магазин и все площадки в одном экране, подсветка расхождений, «нет на площадке» и «нет в магазине», экспорт (после w12-marketplace-core, w14-mp-catalog-link) | build | opus/high | feat/day16-mp-price-stock-table | **queued** |  | 0 |  |
+| 72 | w18-mp-reviews-desk | Отзывы и вопросы WB + Ozon в панели: список, фильтр «без ответа», черновик ответа, кнопки отправки НЕТ (после w12-marketplace-core) | build | opus/high | feat/day16-mp-reviews-desk | **queued** |  | 0 |  |
+| 70 | w19-mp-analytics | Дашборд селлера: продажи по дням и карточкам, ABC/XYZ, оборачиваемость, «дней до нуля», рейтинг продавца; P&L честно помечен неполным (после w12-marketplace-core, w15-mp-orders-desk) | build | opus/high | feat/day16-mp-analytics | **queued** |  | 0 |  |
 
 ## Последние события
-- 2026-09-16 04:48 WITA · w01-wb-readonly-client · worker-closed: терминал c15526b2-c43c-46b2-96bf-9ddca0fb1c25 закрыт после /compact (compact_boundary 2026-09-15T20:48:29.050Z в стенограмме)
-- 2026-09-16 04:46 WITA · w10-marketplace-spec · launched: ws 706f4ee8-8852-47c1-9ba8-9444a775f650 · opus/high · feat/day16-marketplace-spec
-- 2026-09-16 04:46 WITA · w01-wb-readonly-client · merged: https://github.com/ivanprotsko/upready-store/pull/71 (приёмка раунд 1)
-- 2026-09-16 04:46 WITA · w01-wb-readonly-client · compact-sent: терминал c15526b2-c43c-46b2-96bf-9ddca0fb1c25, ветка feat/day16-wb-readonly-client
-- 2026-09-16 04:46 WITA · w01-wb-readonly-client · orphans-killed: 1 процессов под worktree (merged): 85351 03:49 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-wb-readonl
-- 2026-09-16 04:39 WITA · w01-wb-readonly-client · accept-started: раунд 1, PR #71, pid 64448
-- 2026-09-16 04:39 WITA · w01-wb-readonly-client · pr-open: https://github.com/ivanprotsko/upready-store/pull/71
-- 2026-09-16 03:47 WITA · w01-wb-readonly-client · launched: ws 93d6906d-f1e7-4666-9c5f-ced7dddf008e · opus/high · feat/day16-wb-readonly-client
-- 2026-09-16 03:47 WITA · w02-yandex-id-auth · launched: ws ea3d6fa1-cc84-43ad-a94d-f93f2621737c · opus/high · feat/day16-yandex-id-auth
-- 2026-09-16 03:47 WITA · b10-panel-gaps · worker-closed: терминал 28d3158b-ed7a-4b1f-9bce-5bc40e1dbfad закрыт после /compact (по экрану)
-- 2026-09-16 03:39 WITA ·  · all-terminal: DONE
-- 2026-09-16 03:37 WITA · b10-panel-gaps · merged: https://github.com/ivanprotsko/upready-store/pull/70 (приёмка раунд 1)
-- 2026-09-16 03:37 WITA · b10-panel-gaps · compact-sent: терминал 28d3158b-ed7a-4b1f-9bce-5bc40e1dbfad, ветка feat/day16-panel-gaps
-- 2026-09-16 03:37 WITA · b10-panel-gaps · orphans-killed: 1 процессов под worktree (merged): 63361 13:02 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-panel-gaps
-- 2026-09-16 03:31 WITA · b08-seo-storefront · worker-closed: терминал 01422e3f-65a6-4cbb-84fe-bb79a0e38a39 закрыт по таймауту /compact (8 мин); хвост экрана: ────────────────────────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-seo-storefront (fix/day16-seo-storefront) | Opus 5 | ctx 57% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 03:23 WITA · b10-panel-gaps · accept-started: раунд 1, PR #70, pid 47881
-- 2026-09-16 03:22 WITA · b08-seo-storefront · merged: https://github.com/ivanprotsko/upready-store/pull/69 (приёмка раунд 1)
-- 2026-09-16 03:22 WITA · b08-seo-storefront · compact-sent: терминал 01422e3f-65a6-4cbb-84fe-bb79a0e38a39, ветка fix/day16-seo-storefront
-- 2026-09-16 03:22 WITA · b08-seo-storefront · orphans-killed: 1 процессов под worktree (merged): 39160 10:04 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-seo-storefr
-- 2026-09-16 03:21 WITA · b10-panel-gaps · pr-open: https://github.com/ivanprotsko/upready-store/pull/70
-- 2026-09-16 03:12 WITA · b15-quality-debt · worker-closed: терминал 48a8595f-05e9-450a-a688-06141899a276 закрыт после /compact (по экрану)
-- 2026-09-16 03:11 WITA · b08-seo-storefront · accept-started: раунд 1, PR #69, pid 24862
-- 2026-09-16 03:10 WITA · b08-seo-storefront · pr-open: https://github.com/ivanprotsko/upready-store/pull/69
-- 2026-09-16 03:10 WITA · b08-seo-storefront · command: set-task
-- 2026-09-16 03:10 WITA · b08-seo-storefront · set-task: правка по команде: status, attempt, artifacts, ws, worktree, terminalId, launchedAt, startedAt, nudges, relaunched, error, force, lastScreenAt
-- 2026-09-16 03:10 WITA · b14-pages-legal-content · command: set-task
-- 2026-09-16 03:10 WITA · b14-pages-legal-content · set-task: правка по команде: status, attempt, artifacts, ws, worktree, terminalId, launchedAt, startedAt, nudges, relaunched, error, force, lastScreen, lastScreenAt, pr, prOpenedAt, acceptance, finishedAt, compactSentAt, closedAt
-- 2026-09-16 03:09 WITA · b15-quality-debt · merged: https://github.com/ivanprotsko/upready-store/pull/68 (приёмка раунд 2)
-- 2026-09-16 03:09 WITA · b15-quality-debt · compact-sent: терминал 48a8595f-05e9-450a-a688-06141899a276, ветка fix/day16-quality-debt
-- 2026-09-16 03:02 WITA · b15-quality-debt · accept-started: раунд 2, PR #68, pid 43109
-- 2026-09-16 02:47 WITA · b10-panel-gaps · limit:  ⎿ You've hit your weekly limit · resets Sep 21 at 11am (Asia/Makassar) ✻ Cooked for 6m 1s · done 1:14 AM ❯ continue ⎿ UserPromptSubmit says: 🕐 02:42:55 GMT+8 · твой промпт Read 2 files, ran 6 shell commands ⏺ Теперь пи
-- 2026-09-16 02:46 WITA · b10-panel-gaps · limit:  ⎿ You've hit your weekly limit · resets Sep 21 at 11am (Asia/Makassar) ✻ Cooked for 6m 1s · done 1:14 AM ❯ continue ⎿ UserPromptSubmit says: 🕐 02:42:55 GMT+8 · твой промпт Read 2 files, ran 6 shell commands ⏺ Теперь пи
-- 2026-09-16 02:44 WITA · b10-panel-gaps · limit:  Стенд с клоном базы магазина Оксаны, прогон **кликами** (Playwright, системный Chrome — как в приёмке t15): - завела правило редиректа → старый адрес витрины отдал 301 на новый; изменила цель → 301 поехал на новую; удал
-- 2026-09-16 02:43 WITA · b10-panel-gaps · limit:  - завела правило редиректа → старый адрес витрины отдал 301 на новый; изменила цель → 301 поехал на новую; удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | 
-- 2026-09-16 02:42 WITA · b10-panel-gaps · limit:  ## Что сделать Экраны в стиле соседних экранов панели (канон `~/upready/packages/geist-kit/AGENTS.md`, правило 27; смотри, как сделаны «Страницы» и «Домены»): список, создание, правка, удаление; человеческие подписи, бе
-- 2026-09-16 02:42 WITA ·  · command: clear-limit
-- 2026-09-16 02:41 WITA · b10-panel-gaps · limit:  ## Что сделать Экраны в стиле соседних экранов панели (канон `~/upready/packages/geist-kit/AGENTS.md`, правило 27; смотри, как сделаны «Страницы» и «Домены»): список, создание, правка, удаление; человеческие подписи, бе
-- 2026-09-16 02:40 WITA · b10-panel-gaps · limit:  ## Что сделать Экраны в стиле соседних экранов панели (канон `~/upready/packages/geist-kit/AGENTS.md`, правило 27; смотри, как сделаны «Страницы» и «Домены»): список, создание, правка, удаление; человеческие подписи, бе
-- 2026-09-16 02:39 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:38 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
+- 2026-09-16 06:37 WITA · d07-deploy-catalog-enrich · launched: ws 6f9f10c6-5f2c-42fa-8de6-3a7cb549c16f · opus/high · feat/day16-deploy-catalog-enrich
+- 2026-09-16 06:36 WITA · w07-tenant-catalog-enrich · merged: https://github.com/ivanprotsko/upready-store/pull/74 (приёмка раунд 1)
+- 2026-09-16 06:33 WITA · w03-wb-sales-questions-mirror · pr-open: https://github.com/ivanprotsko/upready-store/pull/76
+- 2026-09-16 06:33 WITA · w11-ozon-readonly-client · launched: ws f706c318-f617-4e4d-8f89-38be84a1968a · opus/high · feat/day16-ozon-readonly-client
+- 2026-09-16 06:32 WITA · w13-wb-readonly-flag · launched: ws b1506d7a-cec7-4351-b2df-ecebbf202101 · sonnet/medium · feat/day16-wb-readonly-flag
+- 2026-09-16 06:32 WITA · w03-wb-sales-questions-mirror · fix-sent: в живой терминал 044f002c-6c1e-44d1-8def-fb44231e6a93
+- 2026-09-16 06:32 WITA · w03-wb-sales-questions-mirror · rejected: раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w03-wb-sales-questions-mirror-1.findings.md
+- 2026-09-16 06:32 WITA · d07-deploy-catalog-enrich · command: retry
+- 2026-09-16 06:31 WITA · w20-wb-write-core · pr-open: https://github.com/ivanprotsko/upready-store/pull/75
+- 2026-09-16 06:30 WITA · w07-tenant-catalog-enrich · accept-started: раунд 1, PR #74, pid 8468
+- 2026-09-16 06:30 WITA · w20-wb-write-core · fix-sent: в живой терминал b4c14222-3473-4118-afb2-f8aab2dba8da
+- 2026-09-16 06:30 WITA · w20-wb-write-core · rejected: раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-w20-wb-write-core-1.findings.md
+- 2026-09-16 06:30 WITA · w07-tenant-catalog-enrich · command: set-task
+- 2026-09-16 06:30 WITA · w07-tenant-catalog-enrich · set-task: правка по команде: status, error, acceptance, note
+- 2026-09-16 06:27 WITA · w20-wb-write-core · accept-started: раунд 1, PR #75, pid 67607
+- 2026-09-16 06:27 WITA · w03-wb-sales-questions-mirror · accept-started: раунд 1, PR #76, pid 67501
+- 2026-09-16 06:27 WITA · w20-wb-write-core · pr-open: https://github.com/ivanprotsko/upready-store/pull/75
+- 2026-09-16 06:27 WITA · w03-wb-sales-questions-mirror · pr-open: https://github.com/ivanprotsko/upready-store/pull/76
+- 2026-09-16 06:27 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:27 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:26 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:26 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:25 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:25 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:24 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:24 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:23 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:23 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:22 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:22 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:21 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:21 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:20 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:20 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:19 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:19 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:18 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:18 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:17 WITA · w20-wb-write-core · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
+- 2026-09-16 06:17 WITA · w03-wb-sales-questions-mirror · gh-error: HTTP 401: Requires authentication (https://api.github.com/graphql)
+Try authenticating with:  gh auth login
+
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json
