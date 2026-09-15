@@ -119,6 +119,88 @@ $ git status --short
    ключом B — ноль и `average: null`, покупатель A не может написать на товар B (404). Взгляд A на
    свой товар после всего этого не изменился.
 
-## Итоговые прогоны
 
-См. раздел «Результат» ниже — он дописан после полного прогона обеих сюит.
+## Ещё три причины красноты, найденные по ходу (без них «0 failed» недостижим)
+
+**5. `tenants-payment-settings.spec.ts` — все восемь тестов, причина не в коде фичи.**
+`POST /tenants/seed` отвечал 500: «Neither STORE_PROFILES_MEDIA_BASE_URL nor STORE_MEDIA_BASE_URL is
+set» (`data/abstract-datasets.ts`, `resolveMediaBaseUrl`). Переменной не было ни в
+`apps/backend/.env.template`, ни в `apps/backend/README.md`, то есть любой стенд, собранный по
+шаблону, получал этот файл красным целиком. Приёмка t10-blog записала дырку словами «обеих нет в
+`.env.template`». Переменная описана в обоих местах; после этого 7 из 8 стали зелёными.
+
+**6. Оба файла, завершающие корзину, посылали адрес без `province`.**
+Восьмой тест платежей падал на `order_cart` пустом после корректно подписанного вебхука Robokassa, а
+три теста `tenants-notifications.spec.ts` — на 400 от `POST /store/carts/:id/complete`. Причина одна
+и она в логе приложения: «The shipping address is missing province. A parcel cannot be posted
+without them.» — хук `workflows/hooks/validate-cart-shipping-address.ts` (b03-shipping-zones-weight,
+живой инцидент с заказом #5 на `cherkashino.shipshift.dev`) требует `province` для каждой страны, для
+которой тарифный модуль везёт список регионов (`REGIONS_BY_COUNTRY`, сегодня Россия). В вебхуке это
+выглядело как «платёж отменён» (`Error was thrown trying to cancel payment …`), то есть симптом
+уводил в сторону Robokassa. Обе спеки теперь несут `province: "г Москва"` — значение берётся полем
+`province` из `shipping-tariffs/ru-regions.ts`, потому что зона, ограниченная регионами, сравнивает
+именно эту строку («г Москва», не «Москва»).
+
+**7. `tenants-notifications.spec.ts` — рейс в тесте, а не дефект.**
+После `province` остался один красный: `settings.email.last.status` читался `null`. Замер по логу:
+письмо ушло (`[smtp] Email sent` 00:38:04, `[order-placed-email] Sent to buyer@acme.test` 00:38:05),
+а штамп доставки на строке тенанта пишет подписчик ПОСЛЕ отправки. Тест ждал письма в SMTP-раковине
+(`until`), но раковина доказывает отправку, а не запись о ней, и одно чтение
+`/tenants/notification-settings` попадало между. Добавлен `untilAsync` — то же ожидание для значения,
+которое надо запросить. Файл стал зелёным целиком.
+
+**`tenant-branding.spec.ts` — НЕ дефект.** В полном прогоне он падал с
+`Exceeded timeout of 180000 ms for a hook`, в изоляции зелёный целиком. Это следствие OOM-деградации
+процесса (см. «Результат»), и хвостовые файлы длинного прогона надо перепроверять в изоляции прежде,
+чем называть их красными.
+
+## Результат (замер 2026-09-16 01:02 WITA)
+
+`pnpm test:integration:http` в один процесс не доходит до конца: на девятнадцатом файле
+`--runInBand` упирается в heap — `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation
+failed - JavaScript heap out of memory`, и результирующей строки `Tests:` в логе нет вообще. Поэтому
+все 25 spec-файлов каталога прогнаны тремя пачками с поднятым heap, каждая со своей результирующей
+строкой; ни одна не содержит `FAIL`:
+
+```
+$ cd apps/backend
+$ TEST_TYPE=integration:http NODE_OPTIONS="--experimental-vm-modules --max-old-space-size=8192" \
+    npx jest --silent=false --runInBand --forceExit <11 файлов>      # пачка 1
+Test Suites: 11 passed, 11 total
+Tests:       93 passed, 93 total
+
+$ ... <11 файлов>                                                    # пачка 2
+Test Suites: 11 passed, 11 total
+Tests:       89 passed, 89 total
+
+$ ... tenants.spec.ts tenants-domains.spec.ts tenants-reviews.spec.ts   # пачка 3
+Test Suites: 3 passed, 3 total
+Tests:       50 passed, 50 total
+```
+
+Итого 25 файлов, 232 теста, `0 failed`. Логи целиком: `integration-http-batch1.log`,
+`integration-http-batch3.log`, `integration-http-batch2.log` в этом же каталоге.
+
+Юнит:
+
+```
+$ cd apps/backend && corepack pnpm test:unit
+Test Suites: 28 passed, 28 total
+Tests:       306 passed, 306 total
+```
+
+## Как приёмщику проверить за 10 минут
+
+1. `corepack pnpm install --frozen-lockfile` в корне (именно `corepack` — PATH-pnpm 8.12.0 против
+   пина 10.11.1).
+2. `apps/backend/.env`: `DB_HOST=localhost`, `DB_PORT=5433`, `DB_USERNAME=<своя роль>`, свободный
+   `PORT`, и `STORE_PROFILES_MEDIA_BASE_URL=http://localhost:<PORT>/static/store-profiles` — теперь
+   она есть в `.env.template`, откуда `.env` и собирается.
+3. `cd apps/backend && corepack pnpm test:unit` → ждать `Tests: 306 passed`, `0 failed`.
+4. Четыре названных в задаче теста — одной командой:
+   `TEST_TYPE=integration:http NODE_OPTIONS="--experimental-vm-modules --max-old-space-size=8192" npx jest --runInBand --forceExit integration-tests/http/tenants.spec.ts integration-tests/http/tenants-domains.spec.ts integration-tests/http/tenants-reviews.spec.ts`
+   → `Tests: 50 passed, 50 total`.
+5. Снапшот: `npx medusa db:migrate && npx medusa build && npx medusa db:generate tenant` на чистой
+   базе → «Skipped. No changes detected in your models», затем `git status --short` пуст.
+6. Полный сюит — только пачками (см. выше); один процесс на все 25 файлов умирает на OOM, и это
+   отдельная нитка для диспетчера, а не дефект тестов.

@@ -1,0 +1,13 @@
+PASS integration-tests/http/tenants-articles.spec.ts (16.425 s)
+PASS integration-tests/http/tenants-categories.spec.ts (14.8 s)
+PASS integration-tests/http/store-order-isolation.spec.ts (17.956 s)
+PASS integration-tests/http/tenants-home.spec.ts (34.488 s)
+PASS integration-tests/http/admin-tenants.spec.ts (22.403 s)
+PASS integration-tests/http/guest-order-claim.spec.ts (16.325 s)
+PASS integration-tests/http/tenant-export.spec.ts (14.27 s)
+PASS integration-tests/http/tenants-locale-settings.spec.ts (21.361 s)
+PASS integration-tests/http/tenant-uploads.spec.ts (13.018 s)
+PASS integration-tests/http/tenants-notifications.spec.ts (31.023 s)
+PASS integration-tests/http/tenant-branding.spec.ts (17.526 s)
+Test Suites: 11 passed, 11 total
+Tests:       93 passed, 93 total

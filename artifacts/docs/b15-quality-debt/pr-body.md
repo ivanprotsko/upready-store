@@ -102,3 +102,54 @@ $ npx medusa lint     → rc=0, 67 warning(s), 0 errors (все предсуще
   целиком). Скрипт пакета флага heap не ставит; это отдельная нитка для диспетчера — либо
   `--max-old-space-size` в `package.json`, либо прогон пачками. Я её не менял, чтобы не трогать
   общий скрипт из задачи про тесты.
+
+## Результат (замер 2026-09-16 01:02 WITA)
+
+`pnpm test:integration:http` в один процесс не доходит до конца: на девятнадцатом файле
+`--runInBand` упирается в heap — `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation
+failed - JavaScript heap out of memory`, и результирующей строки `Tests:` в логе нет вообще. Поэтому
+все 25 spec-файлов каталога прогнаны тремя пачками с поднятым heap, каждая со своей результирующей
+строкой; ни одна не содержит `FAIL`:
+
+```
+$ cd apps/backend
+$ TEST_TYPE=integration:http NODE_OPTIONS="--experimental-vm-modules --max-old-space-size=8192" \
+    npx jest --silent=false --runInBand --forceExit <11 файлов>      # пачка 1
+Test Suites: 11 passed, 11 total
+Tests:       93 passed, 93 total
+
+$ ... <11 файлов>                                                    # пачка 2
+Test Suites: 11 passed, 11 total
+Tests:       89 passed, 89 total
+
+$ ... tenants.spec.ts tenants-domains.spec.ts tenants-reviews.spec.ts   # пачка 3
+Test Suites: 3 passed, 3 total
+Tests:       50 passed, 50 total
+```
+
+Итого 25 файлов, 232 теста, `0 failed`. Логи целиком: `integration-http-batch1.log`,
+`integration-http-batch3.log`, `integration-http-batch2.log` в этом же каталоге.
+
+Юнит:
+
+```
+$ cd apps/backend && corepack pnpm test:unit
+Test Suites: 28 passed, 28 total
+Tests:       306 passed, 306 total
+```
+
+## Как приёмщику проверить за 10 минут
+
+1. `corepack pnpm install --frozen-lockfile` в корне (именно `corepack` — PATH-pnpm 8.12.0 против
+   пина 10.11.1).
+2. `apps/backend/.env`: `DB_HOST=localhost`, `DB_PORT=5433`, `DB_USERNAME=<своя роль>`, свободный
+   `PORT`, и `STORE_PROFILES_MEDIA_BASE_URL=http://localhost:<PORT>/static/store-profiles` — теперь
+   она есть в `.env.template`, откуда `.env` и собирается.
+3. `cd apps/backend && corepack pnpm test:unit` → ждать `Tests: 306 passed`, `0 failed`.
+4. Четыре названных в задаче теста — одной командой:
+   `TEST_TYPE=integration:http NODE_OPTIONS="--experimental-vm-modules --max-old-space-size=8192" npx jest --runInBand --forceExit integration-tests/http/tenants.spec.ts integration-tests/http/tenants-domains.spec.ts integration-tests/http/tenants-reviews.spec.ts`
+   → `Tests: 50 passed, 50 total`.
+5. Снапшот: `npx medusa db:migrate && npx medusa build && npx medusa db:generate tenant` на чистой
+   базе → «Skipped. No changes detected in your models», затем `git status --short` пуст.
+6. Полный сюит — только пачками (см. выше); один процесс на все 25 файлов умирает на OOM, и это
+   отдельная нитка для диспетчера, а не дефект тестов.
