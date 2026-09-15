@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 64,
+  "action": "status-set",
+  "ts": "2026-09-15T14:05:55+08:00",
+  "status": "2026-09-15 14:05 WITA: приёмка f17-backend-image-sharp раунд 1 — PR #44 принят и смержен (2286d43). Все 6 критериев сняты приёмщиком самостоятельно на собственной сборке образа: require(sharp) ok/libvips 8.18.6, падавший роут грузится, гвард 324 модуля rc=0, отрицательный контроль роняет build rc=1, GET /health 200 в docker run с одноразовым postgres (критерий, который PR объявил неснятым). tsc rc=0, живая платформа не задета. Ниты: на хосте остались мои /opt/upready-store/accept-f17 и сеть accept-f17-net — удаление блокирует 42e, нужен OK Ивана"
+}

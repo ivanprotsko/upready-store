@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 60,
+  "action": "status-set",
+  "ts": "2026-09-15T12:30:00+08:00",
+  "status": "2026-09-15 12:30 WITA: приёмка t12-legal-requisites round 3 — PR #32 принят и смержен (squash 6154ad3). Обе находки раунда 2 закрыты замером на живой витрине: PUT /tenants/requisites шлёт [revalidate] status=200 и витрина обновляется без ручного сброса кэша; незаполненные токены рендерятся код-спанами с целыми подчёркиваниями (11 из 11). Сьюты: юниты tenant-legal 13 тестов из 13 зелёные, seam tenants-requisites 5 из 5, tsc бэкенда и панели rc=0. ВНИМАНИЕ: диск машины забит (295 MiB свободно из 926 GiB, 51 GiB держит Docker Desktop) — следующие стенды дня будут падать на ENOSPC."
+}

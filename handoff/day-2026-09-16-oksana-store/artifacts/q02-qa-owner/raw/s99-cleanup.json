@@ -1,0 +1,12 @@
+{
+  "log": [
+    "product delete dialog [{\"t\":\"Отмена\",\"x\":705.8203125,\"y\":496},{\"t\":\"Удалить\",\"x\":780.8046875,\"y\":496}]",
+    "promo menu [\"Редактировать\",\"Удалить\"]",
+    "page editor btns [\"О\\n\\nОксана Черкашина\",\"Акции\",\"Новая страница\",\"Cancel\",\"Save\"]",
+    "page switches now [{\"n\":\"published\",\"checked\":false},{\"n\":\"in_footer\",\"checked\":false}]"
+  ],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 ()",
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+}

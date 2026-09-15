@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+    "status": 200,
+    "ms": 2088
+  },
+  "tabSteps": 96,
+  "focusedBefore": {
+    "tag": "DIV",
+    "aria": "97"
+  },
+  "afterType": {
+    "tag": "INPUT",
+    "val": "1 355"
+  },
+  "savedMs": 6088,
+  "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+  "toast": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nДоставка\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, свечи мумиё. Набор свечей восстанавливает утраченное, повышает иммунитет, улучшает обмен веществ, антипаразитарные. Профилактика и лечение кандидоза, молочницы, цистита, простатита. Противоопухолевое, противомикробное, противовирусное средство, для лечения парапроктитов, геморроя и трещин прямой кишки, язвенно-некротических поражений прямо",
+  "totalMs": 8032,
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

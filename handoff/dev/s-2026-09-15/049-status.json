@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 49,
+  "action": "status-set",
+  "ts": "2026-09-15T11:19:48+08:00",
+  "status": "2026-09-15 11:19 WITA: d03-deploy-mt-3 в процессе (headless -p run) — бэкап до деплоя есть (medusa_mt-pre-d03-20260915-050744.dump, 5.5MB), нашёл и исправил stale-чекаут первого rsync (playwright в package.json без lockfile ронял сборку), код перезалит чистым origin/dev@9269555, вторая сборка на хосте в процессе, up/миграции/бэкфиллы/health-sweep впереди"
+}

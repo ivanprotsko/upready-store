@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 40,
+  "action": "status-set",
+  "ts": "2026-09-15T10:01:35+08:00",
+  "status": "2026-09-15 10:01 WITA: t16-owner-branding — реализовано и смерено (backend GET/PUT+upload с валидацией/контрастом, storefront header/favicon/OG/footer-credit, панель /settings/branding), PR #36 открыт (feat/day16-owner-branding → dev), два реальных бага найдены и починены (контраст-порог 4.5→7, статический og-файл побеждал generateMetadata), 3 пред-существующих провала интеграционных тестов вне периметра, скриншотов нет (headless-сессия без браузера)"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 33,
+  "action": "status-set",
+  "ts": "2026-09-15T07:44:01+08:00",
+  "status": "2026-09-15 07:44 WITA: приёмка PR #33 t13-customers-screen — MERGED (mergedAt 2026-09-14T23:42:36Z). Замеры приёмщика: изоляция 202/1 + чужой id 404, поиск, CSV 202 строки, экран 2351 мс при пороге 3 с, пагинация серверная. Упавший unit profile-data.unit.spec.ts к ветке не относится (0 строк диффа по migration-scripts) — кандидат в дефекты дня. Отчёт: handoff/day-2026-09-16-oksana-store/logs/accept-t13-customers-screen-1.report.md"
+}

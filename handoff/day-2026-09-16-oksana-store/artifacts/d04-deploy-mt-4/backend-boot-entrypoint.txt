@@ -1,0 +1,76 @@
+{"level":"info","message":"","timestamp":"2026-09-15 12:24:12"}
+{"level":"info","message":"Migration scripts completed","timestamp":"2026-09-15 12:24:12"}
+[entrypoint] running the seed (no-op if this stand's store already exists)
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:16"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:16"}
+{"level":"info","message":"Executing script at ./src/migration-scripts/initial-data-seed.js...","timestamp":"2026-09-15 12:24:16"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:18"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:18"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:18"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:18"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 12:24:21"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 12:24:21"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 12:24:23"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 12:24:23"}
+{"level":"info","message":"Sales channel \"Kerbstone Sales Channel\" was fully seeded at 2026-09-11T15:08:42.608Z — skipping initial data seed.","timestamp":"2026-09-15 12:24:25"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 12:24:25"}
+[entrypoint] seeding the default block composition (no-op if one is saved)
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"Executing script at ./src/scripts/seed-storefront-settings.js...","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:30"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:30"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 12:24:34"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 12:24:34"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 12:24:37"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 12:24:40"}
+{"level":"info","message":"seed-storefront-settings: store.metadata.storefrontSettings is already set for \"sneakers\" — left untouched.","timestamp":"2026-09-15 12:24:41"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 12:24:41"}
+[entrypoint] converging the admin and demo-customer accounts onto the env values
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:46"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:46"}
+{"level":"info","message":"Executing script at ./src/scripts/ensure-accounts.js...","timestamp":"2026-09-15 12:24:46"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:24:49"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:24:49"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:49"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:24:49"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 12:24:52"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 12:24:52"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 12:24:54"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 12:24:54"}
+{"level":"info","message":"ensure-accounts: admin admin@upready.dev — unchanged.","timestamp":"2026-09-15 12:24:56"}
+{"level":"info","message":"ensure-accounts: demo customer user@upready.dev — unchanged.","timestamp":"2026-09-15 12:24:57"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 12:24:57"}
+[entrypoint] renaming the machine-made delivery methods of shops provisioned by an older image
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:25:05"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:25:05"}
+{"level":"info","message":"Executing script at ./src/scripts/rename-default-shipping-methods.js...","timestamp":"2026-09-15 12:25:05"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:25:08"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:25:08"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:25:08"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 12:25:08"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 12:25:12"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 12:25:12"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 12:25:15"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 12:25:15"}
+{"level":"info","message":"[rename-default-shipping-methods] Acme: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:19"}
+{"level":"info","message":"[rename-default-shipping-methods] Globex: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:20"}
+{"level":"info","message":"[rename-default-shipping-methods] Initech: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:21"}
+{"level":"info","message":"[rename-default-shipping-methods] Ночная лавка: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:22"}
+{"level":"info","message":"[rename-default-shipping-methods] Тестовый магазин: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:23"}
+{"level":"info","message":"[rename-default-shipping-methods] Ночная приёмка: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:24"}
+{"level":"info","message":"[rename-default-shipping-methods] Золотая нить: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:25"}
+{"level":"info","message":"[rename-default-shipping-methods] Приёмка Адресов: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:26"}
+{"level":"info","message":"[rename-default-shipping-methods] Приёмка Коммерция 1106: Курьером, Самовывоз","timestamp":"2026-09-15 12:25:27"}
+{"level":"info","message":"[rename-default-shipping-methods] Тест контента: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:27"}
+{"level":"info","message":"[rename-default-shipping-methods] Ночная приёмка товаров: Курьером, Самовывоз","timestamp":"2026-09-15 12:25:28"}
+{"level":"info","message":"[rename-default-shipping-methods] Бархст: Самовывоз, Курьером","timestamp":"2026-09-15 12:25:29"}
+{"level":"info","message":"[rename-default-shipping-methods] renamed 24 options across 14 tenants, 12 courier defaults repriced from the 10 placeholder, 0 type rows brought in step","timestamp":"2026-09-15 12:25:29"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 12:25:29"}
+[entrypoint] starting: /app/node_modules/.bin/medusa start
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:25:34"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 12:25:34"}
+{"activity_id":"01M2JGF73M44FJ0QFVR0SVH5BZ","config":{},"level":"info","message":"Creating server","timestamp":"2026-09-15 12:25:34"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 12:25:34"}

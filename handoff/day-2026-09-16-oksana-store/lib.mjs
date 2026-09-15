@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync, spawn } from 'node:child_process';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 export const DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -111,17 +112,30 @@ export function branchHeadDate(cfg, branch) {
 }
 
 // ---------- claude -p (headless) ----------
-export function runClaude({ cwd, prompt, model, effort, logFile, name }) {
+export function runClaude({ cwd, prompt, model, effort, logFile, name, session }) {
   fs.mkdirSync(path.dirname(logFile), { recursive: true });
   const args = ['-p', prompt, '--dangerously-skip-permissions', '--strict-mcp-config', '--mcp-config', MCP_NONE, '--output-format', 'text'];
   if (model) args.push('--model', model);
   if (effort) args.push('--effort', effort);
+  // Постоянная сессия (один файл-транскрипт на слот лейна): первый запуск задаёт id, дальше --resume того же id.
+  let sessMode = '-';
+  if (session?.id) { if (fs.existsSync(transcriptPath(cwd, session.id))) { args.push('--resume', session.id); sessMode = 'resume'; } else { args.push('--session-id', session.id); sessMode = 'new'; } }
   const out = fs.openSync(logFile, 'a');
-  fs.writeSync(out, `\n===== ${nowIso()} start ${name} cwd=${cwd} model=${model || 'default'} effort=${effort || 'default'} =====\n`);
+  fs.writeSync(out, `\n===== ${nowIso()} start ${name} cwd=${cwd} model=${model || 'default'} effort=${effort || 'default'} session=${session?.id || '-'}/${sessMode} =====\n`);
   const child = spawn(CLAUDE, args, { cwd, detached: true, stdio: ['ignore', out, out], env: { ...ENV, DISPATCHER_TASK: name, CLAUDE_CODE_DISPATCHER: '1' } });
   child.unref();
   return child.pid;
 }
+// ---------- постоянные headless-сессии: пул на лейн, чтобы приёмки/run-задачи не плодили файлы-сессии (depth) ----------
+export function transcriptPath(cwd, id) { return path.join(HOME, '.claude/projects', cwd.replace(/[^A-Za-z0-9]/g, '-'), id + '.jsonl'); }
+export function acquireSession(state, pool, max, maxUses = 8) {
+  state.sessions ||= {}; const arr = (state.sessions[pool] ||= []);
+  let s = arr.find(x => !x.inUse && x.uses < maxUses);
+  if (!s) { for (const x of arr.filter(x => !x.inUse)) arr.splice(arr.indexOf(x), 1); if (arr.filter(x => x.inUse).length >= max) return null; s = { id: crypto.randomUUID(), uses: 0, createdAt: nowIso() }; arr.push(s); }
+  s.inUse = true; s.uses++; s.lastUsed = nowIso(); return s;
+}
+export function releaseSession(state, pool, id, rotate = false) { const arr = state.sessions?.[pool]; if (!arr) return; const i = arr.findIndex(x => x.id === id); if (i < 0) return; if (rotate) arr.splice(i, 1); else arr[i].inUse = false; }
+export const SESSION_BROKEN_RE = /prompt is too long|context window|No conversation found|could not resume|Resume failed|not found in this project/i;
 export function pidAlive(pid) { if (!pid) return false; try { process.kill(pid, 0); return true; } catch { return false; } }
 export function tailFile(p, n = 60) { try { const s = fs.readFileSync(p, 'utf8'); const L = s.split('\n'); return L.slice(-n).join('\n'); } catch { return ''; } }
 export const LIMIT_RE = /usage limit|rate limit|limit reached|hit your (weekly|daily|session)? ?limit|out of credits|not logged in|please run \/login|authentication_error|overloaded_error/i;

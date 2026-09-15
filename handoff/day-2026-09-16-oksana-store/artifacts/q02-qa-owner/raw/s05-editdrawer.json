@@ -1,0 +1,82 @@
+{
+  "c": [
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "name": "",
+      "t": "",
+      "v": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": "combobox",
+      "name": "",
+      "t": "Опубликован",
+      "v": ""
+    },
+    {
+      "tag": "SELECT",
+      "role": null,
+      "name": "status",
+      "t": "Черновик\nОпубликован\nПред",
+      "v": "published"
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "name": "title",
+      "t": "",
+      "v": "ТЕСТ QA — не покупать"
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "name": "subtitle",
+      "t": "",
+      "v": ""
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "name": "handle",
+      "t": "",
+      "v": "тест-qa-не-покупать"
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "name": "material",
+      "t": "",
+      "v": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": "switch",
+      "name": "",
+      "t": "",
+      "v": "on"
+    },
+    {
+      "tag": "INPUT",
+      "role": null,
+      "name": "discountable",
+      "t": "",
+      "v": "on"
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "name": "",
+      "t": "Отмена",
+      "v": ""
+    },
+    {
+      "tag": "BUTTON",
+      "role": null,
+      "name": "",
+      "t": "Сохранить",
+      "v": ""
+    }
+  ],
+  "errors": []
+}

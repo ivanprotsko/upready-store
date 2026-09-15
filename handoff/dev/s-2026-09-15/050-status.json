@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 50,
+  "action": "status-append",
+  "ts": "2026-09-15T11:33:11+08:00",
+  "status": "2026-09-15 11:19 WITA: d03-deploy-mt-3 в процессе (headless -p run) — бэкап до деплоя есть (medusa_mt-pre-d03-20260915-050744.dump, 5.5MB), нашёл и исправил stale-чекаут первого rsync (playwright в package.json без lockfile ронял сборку), код перезалит чистым origin/dev@9269555, вторая сборка на хосте в процессе, up/миграции/бэкфиллы/health-sweep впереди | t12-legal-requisites PR #32 round 2 готов: merge conflict resolved+pushed (mergeable=MERGEABLE), .snapshot-tenant.json починен (557ed95), скриншоты сняты на живом стенде, комментарий в PR, merge — за приёмщиком"
+}

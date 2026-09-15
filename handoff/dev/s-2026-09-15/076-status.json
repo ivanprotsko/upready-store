@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 76,
+  "action": "status-set",
+  "ts": "2026-09-15T16:46:18+08:00",
+  "status": "2026-09-15 16:46 WITA: приёмка f10-price-save-silently-lost round 1 — PR #51 принят и смержен (f176143c), 5/5 сохранений в сценарии задачи, ошибка сервера показывается тостом, дровер не закрывается (accept-f10-price-save-silently-lost-1)"
+}

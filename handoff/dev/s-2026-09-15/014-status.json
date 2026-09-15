@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-15T05:01:45+08:00",
+  "status": "2026-09-15 05:01 WITA: приёмка t04-shipping-tariffs раунд 1 — PR #25 MERGED (b2453fb). Свои замеры на живом стенде ветки: RU 2400 г → quote/calculate/корзина = 582 ₽, DE → тарифный метод отсутствует, трек «СДЭК 80112233445566» виден и в панели, и в кабинете; seam 7/7, витрина tsc+lint+build зелёные, 1 падающий unit воспроизведён на dev d58901d. Отчёт и 4 скриншота: handoff/day-2026-09-16-oksana-store/artifacts/accept-t04-shipping-tariffs-1/"
+}

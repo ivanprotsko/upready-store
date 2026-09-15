@@ -1,0 +1,16 @@
+import { launch, shot, timedGoto, save, PANEL } from './lib.mjs';
+const PID='prod_01M2H554BCXVRS040BSRKGX7Z6';
+const { browser, page, errors } = await launch();
+await timedGoto(page, PANEL + '/products/'+PID); await page.waitForTimeout(8000);
+const btns = await page.$$('button[aria-haspopup="menu"]');
+await btns[2].click(); await page.waitForTimeout(1000);
+await page.locator('[role=menuitem]:has-text("Редактировать")').first().click();
+await page.waitForTimeout(4000);
+await shot(page,'s05-product-edit-drawer');
+const D = page.locator('[role=dialog]').last();
+console.log('DRAWER:\n'+(await D.innerText()).replace(/\n{2,}/g,'\n').slice(0,1200));
+const c = await page.evaluate(()=>{const ds=[...document.querySelectorAll('[role=dialog]')];const d=ds[ds.length-1];
+  return [...d.querySelectorAll('input,button,[role=combobox],select')].map(e=>({tag:e.tagName,role:e.getAttribute('role'),name:e.name,t:(e.innerText||'').trim().slice(0,25),v:(e.value||'').slice(0,25)}));});
+console.log('CTRL', JSON.stringify(c));
+save('s05-editdrawer.json',{c,errors});
+await browser.close();

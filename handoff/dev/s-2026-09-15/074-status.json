@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 74,
+  "action": "status-set",
+  "ts": "2026-09-15T16:35:17+08:00",
+  "status": "2026-09-15 16:35 WITA: приёмка f12-owner-raw-keys раунд 1 — ОТКЛОНЕНО: PR #50 конфликтует с dev в ru.json (замер git merge-file, rc=1) и не выполнен обязательный живой обход с артефактами; findings записаны (accept-f12-owner-raw-keys-1)"
+}

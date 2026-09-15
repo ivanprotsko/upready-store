@@ -1,0 +1,14 @@
+
+> @dtc/gorgo-medusa-storefront@1.0.0 test /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-attributes/apps/storefront
+> vitest run --passWithNoTests --exclude "**/node_modules/**" --exclude "**/.next/**" --exclude "tests/ui-lab/**"
+
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-attributes/apps/storefront
+
+
+ Test Files  14 passed (14)
+      Tests  141 passed (141)
+   Start at  09:15:52
+   Duration  914ms (transform 666ms, setup 0ms, import 803ms, tests 929ms, environment 1ms)
+
+rc=0

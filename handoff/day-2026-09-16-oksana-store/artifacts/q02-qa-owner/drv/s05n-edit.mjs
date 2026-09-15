@@ -1,0 +1,13 @@
+import { launch, shot, timedGoto, save, PANEL, SHOP } from './lib.mjs';
+const PID='prod_01M2H554BCXVRS040BSRKGX7Z6';
+const { browser, page, errors } = await launch();
+await timedGoto(page, PANEL + '/products/'+PID+'?view=edit'); await page.waitForTimeout(8000);
+const D = page.locator('[role=dialog]').last();
+const txt = await D.innerText().catch(()=>'(no dialog)');
+console.log('EDIT DRAWER:\n'+txt.replace(/\n{2,}/g,'\n').slice(0,1200));
+const ctrls = await page.evaluate(()=>{const ds=[...document.querySelectorAll('[role=dialog]')];const d=ds[ds.length-1]; if(!d) return [];
+  return [...d.querySelectorAll('input,button,[role=combobox]')].map(e=>({tag:e.tagName,role:e.getAttribute('role'),name:e.name,t:(e.innerText||'').trim().slice(0,30),v:(e.value||'').slice(0,30)}));});
+console.log('CONTROLS', JSON.stringify(ctrls));
+await shot(page,'s05-edit-drawer');
+save('s05-edit.json',{txt,ctrls,errors});
+await browser.close();

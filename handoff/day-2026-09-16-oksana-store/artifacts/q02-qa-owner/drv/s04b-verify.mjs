@@ -1,0 +1,10 @@
+import { launch, shot, timedGoto, save, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch();
+const nav = await timedGoto(page, SHOP + '/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino', {waitUntil:'load'});
+await page.waitForTimeout(5000);
+const imgs = await page.$$eval('img', els=>els.map(e=>(e.currentSrc||e.src||'').replace(/^.*\/static\//,'static/').slice(0,140)).filter(s=>s.includes('static')));
+save('s04-verify.json',{nav, imgs, errors});
+console.log('status',nav.status,'ms',nav.ms);
+console.log(JSON.stringify(imgs,null,1));
+await shot(page,'s04-storefront-gallery');
+await browser.close();

@@ -1,0 +1,11 @@
+537:#35 108.9 [96msrc/scripts/f12-seed-test-order.ts[0m:[93m55[0m:[93m16[0m - [91merror[0m[90m TS2322: [0mType '{ id: string[]; }' is not assignable to type 'undefined'.
+538:#35 108.9 
+539:#35 108.9 [7m55[0m     filters: { sales_channels: { id: [salesChannelId] } },
+540:#35 108.9 [7m  [0m [91m               ~~~~~~~~~~~~~~[0m
+541:#35 108.9 
+542:#35 108.9 [32minfo[39m:    Compiling frontend source...
+557:#35 171.6 [32minfo[39m:    Frontend build completed successfully (149.19s)
+---
+
+target backend: failed to solve: process "/bin/sh -c npx medusa build --lint false && node scripts/copy-migration-data.js" did not complete successfully: exit code: 1
+

@@ -1,0 +1,2 @@
+HTTP/1.1 508 Loop Detected
+HTTP/1.1 508 Loop Detected

@@ -1,0 +1,12 @@
+login ok: http://localhost:5152/
+product url: http://localhost:5152/products/prod_01M2H6NYDRE0DG4HP1XDP230EF
+menu items: ["Заполнить"]
+url after click: http://localhost:5152/products/prod_01M2H6NYDRE0DG4HP1XDP230EF/custom-attributes
+ERROR PAGE: false
+drawer labels: []
+Объём до: 480
+url after save: http://localhost:5152/products/prod_01M2H6NYDRE0DG4HP1XDP230EF
+секция после сохранения содержит новое значение: true
+PDP блок: "Характеристики | Состав | Трава, витамин C | Объём | 100 мл | Страна | Россия | Cube No. 1 is a matte chalk white plaster cube with softly rounded edges, resting flat and turned twenty degrees. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its sha"
+PDP содержит 100 : true
+console errors: ["Failed to load resource: the server responded with a status of 404 (Not Found)"]

@@ -1,0 +1,20 @@
+{
+  "ins": [
+    {
+      "n": "",
+      "ph": "",
+      "t": "checkbox"
+    },
+    {
+      "n": "address_1",
+      "ph": " ",
+      "t": "text"
+    },
+    {
+      "n": "company",
+      "ph": " ",
+      "t": "text"
+    }
+  ],
+  "errors": []
+}

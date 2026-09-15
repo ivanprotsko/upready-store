@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 77,
+  "action": "status-set",
+  "ts": "2026-09-15T16:51:18+08:00",
+  "status": "2026-09-15 16:51 WITA: приёмка f14-no-password-reset раунд 1 — PR #52 смержен, полный цикл сброса пароля измерен живьём (ссылка на /login, честный тупик без SMTP, письмо через sink → новый пароль пускает в панель, старый 401)"
+}

@@ -1,0 +1,14 @@
+import { launch, shot, timedGoto, save, PANEL } from './lib.mjs';
+const { browser, page, errors } = await launch();
+await timedGoto(page, PANEL + '/categories/pcat_01M2GQWY21SSF86N68NZ0WP4ZS'); await page.waitForTimeout(8000);
+const menus = await page.$$('button[aria-haspopup="menu"]');
+await menus[2].click(); await page.waitForTimeout(800);
+await page.locator('[role=menuitem]:has-text("Редактировать")').first().click(); await page.waitForTimeout(4000);
+const D = page.locator('[role=dialog]').last();
+console.log('DRAWER:\n'+(await D.innerText()).replace(/\n{2,}/g,'\n').slice(0,1200));
+const c = await page.evaluate(()=>{const ds=[...document.querySelectorAll('[role=dialog]')];const d=ds[ds.length-1];
+ return [...d.querySelectorAll('input,textarea,select,button')].map(e=>({tag:e.tagName,name:e.name,type:e.type,v:(e.value||'').slice(0,30),t:(e.innerText||'').trim().slice(0,25)}));});
+console.log('CTRL', JSON.stringify(c));
+await shot(page,'s06-cat-edit-drawer');
+save('s06-cat-edit.json',{c,errors});
+await browser.close();

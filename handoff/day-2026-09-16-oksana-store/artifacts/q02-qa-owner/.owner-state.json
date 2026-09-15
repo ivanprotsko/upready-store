@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "lng",
+      "value": "ru",
+      "domain": "panel-store.upready.dev",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "connect.sid",
+      "value": "s%3AIZL4-vjr19oBBz0ACvHH7hWAPHgxHdSI.m%2FCdW6RXAMxeKKzhrSfTs80gnl%2BcUr9ZMSYDtsXJ%2Bi4",
+      "domain": "panel-store.upready.dev",
+      "path": "/",
+      "expires": 1789463915.844146,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://panel-store.upready.dev",
+      "localStorage": [
+        {
+          "name": "lng",
+          "value": "ru"
+        }
+      ]
+    }
+  ]
+}

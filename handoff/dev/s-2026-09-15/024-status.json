@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 24,
+  "action": "status-set",
+  "ts": "2026-09-15T06:40:32+08:00",
+  "status": "2026-09-15 06:40 WITA: приёмка PR #29 t11-seo-redirects раунд 1 — REJECTED (CONFLICTING + панель не закрывает SEO-поля товара/категории, таблицу редиректов и верификацию); находки в handoff/day-2026-09-16-oksana-store/logs/accept-t11-seo-redirects-1.findings.md, комментарий в PR оставлен"
+}

@@ -1,0 +1,10 @@
+ orders | revenue 
+--------+---------
+      5 |    9600
+(1 row)
+
+ orders_today | revenue_today 
+--------------+---------------
+            3 |          7500
+(1 row)
+

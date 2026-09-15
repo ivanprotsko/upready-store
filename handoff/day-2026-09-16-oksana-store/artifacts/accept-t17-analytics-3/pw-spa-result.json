@@ -1,0 +1,20 @@
+{
+  "navigatedTo": "/store",
+  "finalUrl": "http://t17shopa.localhost:8317/en/store",
+  "fullReload": 1,
+  "hitsOnFirstLoad": 4,
+  "hitsAfterInAppNavigation": [
+    {
+      "when": 1789440430448,
+      "kind": "ga4",
+      "pageUrl": "http://t17shopa.localhost/ru",
+      "full": "https://www.google-analytics.com/g/collect?v=2&tid=G-TESTID1234&gtm=45je69b1za200&_p=17894"
+    },
+    {
+      "when": 1789440432913,
+      "kind": "ym",
+      "pageUrl": "http://t17shopa.localhost:8317/en/store",
+      "full": "https://mc.yandex.ru/watch/12345678?wmode=7&page-url=http%3A%2F%2Ft17shopa.localhost%3A831"
+    }
+  ]
+}

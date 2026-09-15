@@ -1,0 +1,65 @@
+{
+  "out": [
+    {
+      "p": "/customers",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/customers",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/reviews",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/reviews",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/analytics",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/analytics",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/branding",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/branding",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/journal",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/journal",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/import",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/import",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/settings",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/settings",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/campaigns",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/campaigns",
+      "tail": " / Оксана Черкашина / Кампании / Кампании / Создать / Нет записей / Нет записей для отображения"
+    },
+    {
+      "p": "/inventory",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/inventory",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    },
+    {
+      "p": "/settings/store",
+      "status": 200,
+      "url": "https://panel-store.upready.dev/settings/store",
+      "tail": "аница не найдена / Страница, которую вы ищете, не существует. / Вернуться на главную"
+    }
+  ],
+  "errors": []
+}
