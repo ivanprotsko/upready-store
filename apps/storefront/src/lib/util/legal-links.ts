@@ -24,6 +24,7 @@
 
 export type LegalSlot =
   | "terms"
+  | "termsOfUse"
   | "privacy"
   | "returns"
   | "shipping"
@@ -42,7 +43,20 @@ type SlotSpec = {
 }
 
 export const LEGAL_SLOTS: Record<LegalSlot, SlotSpec> = {
-  terms: { keys: ["offer", "terms", "legal"], starter: "/terms" },
+  // The contract itself. `legal` used to close this list, but that key is the
+  // panel's "Реквизиты" section (`TENANT_PAGE_KEYS` in the backend model), so
+  // a shop that writes its requisites and no contract would have sent a buyer
+  // reading "вы принимаете условия" to a table of registration numbers
+  // (b14-pages-legal-content). No shop on the platform had a `legal` page when
+  // it went, so nothing that resolved before resolves differently now.
+  terms: { keys: ["offer", "terms"], starter: "/terms" },
+  // Website usage terms, a document of its own: the checkout sentence names
+  // "условия" and "условия использования" separately, and before this slot
+  // existed both chunks were resolved through `terms` and underlined the same
+  // `/pages/offer` twice in one sentence. A shop that has not written one
+  // still falls back to the contract through `consentHref`, which is the old
+  // behaviour.
+  termsOfUse: { keys: ["terms", "terms-of-use"], starter: "/terms" },
   privacy: { keys: ["privacy"], starter: "/privacy" },
   returns: { keys: ["returns", "return-policy", "refund"], starter: "/returns" },
   shipping: { keys: ["shipping", "delivery"], starter: "/shipping" },
