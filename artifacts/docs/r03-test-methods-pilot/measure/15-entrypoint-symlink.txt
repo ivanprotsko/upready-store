@@ -1,0 +1,34 @@
+# Раунд 4, нит 3: CLI молча ничего не делал при вызове через симлинк-путь
+
+## ДО правки (точка входа сравнивала НАПИСАНИЯ пути)
+$ cp -R tools/test-methods /tmp/tm-symlink-probe
+$ node /tmp/tm-symlink-probe/tm.mjs list          # /tmp — симлинк на /private/tmp
+   пустой вывод, rc=0        <- неотличимо от «нечего сообщить» (20a)
+$ node /private/tmp/tm-symlink-probe/tm.mjs list  # тот же файл реальным путём
+   таблица из трёх методов, rc=0
+
+## ПОСЛЕ правки (import.meta.main, а где его нет — realpathSync)
+$ cp -R tools/test-methods /tmp/tm-sym-after
+$ node /tmp/tm-sym-after/tm.mjs list
+ID      KIND    WHEN         FROM BUG                      CLASS                                                                                 
+------  ------  -----------  ----------------------------  --------------------------------------------------------------------------------------
+tm-001  static  before-task  f17-backend-image-sharp       Модуль, который грузится на старте, не установлен в рантайм-образе                    
+tm-002  static  acceptance   f16-category-image-not-shown  Владелец заполняет поле в панели, а витрина его не показывает                         
+tm-003  static  before-task  f12-owner-raw-keys            Одноразовая приёмочная фикстура лежит в дереве, которое компилирует продуктовая сборка
+rc=0
+
+$ node /private/tmp/tm-sym-after/tm.mjs list
+ID      KIND    WHEN         FROM BUG                      CLASS                                                                                 
+------  ------  -----------  ----------------------------  --------------------------------------------------------------------------------------
+tm-001  static  before-task  f17-backend-image-sharp       Модуль, который грузится на старте, не установлен в рантайм-образе                    
+tm-002  static  acceptance   f16-category-image-not-shown  Владелец заполняет поле в панели, а витрина его не показывает                         
+tm-003  static  before-task  f12-owner-raw-keys            Одноразовая приёмочная фикстура лежит в дереве, которое компилирует продуктовая сборка
+rc=0
+
+# Node этой машины v26.8.1: import.meta.main = boolean, поэтому здесь работает он.
+# Ветка realpathSync нужна для Node 20.19/22.12 из engines репозитория и покрыта
+# отдельным тестом sameFile напрямую.
+$ node --test tools/test-methods/__tests__/
+ℹ tests 29
+ℹ pass 29
+ℹ fail 0

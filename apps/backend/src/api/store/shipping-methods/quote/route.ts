@@ -1,6 +1,7 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { isTenantMethodData, quoteTariff, type QuoteItem } from "../../../../shipping-tariffs/tariff";
+import { zoneLabelFor } from "../../../../shipping-tariffs/ru-zone-presets";
 import type { PostStoreShippingQuoteBody } from "../../../tenants/shipping-methods/validators";
 
 /**
@@ -99,6 +100,9 @@ export const POST = async (req: MedusaRequest<PostStoreShippingQuoteBody>, res: 
       shipping_option_id: option.id,
       name: option.name,
       currency_code: cart.currency_code,
+      // b03-shipping-zones-weight: WHICH zone priced this parcel, in the
+      // owner's own words («Урал»), so the buyer sees it before he pays.
+      zone_label: option.data.zone?.label || zoneLabelFor(option.data.zone ?? null),
       ...quote,
     },
   });

@@ -151,7 +151,8 @@
     "shippingLink": "მიწოდება",
     "shippingUnavailable": "მიწოდების მეთოდები არ არის ხელმისაწვდომი",
     "signIn": "შესვლა",
-    "total": "ჯამი"
+    "total": "ჯამი",
+    "shippingZone": "ზონა: {zone}"
   },
   "ClaimOrders": {
     "heading": "შეკვეთა ანგარიშის გარეშე გააკეთეთ?",

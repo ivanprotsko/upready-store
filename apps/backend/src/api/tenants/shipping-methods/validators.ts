@@ -25,8 +25,13 @@ export const ZoneSchema = z
     country_code: z.string().regex(/^[A-Za-z]{2}$/, "ISO-2 country code"),
     /** Region strings as `ru-regions.ts` spells them; empty = the whole country. */
     provinces: z.array(z.string().min(1).max(120)).max(120).default([]),
+    /** Accepted so a client can round-trip a method it read; the route always rewrites it. */
+    label: z.string().max(120).nullable().optional(),
   })
   .nullable();
+
+/** `carriers.ts` key; a method the owner named herself carries none. */
+const carrier = z.string().trim().min(1).max(40).nullable().optional();
 
 export const PostTenantShippingMethodSchema = z.object({
   name: z.string().trim().min(1).max(120),
@@ -34,6 +39,7 @@ export const PostTenantShippingMethodSchema = z.object({
   delivery_hint: z.string().max(120).nullable().optional(),
   enabled: z.boolean().default(true),
   zone: ZoneSchema.default(null),
+  carrier,
   tariff: TariffSchema,
 });
 
@@ -45,6 +51,7 @@ export const PostTenantShippingMethodUpdateSchema = z.object({
   delivery_hint: z.string().max(120).nullable().optional(),
   enabled: z.boolean().optional(),
   zone: ZoneSchema.optional(),
+  carrier,
   tariff: TariffSchema.optional(),
 });
 
@@ -75,3 +82,31 @@ export const PostStoreShippingQuoteSchema = z.object({
 });
 
 export type PostStoreShippingQuoteBody = z.infer<typeof PostStoreShippingQuoteSchema>;
+
+/**
+ * `POST /tenants/shipping-methods/zone-presets` — one delivery method per
+ * chosen Russian zone, all on the same carrier and the same «base + per kg»
+ * shape, priced per zone. Every zone the owner leaves out is simply not
+ * created; a zone whose method already exists is skipped, not duplicated.
+ */
+export const PostTenantZonePresetsSchema = z.object({
+  carrier: z.string().trim().min(1).max(40),
+  /** Overrides the carrier's own method name; the zone name is appended to it. */
+  name: z.string().trim().min(1).max(80).nullable().optional(),
+  description: z.string().max(500).nullable().optional(),
+  delivery_hint: z.string().max(120).nullable().optional(),
+  enabled: z.boolean().default(true),
+  zones: z
+    .array(
+      z.object({
+        key: z.string().trim().min(1).max(40),
+        base_amount: amount,
+        per_kg_amount: amount,
+        min_weight_g: z.number().int().min(0).max(1_000_000).nullable().optional(),
+      }),
+    )
+    .min(1)
+    .max(40),
+});
+
+export type PostTenantZonePresetsBody = z.infer<typeof PostTenantZonePresetsSchema>;

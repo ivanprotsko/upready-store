@@ -151,7 +151,8 @@
     "shippingLink": "Dostawa",
     "shippingUnavailable": "Brak dostępnych metod dostawy",
     "signIn": "Zaloguj się",
-    "total": "Razem"
+    "total": "Razem",
+    "shippingZone": "Strefa: {zone}"
   },
   "ClaimOrders": {
     "heading": "Zamawiałeś bez konta?",

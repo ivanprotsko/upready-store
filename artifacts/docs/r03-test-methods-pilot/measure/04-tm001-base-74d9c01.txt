@@ -1,0 +1,10 @@
+ID      STATUS  NEW  KNOWN  SCANNED                          
+------  ------  ---  -----  ---------------------------------
+tm-001  RED     1    0      files=325 imports=1027 packages=6
+
+  RED  tm-001/boot-import-not-in-runtime-deps  apps/backend/src/api/tenants/branding/upload/route.ts:4
+       sharp is imported at boot but declared in devDependencies; the runtime stage installs with --omit=dev and the container dies on "Cannot find module 'sharp'". Move it to dependencies.
+       evidence: import sharp from "sharp";
+
+measured against 74d9c01 (74d9c01f3826e4b055e77bdab6e0e52c3a385d21), the working tree untouched.
+rc=1

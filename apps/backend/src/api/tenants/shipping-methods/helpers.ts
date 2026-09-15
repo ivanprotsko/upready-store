@@ -13,6 +13,7 @@ import {
   type TenantMethodData,
 } from "../../../shipping-tariffs/tariff";
 import { homeCountryForLocale, storeDefaultLocale } from "../../../shipping-tariffs/default-method-names";
+import { zoneLabelFor } from "../../../shipping-tariffs/ru-zone-presets";
 import { getTenantScope } from "../tenant-scope";
 
 /**
@@ -38,6 +39,12 @@ export type TenantWarehouse = {
   default_weight_g: number;
   /** The first currency, what the panel shows amounts in. */
   currency_code: string;
+};
+
+/** A zone the way it is stored: the owner's country and regions plus the name everyone displays. */
+export const labelledZone = (countryCode: string, provinces: string[]): MethodZone => {
+  const zone = { country_code: countryCode.toLowerCase(), provinces };
+  return { ...zone, label: zoneLabelFor(zone) };
 };
 
 export const DEFAULT_ITEM_WEIGHT_G = 500;
@@ -153,6 +160,10 @@ export type TenantShippingMethod = {
   tariff_source: TariffSource | null;
   /** `null` = every country the store ships to (the base zone). */
   zone: MethodZone | null;
+  /** The zone's human name, computed here so a method saved before zones had names shows one too. */
+  zone_label: string;
+  /** `carriers.ts` key the owner picked, or null when she named the method herself. */
+  carrier: string | null;
   sort_order: number;
   price_type: "flat" | "calculated";
   provider_id: string;
@@ -213,6 +224,8 @@ export const toMethod = (row: OptionRow, warehouse: TenantWarehouse, index: numb
     tariff: data.tariff,
     tariff_source: data.tariff_source ?? null,
     zone: data.zone ?? null,
+    zone_label: data.zone?.label || zoneLabelFor(data.zone ?? null),
+    carrier: data.carrier ?? null,
     sort_order: typeof data.sort_order === "number" ? data.sort_order : index,
     price_type: row.price_type,
     provider_id: row.provider_id,

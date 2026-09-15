@@ -5,6 +5,7 @@ import { normaliseTariff, TENANT_METHOD_SCHEMA, type TenantMethodData } from "..
 import {
   assertOwnedMethod,
   getTenantWarehouse,
+  labelledZone,
   listTenantMethods,
   providerFor,
   resolveShippingProfileId,
@@ -50,9 +51,8 @@ export const POST = async (
     sort_order: existing.reduce((max, method) => Math.max(max, method.sort_order), -1) + 1,
     default_weight_g: warehouse.default_weight_g,
     own_zone: false,
-    zone: body.zone
-      ? { country_code: body.zone.country_code.toLowerCase(), provinces: body.zone.provinces ?? [] }
-      : null,
+    zone: body.zone ? labelledZone(body.zone.country_code, body.zone.provinces ?? []) : null,
+    carrier: body.carrier ?? null,
   };
 
   const { result } = await createTenantShippingMethodWorkflow(req.scope).run({

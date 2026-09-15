@@ -151,7 +151,8 @@
     "shippingLink": "শিপিং",
     "shippingUnavailable": "কোনো শিপিং পদ্ধতি উপলব্ধ নেই",
     "signIn": "সাইন ইন করুন",
-    "total": "মোট"
+    "total": "মোট",
+    "shippingZone": "অঞ্চল: {zone}"
   },
   "ClaimOrders": {
     "heading": "অ্যাকাউন্ট ছাড়াই অর্ডার করেছেন?",
