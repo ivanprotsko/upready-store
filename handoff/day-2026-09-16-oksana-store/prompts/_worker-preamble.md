@@ -40,3 +40,11 @@ to exactly this). Your status is tracked by the dispatcher (state.json / REPORT.
 
 ## Локальный Docker и виртуальные машины — ЗАПРЕЩЕНЫ (приказ Ивана 2026-09-15 22:05 WITA)
 На этой машине не запускать `colima`, `limactl`, Docker Desktop и любой другой гипервизор, не делать локальный `docker build`/`docker compose up`: VM Lima роняет производительность всей машины (kernel_task > 300 %), а образы платформы собирает ТОЛЬКО живой хост в deploy-задаче (d0N-deploy-mt-N) по памятке protected-infra. Если задача требует собранного образа — напиши это в отчёте как ограничение, проверь сборку через `npx medusa build` / `next build` в своём worktree и оставь docker-сборку деплою. Постгрес стендов — нативный на 127.0.0.1:5433, без контейнеров.
+
+## Servers you start are yours to stop (Ivan's order 2026-09-15 23:27 WITA)
+
+Every dev server, watcher, sink or tunnel you start in this worktree (`medusa develop`, `next dev`, esbuild service, `smtp-sink`, `tsc --watch`) is stopped by YOU before the final message of a turn that pushes the branch: identify by PORT (`/usr/sbin/lsof -nP -iTCP -sTCP:LISTEN`), `kill <pid>`, then re-measure (`ps -axo pid=,command= | grep -c '{{WORKTREE}}/'` must print 0). A Stop hook (`orphan-server-guard`) blocks the turn while a process under your worktree is still alive after the push; the dispatcher kills leftovers after merge and records them in the journal as your defect. Measured tonight: 66 such processes of 17 merged tasks were still alive hours after their terminals were closed.
+
+## Exit protocol — branch name, then /compact, then close
+
+When the PR is created (or a fix round is pushed) and nothing remains, the final message of the turn names the branch `{{BRANCH}}` and the PR in one line (`ветка {{BRANCH}}, PR #<n> <url>, результат: <where to look>`) — the Stop hook blocks a pushed branch whose final message omits the branch. Do not start new work after the PR. After merge the dispatcher sends `/compact …` into your terminal (so a later `--resume` reads a short summary instead of the whole window at cold-cache price) and closes the terminal once compaction is done.

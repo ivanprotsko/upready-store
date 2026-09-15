@@ -87,6 +87,31 @@ function fixPrompt(cfg, state, t, findingsFile) {
   return L.buildTemplatePrompt(cfg, '_fix-round.md', t, { FINDINGS: findings, PR_NUMBER: s.pr.number, PR_URL: s.pr.url, ROUND: s.acceptance.length });
 }
 
+// ---------- закрытие после merge: сироты → /compact с именем ветки → терминал (приказ Ивана 2026-09-15 23:27 WITA) ----------
+const TERMINAL = ['merged', 'done', 'skipped', 'failed'];
+function compactPrompt(cfg, t, s) {
+  return `/compact Compact this session for a cheap later resume. Task ${t.id} «${t.title}», branch ${t.branch}, worktree ${s.worktree || ''}, PR #${s.pr?.number || '?'} ${s.pr?.url || ''} ${s.pr?.state || ''}${s.pr?.mergedAt ? ' merged ' + s.pr.mergedAt : ''}. Keep verbatim: the branch name ${t.branch}, the PR number and url, what was delivered and where the results are (report paths, artifacts, stands and ports and whether they are stopped), unresolved nits and open questions. Drop command outputs, terminal screens, guard texts, screenshots, intermediate counters.`;
+}
+function finishTask(cfg, state, t, s, why) {
+  const term = s.ws && s.terminalId ? L.terminalById(s.ws, s.terminalId) : null;
+  if (s.worktree) { const k = L.killProcsUnder(s.worktree); if (k.killed) L.event(state, { task: t.id, type: 'orphans-killed', msg: `${k.killed} процессов под worktree (${why}): ${k.list.join(' | ').slice(0, 400)}` }); }
+  if (term && !s.compactSentAt) { const r = L.terminalSend(s.ws, s.terminalId, compactPrompt(cfg, t, s)); s.compactSentAt = L.nowIso(); L.event(state, { task: t.id, type: 'compact-sent', msg: r.rc ? 'не отправлен: ' + String(r.error || '').slice(0, 80) : `терминал ${s.terminalId}, ветка ${t.branch}` }); }
+  else if (!term) s.closedAt = s.closedAt || L.nowIso();
+}
+function closeAfterCompact(cfg, state, t, s) {
+  const term = L.terminalById(s.ws, s.terminalId); if (!term) { s.closedAt = L.nowIso(); return; }
+  const tail = L.terminalRead(s.ws, s.terminalId, 40) || ''; const done = /Compacted|Compaction (complete|canceled)/i.test(tail); const late = L.minutesSince(s.compactSentAt) > 8;
+  if (!done && !late) return;
+  const c = L.terminalClose(s.ws, s.terminalId); s.closedAt = L.nowIso();
+  L.event(state, { task: t.id, type: 'worker-closed', msg: (c.rc ? 'не закрылся: ' + String(c.error || '').slice(0, 80) : `терминал ${s.terminalId} закрыт`) + (done ? ' после /compact' : ' по таймауту /compact (8 мин)') });
+  if (s.worktree) { const k = L.killProcsUnder(s.worktree); if (k.killed) L.event(state, { task: t.id, type: 'orphans-killed', msg: `${k.killed} после закрытия: ${k.list.join(' | ').slice(0, 300)}` }); }
+}
+// Каждый тик: процессы под worktree задач в конечном статусе — сироты, убить и записать (кто запустил, тот и закрывает).
+function sweepOrphans(cfg, state) {
+  const procs = L.listProcs(); if (!procs.length) return;
+  for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (!s?.worktree || !TERMINAL.includes(s.status) || (s.compactSentAt && !s.closedAt)) continue; const k = L.killProcsUnder(s.worktree, procs); if (k.killed) L.event(state, { task: t.id, type: 'orphans-killed', msg: `${k.killed} сирот (${s.status}): ${k.list.join(' | ').slice(0, 400)}` }); }
+}
+
 // ---------- наблюдение ----------
 function checkBuild(cfg, state, t) {
   const s = state.tasks[t.id];
@@ -96,7 +121,7 @@ function checkBuild(cfg, state, t) {
   if (error) { L.event(state, { task: t.id, type: 'gh-error', msg: String(error).slice(0, 200) }); }
   if (pr) {
     s.pr = { number: pr.number, url: pr.url, state: pr.state, mergedAt: pr.mergedAt, isDraft: pr.isDraft };
-    if (pr.state === 'MERGED') { s.status = 'merged'; s.finishedAt = L.nowIso(); L.event(state, { task: t.id, type: 'merged', msg: pr.url }); return; }
+    if (pr.state === 'MERGED') { s.status = 'merged'; s.finishedAt = L.nowIso(); L.event(state, { task: t.id, type: 'merged', msg: pr.url }); finishTask(cfg, state, t, s, 'merged'); return; }
     if (pr.state === 'OPEN' && !pr.isDraft && s.status === 'running') { s.status = 'pr_open'; s.prOpenedAt = L.nowIso(); L.event(state, { task: t.id, type: 'pr-open', msg: pr.url }); }
     if (pr.state === 'CLOSED' && !pr.mergedAt) { s.status = 'needs-ivan'; s.error = 'PR закрыт без мержа: ' + pr.url; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
   }
@@ -165,7 +190,7 @@ function checkAccepting(cfg, state, t) {
   const pr = L.prView(cfg, s.pr.number);  // истина — GitHub, не текст приёмщика (17a)
   if (pr?.state === 'MERGED') { s.status = 'merged'; s.pr.mergedAt = pr.mergedAt; s.pr.state = 'MERGED'; s.finishedAt = L.nowIso(); a.verdict = 'MERGED';
     // Работа закончена — закрываем терминал воркера (приказ Ивана 22:03 WITA: сессии, чья работа закончилась, не держать)
-    if (s.ws && s.terminalId) { const c = L.terminalClose(s.ws, s.terminalId); L.event(state, { task: t.id, type: 'worker-closed', msg: c.rc ? 'не закрылся: ' + String(c.error || '').slice(0, 80) : 'терминал ' + s.terminalId + ' закрыт после merge' }); } L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
+    finishTask(cfg, state, t, s, 'merged'); L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
   a.verdict = verdict;
   if (verdict === 'REJECTED') { L.event(state, { task: t.id, type: 'rejected', msg: `раунд ${a.n}: ${a.findings}` }); fixRound(cfg, state, t, a.findings); return; }
   if (verdict === 'MERGED') { L.event(state, { task: t.id, type: 'accept-claim-unverified', msg: 'приёмщик написал MERGED, GitHub не подтвердил — повтор' }); }
@@ -203,9 +228,9 @@ function processCommands(cfg, state) {
     const s = t ? ensure(state, t) : null;
     switch (c.op) {
       case 'launch': if (s && !['running', 'pr_open', 'accepting', 'fixing'].includes(s.status)) { s.status = 'queued'; s.force = true; s.error = null; s.relaunched = false; s.nudges = 0; } break;
-      case 'skip': if (s && !['running', 'accepting'].includes(s.status)) s.status = 'skipped'; break;
+      case 'skip': if (s && !['running', 'accepting'].includes(s.status)) { s.status = 'skipped'; if (s.ws && s.terminalId && L.terminalById(s.ws, s.terminalId)) { L.terminalClose(s.ws, s.terminalId); s.closedAt = L.nowIso(); L.event(state, { task: t.id, type: 'worker-closed', msg: 'терминал закрыт по skip' }); } if (s.worktree) { const k = L.killProcsUnder(s.worktree); if (k.killed) L.event(state, { task: t.id, type: 'orphans-killed', msg: `${k.killed} по skip: ${k.list.join(' | ').slice(0, 300)}` }); } } break;
       case 'retry': if (s) { s.status = 'queued'; s.error = null; s.relaunched = false; s.nudges = 0; } break;
-      case 'mark-done': if (s) { s.status = t.kind === 'build' ? 'merged' : 'done'; s.note = 'отмечено вручную'; } break;
+      case 'mark-done': if (s) { s.status = t.kind === 'build' ? 'merged' : 'done'; s.note = 'отмечено вручную'; if (t.kind === 'build') finishTask(cfg, state, t, s, 'mark-done'); } break;
       case 'pause': state.dispatcher.paused = true; break;
       case 'resume': state.dispatcher.paused = false; state.dispatcher.limitUntil = null; try { fs.unlinkSync(P.stop); } catch { } break;
       case 'clear-limit': state.dispatcher.limitUntil = null; break;
@@ -233,6 +258,8 @@ export function tick() {
   for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s.status === 'queued' && !s.force) { const bad = depsFailed(state, t); if (bad.length) { s.status = 'blocked'; s.error = 'зависимость провалена: ' + bad.join(', '); L.event(state, { task: t.id, type: 'blocked', msg: s.error }); } } }
   let counts = laneCounts(cfg, state);
   for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (t.kind === 'build' && s.status === 'pr_open') { try { maybeAccept(cfg, state, t, counts); } catch (e) { L.event(state, { task: t.id, type: 'accept-error', msg: String(e.message).slice(0, 300) }); } } }
+  for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s?.compactSentAt && !s.closedAt) { try { closeAfterCompact(cfg, state, t, s); } catch (e) { L.event(state, { task: t.id, type: 'close-error', msg: String(e.message).slice(0, 200) }); } } }
+  try { sweepOrphans(cfg, state); } catch (e) { L.event(state, { type: 'sweep-error', msg: String(e.message).slice(0, 200) }); }
   if (!state.dispatcher.paused && !limited(state)) {
     counts = laneCounts(cfg, state);
     const queue = cfg.tasks.filter(t => state.tasks[t.id].status === 'queued' && (state.tasks[t.id].force || depsSatisfied(state, t))).sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99));

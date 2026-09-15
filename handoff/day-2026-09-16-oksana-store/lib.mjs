@@ -200,3 +200,21 @@ export function writeReport(cfg, tasks, state) {
   L.push(`Журнал: ${P.journal} · состояние: ${P.state} · очередь: ${P.tasks}`);
   fs.writeFileSync(P.report, L.join('\n') + '\n');
 }
+
+// ---------- процессы воркеров: кто запустил — тот и закрывает (приказ Ивана 2026-09-15 23:27 WITA) ----------
+// Замер 23:27: 66 dev-серверов/watcher'ов 17 смёрженных задач жили часами после закрытия терминалов (nohup/&, ppid 1).
+export function listProcs() {
+  try { return execFileSync('ps', ['-axo', 'pid=,ppid=,etime=,command='], { encoding: 'utf8', env: { ...process.env, LC_ALL: 'C' } }).split('\n').map(l => l.match(/^\s*(\d+)\s+(\d+)\s+(\S+)\s+(.*)$/)).filter(Boolean).map(m => ({ pid: +m[1], ppid: +m[2], etime: m[3], cmd: m[4] })); } catch { return []; }
+}
+// Процессы, чей argv указывает внутрь каталога (dev-серверы, watcher'ы, esbuild в worktree воркера). Свой pid, claude и хуки не трогаем.
+export function procsUnder(dir, procs = listProcs()) {
+  if (!dir) return []; const d = dir.replace(/\/+$/, '') + '/';
+  return procs.filter(p => p.pid !== process.pid && p.cmd.includes(d) && !/\.local\/bin\/claude|\.claude\/hooks\//.test(p.cmd));
+}
+export function killProcsUnder(dir, procs) {
+  const ps = procsUnder(dir, procs); if (!ps.length) return { killed: 0, left: 0, list: [] };
+  for (const p of ps) { try { process.kill(p.pid, 'SIGTERM'); } catch {} }
+  const t0 = Date.now(); while (Date.now() - t0 < 2000 && procsUnder(dir).length) { try { execFileSync('sleep', ['0.2']); } catch {} }
+  for (const p of procsUnder(dir)) { try { process.kill(p.pid, 'SIGKILL'); } catch {} }
+  return { killed: ps.length, left: procsUnder(dir).length, list: ps.map(p => `${p.pid} ${p.etime} ${p.cmd.slice(0, 100)}`) };
+}
