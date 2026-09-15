@@ -1,0 +1,4284 @@
+URL: https://dev.wildberries.ru/en/docs/openapi/orders-fbs
+FINAL-URL: https://dev.wildberries.ru/en/docs/openapi/orders-fbs
+HTTP: 200
+TITLE: Documentation — WB API
+SAVED: 2026-09-15T20:53:21.235Z (UTC) — headed Google Chrome over CDP, Ivan's permission 2026-09-16 04:41 WITA
+TEXT-CHARS: 71152  LINKS: 142
+==============================================================================
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+Sign In
+General
+Item Management
+FBS Orders
+FBS Assembly Orders
+FBS Label Identifiers
+FBS Supplies
+FBS Passes
+Auto-return Settings
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Rates
+Analytics and Data
+Reports
+Documents and Accounting
+FBS Orders
+
+Use the FBS Orders (Fulfillment by Seller) methods to:
+
+get information about assembly orders and their statuses, cancel assembly orders, and get stickers
+get, add, edit, and delete label identifiers for assembly orders
+manage supplies
+create, edit, and delete passes to WB warehouses
+
+You can test the FBS order methods in the sandbox. Also you can use special methods in the sandbox for emulating user actions
+
+You can learn how to use methods in business cases in the instructions on working with FBS orders
+FBS Assembly Orders
+To access the methods, use a token for the Marketplace category
+Get New Assembly Orders
+/api/v3/orders/new
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/orders/new
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/new
+Method description
+
+Returns a list of all new assembly orders.
+
+Label identifiers specified in the requiredMeta and optionalMeta fields in assembly orders only affects the ability to transfer a supply to delivery. If your item requires mandatory marking with identification means, you must specify all needed label identifiers whether it was received in requiredMeta or optionalMeta field (see 4.6 of the Offer).
+We recommend adding all label identifiers received in the requiredMeta and optionalMeta fields to the assembly orders
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Get Assembly Orders
+/api/v3/orders
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/orders
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders
+Method description
+
+The method returns information about assembly orders created no more than 3 months ago, without their current status
+To get data for a period, specify the start and end dates of the period in the request. Maximum of 30 calendar days per request. The method's response will contain assembly orders created during the specified period.
+
+To get assembly orders created more than 3 months ago, use the method for getting the list of archived assembly orders.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer [ 1 .. 1000 ]
+
+Pagination parameter. Sets the limit for the amount of data returned.
+
+
+next
+required
+	
+integer <int64>
+
+Pagination parameter. Sets the value from which to retrieve the next batch. It should start at 0 to get the full list of data. For the subsequent requests, you must take the value from the next field in the response.
+
+
+dateFrom	
+integer
+
+Period start date in Unix timestamp format. By default date is 30 days before the request. Time zone — UTC
+
+
+dateTo	
+integer
+
+Period end date in Unix timestamp format. Time zone — UTC
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"next": 13833711,
+"orders": 
+[
+{}
+]
+}
+Get Assembly Orders Statuses
+/api/v3/orders/status
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/orders/status
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/status
+Method description
+
+Returns the statuses of assembly orders from the request.
+
+supplierStatus is a status of an assembly order. Its change is always triggered only by the seller.
+
+
+Possible values of supplierStatus:
+
+Status	Description	How to move the assembly orders to this status
+new	New order	
+confirm	In assembly
+For delivery by Wildberries fbs	Add assembly orders to the supply
+complete	In delivery
+For delivery by Wildberries fbs and by WB courier wbgo	Transfer the supply to delivery
+cancel	Canceled by seller	Cancel the order
+cancel_carrier	Canceled by carrier
+For crossborder only	Changed by the carrier
+
+wbStatus — is a status of an order on the Wildberries side.
+
+Possible values for this field are:
+
+waiting — the seller confirmed the order, and the Wildberries has not received it yet
+sorted — the Wildberries warehouse sorted the order
+sold — the order is sold
+canceled — the seller canceled the order
+canceled_by_client — the buyer canceled the order upon receipt
+declined_by_client — the buyer canceled the order in the first hour
+Cancellation is available to the buyer in the first hour from the moment of order, if the order is not transferred to confirm status.
+defect — cancellation of the order due to a defect
+ready_for_pickup — the order came at pickup point and waiting for the client
+postponed_delivery — courier delivery is postponed
+accepted_by_carrier — accepted by carrier. The order is handed over to delivery service in the seller country
+sent_to_carrier — dispatched to carrier. The order is on the way to delivery service's warehouse in the seller
+canceled_by_carrier — the order was cancelled by the carrier. For crossborder only
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+orders
+required
+	
+Array of integers <int64> [ 1 .. 1000 ] items [ items <int64 > ]
+
+List of assembly order IDs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+5632423
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Get All Assembly Orders for Re-shipment
+/api/v3/supplies/orders/reshipment
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/supplies/orders/reshipment
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/orders/reshipment
+Method description
+
+Returns all assembly orders that require re-shipment
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Cancel the Assembly Order
+/api/v3/orders/{orderId}/cancel
+Prod
+PATCH
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/cancel
+Sandbox
+PATCH
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/cancel
+Method description
+
+Moves the assembly orders to cancel ("Canceled by the seller") status.
+
+You can cancel an assembly order before it is handed over to Wildberries. To check whether an assembly order can be canceled, use the POST /api/v3/orders/status method and the isCancellable field.
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+Responses
+204
+
+Canceled
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error updating a status
+
+429
+
+Too many requests
+
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"message": "Incorrect parameter value"
+}
+Get Assembly Orders Stickers
+/api/v3/orders/stickers
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/orders/stickers
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/stickers
+Method description
+
+Returns a list of stickers for assembly orders in the confirm — in assembly and complete — in delivery statuses.
+
+If the required customs declaration number is not added to the assembly order, it is not possible to get stickers for this assembly order.
+
+You can get a maximum of 100 stickers per request.
+
+
+
+You can get a sticker in the following formats:
+
+SVG
+ZPLV (vertical)
+ZPLH (horizontal)
+PNG
+
+Available dimensions:
+
+580x400 px, with parameters width = 58, height = 40
+400x300 px, with parameters width = 40, height = 30
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+type
+required
+	
+string
+Enum: "svg" "zplv" "zplh" "png"
+
+Sticker format
+
+
+width
+required
+	
+integer
+Enum: 58 40
+
+Sticker width
+
+
+height
+required
+	
+integer
+Enum: 40 30
+
+Sticker height
+
+REQUEST BODY SCHEMA: application/json
+orders	
+Array of integers <int64> [ 1 .. 100 ] items [ items <int64 > ]
+
+List of assembly order IDs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Conflict
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+5346346
+]
+}
+Response samples
+200
+400
+401
+402
+403
+409
+429
+Content type
+application/json
+Copy
+Expand
+{
+"stickers": 
+[
+{}
+]
+}
+Get Stickers for Cross-Border Assembly Orders
+/api/v3/orders/stickers/cross-border
+POST
+https://marketplace-api.wildberries.ru/api/v3/orders/stickers/cross-border
+Method description
+
+Returns a list of stickers for Cross-Border assembly orders in PDF.
+
+
+
+For each assembly order, the response contains the sticker generation status:
+
+awaitingTrackNumber — the sticker is not ready. Waiting for a carrier's track number.
+ready — the sticker is ready
+Stickers may be generated with a delay. Repeat the request until you receive the ready status.
+
+Method limitations:
+
+You cannot request more than 100 stickers at a time (no more than 100 assembly order IDs in a request).
+The method returns stickers only for assembly orders that are on assembly or in delivery status: confirm, complete.
+
+In the sandbox, this method always returns the 200 response.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+orders	
+Array of integers <int64> [ 1 .. 100 ] items [ items <int64 > ]
+
+List of assembly order IDs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+3869227998
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"stickers": 
+[
+{},
+{}
+]
+}
+Status History for Cross-Border Orders
+/api/v3/orders/status/history
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/orders/status/history
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/status/history
+Method description
+
+Returns status history for Cross-Border orders.
+
+In the sandbox, this method always returns the 200 response.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+orders	
+Array of integers [ 1 .. 100 ] items
+
+Assembly orders IDs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+123456789,
+987654321
+]
+}
+Response samples
+200
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Orders with Client Information
+/api/v3/orders/client
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/orders/client
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/client
+Method description
+
+The method allows getting information about the client by assembly order ID.
+Only for Cross-Border orders from Turkey
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+orders	
+Array of integers
+
+Orders list
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+987654321,
+123456789
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Get the List of Archived Assembly Orders
+/api/marketplace/v3/fbs/orders/archive
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/orders/archive
+Method description
+
+The method returns assembly orders created more than 3 months ago.
+Some assembly orders are archived later than 3 months after creation, as the supply is archived only after all orders in it are completed. For example, this happens if the seller did not deliver one of the orders in the supply and the order was canceled automatically after a few days.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+year
+required
+	
+integer
+Example: year=2023
+
+Year the order was created
+
+
+month
+required
+	
+integer [ 1 .. 12 ]
+Example: month=2
+
+Month the order was created
+
+
+next
+required
+	
+integer <int64>
+
+Pagination parameter. Sets the value from which to retrieve the next batch. It should start at 0 to get the full list of data. For the subsequent requests, you must take the value from the next field in the response.
+
+
+limit
+required
+	
+integer <int32> [ 100 .. 1000 ]
+Example: limit=150
+
+Number of assembly orders in the response
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"next": 0,
+"orders": 
+[
+{}
+]
+}
+FBS Label Identifiers
+To access the methods, use a token for the Marketplace category
+
+With these methods, you can get, delete and edit the label identifiers of assembly orders:
+
+Labeling code Chestny ZNAK
+UIN
+IMEI
+GTIN
+Expiration date
+Customs declaration number
+
+Specifying label identifiers for the assembly order in the sandbox is optional
+
+Get Assembly Orders Label Identifiers
+/api/marketplace/v3/orders/meta
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/marketplace/v3/orders/meta
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/marketplace/v3/orders/meta
+Method description
+
+The method returns label identifiers for assembly orders and their validation statuses.
+
+You can get the list of label identifiers available for an assembly order in the requiredMeta and optionalMeta fields in the response of the Get New Assembly Orders method. If the requiredMeta and optionalMeta fields do not contain the label identifier, it means that this label identifier cannot be added to this assembly order.
+Possible label identifiers:
+
+imei — IMEI
+uin — UIN
+gtin — GTIN
+sgtin — labeling code Chestny ZNAK
+expiration — Expiration date
+customsDeclaration — customs declaration number
+Request limit per one seller account for all methods for getting and deleting FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+orders
+required
+	
+Array of integers <= 100 items
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+123456,
+234567,
+345678
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"orders": 
+[
+{}
+]
+}
+Delete Assembly Order Label Identifiers
+/api/v3/orders/{orderId}/meta
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta
+Method description
+
+Removes all assembly order label identifiers values for the passed key.
+
+Possible label identifiers are:
+
+imei — IMEI
+uin — UIN
+gtin — GTIN
+sgtin — labeling code Chestny ZNAK
+customsDeclaration — customs declaration number
+Request limit per one seller account for all methods for getting and deleting FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+QUERY PARAMETERS
+key
+required
+	
+string
+Enum: "imei" "uin" "gtin" "sgtin" "customsDeclaration"
+
+Name of the label identifier to remove
+
+Responses
+204
+
+Deleted
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error deleting label identifiers
+
+429
+
+Too many requests
+
+Response samples
+400
+401
+402
+403
+409
+429
+Content type
+application/json
+Example
+IncorrectRequest
+IncorrectParameter
+IncorrectRequest
+Copy
+{
+"message": "Incorrect request parameters"
+}
+Add Labeling Code Chestny ZNAK to the Assembly Order
+/api/v3/orders/{orderId}/meta/sgtin
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/sgtin
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta/sgtin
+Method description
+
+The method sets the labeling code Chestny ZNAK for the assembly order.
+You can add a labeling code to an assembly order if this field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+You can get the added labeling code with the Assembly Order Label Identifiers method.
+
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+sgtins
+required
+	
+Array of strings [ 1 .. 100 ] items
+
+List of labeling codes Chestny ZNAK.
+You can transfer labeling codes:
+
+in full format — with GS separators and authenticity verification code (crypto tail)
+in short format — with GS separators without authenticity verification code (crypto tail)
+
+Please transfer GS separators in Unicode encoding with escaping — \u001D
+
+Responses
+204
+
+Sent
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error adding a labeling code
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"sgtins": 
+[
+"0104630568317423215EirD_orEif7X\u001d91EE12\u001d92VygELprJ87wrc/qF/Vq/KEFUVpZm4vDPQt2kqUw308Y="
+]
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+Add UIN (Unique Identification Number) to the Assembly Order
+/api/v3/orders/{orderId}/meta/uin
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/uin
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta/uin
+Method description
+
+Sets the UIN for the assembly order. The assembly order can only have one UIN.
+You can add UIN to the assembly order only if the uin field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+uin
+required
+	
+string = 16 characters
+
+UIN
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error updating label identifiers
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"uin": "1234567890123456"
+}
+Response samples
+400
+401
+402
+403
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+Add IMEI to the Assembly Order
+/api/v3/orders/{orderId}/meta/imei
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/imei
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta/imei
+Method description
+
+Sets the IMEI for the assembly orders label identifiers.
+The assembly order can have only one IMEI. If a device has two IMEIs — IMEI and IMEI2 or IMEI1 and IMEI2 — you should only specify IMEI or IMEI1. You don't need to specify IMEI2.
+You can add IMEI to the assembly order only if the imei field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+imei
+required
+	
+string = 15 characters
+
+IMEI
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error updating label identifiers
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"imei": "123456789012345"
+}
+Response samples
+400
+401
+402
+403
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+Add GTIN to the Assembly Order
+/api/v3/orders/{orderId}/meta/gtin
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/gtin
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta/gtin
+Method description
+
+Sets the GTIN (Belarus item unique identifier) for the assembly order. The assembly order can only have one GTIN.
+You can add GTIN to the assembly order only if the gtin field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+gtin
+required
+	
+string = 13 characters
+
+GTIN
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error updating label identifiers
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"gtin": "1234567890123"
+}
+Response samples
+400
+401
+402
+403
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+Add Expiration Date to the Assembly Order
+/api/v3/orders/{orderId}/meta/expiration
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/orders/{orderId}/meta/expiration
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/orders/{orderId}/meta/expiration
+Method description
+
+Sets the expiration date for the assembly order.
+You can add expiration date to the assembly order only if the expiration field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+You can get the uploaded data in the label identifiers of the assembly order.
+To change the expiration date, send a request with the new date. It is impossible to remove the expiration date of the assembly order.
+
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+expiration
+required
+	
+string <date (dd.mm.yyyy)>
+
+The date until which the item is valid. No less than 30 days from the current date.
+
+Responses
+204
+
+Sent
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error updating label identifiers
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"expiration": "12.09.2030"
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Example
+LowExpirationDate
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+LowExpirationDate
+
+The specified expiration date is less than the allowable limit
+
+Copy
+{
+"code": "LowExpirationDate",
+"message": "Не удалось обновить срок годности. Указан срок меньше допустимого"
+}
+Add Custom Declaration number to the Order
+/api/marketplace/v3/orders/{orderId}/meta/customs-declaration
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/marketplace/v3/orders/{orderId}/meta/customs-declaration
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/marketplace/v3/orders/{orderId}/meta/customs-declaration
+Method description
+
+The method updates the customs declaration number in the label identifiers of the assembly order. An assembly order can have only one customs declaration number.
+You can add customs declaration number to the assembly order only if the customsDeclaration field is returned in the response of the Assembly Order Label Identifiers method, and the assembly order is in the confirm status.
+
+Sellers from Armenia must specify the customs declaration number for items produced outside the EAEU if an order from Armenia is delivered to the Russian Federation.
+Request limit per one seller account for all methods for adding FBS label identifiers:
+Period	Limit	Interval	Burst
+1 min	1000 requests	60 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+orderId
+required
+	
+integer <int64>
+Example: 5632423
+
+Assembly order ID
+
+REQUEST BODY SCHEMA: application/json
+required
+customsDeclaration
+required
+	
+string [ 17 .. 29 ] characters
+
+Customs declaration number
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error updating custom declaration number
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"customsDeclaration": "10704010/010624/0000302"
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+FBS Supplies
+To access the methods, use a token for the Marketplace category
+Work order:
+Items 3-5 must be completed when delivering a supply to a pickup point
+Create a new supply. The ID of the created supply will be returned in the format WB-GI-1234567.
+Set up the supply shipping method. For delivery by a transport company the electronic waybill ID is required.
+In the current new supply, add assembly orders that you will transport to the warehouse or pickup point. When adding assembly order to the supply, they will be moved to the confirm status — in assembly.
+Create a shipping unit in the supply.
+Check the list of shipping units.
+Get the shipping unit stickers, print them out and affix the stickers to the shipping units according to the orders distributed in them.
+After the supply has been equipped with the necessary assembly orders, it must be handed over for delivery. If the supply is not handed over for delivery, accepting the first item at the pickup point will automatically close the supply. When handing over assembly order for delivery, they will automatically be assembled and moved to the complete status — in delivery.
+For supplies from EAEU countries, add SPOT data. Get the list of OKSM countries to add SPOT data to a supply. You can also get SPOT data for a list of supplies and SPOT QR codes. Currently, the methods are available only to sellers from Kyrgyzstan. In the future, the methods will be available to sellers from any EAEU country except the Russian Federation. Stay tuned for updates.
+If a supply was scanned at the acceptance point but still has unscanned items, after a certain time, you must deliver them again. Check all assembly order requiring reshipment at this time. These assembly order can be transferred to another active supply. The assembly order will also be moved to the confirm status — in assembly.
+
+You can also:
+
+remove a shipping unit from the supply, but only while the supply is still in assembly
+get all assembly order IDs added to the supply
+get information about all the seller supplies or about a specific supply
+delete a supply provided that it is active and not tied to any assembly orders
+move assembly orders between active supplies. You cannot move an assembly order from a supply that is already closed, unless it requires reshipment
+get the supply's QR code in SVG, ZPL, or PNG formats. Available only after the supply has been handed over for delivery
+Create a New Supply
+/api/v3/supplies
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/supplies
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies
+Method description
+
+Supplies limitations:
+
+Supplies applicable only for assembly orders in the FBS (Fulfillment by Seller) delivery.
+All assembly orders added to supply automatically transferred from the new status to the confirm status.
+Please note that if you will cancel (Canceled by the seller) the order, we will automatically remove it from the supply.
+A supply can only be assembled from assembly jobs (orders) with the same dimensional type (cargoType). A new supply does not have a dimensional attribute. When the first assembly order is added to a supply, the supply acquires the dimensional attribute of that assembly order.
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+name	
+string [ 1 .. 128 ] characters
+
+Supply name
+
+Responses
+201
+
+Created
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"name": "Some test supply"
+}
+Response samples
+201
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"id": "WB-GI-1234567"
+}
+Get a Supplies List
+/api/v3/supplies
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/supplies
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies
+Method description
+
+Returns the supplies list.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer [ 1 .. 1000 ]
+
+Pagination parameter. Sets the limit for the amount of data returned.
+
+
+next
+required
+	
+integer <int64>
+
+Pagination parameter. Sets the value from which to retrieve the next batch. It should start at 0 to get the full list of data. For the subsequent requests, you must take the value from the next field in the response.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"next": 13833711,
+"supplies": 
+[
+{}
+]
+}
+Get Supply Shipping Points
+/api/marketplace/v3/fbs/shipping-points
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/shipping-points
+Method description
+
+The method returns available supply shipping points with filters:
+
+by Russian localities
+by the type of items a shipping point can accept
+
+Use the data from this method to set supply shipping methods.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+city
+required
+	
+string
+Example: city=Москва
+
+Locality for shipping the supply, Cyrillic
+
+
+cargoType
+required
+	
+integer
+Enum: 1 2 3
+Example: cargoType=1
+
+The type of items a shipping point can accept:
+
+1 — small-sized items
+2 — over dimensional cargo (ODC)
+3 — dimensional cargo+ (CD+)
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"shippingPoints": 
+[
+{}
+]
+}
+Set Supply Shipping Method
+/api/marketplace/v3/fbs/supplies/shipping-method
+PATCH
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/supplies/shipping-method
+Method description
+
+The method sets shipping method, shipping date, and shipping point for the supplies.
+
+
+
+For shipping by a transport company "shippingType":"transportCompany", specify the ID of the electronic waybill using the method for setting supply waybill ID.
+
+
+
+The waybill ID added to a supply is reset if the shipping type is changed from "shippingType":"transportCompany" to selfShipping. If you want to change the shipping type back to transportCompany, re-add the waybill ID.
+
+You can update the shipping method until the supply and its boxes are scanned at the shipping point. Once the supply has been scanned, this method will start returning a 409 error.
+
+
+
+You can specify a maximum of 100 supplies per request. The processing result is returned for each supply separately.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+data
+required
+	
+Array of objects [ 1 .. 100 ] items
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+409
+
+Conflict
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Response samples
+200
+400
+401
+403
+409
+429
+Content type
+application/json
+Copy
+Expand
+{
+"results": 
+[
+{},
+{},
+{},
+{},
+{},
+{}
+]
+}
+Set Supply Waybill ID
+/api/marketplace/v3/fbs/supplies/waybill
+PATCH
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/supplies/waybill
+Method description
+
+This method sets the ID of the electronic waybill. To use this method, ensure that the supply's shipping method is set to "shippingType": "transportCompany" by updating the supply shipping method.
+
+You can update the electronic waybill ID until the supply and its boxes are scanned at the shipping point. Once the supply has been scanned, this method will start returning a 409 error.
+
+
+
+You can specify a maximum of 100 supplies in the request. The processing result is returned separately for each supply.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+data
+required
+	
+Array of objects [ 1 .. 100 ] items
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"results": 
+[
+{},
+{},
+{},
+{},
+{},
+{},
+{}
+]
+}
+Add Assembly Orders to the Supply
+/api/marketplace/v3/supplies/{supplyId}/orders
+Prod
+PATCH
+https://marketplace-api.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/orders
+Sandbox
+PATCH
+https://marketplace-api-sandbox.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/orders
+Method description
+
+The method adds up to 100 assembly orders to the supply and moves it to the confirm status.
+
+It can also move the assembly orders:
+
+between active supplies
+from a closed to an active supply, if the assembly order requires reshipment.
+You can add assembly orders of any dimensional type to an empty supply. After adding the first assembly order, the supply acquires the dimensional type of this assembly order from the cargoType field.
+After that, you can only add assembly orders of the same dimensional type as the supply.
+Assembly orders received at different warehouses cannot be added to the delivery.
+You can add assembly orders of any type to an empty supply: crossborder or non-crossborder. After adding the first assembly order, the supply acquires the type of this assembly order from the crossBorderType field.
+After that, you can add to the supply only the assembly orders of the same type as the supply.
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+REQUEST BODY SCHEMA: application/json
+required
+orders	
+Array of integers [ 1 .. 100 ] items
+
+Assembly order IDs
+
+Responses
+204
+
+The assembly orders assigned to the supply
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error adding the assembly order to the supply
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"orders": 
+[
+5632423,
+3453452,
+7654533,
+4529544
+]
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"message": "Incorrect parameter value"
+}
+Get Supply Details
+/api/v3/supplies/{supplyId}
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}
+Method description
+
+Returns supply details.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+{
+"id": "WB-GI-1234567",
+"isB2b": true,
+"isPickupPointShipmentAllowed": true,
+"done": true,
+"createdAt": "2022-05-04T07:56:29Z",
+"closedAt": "2022-05-04T07:56:29Z",
+"scanDt": "2022-05-04T07:56:29Z",
+"name": "My test supply",
+"cargoType": 0,
+"crossBorderType": 1,
+"destinationOfficeId": 123,
+"recommendedWhId": 123569,
+"shippingDt": "2026-08-31",
+"shippingPointId": 100,
+"shippingType": "transportCompany",
+"waybillUuid": "550e8400-e29b-41d4-a716-384579387429",
+"spotAvailable": true
+}
+Delete the Supply
+/api/v3/supplies/{supplyId}
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}
+Method description
+
+Deleted the supply if it is active and does not contain any assembly orders.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+Responses
+204
+
+Deleted
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+The supply contains orders
+
+429
+
+Too many requests
+
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"message": "Incorrect parameter value"
+}
+Get Supply Assembly Order IDs
+/api/marketplace/v3/supplies/{supplyId}/order-ids
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/order-ids
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/marketplace/v3/supplies/{supplyId}/order-ids
+Method description
+
+The method returns assembly orders IDs assigned to the supply.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+
+Supply ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"orderIds": 
+[
+132334,
+203984,
+403543,
+598349
+]
+}
+Move the Supply to the Delivery
+/api/v3/supplies/{supplyId}/deliver
+Prod
+PATCH
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/deliver
+Sandbox
+PATCH
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/deliver
+Method description
+
+Closes the supply and moves all assembly orders to complete (In Delivery) status. You cannot add any assembly orders to the supply after it is closed.
+
+If the supply wasn't handed over for delivery, than scanning its QR code or accepting the first item will automatically close the supply.
+
+You can transfer the supply to delivery only if:
+
+there is at least one assembly order
+required labeling is specified for all assembly orders
+labeling of all assembly orders passed validation
+
+If the supply contains assembly orders with required UIN, make sure that you have created and uploaded the Delivery Contract Specification in advance. The GIIS DMDK takes about 30 minutes to process changes in UIN statuses.
+
+It is required to specify the shipping parameters for supplies from Russian sellers to Russia shipping points. If the shipping method, shipping date, or shipping point is not specified, a 409 error is returned.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+Responses
+204
+
+The supply moved to the delivery
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error closing supply
+
+429
+
+Too many requests
+
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"message": "Incorrect parameter value"
+}
+Get the Supply QR Code
+/api/v3/supplies/{supplyId}/barcode
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/barcode
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/barcode
+Method description
+
+Returns the QR code in svg, zplv (vertical), zplh (horizontal), png.
+Available only after the supply has been transferred to the delivery. Available dimensions:
+
+580x400 px
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+QUERY PARAMETERS
+type
+required
+	
+string
+Enum: "svg" "zplv" "zplh" "png"
+
+Sticker format
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error requesting data
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"barcode": "WB-GI-12345678",
+"file": "U3dhZ2dlciByb2Nrcw=="
+}
+Get Supply Shipping Units List
+/api/v3/supplies/{supplyId}/trbx
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Method description
+
+Returns supply shipping units list.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"trbxes": 
+[
+{}
+]
+}
+Add Shipping Units to the Supply
+/api/v3/supplies/{supplyId}/trbx
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Method description
+
+Adds the required number of shipping units to the supply.
+
+You should add shipping units only to supplies shipped to the pickup points. You can add shipping units to an open supply only. One shipping unit can contain several orders. For example, if a supply has 10 orders, distribute them into boxes: the system will allow creating no more than 5 shipping units. For 20 orders — no more than 10 shipping units, for 100 — no more than 50.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+REQUEST BODY SCHEMA: application/json
+amount
+required
+	
+integer [ 1 .. 1000 ]
+
+Shipping units amount to add to the supply
+
+Responses
+201
+
+Created
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"amount": 4
+}
+Response samples
+201
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"trbxIds": 
+[
+"WB-TRBX-1234567"
+]
+}
+Delete Shipping Units from the Supply
+/api/v3/supplies/{supplyId}/trbx
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/trbx
+Method description
+
+The method deletes shipping units from the supply. Available only while the supply is being assembled.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+REQUEST BODY SCHEMA: application/json
+trbxIds
+required
+	
+Array of strings
+
+List of shipping unit IDs to delete from the supply
+
+Responses
+204
+
+Deleted
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"trbxIds": 
+[
+"WB-TRBX-1234567"
+]
+}
+Response samples
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+{
+"message": "Incorrect parameter value"
+}
+Get the Supply Shipping Unit QR Code Stickers
+/api/v3/supplies/{supplyId}/trbx/stickers
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/supplies/{supplyId}/trbx/stickers
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/supplies/{supplyId}/trbx/stickers
+Method description
+
+Returns QR-code stickers in svg, zplv (vertical), zplh (horizontal), png.
+Available only if there are assembly orders in the shipping unit.
+Stickers dimensions: 580x400 px.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-1234567
+
+Supply ID
+
+QUERY PARAMETERS
+type
+required
+	
+string
+Enum: "svg" "zplv" "zplh" "png"
+
+Sticker format
+
+REQUEST BODY SCHEMA: application/json
+trbxIds
+required
+	
+Array of strings
+
+List of supply shipping unit IDs for the sticker generation
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"trbxIds": 
+[
+"WB-TRBX-1234567"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"stickers": 
+[
+{}
+]
+}
+Get the OKSM Country List
+/api/marketplace/v3/fbs/dictionaries/countries/oksm
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/dictionaries/countries/oksm
+Method description
+
+The method returns a list of OKSM — All-Russian Classifier of World Countries — countries with their full names and codes.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"countries": 
+[
+{}
+]
+}
+Add SPOT Data to Supply
+/api/marketplace/v3/fbs/supplies/{supplyId}/spot
+PUT
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/supplies/{supplyId}/spot
+Method description
+
+The method adds SPOT data to a supply.
+
+SPOT can only be added to a supply with the "spotAvailable":true flag.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-123456789
+
+Supply ID
+
+REQUEST BODY SCHEMA: application/json
+required
+carrierName
+required
+	
+string [ 1 .. 1000 ] characters
+
+Carrier name
+
+
+carrierTaxNumber
+required
+	
+string [ 1 .. 50 ] characters
+
+Carrier tax number
+
+
+carrierCountryCode
+required
+	
+string = 3 characters
+
+Carrier OKSM country code
+
+
+vehicleRegistrationNumber
+required
+	
+string [ 1 .. 30 ] characters
+
+Vehicle registration number
+
+
+trailerRegistrationNumber	
+string [ 1 .. 30 ] characters
+
+Trailer registration number
+
+Responses
+204
+
+Added
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error while adding SPOT data
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"carrierName": "ООО СПОТ",
+"carrierTaxNumber": "7588179007",
+"carrierCountryCode": "112",
+"vehicleRegistrationNumber": "А123АА100",
+"trailerRegistrationNumber": "АА000100"
+}
+Response samples
+400
+401
+403
+404
+409
+429
+Content type
+application/problem+json
+Copy
+{
+"detail": "Not Found",
+"title": "NotFound"
+}
+Get SPOT Data for Supply List
+/api/marketplace/v3/fbs/supplies/spot/list
+POST
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/supplies/spot/list
+Method description
+
+The method returns SPOT data for a list of supplies.
+
+You can get SPOT data only if all of the following conditions are met:
+
+the supply is in the delivery stage
+the seller is registered in any EAEU country other than the Russian Federation
+the destination warehouse is located in the Russian Federation
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+supplyIds
+required
+	
+Array of strings [ 1 .. 100 ] characters
+
+Supply IDs list
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"supplyIds": 
+[
+"WB-GI-123456789"
+]
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"supplies": 
+[
+{},
+{},
+{},
+{}
+]
+}
+Get the Supply SPOT QR Code
+/api/marketplace/v3/fbs/supplies/{supplyId}/stickers/spot
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/supplies/{supplyId}/stickers/spot
+Method description
+
+The method returns the generated SPOT QR code for the supply in PNG format, base64 encoded.
+
+You can get the QR code when the flag "status":"completed" is returned in the method for getting SPOT data.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+supplyId
+required
+	
+string
+Example: WB-GI-123456789
+
+Supply ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+404
+429
+Content type
+application/json
+Copy
+{
+"qrCode": "U3dhZ2dlciByb2Nrcw=="
+}
+FBS Passes
+To access the methods, use a token for the Marketplace category
+Get Offices for Pass
+/api/v3/passes/offices
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/passes/offices
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/passes/offices
+Method description
+
+Returns a list of offices that require a pass.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"name": "Koledino",
+"address": "Kosmonavtov 10А",
+"id": 1
+}
+]
+Get Passes
+/api/v3/passes
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/passes
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/passes
+Method description
+
+Returns a list of all seller passes.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"firstName": "Alex",
+"dateEnd": "2022-07-31 17:53:13+00:00",
+"lastName": "Petrov",
+"carModel": "Lamborghini",
+"carNumber": "A456BC123",
+"officeName": "Koledino",
+"officeAddress": "Kosmonavtov 10А",
+"officeId": 15,
+"id": 1
+}
+]
+Create Pass
+/api/v3/passes
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/passes
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/passes
+Method description
+
+Creates a seller pass.
+The pass is valid for 48 hours from the time of creation.
+
+Maximum of 1 request per 10 minutes per one seller account
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+
+The total length of the full name is limited from 6 to 100 characters. The car number can contain only letters and numbers
+
+firstName
+required
+	
+string non-empty
+
+First name
+
+
+lastName
+required
+	
+string non-empty
+
+Last name
+
+
+carModel
+required
+	
+string [ 1 .. 100 ] characters
+
+Car model
+
+
+carNumber
+required
+	
+string [ 6 .. 9 ] characters
+
+Car number
+
+
+officeId
+required
+	
+integer <int64> >= 1
+
+Office ID
+
+Responses
+201
+
+Created
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"firstName": "Alex",
+"lastName": "Petrov",
+"carModel": "Lamborghini",
+"carNumber": "A456BC123",
+"officeId": 15
+}
+Response samples
+201
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+{
+"id": 2
+}
+Update Pass
+/api/v3/passes/{passId}
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/passes/{passId}
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/passes/{passId}
+Method description
+
+Updates the seller pass detail
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+passId
+required
+	
+integer <int64>
+Example: 45
+
+Pass ID
+
+REQUEST BODY SCHEMA: application/json
+required
+
+The total length of the full name is limited from 6 to 100 characters. The car number can contain only letters and numbers.
+
+firstName
+required
+	
+string non-empty
+
+First name
+
+
+lastName
+required
+	
+string non-empty
+
+Last name
+
+
+carModel
+required
+	
+string [ 1 .. 100 ] characters
+
+Car model
+
+
+carNumber
+required
+	
+string [ 6 .. 9 ] characters
+
+Car number
+
+
+officeId
+required
+	
+integer <int64> >= 1
+
+Office ID
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"firstName": "Alex",
+"lastName": "Petrov",
+"carModel": "Lamborghini",
+"carNumber": "A456BC123",
+"officeId": 15
+}
+Response samples
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+WarehouseNameInvalid
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body"
+}
+Delete the Pass
+/api/v3/passes/{passId}
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/passes/{passId}
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/passes/{passId}
+Method description
+
+Deletes the seller pass
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+passId
+required
+	
+integer <int64>
+Example: 45
+
+Pass ID
+
+Responses
+204
+
+Deleted
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+{
+"title": "unauthorized",
+"detail": "token problem; token is malformed: could not base64 decode signature: illegal base64 data at input byte 84",
+"code": "07e4668e--a53a3d31f8b0-[UK-oWaVDUqNrKG]; 03bce=277; 84bd353bf-75",
+"requestId": "7b80742415072fe8b6b7f7761f1d1211",
+"origin": "ag-marketplace",
+"status": 401,
+"statusText": "Unauthorized",
+"timestamp": "2024-09-30T06:52:38Z"
+}
+Auto-return Settings
+To access the methods, use a token for the Marketplace category
+
+With these methods, you can manage auto-return settings for small-sized items:
+
+get and update seller auto-return settings
+get and update item auto-return settings
+get list of subcategories that can not be returned to WB warehouses
+Get Auto-Return Seller Settings
+/api/marketplace/v3/fbs/settings/autoreturns
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/settings/autoreturns
+Method description
+
+The method returns information about auto-return settings set by the seller.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Успешно
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+{
+"type": "allToWarehouse"
+}
+Update Seller Auto-Return Settings
+/api/marketplace/v3/fbs/settings/autoreturns
+Prod
+PATCH
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/settings/autoreturns
+Method description
+
+The method sets seller auto-return settings for small-sized items — "cargoType":1.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+type
+required
+	
+string
+Enum: "allToWarehouse" "allToPickupPoint" "manual"
+
+Auto-return type for small-sized items:
+
+allToWarehouse — send all items to WB warehouse, except for items of subcategories that are automatically returned to the pickup point
+allToPickupPoint — send all items to the pickup point
+manual — use manual settings
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"type": "allToWarehouse"
+}
+Response samples
+400
+401
+403
+429
+Content type
+application/problem+json
+Copy
+{
+"detail": "Not Found",
+"title": "NotFound"
+}
+Get Item Auto-Return Settings
+/api/marketplace/v3/fbs/settings/autoreturns/items
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/settings/autoreturns/items
+Method description
+
+The method returns item auto-return settings.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+chrtIds
+required
+	
+Array of integers <int64> [ 1 .. 1000 ] items [ items <int64 > ]
+
+List of item size IDs in WB systems
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"chrtIds": 
+[
+111111,
+222222
+]
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"results": 
+[
+{},
+{}
+]
+}
+Update Item Auto-Return Settings
+/api/marketplace/v3/fbs/settings/autoreturns/items
+Prod
+PATCH
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/settings/autoreturns/items
+Method description
+
+The method sets item auto-return settings for small-sized items — "cargoType":1.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+chrtIds
+required
+	
+Array of integers <= 1000 items
+
+List of item size IDs in WB systems
+
+
+type
+required
+	
+string
+Enum: "byWarehouse" "byPickupPoint"
+
+Item auto-return type for small-sized items:
+
+byWarehouse — all items sent to the WB warehouse
+byPickupPoint — all items sent to the pickup point
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"chrtIds": 
+[
+111111,
+222222
+],
+"type": "byWarehouse"
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"results": 
+[
+{},
+{}
+]
+}
+Get Subcategories That Can't Be Returned to the Warehouse
+/api/marketplace/v3/fbs/settings/autoreturns/subcategories/restricted
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/marketplace/v3/fbs/settings/autoreturns/subcategories/restricted
+Method description
+
+The method returns the list of subcategory IDs those items cannot be stored in the WB warehouses and will be returned to the pickup point automatically.
+
+Request limit per one seller account for FBS assembly orders, supplies, passes and auto-return settings methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+next
+required
+	
+integer <int64>
+
+Pagination parameter. Sets the value from which to retrieve the next batch. It should start at 0 to get the full list of data. For the subsequent requests, you must take the value from the next field in the response.
+
+
+limit
+required
+	
+integer <int32> [ 100 .. 1000 ]
+Example: limit=1000
+
+Number of subcategories in the response
+
+Responses
+200
+
+Успешно
+
+400
+
+Неправильный запрос
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"next": 300,
+"data": 
+[
+{},
+{},
+{}
+]
+}
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

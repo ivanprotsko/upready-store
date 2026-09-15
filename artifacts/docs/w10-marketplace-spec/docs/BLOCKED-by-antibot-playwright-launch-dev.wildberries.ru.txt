@@ -1,0 +1,13 @@
+URL: https://dev.wildberries.ru/en/docs/openapi/api-information
+FINAL-URL: https://dev.wildberries.ru/en/docs/openapi/api-information
+HTTP: 498
+TITLE: ...
+SAVED: 2026-09-15T20:49:07.350Z (UTC) — headed Google Chrome via Playwright, Ivan's permission 2026-09-16 04:41 WITA
+TEXT-CHARS: 17  LINKS: 0
+==============================================================================
+Проверяем браузер
+
+==============================================================================
+LINKS
+==============================================================================
+

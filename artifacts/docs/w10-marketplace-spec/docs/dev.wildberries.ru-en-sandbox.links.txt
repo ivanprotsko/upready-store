@@ -1,0 +1,57 @@
+ :: /en
+Documentation :: /en/docs/openapi/api-information
+Release Notes :: /en/release-notes
+Sandbox :: /en/sandbox
+API Status :: /en/wb-status
+Community :: /en/forum
+Knowledge Base :: /en/knowledge-base
+dev-info@rwb.ru :: mailto:dev-info@rwb.ru
+ :: https://max.ru/wbapi
+ :: https://t.me/wb_api_notifications
+token :: ./openapi/api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token
+List of categories for testing: :: #list-of-categories-for-testing
+Categories, Subcategories and Characteristics :: ./openapi/item-management#tag/categoriesSubcategoriesAndCharacteristics
+Listing Items :: ./openapi/item-management#tag/listingItems
+Listings :: ./openapi/item-management#tag/listings
+Media Files :: ./openapi/item-management#tag/mediaFiles
+Tags :: ./openapi/item-management#tag/labels
+Listings :: ./openapi/item-management#tag/listings/operation/postV2GetCardsList
+delete listings from the trash :: https://dev.wildberries.ru/en/docs/openapi-other/sandbox-environment#tag/Item-Management/paths/~1content~1v1~1cards~1delete/post
+Prices and Discounts :: ./openapi/item-management#tag/pricesAndDiscounts
+FBS Assembly Orders :: ./openapi/orders-fbs#tag/FBS-Assembly-Orders
+FBS Label Identifiers :: ./openapi/orders-fbs#tag/fbsLabelIdentifiers
+FBS Supplies :: ./openapi/orders-fbs#tag/FBS-Supplies
+FBS Passes :: ./openapi/orders-fbs#tag/FBS-Passes
+Seller Warehouses :: ./openapi/item-management#tag/sellerWarehouses
+Seller Warehouses Inventory :: ./openapi/item-management#tag/sellerWarehousesInventory
+FBS orders :: ./openapi-other/sandbox-environment#tag/Marketplace-FBS
+stickers :: ./openapi/orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1stickers~1cross-border/post
+status history :: ./openapi/orders-fbs#tag/FBS-Assembly-Orders/paths/~1api~1v3~1orders~1status~1history/post
+the label identifiers for the assembly order :: ./openapi/orders-fbs#tag/fbsLabelIdentifiers
+DBS Assembly Orders :: ./openapi/dbs#tag/dbsAssemblyOrders
+DBS Label Identifiers :: ./openapi/dbs#tag/dbsLabelIdentifiers
+DBS orders :: ./openapi-other/sandbox-environment#tag/Marketplace-DBS
+the label identifiers for the assembly order :: ./openapi/dbs#tag/dbsLabelIdentifiers
+In-⁠Store Pickup Assembly Orders :: ./openapi/in-store-pickup#tag/inStorePickupAssemblyOrders
+In-⁠Store Pickup Label Identifiers :: ./openapi/in-store-pickup#tag/inStorePickupLabelIdentifiers
+In-⁠Store Pickup orders :: ./openapi-other/sandbox-environment#tag/Marketplace-In-Store-Pickup
+the label identifiers for the assembly order :: ./openapi/in-store-pickup#tag/inStorePickupLabelIdentifiers
+FBW Supplies :: ./openapi/orders-fbw#tag/FBW-Supplies
+Campaigns :: ./openapi/promotion#tag/campaigns
+Campaigns Creation :: ./openapi/promotion#tag/creatingCampaigns
+Campaigns Management :: ./openapi/promotion#tag/campaignManagement
+Search Clusters :: ./openapi/promotion#tag/searchClusters
+Finances :: ./openapi/promotion#tag/finances
+Statistics :: ./openapi/promotion#tag/statistics
+Test balance top-up :: ./openapi-other/sandbox-environment#tag/Promotion
+Questions :: ./openapi/customer-communication#tag/questions
+Feedbacks :: ./openapi/customer-communication#tag/feedbacks
+feedbacks :: https://dev.wildberries.ru/en/openapi-other/sandbox-environment#tag/Questions-and-Feedbacks/operation/postV1TestMakeFeedbacksBatch
+questions :: https://dev.wildberries.ru/en/openapi-other/sandbox-environment#tag/Questions-and-Feedbacks/operation/postV1TestMakeQuestionsBatch
+Main Reports :: ./openapi/reports#tag/mainReports
+User Agreement of the WB API Service :: /en/rules
+WB API Platform Access Agreement :: https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/
+Policy on the Processing of Personal Data of RWB :: /en/privacy
+WB API Price List for Third-Party Services :: /api/price-list
+FAQ. Frequently Asked Questions :: /en/faq
+cookies :: /privacy
