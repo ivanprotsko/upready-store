@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 80,
+  "action": "status-set",
+  "ts": "2026-09-15T20:25:08+08:00",
+  "status": "2026-09-15 20:25 WITA: приёмка f12-owner-raw-keys раунд 2 — PR #50 смержен (mergedAt 2026-09-15T12:24:04Z). Свой стенд (БД upready_store_f12, backend :9040, панель :5190) поднят и погашен; 17 экранов: 0 сырых ключей, 0 видимых машинных значений, 0 Medusa в title. Отчёт: handoff/day-2026-09-16-oksana-store/artifacts/accept-f12-owner-raw-keys-2/REPORT.md. Мелочи (Default Shipping Profile, «под хиро», «Ожидает фулфилмента») — комментарием к PR. Артефакты НЕ коммичены: приёмочный промпт запрещает коммиты в главном чекауте."
+}
