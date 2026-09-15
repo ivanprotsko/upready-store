@@ -8,6 +8,7 @@ import { WbEndpointTable } from "./components/wb-endpoint-table"
 import { WbFieldRow } from "./components/wb-field-row"
 import { WbReadOnlyBadge } from "./components/wb-read-only-badge"
 import { WbSyncTable } from "./components/wb-sync-table"
+import { WbWritePreviewSection } from "./components/wb-write-preview-section"
 import { WbWriteSection } from "./components/wb-write-section"
 
 // w01-wb-readonly-client: the shop's Wildberries connection, read-only.
@@ -149,6 +150,8 @@ export const WildberriesSettings = () => {
             </div>
 
             <WbWriteSection />
+
+            <WbWritePreviewSection />
           </>
         )}
       </Container>
