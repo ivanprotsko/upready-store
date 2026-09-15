@@ -50,6 +50,10 @@ export const POST = async (
     default_weight_g: warehouse.default_weight_g,
     own_zone: current.own_zone,
     zone,
+    // «Confirmed» means the owner sent a tariff of her own. Flipping the
+    // method on or off, or renaming it, leaves the badge on the list where it
+    // is — that edit says nothing about the price.
+    ...(body.tariff === undefined && current.tariff_source ? { tariff_source: current.tariff_source } : {}),
   };
 
   await updateTenantShippingMethodWorkflow(req.scope).run({

@@ -42,7 +42,19 @@ export type TenantMethodData = {
   own_zone: boolean;
   /** `null` = the tenant's base zone (every country the store has a region for), where the provisioned defaults live. */
   zone: MethodZone | null;
+  /**
+   * `"provisioned-default"` while the tariff is still the one provisioning
+   * wrote and no owner has confirmed it; the panel shows that badge and the
+   * field disappears the moment the owner saves the method, because the update
+   * route rebuilds `data` from her form (`api/tenants/shipping-methods/[id]`).
+   */
+  tariff_source?: TariffSource | null;
 };
+
+/** Who set the tariff the method carries. Absent means the owner did. */
+export type TariffSource = "provisioned-default";
+
+export const PROVISIONED_DEFAULT_TARIFF: TariffSource = "provisioned-default";
 
 export type QuoteItem = {
   quantity: number;

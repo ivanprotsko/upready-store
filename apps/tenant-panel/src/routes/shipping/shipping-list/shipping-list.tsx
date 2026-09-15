@@ -254,6 +254,11 @@ export const ShippingList = () => {
                       <Text size="xsmall" className="text-ui-fg-subtle">
                         {TARIFF_KIND_LABEL[method.tariff.kind]}
                       </Text>
+                      {method.tariff_source === "provisioned-default" && (
+                        <Text size="xsmall" className="text-ui-fg-interactive">
+                          Стоимость по умолчанию — укажите свою
+                        </Text>
+                      )}
                     </div>
                   </Table.Cell>
                   <Table.Cell>
