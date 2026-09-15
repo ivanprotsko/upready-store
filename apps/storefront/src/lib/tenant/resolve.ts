@@ -18,8 +18,10 @@ import {
   readAttribution,
   type TenantAttribution,
 } from "./attribution"
+import { EMPTY_BRANDING, type TenantBranding } from "./branding"
 
 export type { TenantAttribution }
+export type { TenantBranding }
 
 export type ResolvedTenant = {
   handle: string
@@ -51,6 +53,8 @@ export type ResolvedTenant = {
   } | null
   /** Search-console ownership tags (t11-seo-redirects step 6), null when unset. */
   seoVerification: { yandex: string | null; google: string | null } | null
+  /** Logo, favicon, og image, primary colour, footer credit (t16-owner-branding). */
+  branding: TenantBranding
 }
 
 const TTL_MS = 60_000
@@ -112,6 +116,7 @@ export async function resolveTenantByHost(
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
         seo_verification?: { yandex?: string | null; google?: string | null } | null
+        branding?: Partial<TenantBranding> | null
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -146,6 +151,7 @@ export async function resolveTenantByHost(
                   google: body.seo_verification.google ?? null,
                 }
               : null,
+          branding: { ...EMPTY_BRANDING, ...(body.branding ?? {}) },
         }
       }
     }

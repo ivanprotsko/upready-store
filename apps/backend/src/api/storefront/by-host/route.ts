@@ -1,6 +1,7 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { resolveAttribution } from "./attribution";
+import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import {
   baseDomains,
   handleFromTechnicalHost,
@@ -186,6 +187,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
           | Record<string, unknown>
           | undefined)?.google as string | undefined ?? null,
     },
+    // t16-owner-branding: logo, favicon, og image, primary colour, footer
+    // credit — served with the rest of this document so the storefront's
+    // very first render already has them, no extra round trip.
+    branding: brandingResponse(readBranding(tenant.metadata as Record<string, unknown> | null)),
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved
