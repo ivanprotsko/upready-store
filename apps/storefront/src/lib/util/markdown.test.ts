@@ -78,6 +78,18 @@ describe("parseMarkdown", () => {
   })
 
   // f07-page-markdown-tables: a legal page (contact.ru.md) table, verbatim.
+  // b09-storefront-render, accept-f07-page-markdown-tables-1 nit 2: the
+  // header row of `contact.ru.md`'s first table is blank (`| | |`) on
+  // purpose — the two columns are a label and a value, neither needs a
+  // heading. Each header cell parses to an empty inline-node list, which is
+  // what `MarkdownContent` reads to skip rendering an empty `<thead>` bar.
+  it("parses a blank header row into empty inline-node cells", () => {
+    const [table] = parseMarkdown(["| | |", "|---|---|", "| ОГРНИП | 12345 |"].join("\n"))
+
+    if (table.type !== "table") throw new Error("expected a table block")
+    expect(table.header).toEqual([[], []])
+  })
+
   it("reads a GFM table as a table block, not a raw-text paragraph", () => {
     const blocks = parseMarkdown(
       [
@@ -111,6 +123,15 @@ describe("parseMarkdown", () => {
     const blocks = parseMarkdown("цена | 500 ₽")
 
     expect(blocks.map((block) => block.type)).toEqual(["paragraph"])
+  })
+
+  // b09-storefront-render, accept-f07-page-markdown-tables-1 nit 1: a bare
+  // `---` has no pipe in it, so it must not satisfy TABLE_SEPARATOR and turn
+  // the paragraph above it into a one-column table.
+  it("reads a paragraph followed by a thematic break as a paragraph and a rule, not a table", () => {
+    const blocks = parseMarkdown(["цена | 500 ₽", "---"].join("\n"))
+
+    expect(blocks.map((block) => block.type)).toEqual(["paragraph", "rule"])
   })
 
   it("does not italicise a token whose underscore has no matching word-boundary pair nearby", () => {
