@@ -16,6 +16,13 @@ type CreateDataGridPriceColumnsProps<
   currencies?: string[]
   regions?: HttpTypes.AdminRegion[]
   pricePreferences?: HttpTypes.AdminPricePreference[]
+  /**
+   * Header label for a currency column. f09-price-editor-currencies uses it to
+   * name the shop's own currency by its symbol («Цена, ₽») instead of the code
+   * («Цена RUB»). Defaults to `fields.priceTemplate` with the upper-case code,
+   * which is what every other caller gets.
+   */
+  currencyLabel?: (code: string) => string
   isReadyOnly?: (context: FieldContext<TData>) => boolean
   renderPriceCell?: (
     code: string,
@@ -35,6 +42,7 @@ export const createDataGridPriceColumns = <
   currencies,
   regions,
   pricePreferences,
+  currencyLabel,
   isReadyOnly,
   renderPriceCell,
   getFieldName,
@@ -51,15 +59,15 @@ export const createDataGridPriceColumns = <
         (p) => p.attribute === "currency_code" && p.value === currency
       )
 
-      const translatedCurrencyName = t("fields.priceTemplate", {
-        regionOrCurrency: currency.toUpperCase(),
-      })
+      const translatedCurrencyName =
+        currencyLabel?.(currency) ??
+        t("fields.priceTemplate", {
+          regionOrCurrency: currency.toUpperCase(),
+        })
 
       return columnHelper.column({
         id: `currency_prices.${currency}`,
-        name: t("fields.priceTemplate", {
-          regionOrCurrency: currency.toUpperCase(),
-        }),
+        name: translatedCurrencyName,
         field: (context) => {
           const isReadyOnlyValue = isReadyOnly?.(context)
 

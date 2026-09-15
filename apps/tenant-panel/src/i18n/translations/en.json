@@ -890,6 +890,7 @@
     "phone": "Phone",
     "postalCode": "Postal Code",
     "price": "Price",
+    "priceShopTemplate": "Price, {{symbol}}",
     "priceTemplate": "Price {{regionOrCurrency}}",
     "product": "Product",
     "product_collections": "Product Collections",
@@ -2226,6 +2227,7 @@
     "create": {
       "description": "Create a new product.",
       "errors": {
+        "missingPrice": "Set a price in at least one currency: a product with no price reaches the storefront as a card without one. Save it as a draft if the price is not known yet.",
         "options": "Please create at least one option.",
         "uniqueSku": "SKU must be unique.",
         "variants": "Please select at least one variant."
@@ -2575,6 +2577,9 @@
     "csv": {
       "exportAction": "Export CSV",
       "importAction": "Import CSV"
+    },
+    "pricing": {
+      "showAllCurrencies": "All currencies ({{count}})"
     }
   },
   "profile": {

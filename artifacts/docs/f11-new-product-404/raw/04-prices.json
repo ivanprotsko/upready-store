@@ -1,0 +1,25 @@
+{
+  "rows": [
+    {
+      "handle": "propolis",
+      "status": 200,
+      "price": "990,00 ₽"
+    },
+    {
+      "handle": "maz-balzam-zhivichnyy",
+      "status": 200,
+      "price": "1 290,00 ₽"
+    },
+    {
+      "handle": "nastoyka-50-ml",
+      "status": 200,
+      "price": "450,00 ₽"
+    },
+    {
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "status": 200,
+      "price": "1 412,00 ₽"
+    }
+  ],
+  "errors": []
+}

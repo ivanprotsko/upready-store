@@ -10,6 +10,7 @@ import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { useExtendableForm } from "../../../../../dashboard-app/forms/hooks"
 import { useUpdateProduct } from "../../../../../hooks/api/products"
 import { transformNullableFormData } from "../../../../../lib/form-helpers"
+import { toSlugWhileTyping } from "../../../../../lib/slugify"
 
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { FormExtensionZone } from "../../../../../dashboard-app"
@@ -217,7 +218,23 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                               /
                             </Text>
                           </div>
-                          <Input {...field} className="pl-10" />
+                          {/*
+                            Transliterated as it is typed, so an edit never
+                            puts a Cyrillic letter into the storefront URL
+                            (f11-new-product-404). Unlike the create wizard,
+                            nothing here follows the name: this product already
+                            has an address, and moving it silently would break
+                            every link to it.
+                          */}
+                          <Input
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(
+                                toSlugWhileTyping(event.target.value)
+                              )
+                            }
+                            className="pl-10"
+                          />
                         </div>
                       </Form.Control>
                       <Form.ErrorMessage />

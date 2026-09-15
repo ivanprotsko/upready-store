@@ -11,6 +11,7 @@ import {
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateProductCategory } from "../../../../../hooks/api/categories"
 import { transformNullableFormData } from "../../../../../lib/form-helpers"
+import { toSlug } from "../../../../../lib/slugify"
 import { CreateCategoryDetails } from "./create-category-details"
 import { CreateCategoryNesting } from "./create-category-nesting"
 import { CreateCategoryDetailsSchema, CreateCategorySchema } from "./schema"
@@ -90,6 +91,11 @@ export const CreateCategoryForm = ({
       {
         name: name,
         ...parsedData,
+        // The field already carries the transliterated code; this is the same
+        // rule where the request is built, for a value the form never saw an
+        // `onChange` for (f11-new-product-404). Empty means "let Medusa make
+        // one", exactly as before this task.
+        handle: toSlug(parsedData.handle ?? "") || undefined,
         parent_category_id: parent_category_id ?? undefined,
         rank: rank ?? undefined,
         is_active: status === "active",
