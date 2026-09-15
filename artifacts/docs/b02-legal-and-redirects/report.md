@@ -192,6 +192,32 @@ integration tenants-requisites    5 passed
   юр-страницы покупателю: contacts 0, offer 0, privacy 0 вхождений «{{»
 ```
 
+### Второй мерж: PR #60 (b09-storefront-render), 2026-09-15 23:41 WITA
+
+`b09` правил ту же ручку `GET /store/tenant/pages/:key` — он распространил подстановку на `title`,
+`seo_title` и `seo_description`. Конфликт разрешён СЛОЖЕНИЕМ, а не выбором: подстановка идёт во все
+четыре поля, при этом в теле скрывается блок, а в ОДНОСТРОЧНОМ поле (заголовок, SEO) незаполненный
+токен вырезается из строки со схлопыванием шва — `redactLegalInline`, «Публичная оферта {{ФИО_ИП}}»
+читается как «Публичная оферта», а не как пустой заголовок. Плюс 3 юнит-теста.
+
+Перепроверка после этого мержа:
+
+```
+tsc --noEmit backend / storefront / tenant-panel   rc=0 / rc=0 / rc=0
+medusa lint                                        rc=0 (62 warning, в моих файлах ноль)
+medusa build --lint false                          rc=0
+pnpm test:unit                                     335 passed, 1 failed (тот же чужой profile-data)
+integration tenants-requisites                     5 passed
+стенд (витрина b09 + редакция b02 вместе):
+  /ru/pages/{contacts,offer,privacy} — вхождений «{{» в HTML: 0 / 0 / 0
+  /ru/ru/categories/dobavki → 301 → /ru/categories/dobavki-cherkashino
+  пустой <thead> таблицы «Продавец», который я видел до мержа, закрыт правкой b09
+```
+
+Кадры после мержа (вне git):
+`shots/stand-b09-empty-contacts-1280x1000.png` (реквизиты пусты) и
+`shots/stand-b09-prefilled-contacts-1280x1000.png` (после prefill).
+
 Docker локально не запускался (приказ Ивана 2026-09-15 22:05): образ собирает живой хост в задаче
 деплоя.
 

@@ -9,3 +9,8 @@
 contacts  0
 offer     0
 privacy   0
+## После мержа b09 (2026-09-15 23:41 WITA) — витрина + редакция вместе
+contacts  0
+offer     0
+privacy   0
+/ru/ru/categories/dobavki                                  301 -> http://127.0.0.1:8202/ru/categories/dobavki-cherkashino
