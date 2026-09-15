@@ -156,6 +156,8 @@ import { AdminGetStoreParams } from "@medusajs/medusa/api/admin/stores/validator
 import { applyCategoryFilters as applyStoreCategoryFilters } from "@medusajs/medusa/api/store/product-categories/helpers";
 import { listProductCategoryConfig as listStoreProductCategoryConfig } from "@medusajs/medusa/api/store/product-categories/query-config";
 import { StoreProductCategoriesParams } from "@medusajs/medusa/api/store/product-categories/validators";
+import { listTransformQueryConfig as listStoreCollectionConfig } from "@medusajs/medusa/api/store/collections/query-config";
+import { StoreGetCollectionsParams } from "@medusajs/medusa/api/store/collections/validators";
 import { MedusaError } from "@medusajs/framework/utils";
 import { adminUploadRoutesMiddlewares } from "@medusajs/medusa/api/admin/uploads/middlewares";
 import { TENANT_ACTOR_TYPE } from "../modules/tenant";
@@ -879,6 +881,17 @@ export default defineMiddlewares({
       middlewares: [
         validateAndTransformQuery(StoreProductCategoriesParams, listStoreProductCategoryConfig),
         applyStoreCategoryFilters,
+      ],
+    },
+    // b08-seo-storefront: the same public read for collections. A collection
+    // carries no sales-channel link, so `/store/collections` answers with every
+    // shop's; this one lists only the collections the tenant's own products sit
+    // in (`api/store/tenant/collections/route.ts`).
+    {
+      matcher: "/store/tenant/collections",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(StoreGetCollectionsParams, listStoreCollectionConfig),
       ],
     },
 

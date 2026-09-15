@@ -11,12 +11,28 @@ import {
   SEEDED_METADATA_KEY,
   type MigratedResource,
 } from "../tenant-redirects/migrated-redirects";
+import {
+  deriveMigratedPageRedirects,
+  readPageSeededMarker,
+  PAGE_SEEDED_METADATA_KEY,
+  type TenantPageRow,
+} from "../tenant-redirects/migrated-pages";
 
 /**
  * Writes the 301 rows a migrated catalogue implies, for every tenant that has
  * one, from the `migrated_from`/`source_url` metadata the importer already
  * left on each product and category (`src/tenant-redirects/migrated-redirects.ts`
  * derives them; this script only reads, writes and reports).
+ *
+ * b08-seo-storefront adds the shop's CONTENT pages to the same run. They carry
+ * no metadata of their own, so their old addresses come from the checked-in
+ * table in `src/tenant-redirects/migrated-pages.ts`, and a row is written only
+ * when the shop actually has that page published — an address whose page does
+ * not exist yet is logged as unmapped and starts answering by itself on the
+ * first deploy after someone creates it. The two halves carry separate markers
+ * (`redirects_seeded_from` for the catalogue, `page_redirects_seeded_from` for
+ * the pages), because the catalogue was stamped by b02 long before a single
+ * page row existed.
  *
  * The backend runs it on every boot (`docker-entrypoint.sh` step 6), so an
  * ordinary deploy makes the old addresses of an imported shop answer 301
@@ -97,13 +113,41 @@ export default async function backfillTenantRedirects({ container, args }: ExecA
       (settings?.default_locale as string | undefined) ?? storeDefaultLocale();
 
     const seededAt = force ? {} : readSeededMarker(tenant.metadata);
-    const { rows, sources, unmapped } = deriveMigratedRedirects(resources, {
+    const { rows: catalogueRows, sources, unmapped } = deriveMigratedRedirects(resources, {
       enabledLocales: enabledLocales?.length ? enabledLocales : null,
       defaultLocale,
       seededAt,
     });
 
-    for (const line of unmapped) {
+    // b08-seo-storefront: the shop's CONTENT pages carry no migration metadata
+    // of their own (`tenant_page` has no such column), so their old addresses
+    // come from the table in `tenant-redirects/migrated-pages.ts` — but only
+    // for a source this tenant's catalogue is actually stamped with, and only
+    // for a page the shop really has.
+    const migrationSources = [
+      ...new Set(
+        resources
+          .map((resource) => (resource.metadata ?? {}).migrated_from)
+          .filter((source): source is string => typeof source === "string" && source.length > 0),
+      ),
+    ];
+    const pages = (await tenantModuleService.listTenantPages({
+      tenant_id: tenant.id,
+    })) as unknown as TenantPageRow[];
+    const pageSeededAt = force ? {} : readPageSeededMarker(tenant.metadata);
+    const {
+      rows: pageRows,
+      sources: pageSources,
+      unmapped: pageUnmapped,
+    } = deriveMigratedPageRedirects(migrationSources, pages, {
+      enabledLocales: enabledLocales?.length ? enabledLocales : null,
+      defaultLocale,
+      seededAt: pageSeededAt,
+    });
+
+    const rows = [...catalogueRows, ...pageRows];
+
+    for (const line of [...unmapped, ...pageUnmapped]) {
       logger.warn(`backfill-tenant-redirects: ${tenant.handle} — unmapped: ${line}`);
     }
 
@@ -132,22 +176,33 @@ export default async function backfillTenantRedirects({ container, args }: ExecA
     writtenTotal += fresh.length;
     if (fresh.length) touchedTenants += 1;
 
-    logger.info(
-      `backfill-tenant-redirects: ${tenant.handle} — ${fresh.length} written, ${skipped} already present` +
-        `, ${unmapped.length} unmapped (sources: ${sources.join(", ") || "—"}, dry_run=${dryRun})`,
+    const freshPages = fresh.filter((row) =>
+      pageRows.some((pageRow) => pageRow.from_path === row.from_path),
     );
 
-    if (!dryRun && sources.length) {
+    logger.info(
+      `backfill-tenant-redirects: ${tenant.handle} — ${fresh.length} written ` +
+        `(${fresh.length - freshPages.length} catalogue, ${freshPages.length} pages), ${skipped} already present` +
+        `, ${unmapped.length + pageUnmapped.length} unmapped ` +
+        `(sources: ${[...new Set([...sources, ...pageSources])].join(", ") || "—"}, dry_run=${dryRun})`,
+    );
+
+    if (!dryRun && (sources.length || pageSources.length)) {
       const stampedAt = new Date().toISOString();
       const marker = { ...readSeededMarker(tenant.metadata) };
       for (const source of sources) {
         marker[source] = stampedAt;
+      }
+      const pageMarker = { ...readPageSeededMarker(tenant.metadata) };
+      for (const source of pageSources) {
+        pageMarker[source] = stampedAt;
       }
       await tenantModuleService.updateTenants({
         id: tenant.id,
         metadata: {
           ...((tenant.metadata as Record<string, unknown> | null) ?? {}),
           [SEEDED_METADATA_KEY]: marker,
+          [PAGE_SEEDED_METADATA_KEY]: pageMarker,
         },
       });
     }

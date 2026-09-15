@@ -1,8 +1,9 @@
 import { MetadataRoute } from "next"
 import { sdk, fetchWithoutLocale } from "@lib/config"
 import { listTenantArticles } from "@lib/data/tenant-articles"
-import { getRequestBaseURL, getTenantHandle } from "@lib/data/cookies"
-import { locales } from "@i18n/config"
+import { getRequestBaseURL, getTenantHandle, getEnabledLocales } from "@lib/data/cookies"
+import { locales, defaultLocale } from "@i18n/config"
+import { shopLocales } from "@lib/util/shop-locales"
 
 // Per request, not per module: one process answers for every shop by Host, and the
 // sitemap has to list the shop that was asked (`lib/tenant/origin.ts`).
@@ -23,6 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // `/store/tenant/pages/sitemap`.
   const hasTenant = (await getTenantHandle()) !== null
 
+  // The SHOP's languages, not the build's (b08-seo-storefront). A tenant that
+  // has saved `enabled_locales` gets exactly those; a host with no tenant, or a
+  // tenant that saved nothing, keeps every shipped locale — the behaviour every
+  // deployment had before this change.
+  const sitemapLocales = shopLocales(locales, await getEnabledLocales(), defaultLocale)
+
   const staticRoutes = [
     { path: "/", priority: 1.0 },
     { path: "/store", priority: 0.9 },
@@ -40,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const now = new Date()
 
-  for (const locale of locales) {
+  for (const locale of sitemapLocales) {
     for (const { path, priority } of staticRoutes) {
       entries.push({
         url: url(base, locale, path),
@@ -67,7 +74,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       for (const product of products) {
         if (!product.handle) continue
-        for (const locale of locales) {
+        for (const locale of sitemapLocales) {
           entries.push({
             url: url(base, locale, `/products/${product.handle}`),
             lastModified: product.updated_at ? new Date(product.updated_at) : now,
@@ -99,7 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const category of product_categories) {
       if (!category.handle) continue
-      for (const locale of locales) {
+      for (const locale of sitemapLocales) {
         entries.push({
           url: url(base, locale, `/categories/${category.handle}`),
           lastModified: category.updated_at ? new Date(category.updated_at) : now,
@@ -112,14 +119,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     // Collections are global reference data in this repository, not owned by a
-    // tenant (`apps/backend/src/api/tenants/collections/route.ts`), so unlike
-    // the two blocks above this one is NOT known to be disjoint between shops.
-    // Out of scope for t11-seo-redirects: no tenant-collection link exists to
-    // scope it by, and the migration report for the one real shop this task
-    // ships redirects for lists 0 collections carrying products.
+    // tenant (`apps/backend/src/api/tenants/collections/route.ts`), so
+    // `/store/collections` answers with EVERY shop's — which is how `acme` and
+    // `cherkashino` came to share 36 `/<locale>/collections/new` paths while
+    // sharing no product, category or page (measured on the b08 stand, the one
+    // overlap left after t11-seo-redirects). There is still no
+    // tenant-collection link to scope by, so `/store/tenant/collections` scopes
+    // by the ownership that IS recorded: the collections this tenant's own
+    // products sit in (b08-seo-storefront). A single-store install resolves no
+    // tenant and keeps reading the unscoped route, where there is no second
+    // shop to leak into and every collection is the shop's own.
     const { collections } = await sdk.client.fetch<{
       collections: Array<{ handle?: string; updated_at?: string }>
-    }>("/store/collections", {
+    }>(hasTenant ? "/store/tenant/collections" : "/store/collections", {
       query: { fields: "handle,updated_at", limit: 100 },
       next: { tags: ["collections"] },
       cache: "force-cache",
@@ -127,7 +139,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const collection of collections) {
       if (!collection.handle) continue
-      for (const locale of locales) {
+      for (const locale of sitemapLocales) {
         entries.push({
           url: url(base, locale, `/collections/${collection.handle}`),
           lastModified: collection.updated_at ? new Date(collection.updated_at) : now,
@@ -176,7 +188,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     if (seen.length > 0) {
-      for (const locale of locales) {
+      for (const locale of sitemapLocales) {
         entries.push({
           url: url(base, locale, "/journal"),
           lastModified: now,
@@ -186,7 +198,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
 
       for (const article of seen) {
-        for (const locale of locales) {
+        for (const locale of sitemapLocales) {
           entries.push({
             url: url(base, locale, `/journal/${article.slug}`),
             lastModified: article.published_at ? new Date(article.published_at) : now,
