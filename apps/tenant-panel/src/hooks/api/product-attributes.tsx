@@ -202,6 +202,99 @@ export const useDeleteProductAttribute = (
   })
 }
 
+// b04-product-attributes: the starting set of characteristics, and how much of
+// the catalog carries values. Both are the panel's own endpoints
+// (`/tenants/product-attribute-presets`, `/tenants/product-attribute-coverage`)
+// and both invalidate through the two keys above, because applying the preset
+// creates characteristics and filling a product creates values.
+
+export type ProductAttributePresetEntry = {
+  key: string
+  name: string
+  type: ProductAttributeType
+  unit: string | null
+  use_as_filter: boolean
+  exists: boolean
+}
+
+export type ProductAttributePresetResponse = {
+  preset: ProductAttributePresetEntry[]
+  missing: number
+}
+
+export type ApplyProductAttributePresetResponse = {
+  created: string[]
+  existing: string[]
+  product_attributes: ProductAttribute[]
+}
+
+export type ProductAttributeCoverageResponse = {
+  products_total: number
+  products_filled: number
+  attributes_total: number
+  per_attribute: Record<string, number>
+}
+
+export const useProductAttributePreset = (
+  options?: Omit<
+    UseQueryOptions<
+      ProductAttributePresetResponse,
+      FetchError,
+      ProductAttributePresetResponse,
+      QueryKey
+    >,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () =>
+      sdk.client.fetch<ProductAttributePresetResponse>("/tenants/product-attribute-presets"),
+    queryKey: productAttributesQueryKeys.detail("preset"),
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}
+
+export const useApplyProductAttributePreset = (
+  options?: UseMutationOptions<ApplyProductAttributePresetResponse, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<ApplyProductAttributePresetResponse>(
+        "/tenants/product-attribute-presets",
+        { method: "POST" }
+      ),
+    onSuccess: (data, variables, context) => {
+      invalidateAll()
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+/** How many products of the shop carry at least one characteristic. */
+export const useProductAttributeCoverage = (
+  options?: Omit<
+    UseQueryOptions<
+      ProductAttributeCoverageResponse,
+      FetchError,
+      ProductAttributeCoverageResponse,
+      QueryKey
+    >,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () =>
+      sdk.client.fetch<ProductAttributeCoverageResponse>("/tenants/product-attribute-coverage"),
+    queryKey: productAttributeValuesQueryKeys.detail("coverage"),
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}
+
 /** The characteristics that apply to ONE product, each with its value. */
 export const useProductAttributeValues = (
   productId: string,
