@@ -1,4 +1,5 @@
 import { Button, Input, Select, Text, Textarea, toast } from "@medusajs/ui"
+import { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
@@ -14,6 +15,9 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { FormExtensionZone } from "../../../../../dashboard-app"
 import { useExtension } from "../../../../../providers/extension-provider"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
+import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
+import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
+import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
 
 type EditProductFormProps = {
   product: HttpTypes.AdminProduct
@@ -27,6 +31,8 @@ const EditProductSchema = zod.object({
   material: zod.string().optional(),
   description: zod.string().optional(),
   discountable: zod.boolean(),
+  seo_title: zod.string().max(70),
+  seo_description: zod.string().max(320),
 })
 
 export const EditProductForm = ({ product }: EditProductFormProps) => {
@@ -37,6 +43,9 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const fields = getFormFields("product", "edit")
   const configs = getFormConfigs("product", "edit")
 
+  const productMetadata = product.metadata as Record<string, unknown> | null
+  const seoOverride = readSeoOverride(productMetadata, DEFAULT_SEO_METADATA_LOCALE)
+
   const form = useExtendableForm({
     defaultValues: {
       status: product.status,
@@ -46,18 +55,48 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
       handle: product.handle || "",
       description: product.description || "",
       discountable: product.discountable,
+      seo_title: seoOverride.seo_title,
+      seo_description: seoOverride.seo_description,
     },
     schema: EditProductSchema,
     configs: configs,
     data: product,
   })
 
+  // The shop's own default_locale (t06-locale-currency) is loaded async, so
+  // the form above mounts on the DEFAULT_SEO_METADATA_LOCALE guess first —
+  // round 2 finding: a default_locale=ru shop's SEO fields were silently
+  // written to metadata.seo.en, never reaching the storefront's ru pages.
+  // Once locale settings resolve, the real locale's entry replaces that
+  // guess, but only before the owner has touched either field.
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const seoLocale = localeSettings?.default_locale ?? DEFAULT_SEO_METADATA_LOCALE
+  const seoLocaleAppliedRef = useRef(false)
+  useEffect(() => {
+    if (seoLocaleAppliedRef.current) return
+    if (!localeSettings) return
+    seoLocaleAppliedRef.current = true
+    if (seoLocale === DEFAULT_SEO_METADATA_LOCALE) return
+    if (form.formState.dirtyFields.seo_title || form.formState.dirtyFields.seo_description) return
+
+    const override = readSeoOverride(productMetadata, seoLocale)
+    form.setValue("seo_title", override.seo_title)
+    form.setValue("seo_description", override.seo_description)
+  }, [localeSettings, seoLocale, productMetadata, form])
+
   const { mutateAsync, isPending } = useUpdateProduct(product.id)
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    const { title, discountable, handle, status, ...optional } = data
+    const { title, discountable, handle, status, seo_title, seo_description, ...optional } =
+      data
 
     const nullableData = transformNullableFormData(optional)
+    const metadata = mergeSeoMetadata(
+      product.metadata as Record<string, unknown> | null,
+      seo_title,
+      seo_description,
+      seoLocale
+    )
 
     await mutateAsync(
       {
@@ -65,6 +104,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
         discountable,
         handle,
         status: status as HttpTypes.AdminProductStatus,
+        metadata,
         ...nullableData,
       },
       {
@@ -212,6 +252,46 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                       </Form.Label>
                       <Form.Control>
                         <Textarea {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="seo_title"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>
+                        {t("fields.seoTitle")}{" "}
+                        <span className="text-ui-fg-subtle">
+                          ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/70)
+                        </span>
+                      </Form.Label>
+                      <Form.Control>
+                        <Input {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="seo_description"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>
+                        {t("fields.seoDescription")}{" "}
+                        <span className="text-ui-fg-subtle">
+                          ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/320)
+                        </span>
+                      </Form.Label>
+                      <Form.Control>
+                        <Textarea {...field} rows={3} />
                       </Form.Control>
                       <Form.ErrorMessage />
                     </Form.Item>

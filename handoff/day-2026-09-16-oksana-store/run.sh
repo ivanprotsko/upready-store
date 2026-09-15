@@ -20,13 +20,14 @@ if ! superset status --json 2>/dev/null | grep -q '"healthy": *true'; then
 fi
 
 # 3. UI — всегда
-if ! alive "$D/ui.pid"; then ( cd "$D" && nohup node ui/server.mjs >> "$LOG/ui.log" 2>&1 & echo $! > "$D/ui.pid" ); echo "[$(ts)] ui started $(cat "$D/ui.pid")" >> "$LOG/runner.log"; fi
+if ! alive "$D/ui.pid"; then ( cd "$D" && exec nohup node ui/server.mjs >> "$LOG/ui.log" 2>&1 ) & echo $! > "$D/ui.pid"; echo "[$(ts)] ui started $(cat "$D/ui.pid")" >> "$LOG/runner.log"; fi
 
 # 4. Диспетчер — когда взведён
 if [ -f "$D/DONE" ]; then exit 0; fi
 if [ -f "$D/ARMED" ] && [ -f "$D/tasks.json" ] && node -e 'const t=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));process.exit(t.tasks&&t.tasks.length?0:1)' "$D/tasks.json"; then
   if ! alive "$D/dispatcher.pid"; then
-    ( cd "$D" && nohup node dispatcher.mjs run >> "$LOG/dispatcher.out" 2>&1 & echo $! > "$D/dispatcher.pid" )
+    ( cd "$D" && exec nohup node dispatcher.mjs run >> "$LOG/dispatcher.out" 2>&1 ) & echo $! > "$D/dispatcher.pid"
+    # exec: подоболочка становится самим node, иначе в pid-файле лежал pid подоболочки, а node жил сиротой
     echo "[$(ts)] dispatcher started $(cat "$D/dispatcher.pid")" >> "$LOG/runner.log"
   fi
 fi

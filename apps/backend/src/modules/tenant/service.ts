@@ -10,6 +10,7 @@ import TenantNotificationSettings from "./models/tenant-notification-settings";
 import TenantLocaleSettings from "./models/tenant-locale-settings";
 import TenantPage from "./models/tenant-page";
 import TenantProductImport from "./models/tenant-product-import";
+import TenantRedirect from "./models/tenant-redirect";
 
 class TenantModuleService extends MedusaService({
   Tenant,
@@ -23,6 +24,7 @@ class TenantModuleService extends MedusaService({
   TenantIntegrationSecret,
   TenantNotificationSettings,
   TenantProductImport,
+  TenantRedirect,
 }) {}
 
 export default TenantModuleService;

@@ -97,6 +97,12 @@ export const PUT = async (
     body.in_footer ?? existing?.in_footer ?? isReservedPageKey(key);
   const footerOrder =
     body.footer_order !== undefined ? body.footer_order : existing?.footer_order ?? null;
+  const seoTitle =
+    body.seo_title !== undefined ? body.seo_title || null : existing?.seo_title ?? null;
+  const seoDescription =
+    body.seo_description !== undefined
+      ? body.seo_description || null
+      : existing?.seo_description ?? null;
 
   const saved = existing
     ? await tenantModuleService.updateTenantPages({
@@ -106,6 +112,8 @@ export const PUT = async (
         published: body.published,
         in_footer: inFooter,
         footer_order: footerOrder,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
       })
     : await tenantModuleService.createTenantPages({
         tenant_id: scope.id,
@@ -116,6 +124,8 @@ export const PUT = async (
         published: body.published,
         in_footer: inFooter,
         footer_order: footerOrder,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
       });
 
   const row = Array.isArray(saved) ? saved[0] : saved;

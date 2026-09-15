@@ -1,0 +1,14 @@
+FAIL integration-tests/http/tenants-domains.spec.ts (33.134 s)
+PASS integration-tests/http/tenants.spec.ts (33.28 s)
+PASS integration-tests/http/tenants-home.spec.ts (16.96 s)
+PASS integration-tests/http/tenant-export.spec.ts (16.262 s)
+PASS integration-tests/http/tenants-products-detail.spec.ts (17.734 s)
+PASS integration-tests/http/tenants-pages.spec.ts (24.146 s)
+PASS integration-tests/http/tenants-categories.spec.ts (78.48 s)
+PASS integration-tests/http/tenants-promotions.spec.ts (93.701 s)
+PASS integration-tests/http/admin-tenants.spec.ts (19.975 s)
+PASS integration-tests/http/tenant-uploads.spec.ts (33.616 s)
+PASS integration-tests/http/tenants-profile.spec.ts (36.916 s)
+PASS integration-tests/http/tenants-orders-detail.spec.ts (23.673 s)
+Test Suites: 1 failed, 11 passed, 12 total
+Tests:       1 failed, 128 passed, 129 total

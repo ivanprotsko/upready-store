@@ -9,6 +9,7 @@ import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
 import TenantProductImport from "./tenant-product-import";
+import TenantRedirect from "./tenant-redirect";
 
 /**
  * One tenant = one storefront on the shared backend. The recipe this module
@@ -57,6 +58,12 @@ const Tenant = model.define("tenant", {
   // Credentials of the shop's own third-party accounts, encrypted at rest
   // (`tenant-integration-secret.ts`, t03-tenant-secrets-robokassa).
   integration_secrets: model.hasMany(() => TenantIntegrationSecret, {
+    mappedBy: "tenant",
+  }),
+  // Path-for-path 301s of this shop's storefront: a handle the owner changed,
+  // or a row imported from a previous shop's URL structure (t11-seo-redirects,
+  // `tenant-redirect.ts`).
+  redirects: model.hasMany(() => TenantRedirect, {
     mappedBy: "tenant",
   }),
   // Who hears about a new order and how (`tenant-notification-settings.ts`,

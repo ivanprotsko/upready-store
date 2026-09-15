@@ -1,0 +1,9 @@
+=== FINAL shop health 2026-09-15 04:39 WITA ===
+https://cherkashino.shipshift.dev/ru -> 200 ssl_verify=0
+https://cherkashino.shipshift.dev/ru/store -> 200
+https://panel-store.upready.dev/ -> 200
+https://zolotaya-nit-1057.shipshift.dev/ -> 302 ssl_verify=0
+https://start.upready.dev/start/onboarding -> 200
+curl -I https://cherkashino.ru (real DNS, expected to fail — DNS not moved):
+  http=000 ssl_verify=0
+  curl rc=7 (no answer — ожидаемо)

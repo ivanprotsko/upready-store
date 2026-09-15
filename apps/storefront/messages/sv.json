@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "Visa alla"
   },
+  "ProductReviews": {
+    "heading": "Omdömen",
+    "ratingSummary": "{average} av 5 · {count, plural, one {# omdöme} other {# omdömen}}",
+    "ratingValue": "{value} av 5",
+    "formHeading": "Ditt omdöme",
+    "ratingLabel": "Betyg",
+    "nameLabel": "Ditt namn",
+    "titleLabel": "Rubrik (valfritt)",
+    "bodyLabel": "Din text",
+    "submit": "Skicka omdöme",
+    "pendingNotice": "Tack. Omdömet visas när butiken har godkänt det.",
+    "signInPrompt": "Logga in för att lämna ett omdöme.",
+    "error": "Omdömet kunde inte skickas. Försök igen.",
+    "ownerReply": "Svar från butiken",
+    "previousPage": "Föregående",
+    "nextPage": "Nästa",
+    "pageOf": "Sida {page} av {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Enkla returer",
     "easyReturnsDesc": "Returnera bara din produkt så återbetalar vi pengarna. Inga frågor ställs – vi gör vårt bästa för att göra din retur så smidig som möjligt.",

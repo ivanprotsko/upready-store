@@ -1,0 +1,51 @@
+
+> @dtc/gorgo-medusa-backend@1.0.0 test:unit /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-notifications/apps/backend
+> TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit
+
+FAIL src/migration-scripts/__tests__/profile-data.unit.spec.ts
+  ● i18n merge › leaves a locale the profile never translated identical to the base
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+    @@ -14,10 +14,11 @@
+          "tableware": "Vaisselle",
+        },
+        "collections": Object {
+          "new": "Nouveautés",
+        },
+    +   "productOptions": Object {},
+        "products": Object {
+          "chinoPants": Object {
+            "description": "Pantalon chino noir classique à coupe ajustée et au design épuré. Confectionné dans un coton doux et résistant avec une touche d'élasthanne pour le confort. Poches latérales, passants de ceinture et fermeture à bouton. Idéal pour un look décontracté ou habillé.",
+            "title": "Pantalon chino",
+          },
+
+      222 |       () => require("../data/i18n") as I18nModule,
+      223 |     ).SEED_TRANSLATIONS.fr;
+    > 224 |     expect(profileFr).toEqual(baseFr);
+          |                       ^
+      225 |   });
+      226 | });
+      227 |
+
+      at Object.toEqual (src/migration-scripts/__tests__/profile-data.unit.spec.ts:224:23)
+
+PASS src/migration-scripts/__tests__/abstract-datasets.unit.spec.ts
+PASS src/migration-scripts/__tests__/prices.unit.spec.ts
+PASS src/tenant-secrets/__tests__/crypto.unit.spec.ts
+PASS src/tenant-notifications/__tests__/notifications.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/tariff.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/hosts.unit.spec.ts
+PASS src/migration-scripts/__tests__/store-profile.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/attribution.unit.spec.ts
+
+Test Suites: 1 failed, 8 passed, 9 total
+Tests:       1 failed, 95 passed, 96 total
+Snapshots:   0 total
+Time:        2.687 s, estimated 3 s
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
+ ELIFECYCLE  Command failed with exit code 1.
+rc=1

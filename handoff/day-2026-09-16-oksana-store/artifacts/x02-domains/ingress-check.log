@@ -1,0 +1,25 @@
+--- grep -c cherkashino ---
+12
+--- grep -c xn-- ---
+8
+--- matching lines ---
+4:    mt-t-cherkashino-ru:
+5:      rule: "Host(`cherkashino.ru`)"
+10:    mt-t-cherkashino-ru-http:
+11:      rule: "Host(`cherkashino.ru`)"
+48:    mt-t-www-cherkashino-ru:
+49:      rule: "Host(`www.cherkashino.ru`)"
+54:    mt-t-www-cherkashino-ru-http:
+55:      rule: "Host(`www.cherkashino.ru`)"
+92:    mt-t-www-xn--80ajkgrgj8cn-xn--p1ai:
+93:      rule: "Host(`www.xn--80ajkgrgj8cn.xn--p1ai`)"
+98:    mt-t-www-xn--80ajkgrgj8cn-xn--p1ai-http:
+99:      rule: "Host(`www.xn--80ajkgrgj8cn.xn--p1ai`)"
+103:    mt-t-xn--80ajkgrgj8cn-xn--p1ai:
+104:      rule: "Host(`xn--80ajkgrgj8cn.xn--p1ai`)"
+109:    mt-t-xn--80ajkgrgj8cn-xn--p1ai-http:
+110:      rule: "Host(`xn--80ajkgrgj8cn.xn--p1ai`)"
+174:    mt-t-cherkashino-shipshift-dev:
+175:      rule: "Host(`cherkashino.shipshift.dev`)"
+179:    mt-t-cherkashino-shipshift-dev-http:
+180:      rule: "Host(`cherkashino.shipshift.dev`)"

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-day16-seo-redirects",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T06:34:02+08:00",
+  "status": "2026-09-15 06:34 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — PR #29 открыт (feat/day16-seo-redirects → dev), worker остановлен по брифу. Backend: metadata.seo на товаре/категории (title/description per locale), tenant_page.seo_title/seo_description (migration), model tenant_redirect + /tenants/redirects CRUD + /store/tenant/redirects, handle-rename на продукте/категории пишет 301 на каждую locale тенанта + коллизия хендла = invalid_data, PUT /tenants/seo-verification (yandex/google в tenant.metadata). Storefront: middleware матчит redirect-таблицу ДО локальной логики (точный путь, до 20 хопов, цикл = 508), sitemap.ts переведён с нативного /store/product-categories (НЕ tenant-scoped — реальный баг, тёк между тенантами) на /store/tenant/product-categories + добавлены tenant pages, Next verification meta-tags. Скрипт apps/backend/src/scripts/import-cherkashino-redirects.ts — идемпотентный импорт 47 строк из 02-mapping-registry.json (проверено: 47 written → повтор 0 written/47 present). Живьём проверено на своём временном стенде (DB upready_store_t11acc, backend :9111, storefront :8111, тенанты acme/globex/initech + cherkashino): meta-теги, 3 редиректа из импорта, цикл→508, sitemap acme vs cherkashino — 0 пересечений по products/categories/pages. tsc/lint зелёные везде (backend+storefront+panel), next build ок; backend test:unit 79/80 — один красный (profile-data.unit.spec.ts, i18n fr productOptions) НЕ мой, не трогал. НЕ сделано (в PR body): нет экрана панели для таблицы редиректов и seo-verification (только API), коллекции в sitemap не тенант-скоуплены (у Medusa нет tenant-collection линка вообще). Временный стенд остановлен, БД upready_store_t11acc дропнута."
+}

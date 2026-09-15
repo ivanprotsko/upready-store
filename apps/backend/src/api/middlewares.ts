@@ -10,6 +10,10 @@ import {
   retrieveTransformQueryConfig as retrieveCustomerQueryConfig,
 } from "@medusajs/medusa/api/admin/customers/query-config";
 import { AdminCustomerParams } from "@medusajs/medusa/api/admin/customers/validators";
+import {
+  TenantExportCustomersParams,
+  TenantGetCustomersParams,
+} from "./tenants/customers/validators";
 import { listTransformQueryConfig as listExchangeQueryConfig } from "@medusajs/medusa/api/admin/exchanges/query-config";
 import { listTransformQueryConfig as listFulfillmentProviderQueryConfig } from "@medusajs/medusa/api/admin/fulfillment-providers/query-config";
 import { AdminFulfillmentProvidersParams } from "@medusajs/medusa/api/admin/fulfillment-providers/validators";
@@ -156,6 +160,8 @@ import {
   PostTenantHandleSchema,
   PostTenantArticleSchema,
   PostTenantPageSchema,
+  PostTenantRedirectSchema,
+  PutTenantSeoVerificationSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantArticleSchema,
@@ -170,6 +176,9 @@ import {
   PostTenantShippingMethodUpdateSchema,
   PostTenantShippingSettingsSchema,
 } from "./tenants/shipping-methods/validators";
+// ---- t09-reviews: moderation body (tenant side) and the storefront's form.
+import { PostTenantReviewSchema } from "./tenants/reviews/validators";
+import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
@@ -751,6 +760,16 @@ export default defineMiddlewares({
       ],
     },
     {
+      matcher: "/tenants/customers",
+      method: ["GET"],
+      middlewares: [validateAndTransformQuery(TenantGetCustomersParams, { isList: true })],
+    },
+    {
+      matcher: "/tenants/customers/export",
+      method: ["POST"],
+      middlewares: [validateAndTransformQuery(TenantExportCustomersParams, { isList: true })],
+    },
+    {
       matcher: "/tenants/customers/:id",
       method: ["GET"],
       middlewares: [validateAndTransformQuery(AdminCustomerParams, retrieveCustomerQueryConfig)],
@@ -1062,6 +1081,20 @@ export default defineMiddlewares({
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantHandleSchema)],
     },
+    // t11-seo-redirects: the tenant's own redirect table
+    // (`/tenants/redirects/**`, read by the storefront at
+    // `/store/tenant/redirects` behind the framework's own publishable-key
+    // gate, no middleware needed there). `GET` and `DELETE` take no body.
+    {
+      matcher: "/tenants/redirects",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
+    },
+    {
+      matcher: "/tenants/seo-verification",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantSeoVerificationSchema)],
+    },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware
     // (actor type `user`), applied automatically to every custom route under
@@ -1140,6 +1173,28 @@ export default defineMiddlewares({
       matcher: "/store/shipping-methods/regions",
       method: ["GET"],
       middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+
+    // ---- t09-reviews: product reviews. The tenant side rides the
+    // "/tenants/*" authenticate above and needs a body schema for the one
+    // write verb (`DELETE` takes none, the two reads take query parameters the
+    // route parses itself). The storefront's read rides the framework's own
+    // publishable-key gate; its POST needs a customer on top of that, so it
+    // carries `authenticate("customer", …)` WITHOUT `allowUnauthenticated` —
+    // an anonymous visitor gets a 401 rather than a review with no author
+    // behind it.
+    {
+      matcher: "/tenants/reviews/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantReviewSchema)],
+    },
+    {
+      matcher: "/store/tenant/reviews",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        validateAndTransformBody(PostStoreReviewSchema),
+      ],
     },
   ],
 });
