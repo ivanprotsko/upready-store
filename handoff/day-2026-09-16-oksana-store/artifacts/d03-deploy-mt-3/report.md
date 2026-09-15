@@ -73,15 +73,35 @@
     - zubnaya-pasta-tayskaya-travyanaya-cherkashino → 200
     - mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino → 200
 
-## Не сделано на момент чекпойнта
+## Чекпойнт 3 (attempt 2, 2026-09-15 12:0x WITA) — сборка завершена, up -d в процессе
 
-- Подтверждение завершения сборки (`docker compose build`) и `docker compose up -d`.
-- Прогон миграций (`medusa db:migrate`) и бэкфиллов (`backfill-hero-copy`, `backfill-option-translations`).
+Сборка второго прогона (`mt-build-20260915-051707-v2.log`) завершилась успешно: `Image mt-backend:latest
+Built`, `Image mt-storefront:latest Built`, `Image mt-panel:latest Built`. `docker images … CreatedAt`:
+`mt-backend 2026-09-15 05:23:57 +0200 CEST`, `mt-storefront 2026-09-15 05:23:22 +0200 CEST`,
+`mt-panel 2026-09-15 05:19:30 +0200 CEST` — все три внутри окна этого прогона.
+
+`docker compose -p mt … up -d` (05:5x CEST): пересоздал `mt-backend`, `mt-panel`, `mt-storefront`, но
+завершился с `Error dependency backend failed to start` — compose стартовал `mt-backend` (миграции/сиды
+внутри контейнера занимают ~30 c дольше, чем compose ждал зависимость), а `mt-panel`/`mt-storefront`
+остались в состоянии `Created`, не запущены. Логи `mt-backend` (`docker logs mt-backend`) показывают
+штатный старт: все модули `Skipped. Database is up-to-date for module` (включая `tenant`, `product_review` —
+миграции волны 2 уже применены, повторных ошибок нет), сиды — no-op (`Sales channel "Kerbstone Sales
+Channel" was fully seeded … — skipping`). Контейнер сейчас `Up, health: starting` → далее healthy.
+
+Продолжение (то же продолжение сессии): дождаться `docker inspect --format='{{.Status.Health.Status}}'
+mt-backend` = `healthy`, затем повторить `docker compose -p mt -f deploy/compose.mt.yml --env-file
+deploy/mt/shipshift.env up -d` (не пересобирая) — эта команда поднимет `mt-panel`/`mt-storefront` из
+состояния `Created`, не трогая уже здоровый backend. После этого — бэкфиллы, health-sweep, пост-дамп,
+финальный отчёт.
+
+## Не сделано на момент этого чекпойнта
+
+- Запуск `mt-panel`/`mt-storefront` (сейчас `Created`, ждут healthy backend).
+- Бэкфиллы (`backfill-hero-copy`, `backfill-option-translations`).
 - Финальный health-sweep (5 платформенных URL + 5 карточек) ПОСЛЕ деплоя.
 - Дамп ПОСЛЕ деплоя.
-- Проверка `docker images … CreatedAt` внутри окна этого прогона.
+- Полный список PR дня — уже собран в чекпойнте 2 выше (см. таблицу), нужно свериться ещё раз перед финальным
+  отчётом на случай, если что-то смёржено за это время.
 
-Продолжение — та же сессия/повторный запуск того же промпта: код уже на хосте (rsync сделан), бэкап ДО
-деплоя есть, откатывать/повторять rsync не требуется — проверить состояние сборки
-(`ssh -n contabo 'tail -80 /opt/upready-store/mt-build-20260915-050851.log; pgrep -fl "docker compose -p mt"'`)
-и продолжить с `up -d`.
+Миграции (шаг 3 рецепта d02) уже подтверждены применёнными — `medusa db:migrate` при старте `mt-backend`
+отработал `Skipped. Database is up-to-date` по всем модулям, включая `tenant` и `product_review`.

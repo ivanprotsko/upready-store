@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T10:40:53+08:00",
-  "status": "2026-09-15 10:40 WITA: t17-analytics раунд 2 закрыт — конфликт с #36 разведён, произвольный период + пояс МСК добавлены, PR #37 MERGEABLE/CLEAN на ca929f5, ждёт раунда 3",
+  "updated": "2026-09-15T12:00:06+08:00",
+  "status": "2026-09-15 12:00 WITA: d03-deploy-mt-3 (headless -p, attempt 2) — сборка v2 завершена (образы mt-backend/storefront/panel Built, CreatedAt 05:19-05:24 CEST внутри окна), backend пересоздан и healthy (миграции волны 2 уже применены, сиды no-op), up -d оборвался на mt-panel/mt-storefront (Created, не запущены — backend не успел стать healthy до дедлайна compose), следующий шаг: повторить up -d без пересборки, затем бэкфиллы/health-sweep/пост-дамп/отчёт",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
