@@ -158,16 +158,24 @@ DB_HOST=localhost DB_PORT=5433 DB_USERNAME=ivanprotsko PORT=9610 pnpm test:integ
 | `pnpm check:backend-build` (гейт PR для `apps/backend`) | rc=0 |
 | seam `tenants-redirects` | `Tests: 9 passed, 9 total` |
 | seam `tenants-seo-verification` | `Tests: 8 passed, 8 total` |
-| seam `tenants-payment-settings` (задет `helpers.ts`) | `Tests: 1 failed, 7 passed, 8 total` — см. ниже |
+| seam `tenants-payment-settings` (задет `helpers.ts`) | `Tests: 8 passed, 8 total` |
 
-**Про красный тест в `tenants-payment-settings`.** Падает `accepts only a correctly signed Result
-webhook and then completes the cart into a paid order`: после вебхука `order_cart` пуст. Проверено,
-что это НЕ моя правка: тот же спек прогнан на коде базы (`git checkout HEAD~1 -- apps/backend`,
-прогон, `git checkout HEAD -- apps/backend`) — ровно тот же один тест красный,
-`Tests: 1 failed, 7 passed, 8 total`. Предсуществующий дефект, кандидат в отдельную задачу.
+Все три спека прогнаны на дереве ПОСЛЕ мержа `origin/dev` (мерж `a75c0c28`, база `b508bb9c`):
 
-Для запуска этого спека нужен `STORE_MEDIA_BASE_URL` — без него `POST /tenants/seed` в `beforeAll`
-отдаёт 500 и красными становятся все 8. Это не записано в `AGENTS.md`; отдельной строкой в нитках.
+```
+STORE_MEDIA_BASE_URL=… DB_HOST=localhost DB_PORT=5433 DB_USERNAME=ivanprotsko PORT=9610 \
+  pnpm test:integration:http -- "tenants-(redirects|seo-verification|payment-settings)"
+  Test Suites: 3 passed, 3 total
+  Tests:       25 passed, 25 total
+```
+
+До мержа один тест в `tenants-payment-settings` был красным (`accepts only a correctly signed Result
+webhook and then completes the cart into a paid order`). Проверено, что это не моя правка: тот же
+спек на коде базы (`git checkout HEAD~1 -- apps/backend`, прогон, `git checkout HEAD -- apps/backend`)
+падал ровно тем же одним тестом. Чинит его `b15-quality-debt` (#68), приехавший в `dev` мержем выше:
+в адрес покупателя добавлен `province`, без которого `completeCartWorkflow` отказывает в заказе.
+Там же в `.env.template` описан `STORE_PROFILES_MEDIA_BASE_URL`, без которого `POST /tenants/seed`
+в `beforeAll` отдавал 500 и красными становились все восемь.
 
 ## Что НЕ сделано и почему
 
