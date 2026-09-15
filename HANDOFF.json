@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T17:15:25+08:00",
-  "status": "2026-09-15 17:15 WITA: f16-category-image-not-shown — PR #54 открыт (MERGEABLE/CLEAN). Картинка категории теперь видна на её странице, плиткой в каталоге и на главной с ОДНОЙ загрузки; порог «минимум три» снят; в панели превью в форме и колонка «Изображение» в списке. Замерено на стенде :9046/:8046/:5196 (клон БД upready_store_f16), полный круг панель→витрина 1→0→1, tsc/lint/юниты (195) зелёные, next build зелёный. Прод не трогался.",
+  "updated": "2026-09-15T21:46:09+08:00",
+  "status": "2026-09-15 21:46 WITA: f18-f12-fixture-build (ветка fix/day16-f12-fixture-build, коммиты bd58db5+75062a3, запушена) — три приёмочные фикстуры (f12/t13/t17) вынесены из компилируемого apps/backend/src/scripts в apps/backend/scripts/fixtures (в tsconfig exclude), тип в f12 исправлен по схеме (tenant.products вместо несуществующего фильтра Product.sales_channels), класс закрыт: правило в AGENTS.md, pnpm check:backend-build / check:backend-fixtures, юнит-гейт src/scripts/__tests__/fixtures-outside-src.unit.spec.ts (красный на раскладке ba126e8, зелёный на ветке). Замеры: tsc rc=0, medusa lint rc=0, backend-часть medusa build успешна; полный medusa build догоняет admin-бандл. Осталось: дождаться rc полного build, открыть PR в dev, дописать workers.log. Чужой красный юнит profile-data.unit.spec.ts (productOptions, коммит 7e4ad3f) не мой — в PR отдельным пунктом.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
