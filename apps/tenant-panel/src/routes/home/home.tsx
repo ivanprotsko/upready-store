@@ -149,6 +149,13 @@ export const Home = () => {
           >
             {t("analyticsSettings.title")}
           </Link>
+          {/* w01-wb-readonly-client: the shop's Wildberries connection, read-only. */}
+          <Link
+            to="/settings/wildberries"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("wildberries.title")}
+          </Link>
           {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
           <Link
             to="/settings/branding"

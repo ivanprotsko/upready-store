@@ -1,0 +1,378 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+item-management#tag/listingItems :: list items
+item-management#tag/listings :: edit listings
+item-management#tag/categoriesSubcategoriesAndCharacteristics :: item categories, subcategories, characteristics, and brands
+item-management#tag/mediaFiles :: media files
+item-management#tag/labels :: labels
+item-management#tag/recommendations :: recommendations
+item-management#tag/pricesAndDiscounts :: prices and discounts
+item-management#tag/sellerWarehousesInventory :: item inventory
+item-management#tag/sellerWarehouses :: warehouses
+/en/sandbox :: sandbox
+/en/docs/openapi-other/sandbox-environment#tag/Item-Management :: special methods
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/Item-Management :: 
+item-management#tag/listingItems :: list items
+item-management#tag/listings :: edit listings
+item-management#tag/categoriesSubcategoriesAndCharacteristics :: item categories, subcategories, characteristics, and brands
+item-management#tag/mediaFiles :: media files
+item-management#tag/labels :: labels
+item-management#tag/recommendations :: recommendations
+item-management#tag/pricesAndDiscounts :: prices and discounts
+item-management#tag/sellerWarehousesInventory :: item inventory
+item-management#tag/sellerWarehouses :: warehouses
+/en/sandbox :: sandbox
+/en/docs/openapi-other/sandbox-environment#tag/Item-Management :: special methods
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/categoriesSubcategoriesAndCharacteristics :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectParentAll :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectAll :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectCharcsSubjectId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectoryColors :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectoryKinds :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectoryCountries :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectorySeasons :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectoryVat :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2DirectoryTnved :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/categoriesSubcategoriesAndCharacteristics/operation/getV1Brands :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/listingItems :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/listingItems/operation/getV2CardsLimits :: 
+item-management#tag/listings/operation/postV2GetCardsList :: listings
+item-management#tag/listings/operation/postV2GetCardsTrash :: listings that are in the trash
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/getV2CardsLimits :: getting limits for the listings
+item-management#tag/listings/operation/postV2CardsErrorList :: getting failed listings with errors
+/en/sandbox :: Sandbox
+#tag/listingItems/operation/postV2Barcodes :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+#tag/listingItems/operation/postV2CardsUpload :: 
+item-management#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectParentAll :: parent categories list
+item-management#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectAll :: the category and get all subcategories
+item-management#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectCharcsSubjectId :: the subcategory and get all available characteristics
+item-management#tag/categoriesSubcategoriesAndCharacteristics :: category
+item-management#tag/listings/operation/postV2CardsErrorList :: failed listing with errors
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: Merged
+#tag/listingItems/operation/postV2CardsUploadAdd :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+item-management#tag/listings/operation/postV2CardsErrorList :: failed listings with errors
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+#tag/listings :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/listings/operation/postV2GetCardsList :: 
+item-management#tag/listings/operation/postV2GetCardsTrash :: different method
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/big/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/big/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c246x328/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c246x328/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c516x688/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c516x688/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/square/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/square/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/tm/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/tm/1.webp
+https://videonme-basket-12.wbbasket.ru/vol137/part22557/225577433/hls/1440p/index.m3u8 :: https://videonme-basket-12.wbbasket.ru/vol137/part22557/225577433/hls/1440p/index.m3u8
+#tag/listings/operation/postV2CardsErrorList :: 
+https://seller.wildberries.ru/new-goods/error-cards :: drafts
+item-management#tag/listingItems/operation/postV2CardsUpload :: creation
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creation with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/getV2CardsLimits :: getting limits for the listings
+item-management#tag/listings/operation/postV2CardsErrorList :: getting failed listings with errors
+/en/sandbox :: Sandbox
+#tag/listings/operation/postV2CardsUpdate :: 
+item-management#tag/listings/operation/postV2GetCardsList :: Listings
+item-management#tag/listings/operation/postV2GetCardsTrash :: Listings in Trash
+item-management#tag/pricesAndDiscounts/operation/postV2UploadTask :: Set Prices and Discounts
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsFilter :: item
+item-management#tag/pricesAndDiscounts/operation/postV2UploadTaskSize :: Set Size Prices
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsFilter :: item
+item-management#tag/listings/operation/postV2CardsErrorList :: failed listings with errors
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://chestnyznak.ru/en :: Chestny ZNAK
+https://chestnyznak.ru/en :: Chestny ZNAK
+item-management#tag/listings/operation/postV2GetCardsList :: Listings
+https://seller.wildberries.ru/instructions/ru/ru/material/how-to-create-card :: Instructions
+item-management#tag/categoriesSubcategoriesAndCharacteristics/operation/getV2ObjectCharcsSubjectId :: Subcategory characteristics
+#tag/listings/operation/postV2CardsMoveNm :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merges and separates
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+#tag/listings/operation/postV2CardsDeleteTrash :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+https://seller.wildberries.ru/new-goods/basket-cards :: personal account
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/listings/operation/postV2CardsRecover :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged listing ID — doesn't remain the same as it was for the listing in the trash
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/listings/operation/postV2GetCardsTrash :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/listingItems/operation/postV2CardsUpload :: creating listings
+item-management#tag/listingItems/operation/postV2CardsUploadAdd :: creating listings with merge
+item-management#tag/listings/operation/postV2CardsUpdate :: editing listings
+item-management#tag/listings/operation/postV2CardsRecover :: recovering product card from trash
+item-management#tag/recommendations/operation/postV1RecommendationsList :: getting item recommendation list
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: setting item recommendations
+/en/sandbox :: Sandbox
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/big/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/big/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c246x328/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c246x328/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c516x688/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/c516x688/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/square/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/square/1.webp
+https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/tm/1.webp :: https://basket-10.wbbasket.ru/vol1592/part159206/159206280/images/tm/1.webp
+https://videonme-basket-12.wbbasket.ru/vol137/part22557/225577433/hls/1440p/index.m3u8 :: https://videonme-basket-12.wbbasket.ru/vol137/part22557/225577433/hls/1440p/index.m3u8
+#tag/mediaFiles :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/mediaFiles/operation/postV3MediaFile :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/mediaFiles/operation/postV3MediaSave :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+https://basket-stage-02.dasec.ru/vol669/part66964/66964260/images/big/2.jpg :: https://basket-stage-02.dasec.ru/vol669/part66964/66964260/images/big/2.jpg
+https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_mb.mp4 :: https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_mb.mp4
+#tag/labels :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/labels/operation/getV2Tags :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/labels/operation/postV2Tag :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/labels/operation/patchV2TagId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/labels/operation/deleteV2TagId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/labels/operation/postV2TagNomenclatureLink :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/recommendations :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+item-management#tag/recommendations/operation/postV1RecommendationsList :: Get
+item-management#tag/recommendations/operation/postV1RecommendationsSet :: Set
+https://seller.wildberries.ru/monetization/jam :: Jam
+https://seller.wildberries.ru/tariff-constructor :: Plan Builder
+#tag/recommendations/operation/postV1RecommendationsList :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/recommendations-v3 :: recommendations
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://basket-01.wbbasket.ru/vol58/part5870/5870243/images/c516x688/1.webp :: https://basket-01.wbbasket.ru/vol58/part5870/5870243/images/c516x688/1.webp
+https://basket-02.wbbasket.ru/vol174/part17405/17405826/images/tm/1.webp :: https://basket-02.wbbasket.ru/vol174/part17405/17405826/images/tm/1.webp
+https://basket-02.wbbasket.ru/vol174/part17420/17420062/images/tm/1.webp :: https://basket-02.wbbasket.ru/vol174/part17420/17420062/images/tm/1.webp
+#tag/recommendations/operation/postV1RecommendationsSet :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/recommendations-v3 :: recommendations
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/pricesAndDiscounts :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+item-management#tag/pricesAndDiscounts/operation/getV2HistoryTasks :: processed upload state
+item-management#tag/pricesAndDiscounts/operation/getV2HistoryGoodsTask :: processed upload details
+item-management#tag/pricesAndDiscounts/operation/getV2HistoryGoodsTask :: processed upload details
+promotion#tag/promoCalendar :: promo calendar
+item-management#tag/pricesAndDiscounts/operation/getV2BufferTasks :: unprocessed upload state
+item-management#tag/pricesAndDiscounts/operation/getV2BufferGoodsTask :: unprocessed upload details
+api-information#tag/authorization/Token-categories :: Content
+/en/sandbox :: sandbox
+#tag/pricesAndDiscounts/operation/postV2UploadTask :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+https://seller.wildberries.ru/instructions/ru/ru/material/price-quarantine#2ef3641a-5165-41db-9ac7-e4374c9fc3f1 :: threshold value
+https://seller.wildberries.ru/instructions/ru/ru/material/price-quarantine :: price quarantine
+item-management#tag/pricesAndDiscounts/operation/getV2HistoryGoodsTask :: upload details
+https://seller.wildberries.ru/discount-and-prices/quarantine :: your account
+#tag/pricesAndDiscounts/operation/postV2UploadTaskSize :: 
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsSizeNm :: Get item sizes with prices
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+item-management#tag/pricesAndDiscounts/operation/postV2UploadTaskSize :: size-based pricing
+https://seller.wildberries.ru/discount-and-prices/quarantine :: quarantine
+#tag/pricesAndDiscounts/operation/postV2UploadTaskClubDiscount :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/postV1UploadTaskB2bWholesale :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/pricesAndDiscounts/operation/getV2HistoryTasks :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2HistoryGoodsTask :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2BufferTasks :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2BufferGoodsTask :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2ListGoodsFilter :: 
+item-management#tag/pricesAndDiscounts/operation/postV2ListGoodsFilter :: more than one item by item number
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsSizeNm :: the size of the item
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/postV2ListGoodsFilter :: 
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsFilter :: all items without specifying item numbers
+item-management#tag/pricesAndDiscounts/operation/getV2ListGoodsSizeNm :: the size of the item
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2ListGoodsSizeNm :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/pricesAndDiscounts/operation/getV2QuarantineGoods :: 
+https://seller.wildberries.ru/instructions/ru/ru/material/price-quarantine#2ef3641a-5165-41db-9ac7-e4374c9fc3f1 :: threshold value
+https://seller.wildberries.ru/instructions/ru/ru/material/price-quarantine :: price quarantine
+item-management#tag/pricesAndDiscounts/operation/getV2HistoryGoodsTask :: upload details
+https://seller.wildberries.ru/discount-and-prices/quarantine :: personal account
+item-management#tag/pricesAndDiscounts/operation/postV2UploadTaskSize :: size-based pricing
+/sandbox :: sandbox
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/sellerWarehouses :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/sellerWarehouses/operation/getV3Offices :: 
+item-management#tag/sellerWarehouses/operation/postV3Warehouses :: create
+item-management#tag/sellerWarehouses/operation/putV3WarehousesWarehouseId :: edit
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/sellerWarehouses/operation/getV3Warehouses :: 
+item-management#tag/sellerWarehousesInventory :: item inventory
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/sellerWarehouses/operation/postV3Warehouses :: 
+item-management#tag/sellerWarehousesInventory :: item inventory
+orders-fbs :: FBS
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+item-management#tag/sellerWarehouses/operation/getV3Offices :: Office
+#tag/sellerWarehouses/operation/putV3WarehousesWarehouseId :: 
+item-management#tag/sellerWarehouses/operation/getV3Warehouses :: seller warehouse
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+item-management#tag/sellerWarehouses/operation/getV3Offices :: Office
+#tag/sellerWarehouses/operation/deleteV3WarehousesWarehouseId :: 
+item-management#tag/sellerWarehouses/operation/getV3Warehouses :: seller warehouse
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/sellerWarehouses/operation/getV3DbwWarehousesWarehouseIdContacts :: 
+orders-dbw :: DBW
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerWarehouses/operation/putV3DbwWarehousesWarehouseIdContacts :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerWarehousesInventory :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items :: instructions
+#tag/sellerWarehousesInventory/operation/putV3StocksWarehouseId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/sellerWarehousesInventory/operation/deleteV3StocksWarehouseId :: deleting inventory
+/en/sandbox :: Sandbox
+#tag/sellerWarehousesInventory/operation/deleteV3StocksWarehouseId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/sandbox :: Sandbox
+#tag/sellerWarehousesInventory/operation/postV3StocksWarehouseId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+item-management#tag/sellerWarehousesInventory/operation/deleteV3StocksWarehouseId :: deleting inventory
+/en/sandbox :: Sandbox
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies
