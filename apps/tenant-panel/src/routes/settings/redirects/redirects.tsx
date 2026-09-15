@@ -113,51 +113,6 @@ export const Redirects = () => {
           </Text>
         </div>
 
-        {redirects.length > 10 ? (
-          <div className="flex items-center gap-x-3 px-6 py-3">
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder={t("redirects.searchPlaceholder")}
-              className="w-[320px]"
-            />
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("redirects.counter", {
-                shown: visible.length,
-                total: redirects.length,
-              })}
-            </Text>
-          </div>
-        ) : null}
-
-        {redirects.length ? (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
-                <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
-                <Table.HeaderCell />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {visible.map((redirect) => (
-                <RedirectRow
-                  key={redirect.id}
-                  redirect={redirect}
-                  primaryHost={shopOrigin}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        ) : (
-          <div className="px-6 py-6">
-            <Text size="small" className="text-ui-fg-subtle">
-              {t("redirects.empty")}
-            </Text>
-          </div>
-        )}
-
         <form
           onSubmit={handleCreate}
           className="flex flex-wrap items-end gap-x-3 gap-y-3 px-6 py-4"
@@ -204,13 +159,54 @@ export const Redirects = () => {
           <Button size="small" type="submit" isLoading={isCreating}>
             <Plus /> {t("redirects.addAction")}
           </Button>
-        </form>
-
-        <div className="px-6 py-4">
-          <Text size="small" className="text-ui-fg-subtle">
+          <Text size="small" className="text-ui-fg-subtle basis-full">
             {t("redirects.hint")}
           </Text>
-        </div>
+        </form>
+        {redirects.length > 10 ? (
+          <div className="flex items-center gap-x-3 px-6 py-3">
+            <Input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder={t("redirects.searchPlaceholder")}
+              className="w-[320px]"
+            />
+            <Text size="small" className="text-ui-fg-subtle">
+              {t("redirects.counter", {
+                shown: visible.length,
+                total: redirects.length,
+              })}
+            </Text>
+          </div>
+        ) : null}
+
+        {redirects.length ? (
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>{t("redirects.columnFrom")}</Table.HeaderCell>
+                <Table.HeaderCell>{t("redirects.columnTo")}</Table.HeaderCell>
+                <Table.HeaderCell>{t("redirects.columnKind")}</Table.HeaderCell>
+                <Table.HeaderCell />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {visible.map((redirect) => (
+                <RedirectRow
+                  key={redirect.id}
+                  redirect={redirect}
+                  primaryHost={shopOrigin}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        ) : (
+          <div className="px-6 py-6">
+            <Text size="small" className="text-ui-fg-subtle">
+              {t("redirects.empty")}
+            </Text>
+          </div>
+        )}
       </Container>
     </SingleColumnPage>
   )
