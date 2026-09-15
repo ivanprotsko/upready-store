@@ -471,3 +471,93 @@ rc=0
 | `node tools/test-methods/tm.mjs verify all` | `20/20 evidence cases hold`, rc=0 |
 | `node tools/test-methods/tm.mjs run all` | tm-001/002/003 GREEN, new=0, known=1, stale=0, rc=0 |
 | `node tools/test-methods/tm.mjs run all --strict` | tm-002 RED 1, остальные GREEN, rc=1 |
+
+---
+
+# Раунд 4 — правки по приёмке (2026-09-15 23:03 WITA)
+
+## 1. БЛОКЕР: PR снова конфликтовал с `dev` — закрыт, и петля разорвана
+
+Пока шёл раунд 3, в `dev` въехали PR #57 (`b01-owner-numbers`) и PR #58 (`b03-shipping-zones-weight`),
+и оба переписали шапку `HANDOFF.json`.
+
+По указанию штаба (аддендум к раунду 3) конфликт разрешён иначе, чем в прошлые разы: **сторона
+`origin/dev` взята целиком, своя строка статуса НЕ возвращена**. Ветка задачи не должна нести
+изменений `HANDOFF.json` вообще — иначе каждый смерженный PR снова делает её `CONFLICTING`
+(ровно это и провалило раунды 2 и 3).
+
+```
+$ git fetch origin dev && git merge origin/dev          # CONFLICT (content): HANDOFF.json
+$ git checkout origin/dev -- HANDOFF.json
+$ git add -- HANDOFF.json && git commit --no-edit       # c77bf99d
+```
+
+Замер после — ветка больше не трогает общий файл:
+
+```
+$ git diff origin/dev HEAD -- HANDOFF.json | wc -l
+0
+$ git log --oneline origin/dev..HEAD -- HANDOFF.json
+   (пусто — ни одного своего коммита по этому файлу)
+$ gh pr view 56 --json headRefOid,mergeable,mergeStateStatus
+{"headRefOid":"c77bf99debc9f99f6e1e980e891172605d680306","mergeStateStatus":"CLEAN","mergeable":"MERGEABLE"}
+```
+
+Статус задачи при этом не потерян: он ведётся диспетчером (`state.json` / `REPORT.md`), а на ветке
+лежит свой журнал `handoff/feat-day16-test-methods-pilot/s-2026-09-15/`, который ни с чем не
+конфликтует.
+
+## 2. Нит для штаба (конфликт по `HANDOFF.json` — это класс) — решён штабом, здесь исполнено
+
+Решение принял штаб тем же аддендумом: ветка задачи не несёт `HANDOFF.json`. Выполнено выше.
+
+## 3. Нит: CLI молча ничего не делал при вызове через симлинк-путь — починено
+
+Претензия верная и воспроизведена до правки:
+
+```
+$ cp -R tools/test-methods /tmp/tm-symlink-probe
+$ node /tmp/tm-symlink-probe/tm.mjs list          # /tmp — симлинк на /private/tmp
+   пустой вывод, rc=0
+$ node /private/tmp/tm-symlink-probe/tm.mjs list  # тот же файл реальным путём
+   таблица из трёх методов, rc=0
+```
+
+Причина — определение точки входа сравнивало НАПИСАНИЯ пути: `path.resolve(process.argv[1]) ===
+path.resolve(fileURLToPath(import.meta.url))`. Два написания одного и того же файла — вещь рядовая,
+а «ноль вывода при rc=0» неотличимо от «нечего сообщить» (20a) — худший отказ для инструмента,
+вся работа которого в том, чтобы сообщать.
+
+Правка: вопрос задаётся рантайму, где он умеет отвечать (`import.meta.main`, Node 24+), и
+ФАЙЛОВОЙ СИСТЕМЕ там, где не умеет — через `fs.realpathSync`, который разворачивает симлинки по
+всему пути. Сравнение вынесено в экспорт `sameFile(a, b)`, чтобы ветку для Node 20.19/22.12 из
+`engines` репозитория можно было проверить напрямую.
+
+Замер после правки (`measure/15-entrypoint-symlink.txt`):
+
+```
+$ cp -R tools/test-methods /tmp/tm-sym-after
+$ node /tmp/tm-sym-after/tm.mjs list
+ID      KIND    WHEN         FROM BUG                      CLASS
+tm-001  static  before-task  f17-backend-image-sharp       …
+tm-002  static  acceptance   f16-category-image-not-shown  …
+tm-003  static  before-task  f12-owner-raw-keys            …
+rc=0
+$ node /private/tmp/tm-sym-after/tm.mjs list      # то же самое, rc=0
+```
+
+Закреплено двумя тестами: прогон CLI через симлинк на каталог инструмента обязан печатать листинг;
+`sameFile` считает один файл под двумя написаниями одним файлом, разные файлы — разными, а
+несуществующий путь не роняет вызов. Юнит-тестов в сюите стало 29 вместо 27 — добавил две проверки
+на этот класс, проходят все 29.
+
+## Итог замеров на `c77bf99d`
+
+| команда | результат |
+|---|---|
+| `gh pr view 56 --json mergeable,mergeStateStatus` | `MERGEABLE` / `CLEAN` |
+| `git diff origin/dev HEAD -- HANDOFF.json \| wc -l` | `0` — ветка общий файл не трогает |
+| `node --test tools/test-methods/__tests__/` | `tests 29 / pass 29 / fail 0`, rc=0 |
+| `node tools/test-methods/tm.mjs verify all` | `20/20 evidence cases hold`, rc=0 |
+| `node tools/test-methods/tm.mjs run all` | tm-001/002/003 GREEN, new=0, known=1, stale=0, rc=0 |
+| `node tools/test-methods/tm.mjs run all --strict` | tm-002 RED 1, остальные GREEN, rc=1 |
