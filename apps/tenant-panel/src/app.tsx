@@ -757,6 +757,18 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/login"),
           },
           {
+            // f14-no-password-reset: request half of the flow, linked from
+            // the login screen.
+            path: "/forgot-password",
+            lazy: () => import("./routes/forgot-password"),
+          },
+          {
+            // f14-no-password-reset: the screen the reset email's link
+            // points at (`?token=…&email=…`).
+            path: "/reset-password",
+            lazy: () => import("./routes/reset-password"),
+          },
+          {
             path: "*",
             lazy: () => import("./routes/no-match"),
           },

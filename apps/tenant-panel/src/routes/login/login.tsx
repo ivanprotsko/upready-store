@@ -13,10 +13,11 @@ import { hasEmailPassProvider } from "./utils"
 // SSO auth providers for the `tenant` actor type), MFA state and
 // `MfaChallengeCard` (the tenant contract has no MFA — `EmailPassLogin` keeps
 // its `onMfaChallenge` prop, passed a no-op below, so that file stays
-// byte-for-byte identical to upstream), and the reset-password link (no
-// `/reset-password` route in the panel). The post-login redirect default
-// moves from `/orders` to `/` inside `components/email-pass-login.tsx`
-// itself, which owns the actual `navigate()` call.
+// byte-for-byte identical to upstream). The post-login redirect default moves
+// from `/orders` to `/` inside `components/email-pass-login.tsx` itself,
+// which owns the actual `navigate()` call. The reset-password link
+// (f14-no-password-reset) lives inside that same file, next to the password
+// field it sits under, and points at `routes/forgot-password`.
 export const Login = () => {
   const { t } = useTranslation()
 

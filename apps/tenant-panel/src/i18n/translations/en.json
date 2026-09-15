@@ -3002,7 +3002,8 @@
     "successfulReset": "Please login in on the login page.",
     "successfulResetTitle": "Password reset successful",
     "title": "Reset password",
-    "tokenExpiresIn": "Token expires in <0>{{time}}</0> minutes"
+    "tokenExpiresIn": "Token expires in <0>{{time}}</0> minutes",
+    "mailNotConfigured": "This platform cannot send email right now (no mail server configured). Write to us at {{email}} and we will reset your password by hand."
   },
   "returnReasons": {
     "calloutHint": "Manage the reasons to categorize returns.",

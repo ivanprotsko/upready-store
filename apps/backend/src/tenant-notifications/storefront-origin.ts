@@ -108,3 +108,24 @@ export const panelOrderUrl = (
 
   return `${base.replace(/\/$/, "")}/orders/${orderId}`;
 };
+
+/**
+ * The panel's own reset-password screen for one tenant admin
+ * (f14-no-password-reset). Same `PANEL_PUBLIC_URL`/`DEMO_PANEL_URL` fallback
+ * as {@link panelOrderUrl}, and the same "no base set means no link" contract:
+ * `subscribers/password-reset-email.ts` logs and skips the send rather than
+ * mailing a broken URL.
+ */
+export const panelResetPasswordUrl = (
+  token: string,
+  email: string,
+  env: NodeJS.ProcessEnv = process.env,
+): string | null => {
+  const base = env.PANEL_PUBLIC_URL || env.DEMO_PANEL_URL;
+
+  if (!base) {
+    return null;
+  }
+
+  return `${base.replace(/\/$/, "")}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+};
