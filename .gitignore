@@ -79,6 +79,9 @@ artifacts/media/*/*
 # shoot.log and manifest.json (siblings, not under shots/) stay tracked as documents.
 artifacts/docs/contact-sheet/shots/
 artifacts/docs/f06-shipping-method-names/shots/
+artifacts/docs/f10-price-save-silently-lost/shots/
+# Playwright session state of the shop owner (cookies): never in git.
+artifacts/docs/f10-price-save-silently-lost/.state-*.json
 
 # Stand index screenshots (t-store-profiles-pilot): binaries never enter git.
 # build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
