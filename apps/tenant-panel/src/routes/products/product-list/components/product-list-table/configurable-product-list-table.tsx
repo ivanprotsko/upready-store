@@ -15,8 +15,8 @@ export const ConfigurableProductListTable = () => {
         adapter={adapter}
         heading={t("products.domain")}
         actions={[
-          { label: t("actions.export"), to: `export${location.search}` },
-          { label: t("actions.import"), to: `import${location.search}` },
+          { label: t("products.csv.exportAction"), to: `export${location.search}` },
+          { label: t("products.csv.importAction"), to: `import${location.search}` },
           { label: t("actions.create"), to: "create" },
         ]}
       />

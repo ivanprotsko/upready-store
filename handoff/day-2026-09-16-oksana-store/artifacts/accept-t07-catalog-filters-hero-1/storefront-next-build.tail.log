@@ -1,0 +1,40 @@
+├ ƒ /[locale]/order/[id]/transfer/[token]          4.62 kB         126 kB
+├ ƒ /[locale]/order/[id]/transfer/[token]/accept     357 B         115 kB
+├ ƒ /[locale]/order/[id]/transfer/[token]/decline    357 B         115 kB
+├ ƒ /[locale]/pages/[key]                           2.1 kB         120 kB
+├ ƒ /[locale]/privacy                                357 B         115 kB
+├ ƒ /[locale]/products/[handle]                    8.88 kB         165 kB
+├ ƒ /[locale]/reset-password                       4.28 kB         135 kB
+├ ƒ /[locale]/returns                                357 B         115 kB
+├ ƒ /[locale]/shipping                               357 B         115 kB
+├ ƒ /[locale]/store                                  300 B         222 kB
+├ ƒ /[locale]/terms                                  357 B         115 kB
+├ ƒ /api/demo/onboarding                             162 B         103 kB
+├ ƒ /api/demo/pay                                    162 B         103 kB
+├ ƒ /api/payment-return                              357 B         115 kB
+├ ƒ /api/revalidate                                  162 B         103 kB
+├ ƒ /api/studio/settings                             357 B         115 kB
+├ ƒ /api/studio/unlock                               162 B         103 kB
+├ ƒ /healthz                                         162 B         103 kB
+├ ○ /icon.svg                                          0 B            0 B
+├ ƒ /llms.txt                                        357 B         115 kB
+├ ○ /opengraph-image.png                               0 B            0 B
+├ ƒ /robots.txt                                      162 B         103 kB
+├ ƒ /sitemap.xml                                     162 B         103 kB
+├ ƒ /start                                           222 B         107 kB
+├ ƒ /start/onboarding                              4.62 kB         111 kB
+├ ƒ /start/pay                                     3.38 kB         110 kB
+├ ƒ /start/plan                                      222 B         107 kB
+├ ƒ /start/service                                   222 B         107 kB
+└ ○ /twitter-image.png                                 0 B            0 B
++ First Load JS shared by all                       103 kB
+  ├ chunks/34c212fd-2e6c5b59c032e9c3.js            54.3 kB
+  ├ chunks/6032-acca1313c814180f.js                46.6 kB
+  └ other shared chunks (total)                    2.12 kB
+
+
+ƒ Middleware                                       38.1 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

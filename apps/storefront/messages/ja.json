@@ -62,6 +62,11 @@
     "description": "配送先住所の確認・更新ができ、いくつでも追加登録できます。登録した住所はチェックアウト時に利用できます。",
     "heading": "配送先住所"
   },
+  "AnalyticsConsent": {
+    "message": "訪問者がこのサイトをどのように利用しているかを把握するためにCookieを使用しています。",
+    "accept": "同意する",
+    "decline": "拒否する"
+  },
   "Breadcrumb": {
     "home": "ホーム",
     "store": "ストア"
@@ -306,8 +311,12 @@
     "unauthorized": "続行するにはサインインしてください。"
   },
   "Filters": {
+    "from": "最小",
+    "no": "いいえ",
     "sort": "並び替え",
-    "title": "フィルター"
+    "title": "フィルター",
+    "to": "最大",
+    "yes": "はい"
   },
   "Footer": {
     "categoriesHeading": "カテゴリー",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "画像 {index} へ移動",
     "openFullImage": "画像を拡大表示"
+  },
+  "Journal": {
+    "navLabel": "読みもの",
+    "feedTitle": "読みもの",
+    "feedDescription": "{siteName}の記事。",
+    "empty": "記事はまだありません。",
+    "backToFeed": "記事一覧",
+    "previous": "前へ",
+    "next": "次へ",
+    "pageOf": "{lastPage} ページ中 {page} ページ",
+    "pagination": "読みもののページ"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "詳細を見る"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "注文番号を保管してください。ショップへのお問い合わせの際に必要です。",
     "orderSuccess": "ご注文が完了しました。",
     "thankYou": "ありがとうございます！"
   },
   "OrderDetails": {
     "backToOrders": "注文一覧に戻る",
-    "confirmationSentBefore": "注文確認の詳細を以下の宛先にお送りしました：",
+    "contactEmailBefore": "このご注文の連絡先アドレス",
     "fulfillmentStatuses": {
       "canceled": "キャンセル済み",
       "delivered": "配達済み",
@@ -686,6 +707,11 @@
     "selectOptions": "オプションを選択",
     "selectVariant": "バリエーションを選択"
   },
+  "ProductAttributes": {
+    "no": "いいえ",
+    "title": "仕様",
+    "yes": "はい"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",
     "continueSetup": "管理画面でストアの設定を続けることができます。",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "すべて見る"
+  },
+  "ProductReviews": {
+    "heading": "レビュー",
+    "ratingSummary": "5段階中{average} · {count, plural, other {#件のレビュー}}",
+    "ratingValue": "5段階中{value}",
+    "formHeading": "あなたのレビュー",
+    "ratingLabel": "評価",
+    "nameLabel": "お名前",
+    "titleLabel": "タイトル（任意）",
+    "bodyLabel": "レビュー本文",
+    "submit": "レビューを送信",
+    "pendingNotice": "ありがとうございます。ショップの承認後にレビューが表示されます。",
+    "signInPrompt": "レビューを書くにはログインしてください。",
+    "error": "レビューを送信できませんでした。もう一度お試しください。",
+    "ownerReply": "ショップからの返信",
+    "previousPage": "前へ",
+    "nextPage": "次へ",
+    "pageOf": "{pages}ページ中{page}ページ"
   },
   "ProductTabs": {
     "easyReturns": "簡単な返品",
@@ -813,7 +857,8 @@
       "account": "アカウント",
       "cart": "カート",
       "home": "ホーム",
-      "store": "ストア"
+      "store": "ストア",
+      "journal": "読みもの"
     },
     "menuButton": "メニュー"
   },

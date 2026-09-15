@@ -5,6 +5,7 @@ import { Container, Heading, Text } from "@medusajs/ui"
 import { SingleColumnPage } from "../../components/layout/pages"
 import { useMe } from "../../hooks/api/users"
 import { PublishableKey } from "./publishable-key"
+import { SalesSummary } from "./sales-summary"
 
 // tenant-panel: the panel's own Overview page (piece-1 prompt, item 6). Not a
 // copy of the Admin's routes/home/home.tsx, which renders a widget-injected
@@ -109,7 +110,24 @@ export const Home = () => {
           >
             Реквизиты продавца
           </Link>
+          {/* t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids. */}
+          <Link
+            to="/settings/analytics"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("analyticsSettings.title")}
+          </Link>
+          {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
+          <Link
+            to="/settings/branding"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("brandingSettings.title", { defaultValue: "Бренд" })}
+          </Link>
         </div>
+        {/* t17-analytics step 5: revenue, order count and AOV over a period
+            the owner picks, computed from the tenant's own orders. */}
+        <SalesSummary />
       </Container>
     </SingleColumnPage>
   )

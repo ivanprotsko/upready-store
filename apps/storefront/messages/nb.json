@@ -62,6 +62,11 @@
     "description": "Se og oppdater leveringsadressene dine, du kan legge til så mange du vil. Lagrede adresser vil være tilgjengelige ved utsjekking.",
     "heading": "Leveringsadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi bruker informasjonskapsler for å forstå hvordan besøkende bruker dette nettstedet.",
+    "accept": "Godta",
+    "decline": "Avvis"
+  },
   "Breadcrumb": {
     "home": "Hjem",
     "store": "Butikk"
@@ -306,8 +311,12 @@
     "unauthorized": "Vennligst logg inn for å fortsette."
   },
   "Filters": {
+    "from": "fra",
+    "no": "Nei",
     "sort": "Sorter",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "til",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Gå til bilde {index}",
     "openFullImage": "Åpne bildet i full størrelse"
+  },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artikler fra {siteName}.",
+    "empty": "Ingen artikler ennå.",
+    "backToFeed": "Alle artikler",
+    "previous": "Forrige",
+    "next": "Neste",
+    "pageOf": "Side {page} av {lastPage}",
+    "pagination": "Magasinsider"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Se detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Ta vare på bestillingsnummeret. Du trenger det når du kontakter butikken.",
     "orderSuccess": "Bestillingen din ble fullført.",
     "thankYou": "Takk!"
   },
   "OrderDetails": {
     "backToOrders": "Tilbake til bestillinger",
-    "confirmationSentBefore": "Vi har sendt bestillingsbekreftelsen til",
+    "contactEmailBefore": "Kontaktadressen for denne bestillingen er",
     "fulfillmentStatuses": {
       "canceled": "Kansellert",
       "delivered": "Levert",
@@ -686,6 +707,11 @@
     "selectOptions": "Velg alternativer",
     "selectVariant": "Velg variant"
   },
+  "ProductAttributes": {
+    "no": "Nei",
+    "title": "Spesifikasjoner",
+    "yes": "Ja"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",
     "continueSetup": "Du kan nå fortsette å sette opp butikken din i admin.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Se alle"
+  },
+  "ProductReviews": {
+    "heading": "Anmeldelser",
+    "ratingSummary": "{average} av 5 · {count, plural, one {# anmeldelse} other {# anmeldelser}}",
+    "ratingValue": "{value} av 5",
+    "formHeading": "Din anmeldelse",
+    "ratingLabel": "Vurdering",
+    "nameLabel": "Navnet ditt",
+    "titleLabel": "Overskrift (valgfritt)",
+    "bodyLabel": "Teksten din",
+    "submit": "Send anmeldelse",
+    "pendingNotice": "Takk. Anmeldelsen vises når butikken har godkjent den.",
+    "signInPrompt": "Logg inn for å skrive en anmeldelse.",
+    "error": "Anmeldelsen kunne ikke sendes. Prøv igjen.",
+    "ownerReply": "Svar fra butikken",
+    "previousPage": "Forrige",
+    "nextPage": "Neste",
+    "pageOf": "Side {page} av {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Enkel retur",
@@ -813,7 +857,8 @@
       "account": "Konto",
       "cart": "Handlekurv",
       "home": "Hjem",
-      "store": "Butikk"
+      "store": "Butikk",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },

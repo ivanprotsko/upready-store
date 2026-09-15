@@ -2,6 +2,8 @@ import { Suspense } from "react"
 import { getTranslations } from "next-intl/server"
 
 import type { OptionValueIds } from "@lib/util/product-option-filters"
+import type { AttributeSelection } from "@lib/util/product-attribute-filters"
+import { listProductAttributeFacets } from "@lib/data/product-attributes"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import RefinementList from "@modules/store/components/refinement-list"
@@ -19,18 +21,22 @@ const StoreTemplate = async ({
   page,
   countryCode,
   optionValueIds,
+  attributeSelection,
 }: {
   sortBy?: SortOptions
   page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
+  /** The shop's own characteristics picked in the URL, t15-product-attributes. */
+  attributeSelection?: AttributeSelection
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
-  const [t, categories, optionFilters] = await Promise.all([
+  const [t, categories, optionFilters, attributeFacets] = await Promise.all([
     getTranslations(),
     listCategories(),
     listProductOptionFilters(),
+    listProductAttributeFacets({ selection: attributeSelection }),
   ])
 
   return (
@@ -53,6 +59,7 @@ const StoreTemplate = async ({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
         </div>
@@ -61,6 +68,7 @@ const StoreTemplate = async ({
             sortBy={sort}
             display="filters"
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
           />
           <RefinementList
             sortBy={sort}
@@ -79,6 +87,7 @@ const StoreTemplate = async ({
               page={pageNumber}
               countryCode={countryCode}
               optionValueIds={optionValueIds}
+              attributeProductIds={attributeFacets.productIds}
             />
           </Suspense>
         </div>

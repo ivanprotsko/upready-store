@@ -62,6 +62,11 @@
     "description": "Хүргэлтийн хаягуудаа харах, шинэчлэх боломжтой бөгөөд хүссэн хэмжээгээрээ нэмж болно. Хадгалсан хаягууд захиалга хийх үед боломжтой байх болно.",
     "heading": "Хүргэлтийн хаягууд"
   },
+  "AnalyticsConsent": {
+    "message": "Зочид энэ сайтыг хэрхэн ашиглаж байгааг ойлгохын тулд бид күүки ашигладаг.",
+    "accept": "Зөвшөөрөх",
+    "decline": "Татгалзах"
+  },
   "Breadcrumb": {
     "home": "Нүүр",
     "store": "Дэлгүүр"
@@ -306,8 +311,12 @@
     "unauthorized": "Үргэлжлүүлэхийн тулд нэвтэрнэ үү."
   },
   "Filters": {
+    "from": "-с",
+    "no": "Үгүй",
     "sort": "Эрэмбэлэх",
-    "title": "Шүүлтүүр"
+    "title": "Шүүлтүүр",
+    "to": "хүртэл",
+    "yes": "Тийм"
   },
   "Footer": {
     "categoriesHeading": "Ангилал",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "{index}-р зураг руу очих",
     "openFullImage": "Бүтэн зургийг нээх"
+  },
+  "Journal": {
+    "navLabel": "Сэтгүүл",
+    "feedTitle": "Сэтгүүл",
+    "feedDescription": "{siteName}-ийн нийтлэлүүд.",
+    "empty": "Одоогоор нийтлэл алга.",
+    "backToFeed": "Бүх нийтлэл",
+    "previous": "Өмнөх",
+    "next": "Дараах",
+    "pageOf": "{lastPage}-аас {page}-р хуудас",
+    "pagination": "Сэтгүүлийн хуудсууд"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Дэлгэрэнгүй харах"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Захиалгын дугаараа хадгална уу. Дэлгүүртэй холбогдоход шаардлагатай.",
     "orderSuccess": "Таны захиалга амжилттай баталгаажлаа.",
     "thankYou": "Баярлалаа!"
   },
   "OrderDetails": {
     "backToOrders": "Захиалга руу буцах",
-    "confirmationSentBefore": "Захиалгын баталгаажуулах дэлгэрэнгүй мэдээллийг дараах хаяг руу илгээсэн",
+    "contactEmailBefore": "Энэ захиалгын холбоо барих хаяг",
     "fulfillmentStatuses": {
       "canceled": "Цуцалсан",
       "delivered": "Хүргэсэн",
@@ -686,6 +707,11 @@
     "selectOptions": "Сонголт хийх",
     "selectVariant": "Хувилбар сонгох"
   },
+  "ProductAttributes": {
+    "no": "Үгүй",
+    "title": "Үзүүлэлт",
+    "yes": "Тийм"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",
     "continueSetup": "Одоо та админ хэсэгт дэлгүүрийн тохиргоог үргэлжлүүлж болно.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Бүгдийг харах"
+  },
+  "ProductReviews": {
+    "heading": "Сэтгэгдэл",
+    "ratingSummary": "5-аас {average} · {count, plural, one {# сэтгэгдэл} other {# сэтгэгдэл}}",
+    "ratingValue": "5-аас {value}",
+    "formHeading": "Таны сэтгэгдэл",
+    "ratingLabel": "Үнэлгээ",
+    "nameLabel": "Таны нэр",
+    "titleLabel": "Гарчиг (заавал биш)",
+    "bodyLabel": "Сэтгэгдлийн текст",
+    "submit": "Сэтгэгдэл илгээх",
+    "pendingNotice": "Баярлалаа. Дэлгүүр баталсны дараа сэтгэгдэл харагдана.",
+    "signInPrompt": "Сэтгэгдэл үлдээхийн тулд нэвтэрнэ үү.",
+    "error": "Сэтгэгдэл илгээгдсэнгүй. Дахин оролдоно уу.",
+    "ownerReply": "Дэлгүүрийн хариу",
+    "previousPage": "Өмнөх",
+    "nextPage": "Дараах",
+    "pageOf": "{pages}-аас {page} хуудас"
   },
   "ProductTabs": {
     "easyReturns": "Хялбар буцаалт",
@@ -813,7 +857,8 @@
       "account": "Профайл",
       "cart": "Сагс",
       "home": "Нүүр",
-      "store": "Дэлгүүр"
+      "store": "Дэлгүүр",
+      "journal": "Сэтгүүл"
     },
     "menuButton": "Цэс"
   },

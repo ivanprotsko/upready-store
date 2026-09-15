@@ -61,6 +61,21 @@
       "label": "Адрес доставки"
     }
   },
+  "analyticsSettings": {
+    "title": "Аналитика",
+    "subtitle": "собственные счётчики на вашей витрине",
+    "yandexMetrica": {
+      "label": "Номер счётчика Яндекс Метрики",
+      "hint": "номер из кабинета Метрики, только цифры"
+    },
+    "ga4": {
+      "label": "Идентификатор GA4",
+      "hint": "начинается с G-, из свойства Google Analytics 4"
+    },
+    "save": "Сохранить",
+    "loading": "Загрузка…",
+    "saved": "Настройки аналитики сохранены"
+  },
   "apiKeyManagement": {
     "actions": {
       "copy": "Копировать API-ключ",
@@ -212,10 +227,12 @@
         "extensions": "Расширения"
       },
       "main": {
+        "reviews": "Отзывы",
         "shipping": "Доставка",
         "homeSettings": "Главная страница",
         "overview": "Обзор",
         "pages": "Страницы",
+        "journal": "Журнал",
         "store": "Магазин",
         "storeSettings": "Настройки магазина"
       },
@@ -536,16 +553,31 @@
       "successToast": "Клиент {{email}} успешно удален.",
       "title": "Удалить клиента"
     },
+    "detail": {
+      "addressesHeading": "Адреса",
+      "noAddresses": "У этого клиента нет сохранённых адресов.",
+      "noOrders": "У этого клиента ещё нет заказов."
+    },
     "domain": "Клиенты",
     "edit": {
       "emailDisabledTooltip": "Email нельзя изменить для зарегистрированных клиентов.",
       "header": "Редактировать клиента",
       "successToast": "Клиент {{email}} успешно обновлен."
     },
+    "export": {
+      "success": {
+        "description_few": "Файл содержит {{count}} клиентов.",
+        "description_many": "Файл содержит {{count}} клиентов.",
+        "description_one": "Файл содержит {{count}} клиента.",
+        "description_other": "Файл содержит {{count}} клиентов.",
+        "title": "CSV готов"
+      }
+    },
     "fields": {
       "groups": "Группы",
       "guest": "Гость",
-      "registered": "Зарегистрирован"
+      "registered": "Зарегистрирован",
+      "totalSpent": "Сумма покупок"
     },
     "groups": {
       "add": {
@@ -832,6 +864,8 @@
     "sales_channels": "Каналы продаж",
     "search": "Поиск",
     "selectCountry": "Выберите страну",
+    "seoDescription": "Описание для поиска",
+    "seoTitle": "Заголовок для поиска",
     "sent": "Отправлено",
     "shipping": "Доставка",
     "shippingMethod": "Способ доставки",
@@ -2122,6 +2156,10 @@
         "heading": "Нет вариантов"
       },
       "header": "Варианты"
+    },
+    "csv": {
+      "exportAction": "Выгрузить CSV",
+      "importAction": "Загрузить CSV"
     }
   },
   "profile": {
@@ -2480,6 +2518,27 @@
     "tooltip": {
       "cannotDeleteDefault": "Нельзя удалить канал продаж по умолчанию"
     }
+  },
+  "salesSummary": {
+    "title": "Продажи",
+    "period": {
+      "today": "Сегодня",
+      "7d": "7 дней",
+      "30d": "30 дней",
+      "custom": "Произвольный"
+    },
+    "customFrom": "с",
+    "customTo": "по",
+    "pickRange": "Выберите обе даты, чтобы увидеть сводку",
+    "revenue": "Выручка",
+    "orders": "Заказы",
+    "aov": "Средний чек",
+    "chartTitle": "Выручка по дням",
+    "topProducts": "Топ товаров",
+    "topProductRow": "{{quantity}} шт — {{revenue}}",
+    "noSalesThisPeriod": "За этот период продаж не было",
+    "loading": "Загрузка…",
+    "noOrdersYet": "Заказов пока нет"
   },
   "sales_channels": {
     "availableIn": "Доступно в <0>{{x}}</0> из <1>{{y}}</1> каналов продаж"

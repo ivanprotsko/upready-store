@@ -1,0 +1,112 @@
+{
+  "res": [
+    {
+      "name": "11-offer",
+      "url": "/ru/pages/offer",
+      "status": 200,
+      "ms": 6609,
+      "len": 19144,
+      "tokens": 8,
+      "rawTable": true,
+      "latin": [
+        "INCI",
+        "Robokassa",
+        "Kassa",
+        "CloudPayments"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Публичная оферта 1. Общие положения и термины 1.1. Настоящий документ является пуб",
+      "errs": []
+    },
+    {
+      "name": "11-privacy",
+      "url": "/ru/pages/privacy",
+      "status": 200,
+      "ms": 4948,
+      "len": 15734,
+      "tokens": 12,
+      "rawTable": true,
+      "latin": [
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "mail",
+        "cookie",
+        "Robokassa"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Политика конфиденциальности Дата редакции: {{ДАТА_РЕДАКЦИИ}} --- 1. Общие положени",
+      "errs": []
+    },
+    {
+      "name": "11-contacts",
+      "url": "/ru/pages/contacts",
+      "status": 200,
+      "ms": 5195,
+      "len": 3577,
+      "tokens": 8,
+      "rawTable": true,
+      "latin": [
+        "cherkashina",
+        "cherkashina",
+        "rospotrebnadzor"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Контакты и реквизиты Продавец Индивидуальный предприниматель {{ФИО_ИП}} | | | |---",
+      "errs": [
+        "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ]
+    },
+    {
+      "name": "11-about",
+      "url": "/ru/pages/about",
+      "status": 200,
+      "ms": 6906,
+      "len": 914,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [
+        "WhatsApp"
+      ],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Черкашина Оксана Магазин здоровья Оксаны Черкашиной — натуральные средства, биодоб",
+      "errs": []
+    },
+    {
+      "name": "11-terms-stub",
+      "url": "/ru/terms",
+      "status": 200,
+      "ms": 8844,
+      "len": 505,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Условия использования Прочитайте правила, с которыми вы соглашаетесь при покупке. ",
+      "errs": []
+    },
+    {
+      "name": "11-shipping-stub",
+      "url": "/ru/shipping",
+      "status": 200,
+      "ms": 7529,
+      "len": 486,
+      "tokens": 0,
+      "rawTable": false,
+      "latin": [],
+      "hscroll": false,
+      "head": "ОКСАНА ЧЕРКАШИНА Мультиварки Стевия АСД Стимуляторы Все товары RU ₽ Доставка Узнайте, как доставляются заказы и сколько это стоит. Это страница-заглуш",
+      "errs": [
+        "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ]
+    }
+  ],
+  "errors": [
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ]
+}

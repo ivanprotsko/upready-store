@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-day16-analytics",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T10:00:57+08:00",
+  "status": "2026-09-15 10:00 WITA: t17-analytics — PR #37 opened (feat/day16-analytics → dev), worker stopped per brief, awaiting acceptance"
+}

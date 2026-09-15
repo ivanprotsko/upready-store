@@ -62,6 +62,11 @@
     "description": "Peržiūrėkite ir atnaujinkite savo pristatymo adresus — galite pridėti jų tiek, kiek norite. Išsaugoti adresai bus prieinami atsiskaitymo metu.",
     "heading": "Pristatymo adresai"
   },
+  "AnalyticsConsent": {
+    "message": "Naudojame slapukus, kad suprastume, kaip lankytojai naudojasi šia svetaine.",
+    "accept": "Sutinku",
+    "decline": "Atmesti"
+  },
   "Breadcrumb": {
     "home": "Pradžia",
     "store": "Parduotuvė"
@@ -306,8 +311,12 @@
     "unauthorized": "Prisijunkite, kad galėtumėte tęsti."
   },
   "Filters": {
+    "from": "nuo",
+    "no": "Ne",
     "sort": "Rūšiuoti",
-    "title": "Filtrai"
+    "title": "Filtrai",
+    "to": "iki",
+    "yes": "Taip"
   },
   "Footer": {
     "categoriesHeading": "Kategorijos",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Pereiti prie vaizdo {index}",
     "openFullImage": "Atverti visą vaizdą"
+  },
+  "Journal": {
+    "navLabel": "Žurnalas",
+    "feedTitle": "Žurnalas",
+    "feedDescription": "{siteName} straipsniai.",
+    "empty": "Straipsnių kol kas nėra.",
+    "backToFeed": "Visi straipsniai",
+    "previous": "Ankstesnis",
+    "next": "Kitas",
+    "pageOf": "{page} puslapis iš {lastPage}",
+    "pagination": "Žurnalo puslapiai"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Peržiūrėti detales"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
     "thankYou": "Ačiū!"
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
-    "confirmationSentBefore": "Užsakymo patvirtinimą išsiuntėme adresu",
+    "contactEmailBefore": "Šio užsakymo kontaktinis adresas yra",
     "fulfillmentStatuses": {
       "canceled": "Atšauktas",
       "delivered": "Pristatytas",
@@ -686,6 +707,11 @@
     "selectOptions": "Pasirinkti parinktis",
     "selectVariant": "Pasirinkite variantą"
   },
+  "ProductAttributes": {
+    "no": "Ne",
+    "title": "Savybės",
+    "yes": "Taip"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",
     "continueSetup": "Dabar galite tęsti savo parduotuvės nustatymą administravimo skydelyje.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Žiūrėti visus"
+  },
+  "ProductReviews": {
+    "heading": "Atsiliepimai",
+    "ratingSummary": "{average} iš 5 · {count, plural, one {# atsiliepimas} few {# atsiliepimai} other {# atsiliepimų}}",
+    "ratingValue": "{value} iš 5",
+    "formHeading": "Jūsų atsiliepimas",
+    "ratingLabel": "Įvertinimas",
+    "nameLabel": "Jūsų vardas",
+    "titleLabel": "Antraštė (nebūtina)",
+    "bodyLabel": "Atsiliepimo tekstas",
+    "submit": "Siųsti atsiliepimą",
+    "pendingNotice": "Ačiū. Atsiliepimas pasirodys, kai parduotuvė jį patvirtins.",
+    "signInPrompt": "Prisijunkite, kad paliktumėte atsiliepimą.",
+    "error": "Atsiliepimo išsiųsti nepavyko. Bandykite dar kartą.",
+    "ownerReply": "Parduotuvės atsakymas",
+    "previousPage": "Atgal",
+    "nextPage": "Pirmyn",
+    "pageOf": "Puslapis {page} iš {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Lengvas grąžinimas",
@@ -813,7 +857,8 @@
       "account": "Paskyra",
       "cart": "Krepšelis",
       "home": "Pradžia",
-      "store": "Parduotuvė"
+      "store": "Parduotuvė",
+      "journal": "Žurnalas"
     },
     "menuButton": "Meniu"
   },

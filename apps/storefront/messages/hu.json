@@ -62,6 +62,11 @@
     "description": "Tekintse meg és frissítse szállítási címeit, tetszőleges számút hozzáadhat. A mentett címek elérhetők lesznek a fizetés során.",
     "heading": "Szállítási címek"
   },
+  "AnalyticsConsent": {
+    "message": "Sütiket használunk, hogy megértsük, hogyan használják látogatóink ezt az oldalt.",
+    "accept": "Elfogadom",
+    "decline": "Elutasítom"
+  },
   "Breadcrumb": {
     "home": "Főoldal",
     "store": "Bolt"
@@ -306,8 +311,12 @@
     "unauthorized": "A folytatáshoz jelentkezzen be."
   },
   "Filters": {
+    "from": "-tól",
+    "no": "Nem",
     "sort": "Rendezés",
-    "title": "Szűrők"
+    "title": "Szűrők",
+    "to": "-ig",
+    "yes": "Igen"
   },
   "Footer": {
     "categoriesHeading": "Kategóriák",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Ugrás a(z) {index}. képre",
     "openFullImage": "Teljes méretű kép megnyitása"
+  },
+  "Journal": {
+    "navLabel": "Magazin",
+    "feedTitle": "Magazin",
+    "feedDescription": "A(z) {siteName} cikkei.",
+    "empty": "Még nincsenek cikkek.",
+    "backToFeed": "Összes cikk",
+    "previous": "Előző",
+    "next": "Következő",
+    "pageOf": "Oldal: {page} / {lastPage}",
+    "pagination": "A magazin oldalai"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Részletek megtekintése"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Őrizze meg a rendelésszámot. Szüksége lesz rá, ha kapcsolatba lép az üzlettel.",
     "orderSuccess": "Rendelését sikeresen leadta.",
     "thankYou": "Köszönjük!"
   },
   "OrderDetails": {
     "backToOrders": "Vissza a rendelésekhez",
-    "confirmationSentBefore": "A rendelés visszaigazolását elküldtük a következő címre:",
+    "contactEmailBefore": "A rendelés kapcsolattartási címe",
     "fulfillmentStatuses": {
       "canceled": "Törölve",
       "delivered": "Kézbesítve",
@@ -686,6 +707,11 @@
     "selectOptions": "Opciók kiválasztása",
     "selectVariant": "Válasszon variánst"
   },
+  "ProductAttributes": {
+    "no": "Nem",
+    "title": "Jellemzők",
+    "yes": "Igen"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",
     "continueSetup": "Most már folytathatja a bolt beállítását az admin felületen.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Összes megtekintése"
+  },
+  "ProductReviews": {
+    "heading": "Vélemények",
+    "ratingSummary": "{average} az 5-ből · {count, plural, one {# vélemény} other {# vélemény}}",
+    "ratingValue": "{value} az 5-ből",
+    "formHeading": "Az Ön véleménye",
+    "ratingLabel": "Értékelés",
+    "nameLabel": "Az Ön neve",
+    "titleLabel": "Cím (nem kötelező)",
+    "bodyLabel": "A vélemény szövege",
+    "submit": "Vélemény küldése",
+    "pendingNotice": "Köszönjük. A vélemény azután jelenik meg, hogy a bolt jóváhagyta.",
+    "signInPrompt": "Jelentkezzen be, hogy véleményt írhasson.",
+    "error": "A véleményt nem sikerült elküldeni. Próbálja újra.",
+    "ownerReply": "A bolt válasza",
+    "previousPage": "Előző",
+    "nextPage": "Következő",
+    "pageOf": "{pages} oldalból a(z) {page}."
   },
   "ProductTabs": {
     "easyReturns": "Könnyű visszaküldés",
@@ -813,7 +857,8 @@
       "account": "Fiók",
       "cart": "Kosár",
       "home": "Főoldal",
-      "store": "Bolt"
+      "store": "Bolt",
+      "journal": "Magazin"
     },
     "menuButton": "Menü"
   },

@@ -62,6 +62,11 @@
     "description": "ดูและอัปเดตที่อยู่จัดส่งของคุณ คุณสามารถเพิ่มได้มากเท่าที่ต้องการ การบันทึกที่อยู่จะช่วยให้เลือกใช้ได้สะดวกตอนชำระเงิน",
     "heading": "ที่อยู่จัดส่ง"
   },
+  "AnalyticsConsent": {
+    "message": "เราใช้คุกกี้เพื่อทำความเข้าใจว่าผู้เยี่ยมชมใช้เว็บไซต์นี้อย่างไร",
+    "accept": "ยอมรับ",
+    "decline": "ปฏิเสธ"
+  },
   "Breadcrumb": {
     "home": "หน้าแรก",
     "store": "ร้านค้า"
@@ -306,8 +311,12 @@
     "unauthorized": "กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ"
   },
   "Filters": {
+    "from": "ตั้งแต่",
+    "no": "ไม่ใช่",
     "sort": "เรียงลำดับ",
-    "title": "ตัวกรอง"
+    "title": "ตัวกรอง",
+    "to": "ถึง",
+    "yes": "ใช่"
   },
   "Footer": {
     "categoriesHeading": "หมวดหมู่",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "ไปที่ภาพ {index}",
     "openFullImage": "เปิดภาพเต็ม"
+  },
+  "Journal": {
+    "navLabel": "บทความ",
+    "feedTitle": "บทความ",
+    "feedDescription": "บทความจาก {siteName}",
+    "empty": "ยังไม่มีบทความ",
+    "backToFeed": "บทความทั้งหมด",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {lastPage}",
+    "pagination": "หน้าของบทความ"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "ดูรายละเอียด"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "เก็บหมายเลขคำสั่งซื้อไว้ คุณจะต้องใช้เมื่อติดต่อร้านค้า",
     "orderSuccess": "สั่งซื้อสำเร็จแล้ว",
     "thankYou": "ขอบคุณ!"
   },
   "OrderDetails": {
     "backToOrders": "กลับไปที่คำสั่งซื้อ",
-    "confirmationSentBefore": "เราได้ส่งรายละเอียดยืนยันคำสั่งซื้อไปที่",
+    "contactEmailBefore": "ที่อยู่ติดต่อสำหรับคำสั่งซื้อนี้คือ",
     "fulfillmentStatuses": {
       "canceled": "ยกเลิกแล้ว",
       "delivered": "ส่งถึงแล้ว",
@@ -686,6 +707,11 @@
     "selectOptions": "เลือกตัวเลือก",
     "selectVariant": "เลือกตัวเลือกสินค้า"
   },
+  "ProductAttributes": {
+    "no": "ไม่ใช่",
+    "title": "ข้อมูลจำเพาะ",
+    "yes": "ใช่"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",
     "continueSetup": "ตอนนี้คุณสามารถตั้งค่าร้านค้าต่อได้ในหน้าผู้ดูแลระบบ",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "ดูทั้งหมด"
+  },
+  "ProductReviews": {
+    "heading": "รีวิว",
+    "ratingSummary": "{average} จาก 5 · {count, plural, other {# รีวิว}}",
+    "ratingValue": "{value} จาก 5",
+    "formHeading": "รีวิวของคุณ",
+    "ratingLabel": "คะแนน",
+    "nameLabel": "ชื่อของคุณ",
+    "titleLabel": "หัวข้อ (ไม่บังคับ)",
+    "bodyLabel": "ข้อความรีวิว",
+    "submit": "ส่งรีวิว",
+    "pendingNotice": "ขอบคุณ รีวิวจะแสดงหลังจากร้านค้าอนุมัติแล้ว",
+    "signInPrompt": "เข้าสู่ระบบเพื่อเขียนรีวิว",
+    "error": "ส่งรีวิวไม่สำเร็จ ลองอีกครั้ง",
+    "ownerReply": "คำตอบจากร้านค้า",
+    "previousPage": "ก่อนหน้า",
+    "nextPage": "ถัดไป",
+    "pageOf": "หน้า {page} จาก {pages}"
   },
   "ProductTabs": {
     "easyReturns": "คืนสินค้าง่ายๆ",
@@ -813,7 +857,8 @@
       "account": "บัญชี",
       "cart": "ตะกร้า",
       "home": "หน้าแรก",
-      "store": "ร้านค้า"
+      "store": "ร้านค้า",
+      "journal": "บทความ"
     },
     "menuButton": "เมนู"
   },

@@ -62,6 +62,11 @@
     "description": "Lihat dan kemas kini alamat penghantaran anda, anda boleh menambah seberapa banyak yang anda mahu. Menyimpan alamat anda akan menjadikannya tersedia semasa pembayaran.",
     "heading": "Alamat Penghantaran"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan kuki untuk memahami cara pelawat menggunakan laman ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Utama",
     "store": "Kedai"
@@ -306,8 +311,12 @@
     "unauthorized": "Sila log masuk untuk meneruskan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Isih",
-    "title": "Penapis"
+    "title": "Penapis",
+    "to": "hingga",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Ke imej {index}",
     "openFullImage": "Buka imej penuh"
+  },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel daripada {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {lastPage}",
+    "pagination": "Halaman jurnal"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Lihat butiran"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nombor pesanan anda. Anda memerlukannya apabila menghubungi kedai.",
     "orderSuccess": "Pesanan anda berjaya dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah menghantar butiran pengesahan pesanan ke",
+    "contactEmailBefore": "Alamat hubungan untuk pesanan ini ialah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",
@@ -686,6 +707,11 @@
     "selectOptions": "Pilih Opsyen",
     "selectVariant": "Pilih varian"
   },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",
     "continueSetup": "Kini anda boleh meneruskan persediaan kedai anda di panel admin.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Lihat semua"
+  },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} daripada 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} daripada 5",
+    "formHeading": "Ulasan anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama anda",
+    "titleLabel": "Tajuk (pilihan)",
+    "bodyLabel": "Teks ulasan",
+    "submit": "Hantar ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan dipaparkan selepas kedai meluluskannya.",
+    "signInPrompt": "Log masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dihantar. Cuba lagi.",
+    "ownerReply": "Jawapan kedai",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Seterusnya",
+    "pageOf": "Halaman {page} daripada {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Pemulangan mudah",
@@ -813,7 +857,8 @@
       "account": "Akaun",
       "cart": "Troli",
       "home": "Utama",
-      "store": "Kedai"
+      "store": "Kedai",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

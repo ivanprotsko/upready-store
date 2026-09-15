@@ -62,6 +62,11 @@
     "description": "Переглядайте та оновлюйте свої адреси доставки, ви можете додати їх скільки завгодно. Збережені адреси будуть доступні під час оформлення замовлення.",
     "heading": "Адреси доставки"
   },
+  "AnalyticsConsent": {
+    "message": "Ми використовуємо файли cookie, щоб розуміти, як відвідувачі користуються сайтом.",
+    "accept": "Прийняти",
+    "decline": "Відхилити"
+  },
   "Breadcrumb": {
     "home": "Головна",
     "store": "Магазин"
@@ -306,8 +311,12 @@
     "unauthorized": "Будь ласка, увійдіть, щоб продовжити."
   },
   "Filters": {
+    "from": "від",
+    "no": "Ні",
     "sort": "Сортування",
-    "title": "Фільтри"
+    "title": "Фільтри",
+    "to": "до",
+    "yes": "Так"
   },
   "Footer": {
     "categoriesHeading": "Категорії",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Перейти до зображення {index}",
     "openFullImage": "Відкрити зображення повністю"
+  },
+  "Journal": {
+    "navLabel": "Журнал",
+    "feedTitle": "Журнал",
+    "feedDescription": "Статті магазину {siteName}.",
+    "empty": "Статей поки немає.",
+    "backToFeed": "Усі статті",
+    "previous": "Назад",
+    "next": "Далі",
+    "pageOf": "Сторінка {page} з {lastPage}",
+    "pagination": "Сторінки журналу"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Детальніше"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Збережіть номер замовлення. Він знадобиться для зв'язку з магазином.",
     "orderSuccess": "Ваше замовлення успішно оформлено.",
     "thankYou": "Дякуємо!"
   },
   "OrderDetails": {
     "backToOrders": "Назад до замовлень",
-    "confirmationSentBefore": "Ми надіслали підтвердження замовлення на",
+    "contactEmailBefore": "Замовлення оформлено на адресу",
     "fulfillmentStatuses": {
       "canceled": "Скасовано",
       "delivered": "Доставлено",
@@ -686,6 +707,11 @@
     "selectOptions": "Обрати опції",
     "selectVariant": "Оберіть варіант"
   },
+  "ProductAttributes": {
+    "no": "Ні",
+    "title": "Характеристики",
+    "yes": "Так"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",
     "continueSetup": "Тепер ви можете продовжити налаштування магазину в адмін-панелі.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Переглянути всі"
+  },
+  "ProductReviews": {
+    "heading": "Відгуки",
+    "ratingSummary": "{average} із 5 · {count, plural, one {# відгук} few {# відгуки} many {# відгуків} other {# відгуку}}",
+    "ratingValue": "{value} із 5",
+    "formHeading": "Ваш відгук",
+    "ratingLabel": "Оцінка",
+    "nameLabel": "Ваше ім'я",
+    "titleLabel": "Заголовок (необов'язково)",
+    "bodyLabel": "Текст відгуку",
+    "submit": "Надіслати відгук",
+    "pendingNotice": "Дякуємо. Відгук з'явиться на сторінці після перевірки магазином.",
+    "signInPrompt": "Увійдіть, щоб залишити відгук.",
+    "error": "Відгук не надіслано. Спробуйте ще раз.",
+    "ownerReply": "Відповідь магазину",
+    "previousPage": "Назад",
+    "nextPage": "Далі",
+    "pageOf": "Сторінка {page} з {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Легке повернення",
@@ -813,7 +857,8 @@
       "account": "Профіль",
       "cart": "Кошик",
       "home": "Головна",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Журнал"
     },
     "menuButton": "Меню"
   },

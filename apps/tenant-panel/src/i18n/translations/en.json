@@ -69,6 +69,21 @@
     },
     "title": "Addresses"
   },
+  "analyticsSettings": {
+    "title": "Analytics",
+    "subtitle": "your own counters on your storefront",
+    "yandexMetrica": {
+      "label": "Yandex Metrica counter",
+      "hint": "the number shown in the Metrica dashboard, digits only"
+    },
+    "ga4": {
+      "label": "GA4 measurement ID",
+      "hint": "starts with G-, from your Google Analytics 4 property"
+    },
+    "save": "Save",
+    "loading": "Loading…",
+    "saved": "Analytics settings saved"
+  },
   "apiKeyManagement": {
     "actions": {
       "copy": "Copy API key",
@@ -214,10 +229,12 @@
         "extensions": "Extensions"
       },
       "main": {
+        "reviews": "Reviews",
         "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",
         "pages": "Pages",
+        "journal": "Journal",
         "store": "Store",
         "storeSettings": "Store settings"
       },
@@ -587,16 +604,29 @@
       "successToast": "Customer {{email}} was successfully deleted.",
       "title": "Delete Customer"
     },
+    "detail": {
+      "addressesHeading": "Addresses",
+      "noAddresses": "This customer has no saved addresses.",
+      "noOrders": "This customer has no orders yet."
+    },
     "domain": "Customers",
     "edit": {
       "emailDisabledTooltip": "The email address cannot be changed for registered customers.",
       "header": "Edit Customer",
       "successToast": "Customer {{email}} was successfully updated."
     },
+    "export": {
+      "success": {
+        "description_one": "The file has {{count}} customer.",
+        "description_other": "The file has {{count}} customers.",
+        "title": "CSV ready"
+      }
+    },
     "fields": {
       "groups": "Groups",
       "guest": "Guest",
-      "registered": "Registered"
+      "registered": "Registered",
+      "totalSpent": "Total spent"
     },
     "groups": {
       "add": {
@@ -892,6 +922,8 @@
     "sales_channels": "Sales Channels",
     "search": "Search",
     "selectCountry": "Select country",
+    "seoDescription": "Search description",
+    "seoTitle": "Search title",
     "sent": "Sent",
     "serviceZone": "Service Zone",
     "shipping": "Shipping",
@@ -2533,6 +2565,10 @@
         "heading": "No results"
       },
       "header": "Variants"
+    },
+    "csv": {
+      "exportAction": "Export CSV",
+      "importAction": "Import CSV"
     }
   },
   "profile": {
@@ -3119,6 +3155,27 @@
     "tooltip": {
       "cannotDeleteDefault": "Cannot delete default sales channel"
     }
+  },
+  "salesSummary": {
+    "title": "Sales",
+    "period": {
+      "today": "Today",
+      "7d": "7 days",
+      "30d": "30 days",
+      "custom": "Custom"
+    },
+    "customFrom": "from",
+    "customTo": "to",
+    "pickRange": "Pick both dates to see the summary",
+    "revenue": "Revenue",
+    "orders": "Orders",
+    "aov": "Average order",
+    "chartTitle": "Revenue by day",
+    "topProducts": "Best sellers",
+    "topProductRow": "{{quantity}} pcs — {{revenue}}",
+    "noSalesThisPeriod": "No sales in this period",
+    "loading": "Loading…",
+    "noOrdersYet": "No orders yet"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"

@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte své doručovací adresy, můžete jich přidat libovolné množství. Uložené adresy budou dostupné při dokončování objednávky.",
     "heading": "Doručovací adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používáme soubory cookie, abychom pochopili, jak návštěvníci používají tento web.",
+    "accept": "Přijmout",
+    "decline": "Odmítnout"
+  },
   "Breadcrumb": {
     "home": "Domů",
     "store": "Obchod"
@@ -306,8 +311,12 @@
     "unauthorized": "Pro pokračování se prosím přihlaste."
   },
   "Filters": {
+    "from": "od",
+    "no": "Ne",
     "sort": "Řadit",
-    "title": "Filtry"
+    "title": "Filtry",
+    "to": "do",
+    "yes": "Ano"
   },
   "Footer": {
     "categoriesHeading": "Kategorie",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Přejít na obrázek {index}",
     "openFullImage": "Otevřít obrázek v plné velikosti"
+  },
+  "Journal": {
+    "navLabel": "Magazín",
+    "feedTitle": "Magazín",
+    "feedDescription": "Články obchodu {siteName}.",
+    "empty": "Zatím tu nejsou žádné články.",
+    "backToFeed": "Všechny články",
+    "previous": "Předchozí",
+    "next": "Další",
+    "pageOf": "Stránka {page} z {lastPage}",
+    "pagination": "Stránky magazínu"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Zobrazit detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovejte si číslo objednávky. Budete ho potřebovat při kontaktu s obchodem.",
     "orderSuccess": "Vaše objednávka byla úspěšně vytvořena.",
     "thankYou": "Děkujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Zpět na objednávky",
-    "confirmationSentBefore": "Potvrzení objednávky jsme zaslali na",
+    "contactEmailBefore": "Kontaktní adresa této objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušeno",
       "delivered": "Doručeno",
@@ -686,6 +707,11 @@
     "selectOptions": "Vybrat možnosti",
     "selectVariant": "Vyberte variantu"
   },
+  "ProductAttributes": {
+    "no": "Ne",
+    "title": "Parametry",
+    "yes": "Ano"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovat v nastavení v administraci",
     "continueSetup": "Nyní můžete pokračovat v nastavení obchodu v administraci.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Zobrazit vše"
+  },
+  "ProductReviews": {
+    "heading": "Recenze",
+    "ratingSummary": "{average} z 5 · {count, plural, one {# recenze} few {# recenze} many {# recenze} other {# recenzí}}",
+    "ratingValue": "{value} z 5",
+    "formHeading": "Vaše recenze",
+    "ratingLabel": "Hodnocení",
+    "nameLabel": "Vaše jméno",
+    "titleLabel": "Nadpis (nepovinné)",
+    "bodyLabel": "Text recenze",
+    "submit": "Odeslat recenzi",
+    "pendingNotice": "Děkujeme. Recenze se zobrazí, jakmile ji obchod schválí.",
+    "signInPrompt": "Přihlaste se, abyste mohli napsat recenzi.",
+    "error": "Recenzi se nepodařilo odeslat. Zkuste to znovu.",
+    "ownerReply": "Odpověď obchodu",
+    "previousPage": "Zpět",
+    "nextPage": "Další",
+    "pageOf": "Strana {page} z {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Snadné vrácení",
@@ -813,7 +857,8 @@
       "account": "Účet",
       "cart": "Košík",
       "home": "Domů",
-      "store": "Obchod"
+      "store": "Obchod",
+      "journal": "Magazín"
     },
     "menuButton": "Menu"
   },

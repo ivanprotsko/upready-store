@@ -3,6 +3,8 @@ import { Suspense } from "react"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import type { OptionValueIds } from "@lib/util/product-option-filters"
+import type { AttributeSelection } from "@lib/util/product-attribute-filters"
+import { listProductAttributeFacets } from "@lib/data/product-attributes"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import type { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import RefinementList from "@modules/store/components/refinement-list"
@@ -28,6 +30,7 @@ export default async function CategoryTemplate({
   page,
   countryCode,
   optionValueIds,
+  attributeSelection,
   subcategoryHandles = [],
 }: {
   category: HttpTypes.StoreProductCategory
@@ -35,6 +38,8 @@ export default async function CategoryTemplate({
   page?: string
   countryCode: string
   optionValueIds?: OptionValueIds
+  /** The shop's own characteristics picked in the URL, t15-product-attributes. */
+  attributeSelection?: AttributeSelection
   subcategoryHandles?: string[]
 }) {
   const pageNumber = page ? parseInt(page) : 1
@@ -50,11 +55,17 @@ export default async function CategoryTemplate({
     ? selectedSubcategories.map((c) => c.id)
     : [category.id, ...subcategories.map((c) => c.id)]
 
-  const [t, locale, categories, optionFilters] = await Promise.all([
+  const [t, locale, categories, optionFilters, attributeFacets] = await Promise.all([
     getTranslations(),
     getLocale(),
     listCategories(),
     listProductOptionFilters({ category_id: categoryIds }),
+    // The facets follow the category the visitor is looking at, subtree
+    // included, so their counts describe THIS listing and not the whole shop.
+    listProductAttributeFacets({
+      categoryId: category.id,
+      selection: attributeSelection,
+    }),
   ])
 
   const ancestors = getCategoryAncestors(category)
@@ -97,6 +108,7 @@ export default async function CategoryTemplate({
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
             className="lg:hidden text-ui-fg-base hover:text-ui-fg-subtle transition-colors"
           />
         </div>
@@ -105,6 +117,7 @@ export default async function CategoryTemplate({
             sortBy={sort}
             display="filters"
             optionFilters={optionFilters}
+            attributeFacets={attributeFacets.facets}
           />
           <RefinementList
             sortBy={sort}
@@ -145,6 +158,7 @@ export default async function CategoryTemplate({
               categoryIds={categoryIds}
               countryCode={countryCode}
               optionValueIds={optionValueIds}
+              attributeProductIds={attributeFacets.productIds}
             />
           </Suspense>
         </div>

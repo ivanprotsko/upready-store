@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte svoje doručovacie adresy, môžete ich pridať toľko, koľko chcete. Uložené adresy budú dostupné pri pokladni.",
     "heading": "Doručovacie adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používame súbory cookie, aby sme pochopili, ako návštevníci používajú túto stránku.",
+    "accept": "Prijať",
+    "decline": "Odmietnuť"
+  },
   "Breadcrumb": {
     "home": "Domov",
     "store": "Obchod"
@@ -306,8 +311,12 @@
     "unauthorized": "Ak chcete pokračovať, prihláste sa."
   },
   "Filters": {
+    "from": "od",
+    "no": "Nie",
     "sort": "Zoradiť",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "do",
+    "yes": "Áno"
   },
   "Footer": {
     "categoriesHeading": "Kategórie",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Prejsť na obrázok {index}",
     "openFullImage": "Otvoriť obrázok v plnej veľkosti"
+  },
+  "Journal": {
+    "navLabel": "Magazín",
+    "feedTitle": "Magazín",
+    "feedDescription": "Články obchodu {siteName}.",
+    "empty": "Zatiaľ tu nie sú žiadne články.",
+    "backToFeed": "Všetky články",
+    "previous": "Predchádzajúca",
+    "next": "Ďalšia",
+    "pageOf": "Strana {page} z {lastPage}",
+    "pagination": "Stránky magazínu"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Zobraziť detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovajte si číslo objednávky. Budete ho potrebovať pri kontakte s obchodom.",
     "orderSuccess": "Vaša objednávka bola úspešne vytvorená.",
     "thankYou": "Ďakujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",
-    "confirmationSentBefore": "Potvrdenie objednávky sme odoslali na",
+    "contactEmailBefore": "Kontaktná adresa tejto objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušené",
       "delivered": "Doručené",
@@ -686,6 +707,11 @@
     "selectOptions": "Vybrať možnosti",
     "selectVariant": "Vyberte variant"
   },
+  "ProductAttributes": {
+    "no": "Nie",
+    "title": "Parametre",
+    "yes": "Áno"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",
     "continueSetup": "Teraz môžete pokračovať v nastavovaní svojho obchodu v administrácii.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Zobraziť všetko"
+  },
+  "ProductReviews": {
+    "heading": "Recenzie",
+    "ratingSummary": "{average} z 5 · {count, plural, one {# recenzia} few {# recenzie} many {# recenzie} other {# recenzií}}",
+    "ratingValue": "{value} z 5",
+    "formHeading": "Vaša recenzia",
+    "ratingLabel": "Hodnotenie",
+    "nameLabel": "Vaše meno",
+    "titleLabel": "Nadpis (nepovinné)",
+    "bodyLabel": "Text recenzie",
+    "submit": "Odoslať recenziu",
+    "pendingNotice": "Ďakujeme. Recenzia sa zobrazí, keď ju obchod schváli.",
+    "signInPrompt": "Prihláste sa, aby ste mohli napísať recenziu.",
+    "error": "Recenziu sa nepodarilo odoslať. Skúste to znova.",
+    "ownerReply": "Odpoveď obchodu",
+    "previousPage": "Späť",
+    "nextPage": "Ďalej",
+    "pageOf": "Strana {page} z {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Jednoduché vrátenie",
@@ -813,7 +857,8 @@
       "account": "Účet",
       "cart": "Košík",
       "home": "Domov",
-      "store": "Obchod"
+      "store": "Obchod",
+      "journal": "Magazín"
     },
     "menuButton": "Menu"
   },

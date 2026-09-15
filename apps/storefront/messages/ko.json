@@ -62,6 +62,11 @@
     "description": "배송 주소를 확인하고 수정할 수 있으며, 원하는 만큼 추가할 수 있습니다. 저장된 주소는 결제 시 사용할 수 있습니다.",
     "heading": "배송 주소"
   },
+  "AnalyticsConsent": {
+    "message": "방문자가 이 사이트를 어떻게 이용하는지 파악하기 위해 쿠키를 사용합니다.",
+    "accept": "동의",
+    "decline": "거부"
+  },
   "Breadcrumb": {
     "home": "홈",
     "store": "스토어"
@@ -306,8 +311,12 @@
     "unauthorized": "계속하려면 로그인해 주세요."
   },
   "Filters": {
+    "from": "최소",
+    "no": "아니오",
     "sort": "정렬",
-    "title": "필터"
+    "title": "필터",
+    "to": "최대",
+    "yes": "예"
   },
   "Footer": {
     "categoriesHeading": "카테고리",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "{index}번 이미지로 이동",
     "openFullImage": "전체 이미지 열기"
+  },
+  "Journal": {
+    "navLabel": "매거진",
+    "feedTitle": "매거진",
+    "feedDescription": "{siteName}의 글.",
+    "empty": "아직 글이 없습니다.",
+    "backToFeed": "전체 글",
+    "previous": "이전",
+    "next": "다음",
+    "pageOf": "{lastPage}페이지 중 {page}페이지",
+    "pagination": "매거진 페이지"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "상세 보기"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "주문 번호를 보관하세요. 매장에 문의할 때 필요합니다.",
     "orderSuccess": "주문이 성공적으로 완료되었습니다.",
     "thankYou": "감사합니다!"
   },
   "OrderDetails": {
     "backToOrders": "주문 목록으로",
-    "confirmationSentBefore": "주문 확인 내역을 다음 주소로 보내드렸습니다",
+    "contactEmailBefore": "이 주문의 연락처 주소",
     "fulfillmentStatuses": {
       "canceled": "취소됨",
       "delivered": "배송 완료",
@@ -686,6 +707,11 @@
     "selectOptions": "옵션 선택",
     "selectVariant": "옵션 선택"
   },
+  "ProductAttributes": {
+    "no": "아니오",
+    "title": "사양",
+    "yes": "예"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "관리자에서 설정 계속하기",
     "continueSetup": "이제 관리자 페이지에서 스토어 설정을 계속할 수 있습니다.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "전체 보기"
+  },
+  "ProductReviews": {
+    "heading": "리뷰",
+    "ratingSummary": "5점 만점에 {average}점 · {count, plural, other {리뷰 #개}}",
+    "ratingValue": "5점 만점에 {value}점",
+    "formHeading": "내 리뷰",
+    "ratingLabel": "평점",
+    "nameLabel": "이름",
+    "titleLabel": "제목(선택)",
+    "bodyLabel": "리뷰 내용",
+    "submit": "리뷰 보내기",
+    "pendingNotice": "감사합니다. 상점이 승인하면 리뷰가 표시됩니다.",
+    "signInPrompt": "리뷰를 남기려면 로그인하세요.",
+    "error": "리뷰를 보내지 못했습니다. 다시 시도해 주세요.",
+    "ownerReply": "상점 답변",
+    "previousPage": "이전",
+    "nextPage": "다음",
+    "pageOf": "{pages}페이지 중 {page}페이지"
   },
   "ProductTabs": {
     "easyReturns": "쉬운 반품",
@@ -813,7 +857,8 @@
       "account": "계정",
       "cart": "장바구니",
       "home": "홈",
-      "store": "스토어"
+      "store": "스토어",
+      "journal": "매거진"
     },
     "menuButton": "메뉴"
   },

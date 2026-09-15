@@ -1,0 +1,86 @@
+{
+  "bom": true,
+  "rows": [
+    {
+      "line": 2,
+      "action": "create",
+      "handle": "t14-s-kartinkoy",
+      "sku": null,
+      "title": "Товар с картинкой",
+      "product_id": "prod_01M2H7S395ZMP7GDA1QR6NBA09",
+      "variant_id": null,
+      "changes": [],
+      "notes": [
+        "Категория «Добавки / АСД» будет создана.",
+        "Новый товар создаётся черновиком — опубликуете его сами, проверив карточку."
+      ],
+      "errors": [],
+      "image_urls": [
+        "https://avatars.githubusercontent.com/u/1"
+      ],
+      "planned_handle": "t14-s-kartinkoy",
+      "applied": true,
+      "images": [
+        {
+          "ok": true,
+          "url": "https://avatars.githubusercontent.com/u/1"
+        }
+      ]
+    },
+    {
+      "line": 3,
+      "action": "create",
+      "handle": "t14-bez-kartinki",
+      "sku": null,
+      "title": "Товар с мёртвой ссылкой",
+      "product_id": "prod_01M2H7S3B37C09H93TQ3HTW41V",
+      "variant_id": null,
+      "changes": [],
+      "notes": [
+        "Категория «Добавки / АСД» будет создана.",
+        "Новый товар создаётся черновиком — опубликуете его сами, проверив карточку."
+      ],
+      "errors": [],
+      "image_urls": [
+        "https://no-such-host-t14.example/photo.jpg"
+      ],
+      "planned_handle": "t14-bez-kartinki",
+      "applied": true,
+      "images": [
+        {
+          "ok": false,
+          "url": "https://no-such-host-t14.example/photo.jpg",
+          "error": "домен не разрешается в адрес"
+        }
+      ]
+    }
+  ],
+  "bytes": 345,
+  "fatal": [],
+  "limits": {
+    "max_rows": 5000,
+    "max_bytes": 10485760
+  },
+  "status": "applied",
+  "summary": {
+    "rows": 2,
+    "create": 2,
+    "images": 2,
+    "reject": 0,
+    "update": 0,
+    "unchanged": 0,
+    "create_variant": 0,
+    "images_failed": 1
+  },
+  "encoding": "utf-8-bom",
+  "filename": "images.csv",
+  "delimiter": ";",
+  "currencies": [
+    "usd"
+  ],
+  "unknown_columns": [],
+  "categories_to_create": [
+    "Добавки",
+    "Добавки / АСД"
+  ]
+}

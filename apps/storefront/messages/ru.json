@@ -62,6 +62,11 @@
     "description": "Просмотрите и обновите ваши адреса доставки. Вы можете добавить любое количество адресов. Сохранённые адреса будут доступны при оформлении заказа.",
     "heading": "Адреса доставки"
   },
+  "AnalyticsConsent": {
+    "message": "Мы используем куки, чтобы понимать, как посетители пользуются сайтом.",
+    "accept": "Принять",
+    "decline": "Отклонить"
+  },
   "Breadcrumb": {
     "home": "Главная",
     "store": "Магазин"
@@ -306,8 +311,12 @@
     "unauthorized": "Пожалуйста, войдите, чтобы продолжить."
   },
   "Filters": {
+    "from": "от",
+    "no": "Нет",
     "sort": "Сортировка",
-    "title": "Фильтры"
+    "title": "Фильтры",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Перейти к изображению {index}",
     "openFullImage": "Открыть изображение целиком"
+  },
+  "Journal": {
+    "navLabel": "Журнал",
+    "feedTitle": "Журнал",
+    "feedDescription": "Статьи магазина {siteName}.",
+    "empty": "Статей пока нет.",
+    "backToFeed": "Все статьи",
+    "previous": "Назад",
+    "next": "Вперёд",
+    "pageOf": "Страница {page} из {lastPage}",
+    "pagination": "Страницы журнала"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Подробнее"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Сохраните номер заказа. Он понадобится, чтобы связаться с магазином.",
     "orderSuccess": "Ваш заказ успешно оформлен.",
     "thankYou": "Спасибо!"
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
-    "confirmationSentBefore": "Подтверждение заказа отправлено на",
+    "contactEmailBefore": "Заказ оформлен на адрес",
     "fulfillmentStatuses": {
       "canceled": "Отменён",
       "delivered": "Доставлен",
@@ -686,6 +707,11 @@
     "selectOptions": "Выбрать опции",
     "selectVariant": "Выбрать вариант"
   },
+  "ProductAttributes": {
+    "no": "Нет",
+    "title": "Характеристики",
+    "yes": "Да"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продолжить настройку в панели",
     "continueSetup": "Теперь вы можете продолжить настройку магазина в панели администратора.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Смотреть все"
+  },
+  "ProductReviews": {
+    "heading": "Отзывы",
+    "ratingSummary": "{average} из 5 · {count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
+    "ratingValue": "{value} из 5",
+    "formHeading": "Ваш отзыв",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Ваше имя",
+    "titleLabel": "Заголовок (необязательно)",
+    "bodyLabel": "Текст отзыва",
+    "submit": "Отправить отзыв",
+    "pendingNotice": "Спасибо. Отзыв появится на странице после проверки магазином.",
+    "signInPrompt": "Войдите, чтобы оставить отзыв.",
+    "error": "Отзыв не отправился. Попробуйте ещё раз.",
+    "ownerReply": "Ответ магазина",
+    "previousPage": "Назад",
+    "nextPage": "Вперёд",
+    "pageOf": "Страница {page} из {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Лёгкий возврат",
@@ -813,7 +857,8 @@
       "account": "Профиль",
       "cart": "Корзина",
       "home": "Главная",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Журнал"
     },
     "menuButton": "Меню"
   },

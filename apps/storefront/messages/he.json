@@ -62,6 +62,11 @@
     "description": "צפה בכתובות המשלוח שלך ועדכן אותן, ניתן להוסיף כמה שתרצה. שמירת הכתובות תהפוך אותן לזמינות בתהליך התשלום.",
     "heading": "כתובות למשלוח"
   },
+  "AnalyticsConsent": {
+    "message": "אנו משתמשים בעוגיות כדי להבין כיצד מבקרים משתמשים באתר זה.",
+    "accept": "קבל",
+    "decline": "דחה"
+  },
   "Breadcrumb": {
     "home": "בית",
     "store": "חנות"
@@ -306,8 +311,12 @@
     "unauthorized": "יש להתחבר כדי להמשיך."
   },
   "Filters": {
+    "from": "מ־",
+    "no": "לא",
     "sort": "מיון",
-    "title": "מסננים"
+    "title": "מסננים",
+    "to": "עד",
+    "yes": "כן"
   },
   "Footer": {
     "categoriesHeading": "קטגוריות",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "מעבר לתמונה {index}",
     "openFullImage": "פתיחת התמונה המלאה"
+  },
+  "Journal": {
+    "navLabel": "מגזין",
+    "feedTitle": "מגזין",
+    "feedDescription": "מאמרים מ־{siteName}.",
+    "empty": "אין עדיין מאמרים.",
+    "backToFeed": "כל המאמרים",
+    "previous": "הקודם",
+    "next": "הבא",
+    "pageOf": "עמוד {page} מתוך {lastPage}",
+    "pagination": "עמודי המגזין"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "לפרטים נוספים"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "שמרו את מספר ההזמנה. תזדקקו לו כשתפנו לחנות.",
     "orderSuccess": "ההזמנה שלך בוצעה בהצלחה.",
     "thankYou": "תודה!"
   },
   "OrderDetails": {
     "backToOrders": "חזרה להזמנות",
-    "confirmationSentBefore": "שלחנו את פרטי אישור ההזמנה אל",
+    "contactEmailBefore": "כתובת הקשר של הזמנה זו היא",
     "fulfillmentStatuses": {
       "canceled": "בוטלה",
       "delivered": "נמסרה",
@@ -686,6 +707,11 @@
     "selectOptions": "בחירת אפשרויות",
     "selectVariant": "בחר וריאציה"
   },
+  "ProductAttributes": {
+    "no": "לא",
+    "title": "מפרט",
+    "yes": "כן"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",
     "continueSetup": "כעת תוכל להמשיך בהגדרת החנות שלך בממשק הניהול.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "צפייה בהכול"
+  },
+  "ProductReviews": {
+    "heading": "ביקורות",
+    "ratingSummary": "{average} מתוך 5 · {count, plural, one {ביקורת אחת} two {שתי ביקורות} other {# ביקורות}}",
+    "ratingValue": "{value} מתוך 5",
+    "formHeading": "הביקורת שלך",
+    "ratingLabel": "דירוג",
+    "nameLabel": "השם שלך",
+    "titleLabel": "כותרת (לא חובה)",
+    "bodyLabel": "תוכן הביקורת",
+    "submit": "שליחת ביקורת",
+    "pendingNotice": "תודה. הביקורת תופיע לאחר אישור החנות.",
+    "signInPrompt": "התחברו כדי לכתוב ביקורת.",
+    "error": "לא ניתן היה לשלוח את הביקורת. נסו שוב.",
+    "ownerReply": "תשובת החנות",
+    "previousPage": "הקודם",
+    "nextPage": "הבא",
+    "pageOf": "עמוד {page} מתוך {pages}"
   },
   "ProductTabs": {
     "easyReturns": "החזרות קלות",
@@ -813,7 +857,8 @@
       "account": "חשבון",
       "cart": "עגלה",
       "home": "בית",
-      "store": "חנות"
+      "store": "חנות",
+      "journal": "מגזין"
     },
     "menuButton": "תפריט"
   },

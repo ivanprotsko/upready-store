@@ -1,6 +1,7 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import { resolveAttribution } from "./attribution";
+import { brandingResponse, readBranding } from "../../tenants/branding/branding";
 import {
   baseDomains,
   handleFromTechnicalHost,
@@ -120,6 +121,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       "locale_settings.enabled_locales",
       "locale_settings.default_country",
     ],
+    // t17-analytics: `analytics` below reads `tenant.metadata.analytics`,
+    // written by `PUT /tenants/analytics`. `metadata` is already fetched.
     filters: { id: [tenantId] },
   });
 
@@ -172,6 +175,38 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     attribution: resolveAttribution(
       (tenant.metadata ?? null) as Record<string, unknown> | null,
     ),
+    // t11-seo-redirects step 6: the search-engine ownership tags the owner
+    // pasted in from Yandex Webmaster / Google Search Console
+    // (`PUT /tenants/seo-verification`), rendered as `<meta name="…">` in this
+    // shop's `<head>` alone.
+    seo_verification: {
+      yandex:
+        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
+          | Record<string, unknown>
+          | undefined)?.yandex as string | undefined ?? null,
+      google:
+        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
+          | Record<string, unknown>
+          | undefined)?.google as string | undefined ?? null,
+    },
+    // t17-analytics step 1: this shop's own counters, or both null when the
+    // owner has set neither — the storefront then loads no analytics script
+    // at all for this tenant (never the platform's build-time GA id, which
+    // is the single-store fallback only, not a shared default for tenants).
+    analytics: {
+      yandex_metrica_id:
+        ((tenant.metadata as Record<string, unknown> | null)?.analytics as
+          | Record<string, unknown>
+          | undefined)?.yandex_metrica_id as string | undefined ?? null,
+      ga4_measurement_id:
+        ((tenant.metadata as Record<string, unknown> | null)?.analytics as
+          | Record<string, unknown>
+          | undefined)?.ga4_measurement_id as string | undefined ?? null,
+    },
+    // t16-owner-branding: logo, favicon, og image, primary colour, footer
+    // credit — served with the rest of this document so the storefront's
+    // very first render already has them, no extra round trip.
+    branding: brandingResponse(readBranding(tenant.metadata as Record<string, unknown> | null)),
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

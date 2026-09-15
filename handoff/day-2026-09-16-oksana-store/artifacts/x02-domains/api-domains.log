@@ -1,0 +1,53 @@
+=== BEFORE: GET /tenants/domains ===
+200 {
+  "domains": [],
+  "technical": [
+    "cherkashino.shipshift.dev"
+  ],
+  "primary_host": "cherkashino.shipshift.dev",
+  "previous_hosts": [],
+  "previous_handles": [],
+  "technical_id_host": "ten_01m2gqvgen1204cn90c510dnrg.shipshift.dev",
+  "base_domain": "shipshift.dev"
+}
+=== POST /tenants/domains {host:cherkashino.ru} -> 201 ===
+{"domain": {"id": "tdom_01M2GT1QKQSSX96ZP4JZKMRYXE", "host": "cherkashino.ru"}}
+=== POST /tenants/domains {host:www.cherkashino.ru} -> 201 ===
+{"domain": {"id": "tdom_01M2GT1SF3YQ4QMY7KAGYNPKH2", "host": "www.cherkashino.ru"}}
+=== POST /tenants/domains {host:xn--80ajkgrgj8cn.xn--p1ai} -> 201 ===
+{"domain": {"id": "tdom_01M2GT1VFXP8AEBCBBZ9SQ1KRR", "host": "xn--80ajkgrgj8cn.xn--p1ai"}}
+=== POST /tenants/domains {host:www.xn--80ajkgrgj8cn.xn--p1ai} -> 201 ===
+{"domain": {"id": "tdom_01M2GT1X5NJX8QXY140WXDVV6K", "host": "www.xn--80ajkgrgj8cn.xn--p1ai"}}
+=== AFTER: GET /tenants/domains ===
+200 {
+  "domains": [
+    {
+      "id": "tdom_01M2GT1QKQSSX96ZP4JZKMRYXE",
+      "host": "cherkashino.ru",
+      "is_primary": false
+    },
+    {
+      "id": "tdom_01M2GT1SF3YQ4QMY7KAGYNPKH2",
+      "host": "www.cherkashino.ru",
+      "is_primary": false
+    },
+    {
+      "id": "tdom_01M2GT1VFXP8AEBCBBZ9SQ1KRR",
+      "host": "xn--80ajkgrgj8cn.xn--p1ai",
+      "is_primary": false
+    },
+    {
+      "id": "tdom_01M2GT1X5NJX8QXY140WXDVV6K",
+      "host": "www.xn--80ajkgrgj8cn.xn--p1ai",
+      "is_primary": false
+    }
+  ],
+  "technical": [
+    "cherkashino.shipshift.dev"
+  ],
+  "primary_host": "cherkashino.shipshift.dev",
+  "previous_hosts": [],
+  "previous_handles": [],
+  "technical_id_host": "ten_01m2gqvgen1204cn90c510dnrg.shipshift.dev",
+  "base_domain": "shipshift.dev"
+}

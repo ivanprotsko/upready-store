@@ -62,6 +62,11 @@
     "description": "Consulta y actualiza tus direcciones de envío, puedes añadir tantas como quieras. Guardar tus direcciones las hará disponibles durante el pago.",
     "heading": "Direcciones de envío"
   },
+  "AnalyticsConsent": {
+    "message": "Utilizamos cookies para entender cómo los visitantes usan este sitio.",
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
   "Breadcrumb": {
     "home": "Inicio",
     "store": "Tienda"
@@ -306,8 +311,12 @@
     "unauthorized": "Inicia sesión para continuar."
   },
   "Filters": {
+    "from": "desde",
+    "no": "No",
     "sort": "Ordenar",
-    "title": "Filtros"
+    "title": "Filtros",
+    "to": "hasta",
+    "yes": "Sí"
   },
   "Footer": {
     "categoriesHeading": "Categorías",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Ir a la imagen {index}",
     "openFullImage": "Abrir la imagen completa"
+  },
+  "Journal": {
+    "navLabel": "Revista",
+    "feedTitle": "Revista",
+    "feedDescription": "Artículos de {siteName}.",
+    "empty": "Todavía no hay artículos.",
+    "backToFeed": "Todos los artículos",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "pageOf": "Página {page} de {lastPage}",
+    "pagination": "Páginas de la revista"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Ver detalles"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Guarda el número de pedido. Lo necesitarás para contactar con la tienda.",
     "orderSuccess": "Tu pedido se realizó correctamente.",
     "thankYou": "¡Gracias!"
   },
   "OrderDetails": {
     "backToOrders": "Volver a los pedidos",
-    "confirmationSentBefore": "Hemos enviado los detalles de confirmación del pedido a",
+    "contactEmailBefore": "La dirección de contacto de este pedido es",
     "fulfillmentStatuses": {
       "canceled": "Cancelado",
       "delivered": "Entregado",
@@ -686,6 +707,11 @@
     "selectOptions": "Seleccionar opciones",
     "selectVariant": "Seleccionar variante"
   },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Características",
+    "yes": "Sí"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuar configuración en el admin",
     "continueSetup": "Ahora puedes continuar configurando tu tienda en el panel de administración.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Ver todo"
+  },
+  "ProductReviews": {
+    "heading": "Opiniones",
+    "ratingSummary": "{average} de 5 · {count, plural, one {# opinión} other {# opiniones}}",
+    "ratingValue": "{value} de 5",
+    "formHeading": "Tu opinión",
+    "ratingLabel": "Valoración",
+    "nameLabel": "Tu nombre",
+    "titleLabel": "Título (opcional)",
+    "bodyLabel": "Tu opinión",
+    "submit": "Enviar opinión",
+    "pendingNotice": "Gracias. Tu opinión aparecerá cuando la tienda la apruebe.",
+    "signInPrompt": "Inicia sesión para dejar una opinión.",
+    "error": "No se pudo enviar la opinión. Inténtalo de nuevo.",
+    "ownerReply": "Respuesta de la tienda",
+    "previousPage": "Anterior",
+    "nextPage": "Siguiente",
+    "pageOf": "Página {page} de {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Devoluciones fáciles",
@@ -813,7 +857,8 @@
       "account": "Cuenta",
       "cart": "Carrito",
       "home": "Inicio",
-      "store": "Tienda"
+      "store": "Tienda",
+      "journal": "Revista"
     },
     "menuButton": "Menú"
   },

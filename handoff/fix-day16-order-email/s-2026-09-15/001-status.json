@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-order-email",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T10:34:40+08:00",
+  "status": "2026-09-15 10:34 WITA: f02-order-email-not-sent — PR #39 открыт (base dev, MERGEABLE). Витрина больше не обещает письмо: ключ confirmationSentBefore заменён на contactEmailBefore в 36 локалях + keepOrderNumber, тест-страж. НАХОДКА: п.1 задачи не нужен — d02 findings#3 ложная, compose.mt.yml в репо пробрасывает SMTP/TELEGRAM/BACKEND_PUBLIC_URL с самой sha 2508708; ноль совпадений даёт УСТАРЕВШАЯ копия на хосте (/opt/upready-store/mt/deploy/compose.mt.yml, mtime 2026-09-14 07:07, дрейф 14 ключей). Деплой не делал (21c). От Ивана: rsync compose на хост + SMTP_* секреты в shipshift.env."
+}

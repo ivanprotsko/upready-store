@@ -62,6 +62,11 @@
     "description": "আপনার শিপিং ঠিকানাগুলো দেখুন ও আপডেট করুন, আপনি যত খুশি ততগুলো যোগ করতে পারেন। ঠিকানা সংরক্ষণ করলে চেকআউটের সময় তা ব্যবহার করা যাবে।",
     "heading": "শিপিং ঠিকানাসমূহ"
   },
+  "AnalyticsConsent": {
+    "message": "দর্শনার্থীরা কীভাবে এই সাইটটি ব্যবহার করেন তা বোঝার জন্য আমরা কুকি ব্যবহার করি।",
+    "accept": "গ্রহণ করুন",
+    "decline": "প্রত্যাখ্যান করুন"
+  },
   "Breadcrumb": {
     "home": "হোম",
     "store": "স্টোর"
@@ -306,8 +311,12 @@
     "unauthorized": "চালিয়ে যেতে অনুগ্রহ করে সাইন ইন করুন।"
   },
   "Filters": {
+    "from": "থেকে",
+    "no": "না",
     "sort": "সাজান",
-    "title": "ফিল্টার"
+    "title": "ফিল্টার",
+    "to": "পর্যন্ত",
+    "yes": "হ্যাঁ"
   },
   "Footer": {
     "categoriesHeading": "ক্যাটাগরি",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "ছবি {index}-এ যান",
     "openFullImage": "সম্পূর্ণ ছবি খুলুন"
+  },
+  "Journal": {
+    "navLabel": "ম্যাগাজিন",
+    "feedTitle": "ম্যাগাজিন",
+    "feedDescription": "{siteName}-এর লেখা।",
+    "empty": "এখনও কোনো লেখা নেই।",
+    "backToFeed": "সব লেখা",
+    "previous": "আগের",
+    "next": "পরের",
+    "pageOf": "পৃষ্ঠা {page} / {lastPage}",
+    "pagination": "ম্যাগাজিনের পৃষ্ঠা"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "বিস্তারিত দেখুন"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "অর্ডার নম্বরটি সংরক্ষণ করুন। দোকানের সঙ্গে যোগাযোগ করতে এটি প্রয়োজন হবে।",
     "orderSuccess": "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
     "thankYou": "ধন্যবাদ!"
   },
   "OrderDetails": {
     "backToOrders": "অর্ডারে ফিরে যান",
-    "confirmationSentBefore": "আমরা অর্ডার নিশ্চিতকরণের বিবরণ পাঠিয়েছি এই ঠিকানায়",
+    "contactEmailBefore": "এই অর্ডারের যোগাযোগের ঠিকানা",
     "fulfillmentStatuses": {
       "canceled": "বাতিল",
       "delivered": "পৌঁছেছে",
@@ -686,6 +707,11 @@
     "selectOptions": "অপশন নির্বাচন করুন",
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন"
   },
+  "ProductAttributes": {
+    "no": "না",
+    "title": "বৈশিষ্ট্য",
+    "yes": "হ্যাঁ"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",
     "continueSetup": "এখন আপনি অ্যাডমিনে আপনার স্টোর সেটআপ চালিয়ে যেতে পারেন।",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "সব দেখুন"
+  },
+  "ProductReviews": {
+    "heading": "রিভিউ",
+    "ratingSummary": "৫-এর মধ্যে {average} · {count, plural, one {# রিভিউ} other {# রিভিউ}}",
+    "ratingValue": "৫-এর মধ্যে {value}",
+    "formHeading": "আপনার রিভিউ",
+    "ratingLabel": "রেটিং",
+    "nameLabel": "আপনার নাম",
+    "titleLabel": "শিরোনাম (ঐচ্ছিক)",
+    "bodyLabel": "রিভিউয়ের লেখা",
+    "submit": "রিভিউ পাঠান",
+    "pendingNotice": "ধন্যবাদ। দোকান অনুমোদন করলে আপনার রিভিউ দেখা যাবে।",
+    "signInPrompt": "রিভিউ লিখতে সাইন ইন করুন।",
+    "error": "রিভিউ পাঠানো যায়নি। আবার চেষ্টা করুন।",
+    "ownerReply": "দোকানের উত্তর",
+    "previousPage": "পূর্ববর্তী",
+    "nextPage": "পরবর্তী",
+    "pageOf": "পৃষ্ঠা {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "সহজ রিটার্ন",
@@ -813,7 +857,8 @@
       "account": "অ্যাকাউন্ট",
       "cart": "কার্ট",
       "home": "হোম",
-      "store": "স্টোর"
+      "store": "স্টোর",
+      "journal": "ম্যাগাজিন"
     },
     "menuButton": "মেনু"
   },

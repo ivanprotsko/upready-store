@@ -62,6 +62,11 @@
     "description": "Преглеждайте и актуализирайте адресите си за доставка — можете да добавите колкото искате. Запазените адреси ще бъдат достъпни при поръчка.",
     "heading": "Адреси за доставка"
   },
+  "AnalyticsConsent": {
+    "message": "Използваме бисквитки, за да разберем как посетителите използват този сайт.",
+    "accept": "Приемам",
+    "decline": "Отказвам"
+  },
   "Breadcrumb": {
     "home": "Начало",
     "store": "Магазин"
@@ -306,8 +311,12 @@
     "unauthorized": "Моля, влезте в акаунта си, за да продължите."
   },
   "Filters": {
+    "from": "от",
+    "no": "Не",
     "sort": "Подредба",
-    "title": "Филтри"
+    "title": "Филтри",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Към изображение {index}",
     "openFullImage": "Отваряне на цялото изображение"
+  },
+  "Journal": {
+    "navLabel": "Списание",
+    "feedTitle": "Списание",
+    "feedDescription": "Статии от {siteName}.",
+    "empty": "Все още няма статии.",
+    "backToFeed": "Всички статии",
+    "previous": "Назад",
+    "next": "Напред",
+    "pageOf": "Страница {page} от {lastPage}",
+    "pagination": "Страници на списанието"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Виж детайли"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Запазете номера на поръчката. Той ще ви трябва при връзка с магазина.",
     "orderSuccess": "Поръчката ви беше направена успешно.",
     "thankYou": "Благодарим ви!"
   },
   "OrderDetails": {
     "backToOrders": "Назад към поръчките",
-    "confirmationSentBefore": "Изпратихме потвърждението на поръчката на",
+    "contactEmailBefore": "Адресът за връзка по тази поръчка е",
     "fulfillmentStatuses": {
       "canceled": "Отказана",
       "delivered": "Доставена",
@@ -686,6 +707,11 @@
     "selectOptions": "Избери опции",
     "selectVariant": "Избери вариант"
   },
+  "ProductAttributes": {
+    "no": "Не",
+    "title": "Характеристики",
+    "yes": "Да"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",
     "continueSetup": "Сега можете да продължите настройката на магазина си в администрацията.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Виж всички"
+  },
+  "ProductReviews": {
+    "heading": "Отзиви",
+    "ratingSummary": "{average} от 5 · {count, plural, one {# отзив} other {# отзива}}",
+    "ratingValue": "{value} от 5",
+    "formHeading": "Вашият отзив",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Вашето име",
+    "titleLabel": "Заглавие (по избор)",
+    "bodyLabel": "Текст на отзива",
+    "submit": "Изпрати отзив",
+    "pendingNotice": "Благодарим ви. Отзивът ще се появи, след като магазинът го одобри.",
+    "signInPrompt": "Влезте, за да оставите отзив.",
+    "error": "Отзивът не беше изпратен. Опитайте отново.",
+    "ownerReply": "Отговор от магазина",
+    "previousPage": "Назад",
+    "nextPage": "Напред",
+    "pageOf": "Страница {page} от {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Лесно връщане",
@@ -813,7 +857,8 @@
       "account": "Профил",
       "cart": "Кошница",
       "home": "Начало",
-      "store": "Магазин"
+      "store": "Магазин",
+      "journal": "Списание"
     },
     "menuButton": "Меню"
   },

@@ -119,3 +119,4 @@ deploy/mt/*.env
 # README.md and probe-local.mjs stay tracked as documents.
 artifacts/docs/2026-09-12-mt-storefront-head-footer/shots/
 artifacts/mockups/*/shot-*.png
+artifacts/docs/f01-thankyou-brand/*.png

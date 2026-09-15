@@ -24,6 +24,8 @@ export type TenantPageDto = {
   published: boolean;
   in_footer: boolean;
   footer_order: number | null;
+  seo_title: string | null;
+  seo_description: string | null;
   reserved: boolean;
 };
 
@@ -76,6 +78,8 @@ export const blankPage = (key: TenantPageKey, locale: string): TenantPageDto => 
   // to "on" the first time its form opens. A custom page opts in explicitly.
   in_footer: true,
   footer_order: null,
+  seo_title: null,
+  seo_description: null,
   reserved: true,
 });
 
@@ -88,6 +92,8 @@ type PageRow = {
   published: boolean;
   in_footer: boolean;
   footer_order: number | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
 };
 
 export const toPageDto = (row: PageRow): TenantPageDto => ({
@@ -99,6 +105,8 @@ export const toPageDto = (row: PageRow): TenantPageDto => ({
   published: row.published,
   in_footer: row.in_footer,
   footer_order: row.footer_order,
+  seo_title: row.seo_title ?? null,
+  seo_description: row.seo_description ?? null,
   reserved: isReservedPageKey(row.key),
 });
 

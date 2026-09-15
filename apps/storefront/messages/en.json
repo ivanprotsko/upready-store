@@ -62,6 +62,11 @@
     "description": "View and update your shipping addresses, and add as many as you like. Saved addresses are offered during checkout.",
     "heading": "Shipping addresses"
   },
+  "AnalyticsConsent": {
+    "message": "We use cookies to see how visitors use this site.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Store"
@@ -306,8 +311,12 @@
     "unauthorized": "Please sign in to continue."
   },
   "Filters": {
+    "from": "from",
+    "no": "No",
     "sort": "Sort",
-    "title": "Filters"
+    "title": "Filters",
+    "to": "to",
+    "yes": "Yes"
   },
   "Footer": {
     "categoriesHeading": "Categories",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Go to image {index}",
     "openFullImage": "Open full image"
+  },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Articles from {siteName}.",
+    "empty": "No articles yet.",
+    "backToFeed": "All articles",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {lastPage}",
+    "pagination": "Journal pages"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "See details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Keep the order number. You need it when you contact the shop.",
     "orderSuccess": "Your order was placed successfully.",
     "thankYou": "Thank you!"
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",
-    "confirmationSentBefore": "We have sent the order confirmation details to",
+    "contactEmailBefore": "The contact address for this order is",
     "fulfillmentStatuses": {
       "canceled": "Canceled",
       "delivered": "Delivered",
@@ -686,6 +707,11 @@
     "selectOptions": "Select options",
     "selectVariant": "Select variant"
   },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Specifications",
+    "yes": "Yes"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continue setup in admin",
     "continueSetup": "You can now continue setting up your store in the admin.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "View all"
+  },
+  "ProductReviews": {
+    "heading": "Reviews",
+    "ratingSummary": "{average} out of 5 · {count, plural, one {# review} other {# reviews}}",
+    "ratingValue": "{value} out of 5",
+    "formHeading": "Your review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Your name",
+    "titleLabel": "Headline (optional)",
+    "bodyLabel": "Your review",
+    "submit": "Send review",
+    "pendingNotice": "Thank you. Your review will appear once the shop has approved it.",
+    "signInPrompt": "Sign in to leave a review.",
+    "error": "The review could not be sent. Please try again.",
+    "ownerReply": "Shop reply",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Straightforward returns",
@@ -813,7 +857,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Store"
+      "store": "Store",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

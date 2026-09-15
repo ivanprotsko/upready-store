@@ -18,6 +18,8 @@ const EditPageSchema = zod
     body: zod.string().max(50_000),
     published: zod.boolean(),
     in_footer: zod.boolean(),
+    seo_title: zod.string().max(70),
+    seo_description: zod.string().max(320),
   })
   .refine((values) => !values.published || values.title.trim().length > 0, {
     // Mirrors the backend's own rule (`PUT /tenants/pages/:key` answers
@@ -40,6 +42,8 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
       body: page.body,
       published: page.published,
       in_footer: page.in_footer,
+      seo_title: page.seo_title ?? "",
+      seo_description: page.seo_description ?? "",
     },
     resolver: zodResolver(EditPageSchema),
   })
@@ -54,6 +58,8 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
         published: values.published,
         in_footer: values.in_footer,
         footer_order: page.footer_order,
+        seo_title: values.seo_title || null,
+        seo_description: values.seo_description || null,
       },
       {
         onError: (error) => {
@@ -150,6 +156,46 @@ export const EditPageForm = ({ pageKey, page }: EditPageFormProps) => {
                     footer&apos;s Information column, alongside the shop&apos;s
                     other footer pages. Reorder it from the pages list.
                   </Form.Hint>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
+            <Form.Field
+              control={form.control}
+              name="seo_title"
+              render={({ field }) => (
+                <Form.Item>
+                  <Form.Label>
+                    Search title{" "}
+                    <span className="text-ui-fg-subtle">({field.value.length}/70)</span>
+                  </Form.Label>
+                  <Form.Hint>
+                    Shown as the page&apos;s title in search results. Empty
+                    falls back to the title above.
+                  </Form.Hint>
+                  <Form.Control>
+                    <Input {...field} />
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
+            <Form.Field
+              control={form.control}
+              name="seo_description"
+              render={({ field }) => (
+                <Form.Item>
+                  <Form.Label>
+                    Search description{" "}
+                    <span className="text-ui-fg-subtle">({field.value.length}/320)</span>
+                  </Form.Label>
+                  <Form.Hint>
+                    Shown under the title in search results. Empty falls back
+                    to the page&apos;s first sentence.
+                  </Form.Hint>
+                  <Form.Control>
+                    <Textarea {...field} rows={3} />
+                  </Form.Control>
                   <Form.ErrorMessage />
                 </Form.Item>
               )}

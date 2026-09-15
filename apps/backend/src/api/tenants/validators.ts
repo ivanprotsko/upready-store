@@ -100,6 +100,10 @@ export const PutTenantPageSchema = z.strictObject({
     .string()
     .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
     .optional(),
+  // t11-seo-redirects step 1: blank/omitted keeps (or leaves unset) the
+  // storefront's own fallback to `title` and the body's first sentence.
+  seo_title: z.string().max(70).nullable().optional(),
+  seo_description: z.string().max(320).nullable().optional(),
 });
 
 export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
@@ -123,6 +127,66 @@ export const PostTenantPageSchema = z.strictObject({
 });
 
 export type PostTenantPageBody = z.infer<typeof PostTenantPageSchema>;
+
+// ---- t10-blog: journal articles (/tenants/articles/**)
+
+const ARTICLE_LOCALE = z
+  .string()
+  .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR");
+
+const ARTICLE_SLUG = z
+  .string()
+  .min(2)
+  .max(96)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens");
+
+/**
+ * `POST /tenants/articles` body — brings one language row of one article into
+ * existence, empty and unpublished. `locale` is required and has no default:
+ * an article exists per language, and guessing `en` for a shop that writes in
+ * Russian is exactly the bug the pages screen had before the Cherkashina
+ * migration. `title` is required because the panel's «new article» dialog asks
+ * for a name up front and the list has to show something.
+ */
+export const PostTenantArticleSchema = z.strictObject({
+  slug: ARTICLE_SLUG,
+  locale: ARTICLE_LOCALE,
+  title: z.string().min(1).max(300),
+});
+
+export type PostTenantArticleBody = z.infer<typeof PostTenantArticleSchema>;
+
+/**
+ * `PUT /tenants/articles/:slug` body — the whole text of one language row.
+ * `published_at` is an ISO-8601 instant; OMITTING it lets the route stamp the
+ * first publish and keep the date on every later save, while sending `null`
+ * clears it explicitly — the two are different intents and the route reads
+ * them apart (`undefined` vs `null`), which is why this field is
+ * `.nullish()` rather than `.nullable()`.
+ *
+ * `cover_url` is whatever `POST /tenants/uploads` answered for the image, so
+ * it is checked as a URL or a site-relative path and nothing more: the file
+ * lives under the tenant's own prefix and the upload route is what put it
+ * there.
+ */
+export const PutTenantArticleSchema = z.strictObject({
+  locale: ARTICLE_LOCALE.optional(),
+  title: z.string().max(300),
+  excerpt: z.string().max(1_000).nullish(),
+  cover_url: z
+    .string()
+    .max(2_000)
+    .regex(/^(https?:\/\/|\/)/, "an absolute http(s) URL or a site-relative path")
+    .nullish(),
+  body: z.string().max(200_000),
+  published: z.boolean(),
+  published_at: z.string().datetime({ offset: true }).nullish(),
+  tags: z.array(z.string().min(1).max(60)).max(20).nullish(),
+  seo_title: z.string().max(300).nullish(),
+  seo_description: z.string().max(1_000).nullish(),
+});
+
+export type PutTenantArticleBody = z.infer<typeof PutTenantArticleSchema>;
 
 // ---- piece 9: storefront by host (/tenants/domains)
 
@@ -198,6 +262,94 @@ export const PutTenantPaymentSettingsSchema = z.strictObject({
   test_password2: optionalSecret,
 });
 export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
+
+/**
+ * `POST /tenants/redirects` (t11-seo-redirects) — a manual redirect row. Both
+ * paths are exact pathnames: a leading slash, no host, no query string, so the
+ * storefront middleware can compare them to `request.nextUrl.pathname` byte for
+ * byte with no normalisation on either side.
+ */
+const redirectPath = z
+  .string()
+  .min(1)
+  .max(2048)
+  .regex(/^\/[^\s?#]*$/, "an absolute path starting with / and carrying no query string");
+
+export const PostTenantRedirectSchema = z.strictObject({
+  from_path: redirectPath,
+  to_path: redirectPath,
+  status_code: z.union([z.literal(301), z.literal(302), z.literal(307), z.literal(308)]).optional(),
+});
+
+export type PostTenantRedirectBody = z.infer<typeof PostTenantRedirectSchema>;
+
+/**
+ * `PUT /tenants/seo-verification` (t11-seo-redirects step 6) — the search
+ * console ownership tags. Empty string clears a tag rather than leaving the
+ * previous value, the same convention `optionalSecret` uses above.
+ */
+export const PutTenantSeoVerificationSchema = z.strictObject({
+  yandex: z.string().max(200).nullable().optional(),
+  google: z.string().max(200).nullable().optional(),
+});
+
+export type PutTenantSeoVerificationBody = z.infer<typeof PutTenantSeoVerificationSchema>;
+
+/**
+ * `PUT /tenants/analytics` (t17-analytics) — the shop's own counters. A
+ * Yandex Metrica number is digits only (the counter id shown in its
+ * dashboard); a GA4 measurement id is `G-` followed by alphanumerics. Empty
+ * string clears a counter, the same convention `seo_verification` uses above.
+ */
+export const PutTenantAnalyticsSchema = z.strictObject({
+  yandex_metrica_id: z
+    .string()
+    .trim()
+    .regex(/^$|^\d{6,10}$/, "6 to 10 digits, the Metrica counter number")
+    .nullable()
+    .optional(),
+  ga4_measurement_id: z
+    .string()
+    .trim()
+    .regex(/^$|^G-[A-Z0-9]{6,12}$/, "a GA4 measurement id, e.g. G-XXXXXXXXXX")
+    .nullable()
+    .optional(),
+});
+
+export type PutTenantAnalyticsBody = z.infer<typeof PutTenantAnalyticsSchema>;
+
+/**
+ * `PUT /tenants/branding` (t16-owner-branding) — logo, favicon, og image,
+ * primary colour and the footer credit line. Every field is optional so a
+ * PUT changes only what it names; `null` clears a field the same way
+ * `PutTenantSeoVerificationSchema` above treats an empty string. URLs are
+ * never validated as files here — that already happened at
+ * `POST /tenants/branding/upload`, and this schema only bounds their length.
+ */
+const brandingUrl = z.string().min(1).max(2048).nullable().optional();
+
+export const PutTenantBrandingSchema = z.strictObject({
+  logo_light_url: brandingUrl,
+  logo_dark_url: brandingUrl,
+  favicon_url: brandingUrl,
+  og_image_url: brandingUrl,
+  primary_color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/, "a 6-digit hex color, e.g. #1a2b3c")
+    .nullable()
+    .optional(),
+  shop_name_short: z.string().max(60).nullable().optional(),
+  footer_credit: z
+    .strictObject({
+      enabled: z.boolean(),
+      text: z.string().max(200),
+      href: z.string().max(2048).nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+
+export type PutTenantBrandingBody = z.infer<typeof PutTenantBrandingSchema>;
 
 /**
  * `PUT /tenants/notification-settings` — the two fields the owner controls over

@@ -59,10 +59,10 @@ export const ProductListTable = () => {
         <Heading level="h1">{t("products.domain")}</Heading>
         <div className="flex items-center justify-center gap-x-2">
           <Button size="small" variant="secondary" asChild>
-            <Link to={`export${location.search}`}>{t("actions.export")}</Link>
+            <Link to={`export${location.search}`}>{t("products.csv.exportAction")}</Link>
           </Button>
           <Button size="small" variant="secondary" asChild>
-            <Link to={`import${location.search}`}>{t("actions.import")}</Link>
+            <Link to={`import${location.search}`}>{t("products.csv.importAction")}</Link>
           </Button>
           <Button size="small" variant="secondary" asChild>
             <Link to="create">{t("actions.create")}</Link>

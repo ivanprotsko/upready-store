@@ -62,6 +62,11 @@
     "description": "იხილეთ და განაახლეთ თქვენი მიწოდების მისამართები — შეგიძლიათ დაამატოთ სასურველი რაოდენობა. შენახული მისამართები ხელმისაწვდომი იქნება შეკვეთის გაფორმებისას.",
     "heading": "მიწოდების მისამართები"
   },
+  "AnalyticsConsent": {
+    "message": "ჩვენ ვიყენებთ ქუქიებს, რათა გავიგოთ, როგორ იყენებენ ვიზიტორები ამ საიტს.",
+    "accept": "დათანხმება",
+    "decline": "უარყოფა"
+  },
   "Breadcrumb": {
     "home": "მთავარი",
     "store": "მაღაზია"
@@ -306,8 +311,12 @@
     "unauthorized": "გასაგრძელებლად გთხოვთ შეხვიდეთ სისტემაში."
   },
   "Filters": {
+    "from": "დან",
+    "no": "არა",
     "sort": "დალაგება",
-    "title": "ფილტრები"
+    "title": "ფილტრები",
+    "to": "მდე",
+    "yes": "დიახ"
   },
   "Footer": {
     "categoriesHeading": "კატეგორიები",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "გადასვლა სურათზე {index}",
     "openFullImage": "სრული სურათის გახსნა"
+  },
+  "Journal": {
+    "navLabel": "ჟურნალი",
+    "feedTitle": "ჟურნალი",
+    "feedDescription": "{siteName}-ის სტატიები.",
+    "empty": "სტატიები ჯერ არ არის.",
+    "backToFeed": "ყველა სტატია",
+    "previous": "წინა",
+    "next": "შემდეგი",
+    "pageOf": "გვერდი {page} / {lastPage}",
+    "pagination": "ჟურნალის გვერდები"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "დეტალების ნახვა"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "შეინახეთ შეკვეთის ნომერი. დაგჭირდებათ მაღაზიასთან დაკავშირებისას.",
     "orderSuccess": "თქვენი შეკვეთა წარმატებით გაფორმდა.",
     "thankYou": "გმადლობთ!"
   },
   "OrderDetails": {
     "backToOrders": "შეკვეთებზე დაბრუნება",
-    "confirmationSentBefore": "შეკვეთის დადასტურების დეტალები გამოგზავნილია მისამართზე",
+    "contactEmailBefore": "ამ შეკვეთის საკონტაქტო მისამართია",
     "fulfillmentStatuses": {
       "canceled": "გაუქმებული",
       "delivered": "მიწოდებული",
@@ -686,6 +707,11 @@
     "selectOptions": "აირჩიეთ ოფციები",
     "selectVariant": "აირჩიეთ ვარიანტი"
   },
+  "ProductAttributes": {
+    "no": "არა",
+    "title": "მახასიათებლები",
+    "yes": "დიახ"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",
     "continueSetup": "ახლა შეგიძლიათ გააგრძელოთ მაღაზიის კონფიგურაცია ადმინ პანელში.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "ყველას ნახვა"
+  },
+  "ProductReviews": {
+    "heading": "შეფასებები",
+    "ratingSummary": "{average} 5-დან · {count, plural, one {# შეფასება} other {# შეფასება}}",
+    "ratingValue": "{value} 5-დან",
+    "formHeading": "თქვენი შეფასება",
+    "ratingLabel": "შეფასება",
+    "nameLabel": "თქვენი სახელი",
+    "titleLabel": "სათაური (არასავალდებულო)",
+    "bodyLabel": "შეფასების ტექსტი",
+    "submit": "შეფასების გაგზავნა",
+    "pendingNotice": "გმადლობთ. შეფასება გამოჩნდება მაღაზიის დადასტურების შემდეგ.",
+    "signInPrompt": "შედით სისტემაში შეფასების დასატოვებლად.",
+    "error": "შეფასება ვერ გაიგზავნა. სცადეთ თავიდან.",
+    "ownerReply": "მაღაზიის პასუხი",
+    "previousPage": "წინა",
+    "nextPage": "შემდეგი",
+    "pageOf": "გვერდი {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "მარტივი დაბრუნება",
@@ -813,7 +857,8 @@
       "account": "ანგარიში",
       "cart": "კალათა",
       "home": "მთავარი",
-      "store": "მაღაზია"
+      "store": "მაღაზია",
+      "journal": "ჟურნალი"
     },
     "menuButton": "მენიუ"
   },

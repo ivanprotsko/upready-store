@@ -1,70 +1,35 @@
 "use client"
 
 import { GoogleAnalytics as GtagScripts } from "@next/third-parties/google"
-import { useEffect, useState } from "react"
-
-const IDLE_TIMEOUT = 3000
-
-const WAKE_EVENTS = [
-  "pointerdown",
-  "keydown",
-  "touchstart",
-  "wheel",
-  "scroll",
-] as const
+import { useEffect } from "react"
+import { useIdleAfterConsent } from "@modules/common/components/analytics-consent/use-idle-after-consent"
+import SpaPageviews from "./spa-pageviews"
 
 type GoogleAnalyticsProps = {
   gaId: string
 }
 
 const GoogleAnalytics = ({ gaId }: GoogleAnalyticsProps) => {
-  const [shouldLoad, setShouldLoad] = useState(false)
+  // t17-analytics step 2/3: no counter before consent, and deferred to idle
+  // (or the visitor's first interaction) once granted.
+  const shouldLoad = useIdleAfterConsent()
 
   useEffect(() => {
-    window.dataLayer = window.dataLayer || []
-
-    let idleHandle: number | undefined
-    let timeoutHandle: ReturnType<typeof setTimeout> | undefined
-
-    const stopWaiting = () => {
-      if (idleHandle !== undefined) {
-        window.cancelIdleCallback(idleHandle)
-        idleHandle = undefined
-      }
-
-      if (timeoutHandle !== undefined) {
-        clearTimeout(timeoutHandle)
-        timeoutHandle = undefined
-      }
-
-      for (const event of WAKE_EVENTS) {
-        window.removeEventListener(event, load)
-      }
+    if (shouldLoad) {
+      window.dataLayer = window.dataLayer || []
     }
-
-    const load = () => {
-      stopWaiting()
-      setShouldLoad(true)
-    }
-
-    for (const event of WAKE_EVENTS) {
-      window.addEventListener(event, load, { once: true, passive: true })
-    }
-
-    if (typeof window.requestIdleCallback === "function") {
-      idleHandle = window.requestIdleCallback(load, { timeout: IDLE_TIMEOUT })
-    } else {
-      timeoutHandle = setTimeout(load, IDLE_TIMEOUT)
-    }
-
-    return stopWaiting
-  }, [])
+  }, [shouldLoad])
 
   if (!shouldLoad) {
     return null
   }
 
-  return <GtagScripts gaId={gaId} />
+  return (
+    <>
+      <GtagScripts gaId={gaId} />
+      <SpaPageviews />
+    </>
+  )
 }
 
 export default GoogleAnalytics

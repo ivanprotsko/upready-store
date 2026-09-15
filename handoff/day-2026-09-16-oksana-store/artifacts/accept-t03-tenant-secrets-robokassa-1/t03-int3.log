@@ -1,0 +1,670 @@
+(node:73398) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"level":"info","message":"Disabling admin as we run integration tests","timestamp":"2026-09-15 04:20:19"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 04:20:19"}
+{"level":"info","message":"Creating database medusa-01m2gs7snn5k2r89pfsn7meebg-integration-1","timestamp":"2026-09-15 04:20:19"}
+{"level":"info","message":"Creating migrations table 'mikro_orm_migrations'...","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"Migrations table created successfully","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"Migrating database with core migrations and links medusa-01m2gs7snn5k2r89pfsn7meebg-integration-1","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"MODULE: integration","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260610215533","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260610215533","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260618154037","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260618154037","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260622120502","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260622120502","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260701095518","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260701095518","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260708072033","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260708072033","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260716110756","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260716110756","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260716132041","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260716132041","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260720130920","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260720130920","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20260724101525","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20260724101525","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"MODULE: stock_location","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20240307161216","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20240307161216","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20241210073813","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20241210073813","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20250106142624","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20250106142624","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20250120110820","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110820","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"MODULE: inventory","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20240307132720","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20240307132720","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20240719123015","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20240719123015","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20241213063611","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20241213063611","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating Migration20251010131115","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ✔ Migrated Migration20251010131115","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"MODULE: product","timestamp":"2026-09-15 04:20:20"}
+{"level":"info","message":"  ● Migrating InitialSetup20240401153642","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240401153642","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240601111544","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240601111544","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration202408271511","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration202408271511","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241122120331","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241122120331","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241125090957","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241125090957","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250411073236","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250411073236","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250516081326","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250516081326","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250910154539","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250910154539","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250911092221","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250911092221","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250929204438","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250929204438","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251008132218","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251008132218","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251011090511","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251011090511","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251022153442","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251022153442","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251029150809","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251029150809","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251110180907","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251110180907","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251113183352","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251113183352","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260224120000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260224120000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260301002050","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260301002050","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260306120000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260306120000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260623180000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260623180000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260730104846","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260730104846","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: pricing","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20230929122253","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20230929122253","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240322094407","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240322094407","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240322113359","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240322113359","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240322120125","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240322120125","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240626133555","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240626133555","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240704094505","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240704094505","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241127114534","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241127114534","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241127223829","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241127223829","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241128055359","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241128055359","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241212190401","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241212190401","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250408145122","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250408145122","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250409122219","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250409122219","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251009110625","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251009110625","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251112192723","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251112192723","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260429163502","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260429163502","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: promotion","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240227120221","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240227120221","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240617102917","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240617102917","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240624153824","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240624153824","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241211061114","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241211061114","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250113094144","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250113094144","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250120110700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250226130616","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250226130616","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250508081510","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250508081510","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250828075407","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250828075407","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250909083125","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250909083125","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250916120552","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250916120552","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250917143818","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250917143818","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250919122137","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250919122137","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251006000000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251006000000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251015113934","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251015113934","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251107050148","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251107050148","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: customer","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240124154000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240124154000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240524123112","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240524123112","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240602110946","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240602110946","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241211074630","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241211074630","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251010130829","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251010130829","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: sales_channel","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240115152146","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240115152146","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: cart","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240222170223","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240222170223","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240831125857","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240831125857","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241106085918","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241106085918","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241205095237","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241205095237","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241216183049","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241216183049","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241218091938","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241218091938","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250120115059","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250120115059","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250212131240","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250212131240","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250326151602","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250326151602","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250508081553","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250508081553","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251017153909","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251017153909","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251208130704","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251208130704","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260626000000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260626000000","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: region","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240205173216","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240205173216","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240624200006","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240624200006","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250120110744","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110744","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: api_key","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating InitialSetup20240221144943","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240221144943","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240604080145","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240604080145","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241205122700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241205122700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251015123842","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251015123842","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: store","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating InitialSetup20240227075933","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240227075933","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240621145944","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240621145944","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241206083313","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241206083313","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251202184737","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251202184737","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20251212161429","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20251212161429","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: tax","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240227090331","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240227090331","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240710135844","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240710135844","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240924114005","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240924114005","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241212052837","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241212052837","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: currency","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating InitialSetup20240228133303","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240228133303","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240624082354","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240624082354","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240225134525","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240225134525","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240806072619","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240806072619","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20241211151053","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20241211151053","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250115160517","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250115160517","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250120110552","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110552","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250123122334","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250123122334","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250206105639","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250206105639","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250207132723","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250207132723","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250625084134","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250625084134","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250924135437","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250924135437","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20250929124701","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20250929124701","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20260411223700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20260411223700","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"MODULE: order","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ● Migrating Migration20240219102530","timestamp":"2026-09-15 04:20:21"}
+{"level":"info","message":"  ✔ Migrated Migration20240219102530","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240604100512","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240604100512","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240715102100","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240715102100","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240715174100","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240715174100","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240716081800","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240716081800","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240801085921","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240801085921","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240821164505","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240821164505","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240821170920","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240821170920","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240827133639","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240827133639","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240902195921","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240902195921","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240913092514","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240913092514","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240930122627","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240930122627","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241014142943","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241014142943","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241106085223","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241106085223","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241129124827","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241129124827","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241217162224","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241217162224","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250326151554","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250326151554","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250522181137","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250522181137","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250702095353","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250702095353","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250704120229","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250704120229","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250910130000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250910130000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251016160403","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251016160403","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251016182939","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251016182939","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251017155709","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251017155709","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251114100559","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251114100559","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251125164002","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251125164002","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251210112909","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251210112909","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251210112924","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251210112924","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251225120947","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251225120947","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260106185528","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260106185528","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260625000000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260625000000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260729154253","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260729154253","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: settings","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250717162007","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250717162007","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260127081758","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260127081758","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260615151246","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260615151246","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: translation","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251208124155","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251208124155","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251215083927","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251215083927","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251218140235","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251218140235","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260108122757","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260108122757","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240205025928","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240205025928","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240529080336","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240529080336","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241202100304","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241202100304","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260514083900","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260514083900","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260525090000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260525090000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260604120000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260604120000","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260616075929","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260616075929","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: user","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240214033943","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240214033943","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240703095850","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240703095850","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241202103352","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241202103352","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240311145700_InitialSetupMigration","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240311145700_InitialSetupMigration","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240821170957","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240821170957","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240917161003","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240917161003","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241217110416","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241217110416","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250113122235","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250113122235","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250120115002","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250120115002","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250822130931","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250822130931","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250825132614","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250825132614","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251114133146","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251114133146","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240509083918_InitialSetupMigration","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240509083918_InitialSetupMigration","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240628075401","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240628075401","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20240830094712","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20240830094712","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250120110514","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110514","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251028172715","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251028172715","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251121123942","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251121123942","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20251121150408","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20251121150408","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: cache","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: event_bus","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: workflows","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20231228143900","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20231228143900","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20241206101446","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20241206101446","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250128174331","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250128174331","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250505092459","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250505092459","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250819104213","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250819104213","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250819110924","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250819110924","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20250908080305","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20250908080305","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: locking","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"MODULE: tenant","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260910140113","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260910140113","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260910190340","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260910190340","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260911004426","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260911004426","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260911010412","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260911010412","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260912061500","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260912061500","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ● Migrating Migration20260914193724","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"  ✔ Migrated Migration20260914193724","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" cart_payment_collection","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" cart_promotion","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" customer_account_holder","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" location_fulfillment_provider","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" location_fulfillment_set","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" invite_rbac_role","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" order_cart","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" order_fulfillment","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" order_payment_collection","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" order_promotion","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" return_fulfillment","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" product_sales_channel","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" product_shipping_profile","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" product_variant_inventory_item","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" product_variant_price_set","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" publishable_api_key_sales_channel","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" region_payment_provider","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" sales_channel_stock_location","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" shipping_option_price_set","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" user_rbac_role","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_api_key_api_key","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_promotion_campaign","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_order_order","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_product_product_category","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_product_product","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_promotion_promotion","timestamp":"2026-09-15 04:20:22"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_sales_channel_sales_channel","timestamp":"2026-09-15 04:20:22"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"No workflow to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"No subscriber to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 04:20:23"}
+{"level":"info","message":"No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+medusa@2.19.0_8cb86d4b47a43d0125b7f235368138ca/node_modules/@medusajs/medusa/dist/jobs. skipped.","timestamp":"2026-09-15 04:20:24"}
+{"level":"info","message":"No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/jobs. skipped.","timestamp":"2026-09-15 04:20:24"}
+(node:73398) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-category.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-collection.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-collection.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 04:20:27"}
+{"level":"info","message":"Live mode needs password1 and password2 before it can be enabled.","timestamp":"2026-09-15 04:20:29"}
+{"level":"info","message":"Payment settings tis_01M2GS80TDPPKXDS25TBWX62M9 were not found.","timestamp":"2026-09-15 04:20:29"}
+{"level":"info","message":"Payment provider pp_robokassa_robokassa is not available for this shop.","timestamp":"2026-09-15 04:20:31"}
+{"level":"info","message":"[robokassa] session payses_01M2GS85X52WE0BWKJ21NCJ64A for tenant ten_01M2GS7Z43MYY3ME9R7154P7BK: invoice 368514882, 10400.00 RUB, test=true","timestamp":"2026-09-15 04:20:32"}
+{"level":"info","message":"[robokassa] session payses_01M2GS874DW1DT3WEA39WSYEN9 for tenant ten_01M2GS7Z43MYY3ME9R7154P7BK: invoice 1566922069, 10400.00 RUB, test=true","timestamp":"2026-09-15 04:20:33"}
+{"level":"warn","message":"[robokassa/result] rejected: bad_signature (InvId=1566922069, session=payses_01M2GS874DW1DT3WEA39WSYEN9)","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"[robokassa/result] confirmed: session payses_01M2GS874DW1DT3WEA39WSYEN9, invoice 1566922069, 10400.00 RUB, tenant ten_01M2GS7Z43MYY3ME9R7154P7BK, test=true","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"Processing order.placed which has 2 subscribers","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"Processing payment.captured which has 1 subscribers","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"tenant: order order_01M2GS879GHD711HYJZ8YCMPMV → tenant ten_01M2GS7Z43MYY3ME9R7154P7BK.","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"[robokassa/result] replay of confirmed invoice 1566922069, answering OK again","timestamp":"2026-09-15 04:20:33"}
+{"level":"info","message":"Processing payment.captured which has 1 subscribers","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"[smtp] Failed to send email: getaddrinfo ENOTFOUND smtp.example.com","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"[smtp] Failed to send email: getaddrinfo ENOTFOUND smtp.example.com","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"[order-placed-email] Failed to send notification: Failed to send notification with id noti_01M2GS87F15FXNA034917PR1QK:\ngetaddrinfo ENOTFOUND smtp.example.com","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"[order-paid-email] Failed to send notification: Failed to send notification with id noti_01M2GS87F0MGYSM5ND1SXMC1FG:\ngetaddrinfo ENOTFOUND smtp.example.com","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"An error occurred while processing payment.captured:","timestamp":"2026-09-15 04:20:33"}
+{"level":"error","message":"aborted","stack":[{"columnNumber":16,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+core@6.6.14/node_modules/@mikro-orm/core/platforms/ExceptionConverter.js","functionName":"PostgreSqlExceptionConverter.convertException","lineNumber":8,"methodName":"convertException","native":false,"typeName":"PostgreSqlExceptionConverter"},{"columnNumber":22,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+postgresql@6.6.14_@mikro-orm+core@6.6.14/node_modules/@mikro-orm/postgresql/PostgreSqlExceptionConverter.js","functionName":"PostgreSqlExceptionConverter.convertException","lineNumber":48,"methodName":"convertException","native":false,"typeName":"PostgreSqlExceptionConverter"},{"columnNumber":54,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+core@6.6.14/node_modules/@mikro-orm/core/drivers/DatabaseDriver.js","functionName":"PostgreSqlDriver.convertException","lineNumber":360,"methodName":"convertException","native":false,"typeName":"PostgreSqlDriver"},{"columnNumber":24,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+core@6.6.14/node_modules/@mikro-orm/core/drivers/DatabaseDriver.js","functionName":null,"lineNumber":364,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/process/task_queues","functionName":"processTicksAndRejections","lineNumber":104,"methodName":null,"native":false,"typeName":null},{"columnNumber":24,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+knex@6.6.14_@mikro-orm+core@6.6.14_pg@8.20.0/node_modules/@mikro-orm/knex/AbstractSqlDriver.js","functionName":"PostgreSqlDriver.find","lineNumber":72,"methodName":"find","native":false,"typeName":"PostgreSqlDriver"},{"columnNumber":25,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@mikro-orm+core@6.6.14/node_modules/@mikro-orm/core/EntityManager.js","functionName":"SqlEntityManager.find","lineNumber":147,"methodName":"find","native":false,"typeName":"SqlEntityManager"},{"columnNumber":23,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+order@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.1_d6546ff82e49d37a7b4e3cb76f0476ed/node_modules/@medusajs/order/src/utils/base-repository-find.ts","functionName":"loadShippingAdjustments","lineNumber":499,"methodName":null,"native":false,"typeName":null},{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+order@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.1_d6546ff82e49d37a7b4e3cb76f0476ed/node_modules/@medusajs/order/src/utils/base-repository-find.ts","functionName":"OrderRepository.find","lineNumber":265,"methodName":"find","native":false,"typeName":"OrderRepository"},{"columnNumber":14,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/modules-sdk/medusa-internal-service.ts","functionName":"OrderService.list","lineNumber":230,"methodName":"list","native":false,"typeName":"OrderService"},{"columnNumber":26,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/modules-sdk/medusa-service.ts","functionName":"OrderModuleService.methodImplementation","lineNumber":225,"methodName":"methodImplementation","native":false,"typeName":"OrderModuleService"},{"columnNumber":14,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/modules-sdk/decorators/inject-into-context.ts","functionName":"OrderModuleService.descriptor.value","lineNumber":27,"methodName":"value","native":false,"typeName":"OrderModuleService.descriptor"},{"columnNumber":22,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/modules-sdk/decorators/emit-events.ts","functionName":"OrderModuleService.descriptor.value","lineNumber":26,"methodName":"value","native":false,"typeName":"OrderModuleService.descriptor"},{"columnNumber":20,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+order@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.1_d6546ff82e49d37a7b4e3cb76f0476ed/node_modules/@medusajs/order/src/services/order-module-service.ts","functionName":"OrderModuleService.listOrders_","lineNumber":477,"methodName":"listOrders_","native":false,"typeName":"OrderModuleService"},{"columnNumber":20,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+order@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.1_d6546ff82e49d37a7b4e3cb76f0476ed/node_modules/@medusajs/order/src/services/order-module-service.ts","functionName":"OrderModuleService.listOrders","lineNumber":464,"methodName":"listOrders","native":false,"typeName":"OrderModuleService"},{"columnNumber":16,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/query/module-data-fetcher.ts","functionName":"ModuleDataFetcher.executeFetchRequest","lineNumber":289,"methodName":"executeFetchRequest","native":false,"typeName":"ModuleDataFetcher"},{"columnNumber":20,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/joiner/execute.ts","functionName":"fetchData","lineNumber":301,"methodName":null,"native":false,"typeName":null},{"columnNumber":null,"fileName":null,"functionName":"async Promise.all","lineNumber":null,"methodName":"all","native":false,"typeName":"async Promise"},{"columnNumber":26,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/joiner/execute.ts","functionName":"handleExpands","lineNumber":488,"methodName":null,"native":false,"typeName":null},{"columnNumber":3,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/joiner/execute.ts","functionName":"executePlan","lineNumber":96,"methodName":null,"native":false,"typeName":null},{"columnNumber":59,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/joiner/remote-joiner.ts","functionName":"RemoteJoiner.query","lineNumber":93,"methodName":"query","native":false,"typeName":"RemoteJoiner"},{"columnNumber":12,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/query/query.ts","functionName":"Query.internalQuery","lineNumber":337,"methodName":"internalQuery","native":false,"typeName":"Query"},{"columnNumber":18,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+query@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/query/src/query/query.ts","functionName":"Query.graph","lineNumber":169,"methodName":"graph","native":false,"typeName":"Query"},{"columnNumber":16,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/caching/index.ts","functionName":"Query.descriptor.value","lineNumber":193,"methodName":"value","native":false,"typeName":"Query.descriptor"},{"columnNumber":30,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/apps/backend/src/subscribers/payment-captured-email.ts","functionName":"orderPaidEmailHandler","lineNumber":34,"methodName":null,"native":false,"typeName":null},{"columnNumber":16,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts","functionName":"subscriber","lineNumber":183,"methodName":null,"native":false,"typeName":null},{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts","functionName":"EventEmitter.wrappedSubscriber","lineNumber":209,"methodName":"wrappedSubscriber","native":false,"typeName":"EventEmitter"},{"columnNumber":21,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/tarn@3.0.2/node_modules/tarn/dist/PendingOperation.js","functionName":"PendingOperation.abort","lineNumber":25,"methodName":"abort","native":false,"typeName":"PendingOperation"},{"columnNumber":25,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/tarn@3.0.2/node_modules/tarn/dist/Pool.js","functionName":null,"lineNumber":208,"methodName":null,"native":false,"typeName":null},{"columnNumber":null,"fileName":null,"functionName":"Array.map","lineNumber":null,"methodName":"map","native":false,"typeName":"Array"},{"columnNumber":53,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/tarn@3.0.2/node_modules/tarn/dist/Pool.js","functionName":null,"lineNumber":207,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/process/task_queues","functionName":"processTicksAndRejections","lineNumber":104,"methodName":null,"native":false,"typeName":null},{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/client.js","functionName":"Client_PG.destroy","lineNumber":451,"methodName":"destroy","native":false,"typeName":"Client_PG"},{"columnNumber":null,"fileName":null,"functionName":"async Promise.allSettled","lineNumber":null,"methodName":"allSettled","native":false,"typeName":"async Promise"},{"columnNumber":18,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts","functionName":"promiseAll","lineNumber":27,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+medusa@2.19.0_8cb86d4b47a43d0125b7f235368138ca/node_modules/@medusajs/medusa/src/loaders/index.ts","functionName":"shutdown","lineNumber":239,"methodName":null,"native":false,"typeName":null},{"columnNumber":null,"fileName":null,"functionName":"async Promise.allSettled","lineNumber":null,"methodName":"allSettled","native":false,"typeName":"async Promise"},{"columnNumber":18,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts","functionName":"promiseAll","lineNumber":27,"methodName":null,"native":false,"typeName":null},{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+test-utils@2.19.0_@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@med_efccd1912c1e77c49b34e89671deb451/node_modules/@medusajs/test-utils/src/medusa-test-runner-utils/bootstrap-app.ts","functionName":"shutdown","lineNumber":76,"methodName":null,"native":false,"typeName":null},{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+test-utils@2.19.0_@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@med_efccd1912c1e77c49b34e89671deb451/node_modules/@medusajs/test-utils/src/medusa-test-runner.ts","functionName":"MedusaTestRunner.shutdown","lineNumber":220,"methodName":"shutdown","native":false,"typeName":"MedusaTestRunner"},{"columnNumber":7,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+test-utils@2.19.0_@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@med_efccd1912c1e77c49b34e89671deb451/node_modules/@medusajs/test-utils/src/medusa-test-runner.ts","functionName":"MedusaTestRunner.cleanup","lineNumber":251,"methodName":"cleanup","native":false,"typeName":"MedusaTestRunner"},{"columnNumber":7,"fileName":"/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-tenant-secrets-psp/node_modules/.pnpm/@medusajs+test-utils@2.19.0_@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@med_efccd1912c1e77c49b34e89671deb451/node_modules/@medusajs/test-utils/src/medusa-test-runner.ts","functionName":null,"lineNumber":432,"methodName":null,"native":false,"typeName":"Object"}],"timestamp":"2026-09-15 04:20:33"}
+PASS integration-tests/http/tenants-payment-settings.spec.ts (15.445 s)
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        15.5 s
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

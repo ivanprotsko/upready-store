@@ -62,6 +62,11 @@
     "description": "Visa och uppdatera dina leveransadresser, du kan lägga till så många du vill. Sparade adresser blir tillgängliga vid kassan.",
     "heading": "Leveransadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi använder cookies för att förstå hur besökare använder den här webbplatsen.",
+    "accept": "Acceptera",
+    "decline": "Avvisa"
+  },
   "Breadcrumb": {
     "home": "Hem",
     "store": "Butik"
@@ -306,8 +311,12 @@
     "unauthorized": "Logga in för att fortsätta."
   },
   "Filters": {
+    "from": "från",
+    "no": "Nej",
     "sort": "Sortera",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "till",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Gå till bild {index}",
     "openFullImage": "Öppna bilden i full storlek"
+  },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artiklar från {siteName}.",
+    "empty": "Inga artiklar ännu.",
+    "backToFeed": "Alla artiklar",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "pageOf": "Sida {page} av {lastPage}",
+    "pagination": "Magasinets sidor"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Visa detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Spara ordernumret. Du behöver det när du kontaktar butiken.",
     "orderSuccess": "Din order har lagts.",
     "thankYou": "Tack!"
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",
-    "confirmationSentBefore": "Vi har skickat orderbekräftelsen till",
+    "contactEmailBefore": "Kontaktadressen för den här ordern är",
     "fulfillmentStatuses": {
       "canceled": "Avbruten",
       "delivered": "Levererad",
@@ -686,6 +707,11 @@
     "selectOptions": "Välj alternativ",
     "selectVariant": "Välj variant"
   },
+  "ProductAttributes": {
+    "no": "Nej",
+    "title": "Specifikationer",
+    "yes": "Ja"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",
     "continueSetup": "Du kan nu fortsätta konfigurera din butik i adminpanelen.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Visa alla"
+  },
+  "ProductReviews": {
+    "heading": "Omdömen",
+    "ratingSummary": "{average} av 5 · {count, plural, one {# omdöme} other {# omdömen}}",
+    "ratingValue": "{value} av 5",
+    "formHeading": "Ditt omdöme",
+    "ratingLabel": "Betyg",
+    "nameLabel": "Ditt namn",
+    "titleLabel": "Rubrik (valfritt)",
+    "bodyLabel": "Din text",
+    "submit": "Skicka omdöme",
+    "pendingNotice": "Tack. Omdömet visas när butiken har godkänt det.",
+    "signInPrompt": "Logga in för att lämna ett omdöme.",
+    "error": "Omdömet kunde inte skickas. Försök igen.",
+    "ownerReply": "Svar från butiken",
+    "previousPage": "Föregående",
+    "nextPage": "Nästa",
+    "pageOf": "Sida {page} av {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Enkla returer",
@@ -813,7 +857,8 @@
       "account": "Konto",
       "cart": "Varukorg",
       "home": "Hem",
-      "store": "Butik"
+      "store": "Butik",
+      "journal": "Magasin"
     },
     "menuButton": "Meny"
   },

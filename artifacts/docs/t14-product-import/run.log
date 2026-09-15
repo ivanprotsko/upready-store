@@ -1,0 +1,88 @@
+
+=== 1. магазин владельца ===
+регистрация owner@cherkashino.test: 200
+создание магазина «cherkashino»: 201
+стартовый каталог: 201 seeded=true 
+товаров в магазине: 10
+
+=== 2. выгрузка CSV ===
+GET /tenants/products/export → 200 text/csv; charset=utf-8
+content-disposition: attachment; filename="catalog-cherkashino-2026-09-15T00-34-25-143Z.csv"
+BOM: true · разделитель «;»: true · CRLF: true
+строк данных: 22 (заголовок + 22)
+заголовок: "Код товара";"Название";"Подзаголовок";"Описание";"Статус";"Категория";"Вариант";"SKU";"Остаток";"Вес, г";"Длина, мм";"Ширина, мм";"Высота, мм";"Цена, USD";"Метаданные: brand";"Метаданные: dataset";"Метаданные: mpn";"Метаданные: specs";"Метаданные: starter";"Картинки"
+первая строка: "cube-1-cherkashino";"Cube No. 1 · Chalk white";"Matte plaster in chalk white, mid grey and graphite, starter catalog";"Cube No. 1 is a matte chalk white plaster cube with softly rounded edges, resting flat and turned twenty degrees. Cast in matte plaster in chalk white, mid grey and graphite, it is a plain form with no function beyond holding its shape and its shadow, which is what makes it a fair stand-in for a product you have not added yet. It comes in three sizes: small at about 8 cm, medium at 12 cm and large at 18 cm across. Every piece in this catalog is photographed in the same light on the same neutral backdrop, so the storefront reads as one series in any theme. Part of the starter catalog: swap it for your own product from the panel whenever you are ready.";"published";"Forms / Cubes";"Large";"ABS-CUBE-1-LARGE-CHERKASHINO";"";"";"";"";"";"70";"Starter set";"abstract";"ABS-CUBE-1";"{""Form"":""Cube"",""Size"":""Small 8 cm, Medium 12 cm, Large 18 cm"",""Finish"":""Chalk white"",""Series"":""Starter catalog, one light and one backdrop for every piece"",""Weight"":""Small 180 g, Medium 420 g, Large 900 g"",""Material"":""Matte plaster in chalk white, mid grey and graphite""}";"true";"http://localhost:9075/static/store-profiles/abstract/cube-1-hero.webp"
+снимок каталога из БД: 22 строк (вариантов)
+
+=== 3. круговой рейс: импорт неизменённого файла ===
+POST /tenants/products/import → 200
+состояние: pending · разделитель «;» · BOM true
+строк 22 · без изменений 22 · обновить 0 · создать 0 · новых вариантов 0 · отклонено 0
+подтверждение → 200 состояние applied
+каталог после кругового рейса: ИДЕНТИЧЕН (diff пуст)
+
+=== 4. правка цены и остатка ===
+колонки: код 0, цена 13 («Цена, USD»), остаток 8
+правим товар «cube-1-cherkashino»: цена 70 → 12345, остаток  → 77
+сухой прогон → 200 pending
+строк 22 · без изменений 21 · обновить 1 · создать 0 · новых вариантов 0 · отклонено 0
+строка 2 «cube-1-cherkashino»: [{"field":"Цена, USD","from":"70","to":"12345"},{"field":"Остаток","from":"","to":"77"}]
+подтверждение → 200 applied
+  строка 2 applied=true заметки: нет ошибка: нет
+в БД теперь: aed=160 aed=260 aed=200 afn=3080 afn=4900 afn=3850 all=4050 all=5060 all=6440 amd=27300 amd=17160 amd=21450 aoa=37400 aoa=46750 aoa=59500 ars=55000 ars=44000 ars=70000 aud=80 aud=70 aud=110 azn=80 azn=100 azn=120 bam=130 bam=80 bam=100 bdt=4840 bdt=7700 bdt=6050 bgn=80 bgn=100 bgn=130 bhd=30 bhd=20 bhd=20 bif=159500 bif=203000 bif=127600 bnd=70 bnd=90 bnd=60 bob=310 bob=490 bob=380 brl=220 brl=350 brl=280 bwp=600 bwp=960 bwp=750 byn=180 byn=230 byn=150 bzd=140 bzd=90 bzd=110 cad=90 cad=60 cad=70 cdf=196000 cdf=123200 cdf=154000 chf=50 chf=60 chf=40 clp=41800 clp=66500 clp=52250 cny=500 cny=400 cny=320 cop=176000 cop=220000 cop=280000 crc=36400 crc=28600 crc=22880 cve=7000 cve=5500 cve=4400 czk=1010 czk=1610 czk=1270 djf=12460 djf=7830 djf=9790 dkk=380 dkk=490 dkk=310 dop=4130 dop=2600 dop=3250 dzd=9470 dzd=7440 dzd=5950 egp=2700 egp=2160 egp=3430 ern=660 ern=1050 ern=830 etb=5410 etb=6770 etb=8610 eur=50 eur=70 eur=40 gbp=60 gbp=40 gbp=40 gel=150 gel=120 gel=190 ghs=1050 ghs=830 ghs=660 gmd=3740 gmd=2990 gmd=4760 gnf=602000 gnf=378400 gnf=473000 gtq=340 gtq=430 gtq=540 hkd=550 hkd=340 hkd=430 hnl=1100 hnl=1380 hnl=1750 huf=26600 huf=20900 huf=16720 idr=695200 idr=1106000 idr=869000 ils=260 ils=210 ils=160 inr=4620 inr=3700 inr=5880 iqd=57640 iqd=91700 iqd=72050 irr=2940000 irr=1848000 irr=2310000 isk=6070 isk=9660 isk=7590 jmd=11060 jmd=6950 jmd=8690 jod=30 jod=40 jod=50 jpy=6600 jpy=8250 jpy=10500 kes=7100 kes=5680 kes=9030 khr=225500 khr=180400 khr=287000 kmf=20240 kmf=32200 kmf=25300 krw=59550 krw=74430 krw=94730 kwd=10 kwd=20 kwd=20 kzt=33600 kzt=21120 kzt=26400 lbp=4924330 lbp=6267330 lbp=3939470 lkr=13200 lkr=21000 lkr=16500 lyd=260 lyd=340 lyd=210 mad=440 mad=700 mad=550 mdl=970 mdl=780 mdl=1240 mga=247500 mga=198000 mga=315000 mkd=3990 mkd=3140 mkd=2510 mmk=92400 mmk=147000 mmk=115500 mnt=187000 mnt=238000 mnt=149600 mop=560 mop=440 mop=350 mur=2530 mur=3220 mur=2020 mwk=95700 mwk=76560 mwk=121800 mxn=790 mxn=990 mxn=1260 myr=210 myr=260 myr=330 mzn=2820 mzn=4480 mzn=3520 nad=790 nad=990 nad=1260 ngn=85430 ngn=108730 ngn=68350 nio=1610 nio=2570 nio=2020 nok=580 nok=740 nok=470 npr=9380 npr=5900 npr=7370 nzd=90 nzd=120 nzd=70 omr=30 omr=20 omr=20 pab=70 pab=60 pab=40 pen=160 pen=210 pen=260 php=3080 php=2460 php=3920 pkr=19460 pkr=15290 pkr=12230 pln=280 pln=220 pln=180 pyg=511000 pyg=321200 pyg=401500 qar=200 qar=260 qar=160 ron=250 ron=200 ron=320 rsd=7560 rsd=4750 rsd=5940 rub=6060 rub=4760 rub=3810 rwf=57200 rwf=71500 rwf=91000 sar=160 sar=260 sar=210 sdg=33000 sdg=42000 sdg=26400 sek=740 sek=460 sek=580 sgd=60 sgd=70 sgd=90 sos=25080 sos=31350 sos=39900 syp=572000 syp=910000 syp=715000 thb=1870 thb=1500 thb=2380 tjs=770 tjs=480 tjs=600 tnd=140 tnd=170 tnd=220 top=100 top=130 top=160 try=2380 try=1500 try=1870 ttd=370 ttd=300 ttd=480 twd=1760 twd=1410 twd=2240 tzs=143000 tzs=182000 tzs=114400 uah=1800 uah=2260 uah=2870 ugx=203500 ugx=162800 ugx=259000 usd=12345 usd=60 usd=40 uyu=2800 uyu=2200 uyu=1760 uzs=889000 uzs=558800 uzs=698500 vnd=1397000 vnd=1117600 vnd=1778000 xaf=26840 xaf=33550 xaf=42700 xof=26840 xof=42700 xof=33550 xpf=6050 xpf=7700 xpf=4840 yer=13750 yer=11000 yer=17500 zar=1310 zar=1030 zar=820
+остаток в БД: 77
+товар на витрине: cube-1-cherkashino
+
+=== 5. битый файл: дубль кода и буквы в цене ===
+сухой прогон → 200, состояние «rejected»
+  фатально [duplicate_row] строка 3: Строка 3 повторяет товар «cube-1-cherkashino» из строки 2. Оставьте одну строку на товар (или задайте варианты с разными SKU).
+  строка 2 [ambiguous_variant] : У товара «cube-1-cherkashino» несколько вариантов. Укажите SKU или название варианта, чтобы понять, какой правится.
+  строка 3 [ambiguous_variant] : У товара «cube-1-cherkashino» несколько вариантов. Укажите SKU или название варианта, чтобы понять, какой правится.
+  строка 4 [bad_number] Цена, USD: Цена «по запросу» — не число. Уберите буквы и лишние символы; разделитель дробной части — запятая или точка.
+попытка применить отклонённый файл → 400: Этот файл отклонён целиком — исправьте ошибки из отчёта и загрузите заново.
+каталог: НЕ ИЗМЕНИЛСЯ
+
+=== 6. картинки по ссылке: живая и мёртвая ===
+сухой прогон → 200 pending
+строк 2 · без изменений 0 · обновить 0 · создать 2 · новых вариантов 0 · отклонено 0
+категории к созданию: ["Добавки","Добавки / АСД"]
+  строка 2 create t14-s-kartinkoy · Категория «Добавки / АСД» будет создана. Новый товар создаётся черновиком — опубликуете его сами, проверив карточку.
+  строка 3 create t14-bez-kartinki · Категория «Добавки / АСД» будет создана. Новый товар создаётся черновиком — опубликуете его сами, проверив карточку.
+подтверждение → 200 applied
+  строка 2 create applied=true картинки: OK https://avatars.githubusercontent.com/u/1
+  строка 3 create applied=true картинки: ОШИБКА https://no-such-host-t14.example/photo.jpg — домен не разрешается в адрес
+картинок не удалось: 1
+созданные товары в БД: t14-bez-kartinki [draft] img=0 · t14-s-kartinkoy [draft] img=1
+
+=== 7. так пишет Excel: UTF-8 с BOM и «;», и cp1251 без BOM ===
+файл «CSV UTF-8»: первые 3 байта ef bb bf, CRLF, разделитель «;», цена «1 990,50» с неразрывным пробелом
+сухой прогон → 200 pending
+кодировка «utf-8-bom» · разделитель «;» · строк 2 · без изменений 0 · обновить 0 · создать 2 · новых вариантов 0 · отклонено 0
+  строка 2 create t14-excel-1 
+  строка 3 create t14-excel-2 
+подтверждение → 200 applied
+в БД: t14-excel-1 Настойка «Тройчатка», 50 мл [draft] вес=140 · t14-excel-2 Щётка для чая [draft] вес=60
+файл «CSV» (cp1251): первые 3 байта ca ee e4 — BOM нет, «Код» = 202,238,228
+сухой прогон → 200 pending
+кодировка «windows-1251» · строк 2 · без изменений 0 · обновить 0 · создать 2 · новых вариантов 0 · отклонено 0
+  строка 2 create Настойка «Тройчатка», 50 мл 
+  строка 3 create Щётка для чая 
+подтверждение → 200 applied
+в БД: t14-cp1251-1 Настойка «Тройчатка», 50 мл · t14-cp1251-2 Щётка для чая
+
+=== 8. «1,234» — отказ вместо догадки ===
+сухой прогон → 200 pending · строк 1 · без изменений 0 · обновить 0 · создать 0 · новых вариантов 0 · отклонено 1
+  строка 2 [ambiguous_number] Цена «1,234» читается двояко: это 1.234 или 1234? Напишите без разделителя разрядов — «1234» — либо с двумя знаками после запятой.
+
+=== 9. цены в других валютах не исчезают ===
+цен у «t14-excel-1» до правки: 1
+добавили вторую валюту через панельный маршрут: 200
+цены до импорта: eur=19 usd=1990.5
+импорт файла с одной валютой → 200 applied
+цены после импорта: eur=19 usd=2222
+вторая валюта на месте: ДА
+
+=== 8. отчёт живёт после перезагрузки страницы ===
+GET /tenants/products/import → 200, загрузок 8
+пределы: {"max_bytes":10485760,"max_rows":5000}
+GET /tenants/products/import/tpimp_01M2H7S4EDFCWDYTTW3PASQKZ5 → 200, отчёт на 1 строк (тот же файл one-currency.csv)

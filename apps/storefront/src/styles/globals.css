@@ -294,3 +294,22 @@
 :root:not([data-theme-bridge="off"]) [class~="!bg-ui-bg-disabled"] {
   --fg-disabled: var(--fg-disabled-on-surface);
 }
+
+/*
+ * t16-owner-branding, step 3: the tenant's own light/dark logo pair in the
+ * header (`modules/layout/components/site-logo`). The two classes exist only
+ * when BOTH variants were uploaded and differ — the component renders a
+ * single unclassed <img> otherwise, shown in both modes. `[data-mode]` sits
+ * on <html>, same axis the theme presets already switch on.
+ */
+.site-logo-dark {
+  display: none;
+}
+
+[data-mode="dark"] .site-logo-light {
+  display: none;
+}
+
+[data-mode="dark"] .site-logo-dark {
+  display: inline-block;
+}

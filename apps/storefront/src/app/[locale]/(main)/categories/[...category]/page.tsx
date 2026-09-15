@@ -3,7 +3,8 @@ import { notFound } from "next/navigation"
 
 import { getCategoryByHandle } from "@lib/data/categories"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getTenantDefaultLocale } from "@lib/data/cookies"
+import { parseAttributeSelection } from "@lib/util/product-attribute-filters"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import { parseSubcategoryHandles } from "@lib/util/subcategory-filters"
 import CategoryTemplate from "@modules/categories/templates"
@@ -11,6 +12,7 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 import { getLocale, getTranslations } from "next-intl/server"
 import { DEFAULT_REGION } from "@lib/util/env"
 import { pageTitle } from "@lib/util/page-title"
+import { seoOverride } from "@lib/util/tenant-seo"
 
 type Props = {
   params: Promise<{ category: string[] }>
@@ -26,10 +28,11 @@ type Props = {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   try {
-    const [locale, t, productCategory] = await Promise.all([
+    const [locale, t, productCategory, defaultLocale] = await Promise.all([
       getLocale(),
       getTranslations("Metadata.category"),
       getCategoryByHandle(params.category),
+      getTenantDefaultLocale(),
     ])
     // No such category, or the read failed and `siteWideRead` has already said
     // so by name in the log. Both reach the visitor as a 404; the `catch` below
@@ -38,8 +41,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     if (!productCategory) {
       notFound()
     }
-    const title = await pageTitle(productCategory.name)
+    const override = seoOverride(productCategory, locale, defaultLocale)
+    const title = await pageTitle(override.title || productCategory.name)
     const description =
+      override.description ||
       productCategory.description?.trim() ||
       t("description", {
         category: productCategory.name,
@@ -66,6 +71,7 @@ export default async function CategoryPage(props: Props) {
 
   const { sortBy, page } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
+  const attributeSelection = parseAttributeSelection(searchParams)
   const subcategoryHandles = parseSubcategoryHandles(searchParams)
 
   const productCategory = await getCategoryByHandle(params.category)
@@ -81,6 +87,7 @@ export default async function CategoryPage(props: Props) {
       page={page}
       countryCode={countryCode ?? DEFAULT_REGION}
       optionValueIds={optionValueIds}
+      attributeSelection={attributeSelection}
       subcategoryHandles={subcategoryHandles}
     />
   )

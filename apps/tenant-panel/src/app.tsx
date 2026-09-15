@@ -49,6 +49,23 @@ const routes: RouteObject[] = [
                     path: "create",
                     lazy: () => import("./routes/products/product-create"),
                   },
+                  // t14-product-import: the two buttons the product list has
+                  // always rendered (`product-list-table.tsx`) had no routes
+                  // behind them until now. `import/:import_id` is a separate
+                  // URL on purpose — the dry-run report is read from the server
+                  // by id, so a page reload does not lose it.
+                  {
+                    path: "export",
+                    lazy: () => import("./routes/products/product-export"),
+                  },
+                  {
+                    path: "import",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
+                  {
+                    path: "import/:import_id",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
                 ],
               },
               {
@@ -101,6 +118,14 @@ const routes: RouteObject[] = [
                         path: "attributes",
                         lazy: () =>
                           import("./routes/products/product-attributes"),
+                      },
+                      {
+                        // t15-product-attributes: the shop's own
+                        // characteristics of this product, as opposed to
+                        // Medusa's fixed `attributes` above.
+                        path: "custom-attributes",
+                        lazy: () =>
+                          import("./routes/products/product-custom-attributes"),
                       },
                       {
                         path: "organization",
@@ -325,6 +350,26 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t13-customers-screen: the panel's own customers tree, no Admin
+            // counterpart at this path (the Admin's `/customers` is
+            // store-wide; this is `/tenants/customers`, scoped to the
+            // tenant). List and detail only — no create/edit, since a
+            // customer is created by checking out, not by the owner.
+            path: "/customers",
+            handle: { breadcrumb: () => t("customers.domain") },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/customers/customer-list"),
+              },
+              {
+                path: ":id",
+                lazy: () => import("./routes/customers/customer-detail"),
+              },
+            ],
+          },
+          {
             // tenant-panel wave 2, piece 4 (profile): the copied
             // routes/profile/profile-detail tree, with profile-edit as its
             // "edit" child (RouteDrawer), same nesting the Admin uses.
@@ -335,6 +380,25 @@ const routes: RouteObject[] = [
               {
                 path: "edit",
                 lazy: () => import("./routes/profile/profile-edit"),
+              },
+            ],
+          },
+          {
+            // t15-product-attributes: the shop's own product characteristics,
+            // declared once and filled in on each product. Hangs under Products
+            // in the nav, the way Campaigns hangs under Promotions.
+            path: "/product-attributes",
+            handle: { breadcrumb: () => "Характеристики товаров" },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-list"),
+              },
+              {
+                path: ":id",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-edit"),
               },
             ],
           },
@@ -537,6 +601,27 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // t10-blog: the shop's journal. Same nesting as /pages — the list
+            // renders the Outlet and `:slug` mounts the focus modal over it, so
+            // Save returns to the list with the row already refreshed by the
+            // mutation's own invalidation.
+            path: "/journal",
+            handle: { breadcrumb: () => t("app.nav.main.journal", { defaultValue: "Журнал" }) },
+            errorElement: <ErrorBoundary />,
+            children: [
+              {
+                path: "",
+                lazy: () => import("./routes/journal/article-list"),
+                children: [
+                  {
+                    path: ":slug",
+                    lazy: () => import("./routes/journal/article-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             // t04-shipping-tariffs: the shop's delivery methods. Same nesting as
             // /pages: the list renders the Outlet, create/edit open as focus
             // modals over it and return to the refreshed list on save.
@@ -559,6 +644,16 @@ const routes: RouteObject[] = [
                 ],
               },
             ],
+          },
+          {
+            // t09-reviews: the panel's own /reviews screen (no Admin
+            // counterpart — a native Medusa install has no reviews). One
+            // screen: publishing, hiding, answering and deleting all happen in
+            // the row, so there is no drawer or modal to nest under it.
+            path: "/reviews",
+            handle: { breadcrumb: () => t("app.nav.main.reviews", { defaultValue: "Отзывы" }) },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/reviews/review-list"),
           },
           {
             // tenant-panel wave 2, piece 8 (home page settings): the panel's own
@@ -625,6 +720,27 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => "Реквизиты продавца" },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/requisites"),
+          },
+          {
+            // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
+            // No Admin counterpart — a native install has one build-time GA
+            // id, set in the environment.
+            path: "/settings/analytics",
+            handle: { breadcrumb: () => t("analyticsSettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/analytics"),
+          },
+          {
+            // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
+            // картинка для соцсетей, основной цвет, подпись в подвале. No
+            // Admin counterpart — a native install has one build-time theme
+            // profile for the whole platform.
+            path: "/settings/branding",
+            handle: {
+              breadcrumb: () => t("brandingSettings.title", { defaultValue: "Бренд" }),
+            },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/branding"),
           },
         ],
       },

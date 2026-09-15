@@ -1,5 +1,6 @@
 import {
   ChartBar,
+  ChatBubbleLeftRight,
   DocumentText,
   EllipsisHorizontal,
   Folder,
@@ -9,6 +10,7 @@ import {
   ReceiptPercent,
   ShoppingCart,
   Tag,
+  Users,
 } from "@medusajs/icons"
 import { Avatar, clx, Divider, DropdownMenu, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
@@ -178,11 +180,25 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <Tag />,
       label: t("products.domain"),
       to: "/products",
+      // t15-product-attributes: the shop's own characteristics sit under
+      // Products, the way Campaigns sits under Promotions below.
+      items: [
+        {
+          label: "Характеристики",
+          to: "/product-attributes",
+        },
+      ],
     },
     {
       icon: <ShoppingCart />,
       label: t("orders.domain"),
       to: "/orders",
+    },
+    {
+      // t13-customers-screen: right after Orders (task step 4).
+      icon: <Users />,
+      label: t("customers.domain"),
+      to: "/customers",
     },
     // tenant-panel wave 2: the sections Ivan listed 2026-09-11 (brief
     // docs/multitenancy/2026-09-11-night-2-panel-brief.md §3). Screens land
@@ -219,10 +235,22 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       to: "/home-settings",
     },
     {
+      // t10-blog: the shop's journal (routes/journal).
+      icon: <DocumentText />,
+      label: t("app.nav.main.journal", { defaultValue: "Journal" }),
+      to: "/journal",
+    },
+    {
       // t04-shipping-tariffs: the shop's delivery methods (routes/shipping).
       icon: <RocketLaunch />,
       label: t("app.nav.main.shipping", { defaultValue: "Delivery" }),
       to: "/shipping",
+    },
+    {
+      // t09-reviews: product reviews and their moderation (routes/reviews).
+      icon: <ChatBubbleLeftRight />,
+      label: t("app.nav.main.reviews", { defaultValue: "Reviews" }),
+      to: "/reviews",
     },
   ]
 }

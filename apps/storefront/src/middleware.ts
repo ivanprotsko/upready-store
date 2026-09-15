@@ -10,7 +10,9 @@ import {
   TENANT_HEADERS,
   encodeTenantHeaderValue,
 } from "@lib/tenant/headers"
-import { originForHost, requestOrigin } from "@lib/tenant/origin"
+import { originForHost, publicHost } from "@lib/tenant/origin"
+import { resolveShopOfRequest } from "@lib/tenant/request-shop"
+import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
 import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
 import type { HttpTypes } from "@medusajs/types"
 import { type NextRequest, NextResponse } from "next/server"
@@ -200,7 +202,8 @@ async function getRegionMap(
  */
 function primaryHostRedirect(
   request: NextRequest,
-  tenant: ResolvedTenant | null
+  tenant: ResolvedTenant | null,
+  shopHost: string
 ): NextResponse | null {
   const primary = tenant?.primaryHost
 
@@ -208,7 +211,11 @@ function primaryHostRedirect(
     return null
   }
 
-  const rawHost = (request.headers.get("host") ?? "").trim().toLowerCase()
+  // The address that NAMED the shop, not the socket the request arrived on: on
+  // the self-fetch Next makes for a Server Action redirect those differ, and
+  // comparing the wrong one 301s that internal request off to the public
+  // address mid-action (`lib/tenant/request-shop.ts`).
+  const rawHost = shopHost.trim().toLowerCase()
   const hostname = rawHost.replace(/:\d+$/, "").replace(/\.$/, "")
 
   if (!hostname || hostname === primary) {
@@ -233,7 +240,8 @@ function primaryHostRedirect(
 /** Request headers the route handlers and server components see, tenant included. */
 function tenantRequestHeaders(
   request: NextRequest,
-  tenant: ResolvedTenant | null
+  tenant: ResolvedTenant | null,
+  shopHost: string
 ): Headers {
   const headers = new Headers(request.headers)
 
@@ -267,6 +275,10 @@ function tenantRequestHeaders(
         "x-tenant-locales",
         encodeTenantHeaderValue(tenant.locale.enabledLocales.join(","))
       )
+      headers.set(
+        "x-tenant-default-locale",
+        encodeTenantHeaderValue(tenant.locale.defaultLocale)
+      )
     }
     // The origin the shop was resolved FROM, for every absolute URL a page emits
     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
@@ -284,7 +296,7 @@ function tenantRequestHeaders(
           request.nextUrl.protocol,
           tenant.primaryHost
         )
-      : requestOrigin(request.headers, request.nextUrl.protocol)
+      : originForHost(request.headers, request.nextUrl.protocol, shopHost)
     if (origin) {
       headers.set("x-tenant-origin", encodeTenantHeaderValue(origin))
     }
@@ -298,6 +310,29 @@ function tenantRequestHeaders(
         encodeTenantHeaderValue(JSON.stringify(tenant.attribution))
       )
     }
+    if (tenant.seoVerification) {
+      headers.set(
+        "x-tenant-seo-verification",
+        encodeTenantHeaderValue(JSON.stringify(tenant.seoVerification))
+      )
+    }
+    // t17-analytics step 1: this shop's own Yandex Metrica / GA4 ids, read by
+    // `lib/data/analytics.ts` the same way the footer reads the attribution
+    // line above. Absent entirely when the owner has set neither, which the
+    // root layout reads as "load no analytics script for this tenant."
+    if (tenant.analytics) {
+      headers.set(
+        "x-tenant-analytics",
+        encodeTenantHeaderValue(JSON.stringify(tenant.analytics))
+      )
+    }
+    // Logo, favicon, og image, primary colour, footer credit
+    // (t16-owner-branding) — same channel, so the very first render already
+    // has them with no extra round trip.
+    headers.set(
+      "x-tenant-branding",
+      encodeTenantHeaderValue(JSON.stringify(tenant.branding))
+    )
   }
 
   return headers
@@ -307,32 +342,76 @@ export async function middleware(request: NextRequest) {
   // A demo host answers before any tenant lookup: it has no tenant by design,
   // and resolveTenantByHost would be one pointless backend round trip per
   // request on a host whose whole purpose is to need nothing from the shop.
-  if (isDemoHost(request.headers.get("host"))) {
+  // The address the VISITOR asked for decides this, not the socket the request
+  // arrived on: the self-fetch below is addressed to the server's own origin,
+  // and a deployment whose internal host happens to be listed here would send
+  // every Server Action redirect to the funnel instead of to the shop.
+  if (isDemoHost(publicHost(request.headers))) {
     return demoHostResponse(request)
   }
 
   // Which shop, before anything else: the key every downstream fetch needs and
   // the theme the layout paints both come from here (piece 9). A host with no
   // tenant answers null and the storefront stays in single-store mode.
-  const tenant = await resolveTenantByHost(
-    BACKEND_URL,
-    request.headers.get("host")
+  // `lib/tenant/request-shop.ts` owns the two-address rule: the `Host` header
+  // first, the forwarded name only where `Host` names no shop — which is the
+  // GET the Next server makes to ITSELF to render a Server Action's
+  // `redirect()` target, the request that used to reach the buyer's
+  // confirmation page with no tenant at all.
+  const { tenant, host: shopHost } = await resolveShopOfRequest(
+    request.headers,
+    (host) => resolveTenantByHost(BACKEND_URL, host)
   )
   // Before anything else this shop's pages would do: an address that is not the
   // shop's main one answers a permanent redirect to the same page of the one
   // that is, assets included.
-  const redirectToPrimary = primaryHostRedirect(request, tenant)
+  const redirectToPrimary = primaryHostRedirect(request, tenant, shopHost)
 
   if (redirectToPrimary) {
     return redirectToPrimary
   }
 
   const publishableKey = tenant?.publishableKey ?? PUBLISHABLE_API_KEY ?? null
-  const requestHeaders = tenantRequestHeaders(request, tenant)
+  const requestHeaders = tenantRequestHeaders(request, tenant, shopHost)
   const nextWithTenant = () =>
     NextResponse.next({ request: { headers: requestHeaders } })
 
-  if (request.nextUrl.pathname.includes(".")) {
+  // The tenant's own redirect table (t11-seo-redirects), before the locale
+  // logic below and before anything else this path would do: a page that
+  // moved because a handle changed, or a row imported from a previous shop's
+  // URL structure, both apply to the RAW incoming pathname, locale prefix and
+  // all — `specs/tenant-address/CANONICAL.md` covers the host moving, this is
+  // the path moving under one host.
+  const pathRedirects = await getTenantRedirects(BACKEND_URL ?? "", publishableKey)
+  const pathRedirect = resolveRedirect(request.nextUrl.pathname, pathRedirects)
+
+  if (pathRedirect.kind === "loop") {
+    return new NextResponse("Redirect loop detected", { status: 508 })
+  }
+
+  if (pathRedirect.kind === "redirect") {
+    // No X-Robots-Tag here, unlike primaryHostRedirect below: this is the
+    // shop's own content moving to a new URL of the SAME address, and a 301
+    // is exactly how that weight is meant to carry over into the index.
+    return NextResponse.redirect(
+      new URL(`${pathRedirect.to}${request.nextUrl.search}`, request.url),
+      pathRedirect.status
+    )
+  }
+
+  // Root-level metadata routes with no extension in their URL (unlike
+  // robots.txt/sitemap.xml/llms.txt, which the dot check above already
+  // passes through): `opengraph-image`/`twitter-image` render at
+  // `/opengraph-image` with the extension carried in `Content-Type`, not the
+  // path (t16-owner-branding — broke the moment the static
+  // `opengraph-image.png` file became a dynamic `.tsx` route, since a
+  // scraper fetching the exact URL the metadata handed it was getting a
+  // bogus `/en/opengraph-image` redirect, a 404).
+  if (
+    request.nextUrl.pathname.includes(".") ||
+    request.nextUrl.pathname === "/opengraph-image" ||
+    request.nextUrl.pathname === "/twitter-image"
+  ) {
     return nextWithTenant()
   }
 

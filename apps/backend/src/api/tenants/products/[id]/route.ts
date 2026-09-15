@@ -4,8 +4,15 @@ import type { HttpTypes } from "@medusajs/framework/types";
 import { MedusaError } from "@medusajs/framework/utils";
 import { deleteProductsWorkflow, updateProductsWorkflow } from "@medusajs/medusa/core-flows";
 import { remapKeysForProduct } from "@medusajs/medusa/api/admin/products/helpers";
+import { TENANT_MODULE } from "../../../../modules/tenant";
+import type TenantModuleService from "../../../../modules/tenant/service";
 import { assertOwnedProduct, getTenantScope } from "../../tenant-scope";
 import { remapTenantProduct } from "../helpers";
+import {
+  assertHandleFree,
+  getTenantEnabledLocales,
+  recordSlugRedirect,
+} from "../../redirect-helpers";
 
 /**
  * `GET /tenants/products/:id` — one of the tenant's own products, in the
@@ -59,6 +66,20 @@ export const POST = async (
     & HttpTypes.AdminUpdateProduct
     & { additional_data?: Record<string, unknown> };
 
+  let previousHandle: string | null = null;
+
+  if (update.handle) {
+    await assertHandleFree(req, "product", update.handle, id);
+
+    const before = await refetchEntity({
+      entity: "product",
+      idOrFilter: id,
+      scope: req.scope,
+      fields: ["handle"],
+    });
+    previousHandle = (before?.handle as string | undefined) ?? null;
+  }
+
   const { result } = await updateProductsWorkflow(req.scope).run({
     input: {
       selector: { id },
@@ -68,6 +89,19 @@ export const POST = async (
       additional_data,
     },
   });
+
+  if (previousHandle && update.handle && previousHandle !== update.handle) {
+    const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
+    const locales = await getTenantEnabledLocales(tenantModuleService, tenant.id);
+    await recordSlugRedirect(
+      tenantModuleService,
+      tenant.id,
+      "products",
+      previousHandle,
+      update.handle,
+      locales,
+    );
+  }
 
   const product = await refetchEntity({
     entity: "product",

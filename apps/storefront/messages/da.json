@@ -62,6 +62,11 @@
     "description": "Se og opdater dine leveringsadresser – du kan tilføje lige så mange, du vil. Gemte adresser bliver tilgængelige under checkout.",
     "heading": "Leveringsadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi bruger cookies til at forstå, hvordan besøgende bruger dette websted.",
+    "accept": "Accepter",
+    "decline": "Afvis"
+  },
   "Breadcrumb": {
     "home": "Forside",
     "store": "Butik"
@@ -306,8 +311,12 @@
     "unauthorized": "Log ind for at fortsætte."
   },
   "Filters": {
+    "from": "fra",
+    "no": "Nej",
     "sort": "Sortér",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "til",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Gå til billede {index}",
     "openFullImage": "Åbn billedet i fuld størrelse"
+  },
+  "Journal": {
+    "navLabel": "Magasin",
+    "feedTitle": "Magasin",
+    "feedDescription": "Artikler fra {siteName}.",
+    "empty": "Der er ingen artikler endnu.",
+    "backToFeed": "Alle artikler",
+    "previous": "Forrige",
+    "next": "Næste",
+    "pageOf": "Side {page} af {lastPage}",
+    "pagination": "Magasinets sider"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Se detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Gem ordrenummeret. Du får brug for det, når du kontakter butikken.",
     "orderSuccess": "Din ordre er blevet afgivet.",
     "thankYou": "Tak!"
   },
   "OrderDetails": {
     "backToOrders": "Tilbage til ordrer",
-    "confirmationSentBefore": "Vi har sendt ordrebekræftelsen til",
+    "contactEmailBefore": "Kontaktadressen for denne ordre er",
     "fulfillmentStatuses": {
       "canceled": "Annulleret",
       "delivered": "Leveret",
@@ -686,6 +707,11 @@
     "selectOptions": "Vælg indstillinger",
     "selectVariant": "Vælg variant"
   },
+  "ProductAttributes": {
+    "no": "Nej",
+    "title": "Specifikationer",
+    "yes": "Ja"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsæt opsætning i admin",
     "continueSetup": "Du kan nu fortsætte opsætningen af din butik i administrationspanelet.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Se alle"
+  },
+  "ProductReviews": {
+    "heading": "Anmeldelser",
+    "ratingSummary": "{average} ud af 5 · {count, plural, one {# anmeldelse} other {# anmeldelser}}",
+    "ratingValue": "{value} ud af 5",
+    "formHeading": "Din anmeldelse",
+    "ratingLabel": "Bedømmelse",
+    "nameLabel": "Dit navn",
+    "titleLabel": "Overskrift (valgfrit)",
+    "bodyLabel": "Din tekst",
+    "submit": "Send anmeldelse",
+    "pendingNotice": "Tak. Din anmeldelse vises, når butikken har godkendt den.",
+    "signInPrompt": "Log ind for at skrive en anmeldelse.",
+    "error": "Anmeldelsen kunne ikke sendes. Prøv igen.",
+    "ownerReply": "Svar fra butikken",
+    "previousPage": "Forrige",
+    "nextPage": "Næste",
+    "pageOf": "Side {page} af {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Nem retur",
@@ -813,7 +857,8 @@
       "account": "Konto",
       "cart": "Kurv",
       "home": "Forside",
-      "store": "Butik"
+      "store": "Butik",
+      "journal": "Magasin"
     },
     "menuButton": "Menu"
   },

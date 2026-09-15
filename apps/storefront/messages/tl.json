@@ -62,6 +62,11 @@
     "description": "Tingnan at i-update ang iyong mga address ng paghahatid, maaari kang magdagdag ng kahit ilan. Ang pag-save ng iyong mga address ay magpapadali sa checkout.",
     "heading": "Mga Address ng Paghahatid"
   },
+  "AnalyticsConsent": {
+    "message": "Gumagamit kami ng cookies upang maunawaan kung paano ginagamit ng mga bisita ang site na ito.",
+    "accept": "Tanggapin",
+    "decline": "Tanggihan"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Tindahan"
@@ -306,8 +311,12 @@
     "unauthorized": "Mag-sign in muna para magpatuloy."
   },
   "Filters": {
+    "from": "mula",
+    "no": "Hindi",
     "sort": "Ayusin",
-    "title": "Mga Filter"
+    "title": "Mga Filter",
+    "to": "hanggang",
+    "yes": "Oo"
   },
   "Footer": {
     "categoriesHeading": "Mga Kategorya",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Pumunta sa larawan {index}",
     "openFullImage": "Buksan ang buong larawan"
+  },
+  "Journal": {
+    "navLabel": "Journal",
+    "feedTitle": "Journal",
+    "feedDescription": "Mga artikulo mula sa {siteName}.",
+    "empty": "Wala pang artikulo.",
+    "backToFeed": "Lahat ng artikulo",
+    "previous": "Nakaraan",
+    "next": "Susunod",
+    "pageOf": "Pahina {page} ng {lastPage}",
+    "pagination": "Mga pahina ng journal"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Tingnan ang detalye"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Itago ang numero ng order. Kakailanganin mo ito kapag kinontak mo ang tindahan.",
     "orderSuccess": "Matagumpay na naisagawa ang iyong order.",
     "thankYou": "Salamat!"
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",
-    "confirmationSentBefore": "Ipinadala namin ang detalye ng kumpirmasyon ng order sa",
+    "contactEmailBefore": "Ang contact address para sa order na ito ay",
     "fulfillmentStatuses": {
       "canceled": "Kanselado",
       "delivered": "Naihatid",
@@ -686,6 +707,11 @@
     "selectOptions": "Pumili ng Opsyon",
     "selectVariant": "Pumili ng variant"
   },
+  "ProductAttributes": {
+    "no": "Hindi",
+    "title": "Mga katangian",
+    "yes": "Oo"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",
     "continueSetup": "Maaari mo nang ipagpatuloy ang pag-set up ng iyong tindahan sa admin.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Tingnan lahat"
+  },
+  "ProductReviews": {
+    "heading": "Mga review",
+    "ratingSummary": "{average} sa 5 · {count, plural, one {# review} other {# na review}}",
+    "ratingValue": "{value} sa 5",
+    "formHeading": "Ang iyong review",
+    "ratingLabel": "Rating",
+    "nameLabel": "Ang pangalan mo",
+    "titleLabel": "Pamagat (opsyonal)",
+    "bodyLabel": "Teksto ng review",
+    "submit": "Ipadala ang review",
+    "pendingNotice": "Salamat. Lalabas ang review kapag inaprubahan na ito ng tindahan.",
+    "signInPrompt": "Mag-sign in para mag-iwan ng review.",
+    "error": "Hindi naipadala ang review. Subukan muli.",
+    "ownerReply": "Sagot ng tindahan",
+    "previousPage": "Nakaraan",
+    "nextPage": "Susunod",
+    "pageOf": "Pahina {page} ng {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Madaling Pagsauli",
@@ -813,7 +857,8 @@
       "account": "Account",
       "cart": "Cart",
       "home": "Home",
-      "store": "Tindahan"
+      "store": "Tindahan",
+      "journal": "Journal"
     },
     "menuButton": "Menu"
   },

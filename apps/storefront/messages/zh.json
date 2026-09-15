@@ -62,6 +62,11 @@
     "description": "查看并更新您的收货地址，您可以添加任意数量的地址。保存地址后，结账时即可直接选用。",
     "heading": "收货地址"
   },
+  "AnalyticsConsent": {
+    "message": "我们使用 Cookie 来了解访客如何使用本网站。",
+    "accept": "接受",
+    "decline": "拒绝"
+  },
   "Breadcrumb": {
     "home": "首页",
     "store": "商店"
@@ -306,8 +311,12 @@
     "unauthorized": "请登录后继续。"
   },
   "Filters": {
+    "from": "最低",
+    "no": "否",
     "sort": "排序",
-    "title": "筛选"
+    "title": "筛选",
+    "to": "最高",
+    "yes": "是"
   },
   "Footer": {
     "categoriesHeading": "分类",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "跳转到第 {index} 张图片",
     "openFullImage": "查看大图"
+  },
+  "Journal": {
+    "navLabel": "专栏",
+    "feedTitle": "专栏",
+    "feedDescription": "{siteName} 的文章。",
+    "empty": "暂时还没有文章。",
+    "backToFeed": "全部文章",
+    "previous": "上一页",
+    "next": "下一页",
+    "pageOf": "第 {page} 页，共 {lastPage} 页",
+    "pagination": "专栏页码"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "查看详情"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "请保存订单编号，联系商店时需要用到。",
     "orderSuccess": "您的订单已成功提交。",
     "thankYou": "感谢您！"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",
-    "confirmationSentBefore": "我们已将订单确认信息发送至",
+    "contactEmailBefore": "此订单的联系邮箱",
     "fulfillmentStatuses": {
       "canceled": "已取消",
       "delivered": "已送达",
@@ -686,6 +707,11 @@
     "selectOptions": "选择选项",
     "selectVariant": "选择规格"
   },
+  "ProductAttributes": {
+    "no": "否",
+    "title": "规格参数",
+    "yes": "是"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",
     "continueSetup": "您现在可以在管理后台继续设置商店。",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "查看全部"
+  },
+  "ProductReviews": {
+    "heading": "评价",
+    "ratingSummary": "{average} 分（满分 5 分）· {count, plural, other {# 条评价}}",
+    "ratingValue": "{value} 分（满分 5 分）",
+    "formHeading": "您的评价",
+    "ratingLabel": "评分",
+    "nameLabel": "您的姓名",
+    "titleLabel": "标题（选填）",
+    "bodyLabel": "评价内容",
+    "submit": "提交评价",
+    "pendingNotice": "感谢您。店铺审核通过后，评价将会显示。",
+    "signInPrompt": "登录后即可发表评价。",
+    "error": "评价发送失败，请重试。",
+    "ownerReply": "店铺回复",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "pageOf": "第 {page} 页，共 {pages} 页"
   },
   "ProductTabs": {
     "easyReturns": "轻松退货",
@@ -813,7 +857,8 @@
       "account": "账户",
       "cart": "购物车",
       "home": "首页",
-      "store": "商店"
+      "store": "商店",
+      "journal": "专栏"
     },
     "menuButton": "菜单"
   },

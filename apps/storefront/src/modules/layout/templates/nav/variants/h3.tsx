@@ -3,13 +3,16 @@ import { Link } from "@i18n/navigation"
 
 import { listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
+import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
 import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import type { StoreRegion } from "@medusajs/types"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import RegionSelect from "@modules/layout/components/region-select"
 import Search from "@modules/layout/components/search"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 const MAX_NAV_LINKS = 4
@@ -39,15 +42,18 @@ const MAX_NAV_LINKS = 4
  * search and mode toggle on mobile.
  */
 export default async function NavH3() {
-  const [t, locale, categories, regions, countryCode, siteName, locales] = await Promise.all([
-    getTranslations(),
-    getLocale(),
-    listCategories(),
-    listRegions().then((regions: StoreRegion[]) => regions),
-    getCountryCode(),
-    getSiteName(),
-    getSwitcherLocales(),
-  ])
+  const [t, locale, categories, regions, countryCode, siteName, locales, showJournal, branding] =
+    await Promise.all([
+      getTranslations(),
+      getLocale(),
+      listCategories(),
+      listRegions().then((regions: StoreRegion[]) => regions),
+      getCountryCode(),
+      getSiteName(),
+      getSwitcherLocales(),
+      hasPublishedArticles(),
+      getSiteBranding(),
+    ])
   const topLevelLinks = categories
     .filter((category) => !category.parent_category_id)
     .slice(0, MAX_NAV_LINKS)
@@ -88,7 +94,7 @@ export default async function NavH3() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {siteName}
+                <SiteLogo siteName={siteName} branding={branding} />
               </Link>
             </BrandUnlock>
           </div>
@@ -111,6 +117,16 @@ export default async function NavH3() {
             >
               {t("Store.allProducts")}
             </Link>
+            {/* t10-blog: only once this shop has published an article. */}
+            {showJournal ? (
+              <Link
+                href="/journal"
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
+                data-testid="nav-journal-link"
+              >
+                {t("Journal.navLabel")}
+              </Link>
+            ) : null}
           </div>
 
           <div className="flex-1 flex h-full items-center justify-end gap-x-4">

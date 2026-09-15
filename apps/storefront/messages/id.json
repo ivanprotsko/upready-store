@@ -62,6 +62,11 @@
     "description": "Lihat dan perbarui alamat pengiriman Anda, Anda dapat menambahkan sebanyak yang Anda mau. Alamat yang tersimpan akan tersedia saat checkout.",
     "heading": "Alamat Pengiriman"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan cookie untuk memahami bagaimana pengunjung menggunakan situs ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Beranda",
     "store": "Toko"
@@ -306,8 +311,12 @@
     "unauthorized": "Silakan masuk untuk melanjutkan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Urutkan",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "sampai",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "Ke gambar {index}",
     "openFullImage": "Buka gambar penuh"
+  },
+  "Journal": {
+    "navLabel": "Jurnal",
+    "feedTitle": "Jurnal",
+    "feedDescription": "Artikel dari {siteName}.",
+    "empty": "Belum ada artikel.",
+    "backToFeed": "Semua artikel",
+    "previous": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageOf": "Halaman {page} dari {lastPage}",
+    "pagination": "Halaman jurnal"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Lihat detail"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Simpan nomor pesanan Anda. Anda memerlukannya saat menghubungi toko.",
     "orderSuccess": "Pesanan Anda berhasil dibuat.",
     "thankYou": "Terima kasih!"
   },
   "OrderDetails": {
     "backToOrders": "Kembali ke pesanan",
-    "confirmationSentBefore": "Kami telah mengirimkan detail konfirmasi pesanan ke",
+    "contactEmailBefore": "Alamat kontak untuk pesanan ini adalah",
     "fulfillmentStatuses": {
       "canceled": "Dibatalkan",
       "delivered": "Diterima",
@@ -686,6 +707,11 @@
     "selectOptions": "Pilih Opsi",
     "selectVariant": "Pilih varian"
   },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Lanjutkan pengaturan di admin",
     "continueSetup": "Sekarang Anda dapat melanjutkan pengaturan toko di admin.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Lihat semua"
+  },
+  "ProductReviews": {
+    "heading": "Ulasan",
+    "ratingSummary": "{average} dari 5 · {count, plural, other {# ulasan}}",
+    "ratingValue": "{value} dari 5",
+    "formHeading": "Ulasan Anda",
+    "ratingLabel": "Penilaian",
+    "nameLabel": "Nama Anda",
+    "titleLabel": "Judul (opsional)",
+    "bodyLabel": "Isi ulasan",
+    "submit": "Kirim ulasan",
+    "pendingNotice": "Terima kasih. Ulasan akan tampil setelah disetujui toko.",
+    "signInPrompt": "Masuk untuk menulis ulasan.",
+    "error": "Ulasan gagal dikirim. Coba lagi.",
+    "ownerReply": "Balasan toko",
+    "previousPage": "Sebelumnya",
+    "nextPage": "Berikutnya",
+    "pageOf": "Halaman {page} dari {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Pengembalian mudah",
@@ -813,7 +857,8 @@
       "account": "Akun",
       "cart": "Keranjang",
       "home": "Beranda",
-      "store": "Toko"
+      "store": "Toko",
+      "journal": "Jurnal"
     },
     "menuButton": "Menu"
   },

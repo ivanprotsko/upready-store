@@ -62,6 +62,11 @@
     "description": "اطّلع على عناوين الشحن الخاصة بك وحدّثها، ويمكنك إضافة أي عدد تريده. سيؤدي حفظ عناوينك إلى إتاحتها أثناء إتمام الطلب.",
     "heading": "عناوين الشحن"
   },
+  "AnalyticsConsent": {
+    "message": "نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام الزوار لهذا الموقع.",
+    "accept": "قبول",
+    "decline": "رفض"
+  },
   "Breadcrumb": {
     "home": "الرئيسية",
     "store": "المتجر"
@@ -306,8 +311,12 @@
     "unauthorized": "يرجى تسجيل الدخول للمتابعة."
   },
   "Filters": {
+    "from": "من",
+    "no": "لا",
     "sort": "الترتيب",
-    "title": "الفلاتر"
+    "title": "الفلاتر",
+    "to": "إلى",
+    "yes": "نعم"
   },
   "Footer": {
     "categoriesHeading": "الفئات",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "الانتقال إلى الصورة {index}",
     "openFullImage": "فتح الصورة بالحجم الكامل"
+  },
+  "Journal": {
+    "navLabel": "المجلة",
+    "feedTitle": "المجلة",
+    "feedDescription": "مقالات من {siteName}.",
+    "empty": "لا توجد مقالات بعد.",
+    "backToFeed": "كل المقالات",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageOf": "الصفحة {page} من {lastPage}",
+    "pagination": "صفحات المجلة"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "عرض التفاصيل"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "احتفظ برقم الطلب، فستحتاج إليه عند التواصل مع المتجر.",
     "orderSuccess": "تم تقديم طلبك بنجاح.",
     "thankYou": "شكرًا لك!"
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",
-    "confirmationSentBefore": "لقد أرسلنا تفاصيل تأكيد الطلب إلى",
+    "contactEmailBefore": "عنوان التواصل لهذا الطلب هو",
     "fulfillmentStatuses": {
       "canceled": "ملغى",
       "delivered": "تم التسليم",
@@ -686,6 +707,11 @@
     "selectOptions": "اختر الخيارات",
     "selectVariant": "اختر الخيار"
   },
+  "ProductAttributes": {
+    "no": "لا",
+    "title": "المواصفات",
+    "yes": "نعم"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "متابعة الإعداد في لوحة التحكم",
     "continueSetup": "يمكنك الآن متابعة إعداد متجرك من لوحة التحكم.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "عرض الكل"
+  },
+  "ProductReviews": {
+    "heading": "التقييمات",
+    "ratingSummary": "{average} من 5 · {count, plural, one {تقييم واحد} two {تقييمان} few {# تقييمات} many {# تقييمًا} other {# تقييم}}",
+    "ratingValue": "{value} من 5",
+    "formHeading": "تقييمك",
+    "ratingLabel": "التقييم",
+    "nameLabel": "اسمك",
+    "titleLabel": "عنوان (اختياري)",
+    "bodyLabel": "نص التقييم",
+    "submit": "إرسال التقييم",
+    "pendingNotice": "شكرًا لك. سيظهر تقييمك بعد موافقة المتجر عليه.",
+    "signInPrompt": "سجّل الدخول لكتابة تقييم.",
+    "error": "تعذّر إرسال التقييم. حاول مرة أخرى.",
+    "ownerReply": "رد المتجر",
+    "previousPage": "السابق",
+    "nextPage": "التالي",
+    "pageOf": "صفحة {page} من {pages}"
   },
   "ProductTabs": {
     "easyReturns": "إرجاع سهل",
@@ -813,7 +857,8 @@
       "account": "الحساب",
       "cart": "السلة",
       "home": "الرئيسية",
-      "store": "المتجر"
+      "store": "المتجر",
+      "journal": "المجلة"
     },
     "menuButton": "القائمة"
   },

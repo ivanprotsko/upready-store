@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-catalog-filters-hero/apps/storefront
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  05:27:58
+   Duration  166ms (transform 37ms, setup 0ms, import 46ms, tests 3ms, environment 0ms)
+

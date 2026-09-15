@@ -62,6 +62,11 @@
     "description": "Teslimat adreslerinizi görüntüleyin ve güncelleyin, istediğiniz kadar adres ekleyebilirsiniz. Adreslerinizi kaydetmek, ödeme sırasında bunları kullanılabilir hale getirir.",
     "heading": "Teslimat Adresleri"
   },
+  "AnalyticsConsent": {
+    "message": "Ziyaretçilerin bu siteyi nasıl kullandığını anlamak için çerezler kullanıyoruz.",
+    "accept": "Kabul et",
+    "decline": "Reddet"
+  },
   "Breadcrumb": {
     "home": "Ana Sayfa",
     "store": "Mağaza"
@@ -306,8 +311,12 @@
     "unauthorized": "Devam etmek için lütfen giriş yapın."
   },
   "Filters": {
+    "from": "en az",
+    "no": "Hayır",
     "sort": "Sırala",
-    "title": "Filtreler"
+    "title": "Filtreler",
+    "to": "en çok",
+    "yes": "Evet"
   },
   "Footer": {
     "categoriesHeading": "Kategoriler",
@@ -401,6 +410,17 @@
   "ImageGallery": {
     "goToImage": "{index}. görsele git",
     "openFullImage": "Görseli tam boyutta aç"
+  },
+  "Journal": {
+    "navLabel": "Dergi",
+    "feedTitle": "Dergi",
+    "feedDescription": "{siteName} yazıları.",
+    "empty": "Henüz yazı yok.",
+    "backToFeed": "Tüm yazılar",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "pageOf": "Sayfa {page} / {lastPage}",
+    "pagination": "Dergi sayfaları"
   },
   "LanguageSelect": {
     "locales": {
@@ -565,12 +585,13 @@
     "seeDetails": "Detayları gör"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
     "thankYou": "Teşekkürler!"
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
-    "confirmationSentBefore": "Sipariş onay bilgilerini şu adrese gönderdik:",
+    "contactEmailBefore": "Bu siparişin iletişim adresi",
     "fulfillmentStatuses": {
       "canceled": "İptal edildi",
       "delivered": "Teslim edildi",
@@ -686,6 +707,11 @@
     "selectOptions": "Seçenekleri Seç",
     "selectVariant": "Varyant seçin"
   },
+  "ProductAttributes": {
+    "no": "Hayır",
+    "title": "Özellikler",
+    "yes": "Evet"
+  },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",
     "continueSetup": "Artık yönetim panelinden mağaza kurulumuna devam edebilirsiniz.",
@@ -697,6 +723,24 @@
   },
   "ProductRail": {
     "viewAll": "Tümünü gör"
+  },
+  "ProductReviews": {
+    "heading": "Değerlendirmeler",
+    "ratingSummary": "5 üzerinden {average} · {count, plural, one {# değerlendirme} other {# değerlendirme}}",
+    "ratingValue": "5 üzerinden {value}",
+    "formHeading": "Değerlendirmeniz",
+    "ratingLabel": "Puan",
+    "nameLabel": "Adınız",
+    "titleLabel": "Başlık (isteğe bağlı)",
+    "bodyLabel": "Değerlendirme metni",
+    "submit": "Değerlendirmeyi gönder",
+    "pendingNotice": "Teşekkürler. Değerlendirmeniz mağaza onayladıktan sonra görünecek.",
+    "signInPrompt": "Değerlendirme yazmak için giriş yapın.",
+    "error": "Değerlendirme gönderilemedi. Tekrar deneyin.",
+    "ownerReply": "Mağazanın yanıtı",
+    "previousPage": "Önceki",
+    "nextPage": "Sonraki",
+    "pageOf": "Sayfa {page} / {pages}"
   },
   "ProductTabs": {
     "easyReturns": "Kolay iade",
@@ -813,7 +857,8 @@
       "account": "Hesap",
       "cart": "Sepet",
       "home": "Ana Sayfa",
-      "store": "Mağaza"
+      "store": "Mağaza",
+      "journal": "Dergi"
     },
     "menuButton": "Menü"
   },
