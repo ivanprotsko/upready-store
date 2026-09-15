@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, type ReactNode } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
 import {
   buildPaymentSessionData,
@@ -22,17 +22,29 @@ import DemoCardFields, {
 } from "@modules/checkout/components/demo-card-fields"
 import CheckoutBillingSheet from "@modules/checkout/components/checkout-billing-sheet"
 import { Link } from "@i18n/navigation"
+import {
+  consentHref,
+  type LegalLinkContext,
+  type LegalSlot,
+} from "@lib/util/legal-links"
 import { useTranslations } from "next-intl"
 import { clx } from "@medusajs/ui"
 
 interface CheckoutPaymentSectionProps {
   cart: HttpTypes.StoreCart
   availablePaymentMethods: { id: string }[]
+  /**
+   * Which documents this shop has and where they live, from the server parent
+   * (`checkout-summary`): this component is client, so it must not read the
+   * tenant headers itself (rule 19g).
+   */
+  legal: LegalLinkContext
 }
 
 export default function CheckoutPaymentSection({
   cart,
   availablePaymentMethods,
+  legal,
 }: CheckoutPaymentSectionProps) {
   const t = useTranslations("CheckoutPage")
   const tm = useTranslations("PaymentMethods")
@@ -133,6 +145,31 @@ export default function CheckoutPaymentSection({
         .filter(Boolean)
         .join(", ")
     : null
+
+  /**
+   * One chunk of the consent sentence, linked to the document it names. The
+   * sentence tells the buyer which documents they accept by paying, so the link
+   * must reach the shop's own text: `consentHref` resolves the slot to the
+   * tenant's page, falls back to the contract (the offer) for a document the
+   * shop has not written separately, and answers null only when the shop has no
+   * legal page at all. Null renders the words as plain text, never as a link to
+   * the starter's "this is a placeholder" page (f05-checkout-legal-stubs).
+   */
+  const legalChunk = (slot: LegalSlot) => {
+    const href = consentHref(slot, legal)
+
+    // A named function expression, because `react/display-name` counts any
+    // anonymous function that returns JSX as a component without a name.
+    return function LegalChunk(chunks: ReactNode) {
+      return href ? (
+        <Link href={href} className="underline">
+          {chunks}
+        </Link>
+      ) : (
+        <>{chunks}</>
+      )
+    }
+  }
 
   return (
     <div className="flex flex-col gap-y-6">
@@ -263,26 +300,10 @@ export default function CheckoutPaymentSection({
         />
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
           {t.rich("legal", {
-            terms: (chunks) => (
-              <Link href="/terms" className="underline">
-                {chunks}
-              </Link>
-            ),
-            termsOfUse: (chunks) => (
-              <Link href="/terms" className="underline">
-                {chunks}
-              </Link>
-            ),
-            returnPolicy: (chunks) => (
-              <Link href="/returns" className="underline">
-                {chunks}
-              </Link>
-            ),
-            privacyPolicy: (chunks) => (
-              <Link href="/privacy" className="underline">
-                {chunks}
-              </Link>
-            ),
+            terms: legalChunk("terms"),
+            termsOfUse: legalChunk("terms"),
+            returnPolicy: legalChunk("returns"),
+            privacyPolicy: legalChunk("privacy"),
           })}
         </p>
       </div>
