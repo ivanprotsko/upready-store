@@ -1,0 +1,23 @@
+{
+  "before": [
+    {
+      "n": "published",
+      "checked": false
+    },
+    {
+      "n": "in_footer",
+      "checked": false
+    }
+  ],
+  "mid": [
+    {
+      "n": "published",
+      "checked": true
+    },
+    {
+      "n": "in_footer",
+      "checked": true
+    }
+  ],
+  "errors": []
+}

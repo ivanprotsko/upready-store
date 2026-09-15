@@ -1,0 +1,49 @@
+{
+ "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+ "dialogs": 1,
+ "drawerStillOpen": true,
+ "errorVisible": false,
+ "serverMessageVisible": false,
+ "samples": [
+  {
+   "at": 600,
+   "toasters": 2,
+   "text": [
+    "Цена не сохранена | Цена отклонена сервером (тест)"
+   ],
+   "bodyHasError": true
+  },
+  {
+   "at": 900,
+   "toasters": 2,
+   "text": [
+    "Цена не сохранена | Цена отклонена сервером (тест)"
+   ],
+   "bodyHasError": true
+  },
+  {
+   "at": 1500,
+   "toasters": 2,
+   "text": [
+    "Цена не сохранена | Цена отклонена сервером (тест)"
+   ],
+   "bodyHasError": true
+  },
+  {
+   "at": 2500,
+   "toasters": 2,
+   "text": [
+    "Цена не сохранена | Цена отклонена сервером (тест)"
+   ],
+   "bodyHasError": true
+  }
+ ],
+ "beforeRub": 1485,
+ "afterRub": 1485,
+ "toast": [
+  "Товары",
+  "Характеристики",
+  "Товары",
+  "Свечи АСД с чесноком"
+ ]
+}

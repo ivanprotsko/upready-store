@@ -1,0 +1,49 @@
+{
+  "c": [
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "id": "radix-:r3:",
+      "type": "button",
+      "t": "О\n\nОксана Черкашина"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "id": "",
+      "type": "button",
+      "t": "Акции"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "id": "radix-:ra:",
+      "type": "button",
+      "t": "О\n\nОксана Черкашина"
+    },
+    {
+      "tag": "INPUT",
+      "name": "",
+      "id": "",
+      "type": "text",
+      "ph": "delivery",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "",
+      "id": "",
+      "type": "text",
+      "ph": "Доставка",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "id": "",
+      "type": "submit",
+      "t": "Новая страница"
+    }
+  ],
+  "errors": []
+}

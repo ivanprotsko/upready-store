@@ -1,0 +1,4 @@
+[revalidate] type=tenant.pages url=http://localhost:8210/api/revalidate failed: [TypeError: fetch failed] {
+[revalidate] type=tenant.pages url=http://localhost:8210/api/revalidate failed: [TypeError: fetch failed] {
+[revalidate] type=tenant.pages handle=t12demo id=- url=http://localhost:8210/api/revalidate status=200
+[revalidate] type=tenant.pages handle=t12demo id=- url=http://localhost:8210/api/revalidate status=200

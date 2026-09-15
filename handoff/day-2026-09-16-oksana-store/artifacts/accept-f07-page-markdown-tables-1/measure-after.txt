@@ -1,0 +1,6 @@
+contacts 1280x900 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":2,"rows":7,"hrs":8,"ems":0,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":3372}
+contacts 390x844 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":2,"rows":7,"hrs":8,"ems":0,"gluedToken":false,"tokenIntact":true,"scrollWidth":390,"innerWidth":390,"bodyScroll":390,"textLen":3372}
+offer 1280x900 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":1,"rows":5,"hrs":14,"ems":2,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":18996}
+offer 390x844 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":1,"rows":5,"hrs":14,"ems":2,"gluedToken":false,"tokenIntact":true,"scrollWidth":390,"innerWidth":390,"bodyScroll":390,"textLen":18996}
+privacy 1280x900 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":5,"rows":25,"hrs":18,"ems":0,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":15362}
+privacy 390x844 {"pipe":false,"sep":false,"dashRunAsText":false,"tables":5,"rows":25,"hrs":18,"ems":0,"gluedToken":false,"tokenIntact":true,"scrollWidth":390,"innerWidth":390,"bodyScroll":390,"textLen":15362}

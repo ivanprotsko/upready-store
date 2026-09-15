@@ -1,0 +1,59 @@
+{
+  "fields": [
+    {
+      "i": 0,
+      "tag": "INPUT",
+      "type": "text",
+      "name": "",
+      "id": "hero-title",
+      "v": "Заказ от 5 кг — скидка 10%",
+      "lbl": "Заголовок"
+    },
+    {
+      "i": 1,
+      "tag": "TEXTAREA",
+      "type": "textarea",
+      "name": "",
+      "id": "hero-subtitle",
+      "v": "Берёте курс на семью или впрок? При весе посылки от 5 килогр",
+      "lbl": "Заголовок"
+    },
+    {
+      "i": 2,
+      "tag": "INPUT",
+      "type": "text",
+      "name": "",
+      "id": "hero-cta-label",
+      "v": "Собрать корзину",
+      "lbl": "Текст кнопки"
+    },
+    {
+      "i": 3,
+      "tag": "INPUT",
+      "type": "text",
+      "name": "",
+      "id": "hero-cta-href",
+      "v": "/store",
+      "lbl": "Ссылка кнопки"
+    },
+    {
+      "i": 4,
+      "tag": "INPUT",
+      "type": "text",
+      "name": "",
+      "id": "hero-image",
+      "v": "https://shipshift.dev/static/tenants/ten_01M2GQVGEN1204CN90C",
+      "lbl": "Адрес изображения"
+    },
+    {
+      "i": 5,
+      "tag": "INPUT",
+      "type": "file",
+      "name": "",
+      "id": "",
+      "v": "",
+      "lbl": "Адрес изображения"
+    }
+  ],
+  "errors": []
+}

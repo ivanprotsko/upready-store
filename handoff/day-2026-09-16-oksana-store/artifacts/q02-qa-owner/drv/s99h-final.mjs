@@ -1,0 +1,18 @@
+import { launch, timedGoto, shot, SHOP, PANEL } from './lib.mjs';
+const { browser, page } = await launch();
+const r={};
+const n1 = await timedGoto(page, SHOP+'/ru', {waitUntil:'load'}); await page.waitForTimeout(6000);
+const home = await page.evaluate(()=>document.body.innerText);
+r.homeStatus=n1.status; r.hero=/Заказ от 5 кг/.test(home); r.catAsd=/\bАСД\b/.test(home) && !/АСД \(тест\)/.test(home);
+r.noTestPageInFooter=!/Тестовая страница QA/.test(home); r.noTestProduct=!/ТЕСТ QA/.test(home);
+const n2 = await timedGoto(page, SHOP+'/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino',{waitUntil:'load'}); await page.waitForTimeout(4000);
+const p = await page.evaluate(()=>document.body.innerText);
+r.productStatus=n2.status; r.price1355=/1 355,00 ₽/.test(p);
+r.imgCount = await page.evaluate(()=>[...document.querySelectorAll('img')].filter(i=>/static|_next\/image/.test(i.src)).length);
+r.noTestPhoto = !(await page.evaluate(()=>[...document.querySelectorAll('img')].some(i=>/1789428/.test(i.src))));
+const n3 = await timedGoto(page, SHOP+'/ru/store',{waitUntil:'load'}); await page.waitForTimeout(5000);
+r.catalogStatus=n3.status; r.catalogNoTest=!/ТЕСТ QA/.test(await page.evaluate(()=>document.body.innerText));
+await timedGoto(page, PANEL+'/promotions'); await page.waitForTimeout(8000);
+r.noPromo=!/QATESTQ02/.test(await page.evaluate(()=>document.body.innerText));
+console.log(JSON.stringify(r,null,1));
+await browser.close();

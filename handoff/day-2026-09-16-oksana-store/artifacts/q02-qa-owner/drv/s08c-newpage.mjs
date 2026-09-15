@@ -1,0 +1,14 @@
+import { launch, shot, timedGoto, save, PANEL, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch();
+await timedGoto(page, PANEL + '/pages'); await page.waitForTimeout(6000);
+const t0=Date.now();
+await page.locator('button:has-text("Новая страница"), a:has-text("Новая страница")').first().click();
+await page.waitForTimeout(4000);
+console.log('openMs', Date.now()-t0, 'url', page.url());
+await shot(page,'s08-newpage-form');
+const scope = (await page.$$eval('[role=dialog]', e=>e.length)) ? page.locator('[role=dialog]').last() : page.locator('body');
+console.log((await scope.innerText()).replace(/\n{2,}/g,'\n').slice(-1800));
+const c = await page.$$eval('input,textarea,select,button', e=>e.map(x=>({tag:x.tagName,name:x.name,id:x.id,type:x.type,ph:x.placeholder,t:(x.innerText||'').trim().slice(0,25)})).filter(x=>x.name||x.id||x.ph||x.t));
+console.log('CTRL', JSON.stringify(c).slice(-2200));
+save('s08-newpage.json',{c,errors});
+await browser.close();

@@ -1,0 +1,13 @@
+import { launch, shot, timedGoto, save, PANEL, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch();
+const t0=Date.now();
+const nav = await timedGoto(page, PANEL + '/pages/qa-test-q02'); await page.waitForTimeout(8000);
+const txt=(await page.evaluate(()=>document.body.innerText)).replace(/\n{2,}/g,'\n');
+const i = txt.indexOf('Доставка')+10;
+console.log('nav',JSON.stringify(nav));
+console.log(txt.slice(i, i+2200));
+const c = await page.$$eval('input,textarea,select,button', e=>e.map(x=>({tag:x.tagName,name:x.name,id:x.id,type:x.type,ph:x.placeholder,t:(x.innerText||'').trim().slice(0,28)})).filter(x=>x.name||x.id||x.ph||x.t));
+console.log('CTRL', JSON.stringify(c).slice(0,2500));
+await shot(page,'s08-page-editor');
+save('s08-editor.json',{nav,txt:txt.slice(0,4000),c,errors});
+await browser.close();

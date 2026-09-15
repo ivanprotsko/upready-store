@@ -1,0 +1,23 @@
+import { launch, shot, timedGoto, save, PANEL } from './lib.mjs';
+const { browser, page, errors } = await launch();
+const notes=[];
+const dlgCount = async () => page.$$eval('[role=dialog]', e=>e.length);
+await timedGoto(page, PANEL + '/products/create');
+for (let i=0;i<40;i++){ if (await page.$$eval('input[name=title]', e=>e.length)) break; await page.waitForTimeout(1000); }
+await page.waitForTimeout(1500);
+notes.push('dialogs in DOM: ' + await dlgCount() + ', title inputs: ' + await page.$$eval('input[name=title]', e=>e.length));
+const D = page.locator('[role=dialog]').last();
+await D.locator('input[name=title]').fill('ТЕСТ QA — не покупать');
+await D.locator('textarea[name=description]').fill('Временный товар живой приёмки q02. Будет удалён.');
+await D.locator('input[type=file]').setInputFiles('/tmp/q02-test-photo.png');
+await page.waitForTimeout(3000);
+await shot(page,'s05-step1-filled');
+notes.push('titleValue=' + await D.locator('input[name=title]').inputValue());
+await D.locator('button:has-text("Продолжить")').click();
+await page.waitForTimeout(3500);
+await shot(page,'s05-step2');
+notes.push('STEP2:\n' + (await D.innerText()).replace(/\n{2,}/g,'\n').slice(0,1800));
+console.log(notes.join('\n'));
+save('s05-create2.json',{notes,errors});
+await page.waitForTimeout(300);
+await browser.close();

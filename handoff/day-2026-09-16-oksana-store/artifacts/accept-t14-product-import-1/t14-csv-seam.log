@@ -1,0 +1,1111 @@
+(node:90089) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"level":"info","message":"Disabling admin as we run integration tests","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"Creating database medusa-01m2h9y34gteexby3c82bhq309-integration-1","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"Creating migrations table 'mikro_orm_migrations'...","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"Migrations table created successfully","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"Migrating database with core migrations and links medusa-01m2h9y34gteexby3c82bhq309-integration-1","timestamp":"2026-09-15 09:12:07"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"MODULE: integration","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260610215533","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260610215533","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260618154037","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260618154037","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260622120502","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260622120502","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260701095518","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260701095518","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260708072033","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260708072033","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260716110756","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260716110756","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260716132041","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260716132041","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260720130920","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260720130920","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260724101525","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260724101525","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"MODULE: stock_location","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20240307161216","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20240307161216","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20241210073813","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20241210073813","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250106142624","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250106142624","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250120110820","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110820","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"MODULE: inventory","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20240307132720","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20240307132720","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20240719123015","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20240719123015","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20241213063611","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20241213063611","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251010131115","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251010131115","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"MODULE: product","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating InitialSetup20240401153642","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240401153642","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20240601111544","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20240601111544","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration202408271511","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration202408271511","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20241122120331","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20241122120331","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20241125090957","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20241125090957","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250411073236","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250411073236","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250516081326","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250516081326","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250910154539","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250910154539","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250911092221","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250911092221","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20250929204438","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20250929204438","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251008132218","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251008132218","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251011090511","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251011090511","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251022153442","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251022153442","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251029150809","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251029150809","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251110180907","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251110180907","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20251113183352","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20251113183352","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260224120000","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260224120000","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ● Migrating Migration20260301002050","timestamp":"2026-09-15 09:12:08"}
+{"level":"info","message":"  ✔ Migrated Migration20260301002050","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260306120000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260306120000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260623180000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260623180000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260730104846","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260730104846","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: pricing","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20230929122253","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20230929122253","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240322094407","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240322094407","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240322113359","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240322113359","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240322120125","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240322120125","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240626133555","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240626133555","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240704094505","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240704094505","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241127114534","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241127114534","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241127223829","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241127223829","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241128055359","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241128055359","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241212190401","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241212190401","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250408145122","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250408145122","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250409122219","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250409122219","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251009110625","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251009110625","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251112192723","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251112192723","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260429163502","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260429163502","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: promotion","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240227120221","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240227120221","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240617102917","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240617102917","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240624153824","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240624153824","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241211061114","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241211061114","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250113094144","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250113094144","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250120110700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250226130616","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250226130616","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250508081510","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250508081510","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250828075407","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250828075407","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250909083125","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250909083125","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250916120552","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250916120552","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250917143818","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250917143818","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250919122137","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250919122137","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251006000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251006000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251015113934","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251015113934","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251107050148","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251107050148","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: customer","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240124154000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240124154000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240524123112","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240524123112","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240602110946","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240602110946","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241211074630","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241211074630","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251010130829","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251010130829","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: sales_channel","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240115152146","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240115152146","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: cart","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240222170223","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240222170223","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240831125857","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240831125857","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241106085918","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241106085918","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241205095237","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241205095237","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241216183049","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241216183049","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241218091938","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241218091938","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250120115059","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250120115059","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250212131240","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250212131240","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250326151602","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250326151602","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250508081553","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250508081553","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251017153909","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251017153909","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251208130704","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251208130704","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260626000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260626000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: region","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240205173216","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240205173216","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240624200006","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240624200006","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250120110744","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110744","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: api_key","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating InitialSetup20240221144943","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240221144943","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240604080145","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240604080145","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241205122700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241205122700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251015123842","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251015123842","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: store","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating InitialSetup20240227075933","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240227075933","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240621145944","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240621145944","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241206083313","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241206083313","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251202184737","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251202184737","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251212161429","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251212161429","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: tax","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240227090331","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240227090331","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240710135844","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240710135844","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240924114005","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240924114005","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241212052837","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241212052837","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: currency","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating InitialSetup20240228133303","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated InitialSetup20240228133303","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240624082354","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240624082354","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240225134525","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240225134525","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240806072619","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240806072619","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241211151053","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241211151053","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250115160517","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250115160517","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250120110552","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110552","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250123122334","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250123122334","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250206105639","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250206105639","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250207132723","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250207132723","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250625084134","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250625084134","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250924135437","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250924135437","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250929124701","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250929124701","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260411223700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260411223700","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: order","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240219102530","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240219102530","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240604100512","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240604100512","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240715102100","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240715102100","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240715174100","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240715174100","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240716081800","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240716081800","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240801085921","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240801085921","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240821164505","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240821164505","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240821170920","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240821170920","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240827133639","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240827133639","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240902195921","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240902195921","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240913092514","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240913092514","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240930122627","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240930122627","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241014142943","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241014142943","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241106085223","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241106085223","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241129124827","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241129124827","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241217162224","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241217162224","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250326151554","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250326151554","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250522181137","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250522181137","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250702095353","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250702095353","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250704120229","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250704120229","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250910130000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250910130000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251016160403","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251016160403","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251016182939","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251016182939","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251017155709","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251017155709","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251114100559","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251114100559","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251125164002","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251125164002","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251210112909","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251210112909","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251210112924","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251210112924","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251225120947","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251225120947","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260106185528","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260106185528","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260625000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260625000000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260729154253","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260729154253","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: settings","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20250717162007","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20250717162007","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260127081758","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260127081758","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260615151246","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260615151246","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: translation","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251208124155","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251208124155","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251215083927","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251215083927","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20251218140235","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20251218140235","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260108122757","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260108122757","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240205025928","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240205025928","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240529080336","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240529080336","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20241202100304","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20241202100304","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260514083900","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260514083900","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260525090000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260525090000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260604120000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260604120000","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20260616075929","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20260616075929","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"MODULE: user","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ● Migrating Migration20240214033943","timestamp":"2026-09-15 09:12:09"}
+{"level":"info","message":"  ✔ Migrated Migration20240214033943","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240703095850","timestamp":"2026-09-15 09:12:10"}
+  console.info
+    Note: If the index "IDX_user_email" fails to create, then delete any existing users with duplicate emails before retrying the migration.
+
+      at Migration20240703095850.up (../../node_modules/.pnpm/@medusajs+user@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19_1c195e130d1ca02a866ff5c6a0ad3c63/node_modules/@medusajs/user/src/migrations/Migration20240703095850.ts:11:13)
+
+{"level":"info","message":"  ✔ Migrated Migration20240703095850","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20241202103352","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20241202103352","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240311145700_InitialSetupMigration","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240311145700_InitialSetupMigration","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240821170957","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240821170957","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240917161003","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240917161003","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20241217110416","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20241217110416","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250113122235","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250113122235","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250120115002","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250120115002","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250822130931","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250822130931","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250825132614","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250825132614","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20251114133146","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20251114133146","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240509083918_InitialSetupMigration","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240509083918_InitialSetupMigration","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240628075401","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240628075401","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20240830094712","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20240830094712","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250120110514","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250120110514","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20251028172715","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20251028172715","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20251121123942","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20251121123942","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20251121150408","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20251121150408","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: cache","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: event_bus","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: workflows","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20231228143900","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20231228143900","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20241206101446","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20241206101446","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250128174331","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250128174331","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250505092459","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250505092459","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250819104213","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250819104213","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250819110924","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250819110924","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20250908080305","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20250908080305","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: locking","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: tenant","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260910140113","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260910140113","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260910190340","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260910190340","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260911004426","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260911004426","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260911010412","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260911010412","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260912061500","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260912061500","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260914193724","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260914193724","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260914235154","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260914235154","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260915040800","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260915040800","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260915042009","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260915042009","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260915045704","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260915045704","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260915053700","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260915053700","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260916050000","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260916050000","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260916050500","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260916050500","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"MODULE: product_review","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ● Migrating Migration20260914211626","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"  ✔ Migrated Migration20260914211626","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" cart_payment_collection","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" cart_promotion","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" customer_account_holder","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" location_fulfillment_provider","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" location_fulfillment_set","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" invite_rbac_role","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" order_cart","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" order_fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" order_payment_collection","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" order_promotion","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" return_fulfillment","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" product_sales_channel","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" product_shipping_profile","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" product_variant_inventory_item","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" product_variant_price_set","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" publishable_api_key_sales_channel","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" region_payment_provider","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" sales_channel_stock_location","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" shipping_option_price_set","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" user_rbac_role","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_api_key_api_key","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_promotion_campaign","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_order_order","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_product_product_category","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_product_product","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_promotion_promotion","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Sync links: \"create\" tenant_tenant_sales_channel_sales_channel","timestamp":"2026-09-15 09:12:10"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 09:12:10"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"No workflow to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"No subscriber to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 09:12:11"}
+{"level":"info","message":"No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/jobs. skipped.","timestamp":"2026-09-15 09:12:12"}
+{"level":"info","message":"No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/node_modules/.pnpm/@medusajs+medusa@2.19.0_8cb86d4b47a43d0125b7f235368138ca/node_modules/@medusajs/medusa/dist/jobs. skipped.","timestamp":"2026-09-15 09:12:12"}
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+(node:90089) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:14"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:14"}
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:14"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:14"}
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:15"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:15"}
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+{"level":"info","message":"Processing product-variant.updated which has 1 subscribers","timestamp":"2026-09-15 09:12:15"}
+  console.error
+    [revalidate] type=product-variant.updated url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:16"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:16"}
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+{"level":"info","message":"Этот файл отклонён целиком — исправьте ошибки из отчёта и загрузите заново.","timestamp":"2026-09-15 09:12:16"}
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:17"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:17"}
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:18"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:18"}
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+{"level":"info","message":"Processing product-variant.created which has 1 subscribers","timestamp":"2026-09-15 09:12:19"}
+{"level":"info","message":"Processing product.created which has 1 subscribers","timestamp":"2026-09-15 09:12:19"}
+  console.error
+    [revalidate] type=product-variant.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+  console.error
+    [revalidate] type=product.created url=http://cherkashino.localhost:8075/api/revalidate failed: [TypeError: fetch failed] {
+      [cause]: AggregateError: 
+          at internalConnectMultiple (node:net:1430:18)
+          at afterConnectMultiple (node:net:2099:7) {
+        code: 'ECONNREFUSED',
+        [errors]: [ [Error], [Error] ]
+      }
+    }
+
+      61 |     return res.status;
+      62 |   } catch (err) {
+    > 63 |     console.error(
+         |             ^
+      64 |       `[revalidate] type=${payload.type} url=${baseUrl}/api/revalidate failed:`,
+      65 |       err,
+      66 |     );
+
+      at error (src/storefront-revalidate/index.ts:63:13)
+      at productUpdatedHandler (src/subscribers/product-updated.ts:11:3)
+      at subscriber (../../node_modules/.pnpm/@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node@20.19.26__@types+node@20.19_11415a848440efacd509037e1147eb46/node_modules/@medusajs/framework/src/subscribers/subscriber-loader.ts:183:16)
+      at EventEmitter.wrappedSubscriber (../../node_modules/.pnpm/@medusajs+event-bus-local@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types_a3996bd878ec85fe0c72cba07c38fdb7/node_modules/@medusajs/event-bus-local/src/services/event-bus-local.ts:209:9)
+
+{"level":"info","message":"Product import with id \"tpimp_01M2H9YEFV44Y7JG10B5SMD5DE\" was not found","timestamp":"2026-09-15 09:12:19"}
+{"level":"info","message":"Product import with id \"tpimp_01M2H9YEFV44Y7JG10B5SMD5DE\" was not found","timestamp":"2026-09-15 09:12:19"}
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+  console.log
+    Connection Error: Connection ended unexpectedly
+
+      at Logger._log (../../node_modules/.pnpm/knex@3.2.10_pg@8.20.0/node_modules/knex/lib/logger.js:42:13)
+
+{"level":"info","message":"Это файл Excel (XLSX или XLS), а импорт читает CSV. В Excel: «Файл» → «Сохранить как» → «CSV UTF-8 (разделитель — запятая)».","timestamp":"2026-09-15 09:12:19"}
+PASS integration-tests/http/tenants-product-csv.spec.ts (13.623 s)
+    tenant catalogue CSV: export, dry run, confirm
+      ✓ reports every row as unchanged when the exported file is imported back (1238 ms)
+      ✓ plans a price change on the row that carries it and applies it on confirm (1501 ms)
+      ✓ rejects a file with a duplicate row whole, and refuses to apply it (963 ms)
+      ✓ answers the stored report by id, so a page reload does not lose it (1174 ms)
+      ✓ never carries another shop's product into an export, and 404s a foreign import id (1358 ms)
+      ✓ refuses an XLSX with an answer the owner can act on (609 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        13.677 s
+Ran all test suites matching /integration-tests\/http\/tenants-product-csv.spec.ts/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
+csv seam rc=0

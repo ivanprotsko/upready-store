@@ -1,0 +1,1 @@
+src/lib/tenant/request-shop.test.ts(6,53): error TS2739: Type '{ handle: string; name: string; publishableKey: string; theme: string; mode: string; attribution: null; primaryHost: string; locale: null; seoVerification: null; }' is missing the following properties from type 'ResolvedTenant': analytics, branding

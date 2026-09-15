@@ -1,0 +1,16 @@
+import { launch, timedGoto, waitUsable, save, SHOTS, PANEL } from './lib.mjs';
+import path from 'node:path';
+const id = process.argv[2], tag = process.argv[3];
+const { browser, page, errors } = await launch();
+const nav = await timedGoto(page, PANEL + '/products/' + id);
+await waitUsable(page, 'h1, h2', 90000); await page.waitForTimeout(4500);
+const txt = await page.evaluate(() => document.body.innerText);
+const full = path.join(SHOTS, `s03-product-${tag}-full-1280x900.png`);
+await page.screenshot({ path: full, fullPage: true });
+const imgs = await page.$$eval('img', els => els.map(e=>({src:(e.getAttribute('src')||'').slice(0,120), a:e.getAttribute('alt')})).slice(0,10));
+save(`s03-product-${tag}.json`, { nav, txt, imgs, errors });
+console.log('imgs=' + JSON.stringify(imgs));
+console.log('errors=' + JSON.stringify(errors));
+console.log('=== TEXT ===');
+console.log(txt.replace(/^(О\n+Оксана Черкашина\n+)?/, ''));
+await browser.close();

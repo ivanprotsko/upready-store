@@ -1,0 +1,1382 @@
+(node:23733) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"level":"info","message":"Disabling admin as we run integration tests","timestamp":"2026-09-15 09:16:07"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 09:16:07"}
+{"level":"info","message":"Creating database medusa-01m2ha5dbyfdckc423qr6wkeqv-integration-1","timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error creating database:: role \"ivanprotsko\" does not exist","stack":[{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"parseErrorMessage","lineNumber":394,"methodName":null,"native":false,"typeName":null},{"columnNumber":19,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.handlePacket","lineNumber":212,"methodName":"handlePacket","native":false,"typeName":"Parser"},{"columnNumber":30,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.parse","lineNumber":105,"methodName":"parse","native":false,"typeName":"Parser"},{"columnNumber":48,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts","functionName":null,"lineNumber":7,"methodName":null,"native":false,"typeName":"Socket"},{"columnNumber":20,"fileName":"node:events","functionName":"Socket.emit","lineNumber":514,"methodName":"emit","native":false,"typeName":"Socket"},{"columnNumber":12,"fileName":"node:internal/streams/readable","functionName":"addChunk","lineNumber":575,"methodName":null,"native":false,"typeName":null},{"columnNumber":3,"fileName":"node:internal/streams/readable","functionName":"readableAddChunkPushByteMode","lineNumber":526,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/streams/readable","functionName":"Socket.Readable.push","lineNumber":406,"methodName":"push","native":false,"typeName":"Socket.Readable"},{"columnNumber":23,"fileName":"node:internal/stream_base_commons","functionName":"TCP.onStreamRead","lineNumber":189,"methodName":"onStreamRead","native":false,"typeName":"TCP"}],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error initializing database: role \"ivanprotsko\" does not exist","timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during database shutdown:: role \"ivanprotsko\" does not exist","stack":[{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"parseErrorMessage","lineNumber":394,"methodName":null,"native":false,"typeName":null},{"columnNumber":19,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.handlePacket","lineNumber":212,"methodName":"handlePacket","native":false,"typeName":"Parser"},{"columnNumber":30,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.parse","lineNumber":105,"methodName":"parse","native":false,"typeName":"Parser"},{"columnNumber":48,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts","functionName":null,"lineNumber":7,"methodName":null,"native":false,"typeName":"Socket"},{"columnNumber":20,"fileName":"node:events","functionName":"Socket.emit","lineNumber":514,"methodName":"emit","native":false,"typeName":"Socket"},{"columnNumber":12,"fileName":"node:internal/streams/readable","functionName":"addChunk","lineNumber":575,"methodName":null,"native":false,"typeName":null},{"columnNumber":3,"fileName":"node:internal/streams/readable","functionName":"readableAddChunkPushByteMode","lineNumber":526,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/streams/readable","functionName":"Socket.Readable.push","lineNumber":406,"methodName":"push","native":false,"typeName":"Socket.Readable"},{"columnNumber":23,"fileName":"node:internal/stream_base_commons","functionName":"TCP.onStreamRead","lineNumber":189,"methodName":"onStreamRead","native":false,"typeName":"TCP"}],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during cleanup:: undefined","stack":[],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during database shutdown:: role \"ivanprotsko\" does not exist","stack":[{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"parseErrorMessage","lineNumber":394,"methodName":null,"native":false,"typeName":null},{"columnNumber":19,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.handlePacket","lineNumber":212,"methodName":"handlePacket","native":false,"typeName":"Parser"},{"columnNumber":30,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.parse","lineNumber":105,"methodName":"parse","native":false,"typeName":"Parser"},{"columnNumber":48,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts","functionName":null,"lineNumber":7,"methodName":null,"native":false,"typeName":"Socket"},{"columnNumber":20,"fileName":"node:events","functionName":"Socket.emit","lineNumber":514,"methodName":"emit","native":false,"typeName":"Socket"},{"columnNumber":12,"fileName":"node:internal/streams/readable","functionName":"addChunk","lineNumber":575,"methodName":null,"native":false,"typeName":null},{"columnNumber":3,"fileName":"node:internal/streams/readable","functionName":"readableAddChunkPushByteMode","lineNumber":526,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/streams/readable","functionName":"Socket.Readable.push","lineNumber":406,"methodName":"push","native":false,"typeName":"Socket.Readable"},{"columnNumber":23,"fileName":"node:internal/stream_base_commons","functionName":"TCP.onStreamRead","lineNumber":189,"methodName":"onStreamRead","native":false,"typeName":"TCP"}],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during cleanup:: undefined","stack":[],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during database shutdown:: role \"ivanprotsko\" does not exist","stack":[{"columnNumber":9,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"parseErrorMessage","lineNumber":394,"methodName":null,"native":false,"typeName":null},{"columnNumber":19,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.handlePacket","lineNumber":212,"methodName":"handlePacket","native":false,"typeName":"Parser"},{"columnNumber":30,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts","functionName":"Parser.parse","lineNumber":105,"methodName":"parse","native":false,"typeName":"Parser"},{"columnNumber":48,"fileName":"/Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts","functionName":null,"lineNumber":7,"methodName":null,"native":false,"typeName":"Socket"},{"columnNumber":20,"fileName":"node:events","functionName":"Socket.emit","lineNumber":514,"methodName":"emit","native":false,"typeName":"Socket"},{"columnNumber":12,"fileName":"node:internal/streams/readable","functionName":"addChunk","lineNumber":575,"methodName":null,"native":false,"typeName":null},{"columnNumber":3,"fileName":"node:internal/streams/readable","functionName":"readableAddChunkPushByteMode","lineNumber":526,"methodName":null,"native":false,"typeName":null},{"columnNumber":5,"fileName":"node:internal/streams/readable","functionName":"Socket.Readable.push","lineNumber":406,"methodName":"push","native":false,"typeName":"Socket.Readable"},{"columnNumber":23,"fileName":"node:internal/stream_base_commons","functionName":"TCP.onStreamRead","lineNumber":189,"methodName":"onStreamRead","native":false,"typeName":"TCP"}],"timestamp":"2026-09-15 09:16:07"}
+{"level":"error","message":"Error during cleanup:: undefined","stack":[],"timestamp":"2026-09-15 09:16:07"}
+FAIL integration-tests/http/tenants.spec.ts
+    tenants: shared multitenancy slice
+      ✕ resolves shipping options only from the tenant's own warehouse
+      ✕ keeps two tenants' warehouses apart even in the same city
+      ○ skipped gives each tenant its own sales channel and publishable key
+      ○ skipped reports the tenant behind the token on GET /tenants/me
+      ○ skipped reads the tenant's sales channel and publishable key through the links on GET /tenants/me
+      ○ skipped loses the link, not the tenant, when the sales channel is deleted
+      ○ skipped refuses a registration token that already belongs to a tenant admin
+      ○ skipped creates each tenant's product inside its own sales channel
+      ○ skipped ignores foreign sales channels sent in the product body
+      ○ skipped lists only the tenant's own products on GET /tenants/products
+      ○ skipped shows each storefront key only its own catalog on GET /store/products
+      ○ skipped refuses a line item whose variant is not sold in the cart's sales channel
+      ○ skipped refuses a cart created with a foreign variant in its items
+      ○ skipped links an order placed in tenant A's sales channel to tenant A only
+      ○ skipped leaves an order from a sales channel no tenant owns unlinked
+      ○ skipped rejects /tenants/* without a tenant token
+      ○ skipped answers GET /tenants/products in the Admin's list shape
+      ○ skipped filters GET /tenants/products by q and narrows it by fields
+      ○ skipped shows tenant B an empty page on GET /tenants/products, not the whole catalog
+      ○ skipped answers 404 on another tenant's product for GET and DELETE
+      ○ skipped deletes the tenant's own product on DELETE /tenants/products/:id
+      ○ skipped answers GET /tenants/orders in the Admin's list shape
+      ○ skipped shows tenant B an empty page on GET /tenants/orders
+      ○ skipped lists only the tenant's own channel on GET /tenants/sales-channels
+      ○ skipped answers 404 on another tenant's sales channel
+      ○ skipped carries the tenant's name and channel on GET /tenants/store
+      ○ skipped lists only the options of the tenant's own products on GET /tenants/product-options
+      ○ skipped lists only the inventory items of the tenant's own variants
+      ○ skipped answers GET /tenants/regions in the Admin's list shape
+      ○ skipped answers GET /tenants/price-preferences in the Admin's list shape
+      ○ skipped answers GET /tenants/product-types in the Admin's list shape
+      ○ skipped answers GET /tenants/product-tags in the Admin's list shape
+      ○ skipped answers GET /tenants/collections in the Admin's list shape
+      ○ skipped answers GET /tenants/shipping-profiles in the Admin's list shape
+
+  ●  › tenants: shared multitenancy slice › gives each tenant its own sales channel and publishable key
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › gives each tenant its own sales channel and publishable key
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › reports the tenant behind the token on GET /tenants/me
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › reports the tenant behind the token on GET /tenants/me
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › reads the tenant's sales channel and publishable key through the links on GET /tenants/me
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › reads the tenant's sales channel and publishable key through the links on GET /tenants/me
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › loses the link, not the tenant, when the sales channel is deleted
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › loses the link, not the tenant, when the sales channel is deleted
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › refuses a registration token that already belongs to a tenant admin
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › refuses a registration token that already belongs to a tenant admin
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › creates each tenant's product inside its own sales channel
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › creates each tenant's product inside its own sales channel
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › ignores foreign sales channels sent in the product body
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › ignores foreign sales channels sent in the product body
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › lists only the tenant's own products on GET /tenants/products
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › lists only the tenant's own products on GET /tenants/products
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › shows each storefront key only its own catalog on GET /store/products
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › shows each storefront key only its own catalog on GET /store/products
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › refuses a line item whose variant is not sold in the cart's sales channel
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › refuses a line item whose variant is not sold in the cart's sales channel
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › refuses a cart created with a foreign variant in its items
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › refuses a cart created with a foreign variant in its items
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › resolves shipping options only from the tenant's own warehouse
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › resolves shipping options only from the tenant's own warehouse
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › keeps two tenants' warehouses apart even in the same city
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › keeps two tenants' warehouses apart even in the same city
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › links an order placed in tenant A's sales channel to tenant A only
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › links an order placed in tenant A's sales channel to tenant A only
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › leaves an order from a sales channel no tenant owns unlinked
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › leaves an order from a sales channel no tenant owns unlinked
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › rejects /tenants/* without a tenant token
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › rejects /tenants/* without a tenant token
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/products in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/products in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › filters GET /tenants/products by q and narrows it by fields
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › filters GET /tenants/products by q and narrows it by fields
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › shows tenant B an empty page on GET /tenants/products, not the whole catalog
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › shows tenant B an empty page on GET /tenants/products, not the whole catalog
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers 404 on another tenant's product for GET and DELETE
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers 404 on another tenant's product for GET and DELETE
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › deletes the tenant's own product on DELETE /tenants/products/:id
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › deletes the tenant's own product on DELETE /tenants/products/:id
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/orders in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/orders in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › shows tenant B an empty page on GET /tenants/orders
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › shows tenant B an empty page on GET /tenants/orders
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › lists only the tenant's own channel on GET /tenants/sales-channels
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › lists only the tenant's own channel on GET /tenants/sales-channels
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers 404 on another tenant's sales channel
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers 404 on another tenant's sales channel
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › carries the tenant's name and channel on GET /tenants/store
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › carries the tenant's name and channel on GET /tenants/store
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › lists only the options of the tenant's own products on GET /tenants/product-options
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › lists only the options of the tenant's own products on GET /tenants/product-options
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › lists only the inventory items of the tenant's own variants
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › lists only the inventory items of the tenant's own variants
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/regions in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/regions in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/price-preferences in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/price-preferences in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/product-types in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/product-types in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/product-tags in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/product-tags in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/collections in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/collections in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/shipping-profiles in the Admin's list shape
+
+    error: role "ivanprotsko" does not exist
+
+      at parseErrorMessage (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:394:9)
+      at Parser.handlePacket (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:212:19)
+      at Parser.parse (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/parser.ts:105:30)
+      at Socket.<anonymous> (../../node_modules/.pnpm/pg-protocol@1.13.0/node_modules/pg-protocol/src/index.ts:7:48)
+
+  ●  › tenants: shared multitenancy slice › answers GET /tenants/shipping-profiles in the Admin's list shape
+
+    AwilixResolutionError: Could not resolve 'region'.
+
+    Resolution path: region
+
+      107 |         const {
+      108 |           result: [region],
+    > 109 |         } = await createRegionsWorkflow(container).run({
+          |             ^
+      110 |           input: {
+      111 |             regions: [{ name: "Europe", currency_code: "eur", countries: ["de"] }],
+      112 |           },
+
+      at Object.resolve (../../node_modules/.pnpm/awilix@8.0.1/node_modules/awilix/src/container.ts:497:15)
+      at Object.<anonymous>.exports.createRegionsStep.async.container.container (../../node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/src/region/steps/create-regions.ts:24:31)
+      at Object.invoke (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/utils/composer/helpers/create-step-handler.ts:91:67)
+      at DistributedTransaction.handler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/workflow-manager.ts:214:16)
+      at stepHandler (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1193:14)
+          at async Promise.allSettled (index 0)
+      at promiseAll (../../node_modules/.pnpm/@medusajs+utils@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/utils/src/common/promise-all.ts:27:18)
+      at TransactionOrchestrator.executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1037:7)
+      at executeNext (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1438:14)
+      at TransactionOrchestrator.resume (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/transaction/transaction-orchestrator.ts:1453:5)
+      at LocalWorkflow.run (../../node_modules/.pnpm/@medusajs+orchestration@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/orchestration/src/workflow/local-workflow.ts:375:5)
+      at originalExecution (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:144:26)
+      at LocalWorkflow.newRun [as run] (../../node_modules/.pnpm/@medusajs+workflows-sdk@2.19.0_@types+node@20.19.26_express@4.22.1/node_modules/@medusajs/workflows-sdk/src/helper/workflow-export.ts:226:12)
+      at Object.<anonymous> (integration-tests/http/tenants.spec.ts:109:13)
+      ⮑ sat /Users/ivanprotsko/upready/projects/upready-store/node_modules/.pnpm/@medusajs+core-flows@2.19.0_@medusajs+framework@2.19.0_@medusajs+cli@2.19.0_@types+node_99c584b17341a908f8b985128f21cf2a/node_modules/@medusajs/core-flows/dist/region/workflows/create-regions.js: [create-regions -> create-regions (invoke)]
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 32 skipped, 34 total
+Snapshots:   0 total
+Time:        2.746 s, estimated 26 s
+Ran all test suites matching /integration-tests\/http\/tenants.spec.ts/i with tests matching "warehouse".
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

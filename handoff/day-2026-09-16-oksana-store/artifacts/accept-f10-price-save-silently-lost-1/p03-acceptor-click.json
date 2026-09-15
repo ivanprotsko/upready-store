@@ -1,0 +1,648 @@
+{
+  "PANEL": "http://localhost:5193",
+  "engine": "chromium",
+  "commit": "click",
+  "tag": "acceptor-click",
+  "runs": [
+    {
+      "n": 1,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1481,
+      "tabs": 0,
+      "cellId": "0:1",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 355,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 481"
+      },
+      "sentRub": [
+        1481
+      ],
+      "beforeRub": 1355,
+      "afterRub": 1481,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 481,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 7160,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 7161,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 355,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 8350,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 8351,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 481"
+        },
+        {
+          "t": "focus",
+          "at": 8359,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 8359,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 8360,
+          "tag": "FORM",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 8394,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 9310,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 9336,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1481},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1355,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1481,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 481,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run1-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run1-after-1280x900.png"
+      ]
+    },
+    {
+      "n": 2,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1482,
+      "tabs": 0,
+      "cellId": "0:1",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 481,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 482"
+      },
+      "sentRub": [
+        1482
+      ],
+      "beforeRub": 1481,
+      "afterRub": 1482,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 482,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 12263,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 12264,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 481,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 13453,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 13453,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 482"
+        },
+        {
+          "t": "focus",
+          "at": 13462,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 13462,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 13463,
+          "tag": "FORM",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 13501,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 14625,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 14650,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1482},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1481,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1482,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 482,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run2-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run2-after-1280x900.png"
+      ]
+    },
+    {
+      "n": 3,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1483,
+      "tabs": 0,
+      "cellId": "0:1",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 482,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 483"
+      },
+      "sentRub": [
+        1483
+      ],
+      "beforeRub": 1482,
+      "afterRub": 1483,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 483,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 7046,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 7046,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 482,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 8228,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 8228,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 483"
+        },
+        {
+          "t": "focus",
+          "at": 8237,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 8238,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 8238,
+          "tag": "FORM",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 8277,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 9261,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 9293,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1483},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1482,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1483,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 483,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run3-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run3-after-1280x900.png"
+      ]
+    },
+    {
+      "n": 4,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1484,
+      "tabs": 0,
+      "cellId": "0:1",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 483,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 484"
+      },
+      "sentRub": [
+        1484
+      ],
+      "beforeRub": 1483,
+      "afterRub": 1484,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 484,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 7016,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 7017,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 483,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 8190,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 8190,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 484"
+        },
+        {
+          "t": "focus",
+          "at": 8199,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 8200,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 8200,
+          "tag": "FORM",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 8238,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 9062,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 9094,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1484},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1483,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1484,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 484,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run4-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run4-after-1280x900.png"
+      ]
+    },
+    {
+      "n": 5,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1485,
+      "tabs": 0,
+      "cellId": "0:1",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 484,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 485"
+      },
+      "sentRub": [
+        1485
+      ],
+      "beforeRub": 1484,
+      "afterRub": 1485,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 485,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 6969,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 6970,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 484,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 8223,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 8223,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 485"
+        },
+        {
+          "t": "focus",
+          "at": 8244,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 8245,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 8245,
+          "tag": "FORM",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 8293,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 9168,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        },
+        {
+          "t": "blur",
+          "at": 9196,
+          "tag": "DIV",
+          "txt": "esc\nВид\nВсе валю"
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1485},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1484,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1485,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 485,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run5-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/acceptor-click-run5-after-1280x900.png"
+      ]
+    }
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ]
+}
