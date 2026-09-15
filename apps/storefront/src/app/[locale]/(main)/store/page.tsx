@@ -5,6 +5,7 @@ import StoreTemplate from "@modules/store/templates"
 import { buildAlternates } from "@lib/util/alternates"
 import { getCountryCode } from "@lib/data/cookies"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
+import { parseAttributeSelection } from "@lib/util/product-attribute-filters"
 import { getTranslations, getLocale } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 
@@ -35,6 +36,7 @@ export default async function StorePage(props: Params) {
   const countryCode = await getCountryCode()
   const { sortBy, page } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
+  const attributeSelection = parseAttributeSelection(searchParams)
 
   return (
     <StoreTemplate
@@ -42,6 +44,7 @@ export default async function StorePage(props: Params) {
       page={page}
       countryCode={countryCode ?? ""}
       optionValueIds={optionValueIds}
+      attributeSelection={attributeSelection}
     />
   )
 }

@@ -306,8 +306,12 @@
     "unauthorized": "请登录后继续。"
   },
   "Filters": {
+    "from": "最低",
+    "no": "否",
     "sort": "排序",
-    "title": "筛选"
+    "title": "筛选",
+    "to": "最高",
+    "yes": "是"
   },
   "Footer": {
     "categoriesHeading": "分类",
@@ -696,6 +700,11 @@
     "outOfStock": "缺货",
     "selectOptions": "选择选项",
     "selectVariant": "选择规格"
+  },
+  "ProductAttributes": {
+    "no": "否",
+    "title": "规格参数",
+    "yes": "是"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",

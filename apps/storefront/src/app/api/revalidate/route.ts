@@ -135,6 +135,19 @@ export async function POST(req: NextRequest) {
   // narrowed either way: a path is one path for every shop on the process, which is
   // over-invalidation and not a leak (the fetch cache key carries the per-shop
   // `x-publishable-api-key`).
+  // t15-product-attributes: the shop's own product characteristics. One shared
+  // tag (`lib/data/product-attributes.ts`) carries BOTH reads — the block on a
+  // product page and the facets of the catalogue — because the owner's edit
+  // changes them together: renaming «Объём» renames the filter, and filling a
+  // value moves a product in and out of a facet count. The paths are every
+  // catalogue surface the filter bar stands on plus the product page itself.
+  if (body.type === "tenant.product-attributes") {
+    revalidateTag("product-attributes")
+    revalidatePath(`/[locale]/(main)/products/[handle]`, "page")
+    revalidatePath(`/[locale]/(main)/store`, "page")
+    revalidatePath(`/[locale]/(main)/categories/[...category]`, "page")
+  }
+
   if (body.type === "tenant.home") {
     revalidateTag("tenant-home")
 

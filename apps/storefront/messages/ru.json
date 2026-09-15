@@ -306,8 +306,12 @@
     "unauthorized": "Пожалуйста, войдите, чтобы продолжить."
   },
   "Filters": {
+    "from": "от",
+    "no": "Нет",
     "sort": "Сортировка",
-    "title": "Фильтры"
+    "title": "Фильтры",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -696,6 +700,11 @@
     "outOfStock": "Нет в наличии",
     "selectOptions": "Выбрать опции",
     "selectVariant": "Выбрать вариант"
+  },
+  "ProductAttributes": {
+    "no": "Нет",
+    "title": "Характеристики",
+    "yes": "Да"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продолжить настройку в панели",

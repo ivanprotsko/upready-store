@@ -306,8 +306,12 @@
     "unauthorized": "계속하려면 로그인해 주세요."
   },
   "Filters": {
+    "from": "최소",
+    "no": "아니오",
     "sort": "정렬",
-    "title": "필터"
+    "title": "필터",
+    "to": "최대",
+    "yes": "예"
   },
   "Footer": {
     "categoriesHeading": "카테고리",
@@ -696,6 +700,11 @@
     "outOfStock": "품절",
     "selectOptions": "옵션 선택",
     "selectVariant": "옵션 선택"
+  },
+  "ProductAttributes": {
+    "no": "아니오",
+    "title": "사양",
+    "yes": "예"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "관리자에서 설정 계속하기",

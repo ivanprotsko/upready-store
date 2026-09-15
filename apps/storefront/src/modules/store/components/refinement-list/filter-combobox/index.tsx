@@ -28,6 +28,13 @@ type FilterComboboxOption = {
   label: string
   hex?: string
   disabled?: boolean
+  /**
+   * How many products carry this value under the current selection
+   * (t15-product-attributes). Shown right-aligned in tabular figures; a value
+   * with none comes back `disabled` rather than missing, so the buyer can see
+   * what the shop carries. Option filters pass none and render as before.
+   */
+  count?: number
 }
 
 interface FilterComboboxProps
@@ -178,7 +185,7 @@ const FilterComboboxImpl = (
           pointerEvents: open ? "auto" : "none",
         }}
       >
-        {options.map(({ value, label, hex, disabled }) => (
+        {options.map(({ value, label, hex, disabled, count }) => (
           <PrimitiveComboboxItem
             key={value}
             value={value}
@@ -205,6 +212,11 @@ const FilterComboboxImpl = (
             <PrimitiveComboboxItemValue className="txt-compact-small">
               {label}
             </PrimitiveComboboxItemValue>
+            {typeof count === "number" && (
+              <span className="txt-compact-small text-ui-fg-muted ms-auto tabular-nums">
+                {count}
+              </span>
+            )}
           </PrimitiveComboboxItem>
         ))}
       </PrimitiveComboboxPopover>

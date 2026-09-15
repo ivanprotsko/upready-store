@@ -306,8 +306,12 @@
     "unauthorized": "Devam etmek için lütfen giriş yapın."
   },
   "Filters": {
+    "from": "en az",
+    "no": "Hayır",
     "sort": "Sırala",
-    "title": "Filtreler"
+    "title": "Filtreler",
+    "to": "en çok",
+    "yes": "Evet"
   },
   "Footer": {
     "categoriesHeading": "Kategoriler",
@@ -696,6 +700,11 @@
     "outOfStock": "Stokta yok",
     "selectOptions": "Seçenekleri Seç",
     "selectVariant": "Varyant seçin"
+  },
+  "ProductAttributes": {
+    "no": "Hayır",
+    "title": "Özellikler",
+    "yes": "Evet"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",

@@ -306,8 +306,12 @@
     "unauthorized": "Моля, влезте в акаунта си, за да продължите."
   },
   "Filters": {
+    "from": "от",
+    "no": "Не",
     "sort": "Подредба",
-    "title": "Филтри"
+    "title": "Филтри",
+    "to": "до",
+    "yes": "Да"
   },
   "Footer": {
     "categoriesHeading": "Категории",
@@ -696,6 +700,11 @@
     "outOfStock": "Изчерпан",
     "selectOptions": "Избери опции",
     "selectVariant": "Избери вариант"
+  },
+  "ProductAttributes": {
+    "no": "Не",
+    "title": "Характеристики",
+    "yes": "Да"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",

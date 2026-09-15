@@ -306,8 +306,12 @@
     "unauthorized": "Log ind for at fortsætte."
   },
   "Filters": {
+    "from": "fra",
+    "no": "Nej",
     "sort": "Sortér",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "til",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -696,6 +700,11 @@
     "outOfStock": "Udsolgt",
     "selectOptions": "Vælg indstillinger",
     "selectVariant": "Vælg variant"
+  },
+  "ProductAttributes": {
+    "no": "Nej",
+    "title": "Specifikationer",
+    "yes": "Ja"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsæt opsætning i admin",

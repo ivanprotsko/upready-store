@@ -306,8 +306,12 @@
     "unauthorized": "يرجى تسجيل الدخول للمتابعة."
   },
   "Filters": {
+    "from": "من",
+    "no": "لا",
     "sort": "الترتيب",
-    "title": "الفلاتر"
+    "title": "الفلاتر",
+    "to": "إلى",
+    "yes": "نعم"
   },
   "Footer": {
     "categoriesHeading": "الفئات",
@@ -696,6 +700,11 @@
     "outOfStock": "غير متوفر",
     "selectOptions": "اختر الخيارات",
     "selectVariant": "اختر الخيار"
+  },
+  "ProductAttributes": {
+    "no": "لا",
+    "title": "المواصفات",
+    "yes": "نعم"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "متابعة الإعداد في لوحة التحكم",

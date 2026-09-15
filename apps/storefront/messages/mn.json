@@ -306,8 +306,12 @@
     "unauthorized": "Үргэлжлүүлэхийн тулд нэвтэрнэ үү."
   },
   "Filters": {
+    "from": "-с",
+    "no": "Үгүй",
     "sort": "Эрэмбэлэх",
-    "title": "Шүүлтүүр"
+    "title": "Шүүлтүүр",
+    "to": "хүртэл",
+    "yes": "Тийм"
   },
   "Footer": {
     "categoriesHeading": "Ангилал",
@@ -696,6 +700,11 @@
     "outOfStock": "Дууссан",
     "selectOptions": "Сонголт хийх",
     "selectVariant": "Хувилбар сонгох"
+  },
+  "ProductAttributes": {
+    "no": "Үгүй",
+    "title": "Үзүүлэлт",
+    "yes": "Тийм"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",

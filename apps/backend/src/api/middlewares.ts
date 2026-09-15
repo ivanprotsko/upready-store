@@ -182,6 +182,11 @@ import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import {
+  PostTenantProductAttributeSchema,
+  PostTenantProductAttributeUpdateSchema,
+  PostTenantProductAttributeValuesSchema,
+} from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
@@ -1053,6 +1058,30 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+
+    // ---- t15-product-attributes: the shop's own product characteristics
+    // (/tenants/product-attributes/**, /tenants/products/:id/attributes,
+    // /store/tenant/product-attributes/**).
+    //
+    // Only the write verbs take a body. The reads parse their own one or two
+    // query parameters in the route (this resource has no Admin counterpart to
+    // borrow a query config from), and the public `/store/tenant/*` reads ride
+    // the framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/product-attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeSchema)],
+    },
+    {
+      matcher: "/tenants/product-attributes/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeUpdateSchema)],
+    },
+    {
+      matcher: "/tenants/products/:id/attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeValuesSchema)],
     },
 
     // t06-locale-currency: the tenant's default storefront locale, its enabled
