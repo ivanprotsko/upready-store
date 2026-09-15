@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-legal-and-redirects",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T23:45:22+08:00",
+  "status": "2026-09-15 23:45 WITA: b02-legal-and-redirects — PR #63 открыт в dev (MERGEABLE/CLEAN, два мержа origin/dev: #55-#59 и #60/b09). Юр-страницы: пустой реквизит больше не показывается покупателю — скрывается самый мелкий блок (строка таблицы/пункт списка/абзац), в заголовке и SEO токен вырезается из строки (tenant-legal/redact.ts), панель называет страницы и число скрытых блоков (hidden_blocks). Редиректы: 47 правил перенесённого каталога пишет сам старт контейнера (docker-entrypoint.sh шаг 6 + src/scripts/backfill-tenant-redirects.ts из metadata.migrated_from/source_url), удалённое владельцем правило не воскресает (штамп tenant.metadata.redirects_seeded_from). Замерено на клоне базы Оксаны upready_store_b02: 404 -> 47 written -> 301 + конечные 200; юр-страницы 0 вхождений {{ при 9/23/16 в БД; паритет с реестром импорта 47/47. Живой хост не тронут — редиректы приедут деплоем d05, там же стоит прогнать prefill-cherkashino-requisites.ts (снимает скрытие с 5/8/4 блоков). Отчёт: artifacts/docs/b02-legal-and-redirects/report.md"
+}

@@ -47,7 +47,20 @@
 #    edited herself is never touched, and a second run changes nothing. It is
 #    the one step here that is COSMETIC, so unlike step 4 it is not allowed to
 #    keep the backend down: `set -e` is lifted for it and a failure is logged.
-# 6. exec the real command (CMD from the Dockerfile, normally `medusa start`)
+# 6. migrated-catalogue redirects — src/scripts/backfill-tenant-redirects.ts
+#    writes the 301 rows a migrated shop's own metadata implies
+#    (`migrated_from` + `source_url` on every imported product and category),
+#    so the old addresses of an imported catalogue answer 301 after an
+#    ORDINARY deploy. Until b02 this was a one-off script run by hand against
+#    a registry JSON living in one task's worktree, which is why the rows
+#    existed on the acceptance stand and `tenant_redirect` was empty on the
+#    whole live platform (`artifacts/q03-gap-recheck/gap-recheck.md` §4).
+#    Idempotent twice over: an existing `from_path` is skipped, and the tenant
+#    is stamped after a successful run so a redirect the OWNER deleted in the
+#    panel is not resurrected by the next boot. Cosmetic like step 5, so
+#    `set -e` is lifted and a failure is logged rather than kept the backend
+#    down.
+# 7. exec the real command (CMD from the Dockerfile, normally `medusa start`)
 #    so it becomes PID 1 and receives signals directly — no shell left
 #    holding the process, matching Docker's own stop/restart expectations.
 set -eu
@@ -71,6 +84,15 @@ rename_status=$?
 set -e
 if [ "$rename_status" -ne 0 ]; then
   echo "[entrypoint] WARNING: rename-default-shipping-methods exited $rename_status; delivery method names were left as they are"
+fi
+
+echo "[entrypoint] writing the redirects a migrated catalogue implies (no-op when nothing was imported)"
+set +e
+node_modules/.bin/medusa exec ./src/scripts/backfill-tenant-redirects.js
+redirects_status=$?
+set -e
+if [ "$redirects_status" -ne 0 ]; then
+  echo "[entrypoint] WARNING: backfill-tenant-redirects exited $redirects_status; the old addresses of an imported catalogue may still answer 404"
 fi
 
 echo "[entrypoint] starting: $*"

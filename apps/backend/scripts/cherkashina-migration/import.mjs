@@ -260,7 +260,19 @@ async function phaseCategories() {
         is_active: cat.is_active,
         is_internal: cat.is_internal,
         rank: cat.rank ?? 0,
-        metadata: { ...(cat.metadata ?? {}), migrated_from: MIGRATED_FROM, source_id: cat.id, source_handle: cat.handle },
+        // `source_url` here for the same reason products carry it: it is the
+        // OLD address of this row, and `src/scripts/backfill-tenant-redirects.ts`
+        // turns it into the 301 on every deploy. Categories imported before
+        // b02-legal-and-redirects have only `source_handle`, and that script
+        // rebuilds their address from the prefix its sibling products carry —
+        // the same string this line writes.
+        metadata: {
+          ...(cat.metadata ?? {}),
+          migrated_from: MIGRATED_FROM,
+          source_id: cat.id,
+          source_handle: cat.handle,
+          source_url: `${SOURCE_URL_PREFIX}/categories/${cat.handle}`,
+        },
       });
       upsertRow(registry, { ...base, target_id: r.product_category.id, status: "migrated", reason: "flat category (source has no parents); handle suffixed with the tenant" });
     } catch (e) {

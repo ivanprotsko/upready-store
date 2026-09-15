@@ -191,6 +191,11 @@ underscore.
   mandatory for a first run.
 - The Integration Module is registered with an empty `providers` array on purpose, so a shop owner
   can add a provider without editing config. Leave the array empty.
+- Anything a deployed stand has to CONVERGE on (data an older image left wrong, rows a migration
+  implies) is an idempotent script under `apps/backend/src/scripts/` wired into
+  [`docker-entrypoint.sh`](apps/backend/docker-entrypoint.sh), never a step in a runbook. The boot
+  order and the rules for adding one are in
+  [apps/backend/README.md](apps/backend/README.md#what-the-container-does-on-every-boot).
 - An acceptance fixture or a one-off seed script lives in
   [scripts/fixtures](apps/backend/scripts/fixtures) and nowhere else in `apps/backend`. `medusa build`
   compiles everything `tsconfig.json` includes, and `exclude` names that one directory, so a type
