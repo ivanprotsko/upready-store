@@ -6,7 +6,7 @@ import {
   beginOrderEditOrderWorkflow,
   confirmOrderEditRequestWorkflow,
   orderEditUpdateItemQuantityWorkflow,
-} from "@medusajs/core-flows";
+} from "@medusajs/medusa/core-flows";
 import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
 /**
