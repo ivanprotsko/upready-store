@@ -20,6 +20,7 @@
     "start": "turbo start",
     "lint": "turbo lint",
     "test": "turbo test",
+    "test:methods": "node --test tools/test-methods/__tests__/ && node tools/test-methods/tm.mjs verify all && node tools/test-methods/tm.mjs run all",
     "backend:seed": "turbo seed --filter=@dtc/gorgo-medusa-backend",
     "backend:dev": "turbo dev --filter=@dtc/gorgo-medusa-backend",
     "storefront:dev": "turbo dev --filter=@dtc/gorgo-medusa-storefront"

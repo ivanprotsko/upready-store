@@ -1,0 +1,381 @@
+{
+  "schema": "upready.test-methods/v1",
+  "note": "Реестр методов тестирования. Один найденный баг = один МЕТОД, который ловит весь его класс в любом проекте. Методы добавляются только с доказательством: детектор красный на исходном коммите бага и на сгенерированных вариантах того же класса, зелёный на коммите с починкой. Замеры переигрываются командой `node tools/test-methods/tm.mjs verify all`.",
+  "project": "upready-store",
+  "methods": [
+    {
+      "id": "tm-001",
+      "slug": "boot-dep-not-in-runtime-install",
+      "bugClass": "Модуль, который грузится на старте, не установлен в рантайм-образе",
+      "symptom": "Образ собрался и запушился, а контейнер падает при старте на «Cannot find module '<пакет>'» и уходит в цикл рестартов. Все гейты до живого хоста зелёные.",
+      "keywords": [
+        "cannot find module",
+        "падает на старте",
+        "крэш-луп",
+        "restart",
+        "502",
+        "образ",
+        "docker",
+        "devDependencies",
+        "нативный модуль",
+        "sharp",
+        "деплой",
+        "контейнер не поднимается"
+      ],
+      "detector": {
+        "kind": "static",
+        "module": "detectors/boot-dep-not-in-runtime-install.mjs",
+        "cmd": "node tools/test-methods/tm.mjs run tm-001",
+        "checks": [
+          {
+            "id": "boot-import-not-in-runtime-deps",
+            "what": "Пакет импортируется на уровне модуля файлом, который фреймворк грузит до первого запроса, а объявлен в devDependencies / optionalDependencies / peerDependencies или не объявлен вовсе. Рантайм-стадия ставит зависимости с --omit=dev — такого пакета в образе не будет."
+          },
+          {
+            "id": "platform-bound-boot-import-ignores-scripts",
+            "what": "Пакет платформенно-зависимый (его optionalDependencies в локе объявляют cpu/os), а рантайм-установка идёт с --ignore-scripts: JS-половина приедет, бинарная — нет."
+          }
+        ]
+      },
+      "config": {
+        "app": "apps/backend",
+        "bootDirs": [
+          "src/api",
+          "src/subscribers",
+          "src/jobs",
+          "src/links",
+          "src/modules",
+          "src/workflows",
+          "src/scripts",
+          "src/migration-scripts"
+        ],
+        "bootFiles": ["medusa-config.ts"],
+        "skipDirs": ["__tests__", "data"],
+        "dockerfile": "apps/backend/Dockerfile",
+        "lockfile": "pnpm-lock.yaml",
+        "aliasPrefixes": []
+      },
+      "scope": {
+        "languages": ["ts", "js"],
+        "frameworks": ["medusa", "node", "docker", "pnpm", "npm"],
+        "paths": [
+          "apps/backend/src",
+          "apps/backend/package.json",
+          "apps/backend/medusa-config.ts",
+          "apps/backend/Dockerfile",
+          "pnpm-lock.yaml"
+        ],
+        "generalizesTo": "Любой сервис, чей рантайм-образ ставит зависимости отдельной стадией (--omit=dev, --production, multi-stage COPY package.json): классы совпадают дословно, меняются только имена boot-каталогов."
+      },
+      "placement": "before-task",
+      "fixtures": {
+        "original": {
+          "sha": "74d9c01f3826e4b055e77bdab6e0e52c3a385d21",
+          "path": "apps/backend/src/api/tenants/branding/upload/route.ts",
+          "task": "f17-backend-image-sharp",
+          "pr": 44,
+          "what": "sharp стоял в devDependencies, а route.ts импортировал его на уровне модуля; npm install --omit=dev выбрасывал пакет, mt-backend падал в цикле рестартов."
+        },
+        "variants": [
+          {
+            "dir": "fixtures/tm-001/variant-1-optional-dependency",
+            "expect": "red",
+            "expectCheck": "boot-import-not-in-runtime-deps",
+            "note": "optionalDependencies: установка молча пропускает пакет"
+          },
+          {
+            "dir": "fixtures/tm-001/variant-2-undeclared",
+            "expect": "red",
+            "expectCheck": "boot-import-not-in-runtime-deps",
+            "note": "не объявлен вовсе, резолвится хойстингом монорепы"
+          },
+          {
+            "dir": "fixtures/tm-001/variant-3-ignore-scripts",
+            "expect": "red",
+            "expectCheck": "platform-bound-boot-import-ignores-scripts",
+            "note": "нативный пакет + --ignore-scripts в рантайм-стадии"
+          },
+          {
+            "dir": "fixtures/tm-001/green",
+            "expect": "green",
+            "note": "отрицательный контроль: ленивый require devDependency внутри функции, import type, node:-встроенные, тесты под __tests__"
+          }
+        ]
+      },
+      "evidence": {
+        "redOn": [
+          {
+            "sha": "74d9c01f3826e4b055e77bdab6e0e52c3a385d21",
+            "expectCheck": "boot-import-not-in-runtime-deps",
+            "expectFile": "apps/backend/src/api/tenants/branding/upload/route.ts",
+            "note": "коммит перед починкой f17"
+          }
+        ],
+        "greenOn": [
+          {
+            "sha": "2286d43bf7a3fab4546b59bc3b014c45f554fcb8",
+            "note": "починка f17: sharp переехал в dependencies"
+          },
+          {
+            "sha": "ba126e8943600970eed6fd3604e9f89c6871ae40",
+            "note": "голова ветки задачи"
+          }
+        ],
+        "measured": "2026-09-15: 325 файлов / 1027 импортов / 6 сторонних пакетов на boot-пути на 74d9c01 — одна находка (sharp). На 2286d43 и ba126e8 находок нет.",
+        "falsePositives": [
+          "Ленивый require внутри тела функции НЕ считается: apps/backend/src/scripts/import-cherkashina-reviews.ts:93 требует pg (devDependency) внутри хелпера, который запускает только оператор. Проверено на зелёной фикстуре.",
+          "import type стирается компилятором и в образ не попадает — не считается."
+        ]
+      },
+      "baseline": []
+    },
+    {
+      "id": "tm-002",
+      "slug": "owner-field-not-shown",
+      "bugClass": "Владелец заполняет поле в панели, а витрина его не показывает",
+      "symptom": "Сохранение проходит, поле уезжает в базу, API его отдаёт, страница отвечает 200 — и на экране покупателя ничего нет. Нигде никакой ошибки.",
+      "keywords": [
+        "сохраняется",
+        "не показывает",
+        "не видно",
+        "картинка",
+        "изображение",
+        "витрина",
+        "панель",
+        "metadata",
+        "поле",
+        "владелица",
+        "загрузил",
+        "нигде нет"
+      ],
+      "detector": {
+        "kind": "static",
+        "module": "detectors/owner-field-not-shown.mjs",
+        "cmd": "node tools/test-methods/tm.mjs run tm-002",
+        "checks": [
+          {
+            "id": "written-never-read",
+            "what": "Ключ metadata.*, который пишет форма панели, не читает никто: ни витрина, ни бэкенд, ни сама панель. Поле у владельца есть, потребителя у значения нет."
+          },
+          {
+            "id": "owner-data-loses-to-build-defaults",
+            "what": "Витрина читает данные владельца и выбрасывает их, если их меньше N (N >= 2), подставляя вместо них данные, вшитые в сборку. Владелец с одной записью не видит ни своего, ни объяснения."
+          }
+        ]
+      },
+      "config": {
+        "panel": "apps/tenant-panel",
+        "storefront": "apps/storefront",
+        "readerDirs": ["apps/storefront/src", "apps/backend/src", "apps/tenant-panel/src"],
+        "buildTimeModules": ["@lib/profile"],
+        "ownerDataMarkers": ["metadata"],
+        "fallbackWindow": 400,
+        "ignoreKeys": []
+      },
+      "scope": {
+        "languages": ["ts", "tsx"],
+        "frameworks": ["next", "react", "medusa"],
+        "paths": ["apps/tenant-panel/src", "apps/storefront/src", "apps/backend/src"],
+        "generalizesTo": "Любая пара «редактор контента → публичная поверхность», где значение едет через свободное поле (metadata, jsonb, custom fields) и компилятор связь не проверяет."
+      },
+      "placement": "acceptance",
+      "fixtures": {
+        "original": {
+          "sha": "c60638b7da70fd49b769f776c6fd5bd93cb095cd",
+          "path": "apps/storefront/src/app/[locale]/(main)/page.tsx",
+          "task": "f16-category-image-not-shown",
+          "pr": 54,
+          "what": "Панель писала metadata.image_url категории и обещала «показывается плиткой везде»; единственный читатель на витрине отдавал плитки только при трёх картинках и иначе возвращал список из профиля сборки — чужого магазина."
+        },
+        "variants": [
+          {
+            "dir": "fixtures/tm-002/variant-1-written-never-read",
+            "expect": "red",
+            "expectCheck": "written-never-read",
+            "note": "metadata.badge_text: пишет форма товара, не читает никто"
+          },
+          {
+            "dir": "fixtures/tm-002/variant-2-threshold-gt",
+            "expect": "red",
+            "expectCheck": "owner-data-loses-to-build-defaults",
+            "note": "порог записан через `>` вместо `>=`"
+          },
+          {
+            "dir": "fixtures/tm-002/variant-3-subscript-write",
+            "expect": "red",
+            "expectCheck": "written-never-read",
+            "note": "запись через metadata[\"promo_note\"] = вместо литерала"
+          },
+          {
+            "dir": "fixtures/tm-002/green",
+            "expect": "green",
+            "note": "отрицательный контроль: читатель на витрине (доступ), в бэкенде (подстрочник), в панели (деструктуризация); порог без подмены данными сборки; данные сборки без порога"
+          }
+        ]
+      },
+      "evidence": {
+        "redOn": [
+          {
+            "sha": "c60638b7da70fd49b769f776c6fd5bd93cb095cd",
+            "expectCheck": "owner-data-loses-to-build-defaults",
+            "expectFile": "page.tsx",
+            "note": "коммит перед починкой f16: if (own.length >= 3) на главной"
+          }
+        ],
+        "greenOn": [
+          {
+            "sha": "a530e508d074046e02e02e9a0f56d04f42744f3e",
+            "expectAbsentCheck": "owner-data-loses-to-build-defaults",
+            "note": "починка f16: порог снят, картинка выводится на трёх поверхностях. Кейс сверяется по ОТСУТСТВИЮ класса f16, потому что в том же дереве стоит вторая, независимая находка метода (written-never-read про metadata.language) — прятать её под baseline при проверке доказательств нельзя."
+          },
+          {
+            "sha": "ba126e8943600970eed6fd3604e9f89c6871ae40",
+            "expectAbsentCheck": "owner-data-loses-to-build-defaults",
+            "note": "голова ветки задачи: класс f16 закрыт"
+          }
+        ],
+        "measured": "2026-09-15: 877 файлов панели, 418 витрины, 1711 файлов-читателей на c60638b — одна находка (owner-data-loses-to-build-defaults, page.tsx:68). На ba126e8 этой находки нет.",
+        "falsePositives": [
+          "Первая версия проверки А искала читателя только в витрине и краснела на metadata.locale (запрос восстановления пароля): его читает apps/backend/src/emails/i18n/locale.ts:55, чтобы выбрать язык письма. Контракт «панель → бэкенд» — не дефект; поиск читателя расширен на все три приложения.",
+          "Вторая версия считала читателем любой доступ `.<ключ>` в файле, где встречается слово metadata, и запись `metadata: { language: values.language }` подтверждала сама себя через `values.language` строкой выше. Читатель теперь обязан быть привязан к самому объекту metadata (доступ, подстрочник, деструктуризация).",
+          "Проверка А НЕ ловит исходный баг f16: на c60638b и image_url, и image_alt имели читателей. Ловит его проверка Б — метод доказан на том баге, из которого он вырос, а не на удобном соседе."
+        ]
+      },
+      "baseline": [
+        {
+          "check": "written-never-read",
+          "key": "language",
+          "file": "apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx",
+          "reason": "Живая находка, заведена этой задачей: форма профиля пишет выбор языка в user.metadata.language, а по умолчанию подставляет i18n.language (значение из браузера). Прочитать metadata.language не пытается никто — выбор владелицы не переживает вход с другого устройства. Починка — отдельная задача, здесь только замер.",
+          "task": "r03-test-methods-pilot → штабу на заведение",
+          "since": "2026-09-15"
+        }
+      ]
+    },
+    {
+      "id": "tm-003",
+      "slug": "fixture-in-compiled-tree",
+      "bugClass": "Одноразовая приёмочная фикстура лежит в дереве, которое компилирует продуктовая сборка",
+      "symptom": "Сборка образа падает на типах файла, который продукт никогда не исполняет; деплой встаёт, волна правок не доезжает до живого хоста.",
+      "keywords": [
+        "сборка падает",
+        "medusa build",
+        "tsc",
+        "образ не собирается",
+        "фикстура",
+        "seed",
+        "приёмка",
+        "деплой встал",
+        "TS2322",
+        "одноразовый скрипт"
+      ],
+      "detector": {
+        "kind": "static",
+        "module": "detectors/fixture-in-compiled-tree.mjs",
+        "cmd": "node tools/test-methods/tm.mjs run tm-003",
+        "checks": [
+          {
+            "id": "fixture-marker-in-compiled-tree",
+            "what": "Файл под apps/*/src сам называет себя одноразовой фикстурой («fixture ONLY», «throwaway fixture», «run once with», «not wired into any pnpm script»)."
+          },
+          {
+            "id": "fixture-named-file-in-compiled-tree",
+            "what": "Имя файла под apps/*/src содержит seed-test / test-seed / fixture — даже если внутри он молчит."
+          }
+        ]
+      },
+      "config": {
+        "appsDir": "apps",
+        "srcSubdir": "src",
+        "excludeApps": ["homepage"],
+        "suggestedHome": "apps/<app>/scripts/fixtures/"
+      },
+      "scope": {
+        "languages": ["ts", "tsx", "js"],
+        "frameworks": ["medusa", "next", "vite", "any"],
+        "pathsNote": "Компилируемые деревья перечислены поимённо, а не как \"apps\": разворачивать под --base весь каталог приложений (шрифты, флаги, публичные картинки) — это минуты вместо секунд. Новое приложение добавляется сюда руками; детектор сам обходит всё, что есть в дереве, которое ему дали.",
+        "paths": ["apps/backend/src", "apps/storefront/src", "apps/tenant-panel/src", "apps/bot/src"],
+        "generalizesTo": "Любой проект, где продуктовая сборка компилирует каталог целиком (tsc include, medusa build, next build): одноразовый скрипт в этом каталоге — это гейт деплоя, который никто не заказывал."
+      },
+      "placement": "before-task",
+      "fixtures": {
+        "original": {
+          "sha": "ba126e8943600970eed6fd3604e9f89c6871ae40",
+          "path": "apps/backend/src/scripts/f12-seed-test-order.ts",
+          "task": "f12-owner-raw-keys",
+          "pr": 50,
+          "what": "Приёмочная фикстура на один заказ уехала в коммит; следующая сборка образа упала на TS2322 в ней, живой хост остался на a530e50 без всей волны."
+        },
+        "variants": [
+          {
+            "dir": "fixtures/tm-003/variant-1-name-only",
+            "expect": "red",
+            "expectCheck": "fixture-named-file-in-compiled-tree",
+            "note": "маркеров в тексте нет, выдаёт имя файла"
+          },
+          {
+            "dir": "fixtures/tm-003/variant-2-storefront-fixture",
+            "expect": "red",
+            "expectCheck": "fixture-marker-in-compiled-tree",
+            "note": "тот же класс в другом приложении"
+          },
+          {
+            "dir": "fixtures/tm-003/variant-3-run-once",
+            "expect": "red",
+            "expectCheck": "fixture-marker-in-compiled-tree",
+            "note": "маркер «run once with» / «not wired into any pnpm script»"
+          },
+          {
+            "dir": "fixtures/tm-003/green",
+            "expect": "green",
+            "note": "отрицательный контроль: слово throwaway про БАЗУ в продуктовом коде, юнит-тест рядом с кодом, фикстура под __tests__, рабочий seed-скрипт продукта"
+          }
+        ]
+      },
+      "evidence": {
+        "redOn": [
+          {
+            "sha": "ba126e8943600970eed6fd3604e9f89c6871ae40",
+            "expectCheck": "fixture-marker-in-compiled-tree",
+            "expectFile": "apps/backend/src/scripts/f12-seed-test-order.ts",
+            "note": "коммит, на котором сборка образа и упала (d04-deploy-mt-4, раздел 10)"
+          }
+        ],
+        "greenOn": [
+          {
+            "sha": "5b6e9e260b5f02006831d4412603b81029a07ef9",
+            "note": "коммит перед t13-customers-screen: ни одной фикстуры в компилируемом дереве"
+          }
+        ],
+        "measured": "2026-09-15: 1705 файлов в четырёх компилируемых деревьях на ba126e8 — три находки (f12, t13, t17); на a530e50 — две (t13, t17); на 5b6e9e2 — ноль.",
+        "falsePositives": [
+          "Голое слово «throwaway» давало ложняк на apps/backend/src/workflows/tenant/provision-tenant-warehouse/steps/resolve-default-shipping-profile.ts: там прилагательное описывает базу интеграционных тестов, а не файл. Маркеры сужены до фраз, которые могут описывать только сам файл.",
+          "*.test.ts, *.spec.ts, __tests__/ и integration-tests/ исключены: юнит-тесты рядом с кодом — это гейты репозитория, а не одноразовые фикстуры."
+        ]
+      },
+      "baseline": [
+        {
+          "check": "fixture-marker-in-compiled-tree",
+          "file": "apps/backend/src/scripts/f12-seed-test-order.ts",
+          "reason": "Тот самый файл, из которого вырос метод. Живой на dev, ломает сборку образа. Починку делает отдельная задача f18-f12-fixture-build; здесь он остаётся замером, а не правкой.",
+          "task": "f18-f12-fixture-build",
+          "since": "2026-09-15"
+        },
+        {
+          "check": "fixture-marker-in-compiled-tree",
+          "file": "apps/backend/src/scripts/t13-seed-test-tenant.ts",
+          "reason": "Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.",
+          "task": "r03-test-methods-pilot → штабу на заведение",
+          "since": "2026-09-15"
+        },
+        {
+          "check": "fixture-marker-in-compiled-tree",
+          "file": "apps/backend/src/scripts/t17-seed-test-tenant.ts",
+          "reason": "Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.",
+          "task": "r03-test-methods-pilot → штабу на заведение",
+          "since": "2026-09-15"
+        }
+      ]
+    }
+  ]
+}
