@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T13:43:24+08:00",
-  "status": "2026-09-15 13:43 WITA: f17-backend-image-sharp — причина найдена и исправлена (sharp стоял в devDependencies, npm install --omit=dev его выбрасывал), гвард на класс в Dockerfile; ветка fix/day16-backend-image-sharp запушена, c28f5bd; bench-сборка образа идёт на 84.46.251.149 (локальный Docker сломан: containerd meta.db I/O error); PR ещё не открыт",
+  "updated": "2026-09-15T13:50:29+08:00",
+  "status": "2026-09-15 13:50 WITA: f17-backend-image-sharp — PR #44 открыт (base dev, MERGEABLE, не черновик, a2a5104). sharp перенесён из devDependencies в dependencies + lock; новый гвард apps/backend/scripts/verify-runtime-modules.mjs в Dockerfile:103 делает require каждого boot-модуля и роняет СБОРКУ на MODULE_NOT_FOUND. Замеры: bench-образ на живом хосте (linux/x64, musl) — require(sharp) ok, грузится сам падавший роут; отрицательный контроль — сборка падает rc=1 с указанием route.js; runtime-стадия без docker до/после (ABSENT→PRESENT); tsc/lint rc=0. Живая платформа не задета (6 контейнеров healthy, 4 URL отвечают), bench-образ и /tmp удалены. НЕ снято: GET /health 200 — за d03-deploy-mt-3. FYI Ивану: локальный Docker Desktop сломан (containerd meta.db I/O error), нужен рестарт",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
