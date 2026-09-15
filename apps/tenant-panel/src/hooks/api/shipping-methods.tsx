@@ -39,6 +39,8 @@ export type TenantShippingMethod = {
   delivery_hint: string | null
   enabled: boolean
   tariff: ShippingTariff
+  /** `"provisioned-default"` while the price is the starting one the shop was created with and the owner has not confirmed it. */
+  tariff_source: "provisioned-default" | null
   /** `null` = every country the shop ships to. */
   zone: MethodZone | null
   sort_order: number

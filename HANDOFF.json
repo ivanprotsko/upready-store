@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T13:43:24+08:00",
-  "status": "2026-09-15 13:43 WITA: f17-backend-image-sharp — причина найдена и исправлена (sharp стоял в devDependencies, npm install --omit=dev его выбрасывал), гвард на класс в Dockerfile; ветка fix/day16-backend-image-sharp запушена, c28f5bd; bench-сборка образа идёт на 84.46.251.149 (локальный Docker сломан: containerd meta.db I/O error); PR ещё не открыт",
+  "updated": "2026-09-15T14:45:38+08:00",
+  "status": "2026-09-15 14:45 WITA: f06-shipping-method-names раунд 1 закрыт — dev влит, конфликт HANDOFF.json разведён, PR #45 MERGEABLE/CLEAN на 7c1035f; подсказка самовывоза укорочена в коде и на живом тенанте, остаток мелочи 1 (вёрстка карточки) отдан отдельной задачей",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
