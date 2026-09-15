@@ -114,6 +114,11 @@ npx eslint src      # rc=0 (24 предсуществующих warning, ни о
 **Цена варианта возвращена в 1 355,00 ₽** и проверена в панели и на витрине
 (`raw/p03-stand-restore-1355-final.json`).
 
+После влития `origin/dev` в ветку (2026-09-15 16:31 WITA) замер повторён на итоговом дереве: `Cmd+Enter` 2 из 2
+(`raw/p03-stand-postmerge-metaenter.json`, 1 471 и 1 472 — в панели и на витрине), `tsc --noEmit` и
+`eslint src` снова rc=0. Цена после этого снова возвращена в 1 355,00 ₽ и проверена на витрине
+(`raw/p03-stand-restore-1355-postmerge.json`).
+
 ## 4. Как принять за 10 минут
 
 1. `https://panel-store.upready.dev` → товар «Свечи АСД с чесноком» → `/prices`.
