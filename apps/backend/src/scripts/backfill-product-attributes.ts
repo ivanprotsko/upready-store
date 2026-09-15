@@ -231,6 +231,8 @@ export default async function backfillProductAttributes({
     schema,
     values: { created: 0, updated: 0, unchanged: 0, kept_owner_value: 0, failed: 0 },
     per_attribute: {} as Record<string, number>,
+    /** Which source each written value came from, by the name the bag used. */
+    per_source: {} as Record<string, number>,
     choices_created: [] as string[],
     unrecognised: {} as Record<string, number>,
     rejected: [] as { handle: string; name: string; value: string; reason: string }[],
@@ -260,6 +262,14 @@ export default async function backfillProductAttributes({
     let wrote = 0;
     let described = 0;
 
+    const countSource = (key: PresetAttributeKey) => {
+      const source = parsed.sources[key] ?? "(unknown)";
+      const bucket = source.startsWith("metadata.") || source === "variant.sku" || source === "variant.title"
+        ? source
+        : "metadata.full_characteristics";
+      report.per_source[bucket] = (report.per_source[bucket] ?? 0) + 1;
+    };
+
     for (const [key, value] of Object.entries(parsed.values) as [
       PresetAttributeKey,
       string | number,
@@ -276,6 +286,7 @@ export default async function backfillProductAttributes({
       if (attribute.type === "select") {
         if (args.dryRun) {
           report.per_attribute[key] = (report.per_attribute[key] ?? 0) + 1;
+          countSource(key);
           wrote += 1;
           described += 1;
           continue;
@@ -318,6 +329,7 @@ export default async function backfillProductAttributes({
       if (stored && sameValue(stored, typed)) {
         report.values.unchanged += 1;
         report.per_attribute[key] = (report.per_attribute[key] ?? 0) + 1;
+        countSource(key);
         wrote += 1;
         described += key === "sku" ? 0 : 1;
         continue;
@@ -326,12 +338,14 @@ export default async function backfillProductAttributes({
       if (stored && !args.overwrite) {
         report.values.kept_owner_value += 1;
         report.per_attribute[key] = (report.per_attribute[key] ?? 0) + 1;
+        countSource(key);
         wrote += 1;
         described += key === "sku" ? 0 : 1;
         continue;
       }
 
       report.per_attribute[key] = (report.per_attribute[key] ?? 0) + 1;
+      countSource(key);
       wrote += 1;
       described += key === "sku" ? 0 : 1;
 
@@ -394,6 +408,13 @@ export default async function backfillProductAttributes({
     Object.entries(report.per_attribute)
       .sort((a, b) => b[1] - a[1])
       .map(([key, count]) => `${key}=${count}`)
+      .join(" ") || "none",
+  );
+  line(
+    "per source",
+    Object.entries(report.per_source)
+      .sort((a, b) => b[1] - a[1])
+      .map(([source, count]) => `${source}=${count}`)
       .join(" ") || "none",
   );
   line("choices declared from the catalog", report.choices_created.join(", ") || "none");
