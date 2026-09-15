@@ -8,6 +8,7 @@ import TenantIntegrationSecret from "./tenant-integration-secret";
 import TenantNotificationSettings from "./tenant-notification-settings";
 import TenantLocaleSettings from "./tenant-locale-settings";
 import TenantPage from "./tenant-page";
+import TenantProductAttribute from "./tenant-product-attribute";
 
 /**
  * One tenant = one storefront on the shared backend. The recipe this module
@@ -65,6 +66,12 @@ const Tenant = model.define("tenant", {
   }),
   // The shop's journal (t10-blog): one row per article per locale.
   articles: model.hasMany(() => TenantArticle, {
+    mappedBy: "tenant",
+  }),
+  // The characteristics this shop describes its products with
+  // (t15-product-attributes): the owner's own schema, not Medusa's fixed
+  // weight/dimensions/material set.
+  product_attributes: model.hasMany(() => TenantProductAttribute, {
     mappedBy: "tenant",
   }),
 });
