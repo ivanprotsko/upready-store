@@ -2524,6 +2524,13 @@
       "cannotDeleteDefault": "Нельзя удалить канал продаж по умолчанию"
     }
   },
+  "overview": {
+    "openStorefront": "Открыть мой магазин",
+    "productsPublished": "Опубликовано",
+    "productsDraft": "Черновики",
+    "loading": "Загрузка…",
+    "developerDetails": "Для разработчика"
+  },
   "salesSummary": {
     "title": "Продажи",
     "period": {
