@@ -9,3 +9,7 @@
 [32minfo[39m:    Removing existing ".medusa/server" folder
 [32minfo[39m:    Compiling frontend source...
 [32minfo[39m:    Backend build completed successfully (53.77s)
+[32minfo[39m:    Frontend build completed successfully (843.60s)
+medusa build rc=0
+ls: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/.medusa/server/scripts: No such file or directory
+ls .medusa/server/scripts rc=1
