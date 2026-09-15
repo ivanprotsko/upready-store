@@ -49,8 +49,9 @@ function launchRun(cfg, state, t) {
   const cwd = L.runCwd(cfg, t);
   if (!fs.existsSync(cwd)) { s.status = 'failed'; s.error = 'cwd не существует: ' + cwd; L.event(state, { task: t.id, type: 'run-failed', msg: s.error }); return false; }
   const prompt = L.buildRunPrompt(cfg, t, { LOG_FILE: log, ATTEMPT: n, CWD: cwd });
-  const pid = L.runClaude({ cwd, prompt, model: t.model, effort: t.effort, logFile: log, name: t.id });
-  s.status = 'running'; s.attempt = n; s.run = { pid, log, startedAt: L.nowIso() }; s.startedAt ||= s.run.startedAt; s.error = null;
+  const pool = `run:${t.lane || 'run'}@${cwd}`; const sess = L.acquireSession(state, pool, cfg.lanes?.[t.lane] || 1, cfg.persistent?.maxUses || 8);
+  const pid = L.runClaude({ cwd, prompt, model: t.model, effort: t.effort, logFile: log, name: t.id, session: sess });
+  s.status = 'running'; s.attempt = n; s.run = { pid, log, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool }; s.startedAt ||= s.run.startedAt; s.error = null;
   L.event(state, { task: t.id, type: 'launched', msg: `claude -p pid ${pid} · ${t.model || 'default'}/${t.effort || 'default'} · cwd ${cwd}` });
   return true;
 }
@@ -58,8 +59,9 @@ function launchAccept(cfg, state, t) {
   const s = state.tasks[t.id]; const n = (s.acceptance?.length || 0) + 1;
   const log = path.join(P.logs, `accept-${t.id}-${n}.log`); const findings = path.join(P.logs, `accept-${t.id}-${n}.findings.md`);
   const prompt = L.buildTemplatePrompt(cfg, '_acceptor.md', t, { PR_NUMBER: s.pr.number, PR_URL: s.pr.url, FINDINGS_FILE: findings, ROUND: n, LOG_FILE: log });
-  const pid = L.runClaude({ cwd: cfg.project.mainCheckout, prompt, model: cfg.acceptor?.model || 'opus', effort: cfg.acceptor?.effort || 'medium', logFile: log, name: 'accept-' + t.id });
-  (s.acceptance ||= []).push({ n, pid, log, findings, startedAt: L.nowIso() });
+  const pool = `accept@${cfg.project.mainCheckout}`; const sess = L.acquireSession(state, pool, cfg.lanes?.accept || 2, cfg.persistent?.maxUses || 8);
+  const pid = L.runClaude({ cwd: cfg.project.mainCheckout, prompt, model: cfg.acceptor?.model || 'opus', effort: cfg.acceptor?.effort || 'medium', logFile: log, name: 'accept-' + t.id, session: sess });
+  (s.acceptance ||= []).push({ n, pid, log, findings, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool });
   s.status = 'accepting';
   L.event(state, { task: t.id, type: 'accept-started', msg: `раунд ${n}, PR #${s.pr.number}, pid ${pid}` });
 }
@@ -153,6 +155,7 @@ function checkAccepting(cfg, state, t) {
   const s = state.tasks[t.id]; const a = s.acceptance.at(-1);
   if (L.pidAlive(a.pid)) { if (L.minutesSince(a.startedAt) > (cfg.acceptor?.maxMin || 90)) { try { process.kill(a.pid, 'SIGTERM'); } catch { } a.verdict = 'TIMEOUT'; } else return; }
   const tail = L.tailFile(a.log, 300);
+  if (a.session && !a.sessionReleased) { const broken = L.SESSION_BROKEN_RE.test(tail) || a.verdict === 'TIMEOUT'; L.releaseSession(state, a.sessionPool, a.session, broken); a.sessionReleased = true; if (broken) L.event(state, { task: t.id, type: 'session-rotated', msg: `постоянная сессия приёмки ${a.session} снята (${a.verdict === 'TIMEOUT' ? 'timeout' : 'resume/context error'})` }); }
   const m = tail.match(/VERDICT:\s*(MERGED|REJECTED|BLOCKED)/g); let verdict = m ? m[m.length - 1].split(/\s+/)[1] : (a.verdict || 'NONE');
   if (verdict === 'NONE' && fs.existsSync(a.findings) && fs.statSync(a.findings).size > 50) { verdict = 'REJECTED'; L.event(state, { task: t.id, type: 'verdict-by-findings-file', msg: 'VERDICT не напечатан, но есть файл замечаний' }); }
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
@@ -169,6 +172,7 @@ function checkRun(cfg, state, t) {
   const s = state.tasks[t.id]; const r = s.run;
   if (L.pidAlive(r.pid)) { if (L.minutesSince(r.startedAt) > (t.maxMin || 150)) { try { process.kill(r.pid, 'SIGTERM'); } catch { } r.timeout = true; } else return; }
   const tail = L.tailFile(r.log, 300);
+  if (r.session && !r.sessionReleased) { const broken = L.SESSION_BROKEN_RE.test(tail) || !!r.timeout; L.releaseSession(state, r.sessionPool, r.session, broken); r.sessionReleased = true; if (broken) L.event(state, { task: t.id, type: 'session-rotated', msg: `постоянная run-сессия ${r.session} снята (${r.timeout ? 'timeout' : 'resume/context error'})` }); }
   const m = tail.match(/RESULT:\s*(OK|FAIL)[^\n]*/g); const last = m ? m[m.length - 1] : null;
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
   if (!last && L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'queued'; s.attempt = Math.max(0, s.attempt - 1); L.event(state, { task: t.id, type: 'run-limit', msg: 'лимит — вернул в очередь' }); return; }
