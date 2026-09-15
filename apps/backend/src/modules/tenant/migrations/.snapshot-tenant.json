@@ -1196,7 +1196,8 @@
           "default": null,
           "comment": null,
           "enumItems": [
-            "robokassa"
+            "robokassa",
+            "wildberries"
           ],
           "mappedType": "enum"
         },

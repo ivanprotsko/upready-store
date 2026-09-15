@@ -1,0 +1,70 @@
+import { FetchError } from "@medusajs/js-sdk"
+import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
+
+import { sdk } from "../../lib/client"
+import { queryKeysFactory } from "../../lib/query-key-factory"
+
+// tenant-panel: own hook, no Admin counterpart — GET /tenants/wb/status per
+// w01-wb-readonly-client. Read-only on purpose: the screen shows the
+// connection and there is no mutation to pair with it, because the import is a
+// script and this client cannot write to Wildberries at all.
+
+export type WbTokenBit = { bit: number; meaning: string | null }
+
+export type WbStatusResponse = {
+  connection: {
+    key: { set: boolean; last4: string | null }
+    is_enabled: boolean
+  }
+  token: {
+    token_id: string | null
+    seller_id: string | null
+    kind: string | null
+    sandbox: boolean | null
+    expires_at: string | null
+    expired: boolean
+    mask: number | null
+    bits: WbTokenBit[]
+    /** true, false, or "unknown" — never true because somebody remembered. */
+    read_only: boolean | "unknown"
+    doc_url: string
+    error: string | null
+  }
+  endpoints: Array<{
+    id: string
+    method: "GET" | "POST"
+    host: string
+    path: string
+    summary: string
+    doc_url: string
+    read_via_post: string | null
+  }>
+  sync: Array<{
+    kind: string
+    status: string | null
+    started_at: string | null
+    finished_at: string | null
+    rows: number | null
+    requests: number | null
+    error: string | null
+  }>
+  mirrors: Record<string, number>
+}
+
+const WB_STATUS_QUERY_KEY = "tenant-wb-status" as const
+export const wbStatusQueryKeys = queryKeysFactory(WB_STATUS_QUERY_KEY)
+
+export const useWbStatus = (
+  options?: Omit<
+    UseQueryOptions<WbStatusResponse, FetchError, WbStatusResponse, QueryKey>,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () => sdk.client.fetch<WbStatusResponse>("/tenants/wb/status"),
+    queryKey: wbStatusQueryKeys.details(),
+    ...options,
+  })
+
+  return { status: data, ...rest }
+}

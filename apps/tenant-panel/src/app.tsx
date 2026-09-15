@@ -756,6 +756,16 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/analytics"),
           },
           {
+            // w01-wb-readonly-client: подключение магазина к Wildberries.
+            // Только чтение: ключ, его срок и права, когда последний раз
+            // приходили данные и сколько их. Кнопки импорта нет — импорт это
+            // скрипт, а писать в WB платформа не умеет по конструкции.
+            path: "/settings/wildberries",
+            handle: { breadcrumb: () => t("wildberries.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/wildberries"),
+          },
+          {
             // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
             // картинка для соцсетей, основной цвет, подпись в подвале. No
             // Admin counterpart — a native install has one build-time theme

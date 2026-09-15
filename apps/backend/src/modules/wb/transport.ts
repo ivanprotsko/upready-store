@@ -127,24 +127,53 @@ const buildQuery = (query: WbReadOptions["query"]): string => {
 };
 
 /**
- * `Retry-After` is seconds or an HTTP date (RFC 9110). Anything else, and
- * anything beyond the ceiling, falls back to the default so one bad header
- * cannot stall a sync for hours.
+ * How long WB wants us to wait, in milliseconds, or `null` when it did not say.
+ *
+ * `Retry-After` is the standard header (seconds or an HTTP date, RFC 9110),
+ * but WB does not send it for every category. Measured on 2026-09-16 against
+ * `feedbacks-api` with a base token, a 429 carries instead:
+ *
+ *     x-ratelimit-limit: 1
+ *     x-ratelimit-remaining: 0
+ *     x-ratelimit-reset: 573
+ *     x-ratelimit-retry: 573
+ *
+ * and the body says "retry after the period specified in the X-RateLimit-Retry
+ * header". So all three names are read, in that order of preference.
  */
-const backoffFrom = (header: string | null, attempt: number): number => {
-  const fallback = Math.min(DEFAULT_BACKOFF_MS * attempt, MAX_BACKOFF_MS);
-  if (!header) {
-    return fallback;
+const retryAfterMs = (headers: Headers): number | null => {
+  const seconds = (raw: string | null): number | null => {
+    if (!raw) {
+      return null;
+    }
+    const value = Number(raw);
+    if (Number.isFinite(value) && value >= 0) {
+      return value * 1000;
+    }
+    const date = Date.parse(raw);
+    return Number.isFinite(date) ? Math.max(date - Date.now(), 0) : null;
+  };
+
+  return (
+    seconds(headers.get("retry-after")) ??
+    seconds(headers.get("x-ratelimit-retry")) ??
+    seconds(headers.get("x-ratelimit-reset"))
+  );
+};
+
+/**
+ * The backoff for one 429, or `null` when waiting it out is not this process's
+ * job: WB's own answer can be ten minutes away (573 s measured on a base
+ * token), and a sync that sleeps that long is a hung sync. Beyond the ceiling
+ * the read fails with the wait named, so the operator learns WHEN the data can
+ * be fetched instead of watching a silent process.
+ */
+const backoffFrom = (headers: Headers, attempt: number): number | null => {
+  const asked = retryAfterMs(headers);
+  if (asked === null) {
+    return Math.min(DEFAULT_BACKOFF_MS * attempt, MAX_BACKOFF_MS);
   }
-  const seconds = Number(header);
-  if (Number.isFinite(seconds) && seconds >= 0) {
-    return Math.min(seconds * 1000, MAX_BACKOFF_MS);
-  }
-  const date = Date.parse(header);
-  if (Number.isFinite(date)) {
-    return Math.min(Math.max(date - Date.now(), 0), MAX_BACKOFF_MS);
-  }
-  return fallback;
+  return asked > MAX_BACKOFF_MS ? null : asked;
 };
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -202,16 +231,34 @@ export const wbRead = async <T = unknown>(
       status = response.status;
       const text = await response.text();
 
-      if (response.status === 429 && attempt < MAX_ATTEMPTS) {
-        const wait = backoffFrom(response.headers.get("retry-after"), attempt);
-        failure = `429, retrying in ${wait} ms`;
+      if (response.status === 429) {
+        const wait = attempt < MAX_ATTEMPTS ? backoffFrom(response.headers, attempt) : null;
+
+        if (wait !== null) {
+          failure = `429, retrying in ${wait} ms`;
+          await journalCall(options, entry, path, status, Date.now() - startedAt, failure, logger);
+          logger.warn(
+            `[wb] ${entry.method} ${entry.host}${path} -> 429, attempt ${attempt}/${MAX_ATTEMPTS}, ` +
+              `waiting ${wait} ms (Authorization: ***)`,
+          );
+          await sleep(wait);
+          continue;
+        }
+
+        const asked = retryAfterMs(response.headers);
+        failure =
+          asked === null
+            ? "429 after every attempt"
+            : `429, WB asks for ${Math.round(asked / 1000)} s`;
         await journalCall(options, entry, path, status, Date.now() - startedAt, failure, logger);
-        logger.warn(
-          `[wb] ${entry.method} ${entry.host}${path} -> 429, attempt ${attempt}/${MAX_ATTEMPTS}, ` +
-            `waiting ${wait} ms (Authorization: ***)`,
+        throw new WbApiError(
+          entry.id,
+          429,
+          asked === null
+            ? text
+            : `${text} [WB asks to retry in ${Math.round(asked / 1000)} s, which is longer than ` +
+              `this client waits inside one run (${MAX_BACKOFF_MS / 1000} s). Run this kind again later.]`,
         );
-        await sleep(wait);
-        continue;
       }
 
       const ms = Date.now() - startedAt;

@@ -1,4 +1,5 @@
 import { Module } from "@medusajs/framework/utils";
+import warnOnWritableWbKey from "./loaders/warn-on-writable-key";
 import WbModuleService from "./service";
 
 /**
@@ -20,4 +21,7 @@ export const WB_MODULE = "wb";
 
 export default Module(WB_MODULE, {
   service: WbModuleService,
+  // One WARNING per shop whose key is not marked read-only. Never a refusal:
+  // the transport cannot write whatever the key allows.
+  loaders: [warnOnWritableWbKey],
 });

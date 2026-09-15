@@ -25,6 +25,8 @@
     "start": "medusa start",
     "dev": "medusa develop",
     "seed": "medusa exec ./src/migration-scripts/initial-data-seed.ts",
+    "wb:seed-key": "medusa exec ./src/scripts/wb-seed-key.ts",
+    "wb:sync": "medusa exec ./src/scripts/wb-sync.ts",
     "store-profile:validate": "node scripts/validate-store-profile.mjs",
     "store-profile:up": "node scripts/store-profile-up.mjs",
     "lint": "medusa lint",

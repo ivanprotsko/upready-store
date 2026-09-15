@@ -65,6 +65,22 @@ const okResponse = (body: unknown) => ({
   text: async () => JSON.stringify(body),
 });
 
+/**
+ * A 429 with the headers WB actually sends. Measured 2026-09-16 against
+ * feedbacks-api with a base token: WB names `x-ratelimit-retry`, not
+ * `Retry-After`, and the body says so in words.
+ */
+const tooManyRequests = (headers: Record<string, string>) => ({
+  ok: false,
+  status: 429,
+  headers: { get: (name: string) => headers[name.toLowerCase()] ?? null },
+  text: async () =>
+    JSON.stringify({
+      status: 429,
+      detail: "rate limit exceeded, retry after the period specified in the X-RateLimit-Retry header",
+    }),
+});
+
 let fetchSpy: jest.Mock;
 
 beforeEach(() => {
@@ -168,8 +184,12 @@ describe("wbRead cannot be talked into a write", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(0);
   });
 
-  it("exports no escape hatch", async () => {
-    const transport = (await import("../transport")) as unknown as Record<string, unknown>;
+  it("exports no escape hatch", () => {
+    // Required, not imported: `await import("../transport")` under
+    // moduleResolution nodenext wants a file extension, and the point here is
+    // the runtime shape of the module, not its type.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const transport = require("../transport") as Record<string, unknown>;
     const runtimeExports = Object.keys(transport).filter((name) => name !== "__esModule");
 
     // The whole public surface: the one read, its timeout and its error type.
@@ -252,5 +272,50 @@ describe("a registered read goes out exactly once, with the key in the header", 
     }
     const methods = new Set(journal.mock.calls.map((call) => call[0].method));
     expect([...methods].every((method) => method === "GET" || method === "POST")).toBe(true);
+  });
+});
+
+describe("429 is answered from the headers WB really sends", () => {
+  it("waits and retries when the wait is short", async () => {
+    fetchSpy
+      .mockResolvedValueOnce(tooManyRequests({ "x-ratelimit-retry": "0" }))
+      .mockResolvedValueOnce(okResponse({ ok: true }));
+
+    const result = await wbRead("common.ping", { token: TOKEN, logger: spyLogger() });
+
+    expect(result.status).toBe(200);
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("fails fast, naming the wait, when WB asks for longer than one run may sleep", async () => {
+    // 573 seconds is the real value measured on the feedbacks API.
+    fetchSpy.mockResolvedValue(tooManyRequests({ "x-ratelimit-retry": "573" }));
+
+    await expect(
+      wbRead("feedbacks.list", { token: TOKEN, logger: spyLogger() }),
+    ).rejects.toThrow(/retry in 573 s/);
+
+    // One attempt, not three: sleeping ten minutes inside a sync is a hung sync.
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("falls back to x-ratelimit-reset when only that header is present", async () => {
+    fetchSpy.mockResolvedValue(tooManyRequests({ "x-ratelimit-reset": "600" }));
+
+    await expect(wbRead("common.ping", { token: TOKEN, logger: spyLogger() })).rejects.toThrow(
+      /retry in 600 s/,
+    );
+  });
+
+  it("journals the refusal, so a throttled read is not an invisible one", async () => {
+    fetchSpy.mockResolvedValue(tooManyRequests({ "x-ratelimit-retry": "573" }));
+    const journal = jest.fn();
+
+    await expect(
+      wbRead("feedbacks.list", { token: TOKEN, journal, logger: spyLogger() }),
+    ).rejects.toThrow();
+
+    expect(journal).toHaveBeenCalledTimes(1);
+    expect(journal.mock.calls[0][0]).toMatchObject({ status: 429, endpoint_id: "feedbacks.list" });
   });
 });

@@ -4068,5 +4068,65 @@
     "save": "Save",
     "saved": "Code saved",
     "loading": "loading…"
+  },
+  "wildberries": {
+    "title": "Wildberries",
+    "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",
+    "loading": "Loading…",
+    "key": {
+      "label": "API key",
+      "set": "stored, ends with {{last4}}",
+      "missing": "not stored"
+    },
+    "readOnly": {
+      "label": "Key permissions",
+      "yes": "read only",
+      "no": "writing is allowed too",
+      "unknown": "could not be determined",
+      "docs": "Wildberries documentation"
+    },
+    "expiresAt": "Valid until",
+    "expired": "(expired)",
+    "sellerId": "Seller id",
+    "access": "Sections the key opens",
+    "problem": "Problem with the key",
+    "sync": {
+      "title": "Last import",
+      "hint": "the wb:sync script fetches the data; this is its last run per kind",
+      "kind": "What is imported",
+      "status": "How it ended",
+      "rows": "Rows",
+      "requests": "WB requests",
+      "finishedAt": "Finished",
+      "never": "never run"
+    },
+    "kinds": {
+      "cards": "Listings",
+      "prices": "Prices and discounts",
+      "stocks": "Warehouse inventory",
+      "orders": "Orders",
+      "feedbacks": "Feedbacks"
+    },
+    "statuses": {
+      "running": "running",
+      "succeeded": "succeeded",
+      "failed": "failed"
+    },
+    "mirrors": {
+      "title": "How much is mirrored here",
+      "hint": "a copy of the cabinet in our database; nothing is ever written back to Wildberries",
+      "products": "Listings",
+      "prices": "Prices",
+      "stocks": "Inventory",
+      "orders": "Orders",
+      "feedbacks": "Feedbacks"
+    },
+    "endpoints": {
+      "title": "What we may ask Wildberries for",
+      "hint": "the whole list; anything else is refused by the code before a socket is opened",
+      "method": "Method",
+      "address": "Address",
+      "summary": "Method in the WB documentation"
+    }
   }
 }
