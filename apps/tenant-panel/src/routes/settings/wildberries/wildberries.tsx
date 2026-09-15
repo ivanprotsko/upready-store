@@ -1,8 +1,9 @@
-import { Container, Heading, Text } from "@medusajs/ui"
+import { Alert, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useWbStatus } from "../../../hooks/api/wb-status"
+import { WbCategoryList } from "./components/wb-category-list"
 import { WbEndpointTable } from "./components/wb-endpoint-table"
 import { WbFieldRow } from "./components/wb-field-row"
 import { WbReadOnlyBadge } from "./components/wb-read-only-badge"
@@ -59,6 +60,14 @@ export const WildberriesSettings = () => {
           </div>
         ) : (
           <>
+            {wb.token.expiring_soon ? (
+              <div className="px-6 pt-4">
+                <Alert variant="warning">
+                  {t("wildberries.expiringSoon", { days: wb.token.expires_in_days })}
+                </Alert>
+              </div>
+            ) : null}
+
             <div className="px-6 py-4">
               <WbFieldRow label={t("wildberries.key.label")}>
                 {wb.connection.key.set
@@ -70,7 +79,7 @@ export const WildberriesSettings = () => {
                   <WbReadOnlyBadge value={wb.token.read_only} />
                   <a
                     className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-                    href={wb.token.doc_url}
+                    href={wb.token.read_only_source}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -88,12 +97,7 @@ export const WildberriesSettings = () => {
                 <span className="tabular-nums">{wb.token.seller_id ?? NOT_SET}</span>
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.access")}>
-                {wb.token.bits.filter((bit) => bit.meaning).length
-                  ? wb.token.bits
-                      .filter((bit) => bit.meaning)
-                      .map((bit) => bit.meaning)
-                      .join(", ")
-                  : NOT_SET}
+                <WbCategoryList categories={wb.token.categories} bits={wb.token.bits} />
               </WbFieldRow>
               {wb.token.error ? (
                 <WbFieldRow label={t("wildberries.problem")}>
