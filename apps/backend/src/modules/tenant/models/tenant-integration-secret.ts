@@ -10,13 +10,30 @@ import Tenant from "./tenant";
  * and a WB cabinet belongs to a shop, not to the process. The key is only ever
  * READ from here, by `src/modules/wb/transport.ts`, which cannot write to WB.
  *
+ * `wildberries_write` is a SEPARATE slot for the WRITE key (w20-wb-write-core,
+ * Ivan's order of 2026-09-16 02:46 WITA). Two rows, never one: the write path
+ * reads this slot only, so a read key that happens to carry write rights still
+ * cannot write. No shop has this row today.
+ *
  * `ozon` is the shop's Ozon Seller API pair, `{ client_id, api_key }`
  * (w11-ozon-readonly-client). Two values rather than one because Ozon
  * authenticates with a `Client-Id` header beside the `Api-Key`, and they are
  * useless apart. Read only by `src/modules/ozon/transport.ts`, which cannot
- * write to Ozon.
+ * write to Ozon; there is deliberately no `ozon_write` slot, because no write
+ * path to Ozon exists.
+ *
+ * This list is not decoration — `model.enum` renders it as a CHECK constraint
+ * on `provider`, so a slot absent here cannot hold a row at all. Measured on
+ * the local stand 2026-09-16: an insert into `wildberries_write` died on
+ * `tenant_integration_secret_provider_check` while every gate and test around
+ * it was green, because no test and no typecheck ever inserts one.
  */
-export const TENANT_INTEGRATION_PROVIDERS = ["robokassa", "wildberries", "ozon"] as const;
+export const TENANT_INTEGRATION_PROVIDERS = [
+  "robokassa",
+  "wildberries",
+  "wildberries_write",
+  "ozon",
+] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
 /**

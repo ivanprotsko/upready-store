@@ -1,0 +1,147 @@
+{
+  "generated_at": "2026-09-15T21:13:47.838Z",
+  "tenant": {
+    "id": "ten_01M29Q4KYQHC70JZBENWZ8Z88M",
+    "handle": "cherkashino"
+  },
+  "mode": "apply",
+  "sections": [
+    "titles",
+    "prices",
+    "characteristics",
+    "reviews",
+    "images"
+  ],
+  "dataset": {
+    "products": 20,
+    "titles": 20,
+    "prices": 20,
+    "characteristics": 104,
+    "reviews": 6,
+    "images": 250,
+    "source": {
+      "cards": 423,
+      "prices": 463,
+      "feedbacks": 123,
+      "mirror_fetched_at": "2026-09-15T20:13:20.171Z"
+    },
+    "generated_at": "2026-09-15T21:13:47.512Z"
+  },
+  "unmatched_products": [
+    {
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "title": "Свечи АСД с чесноком",
+      "sku": "1268099764-CHERKASHINO"
+    },
+    {
+      "handle": "mumie-balzam-gornogo-altaya-100-gramm-cherkashino",
+      "title": "Мумие Бальзам Горного Алтая",
+      "sku": "1650264976-CHERKASHINO"
+    },
+    {
+      "handle": "troychatka-plyus-60-kapsul-cherkashino",
+      "title": "Тройчатка плюс",
+      "sku": "PL-09-CHERKASHINO"
+    },
+    {
+      "handle": "naturalnyy-sorbent-ot-otravleniy-ot-temperatury-cherkashino",
+      "title": "Натуральный сорбент от отравлений от температуры",
+      "sku": "3302187378-CHERKASHINO"
+    },
+    {
+      "handle": "steviya-v-tabletkah-saharozamenitel-100-sht-cherkashino",
+      "title": "Стевия в таблетках, сахарозаменитель",
+      "sku": "3266733589-CHERKASHINO"
+    },
+    {
+      "handle": "antiseptikom-stumulyatorom-dorogova-tabletki-60-shtuk-cherkashino",
+      "title": "Антисептик-стимулятор Дорогова, таблетки",
+      "sku": "3501688032-CHERKASHINO"
+    },
+    {
+      "handle": "course-ochishchenie-pecheni-cherkashino",
+      "title": "Очищение печени",
+      "sku": "COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO"
+    },
+    {
+      "handle": "course-ochishchenie-pecheni-box-cherkashino",
+      "title": "Набор «Очищение печени» — Тариф 1",
+      "sku": "COURSE-BOX-OCHISHCHENIE-PECHENI-CHERKASHINO"
+    },
+    {
+      "handle": "shampun-mumie-cherkashino",
+      "title": "Шампунь мумиё",
+      "sku": "PL-10-CHERKASHINO"
+    },
+    {
+      "handle": "shampun-asd-cherkashino",
+      "title": "Шампунь АСД",
+      "sku": "PL-11-CHERKASHINO"
+    },
+    {
+      "handle": "shampun-koncentrat-dlya-bleska-tayskiy-90-gr-cherkashino",
+      "title": "Шампунь-концентрат для блеска тайский",
+      "sku": "PL-21-CHERKASHINO"
+    },
+    {
+      "handle": "sulfat-magniya-75-gr-cherkashino",
+      "title": "Сульфат магния, для курса «Печень»",
+      "sku": "PL-23-CHERKASHINO"
+    },
+    {
+      "handle": "kapli-v-nos-asd-i-serebro-cherkashino",
+      "title": "Капли в нос АСД и серебро",
+      "sku": "PL-26-CHERKASHINO"
+    },
+    {
+      "handle": "ingalyator-portativnyy-cherkashino",
+      "title": "Ингалятор портативный",
+      "sku": "PL-28-CHERKASHINO"
+    },
+    {
+      "handle": "med-matochnyy-125-gr-cherkashino",
+      "title": "Мёд маточный",
+      "sku": "PL-33-CHERKASHINO"
+    },
+    {
+      "handle": "med-trutnevoy-125-gr-cherkashino",
+      "title": "Мёд трутневой",
+      "sku": "PL-34-CHERKASHINO"
+    },
+    {
+      "handle": "sennol-125-gr-cherkashino",
+      "title": "Сеннол",
+      "sku": "PL-35-CHERKASHINO"
+    },
+    {
+      "handle": "nabor-dlya-ochischeniya-limfy-cherkashino",
+      "title": "Набор для очищения лимфы",
+      "sku": "PL-36-CHERKASHINO"
+    }
+  ],
+  "unmatched_cards": 403,
+  "reviews_without_text": 1,
+  "links": {
+    "created": 0,
+    "updated": 0,
+    "unchanged": 20
+  },
+  "counters": {
+    "titles_updated": 0,
+    "titles_unchanged": 20,
+    "titles_absent": 0,
+    "prices_updated": 0,
+    "prices_unchanged": 20,
+    "prices_absent": 0,
+    "characteristics_written": 0,
+    "characteristics_unchanged": 102,
+    "attributes_created": 0,
+    "characteristics_dropped": 0,
+    "reviews_imported": 0,
+    "reviews_unchanged": 6,
+    "images_added": 0,
+    "images_already_there": 250,
+    "images_failed": 0
+  },
+  "missing_handles": []
+}

@@ -4087,8 +4087,14 @@
     },
     "expiresAt": "Valid until",
     "expired": "(expired)",
+    "expiringSoon": "The Wildberries key expires in {{days}} days — ask the seller to reissue it in the WB cabinet",
     "sellerId": "Seller id",
     "access": "Sections the key opens",
+    "categories": {
+      "granted": "open",
+      "denied": "closed",
+      "unknownBit": "unknown bit {{bit}}"
+    },
     "problem": "Problem with the key",
     "sync": {
       "title": "Last import",
@@ -4127,6 +4133,82 @@
       "method": "Method",
       "address": "Address",
       "summary": "Method in the WB documentation"
+    },
+    "write": {
+      "title": "Writing to Wildberries",
+      "hint": "off entirely for now: five gates must be open before a single request reaches WB. Two of them are yours — the switch and a consent per operation class.",
+      "gate": {
+        "open": "open",
+        "shut": "shut",
+        "keyStored": "write key in slot {{slot}}, ending {{last4}}",
+        "noKey": "no separate write key (slot {{slot}}); the read key is never used to write",
+        "liveOn": "{{env}}=1 — live mode is on",
+        "liveOff": "{{env}} is not set: every call stays a dry run and nothing leaves the process"
+      },
+      "gates": {
+        "credential": "Separate write key",
+        "credential_usable": "Key usable (not read-only, not expired)",
+        "enabled": "Shop switch",
+        "consent": "Consent for the operation class",
+        "live": "Live mode",
+        "body": "Request body per WB documentation"
+      },
+      "switch": {
+        "label": "Allow writing to Wildberries for this shop",
+        "onToast": "Switch is on. Writing still will not happen: the other gates are shut.",
+        "offToast": "Switch is off."
+      },
+      "consent": {
+        "title": "Consents per operation class",
+        "grant": "Confirm",
+        "revoke": "Revoke",
+        "grantConfirm": "I confirm",
+        "revokeConfirm": "Revoke",
+        "cancel": "Cancel",
+        "grantTitle": "Confirm the class “{{name}}”",
+        "revokeTitle": "Revoke consent for “{{name}}”",
+        "grantBody": "You are confirming that the platform may {{what}}. This covers only these calls: {{methods}}. A consent applies to one operation class and never to the others. Today nothing will be sent regardless: there is no separate write key and live mode is off.",
+        "revokeBody": "The consent for “{{name}}” will be deleted. Every call of that class is refused afterwards.",
+        "note": "The owner confirmed: {{what}}. Calls in this class: {{count}}.",
+        "givenAt": "confirmed {{when}}",
+        "notGiven": "no consent — calls of this class are refused",
+        "grantedToast": "Consent for “{{name}}” recorded.",
+        "revokedToast": "Consent for “{{name}}” revoked."
+      },
+      "classes": {
+        "stocks": {
+          "title": "Stocks",
+          "does": "update and delete item inventory on Wildberries warehouses"
+        },
+        "prices": {
+          "title": "Prices",
+          "does": "send new prices and discounts to Wildberries"
+        },
+        "feedback_answers": {
+          "title": "Feedback answers",
+          "does": "publish and edit answers to customer feedback"
+        },
+        "fbs_orders": {
+          "title": "FBS orders",
+          "does": "cancel FBS orders and hand supplies over to delivery"
+        }
+      },
+      "outcomes": {
+        "refused": "refused at a gate",
+        "dry_run": "dry run, nothing sent",
+        "sent": "sent to WB"
+      },
+      "audit": {
+        "title": "Attempt journal",
+        "hint": "every write attempt, whatever came of it. “Dry run” means nothing left the process.",
+        "empty": "no write attempts yet",
+        "when": "When",
+        "what": "What",
+        "outcome": "Outcome",
+        "detail": "Details",
+        "refusedAt": "refused at gate: {{gate}}",
+        "nothingSent": "nothing was sent"
+      }
     }
   }
 }

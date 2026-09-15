@@ -1,4 +1,11 @@
-import { inspectToken, maskBits, readOnlyWarning, WB_READ_ONLY_BIT } from "../token";
+import {
+  inspectToken,
+  maskBits,
+  readOnlyWarning,
+  tokenCategories,
+  WB_EXPIRY_WARNING_DAYS,
+  WB_READ_ONLY_BIT,
+} from "../token";
 
 /**
  * What the key says about itself (w01-wb-readonly-client).
@@ -90,5 +97,59 @@ describe("inspectToken", () => {
     const facts = inspectToken(jwtWith({ acc: 1, exp: 1_000_000_000, s: LIVE_MASK }));
 
     expect(facts.expired).toBe(true);
+  });
+
+  it("names an unnamed bit as unknown rather than dropping it (w13-wb-readonly-flag)", () => {
+    // Bit 8 is absent from the doc's "Bit values" table (rule text lists 1-7,
+    // 9-13, 16, 30 only), so it must surface with meaning: null, not vanish.
+    const bits = maskBits((1 << 8) | (1 << 1));
+
+    expect(bits.map((item) => item.bit)).toEqual([1, 8]);
+    expect(bits.find((item) => item.bit === 8)?.meaning).toBeNull();
+  });
+
+  it("lists every documented category, granted and denied (w13-wb-readonly-flag)", () => {
+    const categories = tokenCategories(LIVE_MASK);
+
+    expect(categories.find((c) => c.bit === 1)).toEqual({
+      bit: 1,
+      name: "Access to Content",
+      granted: true,
+    });
+    expect(categories.find((c) => c.bit === 10)).toEqual({
+      bit: 10,
+      name: "Access to Supplies",
+      granted: false,
+    });
+    // Bit 30 (read-only) is the flag itself, not a category.
+    expect(categories.some((c) => c.bit === WB_READ_ONLY_BIT)).toBe(false);
+  });
+
+  it("grants nothing when the mask cannot be read", () => {
+    const categories = tokenCategories(null);
+
+    expect(categories.every((c) => c.granted === false)).toBe(true);
+  });
+
+  it(`flags a key expiring within ${WB_EXPIRY_WARNING_DAYS} days as expiringSoon`, () => {
+    const soon = inspectToken(
+      jwtWith({ acc: 1, exp: Math.floor(Date.now() / 1000) + 10 * 24 * 60 * 60, s: LIVE_MASK }),
+    );
+    const later = inspectToken(
+      jwtWith({ acc: 1, exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60, s: LIVE_MASK }),
+    );
+    const expired = inspectToken(jwtWith({ acc: 1, exp: 1_000_000_000, s: LIVE_MASK }));
+
+    expect(soon.expiringSoon).toBe(true);
+    expect(soon.expiresInDays).toBeLessThan(WB_EXPIRY_WARNING_DAYS);
+    expect(later.expiringSoon).toBe(false);
+    // An already-expired key needs the "expired" state, not "expiring soon".
+    expect(expired.expiringSoon).toBe(false);
+  });
+
+  it("names the granted categories in the boot warning when the key is not read-only", () => {
+    const facts = inspectToken(jwtWith({ acc: 1, t: false, exp: 2_000_000_000, s: 1 << 1 }));
+
+    expect(readOnlyWarning(facts)).toContain("The key also grants: Access to Content.");
   });
 });

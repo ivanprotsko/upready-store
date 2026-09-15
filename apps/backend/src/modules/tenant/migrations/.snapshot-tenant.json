@@ -1198,7 +1198,7 @@
           "enumItems": [
             "robokassa",
             "wildberries",
-            "ozon"
+            "wildberries_write"
           ],
           "mappedType": "enum"
         },

@@ -169,7 +169,8 @@
           "comment": null,
           "enumItems": [
             "shop",
-            "imported"
+            "imported",
+            "wb"
           ],
           "mappedType": "enum"
         },

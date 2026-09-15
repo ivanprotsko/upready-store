@@ -1,0 +1,24 @@
+=== health-final 2026-09-16 06:59 WITA ===
+--- 5 платформенных URL ---
+https://shipshift.dev/health                            200
+https://start.upready.dev/start/onboarding              200
+https://panel-store.upready.dev/                        200
+https://cherkashino.shipshift.dev/ru                    200
+https://zolotaya-nit-1057.shipshift.dev/ru              200
+--- verify-команды реестра protected-infra ---
+start.upready.dev/start/onboarding                      200
+panel-store.upready.dev/                                200
+zolotaya-nit-1057.shipshift.dev/ (code ssl)             302 0
+shipshift.dev/static/.../home-hero.webp                 200
+--- соседний защищённый сервис (agent-creatr) ---
+hooks.svgnoon.upready.dev/health                        200
+hooks.svgnoon.upready.dev/webhook/tribute (POST)        401
+--- 5 карточек магазина клиента (handle'ы из HTML живого каталога) ---
+--- 5 карточек магазина клиента (handle'ы взяты из HTML живого каталога, всего ссылок       12) ---
+/ru/products/maz-balzam-zhivichnyy                                     200
+/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino       200
+/ru/products/ingalyator-portativnyy-cherkashino                        200
+/ru/products/shampun-koncentrat-dlya-bleska-tayskiy-90-gr-cherkashino  200
+/ru/products/zubnaya-pasta-tayskaya-s-uglem-cherkashino                200
+--- контроль: выдуманный handle того же вида ---
+/ru/products/takogo-tovara-net-cherkashino                             404

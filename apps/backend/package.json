@@ -27,6 +27,7 @@
     "seed": "medusa exec ./src/migration-scripts/initial-data-seed.ts",
     "wb:seed-key": "medusa exec ./src/scripts/wb-seed-key.ts",
     "wb:sync": "medusa exec ./src/scripts/wb-sync.ts",
+    "catalog:enrich-from-wb": "medusa exec ./src/scripts/catalog-enrich-from-wb.ts",
     "ozon:seed-key": "medusa exec ./src/scripts/ozon-seed-key.ts",
     "ozon:sync": "medusa exec ./src/scripts/ozon-sync.ts",
     "store-profile:validate": "node scripts/validate-store-profile.mjs",
