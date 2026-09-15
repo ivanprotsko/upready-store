@@ -124,6 +124,42 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
     return <hr className="border-t border-ui-border-base my-2" />
   }
 
+  // f07-page-markdown-tables: the legal pages of a tenant (contacts, offer,
+  // privacy) hold their seller details as GFM tables. A real `<table>` here,
+  // not a styled `<div>` grid, so a screen reader still announces row/column
+  // structure the way it does for the rest of the markdown block types.
+  if (block.type === "table") {
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-base-regular text-ui-fg-base">
+          <thead>
+            <tr>
+              {block.header.map((cell, index) => (
+                <th
+                  key={index}
+                  className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
+                >
+                  <Inline nodes={cell} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {block.rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex} className="border border-ui-border-base px-3 py-2 align-top">
+                    <Inline nodes={cell} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   return (
     <p className="text-base-regular text-ui-fg-base">
       <Inline nodes={block.content} />
