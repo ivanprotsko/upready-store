@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T14:28:24+08:00",
-  "status": "2026-09-15 14:28 WITA: f06-shipping-method-names — PR #45 открыт (fix/day16-shipping-names): человеческие названия способов доставки, курьер 300 ₽ по валюте с пометкой 'подтвердите тариф', шаг переименования в docker-entrypoint.sh; на живом cherkashino данные переименованы через docker exec, сосед zolotaya-nit не тронут",
+  "updated": "2026-09-15T14:45:38+08:00",
+  "status": "2026-09-15 14:45 WITA: f06-shipping-method-names раунд 1 закрыт — dev влит, конфликт HANDOFF.json разведён, PR #45 MERGEABLE/CLEAN на 7c1035f; подсказка самовывоза укорочена в коде и на живом тенанте, остаток мелочи 1 (вёрстка карточки) отдан отдельной задачей",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

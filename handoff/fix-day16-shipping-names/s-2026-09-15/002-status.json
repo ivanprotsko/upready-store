@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-shipping-names",
+  "session": "s-2026-09-15",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-15T14:45:38+08:00",
+  "status": "2026-09-15 14:45 WITA: f06-shipping-method-names раунд 1 закрыт — dev влит, конфликт HANDOFF.json разведён, PR #45 MERGEABLE/CLEAN на 7c1035f; подсказка самовывоза укорочена в коде и на живом тенанте, остаток мелочи 1 (вёрстка карточки) отдан отдельной задачей"
+}
