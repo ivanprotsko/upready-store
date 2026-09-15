@@ -1,6 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
-import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
+import { ContainerRegistrationKeys, MedusaError, Modules } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../src/modules/tenant";
 import type TenantModuleService from "../../src/modules/tenant/service";
 import createTenantWorkflow from "../../src/workflows/tenant/create-tenant";
@@ -40,7 +40,10 @@ export default async function seedW01Tenant({ container }: { container: MedusaCo
   });
 
   if (!registered.success || !registered.authIdentity) {
-    throw new Error(`w01-seed: could not register ${EMAIL}: ${registered.error}`);
+    throw new MedusaError(
+      MedusaError.Types.UNEXPECTED_STATE,
+      `w01-seed: could not register ${EMAIL}: ${registered.error}`,
+    );
   }
 
   const { result } = await createTenantWorkflow(container).run({

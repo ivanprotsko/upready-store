@@ -74,11 +74,23 @@ const asDate = (value: unknown): Date | null => {
 };
 
 /**
+ * What one run has done so far.
+ *
+ * Rows are counted HERE and not in a local variable inside each import,
+ * because an import can fail halfway: WB's rate limits are per category and a
+ * 429 arrives mid-pagination. A run that wrote 123 feedbacks and then hit a
+ * 429 must report 123, not 0 (measured on the first live run, 2026-09-16
+ * 04:13 WITA: `wb_feedback` held 123 rows while its run row said
+ * `failed, 0 rows` — rule 20a, a zero that is not empty).
+ */
+export type WbRunCounter = { requests: number; rows: number };
+
+/**
  * One `wbRead` bound to this run: the tenant, the key, the run id and the
  * journal writer are the same for every request the run makes, and the caller
  * only ever names an endpoint.
  */
-const readerFor = (deps: WbSyncDeps, runId: string, counter: { requests: number }) => {
+const readerFor = (deps: WbSyncDeps, runId: string, counter: WbRunCounter) => {
   const journal = async (entry: WbApiCallRecord) => {
     await deps.wb.createWbApiCalls(entry);
   };
@@ -171,12 +183,11 @@ const upsertRows = async (
 };
 
 /** `POST /content/v2/get/cards/list`, WB's "Returns the listings", cursor-paginated. */
-const syncCards = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
+const syncCards = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Card = Record<string, unknown> & { nmID?: number; updatedAt?: string };
   type Answer = { cards?: Card[]; cursor?: { updatedAt?: string; nmID?: number; total?: number } };
 
   let cursor: { updatedAt?: string; nmID?: number } = {};
-  let written = 0;
 
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const answer = await read<Answer>("content.cards.list", {
@@ -193,7 +204,7 @@ const syncCards = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
     const cards = answer.cards ?? [];
     const fetchedAt = new Date();
 
-    written += await upsertRows(
+    counter.rows += await upsertRows(
       deps.wb,
       "WbProduct",
       deps.tenantId,
@@ -228,15 +239,12 @@ const syncCards = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
     cursor = { updatedAt: answer.cursor.updatedAt, nmID: answer.cursor.nmID };
   }
 
-  return written;
 };
 
 /** `GET /api/v2/list/goods/filter`, WB's "Returns item data", offset-paginated. */
-const syncPrices = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
+const syncPrices = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Good = Record<string, unknown> & { nmID?: number };
   type Answer = { data?: { listGoods?: Good[] } };
-
-  let written = 0;
 
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const answer = await read<Answer>("prices.goods.filter", {
@@ -249,7 +257,7 @@ const syncPrices = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     }
 
     const fetchedAt = new Date();
-    written += await upsertRows(
+    counter.rows += await upsertRows(
       deps.wb,
       "WbPrice",
       deps.tenantId,
@@ -277,7 +285,6 @@ const syncPrices = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     }
   }
 
-  return written;
 };
 
 /**
@@ -286,14 +293,14 @@ const syncPrices = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
  * come from the cards already mirrored, so `cards` has to run first; with an
  * empty `wb_product` this import writes nothing and says so.
  */
-const syncStocks = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
+const syncStocks = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Warehouse = { id?: number; name?: string };
   type StockLine = { sku?: string; amount?: number };
 
   const warehouses = await read<Warehouse[]>("marketplace.warehouses");
   if (!warehouses?.length) {
     deps.logger.warn("[wb] the cabinet has no seller warehouses, so there is no inventory to read");
-    return 0;
+    return;
   }
 
   const products = (await deps.wb.listWbProducts({ tenant_id: deps.tenantId })) as Array<{
@@ -320,10 +327,8 @@ const syncStocks = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     deps.logger.warn(
       `[wb] no size ids in wb_product for tenant ${deps.tenantId}: run the cards import first`,
     );
-    return 0;
+    return;
   }
-
-  let written = 0;
 
   for (const warehouse of warehouses) {
     if (warehouse.id === undefined || warehouse.id === null) {
@@ -339,7 +344,7 @@ const syncStocks = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
       const lines = answer.stocks ?? [];
       const fetchedAt = new Date();
 
-      written += await upsertRows(
+      counter.rows += await upsertRows(
         deps.wb,
         "WbStock",
         deps.tenantId,
@@ -369,16 +374,13 @@ const syncStocks = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     }
   }
 
-  return written;
 };
 
 /** `GET /api/v1/supplier/orders`, the statistics feed, `lastChangeDate`-paginated. */
-const syncOrders = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
+const syncOrders = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Order = Record<string, unknown> & { srid?: string; lastChangeDate?: string };
 
   let dateFrom = new Date(Date.now() - ORDERS_WINDOW_DAYS * 86_400_000).toISOString();
-  let written = 0;
-
   for (let page = 0; page < ORDERS_MAX_PAGES; page += 1) {
     const orders = await read<Order[]>("statistics.orders", { query: { dateFrom, flag: 0 } });
     if (!orders?.length) {
@@ -386,7 +388,7 @@ const syncOrders = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     }
 
     const fetchedAt = new Date();
-    written += await upsertRows(
+    counter.rows += await upsertRows(
       deps.wb,
       "WbOrder",
       deps.tenantId,
@@ -429,15 +431,12 @@ const syncOrders = async (deps: WbSyncDeps, read: WbReader): Promise<number> => 
     }
   }
 
-  return written;
 };
 
 /** `GET /api/v1/feedbacks`, both halves, since `isAnswered` is a required parameter. */
-const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader): Promise<number> => {
+const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Feedback = Record<string, unknown> & { id?: string };
   type Answer = { data?: { feedbacks?: Feedback[] } };
-
-  let written = 0;
 
   for (const isAnswered of [false, true]) {
     for (let page = 0; page < MAX_PAGES; page += 1) {
@@ -451,7 +450,7 @@ const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader): Promise<number> 
       }
 
       const fetchedAt = new Date();
-      written += await upsertRows(
+      counter.rows += await upsertRows(
         deps.wb,
         "WbFeedback",
         deps.tenantId,
@@ -488,10 +487,12 @@ const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader): Promise<number> 
     }
   }
 
-  return written;
 };
 
-const IMPORTS: Record<WbSyncKind, (deps: WbSyncDeps, read: WbReader) => Promise<number>> = {
+const IMPORTS: Record<
+  WbSyncKind,
+  (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter) => Promise<void>
+> = {
   cards: syncCards,
   prices: syncPrices,
   stocks: syncStocks,
@@ -513,23 +514,23 @@ export const runSync = async (deps: WbSyncDeps, kind: WbSyncKind): Promise<WbSyn
     requests: 0,
   })) as { id: string };
 
-  const counter = { requests: 0 };
+  const counter: WbRunCounter = { requests: 0, rows: 0 };
   const read = readerFor(deps, run.id, counter);
 
   try {
-    const rows = await IMPORTS[kind](deps, read);
+    await IMPORTS[kind](deps, read, counter);
     await deps.wb.updateWbSyncRuns({
       id: run.id,
       status: "succeeded",
       finished_at: new Date(),
-      rows,
+      rows: counter.rows,
       requests: counter.requests,
     });
-    deps.logger.info(`[wb] ${kind}: ${rows} rows in ${counter.requests} WB requests`);
+    deps.logger.info(`[wb] ${kind}: ${counter.rows} rows in ${counter.requests} WB requests`);
     return {
       kind,
       runId: run.id,
-      rows,
+      rows: counter.rows,
       requests: counter.requests,
       status: "succeeded",
       error: null,
@@ -540,14 +541,18 @@ export const runSync = async (deps: WbSyncDeps, kind: WbSyncKind): Promise<WbSyn
       id: run.id,
       status: "failed",
       finished_at: new Date(),
+      rows: counter.rows,
       requests: counter.requests,
       error: message,
     });
-    deps.logger.error(`[wb] ${kind} failed after ${counter.requests} WB requests: ${message}`);
+    deps.logger.error(
+      `[wb] ${kind} failed after ${counter.requests} WB requests and ${counter.rows} rows ` +
+        `written: ${message}`,
+    );
     return {
       kind,
       runId: run.id,
-      rows: 0,
+      rows: counter.rows,
       requests: counter.requests,
       status: "failed",
       error: message,
