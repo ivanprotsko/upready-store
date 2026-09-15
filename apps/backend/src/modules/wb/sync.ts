@@ -18,11 +18,25 @@ import { wbRead, type WbApiCallRecord } from "./transport";
  * re-run update rows instead of doubling them.
  */
 
+/**
+ * What an operator may narrow for one run (w03-wb-sales-questions-mirror).
+ * Only the analytics import takes anything, because it is the one WB caps at
+ * 20 listings per request: the operator can name the listings instead of
+ * accepting the ranking below.
+ */
+export type WbSyncLimits = {
+  /** How many listings the analytics import covers in one run. */
+  analyticsCards?: number;
+  /** Exactly these WB numbers, instead of the ranking. */
+  nmIds?: string[];
+};
+
 export type WbSyncDeps = {
   wb: WbModuleService;
   tenantId: string;
   token: string;
   logger: Pick<Logger, "info" | "warn" | "error">;
+  limits?: WbSyncLimits;
 };
 
 export type WbSyncOutcome = {
@@ -53,6 +67,40 @@ const FEEDBACKS_PAGE = 1000;
  */
 const ORDERS_WINDOW_DAYS = 90;
 const ORDERS_MAX_PAGES = 5;
+
+/**
+ * The sales feed keeps the same 90 days, and its own rate limit is stricter
+ * than the orders one: the docs table gives a base token 1 request per
+ * 2 hours here against 1 per 3 hours there. The page cap is the same guard
+ * against a cursor that stops moving.
+ */
+const SALES_WINDOW_DAYS = 90;
+const SALES_MAX_PAGES = 5;
+
+/**
+ * `GET /api/v1/questions`: "the maximum possible value for the parameter is
+ * 10,000, and the total amount of take and skip parameters must not exceed
+ * 10,000".
+ */
+const QUESTIONS_PAGE = 1000;
+const QUESTIONS_WINDOW = 10_000;
+
+/**
+ * `POST /api/analytics/v3/sales-funnel/products/history`: `nmIds` is
+ * "Array of integers <uint64> [ 1 .. 20 ] items" and the window is "a maximum
+ * of the last week". Both are WB's, quoted from the docs page saved next to
+ * this branch's report.
+ */
+const ANALYTICS_CHUNK = 20;
+const ANALYTICS_WINDOW_DAYS = 7;
+
+/**
+ * How many listings one run covers by default. One chunk, which is one WB
+ * request: a base token gets 2 analytics requests per hour, so a default that
+ * swept 423 listings would spend the whole hour's budget and fail halfway.
+ * Raise it with `WB_ANALYTICS_CARDS` when the token allows.
+ */
+const ANALYTICS_CARDS_DEFAULT = 20;
 
 /** Guard against a cursor that stops moving: never loop forever on WB's answer. */
 const MAX_PAGES = 200;
@@ -124,7 +172,36 @@ type WbReader = ReturnType<typeof readerFor>;
 
 type Upsert = { keys: Record<string, unknown>; values: Record<string, unknown> };
 
-type MirrorEntity = "WbProduct" | "WbPrice" | "WbStock" | "WbOrder" | "WbFeedback";
+export type MirrorEntity =
+  | "WbProduct"
+  | "WbPrice"
+  | "WbStock"
+  | "WbOrder"
+  | "WbSale"
+  | "WbFeedback"
+  | "WbQuestion"
+  | "WbAnalyticsDaily";
+
+/**
+ * The plural `MedusaService` builds each model's methods from, written out
+ * instead of appended as an "s" (w03-wb-sales-questions-mirror).
+ *
+ * The framework pluralizes the model name, and English pluralization is not
+ * concatenation: `WbAnalyticsDaily` becomes `listWbAnalyticsDailies`, so
+ * `list${entity}s` would call a method that does not exist and fail at the
+ * first row rather than at boot. `__tests__/service-methods.unit.spec.ts`
+ * checks every name in this map against the real service.
+ */
+export const MIRROR_PLURAL: Record<MirrorEntity, string> = {
+  WbProduct: "WbProducts",
+  WbPrice: "WbPrices",
+  WbStock: "WbStocks",
+  WbOrder: "WbOrders",
+  WbSale: "WbSales",
+  WbFeedback: "WbFeedbacks",
+  WbQuestion: "WbQuestions",
+  WbAnalyticsDaily: "WbAnalyticsDailies",
+};
 
 /**
  * Writes one batch of mirror rows through the module service. Existing rows
@@ -142,11 +219,12 @@ const upsertRows = async (
   }
 
   const service = wb as unknown as Record<string, (input: unknown) => Promise<unknown>>;
-  const list = service[`list${entity}s`].bind(wb) as (
+  const plural = MIRROR_PLURAL[entity];
+  const list = service[`list${plural}`].bind(wb) as (
     filter: unknown,
   ) => Promise<Array<Record<string, unknown> & { id: string }>>;
-  const create = service[`create${entity}s`].bind(wb);
-  const update = service[`update${entity}s`].bind(wb);
+  const create = service[`create${plural}`].bind(wb);
+  const update = service[`update${plural}`].bind(wb);
 
   const keyNames = Object.keys(rows[0].keys);
   const existing = await list({
@@ -433,6 +511,100 @@ const syncOrders = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounte
 
 };
 
+/**
+ * `GET /api/v1/supplier/sales`, the sibling of the orders feed.
+ *
+ * Incremental: `dateFrom` starts at the newest `last_change_date` already in
+ * the mirror, so a second run asks WB only for what changed since the first
+ * one. With an empty mirror it starts at WB's own retention edge (90 days),
+ * because asking for more would return nothing anyway.
+ *
+ * WB's paging rule for this feed, quoted: "In the second and subsequent
+ * requests, use the full value of the lastChangeDate field of the last row
+ * from the response of the previous request in the dateFrom parameter."
+ */
+const syncSales = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
+  type Sale = Record<string, unknown> & { srid?: string; lastChangeDate?: string };
+
+  const known = (await deps.wb.listWbSales(
+    { tenant_id: deps.tenantId },
+    { order: { last_change_date: "DESC" }, take: 1 },
+  )) as Array<{ last_change_date: Date | string | null }>;
+
+  const newest = known[0]?.last_change_date ?? null;
+  let dateFrom = newest
+    ? new Date(newest).toISOString()
+    : new Date(Date.now() - SALES_WINDOW_DAYS * 86_400_000).toISOString();
+
+  deps.logger.info(
+    `[wb] sales start from ${dateFrom} ` +
+      `(${newest ? "the newest lastChangeDate in the mirror" : `WB keeps ${SALES_WINDOW_DAYS} days`})`,
+  );
+
+  for (let page = 0; page < SALES_MAX_PAGES; page += 1) {
+    const sales = await read<Sale[]>("statistics.sales", { query: { dateFrom, flag: 0 } });
+    if (!sales?.length) {
+      break;
+    }
+
+    const fetchedAt = new Date();
+    counter.rows += await upsertRows(
+      deps.wb,
+      "WbSale",
+      deps.tenantId,
+      sales
+        .filter((sale) => Boolean(sale.srid))
+        .map((sale) => ({
+          keys: { srid: String(sale.srid) },
+          values: {
+            sale_id: asText(sale.saleID),
+            nm_id: asText(sale.nmId),
+            supplier_article: asText(sale.supplierArticle),
+            barcode: asText(sale.barcode),
+            tech_size: asText(sale.techSize),
+            category: asText(sale.category),
+            subject: asText(sale.subject),
+            brand: asText(sale.brand),
+            total_price: asNumber(sale.totalPrice),
+            discount_percent: asNumber(sale.discountPercent),
+            spp: asNumber(sale.spp),
+            price_with_disc: asNumber(sale.priceWithDisc),
+            finished_price: asNumber(sale.finishedPrice),
+            for_pay: asNumber(sale.forPay),
+            payment_sale_amount: asNumber(sale.paymentSaleAmount),
+            is_supply: typeof sale.isSupply === "boolean" ? sale.isSupply : null,
+            is_realization: typeof sale.isRealization === "boolean" ? sale.isRealization : null,
+            warehouse_name: asText(sale.warehouseName),
+            warehouse_type: asText(sale.warehouseType),
+            country_name: asText(sale.countryName),
+            oblast_okrug_name: asText(sale.oblastOkrugName),
+            region_name: asText(sale.regionName),
+            sale_date: asDate(sale.date),
+            last_change_date: asDate(sale.lastChangeDate),
+            source: "wb",
+            fetched_at: fetchedAt,
+            raw: sale,
+          },
+        })),
+    );
+
+    deps.logger.info(`[wb] sales page ${page + 1}: ${sales.length} lines from ${dateFrom}`);
+
+    const next = sales[sales.length - 1]?.lastChangeDate;
+    if (!next || next === dateFrom) {
+      break;
+    }
+    dateFrom = String(next);
+
+    if (page + 1 === SALES_MAX_PAGES) {
+      deps.logger.warn(
+        `[wb] sales stopped at the ${SALES_MAX_PAGES}-page cap with data left from ${dateFrom}. ` +
+          "A base token gets one statistics request per 2 hours, so the rest waits for a later run.",
+      );
+    }
+  }
+};
+
 /** `GET /api/v1/feedbacks`, both halves, since `isAnswered` is a required parameter. */
 const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter): Promise<void> => {
   type Feedback = Record<string, unknown> & { id?: string };
@@ -489,6 +661,230 @@ const syncFeedbacks = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCou
 
 };
 
+/**
+ * `GET /api/v1/questions`, both halves, since `isAnswered` is required here
+ * too. The answering method is a PATCH on the same path and is not, and
+ * cannot be, in the registry.
+ */
+const syncQuestions = async (
+  deps: WbSyncDeps,
+  read: WbReader,
+  counter: WbRunCounter,
+): Promise<void> => {
+  type Question = Record<string, unknown> & { id?: string };
+  type Answer = {
+    data?: { countUnanswered?: number; countArchive?: number; questions?: Question[] };
+  };
+
+  for (const isAnswered of [false, true]) {
+    for (let page = 0; page < MAX_PAGES; page += 1) {
+      const skip = page * QUESTIONS_PAGE;
+      if (skip + QUESTIONS_PAGE > QUESTIONS_WINDOW) {
+        deps.logger.warn(
+          `[wb] questions (isAnswered=${isAnswered}) stopped at skip ${skip}: WB caps ` +
+            `take + skip at ${QUESTIONS_WINDOW}.`,
+        );
+        break;
+      }
+
+      const answer = await read<Answer>("feedbacks.questions", {
+        query: { isAnswered, take: QUESTIONS_PAGE, skip, order: "dateDesc" },
+      });
+
+      const questions = answer.data?.questions ?? [];
+      if (!questions.length) {
+        break;
+      }
+
+      const fetchedAt = new Date();
+      counter.rows += await upsertRows(
+        deps.wb,
+        "WbQuestion",
+        deps.tenantId,
+        questions
+          .filter((question) => Boolean(question.id))
+          .map((question) => {
+            const details = (question.productDetails ?? {}) as Record<string, unknown>;
+            const answerBody = (question.answer ?? null) as Record<string, unknown> | null;
+            return {
+              keys: { question_id: String(question.id) },
+              values: {
+                nm_id: asText(details.nmId),
+                imt_id: asText(details.imtId),
+                product_name: asText(details.productName),
+                supplier_article: asText(details.supplierArticle),
+                brand_name: asText(details.brandName),
+                text: asText(question.text),
+                answer_text: asText(answerBody?.text),
+                state: asText(question.state),
+                is_answered: isAnswered,
+                was_viewed: typeof question.wasViewed === "boolean" ? question.wasViewed : null,
+                is_warned: typeof question.isWarned === "boolean" ? question.isWarned : null,
+                created_date: asDate(question.createdDate),
+                source: "wb",
+                fetched_at: fetchedAt,
+                raw: question,
+              },
+            };
+          }),
+      );
+
+      deps.logger.info(
+        `[wb] questions (isAnswered=${isAnswered}) page ${page + 1}: ${questions.length} questions ` +
+          `(WB counts ${answer.data?.countUnanswered ?? "?"} unanswered, ` +
+          `${answer.data?.countArchive ?? "?"} archived)`,
+      );
+
+      if (questions.length < QUESTIONS_PAGE) {
+        break;
+      }
+    }
+  }
+};
+
+/**
+ * The days of the week, WB's own dates, from the newest back. WB's funnel
+ * answers for whole days, so the window is built from dates and not from an
+ * instant: `new Date()` here is the clock of this process, and the day WB
+ * means is the Moscow one (the whole statistics API is documented in UTC+3).
+ */
+const funnelWindow = (days: number): { start: string; end: string } => {
+  const moscowDay = (shift: number): string => {
+    const at = new Date(Date.now() + 3 * 3_600_000 - shift * 86_400_000);
+    return at.toISOString().slice(0, 10);
+  };
+  return { start: moscowDay(days - 1), end: moscowDay(0) };
+};
+
+/**
+ * `POST /api/analytics/v3/sales-funnel/products/history`: the per-day funnel
+ * of a listing (opens, adds to cart, orders, buyouts).
+ *
+ * Two of WB's limits decide the shape of this import, and neither is hidden:
+ *
+ *   - `nmIds` holds 1 to 20 listings per request, so the shop's listings are
+ *     covered 20 at a time and the run says how many were left out;
+ *   - the window is "a maximum of the last week".
+ *
+ * Which listings come first is a decision, so it is written down rather than
+ * left to the order rows happen to sit in: the ones with the most sales in
+ * the mirror, then the rest by WB number. A shop with an empty `wb_sale`
+ * (the statistics feed is one request per 2 hours on a base token) simply
+ * gets the first listings by number, and the log says which rule applied.
+ */
+const syncAnalytics = async (
+  deps: WbSyncDeps,
+  read: WbReader,
+  counter: WbRunCounter,
+): Promise<void> => {
+  type HistoryRow = Record<string, unknown> & { date?: string };
+  type Entry = {
+    product?: Record<string, unknown>;
+    history?: HistoryRow[];
+    currency?: string;
+  };
+
+  const products = (await deps.wb.listWbProducts({ tenant_id: deps.tenantId })) as Array<{
+    nm_id: string;
+  }>;
+
+  if (!products.length) {
+    deps.logger.warn(
+      `[wb] no listings in wb_product for tenant ${deps.tenantId}: run the cards import first`,
+    );
+    return;
+  }
+
+  const sales = (await deps.wb.listWbSales({ tenant_id: deps.tenantId })) as Array<{
+    nm_id: string | null;
+  }>;
+  const salesByNm = new Map<string, number>();
+  for (const sale of sales) {
+    if (sale.nm_id) {
+      salesByNm.set(sale.nm_id, (salesByNm.get(sale.nm_id) ?? 0) + 1);
+    }
+  }
+
+  const ranked = [...products]
+    .map((product) => product.nm_id)
+    .sort((left, right) => {
+      const bySales = (salesByNm.get(right) ?? 0) - (salesByNm.get(left) ?? 0);
+      return bySales !== 0 ? bySales : left.localeCompare(right);
+    });
+
+  const wanted = deps.limits?.nmIds?.length
+    ? deps.limits.nmIds
+    : ranked.slice(0, deps.limits?.analyticsCards ?? ANALYTICS_CARDS_DEFAULT);
+
+  const window = funnelWindow(ANALYTICS_WINDOW_DAYS);
+  deps.logger.info(
+    `[wb] analytics covers ${wanted.length} of ${products.length} listings for ` +
+      `${window.start}..${window.end} (WB takes ${ANALYTICS_CHUNK} listing numbers per request, ` +
+      `ranked by ${salesByNm.size ? "sales in wb_sale" : "WB number, because wb_sale is empty"}). ` +
+      `Listings left out: ${Math.max(products.length - wanted.length, 0)}.`,
+  );
+
+  for (let offset = 0; offset < wanted.length; offset += ANALYTICS_CHUNK) {
+    const chunk = wanted.slice(offset, offset + ANALYTICS_CHUNK);
+    const entries = await read<Entry[]>("analytics.funnel.history", {
+      body: {
+        selectedPeriod: window,
+        nmIds: chunk.map((nmId) => Number(nmId)).filter((nmId) => Number.isFinite(nmId)),
+        aggregationLevel: "day",
+      },
+    });
+
+    const fetchedAt = new Date();
+    const rows: Upsert[] = [];
+
+    for (const entry of entries ?? []) {
+      const product = entry.product ?? {};
+      const nmId = asText(product.nmId);
+      if (!nmId) {
+        continue;
+      }
+      for (const day of entry.history ?? []) {
+        const date = asText(day.date);
+        if (!date) {
+          continue;
+        }
+        rows.push({
+          keys: { nm_id: nmId, date },
+          values: {
+            title: asText(product.title),
+            vendor_code: asText(product.vendorCode),
+            brand_name: asText(product.brandName),
+            subject_id: asText(product.subjectId),
+            subject_name: asText(product.subjectName),
+            open_card: asNumber(day.openCount),
+            add_to_cart: asNumber(day.cartCount),
+            orders: asNumber(day.orderCount),
+            ordered_sum: asNumber(day.orderSum),
+            buyouts: asNumber(day.buyoutCount),
+            buyout_sum: asNumber(day.buyoutSum),
+            buyout_percent: asNumber(day.buyoutPercent),
+            add_to_cart_percent: asNumber(day.addToCartConversion),
+            cart_to_order_percent: asNumber(day.cartToOrderConversion),
+            add_to_wishlist: asNumber(day.addToWishlistCount),
+            currency: asText(entry.currency),
+            period_start: window.start,
+            period_end: window.end,
+            source: "wb",
+            fetched_at: fetchedAt,
+            raw: day,
+          },
+        });
+      }
+    }
+
+    counter.rows += await upsertRows(deps.wb, "WbAnalyticsDaily", deps.tenantId, rows);
+    deps.logger.info(
+      `[wb] analytics request ${Math.floor(offset / ANALYTICS_CHUNK) + 1}: ` +
+        `${chunk.length} listings, ${rows.length} day rows`,
+    );
+  }
+};
+
 const IMPORTS: Record<
   WbSyncKind,
   (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter) => Promise<void>
@@ -497,7 +893,10 @@ const IMPORTS: Record<
   prices: syncPrices,
   stocks: syncStocks,
   orders: syncOrders,
+  sales: syncSales,
   feedbacks: syncFeedbacks,
+  questions: syncQuestions,
+  analytics: syncAnalytics,
 };
 
 /**

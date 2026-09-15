@@ -9,7 +9,22 @@ import { model } from "@medusajs/framework/utils";
  * rather than vanishing: a sync that did not happen has to be visible (rule
  * 20a), and an empty mirror with no run row would read as "nothing to import".
  */
-export const WB_SYNC_KINDS = ["cards", "prices", "stocks", "orders", "feedbacks"] as const;
+/**
+ * The import kinds, in the order `--kind all` runs them (w01, extended by
+ * w03). The order is the dependency order: `stocks` needs the size ids the
+ * `cards` import writes, and `analytics` needs the listing numbers, so both
+ * stand after `cards`.
+ */
+export const WB_SYNC_KINDS = [
+  "cards",
+  "prices",
+  "stocks",
+  "orders",
+  "sales",
+  "feedbacks",
+  "questions",
+  "analytics",
+] as const;
 export type WbSyncKind = (typeof WB_SYNC_KINDS)[number];
 
 export const WB_SYNC_STATUSES = ["running", "succeeded", "failed"] as const;
