@@ -192,9 +192,10 @@ underscore.
 - The Integration Module is registered with an empty `providers` array on purpose, so a shop owner
   can add a provider without editing config. Leave the array empty.
 - An acceptance fixture or a one-off seed script lives in
-  [scripts/fixtures](apps/backend/scripts/fixtures) and never under `src/`. `medusa build` compiles
-  everything `tsconfig.json` includes, so a type error in a throwaway file fails the production image
-  build. Read the entry in Things That Break Silently before you add one.
+  [scripts/fixtures](apps/backend/scripts/fixtures) and nowhere else in `apps/backend`. `medusa build`
+  compiles everything `tsconfig.json` includes, and `exclude` names that one directory, so a type
+  error in a throwaway file anywhere else fails the production image build. Read the entry in Things
+  That Break Silently before you add one.
 
 ## Localization
 
@@ -277,10 +278,11 @@ once. Edits to the JSON data take effect on a fresh database only.
 still type-checked and emitted into the production image. On `ba126e8` one throwaway acceptance
 fixture at `src/scripts/f12-seed-test-order.ts` raised a single TS2322, the mt-backend image stopped
 building, and the live host stayed on the commit before it. Acceptance fixtures and one-off seed
-scripts therefore live in [scripts/fixtures](apps/backend/scripts/fixtures), which `exclude` covers,
-and [fixtures-outside-src.unit.spec.ts](apps/backend/src/scripts/__tests__/fixtures-outside-src.unit.spec.ts)
-fails when one reappears under `src/`. `ts-node` still runs them, because it ignores `include` and
-`exclude` and compiles whatever is required outside `node_modules`.
+scripts therefore live in [scripts/fixtures](apps/backend/scripts/fixtures), the one path `exclude`
+covers, and [fixtures-outside-src.unit.spec.ts](apps/backend/src/scripts/__tests__/fixtures-outside-src.unit.spec.ts)
+fails when one appears anywhere else the build compiles, `apps/backend/scripts` included. `ts-node`
+still runs them, because it ignores `include` and `exclude` and compiles whatever is required outside
+`node_modules`.
 
 ```bash
 cd apps/backend

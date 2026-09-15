@@ -37,5 +37,8 @@ when `medusa exec` requires them, because it ignores `include` and `exclude`
 and compiles whatever is required outside `node_modules`. The `tsconfig.json`
 next to this README is what type-checks them on demand.
 
-`src/scripts/__tests__/fixtures-outside-src.unit.spec.ts` is the gate that
-fails when a fixture reappears under `src/`.
+`src/scripts/__tests__/fixtures-outside-src.unit.spec.ts` is the gate. It scans the
+whole of `apps/backend` and fails when a fixture marker turns up anywhere the
+build compiles, which is everywhere except this directory. `apps/backend/scripts`
+is compiled too: `exclude` names `scripts/fixtures` and nothing wider, measured
+with `npx tsc --noEmit --listFiles`.

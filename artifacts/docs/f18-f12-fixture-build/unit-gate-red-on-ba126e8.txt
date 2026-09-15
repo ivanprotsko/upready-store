@@ -1,38 +1,37 @@
 FAIL src/scripts/__tests__/fixtures-outside-src.unit.spec.ts
   fixtures stay out of the compiled backend tree
-    ✓ reads the whole src tree, so a clean result means something (17 ms)
-    ✕ finds no acceptance fixture or one-off seed script under src/ (49 ms)
-    ✓ detects a fixture the moment one appears under src/ (2 ms)
+    ✓ reads the whole compiled tree, so a clean result means something (23 ms)
+    ✕ finds no acceptance fixture or one-off seed script outside scripts/fixtures (54 ms)
+    ✓ detects a fixture the moment one appears in the compiled tree (2 ms)
 
-  ● fixtures stay out of the compiled backend tree › finds no acceptance fixture or one-off seed script under src/
+  ● fixtures stay out of the compiled backend tree › finds no acceptance fixture or one-off seed script outside scripts/fixtures
 
     expect(received).toEqual(expected) // deep equality
 
     - Expected  - 1
-    + Received  + 6
+    + Received  + 5
 
     - Array []
     + Array [
-    +   "apps/backend/src/scripts/f12-seed-test-order.ts carries the marker \"fixture ONLY\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (excluded in apps/backend/tsconfig.json) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
-    +   "apps/backend/src/scripts/f12-seed-test-order.ts carries the marker \"seed-test\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (excluded in apps/backend/tsconfig.json) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
-    +   "apps/backend/src/scripts/t13-seed-test-tenant.ts carries the marker \"seed-test\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (excluded in apps/backend/tsconfig.json) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
-    +   "apps/backend/src/scripts/t17-seed-test-tenant.ts carries the marker \"seed-test\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (excluded in apps/backend/tsconfig.json) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
+    +   "apps/backend/scripts/zz-nit-fixture-probe.ts carries the marker \"fixture ONLY\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (the one path apps/backend/tsconfig.json excludes) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
+    +   "apps/backend/src/scripts/f12-seed-test-order.ts carries the marker \"fixture ONLY\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (the one path apps/backend/tsconfig.json excludes) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
+    +   "apps/backend/src/scripts/f12-seed-test-order.ts carries the marker \"seed-test\". medusa build compiles every file tsconfig.json includes, so a type error here fails the production image build. Move it to apps/backend/scripts/fixtures/ (the one path apps/backend/tsconfig.json excludes) and run it with npx medusa exec ./scripts/fixtures/<file>.ts.",
     + ]
 
-      85 |           `with npx medusa exec ./scripts/fixtures/<file>.ts.`,
-      86 |       ),
-    > 87 |     ).toEqual([]);
-         |       ^
-      88 |   });
-      89 |
-      90 |   it("detects a fixture the moment one appears under src/", () => {
+      122 |           `npx medusa exec ./${FIXTURE_HOME}/<file>.ts.`,
+      123 |       ),
+    > 124 |     ).toEqual([]);
+          |       ^
+      125 |   });
+      126 |
+      127 |   it("detects a fixture the moment one appears in the compiled tree", () => {
 
-      at Object.toEqual (src/scripts/__tests__/fixtures-outside-src.unit.spec.ts:87:7)
+      at Object.toEqual (src/scripts/__tests__/fixtures-outside-src.unit.spec.ts:124:7)
 
 Test Suites: 1 failed, 1 total
 Tests:       1 failed, 2 passed, 3 total
 Snapshots:   0 total
-Time:        0.305 s, estimated 1 s
+Time:        0.385 s, estimated 1 s
 Ran all test suites matching /src\/scripts/i.
 Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
 rc=1
