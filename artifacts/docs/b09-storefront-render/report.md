@@ -135,7 +135,7 @@ other console errors (unrelated to b09, e.g. local media host): 1
                                                             # медиа этого клона БД, не код и не b09
 ```
 
-Скриншот: `apps/storefront/artifacts/docs/b09-storefront-render/contacts-1280x900.png`.
+Скриншот (не в git, приложен абсолютным путём): `file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-storefront-render/artifacts/docs/b09-storefront-render/contacts-1280x900.png`
 
 ## Что не сделано и почему
 
