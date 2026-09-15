@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T21:21:12+08:00",
-  "status": "2026-09-15 21:21 WITA: c01-wave5-composer — волна 5 собрана: 10 пачек b07–b16 (приоритеты 80–89) в artifacts/c01-wave5-composer/tasks.json, 10 промптов, needs-ivan.md (10 строк Оксане, 5 Ивану, 8 задач HANDOFF вне миссии + 4 открытых PR), report.md с таблицей 38 пунктов; tasks.json и prompts/ дня не тронуты, коммит e530a06",
+  "updated": "2026-09-15T22:40:03+08:00",
+  "status": "2026-09-15 22:40 WITA: штаб — замечание Ивана 22:31 по UI выполнено (коммит 696b44ae: карточка законченной задачи = сводка + статистика сессии, форма read-only без RUN); волна 5: b01/b03 accepting (PR #57/#58), b04 pr_open #59, r03 pr_open #56 после раунда 2, b02/b06/d05 running, d06/b05 queued; c01-wave5-composer выдал artifacts/c01-wave5-composer — задачи ещё не заведены",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1254,6 +1254,11 @@
     {
       "id": "q-ogranichivat-li-get-store-orders",
       "question": "Ограничивать ли GET /store/orders каналом продаж publishable-ключа (сейчас заказы одного магазина видны в кабинете другого)?",
+      "asked": "2026-09-15"
+    },
+    {
+      "id": "q-volna-5-c01-chetyre-pr",
+      "question": "Волна 5 c01: четыре PR вне миссии Оксаны открыты с 13–14 сентября — #5 telegram-miniapp (упирается в токен бота), #7 калькулятор себестоимости, #8 market-intelligence (ветка была форк-точкой инцидента aie-20260914-041518-8d97), #20 снятие сборки homepage с upready.dev. Принимаем их отдельной волной после магазина Оксаны или закрываем как отложенные? Список и контекст — artifacts/c01-wave5-composer/needs-ivan.md, раздел C",
       "asked": "2026-09-15"
     }
   ],
