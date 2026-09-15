@@ -484,7 +484,16 @@
     "joinUs": "Registrati",
     "notMember": "Non sei ancora registrato?",
     "password": "Password",
-    "signIn": "Accedi"
+    "signIn": "Accedi",
+    "yandexCta": "Accedi con Yandex ID",
+    "yandexDivider": "oppure",
+    "yandexErrorDenied": "Hai annullato l'accesso sulla pagina di Yandex.",
+    "yandexErrorEmailTaken": "Esiste già un account con questa email. Accedi con la tua password.",
+    "yandexErrorExpired": "Questo link di accesso è scaduto. Ricomincia.",
+    "yandexErrorFailed": "L'accesso non è riuscito. Riprova tra poco.",
+    "yandexErrorNoEmail": "Yandex non ha fornito un indirizzo email, quindi l'account non può essere creato.",
+    "yandexErrorRejected": "Yandex non ha potuto confermare questo accesso. Riprova.",
+    "yandexErrorUnconfigured": "L'accesso con Yandex non è ancora attivo in questo negozio."
   },
   "Metadata": {
     "account": {

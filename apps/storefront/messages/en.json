@@ -484,7 +484,16 @@
     "joinUs": "Join us",
     "notMember": "Not a member?",
     "password": "Password",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "yandexCta": "Sign in with Yandex ID",
+    "yandexDivider": "or",
+    "yandexErrorDenied": "You cancelled the sign-in on the Yandex page.",
+    "yandexErrorEmailTaken": "An account already uses this email address. Sign in with your password instead.",
+    "yandexErrorExpired": "This sign-in link has expired. Please start again.",
+    "yandexErrorFailed": "The sign-in did not go through. Please try again in a moment.",
+    "yandexErrorNoEmail": "Yandex did not share an email address, so an account cannot be created.",
+    "yandexErrorRejected": "Yandex could not confirm this sign-in. Please try again.",
+    "yandexErrorUnconfigured": "Signing in with Yandex is not switched on in this store yet."
   },
   "Metadata": {
     "account": {

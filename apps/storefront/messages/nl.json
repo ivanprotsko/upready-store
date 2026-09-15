@@ -484,7 +484,16 @@
     "joinUs": "Word lid",
     "notMember": "Nog geen lid?",
     "password": "Wachtwoord",
-    "signIn": "Inloggen"
+    "signIn": "Inloggen",
+    "yandexCta": "Inloggen met Yandex ID",
+    "yandexDivider": "of",
+    "yandexErrorDenied": "Je hebt het inloggen op de Yandex-pagina geannuleerd.",
+    "yandexErrorEmailTaken": "Er bestaat al een account met dit e-mailadres. Log in met je wachtwoord.",
+    "yandexErrorExpired": "Deze inloglink is verlopen. Begin opnieuw.",
+    "yandexErrorFailed": "Het inloggen is niet gelukt. Probeer het zo meteen nog eens.",
+    "yandexErrorNoEmail": "Yandex heeft geen e-mailadres doorgegeven, dus er kan geen account worden aangemaakt.",
+    "yandexErrorRejected": "Yandex kon dit inloggen niet bevestigen. Probeer het opnieuw.",
+    "yandexErrorUnconfigured": "Inloggen via Yandex is in deze winkel nog niet ingeschakeld."
   },
   "Metadata": {
     "account": {

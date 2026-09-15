@@ -484,7 +484,16 @@
     "joinUs": "Jetzt registrieren",
     "notMember": "Noch kein Mitglied?",
     "password": "Passwort",
-    "signIn": "Anmelden"
+    "signIn": "Anmelden",
+    "yandexCta": "Mit Yandex ID anmelden",
+    "yandexDivider": "oder",
+    "yandexErrorDenied": "Sie haben die Anmeldung auf der Yandex-Seite abgebrochen.",
+    "yandexErrorEmailTaken": "Für diese E-Mail-Adresse besteht bereits ein Konto. Melden Sie sich mit Ihrem Passwort an.",
+    "yandexErrorExpired": "Dieser Anmeldelink ist abgelaufen. Bitte beginnen Sie von vorn.",
+    "yandexErrorFailed": "Die Anmeldung hat nicht geklappt. Bitte versuchen Sie es gleich noch einmal.",
+    "yandexErrorNoEmail": "Yandex hat keine E-Mail-Adresse übermittelt, daher lässt sich kein Konto anlegen.",
+    "yandexErrorRejected": "Yandex konnte diese Anmeldung nicht bestätigen. Bitte versuchen Sie es erneut.",
+    "yandexErrorUnconfigured": "Die Anmeldung über Yandex ist in diesem Shop noch nicht aktiviert."
   },
   "Metadata": {
     "account": {
