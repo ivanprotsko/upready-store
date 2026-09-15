@@ -415,10 +415,52 @@ export const parseCharacteristics = (raw: unknown): ParseResult => {
   return result;
 };
 
+/**
+ * The volume or weight a variant carries in its own TITLE, which is where a
+ * shop that never filled a marketplace card writes it: «Зубная паста тайская с
+ * гвоздикой, 30 гр», «Мазь от варикоза, 100 мл», «Мёд маточный 125 гр».
+ *
+ * Only an explicit unit counts, and only as the last quantity in the title, so
+ * «Таблетки от варикоза, 60 шт» gives nothing (pieces are neither) and «АСД 2
+ * фракция» gives nothing (the 2 names the fraction). The value the customer
+ * already reads on the button is the same value the characteristic gets;
+ * nothing is inferred from a description.
+ */
+export const quantityFromTitle = (
+  title: string | null | undefined,
+): { key: "weight" | "volume"; value: number } | null => {
+  const text = collapse(String(title ?? ""));
+  if (!text) {
+    return null;
+  }
+
+  const pattern = /([0-9]+(?:[.,][0-9]+)?)\s*(мг|гр|г|кг|мл|л)(?![а-яёa-z])/gi;
+  let last: RegExpExecArray | null = null;
+  for (let match = pattern.exec(text); match; match = pattern.exec(text)) {
+    last = match;
+  }
+
+  if (!last) {
+    return null;
+  }
+
+  const unit = UNIT_FACTOR[last[2].toLowerCase()];
+  if (!unit) {
+    return null;
+  }
+
+  const key = unit.target === "g" ? "weight" : "volume";
+  const value = parseQuantity(`${last[1]} ${last[2]}`, unit.target);
+
+  return value === null ? null : { key, value };
+};
+
 export type ProductInput = {
   metadata: Record<string, unknown> | null | undefined;
   /** SKU of the product's first variant, the article number when the bag has none. */
   sku?: string | null;
+  /** Title of the product's first variant, the last place a volume is written. */
+  variantTitle?: string | null;
 };
 
 /**
@@ -463,6 +505,14 @@ export const collectProductValues = (product: ProductInput): ParseResult => {
       result.values[key] = text.slice(0, TEXT_LIMIT);
       result.sources[key] = `metadata.${metadataKey}`;
     }
+  }
+
+  // The variant title is the LAST source and fills a gap only: a card that
+  // says «Вес (без упаковки) 350 г» beats a button that says «400 г».
+  const fromTitle = quantityFromTitle(product.variantTitle);
+  if (fromTitle && result.values[fromTitle.key] === undefined) {
+    result.values[fromTitle.key] = fromTitle.value;
+    result.sources[fromTitle.key] = "variant.title";
   }
 
   if (result.values.sku === undefined && product.sku) {

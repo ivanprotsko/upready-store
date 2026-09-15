@@ -17,7 +17,9 @@ import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { useProductCategories } from "../../../hooks/api/categories"
 import {
   ProductAttributeType,
+  useApplyProductAttributePreset,
   useCreateProductAttribute,
+  useProductAttributePreset,
   useProductAttributes,
 } from "../../../hooks/api/product-attributes"
 import {
@@ -47,6 +49,9 @@ export const AttributeList = () => {
   const [keyTouched, setKeyTouched] = useState(false)
   const [type, setType] = useState<ProductAttributeType>("text")
   const { mutateAsync: createAttribute, isPending: isCreating } = useCreateProductAttribute()
+  const { preset, missing } = useProductAttributePreset()
+  const { mutateAsync: applyPreset, isPending: isApplyingPreset } =
+    useApplyProductAttributePreset()
 
   if (isError) {
     throw error
@@ -54,6 +59,24 @@ export const AttributeList = () => {
 
   if (isPending || !attributes) {
     return <SingleColumnPageSkeleton sections={1} />
+  }
+
+  // b04-product-attributes: the starting set. A shop that has just been
+  // migrated opens this screen empty and has nothing to fill products with, so
+  // the seven characteristics of the default schema are one click away. The
+  // call only creates what is missing, so pressing it twice changes nothing and
+  // a characteristic the owner renamed keeps its name.
+  const handleApplyPreset = async () => {
+    await applyPreset(undefined, {
+      onSuccess: (result) => {
+        toast.success(
+          result.created.length
+            ? `Добавлено характеристик: ${result.created.length}`
+            : "Стандартные характеристики уже есть"
+        )
+      },
+      onError: (presetError) => toast.error(presetError.message),
+    })
   }
 
   const categoryName = (categoryId: string | null) => {
@@ -116,14 +139,36 @@ export const AttributeList = () => {
   return (
     <SingleColumnPage widgets={{ before: [], after: [] }} data={attributes}>
       <Container className="divide-y p-0">
-        <div className="flex flex-col gap-y-1 px-6 py-4">
-          <Heading level="h2">Характеристики товаров</Heading>
-          <Text size="small" className="text-ui-fg-subtle">
-            Свойства, которыми магазин описывает товары: состав, объём, страна.
-            Показанная характеристика выводится на карточке товара, фильтруемая
-            становится фильтром в каталоге — это два независимых переключателя.
-            Значения заполняются на самом товаре, в разделе «Характеристики».
-          </Text>
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 px-6 py-4">
+          <div className="flex flex-col gap-y-1">
+            <Heading level="h2">Характеристики товаров</Heading>
+            <Text size="small" className="text-ui-fg-subtle">
+              Свойства, которыми магазин описывает товары: состав, объём, страна.
+              Показанная характеристика выводится на карточке товара, фильтруемая
+              становится фильтром в каталоге — это два независимых переключателя.
+              Значения заполняются на самом товаре, в разделе «Характеристики».
+            </Text>
+            {preset && missing !== undefined ? (
+              <Text size="small" className="text-ui-fg-muted">
+                {missing === 0
+                  ? `Стандартный набор на месте: ${preset.length} характеристик.`
+                  : `Из стандартного набора не хватает ${missing} из ${preset.length}: ` +
+                    preset
+                      .filter((entry) => !entry.exists)
+                      .map((entry) => entry.name)
+                      .join(", ")}
+              </Text>
+            ) : null}
+          </div>
+          <Button
+            size="small"
+            variant="secondary"
+            onClick={handleApplyPreset}
+            isLoading={isApplyingPreset}
+            disabled={missing === 0}
+          >
+            Добавить стандартные
+          </Button>
         </div>
         <Table>
           <Table.Header>

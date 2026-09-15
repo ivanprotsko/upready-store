@@ -1,5 +1,6 @@
 import {
   collectProductValues,
+  quantityFromTitle,
   countryChoice,
   matchAttributeName,
   normaliseName,
@@ -243,6 +244,67 @@ describe("collectProductValues", () => {
   it("gives an empty result for a product whose metadata says nothing", () => {
     expect(collectProductValues({ metadata: { source: "ozon" }, sku: null }).values).toEqual({});
     expect(collectProductValues({ metadata: null }).values).toEqual({});
+  });
+});
+
+describe("quantityFromTitle", () => {
+  it("reads the quantity a variant title carries", () => {
+    expect(quantityFromTitle("Зубная паста тайская с гвоздикой, 30 гр")).toEqual({
+      key: "weight",
+      value: 30,
+    });
+    expect(quantityFromTitle("Мазь от варикоза и отёков, с каштаном, 100 мл")).toEqual({
+      key: "volume",
+      value: 100,
+    });
+    expect(quantityFromTitle("Мёд маточный 125 гр")).toEqual({ key: "weight", value: 125 });
+    expect(quantityFromTitle("Сульфат магния 75 гр, для курса «Печень»")).toEqual({
+      key: "weight",
+      value: 75,
+    });
+  });
+
+  it("takes the LAST quantity, so a fraction in the name loses to the size", () => {
+    expect(quantityFromTitle("АСД 2 фракция Армавир Дорогова, 100 мл")).toEqual({
+      key: "volume",
+      value: 100,
+    });
+  });
+
+  it("gives nothing when the unit is not a weight or a volume", () => {
+    expect(quantityFromTitle("Таблетки от варикоза с каштаном, 60 шт")).toBeNull();
+    expect(quantityFromTitle("Антисептик-стимулятор Дорогова, таблетки, 60 штук")).toBeNull();
+    expect(quantityFromTitle("Шампунь АСД")).toBeNull();
+    expect(quantityFromTitle("Набор для очищения лимфы")).toBeNull();
+    expect(quantityFromTitle(null)).toBeNull();
+  });
+
+  it("does not read a unit glued to the next word", () => {
+    expect(quantityFromTitle("Курс 3 гранулы")).toBeNull();
+  });
+});
+
+describe("collectProductValues with a variant title", () => {
+  it("fills a gap from the title", () => {
+    const result = collectProductValues({
+      metadata: {},
+      variantTitle: "Зубная паста тайская с углем, 30 гр",
+    });
+
+    expect(result.values.weight).toBe(30);
+    expect(result.sources.weight).toBe("variant.title");
+  });
+
+  it("never beats the marketplace card", () => {
+    const result = collectProductValues({
+      metadata: {
+        full_characteristics: '[{"name":"Вес (без упаковки)","value":"350 г"}]',
+      },
+      variantTitle: "Иван-чай крепкий, 400 гр",
+    });
+
+    expect(result.values.weight).toBe(350);
+    expect(result.sources.weight).toBe("Вес (без упаковки)");
   });
 });
 

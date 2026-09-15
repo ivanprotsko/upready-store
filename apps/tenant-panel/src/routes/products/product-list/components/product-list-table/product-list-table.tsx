@@ -1,4 +1,4 @@
-import { Button, Container, Heading } from "@medusajs/ui"
+import { Button, Container, Heading, Text } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
@@ -7,6 +7,7 @@ import { Link, Outlet, useLoaderData, useLocation } from "react-router-dom"
 
 import { HttpTypes } from "@medusajs/types"
 import { _DataTable } from "../../../../../components/table/data-table"
+import { useProductAttributeCoverage } from "../../../../../hooks/api/product-attributes"
 import { useProducts } from "../../../../../hooks/api/products"
 import { ProductActions } from "./product-list-table-actions"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
@@ -40,6 +41,13 @@ export const ProductListTable = () => {
   const filters = useProductTableFilters()
   const columns = useColumns()
 
+  // b04-product-attributes: characteristics are filled product by product, so
+  // the one thing the list has to say is how many products are still empty.
+  // The count is the whole catalog, not the page: the owner works through it
+  // over several sessions and a per-page number would never reach the end.
+  const { products_total: attributeProductsTotal, products_filled: attributeProductsFilled } =
+    useProductAttributeCoverage()
+
   const { table } = useDataTable({
     data: (products ?? []) as HttpTypes.AdminProduct[],
     columns,
@@ -58,6 +66,14 @@ export const ProductListTable = () => {
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h1">{t("products.domain")}</Heading>
         <div className="flex items-center justify-center gap-x-2">
+          {attributeProductsTotal ? (
+            <Text size="small" className="text-ui-fg-subtle mr-2">
+              <Link to="/product-attributes" className="hover:text-ui-fg-base transition-fg">
+                Характеристики заполнены у {attributeProductsFilled ?? 0} из{" "}
+                {attributeProductsTotal} товаров
+              </Link>
+            </Text>
+          ) : null}
           <Button size="small" variant="secondary" asChild>
             <Link to={`export${location.search}`}>{t("products.csv.exportAction")}</Link>
           </Button>
