@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Input, Label, Select, Text, Textarea, toast } from "@medusajs/ui"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"
@@ -13,7 +13,9 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 import { sdk } from "../../../../../lib/client"
-import { mergeSeoMetadata, readSeoOverride } from "../../../../../lib/seo-metadata"
+import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
+import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
+import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
 
 const EditCategorySchema = z.object({
   name: z.string().min(1),
@@ -62,7 +64,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const { handleSuccess } = useRouteModal()
   const direction = useDocumentDirection()
   const metadata = (category.metadata ?? {}) as Record<string, unknown>
-  const seoOverride = readSeoOverride(metadata)
+  const seoOverride = readSeoOverride(metadata, DEFAULT_SEO_METADATA_LOCALE)
   const [uploading, setUploading] = useState(false)
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     defaultValues: {
@@ -78,6 +80,27 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
     },
     resolver: zodResolver(EditCategorySchema),
   })
+
+  // The shop's own default_locale (t06-locale-currency) is loaded async, so
+  // the form above mounts on the DEFAULT_SEO_METADATA_LOCALE guess first —
+  // round 2 finding: a default_locale=ru shop's SEO fields were silently
+  // written to metadata.seo.en, never reaching the storefront's ru pages.
+  // Once locale settings resolve, the real locale's entry replaces that
+  // guess, but only before the owner has touched either field.
+  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const seoLocale = localeSettings?.default_locale ?? DEFAULT_SEO_METADATA_LOCALE
+  const seoLocaleAppliedRef = useRef(false)
+  useEffect(() => {
+    if (seoLocaleAppliedRef.current) return
+    if (!localeSettings) return
+    seoLocaleAppliedRef.current = true
+    if (seoLocale === DEFAULT_SEO_METADATA_LOCALE) return
+    if (form.formState.dirtyFields.seoTitle || form.formState.dirtyFields.seoDescription) return
+
+    const override = readSeoOverride(metadata, seoLocale)
+    form.setValue("seoTitle", override.seo_title)
+    form.setValue("seoDescription", override.seo_description)
+  }, [localeSettings, seoLocale, metadata, form])
 
   const onUpload = async (file: File | undefined) => {
     if (!file) {
@@ -112,7 +135,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
         is_active: data.status === "active",
         is_internal: data.visibility === "internal",
         metadata: {
-          ...mergeSeoMetadata(metadata, data.seoTitle, data.seoDescription),
+          ...mergeSeoMetadata(metadata, data.seoTitle, data.seoDescription, seoLocale),
           image_url: data.imageUrl || null,
           image_alt: data.imageAlt || null,
         },
@@ -193,7 +216,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                     <Form.Label optional>
                       {t("fields.seoTitle")}{" "}
                       <span className="text-ui-fg-subtle">
-                        ({field.value.length}/70)
+                        ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/70)
                       </span>
                     </Form.Label>
                     <Form.Control>
@@ -213,7 +236,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                     <Form.Label optional>
                       {t("fields.seoDescription")}{" "}
                       <span className="text-ui-fg-subtle">
-                        ({field.value.length}/320)
+                        ({LOCALE_LABELS[seoLocale as LocaleCode] ?? seoLocale}, {field.value.length}/320)
                       </span>
                     </Form.Label>
                     <Form.Control>

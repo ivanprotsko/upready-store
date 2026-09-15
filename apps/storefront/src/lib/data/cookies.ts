@@ -114,6 +114,23 @@ export const getEnabledLocales = async (): Promise<string[] | null> => {
  * this instead of `appLocales` directly, so a shop that has not enabled a
  * language never offers it in the switcher.
  */
+/**
+ * The locale the owner edits shop-wide SEO fields in (`x-tenant-default-locale`,
+ * `src/middleware.ts`, t11-seo-redirects step 2): a tenant's own `default_locale`
+ * from `tenant_locale_settings` when it saved one, else `"en"` — the same
+ * fallback `apps/tenant-panel/src/lib/seo-metadata.ts` writes under when no
+ * locale settings exist yet.
+ */
+export const getTenantDefaultLocale = async (): Promise<string> => {
+  try {
+    const headers = await nextHeaders()
+    const raw = decodeTenantHeaderValue(headers.get("x-tenant-default-locale"))
+    return raw || "en"
+  } catch {
+    return "en"
+  }
+}
+
 export const getSwitcherLocales = async (): Promise<Locale[]> => {
   const enabled = await getEnabledLocales()
 

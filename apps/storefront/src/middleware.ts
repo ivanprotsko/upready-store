@@ -268,6 +268,10 @@ function tenantRequestHeaders(
         "x-tenant-locales",
         encodeTenantHeaderValue(tenant.locale.enabledLocales.join(","))
       )
+      headers.set(
+        "x-tenant-default-locale",
+        encodeTenantHeaderValue(tenant.locale.defaultLocale)
+      )
     }
     // The origin the shop was resolved FROM, for every absolute URL a page emits
     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).

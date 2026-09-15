@@ -4,21 +4,26 @@
  * they live in `metadata.seo`, keyed by locale — the storefront reads the
  * same shape (`apps/storefront/src/lib/util/tenant-seo.ts`).
  *
- * One locale for now, `"en"`, the same scope `tenant_page`'s own SEO fields
- * ship with today (`edit-page-form.tsx`: "the panel edits one language
- * today"). A locale switcher for this screen is follow-up work, not a
- * narrower feature — the value already round-trips per locale on read.
+ * The panel still edits ONE locale per entity — a full per-field switcher is
+ * follow-up work, the value already round-trips per locale on read — but
+ * which one is the shop's own `default_locale` (`tenant_locale_settings`,
+ * t06-locale-currency), not a literal `"en"`: a `default_locale=ru` shop's
+ * title has to land on its `/ru/...` pages, and `tenant_page`'s own SEO
+ * fields already work this way (one row per locale, edited in whichever
+ * locale the owner has open). `DEFAULT_SEO_METADATA_LOCALE` is only the
+ * fallback for a tenant that never saved locale settings.
  */
-export const SEO_METADATA_LOCALE = "en"
+export const DEFAULT_SEO_METADATA_LOCALE = "en"
 
 export type SeoMetadataEntry = { title?: string; description?: string }
 
-/** Reads this entity's SEO override for `SEO_METADATA_LOCALE`, or blanks. */
+/** Reads this entity's SEO override for `locale`, or blanks. */
 export function readSeoOverride(
-  metadata: Record<string, unknown> | null | undefined
+  metadata: Record<string, unknown> | null | undefined,
+  locale: string = DEFAULT_SEO_METADATA_LOCALE
 ): { seo_title: string; seo_description: string } {
   const seo = metadata?.seo as Record<string, SeoMetadataEntry> | undefined
-  const entry = seo?.[SEO_METADATA_LOCALE]
+  const entry = seo?.[locale]
 
   return {
     seo_title: entry?.title ?? "",
@@ -35,7 +40,8 @@ export function readSeoOverride(
 export function mergeSeoMetadata(
   metadata: Record<string, unknown> | null | undefined,
   seoTitle: string,
-  seoDescription: string
+  seoDescription: string,
+  locale: string = DEFAULT_SEO_METADATA_LOCALE
 ): Record<string, unknown> {
   const base = { ...(metadata ?? {}) }
   const seo = { ...((base.seo as Record<string, SeoMetadataEntry> | undefined) ?? {}) }
@@ -45,9 +51,9 @@ export function mergeSeoMetadata(
   if (seoDescription.trim()) entry.description = seoDescription.trim()
 
   if (Object.keys(entry).length > 0) {
-    seo[SEO_METADATA_LOCALE] = entry
+    seo[locale] = entry
   } else {
-    delete seo[SEO_METADATA_LOCALE]
+    delete seo[locale]
   }
 
   if (Object.keys(seo).length > 0) {

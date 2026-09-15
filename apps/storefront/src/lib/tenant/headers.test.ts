@@ -59,6 +59,8 @@ describe("tenant header values", () => {
       "x-tenant-origin",
       "x-tenant-attribution",
       "x-tenant-locales",
+      "x-tenant-default-locale",
+      "x-tenant-seo-verification",
     ])
   })
 })

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { getCategoryByHandle } from "@lib/data/categories"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { getCountryCode, getSiteName, getTenantDefaultLocale } from "@lib/data/cookies"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import { parseSubcategoryHandles } from "@lib/util/subcategory-filters"
 import CategoryTemplate from "@modules/categories/templates"
@@ -27,10 +27,11 @@ type Props = {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   try {
-    const [locale, t, productCategory] = await Promise.all([
+    const [locale, t, productCategory, defaultLocale] = await Promise.all([
       getLocale(),
       getTranslations("Metadata.category"),
       getCategoryByHandle(params.category),
+      getTenantDefaultLocale(),
     ])
     // No such category, or the read failed and `siteWideRead` has already said
     // so by name in the log. Both reach the visitor as a 404; the `catch` below
@@ -39,7 +40,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     if (!productCategory) {
       notFound()
     }
-    const override = seoOverride(productCategory, locale)
+    const override = seoOverride(productCategory, locale, defaultLocale)
     const title = await pageTitle(override.title || productCategory.name)
     const description =
       override.description ||

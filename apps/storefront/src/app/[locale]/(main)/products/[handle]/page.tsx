@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { buildAlternates } from "@lib/util/alternates"
-import { getCountryCode } from "@lib/data/cookies"
+import { getCountryCode, getTenantDefaultLocale } from "@lib/data/cookies"
 import ProductTemplate from "@modules/products/templates"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale } from "next-intl/server"
@@ -36,10 +36,11 @@ function getImagesForVariant(
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const [params, countryCode, locale] = await Promise.all([
+  const [params, countryCode, locale, defaultLocale] = await Promise.all([
     props.params,
     getCountryCode(),
     getLocale(),
+    getTenantDefaultLocale(),
   ])
 
   const cc = countryCode ?? DEFAULT_REGION
@@ -59,7 +60,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const override = seoOverride(product, locale)
+  const override = seoOverride(product, locale, defaultLocale)
 
   const title = override.title
     ? await pageTitle(override.title)
