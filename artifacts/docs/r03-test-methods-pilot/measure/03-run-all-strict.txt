@@ -1,0 +1,22 @@
+ID      STATUS  NEW  KNOWN  SCANNED                                            
+------  ------  ---  -----  ---------------------------------------------------
+tm-001  GREEN   0    0      files=328 imports=1036 packages=6                  
+tm-002  RED     1    0      panelFiles=878 storefrontFiles=420 readerFiles=1716
+tm-003  RED     3    0      files=1705                                         
+
+  RED  tm-002/written-never-read  apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx:61
+       the panel writes metadata.language and nothing under apps/storefront/src, apps/backend/src, apps/tenant-panel/src reads it back: the owner edits a field with no consumer.
+       evidence: metadata: { ...user.metadata, language: values.language },
+
+  RED  tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts:8
+       apps/backend/src/scripts/f12-seed-test-order.ts calls itself a throwaway fixture and sits in apps/backend/src, which the production build compiles. A type error in it fails the image build, and the product never runs the file. Move it out of the compiled tree (apps/<app>/scripts/fixtures/).
+       evidence: fixture ONLY, acceptance fixture
+
+  RED  tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts:11
+       apps/backend/src/scripts/t13-seed-test-tenant.ts calls itself a throwaway fixture and sits in apps/backend/src, which the production build compiles. A type error in it fails the image build, and the product never runs the file. Move it out of the compiled tree (apps/<app>/scripts/fixtures/).
+       evidence: throwaway data, not wired into any pnpm script, run once with
+
+  RED  tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts:11
+       apps/backend/src/scripts/t17-seed-test-tenant.ts calls itself a throwaway fixture and sits in apps/backend/src, which the production build compiles. A type error in it fails the image build, and the product never runs the file. Move it out of the compiled tree (apps/<app>/scripts/fixtures/).
+       evidence: throwaway fixture, not wired into any pnpm script
+rc=1

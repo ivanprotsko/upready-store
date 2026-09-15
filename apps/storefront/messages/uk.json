@@ -151,7 +151,8 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Немає доступних способів доставки",
     "signIn": "Увійти",
-    "total": "Разом"
+    "total": "Разом",
+    "shippingZone": "Зона: {zone}"
   },
   "ClaimOrders": {
     "heading": "Замовляли без реєстрації?",

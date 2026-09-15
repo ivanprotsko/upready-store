@@ -151,7 +151,8 @@
     "shippingLink": "Frakt",
     "shippingUnavailable": "Ingen fraktmetoder tilgjengelig",
     "signIn": "Logg inn",
-    "total": "Totalt"
+    "total": "Totalt",
+    "shippingZone": "Sone: {zone}"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uten konto?",

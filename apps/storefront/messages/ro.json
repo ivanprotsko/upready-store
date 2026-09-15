@@ -151,7 +151,8 @@
     "shippingLink": "Livrare",
     "shippingUnavailable": "Nu există metode de livrare disponibile",
     "signIn": "Autentificare",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zonă: {zone}"
   },
   "ClaimOrders": {
     "heading": "Ați comandat fără cont?",

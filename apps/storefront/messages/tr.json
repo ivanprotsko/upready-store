@@ -151,7 +151,8 @@
     "shippingLink": "Kargo",
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
     "signIn": "Giriş yap",
-    "total": "Toplam"
+    "total": "Toplam",
+    "shippingZone": "Bölge: {zone}"
   },
   "ClaimOrders": {
     "heading": "Hesapsız mı sipariş verdiniz?",

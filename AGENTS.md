@@ -38,6 +38,7 @@ are written in the `gorgojs/medusa-integrations` repository, not here.
 │   │   ├── jest.config.js            # suites split by TEST_TYPE
 │   │   ├── integration-tests/        # setup.js, referenced by jest.config.js setupFiles
 │   │   ├── scripts/                  # copy-migration-data.js, runs after medusa build
+│   │   │   └── fixtures/             # throwaway acceptance and seed scripts, excluded from tsconfig
 │   │   └── src/
 │   │       ├── admin/                # scaffold for Admin extensions and their i18n
 │   │       ├── api/                  # custom store and admin routes, file-based
@@ -99,6 +100,8 @@ Run these from the repository root.
 | `pnpm backend:seed` | Seed the store, 241 regions, 36 locales and the demo catalog |
 | `pnpm build` | Build both apps |
 | `pnpm lint` | Lint both apps |
+| `pnpm check:backend-build` | Compile the backend the way the image does, the gate for a PR touching `apps/backend` |
+| `pnpm check:backend-fixtures` | Type-check `apps/backend/scripts/fixtures`, which the build excludes |
 
 Two of these come with a catch. `pnpm lint` covers both apps, `medusa lint` in the backend and
 `next lint` in the storefront. The storefront half used to load `next.config.js` and exit when
@@ -143,6 +146,16 @@ npx medusa lint    # or npx medusa lint --fix
 npx tsc --noEmit   # types
 ```
 
+Both of those cover the source tree, and `npx tsc --noEmit` would have caught the TS2322 that broke
+the mt-backend image on `ba126e8`. Neither of them runs what the image runs. `pnpm check:backend-build`
+runs exactly the step the backend Dockerfile does, which is why it is the gate for a PR that touches
+`apps/backend`. The fixture directory sits outside that build on purpose and has its own check.
+
+```bash
+pnpm check:backend-build      # medusa build --lint false, the image's own step
+pnpm check:backend-fixtures   # the fixture directory the build excludes
+```
+
 ## Conventions
 
 ### Formatting Differs Between the Two Apps
@@ -183,6 +196,11 @@ underscore.
   [`docker-entrypoint.sh`](apps/backend/docker-entrypoint.sh), never a step in a runbook. The boot
   order and the rules for adding one are in
   [apps/backend/README.md](apps/backend/README.md#what-the-container-does-on-every-boot).
+- An acceptance fixture or a one-off seed script lives in
+  [scripts/fixtures](apps/backend/scripts/fixtures) and nowhere else in `apps/backend`. `medusa build`
+  compiles everything `tsconfig.json` includes, and `exclude` names that one directory, so a type
+  error in a throwaway file anywhere else fails the production image build. Read the entry in Things
+  That Break Silently before you add one.
 
 ## Localization
 
@@ -256,6 +274,25 @@ on it, which turns the return into a logged-out visitor with no cart. Do not tig
 **The seed is all or nothing.** `initial_data_seed` returns early when the sales channel named in
 `data/store/json/store.json` already exists, so no stage runs on a database that has been seeded
 once. Edits to the JSON data take effect on a fresh database only.
+
+**Everything `tsconfig.json` includes reaches `medusa build`.** The compiler builds its program from
+`tsConfig.fileNames` and drops only the path segments `integration-tests`, `test`, `unit-tests` and
+`src/admin` (`@medusajs/framework` 2.19.0, `#emitBuildOutput` in `dist/build-tools/compiler.js` and
+`isFileIgnored` in `dist/build-tools/compiler-utils.js`). `include` in
+[tsconfig.json](apps/backend/tsconfig.json) is `**/*`, so a file nowhere near a Medusa primitive is
+still type-checked and emitted into the production image. On `ba126e8` one throwaway acceptance
+fixture at `src/scripts/f12-seed-test-order.ts` raised a single TS2322, the mt-backend image stopped
+building, and the live host stayed on the commit before it. Acceptance fixtures and one-off seed
+scripts therefore live in [scripts/fixtures](apps/backend/scripts/fixtures), the one path `exclude`
+covers, and [fixtures-outside-src.unit.spec.ts](apps/backend/src/scripts/__tests__/fixtures-outside-src.unit.spec.ts)
+fails when one appears anywhere else the build compiles, `apps/backend/scripts` included. `ts-node`
+still runs them, because it ignores `include` and `exclude` and compiles whatever is required outside
+`node_modules`.
+
+```bash
+cd apps/backend
+npx medusa exec ./scripts/fixtures/<file>.ts   # run one against a scratch database
+```
 
 **Only JSON reaches the build.** [scripts/copy-migration-data.js](apps/backend/scripts/copy-migration-data.js)
 copies `src/migration-scripts/data` into the build output and filters everything that is not a

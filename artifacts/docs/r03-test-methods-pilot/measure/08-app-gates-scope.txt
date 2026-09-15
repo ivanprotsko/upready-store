@@ -1,0 +1,48 @@
+# Почему гейты приложений не видят tools/test-methods
+
+$ node -v
+v26.8.1
+
+$ ls node_modules apps/backend/node_modules apps/storefront/node_modules
+ls: apps/backend/node_modules: No such file or directory
+ls: apps/storefront/node_modules: No such file or directory
+ls: node_modules: No such file or directory
+
+# Зависимости в этом worktree не установлены (Superset-воркспейс без pnpm install),
+# поэтому npx tsc / next lint / medusa lint запустить нечем:
+$ cd apps/storefront && npx tsc --noEmit
+  «To get access to the TypeScript compiler, tsc, from the command line…»  rc=1
+
+# Вопрос, на который это НЕ мешает ответить замером: попадают ли файлы задачи
+# в компиляцию приложений. Пути include в tsconfig резолвятся ОТНОСИТЕЛЬНО
+# каталога самого tsconfig, а все они лежат в apps/<app>/.
+
+--- apps/backend/tsconfig.json ---
+  "include": [
+    "**/*",
+    ".medusa/types/*"
+  ],
+--- apps/bot/tsconfig.json ---
+  "include": ["src/**/*.ts"]
+}
+--- apps/storefront/tsconfig.json ---
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+--- apps/tenant-panel/tsconfig.json ---
+  "include": ["src"]
+}
+
+# Ни одного файла задачи внутри apps/:
+$ git show --name-only --pretty=format: HEAD | grep -c "^apps/"
+0
+
+$ git show --name-only --pretty=format: HEAD | grep -v "^$" | grep -vc "^tools/test-methods/"
+1
+  (единственный такой файл — корневой package.json, куда добавлен скрипт test:methods)
+
+# И детектор tm-003, который как раз ищет фикстуры в компилируемых деревьях,
+# на ветке не даёт НИ ОДНОЙ новой находки — свои же фикстуры он не видит (02-run-all.txt).

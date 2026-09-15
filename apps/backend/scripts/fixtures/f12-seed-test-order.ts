@@ -2,12 +2,23 @@ import type { MedusaContainer } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import linkOrderToTenantWorkflow from "../workflows/tenant/link-order-to-tenant";
+import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
 /**
- * f12-owner-raw-keys — round-1 acceptance fixture ONLY. `upready_store_f12`
- * (cloned from `upready_store_cherkashina`) carries the real migrated
- * catalog but zero orders for the "Оксана Черкашина" tenant (all 16 orders
+ * f12-owner-raw-keys — round-1 acceptance fixture ONLY, and it sits outside
+ * `src/` on purpose. `medusa build` type-checks and emits every file
+ * `tsconfig.json` includes, not only the Medusa primitives, so a fixture in
+ * the compiled tree fails the build of the PRODUCTION image: that is what
+ * `ba126e8` did (TS2322 on the product filter below). The gate that keeps
+ * this class closed is
+ * `src/scripts/__tests__/fixtures-outside-src.unit.spec.ts`.
+ *
+ * Run it with `npx medusa exec ./scripts/fixtures/f12-seed-test-order.ts`,
+ * type-check the directory with `pnpm check:backend-fixtures`.
+ *
+ * Why the fixture exists at all: `upready_store_f12` (cloned from
+ * `upready_store_cherkashina`) carries the real migrated catalog but zero
+ * orders for the "Оксана Черкашина" tenant (all 16 orders
  * in the source snapshot belong to the "Acme" e2e fixture tenant). The
  * order-detail screen (payment date/provider/status, credit lines, RU
  * address, currency format) cannot be measured live without one. Never run
@@ -23,7 +34,7 @@ export default async function seedF12TestOrder({ container }: { container: Medus
     data: [tenant],
   } = await query.graph({
     entity: "tenant",
-    fields: ["id", "handle", "sales_channel.id"],
+    fields: ["id", "handle", "sales_channel.id", "products.id", "products.title"],
     filters: { handle: "cherkashino" },
   });
 
@@ -47,16 +58,16 @@ export default async function seedF12TestOrder({ container }: { container: Medus
     return;
   }
 
-  const {
-    data: [product],
-  } = await query.graph({
-    entity: "product",
-    fields: ["id", "title"],
-    filters: { sales_channels: { id: [salesChannelId] } },
-    pagination: { take: 1 },
-  });
-  const productId = (product?.id as string | undefined) ?? null;
-  const productTitle = (product?.title as string | undefined) ?? "Тестовый товар";
+  // The product the line item hangs off is the tenant's own first one, read
+  // through the tenant-product link (`src/links/tenant-product.ts`) that
+  // `GET /tenants/products` already scopes by. Do not reach for the product
+  // entity filtered by its channel instead: the generated query entry points
+  // give `Product.sales_channels` no filter shape at all, and
+  // `filters: { sales_channels: { id: [...] } }` is exactly the TS2322 that
+  // failed the mt-backend image build on `ba126e8`.
+  const firstProduct = (tenant.products ?? []).find((entry) => Boolean(entry?.id));
+  const productId = (firstProduct?.id as string | undefined) ?? null;
+  const productTitle = (firstProduct?.title as string | undefined) ?? "Тестовый товар";
 
   const now = new Date();
   const orderId = `order_f12test${Math.random().toString(36).slice(2, 8)}`;

@@ -122,7 +122,7 @@ describe("product-csv/rows", () => {
     );
 
     expect(rows[0].category_path).toEqual(["Добавки", "АСД"]);
-    expect(rows[0].metadata).toEqual({ производитель: "ООО Ромашка" });
+    expect(rows[0].metadata).toEqual({ Производитель: "ООО Ромашка" });
   });
 
   it("counts the line of a row that follows a description with a newline in it", () => {

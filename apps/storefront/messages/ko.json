@@ -151,7 +151,8 @@
     "shippingLink": "배송",
     "shippingUnavailable": "이용 가능한 배송 방법이 없습니다",
     "signIn": "로그인",
-    "total": "합계"
+    "total": "합계",
+    "shippingZone": "지역: {zone}"
   },
   "ClaimOrders": {
     "heading": "계정 없이 주문하셨나요?",

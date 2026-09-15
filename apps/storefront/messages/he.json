@@ -151,7 +151,8 @@
     "shippingLink": "משלוח",
     "shippingUnavailable": "אין שיטות משלוח זמינות",
     "signIn": "התחברות",
-    "total": "סה״כ"
+    "total": "סה״כ",
+    "shippingZone": "אזור: {zone}"
   },
   "ClaimOrders": {
     "heading": "הזמנת בלי חשבון?",

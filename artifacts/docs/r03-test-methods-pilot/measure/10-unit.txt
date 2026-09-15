@@ -1,0 +1,33 @@
+✔ the view blanks comments and strings while keeping every offset (15.683625ms)
+✔ a block comment holding a glob does not swallow the code after it (0.118167ms)
+✔ a template literal keeps its ${…} holes as code (0.086417ms)
+✔ packageOf keeps bare packages and drops everything that is not one (0.109875ms)
+✔ bootImports takes module-scope imports and leaves a lazy require alone (0.766375ms)
+✔ bootImports does not read a specifier out of a comment (1.063959ms)
+✔ platformBoundPackages finds the parent of per-platform optional builds (1.014125ms)
+✔ runtimeInstallLine reads the install of the LAST stage, not the builder's (0.406875ms)
+✔ metadataKeysWritten takes the literal's own keys and not a nested object's (0.562166ms)
+✔ metadataKeysWritten sees a subscript assignment (1.408709ms)
+✔ readsKey wants the read anchored on metadata, not on the bare name (0.948833ms)
+✔ readsKey does not count a write as its own reader (0.679708ms)
+✔ readsKey ignores a key that only appears in a doc comment (0.110125ms)
+✔ parseArgs separates flags from positionals and treats a bare flag as true (1.136167ms)
+✔ parseArgs keeps a value that looks like prose (0.090625ms)
+✔ isKnown matches on the fields the baseline entry names and ignores the rest (0.16925ms)
+✔ scoreSymptom finds the method behind a complaint written in the owner's words (3.018667ms)
+✔ every registry entry points at a detector that exists and exports run() (5.171ms)
+✔ every registry entry carries the fields the schema promises (0.143625ms)
+✔ every fixture directory named in the registry exists (0.2015ms)
+✔ every commit the evidence names resolves in this repository (2272.669291ms)
+✔ every baseline entry names a reason and the task that owns it (2.3ms)
+✔ the baseline hides exactly the finding it names and nothing else (27.193ms)
+✔ the CLI exits non-zero on a red run and zero on a green one (815.129625ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3767.923125
+rc=0

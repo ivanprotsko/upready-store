@@ -151,7 +151,8 @@
     "shippingLink": "Envio",
     "shippingUnavailable": "Não existem métodos de envio disponíveis",
     "signIn": "Iniciar sessão",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zona: {zone}"
   },
   "ClaimOrders": {
     "heading": "Fez a encomenda sem conta?",

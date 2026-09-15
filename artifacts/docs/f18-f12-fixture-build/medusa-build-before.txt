@@ -1,0 +1,18 @@
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Generating types...
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.
+[32minfo[39m:    Types generated successfully
+[32minfo[39m:    Starting build...
+[32minfo[39m:    Compiling backend source...
+[32minfo[39m:    Removing existing ".medusa/server" folder
+[96msrc/scripts/f12-seed-test-order.ts[0m:[93m55[0m:[93m16[0m - [91merror[0m[90m TS2322: [0mType '{ id: string[]; }' is not assignable to type 'undefined'.
+
+[7m55[0m     filters: { sales_channels: { id: [salesChannelId] } },
+[7m  [0m [91m               ~~~~~~~~~~~~~~[0m
+
+[32minfo[39m:    Compiling frontend source...
+[33mwarn[39m:    Backend build completed with errors (235.70s)
+[32minfo[39m:    Frontend build completed successfully (602.28s)
+rc=1
