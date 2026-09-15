@@ -69,6 +69,21 @@
     },
     "title": "Addresses"
   },
+  "analyticsSettings": {
+    "title": "Analytics",
+    "subtitle": "your own counters on your storefront",
+    "yandexMetrica": {
+      "label": "Yandex Metrica counter",
+      "hint": "the number shown in the Metrica dashboard, digits only"
+    },
+    "ga4": {
+      "label": "GA4 measurement ID",
+      "hint": "starts with G-, from your Google Analytics 4 property"
+    },
+    "save": "Save",
+    "loading": "Loading…",
+    "saved": "Analytics settings saved"
+  },
   "apiKeyManagement": {
     "actions": {
       "copy": "Copy API key",
@@ -3140,6 +3155,27 @@
     "tooltip": {
       "cannotDeleteDefault": "Cannot delete default sales channel"
     }
+  },
+  "salesSummary": {
+    "title": "Sales",
+    "period": {
+      "today": "Today",
+      "7d": "7 days",
+      "30d": "30 days",
+      "custom": "Custom"
+    },
+    "customFrom": "from",
+    "customTo": "to",
+    "pickRange": "Pick both dates to see the summary",
+    "revenue": "Revenue",
+    "orders": "Orders",
+    "aov": "Average order",
+    "chartTitle": "Revenue by day",
+    "topProducts": "Best sellers",
+    "topProductRow": "{{quantity}} pcs — {{revenue}}",
+    "noSalesThisPeriod": "No sales in this period",
+    "loading": "Loading…",
+    "noOrdersYet": "No orders yet"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"

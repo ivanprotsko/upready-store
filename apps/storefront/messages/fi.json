@@ -62,6 +62,11 @@
     "description": "Tarkastele ja päivitä toimitusosoitteitasi – voit lisätä niitä niin monta kuin haluat. Tallennetut osoitteet ovat käytettävissä kassalla.",
     "heading": "Toimitusosoitteet"
   },
+  "AnalyticsConsent": {
+    "message": "Käytämme evästeitä ymmärtääksemme, miten kävijät käyttävät tätä sivustoa.",
+    "accept": "Hyväksy",
+    "decline": "Hylkää"
+  },
   "Breadcrumb": {
     "home": "Etusivu",
     "store": "Kauppa"
@@ -588,12 +593,13 @@
     "seeDetails": "Katso tiedot"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Säilytä tilausnumero. Tarvitset sitä, kun otat yhteyttä kauppaan.",
     "orderSuccess": "Tilauksesi on tehty onnistuneesti.",
     "thankYou": "Kiitos!"
   },
   "OrderDetails": {
     "backToOrders": "Takaisin tilauksiin",
-    "confirmationSentBefore": "Olemme lähettäneet tilausvahvistuksen osoitteeseen",
+    "contactEmailBefore": "Tämän tilauksen yhteysosoite on",
     "fulfillmentStatuses": {
       "canceled": "Peruutettu",
       "delivered": "Toimitettu",

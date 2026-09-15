@@ -62,6 +62,11 @@
     "description": "Vizualizați și actualizați adresele dvs. de livrare, puteți adăuga oricâte doriți. Salvarea adreselor le va face disponibile la finalizarea comenzii.",
     "heading": "Adrese de livrare"
   },
+  "AnalyticsConsent": {
+    "message": "Folosim cookie-uri pentru a înțelege cum folosesc vizitatorii acest site.",
+    "accept": "Accept",
+    "decline": "Refuz"
+  },
   "Breadcrumb": {
     "home": "Acasă",
     "store": "Magazin"
@@ -588,12 +593,13 @@
     "seeDetails": "Vezi detalii"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Păstrați numărul comenzii. Veți avea nevoie de el când contactați magazinul.",
     "orderSuccess": "Comanda dvs. a fost plasată cu succes.",
     "thankYou": "Vă mulțumim!"
   },
   "OrderDetails": {
     "backToOrders": "Înapoi la comenzi",
-    "confirmationSentBefore": "Am trimis detaliile de confirmare a comenzii la",
+    "contactEmailBefore": "Adresa de contact pentru această comandă este",
     "fulfillmentStatuses": {
       "canceled": "Anulată",
       "delivered": "Livrată",

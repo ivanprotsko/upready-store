@@ -62,6 +62,11 @@
     "description": "Visualizza e aggiorna i tuoi indirizzi di spedizione, puoi aggiungerne quanti ne desideri. Salvando i tuoi indirizzi, saranno disponibili durante il checkout.",
     "heading": "Indirizzi di spedizione"
   },
+  "AnalyticsConsent": {
+    "message": "Utilizziamo i cookie per capire come i visitatori usano questo sito.",
+    "accept": "Accetta",
+    "decline": "Rifiuta"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Negozio"
@@ -588,12 +593,13 @@
     "seeDetails": "Vedi dettagli"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Conserva il numero dell'ordine. Ti servirà per contattare il negozio.",
     "orderSuccess": "Il tuo ordine è stato effettuato con successo.",
     "thankYou": "Grazie!"
   },
   "OrderDetails": {
     "backToOrders": "Torna agli ordini",
-    "confirmationSentBefore": "Abbiamo inviato la conferma dell'ordine a",
+    "contactEmailBefore": "L'indirizzo di contatto di questo ordine è",
     "fulfillmentStatuses": {
       "canceled": "Annullato",
       "delivered": "Consegnato",

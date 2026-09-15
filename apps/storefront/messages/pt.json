@@ -62,6 +62,11 @@
     "description": "Veja e atualize as suas moradas de entrega, pode adicionar quantas quiser. Guardar as suas moradas torna-as disponíveis durante a finalização da compra.",
     "heading": "Moradas de Entrega"
   },
+  "AnalyticsConsent": {
+    "message": "Usamos cookies para entender como os visitantes usam este site.",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
   "Breadcrumb": {
     "home": "Início",
     "store": "Loja"
@@ -588,12 +593,13 @@
     "seeDetails": "Ver detalhes"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Guarde o número da encomenda. Vai precisar dele para contactar a loja.",
     "orderSuccess": "A sua encomenda foi efetuada com sucesso.",
     "thankYou": "Obrigado!"
   },
   "OrderDetails": {
     "backToOrders": "Voltar às encomendas",
-    "confirmationSentBefore": "Enviámos os detalhes de confirmação da encomenda para",
+    "contactEmailBefore": "O endereço de contacto desta encomenda é",
     "fulfillmentStatuses": {
       "canceled": "Cancelada",
       "delivered": "Entregue",

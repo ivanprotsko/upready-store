@@ -62,6 +62,11 @@
     "description": "Peržiūrėkite ir atnaujinkite savo pristatymo adresus — galite pridėti jų tiek, kiek norite. Išsaugoti adresai bus prieinami atsiskaitymo metu.",
     "heading": "Pristatymo adresai"
   },
+  "AnalyticsConsent": {
+    "message": "Naudojame slapukus, kad suprastume, kaip lankytojai naudojasi šia svetaine.",
+    "accept": "Sutinku",
+    "decline": "Atmesti"
+  },
   "Breadcrumb": {
     "home": "Pradžia",
     "store": "Parduotuvė"
@@ -588,12 +593,13 @@
     "seeDetails": "Peržiūrėti detales"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
     "thankYou": "Ačiū!"
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
-    "confirmationSentBefore": "Užsakymo patvirtinimą išsiuntėme adresu",
+    "contactEmailBefore": "Šio užsakymo kontaktinis adresas yra",
     "fulfillmentStatuses": {
       "canceled": "Atšauktas",
       "delivered": "Pristatytas",

@@ -62,6 +62,11 @@
     "description": "배송 주소를 확인하고 수정할 수 있으며, 원하는 만큼 추가할 수 있습니다. 저장된 주소는 결제 시 사용할 수 있습니다.",
     "heading": "배송 주소"
   },
+  "AnalyticsConsent": {
+    "message": "방문자가 이 사이트를 어떻게 이용하는지 파악하기 위해 쿠키를 사용합니다.",
+    "accept": "동의",
+    "decline": "거부"
+  },
   "Breadcrumb": {
     "home": "홈",
     "store": "스토어"
@@ -588,12 +593,13 @@
     "seeDetails": "상세 보기"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "주문 번호를 보관하세요. 매장에 문의할 때 필요합니다.",
     "orderSuccess": "주문이 성공적으로 완료되었습니다.",
     "thankYou": "감사합니다!"
   },
   "OrderDetails": {
     "backToOrders": "주문 목록으로",
-    "confirmationSentBefore": "주문 확인 내역을 다음 주소로 보내드렸습니다",
+    "contactEmailBefore": "이 주문의 연락처 주소",
     "fulfillmentStatuses": {
       "canceled": "취소됨",
       "delivered": "배송 완료",

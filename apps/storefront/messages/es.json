@@ -62,6 +62,11 @@
     "description": "Consulta y actualiza tus direcciones de envío, puedes añadir tantas como quieras. Guardar tus direcciones las hará disponibles durante el pago.",
     "heading": "Direcciones de envío"
   },
+  "AnalyticsConsent": {
+    "message": "Utilizamos cookies para entender cómo los visitantes usan este sitio.",
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
   "Breadcrumb": {
     "home": "Inicio",
     "store": "Tienda"
@@ -588,12 +593,13 @@
     "seeDetails": "Ver detalles"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Guarda el número de pedido. Lo necesitarás para contactar con la tienda.",
     "orderSuccess": "Tu pedido se realizó correctamente.",
     "thankYou": "¡Gracias!"
   },
   "OrderDetails": {
     "backToOrders": "Volver a los pedidos",
-    "confirmationSentBefore": "Hemos enviado los detalles de confirmación del pedido a",
+    "contactEmailBefore": "La dirección de contacto de este pedido es",
     "fulfillmentStatuses": {
       "canceled": "Cancelado",
       "delivered": "Entregado",

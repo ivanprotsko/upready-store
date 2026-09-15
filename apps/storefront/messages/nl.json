@@ -62,6 +62,11 @@
     "description": "Bekijk en werk uw verzendadressen bij, u kunt er zoveel toevoegen als u wilt. Opgeslagen adressen zijn beschikbaar tijdens het afrekenen.",
     "heading": "Verzendadressen"
   },
+  "AnalyticsConsent": {
+    "message": "We gebruiken cookies om te begrijpen hoe bezoekers deze site gebruiken.",
+    "accept": "Accepteren",
+    "decline": "Weigeren"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Winkel"
@@ -588,12 +593,13 @@
     "seeDetails": "Bekijk details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Bewaar het bestelnummer. U hebt het nodig als u contact opneemt met de winkel.",
     "orderSuccess": "Uw bestelling is succesvol geplaatst.",
     "thankYou": "Bedankt!"
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",
-    "confirmationSentBefore": "We hebben de bestelbevestiging verzonden naar",
+    "contactEmailBefore": "Het contactadres voor deze bestelling is",
     "fulfillmentStatuses": {
       "canceled": "Geannuleerd",
       "delivered": "Bezorgd",

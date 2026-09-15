@@ -62,6 +62,11 @@
     "description": "Sehen Sie sich Ihre Lieferadressen an und aktualisieren Sie sie, Sie können beliebig viele hinzufügen. Gespeicherte Adressen stehen Ihnen beim Checkout zur Verfügung.",
     "heading": "Lieferadressen"
   },
+  "AnalyticsConsent": {
+    "message": "Wir verwenden Cookies, um zu verstehen, wie Besucher diese Website nutzen.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
   "Breadcrumb": {
     "home": "Startseite",
     "store": "Shop"
@@ -588,12 +593,13 @@
     "seeDetails": "Details ansehen"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Bewahren Sie die Bestellnummer auf. Sie brauchen sie, wenn Sie den Shop kontaktieren.",
     "orderSuccess": "Ihre Bestellung wurde erfolgreich aufgegeben.",
     "thankYou": "Vielen Dank!"
   },
   "OrderDetails": {
     "backToOrders": "Zurück zu den Bestellungen",
-    "confirmationSentBefore": "Wir haben die Bestellbestätigung gesendet an",
+    "contactEmailBefore": "Die Kontaktadresse für diese Bestellung ist",
     "fulfillmentStatuses": {
       "canceled": "Storniert",
       "delivered": "Zugestellt",

@@ -62,6 +62,11 @@
     "description": "Consultez et mettez à jour vos adresses de livraison, vous pouvez en ajouter autant que vous le souhaitez. Enregistrer vos adresses les rendra disponibles lors du paiement.",
     "heading": "Adresses de livraison"
   },
+  "AnalyticsConsent": {
+    "message": "Nous utilisons des cookies pour comprendre comment les visiteurs utilisent ce site.",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
   "Breadcrumb": {
     "home": "Accueil",
     "store": "Boutique"
@@ -588,12 +593,13 @@
     "seeDetails": "Voir les détails"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Conservez le numéro de commande. Vous en aurez besoin pour contacter la boutique.",
     "orderSuccess": "Votre commande a été passée avec succès.",
     "thankYou": "Merci !"
   },
   "OrderDetails": {
     "backToOrders": "Retour aux commandes",
-    "confirmationSentBefore": "Nous avons envoyé les détails de confirmation de commande à",
+    "contactEmailBefore": "L'adresse de contact de cette commande est",
     "fulfillmentStatuses": {
       "canceled": "Annulée",
       "delivered": "Livrée",

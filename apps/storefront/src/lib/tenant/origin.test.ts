@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest"
 
-import { originForHost, requestOrigin } from "./origin"
+import {
+  originForHost,
+  publicHost,
+  requestOrigin,
+  requestPort,
+} from "./origin"
 
 describe("requestOrigin", () => {
   it("takes the scheme from the proxy and the host from the Host header", () => {
@@ -62,5 +67,59 @@ describe("originForHost", () => {
 
   it("is empty for an empty host, so the caller can fall back", () => {
     expect(originForHost(headers({ host: "acme.localhost" }), "http:", "")).toBe("")
+  })
+})
+
+describe("publicHost", () => {
+  it("prefers the address the proxy recorded", () => {
+    const headers = new Headers({
+      host: "localhost:3000",
+      "x-forwarded-host": "cherkashino.shipshift.dev",
+    })
+    expect(publicHost(headers)).toBe("cherkashino.shipshift.dev")
+  })
+
+  it("falls back to the Host header when nothing forwarded one", () => {
+    expect(publicHost(new Headers({ host: " Acme.ShipShift.dev. " }))).toBe(
+      "acme.shipshift.dev"
+    )
+  })
+
+  it("reads the first hop of a comma-joined x-forwarded-host", () => {
+    const headers = new Headers({
+      host: "localhost:3000",
+      "x-forwarded-host": "acme.shipshift.dev, edge.internal",
+    })
+    expect(publicHost(headers)).toBe("acme.shipshift.dev")
+  })
+
+  it("answers an empty string when neither address is there", () => {
+    expect(publicHost(new Headers())).toBe("")
+  })
+})
+
+describe("requestPort", () => {
+  it("takes the port from the public address, not from the socket", () => {
+    // The Server Action self-fetch arrives on the process' own port while the
+    // shop answers on the visitor's; a canonical URL built on :3000 names an
+    // address nothing listens on.
+    const headers = new Headers({
+      host: "localhost:3000",
+      "x-forwarded-host": "cherkashino.shipshift.dev",
+    })
+    expect(requestPort(headers)).toBe("")
+    expect(
+      originForHost(headers, "https:", "cherkashino.shipshift.dev")
+    ).toBe("https://cherkashino.shipshift.dev")
+  })
+
+  it("carries a stand's port over", () => {
+    const headers = new Headers({ host: "ssshop.localhost:8043" })
+    expect(requestPort(headers)).toBe(":8043")
+  })
+
+  it("is empty for an address with no port", () => {
+    expect(requestPort(new Headers({ host: "acme.shipshift.dev" }))).toBe("")
+    expect(requestPort(new Headers())).toBe("")
   })
 })

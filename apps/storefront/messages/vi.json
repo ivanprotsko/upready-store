@@ -62,6 +62,11 @@
     "description": "Xem và cập nhật các địa chỉ giao hàng của bạn, bạn có thể thêm bao nhiêu tùy thích. Các địa chỉ đã lưu sẽ có sẵn khi thanh toán.",
     "heading": "Địa chỉ giao hàng"
   },
+  "AnalyticsConsent": {
+    "message": "Chúng tôi sử dụng cookie để hiểu cách khách truy cập sử dụng trang web này.",
+    "accept": "Chấp nhận",
+    "decline": "Từ chối"
+  },
   "Breadcrumb": {
     "home": "Trang chủ",
     "store": "Cửa hàng"
@@ -588,12 +593,13 @@
     "seeDetails": "Xem chi tiết"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Hãy lưu lại mã đơn hàng. Bạn sẽ cần khi liên hệ với cửa hàng.",
     "orderSuccess": "Đơn hàng của bạn đã được đặt thành công.",
     "thankYou": "Cảm ơn bạn!"
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",
-    "confirmationSentBefore": "Chúng tôi đã gửi xác nhận đơn hàng đến",
+    "contactEmailBefore": "Địa chỉ liên hệ cho đơn hàng này là",
     "fulfillmentStatuses": {
       "canceled": "Đã hủy",
       "delivered": "Đã giao",

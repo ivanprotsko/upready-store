@@ -35,10 +35,51 @@ export function requestScheme(headers: Headers, urlProtocol: string): string {
   return (forwarded || urlProtocol || "https").replace(/:$/, "")
 }
 
-/** The port this request came in on, as `":8013"` or an empty string. */
+/**
+ * The address the VISITOR asked for, as the hop in front of us recorded it:
+ * the first entry of `x-forwarded-host`, empty when the header is absent.
+ * Lower-cased, no trailing dot, port included.
+ *
+ * Traefik writes it on every request it terminates, and Next writes it itself
+ * when nothing else did, so on a request that came from a browser it equals the
+ * `Host` header. The two differ on exactly one kind of request: the GET the
+ * Next server makes TO ITSELF to render a Server Action's `redirect()` target
+ * (`createRedirectRenderResult` in `next/dist/server/app-render/action-handler`),
+ * which is addressed to the server's own origin and carries the visitor's
+ * address on this header alone.
+ */
+export function forwardedHost(headers: Headers): string {
+  const raw = headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? ""
+
+  return raw.toLowerCase().replace(/\.$/, "")
+}
+
+/**
+ * The public address of this request: what the visitor asked for when a proxy
+ * recorded it, else the `Host` header. Never a guarantee that a shop answers
+ * there — `resolveShopOfRequest` (`lib/tenant/request-shop.ts`) is what decides
+ * that, and it only consults the forwarded name when `Host` names no shop.
+ */
+export function publicHost(headers: Headers): string {
+  const forwarded = forwardedHost(headers)
+
+  if (forwarded) {
+    return forwarded
+  }
+
+  return (headers.get("host") ?? "").trim().toLowerCase().replace(/\.$/, "")
+}
+
+/**
+ * The port the visitor's address carries, as `":8013"` or an empty string.
+ *
+ * Read from the PUBLIC address, not from the socket this request happened to
+ * arrive on: the self-fetch above arrives on the server's own port (`:3000` in
+ * a container) while the shop answers on 443, and a canonical URL rebuilt from
+ * the wrong one names an address nothing listens on.
+ */
 export function requestPort(headers: Headers): string {
-  const host = (headers.get("host") ?? "").trim()
-  const match = host.match(/:(\d+)$/)
+  const match = publicHost(headers).match(/:(\d+)$/)
 
   return match ? `:${match[1]}` : ""
 }

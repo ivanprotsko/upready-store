@@ -62,6 +62,11 @@
     "description": "Przeglądaj i aktualizuj swoje adresy dostawy — możesz dodać ich dowolną liczbę. Zapisane adresy będą dostępne podczas składania zamówienia.",
     "heading": "Adresy dostawy"
   },
+  "AnalyticsConsent": {
+    "message": "Używamy plików cookie, aby zrozumieć, jak odwiedzający korzystają z tej strony.",
+    "accept": "Akceptuj",
+    "decline": "Odrzuć"
+  },
   "Breadcrumb": {
     "home": "Strona główna",
     "store": "Sklep"
@@ -588,12 +593,13 @@
     "seeDetails": "Zobacz szczegóły"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Zachowaj numer zamówienia. Będzie potrzebny przy kontakcie ze sklepem.",
     "orderSuccess": "Twoje zamówienie zostało pomyślnie złożone.",
     "thankYou": "Dziękujemy!"
   },
   "OrderDetails": {
     "backToOrders": "Powrót do zamówień",
-    "confirmationSentBefore": "Wysłaliśmy potwierdzenie zamówienia na adres",
+    "contactEmailBefore": "Adres kontaktowy tego zamówienia to",
     "fulfillmentStatuses": {
       "canceled": "Anulowane",
       "delivered": "Dostarczone",

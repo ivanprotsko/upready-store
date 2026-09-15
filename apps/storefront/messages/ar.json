@@ -62,6 +62,11 @@
     "description": "اطّلع على عناوين الشحن الخاصة بك وحدّثها، ويمكنك إضافة أي عدد تريده. سيؤدي حفظ عناوينك إلى إتاحتها أثناء إتمام الطلب.",
     "heading": "عناوين الشحن"
   },
+  "AnalyticsConsent": {
+    "message": "نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام الزوار لهذا الموقع.",
+    "accept": "قبول",
+    "decline": "رفض"
+  },
   "Breadcrumb": {
     "home": "الرئيسية",
     "store": "المتجر"
@@ -588,12 +593,13 @@
     "seeDetails": "عرض التفاصيل"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "احتفظ برقم الطلب، فستحتاج إليه عند التواصل مع المتجر.",
     "orderSuccess": "تم تقديم طلبك بنجاح.",
     "thankYou": "شكرًا لك!"
   },
   "OrderDetails": {
     "backToOrders": "العودة إلى الطلبات",
-    "confirmationSentBefore": "لقد أرسلنا تفاصيل تأكيد الطلب إلى",
+    "contactEmailBefore": "عنوان التواصل لهذا الطلب هو",
     "fulfillmentStatuses": {
       "canceled": "ملغى",
       "delivered": "تم التسليم",

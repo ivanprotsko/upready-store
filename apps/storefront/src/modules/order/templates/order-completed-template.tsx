@@ -9,6 +9,8 @@ import OrderSection from "@modules/order/components/order-section"
 import OrderSummary from "@modules/order/components/order-summary"
 import PaymentDetails from "@modules/order/components/payment-details"
 import ShippingDetails from "@modules/order/components/shipping-details"
+import PurchaseEvent from "@modules/common/components/purchase-event"
+import { getTenantAnalytics } from "@lib/data/analytics"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale, getTranslations } from "next-intl/server"
 
@@ -31,8 +33,25 @@ export default async function OrderCompletedTemplate({
   const isOnboarding = cookies.get("_medusa_onboarding")?.value === "true"
   const hasPayment = Boolean(order.payment_collections?.[0]?.payments?.[0])
 
+  // t17-analytics step 4: the standard purchase event, sent once for this
+  // order to whichever counters this tenant configured. `getTenantAnalytics`
+  // only reads a request header, so this costs no extra round trip; a
+  // failure inside `PurchaseEvent` itself can never take down this page —
+  // see its own doc comment.
+  const analytics = await getTenantAnalytics()
+  const yandexCounterId = analytics.yandexMetricaId
+    ? Number.parseInt(analytics.yandexMetricaId, 10)
+    : null
+
   return (
     <div className="content-container max-w-4xl py-12 flex flex-col gap-y-8">
+      <PurchaseEvent
+        orderId={order.id}
+        total={order.total}
+        currencyCode={order.currency_code}
+        ga4MeasurementId={analytics.ga4MeasurementId}
+        yandexCounterId={yandexCounterId}
+      />
       {isOnboarding && <OnboardingCta orderId={order.id} />}
 
       <div
@@ -47,6 +66,12 @@ export default async function OrderCompletedTemplate({
             {t("orderSuccess")}
           </Text>
           <OrderDetails order={order} locale={locale} showStatus />
+          <Text
+            className="txt-medium text-ui-fg-subtle"
+            data-testid="order-keep-number"
+          >
+            {t("keepOrderNumber")}
+          </Text>
         </div>
 
         <OrderSection title={td("items")}>

@@ -62,6 +62,11 @@
     "description": "查看并更新您的收货地址，您可以添加任意数量的地址。保存地址后，结账时即可直接选用。",
     "heading": "收货地址"
   },
+  "AnalyticsConsent": {
+    "message": "我们使用 Cookie 来了解访客如何使用本网站。",
+    "accept": "接受",
+    "decline": "拒绝"
+  },
   "Breadcrumb": {
     "home": "首页",
     "store": "商店"
@@ -588,12 +593,13 @@
     "seeDetails": "查看详情"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "请保存订单编号，联系商店时需要用到。",
     "orderSuccess": "您的订单已成功提交。",
     "thankYou": "感谢您！"
   },
   "OrderDetails": {
     "backToOrders": "返回订单",
-    "confirmationSentBefore": "我们已将订单确认信息发送至",
+    "contactEmailBefore": "此订单的联系邮箱",
     "fulfillmentStatuses": {
       "canceled": "已取消",
       "delivered": "已送达",

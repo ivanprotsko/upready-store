@@ -62,6 +62,11 @@
     "description": "Teslimat adreslerinizi görüntüleyin ve güncelleyin, istediğiniz kadar adres ekleyebilirsiniz. Adreslerinizi kaydetmek, ödeme sırasında bunları kullanılabilir hale getirir.",
     "heading": "Teslimat Adresleri"
   },
+  "AnalyticsConsent": {
+    "message": "Ziyaretçilerin bu siteyi nasıl kullandığını anlamak için çerezler kullanıyoruz.",
+    "accept": "Kabul et",
+    "decline": "Reddet"
+  },
   "Breadcrumb": {
     "home": "Ana Sayfa",
     "store": "Mağaza"
@@ -588,12 +593,13 @@
     "seeDetails": "Detayları gör"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
     "thankYou": "Teşekkürler!"
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
-    "confirmationSentBefore": "Sipariş onay bilgilerini şu adrese gönderdik:",
+    "contactEmailBefore": "Bu siparişin iletişim adresi",
     "fulfillmentStatuses": {
       "canceled": "İptal edildi",
       "delivered": "Teslim edildi",

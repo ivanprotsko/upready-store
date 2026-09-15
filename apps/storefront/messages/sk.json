@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte svoje doručovacie adresy, môžete ich pridať toľko, koľko chcete. Uložené adresy budú dostupné pri pokladni.",
     "heading": "Doručovacie adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používame súbory cookie, aby sme pochopili, ako návštevníci používajú túto stránku.",
+    "accept": "Prijať",
+    "decline": "Odmietnuť"
+  },
   "Breadcrumb": {
     "home": "Domov",
     "store": "Obchod"
@@ -588,12 +593,13 @@
     "seeDetails": "Zobraziť detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovajte si číslo objednávky. Budete ho potrebovať pri kontakte s obchodom.",
     "orderSuccess": "Vaša objednávka bola úspešne vytvorená.",
     "thankYou": "Ďakujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Späť na objednávky",
-    "confirmationSentBefore": "Potvrdenie objednávky sme odoslali na",
+    "contactEmailBefore": "Kontaktná adresa tejto objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušené",
       "delivered": "Doručené",
