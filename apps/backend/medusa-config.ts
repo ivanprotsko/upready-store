@@ -204,6 +204,13 @@ module.exports = defineConfig({
     // the only file here that calls *.wildberries.ru, and it can send nothing
     // but the reads listed in src/modules/wb/endpoints.ts.
     { resolve: "./src/modules/wb" },
+    // Ozon Seller API mirror, read-only by construction — w11-ozon-readonly-client.
+    // The module owns the ozon_* tables; the client is src/modules/ozon/transport.ts,
+    // and nothing in this repository can send Ozon anything but the reads listed in
+    // src/modules/ozon/endpoints.ts. On Ozon the verb decides nothing (461 of 467
+    // documented methods are POST), so the allow-list covers the whole registry and a
+    // deny-list of known mutations fails module load on top.
+    { resolve: "./src/modules/ozon" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

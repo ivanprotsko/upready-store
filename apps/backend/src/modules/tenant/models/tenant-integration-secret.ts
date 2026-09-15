@@ -9,8 +9,14 @@ import Tenant from "./tenant";
  * sits here for the same reason Robokassa does: one backend serves every shop
  * and a WB cabinet belongs to a shop, not to the process. The key is only ever
  * READ from here, by `src/modules/wb/transport.ts`, which cannot write to WB.
+ *
+ * `ozon` is the shop's Ozon Seller API pair, `{ client_id, api_key }`
+ * (w11-ozon-readonly-client). Two values rather than one because Ozon
+ * authenticates with a `Client-Id` header beside the `Api-Key`, and they are
+ * useless apart. Read only by `src/modules/ozon/transport.ts`, which cannot
+ * write to Ozon.
  */
-export const TENANT_INTEGRATION_PROVIDERS = ["robokassa", "wildberries"] as const;
+export const TENANT_INTEGRATION_PROVIDERS = ["robokassa", "wildberries", "ozon"] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
 /**
