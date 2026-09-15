@@ -1,0 +1,19 @@
+[03:55 WITA] import (dry-run) → https://shipshift.dev, tenant cherkashino, phases tenant,categories,images,products,pages,home,rest
+[03:55 WITA] dry-run: no tenant admin yet; the write phases will be skipped
+[03:55 WITA] rest: 20 datasets listed
+{
+ "tenant": {
+  "total": 1,
+  "migrated": 0,
+  "skipped": 0,
+  "failed": 0,
+  "pending": 1
+ },
+ "dataset": {
+  "total": 20,
+  "migrated": 0,
+  "skipped": 13,
+  "failed": 0,
+  "pending": 7
+ }
+}

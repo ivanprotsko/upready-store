@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 29,
+  "action": "status-set",
+  "ts": "2026-09-15T07:27:57+08:00",
+  "status": "2026-09-15 07:27 WITA: приёмка t10-blog завершена — PR #31 слит (merge 8a47879), все критерии перемеряны на своём стенде; помарка published_at заведена комментарием к PR и в logs/accept-t10-blog-1.findings.md"
+}

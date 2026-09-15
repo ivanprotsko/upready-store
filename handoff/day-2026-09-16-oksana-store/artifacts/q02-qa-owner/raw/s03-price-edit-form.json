@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/variant_01M2GRC6CJB0VZGW034SG084G0/edit",
+    "status": 200,
+    "ms": 2968
+  },
+  "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/variant_01M2GRC6CJB0VZGW034SG084G0/edit",
+  "txt": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nДоставка\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком, 10 шт\nСвечи АСД с чесноком, 10 шт\nВариант продукта\n\nSKU\n\n1268099764-CHERKASHINO\n\nКоличество\n\n10 шт\nМедиа\n\nНет медиа\n\nДобавьте медиа к товару, чтобы представить его в вашем магазине.\n\nЭлементы запасов\nЗапасы не отслеживаются для этого варианта. Включите 'Управление запасами', чтобы отслеживать количество варианта.\nРедактировать вариант\nМетаданные\n5 ключей\nJSON\n27 ключей\nЦены\nRUB\n1 355,00 ₽\nUSD\n15,00 $\n1 - 2 из 2 цен\nПоказать больше\nРедактировать вариант\nesc\nЗаголовок\nМатериал\n\n(Необязательно)\n\nКоличество\n\n10 шт\n\nЗапасы и наличие\nSKU\n\n(Необязательно)\n\nEAN\n\n(Необязательно)\n\nUPC\n\n(Необязательно)\n\nШтрих-код\n\n(Необязательно)\n\nУправление запасами\nПри включении мы будем изменять количество при создании заказов и возвратов.\nРазрешить предзаказы\nПри включении клиенты смогут купить вариант даже при отсутствии в наличии.\nАтрибуты\nВес\n\n(Необязательно)\n\nШирина\n\n(Необязательно)\n\nДлина\n\n(Необязательно)\n\nВысота\n\n(Необязательно)\n\nMID код\n\n(Необязательно)\n\nHS код\n\n(Необязательно)\n\nСтрана происхождения\n\n(Необязательно)\n\nОтмена\nСохранить",
+  "inputs": [
+    {
+      "t": "INPUT:text",
+      "n": "title",
+      "ph": "",
+      "v": "Свечи АСД с чесноком, 10 шт",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "material",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "options.Количество",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "sku",
+      "ph": "",
+      "v": "1268099764-CHERKASHINO",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "ean",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "upc",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "barcode",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:checkbox",
+      "n": "manage_inventory",
+      "ph": "",
+      "v": "on",
+      "al": null
+    },
+    {
+      "t": "INPUT:checkbox",
+      "n": "allow_backorder",
+      "ph": "",
+      "v": "on",
+      "al": null
+    },
+    {
+      "t": "INPUT:number",
+      "n": "weight",
+      "ph": "",
+      "v": "200",
+      "al": null
+    },
+    {
+      "t": "INPUT:number",
+      "n": "width",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:number",
+      "n": "length",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:number",
+      "n": "height",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "mid_code",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "hs_code",
+      "ph": "",
+      "v": "",
+      "al": null
+    },
+    {
+      "t": "INPUT:text",
+      "n": "origin_country",
+      "ph": "Выберите страну",
+      "v": "",
+      "al": null
+    }
+  ],
+  "buttons": [
+    "О\n\nОксана Черкашина",
+    "Акции",
+    "О\n\nОксана Черкашина",
+    "Показать больше",
+    "Отмена",
+    "Сохранить"
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ],
+  "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s03-price-edit-form-1280x900.png"
+}

@@ -1,0 +1,9 @@
+{
+  "card": {
+    "href": "/products/тест-qa-не-покупать",
+    "text": "ТЕСТ QA — не покупать"
+  },
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+}

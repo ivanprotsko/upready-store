@@ -1,0 +1,4102 @@
+{
+  "$schema": "./$schema.json",
+  "actions": {
+    "add": "Добавить",
+    "addItems": "Добавить элементы",
+    "addNote": "Добавить заметку",
+    "addReason": "Добавить причину",
+    "apply": "Применить",
+    "back": "Назад",
+    "browse": "Просмотреть",
+    "cancel": "Отмена",
+    "cannotUndo": "Это действие нельзя отменить",
+    "clear": "Очистить",
+    "clearAll": "Очистить все",
+    "close": "Закрыть",
+    "complete": "Завершить",
+    "confirm": "Подтвердить",
+    "continue": "Продолжить",
+    "continueEdit": "Продолжить редактирование",
+    "continueWithEmail": "Продолжить с Email",
+    "copied": "Скопировано",
+    "copy": "Копировать",
+    "create": "Создать",
+    "delete": "Удалить",
+    "disable": "Отключить",
+    "download": "Скачать",
+    "duplicate": "Дублировать",
+    "edit": "Редактировать",
+    "editImages": "Изменить фотографии",
+    "editVariantImages": "Изменить фотографии варианта",
+    "enable": "Включить",
+    "export": "Экспорт",
+    "forceConfirm": "Принудительное подтверждение",
+    "goToProductOption": "Перейти к опции",
+    "hide": "Скрыть",
+    "idCopiedToClipboard": "ID скопирован в буфер обмена",
+    "import": "Импорт",
+    "logout": "Выйти",
+    "manage": "Управлять",
+    "publish": "Опубликовать",
+    "remove": "Удалить",
+    "reset": "Сбросить",
+    "revoke": "Отозвать",
+    "save": "Сохранить",
+    "saveAndClose": "Сохранить и закрыть",
+    "saveAsDraft": "Сохранить как черновик",
+    "saveChanges": "Сохранить изменения",
+    "select": "Выбрать",
+    "show": "Показать",
+    "showMore": "Показать больше",
+    "undo": "Отменить",
+    "viewDetails": "Просмотреть детали"
+  },
+  "addresses": {
+    "billingAddress": {
+      "editHeader": "Редактировать платежный адрес",
+      "editLabel": "Платежный адрес",
+      "header": "Платежный адрес",
+      "label": "Платежный адрес",
+      "sameAsShipping": "Совпадает с адресом доставки"
+    },
+    "contactHeading": "Контакт",
+    "locationHeading": "Местоположение",
+    "shippingAddress": {
+      "editHeader": "Редактировать адрес доставки",
+      "editLabel": "Адрес доставки",
+      "header": "Адрес доставки",
+      "label": "Адрес доставки"
+    },
+    "title": "Адреса"
+  },
+  "analyticsSettings": {
+    "title": "Аналитика",
+    "subtitle": "собственные счётчики на вашей витрине",
+    "yandexMetrica": {
+      "label": "Номер счётчика Яндекс Метрики",
+      "hint": "номер из кабинета Метрики, только цифры"
+    },
+    "ga4": {
+      "label": "Идентификатор GA4",
+      "hint": "начинается с G-, из свойства Google Analytics 4"
+    },
+    "save": "Сохранить",
+    "loading": "Загрузка…",
+    "saved": "Настройки аналитики сохранены"
+  },
+  "apiKeyManagement": {
+    "actions": {
+      "copy": "Копировать API-ключ",
+      "copySuccessToast": "API-ключ скопирован в буфер обмена.",
+      "revoke": "Отозвать API-ключ"
+    },
+    "addSalesChannels": {
+      "list": {
+        "noRecordsMessage": "Сначала создайте канал продаж."
+      }
+    },
+    "create": {
+      "copySecretTokenFailure": "Не удалось скопировать секретный ключ в буфер обмена.",
+      "copySecretTokenSuccess": "Секретный ключ скопирован в буфер обмена.",
+      "createPublishableHeader": "Создать публичный API-ключ",
+      "createPublishableHint": "Создайте новый публичный API-ключ для ограничения запросов определенными каналами продаж.",
+      "createSecretHeader": "Создать секретный API-ключ",
+      "createSecretHint": "Создайте новый секретный API-ключ для доступа к API Medusa как авторизованный администратор.",
+      "secretKeyCreatedHeader": "Создан секретный ключ",
+      "secretKeyCreatedHint": "Ваш новый секретный ключ был сгенерирован. Скопируйте и сохраните его сейчас. Это единственный раз, когда он будет показан.",
+      "successToast": "API-ключ успешно создан."
+    },
+    "delete": {
+      "successToast": "API-ключ {{title}} успешно удален.",
+      "warning": "Вы собираетесь удалить API-ключ {{title}}. Это действие нельзя отменить."
+    },
+    "domain": {
+      "publishable": "Публичные API-ключи",
+      "secret": "Секретные API-ключи"
+    },
+    "edit": {
+      "description": "Отредактируйте название API-ключа.",
+      "header": "Редактировать API-ключ",
+      "successToast": "API-ключ {{title}} успешно обновлен."
+    },
+    "fields": {
+      "createdByLabel": "Создан",
+      "lastUsedAtLabel": "Последнее использование",
+      "revokedAtLabel": "Отозван",
+      "revokedByLabel": "Отозван"
+    },
+    "removeSalesChannel": {
+      "successToast": "Канал продаж успешно удален из API-ключа.",
+      "successToastBatch_few": "{{count}} канала продаж успешно удалены из API-ключа.",
+      "successToastBatch_many": "{{count}} каналов продаж успешно удалены из API-ключа.",
+      "successToastBatch_one": "{{count}} канал продаж успешно удален из API-ключа.",
+      "successToastBatch_other": "{{count}} каналов продаж успешно удалены из API-ключа.",
+      "warning": "Вы собираетесь удалить канал продаж {{name}} из API-ключа. Это действие нельзя отменить.",
+      "warningBatch_few": "Вы собираетесь удалить {{count}} канала продаж из API-ключа. Это действие нельзя отменить.",
+      "warningBatch_many": "Вы собираетесь удалить {{count}} каналов продаж из API-ключа. Это действие нельзя отменить.",
+      "warningBatch_one": "Вы собираетесь удалить {{count}} канал продаж из API-ключа. Это действие нельзя отменить.",
+      "warningBatch_other": "Вы собираетесь удалить {{count}} каналов продаж из API-ключа. Это действие нельзя отменить."
+    },
+    "revoke": {
+      "successToast": "API-ключ {{title}} успешно отозван.",
+      "warning": "Вы собираетесь отозвать API-ключ {{title}}. Это действие нельзя отменить."
+    },
+    "salesChannels": {
+      "alreadyAddedTooltip": "Канал продаж уже добавлен к API-ключу.",
+      "description": "Добавьте каналы продаж, к которым должен быть ограничен API-ключ.",
+      "list": {
+        "noRecordsMessage": "Нет каналов продаж в области действия публичного API-ключа."
+      },
+      "successToast_few": "{{count}} канала продаж успешно добавлены к API-ключу.",
+      "successToast_many": "{{count}} каналов продаж успешно добавлены к API-ключу.",
+      "successToast_one": "{{count}} канал продаж успешно добавлен к API-ключу.",
+      "successToast_other": "{{count}} каналов продаж успешно добавлены к API-ключу.",
+      "title": "Добавить каналы продаж"
+    },
+    "status": {
+      "active": "Активный",
+      "revoked": "Отозван"
+    },
+    "subtitle": {
+      "publishable": "Управляйте API-ключами, используемыми в магазине для ограничения запросов определенными каналами продаж.",
+      "secret": "Управляйте API-ключами, используемыми для аутентификации администраторов в административных приложениях."
+    },
+    "table": {
+      "createdAtHeader": "Создан",
+      "lastUsedAtHeader": "Последнее использование"
+    },
+    "type": {
+      "publishable": "Публичный",
+      "secret": "Секретный"
+    }
+  },
+  "app": {
+    "keyboardShortcuts": {
+      "commandShortcut": "Команды",
+      "navigation": {
+        "goToCampaigns": "Кампании",
+        "goToCategories": "Категории",
+        "goToCollections": "Коллекции",
+        "goToCustomerGroups": "Группы клиентов",
+        "goToCustomers": "Клиенты",
+        "goToInventory": "Склад",
+        "goToOrders": "Заказы",
+        "goToPriceLists": "Прайс-листы",
+        "goToProducts": "Товары",
+        "goToPromotions": "Акции",
+        "goToReservations": "Резервации"
+      },
+      "pageShortcut": "Перейти к",
+      "settingShortcut": "Настройки",
+      "settings": {
+        "goToLocations": "Локации",
+        "goToProductTypes": "Типы товаров",
+        "goToProfile": "Профиль",
+        "goToPublishableApiKeys": "Публичные API-ключи",
+        "goToRegions": "Регионы",
+        "goToReturnReasons": "Причины возврата",
+        "goToSalesChannels": "Каналы продаж",
+        "goToSecretApiKeys": "Секретные API-ключи",
+        "goToSettings": "Настройки",
+        "goToStore": "Магазин",
+        "goToTaxRegions": "Налоговые регионы",
+        "goToUsers": "Пользователи",
+        "goToWorkflows": "Рабочие процессы"
+      },
+      "then": "затем"
+    },
+    "menus": {
+      "actions": {
+        "logout": "Выйти"
+      },
+      "store": {
+        "label": "Магазин",
+        "storeSettings": "Настройки магазина"
+      },
+      "user": {
+        "changelog": "История изменений",
+        "documentation": "Документация",
+        "profileSettings": "Настройки профиля",
+        "shortcuts": "Горячие клавиши",
+        "theme": {
+          "dark": "Темная",
+          "label": "Тема",
+          "light": "Светлая",
+          "system": "Системная"
+        }
+      }
+    },
+    "nav": {
+      "accessibility": {
+        "description": "Навигационное меню панели управления.",
+        "title": "Навигация"
+      },
+      "common": {
+        "extensions": "Расширения"
+      },
+      "main": {
+        "reviews": "Отзывы",
+        "shipping": "Доставка",
+        "homeSettings": "Главная страница",
+        "overview": "Обзор",
+        "pages": "Страницы",
+        "journal": "Журнал",
+        "store": "Магазин",
+        "storeSettings": "Настройки магазина"
+      },
+      "settings": {
+        "developer": "Разработчик",
+        "general": "Общие",
+        "header": "Настройки",
+        "myAccount": "Мой аккаунт"
+      }
+    },
+    "search": {
+      "allAreas": "Все разделы",
+      "description": "Поиск по всему магазину, включая заказы, товары, клиентов и другое.",
+      "emptySearchMessage": "Введите ключевое слово или фразу для поиска.",
+      "emptySearchTitle": "Введите для поиска",
+      "groups": {
+        "all": "Все разделы",
+        "campaign": "Кампании",
+        "category": "Категории",
+        "collection": "Коллекции",
+        "command": "Команды",
+        "customer": "Клиенты",
+        "customerGroup": "Группы клиентов",
+        "inventory": "Склад",
+        "location": "Локации",
+        "navigation": "Навигация",
+        "order": "Заказы",
+        "priceList": "Прайс-листы",
+        "product": "Товары",
+        "productTag": "Теги товаров",
+        "productType": "Типы товаров",
+        "productVariant": "Варианты товаров",
+        "promotion": "Акции",
+        "publishableApiKey": "Публичные API-ключи",
+        "region": "Регионы",
+        "reservation": "Резервации",
+        "returnReason": "Причины возврата",
+        "salesChannel": "Каналы продаж",
+        "secretApiKey": "Секретные API-ключи",
+        "shippingProfile": "Профили доставки",
+        "taxRegion": "Налоговые регионы",
+        "user": "Пользователи"
+      },
+      "label": "Поиск",
+      "loadMore": "Загрузить еще {{count}}",
+      "navigation": "Навигация",
+      "noResultsMessage": "По вашему запросу ничего не найдено.",
+      "noResultsTitle": "Результаты не найдены",
+      "openResult": "Открыть результат",
+      "placeholder": "Перейти или найти что-либо...",
+      "showMore": "Показать больше",
+      "title": "Поиск"
+    }
+  },
+  "campaigns": {
+    "budget": {
+      "attribute": {
+        "customer_email": "e-mail",
+        "customer_id": "клиент"
+      },
+      "create": {
+        "header": "Бюджет кампании",
+        "hint": "Создать бюджет кампании."
+      },
+      "details": "Бюджет кампании",
+      "edit": {
+        "header": "Редактировать бюджет кампании"
+      },
+      "fields": {
+        "budgetAttribute": "Ограничить использование по",
+        "budgetAttributeTooltip": "Определяет, сколько раз акцию может использовать один клиент или один e-mail.",
+        "currency": "Валюта",
+        "limit": "Лимит",
+        "totalUsedByAttribute": "Лимит бюджета по: {{attribute}}",
+        "totalUsedByAttributeCustomerId": "Лимит бюджета на клиента",
+        "totalUsedByAttributeEmail": "Лимит бюджета на e-mail",
+        "type": "Тип",
+        "used": "Использовано"
+      },
+      "type": {
+        "spend": {
+          "description": "Установить лимит на общую сумму скидок для всех использований акции.",
+          "title": "Расходы"
+        },
+        "usage": {
+          "description": "Установить лимит на количество использований акции.",
+          "title": "Использование"
+        },
+        "useByAttribute": {
+          "description": "Установите лимит использования акции по конкретному значению атрибута.",
+          "title": "Использование по атрибуту (клиент, e-mail и т.д.)",
+          "titleCustomerId": "Использование на клиента",
+          "titleEmail": "Использование на e-mail"
+        }
+      }
+    },
+    "configuration": {
+      "edit": {
+        "description": "Редактировать конфигурацию кампании.",
+        "header": "Редактировать конфигурацию кампании",
+        "successToast": "Конфигурация кампании успешно обновлена."
+      },
+      "header": "Конфигурация"
+    },
+    "create": {
+      "description": "Создать промо-кампанию.",
+      "header": "Создать кампанию",
+      "hint": "Создать промо-кампанию.",
+      "successToast": "Кампания \"{{name}}\" успешно создана.",
+      "title": "Создать кампанию"
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить кампанию \"{{name}}\". Это действие нельзя отменить.",
+      "successToast": "Кампания \"{{name}}\" успешно создана.",
+      "title": "Вы уверены?"
+    },
+    "deleteCampaignWarning": "Вы собираетесь удалить кампанию {{name}}. Это действие нельзя отменить.",
+    "details": "Детали кампании",
+    "domain": "Кампании",
+    "edit": {
+      "description": "Редактировать детали кампании.",
+      "header": "Редактировать кампанию",
+      "successToast": "Кампания \"{{name}}\" успешно обновлена."
+    },
+    "fields": {
+      "budget_limit": "Лимит бюджета",
+      "campaign_id": {
+        "hint": "В этом списке отображаются только кампании с той же валютой, что и акция."
+      },
+      "end_date": "Дата окончания",
+      "identifier": "Идентификатор",
+      "name": "Название",
+      "start_date": "Дата начала",
+      "totalUsedByAttribute": "Всего использовано",
+      "total_spend": "Потраченный бюджет",
+      "total_used": "Использованный бюджет"
+    },
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одной кампании.",
+        "heading": "Нет кампаний"
+      },
+      "filtered": {
+        "description": "Нет кампаний, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "promotions": {
+      "add": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте акцию."
+        }
+      },
+      "alreadyAdded": "Эта акция уже добавлена в кампанию.",
+      "alreadyAddedDiffCampaign": "Эта акция уже добавлена в другую кампанию ({{name}}).",
+      "currencyMismatch": "Валюта акции и кампании не совпадает",
+      "list": {
+        "noRecordsMessage": "В кампании нет акций."
+      },
+      "remove": {
+        "description": "Вы собираетесь удалить акции из кампании ({{count}}). Это действие нельзя отменить.",
+        "title": "Удалить акцию из кампании"
+      },
+      "toast": {
+        "success": "Успешно добавлено акций ({{count}}) в кампанию"
+      }
+    },
+    "status": {
+      "active": "Активная",
+      "expired": "Истекла",
+      "scheduled": "Запланирована"
+    },
+    "totalSpend": "<0>{{amount}}</0> <1>{{currency}}</1>"
+  },
+  "categories": {
+    "create": {
+      "header": "Создать категорию",
+      "hint": "Создайте новую категорию для организации ваших товаров.",
+      "successToast": "Категория {{name}} успешно создана.",
+      "tabs": {
+        "details": "Детали",
+        "organize": "Организация рейтинга"
+      }
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить категорию {{name}}. Это действие нельзя отменить.",
+      "successToast": "Категория {{name}} успешно удалена."
+    },
+    "domain": "Категории",
+    "edit": {
+      "description": "Редактируйте категорию для обновления ее деталей.",
+      "header": "Редактировать категорию",
+      "image": "Изображение",
+      "imageAlt": "Описание изображения",
+      "imageHint": "Показывается плиткой везде, где витрина выводит эту категорию. Очистите адрес, чтобы убрать картинку.",
+      "imageUploadFailed": "Не удалось загрузить изображение.",
+      "successToast": "Категория успешно обновлена.",
+      "upload": "Загрузить",
+      "uploading": "Загружаем…"
+    },
+    "fields": {
+      "children": {
+        "label": "Подкатегории"
+      },
+      "new": {
+        "label": "Новая"
+      },
+      "path": {
+        "label": "Путь",
+        "tooltip": "Показать полный путь категории."
+      },
+      "status": {
+        "active": "Активная",
+        "inactive": "Неактивная",
+        "label": "Статус"
+      },
+      "visibility": {
+        "internal": "Внутренняя",
+        "label": "Видимость",
+        "public": "Публичная"
+      }
+    },
+    "organize": {
+      "action": "Изменить порядок",
+      "header": "Организация"
+    },
+    "products": {
+      "add": {
+        "disabledTooltip": "Товар уже находится в этой категории.",
+        "successToast_few": "Добавлено {{count}} товара в категорию.",
+        "successToast_many": "Добавлено {{count}} товаров в категорию.",
+        "successToast_one": "Добавлен {{count}} товар в категорию.",
+        "successToast_other": "Добавлено {{count}} товаров в категорию."
+      },
+      "list": {
+        "noRecordsMessage": "В этой категории нет товаров."
+      },
+      "remove": {
+        "confirmation_few": "Вы собираетесь удалить {{count}} товара из категории. Это действие нельзя отменить.",
+        "confirmation_many": "Вы собираетесь удалить {{count}} товаров из категории. Это действие нельзя отменить.",
+        "confirmation_one": "Вы собираетесь удалить {{count}} товар из категории. Это действие нельзя отменить.",
+        "confirmation_other": "Вы собираетесь удалить {{count}} товаров из категории. Это действие нельзя отменить.",
+        "successToast_few": "Удалено {{count}} товара из категории.",
+        "successToast_many": "Удалено {{count}} товаров из категории.",
+        "successToast_one": "Удален {{count}} товар из категории.",
+        "successToast_other": "Удалено {{count}} товаров из категории."
+      }
+    },
+    "subtitle": "Организуйте товары в категории и управляйте их рейтингом и иерархией."
+  },
+  "collections": {
+    "createCollection": "Создать коллекцию",
+    "createCollectionHint": "Создайте новую коллекцию для организации ваших товаров.",
+    "createSuccess": "Коллекция успешно создана.",
+    "deleteWarning": "Вы собираетесь удалить коллекцию {{title}}. Это действие нельзя отменить.",
+    "domain": "Коллекции",
+    "editCollection": "Редактировать коллекцию",
+    "handleTooltip": "Handle используется для ссылки на коллекцию в вашем магазине. Если не указан, он будет сгенерирован из названия коллекции.",
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одной коллекции.",
+        "heading": "Нет коллекций"
+      },
+      "filtered": {
+        "description": "Нет коллекций, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "products": {
+      "add": {
+        "successToast_few": "Товары успешно добавлены в коллекцию.",
+        "successToast_many": "Товары успешно добавлены в коллекцию.",
+        "successToast_one": "Товар успешно добавлен в коллекцию.",
+        "successToast_other": "Товары успешно добавлены в коллекцию."
+      },
+      "list": {
+        "noRecordsMessage": "В этой коллекции нет товаров."
+      },
+      "remove": {
+        "successToast_few": "Товары успешно удалены из коллекции.",
+        "successToast_many": "Товары успешно удалены из коллекции.",
+        "successToast_one": "Товар успешно удален из коллекции.",
+        "successToast_other": "Товары успешно удалены из коллекции."
+      }
+    },
+    "removeProductsWarning_few": "Вы собираетесь удалить {{count}} товара из коллекции. Это действие нельзя отменить.",
+    "removeProductsWarning_many": "Вы собираетесь удалить {{count}} товаров из коллекции. Это действие нельзя отменить.",
+    "removeProductsWarning_one": "Вы собираетесь удалить {{count}} товар из коллекции. Это действие нельзя отменить.",
+    "removeProductsWarning_other": "Вы собираетесь удалить {{count}} товаров из коллекции. Это действие нельзя отменить.",
+    "removeSingleProductWarning": "Вы собираетесь удалить товар {{title}} из коллекции. Это действие нельзя отменить.",
+    "subtitle": "Организуйте товары в коллекции."
+  },
+  "customerGroups": {
+    "create": {
+      "header": "Создать группу клиентов",
+      "hint": "Создайте новую группу клиентов для сегментации ваших клиентов.",
+      "successToast": "Группа клиентов {{name}} успешно создана."
+    },
+    "customers": {
+      "add": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте клиента."
+        },
+        "successToast_few": "Клиенты успешно добавлены в группу.",
+        "successToast_many": "Клиенты успешно добавлены в группу.",
+        "successToast_one": "Клиент успешно добавлен в группу.",
+        "successToast_other": "Клиенты успешно добавлены в группу."
+      },
+      "alreadyAddedTooltip": "Клиент уже добавлен в группу.",
+      "list": {
+        "noRecordsMessage": "Эта группа не имеет клиентов."
+      },
+      "remove": {
+        "description_few": "Вы собираетесь удалить {{count}} клиентов из группы клиентов. Это действие нельзя отменить.",
+        "description_many": "Вы собираетесь удалить {{count}} клиентов из группы клиентов. Это действие нельзя отменить.",
+        "description_one": "Вы собираетесь удалить {{count}} клиента из группы клиентов. Это действие нельзя отменить.",
+        "description_other": "Вы собираетесь удалить {{count}} клиентов из группы клиентов. Это действие нельзя отменить.",
+        "title_few": "Удалить клиентов",
+        "title_many": "Удалить клиентов",
+        "title_one": "Удалить клиента",
+        "title_other": "Удалить клиентов"
+      }
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить группу клиентов {{name}}. Это действие нельзя отменить.",
+      "successToast": "Группа клиентов {{name}} успешно удалена.",
+      "title": "Удалить группу клиентов"
+    },
+    "domain": "Группы клиентов",
+    "edit": {
+      "header": "Редактировать группу клиентов",
+      "successToast": "Группа клиентов {{name}} успешно обновлена."
+    },
+    "list": {
+      "empty": {
+        "description": "Нет групп клиентов для отображения.",
+        "heading": "Нет групп клиентов"
+      },
+      "filtered": {
+        "description": "Нет групп клиентов, соответствующих текущим критериям фильтра.",
+        "heading": "Нет результатов"
+      }
+    },
+    "subtitle": "Организуйте клиентов в группы. Группы могут иметь разные акции и цены."
+  },
+  "customers": {
+    "addresses": {
+      "create": {
+        "header": "Создать адрес",
+        "hint": "Создайте новый адрес для клиента.",
+        "successToast": "Адрес успешно создан."
+      },
+      "fields": {
+        "address1": "Адрес, строка 1",
+        "address2": "Адрес, строка 2",
+        "addressName": "Название адреса",
+        "city": "Город",
+        "company": "Компания",
+        "country": "Страна",
+        "countryCode": "Код страны",
+        "phone": "Телефон",
+        "postalCode": "Почтовый индекс",
+        "province": "Регион",
+        "provinceCode": "Код региона"
+      },
+      "title": "Адреса"
+    },
+    "create": {
+      "header": "Создать клиента",
+      "hint": "Создайте нового клиента и управляйте его данными.",
+      "successToast": "Клиент {{email}} успешно создан."
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить клиента {{email}}. Это действие нельзя отменить.",
+      "successToast": "Клиент {{email}} успешно удален.",
+      "title": "Удалить клиента"
+    },
+    "detail": {
+      "addressesHeading": "Адреса",
+      "noAddresses": "У этого клиента нет сохранённых адресов.",
+      "noOrders": "У этого клиента ещё нет заказов."
+    },
+    "domain": "Клиенты",
+    "edit": {
+      "emailDisabledTooltip": "Email нельзя изменить для зарегистрированных клиентов.",
+      "header": "Редактировать клиента",
+      "successToast": "Клиент {{email}} успешно обновлен."
+    },
+    "export": {
+      "success": {
+        "description_few": "Файл содержит {{count}} клиентов.",
+        "description_many": "Файл содержит {{count}} клиентов.",
+        "description_one": "Файл содержит {{count}} клиента.",
+        "description_other": "Файл содержит {{count}} клиентов.",
+        "title": "CSV готов"
+      }
+    },
+    "fields": {
+      "groups": "Группы",
+      "guest": "Гость",
+      "registered": "Зарегистрирован",
+      "totalSpent": "Сумма покупок"
+    },
+    "groups": {
+      "add": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте группу клиентов."
+        },
+        "success": "Клиент добавлен в: {{groups}}."
+      },
+      "alreadyAddedTooltip": "Клиент уже в этой группе.",
+      "label": "Группы клиентов",
+      "list": {
+        "noRecordsMessage": "Этот клиент не состоит ни в одной группе."
+      },
+      "remove": "Вы уверены, что хотите удалить клиента из группы \"{{name}}\"?",
+      "removeMany": "Вы уверены, что хотите удалить клиента из следующих групп: {{groups}}?",
+      "removed": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте группу клиентов."
+        },
+        "success": "Клиент удален из: {{groups}}."
+      }
+    },
+    "guest": "Гость",
+    "hasAccount": "Имеет аккаунт",
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одного клиента.",
+        "heading": "Нет клиентов"
+      },
+      "filtered": {
+        "description": "Нет клиентов, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      },
+      "noRecordsMessage": "Ваши клиенты появятся здесь."
+    },
+    "registered": "Зарегистрирован"
+  },
+  "dataGrid": {
+    "columns": {
+      "disabled": "Изменение видимых столбцов отключено.",
+      "resetToDefault": "Сбросить по умолчанию",
+      "view": "Вид"
+    },
+    "errors": {
+      "count_few": "{{count}} ошибки",
+      "count_many": "{{count}} ошибок",
+      "count_one": "{{count}} ошибка",
+      "count_other": "{{count}} ошибок",
+      "fixError": "Исправить ошибку"
+    },
+    "shortcuts": {
+      "commands": {
+        "clear": "Очистить",
+        "copy": "Копировать",
+        "delete": "Удалить",
+        "edit": "Редактировать",
+        "focusCancel": "Отменить фокус",
+        "focusToolbar": "Перейти к панели инструментов",
+        "moveBottom": "Переместить в конец",
+        "moveDown": "Переместить вниз",
+        "moveLeft": "Переместить влево",
+        "moveRight": "Переместить вправо",
+        "moveTop": "Переместить в начало",
+        "moveUp": "Переместить вверх",
+        "paste": "Вставить",
+        "redo": "Повторить",
+        "selectColumnDown": "Выбрать столбец вниз",
+        "selectColumnUp": "Выбрать столбец вверх",
+        "selectDown": "Выбрать вниз",
+        "selectUp": "Выбрать вверх",
+        "undo": "Отменить"
+      },
+      "label": "Горячие клавиши"
+    }
+  },
+  "dateTime": {
+    "days_few": "Дня",
+    "days_many": "Дней",
+    "days_one": "День",
+    "days_other": "Дней",
+    "hours_few": "Часа",
+    "hours_many": "Часов",
+    "hours_one": "Час",
+    "hours_other": "Часов",
+    "minutes_few": "Минуты",
+    "minutes_many": "Минут",
+    "minutes_one": "Минута",
+    "minutes_other": "Минут",
+    "months_few": "Месяца",
+    "months_many": "Месяцев",
+    "months_one": "Месяц",
+    "months_other": "Месяцев",
+    "seconds_few": "Секунды",
+    "seconds_many": "Секунд",
+    "seconds_one": "Секунда",
+    "seconds_other": "Секунд",
+    "weeks_few": "Недели",
+    "weeks_many": "Недель",
+    "weeks_one": "Неделя",
+    "weeks_other": "Недель",
+    "years_few": "Года",
+    "years_many": "Лет",
+    "years_one": "Год",
+    "years_other": "Лет"
+  },
+  "draftOrders": {
+    "cartIdLabel": "ID корзины",
+    "create": {
+      "addCustomItemAction": "Добавить пользовательский товар",
+      "addExistingItemsAction": "Добавить существующие товары",
+      "addShippingMethodsAction": "Добавить способы доставки",
+      "chooseRegionHint": "Выберите регион",
+      "chooseRegionTooltip": "Сначала выберите регион",
+      "createDraftOrder": "Создать черновик заказа",
+      "createDraftOrderHint": "Создайте новый черновик заказа для управления деталями заказа перед его размещением.",
+      "customItemsHint": "Добавьте пользовательские товары в черновик заказа.",
+      "customItemsLabel": "Пользовательские товары",
+      "existingItemsHint": "Добавьте существующие товары в черновик заказа.",
+      "existingItemsLabel": "Существующие товары",
+      "noCustomItemsAddedLabel": "Пользовательские товары еще не добавлены",
+      "noExistingItemsAddedLabel": "Существующие товары еще не добавлены",
+      "sendNotificationHint": "Отправить уведомление клиенту после создания черновика заказа.",
+      "sendNotificationLabel": "Отправить уведомление",
+      "shippingOptionHint": "Выберите вариант доставки для черновика заказа.",
+      "shippingOptionLabel": "Вариант доставки",
+      "shippingPriceOverrideHint": "Переопределить стоимость доставки для черновика заказа.",
+      "shippingPriceOverrideLabel": "Переопределить стоимость доставки",
+      "unitPriceOverrideLabel": "Переопределить цену за единицу",
+      "useExistingCustomerLabel": "Использовать существующего клиента"
+    },
+    "deleteWarning": "Вы собираетесь удалить черновик заказа {{id}}. Это действие нельзя отменить.",
+    "domain": "Черновики заказов",
+    "list": {
+      "description": "Создайте черновик заказа, чтобы начать.",
+      "filtered": {
+        "description": "Нет черновиков заказов, подходящих под ваш фильтр.",
+        "heading": "Ничего не найдено"
+      },
+      "noRecordsMessage": "Черновики заказов не найдены"
+    },
+    "markAsPaid": {
+      "label": "Отметить как оплаченный",
+      "warningDescription": "Вы собираетесь отметить черновик заказа как оплаченный. Это действие нельзя отменить, и последующее взимание оплаты будет невозможно.",
+      "warningTitle": "Отметить как оплаченный"
+    },
+    "paymentLinkLabel": "Ссылка на оплату",
+    "status": {
+      "completed": "Завершен",
+      "open": "Открыт"
+    },
+    "validation": {
+      "invalidEmail": "Email должен быть действительным адресом электронной почты.",
+      "requiredEmailOrCustomer": "Требуется email или клиент.",
+      "requiredItems": "Требуется как минимум один товар."
+    }
+  },
+  "email": {
+    "editHeader": "Редактировать email",
+    "editLabel": "Email",
+    "label": "Email"
+  },
+  "errorBoundary": {
+    "backToDashboard": "Вернуться на главную",
+    "badRequestMessage": "Сервер не смог обработать запрос из-за неверного синтаксиса.",
+    "badRequestTitle": "400 - Некорректный запрос",
+    "defaultMessage": "При отображении этой страницы произошла непредвиденная ошибка.",
+    "defaultTitle": "Произошла ошибка",
+    "internalServerErrorMessage": "На сервере произошла непредвиденная ошибка. Пожалуйста, повторите попытку позже.",
+    "internalServerErrorTitle": "500 - Внутренняя ошибка сервера",
+    "noMatchMessage": "Страница, которую вы ищете, не существует.",
+    "notFoundMessage": "Проверьте URL и попробуйте снова, или воспользуйтесь поиском, чтобы найти нужную страницу.",
+    "notFoundTitle": "404 - Страница не найдена"
+  },
+  "errors": {
+    "invalidCredentials": "Неверный email или пароль",
+    "serverError": "Ошибка сервера — попробуйте позже."
+  },
+  "fields": {
+    "account": "Аккаунт",
+    "address": "Адрес",
+    "address2": "Квартира, офис и т.д.",
+    "all": "все",
+    "allowBackorder": "Разрешить предзаказ",
+    "amount": "Сумма",
+    "automaticTaxes": "Автоматические налоги",
+    "availability": "Доступность",
+    "barcode": "Штрих-код",
+    "by": "От",
+    "categories": "Категории",
+    "category": "Категория",
+    "city": "Город",
+    "code": "Код",
+    "collection": "Коллекция",
+    "company": "Компания",
+    "conditions": "Условия",
+    "configurations": "Конфигурации",
+    "confirmPassword": "Подтвердите пароль",
+    "countries": "Страны",
+    "country": "Страна",
+    "countryOfOrigin": "Страна происхождения",
+    "created": "Создано",
+    "createdAt": "Создано",
+    "currency": "Валюта",
+    "customTitle": "Пользовательский заголовок",
+    "customer": "Клиент",
+    "customer_groups": "Группы клиентов",
+    "date": "Дата",
+    "dateIssued": "Дата выпуска",
+    "days": "Дней",
+    "default": "По умолчанию",
+    "description": "Описание",
+    "details": "Детали",
+    "disabled": "Отключено",
+    "discount": "Скидка",
+    "discountable": "Скидки применяются",
+    "draft": "Черновик",
+    "dynamic": "Динамический",
+    "ean": "EAN",
+    "email": "Email",
+    "endDate": "Дата окончания",
+    "expiryDate": "Срок действия",
+    "false": "Нет",
+    "firstName": "Имя",
+    "fulfillment": "Отгрузка",
+    "fulfillmentProvider": "Провайдер доставки",
+    "fulfillmentProviders": "Провайдеры доставки",
+    "giftCard": "Подарочная карта",
+    "handle": "Идентификатор",
+    "height": "Высота",
+    "hours": "Часов",
+    "hsCode": "HS код",
+    "id": "ID",
+    "inStock": "В наличии",
+    "inventory": "Запасы",
+    "inventoryItem": "Элемент запасов",
+    "inventoryItems": "Элементы запасов",
+    "inventoryKit": "Имеет набор запасов",
+    "inventoryQuantity": "Количество в наличии",
+    "issuedDate": "Дата выпуска",
+    "item": "Товар",
+    "items": "Товары",
+    "key": "Ключ",
+    "label": "Метка",
+    "lastName": "Фамилия",
+    "length": "Длина",
+    "limit": "Лимит",
+    "location": "Местоположение",
+    "manageInventory": "Управление запасами",
+    "managedInventory": "Управляемые запасы",
+    "material": "Материал",
+    "maxSubtotal": "Макс. подытог",
+    "metadata": "Метаданные",
+    "midCode": "MID код",
+    "minSubtotal": "Мин. подытог",
+    "minutes": "Минут",
+    "months": "Месяцев",
+    "name": "Название",
+    "newPassword": "Новый пароль",
+    "none": "нет",
+    "normal": "Обычный",
+    "note": "Примечание",
+    "optional": "Необязательно",
+    "order": "Заказ",
+    "orders": "Заказы",
+    "outboundShipping": "Исходящая доставка",
+    "paidTotal": "Всего получено",
+    "parent": "Родитель",
+    "password": "Пароль",
+    "payment": "Оплата",
+    "paymentProviders": "Платежные провайдеры",
+    "percentage": "Процент",
+    "phone": "Телефон",
+    "postalCode": "Почтовый индекс",
+    "price": "Цена",
+    "priceShopTemplate": "Цена, {{symbol}}",
+    "priceTemplate": "Цена {{regionOrCurrency}}",
+    "product": "Продукт",
+    "product_collections": "Коллекции продуктов",
+    "product_tags": "Теги продуктов",
+    "product_types": "Типы продуктов",
+    "products": "Продукты",
+    "provider": "Провайдер",
+    "providers": "Провайдеры",
+    "province": "Область",
+    "qty": "кол-во",
+    "quantity": "Количество",
+    "rate": "Ставка",
+    "reason": "Причина",
+    "refundAmount": "Сумма возврата",
+    "refundReason": "Причина возврата",
+    "region": "Регион",
+    "repeatNewPassword": "Повторите новый пароль",
+    "repeatPassword": "Повторите пароль",
+    "requiredQuantity": "Требуемое количество",
+    "requiresShipping": "Требует доставки",
+    "returnShipping": "Обратная доставка",
+    "revokedAt": "Отозвано",
+    "role": "Роль",
+    "salesChannel": "Канал продаж",
+    "salesChannels": "Каналы продаж",
+    "sales_channels": "Каналы продаж",
+    "search": "Поиск",
+    "selectCountry": "Выберите страну",
+    "seoDescription": "Описание для поиска",
+    "seoTitle": "Заголовок для поиска",
+    "sent": "Отправлено",
+    "shipping": "Доставка",
+    "shippingMethod": "Способ доставки",
+    "shippingProfile": "Профиль доставки",
+    "sku": "SKU",
+    "startDate": "Дата начала",
+    "state": "Штат",
+    "status": "Статус",
+    "subtitle": "Подзаголовок",
+    "subtotal": "Подытог",
+    "summary": "Сводка",
+    "tag": "Тег",
+    "tags": "Теги",
+    "tax": "Налог",
+    "taxInclusivePricing": "Цены с учетом налогов",
+    "thumbnail": "Миниатюра",
+    "title": "Заголовок",
+    "total": "Итого по заказу",
+    "totalExclTax": "Всего без налога",
+    "totalRedemptions": "Всего погашений",
+    "true": "Да",
+    "type": "Тип",
+    "unitPrice": "Цена за единицу",
+    "upc": "UPC",
+    "updatedAt": "Обновлено",
+    "value": "Значение",
+    "values": "Значения",
+    "variant": "Вариант",
+    "variants": "Варианты",
+    "weight": "Вес",
+    "width": "Ширина",
+    "years": "Лет",
+    "actions": "Действия",
+    "creditTotal": "Итого по кредитным строкам",
+    "enabledInStore": "Включено в магазине",
+    "isReturn": "Возврат",
+    "operation": "Операция",
+    "promotionCode": "Промокод",
+    "reference": "Основание",
+    "reference_id": "ID основания",
+    "resource": "Ресурс",
+    "serviceZone": "Зона обслуживания"
+  },
+  "filters": {
+    "addFilter": "Добавить фильтр",
+    "collapse": {
+      "all": "Свернуть все"
+    },
+    "columnsLabel": "Столбцы",
+    "compare": {
+      "andLabel": "и",
+      "exact": "Точно",
+      "greaterThan": "Больше чем",
+      "greaterThanLabel": "больше чем {{value}}",
+      "lessThan": "Меньше чем",
+      "lessThanLabel": "меньше чем {{value}}",
+      "range": "Диапазон"
+    },
+    "date": {
+      "custom": "Произвольный",
+      "ending": "Заканчивая",
+      "from": "От",
+      "lastNinetyDays": "Последние 90 дней",
+      "lastSevenDays": "Последние 7 дней",
+      "lastThirtyDays": "Последние 30 дней",
+      "lastTwelveMonths": "Последние 12 месяцев",
+      "starting": "Начиная с",
+      "to": "До",
+      "today": "Сегодня"
+    },
+    "filterLabel": "Фильтры",
+    "radio": {
+      "false": "Ложь",
+      "no": "Нет",
+      "true": "Истина",
+      "yes": "Да"
+    },
+    "searchLabel": "Поиск",
+    "sortLabel": "Сортировка",
+    "sorting": {
+      "alphabeticallyAsc": "От А до Я",
+      "alphabeticallyDesc": "От Я до А",
+      "dateAsc": "Сначала новые",
+      "dateDesc": "Сначала старые"
+    }
+  },
+  "general": {
+    "active": "Активный",
+    "add": "Добавить",
+    "added": "Добавлено",
+    "admin": "Администратор",
+    "apply": "Применить",
+    "areYouSure": "Вы уверены?",
+    "areYouSureDescription": "Вы собираетесь удалить {{entity}} «{{title}}». Это действие нельзя отменить.",
+    "ascending": "По возрастанию",
+    "close": "Закрыть",
+    "countOfTotalSelected": "{{count}} из {{total}} выбрано",
+    "countSelected": "{{count}} выбрано",
+    "descending": "По убыванию",
+    "details": "Детали",
+    "disabled": "Отключено",
+    "enabled": "Включено",
+    "end": "Конец",
+    "error": "Ошибка",
+    "excludesTaxTooltip": "Цены в этом столбце указаны без налога.",
+    "exclusive": "Только для товара",
+    "expired": "Истек срок",
+    "fullList": "Все",
+    "global": "Общий",
+    "includesTaxTooltip": "Цены в этом столбце включают налог.",
+    "is": "является",
+    "items_few": "{{count}} товара",
+    "items_many": "{{count}} товаров",
+    "items_one": "{{count}} товар",
+    "items_other": "{{count}} товаров",
+    "loading": "Загрузка",
+    "modified": "Изменен",
+    "new": "Новый",
+    "next": "Далее",
+    "noMoreData": "Больше данных нет",
+    "noRecordsFound": "Записи не найдены",
+    "noRecordsMessage": "Нет записей для отображения",
+    "noRecordsMessageFiltered": "Нет записей, подходящих под фильтры",
+    "noRecordsTitle": "Нет записей",
+    "noResultsMessage": "Попробуйте изменить фильтры или запрос",
+    "noResultsTitle": "Нет результатов",
+    "noSearchResults": "Нет результатов поиска",
+    "noSearchResultsFor": "Нет результатов для <0>'{{query}}'</0>",
+    "of": "из",
+    "open": "Открыть",
+    "original": "Исходный",
+    "pages": "страниц",
+    "plusCount": "+ {{count}}",
+    "plusCountMore": "+ еще {{count}}",
+    "prev": "Назад",
+    "quantityPrice": "Цена за количество",
+    "range": "Диапазон",
+    "rank": "Порядок",
+    "remaining": "Осталось",
+    "removed": "Удалено",
+    "results": "результатов",
+    "revoked": "Отозван",
+    "search": "Поиск",
+    "select": "Выбрать",
+    "selectAll": "Выбрать все",
+    "selected": "Выбрано",
+    "start": "Начало",
+    "store": "Магазин",
+    "success": "Успешно",
+    "timeline": "Временная шкала",
+    "tip": "Подсказка",
+    "typeToConfirm": "Введите {val} для подтверждения:",
+    "unsavedChangesDescription": "У вас есть несохраненные изменения, которые будут потеряны при выходе.",
+    "unsavedChangesTitle": "Вы уверены, что хотите покинуть эту форму?",
+    "unselectAll": "Снять выбор со всех",
+    "values_one": "{{count}} значение",
+    "values_other": "{{count}} значений",
+    "warning": "Предупреждение"
+  },
+  "giftCards": {
+    "balance": "Баланс",
+    "balanceHigherThanValue": "Баланс не может быть выше исходной суммы.",
+    "balanceLowerThanZero": "Баланс не может быть отрицательным.",
+    "createGiftCard": "Создать подарочную карту",
+    "createGiftCardHint": "Создайте подарочную карту вручную, которую можно использовать как способ оплаты в вашем магазине.",
+    "currentBalance": "Текущий баланс",
+    "deleteGiftCardWarning": "Вы собираетесь удалить подарочную карту {{code}}. Это действие нельзя отменить.",
+    "domain": "Подарочные карты",
+    "editGiftCard": "Редактировать подарочную карту",
+    "enabledHint": "Укажите, включена или отключена подарочная карта.",
+    "expiryDateHint": "В разных странах действуют разные правила относительно срока действия подарочных карт. Убедитесь, что вы проверили местные правила перед установкой срока действия.",
+    "initialBalance": "Начальный баланс",
+    "personalMessage": "Личное сообщение",
+    "recipient": "Получатель",
+    "regionHint": "Изменение региона подарочной карты также изменит ее валюту, что может повлиять на ее денежную стоимость.",
+    "selectRegionFirst": "Сначала выберите регион"
+  },
+  "homeSettings": {
+    "composition": "Блоки",
+    "defaultMode": "Что видит посетитель по умолчанию",
+    "domain": "Главная страница",
+    "footer": "Подвал",
+    "header": "Шапка",
+    "hero": "Первый экран",
+    "heroContent": "Текст первого экрана",
+    "heroCtaHref": "Ссылка кнопки",
+    "heroCtaLabel": "Текст кнопки",
+    "heroImage": "Адрес изображения",
+    "heroImageHint": "Изображение используют только те варианты первого экрана, где есть фотография; вариант «Объявление» его не показывает.",
+    "heroSubtitle": "Подзаголовок",
+    "heroTitle": "Заголовок",
+    "hide": "Скрыть «{{block}}»",
+    "hint": "Что показывает главная страница вашего магазина: тему, вариант каждого блока и текст внутри них.",
+    "listing": "Список товаров",
+    "moveDown": "Ниже",
+    "moveUp": "Выше",
+    "neverSaved": "Ещё не сохранялось — показаны значения по умолчанию.",
+    "omitted": "Не показываются на главной:",
+    "order": "Порядок блоков",
+    "products": "Какие товары показывать в списке",
+    "productsCategory": "Товары категории",
+    "productsCategoryPick": "Категория",
+    "productsCategoryWhy": "В списке будут товары той категории, которую вы выберете.",
+    "productsPopular": "Популярное",
+    "productsPopularWhy": "В списке будет ваша главная подборка — так же, как сейчас.",
+    "productsSource": "Источник",
+    "productsTitle": "Заголовок над товарами",
+    "saveFailed": "Не удалось сохранить главную страницу.",
+    "saved": "Главная страница сохранена.",
+    "savedAt": "Последнее сохранение: {{time}}.",
+    "show": "Показать",
+    "theme": "Тема",
+    "themePreset": "Цветовая палитра",
+    "tiles": "Плитки категорий",
+    "upload": "Загрузить",
+    "uploadFailed": "Не удалось загрузить изображение.",
+    "uploading": "Загружаем…"
+  },
+  "inventory": {
+    "adjustInventory": {
+      "errors": {
+        "stockedQuantity": "Количество на складе не может быть меньше зарезервированного количества {{quantity}}."
+      }
+    },
+    "associatedVariants": "Связанные варианты",
+    "available": "Доступно",
+    "create": {
+      "attributes": "Атрибуты",
+      "availability": "Доступность",
+      "details": "Детали",
+      "locations": "Локации",
+      "requiresShipping": "Требует доставки",
+      "requiresShippingHint": "Требует ли складская позиция доставки?",
+      "successToast": "Складская позиция успешно создана.",
+      "title": "Создать складскую позицию"
+    },
+    "deleteWarning": "Вы собираетесь удалить складскую позицию. Это действие нельзя отменить.",
+    "domain": "Склад",
+    "editItemDetails": "Редактировать детали позиции",
+    "export": {
+      "description": "Экспортировать список остатков в CSV-файл.",
+      "filters": {
+        "description": "Примените фильтры в таблице, чтобы настроить эту выгрузку",
+        "title": "Фильтры"
+      },
+      "header": "Экспорт списка остатков",
+      "success": {
+        "description": "Экспорт может занять несколько минут. Мы сообщим, когда он будет готов.",
+        "title": "Готовим ваш экспорт"
+      }
+    },
+    "levelDeleted": "Уровень остатка успешно удалён.",
+    "locationLevels": "Локации",
+    "manageLocationQuantity": "Управлять количеством по складу",
+    "manageLocations": "Управление локациями",
+    "quantityAcrossLocations": "{{quantity}} на {{locations}} складах",
+    "reservation": {
+      "availableAtLocation": "Доступно в этой локации",
+      "create": "Создать резервацию",
+      "deleteSuccessToast": "Резервация успешно удалена.",
+      "description": "Описание",
+      "descriptionPlaceholder": "Какой тип резервации?",
+      "editItemDetails": "Редактировать резервацию",
+      "errors": {
+        "noAvaliableQuantity": "В локации нет доступного количества.",
+        "quantityOutOfRange": "Минимальное количество 1, максимальное количество {{max}}"
+      },
+      "header": "Резервация {{itemName}}",
+      "inStockAtLocation": "В наличии в этой локации",
+      "itemToReserve": "Позиция для резервации",
+      "lineItemId": "ID позиции",
+      "location": "Локация",
+      "orderID": "ID заказа",
+      "quantityPlaceholder": "Сколько нужно зарезервировать?",
+      "reservedAmount": "Количество для резервации",
+      "reservedAtLocation": "Зарезервировано в этой локации",
+      "successToast": "Резервация успешно создана.",
+      "updateSuccessToast": "Резервация успешно обновлена."
+    },
+    "reserved": "Зарезервировано",
+    "stock": {
+      "action": "Редактировать количество запасов",
+      "description": "Обновите количество складских запасов для выбранных складских позиций.",
+      "disablePrompt_few": "Вы собираетесь отключить {{count}} уровня локации. Это действие нельзя отменить.",
+      "disablePrompt_many": "Вы собираетесь отключить {{count}} уровней локации. Это действие нельзя отменить.",
+      "disablePrompt_one": "Вы собираетесь отключить {{count}} уровень локации. Это действие нельзя отменить.",
+      "disablePrompt_other": "Вы собираетесь отключить {{count}} уровней локации. Это действие нельзя отменить.",
+      "disabledToggleTooltip": "Невозможно отключить: очистите входящее и/или зарезервированное количество перед отключением.",
+      "placeholder": "Не включено",
+      "successToast": "количество запасов успешно обновлено.",
+      "title": "Обновить количество запасов"
+    },
+    "subtitle": "Управляйте складскими позициями",
+    "toast": {
+      "updateItem": "Складская позиция успешно обновлена.",
+      "updateLevel": "Уровень запасов успешно обновлен.",
+      "updateLocations": "Локации успешно обновлены."
+    }
+  },
+  "invite": {
+    "alreadyHaveAccount": "Уже есть аккаунт? - <0>Войти</0>",
+    "backToLogin": "Вернуться к входу",
+    "createAccount": "Создать аккаунт",
+    "emailTooltip": "Ваш email нельзя изменить. Если вы хотите использовать другой email, необходимо запросить новое приглашение.",
+    "hint": "Создайте свой аккаунт ниже",
+    "invalidInvite": "Приглашение недействительно или истекло.",
+    "invalidTokenHint": "Попробуйте запросить новую ссылку приглашения.",
+    "invalidTokenTitle": "Ваш токен приглашения недействителен",
+    "passwordMismatch": "Пароли не совпадают",
+    "successAction": "Запустить Medusa Admin",
+    "successHint": "Начните работу с Medusa Admin прямо сейчас.",
+    "successTitle": "Ваш аккаунт зарегистрирован",
+    "title": "Добро пожаловать в Upready",
+    "toast": {
+      "accepted": "Приглашение успешно принято"
+    }
+  },
+  "json": {
+    "drawer": {
+      "description": "Просмотр JSON данных для этого объекта.",
+      "header_few": "JSON <0>· {{count}} ключа</0>",
+      "header_many": "JSON <0>· {{count}} ключей</0>",
+      "header_one": "JSON <0>· {{count}} ключ</0>",
+      "header_other": "JSON <0>· {{count}} ключей</0>"
+    },
+    "header": "JSON",
+    "numberOfKeys_few": "{{count}} ключа",
+    "numberOfKeys_many": "{{count}} ключей",
+    "numberOfKeys_one": "{{count}} ключ",
+    "numberOfKeys_other": "{{count}} ключей"
+  },
+  "labels": {
+    "added": "Добавлено",
+    "available": "Доступно",
+    "beaware": "Обратите внимание",
+    "from": "От",
+    "inStock": "В наличии",
+    "loading": "Загрузка",
+    "prices": "Цены",
+    "productVariant": "Вариант продукта",
+    "removed": "Удалено",
+    "selectValue": "Выберите значение",
+    "selectValues": "Выберите значения",
+    "to": "До"
+  },
+  "locations": {
+    "addSalesChannels": "Добавить каналы продаж",
+    "deleteLocationWarning": "Вы собираетесь удалить локацию {{name}}. Это действие нельзя отменить.",
+    "domain": "Локации",
+    "editLocation": "Редактировать локацию",
+    "noLocationsFound": "Локации не найдены",
+    "removeSalesChannelsWarning_few": "Вы собираетесь удалить {{count}} канала продаж из локации.",
+    "removeSalesChannelsWarning_many": "Вы собираетесь удалить {{count}} каналов продаж из локации.",
+    "removeSalesChannelsWarning_one": "Вы собираетесь удалить {{count}} канал продаж из локации.",
+    "removeSalesChannelsWarning_other": "Вы собираетесь удалить {{count}} каналов продаж из локации.",
+    "selectLocations": "Выберите локации, где хранится данный товар.",
+    "toast": {
+      "create": "Локация успешно создана",
+      "removeChannel": "Канал продаж успешно удален",
+      "update": "Локация успешно обновлена"
+    }
+  },
+  "login": {
+    "forgotPassword": "Забыли пароль? - <0>Сбросить</0>",
+    "hint": "Войдите, чтобы получить доступ к панели управления",
+    "mfa": {
+      "backToLogin": "Назад ко входу",
+      "completeError": "Не удалось завершить аутентификацию.",
+      "description": "Введите 6-значный код из приложения-аутентификатора.",
+      "recoveryCodePlaceholder": "Код восстановления",
+      "recoveryDescription": "Введите один из ваших кодов восстановления.",
+      "title": "Двухфакторная аутентификация",
+      "useAuthenticator": "Использовать код из приложения",
+      "useAuthenticatorPrompt": "Есть доступ к приложению-аутентификатору?",
+      "useRecoveryCode": "Использовать код восстановления",
+      "useRecoveryCodePrompt": "Потеряли доступ к приложению-аутентификатору?",
+      "verify": "Подтвердить",
+      "verifyError": "Не удалось подтвердить код."
+    },
+    "title": "Добро пожаловать в Upready"
+  },
+  "metadata": {
+    "edit": {
+      "actions": {
+        "deleteRow": "Удалить строку",
+        "insertRowAbove": "Вставить строку выше",
+        "insertRowBelow": "Вставить строку ниже"
+      },
+      "complexRow": {
+        "description": "Этот объект содержит сложные метаданные, такие как массивы или объекты, которые нельзя редактировать здесь. Для редактирования отключенных строк используйте API напрямую.",
+        "label": "Некоторые строки отключены",
+        "tooltip": "Эта строка отключена, так как содержит сложные данные."
+      },
+      "description": "Редактировать метаданные для этого объекта.",
+      "header": "Редактировать метаданные",
+      "labels": {
+        "key": "Ключ",
+        "value": "Значение"
+      },
+      "successToast": "Метаданные успешно обновлены."
+    },
+    "header": "Метаданные",
+    "numberOfKeys_few": "{{count}} ключа",
+    "numberOfKeys_many": "{{count}} ключей",
+    "numberOfKeys_one": "{{count}} ключ",
+    "numberOfKeys_other": "{{count}} ключей"
+  },
+  "notificationSettings": {
+    "title": "Уведомления",
+    "subtitle": "кто узнаёт о новом заказе: покупатель — письмом, вы — сообщением в Telegram",
+    "loading": "загружаем…",
+    "save": "Сохранить",
+    "saved": "Настройки уведомлений сохранены",
+    "lastNever": "Отправок пока не было.",
+    "lastOk": "Последняя отправка: {{when}}, заказ {{order}} — доставлено.",
+    "lastFailed": "Последняя отправка: {{when}}, заказ {{order}} — НЕ доставлено",
+    "email": {
+      "title": "Письмо покупателю",
+      "on": "включено",
+      "off": "почта не настроена",
+      "hint": "Покупатель получает письмо о заказе, а ссылки в нём ведут на ваш магазин: {{url}}",
+      "offHint": "На платформе не настроен почтовый сервер, поэтому письма покупателям не уходят. Заказы при этом оформляются как обычно, а каждое неотправленное письмо попадает в журнал с номером заказа.",
+      "fromName": "Имя отправителя",
+      "fromNameHint": "Так письмо подписано во «Входящих» покупателя. Сейчас: {{name}}",
+      "replyTo": "Адрес для ответа",
+      "replyToHint": "Куда придёт ответ покупателя. Адрес отправителя остаётся платформенным: чужой домен почтовые службы отклоняют."
+    },
+    "telegram": {
+      "title": "Telegram владельцу",
+      "connected": "подключено",
+      "notConnected": "не подключено",
+      "chat": "Заказы приходят в чат: {{chat}}",
+      "chatUnnamed": "без названия",
+      "hint": "Нажмите «Подключить», откройте ссылку в Telegram и нажмите «Запустить». Заказы начнут приходить в тот чат, из которого вы открыли ссылку.",
+      "offHint": "Бот платформы на этом стенде не настроен, подключение работать не будет.",
+      "linkReady": "Откройте ссылку в Telegram — она действует 15 минут и срабатывает один раз:",
+      "connect": "Подключить Telegram",
+      "reconnect": "Подключить другой чат",
+      "test": "Проверить",
+      "testSent": "Тестовое сообщение отправлено",
+      "unlink": "Отключить",
+      "unlinked": "Telegram отключён — заказы туда больше не приходят"
+    },
+    "noProviderError": "На платформе не настроен почтовый сервер."
+  },
+  "notifications": {
+    "accessibility": {
+      "description": "здесь будут перечислены уведомления о действиях Medusa."
+    },
+    "domain": "Уведомления",
+    "emptyState": {
+      "description": "У вас пока нет уведомлений, но когда они появятся, они будут отображаться здесь.",
+      "title": "Нет уведомлений"
+    }
+  },
+  "operators": {
+    "in": "В"
+  },
+  "orders": {
+    "activity": {
+      "comment": {
+        "addButtonText": "Добавить комментарий",
+        "deleteButtonText": "Удалить комментарий",
+        "label": "Комментарий",
+        "placeholder": "Добавить комментарий"
+      },
+      "events": {
+        "canceled": {
+          "title": "Заказ отменен"
+        },
+        "claim": {
+          "canceled": "Претензия #{{claimId}} отменена",
+          "created": "Претензия #{{claimId}} создана",
+          "itemsInbound": "{{count}} товар для возврата",
+          "itemsOutbound": "{{count}} товар для отправки"
+        },
+        "common": {
+          "toReturn": "Для возврата",
+          "toSend": "Для отправки"
+        },
+        "edit": {
+          "confirmed": "Редактирование заказа #{{editId}} подтверждено",
+          "requested": "Редактирование заказа #{{editId}} запрошено"
+        },
+        "exchange": {
+          "canceled": "Обмен #{{exchangeId}} отменен",
+          "created": "Обмен #{{exchangeId}} создан",
+          "itemsInbound": "{{count}} товар для возврата",
+          "itemsOutbound": "{{count}} товар для отправки"
+        },
+        "fulfillment": {
+          "canceled": "Сборка отменена",
+          "created": "Товары собраны",
+          "delivered": "Товары доставлены",
+          "items_few": "{{count}} товара",
+          "items_many": "{{count}} товаров",
+          "items_one": "{{count}} товар",
+          "items_other": "{{count}} товаров",
+          "shipped": "Товары отправлены"
+        },
+        "note": {
+          "byLine": "от {{author}}",
+          "comment": "Комментарий"
+        },
+        "payment": {
+          "awaiting": "Ожидает оплаты",
+          "canceled": "Платеж отменен",
+          "captured": "Платеж получен",
+          "refunded": "Платеж возвращен"
+        },
+        "placed": {
+          "fromSalesChannel": "из {{salesChannel}}",
+          "title": "Заказ размещен"
+        },
+        "return": {
+          "canceled": "Возврат #{{returnId}} отменен",
+          "created": "Возврат #{{returnId}} запрошен",
+          "items_few": "{{count}} товара возвращено",
+          "items_many": "{{count}} товаров возвращено",
+          "items_one": "{{count}} товар возвращен",
+          "items_other": "{{count}} товаров возвращено",
+          "received": "Возврат #{{returnId}} получен"
+        },
+        "transfer": {
+          "confirmed": "Передача заказа #{{transferId}} подтверждена",
+          "declined": "Передача отклонена",
+          "requested": "Передача заказа #{{transferId}} запрошена"
+        },
+        "update_order": {
+          "billing_address": "Адрес для выставления счета обновлен",
+          "email": "Email обновлен",
+          "shipping_address": "Адрес доставки обновлен"
+        }
+      },
+      "from": "От",
+      "header": "Активность",
+      "showMoreActivities_few": "Показать еще {{count}} активности",
+      "showMoreActivities_many": "Показать еще {{count}} активностей",
+      "showMoreActivities_one": "Показать еще {{count}} активность",
+      "showMoreActivities_other": "Показать еще {{count}} активностей",
+      "to": "До"
+    },
+    "allocateItems": {
+      "action": "Распределить товары",
+      "consistsOf": "Состоит из {{num}}x складских товаров",
+      "error": {
+        "quantityNotAllocated": "Есть нераспределенные товары."
+      },
+      "itemsToAllocate": "Товары для распределения",
+      "itemsToAllocateDesc": "Выберите количество товаров, которые вы хотите распределить",
+      "locationDescription": "Выберите местоположение, из которого вы хотите распределить.",
+      "requires": "Требуется {{num}} на вариант",
+      "search": "Поиск товаров",
+      "title": "Распределить товары заказа",
+      "toast": {
+        "created": "Товары успешно распределены",
+        "error": "Не удалось зарезервировать товары: {{items}}"
+      }
+    },
+    "balanceSettlement": {
+      "settlementType": "Способ расчёта",
+      "settlementTypes": {
+        "creditLine": "Магазинный кредит",
+        "creditLineDescription": "Вернуть сумму в виде магазинного кредита",
+        "paymentMethod": "Способ оплаты",
+        "paymentMethodDescription": "Вернуть сумму на способ оплаты"
+      },
+      "title": "Расчёт по балансу"
+    },
+    "cancelWarning": "Вы собираетесь отменить заказ {{id}}. Это действие нельзя отменить.",
+    "claim": "Претензия",
+    "claims": {
+      "actions": {
+        "cancelClaim": {
+          "successToast": "Претензия успешно отменена."
+        }
+      },
+      "activeChangeError": "На этом заказе есть активное изменение. Завершите или отмените предыдущее изменение.",
+      "cancel": {
+        "description": "Вы уверены, что хотите отменить претензию?",
+        "title": "Отменить претензию"
+      },
+      "carryOverPromotion": "Перенести акции",
+      "carryOverPromotionHint": "Применить акции заказа к товарам претензии",
+      "carryOverPromotionTooltip": "На исходящие товары претензии можно перенести только фиксированные акции с распределением «Каждый» и процентные акции с распределением «Каждый» или «Все».",
+      "confirm": "Подтвердить претензию",
+      "confirmText": "Вы собираетесь подтвердить претензию. Это действие нельзя отменить.",
+      "create": "Создать претензию",
+      "manage": "Управлять претензией",
+      "outbound": "Исходящий",
+      "outboundItemAdded": "{{itemsCount}}x добавлено через претензию",
+      "outboundShipping": "Исходящая доставка",
+      "outboundShippingHint": "Выберите метод, который вы хотите использовать.",
+      "outboundTotal": "Исходящая сумма",
+      "panel": {
+        "description": "Существует открытый запрос на претензию для обработки",
+        "title": "Инициирована претензия"
+      },
+      "refundAmount": "Расчетная разница",
+      "toast": {
+        "canceledSuccessfully": "Претензия успешно отменена",
+        "confirmedSuccessfully": "Претензия успешно подтверждена"
+      },
+      "tooltips": {
+        "onlyReturnShippingOptions": "Этот список будет содержать только варианты обратной доставки."
+      }
+    },
+    "creditLines": {
+      "createCreditLine": "Создать кредитную строку",
+      "createCreditLineDescription": "Создать кредитную строку на сумму {{amount}}",
+      "createCreditLineError": "Ошибка при создании кредитной строки",
+      "createCreditLineSuccess": "Кредитная строка успешно создана",
+      "credit": "Кредит",
+      "creditDescription": "Добавляет положительную сумму к заказу",
+      "creditOrDebit": "Кредит / Дебет",
+      "debit": "Дебет",
+      "debitDescription": "Вычитает отрицательную сумму из заказа",
+      "operation": "Операция",
+      "title": "Кредитные строки",
+      "total": "Сумма всех кредитных строк",
+      "storeCreditRefund": "Возврат магазинным кредитом"
+    },
+    "customer": {
+      "contactLabel": "Контакт",
+      "editBillingAddress": "Редактировать адрес для выставления счета",
+      "editEmail": "Редактировать email",
+      "editShippingAddress": "Редактировать адрес доставки",
+      "transferOwnership": "Передать владение"
+    },
+    "domain": "Заказы",
+    "edit": {
+      "billingAddress": {
+        "requestSuccess": "Платежный адрес заказа обновлен.",
+        "title": "Изменить платежный адрес"
+      },
+      "email": {
+        "requestSuccess": "Email заказа изменен на {{email}}.",
+        "title": "Изменить email"
+      },
+      "shippingAddress": {
+        "requestSuccess": "Адрес доставки заказа обновлен.",
+        "title": "Изменить адрес доставки"
+      }
+    },
+    "edits": {
+      "activeChangeError": "На заказе уже есть активное изменение (возврат, претензия, обмен и т.д.). Завершите или отмените изменение перед редактированием заказа.",
+      "addItems": "Добавить товары",
+      "addItemsDescription": "Вы можете добавить новые товары в заказ.",
+      "amountPaid": "Оплаченная сумма",
+      "cancel": "Отменить редактирование",
+      "cancelSuccessToast": "Редактирование заказа отменено",
+      "confirm": "Подтвердить редактирование",
+      "confirmText": "Вы собираетесь подтвердить редактирование заказа. Это действие нельзя отменить.",
+      "create": "Редактировать заказ",
+      "createSuccessToast": "Запрос на редактирование заказа создан",
+      "currentItems": "Текущие товары",
+      "currentItemsDescription": "Настройте количество товара или удалите.",
+      "currentTotal": "Текущая сумма",
+      "differenceDue": "Разница к оплате",
+      "newTotal": "Новая сумма",
+      "noteHint": "Добавить внутреннюю заметку к редактированию",
+      "panel": {
+        "title": "Создан запрос на редактирование заказа",
+        "titlePending": "Редактирование заказа ожидает"
+      },
+      "sendNotification": "Отправить уведомление",
+      "sendNotificationHint": "Уведомить клиента об изменении заказа.",
+      "title": "Редактировать заказ",
+      "toast": {
+        "canceledSuccessfully": "Редактирование заказа отменено",
+        "confirmedSuccessfully": "Редактирование заказа подтверждено"
+      },
+      "validation": {
+        "quantityLowerThanFulfillment": "Нельзя установить количество меньше или равное собранному количеству"
+      }
+    },
+    "exchange": "Обмен",
+    "exchanges": {
+      "actions": {
+        "cancelExchange": {
+          "successToast": "Обмен успешно отменен."
+        }
+      },
+      "activeChangeError": "На этом заказе есть активное изменение. Завершите или отмените предыдущее изменение.",
+      "cancel": {
+        "description": "Вы уверены, что хотите отменить обмен?",
+        "title": "Отменить обмен"
+      },
+      "carryOverPromotion": "Перенести акции",
+      "carryOverPromotionHint": "Применить акции заказа к товарам обмена",
+      "carryOverPromotionTooltip": "На исходящие товары обмена можно перенести только фиксированные акции с распределением «Каждый» и процентные акции с распределением «Каждый» или «Все».",
+      "confirm": "Подтвердить обмен",
+      "confirmText": "Вы собираетесь подтвердить обмен. Это действие нельзя отменить.",
+      "create": "Создать обмен",
+      "manage": "Управлять обменом",
+      "outbound": "Исходящий",
+      "outboundItemAdded": "{{itemsCount}}x добавлено через обмен",
+      "outboundShipping": "Исходящая доставка",
+      "outboundShippingHint": "Выберите метод, который вы хотите использовать.",
+      "outboundTotal": "Исходящая сумма",
+      "panel": {
+        "description": "Существует открытый запрос на обмен для обработки",
+        "title": "Инициирован обмен"
+      },
+      "refundAmount": "Расчетная разница",
+      "toast": {
+        "canceledSuccessfully": "Обмен успешно отменен",
+        "confirmedSuccessfully": "Обмен успешно подтвержден"
+      },
+      "tooltips": {
+        "onlyReturnShippingOptions": "Этот список будет содержать только варианты обратной доставки."
+      }
+    },
+    "export": {
+      "description": "Экспортировать список заказов в CSV-файл.",
+      "filters": {
+        "description": "К экспорту будут применены следующие фильтры.",
+        "title": "Фильтры"
+      },
+      "header": "Экспорт списка заказов",
+      "success": {
+        "description": "Мы сообщим, когда экспорт будет готов.",
+        "title": "Экспорт запущен"
+      }
+    },
+    "fields": {
+      "displayId": "ID для отображения",
+      "refundableAmount": "Сумма для возврата",
+      "returnableQuantity": "Количество для возврата"
+    },
+    "fulfillment": {
+      "available": "Доступно",
+      "awaitingFulfillmentBadge": "Ожидает фулфилмента",
+      "cancelWarning": "Вы собираетесь отменить фулфилмент. Это действие нельзя отменить.",
+      "create": "Создать фулфилмент",
+      "differentOptionSelected": "Выбранный способ доставки отличается от того, что выбрал клиент.",
+      "disabledItemTooltip": "Выбранный способ доставки не позволяет отгрузить этот товар",
+      "error": {
+        "noItems": "Нет товаров для фулфилмента.",
+        "noLocation": "Укажите склад",
+        "noShippingOption": "Укажите способ доставки",
+        "wrongQuantity": "Только один товар доступен для фулфилмента",
+        "wrongQuantity_one": "Для отгрузки доступен только один товар",
+        "wrongQuantity_other": "Количество должно быть числом от 1 до {{number}}"
+      },
+      "fulfillItems": "Собрать товары",
+      "inStock": "В наличии",
+      "itemsLabel": "Товары",
+      "itemsToFulfill": "Товары для фулфилмента",
+      "itemsToFulfillDesc": "Выберите товары и количества для фулфилмента",
+      "locationDescription": "Выберите местоположение, из которого вы хотите собрать товары.",
+      "markAsDelivered": "Отметить как доставленный",
+      "markAsDeliveredWarning": "Вы собираетесь отметить фулфилмент как доставленный. Это действие нельзя отменить.",
+      "markAsPickedUp": "Отметить как выданный",
+      "markAsShipped": "Отметить как отправленный",
+      "methodDescription": "Выберите другой метод доставки, чем выбранный клиентом",
+      "number": "Фулфилмент #{{number}}",
+      "requiresShipping": "Требует доставки",
+      "sendNotificationHint": "Уведомить клиентов о созданном фулфилменте.",
+      "shippingFromLabel": "Отправка из",
+      "status": {
+        "awaitingDelivery": "Ожидает доставки",
+        "awaitingPickup": "Ожидает выдачи",
+        "awaitingShipping": "Ожидает отправки",
+        "canceled": "Отменено",
+        "delivered": "Доставлено",
+        "fulfilled": "Собрано",
+        "notFulfilled": "Не собрано",
+        "partiallyDelivered": "Частично доставлено",
+        "partiallyFulfilled": "Частично собрано",
+        "partiallyReturned": "Частично возвращено",
+        "partiallyShipped": "Частично отправлено",
+        "requiresAction": "Требует действия",
+        "returned": "Возвращено",
+        "shipped": "Отправлено"
+      },
+      "statusLabel": "Статус фулфилмента",
+      "statusTitle": "Статус фулфилмента",
+      "toast": {
+        "canceled": "Фулфилмент успешно отменен",
+        "created": "Фулфилмент успешно создан",
+        "fulfillmentDelivered": "Фулфилмент успешно отмечен как доставленный",
+        "fulfillmentPickedUp": "Отгрузка отмечена как выданная",
+        "fulfillmentShipped": "Нельзя отменить уже отправленный фулфилмент"
+      },
+      "trackingLabel": "Отслеживание",
+      "unfulfilledItems": "Несобранные товары"
+    },
+    "giftCardsStoreCreditLines": "Подарочные карты и кредитные строки",
+    "list": {
+      "noRecordsMessage": "Ваши заказы появятся здесь."
+    },
+    "onDateFromSalesChannel": "{{date}} из {{salesChannel}}",
+    "orderCanceled": "Заказ успешно отменен",
+    "payment": {
+      "capture": "Получить платеж",
+      "capturePayment": "Будет получен платеж на сумму {{amount}}.",
+      "capturePaymentSuccess": "Платеж на сумму {{amount}} успешно получен",
+      "capture_short": "Получить",
+      "checkStatus": "Проверить статус",
+      "checkStatusSuccess": "Платёж успешно авторизован.",
+      "createRefund": "Создать возврат",
+      "createRefundWrongQuantity": "Количество должно быть числом от 1 до {{number}}",
+      "isReadyToBeCaptured": "Платеж <0/> готов к получению.",
+      "markAsPaid": "Отметить как оплаченный",
+      "markAsPaidPayment": "Платеж на сумму {{amount}} будет отмечен как оплаченный.",
+      "markAsPaidPaymentSuccess": "Платеж на сумму {{amount}} успешно отмечен как оплаченный",
+      "paymentLink": "Копировать ссылку на оплату для {{ amount }}",
+      "pendingAuthorization": "Платёж ожидает авторизации от платёжного провайдера.",
+      "refund": "Возврат",
+      "refundAmount": "Вернуть {{ amount }}",
+      "refundPaymentSuccess": "Возврат суммы {{amount}} выполнен успешно",
+      "selectPaymentToRefund": "Выберите платеж для возврата",
+      "status": {
+        "authorized": "Авторизован",
+        "awaiting": "Ожидает",
+        "canceled": "Отменен",
+        "captured": "Получен",
+        "notPaid": "Не оплачен",
+        "partiallyAuthorized": "Частично авторизован",
+        "partiallyCaptured": "Частично получен",
+        "partiallyRefunded": "Частично возвращен",
+        "refunded": "Возвращен",
+        "requiresAction": "Требует действия"
+      },
+      "statusLabel": "Статус платежа",
+      "statusTitle": "Статус платежа",
+      "stillPending": "Платёж всё ещё ожидает авторизации.",
+      "title": "Платежи",
+      "totalPaidByCustomer": "Общая сумма, оплаченная клиентом",
+      "totalStoreCreditRefunds": "Всего возвращено магазинным кредитом",
+      "provider": {
+        "manual": "Оплата вручную",
+        "unknown": "Неизвестный провайдер"
+      }
+    },
+    "refund": {
+      "error": {
+        "amountNegative": "Сумма возврата должна быть положительным числом.",
+        "amountToLarge": "Нельзя вернуть больше, чем первоначальную сумму заказа.",
+        "reasonRequired": "Выберите причину возврата."
+      },
+      "sendNotificationHint": "Уведомить клиентов о созданном возврате.",
+      "systemPayment": "Системный платеж",
+      "systemPaymentDesc": "Один или несколько ваших платежей являются системными платежами. Помните, что выполнения и возвраты не поддерживаются Medusa для таких платежей.",
+      "title": "Создать возврат"
+    },
+    "reservations": {
+      "allocatedLabel": "Распределено",
+      "notAllocatedLabel": "Не распределено"
+    },
+    "return": "Возврат",
+    "returns": {
+      "activeChangeError": "На этом заказе есть активное изменение. Завершите или отмените предыдущее изменение.",
+      "cancel": {
+        "description": "Вы уверены, что хотите отменить запрос на возврат?",
+        "title": "Отменить возврат"
+      },
+      "confirm": "Подтвердить возврат",
+      "confirmText": "Вы собираетесь подтвердить возврат. Это действие нельзя отменить.",
+      "create": "Создать возврат",
+      "damagedItemReceived": "Получены поврежденные товары",
+      "damagedItemsReturned": "Возвращено {{quantity}}x поврежденных товаров",
+      "estDifference": "Оценочная разница",
+      "inbound": "Входящий",
+      "inboundShipping": "Обратная доставка",
+      "inboundShippingHint": "Выберите метод, который вы хотите использовать.",
+      "inboundTotal": "Входящая сумма",
+      "itemReceived": "Товары получены",
+      "location": "Местоположение",
+      "locationHint": "Выберите местоположение, куда вы хотите вернуть товары.",
+      "noInventoryLevel": "Нет уровня запасов",
+      "noInventoryLevelDesc": "Выбранное местоположение не имеет уровня запасов для выбранных товаров. Запрос на возврат можно создать, но его нельзя принять, пока не будет создан уровень запасов для выбранного местоположения.",
+      "note": "Заметка",
+      "noteHint": "Вы можете написать любой текст, если хотите что-то уточнить.",
+      "outbound": "Исходящий",
+      "outstandingAmount": "Остаток к оплате",
+      "panel": {
+        "description": "Существует открытый запрос на возврат для обработки",
+        "title": "Инициирован возврат"
+      },
+      "placeholders": {
+        "noReturnShippingOptions": {
+          "hint": "Не созданы варианты обратной доставки для этого местоположения. Вы можете создать один в <LinkComponent>Местоположения и доставка</LinkComponent>.",
+          "title": "Не найдены варианты обратной доставки"
+        },
+        "outboundShippingOptions": {
+          "hint": "Не созданы варианты исходящей доставки для этого местоположения. Вы можете создать один в <LinkComponent>Местоположения и доставка</LinkComponent>.",
+          "title": "Не найдены варианты исходящей доставки"
+        }
+      },
+      "reason": "Причина",
+      "reasonHint": "Выберите причину, по которой клиент хочет вернуть товары.",
+      "receive": {
+        "action": "Получить товары",
+        "inventoryWarning": "Помните, что мы автоматически скорректируем уровни запасов на основе указанных выше данных.",
+        "itemsLabel": "Полученные товары",
+        "receiveItems": "{{ returnType }} {{ id }}",
+        "restockAll": "Пополнить все товары",
+        "sendNotificationHint": "Уведомить клиента о полученном возврате.",
+        "title": "Получить товары для #{{returnId}}",
+        "toast": {
+          "errorLargeDamagedValue": "Количество поврежденных товаров + количество полученных неповрежденных товаров превышает общее количество товаров в возврате. Уменьшите количество неповрежденных товаров.",
+          "errorLargeValue": "Количество больше, чем количество заказанных товаров.",
+          "errorNegativeValue": "Количество не может быть отрицательным значением.",
+          "success": "Возврат успешно получен."
+        },
+        "writeOffInputLabel": "Сколько товаров повреждено?"
+      },
+      "refundAmount": "Сумма возврата",
+      "refundableAmountLabel": "Сумма для возврата",
+      "returnReceivedInfo": "Получено {{requestedItemsCount}}x товаров возврата",
+      "returnRequested": "Возврат запрошен",
+      "returnRequestedInfo": "Запрошен возврат {{requestedItemsCount}}x товаров",
+      "returnTotal": "Сумма возврата",
+      "returnableQuantityLabel": "Количество для возврата",
+      "sendNotification": "Отправить уведомление",
+      "sendNotificationHint": "Уведомить клиента о возврате.",
+      "toast": {
+        "canceledSuccessfully": "Возврат успешно отменен",
+        "confirmedSuccessfully": "Возврат успешно подтвержден"
+      }
+    },
+    "shipment": {
+      "addTracking": "Добавить номер отслеживания",
+      "carrier": "Перевозчик",
+      "carrierPlaceholder": "СДЭК, Почта России, Boxberry…",
+      "labelUrl": "Ссылка на этикетку",
+      "sendNotification": "Отправить уведомление",
+      "sendNotificationHint": "Уведомить клиента об этой отправке.",
+      "title": "Отметить фулфилмент как отправленный",
+      "toastCreated": "Отправка успешно создана.",
+      "trackingNumber": "Номер отслеживания",
+      "trackingUrl": "Ссылка отслеживания"
+    },
+    "status": {
+      "archived": "В архиве",
+      "canceled": "Отменен",
+      "completed": "Завершен",
+      "draft": "Черновик",
+      "not_paid": "Не оплачен",
+      "pending": "В обработке",
+      "requires_action": "Требует действия"
+    },
+    "summary": {
+      "allocateItems": "Распределить товары",
+      "discountSubtotal": "Подытог скидок",
+      "discountTotal": "Сумма скидок",
+      "editOrder": "Редактировать заказ",
+      "editOrderContinue": "Продолжить редактирование заказа",
+      "inventoryKit": "Состоит из {{count}}x складских товаров",
+      "itemSubtotal": "Подытог товаров",
+      "itemTotal": "Сумма товаров",
+      "requestReturn": "Запросить возврат",
+      "shippingSubtotal": "Подытог доставки",
+      "shippingTotal": "Сумма доставки",
+      "taxTotal": "Сумма налога",
+      "taxTotalIncl": "Сумма налога (включено)",
+      "totalAfterDiscount": "Итого со скидкой"
+    },
+    "transfer": {
+      "currentOwner": "Текущий владелец",
+      "currentOwnerDescription": "Клиент, в настоящее время связанный с этим заказом.",
+      "guest": "Гость",
+      "guestDescription": "Передать гостевому клиенту по e-mail. Применяется сразу.",
+      "guestSuccess": "Заказ передан гостевому клиенту: {{email}}.",
+      "newGuestOwner": "E-mail нового владельца",
+      "newGuestOwnerDescription": "E-mail гостевого клиента, которому передаётся заказ. Если такого клиента нет, он будет создан.",
+      "newOwner": "Новый владелец",
+      "newOwnerDescription": "Клиент, которому вы хотите передать этот заказ.",
+      "ownerType": "Тип аккаунта",
+      "registered": "Зарегистрированный",
+      "registeredDescription": "Передать зарегистрированному клиенту, который должен принять запрос.",
+      "requestSuccess": "Запрос на передачу заказа: {{email}}.",
+      "title": "Передать владение"
+    }
+  },
+  "priceLists": {
+    "configuration": {
+      "edit": {
+        "description": "Редактировать конфигурацию прайс-листа.",
+        "header": "Редактировать конфигурацию прайс-листа",
+        "successToast": "Конфигурация прайс-листа успешно обновлена."
+      },
+      "header": "Конфигурация"
+    },
+    "create": {
+      "header": "Создать прайс-лист",
+      "products": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте товар."
+        }
+      },
+      "subheader": "Создайте новый прайс-лист для управления ценами на ваши товары.",
+      "successToast": "Прайс-лист {{title}} успешно создан.",
+      "tabs": {
+        "details": "Детали",
+        "prices": "Цены",
+        "products": "Товары"
+      }
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить прайс-лист {{title}}. Это действие нельзя отменить.",
+      "successToast": "Прайс-лист {{title}} успешно удален."
+    },
+    "domain": "Прайс-листы",
+    "edit": {
+      "header": "Редактировать прайс-лист",
+      "successToast": "Прайс-лист {{title}} успешно обновлен."
+    },
+    "fields": {
+      "customerAvailability": {
+        "attribute": "Группы клиентов",
+        "header": "Выберите группы клиентов",
+        "hint": "Выберите, к каким группам клиентов будет применяться прайс-лист.",
+        "label": "Доступность для клиентов",
+        "placeholder": "Поиск групп клиентов"
+      },
+      "endsAt": {
+        "hint": "Запланируйте деактивацию прайс-листа в будущем.",
+        "label": "У прайс-листа есть дата окончания?"
+      },
+      "priceOverrides": {
+        "header": "Переопределения цен",
+        "label": "Переопределения цен"
+      },
+      "startsAt": {
+        "hint": "Запланируйте активацию прайс-листа в будущем.",
+        "label": "У прайс-листа есть дата начала?"
+      },
+      "status": {
+        "label": "Статус",
+        "options": {
+          "active": "Активный",
+          "draft": "Черновик",
+          "expired": "Истек",
+          "scheduled": "Запланирован"
+        }
+      },
+      "type": {
+        "hint": "Выберите тип прайс-листа, который хотите создать.",
+        "label": "Тип",
+        "options": {
+          "override": {
+            "description": "Переопределения обычно используются для создания цен для конкретных клиентов.",
+            "label": "Переопределение"
+          },
+          "sale": {
+            "description": "Цены распродажи - это временные изменения цен на товары.",
+            "label": "Распродажа"
+          }
+        }
+      }
+    },
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одного прайс-листа.",
+        "heading": "Нет прайс-листов"
+      },
+      "filtered": {
+        "description": "Нет прайс-листов, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "products": {
+      "actions": {
+        "addProducts": "Добавить товары",
+        "editPrices": "Редактировать цены"
+      },
+      "add": {
+        "successToast": "Цены успешно добавлены в прайс-лист."
+      },
+      "delete": {
+        "confirmation_few": "Вы собираетесь удалить цены для {{count}} товаров из прайс-листа. Это действие нельзя отменить.",
+        "confirmation_many": "Вы собираетесь удалить цены для {{count}} товаров из прайс-листа. Это действие нельзя отменить.",
+        "confirmation_one": "Вы собираетесь удалить цены для {{count}} товара из прайс-листа. Это действие нельзя отменить.",
+        "confirmation_other": "Вы собираетесь удалить цены для {{count}} товаров из прайс-листа. Это действие нельзя отменить.",
+        "successToast_few": "Цены для {{count}} товаров успешно удалены.",
+        "successToast_many": "Цены для {{count}} товаров успешно удалены.",
+        "successToast_one": "Цены для {{count}} товара успешно удалены.",
+        "successToast_other": "Цены для {{count}} товаров успешно удалены."
+      },
+      "edit": {
+        "successToast": "Цены успешно обновлены."
+      },
+      "header": "Товары"
+    },
+    "quantityPricing": {
+      "actions": {
+        "addPrice": "Добавить цену"
+      },
+      "attributes": {
+        "quantity": "Количество в корзине"
+      },
+      "description": "Управляйте ценами для этого варианта товара в зависимости от количества в корзине.",
+      "errors": {
+        "minGreaterThanMax": "Минимальное количество не может быть больше максимального",
+        "mustBePositive": "Количество должно быть не меньше 1"
+      },
+      "header": "Условные цены для {{name}}",
+      "rules": {
+        "allQuantities": "Любое количество",
+        "amount": "Цена варианта товара",
+        "max": "Макс.",
+        "maxQuantity": "Максимальное количество в корзине",
+        "min": "Мин.",
+        "minQuantity": "Минимальное количество в корзине",
+        "qty": "КОЛ-ВО"
+      },
+      "summaries": {
+        "greaterThan": "Если <0>{{attribute}}</0> ≥ <1>{{min}}</1>",
+        "lessThan": "Если <0>{{attribute}}</0> ≤ <1>{{max}}</1>",
+        "range": "Если <0>{{attribute}}</0> находится между <1>{{min}}</1> и <2>{{max}}</2>"
+      }
+    },
+    "subtitle": "Создавайте распродажи или переопределяйте цены для определенных условий."
+  },
+  "productTags": {
+    "create": {
+      "header": "Создать тег продукта",
+      "subtitle": "Создайте новый тег продукта для категоризации ваших продуктов.",
+      "successToast": "Тег продукта {{value}} успешно создан."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить тег продукта {{value}}. Это действие нельзя отменить.",
+      "successToast": "Тег продукта {{value}} успешно удален."
+    },
+    "domain": "Теги продуктов",
+    "edit": {
+      "header": "Редактировать тег продукта",
+      "subtitle": "Редактировать значение тега продукта.",
+      "successToast": "Тег продукта {{value}} успешно обновлен."
+    },
+    "fields": {
+      "value": "Значение"
+    }
+  },
+  "productTypes": {
+    "create": {
+      "header": "Создать тип продукта",
+      "hint": "Создайте новый тип продукта для категоризации ваших продуктов.",
+      "successToast": "Тип продукта {{value}} успешно создан."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить тип продукта {{value}}. Это действие нельзя отменить.",
+      "successToast": "Тип продукта {{value}} успешно удален."
+    },
+    "domain": "Типы продуктов",
+    "edit": {
+      "header": "Редактировать тип продукта",
+      "successToast": "Тип продукта {{value}} успешно обновлен."
+    },
+    "fields": {
+      "value": "Значение"
+    },
+    "subtitle": "Организуйте ваши продукты по типам."
+  },
+  "products": {
+    "attributes": "Атрибуты",
+    "create": {
+      "description": "Создать новый товар.",
+      "errors": {
+        "missingPrice": "Укажите цену хотя бы в одной валюте: без цены товар попадёт в каталог карточкой без цены. Если цена ещё не известна — сохраните черновик.",
+        "options": "Создайте хотя бы одну опцию.",
+        "uniqueSku": "SKU должен быть уникальным.",
+        "variants": "Выберите хотя бы один вариант."
+      },
+      "header": "Общие",
+      "inventory": {
+        "heading": "Комплекты запасов",
+        "itemPlaceholder": "Выберите складскую позицию",
+        "label": "Добавить складские позиции в комплект варианта.",
+        "quantityPlaceholder": "Сколько этих элементов нужно для комплекта?"
+      },
+      "successToast": "Товар {{title}} был успешно создан.",
+      "tabs": {
+        "details": "Детали",
+        "inventory": "Комплекты запасов",
+        "organize": "Организация",
+        "variants": "Варианты"
+      },
+      "title": "Создать товар",
+      "variants": {
+        "header": "Варианты",
+        "optionTitle": {
+          "placeholder": "Размер"
+        },
+        "optionValues": {
+          "placeholder": "Маленький, Средний, Большой"
+        },
+        "productOptions": {
+          "hint": "Укажите опции для товара, например, цвет, размер и т.д.",
+          "label": "Опции товара"
+        },
+        "productVariants": {
+          "alert": "Добавьте опции, чтобы создать варианты.",
+          "hint": "Этот порядок повлияет на то, как варианты будут отображаться в вашем магазине.",
+          "label": "Варианты товара",
+          "tip": "Варианты, которые не выбраны, не будут созданы. Вы всегда можете добавить и отредактировать варианты позже."
+        },
+        "selectValuesHint": "Выберите значения, которые будут использоваться для каждой опции",
+        "subHeadingDescription": "Если не отмечено, мы создадим для вас вариант по умолчанию",
+        "subHeadingTitle": "Да, это товар с вариантами"
+      }
+    },
+    "deleteVariantWarning": "Вы собираетесь удалить вариант {{title}}. Это действие нельзя отменить.",
+    "deleteWarning": "Вы собираетесь удалить товар {{title}}. Это действие нельзя отменить.",
+    "discountableHint": "Если не отмечено, скидки не будут применяться к этому товару.",
+    "domain": "Товары",
+    "edit": {
+      "description": "Редактировать детали товара.",
+      "header": "Редактировать товар",
+      "successToast": "Товар {{title}} был успешно обновлен."
+    },
+    "editAttributes": "Редактировать атрибуты",
+    "editOptions": "Редактировать опции",
+    "editPrices": "Редактировать цены",
+    "export": {
+      "columns": {
+        "description": "Настройте экспортируемые данные под конкретные нужды",
+        "title": "Столбцы"
+      },
+      "description": "Экспорт списка товаров в CSV файл.",
+      "filters": {
+        "description": "Примените фильтры в предварительном просмотре таблицы, чтобы настроить этот вид",
+        "title": "Фильтры"
+      },
+      "header": "Экспорт списка товаров",
+      "success": {
+        "description": "Экспорт данных может занять несколько минут. Мы уведомим вас, когда он будет готов.",
+        "title": "Обрабатываем ваш экспорт"
+      }
+    },
+    "fields": {
+      "categories": {
+        "label": "Категории"
+      },
+      "collection": {
+        "label": "Коллекция"
+      },
+      "countryOrigin": {
+        "label": "Страна происхождения"
+      },
+      "description": {
+        "hint": "Дайте вашему товару короткое и понятное описание.<0/>Рекомендуемая длина для поисковых систем - 120-160 символов.",
+        "label": "Описание",
+        "placeholder": "Теплая и уютная куртка"
+      },
+      "discountable": {
+        "hint": "Если не отмечено, скидки не будут применяться к этому товару",
+        "label": "Скидки"
+      },
+      "handle": {
+        "label": "Handle",
+        "placeholder": "зимняя-куртка",
+        "tooltip": "Handle используется для ссылки на товар в вашем магазине. Если не указан, handle будет сгенерирован из названия товара."
+      },
+      "height": {
+        "label": "Высота"
+      },
+      "hs_code": {
+        "label": "HS код"
+      },
+      "length": {
+        "label": "Длина"
+      },
+      "material": {
+        "label": "Материал"
+      },
+      "mid_code": {
+        "label": "MID код"
+      },
+      "options": {
+        "add": "Добавить опцию",
+        "hint": "Опции используются для определения цвета, размера и т.д. товара",
+        "label": "Опции товара",
+        "optionTitle": "Название опции",
+        "optionTitlePlaceholder": "Цвет",
+        "variantionsPlaceholder": "Красный, Синий, Зеленый",
+        "variations": "Варианты (через запятую)"
+      },
+      "sales_channels": {
+        "hint": "Товар будет доступен только в канале продаж по умолчанию, если оставить без изменений.",
+        "label": "Каналы продаж"
+      },
+      "shipping_profile": {
+        "hint": "Привяжите товар к профилю доставки",
+        "label": "Профиль доставки"
+      },
+      "subtitle": {
+        "label": "Подзаголовок",
+        "placeholder": "Тепло и уютно"
+      },
+      "tags": {
+        "label": "Теги"
+      },
+      "title": {
+        "hint": "Дайте вашему товару короткое и понятное название.<0/>Рекомендуемая длина для поисковых систем - 50-60 символов.",
+        "label": "Название",
+        "placeholder": "Зимняя куртка"
+      },
+      "type": {
+        "label": "Тип"
+      },
+      "variants": {
+        "hint": "Невыбранные варианты не будут созданы. Этот порядок повлияет на то, как варианты будут расположены в вашем интерфейсе.",
+        "label": "Варианты товара"
+      },
+      "weight": {
+        "label": "Вес"
+      },
+      "width": {
+        "label": "Ширина"
+      }
+    },
+    "import": {
+      "description": "Импортируйте товары, предоставив CSV файл в установленном формате",
+      "header": "Импорт списка товаров",
+      "success": {
+        "description": "Импорт данных может занять некоторое время. Мы уведомим вас, когда он будет готов.",
+        "title": "Обрабатываем ваш импорт"
+      },
+      "template": {
+        "description": "Скачайте шаблон ниже, чтобы убедиться, что вы следуете правильному формату.",
+        "title": "Не уверены, как составить список?"
+      },
+      "upload": {
+        "description": "С помощью импорта вы можете добавлять или обновлять товары. Для обновления существующих товаров необходимо использовать существующий идентификатор и handle. Перед импортом вам будет предложено подтверждение.",
+        "preprocessing": "Предварительная обработка...",
+        "productsToCreate": "Товары будут созданы",
+        "productsToUpdate": "Товары будут обновлены",
+        "title": "Загрузить CSV файл"
+      },
+      "uploadHint": "Перетащите CSV файл или нажмите для загрузки",
+      "uploadLabel": "Импорт товаров"
+    },
+    "list": {
+      "noRecordsMessage": "Создайте свой первый товар, чтобы начать продажи."
+    },
+    "media": {
+      "availableImages": "Выбрать фотографии",
+      "deleteImageLabel": "Удалить текущее изображение",
+      "deleteWarningWithThumbnail_few": "Вы собираетесь удалить {{count}} изображения, включая миниатюру. Это действие нельзя отменить.",
+      "deleteWarningWithThumbnail_many": "Вы собираетесь удалить {{count}} изображений, включая миниатюру. Это действие нельзя отменить.",
+      "deleteWarningWithThumbnail_one": "Вы собираетесь удалить {{count}} изображение, включая миниатюру. Это действие нельзя отменить.",
+      "deleteWarningWithThumbnail_other": "Вы собираетесь удалить {{count}} изображений, включая миниатюру. Это действие нельзя отменить.",
+      "deleteWarning_few": "Вы собираетесь удалить {{count}} изображения. Это действие нельзя отменить.",
+      "deleteWarning_many": "Вы собираетесь удалить {{count}} изображений. Это действие нельзя отменить.",
+      "deleteWarning_one": "Вы собираетесь удалить {{count}} изображение. Это действие нельзя отменить.",
+      "deleteWarning_other": "Вы собираетесь удалить {{count}} изображений. Это действие нельзя отменить.",
+      "downloadImageLabel": "Скачать текущее изображение",
+      "editHint": "Добавьте медиа к товару, чтобы представить его в вашем магазине.",
+      "emptyState": {
+        "action": "Добавить медиа",
+        "description": "Добавьте медиа к товару, чтобы представить его в вашем магазине.",
+        "header": "Нет медиа"
+      },
+      "failedToUpload": "Не удалось загрузить добавленные медиа. Пожалуйста, попробуйте снова.",
+      "fileTooLarge": "Один или несколько файлов превышают максимальный размер {{size}}: {{name}}",
+      "galleryLabel": "Галерея",
+      "invalidFileType": "'{{name}}' не является поддерживаемым типом файла. Поддерживаемые типы файлов: {{types}}.",
+      "label": "Медиа",
+      "makeThumbnail": "Сделать миниатюрой",
+      "manageImageVariants": "Управлять связанными вариантами",
+      "removeSelected": "Удалить выбранные",
+      "selectToAdd": "Добавьте фотографии товара к варианту. Чтобы добавить новые фотографии, сначала загрузите их в товар.",
+      "showAvailableImages": "Показать доступные фотографии",
+      "successToast": "Медиа были успешно обновлены.",
+      "thumbnailTooltip": "Миниатюра",
+      "uploadImagesHint": "Перетащите изображения сюда или нажмите для загрузки.",
+      "uploadImagesLabel": "Загрузить изображения",
+      "variantImages": "Фотографии варианта"
+    },
+    "noSalesChannels": "Недоступен ни в одном канале продаж",
+    "options": {
+      "create": {
+        "header": "Создать опцию",
+        "successToast": "Опция {{title}} была успешно создана."
+      },
+      "deleteWarning": "Вы собираетесь удалить опцию товара: {{title}}. Это действие нельзя отменить.",
+      "edit": {
+        "header": "Редактировать опцию",
+        "successToast": "Опция {{title}} была успешно обновлена."
+      },
+      "header": "Опции",
+      "manage": {
+        "description": "Привяжите или отвяжите опции товара для этого товара.",
+        "error": {
+          "noValues": "Выберите хотя бы одно значение для добавленных опций."
+        },
+        "header": "Управление опциями товара",
+        "hint": "Выберите, какие опции будут привязаны к этому товару.",
+        "label": "Опции товара",
+        "placeholder": "Выберите опции"
+      }
+    },
+    "organization": {
+      "edit": {
+        "header": "Редактировать организацию",
+        "toasts": {
+          "success": "Организация {{title}} успешно обновлена."
+        }
+      },
+      "header": "Организация"
+    },
+    "productStatus": {
+      "draft": "Черновик",
+      "proposed": "Предложен",
+      "published": "Опубликован",
+      "rejected": "Отклонен"
+    },
+    "stock": {
+      "description": "Обновите уровни складских запасов для всех вариантов продукта.",
+      "heading": "Управление уровнями запасов и местоположениями продукта",
+      "loading": "Подождите, это может занять некоторое время...",
+      "tooltips": {
+        "alreadyManaged": "Этот складской товар уже доступен для редактирования под {{title}}.",
+        "alreadyManagedWithSku": "Этот складской товар уже доступен для редактирования под {{title}} ({{sku}})."
+      }
+    },
+    "toasts": {
+      "delete": {
+        "error": {
+          "header": "Не удалось удалить товар"
+        },
+        "success": {
+          "description": "{{title}} был успешно удален.",
+          "header": "Товар удален"
+        }
+      }
+    },
+    "variant": {
+      "create": {
+        "header": "Детали варианта"
+      },
+      "deleteWarning": "Вы уверены, что хотите удалить этот вариант?",
+      "edit": {
+        "header": "Редактировать вариант",
+        "success": "Вариант товара был успешно отредактирован"
+      },
+      "inventory": {
+        "actions": {
+          "inventoryItems": "Перейти к складской позиции",
+          "inventoryKit": "Показать складские позиции"
+        },
+        "allowBackordersHint": "При включении клиенты смогут купить вариант даже при отсутствии в наличии.",
+        "allowBackordersLabel": "Разрешить предзаказы",
+        "editItemDetails": "Редактировать детали позиции",
+        "header": "Запасы и наличие",
+        "inventoryKit": "Комплект запасов",
+        "inventoryKitHint": "Состоит ли этот вариант из нескольких складских позиций?",
+        "manageInventoryHint": "При включении мы будем изменять количество при создании заказов и возвратов.",
+        "manageInventoryLabel": "Управление запасами",
+        "manageItems": "Управление складскими позициями",
+        "manageKit": "Управление комплектом запасов",
+        "navigateToItem": "Перейти к складской позиции",
+        "notManaged": "Не управляется",
+        "notManagedDesc": "Запасы не отслеживаются для этого варианта. Включите 'Управление запасами', чтобы отслеживать количество варианта.",
+        "toast": {
+          "itemsManageSuccess": "Складские позиции успешно обновлены.",
+          "levelsBatch": "Уровни запасов обновлены.",
+          "update": "Складская позиция успешно обновлена.",
+          "updateLevel": "Уровень запасов успешно обновлен."
+        },
+        "validation": {
+          "itemId": "Пожалуйста, выберите складскую позицию.",
+          "quantity": "Количество обязательно. Пожалуйста, введите положительное число."
+        }
+      },
+      "pricesPagination": "1 - {{current}} из {{total}} цен",
+      "tableItemAvailable": "{{availableCount}} доступно",
+      "tableItem_few": "{{availableCount}} доступно в {{locationCount}} локациях",
+      "tableItem_many": "{{availableCount}} доступно в {{locationCount}} локациях",
+      "tableItem_one": "{{availableCount}} доступен в {{locationCount}} локации",
+      "tableItem_other": "{{availableCount}} доступно в {{locationCount}} локациях"
+    },
+    "variantCount_few": "{{count}} варианта",
+    "variantCount_many": "{{count}} вариантов",
+    "variantCount_one": "{{count}} вариант",
+    "variantCount_other": "{{count}} вариантов",
+    "variants": {
+      "empty": {
+        "description": "Нет вариантов для отображения.",
+        "heading": "Нет вариантов"
+      },
+      "filtered": {
+        "description": "Нет вариантов, соответствующих текущим критериям фильтров.",
+        "heading": "Нет вариантов"
+      },
+      "header": "Варианты"
+    },
+    "csv": {
+      "exportAction": "Выгрузить CSV",
+      "importAction": "Загрузить CSV"
+<<<<<<< PR
+    },
+    "columns": {
+      "collection": "Коллекция",
+      "created_at": "Создан",
+      "handle": "URL-адрес",
+      "product_display": "Товар",
+      "sales_channels_display": "Каналы продаж",
+      "status": "Статус",
+      "thumbnail": "Миниатюра",
+      "title": "Название",
+      "updated_at": "Обновлён",
+      "variants_count": "Варианты"
+    },
+    "shippingProfile": {
+      "create": {
+        "errors": {
+          "required": "Укажите профиль доставки"
+        }
+      },
+      "edit": {
+        "header": "Настройка доставки",
+        "toasts": {
+          "success": "Профиль доставки для «{{title}}» успешно обновлён."
+        }
+      },
+      "header": "Профиль доставки"
+    },
+    "variantMedia": {
+      "addToMultipleVariants": "Добавить к нескольким вариантам",
+      "emptyState": {
+        "action": "Добавить фотографии",
+        "description": "Добавьте фотографии к варианту, чтобы показать его в магазине.",
+        "header": "Фотографий пока нет"
+      },
+      "label": "Фотографии варианта",
+      "manageVariants": "Управлять вариантами",
+      "manageVariantsDescription": "Управляйте вариантами, связанными с этой фотографией",
+      "successToast": "Фотографии вариантов успешно обновлены."
+||||||| base
+=======
+    },
+    "pricing": {
+      "showAllCurrencies": "Все валюты ({{count}})"
+>>>>>>> dev
+    }
+  },
+  "profile": {
+    "changePassword": {
+      "confirmPasswordLabel": "Подтвердите новый пароль",
+      "currentPasswordLabel": "Текущий пароль",
+      "description": "Обновите пароль для входа в систему.",
+      "newPasswordLabel": "Новый пароль",
+      "passwordsDontMatch": "Новые пароли не совпадают.",
+      "title": "Изменить пароль",
+      "tooShort": "Новый пароль должен содержать не менее 8 символов."
+    },
+    "domain": "Профиль",
+    "edit": {
+      "header": "Редактировать профиль",
+      "languageHint": "Язык, который вы хотите использовать в панели администратора. Это не изменит язык вашего магазина.",
+      "languagePlaceholder": "Выберите язык",
+      "usageInsightsHint": "Поделитесь данными об использовании и помогите нам улучшить Medusa. Подробнее о том, что мы собираем и как используем, можно прочитать в нашей <0>документации</0>."
+    },
+    "fields": {
+      "languageLabel": "Язык",
+      "usageInsightsLabel": "Аналитика использования"
+    },
+    "manageYourProfileDetails": "Управляйте данными вашего профиля.",
+    "mfa": {
+      "authenticatorApp": "Приложение-аутентификатор",
+      "description": "Требовать приложение-аутентификатор при входе.",
+      "disableChallengeDescription": "Введите 6-значный код из приложения-аутентификатора, чтобы отключить двухфакторную аутентификацию.",
+      "disableDescription": "Вы собираетесь отключить двухфакторную аутентификацию для своего аккаунта.",
+      "disableError": "Не удалось отключить двухфакторную аутентификацию.",
+      "disableSuccess": "Двухфакторная аутентификация отключена",
+      "disableTitle": "Отключить двухфакторную аутентификацию",
+      "disabled": "Отключена",
+      "enabled": "Включена",
+      "method": "Метод",
+      "noMethod": "Способ аутентификации не настроен",
+      "pending": "Настройка не завершена",
+      "qrError": "Не удалось сгенерировать QR-код.",
+      "recoveryCodesDescription": "Сохраните эти коды восстановления на случай, если потеряете доступ к приложению-аутентификатору.",
+      "recoveryCodesError": "Не удалось сгенерировать коды восстановления.",
+      "recoveryCodesTitle": "Коды восстановления",
+      "setupAuthenticatorApp": "Настроить приложение-аутентификатор",
+      "setupDescription": "Отсканируйте QR-код в приложении-аутентификаторе, затем введите 6-значный код, чтобы завершить настройку.",
+      "setupError": "Не удалось настроить приложение-аутентификатор.",
+      "setupTitle": "Настроить приложение-аутентификатор",
+      "status": "Статус",
+      "title": "Двухфакторная аутентификация",
+      "verifyError": "Не удалось подтвердить код."
+    },
+    "toast": {
+      "edit": "Изменения в профиле сохранены",
+      "passwordChanged": "Пароль изменён"
+    }
+  },
+  "promotions": {
+    "campaign": {
+      "actions": {
+        "goToCampaign": "Перейти к кампании"
+      },
+      "edit": {
+        "header": "Редактировать кампанию",
+        "successToast": "Промо-кампания успешно обновлена."
+      },
+      "header": "Кампания"
+    },
+    "campaign_currency": {
+      "tooltip": "Это валюта акции. Измените ее на вкладке Подробности."
+    },
+    "conditions": {
+      "add": "Добавить условие",
+      "list": {
+        "noRecordsMessage": "Добавьте условие, чтобы ограничить товары, к которым применяется акция."
+      }
+    },
+    "create": {},
+    "createPromotionTitle": "Создать акцию",
+    "deleteWarning": "Вы собираетесь удалить акцию {{code}}. Это действие нельзя отменить.",
+    "domain": "Акции",
+    "edit": {
+      "buy-rules": {
+        "title": "Редактировать правила покупки"
+      },
+      "rules": {
+        "title": "Редактировать условия использования"
+      },
+      "target-rules": {
+        "title": "Редактировать условия для товаров"
+      },
+      "title": "Редактировать детали акции"
+    },
+    "errors": {
+      "promotionTabError": "Исправьте ошибки на вкладке Акция, прежде чем продолжить",
+      "requiredField": "Обязательное поле"
+    },
+    "fields": {
+      "addCondition": "Добавить условие",
+      "allocation": "Распределение",
+      "allocationTooltip": "«Каждый» применяет лимит количества к каждому товару, «Все» — ко всей корзине сразу",
+      "amount": {
+        "tooltip": "Выберите валюту, чтобы установить сумму"
+      },
+      "campaign": "Кампания",
+      "clearAll": "Очистить все",
+      "conditions": {
+        "buy-rules": {
+          "description": "Если эти условия совпадают, мы активируем акцию на выбранные товары.",
+          "title": "Что должно быть в корзине для активации акции?"
+        },
+        "rules": {
+          "description": "Какие клиенты могут использовать промокод? Если не указано, промокод может быть использован всеми клиентами.",
+          "title": "Кто может использовать этот код?"
+        },
+        "target-rules": {
+          "description": "Акция будет применена к товарам, соответствующим следующим условиям.",
+          "items": {
+            "description": "Акция будет применена к товарам, соответствующим следующим условиям.",
+            "title": "К каким товарам будет применяться акция?"
+          },
+          "order": {
+            "description": "Акция будет применена к товарам, соответствующим следующим условиям.",
+            "title": "К каким товарам будет применяться акция?"
+          },
+          "shipping_methods": {
+            "description": "Акция будет применена к способам доставки, соответствующим следующим условиям.",
+            "title": "К каким способам доставки будет применяться акция?"
+          },
+          "title": "К каким товарам будет применяться акция?"
+        }
+      },
+      "method": "Метод",
+      "taxInclusive": "С учётом налога",
+      "type": "Тип",
+      "usage": "Использование",
+      "usageLimit": "Лимит использования",
+      "value": "Значение",
+      "value_type": "Тип значения"
+    },
+    "form": {
+      "allocation": {
+        "across": {
+          "description": "Применяет значение ко всем товарам",
+          "title": "Ко всем"
+        },
+        "each": {
+          "description": "Применяет значение к каждому товару",
+          "title": "Каждый"
+        },
+        "once": {
+          "description": "Применяет значение к ограниченному числу товаров",
+          "title": "Один раз"
+        }
+      },
+      "and": "И",
+      "campaign": {
+        "existing": {
+          "description": "Добавить акцию в существующую кампанию.",
+          "placeholder": {
+            "desc": "Вы можете создать ее для отслеживания нескольких акций и установки бюджетных лимитов.",
+            "title": "Нет существующих кампаний"
+          },
+          "title": "Существующая кампания"
+        },
+        "new": {
+          "description": "Создать новую кампанию для этой акции.",
+          "title": "Новая кампания"
+        },
+        "none": {
+          "description": "Продолжить без привязки акции к кампании",
+          "title": "Без кампании"
+        }
+      },
+      "code": {
+        "description": "Код, который ваши клиенты введут при оформлении заказа.",
+        "title": "Код"
+      },
+      "limit": {
+        "description": "Максимальное число раз, сколько эту акцию можно применить по всем заказам. Оставьте пустым для неограниченного использования.",
+        "title": "Лимит использования"
+      },
+      "max_quantity": {
+        "description": "Максимальное количество товаров, к которым применяется эта акция.",
+        "title": "Максимальное количество"
+      },
+      "method": {
+        "automatic": {
+          "description": "Клиенты увидят эту акцию при оформлении заказа",
+          "title": "Автоматически"
+        },
+        "code": {
+          "description": "Клиенты должны ввести этот код при оформлении заказа",
+          "title": "Промокод"
+        },
+        "label": "Метод"
+      },
+      "required": "Обязательно",
+      "selectAttribute": "Выберите атрибут",
+      "status": {
+        "active": {
+          "description": "Клиенты смогут использовать этот код",
+          "title": "Активно"
+        },
+        "draft": {
+          "description": "Клиенты пока не смогут использовать этот код",
+          "title": "Черновик"
+        },
+        "inactive": {
+          "description": "Клиенты больше не смогут использовать этот код",
+          "title": "Неактивно"
+        },
+        "label": "Статус"
+      },
+      "taxInclusive": {
+        "description": "Включите, чтобы применять акцию после налогов",
+        "title": "Акция включает налог?"
+      },
+      "type": {
+        "buyget": {
+          "description": "Купи X и получи скидку на Y",
+          "title": "Купи и получи"
+        },
+        "standard": {
+          "description": "Стандартная акция",
+          "title": "Стандартная"
+        }
+      },
+      "value": {
+        "invalid": "Некорректное значение акции",
+        "title": "Значение акции"
+      },
+      "value_type": {
+        "fixed": {
+          "description": "Сумма скидки, например 100",
+          "title": "Значение акции"
+        },
+        "percentage": {
+          "description": "Процент скидки от суммы, например 8%",
+          "title": "Значение акции"
+        }
+      }
+    },
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одной акции.",
+        "heading": "Нет акций"
+      },
+      "filtered": {
+        "description": "Нет акций, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "sections": {
+      "details": "Детали акции"
+    },
+    "tabs": {
+      "campaign": "Кампания",
+      "details": "Подробности",
+      "template": "Тип"
+    },
+    "templates": {
+      "amount_off_order": {
+        "description": "Скидка на общую сумму заказа",
+        "title": "Скидка на сумму заказа"
+      },
+      "amount_off_products": {
+        "description": "Скидка на отдельные товары или коллекцию товаров",
+        "title": "Скидка на товары"
+      },
+      "buy_get": {
+        "description": "Купите X товара(ов), получите Y товара(ов) в подарок",
+        "title": "Купи X — получи Y"
+      },
+      "percentage_off_order": {
+        "description": "Скидка в процентах от суммы заказа",
+        "title": "Скидка в процентах от заказа"
+      },
+      "percentage_off_product": {
+        "description": "Скидка в процентах на выбранные товары",
+        "title": "Скидка в процентах на товары"
+      },
+      "shipping_discount": {
+        "description": "Скидка 100% на стоимость доставки",
+        "title": "Бесплатная доставка"
+      }
+    },
+    "toasts": {
+      "promotionCreateSuccess": "Акция ({{code}}) успешно создана."
+    },
+    "tooltips": {
+      "campaignType": "Чтобы установить бюджет расходов, в акции должна быть выбрана валюта."
+    },
+    "type": "Тип акции"
+  },
+  "regions": {
+    "addCountries": "Добавить страны",
+    "automaticTaxesHint": "Если включено, налоги будут рассчитываться только при оформлении заказа на основе адреса доставки.",
+    "calculated": "Расчетная",
+    "countriesHint": "Добавьте страны, входящие в этот регион.",
+    "createRegion": "Создать регион",
+    "createRegionHint": "Управляйте налоговыми ставками и способами доставки для набора стран.",
+    "deleteRegionWarning": "Вы собираетесь удалить регион {{name}}. Это действие нельзя отменить.",
+    "deleteShippingOptionWarning": "Вы собираетесь удалить способ доставки {{name}}. Это действие нельзя отменить.",
+    "domain": "Регионы",
+    "editRegion": "Редактировать регион",
+    "flatRate": "Фиксированная ставка",
+    "list": {
+      "empty": {
+        "description": "Пока нет ни одного региона.",
+        "heading": "Нет регионов"
+      },
+      "filtered": {
+        "description": "Нет регионов, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      },
+      "noRecordsMessage": "Создайте регион для областей, где вы ведете продажи."
+    },
+    "outbound": "Исходящие",
+    "priceType": "Тип цены",
+    "providersHint": "Добавьте, какие платежные системы доступны в этом регионе.",
+    "removeCountriesWarning_few": "Вы собираетесь удалить {{count}} страны из региона. Это действие нельзя отменить.",
+    "removeCountriesWarning_many": "Вы собираетесь удалить {{count}} стран из региона. Это действие нельзя отменить.",
+    "removeCountriesWarning_one": "Вы собираетесь удалить {{count}} страну из региона. Это действие нельзя отменить.",
+    "removeCountriesWarning_other": "Вы собираетесь удалить {{count}} стран из региона. Это действие нельзя отменить.",
+    "removeCountryWarning": "Вы собираетесь удалить страну {{name}} из региона. Это действие нельзя отменить.",
+    "return": "Возврат",
+    "shippingOption": {
+      "availability": {
+        "adminOnly": "Только для администратора",
+        "adminOnlyHint": "При включении способ доставки будет доступен только в панели администратора, но не в магазине."
+      },
+      "createShippingOption": "Создать способ доставки",
+      "createShippingOptionHint": "Создайте новый способ доставки для региона.",
+      "editShippingOption": "Редактировать способ доставки",
+      "fulfillmentMethod": "Метод фулфилмента",
+      "priceType": {
+        "calculated": "Расчетная",
+        "flatRate": "Фиксированная ставка",
+        "label": "Тип цены"
+      },
+      "requirements": {
+        "hint": "Укажите требования для способа доставки.",
+        "label": "Требования"
+      },
+      "taxInclusiveHint": "При включении цена доставки будет включать налог.",
+      "type": {
+        "outbound": "Исходящие",
+        "outboundHint": "Используйте этот вариант, если вы создаете способ доставки для отправки товаров клиенту.",
+        "return": "Возврат",
+        "returnHint": "Используйте этот вариант, если вы создаете способ доставки для возврата товаров клиентом."
+      }
+    },
+    "shippingOptions": "Способы доставки",
+    "subtitle": "Регион - это область, где вы продаете товары. Он может включать несколько стран и имеет свои налоговые ставки, способы доставки и валюту.",
+    "taxInclusiveHint": "При включении цены в регионе будут включать налог.",
+    "toast": {
+      "countries": "Страны региона успешно обновлены",
+      "create": "Регион успешно создан",
+      "delete": "Регион успешно удален",
+      "edit": "Изменения в регионе сохранены"
+    }
+  },
+  "reservations": {
+    "deleteWarning": "Вы собираетесь удалить резервацию. Это действие нельзя отменить.",
+    "domain": "Резервации",
+    "subtitle": "Управляйте зарезервированным количеством товаров."
+  },
+  "resetPassword": {
+    "backToLogin": "<0>Вернуться к входу</0>",
+    "email": "Email",
+    "expiredTokenTitle": "Срок действия вашего токена сброса истек",
+    "goToResetPassword": "Перейти к сбросу пароля",
+    "hint": "Введите ваш email ниже, и мы отправим вам инструкции по сбросу пароля.",
+    "invalidLinkHint": "Попробуйте сбросить пароль еще раз.",
+    "invalidLinkTitle": "Ваша ссылка для сброса недействительна",
+    "invalidTokenHint": "Попробуйте запросить новую ссылку для сброса.",
+    "invalidTokenTitle": "Ваш токен сброса недействителен",
+    "newPassword": "Новый пароль",
+    "newPasswordHint": "Выберите новый пароль ниже.",
+    "passwordMismatch": "Пароли не совпадают",
+    "repeatNewPassword": "Повторите новый пароль",
+    "resetPassword": "Сбросить пароль",
+    "sendResetInstructions": "Отправить инструкции по сбросу",
+    "successfulRequest": "Мы отправили вам email, который вы можете использовать для сброса пароля. Проверьте папку спам, если письмо не пришло через несколько минут.",
+    "successfulRequestTitle": "Письмо успешно отправлено",
+    "successfulReset": "Пожалуйста, войдите на странице входа.",
+    "successfulResetTitle": "Пароль успешно сброшен",
+    "title": "Сбросить пароль",
+    "tokenExpiresIn": "Токен истекает через <0>{{time}}</0> минут"
+  },
+  "returnReasons": {
+    "calloutHint": "Управляйте причинами для категоризации возвратов.",
+    "create": {
+      "header": "Добавить причину возврата",
+      "hint": "Создайте новую причину возврата для категоризации возвратов.",
+      "subtitle": "Укажите наиболее распространенные причины возврата.",
+      "successToast": "Причина возврата {{label}} успешно создана."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить причину возврата {{label}}. Это действие нельзя отменить.",
+      "successToast": "Причина возврата {{label}} успешно удалена."
+    },
+    "domain": "Причины возврата",
+    "edit": {
+      "header": "Редактировать причину возврата",
+      "subtitle": "Отредактируйте значение причины возврата.",
+      "successToast": "Причина возврата {{label}} успешно обновлена."
+    },
+    "editReason": "Редактировать причину возврата",
+    "fields": {
+      "description": {
+        "label": "Описание",
+        "placeholder": "Клиент получил неверный размер"
+      },
+      "label": {
+        "label": "Название",
+        "placeholder": "Неверный размер"
+      },
+      "value": {
+        "label": "Значение",
+        "placeholder": "неверный_размер",
+        "tooltip": "Значение должно быть уникальным идентификатором причины возврата."
+      }
+    },
+    "subtitle": "Управляйте причинами возврата товаров."
+  },
+  "salesChannels": {
+    "addProducts": "Добавить товары",
+    "createSalesChannel": "Создать канал продаж",
+    "createSalesChannelHint": "Создайте новый канал продаж для продажи ваших товаров.",
+    "deleteSalesChannelWarning": "Вы собираетесь удалить канал продаж {{name}}. Это действие нельзя отменить.",
+    "domain": "Каналы продаж",
+    "editSalesChannel": "Редактировать канал продаж",
+    "enabledHint": "Укажите, активен ли канал продаж.",
+    "list": {
+      "empty": {
+        "description": "Как только появится канал продаж, он отобразится здесь.",
+        "heading": "Каналы продаж не найдены"
+      },
+      "filtered": {
+        "description": "Нет каналов продаж, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "productAlreadyAdded": "Товар уже добавлен в канал продаж.",
+    "products": {
+      "add": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте товар."
+        }
+      },
+      "list": {
+        "noRecordsMessage": "В канале продаж нет товаров."
+      }
+    },
+    "removeProductsWarning_few": "Вы собираетесь удалить {{count}} товара из {{sales_channel}}.",
+    "removeProductsWarning_many": "Вы собираетесь удалить {{count}} товаров из {{sales_channel}}.",
+    "removeProductsWarning_one": "Вы собираетесь удалить {{count}} товар из {{sales_channel}}.",
+    "removeProductsWarning_other": "Вы собираетесь удалить {{count}} товаров из {{sales_channel}}.",
+    "subtitle": "Управляйте онлайн и офлайн каналами, через которые вы продаете товары.",
+    "toast": {
+      "create": "Канал продаж успешно создан",
+      "delete": "Канал продаж успешно удален",
+      "update": "Канал продаж успешно обновлен"
+    },
+    "tooltip": {
+      "cannotDeleteDefault": "Нельзя удалить канал продаж по умолчанию"
+    }
+  },
+  "salesSummary": {
+    "title": "Продажи",
+    "period": {
+      "today": "Сегодня",
+      "7d": "7 дней",
+      "30d": "30 дней",
+      "custom": "Произвольный"
+    },
+    "customFrom": "с",
+    "customTo": "по",
+    "pickRange": "Выберите обе даты, чтобы увидеть сводку",
+    "revenue": "Выручка",
+    "orders": "Заказы",
+    "aov": "Средний чек",
+    "chartTitle": "Выручка по дням",
+    "topProducts": "Топ товаров",
+    "topProductRow": "{{quantity}} шт — {{revenue}}",
+    "noSalesThisPeriod": "За этот период продаж не было",
+    "loading": "Загрузка…",
+    "noOrdersYet": "Заказов пока нет"
+  },
+  "sales_channels": {
+    "availableIn": "Доступно в <0>{{x}}</0> из <1>{{y}}</1> каналов продаж"
+  },
+  "shippingProfile": {
+    "create": {
+      "header": "Создать профиль доставки",
+      "hint": "Создайте новый профиль доставки для группировки товаров со схожими требованиями к доставке.",
+      "successToast": "Профиль доставки {{name}} успешно создан."
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить профиль доставки {{name}}. Это действие нельзя отменить.",
+      "successToast": "Профиль доставки {{name}} успешно удален.",
+      "title": "Удалить профиль доставки"
+    },
+    "domain": "Профили доставки",
+    "subtitle": "Группируйте товары со схожими требованиями к доставке в профили.",
+    "tooltip": {
+      "type": "Введите тип профиля доставки, например: Тяжелый, Крупногабаритный, Только фрахт и т.д."
+    }
+  },
+  "statuses": {
+    "active": "Активно",
+    "disabled": "Отключено",
+    "draft": "Черновик",
+    "enabled": "Включено",
+    "expired": "Истекло",
+    "inactive": "Неактивный",
+    "scheduled": "Запланировано"
+  },
+  "stockLocations": {
+    "create": {
+      "header": "Создать складскую локацию",
+      "hint": "Складская локация - это физическое место, где хранятся и отгружаются товары.",
+      "successToast": "Локация {{name}} успешно создана."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить складскую локацию {{name}}. Это действие нельзя отменить.",
+      "successToast": "Склад «{{name}}» успешно удалён."
+    },
+    "domain": "Локации и доставка",
+    "edit": {
+      "header": "Редактировать складскую локацию",
+      "successToast": "Локация {{name}} успешно обновлена.",
+      "viewInventory": "Просмотр запасов"
+    },
+    "fulfillmentProviders": {
+      "action": "Подключить поставщиков",
+      "connectedTo": "Подключено {{count}} из {{total}} поставщиков фулфилмента",
+      "header": "Поставщики фулфилмента",
+      "label": "Подключенные поставщики фулфилмента",
+      "noProviders": "Эта складская локация не подключена ни к одному поставщику фулфилмента.",
+      "shippingOptionsTooltip": "Этот выпадающий список будет содержать только поставщиков, включенных для этой локации. Добавьте их в локацию, если выпадающий список отключен.",
+      "successToast": "Поставщики фулфилмента для складской локации успешно обновлены."
+    },
+    "fulfillmentSets": {
+      "disable": {
+        "confirmation": "Вы уверены, что хотите отключить {{name}}? Это удалит все связанные сервисные зоны и варианты доставки, и это действие нельзя отменить.",
+        "pickup": "Самовывоз успешно отключен.",
+        "shipping": "Доставка успешно отключена."
+      },
+      "enable": {
+        "pickup": "Самовывоз успешно включен.",
+        "shipping": "Доставка успешно включена."
+      },
+      "pickup": {
+        "header": "Самовывоз"
+      },
+      "shipping": {
+        "header": "Доставка"
+      }
+    },
+    "list": {
+      "description": "Управляйте складскими локациями и вариантами доставки вашего магазина.",
+      "noRecordsMessage": "Нет записей",
+      "noRecordsMessageEmpty": "Склады не найдены",
+      "noRecordsMessageFiltered": "Нет складов, подходящих под фильтры"
+    },
+    "pickupOptions": {
+      "edit": {
+        "header": "Редактировать способ самовывоза"
+      }
+    },
+    "salesChannels": {
+      "action": "Подключить каналы продаж",
+      "connectedTo": "Подключено {{count}} из {{total}} каналов продаж",
+      "header": "Каналы продаж",
+      "hint": "Управляйте каналами продаж, привязанными к этому складу.",
+      "label": "Подключенные каналы продаж",
+      "noChannels": "Локация не подключена ни к одному каналу продаж.",
+      "successToast": "Каналы продаж успешно обновлены."
+    },
+    "serviceZones": {
+      "create": {
+        "action": "Создать сервисную зону",
+        "headerPickup": "Создать сервисную зону для самовывоза из {{location}}",
+        "headerShipping": "Создать сервисную зону для доставки из {{location}}",
+        "successToast": "Сервисная зона {{name}} успешно создана."
+      },
+      "delete": {
+        "confirmation": "Вы собираетесь удалить сервисную зону {{name}}. Это действие нельзя отменить.",
+        "successToast": "Сервисная зона {{name}} успешно удалена."
+      },
+      "edit": {
+        "header": "Редактировать сервисную зону",
+        "successToast": "Сервисная зона {{name}} успешно обновлена."
+      },
+      "fields": {
+        "noRecords": "Нет сервисных зон, к которым можно добавить варианты доставки.",
+        "tip": "Сервисная зона - это набор географических зон или областей. Она используется для ограничения доступных вариантов доставки определенным набором локаций."
+      },
+      "manageAreas": {
+        "action": "Управление областями",
+        "header": "Управление областями для {{name}}",
+        "hint": "Выберите географические области, которые охватывает сервисная зона.",
+        "label": "Области",
+        "successToast": "Области для {{name}} успешно обновлены."
+      }
+    },
+    "shippingOptions": {
+      "conditionalPrices": {
+        "actions": {
+          "addPrice": "Добавить цену",
+          "manageConditionalPrices": "Управлять условными ценами"
+        },
+        "attributes": {
+          "cartItemTotal": "Общая стоимость товаров в корзине"
+        },
+        "customRules": {
+          "eq": "Общая стоимость товаров должна быть равна",
+          "gt": "Общая стоимость товаров должна быть больше",
+          "label": "Пользовательские правила",
+          "lt": "Общая стоимость товаров должна быть меньше",
+          "tooltip": "Эта условная цена имеет правила, которыми нельзя управлять в панели управления."
+        },
+        "description": "Управляйте условными ценами для этого варианта доставки на основе общей стоимости товаров в корзине.",
+        "errors": {
+          "amountRequired": "Цена варианта доставки обязательна",
+          "duplicateAmount": "Цена варианта доставки должна быть уникальной для каждого условия",
+          "minGreaterThanMax": "Минимальная общая стоимость товаров должна быть меньше или равна максимальной",
+          "minOrMaxRequired": "Необходимо указать минимальную или максимальную общую стоимость товаров",
+          "overlappingConditions": "Условия должны быть уникальными для всех правил цен"
+        },
+        "header": "Условные цены для {{name}}",
+        "rules": {
+          "amount": "Цена варианта доставки",
+          "gte": "Минимальная общая стоимость товаров",
+          "lte": "Максимальная общая стоимость товаров"
+        },
+        "summaries": {
+          "greaterThan": "Если <0>{{attribute}}</0> ≥ <1>{{gte}}</1>",
+          "lessThan": "Если <0>{{attribute}}</0> ≤ <1>{{lte}}</1>",
+          "range": "Если <0>{{attribute}}</0> между <1>{{gte}}</1> и <2>{{lte}}</2>"
+        }
+      },
+      "create": {
+        "action": "Создать вариант",
+        "pickup": {
+          "header": "Создать способ самовывоза для «{{zone}}»",
+          "hint": "Создайте новый способ самовывоза, чтобы описать, как товары забирают с этого склада.",
+          "label": "Способы самовывоза",
+          "successToast": "Способ самовывоза «{{name}}» успешно создан."
+        },
+        "returns": {
+          "header": "Создать вариант возврата для {{zone}}",
+          "hint": "Создайте новый вариант возврата, чтобы определить, как товары возвращаются в эту локацию.",
+          "label": "Варианты возврата",
+          "successToast": "Вариант возврата {{name}} успешно создан."
+        },
+        "shipping": {
+          "header": "Создать вариант доставки для {{zone}}",
+          "hint": "Создайте новый вариант доставки, чтобы определить, как товары отправляются из этой локации.",
+          "label": "Варианты доставки",
+          "successToast": "Вариант доставки {{name}} успешно создан."
+        },
+        "tabs": {
+          "details": "Детали",
+          "prices": "Цены"
+        }
+      },
+      "delete": {
+        "confirmation": "Вы собираетесь удалить вариант доставки {{name}}. Это действие нельзя отменить.",
+        "successToast": "Вариант доставки {{name}} успешно удален."
+      },
+      "edit": {
+        "action": "Редактировать вариант",
+        "header": "Редактировать вариант доставки",
+        "successToast": "Вариант доставки {{name}} успешно обновлен."
+      },
+      "fields": {
+        "count": {
+          "pickup_one": "{{count}} способ самовывоза",
+          "pickup_other": "{{count}} способов самовывоза",
+          "returns_few": "{{count}} варианта возврата",
+          "returns_many": "{{count}} варианта возврата",
+          "returns_one": "{{count}} вариант возврата",
+          "returns_other": "{{count}} варианта возврата",
+          "shipping_few": "{{count}} варианта доставки",
+          "shipping_many": "{{count}} варианта доставки",
+          "shipping_one": "{{count}} вариант доставки",
+          "shipping_other": "{{count}} варианта доставки"
+        },
+        "enableInStore": {
+          "hint": "Могут ли клиенты использовать этот вариант при оформлении заказа.",
+          "label": "Включить в магазине"
+        },
+        "fulfillmentOption": "Вариант фулфилмента",
+        "priceType": {
+          "label": "Тип цены",
+          "options": {
+            "calculated": {
+              "hint": "Цена варианта доставки рассчитывается поставщиком фулфилмента во время оформления заказа.",
+              "label": "Рассчитанная"
+            },
+            "fixed": {
+              "hint": "Цена варианта доставки фиксирована и не меняется в зависимости от содержимого заказа.",
+              "label": "Фиксированная"
+            }
+          }
+        },
+        "profile": "Профиль доставки",
+        "provider": "Поставщик фулфилмента",
+        "type": "Тип способа доставки"
+      },
+      "pricing": {
+        "action": "Редактировать цены"
+      }
+    },
+    "sidebar": {
+      "header": "Настройки доставки",
+      "shippingOptionTypes": {
+        "description": "Группируйте способы доставки по типам",
+        "label": "Типы способов доставки"
+      },
+      "shippingProfiles": {
+        "description": "Группируйте товары по требованиям к доставке",
+        "label": "Профили доставки"
+      }
+    }
+  },
+  "store": {
+    "addCurrencies": "Добавить валюты",
+    "currencies": "Валюты",
+    "currencyAlreadyAdded": "Валюта уже добавлена в ваш магазин.",
+    "defaultCurrency": "Валюта по умолчанию",
+    "defaultLocale": "Язык по умолчанию",
+    "defaultLocation": "Склад по умолчанию",
+    "defaultRegion": "Регион по умолчанию",
+    "defaultSalesChannel": "Канал продаж по умолчанию",
+    "disableTaxInclusivePricing": "Отключить цены с учетом налога",
+    "domain": "Магазин",
+    "edit": {
+      "header": "Редактировать магазин"
+    },
+    "editStore": "Редактировать магазин",
+    "enableTaxInclusivePricing": "Включить цены с учетом налога",
+    "inviteLinkTemplate": "Шаблон ссылки приглашения",
+    "localeAlreadyAdded": "Этот язык уже добавлен в магазин.",
+    "locales": "Языки",
+    "manageYourStoresDetails": "Управляйте данными вашего магазина",
+    "paymentLinkTemplate": "Шаблон ссылки для оплаты",
+    "removeCurrencyWarning_few": "Вы собираетесь удалить {{count}} валюты из вашего магазина. Убедитесь, что вы удалили все цены в этих валютах перед продолжением.",
+    "removeCurrencyWarning_many": "Вы собираетесь удалить {{count}} валют из вашего магазина. Убедитесь, что вы удалили все цены в этих валютах перед продолжением.",
+    "removeCurrencyWarning_one": "Вы собираетесь удалить {{count}} валюту из вашего магазина. Убедитесь, что вы удалили все цены в этой валюте перед продолжением.",
+    "removeCurrencyWarning_other": "Вы собираетесь удалить {{count}} валют из вашего магазина. Убедитесь, что вы удалили все цены в этих валютах перед продолжением.",
+    "removeLocaleWarning_one": "Вы собираетесь убрать {{count}} язык из магазина. Все переводы на этом языке будут удалены.",
+    "removeLocaleWarning_other": "Вы собираетесь убрать {{count}} языков из магазина. Все переводы на этих языках будут удалены.",
+    "swapLinkTemplate": "Шаблон ссылки для обмена",
+    "toast": {
+      "currenciesRemoved": "Валюты успешно удалены из магазина",
+      "currenciesUpdated": "Валюты успешно обновлены",
+      "localesRemoved": "Языки успешно убраны из магазина",
+      "localesUpdated": "Языки успешно обновлены",
+      "update": "Магазин успешно обновлен",
+      "updatedTaxInclusivitySuccessfully": "Цены с учетом налога успешно обновлены"
+    }
+  },
+  "taxRegions": {
+    "canton": {
+      "create": {
+        "header": "Создать кантональный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного кантона."
+      },
+      "header": "Кантоны"
+    },
+    "county": {
+      "create": {
+        "header": "Создать окружной налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного округа."
+      },
+      "header": "Округа"
+    },
+    "create": {
+      "errors": {
+        "missingCountry": "При создании налогового региона укажите страну.",
+        "missingProvider": "При создании налогового региона укажите провайдера.",
+        "nameIsRequired": "Название обязательно при создании налоговой ставки по умолчанию.",
+        "rateIsRequired": "Налоговая ставка обязательна при создании налоговой ставки по умолчанию."
+      },
+      "header": "Создать налоговый регион",
+      "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретной страны.",
+      "successToast": "Налоговый регион успешно создан."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить налоговый регион. Это действие нельзя отменить.",
+      "successToast": "Налоговый регион успешно удален."
+    },
+    "department": {
+      "create": {
+        "header": "Создать департаментский налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного департамента."
+      },
+      "header": "Департаменты"
+    },
+    "district": {
+      "create": {
+        "header": "Создать районный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного района."
+      },
+      "header": "Районы"
+    },
+    "domain": "Налоговые регионы",
+    "edit": {
+      "header": "Редактировать налоговый регион",
+      "hint": "Измените параметры налогового региона.",
+      "successToast": "Налоговый регион успешно обновлён."
+    },
+    "emirate": {
+      "create": {
+        "header": "Создать налоговый регион эмирата",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного эмирата."
+      },
+      "header": "Эмираты"
+    },
+    "fields": {
+      "defaultTaxRate": {
+        "action": "Создать налоговую ставку по умолчанию",
+        "label": "Налоговая ставка по умолчанию",
+        "tooltip": "Налоговая ставка по умолчанию для этого региона. Например, стандартная ставка НДС для страны или региона."
+      },
+      "isCombinable": {
+        "false": "Некомбинируемая",
+        "hint": "Можно ли комбинировать эту налоговую ставку с налоговой ставкой по умолчанию из налогового региона.",
+        "label": "Комбинируемость",
+        "true": "Комбинируемая"
+      },
+      "noDefaultRate": {
+        "label": "Нет ставки по умолчанию",
+        "tooltip": "У этого налогового региона нет налоговой ставки по умолчанию. Если существует стандартная ставка, например НДС для страны, добавьте ее в этот регион."
+      },
+      "sublevels": {
+        "alert": {
+          "action": "Включить подуровни",
+          "description": "Подуровни по умолчанию отключены для этого региона. Вы можете включить их для создания подуровневых регионов, таких как провинции, штаты или территории.",
+          "header": "Подуровни отключены для этого налогового региона"
+        },
+        "labels": {
+          "canton": "Кантон",
+          "county": "Округ",
+          "department": "Департамент",
+          "district": "Район",
+          "emirate": "Эмират",
+          "governorate": "Губернаторство",
+          "prefecture": "Префектура",
+          "province": "Провинция",
+          "region": "Регион",
+          "state": "Штат",
+          "stateOrTerritory": "Штат/территория",
+          "sublevel": "Код подуровня",
+          "territory": "Территория"
+        },
+        "placeholders": {
+          "canton": "Выберите кантон",
+          "county": "Выберите округ",
+          "department": "Выберите департамент",
+          "district": "Выберите район",
+          "emirate": "Выберите эмират",
+          "governorate": "Выберите губернаторство",
+          "prefecture": "Выберите префектуру",
+          "province": "Выберите провинцию",
+          "region": "Выберите регион",
+          "state": "Выберите штат",
+          "stateOrTerritory": "Выберите штат/территорию",
+          "territory": "Выберите территорию"
+        },
+        "tooltips": {
+          "notPartOfCountry": "{{province}} не является частью {{country}}. Пожалуйста, проверьте правильность.",
+          "sublevel": "Введите код ISO 3166-2 для налогового подрегиона."
+        }
+      },
+      "targets": {
+        "action": "Добавить цель",
+        "additionalValues_few": "и еще {{count}} значения",
+        "additionalValues_many": "и еще {{count}} значений",
+        "additionalValues_one": "и еще {{count}} значение",
+        "additionalValues_other": "и еще {{count}} значений",
+        "hint": "Выберите цели, к которым будет применяться эта налоговая ставка.",
+        "label": "Цели",
+        "modal": {
+          "header": "Добавить цели"
+        },
+        "numberOfTargets_few": "{{count}} цели",
+        "numberOfTargets_many": "{{count}} целей",
+        "numberOfTargets_one": "{{count}} цель",
+        "numberOfTargets_other": "{{count}} целей",
+        "operators": {
+          "and": "И",
+          "in": "В",
+          "on": "НА"
+        },
+        "options": {
+          "customerGroup": "Группы клиентов",
+          "product": "Товары",
+          "productCollection": "Коллекции товаров",
+          "productTag": "Теги товаров",
+          "productType": "Типы товаров",
+          "shippingOption": "Способы доставки"
+        },
+        "placeholders": {
+          "customerGroup": "Поиск групп клиентов",
+          "product": "Поиск товаров",
+          "productCollection": "Поиск коллекций товаров",
+          "productTag": "Поиск тегов товаров",
+          "productType": "Поиск типов товаров",
+          "shippingOption": "Поиск способов доставки"
+        },
+        "tags": {
+          "customerGroup": "Группа клиентов",
+          "product": "Товар",
+          "productCollection": "Коллекция товаров",
+          "productTag": "Тег товара",
+          "productType": "Тип товара",
+          "shippingOption": "Способ доставки"
+        },
+        "values_few": "{{count}} значения",
+        "values_many": "{{count}} значений",
+        "values_one": "{{count}} значение",
+        "values_other": "{{count}} значений"
+      },
+      "taxCode": "Налоговый код",
+      "taxProvider": "Налоговый провайдер",
+      "taxRate": "Налоговая ставка"
+    },
+    "governorate": {
+      "create": {
+        "header": "Создать губернаторский налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного губернаторства."
+      },
+      "header": "Губернаторства"
+    },
+    "list": {
+      "hint": "Управляйте налогами, которыми облагаются клиенты при покупках в разных странах и регионах."
+    },
+    "prefecture": {
+      "create": {
+        "header": "Создать префектурный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретной префектуры."
+      },
+      "header": "Префектуры"
+    },
+    "provider": {
+      "header": "Налоговый провайдер"
+    },
+    "province": {
+      "create": {
+        "header": "Создать региональный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретной провинции."
+      },
+      "header": "Провинции"
+    },
+    "region": {
+      "create": {
+        "header": "Создать региональный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного региона."
+      },
+      "header": "Регионы"
+    },
+    "state": {
+      "create": {
+        "header": "Создать налоговый регион штата",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного штата."
+      },
+      "header": "Штаты"
+    },
+    "stateOrTerritory": {
+      "create": {
+        "header": "Создать налоговый регион штата/территории",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного штата/территории."
+      },
+      "header": "Штаты или территории"
+    },
+    "sublevel": {
+      "create": {
+        "header": "Создать налоговый регион подуровня",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретного подуровня."
+      },
+      "header": "Подуровни"
+    },
+    "taxOverrides": {
+      "create": {
+        "header": "Создать переопределение",
+        "hint": "Создайте налоговую ставку, которая переопределяет налоговые ставки по умолчанию для выбранных условий."
+      },
+      "edit": {
+        "header": "Редактировать переопределение",
+        "hint": "Редактируйте налоговую ставку, которая переопределяет налоговые ставки по умолчанию для выбранных условий."
+      },
+      "header": "Переопределения"
+    },
+    "taxRates": {
+      "create": {
+        "header": "Создать налоговую ставку",
+        "hint": "Создайте новую налоговую ставку для определения налога для региона.",
+        "successToast": "Налоговая ставка успешно создана."
+      },
+      "delete": {
+        "confirmation": "Вы собираетесь удалить налоговую ставку {{name}}. Это действие нельзя отменить.",
+        "successToast": "Налоговая ставка успешно удалена."
+      },
+      "edit": {
+        "header": "Редактировать налоговую ставку",
+        "hint": "Редактируйте налоговую ставку для определения налога для региона.",
+        "successToast": "Налоговая ставка успешно обновлена."
+      }
+    },
+    "territory": {
+      "create": {
+        "header": "Создать территориальный налоговый регион",
+        "hint": "Создайте новый налоговый регион для определения налоговых ставок для конкретной территории."
+      },
+      "header": "Территории"
+    }
+  },
+  "taxes": {
+    "countries": {
+      "taxCountriesHint": "Налоговые настройки применяются к перечисленным странам."
+    },
+    "defaultRate": {
+      "sectionTitle": "Налоговая ставка по умолчанию"
+    },
+    "domain": "Налоговые регионы",
+    "domainDescription": "Управляйте вашим налоговым регионом",
+    "settings": {
+      "applyTaxesOnGiftCardsHint": "Если включено, налоги будут применяться к подарочным картам при оформлении заказа. В некоторых странах налоговое законодательство требует взимания налога с подарочных карт при покупке.",
+      "applyTaxesOnGiftCardsLabel": "Применять налоги к подарочным картам",
+      "calculateTaxesAutomaticallyHint": "При включении налоговые ставки будут автоматически рассчитываться и применяться к корзинам. Когда отключено, налоги нужно рассчитывать вручную при оформлении заказа. Для внешних налоговых провайдеров рекомендуется использовать ручные налоги.",
+      "calculateTaxesAutomaticallyLabel": "Рассчитывать налоги автоматически",
+      "defaultTaxCodeLabel": "Налоговый код по умолчанию",
+      "defaultTaxRateLabel": "Налоговая ставка по умолчанию",
+      "editTaxSettings": "Редактировать налоговые настройки",
+      "systemTaxProviderLabel": "Системный налоговый провайдер",
+      "taxProviderLabel": "Налоговый провайдер"
+    },
+    "taxRate": {
+      "addProductOverridesAction": "Добавить переопределения продукта",
+      "addProductTypeOverridesAction": "Добавить переопределения типа продукта",
+      "addShippingOptionOverridesAction": "Добавить переопределения способа доставки",
+      "createTaxRate": "Создать налоговую ставку",
+      "createTaxRateHint": "Создайте новую налоговую ставку для региона.",
+      "deleteRateDescription": "Вы собираетесь удалить налоговую ставку {{name}}. Это действие нельзя отменить.",
+      "deleteTaxRateWarning": "Вы собираетесь удалить налоговую ставку {{name}}. Это действие нельзя отменить.",
+      "editOverridesAction": "Редактировать переопределения",
+      "editOverridesHint": "Укажите переопределение налоговой ставки.",
+      "editOverridesTitle": "Редактировать переопределения налоговой ставки",
+      "editRateAction": "Редактировать ставку",
+      "editTaxRate": "Редактировать налоговую ставку",
+      "productOverridesHeader": "Продукты",
+      "productOverridesHint": "Укажите переопределение продукта для налоговой ставки.",
+      "productOverridesLabel": "Переопределения для продукта",
+      "productTypeOverridesHeader": "Типы продуктов",
+      "productTypeOverridesHint": "Укажите переопределение типа продукта для налоговой ставки.",
+      "productTypeOverridesLabel": "Переопределения типа продукта",
+      "sectionTitle": "Налоговые ставки",
+      "shippingOptionOverridesHeader": "Способы доставки",
+      "shippingOptionOverridesHint": "Укажите переопределение способа доставки для налоговой ставки.",
+      "shippingOptionOverridesLabel": "Переопределения способа доставки"
+    }
+  },
+  "tenantAddress": {
+    "addDomain": "Добавить",
+    "cancel": "Отмена",
+    "changeAction": "Сменить адрес",
+    "changed": "Магазин теперь отвечает по адресу {{host}}",
+    "cname": "CNAME на {{target}}",
+    "customHint": "Добавьте домен, пропишите CNAME, затем нажмите «Сделать основным» — мы проверим, что домен отвечает вашим магазином, и переведём на него адрес, который видит поиск.",
+    "customTitle": "Свой домен",
+    "domainAdded": "{{host}} добавлен",
+    "domainRemoved": "{{host}} удалён",
+    "madePrimary": "{{host}} стал основным адресом магазина",
+    "makePrimary": "Сделать основным",
+    "noCustomDomains": "Своего домена пока нет — магазин отвечает по адресу выше.",
+    "previousBadge": "прежний",
+    "previousHint": "отвечает, ведёт на основной, закреплён за вами бессрочно",
+    "primaryBadge": "основной",
+    "primaryHint": "канонический адрес в поиске",
+    "subtitle": "по этому адресу вас находят покупатели и поиск",
+    "technicalBadge": "технический",
+    "technicalHint": "не меняется никогда, всегда ведёт на основной, в поиск не попадает",
+    "title": "Адрес магазина",
+    "warningNewWorks": "Новый адрес начинает отвечать сразу, сертификат уже готов.",
+    "warningOldRedirects": "Старый адрес продолжает работать и перебрасывает на новый — каждая страница на свою. Ссылки из писем, соцсетей и с чужих сайтов не ломаются.",
+    "warningReindex": "Поиску нужно время. Google и Яндекс переносят накопленный вес по редиректу почти полностью, но переиндексация занимает недели, а не дни. Пока она идёт, в выдаче ещё встречается старый адрес.",
+    "warningRepeat": "Менять адрес часто вредно: каждая смена — новый круг переиндексации.",
+    "warningReserved": "Старый адрес навсегда закреплён за вашим магазином: его не получит другой магазин, даже если вы им больше не пользуетесь.",
+    "warningTitle": "Что произойдёт после смены"
+  },
+  "transferOwnership": {
+    "currentOwner": {
+      "hint": "Текущий владелец заказа.",
+      "label": "Текущий владелец"
+    },
+    "details": {
+      "draft": "Детали черновика",
+      "order": "Детали заказа"
+    },
+    "header": "Передать право собственности",
+    "label": "Передать право собственности",
+    "newOwner": {
+      "hint": "Новый владелец, которому будет передан заказ.",
+      "label": "Новый владелец"
+    },
+    "validation": {
+      "mustBeDifferent": "Новый владелец должен отличаться от текущего владельца.",
+      "required": "Необходимо указать нового владельца."
+    }
+  },
+  "users": {
+    "acceptedOnDate": "Принято {{date}}",
+    "copyInviteLink": "Копировать ссылку приглашения",
+    "deleteInviteWarning": "Вы собираетесь удалить приглашение для пользователя {{email}}. Это действие нельзя отменить.",
+    "deleteUserSuccess": "Пользователь успешно удален",
+    "deleteUserWarning": "Вы собираетесь удалить пользователя {{name}}. Это действие нельзя отменить.",
+    "domain": "Пользователи",
+    "editUser": "Редактировать пользователя",
+    "expiredOnDate": "Истекло {{date}}",
+    "invite": "Пригласить",
+    "inviteRolesTooltip": "Если роль не выбрана, пользователь будет приглашён с ролью суперпользователя.",
+    "inviteStatus": {
+      "accepted": "Принято",
+      "expired": "Истекло",
+      "pending": "Ожидает"
+    },
+    "inviteUser": "Пригласить пользователя",
+    "inviteUserHint": "Пригласите нового пользователя в ваш магазин.",
+    "list": {
+      "empty": {
+        "description": "После приглашения пользователя он появится здесь.",
+        "heading": "Пользователи не найдены"
+      },
+      "filtered": {
+        "description": "Нет пользователей, соответствующих текущим критериям фильтра.",
+        "heading": "Нет результатов"
+      }
+    },
+    "pendingInvites": "Ожидающие приглашения",
+    "resendInvite": "Отправить приглашение повторно",
+    "roles": {
+      "admin": "Администратор",
+      "developer": "Разработчик",
+      "member": "Участник"
+    },
+    "sendInvite": "Отправить приглашение",
+    "validFromUntil": "Действительно с <0>{{from}}</0> по <1>{{until}}</1>"
+  },
+  "validation": {
+    "mustBeInt": "Значение должно быть целым числом.",
+    "mustBePositive": "Значение должно быть положительным числом."
+  },
+  "workflowExecutions": {
+    "domain": "Рабочие процессы",
+    "history": {
+      "awaitingState": "Ожидание",
+      "compensateInputLabel": "Компенсационный ввод",
+      "definitionLabel": "Определение",
+      "errorLabel": "Ошибка",
+      "failedState": "Неудача",
+      "outputLabel": "Вывод",
+      "revertedLabel": "Отменено",
+      "runningState": "Выполняется...",
+      "sectionTitle": "История",
+      "skippedFailureState": "Пропущено (неудача)",
+      "skippedState": "Пропущено"
+    },
+    "list": {
+      "noRecordsMessage": "Рабочие процессы еще не выполнялись."
+    },
+    "progressLabel": "Прогресс",
+    "state": {
+      "compensating": "Компенсируется",
+      "done": "Выполнено",
+      "failed": "Неудача",
+      "invoking": "Вызывается",
+      "notStarted": "Не начато",
+      "reverted": "Отменено"
+    },
+    "step": {
+      "state": {
+        "dormant": "Неактивно",
+        "skipped": "Пропущено",
+        "skippedFailure": "Пропущено (неудача)",
+        "timeout": "Таймаут"
+      }
+    },
+    "stepsCompletedLabel_few": "{{completed}} из {{count}} шагов",
+    "stepsCompletedLabel_many": "{{completed}} из {{count}} шагов",
+    "stepsCompletedLabel_one": "{{completed}} из {{count}} шага",
+    "stepsCompletedLabel_other": "{{completed}} из {{count}} шагов",
+    "subtitle": "Просматривайте и отслеживайте выполнение рабочих процессов в приложении Medusa.",
+    "transaction": {
+      "state": {
+        "waitingToCompensate": "Ожидание компенсации"
+      }
+    },
+    "transactionIdLabel": "ID транзакции",
+    "workflowIdLabel": "ID рабочего процесса"
+  },
+  "paymentSettings": {
+    "title": "Приём оплат",
+    "subtitle": "счёт вашего магазина в платёжном сервисе; ключи хранятся в зашифрованном виде и обратно не показываются",
+    "stateTest": "тестовый режим",
+    "stateLive": "боевой режим",
+    "stateOff": "выключено",
+    "stateNone": "не настроено",
+    "loading": "загружаем…",
+    "fields": {
+      "provider": "Платёжный сервис",
+      "merchant_login": "Идентификатор магазина (MerchantLogin)",
+      "password1": "Пароль #1",
+      "password2": "Пароль #2",
+      "test_password1": "Тестовый пароль #1",
+      "test_password2": "Тестовый пароль #2",
+      "hash_algorithm": "Алгоритм подписи",
+      "is_test": "Тестовый режим",
+      "is_enabled": "Принимать оплату"
+    },
+    "secretSet": "задано ····{{last4}}",
+    "secretNotSet": "не задано",
+    "keepPlaceholder": "оставьте пустым, чтобы не менять",
+    "emptyPlaceholder": "вставьте из кабинета Robokassa",
+    "testHint": "В тестовом режиме покупатель платит тестовой картой Robokassa, деньги не списываются. Боевой режим нужен только после модерации магазина в Robokassa.",
+    "merchantLoginRequired": "Укажите идентификатор магазина",
+    "save": "Сохранить",
+    "remove": "Удалить счёт",
+    "saved": "Настройки оплаты сохранены",
+    "removed": "Счёт удалён — Robokassa больше не предлагается на кассе",
+    "resultUrlTitle": "Result URL для кабинета Robokassa",
+    "resultUrlHint": "Вставьте этот адрес в настройки магазина в Robokassa (Технические настройки → Result URL, метод POST). По нему Robokassa сообщает нам об оплате; без него заказ не станет оплаченным."
+  },
+  "auth": {
+    "login": {
+      "authenticationFailed": "Не удалось войти",
+      "cloud": "Войти через Medusa Cloud",
+      "continueWithProvider": "Продолжить через {{provider}}",
+      "noProviders": "Настройте провайдера авторизации в конфигурации Medusa, чтобы можно было войти",
+      "or": "или",
+      "provisioningFailed": "Не удалось завершить вход. Обратитесь к администратору."
+    }
+  },
+  "layout": {
+    "customizeLayout": "Настроить макет",
+    "customizePage": "Настроить страницу",
+    "customizeSettingsSidebar": "Настроить боковую панель настроек",
+    "customizeSidebar": "Настроить боковую панель",
+    "customizeTopbar": "Настроить верхнюю панель",
+    "defaultView": "По умолчанию",
+    "dragToReorder": "Перетащите, чтобы изменить порядок",
+    "dropToSectionEnd": "Отпустите здесь, чтобы переместить в конец",
+    "empty": "Пусто",
+    "personalView": "Личный",
+    "saveForEveryone": "Сохранить для всех",
+    "saveForEveryoneDescription": "Это обновит макет по умолчанию для всех пользователей, которые ещё не настраивали его сами. Продолжить?",
+    "saveForEveryoneTitle": "Сохранить макет для всех",
+    "saveSuccess": "Макет сохранён",
+    "viewingPersonalLayout": "Вы видите личный макет",
+    "viewingSystemLayout": "Вы видите системный макет"
+  },
+  "permissions": {
+    "accessDenied": {
+      "action": "У вас нет прав на это действие.",
+      "description": "У вас нет доступа к этой странице.",
+      "requiredPermission": "Требуется право: {{permission}}",
+      "title": "Доступ запрещён"
+    },
+    "actions": {
+      "create": "Создание",
+      "delete": "Удаление",
+      "read": "Просмотр",
+      "update": "Изменение"
+    },
+    "requiredPermissions": {
+      "allOf": "Все из",
+      "anyOf": "Любое из",
+      "none": "Для этого раздела права не заданы.",
+      "source": "Источник: {{source}}",
+      "title": "Требуемые права"
+    },
+    "resources": {
+      "api_key": "API-ключ",
+      "campaign": "Кампания",
+      "customer": "Клиент",
+      "customer_group": "Группа клиентов",
+      "inventory": "Остатки",
+      "order": "Заказ",
+      "permission": "Право",
+      "price_list": "Прайс-лист",
+      "product": "Товар",
+      "product_category": "Категория товаров",
+      "product_collection": "Коллекция товаров",
+      "product_tag": "Тег товара",
+      "product_type": "Тип товара",
+      "promotion": "Акция",
+      "refund_reason": "Причина возврата",
+      "region": "Регион",
+      "reservation": "Резервирование",
+      "return_reason": "Причина возврата товара",
+      "role": "Роль",
+      "sales_channel": "Канал продаж",
+      "shipping_option": "Способ доставки",
+      "shipping_profile": "Профиль доставки",
+      "stock_location": "Склад",
+      "store": "Магазин",
+      "tax_region": "Налоговый регион",
+      "translation": "Перевод",
+      "user": "Пользователь",
+      "workflow": "Процесс"
+    }
+  },
+  "policies": {
+    "create": {
+      "header": "Создать правило",
+      "hint": "Опишите новое право, которое можно назначить ролям.",
+      "successToast": "Правило {{key}} создано"
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить правило {{key}}. Это действие нельзя отменить.",
+      "successToast": "Правило {{key}} удалено",
+      "title": "Удалить правило"
+    },
+    "domain": "Правила",
+    "edit": {
+      "header": "Редактировать правило",
+      "successToast": "Правило {{key}} обновлено"
+    },
+    "fields": {
+      "roles": "Роли",
+      "users": "Пользователи"
+    },
+    "list": {
+      "empty": {
+        "description": "Создайте правила, чтобы управлять правами, которые дают роли.",
+        "heading": "Правила не найдены"
+      },
+      "filtered": {
+        "description": "Нет правил, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "roles": {
+      "empty": {
+        "description": "Пока ни одна роль не включает это правило.",
+        "heading": "Нет ролей"
+      },
+      "list": {
+        "noRecordsMessage": "Пока ни одна роль не включает это правило."
+      }
+    },
+    "subtitle": "Определите права, которые могут давать роли."
+  },
+  "productOptions": {
+    "create": {
+      "header": "Создать опцию товара",
+      "hint": "Создайте новую опцию товара и настройте её значения.",
+      "successToast": "Опция товара «{{title}}» успешно создана.",
+      "tabs": {
+        "details": "Подробности",
+        "organize": "Порядок значений"
+      }
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить опцию товара «{{title}}». Это действие нельзя отменить.",
+      "successToast": "Опция товара успешно удалена."
+    },
+    "domain": "Опции",
+    "edit": {
+      "description": "Измените опцию товара и её значения.",
+      "header": "Редактировать опцию товара",
+      "successToast": "Опция товара «{{title}}» успешно обновлена."
+    },
+    "fields": {
+      "title": {
+        "label": "Название",
+        "placeholder": "Размер"
+      },
+      "values": {
+        "label": "Значения",
+        "placeholder": "S, M, L"
+      }
+    },
+    "manage": {
+      "exclusiveOption": "Опция только для этого товара"
+    },
+    "products": {
+      "list": {
+        "noRecords": "Нет товаров с этой опцией."
+      }
+    },
+    "subtitle": "Управляйте опциями товаров и их значениями.",
+    "values": {
+      "delete": {
+        "confirmation": "Вы собираетесь удалить значение опции «{{value}}». Это действие нельзя отменить.",
+        "successToast": "Значение опции успешно удалено."
+      },
+      "header": "Значения",
+      "list": {
+        "noRecords": "У этой опции пока нет значений."
+      }
+    }
+  },
+  "propertyLabels": {
+    "domain": "Подписи свойств",
+    "fields": {
+      "hasOverrides": "Есть переопределения",
+      "model": "Модель",
+      "module": "Модуль",
+      "propertyCount": "Число свойств"
+    },
+    "subtitle": "Настройте подписи для полей таблиц ваших объектов.",
+    "title": "Подписи свойств"
+  },
+  "refundReasons": {
+    "calloutHint": "Управляйте причинами для категоризации возвратов.",
+    "create": {
+      "header": "Добавить причину возврата",
+      "hint": "Создайте новую причину для категоризации возвратов.",
+      "subtitle": "Укажите самые частые причины возвратов.",
+      "successToast": "Причина возврата «{{label}}» успешно создана."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить причину возврата «{{label}}». Это действие нельзя отменить.",
+      "successToast": "Причина возврата успешно удалена."
+    },
+    "domain": "Причины возврата",
+    "edit": {
+      "header": "Редактировать причину возврата",
+      "subtitle": "Измените значение причины возврата.",
+      "successToast": "Причина возврата «{{label}}» успешно обновлена."
+    },
+    "editReason": "Редактировать причину возврата",
+    "fields": {
+      "code": {
+        "label": "Код",
+        "placeholder": "gesture_of_goodwill"
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "У клиента остался плохой опыт покупки"
+      },
+      "label": {
+        "label": "Название",
+        "placeholder": "Жест доброй воли"
+      }
+    },
+    "subtitle": "Управляйте причинами оформления возвратов."
+  },
+  "roles": {
+    "actions": {
+      "managePermissions": "Управлять правами"
+    },
+    "create": {
+      "header": "Создать роль",
+      "hint": "Создайте роль, чтобы управлять доступом в панели.",
+      "permissions": {
+        "empty": {
+          "description": "Нет прав для выбора.",
+          "heading": "Нет прав"
+        },
+        "filtered": {
+          "description": "Нет прав, подходящих под текущий фильтр.",
+          "heading": "Нет результатов"
+        }
+      },
+      "successToast": "Роль {{name}} создана",
+      "tabs": {
+        "details": "Подробности",
+        "permissions": "Права"
+      }
+    },
+    "delete": {
+      "description": "Вы собираетесь удалить роль {{name}}. Это действие нельзя отменить.",
+      "successToast": "Роль {{name}} удалена",
+      "title": "Удалить роль"
+    },
+    "domain": "Роли",
+    "edit": {
+      "header": "Редактировать роль",
+      "successToast": "Роль {{name}} обновлена"
+    },
+    "fields": {
+      "permissions": "Права"
+    },
+    "list": {
+      "empty": {
+        "description": "Создайте роли, чтобы управлять доступом в панели.",
+        "heading": "Роли не найдены"
+      },
+      "filtered": {
+        "description": "Нет ролей, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      }
+    },
+    "permissions": {
+      "empty": {
+        "description": "Нет прав для выбора.",
+        "heading": "Нет прав"
+      },
+      "filtered": {
+        "description": "Нет прав, подходящих под текущий фильтр.",
+        "heading": "Нет результатов"
+      },
+      "header": "Управление правами",
+      "hint": "Выберите права, которые должна включать эта роль."
+    },
+    "subtitle": "Управляйте ролями доступа и правами.",
+    "users": {
+      "add": {
+        "list": {
+          "noRecordsMessage": "Сначала создайте пользователя."
+        },
+        "successToast_one": "Пользователь успешно добавлен к роли.",
+        "successToast_other": "Пользователи успешно добавлены к роли."
+      },
+      "alreadyAddedTooltip": "У пользователя уже есть эта роль.",
+      "list": {
+        "noRecordsMessage": "У этой роли нет пользователей."
+      },
+      "remove": {
+        "description_one": "Вы собираетесь убрать {{count}} пользователя из роли. Это действие нельзя отменить.",
+        "description_other": "Вы собираетесь убрать {{count}} пользователей из роли. Это действие нельзя отменить.",
+        "title_one": "Убрать пользователя",
+        "title_other": "Убрать пользователей"
+      },
+      "unassignableRoleTooltip": "У вас нет доступа для назначения этой роли — ваши права не покрывают все её правила."
+    }
+  },
+  "shippingOptionTypes": {
+    "create": {
+      "header": "Создать тип способа доставки",
+      "hint": "Создайте новый тип способа доставки, чтобы группировать способы доставки.",
+      "successToast": "Тип способа доставки «{{label}}» успешно создан."
+    },
+    "delete": {
+      "confirmation": "Вы собираетесь удалить тип способа доставки «{{label}}». Это действие нельзя отменить.",
+      "successToast": "Тип способа доставки «{{label}}» успешно удалён."
+    },
+    "domain": "Типы способов доставки",
+    "edit": {
+      "header": "Редактировать тип способа доставки",
+      "successToast": "Тип способа доставки «{{label}}» успешно обновлён."
+    },
+    "fields": {
+      "code": "Код",
+      "description": "Описание",
+      "label": "Название"
+    },
+    "subtitle": "Группируйте способы доставки по типам."
+  },
+  "translations": {
+    "actions": {
+      "manage": "Управлять переводами",
+      "manageEntities": "Управлять объектами",
+      "manageLocales": "Управлять языками"
+    },
+    "activeLocales": {
+      "heading": "Языки",
+      "noLocalesTip": "Настройте хотя бы один язык, чтобы начать перевод данных",
+      "noLocalesTipConfigureAction": "Настроить",
+      "subtitle": "Активированные переводы"
+    },
+    "bulk": {
+      "header": "Массовое редактирование переводов",
+      "mainColumn": "Язык"
+    },
+    "completion": {
+      "footer": "Языки",
+      "heading": "Переведённые поля",
+      "toTranslate": "Не переведено",
+      "translated": "Переведено"
+    },
+    "domain": "Переводы",
+    "edit": {
+      "successToast": "Переводы успешно обновлены",
+      "unsavedChanges": {
+        "description": "Не потеряйте свою работу. У вас есть несохранённые изменения",
+        "title": "Несохранённые переводы"
+      }
+    },
+    "list": {
+      "metrics": "{{translated}} из {{total}} переводов"
+    },
+    "settings": {
+      "header": "Управление переводимыми объектами",
+      "successToast": "Настройки успешно обновлены"
+    },
+    "subtitle": "Управляйте переводами данных вашего магазина"
+  },
+  "views": {
+    "prompts": {
+      "updateDefault": {
+        "cancelText": "Отмена",
+        "confirmText": "Обновить для всех",
+        "description": "Это обновит вид по умолчанию для всех пользователей. Продолжить?",
+        "title": "Обновить вид по умолчанию"
+      },
+      "updateView": {
+        "cancelText": "Отмена",
+        "confirmText": "Обновить",
+        "description": "Обновить «{{name}}»?",
+        "title": "Обновить вид"
+      }
+    },
+    "save": "Сохранить",
+    "saveAsNew": "Сохранить как новый вид",
+    "updateDefaultForEveryone": "Обновить вид по умолчанию для всех",
+    "updateViewName": "Обновить вид"
+  }
+}

@@ -1,0 +1,3 @@
+base-contacts 1280x900 {"pipe":true,"sep":true,"dashRunAsText":false,"tables":0,"rows":0,"hrs":8,"ems":3,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":3441}
+base-offer 1280x900 {"pipe":true,"sep":true,"dashRunAsText":false,"tables":0,"rows":0,"hrs":14,"ems":4,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":19038}
+base-privacy 1280x900 {"pipe":true,"sep":true,"dashRunAsText":false,"tables":0,"rows":0,"hrs":18,"ems":7,"gluedToken":false,"tokenIntact":true,"scrollWidth":1280,"innerWidth":1280,"bodyScroll":1280,"textLen":15647}

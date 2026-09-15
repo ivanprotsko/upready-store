@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 35,
+  "action": "status-set",
+  "ts": "2026-09-15T08:30:21+08:00",
+  "status": "2026-09-15 08:30 WITA: приёмка t11-seo-redirects раунд 3 — PR #29 MERGED (merge commit 4af19f2e), все критерии замерены на своём стенде, 7 ниток в комментарии к PR"
+}

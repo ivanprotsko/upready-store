@@ -1,0 +1,65 @@
+{
+ "all": {
+  "n": 169,
+  "morning": {
+   "есть": 11,
+   "частично": 32,
+   "нет": 107,
+   "не применимо": 19
+  },
+  "evening": {
+   "есть": 19,
+   "частично": 33,
+   "нет": 98,
+   "не применимо": 19
+  }
+ },
+ "crit": {
+  "n": 18,
+  "morning": {
+   "есть": 1,
+   "частично": 7,
+   "нет": 10,
+   "не применимо": 0
+  },
+  "evening": {
+   "есть": 2,
+   "частично": 11,
+   "нет": 5,
+   "не применимо": 0
+  }
+ },
+ "changed": [
+  "sortirovka-tovarov: частично → есть",
+  "otzyvy-na-tovary: нет → частично",
+  "import-eksport-csv-xls-xlsx: нет → частично",
+  "palitra-tsvetov-shablona: нет → есть",
+  "klientskaya-baza: частично → есть",
+  "schetchiki-i-pikseli: частично → есть",
+  "zony-dostavki: нет → частично",
+  "pravila-stoimosti-dostavki: нет → частично",
+  "sposoby-dostavki: частично → есть",
+  "osnovnye-pokazateli-prodazh: нет → частично",
+  "otchety-po-prodazham: нет → частично",
+  "vstroennye-seo-instrumenty: частично → есть",
+  "seo-parametry-stranits-i-tovarov: нет → частично",
+  "robots-txt-i-sitemap-xml: частично → есть",
+  "blog-i-stati: нет → частично",
+  "sobstvennyy-domen: есть → частично",
+  "proizvolnye-stranitsy-magazina: частично → есть",
+  "multiyazychnost: частично → есть"
+ ],
+ "measuredNoChange": [
+  "svoystva-i-parametry-tovara",
+  "upravlenie-kontentom",
+  "avtorizatsiya-pokupatelya",
+  "uvedomleniya-o-novyh-zakazah",
+  "yukassa",
+  "sposoby-oplaty-cherez-yukassa",
+  "drugie-platezhnye-servisy",
+  "sdek-pochta-rossii-dpd-dalli",
+  "edinye-etiketki-i-treking",
+  "301-redirekty",
+  "nalogi-i-valyuty"
+ ]
+}

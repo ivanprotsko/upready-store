@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 54,
+  "action": "status-set",
+  "ts": "2026-09-15T12:05:19+08:00",
+  "status": "2026-09-15 12:05 WITA: приёмка f05-checkout-legal-stubs — PR #41 измерен на собственном стенде (копия БД магазина), все 4 критерия зелёные, смержен squash, ниточки в комментарии PR"
+}

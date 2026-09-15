@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 16,
+  "action": "status-set",
+  "ts": "2026-09-15T05:15:16+08:00",
+  "status": "2026-09-15 05:15 WITA: приёмка PR #26 t06-locale-currency раунд 2 — origin-ветка ещё efebc40/CONFLICTING, воркер в середине мержа origin/dev (конфликты разрешены, коммита нет); ревью дифа стоп-факторов не нашло, ждём пуш для прогонов и живых замеров"
+}

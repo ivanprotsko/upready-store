@@ -39,3 +39,14 @@ if alive "$D/dispatcher.pid" && [ $(( $(date +%s) - $(stat -f %m "$D/dispatcher.
 fi
 # 6. Сводка Ивану в его же «Избранное» Telegram — не чаще раза в час и только при изменении отчёта (получатель — сам Иван)
 if [ -f "$D/ARMED" ]; then OUTREACH_OK=1 /Users/ivanprotsko/upready/projects/tg-reply-copilot/.venv/bin/python "$D/notify.py" >> "$LOG/notify.log" 2>&1; fi
+
+# 7. Диск: меньше 20 ГБ свободно → чистим npm-кэш (регенерируемый; 13:27 WITA он занял 29 ГБ и положил всё под ENOSPC)
+#    и сигналим сторожу файлом blocked-disk.md; когда места снова достаточно — файл переезжает в resolved-.
+avail=$(df -g / | awk 'NR==2{print $4}')
+if [ -n "$avail" ] && [ "$avail" -lt 20 ]; then
+  npm cache clean --force >/dev/null 2>&1
+  echo "[$(ts)] disk low: ${avail}G free — npm cache cleaned" >> "$LOG/runner.log"
+  echo "# диск: ${avail} ГБ свободно на $(ts) — npm-кэш очищен автоматически; если всё ещё мало, чистить node_modules/.next в worktree СМЁРЖЕННЫХ задач" > "$D/logs/blocked-disk.md"
+elif [ -f "$D/logs/blocked-disk.md" ]; then
+  mv "$D/logs/blocked-disk.md" "$D/logs/resolved-blocked-disk-$(date +%H%M).md"
+fi

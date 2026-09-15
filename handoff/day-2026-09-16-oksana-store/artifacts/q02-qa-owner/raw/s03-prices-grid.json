@@ -1,0 +1,42 @@
+{
+  "colCount": 13,
+  "cols": [
+    "Заголовок",
+    "SKU",
+    "Количество",
+    "Запасы",
+    "Заголовок",
+    "Цена EUR",
+    "Цена AED",
+    "Цена AFN",
+    "Цена USD",
+    "Цена ALL",
+    "Цена AMD",
+    "Цена AOA",
+    "Цена ARS"
+  ],
+  "rubIdx": -1,
+  "menus": {
+    "candidateMenuButtons": 15
+  },
+  "items": [
+    [
+      "Выйти"
+    ],
+    [
+      "Настройки профиля",
+      "Документация",
+      "История изменений",
+      "Горячие клавиши",
+      "Тема",
+      "Выйти"
+    ],
+    [
+      "Редактировать",
+      "Удалить"
+    ]
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

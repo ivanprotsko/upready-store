@@ -1,0 +1,89 @@
+{
+  "stand": {
+    "panel": "http://localhost:5182",
+    "backend": "http://localhost:9029"
+  },
+  "storeProbe": null,
+  "productUrl": "http://localhost:5182/products/prod_01M29Q5AVB4VJGSBPE2VBH02BH",
+  "priceEditor": {
+    "clicks": [
+      "меню «…» блока «Варианты»",
+      "пункт «Редактировать цены»"
+    ],
+    "clickCount": 2,
+    "headers": [
+      "Заголовок",
+      "Цена, ₽",
+      "Цена USD"
+    ],
+    "openingCell": "variants.0.prices.rub",
+    "rubFieldCount": 1,
+    "tabsToRub": 0,
+    "rubBox": {
+      "x": 175,
+      "right": 292,
+      "width": 117
+    },
+    "horizontalScrollNeeded": false,
+    "scroller": {
+      "scrollWidth": 1262,
+      "clientWidth": 1262
+    },
+    "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f09-price-editor-currencies-1/a3-price-editor-1280x900.png"
+  },
+  "showAll": {
+    "headerCount": 9,
+    "firstHeaders": [
+      "Заголовок",
+      "Цена, ₽",
+      "Цена EUR",
+      "Цена AED",
+      "Цена AFN",
+      "Цена USD"
+    ],
+    "scroller": {
+      "scrollWidth": 54000,
+      "clientWidth": 1262
+    }
+  },
+  "togglePresent": true,
+  "createWizard": {
+    "headers": [
+      "Default option",
+      "Заголовок",
+      "Цена, ₽",
+      "SKU",
+      "Управляемые запасы",
+      "Разрешить предзаказ",
+      "Имеет набор запасов"
+    ],
+    "rubFieldCount": 1,
+    "rubBox": {
+      "x": 325,
+      "right": 442,
+      "width": 117
+    },
+    "rubWithinViewport": true,
+    "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f09-price-editor-currencies-1/a5-create-variants-step-1280x900.png"
+  },
+  "publishWithoutPrice": {
+    "refused": true,
+    "message": [
+      "Укажите цену хотя бы в одной валюте: без цены товар попадёт в каталог карточкой без цены. Если цена ещё не известна — сохраните черновик."
+    ],
+    "url": "http://localhost:5182/products/create",
+    "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f09-price-editor-currencies-1/a6-publish-without-price-refused-1280x900.png"
+  },
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ]
+}

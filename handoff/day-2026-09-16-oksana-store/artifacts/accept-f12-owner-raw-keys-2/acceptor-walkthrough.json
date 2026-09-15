@@ -1,0 +1,269 @@
+{
+  "results": [
+    {
+      "name": "a01-home",
+      "url": "http://localhost:5190/",
+      "title": "Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a02-products",
+      "url": "http://localhost:5190/products",
+      "title": "Товары — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a03-product-detail",
+      "url": "http://localhost:5190/products/prod_01M29Q5AVB4VJGSBPE2VBH02BH",
+      "title": "Свечи АСД с чесноком — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a03b-product-edit",
+      "url": "http://localhost:5190/products/prod_01M29Q5AVB4VJGSBPE2VBH02BH/edit",
+      "title": "Свечи АСД с чесноком — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a04-orders",
+      "url": "http://localhost:5190/orders",
+      "title": "Заказы — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a05-order-detail",
+      "url": "http://localhost:5190/orders/order_f12test5pf3bm",
+      "title": "#17 — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a06-promotions-create",
+      "url": "http://localhost:5190/promotions/create",
+      "title": "Акции — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a07-categories",
+      "url": "http://localhost:5190/categories",
+      "title": "Категории — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a08-pages",
+      "url": "http://localhost:5190/pages",
+      "title": "Страницы — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [
+        "cherkashino.upready.dev"
+      ],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a09-home-settings",
+      "url": "http://localhost:5190/home-settings",
+      "title": "Главная страница — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a10-shipping",
+      "url": "http://localhost:5190/shipping",
+      "title": "Доставка — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a11-settings-domains",
+      "url": "http://localhost:5190/settings/domains",
+      "title": "Адрес магазина — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [
+        "cherkashino.upready.dev",
+        "stores.upready.dev"
+      ],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a12-settings-locale",
+      "url": "http://localhost:5190/settings/locale",
+      "title": "Язык и валюта — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a13-settings-payments",
+      "url": "http://localhost:5190/settings/payments",
+      "title": "Приём оплат — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [
+        "Show password"
+      ],
+      "extra": [],
+      "vis": {
+        "Show password": {
+          "visible": false,
+          "nodes": [
+            {
+              "tag": "span",
+              "cls": "sr-only",
+              "w": 1,
+              "h": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)",
+              "text": "Show password"
+            },
+            {
+              "tag": "span",
+              "cls": "sr-only",
+              "w": 1,
+              "h": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)",
+              "text": "Show password"
+            },
+            {
+              "tag": "span",
+              "cls": "sr-only",
+              "w": 1,
+              "h": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)",
+              "text": "Show password"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "a14-settings-notifications",
+      "url": "http://localhost:5190/settings/notifications",
+      "title": "Уведомления — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a15-products-create",
+      "url": "http://localhost:5190/products/create",
+      "title": "Товары — Оксана Черкашина",
+      "medusaInTitle": false,
+      "raw": [],
+      "machine": [],
+      "extra": [],
+      "vis": {}
+    },
+    {
+      "name": "a06b-promotions-details",
+      "url": "http://localhost:5190/promotions/create",
+      "title": "Акции — Оксана Черкашина",
+      "raw": [],
+      "machine": [],
+      "extra": []
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Warning: validateDOMNesting(...): %s cannot appear as a descendant of <%s>.%s <div> p \n    at div\n    at p\n    at http://localhost:5190/node_modules/.vite/deps/@medusajs_ui.js?v=22d4d690:29933:3\n    a",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor mor",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor mor",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor mor",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor mor"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "perPage": {
+    "home": {
+      "status": 200,
+      "url": "http://f08.test/ru",
+      "medusaSvgRequests": [],
+      "requestCount": 27,
+      "nav": {
+        "found": true,
+        "imgSrcs": [],
+        "link": {
+          "href": "/",
+          "ariaLabel": "Оксана Черкашина",
+          "html": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\" height=\"15\" viewBox=\"0 0 15 15\" fill=\"none\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M12.705 5.011 8.038 1.465a.89.89 0 0 0-1.076 0L2.296 5.01a.89.89 0 0 0-.352.709v6.448c0 .982.796 1.777 1.778 1.777h2.222V10.39a.89.89 0 0 1 .89-.889h1.333a.89.89 0 0 1 .889.889v3.555h2.222c.982 0 1.778-.795 1"
+        }
+      }
+    },
+    "product": {
+      "status": 200,
+      "url": "http://f08.test/en/products/svechi-asd-s-chesnokom-10-sht-cherkashino?v_id=variant_01M2GRC6CJB0VZGW034SG084G0",
+      "medusaSvgRequests": [],
+      "requestCount": 38,
+      "nav": {
+        "found": true,
+        "imgSrcs": [],
+        "link": {
+          "href": "/",
+          "ariaLabel": "Оксана Черкашина",
+          "html": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\" height=\"15\" viewBox=\"0 0 15 15\" fill=\"none\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M12.705 5.011 8.038 1.465a.89.89 0 0 0-1.076 0L2.296 5.01a.89.89 0 0 0-.352.709v6.448c0 .982.796 1.777 1.778 1.777h2.222V10.39a.89.89 0 0 1 .89-.889h1.333a.89.89 0 0 1 .889.889v3.555h2.222c.982 0 1.778-.795 1"
+        }
+      }
+    },
+    "cart": {
+      "status": 200,
+      "url": "http://f08.test/ru/cart",
+      "medusaSvgRequests": [],
+      "requestCount": 16,
+      "nav": {
+        "found": true,
+        "imgSrcs": [],
+        "link": {
+          "href": "/",
+          "ariaLabel": "Оксана Черкашина",
+          "html": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"15\" height=\"15\" viewBox=\"0 0 15 15\" fill=\"none\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M12.705 5.011 8.038 1.465a.89.89 0 0 0-1.076 0L2.296 5.01a.89.89 0 0 0-.352.709v6.448c0 .982.796 1.777 1.778 1.777h2.222V10.39a.89.89 0 0 1 .89-.889h1.333a.89.89 0 0 1 .889.889v3.555h2.222c.982 0 1.778-.795 1"
+        }
+      }
+    }
+  },
+  "medusaSvgHits": [],
+  "consoleErrors": [],
+  "productHref": "/products/svechi-asd-s-chesnokom-10-sht-cherkashino",
+  "accessibleName": "Оксана Черкашина",
+  "ariaSnapshotRole": "A href=/",
+  "urlAfterClick": "http://f08.test/ru/cart",
+  "totalRequests": 98
+}

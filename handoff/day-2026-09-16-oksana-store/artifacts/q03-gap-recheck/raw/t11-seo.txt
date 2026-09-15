@@ -1,0 +1,33 @@
+== t11: 301 со старых адресов olavka (живой хост, 2026-09-15 14:33 WITA) ==
+/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya -> 404 
+/ru/ru/categories/dobavki -> 404 
+/ru/ru/products/gepachisty -> 404 
+== sitemap ==
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://cherkashino.shipshift.dev/ar</loc>
+<lastmod>2026-09-15T06:33:23.410Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://cherkashino.shipshift.dev/ar/store</loc>
+<lastmod>2026-09-15T06:33:23.410Z</lastmod>
+<changefreq>weekly</changefreq>
+<pri
+
+== sitemap url count ==
+2021
+== robots ==
+User-Agent: *
+Allow: /
+Disallow: /*/account
+Disallow: /*/checkout
+Disallow: /*/cart
+Disallow: /*/order/
+Disallow: /*/reset-password
+Disallow: /api/
+
+Host: https://cherkashino.shipshift.dev
+Sitemap: https://cherkashino.shipshift.dev/sitemap.xml

@@ -1,0 +1,18 @@
+import { launch, shot, timedGoto, save, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch({storage:false});
+await timedGoto(page, SHOP + '/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino', {waitUntil:'load'});
+await page.waitForTimeout(5000);
+await page.locator('button:has-text("В корзину")').first().click(); await page.waitForTimeout(6000);
+await timedGoto(page, SHOP + '/ru/cart', {waitUntil:'load'}); await page.waitForTimeout(6000);
+await page.locator('a:has-text("Оформить заказ"), button:has-text("Оформить заказ")').first().click();
+await page.waitForTimeout(9000);
+console.log('url', page.url());
+await shot(page,'s10-checkout1');
+const t=(await page.evaluate(()=>document.body.innerText)).replace(/\n{2,}/g,'\n');
+console.log(t.slice(0,1600));
+const ins = await page.$$eval('input,select,textarea', e=>e.map(x=>({n:x.name,ph:x.placeholder,t:x.type})));
+console.log('INPUTS', JSON.stringify(ins));
+const btns = await page.$$eval('button', e=>[...new Set(e.map(x=>(x.innerText||'').trim()))].filter(Boolean));
+console.log('BTNS', JSON.stringify(btns));
+save('s10-checkout1.json',{url:page.url(),t:t.slice(0,3000),ins,btns,errors});
+await browser.close();

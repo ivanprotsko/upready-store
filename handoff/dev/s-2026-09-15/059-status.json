@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 59,
+  "action": "status-set",
+  "ts": "2026-09-15T12:21:23+08:00",
+  "status": "2026-09-15 12:21 WITA: штаб дня — платформа mt восстановлена (пять URL 200): d03 попытка 3 откатила бэкенд на wave2, витрина/панель на новых образах, дампы сняты; сам процесс d03 умер без вывода (ошибка класса — молчаливый выход claude -p). Заведена f17-backend-image-sharp (Dockerfile без sharp, priority 35), d03 теперь зависит от неё; d03/q03/r02 возвращены в очередь"
+}

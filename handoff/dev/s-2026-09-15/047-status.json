@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 47,
+  "action": "status-set",
+  "ts": "2026-09-15T10:59:20+08:00",
+  "status": "2026-09-15 10:59 WITA: приёмка PR #39 f02-order-email-not-sent раунд 1 — MERGED (squash 9269555). tsc/lint/build rc=0, vitest 146/146, паритет 36 каталогов/471 ключ, compose config rc=0. На хосте compose отстал (grep=0, mtime 2026-09-14), в mt-backend нет SMTP_* и BACKEND_PUBLIC_URL — предпосылка задачи не воспроизводится, поправка автора верна. Живой симптом закроется только деплоем compose + секретами в shipshift.env (f02-order-email-not-sent)"
+}
