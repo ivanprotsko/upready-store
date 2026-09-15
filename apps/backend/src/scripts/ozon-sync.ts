@@ -89,7 +89,15 @@ export default async function ozonSync({ container, args }: ExecArgs) {
         "Every row written by this run carries is_fixture = true.",
     );
   } else {
-    const facts = await inspectCredentials(credentials, { tenantId: tenant.id, logger });
+    // Journalled like any other read: this is a real request to Ozon, and
+    // `ozon_api_call` is what proves what left the process.
+    const facts = await inspectCredentials(credentials, {
+      tenantId: tenant.id,
+      logger,
+      journal: async (entry) => {
+        await ozon.createOzonApiCalls(entry);
+      },
+    });
     logger.info(
       `ozon:sync: ${handle} (${tenant.id}), Client-Id ${facts.clientId ?? "?"}, expires ` +
         `${facts.expiresAt ?? "?"}, read_only ${String(facts.readOnly)}, kinds ${kinds.join(", ")}.`,

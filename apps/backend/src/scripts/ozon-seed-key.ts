@@ -3,6 +3,8 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { TENANT_MODULE } from "../modules/tenant";
 import type TenantModuleService from "../modules/tenant/service";
+import { OZON_MODULE } from "../modules/ozon";
+import type OzonModuleService from "../modules/ozon/service";
 import { inspectCredentials, readOnlyWarning } from "../modules/ozon/credentials";
 import { encryptJson, keyFromEnv, maskSecret } from "../tenant-secrets/crypto";
 import { readOzonSecret } from "../tenant-secrets/ozon";
@@ -84,9 +86,21 @@ export default async function ozonSeedKey({ container, args }: ExecArgs) {
   // Ozon has no offline answer: the only way to learn what the key may do is
   // to ask Ozon itself. A failure here is reported, never fatal — the key is
   // already stored and the transport cannot write with it either way.
+  //
+  // The journal is passed in on purpose. This call is a real request to
+  // api-seller.ozon.ru, and `ozon_api_call` is the table that proves what left
+  // the process; a request missing from it would make that query answer
+  // "nothing left the machine" while two did (rule 20a).
+  const ozon = container.resolve<OzonModuleService>(OZON_MODULE);
   const facts = await inspectCredentials(
     { clientId, apiKey },
-    { tenantId: tenant.id, logger },
+    {
+      tenantId: tenant.id,
+      logger,
+      journal: async (entry) => {
+        await ozon.createOzonApiCalls(entry);
+      },
+    },
   );
   logger.info(
     `ozon:seed-key: expires ${facts.expiresAt ?? "?"}, roles ` +

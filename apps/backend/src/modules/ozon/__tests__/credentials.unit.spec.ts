@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
 import {
   grantCoversPath,
   inspectCredentials,
@@ -148,5 +150,93 @@ describe("inspectCredentials asks Ozon and reports what it answered", () => {
 
     expect(JSON.stringify(facts)).not.toContain(CREDENTIALS.apiKey);
     expect(facts.last4).toBe(CREDENTIALS.apiKey.slice(-4));
+  });
+});
+
+describe("asking Ozon is journalled, because the journal is the evidence", () => {
+  it("writes one ozon_api_call row for the /v1/roles it sent", async () => {
+    fetchSpy.mockResolvedValueOnce(
+      okResponse({ expires_at: null, roles: [{ name: "Read only", methods: ["/v1/roles"] }] }),
+    );
+    const journal = jest.fn();
+
+    await inspectCredentials(CREDENTIALS, {
+      tenantId: "ten_1",
+      journal,
+      logger: { info: jest.fn(), warn: jest.fn() },
+    });
+
+    expect(journal).toHaveBeenCalledTimes(1);
+    expect(journal.mock.calls[0][0]).toMatchObject({
+      tenant_id: "ten_1",
+      endpoint_id: "access.roles",
+      path: "/v1/roles",
+      is_fixture: false,
+      status: 200,
+    });
+  });
+
+  /**
+   * The class, not the instance (rule 20). Measured on the stand first:
+   * `ozon-seed-key.ts` and the status route both asked Ozon without passing a
+   * journal, so two real requests left the process and
+   * `select … from ozon_api_call` answered "nothing did". A table that lies by
+   * omission is worse than no table (rule 20a), so every call site is checked
+   * here rather than the three that existed on the day.
+   */
+  it("every inspectCredentials call site in src passes a journal", () => {
+    const SRC = path.resolve(__dirname, "../../..");
+    const walk = (dir: string, found: string[] = []): string[] => {
+      for (const name of readdirSync(dir)) {
+        if (name === "node_modules" || name === "__tests__") {
+          continue;
+        }
+        const full = path.join(dir, name);
+        if (statSync(full).isDirectory()) {
+          walk(full, found);
+        } else if (full.endsWith(".ts")) {
+          found.push(full);
+        }
+      }
+      return found;
+    };
+
+    const files = walk(SRC);
+    expect(files.length).toBeGreaterThan(100);
+
+    const offenders: string[] = [];
+    for (const file of files) {
+      const source = readFileSync(file, "utf8");
+      let from = 0;
+      for (;;) {
+        const at = source.indexOf("inspectCredentials(", from);
+        if (at < 0) {
+          break;
+        }
+        from = at + 1;
+        // The call's own argument list: from the open paren to the matching
+        // close, so a `journal:` belonging to the NEXT statement cannot vouch
+        // for this one.
+        let depth = 0;
+        let end = source.indexOf("(", at);
+        for (let i = end; i < source.length; i += 1) {
+          if (source[i] === "(") depth += 1;
+          if (source[i] === ")") {
+            depth -= 1;
+            if (depth === 0) {
+              end = i;
+              break;
+            }
+          }
+        }
+        const call = source.slice(at, end + 1);
+        // A call with no credentials at all opens no socket, so it needs none.
+        if (!call.includes("journal") && !/inspectCredentials\(\s*null/.test(call)) {
+          offenders.push(path.relative(SRC, file));
+        }
+      }
+    }
+
+    expect(offenders).toEqual([]);
   });
 });

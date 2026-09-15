@@ -245,7 +245,14 @@ const PRODUCT_ATTRIBUTES = {
   ],
 };
 
-/** Saved page line 7036, `POST /v5/product/info/prices`. */
+/**
+ * Saved page line 7036, `POST /v5/product/info/prices`.
+ *
+ * `medusa lint` warns that `price: 1290` looks like a minor-unit amount. It is
+ * not: Ozon sends roubles in MAJOR units here (its own example is
+ * `"price": 2999.99`), and these rows are Ozon's numbers, not Medusa's. The
+ * warning stays rather than the number being bent to silence it.
+ */
 const PRICES = {
   items: [
     {

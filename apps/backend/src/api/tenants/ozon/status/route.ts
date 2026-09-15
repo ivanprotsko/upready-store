@@ -66,11 +66,24 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   const secret = await readOzonSecret(pg, tenant.id, { includeDisabled: true });
 
+  // Journalled: this route really does ask Ozon, so the request has to appear
+  // in `ozon_api_call` like every other read. A call that leaves the process
+  // without a row would make that table lie by omission (rule 20a).
+  //
+  // `medusa lint` warns here (`no-service-mutations-in-api-route`). Kept as a
+  // warning on purpose: this is not domain state a workflow should own, it is
+  // one bookkeeping row about a request this handler itself sent, and it has
+  // to be written by whoever sent it or the evidence goes missing.
   const facts = await inspectCredentials(
     secret
       ? { clientId: secret.credentials.client_id, apiKey: secret.credentials.api_key }
       : null,
-    { tenantId: tenant.id },
+    {
+      tenantId: tenant.id,
+      journal: async (entry) => {
+        await ozon.createOzonApiCalls(entry);
+      },
+    },
   );
 
   const runs = (await ozon.listOzonSyncRuns(
