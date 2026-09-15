@@ -7,6 +7,7 @@ import { Link } from "@i18n/navigation"
 import { getTenantArticle } from "@lib/data/tenant-articles"
 import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 import { buildAlternates } from "@lib/util/alternates"
+import { decodeSegment } from "@lib/util/decode-segment"
 import { localeUrl } from "@lib/util/json-ld"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
@@ -34,7 +35,7 @@ const absolute = (base: string, src: string) =>
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const [params, locale] = await Promise.all([props.params, getLocale()])
-  const article = await getTenantArticle(params.slug)
+  const article = await getTenantArticle(decodeSegment(params.slug))
 
   if (!article) {
     notFound()
@@ -69,7 +70,7 @@ export default async function JournalArticle(props: Props) {
     getTranslations("Journal"),
     getLocale(),
   ])
-  const article = await getTenantArticle(params.slug)
+  const article = await getTenantArticle(decodeSegment(params.slug))
 
   if (!article) {
     notFound()
