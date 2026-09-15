@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-backend-image-sharp",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T13:43:24+08:00",
+  "status": "2026-09-15 13:43 WITA: f17-backend-image-sharp — причина найдена и исправлена (sharp стоял в devDependencies, npm install --omit=dev его выбрасывал), гвард на класс в Dockerfile; ветка fix/day16-backend-image-sharp запушена, c28f5bd; bench-сборка образа идёт на 84.46.251.149 (локальный Docker сломан: containerd meta.db I/O error); PR ещё не открыт"
+}
