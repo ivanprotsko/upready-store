@@ -484,7 +484,16 @@
     "joinUs": "Bli medlem",
     "notMember": "Inte medlem än?",
     "password": "Lösenord",
-    "signIn": "Logga in"
+    "signIn": "Logga in",
+    "yandexCta": "Logga in med Yandex ID",
+    "yandexDivider": "eller",
+    "yandexErrorDenied": "Du avbröt inloggningen på Yandex sida.",
+    "yandexErrorEmailTaken": "Det finns redan ett konto med den här e-postadressen. Logga in med ditt lösenord.",
+    "yandexErrorExpired": "Inloggningslänken har gått ut. Börja om.",
+    "yandexErrorFailed": "Inloggningen gick inte igenom. Försök igen om en stund.",
+    "yandexErrorNoEmail": "Yandex lämnade ingen e-postadress, så kontot kan inte skapas.",
+    "yandexErrorRejected": "Yandex kunde inte bekräfta inloggningen. Försök igen.",
+    "yandexErrorUnconfigured": "Inloggning med Yandex är ännu inte påslaget i den här butiken."
   },
   "Metadata": {
     "account": {

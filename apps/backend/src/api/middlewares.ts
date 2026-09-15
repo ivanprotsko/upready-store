@@ -202,6 +202,7 @@ import {
   PostTenantProductAttributeValuesSchema,
 } from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
+import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -1124,6 +1125,15 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
     },
 
+    // w20-wb-write-core: the owner's two gates (the write switch and the
+    // per-class consents). GET takes no middleware — it only reads rows the
+    // tenant already owns.
+    {
+      matcher: "/tenants/wb/write-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbWriteSettingsBody)],
+    },
+
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
     // `GET /storefront/by-host` takes no middleware entry on purpose: it reads
     // one query parameter and normalises it itself (`api/storefront/by-host/hosts.ts`),
@@ -1301,6 +1311,20 @@ export default defineMiddlewares({
       matcher: "/store/customers/me/claim-orders",
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
+    // ---- w02-yandex-id-auth: the buyer who already has an account signs in
+    // with Yandex ID for the first time. The token this runs with is the one
+    // the OAuth callback issued, and it carries NO customer yet
+    // (`actor_id` empty), which is exactly what `allowUnregistered` admits —
+    // the same setting Medusa's own `POST /store/customers` uses for the
+    // registration leg of email-and-password signup.
+    {
+      matcher: "/store/customers/oauth-link",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["bearer"], { allowUnregistered: true }),
+      ],
     },
 
     // ---- b07-store-api-isolation: the Store API stops handing one shop's

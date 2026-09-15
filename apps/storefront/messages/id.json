@@ -484,7 +484,16 @@
     "joinUs": "Gabung sekarang",
     "notMember": "Belum jadi anggota?",
     "password": "Kata sandi",
-    "signIn": "Masuk"
+    "signIn": "Masuk",
+    "yandexCta": "Masuk dengan Yandex ID",
+    "yandexDivider": "atau",
+    "yandexErrorDenied": "Anda membatalkan proses masuk di halaman Yandex.",
+    "yandexErrorEmailTaken": "Sudah ada akun dengan email ini. Masuk dengan kata sandi Anda.",
+    "yandexErrorExpired": "Tautan masuk sudah kedaluwarsa. Mulai lagi dari awal.",
+    "yandexErrorFailed": "Proses masuk tidak berhasil. Coba lagi sebentar lagi.",
+    "yandexErrorNoEmail": "Yandex tidak memberikan alamat email, jadi akun tidak bisa dibuat.",
+    "yandexErrorRejected": "Yandex tidak dapat memastikan proses masuk ini. Coba lagi.",
+    "yandexErrorUnconfigured": "Masuk lewat Yandex belum diaktifkan di toko ini."
   },
   "Metadata": {
     "account": {

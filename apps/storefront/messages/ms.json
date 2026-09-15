@@ -484,7 +484,16 @@
     "joinUs": "Sertai kami",
     "notMember": "Belum menjadi ahli?",
     "password": "Kata laluan",
-    "signIn": "Log masuk"
+    "signIn": "Log masuk",
+    "yandexCta": "Log masuk dengan Yandex ID",
+    "yandexDivider": "atau",
+    "yandexErrorDenied": "Anda membatalkan log masuk di halaman Yandex.",
+    "yandexErrorEmailTaken": "Sudah ada akaun dengan e-mel ini. Log masuk dengan kata laluan anda.",
+    "yandexErrorExpired": "Pautan log masuk sudah tamat tempoh. Mulakan semula.",
+    "yandexErrorFailed": "Log masuk tidak berjaya. Cuba lagi sebentar lagi.",
+    "yandexErrorNoEmail": "Yandex tidak memberikan alamat e-mel, jadi akaun tidak boleh dibuat.",
+    "yandexErrorRejected": "Yandex tidak dapat mengesahkan log masuk ini. Sila cuba lagi.",
+    "yandexErrorUnconfigured": "Log masuk melalui Yandex belum dihidupkan di kedai ini."
   },
   "Metadata": {
     "account": {

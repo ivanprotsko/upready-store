@@ -1,5 +1,6 @@
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { decryptJson, keyFromEnv, maskSecret, type MaskedSecret } from "./crypto";
+import { readTenantSecretSlot } from "./slot";
 
 /**
  * The Wildberries Seller API key of ONE shop: the plaintext shape of
@@ -71,5 +72,37 @@ export const readWildberriesSecret = async (
     tenant_id: row.tenant_id,
     is_enabled: row.is_enabled,
     credentials: decryptJson<WildberriesCredentials>(row.payload, keyFromEnv()),
+  };
+};
+
+/**
+ * The slot holding the WRITE key (w20-wb-write-core).
+ *
+ * A SEPARATE secret from `wildberries` on purpose: Ivan's order of
+ * 2026-09-16 02:46 WITA is that a read key which happens to carry write
+ * rights must not be able to write, so the write path never reads the read
+ * slot. No shop has this row today, and the write gates refuse everything
+ * while that is true.
+ *
+ * Same shape as the read credential: WB issues one JWT carrying the whole
+ * access bitmask, so one field is the whole credential.
+ */
+export const WILDBERRIES_READ_SLOT = "wildberries";
+export const WILDBERRIES_WRITE_SLOT = "wildberries_write";
+
+export const readWildberriesWriteSecret = async (
+  pg: Knex,
+  tenantId: string,
+  options: { includeDisabled?: boolean } = {},
+): Promise<ResolvedWildberriesSecret | null> => {
+  const slot = await readTenantSecretSlot(pg, tenantId, WILDBERRIES_WRITE_SLOT, options);
+  if (!slot) {
+    return null;
+  }
+  return {
+    id: slot.id,
+    tenant_id: slot.tenant_id,
+    is_enabled: slot.is_enabled,
+    credentials: slot.credentials as WildberriesCredentials,
   };
 };

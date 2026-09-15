@@ -1,0 +1,84 @@
+ :: /en
+Documentation :: /en/docs/openapi/api-information
+Release Notes :: /en/release-notes
+Sandbox :: /en/sandbox
+API Status :: /en/wb-status
+Community :: /en/forum
+Knowledge Base :: /en/knowledge-base
+dev-info@rwb.ru :: mailto:dev-info@rwb.ru
+ :: https://max.ru/wbapi
+ :: https://t.me/wb_api_notifications
+ :: #tag/Analytics-and-Data
+ :: #tag/salesFunnel
+token :: api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token
+instructions :: /en/knowledge-base/articles/019d49a3-fb9a-7c0c-9372-17d880f74ff9/sales-funnel
+statistics :: https://seller.wildberries.ru/content-analytics/interactive-report/main
+Listings per period :: analytics#tag/salesFunnel/operation/postV3SalesFunnelProducts
+Listings per days :: analytics#tag/salesFunnel/operation/postV3SalesFunnelProductsHistory
+Grouped listings per days :: analytics#tag/salesFunnel/operation/postV3SalesFunnelGroupedHistory
+here :: https://nodatime.org/TimeZones
+ :: #tag/salesFunnel/operation/postV3SalesFunnelProducts
+details for the realization reports :: documents-and-accounting#tag/financialReports
+Request limit :: api-information#tag/introduction/Rate-Limits
+ :: #tag/salesFunnel/operation/postV3SalesFunnelProductsHistory
+Seller Analytics CSV :: analytics#tag/sellerAnalyticsCsv
+Jam :: https://seller.wildberries.ru/monetization/jam
+ :: #tag/salesFunnel/operation/postV3SalesFunnelGroupedHistory
+ :: #tag/orderFeed
+Method :: analytics#tag/orderFeed/operation/postV1OrderFeed
+Order Feed :: https://seller.wildberries.ru/content-analytics/order-feed
+ :: #tag/orderFeed/operation/postV1OrderFeed
+ :: #tag/searchQueriesForYourItems
+instructions :: /en/knowledge-base/articles/019d49a4-0f6a-70bb-a87b-c1237a1a0714/search-queries-for-your-items
+report on search queries for your items :: https://seller.wildberries.ru/search-analytics/my-search-queries
+ :: #tag/searchQueriesForYourItems/operation/postV2SearchReportReport
+promo items :: https://seller.wildberries.ru/help-center/article/A-524
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+ :: #tag/searchQueriesForYourItems/operation/postV2SearchReportTableGroups
+ :: #tag/searchQueriesForYourItems/operation/postV2SearchReportTableDetails
+ :: #tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts
+Jam :: https://seller.wildberries.ru/monetization/tariffs
+ :: #tag/searchQueriesForYourItems/operation/postV2SearchReportProductOrders
+requested item :: analytics#tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts
+ :: #tag/stocksReport
+report on inventory metrics :: https://seller.wildberries.ru/content-analytics/history-remains
+ :: #tag/stocksReport/operation/postV1StocksReportWbWarehouses
+available :: api-information#tag/authorization/Rules-for-using-API-access-tokens
+ :: #tag/stocksReport/operation/postAnalyticsV1StocksReportSellerWarehouses
+ :: #tag/stocksReport/operation/postV2StocksReportProductsGroups
+ :: #tag/stocksReport/operation/postV2StocksReportProductsProducts
+ :: #tag/stocksReport/operation/postV2StocksReportProductsSizes
+items :: analytics#tag/stocksReport/operation/postV2StocksReportProductsProducts
+ :: #tag/stocksReport/operation/postV2StocksReportOffices
+ :: #tag/itemRating
+Method :: analytics#tag/itemRating/operation/postV2ItemRating
+Item Rating :: https://seller.wildberries.ru/content-ratings
+ :: #tag/itemRating/operation/postV2ItemRating
+ :: #tag/sellerAnalyticsCsv
+instructions :: /en/knowledge-base/articles/019d49a3-f76b-7f22-82f3-54930b8f59e8/seller-analytics-csv
+Create the report :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads
+Get the reports list :: analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads
+regenerate the report :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry
+Download the report :: analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId
+ :: #tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads
+sales funnel :: analytics#tag/salesFunnel
+search parameters :: analytics#tag/searchQueriesForYourItems
+search texts :: analytics#tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts
+inventory :: analytics#tag/stocksReport
+get report :: analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId
+repeat generation task :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry
+get a list and check the statuses :: analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads
+Inventory reports :: https://seller.wildberries.ru/content-analytics/history-remains
+ :: #tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads
+report IDs :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads
+ :: #tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry
+repeated generation task :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads
+received the status :: analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads
+ :: #tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId
+generation task :: analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads
+User Agreement of the WB API Service :: /en/rules
+WB API Platform Access Agreement :: https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/
+Policy on the Processing of Personal Data of RWB :: /en/privacy
+WB API Price List for Third-Party Services :: /api/price-list
+FAQ. Frequently Asked Questions :: /en/faq
+cookies :: /privacy

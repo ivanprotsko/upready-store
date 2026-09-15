@@ -11,6 +11,8 @@ import { queryKeysFactory } from "../../lib/query-key-factory"
 
 export type WbTokenBit = { bit: number; meaning: string | null }
 
+export type WbTokenCategory = { bit: number; name: string; granted: boolean }
+
 export type WbStatusResponse = {
   connection: {
     key: { set: boolean; last4: string | null }
@@ -23,10 +25,17 @@ export type WbStatusResponse = {
     sandbox: boolean | null
     expires_at: string | null
     expired: boolean
+    /** Whole days until expiry; negative once expired, null if unreadable. */
+    expires_in_days: number | null
+    /** true when not yet expired and due within the warning window (w13-wb-readonly-flag). */
+    expiring_soon: boolean
     mask: number | null
     bits: WbTokenBit[]
+    /** Every documented category, granted and denied (w13-wb-readonly-flag). */
+    categories: WbTokenCategory[]
     /** true, false, or "unknown" — never true because somebody remembered. */
     read_only: boolean | "unknown"
+    read_only_source: string
     doc_url: string
     error: string | null
   }

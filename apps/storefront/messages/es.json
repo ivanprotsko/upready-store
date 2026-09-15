@@ -484,7 +484,16 @@
     "joinUs": "Únete",
     "notMember": "¿No eres miembro?",
     "password": "Contraseña",
-    "signIn": "Iniciar sesión"
+    "signIn": "Iniciar sesión",
+    "yandexCta": "Iniciar sesión con Yandex ID",
+    "yandexDivider": "o",
+    "yandexErrorDenied": "Cancelaste el inicio de sesión en la página de Yandex.",
+    "yandexErrorEmailTaken": "Ya existe una cuenta con este correo. Inicia sesión con tu contraseña.",
+    "yandexErrorExpired": "Este enlace de acceso ha caducado. Empieza de nuevo.",
+    "yandexErrorFailed": "El inicio de sesión no se completó. Inténtalo de nuevo en un momento.",
+    "yandexErrorNoEmail": "Yandex no facilitó una dirección de correo, así que no se puede crear la cuenta.",
+    "yandexErrorRejected": "Yandex no pudo confirmar este inicio de sesión. Inténtalo de nuevo.",
+    "yandexErrorUnconfigured": "El inicio de sesión con Yandex aún no está activado en esta tienda."
   },
   "Metadata": {
     "account": {

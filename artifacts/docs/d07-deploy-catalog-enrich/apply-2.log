@@ -1,0 +1,19 @@
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:50:52"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:50:52"}
+{"level":"info","message":"Executing script at ./src/scripts/catalog-enrich-from-wb.js...","timestamp":"2026-09-15 22:50:52"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:50:54"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:50:54"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:50:54"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:50:54"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:50:55"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:50:55"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:50:56"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:50:56"}
+{"level":"info","message":"catalog:enrich-from-wb: датасет из /tmp/d07-dataset.json, собран 2026-09-15T21:12:12.179Z, зеркало WB не читается.","timestamp":"2026-09-15 22:50:57"}
+{"level":"info","message":"catalog:enrich-from-wb: магазин cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), APPLY, разделы titles, prices, characteristics, reviews, images.","timestamp":"2026-09-15 22:50:57"}
+{"level":"info","message":"catalog:enrich-from-wb: сопоставлено товаров 20, не сопоставлено 18, карточек без товара 403. В датасете: заголовков 20, цен 20, характеристик 104, отзывов 6, фото 250.","timestamp":"2026-09-15 22:50:57"}
+{"level":"info","message":"catalog:enrich-from-wb: без карточки WB остались — 1268099764-CHERKASHINO («Свечи АСД с чесноком»); 1650264976-CHERKASHINO («Мумие Бальзам Горного Алтая»); PL-09-CHERKASHINO («Тройчатка плюс»); 3302187378-CHERKASHINO («Натуральный сорбент от отравлений от температуры»); 3266733589-CHERKASHINO («Стевия в таблетках, сахарозаменитель»); 3501688032-CHERKASHINO («Антисептик-стимулятор Дорогова, таблетки»); COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO («Очищение печени»); COURSE-BOX-OCHISHCHENIE-PECHENI-CHERKASHINO («Набор «Очищение печени» — Тариф 1»); PL-10-CHERKASHINO («Шампунь мумиё»); PL-11-CHERKASHINO («Шампунь АСД»); PL-21-CHERKASHINO («Шампунь-концентрат для блеска тайский»); PL-23-CHERKASHINO («Сульфат магния, для курса «Печень»»); PL-26-CHERKASHINO («Капли в нос АСД и серебро»); PL-28-CHERKASHINO («Ингалятор портативный»); PL-33-CHERKASHINO («Мёд маточный»); PL-34-CHERKASHINO («Мёд трутневой»); PL-35-CHERKASHINO («Сеннол»); PL-36-CHERKASHINO («Набор для очищения лимфы»)","timestamp":"2026-09-15 22:50:57"}
+{"level":"info","message":"catalog:enrich-from-wb: связей создано 0, обновлено 0, без изменений 20.","timestamp":"2026-09-15 22:50:58"}
+{"level":"info","message":"catalog:enrich-from-wb: заголовки 0 (без изменений 20, нет у WB 0); цены 0 (без изменений 20, нет у WB 0); характеристики 0 (без изменений 102, новых характеристик магазина 0, не принято 0); отзывы 0 (уже были 6); фото 0 (уже были 250, не скачались 0).","timestamp":"2026-09-15 22:50:58"}
+{"level":"info","message":"catalog:enrich-from-wb: отчёт записан в /tmp/d07-apply-2-report.json","timestamp":"2026-09-15 22:50:58"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:50:58"}

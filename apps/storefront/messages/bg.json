@@ -484,7 +484,16 @@
     "joinUs": "Присъединете се",
     "notMember": "Нямате акаунт?",
     "password": "Парола",
-    "signIn": "Вход"
+    "signIn": "Вход",
+    "yandexCta": "Вход с Яндекс ID",
+    "yandexDivider": "или",
+    "yandexErrorDenied": "Отказахте входа на страницата на Яндекс.",
+    "yandexErrorEmailTaken": "Вече има профил с този имейл. Влезте с паролата си.",
+    "yandexErrorExpired": "Връзката за вход изтече. Започнете отначало.",
+    "yandexErrorFailed": "Входът не се осъществи. Опитайте пак след малко.",
+    "yandexErrorNoEmail": "Яндекс не предостави имейл адрес, затова профил не може да се създаде.",
+    "yandexErrorRejected": "Яндекс не потвърди този вход. Опитайте отново.",
+    "yandexErrorUnconfigured": "Входът през Яндекс още не е включен в този магазин."
   },
   "Metadata": {
     "account": {

@@ -5,6 +5,7 @@ import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
+import YandexLogin from "@modules/account/components/yandex-login"
 import { useActionState } from "react"
 import { useTranslations } from "next-intl"
 
@@ -64,6 +65,9 @@ const Login = ({ setCurrentView }: Props) => {
           {t("signIn")}
         </SubmitButton>
       </form>
+      {/* Renders nothing until NEXT_PUBLIC_YANDEX_LOGIN_ENABLED is on, so a
+          deployment without Yandex keys keeps exactly the form above. */}
+      <YandexLogin />
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
         {t("notMember")}{" "}
         <button
