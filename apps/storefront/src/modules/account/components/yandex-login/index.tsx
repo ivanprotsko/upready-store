@@ -20,7 +20,6 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { Button } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 
-import ErrorMessage from "@modules/checkout/components/error-message"
 import YandexMark from "./yandex-mark"
 
 export const YANDEX_LOGIN_ENABLED =
@@ -79,8 +78,21 @@ const YandexLogin = () => {
         </a>
       </Button>
       {errorKey && (
-        <div className="mt-3 w-full">
-          <ErrorMessage error={t(errorKey)} data-testid="yandex-login-error" />
+        /*
+         * Rendered here rather than through `@modules/checkout/components/error-message`,
+         * which is for RAW backend strings: it runs whatever it is given through
+         * `useErrorMessage`, which looks the text up in the `Errors` catalog and
+         * falls back to «something went wrong» for anything it does not
+         * recognise. Measured on the stand 2026-09-16: all seven codes rendered
+         * that one generic sentence instead of their own. These messages are
+         * already translated, so they go straight to the screen, in the styling
+         * that component uses.
+         */
+        <div
+          className="pt-3 w-full text-center text-rose-500 text-small-regular"
+          data-testid="yandex-login-error"
+        >
+          <span>{t(errorKey)}</span>
         </div>
       )}
     </div>
