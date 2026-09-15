@@ -18,8 +18,15 @@ import { assertOwnedOrder } from "../../../../helpers";
  * typed next to the tracking number) is accepted by the Admin validator but
  * `createOrderShipmentWorkflow` writes only `labels` onto the fulfillment
  * (core-flows `create-shipment.js`, `fulfillmentData`), so it is written here
- * in a second step. The customer's account and the shipment e-mail read it
+ * in a step of its own. The customer's account and the shipment e-mail read it
  * back from `fulfillment.metadata.carrier`.
+ *
+ * That step runs BEFORE the shipment, not after it. `createOrderShipmentWorkflow`
+ * emits `shipment.created`, and `order-shipment-created-email` reads the carrier
+ * off the fulfillment while handling that event: written afterwards, the carrier
+ * lost the race every time and the letter carried a bare number (measured
+ * 2026-09-15 on a clone of the client's database — «Трек-номер: 1005248796431»
+ * in the inbox against `metadata.carrier = "СДЭК"` in the database).
  */
 export const POST = async (
   req: AuthenticatedMedusaRequest<HttpTypes.AdminCreateOrderShipment>,
@@ -28,6 +35,12 @@ export const POST = async (
   await assertOwnedOrder(req, req.params.id);
 
   const body = req.validatedBody;
+
+  if (body.metadata && Object.keys(body.metadata).length > 0) {
+    await updateFulfillmentWorkflow(req.scope).run({
+      input: { id: req.params.fulfillment_id, metadata: body.metadata },
+    });
+  }
 
   await createOrderShipmentWorkflow(req.scope).run({
     input: {
@@ -38,12 +51,6 @@ export const POST = async (
       created_by: req.auth_context.actor_id,
     },
   });
-
-  if (body.metadata && Object.keys(body.metadata).length > 0) {
-    await updateFulfillmentWorkflow(req.scope).run({
-      input: { id: req.params.fulfillment_id, metadata: body.metadata },
-    });
-  }
 
   const order = await refetchEntity({
     entity: "order",

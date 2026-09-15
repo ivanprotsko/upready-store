@@ -315,7 +315,9 @@ export default function CheckoutPaymentSection({
         <p className="txt-compact-2xsmall text-ui-fg-subtle text-center px-2">
           {t.rich("legal", {
             terms: legalChunk("terms"),
-            termsOfUse: legalChunk("terms"),
+            // Its own slot since b14-pages-legal-content: the sentence names
+            // two documents and used to underline one.
+            termsOfUse: legalChunk("termsOfUse"),
             returnPolicy: legalChunk("returns"),
             privacyPolicy: legalChunk("privacy"),
           })}

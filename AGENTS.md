@@ -191,6 +191,11 @@ underscore.
   mandatory for a first run.
 - The Integration Module is registered with an empty `providers` array on purpose, so a shop owner
   can add a provider without editing config. Leave the array empty.
+- Anything a deployed stand has to CONVERGE on (data an older image left wrong, rows a migration
+  implies) is an idempotent script under `apps/backend/src/scripts/` wired into
+  [`docker-entrypoint.sh`](apps/backend/docker-entrypoint.sh), never a step in a runbook. The boot
+  order and the rules for adding one are in
+  [apps/backend/README.md](apps/backend/README.md#what-the-container-does-on-every-boot).
 - An acceptance fixture or a one-off seed script lives in
   [scripts/fixtures](apps/backend/scripts/fixtures) and nowhere else in `apps/backend`. `medusa build`
   compiles everything `tsconfig.json` includes, and `exclude` names that one directory, so a type
@@ -203,7 +208,19 @@ underscore.
 `ar` and `he` are right-to-left, and `rtlLocales` in that file is what every direction-aware consumer
 reads.
 
-Three sets of catalogs have to stay in step, each holding one file per locale.
+The 36-code list itself is hand-transcribed into two more files, because `pnpm-workspace.yaml` lists
+only `apps/**` and there is no shared package either could import the storefront's own list from:
+[apps/backend/src/api/tenants/locale-settings/validators.ts](apps/backend/src/api/tenants/locale-settings/validators.ts)
+(`LOCALE_CODES`, what the API validates against) and
+[apps/tenant-panel/src/lib/locale-catalog.ts](apps/tenant-panel/src/lib/locale-catalog.ts) (`LOCALE_CODES`,
+what the panel's language pickers offer). A change to the storefront's `locales` array means the same
+change in both, or the three drift apart silently — check it before you commit:
+
+```bash
+node scripts/check-locale-catalogs.mjs
+```
+
+Three sets of message catalogs have to stay in step too, each holding one file per locale.
 
 | Set | Path | Read by |
 |---|---|---|

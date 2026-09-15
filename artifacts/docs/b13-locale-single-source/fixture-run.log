@@ -1,0 +1,20 @@
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Executing script at ./scripts/fixtures/b13-locale-shipping-names.ts...
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    No workflow to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.
+[32minfo[39m:    No subscriber to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.
+[32minfo[39m:    b13-seed: created b13shopru (ten_01M2JWPPMPP940WNR2QTF72HQT)
+[32minfo[39m:    b13-seed: created b13shopen (ten_01M2JWPQ2NZZ6CJ28V5TNZ0Q50)
+[32minfo[39m:    b13-seed: [ru, untouched] B13 Shop RU shipping options: Самовывоз (Заберите заказ у продавца.) | Курьером (До двери. Стоимость подтвердит магазин.)
+[32minfo[39m:    b13-seed: [en tenant, BEFORE locale save (provisioned in the deployment default)] B13 Shop EN shipping options: Курьером (До двери. Стоимость подтвердит магазин.) | Самовывоз (Заберите заказ у продавца.)
+[32minfo[39m:    b13-seed: relocalized 2 option(s) of b13shopen to en
+[32minfo[39m:    b13-seed: [ru, still untouched] B13 Shop RU shipping options: Самовывоз (Заберите заказ у продавца.) | Курьером (До двери. Стоимость подтвердит магазин.)
+[32minfo[39m:    b13-seed: [en tenant, AFTER locale save] B13 Shop EN shipping options: Courier (To your door. The shop confirms the cost.) | Pickup (Collect the order from the seller.)
+[32minfo[39m:    b13-seed: done — handles b13shopru (ten_01M2JWPPMPP940WNR2QTF72HQT), b13shopen (ten_01M2JWPQ2NZZ6CJ28V5TNZ0Q50)
+[32minfo[39m:    Finished executing script.

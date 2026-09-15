@@ -1677,6 +1677,10 @@
       "markAsShipped": "Mark as shipped",
       "methodDescription": "Choose a different shipping method from the one customer selected",
       "number": "Fulfillment #{{number}}",
+      "provider": {
+        "manual": "Manual, no carrier",
+        "unknown": "Unknown carrier"
+      },
       "requiresShipping": "Requires shipping",
       "sendNotificationHint": "Notify customers about the created fulfillment.",
       "shippingFromLabel": "Shipping from",
@@ -1729,6 +1733,10 @@
       "markAsPaidPaymentSuccess": "Payment of {{amount}} successfully marked as paid",
       "paymentLink": "Copy payment link for {{ amount }}",
       "pendingAuthorization": "Payment is awaiting authorization from the payment provider.",
+      "provider": {
+        "manual": "Manual payment",
+        "unknown": "Unknown provider"
+      },
       "refund": "Refund",
       "refundAmount": "Refund {{ amount }}",
       "refundPaymentSuccess": "Refund of amount {{amount}} successful",
@@ -1750,11 +1758,8 @@
       "stillPending": "Payment is still pending authorization.",
       "title": "Payments",
       "totalPaidByCustomer": "Total paid by customer",
-      "totalStoreCreditRefunds": "Total store credit refunds",
-      "provider": {
-        "manual": "Manual payment",
-        "unknown": "Unknown provider"
-      }
+      "totalPending": "Total pending",
+      "totalStoreCreditRefunds": "Total store credit refunds"
     },
     "refund": {
       "error": {
@@ -3205,7 +3210,9 @@
     "noSalesThisPeriod": "No sales in this period",
     "loading": "Loading…",
     "noOrdersYet": "No orders yet",
-    "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue."
+    "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue.",
+    "otherCurrenciesNote": "Orders in other currencies: {{list}}. They are not part of the figures above; switch the currency to see them.",
+    "otherCurrencyItem": "{{amount}} — orders: {{count}}"
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"

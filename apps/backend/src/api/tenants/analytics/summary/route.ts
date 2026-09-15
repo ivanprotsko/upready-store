@@ -8,6 +8,11 @@ import {
 } from "../../order-totals";
 import { listTenantOrderIds } from "../../tenant-scope";
 import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone } from "../timezone";
+import { pickCurrency, summariseByCurrency, withSelectedCurrency } from "../../../../analytics-summary/currency";
+import {
+  topProductsFromItemRows,
+  type OrderItemRow,
+} from "../../../../analytics-summary/top-products";
 
 /**
  * `GET /tenants/analytics/summary` (t17-analytics, step 5) — revenue, order
@@ -25,6 +30,13 @@ import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone
  * summary row per order VERSION, canceled orders counted apart — is
  * `api/tenants/order-totals.ts`, shared with that file so the two screens
  * cannot drift again (b01-owner-numbers).
+ *
+ * EVERY number on this screen belongs to ONE currency (b12-analytics-accuracy):
+ * `currency_code` is the currency being shown, `currencies` lists the ones the
+ * shop has ever taken money in, and `currency_breakdown` gives the period's
+ * revenue and order count for each of them separately. Nothing is summed
+ * across currencies and nothing is dropped — see
+ * `src/analytics-summary/currency.ts` for why the split beat a filter.
  *
  * `has_orders` is `false` only when the tenant has never had a single order —
  * the honest empty state (step 6: "заказов пока нет", never zeroes that look
@@ -154,8 +166,6 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     canceled: isCanceledOrder(row.status),
   }));
 
-  const currency_code = orders[0]?.currency_code ?? null;
-
   const inRange = (from: Date, to: Date) =>
     orders.filter((order) => {
       const at = order.created_at.getTime();
@@ -163,17 +173,33 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     });
 
   const currentOrders = inRange(start, end);
-  const previousOrders = inRange(prevStart, prevEnd);
 
-  const current = aggregate(sold(currentOrders));
-  const previous = aggregate(sold(previousOrders));
-  const canceled = aggregate(canceledOnly(currentOrders));
+  // Which currency the screen is about. The owner's pick wins when the shop
+  // has ever taken money in it; otherwise the period's biggest currency, and
+  // for an empty period the shop's biggest overall.
+  const allCurrencyBuckets = summariseByCurrency(sold(orders));
+  const periodCurrencyBuckets = summariseByCurrency(sold(currentOrders));
+  const requestedCurrency = typeof req.query.currency === "string" ? req.query.currency : null;
+  const currency_code = pickCurrency(requestedCurrency, periodCurrencyBuckets, allCurrencyBuckets);
+
+  // From here on EVERY number is about `currency_code` alone. Orders in the
+  // other currencies are not summed in and not dropped: they are reported in
+  // `currency_breakdown` with their own revenue and order count.
+  const inCurrency = (list: OrderRow[]): OrderRow[] =>
+    list.filter((order) => (order.currency_code ?? "").toLowerCase() === currency_code);
+
+  const selectedCurrent = inCurrency(currentOrders);
+  const selectedPrevious = inCurrency(inRange(prevStart, prevEnd));
+
+  const current = aggregate(sold(selectedCurrent));
+  const previous = aggregate(sold(selectedPrevious));
+  const canceled = aggregate(canceledOnly(selectedCurrent));
 
   const daily: { date: string; revenue: number; order_count: number }[] = [];
   for (let cursor = start.getTime(); cursor < end.getTime(); cursor += DAY_MS) {
     const dayStart = new Date(cursor);
     const dayEnd = new Date(cursor + DAY_MS);
-    const dayOrders = sold(inRange(dayStart, dayEnd));
+    const dayOrders = sold(inCurrency(inRange(dayStart, dayEnd)));
     daily.push({
       date: formatDateInZone(dayStart, ANALYTICS_TIMEZONE),
       revenue: aggregate(dayOrders).revenue,
@@ -181,27 +207,30 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     });
   }
 
-  let top_products: { product_id: string; title: string; quantity: number; revenue: number }[] = [];
+  let top_products = [] as ReturnType<typeof topProductsFromItemRows>;
 
-  const soldCurrentOrders = sold(currentOrders);
+  const soldCurrentOrders = sold(selectedCurrent);
 
   if (soldCurrentOrders.length > 0) {
+    // One row per (order, line, VERSION). The version filter is applied in
+    // `topProductsFromItemRows`, where it is measurable without a database —
+    // an order that has been edited carries every line once per version, and
+    // summing the lot doubles both the quantity and the revenue of that order
+    // (b12-analytics-accuracy).
     const rows: {
-      product_id: string;
-      title: string;
-      quantity: string;
-      revenue: string;
+      order_id: string;
+      order_version: number;
+      item_version: number;
+      product_id: string | null;
+      title: string | null;
+      quantity: string | null;
+      unit_price: string | null;
     }[] = await pg({ oi: "order_item" })
       .join({ oli: "order_line_item" }, function joinLineItem() {
         this.on("oli.id", "oi.item_id").andOnNull("oli.deleted_at");
       })
-      // `order_item` is versioned exactly like `order_summary`: an order that
-      // has been through one change carries the same item twice, once per
-      // version. Without this the top-five list doubled both the quantity and
-      // the revenue of every edited order (measured on the stand: one order
-      // of ₽1 094 showed «Зубная паста — 2 шт, ₽2 168»).
       .join({ o: "order" }, function joinOrder() {
-        this.on("o.id", "oi.order_id").andOn("o.version", "oi.version");
+        this.on("o.id", "oi.order_id");
       })
       .whereIn(
         "oi.order_id",
@@ -209,25 +238,36 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       )
       .whereNull("oi.deleted_at")
       .whereNotNull("oli.product_id")
-      .groupBy("oli.product_id", "oli.title")
-      .select({ product_id: "oli.product_id", title: "oli.title" })
-      .sum({ quantity: "oi.quantity" })
-      .sum({ revenue: pg.raw("oi.quantity * oli.unit_price") });
+      .select({
+        order_id: "oi.order_id",
+        order_version: "o.version",
+        item_version: "oi.version",
+        product_id: "oli.product_id",
+        title: "oli.title",
+        quantity: "oi.quantity",
+        unit_price: "oli.unit_price",
+      });
 
-    top_products = rows
-      .map((row) => ({
-        product_id: row.product_id,
-        title: row.title,
-        quantity: Number(row.quantity ?? 0),
-        revenue: round2(Number(row.revenue ?? 0)),
-      }))
-      .sort((a, b) => b.revenue - a.revenue)
-      .slice(0, 5);
+    const itemRows: OrderItemRow[] = rows.map((row) => ({
+      order_id: row.order_id,
+      order_version: Number(row.order_version),
+      item_version: Number(row.item_version),
+      product_id: row.product_id,
+      title: row.title,
+      quantity: Number(row.quantity ?? 0),
+      unit_price: Number(row.unit_price ?? 0),
+    }));
+
+    top_products = topProductsFromItemRows(itemRows);
   }
 
   res.json({
     has_orders: true,
     currency_code,
+    /** Every currency the shop has ever taken money in, richest first. */
+    currencies: allCurrencyBuckets.map((bucket) => bucket.currency_code),
+    /** This period, one row per currency. The shown one is always present, zero included. */
+    currency_breakdown: withSelectedCurrency(periodCurrencyBuckets, currency_code),
     period: {
       key,
       from: start.toISOString(),
