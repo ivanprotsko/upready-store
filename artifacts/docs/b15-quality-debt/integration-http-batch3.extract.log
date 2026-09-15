@@ -1,0 +1,13 @@
+PASS integration-tests/http/tenants-shipping-methods.spec.ts (39.633 s)
+PASS integration-tests/http/tenants-product-attributes.spec.ts (26.836 s)
+PASS integration-tests/http/tenants-pages.spec.ts (20.355 s)
+PASS integration-tests/http/tenants-promotions.spec.ts (18.93 s)
+PASS integration-tests/http/tenants-orders-detail.spec.ts (18.983 s)
+PASS integration-tests/http/tenants-product-csv.spec.ts (28.229 s)
+PASS integration-tests/http/tenants-products-detail.spec.ts (22.924 s)
+PASS integration-tests/http/tenants-owner-numbers.spec.ts (13.905 s)
+PASS integration-tests/http/tenants-requisites.spec.ts (15.496 s)
+PASS integration-tests/http/tenants-profile.spec.ts (18.627 s)
+PASS integration-tests/http/tenants-payment-settings.spec.ts (25.136 s)
+Test Suites: 11 passed, 11 total
+Tests:       89 passed, 89 total

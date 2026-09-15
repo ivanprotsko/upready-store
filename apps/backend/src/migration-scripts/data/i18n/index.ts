@@ -112,7 +112,16 @@ const baseLocales = readJsonDir<SeedLocaleFile>(path.join(__dirname, "json"), {
     "translations.shippingTypes",
     "translations.refundReasons",
   ],
-}).map((entry) => ({ code: entry.name, ...entry.data }));
+}).map((entry) => ({
+  code: entry.name,
+  ...entry.data,
+  // `SeedTranslations` declares every group as present, and the base catalogs
+  // predate `productOptions`, so the group is filled in here rather than in
+  // `mergeLocales` alone. Normalizing on both paths is what keeps a locale the
+  // profile never touched identical to the base one, and keeps a lookup off
+  // `undefined` when no profile is selected at all.
+  translations: { ...emptyTranslations(), ...entry.data.translations },
+}));
 
 /**
  * Merges a profile's catalog translations over the base seed's locale files.
