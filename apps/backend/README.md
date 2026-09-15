@@ -115,6 +115,8 @@ Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be s
 | `REVALIDATE_SECRET` | Sent as `x-revalidate-secret` to the storefront; must match its value | `supersecret` |
 | `STOREFRONT_DEFAULT_LOCALE` | Fallback email language when the buyer's is unknown, one of the locales under `src/emails/i18n` | `en` |
 | `STORE_NAME`, `STORE_EMAIL`, `STORE_PHONE`, `STORE_ADDRESS` | Store branding in email templates, and the fallback for a shop that has set none of its own | — |
+| `STORE_PROFILES_MEDIA_BASE_URL` | Where `/static/store-profiles` is served from, the parent of every starter dataset's media directory. `POST /tenants/seed` (the onboarding wizard's starter catalog) and `seed-mt-demo` build every image URL from it and refuse to write a relative one, so neither runs without this variable or `STORE_MEDIA_BASE_URL` below | — |
+| `STORE_MEDIA_BASE_URL` | Where ONE profile's media is served from, for the single-store seed (`STORE_PROFILE`). `resolveMediaBaseUrl` takes its parent directory when `STORE_PROFILES_MEDIA_BASE_URL` is unset | — |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` | S3-compatible file storage, used when `NODE_ENV=production` | — |
 | `MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY` | Storefront directory for Medusa's onboarding flow | `medusa-storefront` |
 
