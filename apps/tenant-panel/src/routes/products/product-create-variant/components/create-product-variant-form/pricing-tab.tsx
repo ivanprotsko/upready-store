@@ -5,9 +5,12 @@ import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { CreateProductVariantSchema } from "./constants"
-import { useRegions, useStore } from "../../../../../hooks/api"
 import { usePricePreferences } from "../../../../../hooks/api/price-preferences"
 import { useRouteModal } from "../../../../../components/modals"
+import {
+  PricingCurrencyToggle,
+  usePricingScope,
+} from "../../../common/use-pricing-scope"
 import {
   createDataGridHelper,
   createDataGridPriceColumns,
@@ -19,16 +22,19 @@ type PricingTabProps = {
 }
 
 function PricingTab({ form }: PricingTabProps) {
-  const { store } = useStore()
-  const { regions } = useRegions({ limit: 9999 })
   const { price_preferences: pricePreferences } = usePricePreferences({})
+
+  // f09-price-editor-currencies: a brand-new variant has no prices yet, so the
+  // grid opens on the shop's own currency; the rest are one switch away.
+  const scope = usePricingScope()
 
   const { setCloseOnEscape } = useRouteModal()
 
   const columns = useVariantPriceGridColumns({
-    currencies: store?.supported_currencies,
-    regions,
+    currencies: scope.currencies,
+    regions: scope.regions,
     pricePreferences,
+    currencyLabel: scope.currencyLabel,
   })
 
   const variant = useWatch({
@@ -41,6 +47,7 @@ function PricingTab({ form }: PricingTabProps) {
       data={[variant]}
       state={form}
       onEditingChange={(editing) => setCloseOnEscape(!editing)}
+      headerContent={<PricingCurrencyToggle {...scope} />}
     />
   )
 }
@@ -54,10 +61,12 @@ const useVariantPriceGridColumns = ({
   currencies = [],
   regions = [],
   pricePreferences = [],
+  currencyLabel,
 }: {
-  currencies?: HttpTypes.AdminStore["supported_currencies"]
+  currencies?: string[]
   regions?: HttpTypes.AdminRegion[]
   pricePreferences?: HttpTypes.AdminPricePreference[]
+  currencyLabel?: (code: string) => string
 }) => {
   const { t } = useTranslation()
 
@@ -82,9 +91,10 @@ const useVariantPriceGridColumns = ({
         HttpTypes.AdminProductVariant,
         z.infer<typeof CreateProductVariantSchema>
       >({
-        currencies: currencies.map((c) => c.currency_code),
+        currencies,
         regions,
         pricePreferences,
+        currencyLabel,
         getFieldName: (context, value) => {
           if (context.column.id?.startsWith("currency_prices")) {
             return `prices.${value}`
@@ -94,7 +104,7 @@ const useVariantPriceGridColumns = ({
         t,
       }),
     ]
-  }, [t, currencies, regions, pricePreferences])
+  }, [t, currencies, regions, pricePreferences, currencyLabel])
 }
 
 export default PricingTab

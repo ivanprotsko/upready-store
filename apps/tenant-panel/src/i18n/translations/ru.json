@@ -836,6 +836,7 @@
     "phone": "Телефон",
     "postalCode": "Почтовый индекс",
     "price": "Цена",
+    "priceShopTemplate": "Цена, {{symbol}}",
     "priceTemplate": "Цена {{regionOrCurrency}}",
     "product": "Продукт",
     "product_collections": "Коллекции продуктов",
@@ -1851,6 +1852,7 @@
     "create": {
       "description": "Создать новый товар.",
       "errors": {
+        "missingPrice": "Укажите цену хотя бы в одной валюте: без цены товар попадёт в каталог карточкой без цены. Если цена ещё не известна — сохраните черновик.",
         "options": "Создайте хотя бы одну опцию.",
         "uniqueSku": "SKU должен быть уникальным.",
         "variants": "Выберите хотя бы один вариант."
@@ -2160,6 +2162,9 @@
     "csv": {
       "exportAction": "Выгрузить CSV",
       "importAction": "Загрузить CSV"
+    },
+    "pricing": {
+      "showAllCurrencies": "Все валюты ({{count}})"
     }
   },
   "profile": {

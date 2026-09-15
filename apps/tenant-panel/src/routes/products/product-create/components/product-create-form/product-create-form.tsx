@@ -127,6 +127,32 @@ export const ProductCreateForm = ({
       isDraftSubmission = submitter.dataset.name === SAVE_DRAFT_BUTTON
     }
 
+    // f09-price-editor-currencies: a product published with no price at all
+    // reaches the storefront as a card with no price — the live QA found one
+    // there. A draft may stay priceless (the owner is still writing it), a
+    // published product may not, and the wizard says so on the step that has
+    // the price grid instead of failing silently.
+    if (!isDraftSubmission) {
+      const priceless = values.variants.filter(
+        (variant) =>
+          variant.should_create &&
+          !Object.values(variant.prices ?? {}).some(
+            (price) => price !== "" && price !== null && price !== undefined
+          )
+      )
+
+      if (priceless.length) {
+        setTab(Tab.VARIANTS)
+        toast.error(
+          t("products.create.errors.missingPrice", {
+            defaultValue:
+              "Укажите цену хотя бы в одной валюте: без цены товар попадёт в каталог карточкой без цены. Если цена ещё не известна — сохраните черновик.",
+          })
+        )
+        return
+      }
+    }
+
     const media = values.media || []
     const payload = { ...values, media: undefined }
 
