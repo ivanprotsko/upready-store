@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 61,
+  "action": "status-set",
+  "ts": "2026-09-15T13:31:56+08:00",
+  "status": "2026-09-15 13:31 WITA: приёмка f03-guest-order-not-in-account round 2 — PR #42 принят и смержен (squash 74d9c01). Замер на своём стенде (клон БД, тенант cherkashino): гостевой заказ №17 виден в /ru/account/orders сразу после регистрации на тот же e-mail, чужой аккаунт — 0 карточек и честный ноль от claim. tsc/lint/seam зелёные, unit-падение profile-data предсуществующее. Нит на отдельную задачу: GET /store/orders/:id открыт БЕЗ авторизации (ядро Medusa, не этот PR). Инцидент: диск ушёл в ноль из-за клонов БД upready_store_*, после DROP своей — 25 Gi свободно."
+}

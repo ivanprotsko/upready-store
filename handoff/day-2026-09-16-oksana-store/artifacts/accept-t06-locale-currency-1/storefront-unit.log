@@ -1,0 +1,13 @@
+
+> @dtc/gorgo-medusa-storefront@1.0.0 test /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-locale-currency/apps/storefront
+> vitest run --passWithNoTests --exclude "**/node_modules/**" --exclude "**/.next/**" --exclude "tests/ui-lab/**"
+
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-locale-currency/apps/storefront
+
+
+ Test Files  13 passed (13)
+      Tests  134 passed (134)
+   Start at  05:09:09
+   Duration  870ms (transform 687ms, setup 0ms, import 919ms, tests 834ms, environment 1ms)
+

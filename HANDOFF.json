@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T21:58:02+08:00",
-  "status": "2026-09-15 17:15 WITA: f16-category-image-not-shown — PR #54 открыт (MERGEABLE/CLEAN). Картинка категории теперь видна на её странице, плиткой в каталоге и на главной с ОДНОЙ загрузки; порог «минимум три» снят; в панели превью в форме и колонка «Изображение» в списке. Замерено на стенде :9046/:8046/:5196 (клон БД upready_store_f16), полный круг панель→витрина 1→0→1, tsc/lint/юниты (195) зелёные, next build зелёный. Прод не трогался. | 2026-09-15 21:58 WITA: r03-test-methods-pilot — PR #56 открыт (base dev, MERGEABLE, не черновик, de8ab434). Реестр методов тестирования в tools/test-methods/: три метода (tm-001 boot-модуль мимо рантайм-образа из f17/sharp, tm-002 поле владельца, которое витрина не показывает, из f16/image_url, tm-003 одноразовая фикстура в компилируемом дереве из f12), CLI tm.mjs (list/match/run --base/verify, rc=1 на красном), 3 красных варианта + зелёный контроль на метод, pnpm test:methods. Замеры: verify 20/20 rc=0, run all rc=0, run all --strict rc=1, юнитов 24 из 24, ломающая проверка снята руками. Найдено 4 живых дефекта на dev, все в baseline с владельцем: f12-фикстура (чинит PR #55/f18), t13- и t17-seed-test-tenant (тот же класс, задач нет), metadata.language в форме профиля панели никто не читает. tsc/lint приложений не гонялись — в воркспейсе нет node_modules; замером показано, что в коммитах ноль файлов под apps/.",
+  "updated": "2026-09-15T22:11:45+08:00",
+  "status": "2026-09-15 21:21 WITA: c01-wave5-composer — волна 5 собрана: 10 пачек b07–b16 (приоритеты 80–89) в artifacts/c01-wave5-composer/tasks.json, 10 промптов, needs-ivan.md (10 строк Оксане, 5 Ивану, 8 задач HANDOFF вне миссии + 4 открытых PR), report.md с таблицей 38 пунктов; tasks.json и prompts/ дня не тронуты, коммит e530a06 | 2026-09-15 22:11 WITA: r03-test-methods-pilot — раунд 2: PR #56 слит с origin/dev (конфликт был только в шапке HANDOFF.json: моя строка статуса против строки c01), суть задачи приёмщик перемерил и принял. Реестр методов тестирования в tools/test-methods/ без изменений по существу; добавлена проверка протухших записей baseline (нит 1 приёмки).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1242,6 +1242,11 @@
       "audience": "ivan"
     },
     {
+      "id": "q-priemka-f03-pr-42-smerzhen",
+      "question": "Приёмка f03 (PR #42, смержен) замерила: GET /store/orders/:id отдаёт заказ БЕЗ авторизации вообще, только по publishable-ключу (http=200 без Bearer; чужой аккаунт по прямой ссылке /ru/account/orders/details/<id> видит состав, адрес доставки и телефон покупателя). Это ядровой маршрут Medusa 2.19, не дефект PR #42. Завести задачу вместе с уже названной автором '/store/orders ограничить каналом продаж publishable-ключа'?",
+      "asked": "2026-09-15"
+    },
+    {
       "id": "q-podtverzhdat-li-e-mail-pri-registratsii",
       "question": "Подтверждать ли e-mail при регистрации покупателя (сейчас регистрация не проверяет адрес, и после f03 аккаунт на чужой адрес видит гостевые заказы этого адреса)?",
       "asked": "2026-09-15"
@@ -1253,60 +1258,6 @@
     }
   ],
   "sessions": [
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-2",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests",
-        "t-ds-0b-theme-presets-panel"
-      ],
-      "summary": "Approved and started t-ds-0-foundation and t-ds-1-seam-tests; resolved q-ds-target-library (a), q-ds-visual-canon (a), q-store-remote (private repo created, origin repointed, dev pushed over SSH after HTTPS 400); wrote 00-program §11, theme presets + hidden panel brief, theme-preset.schema.json; memory + knowledge-index updated (memory 826f9f7)"
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-3",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests"
-      ],
-      "summary": "Revision 3: Ivan's day goal → T0j/T0k brief; T0e after; push guard fixed (flow-style branches); merge 0cb4a36 accepted; d3 handover; B unblocked; A reached via emit; ai-err aie-20260906-082415-81ec (asked Ivan to relay a message)."
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-4",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests"
-      ],
-      "summary": "Status read-out for Ivan: both orchestrator sessions gone from ListAgents, work stalled since 09:14 (7 h), results uncommitted in both worktrees, :8002 down, e2e 0/17 verified; 4 ACT records of the update channel reported (single consumer apps/ui-smoke already pinned above them, ack held until the code is in git); no code touched this session."
-    },
-    {
-      "date": "2026-09-06",
-      "label": "store-ds-5",
-      "task_ids": [
-        "t-ds-0-foundation",
-        "t-ds-1-seam-tests",
-        "t-select-allowlist-gap"
-      ],
-      "summary": "Solo, no agents. feat/ds-foundation: committed T0c (dc439f6), T0f (a0e5a67) plus the excludes fix (7c1a2d7), T0d (096f7f9), T0g ui-smoke (a0ac356) and the T0e not-accepted note (1afb627), rebased onto dev@552de62, conflict on ui-inventory.schema.json resolved in favour of the architect version already on dev (b8b6d40). All gates re-run by me: tsc 0, next lint clean, next build 0, ui-lab:test 19 passed (1.2m) with 353 case-viewports and 0 dimensions differ, ui-smoke tsc/build 0 and 1 passed against the shared backend on 9022. Three worker defects fixed with evidence: the missing propsUsedByComponent rollup, two damaged cells in token-map.json, and T0d tailwind globs overwritten by the T0e migration. T0e itself not committed as code — it reached the app as symlinks in node_modules and dies on pnpm install; kept as a patch plus a status note. feat/seam-tests: vitest 25 files / 709 passed + 18 expected fail / coverage statements 92.93 percent, e2e on :8002 in docker 11 passed and 6 failed, every failure traced to a measured cause — four test defects, one harness limit (Secure cookies over plain http on host.docker.internal), one real product defect (header inside main, no banner landmark). Funnel acceptance NOT met. Two questions and two backlog tasks opened."
-    },
-    {
-      "date": "2026-09-07",
-      "label": "store-ds-9",
-      "task_ids": [
-        "t-store-profiles-pilot"
-      ],
-      "summary": "Architect only, no agents. Ivan's ten-store-versions directive → prompt-features extraction (14 features, validate ok), program with 8 forks decided and 10 profiles specified, 3 JSON schemas (Ajv strict), English orchestrator brief S0–S8 for the sneakers pilot, worktree feat/store-profiles, two estimates. Measured: backend static serving 200, seed price/translation structure, Replicate model pages (nano-banana-2 14 refs, flux-2-pro 8 refs, flux-1.1-pro-ultra 0.06 USD; nano-banana-2/flux-2-pro prices not visible). Two questions opened (WIP, deploy topology)."
-    },
-    {
-      "date": "2026-09-08",
-      "label": "architect-window-disabled-remeasure",
-      "task_ids": [
-        "t-store-profiles-pilot"
-      ],
-      "summary": "Перемер d-11 в архитекторском окне: 4.60:1 худшее из 16 ячеек «пресет × режим» на живом :8081 при цели 4.5:1; вписано с датой и списком семи пресетов в вердикт и реестр (коммит 20c40cb, dev запушен). Попутно: свод вердикта считал «десять закрыто, два открыто» против собственной таблицы (одиннадцать, два, один) — исправлено. Инцидент машины: диск был на 100% (120 МиБ свободно из 926 ГиБ), мой же вызов упал с ENOSPC; освобождено 1.2 ГиБ устаревшего скретча чужой сессии app-shell в /private/tmp, стенды не тронуты."
-    },
     {
       "date": "2026-09-12",
       "label": "storefront-wave2-executor",

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 30,
+  "action": "status-set",
+  "ts": "2026-09-15T07:34:10+08:00",
+  "status": "2026-09-15 07:34 WITA: приёмка t11-seo-redirects раунд 2 (day-2026-09-16-oksana-store) — PR #29 ОТКЛОНЁН повторно: mergeable=CONFLICTING/DIRTY. Прошлый мерж воркера корректен (merge-base 2508708), но после него в dev приехал 8a47879 (t10-blog #31); конфликтуют ровно два файла — apps/storefront/src/app/sitemap.ts (импорты listTenantArticles vs fetchWithoutLocale + хвост: блок статей журнала vs блок /store/tenant/pages/sitemap, резолв «оставить обе стороны»; после резолва проверить, что t11-шный /store/tenant/product-categories на месте) и HANDOFF.json. Замечание раунда 1 про панель ЗАКРЫТО: apps/tenant-panel/src/lib/seo-metadata.ts + SEO-поля со счётчиком длины в edit-product-form/edit-category-form, pnpm typecheck rc=0. Экран таблицы редиректов и поле seo-verification остаются API-only — диспетчеру записать отдельной задачей в PLAN.md, шаги 4 и 6 брифа панелью НЕ закрыты. Живых замеров (301/508/два sitemap/мета-теги) не делал намеренно: конфликт лежит в самом sitemap.ts, его содержимое после мержа изменится — обязательны в раунде 3. Побочно: воркер сам залогировал aie-20260915-065444-bd79 (pkill -9 -f 'medusa develop' без PID-scope убил backend соседних day16-воркеров). Отдельно: HANDOFF.json основного чекаута лежал с неразрешёнными конфликт-маркерами после мержа 8a47879 — разрешил объединением обеих записей статуса (ничего не потеряно), не коммитил. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-t11-seo-redirects-2.findings.md, PR-комментарий issuecomment-5672285195."
+}

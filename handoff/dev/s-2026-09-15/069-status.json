@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 69,
+  "action": "status-set",
+  "ts": "2026-09-15T15:06:51+08:00",
+  "status": "2026-09-15 15:06 WITA: q03-gap-recheck закрыт — живая сверка 169 функций InSales на cherkashino.shipshift.dev (sha 2286d43): утром 11 «есть», вечером 19; критичных 18, открыто 16. Живая покупка #10 подтвердила f01/f03/f04/f05/f07, f02 не работает (SMTP пустые). Найдено: удвоение заказов в Обзоре и Клиентах (order_summary join), выгрузка каталога в USD. Отчёт artifacts/q03-gap-recheck/gap-recheck.md, вечерние вердикты дописаны в research/gap-matrix.md, коммит b8d2872"
+}

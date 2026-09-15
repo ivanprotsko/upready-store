@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 51,
+  "action": "status-set",
+  "ts": "2026-09-15T11:56:33+08:00",
+  "status": "2026-09-15 11:56 WITA: приёмка PR #40 (f04-address-without-city) — MERGED squash bac261b; гейт адреса перемерен приёмщиком на стенде из ветки (400 на пустой город, 200 с полным адресом, заказ #20 city/province/postal_code непустые, шторка и шаг оплаты с русской строкой 1280+390); отчёт и кадры в handoff/day-2026-09-16-oksana-store/artifacts/accept-f04-address-without-city-1/; остаётся перемерить на живом после d03"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 31,
+  "action": "status-set",
+  "ts": "2026-09-15T07:34:24+08:00",
+  "status": "2026-09-15 07:34 WITA: t11-seo-redirects (day-2026-09-16-oksana-store) — приёмка PR #29 раунд 2: REJECTED. (1) снова CONFLICTING: dev уехал на 8a47879 (t10-blog #31) после мержа воркера, свой merge-tree даёт 2 конфликтных файла — apps/storefront/src/app/sitemap.ts (импорты listTenantArticles vs fetchWithoutLocale; хвост: блок статей vs блок /store/tenant/pages/sitemap — нужны ОБА) и HANDOFF.json. (2) SEO-поля товара/категории в панели пишут в литерал локали 'en' (seo-metadata.ts:12), витрина читает seo[locale] без фолбэка (tenant-seo.ts:20) — у ру-магазина cherkashino поле не доходит до head; обоснование 'как у tenant_page' неверно, там строка одна на локаль. Живьём не мерил сознательно: конфликт лежит в sitemap.ts, который сам под критерием непересечения — замер до мержа ничего не доказывает, в раунде 3 обязателен. Зелёное зафиксировано таблицей в findings. Экран редиректов и seo-verification в панели остаются API-only — диспетчеру записать в PLAN.md как перенос. Комментарий в PR: issuecomment-5672296607."
+}

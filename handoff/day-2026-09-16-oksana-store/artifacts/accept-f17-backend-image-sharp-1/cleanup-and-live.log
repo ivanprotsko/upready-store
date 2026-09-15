@@ -1,0 +1,30 @@
++ docker rm -f accept-f17-be accept-f17-pg
+accept-f17-be
+accept-f17-pg
++ docker image rm accept-f17-negctl:bench-1 mt-backend:accept-f17-bench
+Untagged: mt-backend:accept-f17-bench
+Deleted: sha256:608ac8082869643bbcf5cad1931a0fc3cd7624ddcfd1398ded65be8a5e7fb946
+--- remaining mt-backend images ---
+Error response from daemon: No such image: accept-f17-negctl:bench-1
++ echo '--- remaining mt-backend images ---'
++ docker images
++ grep mt-backend
+mt-backend                                   d03-new-broken-sharp                       58a475cb8320   3 hours ago      1.6GB
+mt-backend                                   latest                                     23b1b64e2ccc   8 hours ago      1.6GB
+mt-backend                                   wave2-2508708                              23b1b64e2ccc   8 hours ago      1.6GB
+--- live containers ---
++ echo '--- live containers ---'
++ docker ps --format '{{.Names}} {{.Status}}'
++ grep -E 'mt-backend|mt-storefront|mt-panel|mt-postgres|mt-ingress-sync|upreadystore-bot|coolify-proxy|agentcreatr-bridge'
+mt-backend Up 2 hours (healthy)
+mt-panel Up 2 hours (healthy)
+mt-storefront Up 2 hours (healthy)
+agentcreatr-bridge Up 17 hours
+agentcreatr-bridge-test Up 17 hours
+upreadystore-bot Up 27 hours
+mt-ingress-sync Up 3 days
+coolify-proxy Up 3 days (healthy)
+mt-postgres Up 3 days (healthy)
++ tail -1
++ df -h /
+/dev/sda1       193G  104G   90G  54% /

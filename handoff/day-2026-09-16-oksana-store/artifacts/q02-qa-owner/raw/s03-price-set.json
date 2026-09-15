@@ -1,0 +1,13 @@
+{
+  "before": {
+    "tag": "DIV"
+  },
+  "after": {
+    "tag": "INPUT",
+    "val": "1 355"
+  },
+  "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

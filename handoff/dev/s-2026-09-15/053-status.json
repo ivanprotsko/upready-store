@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 53,
+  "action": "status-set",
+  "ts": "2026-09-15T12:04:38+08:00",
+  "status": "2026-09-15 12:04 WITA: штаб дня — ИНЦИДЕНТ: d03-deploy-mt-3 (sonnet) дважды бросил деплой на живом хосте на полпути (ждал уведомления в headless-режиме), платформа mt отвечает 502 (mt-storefront/mt-panel в Created, mt-backend перезапущен); d03 переведён на opus/high с правилом «без фоновых ожиданий» и возвращён в очередь вместе с q03/r02; замер хоста через 80 с"
+}

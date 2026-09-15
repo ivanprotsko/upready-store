@@ -1,0 +1,121 @@
+{
+  "c": [
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Тип"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Подробности"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Кампания"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.amount_of"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.amount_of"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.percentag"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.percentag"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.buy_get.t"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "promotions.templates.shipping_"
+    },
+    {
+      "tag": "INPUT",
+      "name": "template_id",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Отмена"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Продолжить"
+    }
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

@@ -1,0 +1,151 @@
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Linting project...
+[32minfo[39m:    [Watcher] Using standard dev server (restart on file change)
+[32minfo[39m:    [Watcher] Watching filesystem to reload dev server on file change
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+- Creating server
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    redisUrl not found. A fake redis instance will be used.
+[32minfo[39m:    Using flag MEDUSA_FF_TRANSLATION from project config with value true
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.
+[32minfo[39m:    No link to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@gorgo+medusa-integration@0.2.1_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+_fd7835399f9d939aa27e61e57e34cd1d/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.
+[32minfo[39m:    No subscriber to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.
+[32minfo[39m:    No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@medusajs+medusa@2.19.0_8cb86d4b47a43d0125b7f235368138ca/node_modules/@medusajs/medusa/dist/jobs. skipped.
+[32minfo[39m:    No job to load from /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-analytics/node_modules/.pnpm/@medusajs+draft-order@2.19.0_@medusajs+admin-sdk@2.19.0_@medusajs+cli@2.19.0_@types+nod_8f549c98bd49c42bb1bd0fe1d8d21773/node_modules/@medusajs/draft-order/.medusa/server/src/jobs. skipped.
+✔ Server is ready on port: 9317 – 3164ms
+[32minfo[39m:    Admin URL → http://localhost:9317/app
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopa.localhost ← - (200) - 18.656 ms
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopb.localhost ← - (200) - 7.321 ms
+[32mhttp[39m:    POST /auth/user/emailpass ← - (200) - 105.542 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=today ← - (401) - 0.524 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← - (401) - 0.341 ms
+[32mhttp[39m:    POST /auth/user/emailpass ← - (200) - 76.964 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=today ← - (401) - 0.941 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← - (401) - 0.487 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← - (200) - 100.683 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=today ← - (200) - 24.103 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← - (200) - 11.962 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← - (200) - 76.918 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← - (200) - 78.784 ms
+[32mhttp[39m:    GET /tenants/me ← - (200) - 11.333 ms
+[32mhttp[39m:    GET /tenants/me ← - (200) - 8.636 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-12&to=2026-09-12 ← - (200) - 11.760 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-01&to=2026-09-05 ← - (200) - 9.250 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← - (200) - 4.506 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=30d ← - (200) - 5.162 ms
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopa.localhost ← - (200) - 28.825 ms
+[32mhttp[39m:    GET /store/tenant/redirects ← - (200) - 18.183 ms
+[32mhttp[39m:    GET /store/regions?limit=1000 ← - (200) - 40.308 ms
+[32mhttp[39m:    GET /store/tenant/home ← - (200) - 68.165 ms
+[32mhttp[39m:    GET /store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 ← - (200) - 50.738 ms
+[32mhttp[39m:    GET /store/storefront-settings ← - (200) - 12.954 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 3.986 ms
+[32mhttp[39m:    GET /store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 ← - (200) - 12.095 ms
+[32mhttp[39m:    GET /store/regions?limit=1000 ← - (200) - 47.016 ms
+[32mhttp[39m:    GET /store/tenant/articles?locale=ru&limit=1&offset=0 ← - (200) - 49.864 ms
+[32mhttp[39m:    GET /store/collections?limit=100&offset=0 ← - (200) - 35.908 ms
+[32mhttp[39m:    GET /store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id ← - (200) - 68.803 ms
+[32mhttp[39m:    GET /store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 ← - (200) - 81.612 ms
+[32mhttp[39m:    GET /store/tenant/pages?locale=ru ← - (200) - 34.750 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 10.794 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 2.597 ms
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopa.localhost ← - (200) - 29.248 ms
+[32mhttp[39m:    GET /store/tenant/redirects ← - (200) - 9.508 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 3.186 ms
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopb.localhost ← - (200) - 8.413 ms
+[32mhttp[39m:    GET /store/tenant/redirects ← - (200) - 6.330 ms
+[32mhttp[39m:    GET /store/regions?limit=1000 ← - (200) - 30.182 ms
+[32mhttp[39m:    GET /store/tenant/product-categories?fields=id%2Chandle%2Cname%2Crank%2Cmetadata%2Cparent_category_id%2C%2Acategory_children&limit=100 ← - (200) - 7.287 ms
+[32mhttp[39m:    GET /store/tenant/home ← - (200) - 8.722 ms
+[32mhttp[39m:    GET /store/storefront-settings ← - (200) - 3.509 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 3.006 ms
+[32mhttp[39m:    GET /store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 ← - (200) - 7.899 ms
+[32mhttp[39m:    GET /store/regions?limit=1000 ← - (200) - 28.150 ms
+[32mhttp[39m:    GET /store/collections?fields=id%2Chandle%2Ctitle&limit=100&offset=0 ← - (200) - 32.210 ms
+[32mhttp[39m:    GET /store/tenant/articles?locale=ru&limit=1&offset=0 ← - (200) - 34.783 ms
+[32mhttp[39m:    GET /store/collections?limit=100&offset=0 ← - (200) - 25.618 ms
+[32mhttp[39m:    GET /store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id ← - (200) - 7.596 ms
+[32mhttp[39m:    GET /store/tenant/pages?locale=ru ← - (200) - 5.767 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 17.279 ms
+[32mhttp[39m:    GET /storefront/by-host?host=t17shopa.localhost ← - (200) - 12.836 ms
+[32mhttp[39m:    GET /store/tenant/redirects ← - (200) - 8.416 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 2.426 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 3.915 ms
+[32mhttp[39m:    GET /store/customers/me?fields=%2Aorders ← - (401) - 16.691 ms
+[32mhttp[39m:    GET /store/products?limit=100&fields=id%2C%2Aoptions%2C%2Aoptions.values%2Cvariants.options.id%2Cvariants.options.option_id ← - (200) - 26.547 ms
+[32mhttp[39m:    GET /store/tenant/product-attributes/facets ← - (200) - 38.059 ms
+[32mhttp[39m:    GET /store/tenant/articles?locale=en&limit=1&offset=0 ← - (200) - 36.990 ms
+[32mhttp[39m:    GET /store/regions?limit=1000 ← - (200) - 44.979 ms
+[32mhttp[39m:    GET /store/tenant/product-categories?fields=%2Acategory_children%2C%20%2Bcategory_children.metadata%2C%20%2Bmetadata%2C%20%2Aproducts%2C%20%2Aparent_category%2C%20%2Aparent_category.parent_category&limit=100 ← - (200) - 57.407 ms
+[32mhttp[39m:    GET /store/products?limit=100&offset=0&region_id=reg_01M2HF18HB5ZJSV76QP6KR9K59&fields=%2Avariants.calculated_price%2C%2Bvariants.inventory_quantity%2C%2Avariants.images%2C%2Avariants.options%2C%2Boptions.values.metadata%2C%2Bmetadata%2C%2Btags%2C%2Acategories%2C%2Acategories.parent_category%2C%2Acategories.parent_category.parent_category&order=created_at ← - (200) - 13.129 ms
+[32mhttp[39m:    GET /store/collections?limit=100&offset=0 ← - (200) - 15.356 ms
+[32mhttp[39m:    GET /store/products?collection_id=pcol_01M2HF1E8ZR2DZ9YPGTEXVDFDN&limit=1&fields=id ← - (200) - 4.950 ms
+[32mhttp[39m:    GET /store/tenant/pages?locale=en ← - (200) - 6.918 ms
+[32mhttp[39m:    GET /tenants/me ← - (200) - 14.509 ms
+[32mhttp[39m:    GET /auth/tenant/providers ← http://localhost:5317/login (200) - 3.544 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← http://localhost:5317/login (200) - 89.823 ms
+[32mhttp[39m:    POST /auth/session ← http://localhost:5317/login (200) - 1.837 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (200) - 7.304 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (200) - 33.969 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (200) - 33.047 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (304) - 8.217 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (304) - 21.196 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (304) - 24.746 ms
+[32mhttp[39m:    GET /auth/tenant/providers ← http://localhost:5317/login (200) - 0.712 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← http://localhost:5317/login (200) - 79.767 ms
+[32mhttp[39m:    POST /auth/session ← http://localhost:5317/login (200) - 1.117 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (200) - 6.942 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (200) - 7.554 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (200) - 22.837 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (304) - 6.309 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (304) - 8.357 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (304) - 22.590 ms
+[32mhttp[39m:    GET /auth/tenant/providers ← http://localhost:5317/login (200) - 4.864 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← http://localhost:5317/login (200) - 90.657 ms
+[32mhttp[39m:    POST /auth/session ← http://localhost:5317/login (200) - 1.103 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (200) - 8.714 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (200) - 36.104 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (200) - 34.463 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (304) - 9.256 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (304) - 11.029 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (304) - 26.341 ms
+[32mhttp[39m:    GET /auth/tenant/providers ← http://localhost:5317/login (200) - 2.348 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← http://localhost:5317/login (200) - 86.547 ms
+[32mhttp[39m:    POST /auth/session ← http://localhost:5317/login (200) - 0.858 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (200) - 8.737 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (200) - 22.241 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (200) - 27.500 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (304) - 9.043 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (304) - 22.446 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (304) - 29.933 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-12-09&to=20-12-09 ← http://localhost:5317/ (200) - 18.730 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-12-09&to=2-12-09 ← http://localhost:5317/ (200) - 31.103 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-12-09&to=202-12-09 ← http://localhost:5317/ (200) - 19.579 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-12-09&to=2026-12-09 ← http://localhost:5317/ (200) - 12.381 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/settings/analytics (304) - 6.907 ms
+[32mhttp[39m:    GET /tenants/analytics ← http://localhost:5317/settings/analytics (200) - 17.619 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/settings/analytics (304) - 22.966 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-12-09&to=2-12-09 ← - (200) - 29.240 ms
+[32mhttp[39m:    GET /auth/tenant/providers ← http://localhost:5317/login (200) - 1.435 ms
+[32mhttp[39m:    POST /auth/tenant/emailpass ← http://localhost:5317/login (200) - 87.642 ms
+[32mhttp[39m:    POST /auth/session ← http://localhost:5317/login (200) - 1.135 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (200) - 8.489 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (200) - 18.111 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (200) - 30.907 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/ (304) - 11.541 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=7d ← http://localhost:5317/ (304) - 15.567 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/ (304) - 27.706 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-12&to=2-09-12 ← http://localhost:5317/ (200) - 14.790 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-12&to=20-09-12 ← http://localhost:5317/ (200) - 18.462 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-12&to=202-09-12 ← http://localhost:5317/ (200) - 13.694 ms
+[32mhttp[39m:    GET /tenants/analytics/summary?period=custom&from=2026-09-12&to=2026-09-12 ← http://localhost:5317/ (200) - 8.069 ms
+[32mhttp[39m:    GET /tenants/me ← http://localhost:5317/settings/analytics (304) - 9.082 ms
+[32mhttp[39m:    GET /tenants/analytics ← http://localhost:5317/settings/analytics (200) - 12.461 ms
+[32mhttp[39m:    GET /tenants/store ← http://localhost:5317/settings/analytics (304) - 23.581 ms

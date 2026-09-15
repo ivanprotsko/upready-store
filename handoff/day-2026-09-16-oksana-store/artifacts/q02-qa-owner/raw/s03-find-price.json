@@ -1,0 +1,29 @@
+{
+  "res": {
+    "/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices": {
+      "status": 200,
+      "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+      "has404": false,
+      "snippet": ""
+    },
+    "/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/edit": {
+      "status": 200,
+      "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/edit",
+      "has404": false,
+      "snippet": ""
+    },
+    "/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/variant_01M2GRC6CJB0VZGW034SG084G0/prices": {
+      "status": 200,
+      "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/variant_01M2GRC6CJB0VZGW034SG084G0/prices",
+      "has404": false,
+      "snippet": "Обзор\n\nТовары\n\nЗаказы\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nДоставка\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком, 10 шт\nСвечи АСД с чесноком, 10 шт\nВариант продукта\n\nSKU\n\n1268099764-CHERKASHINO\n\nКоличество\n\n10 шт\nМедиа\n\nНет медиа\n\nДобавьте медиа к товару, чтобы представить его в вашем магазине.\n\nЭлементы запасов\nЗапасы не отслеживаются для этого варианта. Включите 'Управление запасами', чтобы отслеживать количество варианта.\nРедактировать вариант\nМетаданные\n5 ключей\nJSON\n27 ключей\nЦены\nRUB\n1 355,00 ₽\nUSD\n15,00 $\n1 - 2 из 2 цен\nПоказать больше"
+    },
+    "menuCount": 9,
+    "opened": "clicked in depth 1",
+    "menuItems": [],
+    "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s03-price-menu-1280x900.png"
+  },
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

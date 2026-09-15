@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 37,
+  "action": "status-set",
+  "ts": "2026-09-15T09:17:19+08:00",
+  "status": "2026-09-15 09:17 WITA: приёмка PR #34 t14-product-import раунд 1 — MERGED (mergedAt 2026-09-15T01:17:04Z). Свои замеры: seam tenants-product-csv 6/6 на живом Postgres, backend tsc rc=0, юниты 190/191 (провал пред-существует на dev), панель typecheck+lint rc=0. Полная integration:http с PORT=9199 упала целиком — порт занят чужим процессом, не PR. Отчёт и логи в artifacts/accept-t14-product-import-1/"
+}

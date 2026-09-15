@@ -1,0 +1,42 @@
+
+> @dtc/gorgo-medusa-backend@1.0.0 test:unit /Users/ivanprotsko/upready/projects/upready-store/apps/backend
+> TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit "--" "profile-data"
+
+FAIL src/migration-scripts/__tests__/profile-data.unit.spec.ts
+  ● i18n merge › leaves a locale the profile never translated identical to the base
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+    @@ -14,10 +14,11 @@
+          "tableware": "Vaisselle",
+        },
+        "collections": Object {
+          "new": "Nouveautés",
+        },
+    +   "productOptions": Object {},
+        "products": Object {
+          "chinoPants": Object {
+            "description": "Pantalon chino noir classique à coupe ajustée et au design épuré. Confectionné dans un coton doux et résistant avec une touche d'élasthanne pour le confort. Poches latérales, passants de ceinture et fermeture à bouton. Idéal pour un look décontracté ou habillé.",
+            "title": "Pantalon chino",
+          },
+
+      222 |       () => require("../data/i18n") as I18nModule,
+      223 |     ).SEED_TRANSLATIONS.fr;
+    > 224 |     expect(profileFr).toEqual(baseFr);
+          |                       ^
+      225 |   });
+      226 | });
+      227 |
+
+      at Object.toEqual (src/migration-scripts/__tests__/profile-data.unit.spec.ts:224:23)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 14 passed, 15 total
+Snapshots:   0 total
+Time:        0.575 s, estimated 1 s
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
+ ELIFECYCLE  Command failed with exit code 1.
+rc=1

@@ -1,0 +1,1664 @@
+changed in both
+  base   100644 d05f0cdf7ff23ae220deaa3627ab8a05a4331976 apps/backend/src/api/middlewares.ts
+  our    100644 60a2b95a4642f4cd7db61ae5f2fd7cc96a6c50a0 apps/backend/src/api/middlewares.ts
+  their  100644 f424c8bde45e093c9e22b78737dd795f4dc34cab apps/backend/src/api/middlewares.ts
+@@ -155,6 +155,8 @@
+   PutTenantNotificationSettingsSchema,
+   PostTenantHandleSchema,
+   PostTenantPageSchema,
++  PostTenantRedirectSchema,
++  PutTenantSeoVerificationSchema,
+   PostTenantUpdateMeSchema,
+   PostTenantUpdatePasswordSchema,
+   PutTenantPageSchema,
+@@ -1024,6 +1026,20 @@
+       method: ["POST"],
+       middlewares: [validateAndTransformBody(PostTenantHandleSchema)],
+     },
++    // t11-seo-redirects: the tenant's own redirect table
++    // (`/tenants/redirects/**`, read by the storefront at
++    // `/store/tenant/redirects` behind the framework's own publishable-key
++    // gate, no middleware needed there). `GET` and `DELETE` take no body.
++    {
++      matcher: "/tenants/redirects",
++      method: ["POST"],
++      middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
++    },
++    {
++      matcher: "/tenants/seo-verification",
++      method: ["PUT"],
++      middlewares: [validateAndTransformBody(PutTenantSeoVerificationSchema)],
++    },
+     // `/admin/tenants*` (contract §3): the platform staff's own tenant
+     // management API. Auth is the framework's default `/admin/*` middleware
+     // (actor type `user`), applied automatically to every custom route under
+added in remote
+  their  100644 372e8e833d07137e5465d2627bdc9735018d5b46 apps/backend/src/api/store/tenant/pages/sitemap/route.ts
+@@ -0,0 +1,30 @@
++import type { MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
++import { TENANT_MODULE } from "../../../../../modules/tenant";
++import type TenantModuleService from "../../../../../modules/tenant/service";
++import { resolveTenantFromPublishableKey } from "../../resolve-tenant";
++
++/**
++ * `GET /store/tenant/pages/sitemap` (t11-seo-redirects step 3) — every
++ * published page of this tenant, one row per locale, for `app/sitemap.ts` to
++ * list. Unlike `GET /store/tenant/pages` (footer-linked pages only, one per
++ * key in the visitor's locale), this is unfiltered by `in_footer` and carries
++ * every locale a page was saved in, because a sitemap lists every indexable
++ * URL, not just the ones the footer shows.
++ */
++export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
++  const tenant = await resolveTenantFromPublishableKey(req);
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const rows = await tenantModuleService.listTenantPages({
++    tenant_id: tenant.id,
++    published: true,
++  });
++
++  res.json({
++    pages: rows.map((row) => ({
++      key: row.key,
++      locale: row.locale,
++      updated_at: row.updated_at,
++    })),
++  });
++};
+added in remote
+  their  100644 08f8d771395f7161df2836b5463d658aa51a6e51 apps/backend/src/api/store/tenant/redirects/route.ts
+@@ -0,0 +1,28 @@
++import type { MedusaResponse, MedusaStoreRequest } from "@medusajs/framework/http";
++import { TENANT_MODULE } from "../../../../modules/tenant";
++import type TenantModuleService from "../../../../modules/tenant/service";
++import { resolveTenantFromPublishableKey } from "../resolve-tenant";
++
++/**
++ * `GET /store/tenant/redirects` — the whole redirect table of the storefront's
++ * own tenant, for the middleware (`lib/tenant/redirects.ts`) to match the
++ * incoming pathname against before it does anything with locale
++ * (t11-seo-redirects).
++ *
++ * Not paginated, same reasoning as `GET /tenants/redirects`: a shop's table is
++ * a few dozen rows, one fetch per cache TTL, not a listing screen.
++ */
++export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
++  const tenant = await resolveTenantFromPublishableKey(req);
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const rows = await tenantModuleService.listTenantRedirects({ tenant_id: tenant.id });
++
++  res.json({
++    redirects: rows.map((row) => ({
++      from_path: row.from_path,
++      to_path: row.to_path,
++      status_code: row.status_code,
++    })),
++  });
++};
+merged
+  result 100644 12bb92149bccd292d793d0ea1000909c4318e57c apps/backend/src/api/storefront/by-host/route.ts
+  our    100644 a734c7cfd74b8f24a611b1d91f43ecd30d725bc9 apps/backend/src/api/storefront/by-host/route.ts
+@@ -172,6 +172,20 @@
+     attribution: resolveAttribution(
+       (tenant.metadata ?? null) as Record<string, unknown> | null,
+     ),
++    // t11-seo-redirects step 6: the search-engine ownership tags the owner
++    // pasted in from Yandex Webmaster / Google Search Console
++    // (`PUT /tenants/seo-verification`), rendered as `<meta name="…">` in this
++    // shop's `<head>` alone.
++    seo_verification: {
++      yandex:
++        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
++          | Record<string, unknown>
++          | undefined)?.yandex as string | undefined ?? null,
++      google:
++        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
++          | Record<string, unknown>
++          | undefined)?.google as string | undefined ?? null,
++    },
+     settings,
+     home,
+     // t06-locale-currency: absent (null) for a tenant that never saved
+merged
+  result 100644 dafcdd14124c1133303231a46d47b8bb9568ef47 apps/backend/src/api/tenants/pages/[key]/route.ts
+  our    100644 ea3543dc81005cc11f3bfdd78a405417f63638a0 apps/backend/src/api/tenants/pages/[key]/route.ts
+@@ -97,6 +97,12 @@
+     body.in_footer ?? existing?.in_footer ?? isReservedPageKey(key);
+   const footerOrder =
+     body.footer_order !== undefined ? body.footer_order : existing?.footer_order ?? null;
++  const seoTitle =
++    body.seo_title !== undefined ? body.seo_title || null : existing?.seo_title ?? null;
++  const seoDescription =
++    body.seo_description !== undefined
++      ? body.seo_description || null
++      : existing?.seo_description ?? null;
+ 
+   const saved = existing
+     ? await tenantModuleService.updateTenantPages({
+@@ -106,6 +112,8 @@
+         published: body.published,
+         in_footer: inFooter,
+         footer_order: footerOrder,
++        seo_title: seoTitle,
++        seo_description: seoDescription,
+       })
+     : await tenantModuleService.createTenantPages({
+         tenant_id: scope.id,
+@@ -116,6 +124,8 @@
+         published: body.published,
+         in_footer: inFooter,
+         footer_order: footerOrder,
++        seo_title: seoTitle,
++        seo_description: seoDescription,
+       });
+ 
+   const row = Array.isArray(saved) ? saved[0] : saved;
+merged
+  result 100644 62558d267e4ec6ca3ded073c53207ae3957b77c0 apps/backend/src/api/tenants/pages/page-helpers.ts
+  our    100644 dc68dd237b7fe13035578c1ee0fd3273544e4052 apps/backend/src/api/tenants/pages/page-helpers.ts
+@@ -24,6 +24,8 @@
+   published: boolean;
+   in_footer: boolean;
+   footer_order: number | null;
++  seo_title: string | null;
++  seo_description: string | null;
+   reserved: boolean;
+ };
+ 
+@@ -76,6 +78,8 @@
+   // to "on" the first time its form opens. A custom page opts in explicitly.
+   in_footer: true,
+   footer_order: null,
++  seo_title: null,
++  seo_description: null,
+   reserved: true,
+ });
+ 
+@@ -88,6 +92,8 @@
+   published: boolean;
+   in_footer: boolean;
+   footer_order: number | null;
++  seo_title?: string | null;
++  seo_description?: string | null;
+ };
+ 
+ export const toPageDto = (row: PageRow): TenantPageDto => ({
+@@ -99,6 +105,8 @@
+   published: row.published,
+   in_footer: row.in_footer,
+   footer_order: row.footer_order,
++  seo_title: row.seo_title ?? null,
++  seo_description: row.seo_description ?? null,
+   reserved: isReservedPageKey(row.key),
+ });
+ 
+merged
+  result 100644 6ac00c2cc8a9b1a3ecea33191721a28f868ffe57 apps/backend/src/api/tenants/product-categories/[id]/route.ts
+  our    100644 f6e31ff9357726122e0c0b093d4d5a78aed0d02c apps/backend/src/api/tenants/product-categories/[id]/route.ts
+@@ -7,7 +7,13 @@
+   updateProductCategoriesWorkflow,
+ } from "@medusajs/medusa/core-flows";
+ import { TENANT_MODULE } from "../../../../modules/tenant";
++import type TenantModuleService from "../../../../modules/tenant/service";
+ import { assertOwnedCategory, getTenantScope } from "../../tenant-scope";
++import {
++  assertHandleFree,
++  getTenantEnabledLocales,
++  recordSlugRedirect,
++} from "../../redirect-helpers";
+ 
+ /**
+  * `GET /tenants/product-categories/:id` — the Admin's retrieve, behind the
+@@ -60,10 +66,41 @@
+     await assertOwnedCategory(req, parentId);
+   }
+ 
++  const newHandle = req.validatedBody.handle;
++  let previousHandle: string | null = null;
++
++  if (newHandle) {
++    await assertHandleFree(req, "product_category", newHandle, id);
++
++    const {
++      data: [before],
++    } = await refetchEntities({
++      entity: "product_category",
++      idOrFilter: { id },
++      scope: req.scope,
++      fields: ["handle"],
++    });
++    previousHandle = (before?.handle as string | undefined) ?? null;
++  }
++
+   await updateProductCategoriesWorkflow(req.scope).run({
+     input: { selector: { id }, update: req.validatedBody },
+   });
+ 
++  if (previousHandle && newHandle && previousHandle !== newHandle) {
++    const tenant = await getTenantScope(req);
++    const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++    const locales = await getTenantEnabledLocales(tenantModuleService, tenant.id);
++    await recordSlugRedirect(
++      tenantModuleService,
++      tenant.id,
++      "categories",
++      previousHandle,
++      newHandle,
++      locales,
++    );
++  }
++
+   const {
+     data: [category],
+   } = await refetchEntities({
+merged
+  result 100644 2c07eb9fc6ea0638a913a79a9569ae65cfa7ebc4 apps/backend/src/api/tenants/products/[id]/route.ts
+  our    100644 4f5d4a6c73a6c58102f812a3753c6b7595f74873 apps/backend/src/api/tenants/products/[id]/route.ts
+@@ -4,8 +4,15 @@
+ import { MedusaError } from "@medusajs/framework/utils";
+ import { deleteProductsWorkflow, updateProductsWorkflow } from "@medusajs/medusa/core-flows";
+ import { remapKeysForProduct } from "@medusajs/medusa/api/admin/products/helpers";
++import { TENANT_MODULE } from "../../../../modules/tenant";
++import type TenantModuleService from "../../../../modules/tenant/service";
+ import { assertOwnedProduct, getTenantScope } from "../../tenant-scope";
+ import { remapTenantProduct } from "../helpers";
++import {
++  assertHandleFree,
++  getTenantEnabledLocales,
++  recordSlugRedirect,
++} from "../../redirect-helpers";
+ 
+ /**
+  * `GET /tenants/products/:id` — one of the tenant's own products, in the
+@@ -59,6 +66,20 @@
+     & HttpTypes.AdminUpdateProduct
+     & { additional_data?: Record<string, unknown> };
+ 
++  let previousHandle: string | null = null;
++
++  if (update.handle) {
++    await assertHandleFree(req, "product", update.handle, id);
++
++    const before = await refetchEntity({
++      entity: "product",
++      idOrFilter: id,
++      scope: req.scope,
++      fields: ["handle"],
++    });
++    previousHandle = (before?.handle as string | undefined) ?? null;
++  }
++
+   const { result } = await updateProductsWorkflow(req.scope).run({
+     input: {
+       selector: { id },
+@@ -69,6 +90,19 @@
+     },
+   });
+ 
++  if (previousHandle && update.handle && previousHandle !== update.handle) {
++    const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++    const locales = await getTenantEnabledLocales(tenantModuleService, tenant.id);
++    await recordSlugRedirect(
++      tenantModuleService,
++      tenant.id,
++      "products",
++      previousHandle,
++      update.handle,
++      locales,
++    );
++  }
++
+   const product = await refetchEntity({
+     entity: "product",
+     idOrFilter: result[0].id,
+added in remote
+  their  100644 ddf0e4b1979de55d3b8dfa624812c3dcfaff313e apps/backend/src/api/tenants/redirect-helpers.ts
+@@ -0,0 +1,114 @@
++import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
++import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
++import type TenantModuleService from "../../modules/tenant/service";
++
++/**
++ * The storefront locales a tenant's redirect rows are minted for. Falls back
++ * to `["en"]`, the same default a shop with no saved `tenant_locale_settings`
++ * row gets everywhere else (t06-locale-currency): a rename before the owner
++ * ever touches the locale screen still gets a working redirect for the one
++ * language the shop answers in today.
++ */
++export const getTenantEnabledLocales = async (
++  tenantModuleService: TenantModuleService,
++  tenantId: string,
++): Promise<string[]> => {
++  const [settings] = await tenantModuleService.listTenantLocaleSettings({ tenant_id: tenantId });
++  const locales = settings?.enabled_locales as unknown as string[] | undefined;
++  return locales && locales.length > 0 ? locales : ["en"];
++};
++
++/**
++ * `INVALID_DATA` if `handle` is already used by another product/category —
++ * checked before the update workflow runs, so a collision is one clear
++ * message rather than a database constraint error surfacing through
++ * Medusa's own unique-handle enforcement (step 2 of t11-seo-redirects: "A
++ * handle that collides with an existing one is rejected with a message, not
++ * silently suffixed").
++ */
++export const assertHandleFree = async (
++  req: AuthenticatedMedusaRequest,
++  entity: "product" | "product_category",
++  handle: string,
++  excludingId: string,
++): Promise<void> => {
++  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
++
++  const { data } = await query.graph({
++    entity,
++    fields: ["id"],
++    filters: { handle: [handle] },
++  });
++
++  const collision = data.find((row) => row?.id && row.id !== excludingId);
++
++  if (collision) {
++    throw new MedusaError(
++      MedusaError.Types.INVALID_DATA,
++      `Invalid request: the handle "${handle}" is already in use`,
++    );
++  }
++};
++
++/**
++ * Writes (or moves) the 301 for a renamed product/category, one row per the
++ * tenant's enabled locale: `/<locale>/<kind>/<oldHandle>` →
++ * `/<locale>/<kind>/<newHandle>`.
++ *
++ * A rename BACK to a handle this same resource used before would otherwise
++ * leave a stale row pointing the other way and turn the pair into a 2-hop
++ * loop the moment it is re-applied — so the reverse row is dropped first. An
++ * existing forward row (a second rename of the same resource before the first
++ * one's redirect was ever visited) is updated in place rather than left as a
++ * dead extra hop.
++ */
++export const recordSlugRedirect = async (
++  tenantModuleService: TenantModuleService,
++  tenantId: string,
++  kind: "products" | "categories",
++  oldHandle: string,
++  newHandle: string,
++  locales: string[],
++): Promise<void> => {
++  if (oldHandle === newHandle) {
++    return;
++  }
++
++  for (const locale of locales) {
++    const fromPath = `/${locale}/${kind}/${oldHandle}`;
++    const toPath = `/${locale}/${kind}/${newHandle}`;
++
++    if (fromPath === toPath) {
++      continue;
++    }
++
++    const [reverse] = await tenantModuleService.listTenantRedirects({
++      tenant_id: tenantId,
++      from_path: toPath,
++    });
++
++    if (reverse && reverse.to_path === fromPath) {
++      await tenantModuleService.deleteTenantRedirects([reverse.id]);
++    }
++
++    const [existing] = await tenantModuleService.listTenantRedirects({
++      tenant_id: tenantId,
++      from_path: fromPath,
++    });
++
++    if (existing) {
++      await tenantModuleService.updateTenantRedirects({
++        id: existing.id,
++        to_path: toPath,
++        status_code: 301,
++      });
++    } else {
++      await tenantModuleService.createTenantRedirects({
++        tenant_id: tenantId,
++        from_path: fromPath,
++        to_path: toPath,
++        status_code: 301,
++      });
++    }
++  }
++};
+added in remote
+  their  100644 bbbc02fa529a1968e8aac1363d728e15d359fe3d apps/backend/src/api/tenants/redirects/[id]/route.ts
+@@ -0,0 +1,29 @@
++import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
++import { MedusaError } from "@medusajs/framework/utils";
++import { TENANT_MODULE } from "../../../../modules/tenant";
++import type TenantModuleService from "../../../../modules/tenant/service";
++import { getTenantScope } from "../../tenant-scope";
++
++/**
++ * `DELETE /tenants/redirects/:id` — removes one manual redirect. A foreign or
++ * unknown id is a 404 with the same wording, so the response never confirms
++ * another tenant's row exists.
++ */
++export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
++  const scope = await getTenantScope(req);
++  const { id } = req.params;
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const [existing] = await tenantModuleService.listTenantRedirects({
++    tenant_id: scope.id,
++    id,
++  });
++
++  if (!existing) {
++    throw new MedusaError(MedusaError.Types.NOT_FOUND, `Redirect with id "${id}" was not found`);
++  }
++
++  await tenantModuleService.deleteTenantRedirects([id]);
++
++  res.json({ id, object: "tenant_redirect", deleted: true });
++};
+added in remote
+  their  100644 3d8e2f40ec7b81d2c3f237159f9b28bee9ea376b apps/backend/src/api/tenants/redirects/route.ts
+@@ -0,0 +1,80 @@
++import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
++import { MedusaError } from "@medusajs/framework/utils";
++import { TENANT_MODULE } from "../../../modules/tenant";
++import type TenantModuleService from "../../../modules/tenant/service";
++import { getTenantScope } from "../tenant-scope";
++import type { PostTenantRedirectBody } from "../validators";
++
++/**
++ * `GET /tenants/redirects` — every redirect row of the tenant behind the
++ * token, newest first. No `count/offset/limit`: a shop's redirect table is a
++ * few dozen rows at most (t11-seo-redirects imports 47 for one migration), not
++ * a paginated resource.
++ */
++export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
++  const scope = await getTenantScope(req);
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const rows = await tenantModuleService.listTenantRedirects(
++    { tenant_id: scope.id },
++    { order: { created_at: "DESC" } },
++  );
++
++  res.json({
++    redirects: rows.map((row) => ({
++      id: row.id,
++      from_path: row.from_path,
++      to_path: row.to_path,
++      status_code: row.status_code,
++    })),
++  });
++};
++
++/**
++ * `POST /tenants/redirects` — adds one manual redirect. `from_path` must be
++ * free for this tenant: two rules for the same source path would make the
++ * outcome depend on read order, so a collision is `INVALID_DATA` with a
++ * message rather than a silent overwrite or a raw constraint error.
++ *
++ * The storefront middleware polls its own redirect table on a short TTL
++ * (`lib/tenant/redirects.ts`), the same pattern the region map already uses,
++ * rather than a revalidate webhook — a new row is live within that window.
++ */
++export const POST = async (
++  req: AuthenticatedMedusaRequest<PostTenantRedirectBody>,
++  res: MedusaResponse,
++) => {
++  const scope = await getTenantScope(req);
++  const { from_path, to_path, status_code } = req.validatedBody;
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const [existing] = await tenantModuleService.listTenantRedirects({
++    tenant_id: scope.id,
++    from_path,
++  });
++
++  if (existing) {
++    throw new MedusaError(
++      MedusaError.Types.INVALID_DATA,
++      `Invalid request: a redirect from "${from_path}" already exists`,
++    );
++  }
++
++  const created = await tenantModuleService.createTenantRedirects({
++    tenant_id: scope.id,
++    from_path,
++    to_path,
++    status_code: status_code ?? 301,
++  });
++
++  const row = Array.isArray(created) ? created[0] : created;
++
++  res.status(201).json({
++    redirect: {
++      id: row.id,
++      from_path: row.from_path,
++      to_path: row.to_path,
++      status_code: row.status_code,
++    },
++  });
++};
+added in remote
+  their  100644 55181009cc8ddb6291dcbccd16fdec948366e77e apps/backend/src/api/tenants/seo-verification/route.ts
+@@ -0,0 +1,33 @@
++import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
++import { TENANT_MODULE } from "../../../modules/tenant";
++import type TenantModuleService from "../../../modules/tenant/service";
++import { getTenantScope } from "../tenant-scope";
++import type { PutTenantSeoVerificationBody } from "../validators";
++
++/**
++ * `PUT /tenants/seo-verification` — saves the Yandex/Google search console
++ * verification tags into `tenant.metadata.seo_verification`, merged with
++ * whatever else already lives in `metadata` (the attribution line included) so
++ * this route never clobbers a field it does not know about.
++ */
++export const PUT = async (
++  req: AuthenticatedMedusaRequest<PutTenantSeoVerificationBody>,
++  res: MedusaResponse,
++) => {
++  const scope = await getTenantScope(req);
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const tenant = await tenantModuleService.retrieveTenant(scope.id);
++  const metadata = (tenant.metadata ?? {}) as Record<string, unknown>;
++  const current = (metadata.seo_verification ?? {}) as { yandex?: string | null; google?: string | null };
++
++  const yandex = req.validatedBody.yandex !== undefined ? req.validatedBody.yandex || null : current.yandex ?? null;
++  const google = req.validatedBody.google !== undefined ? req.validatedBody.google || null : current.google ?? null;
++
++  const updated = await tenantModuleService.updateTenants({
++    id: scope.id,
++    metadata: { ...metadata, seo_verification: { yandex, google } },
++  });
++
++  res.json({ seo_verification: (updated.metadata as Record<string, unknown>).seo_verification });
++};
+changed in both
+  base   100644 68f99357f71cbbc98a25e22071d6636933b85ee9 apps/backend/src/api/tenants/validators.ts
+  our    100644 5c2863463d45f696909a1e704e0001bcaef3878b apps/backend/src/api/tenants/validators.ts
+  their  100644 b85bc24c3137832854307358728cd4636dd14ae0 apps/backend/src/api/tenants/validators.ts
+@@ -100,6 +100,10 @@
+     .string()
+     .regex(/^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/, "a BCP-47 language tag, e.g. en or pt-BR")
+     .optional(),
++  // t11-seo-redirects step 1: blank/omitted keeps (or leaves unset) the
++  // storefront's own fallback to `title` and the body's first sentence.
++  seo_title: z.string().max(70).nullable().optional(),
++  seo_description: z.string().max(320).nullable().optional(),
+ });
+ 
+ export type PutTenantPageBody = z.infer<typeof PutTenantPageSchema>;
+@@ -200,6 +204,7 @@
+ export type PutTenantPaymentSettingsBody = z.infer<typeof PutTenantPaymentSettingsSchema>;
+ 
+ /**
++<<<<<<< .our
+  * `PUT /tenants/notification-settings` — the two fields the owner controls over
+  * their customers' letters (t08-order-notifications). The `From` ADDRESS is
+  * deliberately absent: the platform's SMTP account sends for every shop, and an
+@@ -222,3 +227,35 @@
+ export type PutTenantNotificationSettingsBody = z.infer<
+   typeof PutTenantNotificationSettingsSchema
+ >;
++=======
++ * `POST /tenants/redirects` (t11-seo-redirects) — a manual redirect row. Both
++ * paths are exact pathnames: a leading slash, no host, no query string, so the
++ * storefront middleware can compare them to `request.nextUrl.pathname` byte for
++ * byte with no normalisation on either side.
++ */
++const redirectPath = z
++  .string()
++  .min(1)
++  .max(2048)
++  .regex(/^\/[^\s?#]*$/, "an absolute path starting with / and carrying no query string");
++
++export const PostTenantRedirectSchema = z.strictObject({
++  from_path: redirectPath,
++  to_path: redirectPath,
++  status_code: z.union([z.literal(301), z.literal(302), z.literal(307), z.literal(308)]).optional(),
++});
++
++export type PostTenantRedirectBody = z.infer<typeof PostTenantRedirectSchema>;
++
++/**
++ * `PUT /tenants/seo-verification` (t11-seo-redirects step 6) — the search
++ * console ownership tags. Empty string clears a tag rather than leaving the
++ * previous value, the same convention `optionalSecret` uses above.
++ */
++export const PutTenantSeoVerificationSchema = z.strictObject({
++  yandex: z.string().max(200).nullable().optional(),
++  google: z.string().max(200).nullable().optional(),
++});
++
++export type PutTenantSeoVerificationBody = z.infer<typeof PutTenantSeoVerificationSchema>;
++>>>>>>> .their
+added in remote
+  their  100644 4e99d3fbf48f86b765b5361a90e7fb9ea0620561 apps/backend/src/modules/tenant/migrations/Migration20260916050000.ts
+@@ -0,0 +1,21 @@
++import { Migration } from "@medusajs/framework/mikro-orm/migrations";
++
++/**
++ * t11-seo-redirects: one `tenant_redirect` row per path-for-path 301 (or other
++ * status) a shop's storefront serves, whether from a handle change or an
++ * imported old-shop URL table.
++ */
++export class Migration20260916050000 extends Migration {
++
++  override async up(): Promise<void> {
++    this.addSql(`create table if not exists "tenant_redirect" ("id" text not null, "from_path" text not null, "to_path" text not null, "status_code" int not null default 301, "tenant_id" text not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "tenant_redirect_pkey" primary key ("id"));`);
++    this.addSql(`CREATE UNIQUE INDEX IF NOT EXISTS "IDX_tenant_redirect_tenant_id_from_path_unique" ON "tenant_redirect" ("tenant_id", "from_path") WHERE deleted_at IS NULL;`);
++    this.addSql(`CREATE INDEX IF NOT EXISTS "IDX_tenant_redirect_deleted_at" ON "tenant_redirect" ("deleted_at") WHERE deleted_at IS NULL;`);
++    this.addSql(`alter table if exists "tenant_redirect" add constraint "tenant_redirect_tenant_id_foreign" foreign key ("tenant_id") references "tenant" ("id") on update cascade;`);
++  }
++
++  override async down(): Promise<void> {
++    this.addSql(`drop table if exists "tenant_redirect" cascade;`);
++  }
++
++}
+added in remote
+  their  100644 84320bf1c9c15ddbfaf36e993ccb4c2b79dd5e62 apps/backend/src/modules/tenant/migrations/Migration20260916050500.ts
+@@ -0,0 +1,19 @@
++import { Migration } from "@medusajs/framework/mikro-orm/migrations";
++
++/**
++ * t11-seo-redirects step 1: the owner's own meta title/description for a
++ * tenant page, alongside the ones already on `tenant_page`.
++ */
++export class Migration20260916050500 extends Migration {
++
++  override async up(): Promise<void> {
++    this.addSql(`alter table if exists "tenant_page" add column if not exists "seo_title" text null;`);
++    this.addSql(`alter table if exists "tenant_page" add column if not exists "seo_description" text null;`);
++  }
++
++  override async down(): Promise<void> {
++    this.addSql(`alter table if exists "tenant_page" drop column if exists "seo_title";`);
++    this.addSql(`alter table if exists "tenant_page" drop column if exists "seo_description";`);
++  }
++
++}
+merged
+  result 100644 ebe728f86c8406ecc73137200b95fe9d28174737 apps/backend/src/modules/tenant/models/tenant-page.ts
+  our    100644 770fc830b4f440f4fe904633c69ade23b879d278 apps/backend/src/modules/tenant/models/tenant-page.ts
+@@ -40,6 +40,13 @@
+     published: model.boolean().default(false),
+     in_footer: model.boolean().default(false),
+     footer_order: model.number().nullable(),
++    // t11-seo-redirects step 1: the owner's own `<title>`/meta description for
++    // this page, falling back to `title` and the body's first sentence when
++    // blank (`toPageDto` in `page-helpers.ts` never fabricates a fallback —
++    // the storefront's `generateMetadata` does, the same split product and
++    // category pages use).
++    seo_title: model.text().nullable(),
++    seo_description: model.text().nullable(),
+     tenant: model.belongsTo(() => Tenant, {
+       mappedBy: "pages",
+     }),
+added in remote
+  their  100644 c2687ba6a2117fbfedb92341a13d90d09c794d40 apps/backend/src/modules/tenant/models/tenant-redirect.ts
+@@ -0,0 +1,38 @@
++import { model } from "@medusajs/framework/utils";
++import Tenant from "./tenant";
++
++/**
++ * One path-for-path redirect of a tenant's storefront (t11-seo-redirects):
++ * either a page that moved because the owner changed a product/category
++ * handle, or a row imported from a previous shop's URL structure
++ * (`specs/tenant-address/CANONICAL.md` covers the shop's own HOST moving; this
++ * table is the PATH moving under one host).
++ *
++ * `from_path` and `to_path` are exact pathnames (leading slash, no host, no
++ * query string) — the storefront middleware matches the incoming request
++ * pathname against `from_path` byte for byte, before it does anything with
++ * locale. A path already redirected by another row (this tenant's own chain)
++ * is legal; the middleware caps the chain length rather than looping forever.
++ *
++ * Unique on (`tenant_id`, `from_path`): two rules for the same source path on
++ * the same shop would make the outcome depend on read order.
++ */
++const TenantRedirect = model
++  .define("tenant_redirect", {
++    id: model.id({ prefix: "tredir" }).primaryKey(),
++    from_path: model.text(),
++    to_path: model.text(),
++    status_code: model.number().default(301),
++    tenant: model.belongsTo(() => Tenant, {
++      mappedBy: "redirects",
++    }),
++  })
++  .indexes([
++    {
++      on: ["tenant_id", "from_path"],
++      unique: true,
++      where: "deleted_at IS NULL",
++    },
++  ]);
++
++export default TenantRedirect;
+changed in both
+  base   100644 b4b9b0a5a1b13d52d867bb170d3dae4c4bd5396e apps/backend/src/modules/tenant/models/tenant.ts
+  our    100644 bb04ccfdb4a04e75025e140f287adb07ee96551b apps/backend/src/modules/tenant/models/tenant.ts
+  their  100644 be3af4e907041be896cc8e4236221484edb3ab5f apps/backend/src/modules/tenant/models/tenant.ts
+@@ -7,6 +7,7 @@
+ import TenantNotificationSettings from "./tenant-notification-settings";
+ import TenantLocaleSettings from "./tenant-locale-settings";
+ import TenantPage from "./tenant-page";
++import TenantRedirect from "./tenant-redirect";
+ 
+ /**
+  * One tenant = one storefront on the shared backend. The recipe this module
+@@ -57,9 +58,16 @@
+   integration_secrets: model.hasMany(() => TenantIntegrationSecret, {
+     mappedBy: "tenant",
+   }),
++<<<<<<< .our
+   // Who hears about a new order and how (`tenant-notification-settings.ts`,
+   // t08-order-notifications). One row per shop, created on first use.
+   notification_settings: model.hasOne(() => TenantNotificationSettings, {
++=======
++  // Path-for-path 301s of this shop's storefront: a handle the owner changed,
++  // or a row imported from a previous shop's URL structure (t11-seo-redirects,
++  // `tenant-redirect.ts`).
++  redirects: model.hasMany(() => TenantRedirect, {
++>>>>>>> .their
+     mappedBy: "tenant",
+   }),
+ });
+changed in both
+  base   100644 d31f0a4d330cdb8c9b4561f738b7561f96ca86e2 apps/backend/src/modules/tenant/service.ts
+  our    100644 205f8b816a18657de8110bb5efd384c4dc88fa13 apps/backend/src/modules/tenant/service.ts
+  their  100644 45b6b526890c3a7f6a3c138501d49466b8ce89c5 apps/backend/src/modules/tenant/service.ts
+@@ -8,6 +8,7 @@
+ import TenantNotificationSettings from "./models/tenant-notification-settings";
+ import TenantLocaleSettings from "./models/tenant-locale-settings";
+ import TenantPage from "./models/tenant-page";
++import TenantRedirect from "./models/tenant-redirect";
+ 
+ class TenantModuleService extends MedusaService({
+   Tenant,
+@@ -18,7 +19,11 @@
+   TenantDomain,
+   TenantHandleAlias,
+   TenantIntegrationSecret,
++<<<<<<< .our
+   TenantNotificationSettings,
++=======
++  TenantRedirect,
++>>>>>>> .their
+ }) {}
+ 
+ export default TenantModuleService;
+added in remote
+  their  100644 384d412829b0676f6aff428228df5dd11af710b7 apps/backend/src/scripts/import-cherkashino-redirects.ts
+@@ -0,0 +1,123 @@
++import fs from "node:fs";
++import type { ExecArgs } from "@medusajs/framework/types";
++import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
++import { TENANT_MODULE } from "../modules/tenant";
++import type TenantModuleService from "../modules/tenant/service";
++
++/**
++ * t11-seo-redirects step 5 — imports the old-shop URL table for tenant
++ * `cherkashino` from the 2026-09-12 migration's own registry
++ * (`artifacts/docs/2026-09-12-cherkashina-migration/02-mapping-registry.json`
++ * in the `feat/cherkashina-tenant` worktree): 38 products + 9 categories = 47
++ * rows, `kind: "product"` / `kind: "category"` with `source_url`/`target_url`.
++ *
++ * The source is olavka.ru's own Astro mirror, whose router doubled the locale
++ * segment (`/ru/ru/products/<handle>`) — handled explicitly here by taking
++ * the PATH of `source_url` as written, not by a regex that happens to strip
++ * one `/ru/`: a source row missing that shape is reported, never guessed at.
++ * The target path is this platform's own `/<locale>/<kind>/<handle>`, taken
++ * from `target_url` the same way.
++ *
++ * Idempotent: a row whose `from_path` already exists for this tenant is
++ * counted as skipped, not re-created and not overwritten — a second run
++ * against the same registry reports 0 written.
++ *
++ *   npx medusa exec ./src/scripts/import-cherkashino-redirects.ts <registry.json> [dry-run]
++ */
++type RegistryRow = {
++  kind: string;
++  source_url?: string;
++  target_url?: string;
++  source_handle?: string;
++  target_handle?: string;
++};
++
++type Registry = { tenant?: { handle?: string }; rows: RegistryRow[] };
++
++const pathOf = (url: string): string | null => {
++  try {
++    return new URL(url).pathname;
++  } catch {
++    return null;
++  }
++};
++
++export default async function importCherkashinoRedirects({ container, args }: ExecArgs) {
++  const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
++  const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
++
++  const dryRun = args.includes("dry-run") || args.includes("--dry-run");
++  const registryPath = args.find((a) => !a.includes("dry-run"));
++
++  if (!registryPath) {
++    logger.error(
++      "import-cherkashino-redirects: pass the path to 02-mapping-registry.json as the first argument",
++    );
++    process.exitCode = 1;
++    return;
++  }
++
++  const registry = JSON.parse(fs.readFileSync(registryPath, "utf8")) as Registry;
++  const tenantHandle = registry.tenant?.handle ?? "cherkashino";
++
++  const [tenant] = await tenantModuleService.listTenants({ handle: tenantHandle });
++
++  if (!tenant) {
++    logger.error(`import-cherkashino-redirects: no tenant with handle "${tenantHandle}"`);
++    process.exitCode = 1;
++    return;
++  }
++
++  const existing = await tenantModuleService.listTenantRedirects({ tenant_id: tenant.id });
++  const existingFromPaths = new Set(existing.map((row) => row.from_path));
++
++  const rows = registry.rows.filter((row) => row.kind === "product" || row.kind === "category");
++  const kindSegment: Record<string, string> = { product: "products", category: "categories" };
++
++  let written = 0;
++  let skipped = 0;
++  const unmapped: string[] = [];
++
++  for (const row of rows) {
++    if (!row.source_url || !row.target_url) {
++      unmapped.push(`${row.kind} ${row.source_handle ?? row.target_handle ?? "?"}: no source_url/target_url`);
++      continue;
++    }
++
++    const fromPath = pathOf(row.source_url);
++    const toPath = pathOf(row.target_url);
++
++    if (!fromPath || !toPath) {
++      unmapped.push(`${row.kind} ${row.source_handle ?? "?"}: could not parse ${row.source_url} -> ${row.target_url}`);
++      continue;
++    }
++
++    if (existingFromPaths.has(fromPath)) {
++      skipped += 1;
++      continue;
++    }
++
++    if (dryRun) {
++      logger.info(`import-cherkashino-redirects: [dry-run] would write ${fromPath} -> ${toPath}`);
++      written += 1;
++      continue;
++    }
++
++    await tenantModuleService.createTenantRedirects({
++      tenant_id: tenant.id,
++      from_path: fromPath,
++      to_path: toPath,
++      status_code: 301,
++    });
++    existingFromPaths.add(fromPath);
++    written += 1;
++  }
++
++  logger.info(
++    `import-cherkashino-redirects: ${written} written, ${skipped} already present, ${unmapped.length} unmapped (tenant ${tenant.handle}, dry_run=${dryRun})`,
++  );
++
++  for (const line of unmapped) {
++    logger.warn(`import-cherkashino-redirects: unmapped — ${line}`);
++  }
++}
+merged
+  result 100644 b4118477d47a41ba4ba07fd92273ca8bb7504af9 apps/storefront/src/app/[locale]/(main)/categories/[...category]/page.tsx
+  our    100644 04a2ff2e8eb93bfd59e6901b2db573c4f420b33f apps/storefront/src/app/[locale]/(main)/categories/[...category]/page.tsx
+@@ -11,6 +11,7 @@
+ import { getLocale, getTranslations } from "next-intl/server"
+ import { DEFAULT_REGION } from "@lib/util/env"
+ import { pageTitle } from "@lib/util/page-title"
++import { seoOverride } from "@lib/util/tenant-seo"
+ 
+ type Props = {
+   params: Promise<{ category: string[] }>
+@@ -38,8 +39,10 @@
+     if (!productCategory) {
+       notFound()
+     }
+-    const title = await pageTitle(productCategory.name)
++    const override = seoOverride(productCategory, locale)
++    const title = await pageTitle(override.title || productCategory.name)
+     const description =
++      override.description ||
+       productCategory.description?.trim() ||
+       t("description", {
+         category: productCategory.name,
+merged
+  result 100644 e4dd5ee22cf076237b77c645ee5cf70f8e941c59 apps/storefront/src/app/[locale]/(main)/layout.tsx
+  our    100644 78f928068fe9d799ce5412303a220b205da25112 apps/storefront/src/app/[locale]/(main)/layout.tsx
+@@ -7,6 +7,7 @@
+   getTenantHandle,
+ } from "@lib/data/cookies"
+ import { getEffectiveSettings } from "@lib/data/tenant-home"
++import { getSeoVerification } from "@lib/data/seo-verification"
+ import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
+ import BottomNav from "@modules/layout/components/bottom-nav"
+ import CartNotifications from "@modules/layout/components/cart-notifications"
+@@ -16,7 +17,22 @@
+ 
+ // Per request, same reason as the root layout: see `lib/tenant/origin.ts`.
+ export async function generateMetadata(): Promise<Metadata> {
+-  return { metadataBase: new URL(await getRequestBaseURL()) }
++  const [base, seoVerification] = await Promise.all([
++    getRequestBaseURL(),
++    getSeoVerification(),
++  ])
++
++  return {
++    metadataBase: new URL(base),
++    ...(seoVerification
++      ? {
++          verification: {
++            ...(seoVerification.google ? { google: seoVerification.google } : {}),
++            ...(seoVerification.yandex ? { yandex: seoVerification.yandex } : {}),
++          },
++        }
++      : {}),
++  }
+ }
+ 
+ export default async function PageLayout(props: { children: React.ReactNode }) {
+merged
+  result 100644 5a06b45d99df9263dad4ca18d4a4b182003a9add apps/storefront/src/app/[locale]/(main)/pages/[key]/page.tsx
+  our    100644 8a388f781a57666bbe7a794099dd26eedf7d04fb apps/storefront/src/app/[locale]/(main)/pages/[key]/page.tsx
+@@ -38,9 +38,9 @@
+   }
+ 
+   return {
+-    title: await pageTitle(page.title),
++    title: await pageTitle(page.seo_title || page.title),
+     description:
+-      metaDescription(page.body) ??
++      metaDescription(page.seo_description, page.body) ??
+       t("metaDescription", { title: page.title, siteName: await getSiteName() }),
+     alternates: await buildAlternates(locale, `/pages/${params.key}`),
+   }
+merged
+  result 100644 87184c027befe14621fea1f198713f6c37996a6d apps/storefront/src/app/[locale]/(main)/products/[handle]/page.tsx
+  our    100644 db33ad7f63b0bbcf7fbc091c748ab5ad10d3c6c9 apps/storefront/src/app/[locale]/(main)/products/[handle]/page.tsx
+@@ -11,6 +11,7 @@
+ import { getSiteName } from "@lib/data/cookies"
+ import { metaDescription } from "@lib/util/meta-description"
+ import { pageTitle } from "@lib/util/page-title"
++import { seoOverride } from "@lib/util/tenant-seo"
+ 
+ type Props = {
+   params: Promise<{ handle: string }>
+@@ -58,11 +59,19 @@
+     notFound()
+   }
+ 
+-  const title = product.title
+-    ? await pageTitle(product.title)
+-    : await getSiteName()
++  const override = seoOverride(product, locale)
+ 
+-  const description = metaDescription(product.description, product.subtitle)
++  const title = override.title
++    ? await pageTitle(override.title)
++    : product.title
++      ? await pageTitle(product.title)
++      : await getSiteName()
++
++  const description = metaDescription(
++    override.description,
++    product.description,
++    product.subtitle
++  )
+ 
+   return {
+     title,
+merged
+  result 100644 d14396740d55be9c056d6eab9a99ea94f05b6038 apps/storefront/src/app/sitemap.ts
+  our    100644 7ae72f130e0a76268f6214be293e34a695d39d58 apps/storefront/src/app/sitemap.ts
+@@ -1,5 +1,5 @@
+ import { MetadataRoute } from "next"
+-import { sdk } from "@lib/config"
++import { sdk, fetchWithoutLocale } from "@lib/config"
+ import { getRequestBaseURL } from "@lib/data/cookies"
+ import { locales } from "@i18n/config"
+ 
+@@ -70,9 +70,15 @@
+   } catch {}
+ 
+   try {
++    // `/store/product-categories`, unlike `/store/products`, is NOT scoped by
++    // the publishable key's sales channel — categories carry no sales-channel
++    // link in Medusa, so every shop's categories would answer here. The
++    // tenant-scoped read (`/store/tenant/product-categories`, wired through
++    // the tenant-product-category link) is what keeps two tenants' sitemaps
++    // disjoint (t11-seo-redirects step 3).
+     const { product_categories } = await sdk.client.fetch<{
+       product_categories: Array<{ handle?: string; updated_at?: string }>
+-    }>("/store/product-categories", {
++    }>("/store/tenant/product-categories", {
+       query: { fields: "handle,updated_at", limit: 500 },
+       next: { tags: ["categories"] },
+       cache: "force-cache",
+@@ -92,6 +98,12 @@
+   } catch {}
+ 
+   try {
++    // Collections are global reference data in this repository, not owned by a
++    // tenant (`apps/backend/src/api/tenants/collections/route.ts`), so unlike
++    // the two blocks above this one is NOT known to be disjoint between shops.
++    // Out of scope for t11-seo-redirects: no tenant-collection link exists to
++    // scope it by, and the migration report for the one real shop this task
++    // ships redirects for lists 0 collections carrying products.
+     const { collections } = await sdk.client.fetch<{
+       collections: Array<{ handle?: string; updated_at?: string }>
+     }>("/store/collections", {
+@@ -113,5 +125,23 @@
+     }
+   } catch {}
+ 
++  try {
++    const { pages } = await fetchWithoutLocale<{
++      pages: Array<{ key: string; locale: string; updated_at?: string }>
++    }>("/store/tenant/pages/sitemap", {
++      next: { tags: ["tenant-pages"] },
++      cache: "force-cache",
++    })
++
++    for (const page of pages) {
++      entries.push({
++        url: url(base, page.locale, `/pages/${page.key}`),
++        lastModified: page.updated_at ? new Date(page.updated_at) : now,
++        changeFrequency: "monthly",
++        priority: 0.3,
++      })
++    }
++  } catch {}
++
+   return entries
+ }
+added in remote
+  their  100644 9405bce6039aca084878a1b96e79683830999441 apps/storefront/src/lib/data/seo-verification.ts
+@@ -0,0 +1,27 @@
++import "server-only"
++import { decodeTenantHeaderValue } from "@lib/tenant/headers"
++import { headers as nextHeaders } from "next/headers"
++
++export type SeoVerification = { yandex: string | null; google: string | null }
++
++/**
++ * The search-console ownership tags of this shop (t11-seo-redirects step 6),
++ * carried by the middleware on `x-tenant-seo-verification` the same way the
++ * footer's attribution line travels (`lib/data/attribution.ts`). Null when the
++ * owner has set neither, or on a single-store stand with no tenant header.
++ */
++export const getSeoVerification = async (): Promise<SeoVerification | null> => {
++  try {
++    const headers = await nextHeaders()
++    const raw = decodeTenantHeaderValue(headers.get("x-tenant-seo-verification"))
++
++    if (!raw) {
++      return null
++    }
++
++    const parsed = JSON.parse(raw) as Partial<SeoVerification>
++    return { yandex: parsed.yandex ?? null, google: parsed.google ?? null }
++  } catch {
++    return null
++  }
++}
+merged
+  result 100644 7619fbf97884c73ab0a10e5f924a907fd2dcb437 apps/storefront/src/lib/data/tenant-pages.ts
+  our    100644 ffeba8d6d73bc366c133333b5ff6343572e19409 apps/storefront/src/lib/data/tenant-pages.ts
+@@ -38,6 +38,8 @@
+   title: string
+   body: string
+   published: boolean
++  seo_title: string | null
++  seo_description: string | null
+ }
+ 
+ let warnedUnreachable = false
+merged
+  result 100644 b5b375db6bd76da5eec6d5a021b063d0d356e795 apps/storefront/src/lib/tenant/headers.ts
+  our    100644 38b95d56b1e917422d93a0f01eed7d01a7974785 apps/storefront/src/lib/tenant/headers.ts
+@@ -33,6 +33,7 @@
+   "x-tenant-origin",
+   "x-tenant-attribution",
+   "x-tenant-locales",
++  "x-tenant-seo-verification",
+ ] as const
+ 
+ export type TenantHeaderName = (typeof TENANT_HEADERS)[number]
+added in remote
+  their  100644 696a74362b5a3d4c2db5280a513617fab8d0a83d apps/storefront/src/lib/tenant/redirects.ts
+@@ -0,0 +1,118 @@
++/**
++ * A tenant's path-for-path redirect table (t11-seo-redirects), fetched from
++ * `GET /store/tenant/redirects` and cached in the middleware's own process —
++ * the same shape as `regionMapCache` in `src/middleware.ts`, because
++ * middleware runs in its own runtime with no access to the server components'
++ * Next data cache. Sixty seconds per key: a redirect added in the panel is
++ * live within that window, no restart and no deploy.
++ */
++
++export type TenantRedirect = { from_path: string; to_path: string; status_code: number }
++
++const TTL_MS = 60 * 1000
++const MAX_REDIRECT_HOPS = 20
++
++const redirectCache = new Map<string, { byPath: Map<string, TenantRedirect>; updatedAt: number }>()
++
++async function fetchRedirects(
++  backendUrl: string,
++  publishableKey: string,
++): Promise<Map<string, TenantRedirect>> {
++  const byPath = new Map<string, TenantRedirect>()
++
++  try {
++    const response = await fetch(`${backendUrl}/store/tenant/redirects`, {
++      method: "GET",
++      headers: { "x-publishable-api-key": publishableKey },
++      cache: "no-store",
++    })
++
++    if (!response.ok) {
++      return byPath
++    }
++
++    const { redirects } = (await response.json()) as { redirects: TenantRedirect[] }
++
++    for (const row of redirects ?? []) {
++      byPath.set(row.from_path, row)
++    }
++  } catch {
++    // A backend hiccup answers "no redirects this request" rather than taking
++    // down every page of the shop — the same failure mode `getRegionMap`
++    // chose for a dead regions fetch.
++  }
++
++  return byPath
++}
++
++/** The tenant's redirect table, refetched at most once per `TTL_MS`. */
++export async function getTenantRedirects(
++  backendUrl: string,
++  publishableKey: string | null,
++): Promise<Map<string, TenantRedirect>> {
++  if (!publishableKey) {
++    return new Map()
++  }
++
++  const cached = redirectCache.get(publishableKey)
++
++  if (cached && cached.updatedAt > Date.now() - TTL_MS) {
++    return cached.byPath
++  }
++
++  const byPath = await fetchRedirects(backendUrl, publishableKey)
++  redirectCache.set(publishableKey, { byPath, updatedAt: Date.now() })
++
++  return byPath
++}
++
++export type RedirectResolution =
++  | { kind: "redirect"; to: string; status: number }
++  | { kind: "loop" }
++  | { kind: "none" }
++
++/**
++ * Follows the chain starting at `pathname` up to `MAX_REDIRECT_HOPS` hops,
++ * so a rename that itself got renamed still resolves to the current address
++ * in one round trip to the visitor. A path visited twice in the same chain is
++ * a loop (`a → b`, `b → a`) — the acceptance case this table's own docs
++ * describe — and answers `{ kind: "loop" }` rather than looping forever.
++ */
++export function resolveRedirect(
++  pathname: string,
++  byPath: Map<string, TenantRedirect>,
++): RedirectResolution {
++  if (!byPath.has(pathname)) {
++    return { kind: "none" }
++  }
++
++  const visited = new Set<string>()
++  let current = pathname
++  let last: TenantRedirect | undefined
++
++  for (let hop = 0; hop < MAX_REDIRECT_HOPS; hop++) {
++    if (visited.has(current)) {
++      return { kind: "loop" }
++    }
++    visited.add(current)
++
++    const entry = byPath.get(current)
++    if (!entry) {
++      break
++    }
++    last = entry
++    current = entry.to_path
++  }
++
++  if (byPath.has(current)) {
++    // The chain is still redirecting after MAX_REDIRECT_HOPS: treat it the
++    // same as a detected cycle rather than serving a 21st hop.
++    return { kind: "loop" }
++  }
++
++  if (!last) {
++    return { kind: "none" }
++  }
++
++  return { kind: "redirect", to: current, status: last.status_code }
++}
+merged
+  result 100644 1d2d4cb5fcb61799177d03376319b063a5edffb5 apps/storefront/src/lib/tenant/resolve.ts
+  our    100644 c759b0e722305296593a9689690c296f6df7903f apps/storefront/src/lib/tenant/resolve.ts
+@@ -49,6 +49,8 @@
+     enabledLocales: string[]
+     defaultCountry: string | null
+   } | null
++  /** Search-console ownership tags (t11-seo-redirects step 6), null when unset. */
++  seoVerification: { yandex: string | null; google: string | null } | null
+ }
+ 
+ const TTL_MS = 60_000
+@@ -109,6 +111,7 @@
+         publishable_key?: string | null
+         theme?: { preset?: string | null; mode?: string | null } | null
+         attribution?: Partial<TenantAttribution> | null
++        seo_verification?: { yandex?: string | null; google?: string | null } | null
+         primary_host?: string | null
+         locale?: {
+           default_locale?: string | null
+@@ -136,6 +139,13 @@
+           attribution: readAttribution(body.attribution),
+           primaryHost: body.primary_host?.trim().toLowerCase() || null,
+           locale,
++          seoVerification:
++            body.seo_verification?.yandex || body.seo_verification?.google
++              ? {
++                  yandex: body.seo_verification.yandex ?? null,
++                  google: body.seo_verification.google ?? null,
++                }
++              : null,
+         }
+       }
+     }
+added in remote
+  their  100644 a7ec72139fbb9a74d6fffc28f118e247c512f9f6 apps/storefront/src/lib/util/tenant-seo.ts
+@@ -0,0 +1,22 @@
++/**
++ * The owner's own meta title/description for one product or category
++ * (t11-seo-redirects, step 1). Medusa has no such fields on either entity, so
++ * the panel writes them into `metadata.seo`, keyed by locale:
++ * `{ seo: { ru: { title, description }, en: { ... } } }`. A blank string is
++ * treated as unset, the same way the panel's own length hint has to, so a
++ * field the owner cleared falls back rather than rendering an empty
++ * `<title>`.
++ */
++export type SeoMetadataEntity = { metadata?: Record<string, unknown> | null } | null | undefined
++
++export type SeoOverride = { title?: string; description?: string }
++
++export function seoOverride(entity: SeoMetadataEntity, locale: string): SeoOverride {
++  const seo = entity?.metadata?.seo as Record<string, SeoOverride> | undefined
++  const entry = seo?.[locale]
++
++  return {
++    title: entry?.title?.trim() || undefined,
++    description: entry?.description?.trim() || undefined,
++  }
++}
+merged
+  result 100644 185090741f13df97d4b97d39976f31802903255f apps/storefront/src/middleware.ts
+  our    100644 abf54c354aca84ac6368a019d45712aa2c2ffe42 apps/storefront/src/middleware.ts
+@@ -11,6 +11,7 @@
+   encodeTenantHeaderValue,
+ } from "@lib/tenant/headers"
+ import { originForHost, requestOrigin } from "@lib/tenant/origin"
++import { getTenantRedirects, resolveRedirect } from "@lib/tenant/redirects"
+ import { resolveTenantByHost, type ResolvedTenant } from "@lib/tenant/resolve"
+ import type { HttpTypes } from "@medusajs/types"
+ import { type NextRequest, NextResponse } from "next/server"
+@@ -298,6 +299,12 @@
+         encodeTenantHeaderValue(JSON.stringify(tenant.attribution))
+       )
+     }
++    if (tenant.seoVerification) {
++      headers.set(
++        "x-tenant-seo-verification",
++        encodeTenantHeaderValue(JSON.stringify(tenant.seoVerification))
++      )
++    }
+   }
+ 
+   return headers
+@@ -332,6 +339,29 @@
+   const nextWithTenant = () =>
+     NextResponse.next({ request: { headers: requestHeaders } })
+ 
++  // The tenant's own redirect table (t11-seo-redirects), before the locale
++  // logic below and before anything else this path would do: a page that
++  // moved because a handle changed, or a row imported from a previous shop's
++  // URL structure, both apply to the RAW incoming pathname, locale prefix and
++  // all — `specs/tenant-address/CANONICAL.md` covers the host moving, this is
++  // the path moving under one host.
++  const pathRedirects = await getTenantRedirects(BACKEND_URL ?? "", publishableKey)
++  const pathRedirect = resolveRedirect(request.nextUrl.pathname, pathRedirects)
++
++  if (pathRedirect.kind === "loop") {
++    return new NextResponse("Redirect loop detected", { status: 508 })
++  }
++
++  if (pathRedirect.kind === "redirect") {
++    // No X-Robots-Tag here, unlike primaryHostRedirect below: this is the
++    // shop's own content moving to a new URL of the SAME address, and a 301
++    // is exactly how that weight is meant to carry over into the index.
++    return NextResponse.redirect(
++      new URL(`${pathRedirect.to}${request.nextUrl.search}`, request.url),
++      pathRedirect.status
++    )
++  }
++
+   if (request.nextUrl.pathname.includes(".")) {
+     return nextWithTenant()
+   }
+merged
+  result 100644 f3a469a8952e403e2d4520b1f9aae3c110a75fe8 apps/tenant-panel/src/hooks/api/pages.tsx
+  our    100644 d7a5b600a8a4981ba199d721f50f0a7c1850a1b9 apps/tenant-panel/src/hooks/api/pages.tsx
+@@ -51,6 +51,8 @@
+   published: boolean
+   in_footer: boolean
+   footer_order: number | null
++  seo_title: string | null
++  seo_description: string | null
+   reserved: boolean
+ }
+ 
+@@ -64,6 +66,8 @@
+   in_footer: boolean
+   footer_order?: number | null
+   locale?: string
++  seo_title?: string | null
++  seo_description?: string | null
+ }
+ 
+ export type CreateTenantPageBody = {
+merged
+  result 100644 ed99454ed26027e4da703595ab9ef908fce0fcf8 apps/tenant-panel/src/routes/pages/page-edit/components/edit-page-form/edit-page-form.tsx
+  our    100644 bfb409e3ea40862a6414a5a72c43e8576d03866a apps/tenant-panel/src/routes/pages/page-edit/components/edit-page-form/edit-page-form.tsx
+@@ -18,6 +18,8 @@
+     body: zod.string().max(50_000),
+     published: zod.boolean(),
+     in_footer: zod.boolean(),
++    seo_title: zod.string().max(70),
++    seo_description: zod.string().max(320),
+   })
+   .refine((values) => !values.published || values.title.trim().length > 0, {
+     // Mirrors the backend's own rule (`PUT /tenants/pages/:key` answers
+@@ -40,6 +42,8 @@
+       body: page.body,
+       published: page.published,
+       in_footer: page.in_footer,
++      seo_title: page.seo_title ?? "",
++      seo_description: page.seo_description ?? "",
+     },
+     resolver: zodResolver(EditPageSchema),
+   })
+@@ -54,6 +58,8 @@
+         published: values.published,
+         in_footer: values.in_footer,
+         footer_order: page.footer_order,
++        seo_title: values.seo_title || null,
++        seo_description: values.seo_description || null,
+       },
+       {
+         onError: (error) => {
+@@ -154,6 +160,46 @@
+                 </Form.Item>
+               )}
+             />
++            <Form.Field
++              control={form.control}
++              name="seo_title"
++              render={({ field }) => (
++                <Form.Item>
++                  <Form.Label>
++                    Search title{" "}
++                    <span className="text-ui-fg-subtle">({field.value.length}/70)</span>
++                  </Form.Label>
++                  <Form.Hint>
++                    Shown as the page&apos;s title in search results. Empty
++                    falls back to the title above.
++                  </Form.Hint>
++                  <Form.Control>
++                    <Input {...field} />
++                  </Form.Control>
++                  <Form.ErrorMessage />
++                </Form.Item>
++              )}
++            />
++            <Form.Field
++              control={form.control}
++              name="seo_description"
++              render={({ field }) => (
++                <Form.Item>
++                  <Form.Label>
++                    Search description{" "}
++                    <span className="text-ui-fg-subtle">({field.value.length}/320)</span>
++                  </Form.Label>
++                  <Form.Hint>
++                    Shown under the title in search results. Empty falls back
++                    to the page&apos;s first sentence.
++                  </Form.Hint>
++                  <Form.Control>
++                    <Textarea {...field} rows={3} />
++                  </Form.Control>
++                  <Form.ErrorMessage />
++                </Form.Item>
++              )}
++            />
+           </div>
+         </RouteFocusModal.Body>
+         <RouteFocusModal.Footer>
+added in remote
+  their  100644 60e7f643b354c6eed316c822f40f7bb75b7c448f artifacts/docs/t11-seo-redirects/report.md
+@@ -0,0 +1,180 @@
++# t11-seo-redirects — отчёт
++
++2026-09-15 06:29 WITA. Стенд собран для приёмки на месте: своя БД
++`upready_store_t11acc` (127.0.0.1:5433), backend `:9111`, storefront `:9111`→`:8111`,
++тенанты `acme`/`globex`/`initech` (`seed-mt-demo.ts`) + новый `cherkashino` (10 товаров, 7
++категорий пресета `supplements` через `POST /tenants/seed`). Стенд временный, локальный,
++поднят и остановлен в рамках этой сессии; в прод не деплоилось (правило 21c).
++
++## Что сделано (по шагам ТЗ)
++
++1. **Мета-поля.** `metadata.seo.<locale>.{title,description}` на товаре/категории
++   (нет отдельных таблиц у Medusa — использована собственная `metadata`, как и просил
++   бриф); `tenant_page` получил колонки `seo_title`/`seo_description`
++   (`Migration20260916050500`). Панель страниц (`edit-page-form.tsx`) показывает
++   счётчик длины рядом с полем. Storefront (`products/[handle]/page.tsx`,
++   `categories/[...category]/page.tsx`, `pages/[key]/page.tsx`) берёт мету из
++   `metadata.seo`/`seo_title`/`seo_description`, иначе — старое поведение
++   (заголовок/первое предложение).
++2. **Слаг.** `POST /tenants/products/:id` и `POST /tenants/product-categories/:id`:
++   смена `handle` пишет 301 на каждую включённую локаль тенанта
++   (`redirect-helpers.ts` → `recordSlugRedirect`), коллизия хендла — `invalid_data` с
++   сообщением (`assertHandleFree`), без молчаливого суффикса.
++3. **Sitemap/robots.** `sitemap.ts` был дефектным по умолчанию: секция категорий шла
++   через нативный `/store/product-categories`, который категории тенантом НЕ
++   фильтрует (в Medusa у категорий нет привязки к sales channel) — двум тенантам это
++   отдавало одни и те же 616+ категорий. Переключено на `/store/tenant/product-categories`
++   (уже существовавший тенант-скоуп для панели). Добавлены собственные страницы тенанта
++   через новый `/store/tenant/pages/sitemap`. `robots.txt` уже был на request-scoped
++   `base`, не трогался.
++4. **Таблица редиректов.** Модель `tenant_redirect` (`from_path`, `to_path`,
++   `status_code`, уникальность на `tenant_id+from_path`), CRUD
++   `/tenants/redirects[/​:id]` (панель), публичное чтение `/store/tenant/redirects`.
++   `middleware.ts` матчит ДО локальной логики, точное совпадение пути (без
++   нормализации локали — исходные URL источника несут двойной `/ru/ru/...`
++   буквально). Цепочки редиректов разворачиваются до 20 хопов; цикл (`a→b`, `b→a`)
++   отдаёт `508 Loop Detected`, не виснет.
++5. **Импорт.** `apps/backend/src/scripts/import-cherkashino-redirects.ts` —
++   `medusa exec`, идемпотентный, `dry-run`, читает `02-mapping-registry.json`
++   реестра миграции 2026-09-12, берёт `pathname` из `source_url`/`target_url`
++   буквально (двойной `/ru/ru/` не регэкспится, а читается как есть).
++6. **Верификация поисковиков.** `tenant.metadata.seo_verification.{yandex,google}`,
++   `PUT /tenants/seo-verification`, рендер через `Metadata.verification` Next.js в
++   `[locale]/(main)/layout.tsx` (`<meta name="google-site-verification">` /
++   `<meta name="yandex-verification">`).
++
++## Проверки (команды и их результат)
++
++### Чек-листы AGENTS.md
++
++```
++cd apps/backend && npx medusa lint && npx tsc --noEmit
++```
++→ `medusa lint`: 0 errors, 20 warnings (все — уже существовавший класс
++`no-service-mutations-in-api-route`/`use-medusa-error-not-generic-error` на файлах,
++включая новые `/tenants/redirects*`, `/tenants/seo-verification` — тот же стиль, что у
++соседних `/tenants/pages`, `/tenants/domains`); `tsc --noEmit`: чисто.
++
++```
++cd apps/storefront && npx tsc --noEmit && npx next lint && npx next build
++```
++→ все три — чисто, `next build` собрал все 43 маршрута без ошибок.
++
++```
++cd apps/tenant-panel && pnpm typecheck && pnpm lint
++```
++→ чисто (23 варнинга — все допанельные, `react-hooks/exhaustive-deps` на чужих файлах).
++
++```
++cd apps/backend && pnpm test:unit
++```
++→ 79/80 зелёных; один красный (`profile-data.unit.spec.ts`, i18n merge productOptions,
++французская локаль) — **не связан с этой задачей**, воспроизводится на файле, которого
++это PR не касается (данные seed-профилей); не чинил, не входит в scope t11.
++
++### 1. Мета-поля
++
++```
++curl -sL "http://cherkashino.localhost:8111/en/products/pair-2-cherkashino" -o /tmp/p.html
++grep -o '<title>.*</title>' /tmp/p.html
++grep -o '<meta name="description"[^>]*>' /tmp/p.html
++```
++```
++<title>Buy Pair No. 2 Grey Set — Cherkashino Shop | Оксана Черкашина</title>
++<meta name="description" content="Hand-finished grey pair, ships in 2 days from Cherkashino."/>
++```
++
++### 2 и 4. 301 + петля
++
++Импортированные (реальная таблица, см. §5):
++```
++curl -sI http://cherkashino.localhost:8111/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya
++→ HTTP/1.1 301 Moved Permanently
++  location: /ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino
++
++curl -sI http://cherkashino.localhost:8111/ru/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy
++→ HTTP/1.1 301 Moved Permanently
++  location: /ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino
++
++curl -sI http://cherkashino.localhost:8111/ru/ru/categories/dobavki
++→ HTTP/1.1 301 Moved Permanently
++  location: /ru/categories/dobavki-cherkashino
++```
++
++Смена хендла товара пишет свой 301 (проверка шага 2):
++```
++POST /tenants/products/prod_...S61A7YJ3RQSA988G7F {"handle":"pair-2-cherkashino-renamed"}
++→ 200, handle сохранён
++POST /tenants/products/<другой товар> {"handle":"pair-2-cherkashino-renamed"}
++→ 400 invalid_data: "the handle \"pair-2-cherkashino-renamed\" is already in use"
++curl -sI http://cherkashino.localhost:8111/en/products/pair-2-cherkashino
++→ HTTP/1.1 301 Moved Permanently
++  location: /en/products/pair-2-cherkashino-renamed
++```
++
++Петля (созданы вручную `/loop-a → /loop-b`, `/loop-b → /loop-a`, затем удалены):
++```
++curl -sI http://cherkashino.localhost:8111/loop-a
++→ HTTP/1.1 508 Loop Detected
++```
++
++### 3. Sitemap — два тенанта, непересекающиеся товары/категории/страницы
++
++```
++curl -s http://acme.localhost:8111/sitemap.xml | grep -c '<loc>'        → 1296
++curl -s http://cherkashino.localhost:8111/sitemap.xml | grep -c '<loc>' → 1152
++comm -12 <(пути acme) <(пути cherkashino) | grep -cE 'products|categories|pages' → 0
++```
++Пересечение есть только на общих статических путях (`/ru`, `/ru/store`, …) — это не
++товарные/категорийные URL и относится к каждому магазину одинаково, как и раньше.
++Пример URL с каждой стороны:
++`http://acme.localhost:8111/ru/products/flat-waxed-laces`,
++`http://cherkashino.localhost:8111/ru/products/pair-2-cherkashino`.
++
++### 5. Импорт
++
++```
++npx medusa exec ./src/scripts/import-cherkashino-redirects.ts <02-mapping-registry.json>
++→ import-cherkashino-redirects: 47 written, 0 already present, 0 unmapped (tenant cherkashino, dry_run=false)
++
++# повторный запуск
++→ import-cherkashino-redirects: 0 written, 47 already present, 0 unmapped (tenant cherkashino, dry_run=false)
++```
++
++### 6. Верификация поисковиков
++
++```
++PUT /tenants/seo-verification {"yandex":"abc123yandex","google":"def456google"}
++curl -s http://cherkashino.localhost:8111/en | grep -o '<meta name="[a-z-]*verification[^>]*>'
++→ <meta name="google-site-verification" content="def456google"/>
++  <meta name="yandex-verification" content="abc123yandex"/>
++```
++
++## Что НЕ сделано и почему
++
++- **Панель**: экрана управления таблицей редиректов и полей SEO-верификации в
++  `tenant-panel` нет — API полностью готово (`/tenants/redirects*`,
++  `/tenants/seo-verification`), но своя форма для них не добавлена (только
++  seo_title/seo_description у страниц получили форму, т.к. это расширение уже
++  существующего экрана). Причина — объём: это отдельные экраны, а не поля в
++  существующей форме. Задел под задачу.
++- **Товар/категория SEO-поля в панели**: тоже только через API (`metadata.seo`), без
++  своих input-ов в форме товара/категории панели — по той же причине.
++- **Коллекции в sitemap** остаются НЕ tenant-scoped (в Medusa у коллекций нет
++  привязки к sales channel/тенанту вообще, отдельного линка не существует) — отмечено
++  комментарием в коде; сам по себе не предмет этого ТЗ (в клиентском реестре миграции
++  0 непустых коллекций).
++- Деплой не делался (не просили).
++
++## Как проверить за 10 минут
++
++1. `cd apps/backend && cp .env.template .env` (свою DB/порт), `npx medusa db:migrate`
++   поднимет `tenant_redirect` и `tenant_page.seo_title/seo_description`.
++2. `npx medusa develop`, создать тенанта (`POST /admin/tenants`), засеять каталог
++   (`POST /tenants/seed {"preset":"..."}`).
++3. Storefront на `<handle>.localhost:<port>` — meta-теги на товаре/категории/странице
++   видны сразу через `metadata.seo`/`seo_title`.
++4. `POST /tenants/redirects` с парой `from_path`/`to_path` → curl на `from_path`
++   отдаёт 301 на `to_path` в течение 60 с (TTL кеша миддлвари, как у `regionMap`).
++5. `npx medusa exec ./src/scripts/import-cherkashino-redirects.ts <registry.json> dry-run`
++   — отчёт без записи; без `dry-run` — пишет.

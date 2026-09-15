@@ -1,0 +1,124 @@
+{
+  "c": [
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Тип"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Подробности"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Кампания"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Промокод\nКлиенты должны ввес"
+    },
+    {
+      "tag": "INPUT",
+      "name": "is_automatic",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Автоматически\nКлиенты увидят"
+    },
+    {
+      "tag": "INPUT",
+      "name": "is_automatic",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Черновик\nКлиенты пока не смо"
+    },
+    {
+      "tag": "INPUT",
+      "name": "status",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Активно\nКлиенты смогут испол"
+    },
+    {
+      "tag": "INPUT",
+      "name": "status",
+      "type": "radio",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "code",
+      "type": "text",
+      "ph": "SUMMER15",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Добавить условие"
+    },
+    {
+      "tag": "INPUT",
+      "name": "application_method.value",
+      "type": "number",
+      "ph": "",
+      "t": ""
+    },
+    {
+      "tag": "INPUT",
+      "name": "limit",
+      "type": "number",
+      "ph": "100",
+      "t": ""
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Отмена"
+    },
+    {
+      "tag": "BUTTON",
+      "name": "",
+      "type": "button",
+      "t": "Продолжить"
+    }
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "Failed to load resource: the server responded with a status of 404 ()",
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+}

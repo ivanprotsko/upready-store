@@ -1,0 +1,34 @@
+{
+  "shopA": {
+    "host": "t17shopa.localhost",
+    "beforeConsent": {
+      "analyticsRequests": []
+    },
+    "bannerVisible": true,
+    "afterConsent": {
+      "analyticsRequests": [
+        "https://www.googletagmanager.com/gtag/js?id=G-TESTID1234",
+        "https://mc.yandex.ru/metrika/tag.js",
+        "https://www.google-analytics.com/g/collect?v=2&tid=G-TESTID1234&gtm=45je69b1za200&_p=1789440353306&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=1508841598.1789440354&frm=0&pscdl=noapi&rcb=1&sr=1280x900&uaa=arm&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=macOS&uapv=26.2.0&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120385423~120469145~120469153&sid=1789440353&sct=1&seg=0&dl=http%3A%2F%2Ft17shopa.localhost%2Fru&dt=T17%20Shop%20A&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=4298",
+        "https://mc.yandex.ru/metrika/advert.gif?t=gdpr(14)ti(4)",
+        "https://mc.yandex.ru/watch/12345678?wmode=7&page-url=http%3A%2F%2Ft17shopa.localhost%3A8317%2Fru&charset=utf-8&uah=chu%0A%22HeadlessChrome%22%3Bv%3D%22153%22%2C%22Not_A%20Brand%22%3Bv%3D%228%22%2C%22Chromium%22%3Bv%3D%22153%22%0Acha%0Aarm%0Achb%0A64%0Achf%0A153.0.8010.12%0Achl%0A%22HeadlessChrome%22%3Bv%3D%22153.0.8010.12%22%2C%22Not_A%20Brand%22%3Bv%3D%228.0.0.0%22%2C%22Chromium%22%3Bv%3D%22153.0.8010.12%22%0Achm%0A%3F0%0Achp%0AmacOS%0Achv%0A26.2.0&browser-info=pv%3A1%3Avf%3Ajeu2ees5yibfy9j2whppqcz54tcee7%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2650%3Acn%3A1%3Adp%3A0%3Als%3A884532938242%3Ahid%3A305768914%3Az%3A480%3Ai%3A20260915104554%3Aet%3A1789440355%3Ac%3A1%3Arn%3A929889964%3Arqn%3A1%3Au%3A1789440355220013764%3Aw%3A1280x900%3As%3A1280x900x24%3Ask%3A1%3Afp%3A864%3Awv%3A2%3Ads%3A0%2C1%2C676%2C225%2C1%2C0%2C%2C0%2C1%2C1256%2C1256%2C0%2C903%3Aco%3A0%3Ahdl%3A1%3Antf%3A1%3Ans%3A1789440349307%3Agi%3AR0ExLjEuMTUwODg0MTU5OC4xNzg5NDQwMzU0%3Arqnl%3A1%3Ast%3A1789440355%3At%3AT17%20Shop%20A&t=clt(1471)gdpr(14)clc(0-0-0)rqnt(1)aw(1)rcm(1)cdl(na)eco(42009088)ti(1)",
+        "https://mc.yandex.ru/watch/12345678/1?wmode=7&page-url=http%3A%2F%2Ft17shopa.localhost%3A8317%2Fru&charset=utf-8&uah=chu%0A%22HeadlessChrome%22%3Bv%3D%22153%22%2C%22Not_A%20Brand%22%3Bv%3D%228%22%2C%22Chromium%22%3Bv%3D%22153%22%0Acha%0Aarm%0Achb%0A64%0Achf%0A153.0.8010.12%0Achl%0A%22HeadlessChrome%22%3Bv%3D%22153.0.8010.12%22%2C%22Not_A%20Brand%22%3Bv%3D%228.0.0.0%22%2C%22Chromium%22%3Bv%3D%22153.0.8010.12%22%0Achm%0A%3F0%0Achp%0AmacOS%0Achv%0A26.2.0&browser-info=pv%3A1%3Avf%3Ajeu2ees5yibfy9j2whppqcz54tcee7%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2650%3Acn%3A1%3Adp%3A0%3Als%3A884532938242%3Ahid%3A305768914%3Az%3A480%3Ai%3A20260915104554%3Aet%3A1789440355%3Ac%3A1%3Arn%3A929889964%3Arqn%3A1%3Au%3A1789440355220013764%3Aw%3A1280x900%3As%3A1280x900x24%3Ask%3A1%3Afp%3A864%3Awv%3A2%3Ads%3A0%2C1%2C676%2C225%2C1%2C0%2C%2C0%2C1%2C1256%2C1256%2C0%2C903%3Aco%3A0%3Ahdl%3A1%3Antf%3A1%3Ans%3A1789440349307%3Agi%3AR0ExLjEuMTUwODg0MTU5OC4xNzg5NDQwMzU0%3Arqnl%3A1%3Ast%3A1789440355%3At%3AT17%20Shop%20A&t=clt%281471%29gdpr%2814%29clc%280-0-0%29rqnt%281%29aw%281%29rcm%281%29cdl%28na%29eco%2842009088%29ti%281%29&redirnss=1",
+        "https://mc.yandex.ru/watch/12345678?wmode=7&page-url=http%3A%2F%2Ft17shopa.localhost%3A8317%2Fru&charset=utf-8&uah=chu%0A%22HeadlessChrome%22%3Bv%3D%22153%22%2C%22Not_A%20Brand%22%3Bv%3D%228%22%2C%22Chromium%22%3Bv%3D%22153%22%0Acha%0Aarm%0Achb%0A64%0Achf%0A153.0.8010.12%0Achl%0A%22HeadlessChrome%22%3Bv%3D%22153.0.8010.12%22%2C%22Not_A%20Brand%22%3Bv%3D%228.0.0.0%22%2C%22Chromium%22%3Bv%3D%22153.0.8010.12%22%0Achm%0A%3F0%0Achp%0AmacOS%0Achv%0A26.2.0&hittoken=1789440355_36a1e1bddd2573d322089aea277404d4409fc8604204db85a8758ee616fa389a&browser-info=pv%3A1%3Aar%3A1%3Avf%3Ajeu2ees5yibfy9j2whppqcz54tcee7%3Afu%3A0%3Aen%3Autf-8%3Ala%3Aen-US%3Av%3A2650%3Acn%3A1%3Adp%3A1%3Als%3A884532938242%3Ahid%3A305768914%3Az%3A480%3Ai%3A20260915104555%3Aet%3A1789440355%3Ac%3A1%3Arn%3A869195296%3Arqn%3A2%3Au%3A1789440355220013764%3Aw%3A1280x900%3As%3A1280x900x24%3Ask%3A1%3Awv%3A2%3Aco%3A0%3Ahdl%3A1%3Antf%3A1%3Ans%3A1789440349307%3Agi%3AR0ExLjEuMTUwODg0MTU5OC4xNzg5NDQwMzU0%3Aadb%3A2%3Arqnl%3A1%3Ast%3A1789440355%3At%3AT17%20Shop%20A&t=gdpr(14)mc(h-1)clc(0-0-0)rqnt(2)aw(1)rcm(1)cdl(na)eco(42009088)w2s(0)fid(190)ti(1)",
+        "https://mc.yandex.ru/metrika/match.html"
+      ],
+      "hasYm": true,
+      "hasGtag": true
+    },
+    "spa": {
+      "url": "http://t17shopa.localhost:8317/ru",
+      "newRequestsAfterNavigation": []
+    }
+  },
+  "shopB": {
+    "host": "t17shopb.localhost",
+    "beforeConsent": {
+      "analyticsRequests": []
+    },
+    "bannerVisible": false
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 65,
+  "action": "status-set",
+  "ts": "2026-09-15T14:27:59+08:00",
+  "status": "2026-09-15 14:27 WITA: d03-deploy-mt-3 attempt 4 — финальный деплой волны 3 выполнен. sha 2286d43 (локальный dev разошёлся с origin/dev, на хост уехало дерево git archive origin/dev). Образы backend/storefront/panel пересобраны 08:12-08:18 CEST, гвард f17 дал 324 boot modules ok, sharp 0.35.4 проверен в образе ДО up -d. Миграция Migration20260915063900 (tenant_requisites, t12 #32) Completed successfully, остальные модули skipped. Бэкфиллы идемпотентны (0 правок). Health 5/5 200 + 5/5 карточек магазина клиента 200, маркер нового кода — роут t16 /tenants/branding/upload отвечает 401 вместо 404. Дампы: pre 5578143 Б, post 5581654 Б. Медиа 117 МБ / 338 файлов у cherkashino — риск №15 (нет S3, нет автобэкапа). Находка: pg_dump -U postgres на хосте не существует и оставляет 0-байтовый дамп при rc=1, рабочее -U medusa"
+}

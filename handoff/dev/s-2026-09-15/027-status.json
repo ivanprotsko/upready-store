@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 27,
+  "action": "status-append",
+  "ts": "2026-09-15T07:12:46+08:00",
+  "status": "2026-09-15 07:09 WITA: q01-qa-customer — живая приёмка cherkashino.shipshift.dev глазами покупателя пройдена по 12 шагам (Playwright/Chromium, 1280x900 и 390x844), 2 тестовых заказа оформлены и отменены, промокод QA10 создан и удалён; заведено 8 задач f01–f08, отчёт handoff/day-2026-09-16-oksana-store/artifacts/q01-qa-customer/report.md, коммит cfc12d0 | 2026-09-15 07:12 WITA: t13-customers-screen — экран «Клиенты» в панели (список/поиск/сортировка/карточка/CSV) готов, PR #33 открыт (feat/day16-customers-screen), измерено на 202 клиентах (rc 60-134мс, изоляция/поиск/сортировка/CSV подтверждены curl'ом)"
+}

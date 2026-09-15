@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 46,
+  "action": "status-set",
+  "ts": "2026-09-15T10:52:50+08:00",
+  "status": "2026-09-15 10:52 WITA: приёмка PR #37 t17-analytics раунд 3 — MERGED (2cb48cd), все критерии сняты живым замером на своём стенде, ниты в комментарии PR"
+}

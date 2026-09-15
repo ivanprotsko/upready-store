@@ -1,0 +1,172 @@
+{
+  "started": "2026-09-15T06:37:18.689Z",
+  "screens": [
+    {
+      "name": "home",
+      "route": "/",
+      "ms": 4520,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nОксана Черкашина\n\ncherkashino\n\nКанал продаж\n\nОксана Черкашина\n\nПубличные API-ключи\n\npk_819***e31\n\nТовары\nЗаказы\nАдрес магазина\nЯзык и валюта\nПриём оплат\nУведомления\nРеквизиты продавца\nАналитика\nБренд\nПродажи\nСегодня\n7 дней\n30 дней\nПроизвольный\n\nВыручка\n\n₽ 12 486,00 RUB\n\nЗаказы\n\n10\n\nСредний чек\n\n₽ 1 248,60 RUB\n\nВыручка по дням\n\nТоп товаров\n\nСвечи АСД с чесноком\n\n6 шт — ₽ 8 130,00 RUB\n\nЗубная паста тайская отбеливающая\n\n4 шт — ₽ 4 336,00 RUB",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-home-1280x900.png"
+    },
+    {
+      "name": "products",
+      "route": "/products",
+      "ms": 4724,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nТовары\nВыгрузить CSV\nЗагрузить CSV\nСоздать\nДобавить фильтр\nПродукт\n\t\nКоллекция\n\t\nКаналы продаж\n\t\nВарианты\n\t\nСтатус\n\t\n\nСвечи АСД с чесноком\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nМумие Бальзам Горного Алтая\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nТройчатка плюс\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nНатуральный сорбент от отравлений от температуры\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nСтевия в таблетках, сахарозаменитель\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nАнтисептик-стимулятор Дорогова, таблетки\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nОчищение печени\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nЧерновик\n\t\n\n\nНабор «Очищение печени» — Тариф 1\n\t\n-\n",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-products-1280x900.png"
+    },
+    {
+      "name": "products-import",
+      "route": "/products/import",
+      "ms": 4725,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nТовары\nВыгрузить CSV\nЗагрузить CSV\nСоздать\nДобавить фильтр\nПродукт\n\t\nКоллекция\n\t\nКаналы продаж\n\t\nВарианты\n\t\nСтатус\n\t\n\nСвечи АСД с чесноком\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nМумие Бальзам Горного Алтая\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nТройчатка плюс\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nНатуральный сорбент от отравлений от температуры\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nСтевия в таблетках, сахарозаменитель\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nАнтисептик-стимулятор Дорогова, таблетки\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nОпубликован\n\t\n\n\nОчищение печени\n\t\n-\n\t\nОксана Черкашина\n\t\n1 вариант\n\t\nЧерновик\n\t\n\n\nНабор «Очищение печени» — Тариф 1\n\t\n-\n",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-products-import-1280x900.png"
+    },
+    {
+      "name": "product-attributes",
+      "route": "/product-attributes",
+      "ms": 4737,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nХарактеристики товаров\nХарактеристики товаров\n\nСвойства, которыми магазин описывает товары: состав, объём, страна. Показанная характеристика выводится на карточке товара, фильтруемая становится фильтром в каталоге — это два независимых переключателя. Значения заполняются на самом товаре, в разделе «Характеристики».\n\nХарактеристика\tСлужебное имя\tТип\tГде применяется\tГде видна\n\n\nХарактеристик пока нет. Создайте первую — форма ниже.\n\n\t\t\t\t\n\nНазвание\n\nСлужебное имя\n\nТип\n\nТекст\nЧисло\nВыбор из списка\nДа / нет\nНовая характеристика\n\nПроизвольная строка: состав, артикул, описание сырья.",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-product-attributes-1280x900.png"
+    },
+    {
+      "name": "reviews",
+      "route": "/reviews",
+      "ms": 4716,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nОтзывы\nОтзывы\n\nОтзыв, оставленный покупателем на витрине, попадает сюда со статусом «На проверке» и не виден на странице товара, пока вы его не опубликуете. Отзывы, перенесённые из старого магазина, уже опубликованы.\n\nСтатус\n\nВсе\n\nТовар\n\nВсе товары\n\nНайдено отзывов: 0\n\nОтзывов пока нет. Они появятся здесь, как только покупатель оставит первый.",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-reviews-1280x900.png"
+    },
+    {
+      "name": "journal",
+      "route": "/journal",
+      "ms": 4723,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nЖурнал\nЖурнал\n\nСтатьи магазина: их читают покупатели и по ним магазин находят в поиске. Опубликованная статья появляется в ленте /journal и в карте сайта. У одной статьи может быть текст на нескольких языках — посетителю показывается его язык, а если такого текста нет, любой другой.\n\nСтатья\tПубличный адрес\tЯзыки\tДата\t\n\n\nСтатей пока нет. Создайте первую — форма ниже.\n\n\t\t\t\t\n\nАдрес статьи\n\nЯзык\n\nРусский\nEnglish\nDeutsch\nEspañol\nFrançais\nУкраїнська\n\nЗаголовок\n\nНовая статья",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-journal-1280x900.png"
+    },
+    {
+      "name": "customers",
+      "route": "/customers",
+      "ms": 4735,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nКлиенты\nКлиенты\nЭкспорт\nНазвание\tEmail\tТелефон\tЗарегистрирован\tЗаказы\tСумма покупок\t\nДата\n\n\n-\n\t\nf01-accept@upready.dev\n\t\n-\n\t\nГость\n\t\n2\n\t\n₽ 2 710,00 RUB\n\t\n15 сент. 2026 г.\n\n\n-\n\t\nf01-thankyou@upready.dev\n\t\n-\n\t\nГость\n\t\n4\n\t\n₽ 5 420,00 RUB\n\t\n15 сент. 2026 г.\n\n\n-\n\t\nivanprotsko+qa2@ivanprotsko.com\n\t\n-\n\t\nГость\n\t\n2\n\t\n₽ 2 168,00 RUB\n\t\n15 сент. 2026 г.\n\n\n-\n\t\nivanprotsko+qa1@ivanprotsko.com\n\t\n-\n\t\nГость\n\t\n2\n\t\n₽ 2 188,00 RUB\n\t\n15 сент. 2026 г.\n\n1\n\n4 из 4 результатов\n\n1 из 1 страниц\n\nНазад\nДалее",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-customers-1280x900.png"
+    },
+    {
+      "name": "orders",
+      "route": "/orders",
+      "ms": 4770,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "Обзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nЗаказы\nЗаказы\nЭкспорт",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-orders-1280x900.png"
+    },
+    {
+      "name": "shipping",
+      "route": "/shipping",
+      "ms": 4767,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-shipping-1280x900.png"
+    },
+    {
+      "name": "pages",
+      "route": "/pages",
+      "ms": 4813,
+      "notFound": false,
+      "rawKeys": [
+        "cherkashino.shipshift.dev",
+        "cherkashino.shipshift.dev",
+        "cherkashino.shipshift.dev",
+        "cherkashino.shipshift.dev",
+        "cherkashino.shipshift.dev",
+        "cherkashino.shipshift.dev"
+      ],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nСтраницы\nСтраницы\n\nПять готовых разделов и любые свои страницы — доставка, FAQ, условия оптовой продажи и что угодно ещё. Опубликованная страница, отмеченная «в подвале», появляется в подвале магазина, в блоке «Информация», в выбранном вами порядке.\n\nСтраница\tПубличный адрес\tСтатус\tВ подвале\t\n\n\nКонтакты\n\nАдрес, телефон, часы работы, как вас найти.\n\n\t\n\ncherkashino.shipshift.dev/pages/contacts\n\n\t\nПусто\n\t\n\nДа\n\n\t\n\n\nРеквизиты\n\nНазвание, регистрационные и налоговые номера, банковские реквизиты.\n\n\t\n\ncherkashino.shipshift.dev/pages/legal\n\n\t\nПусто\n\t\n\nДа\n\n\t\n\n\nOksana Cherkashina\n\nКто вы и что продаёте.\n\n\t\n\ncherkashino.shipshift.dev/pages/about\n\n\t\nОпубликована\n\t\n\nДа\n\n\t\n\n\nПолитика конфиденциальности\n\nКакие данные покупателей вы собираете и что с ними делает",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-pages-1280x900.png"
+    },
+    {
+      "name": "settings-requisites",
+      "route": "/settings/requisites",
+      "ms": 4728,
+      "notFound": false,
+      "rawKeys": [
+        "cherkashino.shipshift.dev"
+      ],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nРеквизиты продавца\nРеквизиты продавца\n\nЭти данные подставляются вместо {{ТОКЕНОВ}} в публичной оферте, политике конфиденциальности и контактах магазина. Незаполненное поле остаётся на странице видимым плейсхолдером — так владелец и покупатель видят, что документ не закончен.\n\nНе заполнено\n\n15\nФИО ИП или название организации — нужен на странице: Контакты, Публичная оферта, Политика конфиденциальности\nОГРНИП / ОГРН — нужен на странице: Контакты, Публичная оферта, Политика конфиденциальности\nИНН — нужен на странице: Контакты, Публичная оферта, Политика конфиденциальности\nЮридический адрес — нужен на странице: Контакты, Публичная оферта, Политика конфиденциальности\nТелефон — нужен на странице: Контакты, Публичная оферта, Политика конфиденциальности",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-requisites-1280x900.png"
+    },
+    {
+      "name": "settings-analytics",
+      "route": "/settings/analytics",
+      "ms": 4722,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nАналитика\nАналитика\n\nсобственные счётчики на вашей витрине\n\nНомер счётчика Яндекс Метрики\nномер из кабинета Метрики, только цифры\nИдентификатор GA4\nначинается с G-, из свойства Google Analytics 4\nСохранить",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-analytics-1280x900.png"
+    },
+    {
+      "name": "settings-branding",
+      "route": "/settings/branding",
+      "ms": 4743,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nБренд\nБренд\n\nЛоготип, фавикон, картинка для соцсетей и основной цвет магазина.\n\nЛоготип (светлая тема)\n\n—\n\nЛоготип (тёмная тема)\n\nНеобязательно — без него используется светлый вариант.\n\n—\n\nФавикон\n\nКвадратное изображение, 32–1024 пикселей.\n\n—\n\nКартинка для соцсетей\n\nПоказывается при пересылке ссылки на магазин. Минимум 600×315.\n\n—\n\nОсновной цвет\nКороткое название\n\nПоказывается в шапке, если логотип не загружен.\n\nПредпросмотр шапки\nМАГАЗИН\nВ корзину\nПодпись в подвале сайта\nСохранить",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-branding-1280x900.png"
+    },
+    {
+      "name": "settings-payments",
+      "route": "/settings/payments",
+      "ms": 4738,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nПриём оплат\nПриём оплат\n\nсчёт вашего магазина в платёжном сервисе; ключи хранятся в зашифрованном виде и обратно не показываются\n\nне настроено\nПлатёжный сервис\nRobokassa\nRobokassa\nИдентификатор магазина (MerchantLogin)\nТестовый пароль #1\nне задано\nShow password\nТестовый пароль #2\nне задано\nShow password\nПароль #1\nне задано\nShow password\nПароль #2\nне задано\nShow password\nАлгоритм подписи\nSHA256\nSHA256\nMD5\nSHA384\nSHA512\nТестовый режим\nПринимать оплату\n\nВ тестовом режиме покупатель платит тестовой картой Robokassa, деньги не списываются. Боевой режим нужен только после модерации магазина в Robokassa.\n\nСохранить\n\nResult URL для кабинета Robokassa\n\nВставьте этот адрес в настройки магазина в Robokassa (Технические настройки → Result URL, метод POST).",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-payments-1280x900.png"
+    },
+    {
+      "name": "settings-domains",
+      "route": "/settings/domains",
+      "ms": 4743,
+      "notFound": false,
+      "rawKeys": [
+        "cherkashino.shipshift.dev",
+        "stores.shipshift.dev",
+        "www.cherkashino.ru"
+      ],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nАдрес магазина\nАдрес магазина\n\nпо этому адресу вас находят покупатели и поиск\n\ncherkashino.shipshift.dev\n\nосновной\n\nканонический адрес в поиске\n\nСменить адрес\n\nten_01m2gqvgen1204cn90c510dnrg.shipshift.dev\n\nтехнический\n\nне меняется никогда, всегда ведёт на основной, в поиск не попадает\n\nСвой домен\n\nCNAME на stores.shipshift.dev\n\ncherkashino.ru\n\nСделать основным\n\nwww.cherkashino.ru\n\nСделать основным\n\nxn--80ajkgrgj8cn.xn--p1ai\n\nСделать основным\n\nwww.xn--80ajkgrgj8cn.xn--p1ai\n\nСделать основным\nДобавить\n\nДобавьте домен, пропишите CNAME, затем нажмите «Сделать основным» — мы проверим, что домен отвечает вашим магазином, и переведём на него адрес, который видит поиск.",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-domains-1280x900.png"
+    },
+    {
+      "name": "settings-notifications",
+      "route": "/settings/notifications",
+      "ms": 4732,
+      "notFound": false,
+      "rawKeys": [],
+      "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nУведомления\nУведомления\n\nкто узнаёт о новом заказе: покупатель — письмом, вы — сообщением в Telegram\n\nПисьмо покупателю\n\nпочта не настроена\n\nНа платформе не настроен почтовый сервер, поэтому письма покупателям не уходят. Заказы при этом оформляются как обычно, а каждое неотправленное письмо попадает в журнал с номером заказа.\n\nИмя отправителя\n\nТак письмо подписано во «Входящих» покупателя. Сейчас: Оксана Черкашина\n\nАдрес для ответа\n\nКуда придёт ответ покупателя. Адрес отправителя остаётся платформенным: чужой домен почтовые службы отклоняют.\n\nПоследняя отправка: 15.09.2026, 10:50:45, заказ 9 — НЕ доставлено — Could not find a notification provider for channel: email for notification id noti_01M2HFJP8X6CBGKTVJ6X6G9S6F\n\nСохранить\n\nTelegram владел",
+      "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-settings-notifications-1280x900.png"
+    }
+  ],
+  "login": {
+    "hasResetLink": false,
+    "text": "Добро пожаловать в Upready\n\nВойдите, чтобы получить доступ к панели управления\n\nShow password\nПродолжить с Email"
+  },
+  "shotLogin": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/shots/p01-login-1280x900.png",
+  "loggedIn": "https://panel-store.upready.dev/",
+  "errors": [
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "Failed to load resource: the server responded with a status of 401 ()"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "path": "/",
+  "nav": {
+    "url": "https://panel-store.upready.dev/",
+    "status": 200,
+    "ms": 2334
+  },
+  "usable": {
+    "ok": true,
+    "ms": 813,
+    "selector": "a[href=\"/products\"]"
+  },
+  "sinceNavMs": 7150,
+  "url": "https://panel-store.upready.dev/",
+  "text": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nЗаказы\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nДоставка\n\nО\n\nОксана Черкашина\n\nОксана Черкашина\n\ncherkashino\n\nКанал продаж\n\nОксана Черкашина\n\nПубличные API-ключи\n\npk_819***e31\n\nТовары\nЗаказы\nАдрес магазина\nЯзык и валюта\nПриём оплат\nУведомления",
+  "buttons": [
+    "О\n\nОксана Черкашина",
+    "Акции",
+    "О\n\nОксана Черкашина"
+  ],
+  "inputs": [],
+  "errors": [],
+  "shot": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q02-qa-owner/shots/s02-home-1280x900.png"
+}

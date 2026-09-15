@@ -1,0 +1,24 @@
+PASS src/tenant-legal/__tests__/requisites.unit.spec.ts
+  tenant-legal/requisites: resolveLegalPlaceholders
+    ✓ renders no braces when every one of the 16 tokens has a value (1 ms)
+    ✓ renders exactly one literal token when one field is missing, and nothing else changes (1 ms)
+    ✓ leaves every token literal on a fully empty document (1 ms)
+    ✓ touches only the tokens it knows, leaving an unrelated {{…}} alone
+    ✓ resolves ДОМЕН_САЙТА from the value handed in, not from a stored field
+    ✓ wraps a left-literal token in backticks, so the storefront's markdown reader does not eat its underscores as emphasis
+    ✓ never wraps a resolved value, even when the value itself is a code span already (1 ms)
+  tenant-legal/requisites: one tenant's row never leaks into another's render
+    ✓ a page resolved with tenant A's row never contains tenant B's values
+  tenant-legal/requisites: phone confirmation
+    ✓ withholds {{ТЕЛЕФОН}} while phone_confirmed is false, even with a number on file
+    ✓ fills {{ТЕЛЕФОН}} once phone_confirmed is true (1 ms)
+  tenant-legal/requisites: missingLegalTokens / tokensInText
+    ✓ lists all 16 tokens missing on an empty row with no domain
+    ✓ lists nothing missing on a full row with a resolved domain
+    ✓ finds every known token literally present in a body, once each (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       13 passed, 13 total
+Snapshots:   0 total
+Time:        0.236 s, estimated 1 s
+Ran all test suites matching /tenant-legal/i.

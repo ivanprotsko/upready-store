@@ -1,0 +1,16 @@
+== /ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya
+HTTP/1.1 301 Moved Permanently
+location: /ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino
+== /ru/ru/products/asd-2-fraktsiya
+HTTP/1.1 404 Not Found
+== /ru/ru/categories/dobavki
+HTTP/1.1 301 Moved Permanently
+location: /ru/categories/dobavki-cherkashino
+== /ru/ru/categories/multivarki
+HTTP/1.1 301 Moved Permanently
+location: /ru/categories/multivarki-cherkashino
+HTTP/1.1 301 Moved Permanently
+location: /ru/products/ingalyator-portativnyy-cherkashino
+--- old handle after rename
+HTTP/1.1 301 Moved Permanently
+location: /ru/products/cube-1-cherkashino-new

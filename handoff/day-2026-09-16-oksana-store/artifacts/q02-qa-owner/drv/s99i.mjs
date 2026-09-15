@@ -1,0 +1,11 @@
+import { launch, timedGoto, SHOP } from './lib.mjs';
+const { browser, page } = await launch();
+await timedGoto(page, SHOP+'/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino',{waitUntil:'load'}); await page.waitForTimeout(5000);
+const p = await page.evaluate(()=>document.body.innerText);
+const m = p.match(/[\d   ]{3,}[,.]\d\d\s*₽/g);
+console.log('prices found:', JSON.stringify(m));
+await timedGoto(page, SHOP+'/ru',{waitUntil:'load'}); await page.waitForTimeout(5000);
+const h = await page.evaluate(()=>document.body.innerText);
+console.log('cat links:', JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('a[href*="/categories/"]')].map(a=>a.innerText.trim()).slice(0,10))));
+console.log('hero line:', JSON.stringify(h.split('\n').filter(x=>/Заказ от 5/.test(x))));
+await browser.close();

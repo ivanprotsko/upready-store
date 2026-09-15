@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 67,
+  "action": "status-set",
+  "ts": "2026-09-15T14:54:48+08:00",
+  "status": "2026-09-15 14:54 WITA: приёмка f06-shipping-method-names раунд 2 — PR #45 смержен (e9ceb9b), замеры API+чекаут+сосед мои, tsc+15 юнит зелёные; критерий идемпотентности судился по коду (запись в прод-БД приёмщику запрещена)"
+}
