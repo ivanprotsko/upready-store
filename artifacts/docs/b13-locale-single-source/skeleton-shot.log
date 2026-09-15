@@ -1,0 +1,5 @@
+b13-shot: logged in as admin@b13shopru.example
+b13-shot: delaying GET /tenants/locale-settings by 4000ms
+b13-shot: screenshot at +2616ms → /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/artifacts/docs/b13-locale-single-source/locale-settings-loading-1280x900.png
+b13-shot: .animate-pulse count on screen = 0 (0 = no skeleton, real control shown)
+b13-shot: default-locale control disabled = true

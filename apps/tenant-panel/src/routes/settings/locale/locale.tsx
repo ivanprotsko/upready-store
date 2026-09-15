@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next"
 import { Button, Container, Heading, Label, Select, Text, toast } from "@medusajs/ui"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
-import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { Combobox } from "../../../components/inputs/combobox"
 import { CountrySelect } from "../../../components/inputs/country-select"
 import {
@@ -89,10 +88,6 @@ export const LocaleSettings = () => {
           : t("localeSettings.saveFailed", { defaultValue: "The settings could not be saved." })
       )
     }
-  }
-
-  if (isPending) {
-    return <SingleColumnPageSkeleton sections={1} />
   }
 
   return (

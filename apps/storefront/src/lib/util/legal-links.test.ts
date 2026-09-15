@@ -18,6 +18,22 @@ const OKSANA: LegalLinkContext = {
   pageKeys: ["about", "contacts", "offer", "privacy"],
 }
 
+/** The same shop with the five pages of b14-pages-legal-content published. */
+const OKSANA_AFTER: LegalLinkContext = {
+  hasTenant: true,
+  pageKeys: [
+    "about",
+    "contacts",
+    "delivery",
+    "faq",
+    "legal",
+    "offer",
+    "privacy",
+    "returns",
+    "terms",
+  ],
+}
+
 const BARE_TENANT: LegalLinkContext = { hasTenant: true, pageKeys: [] }
 
 describe("legalHref", () => {
@@ -44,6 +60,34 @@ describe("legalHref", () => {
     expect(legalHref("terms", shop)).toBe("/pages/offer")
     expect(legalHref("support", shop)).toBe("/pages/support")
   })
+
+  /**
+   * b14-pages-legal-content: the same shop after the five pages this task
+   * drafts (`delivery`, `faq`, `returns`, `legal`, `terms`) are published.
+   */
+  it("separates the contract, the usage terms and the return policy", () => {
+    expect(legalHref("terms", OKSANA_AFTER)).toBe("/pages/offer")
+    expect(legalHref("termsOfUse", OKSANA_AFTER)).toBe("/pages/terms")
+    expect(legalHref("returns", OKSANA_AFTER)).toBe("/pages/returns")
+    expect(
+      new Set([
+        legalHref("terms", OKSANA_AFTER),
+        legalHref("termsOfUse", OKSANA_AFTER),
+        legalHref("returns", OKSANA_AFTER),
+      ]).size
+    ).toBe(3)
+  })
+
+  it("resolves the delivery page and the FAQ once the shop writes them", () => {
+    expect(legalHref("shipping", OKSANA_AFTER)).toBe("/pages/delivery")
+    expect(legalHref("support", OKSANA_AFTER)).toBe("/pages/faq")
+  })
+
+  it("never resolves the requisites page as the contract", () => {
+    const shop = { hasTenant: true, pageKeys: ["legal", "contacts"] }
+    expect(legalHref("terms", shop)).toBeNull()
+    expect(legalHref("termsOfUse", shop)).toBeNull()
+  })
 })
 
 describe("consentHref", () => {
@@ -61,6 +105,11 @@ describe("consentHref", () => {
   it("renders as plain text when the shop has no legal page at all", () => {
     expect(consentHref("returns", BARE_TENANT)).toBeNull()
     expect(consentHref("terms", BARE_TENANT)).toBeNull()
+    expect(consentHref("termsOfUse", BARE_TENANT)).toBeNull()
+  })
+
+  it("keeps sending the usage-terms chunk to the contract while the shop has no such page", () => {
+    expect(consentHref("termsOfUse", OKSANA)).toBe("/pages/offer")
   })
 
   it("keeps the starter behaviour with no tenant", () => {

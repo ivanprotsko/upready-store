@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Button, Input, Select, Text, toast } from "@medusajs/ui"
+import { Button, Input, Label, Select, Text, toast } from "@medusajs/ui"
 import { Link } from "react-router-dom"
 
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
@@ -131,63 +131,72 @@ export const ProductCustomAttributesForm = ({
             каталогу.
           </Text>
         ) : (
-          attributes.map((attribute) => (
-            <div key={attribute.key} className="flex flex-col gap-y-1">
-              <Text size="small" className="text-ui-fg-subtle">
-                {attribute.name}
-                {attribute.unit ? `, ${attribute.unit}` : ""}
-              </Text>
-              {attribute.type === "select" ? (
-                <Select
-                  value={draft[attribute.key] ?? EMPTY}
-                  onValueChange={(value) =>
-                    setDraft((current) => ({ ...current, [attribute.key]: value }))
-                  }
+          attributes.map((attribute) => {
+            const fieldId = `attribute-${attribute.key}`
+            return (
+              <div key={attribute.key} className="flex flex-col gap-y-1">
+                <Label
+                  htmlFor={fieldId}
+                  size="small"
+                  weight="plus"
+                  className="text-ui-fg-subtle"
                 >
-                  <Select.Trigger data-testid={`attribute-${attribute.key}`}>
-                    <Select.Value placeholder="Не указано" />
-                  </Select.Trigger>
-                  <Select.Content>
-                    <Select.Item value={EMPTY}>Не указано</Select.Item>
-                    {attribute.options.map((option) => (
-                      <Select.Item key={option.value} value={option.value}>
-                        {option.label}
-                      </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select>
-              ) : attribute.type === "boolean" ? (
-                <Select
-                  value={draft[attribute.key] ?? EMPTY}
-                  onValueChange={(value) =>
-                    setDraft((current) => ({ ...current, [attribute.key]: value }))
-                  }
-                >
-                  <Select.Trigger data-testid={`attribute-${attribute.key}`}>
-                    <Select.Value placeholder="Не указано" />
-                  </Select.Trigger>
-                  <Select.Content>
-                    <Select.Item value={EMPTY}>Не указано</Select.Item>
-                    <Select.Item value="true">{booleanLabel(true)}</Select.Item>
-                    <Select.Item value="false">{booleanLabel(false)}</Select.Item>
-                  </Select.Content>
-                </Select>
-              ) : (
-                <Input
-                  type={attribute.type === "number" ? "number" : "text"}
-                  value={draft[attribute.key] ?? ""}
-                  onChange={(event) =>
-                    setDraft((current) => ({
-                      ...current,
-                      [attribute.key]: event.target.value,
-                    }))
-                  }
-                  placeholder={attribute.type === "number" ? "100" : "Не указано"}
-                  data-testid={`attribute-${attribute.key}`}
-                />
-              )}
-            </div>
-          ))
+                  {attribute.name}
+                  {attribute.unit ? `, ${attribute.unit}` : ""}
+                </Label>
+                {attribute.type === "select" ? (
+                  <Select
+                    value={draft[attribute.key] ?? EMPTY}
+                    onValueChange={(value) =>
+                      setDraft((current) => ({ ...current, [attribute.key]: value }))
+                    }
+                  >
+                    <Select.Trigger id={fieldId} data-testid={fieldId}>
+                      <Select.Value placeholder="Не указано" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Item value={EMPTY}>Не указано</Select.Item>
+                      {attribute.options.map((option) => (
+                        <Select.Item key={option.value} value={option.value}>
+                          {option.label}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select>
+                ) : attribute.type === "boolean" ? (
+                  <Select
+                    value={draft[attribute.key] ?? EMPTY}
+                    onValueChange={(value) =>
+                      setDraft((current) => ({ ...current, [attribute.key]: value }))
+                    }
+                  >
+                    <Select.Trigger id={fieldId} data-testid={fieldId}>
+                      <Select.Value placeholder="Не указано" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Item value={EMPTY}>Не указано</Select.Item>
+                      <Select.Item value="true">{booleanLabel(true)}</Select.Item>
+                      <Select.Item value="false">{booleanLabel(false)}</Select.Item>
+                    </Select.Content>
+                  </Select>
+                ) : (
+                  <Input
+                    id={fieldId}
+                    type={attribute.type === "number" ? "number" : "text"}
+                    value={draft[attribute.key] ?? ""}
+                    onChange={(event) =>
+                      setDraft((current) => ({
+                        ...current,
+                        [attribute.key]: event.target.value,
+                      }))
+                    }
+                    placeholder={attribute.type === "number" ? "100" : "Не указано"}
+                    data-testid={fieldId}
+                  />
+                )}
+              </div>
+            )
+          })
         )}
       </RouteDrawer.Body>
       <RouteDrawer.Footer>
