@@ -1,3 +1,10 @@
+import { attachOrderAccessToken, ensureCartTenantScope } from "./store/cart-scope";
+import {
+  ensureOrderAccess,
+  ensureReturnOrderAccess,
+  guardOrderTransferRequest,
+  scopeOrderListToShop,
+} from "./store/order-access";
 import {
   authenticate,
   defineMiddlewares,
@@ -1273,6 +1280,66 @@ export default defineMiddlewares({
       matcher: "/store/customers/me/claim-orders",
       method: ["POST"],
       middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
+
+    // ---- b07-store-api-isolation: the Store API stops handing one shop's
+    // orders to another shop's key, and one buyer's order to anybody holding
+    // its id. The checks live next to the data they guard
+    // (`store/order-access.ts`, `store/cart-scope.ts`); what is registered
+    // here is where each one runs.
+    //
+    // They are middlewares rather than routes of our own because the core
+    // handlers are a few lines each around a core-flows workflow, and a
+    // project middleware runs AFTER the framework's own for the same path, so
+    // `req.queryConfig`, `req.filterableFields` and `req.validatedBody` are
+    // all populated by the time they see the request.
+    //
+    // `GET /store/orders/:id` carries NO authenticate in core, so
+    // `req.auth_context` was never populated and the route could not tell an
+    // owner from a stranger even if it wanted to. `allowUnauthenticated` is
+    // what keeps the guest confirmation page reachable: an anonymous call is
+    // let through to `ensureOrderAccess`, which then demands the order's
+    // access token.
+    {
+      matcher: "/store/orders/:id",
+      method: ["GET"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"], { allowUnauthenticated: true }),
+        ensureOrderAccess,
+      ],
+    },
+    {
+      matcher: "/store/orders",
+      method: ["GET"],
+      middlewares: [scopeOrderListToShop],
+    },
+    {
+      matcher: "/store/orders/:id/transfer/request",
+      method: ["POST"],
+      middlewares: [guardOrderTransferRequest],
+    },
+    // `POST /store/returns` takes an `order_id` out of the body and completes
+    // a return against it, with no authentication in core at all.
+    {
+      matcher: "/store/returns",
+      method: ["POST"],
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        ensureReturnOrderAccess,
+      ],
+    },
+    // Every `/store/carts/:id…` route, read and write: the cart has to belong
+    // to the shop whose publishable key the call carries.
+    {
+      matcher: "/store/carts/*",
+      method: "ALL",
+      middlewares: [ensureCartTenantScope],
+    },
+    // The one place the guest access token is handed out.
+    {
+      matcher: "/store/carts/:id/complete",
+      method: ["POST"],
+      middlewares: [attachOrderAccessToken],
     },
   ],
 });

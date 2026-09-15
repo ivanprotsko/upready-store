@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 88,
+  "action": "status-set",
+  "ts": "2026-09-15T22:42:35+08:00",
+  "status": "2026-09-15 22:42 WITA: штаб — волна 5b заведена из выхода c01: b07–b15 queued (приоритеты 80–88, build), b16 blocked до бакета R2 и OK Ивана на удаление клонов баз; needs-ivan.md композера (15 внешних блокеров + 8 задач HANDOFF вне миссии) ждёт передачи Ивану; r03 и b04 ждут слот приёмки (лейн accept занят b01/b03)"
+}

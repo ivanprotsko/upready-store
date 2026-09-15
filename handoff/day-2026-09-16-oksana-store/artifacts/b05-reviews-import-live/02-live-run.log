@@ -1,0 +1,46 @@
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"Executing script at ./src/scripts/import-cherkashina-reviews.js...","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 14:57:04"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 14:57:04"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 14:57:08"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 14:57:08"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 14:57:10"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 14:57:13"}
+{"level":"info","message":"source files: 166 reviews (ru), 166 reviews (en)","timestamp":"2026-09-15 14:57:14"}
+{"level":"warn","message":"REVIEWS_SOURCE_DB is not set: author and text come from the JSON files alone, without the owner's later edits from the old shop's translation table.","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"tenant cherkashino (ten_01M2GQVGEN1204CN90C510DNRG) owns 41 products on this backend","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"mapping registry: 38 product rows","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"────────────────────────────────────────────────────────────────────────","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"reviews in source:        166","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"mapped to a product:      152 (review, product) pairs","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"rows planned (ru + en):   304","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"already in the shop:      0","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"to write:                 304","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"owner edits from the old admin: 0 rows carried one, 0 differed from the file","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"per product (reviews, both languages counted once):","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"    47  svechi-asd-s-chesnokom-10-sht → prod_01M2GRC5XMX78M72NZSXTM8B6X","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"    31  multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt → prod_01M2GRDSXKGZ3MY1JC17B5NFR9","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"    24  maz-s-asd-3-15-100-ml → prod_01M2GRE12E1WJ06NJMCCQHS3Q9","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"    14  kapsuly-s-asd-fraktsiya-2-dorogova-30-sht → prod_01M2GRE5W7847ZMFVWN2RV16JQ","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"    10  antiseptikom-stumulyatorom-dorogova-tabletki-60-shtuk → prod_01M2GRCEWSG287QMN5A6Y8R9PR","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     8  mumie-balzam-gornogo-altaya-100-gramm → prod_01M2GRC7MDFA9J6JQSJN0DC6W1","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     6  steviya-v-tabletkah-saharozamenitel-100-sht → prod_01M2GRCDGVX45S8NT9HZQGXRYM","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     4  troychatka-plyus-60-kapsul → prod_01M2GRC9BG5GJG7CV5X0WKMNNC","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     3  mumie-altayskoe-ochischennoe-naturalnoe-100 → prod_01M2GRDZBZST9G3BPQD3BG5H8D","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     2  naturalnyy-sorbent-ot-otravleniy-ot-temperatury → prod_01M2GRCBYS09739FAZRESA7R5A","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     2  asd-2-fraktsiya-armavir-dorogova → prod_01M2GRE2MP3CAKRFZNPK709JKB","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"     1  kastorovoe-maslo-kastorka-indiyskaya → prod_01M2GREAGVHNP8CH3ZJSH7XWBT","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"unmapped reviews: 14","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «Серебряный Дон, Санитайзер для рук Универсальный» — узнано правилом, в этом магазине не продаётся","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «Фабрика Натуральных Продуктов Масло для волос, 1001 мл» — узнано правилом, в этом магазине не продаётся","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «Мед ассорти 4 шт. 350 г» — узнано правилом, в этом магазине не продаётся","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «Мед натуральный с мумие для массажа, Алтайский мед с мумие» — узнано правилом, в этом магазине не продаётся","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   5  «Фабрика Натуральных Продуктов Масло для волос, 1000 мл» — узнано правилом, в этом магазине не продаётся","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «(нет названия товара)» — правила для этого названия нет","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   1  «Капсулы 120 штук» — правила для этого названия нет","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"   оценка вне диапазона 1–5: 125 (rating=500), 139 (rating=6), 140 (rating=6)","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"────────────────────────────────────────────────────────────────────────","timestamp":"2026-09-15 14:57:14"}
+{"level":"info","message":"Wrote 304 review rows.","timestamp":"2026-09-15 14:57:15"}

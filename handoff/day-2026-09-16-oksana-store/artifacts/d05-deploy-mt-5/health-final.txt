@@ -1,0 +1,20 @@
+# health 2026-09-15 22:42 WITA
+## пять платформенных URL
+https://shipshift.dev/health                                 200
+https://start.upready.dev/start/onboarding                   200
+https://panel-store.upready.dev/                             200
+https://cherkashino.shipshift.dev/ru                         200
+https://zolotaya-nit-1057.shipshift.dev/ru                   200
+## пять карточек магазина клиента (handle из живого HTML каталога)
+https://cherkashino.shipshift.dev/ru/products/tabletki-ot-varikoza-s-kashtanom-cherkashino      200
+https://cherkashino.shipshift.dev/ru/products/ingalyator-portativnyy-cherkashino                200
+https://cherkashino.shipshift.dev/ru/products/maz-ot-varikoza-s-kashtanom-cherkashino           200
+https://cherkashino.shipshift.dev/ru/products/propolis                                          200
+https://cherkashino.shipshift.dev/ru/products/zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino    200
+
+## verify-команды реестра protected-infra (upready-store-mt-platform)
+start.upready.dev/start/onboarding                   200
+panel-store.upready.dev/                             200
+zolotaya-nit-1057.shipshift.dev/ (code ssl)          302 0
+shipshift.dev/static/.../abstract/home-hero.webp     200
+cherkashino.shipshift.dev/ru (code ssl)              200 0
