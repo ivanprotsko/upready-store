@@ -1,0 +1,9 @@
+$ corepack pnpm run check:backend-fixtures
+
+> gorgo-medusa-dtc-starter-monorepo@ check:backend-fixtures /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build
+> cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json
+
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown env config "enable-pre-post-scripts". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
