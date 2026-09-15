@@ -14,7 +14,6 @@ import {
   toast,
   usePrompt,
 } from "@medusajs/ui"
-import { format } from "date-fns"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
@@ -26,6 +25,7 @@ import {
   useMarkOrderFulfillmentAsDelivered,
 } from "../../../../../hooks/api/orders"
 import { useStockLocation } from "../../../../../hooks/api/stock-locations"
+import { useDate } from "../../../../../hooks/use-date"
 import { formatProvider } from "../../../../../lib/format-provider"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
@@ -208,6 +208,7 @@ const Fulfillment = ({
   index: number
 }) => {
   const { t } = useTranslation()
+  const { getFullDate } = useDate()
   const prompt = usePrompt()
   const navigate = useNavigate()
 
@@ -348,10 +349,7 @@ const Fulfillment = ({
         </Heading>
         <div className="flex items-center gap-x-4">
           <Tooltip
-            content={format(
-              new Date(statusTimestamp),
-              "dd MMM, yyyy, HH:mm:ss"
-            )}
+            content={getFullDate({ date: statusTimestamp, includeTime: true })}
           >
             <StatusBadge color={statusColor} className="text-nowrap">
               {statusText}

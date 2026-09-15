@@ -10,11 +10,21 @@ import RefinementList from "@modules/store/components/refinement-list"
 import MobileRefinement from "@modules/store/components/mobile-refinement"
 import CategorySidebar from "@modules/store/components/category-sidebar"
 import { listCategories } from "@lib/data/categories"
+import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
+import { categoriesWithImages } from "@lib/util/category-image"
 import { listProductOptionFilters } from "@lib/data/products"
 
 import PaginatedProducts from "./paginated-products"
 import Breadcrumb from "@modules/common/components/breadcrumb"
 
+
+/**
+ * How many pictured categories the catalog strip draws. The grid is three across
+ * (four when there are exactly four), so twelve is four full rows on desktop and
+ * the point past which a strip stops introducing the shop and starts being the
+ * page. A shop with more keeps the rest in the sidebar and the nav, as before.
+ */
+const CATALOG_TILE_LIMIT = 12
 
 const StoreTemplate = async ({
   sortBy,
@@ -38,6 +48,12 @@ const StoreTemplate = async ({
     listProductOptionFilters(),
     listProductAttributeFacets({ selection: attributeSelection }),
   ])
+
+  // The categories whose picture the owner uploaded in the panel. Empty for a shop
+  // that uploaded none, and CategoryImageTiles then renders nothing at all, so this
+  // strip appears only where there is something to show (f16-category-image-not-shown:
+  // the catalog was one of the three pages that drew the picture nowhere).
+  const picturedCategories = categoriesWithImages(categories, CATALOG_TILE_LIMIT)
 
   return (
     <div
@@ -77,6 +93,10 @@ const StoreTemplate = async ({
           />
         </div>
       </div>
+
+      {/* No heading, for the same reason the category page's tiles carry none: a
+          real one needs a catalog key in all 36 locales (AGENTS.md, "Localization"). */}
+      <CategoryImageTiles categories={picturedCategories} dense />
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">
         <CategorySidebar categories={categories} />

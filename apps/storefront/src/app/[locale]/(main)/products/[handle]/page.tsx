@@ -4,6 +4,7 @@ import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { buildAlternates } from "@lib/util/alternates"
 import { getCountryCode, getTenantDefaultLocale } from "@lib/data/cookies"
+import { decodeSegment } from "@lib/util/decode-segment"
 import ProductTemplate from "@modules/products/templates"
 import type { HttpTypes } from "@medusajs/types"
 import { getLocale } from "next-intl/server"
@@ -50,7 +51,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   ])
 
   const cc = countryCode ?? DEFAULT_REGION
-  const { handle } = params
+  const handle = decodeSegment(params.handle)
   const region = await getRegion(cc)
 
   if (!region) {
@@ -83,7 +84,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: await buildAlternates(locale, `/products/${handle}`),
+    alternates: await buildAlternates(locale, `/products/${params.handle}`),
     openGraph: {
       title,
       description,
@@ -100,6 +101,7 @@ export default async function ProductPage(props: Props) {
   ])
 
   const cc = countryCode ?? DEFAULT_REGION
+  const handle = decodeSegment(params.handle)
   const region = await getRegion(cc)
   const selectedVariantId = searchParams.v_id
 
@@ -109,7 +111,7 @@ export default async function ProductPage(props: Props) {
 
   const pricedProduct = await listProducts({
     countryCode: cc,
-    queryParams: { handle: params.handle },
+    queryParams: { handle },
   }).then(({ response }) => response.products[0])
 
   if (!pricedProduct) {

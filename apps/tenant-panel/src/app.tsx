@@ -711,6 +711,17 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/payments"),
           },
           {
+            // Реквизиты продавца (t12-legal-requisites): значения, которыми на
+            // витрине заполняются {{ТОКЕНЫ}} в оферте, политике
+            // конфиденциальности и контактах. No Admin counterpart — a native
+            // install has one store and никуда не подставляет свои реквизиты
+            // автоматически.
+            path: "/settings/requisites",
+            handle: { breadcrumb: () => "Реквизиты продавца" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/requisites"),
+          },
+          {
             // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
             // No Admin counterpart — a native install has one build-time GA
             // id, set in the environment.
@@ -744,6 +755,18 @@ const routes: RouteObject[] = [
           {
             path: "/login",
             lazy: () => import("./routes/login"),
+          },
+          {
+            // f14-no-password-reset: request half of the flow, linked from
+            // the login screen.
+            path: "/forgot-password",
+            lazy: () => import("./routes/forgot-password"),
+          },
+          {
+            // f14-no-password-reset: the screen the reset email's link
+            // points at (`?token=…&email=…`).
+            path: "/reset-password",
+            lazy: () => import("./routes/reset-password"),
           },
           {
             path: "*",

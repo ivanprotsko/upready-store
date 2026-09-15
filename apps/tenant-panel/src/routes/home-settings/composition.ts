@@ -182,12 +182,12 @@ export const TILES_OPTIONS: Option<TilesKey>[] = [
   {
     value: "on",
     label: "Вкл",
-    why: "A row of category tiles under the hero.",
+    why: "Ряд плиток категорий под хиро.",
   },
   {
     value: "off",
     label: "Выкл",
-    why: "No category tiles on the home page.",
+    why: "Без плиток категорий на главной странице.",
   },
 ]
 
@@ -279,7 +279,7 @@ export const FORBIDDEN: readonly ForbiddenRule[] = [
     against: "hero",
     againstValue: "k",
     reason:
-      "Header Accent and hero Announcement both fill their bar with the accent, nothing between.",
+      "«Шапка: Акцент» и «Первый экран: Анонс» одинаково заливают свою полосу акцентным цветом — между ними ничего не остаётся.",
   },
   {
     field: "footer",
@@ -287,7 +287,7 @@ export const FORBIDDEN: readonly ForbiddenRule[] = [
     against: "defaultMode",
     againstValue: "dark",
     reason:
-      "Footer Inverted giant wordmark turns light on a dark page — reads as detached, not a foundation.",
+      "«Подвал: Инвертированный огромный логотип» становится светлым на тёмной странице — смотрится оторванно, а не как основание.",
   },
 ]
 
@@ -316,10 +316,13 @@ export const blockedReason = (
 export const HOME_BLOCKS = ["hero", "categories", "products"] as const
 export type HomeBlock = (typeof HOME_BLOCKS)[number]
 
+// Matches the section labels already established in translations/*.json
+// ("homeSettings.hero" is "Первый экран", "homeSettings.tiles" is "Плитки
+// категорий") rather than inventing new vocabulary for the same concepts.
 export const BLOCK_LABELS: Record<HomeBlock, string> = {
-  hero: "Hero",
-  categories: "Category tiles",
-  products: "Products",
+  hero: "Первый экран",
+  categories: "Плитки категорий",
+  products: "Товары",
 }
 
 export type TenantHomeContent = {

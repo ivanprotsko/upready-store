@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} termék} other {{count} termék}}",
     "legal": "„Fizetés” gombra kattintva elfogadja <terms>feltételeinket</terms>, <termsOfUse>felhasználási feltételeinket</termsOfUse> és <returnPolicy>visszaküldési szabályzatunkat</returnPolicy>, valamint elfogadja <privacyPolicy>adatvédelmi szabályzatunkat</privacyPolicy>.",
     "manualInput": "Cím megadása kézzel",
+    "addressIncomplete": "Töltse ki a cím kötelező mezőit. Város és irányítószám nélkül a rendelés nem adható fel.",
     "orderComposition": "Rendelés összesítése",
     "paymentHeading": "Fizetési mód",
     "recipientCheckbox": "A címzett más személy",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "signIn": "Bejelentkezés",
     "total": "Összesen"
+  },
+  "ClaimOrders": {
+    "heading": "Fiók nélkül rendelt?",
+    "description": "Ha vendégként rendelt ugyanezzel az e-mail-címmel, azokat a rendeléseket a fiókjához kapcsoljuk.",
+    "button": "Rendeléseim megkeresése",
+    "claimed": "Kapcsolt rendelések: {count}",
+    "none": "Nem találtunk vendégrendelést az e-mail-címéhez ebben a boltban.",
+    "failed": "Nem tudtuk ellenőrizni a rendeléseit. Próbálja meg újra kicsit később."
   },
   "Common": {
     "clear": "Törlés",

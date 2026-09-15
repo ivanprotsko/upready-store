@@ -1,0 +1,60 @@
+--- line 70: package.json in place; its sharp entries: ---
+  dependencies.sharp    = undefined
+  devDependencies.sharp = ^0.35.4
+--- line 88: npm install --omit=dev --no-audit --no-fund ---
+npm warn install-scripts   msgpackr-extract@3.0.4 (install: node-gyp-build-optional-packages)
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+--- node_modules/sharp after the install: ---
+  ABSENT
+--- line 90: copy the compiled server tree over it ---
+--- require('sharp') from inside the tree: ---
+node:internal/modules/cjs/loader:1573
+  throw err;
+  ^
+
+Error: Cannot find module 'sharp'
+Require stack:
+- /private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-b29f7dd2-d35c-442d-9636-3c55da1eccf7-fix-day16-backend-image-sharp/4cfc6658-2903-4ad9-a951-553d31743d64/scratchpad/rt-before/[eval]
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1174:12)
+    at Module._load (node:internal/modules/cjs/loader:1346:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.require (node:internal/modules/cjs/loader:1679:12)
+    at require (node:internal/modules/helpers:196:16)
+    at [eval]:1:1
+    at runScriptInThisContext (node:internal/vm:219:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/private/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-b29f7dd2-d35c-442d-9636-3c55da1eccf7-fix-day16-backend-image-sharp/4cfc6658-2903-4ad9-a951-553d31743d64/scratchpad/rt-before/[eval]'
+  ]
+}
+
+Node.js v26.8.1
+  require failed (rc=1)
+--- line 103: node verify-runtime-modules.mjs ---
+verify-runtime-modules: tolerated (not a resolution failure) src/api/storefront/by-host/__tests__/attribution.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/api/storefront/by-host/__tests__/hosts.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/api/tenants/reviews/__tests__/review-helpers.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/migration-scripts/__tests__/abstract-datasets.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/migration-scripts/__tests__/prices.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/migration-scripts/__tests__/profile-data.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/migration-scripts/__tests__/store-profile.unit.spec.js — ReferenceError: describe is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/workflows/hooks/__tests__/complete-cart-validate.unit.spec.js — ReferenceError: jest is not defined
+verify-runtime-modules: tolerated (not a resolution failure) src/workflows/hooks/__tests__/validate-cart-shipping-address.unit.spec.js — ReferenceError: jest is not defined
+
+verify-runtime-modules: 2 of 330 boot modules cannot resolve an import inside this image:
+
+  medusa-config.js  ->  cannot find module '/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-backend-image-sharp/src/modules/tenant'
+  src/api/tenants/branding/upload/route.js  ->  cannot find module 'sharp'
+
+Each of these kills the container on start. The usual cause is a package declared
+under devDependencies in apps/backend/package.json while a boot-loaded file imports it
+at module scope: the runtime stage installs with `npm install --omit=dev`, so the
+package never reaches the image. Move it to dependencies (and refresh pnpm-lock.yaml
+with `pnpm install --lockfile-only`, or the build stage's --frozen-lockfile fails).
+
+  GUARD rc=1

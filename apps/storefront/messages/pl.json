@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} produkt} few {{count} produkty} many {{count} produktów} other {{count} produktu}}",
     "legal": "Klikając «Zapłać», akceptujesz nasze <terms>warunki</terms>, <termsOfUse>zasady korzystania</termsOfUse> i <returnPolicy>politykę zwrotów</returnPolicy> oraz wyrażasz zgodę na naszą <privacyPolicy>politykę prywatności</privacyPolicy>.",
     "manualInput": "Wprowadź adres ręcznie",
+    "addressIncomplete": "Wypełnij wymagane pola adresu. Bez miasta i kodu pocztowego zamówienia nie da się wysłać.",
     "orderComposition": "Podsumowanie zamówienia",
     "paymentHeading": "Sposób płatności",
     "recipientCheckbox": "Odbiorcą jest inna osoba",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Brak dostępnych metod dostawy",
     "signIn": "Zaloguj się",
     "total": "Razem"
+  },
+  "ClaimOrders": {
+    "heading": "Zamawiałeś bez konta?",
+    "description": "Jeśli złożyłeś zamówienie jako gość na ten sam adres e-mail, przypiszemy je do Twojego konta.",
+    "button": "Znajdź moje zamówienia",
+    "claimed": "Przypisane zamówienia: {count}",
+    "none": "Nie znaleźliśmy zamówień gościa na Twój adres e-mail w tym sklepie.",
+    "failed": "Nie udało się sprawdzić zamówień. Spróbuj ponownie za chwilę."
   },
   "Common": {
     "clear": "Wyczyść",

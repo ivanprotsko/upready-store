@@ -1,0 +1,137 @@
+{
+  "PANEL": "http://localhost:5193",
+  "engine": "chromium",
+  "commit": "click",
+  "tag": "stand-restore-1355-final",
+  "runs": [
+    {
+      "n": 1,
+      "engine": "chromium",
+      "commit": "click",
+      "value": 1355,
+      "tabs": 96,
+      "cellId": "0:97",
+      "editing": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 362,00"
+      },
+      "typed": {
+        "tag": "INPUT",
+        "field": "variants.0.prices.rub",
+        "val": "1 355"
+      },
+      "sentRub": [
+        1355
+      ],
+      "beforeRub": 1362,
+      "afterRub": 1355,
+      "verdict": "SAVED",
+      "blurBeforeSubmit": true,
+      "panelAfterReload": "1 355,00 ₽",
+      "events": [
+        {
+          "t": "blur",
+          "at": 72770,
+          "tag": "DIV",
+          "txt": "₽."
+        },
+        {
+          "t": "focus",
+          "at": 72770,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 362,00"
+        },
+        {
+          "t": "mousedown",
+          "at": 73925,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "blur",
+          "at": 73925,
+          "tag": "INPUT",
+          "field": "variants.0.prices.rub",
+          "val": "1 355"
+        },
+        {
+          "t": "focus",
+          "at": 73976,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "click",
+          "at": 73976,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "submit",
+          "at": 73976,
+          "tag": "FORM",
+          "txt": "esc\nВид\nГорячие "
+        },
+        {
+          "t": "blur",
+          "at": 74014,
+          "tag": "BUTTON",
+          "val": "",
+          "txt": "Сохранить"
+        },
+        {
+          "t": "focus",
+          "at": 74879,
+          "tag": "DIV",
+          "txt": "esc\nВид\nГорячие "
+        },
+        {
+          "t": "blur",
+          "at": 74903,
+          "tag": "DIV",
+          "txt": "esc\nВид\nГорячие "
+        }
+      ],
+      "reqs": [
+        {
+          "method": "POST",
+          "url": "/tenants/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/variants/batch",
+          "body": "{\"update\":[{\"id\":\"variant_01M2GRC6CJB0VZGW034SG084G0\",\"prices\":[{\"id\":\"price_01M2GRC6F79WJY5WDCDK8X0H85\",\"currency_code\":\"usd\",\"amount\":15},{\"id\":\"price_01M2GRC6F7E6F6PXACV4QJ3D92\",\"currency_code\":\"rub\",\"amount\":1355},{\"id\":\"price_01M2H3R4MR570Y8E7NBYXFWQE7\",\"currency_code\":\"rsd\",\"amount\":1355}]}]}"
+        }
+      ],
+      "before": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1362,
+        "rsd": 1355
+      },
+      "after": {
+        "status": 200,
+        "usd": 15,
+        "rub": 1355,
+        "rsd": 1355
+      },
+      "screen": {
+        "url": "http://localhost:5193/products/prod_01M2GRC5XMX78M72NZSXTM8B6X",
+        "body": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, "
+      },
+      "storefront": {
+        "status": 200,
+        "price": "1 355,00 ₽"
+      },
+      "shots": [
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/stand-restore-1355-final-run1-typed-1280x900.png",
+        "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-save-silently-lost/artifacts/docs/f10-price-save-silently-lost/shots/stand-restore-1355-final-run1-after-1280x900.png"
+      ]
+    }
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

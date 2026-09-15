@@ -72,9 +72,36 @@ COPY --from=build /repo/apps/backend/.medusa/server/package.json ./package.json
 # is unpinned by design. --omit=dev drops typescript/ts-node/jest/eslint and
 # every other devDependency; only what medusa start/db:migrate/exec need at
 # runtime is installed.
+#
+# The trap this line sets, and the reason for the verify step further down
+# (f17-backend-image-sharp, measured 2026-09-15): `medusa build` copies
+# apps/backend/package.json VERBATIM into .medusa/server/package.json
+# (@medusajs/framework 2.19.0, dist/build-tools/compiler.js:360 — a plain file
+# copy with no dependency filtering), so `--omit=dev` here honours THAT file's
+# own dependencies/devDependencies split. A package sitting under
+# devDependencies while a boot-loaded file imports it at module scope
+# therefore compiles, builds and pushes clean, and then kills the container on
+# its first start with "Cannot find module '<pkg>'". Anything imported by
+# src/api, src/subscribers, src/jobs, src/links, src/modules, src/workflows,
+# src/migration-scripts or the three src/scripts files docker-entrypoint.sh
+# runs belongs in dependencies, not devDependencies.
 RUN npm install --omit=dev --no-audit --no-fund
 
 COPY --from=build /repo/apps/backend/.medusa/server ./
+
+# The guard for the class described above, and the reason it stands HERE: the
+# node_modules installed one layer up and the compiled src/ tree copied one
+# line up are both present for the first time only at this point. The script
+# requires every module Medusa loads before it answers a request and fails the
+# BUILD on a missing one, so the crash moves off the live host (where
+# `restart: unless-stopped` turns it into a loop) and into CI. Only
+# MODULE_NOT_FOUND fails it; a module that throws because DATABASE_URL is
+# absent in a build sandbox is reported and tolerated. It stays in the image
+# on purpose, so the same check can be re-run against a running container:
+#   docker exec mt-backend node /usr/local/bin/verify-runtime-modules.mjs /app
+COPY apps/backend/scripts/verify-runtime-modules.mjs /usr/local/bin/verify-runtime-modules.mjs
+RUN node /usr/local/bin/verify-runtime-modules.mjs /app
+
 COPY apps/backend/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && mkdir -p /app/static/store-profiles
 

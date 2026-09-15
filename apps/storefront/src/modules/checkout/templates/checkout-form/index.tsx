@@ -1,6 +1,8 @@
 import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listRegions } from "@lib/data/regions"
 import { getCountryCode } from "@lib/data/cookies"
+import { getLegalLinkContext } from "@lib/data/legal-links"
+import { legalHref } from "@lib/util/legal-links"
 import { retrieveCustomerAddresses } from "@lib/data/customer"
 import type { HttpTypes } from "@medusajs/types"
 import CheckoutShippingSection from "@modules/checkout/components/checkout-shipping-section"
@@ -21,14 +23,23 @@ export default async function CheckoutForm({
 }) {
   if (!cart) return null
 
-  const [shippingOptions, regions, currentCountry, addresses, t] =
+  const [shippingOptions, regions, currentCountry, addresses, t, legal] =
     await Promise.all([
       listCartShippingMethods(cart.id),
       listRegions(),
       getCountryCode(),
       retrieveCustomerAddresses(),
       getTranslations("CheckoutPage"),
+      getLegalLinkContext(),
     ])
+
+  // Navigation links, not consent: each one is shown only while the shop has a
+  // page behind it. Before f05-checkout-legal-stubs both went to the starter's
+  // placeholder routes, so a shop that never wrote its shipping terms still
+  // offered the buyer a page saying so in English (rule 20 — the same fix as
+  // the consent sentence above it, at every call site).
+  const shippingLink = legalHref("shipping", legal)
+  const returnsLink = legalHref("returns", legal)
 
   const resolvedCountry =
     currentCountry ||
@@ -58,14 +69,20 @@ export default async function CheckoutForm({
 
       <CheckoutItemList cart={cart} />
 
-      <div className="hidden lg:flex gap-x-4 mt-auto">
-        <Link href="/shipping" className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
-          {t("shippingLink")}
-        </Link>
-        <Link href="/returns" className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
-          {t("returnsLink")}
-        </Link>
-      </div>
+      {(shippingLink || returnsLink) && (
+        <div className="hidden lg:flex gap-x-4 mt-auto">
+          {shippingLink && (
+            <Link href={shippingLink} className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
+              {t("shippingLink")}
+            </Link>
+          )}
+          {returnsLink && (
+            <Link href={returnsLink} className="txt-medium text-ui-fg-base hover:text-ui-fg-subtle transition-colors">
+              {t("returnsLink")}
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   )
 }

@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} na item}}",
     "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
+    "addressIncomplete": "Punan ang mga kinakailangang field ng address. Kung walang lungsod at postal code, hindi maipapadala ang order.",
     "orderComposition": "Buod ng Order",
     "paymentHeading": "Paraan ng bayad",
     "recipientCheckbox": "Ibang tao ang tatanggap",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
     "signIn": "Mag-sign in",
     "total": "Kabuuan"
+  },
+  "ClaimOrders": {
+    "heading": "Nag-order nang walang account?",
+    "description": "Kung nag-order ka bilang bisita gamit ang parehong email address, iuugnay namin ang mga order na iyon sa iyong account.",
+    "button": "Hanapin ang mga order ko",
+    "claimed": "Mga naiugnay na order: {count}",
+    "none": "Walang nakitang order bilang bisita para sa iyong email address sa tindahang ito.",
+    "failed": "Hindi namin nasuri ang iyong mga order. Subukan ulit mamaya."
   },
   "Common": {
     "clear": "I-clear",

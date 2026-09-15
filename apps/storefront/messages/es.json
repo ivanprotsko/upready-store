@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} artículo} other {{count} artículos}}",
     "legal": "Al hacer clic en «Pagar», aceptas nuestros <terms>términos</terms>, nuestras <termsOfUse>condiciones de uso</termsOfUse> y nuestra <returnPolicy>política de devoluciones</returnPolicy>, y consientes nuestra <privacyPolicy>política de privacidad</privacyPolicy>.",
     "manualInput": "Introducir la dirección manualmente",
+    "addressIncomplete": "Complete los campos obligatorios de la dirección. Sin ciudad y código postal el pedido no se puede enviar.",
     "orderComposition": "Resumen del pedido",
     "paymentHeading": "Método de pago",
     "recipientCheckbox": "El destinatario es otra persona",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "No hay métodos de envío disponibles",
     "signIn": "Iniciar sesión",
     "total": "Total"
+  },
+  "ClaimOrders": {
+    "heading": "¿Compraste sin cuenta?",
+    "description": "Si hiciste el pedido como invitado con esta misma dirección de correo, lo vincularemos a tu cuenta.",
+    "button": "Buscar mis pedidos",
+    "claimed": "Pedidos vinculados: {count}",
+    "none": "No encontramos pedidos de invitado con tu dirección de correo en esta tienda.",
+    "failed": "No pudimos comprobar tus pedidos. Inténtalo de nuevo en un momento."
   },
   "Common": {
     "clear": "Borrar",

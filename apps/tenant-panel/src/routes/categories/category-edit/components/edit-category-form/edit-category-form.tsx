@@ -13,6 +13,7 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 import { sdk } from "../../../../../lib/client"
+import { toSlugWhileTyping } from "../../../../../lib/slugify"
 import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
 import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
 import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
@@ -125,6 +126,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
     }
   }
 
+  const watchedImageUrl = form.watch("imageUrl")?.trim()
+
   const { mutateAsync, isPending } = useUpdateProductCategory(category.id)
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
@@ -185,7 +188,17 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                       {t("fields.handle")}
                     </Form.Label>
                     <Form.Control>
-                      <HandleInput {...field} />
+                      {/*
+                        Transliterated as it is typed (f11-new-product-404).
+                        Nothing follows the name here: the category already has
+                        an address on the storefront.
+                      */}
+                      <HandleInput
+                        {...field}
+                        onChange={(event) =>
+                          field.onChange(toSlugWhileTyping(event.target.value))
+                        }
+                      />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
@@ -252,6 +265,20 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                 {t("categories.edit.image", { defaultValue: "Image" })}
               </Label>
               <div className="flex items-center gap-x-2">
+                {/*
+                  The picture itself, not only its address
+                  (f16-category-image-not-shown): the owner uploads a file, the field
+                  fills with a URL and until this preview there was nothing in the
+                  panel that showed what had been saved.
+                */}
+                {watchedImageUrl ? (
+                  <img
+                    src={watchedImageUrl}
+                    alt=""
+                    data-testid="category-image-preview"
+                    className="h-12 w-[38px] shrink-0 rounded object-cover"
+                  />
+                ) : null}
                 <Input
                   id="category-image"
                   data-testid="category-image"
@@ -275,7 +302,7 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
               <Text size="small" className="text-ui-fg-subtle">
                 {t("categories.edit.imageHint", {
                   defaultValue:
-                    "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+                    "Shown on this category's own page, and as a tile in the catalog and on the home page. Clear the address to remove it.",
                 })}
               </Text>
             </div>

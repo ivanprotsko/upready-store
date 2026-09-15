@@ -1,0 +1,10 @@
+{
+  "locale_settings": {
+    "locale_settings": null
+  },
+  "supported_currencies": 118,
+  "default_currency": [
+    "usd"
+  ],
+  "regions": 241
+}

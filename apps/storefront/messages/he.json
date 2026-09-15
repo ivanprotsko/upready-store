@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} פריט} two {{count} פריטים} many {{count} פריטים} other {{count} פריטים}}",
     "legal": "בלחיצה על «לתשלום», אתה מאשר את <terms>התנאים</terms> שלנו, את <termsOfUse>תנאי השימוש</termsOfUse> ואת <returnPolicy>מדיניות ההחזרות</returnPolicy>, ומסכים ל<privacyPolicy>מדיניות הפרטיות</privacyPolicy> שלנו.",
     "manualInput": "הזנת כתובת ידנית",
+    "addressIncomplete": "מלאו את שדות החובה בכתובת. בלי עיר ומיקוד לא ניתן לשלוח את ההזמנה.",
     "orderComposition": "סיכום הזמנה",
     "paymentHeading": "אמצעי תשלום",
     "recipientCheckbox": "הנמען הוא אדם אחר",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "אין שיטות משלוח זמינות",
     "signIn": "התחברות",
     "total": "סה״כ"
+  },
+  "ClaimOrders": {
+    "heading": "הזמנת בלי חשבון?",
+    "description": "אם ביצעת הזמנה כאורח עם אותה כתובת אימייל, נשייך את ההזמנות האלה לחשבון שלך.",
+    "button": "מצא את ההזמנות שלי",
+    "claimed": "הזמנות ששויכו: {count}",
+    "none": "לא נמצאו הזמנות אורח לכתובת האימייל שלך בחנות הזאת.",
+    "failed": "לא הצלחנו לבדוק את ההזמנות שלך. נסה שוב בעוד רגע."
   },
   "Common": {
     "clear": "ניקוי",

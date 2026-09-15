@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
     "legal": "Ved å klikke på «Betal» godtar du våre <terms>vilkår</terms>, <termsOfUse>brukervilkår</termsOfUse> og <returnPolicy>returvilkår</returnPolicy>, og aksepterer vår <privacyPolicy>personvernerklæring</privacyPolicy>.",
     "manualInput": "Skriv inn adresse manuelt",
+    "addressIncomplete": "Fyll ut de obligatoriske adressefeltene. Uten by og postnummer kan ikke bestillingen sendes.",
     "orderComposition": "Ordresammendrag",
     "paymentHeading": "Betalingsmetode",
     "recipientCheckbox": "Mottakeren er en annen person",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Ingen fraktmetoder tilgjengelig",
     "signIn": "Logg inn",
     "total": "Totalt"
+  },
+  "ClaimOrders": {
+    "heading": "Bestilte du uten konto?",
+    "description": "Hvis du bestilte som gjest med den samme e-postadressen, knytter vi de bestillingene til kontoen din.",
+    "button": "Finn bestillingene mine",
+    "claimed": "Tilknyttede bestillinger: {count}",
+    "none": "Vi fant ingen gjestebestillinger på e-postadressen din i denne butikken.",
+    "failed": "Vi klarte ikke å sjekke bestillingene dine. Prøv igjen om litt."
   },
   "Common": {
     "clear": "Tøm",

@@ -177,22 +177,16 @@ export const useProductTableFilters = (
     label: t("fields.status"),
     type: "select",
     multiple: true,
+    // This store has no review workflow, so "proposed"/"rejected" (a
+    // multi-vendor marketplace concept) are states no product is ever in.
     options: [
       {
         label: t("products.productStatus.draft"),
         value: "draft",
       },
       {
-        label: t("products.productStatus.proposed"),
-        value: "proposed",
-      },
-      {
         label: t("products.productStatus.published"),
         value: "published",
-      },
-      {
-        label: t("products.productStatus.rejected"),
-        value: "rejected",
       },
     ],
   }

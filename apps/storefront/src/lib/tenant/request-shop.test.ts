@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest"
 
 import { resolveShopOfRequest } from "./request-shop"
+import { EMPTY_BRANDING } from "./branding"
 import type { ResolvedTenant } from "./resolve"
 
 const tenant = (handle: string): ResolvedTenant => ({
@@ -13,6 +14,8 @@ const tenant = (handle: string): ResolvedTenant => ({
   primaryHost: `${handle}.shipshift.dev`,
   locale: null,
   seoVerification: null,
+  analytics: null,
+  branding: EMPTY_BRANDING,
 })
 
 /** A backend that knows exactly the hosts it is given. */

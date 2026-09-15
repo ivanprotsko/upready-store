@@ -157,6 +157,7 @@ import {
   PostTenantDomainSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantNotificationSettingsSchema,
+  PutTenantRequisitesSchema,
   PostTenantHandleSchema,
   PostTenantArticleSchema,
   PostTenantPageSchema,
@@ -290,6 +291,13 @@ export default defineMiddlewares({
       matcher: "/tenants/notification-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantNotificationSettingsSchema)],
+    },
+    {
+      // The seller's legal details, resolved into this shop's `{{ТОКЕН}}`
+      // placeholders (t12-legal-requisites).
+      matcher: "/tenants/requisites",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantRequisitesSchema)],
     },
     {
       // Robokassa needs the SERVER's word on which shop the cart belongs to;
@@ -1247,6 +1255,17 @@ export default defineMiddlewares({
         authenticate("customer", ["session", "bearer"]),
         validateAndTransformBody(PostStoreReviewSchema),
       ],
+    },
+
+    // ---- f03-guest-order-not-in-account: the buyer takes over the orders
+    // this shop holds under their own address. It carries no body, so there is
+    // nothing to validate; what it needs is a customer behind the call, and
+    // the shop, which the framework's publishable-key gate has already put on
+    // the request by the time the route runs.
+    {
+      matcher: "/store/customers/me/claim-orders",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
     },
   ],
 });

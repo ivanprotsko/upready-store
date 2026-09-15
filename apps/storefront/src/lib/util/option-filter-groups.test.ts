@@ -46,6 +46,16 @@ describe("isPlaceholderOption", () => {
       isPlaceholderOption({ title: "Size", values: [{ id: "v1", value: "42" }] as never })
     ).toBe(false)
   })
+
+  it("also recognises the Russian placeholder minted by the tenant seed since f12-owner-raw-keys", () => {
+    expect(isPlaceholderOption({ title: "Опция по умолчанию", values: [] })).toBe(true)
+    expect(
+      isPlaceholderOption({
+        title: "Размер",
+        values: [{ id: "v1", value: "Значение по умолчанию" }] as never,
+      })
+    ).toBe(true)
+  })
 })
 
 describe("groupOptionFilters", () => {

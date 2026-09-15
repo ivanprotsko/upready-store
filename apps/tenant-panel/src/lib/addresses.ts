@@ -1,6 +1,31 @@
 import { HttpTypes } from "@medusajs/types"
+import i18n from "i18next"
 
 import { countries, getCountryByIso2 } from "./data/countries"
+
+/**
+ * The static `countries` list and the API's `address.country.display_name`
+ * both carry English-only names ("Russian Federation" for `ru`). Rather than
+ * translate a 250-entry list by hand, ask the browser's own ICU data for the
+ * name in the active language, e.g. `Intl.DisplayNames(["ru"], { type:
+ * "region" }).of("RU")` returns "Россия". Falls back to the static English
+ * name when the runtime lacks `Intl.DisplayNames` or the code is unknown.
+ */
+const getLocalizedCountryName = (
+  countryCode?: string | null
+): string | undefined => {
+  if (!countryCode) {
+    return undefined
+  }
+
+  try {
+    return new Intl.DisplayNames([i18n.language], { type: "region" }).of(
+      countryCode.toUpperCase()
+    )
+  } catch {
+    return undefined
+  }
+}
 
 export const isSameAddress = (
   a?: HttpTypes.AdminOrderAddress | null,
@@ -72,7 +97,13 @@ export const getFormattedAddress = ({
     formattedAddress.push(cityProvincePostal)
   }
 
-  if (country) {
+  const localizedCountryName = getLocalizedCountryName(
+    country_code ?? country?.iso_2
+  )
+
+  if (localizedCountryName) {
+    formattedAddress.push(localizedCountryName)
+  } else if (country) {
     formattedAddress.push(country.display_name!)
   } else if (country_code) {
     const country = getCountryByIso2(country_code)
@@ -90,6 +121,11 @@ export const getFormattedAddress = ({
 export const getFormattedCountry = (countryCode: string | null | undefined) => {
   if (!countryCode) {
     return ""
+  }
+
+  const localizedCountryName = getLocalizedCountryName(countryCode)
+  if (localizedCountryName) {
+    return localizedCountryName
   }
 
   const country = countries.find((c) => c.iso_2 === countryCode)

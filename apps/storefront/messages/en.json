@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
     "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
+    "addressIncomplete": "Fill in the required address fields. Without a city and a postal code the order cannot be shipped.",
     "orderComposition": "Order summary",
     "paymentHeading": "Payment method",
     "recipientCheckbox": "Recipient is a different person",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "signIn": "Sign in",
     "total": "Total"
+  },
+  "ClaimOrders": {
+    "heading": "Ordered without an account?",
+    "description": "If you checked out as a guest with this same email address, we will attach those orders to your account.",
+    "button": "Find my orders",
+    "claimed": "Orders attached: {count}",
+    "none": "No guest orders were found for your email address in this shop.",
+    "failed": "We could not check your orders. Try again in a moment."
   },
   "Common": {
     "clear": "Clear",

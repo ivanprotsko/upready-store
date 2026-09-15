@@ -1,0 +1,52 @@
+{
+  "loggedIn": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+  "info": {
+    "url": "https://panel-store.upready.dev/products/prod_01M2GRC5XMX78M72NZSXTM8B6X/prices",
+    "fields": 8,
+    "inputs": 9,
+    "dialogs": 1,
+    "headers": [
+      "",
+      "Заголовок",
+      "SKU",
+      "Количество",
+      "Запасы",
+      "",
+      "Заголовок",
+      "Цена EUR"
+    ],
+    "bodyHead": "О\n\nОксана Черкашина\n\nОбзор\n\nТовары\n\nХарактеристики\n\nЗаказы\n\nКлиенты\n\nКатегории\n\nАкции\n\nСтраницы\n\nГлавная страница\n\nЖурнал\n\nДоставка\n\nОтзывы\n\nО\n\nОксана Черкашина\n\nТовары\nСвечи АСД с чесноком\nСвечи АСД с чесноком\nОпубликован\n\nОписание\n\nВыпускают Асд капсулы, свечи АСД (свечи Дорогова ), экстракт АСД, свечи мумиё. Набор свечей восстанавливает утраченное, повышает иммунитет, улучшает обмен веществ, ан",
+    "inputSample": [
+      {
+        "attrs": "type=search class=caret-ui-fg-base bg-ui-bg-field hover:bg-ui-bg-field-hover shadow-borders-base placeholder-ui-fg-muted text-ui-fg-base transition-fg relative w-full appearance-none rounded-md outlin",
+        "val": ""
+      },
+      {
+        "attrs": "type=text inputmode=decimal name=variants.0.prices.eur class=txt-compact-small w-full flex-1 cursor-default appearance-none bg-transparent pl-8 text-right outline-none data-row=0 data-col=1 data-cell-",
+        "val": ""
+      },
+      {
+        "attrs": "type=text inputmode=decimal name=variants.0.prices.aed class=txt-compact-small w-full flex-1 cursor-default appearance-none bg-transparent pl-8 text-right outline-none data-row=0 data-col=2 data-cell-",
+        "val": ""
+      },
+      {
+        "attrs": "type=text inputmode=decimal name=variants.0.prices.afn class=txt-compact-small w-full flex-1 cursor-default appearance-none bg-transparent pl-8 text-right outline-none data-row=0 data-col=3 data-cell-",
+        "val": ""
+      },
+      {
+        "attrs": "type=text inputmode=decimal name=variants.0.prices.usd class=txt-compact-small w-full flex-1 cursor-default appearance-none bg-transparent pl-8 text-right outline-none data-row=0 data-col=4 data-cell-",
+        "val": "15,00"
+      },
+      {
+        "attrs": "type=text inputmode=decimal name=variants.0.prices.all class=txt-compact-small w-full flex-1 cursor-default appearance-none bg-transparent pl-8 text-right outline-none data-row=0 data-col=5 data-cell-",
+        "val": ""
+      }
+    ],
+    "gridAttrs": 16
+  },
+  "errors": [
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "Failed to load resource: the server responded with a status of 401 ()",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

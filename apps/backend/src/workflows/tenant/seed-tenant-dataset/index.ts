@@ -18,8 +18,11 @@ export type SeedTenantDatasetWorkflowInput = {
   plan: SeedPlan;
 };
 
-/** Medusa's own name for the option a single-variant product gets when it has none. */
-const DEFAULT_OPTION_TITLE = "Default option";
+// Must match the plan builder's own placeholder title
+// (`migration-scripts/data/abstract-datasets.ts` DEFAULT_OPTION_TITLE) — this
+// is the check that keeps the placeholder option inline instead of resolving
+// it as a shared library option.
+const DEFAULT_OPTION_TITLE = "Опция по умолчанию";
 
 /**
  * Find-or-join the SHARED library option for every option the plan's products choose from,

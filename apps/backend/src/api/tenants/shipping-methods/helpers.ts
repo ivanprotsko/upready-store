@@ -9,9 +9,10 @@ import {
   TENANT_METHOD_SCHEMA,
   type MethodZone,
   type ShippingTariff,
+  type TariffSource,
   type TenantMethodData,
 } from "../../../shipping-tariffs/tariff";
-import { storeDefaultLocale } from "../../../shipping-tariffs/default-method-names";
+import { homeCountryForLocale, storeDefaultLocale } from "../../../shipping-tariffs/default-method-names";
 import { getTenantScope } from "../tenant-scope";
 
 /**
@@ -40,8 +41,6 @@ export type TenantWarehouse = {
 };
 
 export const DEFAULT_ITEM_WEIGHT_G = 500;
-/** Home country per store default locale, for picking the display currency. */
-const HOME_COUNTRY_BY_LOCALE: Record<string, string> = { ru: "ru", en: "us", de: "de", fr: "fr", es: "es", it: "it", pl: "pl", tr: "tr", uk: "ua", kk: "kz", be: "by" };
 export const WEIGHT_METADATA_KEY = "shipping_default_weight_g";
 
 /** The tenant's warehouse and zones; throws 404 when provisioning never ran for it. */
@@ -115,7 +114,7 @@ export const getTenantWarehouse = async (req: AuthenticatedMedusaRequest): Promi
   // currency» is the currency of the region covering the store's home
   // country — read from the default locale (ru → ru → rub, en → us → usd) —
   // not whichever region sorts first (`aoa` did, measured 2026-09-15).
-  const homeCountry = HOME_COUNTRY_BY_LOCALE[storeDefaultLocale().toLowerCase().split(/[-_]/)[0]] ?? "us";
+  const homeCountry = homeCountryForLocale(storeDefaultLocale());
   const homeRegion = regions.find((region) =>
     (region.countries ?? []).some((country) => country?.iso_2 === homeCountry),
   );
@@ -150,6 +149,8 @@ export type TenantShippingMethod = {
   delivery_hint: string | null;
   enabled: boolean;
   tariff: ShippingTariff;
+  /** `"provisioned-default"` while the tariff is still the provisioned starting price the owner has not confirmed. */
+  tariff_source: TariffSource | null;
   /** `null` = every country the store ships to (the base zone). */
   zone: MethodZone | null;
   sort_order: number;
@@ -210,6 +211,7 @@ export const toMethod = (row: OptionRow, warehouse: TenantWarehouse, index: numb
     delivery_hint: data.delivery_hint ?? null,
     enabled: isEnabled(row),
     tariff: data.tariff,
+    tariff_source: data.tariff_source ?? null,
     zone: data.zone ?? null,
     sort_order: typeof data.sort_order === "number" ? data.sort_order : index,
     price_type: row.price_type,

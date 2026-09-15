@@ -1,5 +1,7 @@
 import { TFunction } from "i18next"
 
+import { formatProvider } from "./format-provider"
+
 export const getCanceledOrderStatus = (
   t: TFunction<"translation">,
   status: string
@@ -71,4 +73,26 @@ export const getOrderFulfillmentStatus = (
   }[status] as [string, "red" | "orange" | "green"]
 
   return { label, color }
+}
+
+/**
+ * Payment `provider_id` values are internal identifiers (`pp_system_default`,
+ * `pp_robokassa_robokassa`), never meant for a shop owner's screen. The
+ * manual provider gets its own label; anything else falls back to the
+ * provider's own segment of the id via `formatProvider`, since the tenant
+ * contract carries no separate display name for a payment provider.
+ */
+export const getPaymentProviderLabel = (
+  t: TFunction<"translation">,
+  providerId?: string | null
+): string => {
+  if (!providerId) {
+    return t("orders.payment.provider.unknown")
+  }
+
+  if (providerId === "pp_system_default") {
+    return t("orders.payment.provider.manual")
+  }
+
+  return formatProvider(providerId)
 }

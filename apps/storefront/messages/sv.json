@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} vara} other {{count} varor}}",
     "legal": "Genom att klicka på ”Betala” godkänner du våra <terms>villkor</terms>, <termsOfUse>användarvillkor</termsOfUse> och <returnPolicy>returpolicy</returnPolicy>, samt godkänner vår <privacyPolicy>integritetspolicy</privacyPolicy>.",
     "manualInput": "Ange adress manuellt",
+    "addressIncomplete": "Fyll i adressens obligatoriska fält. Utan ort och postnummer kan beställningen inte skickas.",
     "orderComposition": "Ordersammanfattning",
     "paymentHeading": "Betalningsmetod",
     "recipientCheckbox": "Mottagaren är en annan person",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Inga fraktmetoder tillgängliga",
     "signIn": "Logga in",
     "total": "Totalt"
+  },
+  "ClaimOrders": {
+    "heading": "Beställde du utan konto?",
+    "description": "Om du beställde som gäst med samma e-postadress kopplar vi de beställningarna till ditt konto.",
+    "button": "Hitta mina beställningar",
+    "claimed": "Kopplade beställningar: {count}",
+    "none": "Vi hittade inga gästbeställningar på din e-postadress i den här butiken.",
+    "failed": "Vi kunde inte kontrollera dina beställningar. Försök igen om en stund."
   },
   "Common": {
     "clear": "Rensa",

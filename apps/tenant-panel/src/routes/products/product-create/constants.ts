@@ -128,17 +128,17 @@ export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
   sales_channels: [],
   options: [
     {
-      title: "Default option",
-      values: ["Default option value"],
+      title: "Опция по умолчанию",
+      values: ["Значение по умолчанию"],
     },
   ],
   variants: decorateVariantsWithDefaultValues([
     {
-      title: "Default variant",
+      title: "Вариант по умолчанию",
       should_create: true,
       variant_rank: 0,
       options: {
-        "Default option": "Default option value",
+        "Опция по умолчанию": "Значение по умолчанию",
       },
       inventory: [{ inventory_item_id: "", required_quantity: "" }],
       is_default: true,
