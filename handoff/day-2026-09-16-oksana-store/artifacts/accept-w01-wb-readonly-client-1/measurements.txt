@@ -1,0 +1,23 @@
+w01 приёмка — замеры (ветка e683efe5, свой стенд upready_store_w01acc, бэкенд :9211)
+
+1. Линт единственной точки вызова, повторён скриптом приёмки по трём корням ветки:
+   ветка как есть                          -> файлов 1828, нарушителей 0 (зелёный)
+   ветка + синтетический второй вызов      -> нарушителей 1 (покраснел бы)
+
+2. Тесты: jest modules/wb -> 3 suites / 38 tests; полный pnpm test:unit -> 39 suites / 423 tests, 0 failed.
+   В transport.unit.spec.ts четыре expect(fetchSpy).toHaveBeenCalledTimes(0).
+
+3. GET /tenants/wb/status (замер приёмки):
+   connection.key = {"set":true,"last4":"c6Sg"} — самого ключа в ответе нет (0 вхождений)
+   mask 1073742014 | sandbox(t) false | expires 2027-03-17T05:20:02.000Z | read_only true
+   doc_url https://dev.wildberries.ru/en/docs/openapi/api-information#tag/authorization/About-the-token
+   бит 30 = "Read only token" | эндпойнтов в реестре 9
+
+4. Зеркала на стенде воркера (upready_store_w01), замер приёмки:
+   wb_product 423 | wb_price 463 | wb_stock 11605 | wb_feedback 123 | wb_order 0
+   wb_api_call: content.cards.list POST 10, marketplace.stocks POST 66, marketplace.warehouses GET 1,
+                prices.goods.filter GET 1, statistics.orders GET 4, feedbacks.list GET 9
+   — все шесть id из реестра, мутирующих методов нет.
+
+5. git grep eyJhbGci: 2 вхождения, оба безопасны (фейковый токен в тесте + предсуществующий артефакт
+   2026-09-10-mt-vendors-acceptance.md). Настоящий ключ: 0 вхождений полного значения и первых 40 знаков.
