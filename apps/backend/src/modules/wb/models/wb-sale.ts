@@ -12,11 +12,14 @@ import { model } from "@medusajs/framework/utils";
  *    used to identify the order."
  *   "Data storage is guaranteed for no more than 90 days from the date of sale."
  *
- * So `srid` is the identity, the mirror is idempotent on (tenant, srid), and
- * the table holds sales AND returns in one feed: WB does not split them into
- * two methods, and this mirror does not invent a split it cannot cite. What WB
- * gives to tell them apart is `sale_id` (the `saleID` field) and the sign of
- * the money columns, both kept as they came.
+ * `srid` identifies the ORDER, and that is not the identity of a line here:
+ * measured against the live cabinet on 2026-09-16 05:12 WITA, one answer of
+ * this method carried the same `srid` twice and the import died with
+ * "Wb sale with … srid: er.rfa69eccbd134437395a9c3017ccf1393.0.0, already
+ * exists". The feed holds sales AND returns ("The method returns sale and
+ * return information"), and a return carries the srid of the sale it undoes.
+ * So the identity of a LINE is the pair (`srid`, `sale_id`): WB's `saleID` is
+ * its own number of the sale or the return.
  *
  * The docs also warn that this feed is preliminary: `finished_price`,
  * `price_with_disc` and `for_pay` "may temporarily have the value 0: data is
@@ -70,7 +73,7 @@ const WbSale = model
   })
   .indexes([
     {
-      on: ["tenant_id", "srid"],
+      on: ["tenant_id", "srid", "sale_id"],
       unique: true,
       where: "deleted_at IS NULL",
     },

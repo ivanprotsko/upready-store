@@ -238,26 +238,39 @@ const upsertRows = async (
     keyNames.map((name) => String(source[name])).join(" ");
   const byKey = new Map(existing.map((row) => [keyOf(row), row.id]));
 
-  const toCreate: Record<string, unknown>[] = [];
+  const toCreate = new Map<string, Record<string, unknown>>();
   const toUpdate: Record<string, unknown>[] = [];
 
+  /**
+   * One ANSWER can carry the same key twice (w03: WB's sales feed repeats an
+   * `srid` when it holds both the sale and its return). Matching against the
+   * rows already in the database is not enough for that: neither copy exists
+   * yet, both land in the insert, and the batch dies on the unique index with
+   * "already exists" after writing nothing at all — which is what happened on
+   * the first live sales run, 2026-09-16 05:12 WITA.
+   *
+   * So the batch is deduplicated against ITSELF too, keeping the later row:
+   * WB sends its pages newest-first, and within one page the later copy is the
+   * one it wants us to end on.
+   */
   for (const row of rows) {
-    const id = byKey.get(keyOf(row.keys));
+    const key = keyOf(row.keys);
+    const id = byKey.get(key);
     if (id) {
       toUpdate.push({ id, ...row.values });
     } else {
-      toCreate.push({ tenant_id: tenantId, ...row.keys, ...row.values });
+      toCreate.set(key, { tenant_id: tenantId, ...row.keys, ...row.values });
     }
   }
 
-  if (toCreate.length) {
-    await create(toCreate);
+  if (toCreate.size) {
+    await create([...toCreate.values()]);
   }
   if (toUpdate.length) {
     await update(toUpdate);
   }
 
-  return rows.length;
+  return toCreate.size + toUpdate.length;
 };
 
 /** `POST /content/v2/get/cards/list`, WB's "Returns the listings", cursor-paginated. */
@@ -555,9 +568,10 @@ const syncSales = async (deps: WbSyncDeps, read: WbReader, counter: WbRunCounter
       sales
         .filter((sale) => Boolean(sale.srid))
         .map((sale) => ({
-          keys: { srid: String(sale.srid) },
+          // The line's identity is the pair: one `srid` (the order) arrives
+          // twice when the feed carries both the sale and its return.
+          keys: { srid: String(sale.srid), sale_id: asText(sale.saleID) },
           values: {
-            sale_id: asText(sale.saleID),
             nm_id: asText(sale.nmId),
             supplier_article: asText(sale.supplierArticle),
             barcode: asText(sale.barcode),

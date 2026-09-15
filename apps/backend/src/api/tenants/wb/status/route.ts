@@ -76,7 +76,13 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         ["prices", "listWbPrices"],
         ["stocks", "listWbStocks"],
         ["orders", "listWbOrders"],
+        ["sales", "listWbSales"],
         ["feedbacks", "listWbFeedbacks"],
+        ["questions", "listWbQuestions"],
+        // `WbAnalyticsDaily` pluralizes to `…Dailies`, not `…Dailys`: the
+        // method name is the framework's, checked by
+        // `src/modules/wb/__tests__/service-methods.unit.spec.ts` (w03).
+        ["analytics", "listWbAnalyticsDailies"],
       ] as const
     ).map(async ([label, method]) => {
       const rows = (await (
