@@ -11,11 +11,15 @@ import path from "node:path";
  *    Wildberries host, besides the read transport of w01. The read lint
  *    (`src/modules/wb/__tests__/transport-single-call-site.unit.spec.ts`)
  *    checks the same thing from the other side.
- * 2. Nothing outside the write modules and their tests calls `wbWrite` or
- *    `marketplaceWrite`. The task w20 builds the mechanism; w21-w23 add the
- *    callers, one operation class at a time, each with its own acceptance.
- *    Until then the repository cannot mutate Wildberries even with every gate
- *    open, because nobody asks it to.
+ * 2. The only callers of `wbWrite` or `marketplaceWrite` outside the write
+ *    modules are the ones listed in `ALLOWED_CALLERS`. w20 built the mechanism
+ *    with no caller at all; w21 added the first one (the store -> WB push for
+ *    `stocks` and `prices`), and every later class arrives the same way, by
+ *    being written down here with its own acceptance.
+ * 3. `WB_WRITE_LIVE` is set nowhere in this repository. Now that a caller
+ *    exists, THIS is the claim "живой записи нет" rests on: gate (e) of the
+ *    write core reads that variable, no deployment sets it, and a `.env`, a
+ *    compose file or a workflow that did would be caught here.
  */
 
 const REPO_ROOT = path.resolve(__dirname, "../../../../../..");
@@ -30,6 +34,13 @@ const WRITE_MODULE_DIRS = [
   path.join("apps", "backend", "src", "modules", "wb-write"),
   path.join("apps", "backend", "src", "modules", "marketplace-write"),
 ];
+
+/**
+ * The callers the repository has, one line each. A new class of mutation means
+ * a new line here, which is what makes "who can ask for a write" a thing you
+ * read rather than a thing you grep for.
+ */
+const ALLOWED_CALLERS = [path.join("apps", "backend", "src", "wb-write-diff", "push.ts")];
 
 const WB_HOST = /wildberries\.ru|(^|[^a-z0-9.-])wb\.ru/i;
 const CALL_SITE = /\bfetch\s*\(|\baxios\b|\brequest\s*\(|\bhttps?\.(?:get|request)\s*\(|\bgot\s*\(/;
@@ -54,6 +65,32 @@ const walk = (dir: string, found: string[] = []): string[] => {
     if (statSync(full).isDirectory()) {
       walk(full, found);
     } else if (SOURCE_EXTENSIONS.has(path.extname(name))) {
+      found.push(full);
+    }
+  }
+
+  return found;
+};
+
+/** The env-carrying files a live gate could realistically be switched on in. */
+const CONFIG_EXTENSIONS = new Set([".yml", ".yaml", ".env", ".template", ".example", ".sh"]);
+
+const walkConfigs = (dir: string, found: string[] = []): string[] => {
+  let entries: string[];
+  try {
+    entries = readdirSync(dir);
+  } catch {
+    return found;
+  }
+
+  for (const name of entries) {
+    if (name === "node_modules" || name === "dist" || name === ".medusa" || name === ".next") {
+      continue;
+    }
+    const full = path.join(dir, name);
+    if (statSync(full).isDirectory()) {
+      walkConfigs(full, found);
+    } else if (CONFIG_EXTENSIONS.has(path.extname(name)) || name.startsWith(".env")) {
       found.push(full);
     }
   }
@@ -88,15 +125,62 @@ describe("the WB write path has no live caller", () => {
     expect(offenders).toEqual([]);
   });
 
-  it("has no production caller of wbWrite or marketplaceWrite", () => {
+  it("has no production caller of wbWrite or marketplaceWrite beyond the listed ones", () => {
     const callers = relatives.filter((relative) => {
       if (WRITE_MODULE_DIRS.some((dir) => relative.startsWith(`${dir}${path.sep}`))) {
+        return false;
+      }
+      if (relative.includes(`${path.sep}__tests__${path.sep}`)) {
         return false;
       }
       const source = readFileSync(path.join(REPO_ROOT, relative), "utf8");
       return WRITE_CALL.test(source);
     });
 
-    expect(callers).toEqual([]);
+    expect(callers.sort()).toEqual([...ALLOWED_CALLERS].sort());
+  });
+
+  it("finds every listed caller on disk", () => {
+    // A path that has been renamed would otherwise make the assertion above
+    // pass while guarding nothing (rule 20a: zero is not empty).
+    expect(relatives).toEqual(expect.arrayContaining(ALLOWED_CALLERS));
+  });
+
+  it("sets WB_WRITE_LIVE nowhere in the repository", () => {
+    // The env-carrying files are not sources: `.env*`, compose YAML and the
+    // workflow files are where a live gate would realistically be turned on.
+    const configs = [
+      ...walkConfigs(path.join(REPO_ROOT, "apps")),
+      ...walkConfigs(path.join(REPO_ROOT, "deploy")),
+      ...walkConfigs(path.join(REPO_ROOT, ".github")),
+    ];
+
+    expect(configs.length).toBeGreaterThan(10);
+
+    // In a config file the variable is set by being written down at the start
+    // of a line: `WB_WRITE_LIVE=1`, `WB_WRITE_LIVE: "1"`. The `(?!_)` keeps
+    // `WB_WRITE_LIVE_ENV` out of it and `=(?!=)` keeps a comparison out.
+    const inConfig = /^[\s-]*(?:export\s+)?WB_WRITE_LIVE(?!_)\s*(?:=(?!=)|:)\s*["']?1/m;
+
+    const setInConfig = configs
+      .map((file) => path.relative(REPO_ROOT, file))
+      .filter((relative) => inConfig.test(readFileSync(path.join(REPO_ROOT, relative), "utf8")));
+
+    expect(setInConfig).toEqual([]);
+
+    // In a source file the only way to turn the gate on is to assign to the
+    // process environment. A mention in a comment is not that, which is why
+    // the variable's NAME is not what is searched for here (rule 8b: a
+    // quoted mention is not a call).
+    const inSource = /process\.env(?:\.WB_WRITE_LIVE\b|\[[^\]]*WB_WRITE_LIVE[^\]]*\])\s*=(?!=)/;
+
+    const setInSource = relatives.filter((relative) => {
+      if (relative.includes(`${path.sep}__tests__${path.sep}`)) {
+        return false;
+      }
+      return inSource.test(readFileSync(path.join(REPO_ROOT, relative), "utf8"));
+    });
+
+    expect(setInSource).toEqual([]);
   });
 });
