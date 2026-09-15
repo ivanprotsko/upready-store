@@ -1,0 +1,55 @@
+{
+  "rows": [
+    {
+      "title": "Прополис",
+      "handle": "propolis",
+      "cardInCatalog": {
+        "href": "/products/propolis",
+        "text": "Прополис | 990,00 ₽"
+      },
+      "status": 200,
+      "url": "https://cherkashino.shipshift.dev/ru/products/propolis?v_id=variant_01M2J05N9EH427V78E5JEKCD8J",
+      "showsTitle": true,
+      "showsAddToCart": true,
+      "price": "990,00 ₽"
+    },
+    {
+      "title": "Мазь-бальзам живичный",
+      "handle": "maz-balzam-zhivichnyy",
+      "cardInCatalog": {
+        "href": "/products/maz-balzam-zhivichnyy",
+        "text": "Мазь-бальзам живичный | 1 290,00 ₽"
+      },
+      "status": 200,
+      "url": "https://cherkashino.shipshift.dev/ru/products/maz-balzam-zhivichnyy?v_id=variant_01M2J06HVRHY63KDDFTWNR8NZW",
+      "showsTitle": true,
+      "showsAddToCart": true,
+      "price": "1 290,00 ₽"
+    },
+    {
+      "title": "Настойка 50 мл",
+      "handle": "nastoyka-50-ml",
+      "cardInCatalog": {
+        "href": "/products/nastoyka-50-ml",
+        "text": "Настойка 50 мл | 450,00 ₽"
+      },
+      "status": 200,
+      "url": "https://cherkashino.shipshift.dev/ru/products/nastoyka-50-ml",
+      "showsTitle": true,
+      "showsAddToCart": true,
+      "price": "450,00 ₽"
+    },
+    {
+      "title": "Свечи АСД с чесноком",
+      "handle": "svechi-asd-s-chesnokom-10-sht-cherkashino",
+      "cardInCatalog": null,
+      "status": 200,
+      "url": "https://cherkashino.shipshift.dev/ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino?v_id=variant_01M2GRC6CJB0VZGW034SG084G0",
+      "showsTitle": true,
+      "showsAddToCart": true,
+      "price": "1 412,00 ₽"
+    }
+  ],
+  "catalogHasAll": true,
+  "errors": []
+}
