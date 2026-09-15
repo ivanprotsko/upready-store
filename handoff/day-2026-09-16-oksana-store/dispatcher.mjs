@@ -163,7 +163,9 @@ function checkAccepting(cfg, state, t) {
   if (verdict === 'NONE' && fs.existsSync(a.findings) && fs.statSync(a.findings).size > 50) { verdict = 'REJECTED'; L.event(state, { task: t.id, type: 'verdict-by-findings-file', msg: 'VERDICT не напечатан, но есть файл замечаний' }); }
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
   const pr = L.prView(cfg, s.pr.number);  // истина — GitHub, не текст приёмщика (17a)
-  if (pr?.state === 'MERGED') { s.status = 'merged'; s.pr.mergedAt = pr.mergedAt; s.pr.state = 'MERGED'; s.finishedAt = L.nowIso(); a.verdict = 'MERGED'; L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
+  if (pr?.state === 'MERGED') { s.status = 'merged'; s.pr.mergedAt = pr.mergedAt; s.pr.state = 'MERGED'; s.finishedAt = L.nowIso(); a.verdict = 'MERGED';
+    // Работа закончена — закрываем терминал воркера (приказ Ивана 22:03 WITA: сессии, чья работа закончилась, не держать)
+    if (s.ws && s.terminalId) { const c = L.terminalClose(s.ws, s.terminalId); L.event(state, { task: t.id, type: 'worker-closed', msg: c.rc ? 'не закрылся: ' + String(c.error || '').slice(0, 80) : 'терминал ' + s.terminalId + ' закрыт после merge' }); } L.event(state, { task: t.id, type: 'merged', msg: `${pr.url} (приёмка раунд ${a.n})` }); return; }
   a.verdict = verdict;
   if (verdict === 'REJECTED') { L.event(state, { task: t.id, type: 'rejected', msg: `раунд ${a.n}: ${a.findings}` }); fixRound(cfg, state, t, a.findings); return; }
   if (verdict === 'MERGED') { L.event(state, { task: t.id, type: 'accept-claim-unverified', msg: 'приёмщик написал MERGED, GitHub не подтвердил — повтор' }); }
