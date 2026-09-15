@@ -60,9 +60,28 @@ describe("targetLocale", () => {
   it("falls back to an enabled locale when even the default is not one", () => {
     expect(targetLocale("/de/products/x", ["en"], "ru")).toBe("en");
   });
+
+  it("keeps the address's own locale when the shop saved no settings at all", () => {
+    // The live Cherkashina tenant: `locale_settings: null`, `/ru` answers 200.
+    expect(targetLocale("/ru/ru/products/x", null, "en")).toBe("ru");
+    expect(targetLocale("/ru/ru/products/x", [], "en")).toBe("ru");
+  });
+
+  it("uses the deployment default when an unset shop's address carries no locale", () => {
+    expect(targetLocale("/products/x", null, "ru")).toBe("ru");
+    expect(targetLocale("/shop/products/x", null, "ru")).toBe("ru");
+  });
 });
 
 describe("deriveMigratedRedirects", () => {
+  it("sends a Russian old address to the Russian new one on a shop with no saved locales", () => {
+    const { rows } = deriveMigratedRedirects([product("zubnaya-pasta")], {
+      enabledLocales: null,
+      defaultLocale: "en",
+    });
+    expect(rows[0].to_path).toBe("/ru/products/zubnaya-pasta-cherkashino");
+  });
+
   it("turns a product's own metadata into a 301 to its current handle", () => {
     const { rows, sources, unmapped } = deriveMigratedRedirects([product("zubnaya-pasta")], options);
     expect(unmapped).toEqual([]);

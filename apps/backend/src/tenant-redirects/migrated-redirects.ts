@@ -72,26 +72,45 @@ export const sourcePathOf = (value: unknown): string | null => {
   }
 };
 
+const LOCALE_SEGMENT = /^[a-z]{2}(?:-[A-Za-z0-9]{2,8})?$/;
+
 /**
  * Which locale segment the NEW address gets.
  *
  * The old shop's own locale stands in its path (olavka.ru answered on
  * `/ru/ru/products/<handle>`, the doubled segment of its Astro router), and it
  * is the honest first guess: a visitor arriving from a Russian page wants the
- * Russian one. It is used only when this shop actually answers in it —
- * otherwise the shop's default locale is, because a redirect into a language
- * the shop does not serve is a second 404 one hop later.
+ * Russian one.
+ *
+ * `enabledLocales` is `null` for a shop that has never saved a locale setting
+ * — which is what the LIVE Cherkashina tenant is: `GET /tenants/locale-settings`
+ * answered `{"locale_settings": null}` on 2026-09-15 while
+ * `https://cherkashino.shipshift.dev/ru/pages/contacts` answered 200. Reading
+ * that absence as "this shop offers `en`" (the `["en"]` fallback of
+ * `getTenantEnabledLocales`) would have sent every Russian address of the
+ * migration to `/en/...`, so an unset list means "no restriction saved":
+ * the source locale is kept when it looks like a locale at all, and the
+ * deployment's own default (`STOREFRONT_DEFAULT_LOCALE`) is the fallback.
+ *
+ * A shop that HAS saved the list is taken at its word: a redirect into a
+ * language it does not offer would be a second 404 one hop later.
  */
 export const targetLocale = (
   fromPath: string,
-  enabledLocales: string[],
+  enabledLocales: string[] | null,
   defaultLocale: string,
 ): string => {
   const first = fromPath.split("/").filter(Boolean)[0];
+
+  if (!enabledLocales || enabledLocales.length === 0) {
+    return first && LOCALE_SEGMENT.test(first) ? first : defaultLocale;
+  }
+
   if (first && enabledLocales.includes(first)) {
     return first;
   }
-  return enabledLocales.includes(defaultLocale) ? defaultLocale : (enabledLocales[0] ?? defaultLocale);
+
+  return enabledLocales.includes(defaultLocale) ? defaultLocale : enabledLocales[0];
 };
 
 /**
@@ -107,7 +126,8 @@ export const targetLocale = (
 export const deriveMigratedRedirects = (
   resources: MigratedResource[],
   options: {
-    enabledLocales: string[];
+    /** `null` when the shop has saved no locale settings — see `targetLocale`. */
+    enabledLocales: string[] | null;
     defaultLocale: string;
     /** ISO timestamp per `migrated_from` source, from `tenant.metadata`. */
     seededAt?: Record<string, string> | null;

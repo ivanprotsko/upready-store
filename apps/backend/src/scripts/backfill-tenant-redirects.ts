@@ -3,6 +3,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import tenantProductLink from "../links/tenant-product";
 import tenantProductCategoryLink from "../links/tenant-product-category";
 import { TENANT_MODULE } from "../modules/tenant";
+import { storeDefaultLocale } from "../shipping-tariffs/default-method-names";
 import type TenantModuleService from "../modules/tenant/service";
 import {
   deriveMigratedRedirects,
@@ -32,8 +33,8 @@ import {
  * altogether.
  *
  *   npx medusa exec ./src/scripts/backfill-tenant-redirects.ts
- *   npx medusa exec ./src/scripts/backfill-tenant-redirects.ts --dry-run
- *   npx medusa exec ./src/scripts/backfill-tenant-redirects.ts --tenant=cherkashino --force
+ *   npx medusa exec ./src/scripts/backfill-tenant-redirects.ts dry-run
+ *   npx medusa exec ./src/scripts/backfill-tenant-redirects.ts tenant=cherkashino force
  */
 /** Just the slice of the framework's Query this script uses. */
 type GraphQuery = {
@@ -49,10 +50,14 @@ export default async function backfillTenantRedirects({ container, args }: ExecA
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
 
+  // Bare words, no leading dashes: `medusa exec` parses its OWN argv first and
+  // answers «Unknown arguments: dry-run» to a `--dry-run` meant for the script
+  // (measured 2026-09-15, medusa CLI 2.19) — the same shape
+  // `import-cherkashino-redirects.ts` already takes.
   const argv = args ?? [];
-  const dryRun = argv.includes("--dry-run") || argv.includes("dry-run");
-  const force = argv.includes("--force");
-  const onlyHandle = argv.find((a) => a.startsWith("--tenant="))?.slice("--tenant=".length) ?? null;
+  const dryRun = argv.includes("dry-run");
+  const force = argv.includes("force");
+  const onlyHandle = argv.find((a) => a.startsWith("tenant="))?.slice("tenant=".length) ?? null;
 
   const { data: tenants } = await query.graph({
     entity: "tenant",
@@ -77,15 +82,23 @@ export default async function backfillTenantRedirects({ container, args }: ExecA
       continue;
     }
 
+    // An ABSENT locale-settings row is "nothing saved", not "this shop is in
+    // English": the live Cherkashina tenant has none and answers on `/ru`
+    // (measured 2026-09-15). `getTenantEnabledLocales`'s `["en"]` fallback is
+    // right where a rename must mint a row per language and wrong here, so
+    // this script passes the absence through as `null` and lets `targetLocale`
+    // keep the address's own locale.
     const [settings] = await tenantModuleService.listTenantLocaleSettings({ tenant_id: tenant.id });
-    const enabledLocales = ((settings?.enabled_locales as unknown as string[] | undefined) ?? ["en"]).filter(
-      (locale): locale is string => typeof locale === "string" && locale.length > 0,
-    );
-    const defaultLocale = (settings?.default_locale as string | undefined) ?? enabledLocales[0] ?? "en";
+    const saved = (settings?.enabled_locales as unknown as string[] | undefined) ?? null;
+    const enabledLocales = saved
+      ? saved.filter((locale): locale is string => typeof locale === "string" && locale.length > 0)
+      : null;
+    const defaultLocale =
+      (settings?.default_locale as string | undefined) ?? storeDefaultLocale();
 
     const seededAt = force ? {} : readSeededMarker(tenant.metadata);
     const { rows, sources, unmapped } = deriveMigratedRedirects(resources, {
-      enabledLocales: enabledLocales.length ? enabledLocales : ["en"],
+      enabledLocales: enabledLocales?.length ? enabledLocales : null,
       defaultLocale,
       seededAt,
     });
