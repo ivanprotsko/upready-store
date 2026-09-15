@@ -645,7 +645,8 @@
       "groups": "Группы",
       "guest": "Гость",
       "registered": "Зарегистрирован",
-      "totalSpent": "Сумма покупок"
+      "totalSpent": "Сумма покупок",
+      "canceledOrders": "+{{count}} отменённых"
     },
     "groups": {
       "add": {
@@ -2986,7 +2987,8 @@
     "topProductRow": "{{quantity}} шт — {{revenue}}",
     "noSalesThisPeriod": "За этот период продаж не было",
     "loading": "Загрузка…",
-    "noOrdersYet": "Заказов пока нет"
+    "noOrdersYet": "Заказов пока нет",
+    "canceledNote": "Отменённых заказов за период: {{count}} на {{amount}}. В выручку они не входят."
   },
   "sales_channels": {
     "availableIn": "Доступно в <0>{{x}}</0> из <1>{{y}}</1> каналов продаж"

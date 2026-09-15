@@ -58,6 +58,8 @@ export type TenantCustomerRow = {
   has_account: boolean
   created_at: string
   orders_count: number
+  /** Orders this customer placed that were cancelled: out of `orders_count` and `total_spent`. */
+  canceled_orders_count: number
   total_spent: number
   currency_code: string | null
   last_order_at: string | null

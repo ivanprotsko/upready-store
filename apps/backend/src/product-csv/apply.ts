@@ -32,7 +32,7 @@ import createTenantProductWorkflow from "../workflows/tenant/create-tenant-produ
 import createTenantProductCategoryWorkflow from "../workflows/tenant/create-tenant-product-category";
 import { tenantFilePrefix } from "../tenant-files";
 import type { CatalogProduct, CatalogSnapshot, CatalogVariant } from "./catalog";
-import { normalizeHeader } from "./columns";
+import { matchMetadataKey, normalizeHeader } from "./columns";
 import { fetchImage } from "./images";
 import type { ImageOutcome, ImportReport, PlannedRow } from "./plan";
 import { missingCategoryPaths } from "./plan";
@@ -552,7 +552,18 @@ const updateProductFields = async ({
   if (Object.keys(draft.metadata).length > 0) {
     // Merged, never replaced: the file carries the keys the owner edited, and
     // `updateProductsWorkflow` writes the whole metadata object as given.
-    update.metadata = { ...product.metadata, ...draft.metadata };
+    //
+    // Each key is written under the spelling the PRODUCT already uses
+    // (`matchMetadataKey`): a header the export wrote as
+    // «Метаданные: pricelistPositions» must update that key and not add a
+    // lowercase twin beside it (b01-owner-numbers).
+    const metadata: Record<string, unknown> = { ...product.metadata };
+
+    for (const [key, value] of Object.entries(draft.metadata)) {
+      metadata[matchMetadataKey(product.metadata, key)] = value;
+    }
+
+    update.metadata = metadata;
   }
   if (imageUrls && imageUrls.length > 0) {
     update.images = imageUrls.map((url) => ({ url }));

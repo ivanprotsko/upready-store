@@ -97,6 +97,54 @@ describe("product-csv/plan", () => {
     expect(report.rows[0].image_urls).toEqual([]);
   });
 
+  it("stays unchanged on a round trip of a catalogue whose data is not tidy", () => {
+    // Both shapes are the live shop's, measured on a clone of the platform
+    // database (b01-owner-numbers): descriptions imported from the old store
+    // keep leading and trailing whitespace, and one metadata key is spelled
+    // with a capital letter. The export writes them out as they are; the
+    // import trims every cell and used to lowercase the key in the header, so
+    // 20 of 41 rows came back as "changed" after an edit of three of them.
+    const state = snapshot({
+      products: [
+        product({
+          description: "  Антисептик стимулятор Дорогова. \n\n  Принимать по схеме. ",
+          metadata: { pricelistPositions: [8], производитель: "ООО Ромашка" },
+        }),
+      ],
+      metadata_keys: ["pricelistPositions", "производитель"],
+    });
+
+    const report = plan(snapshotToCsv(state), state);
+
+    expect(report.fatal).toEqual([]);
+    expect(report.rows[0].changes).toEqual([]);
+    expect(report.summary.unchanged).toBe(1);
+    expect(report.summary.update).toBe(0);
+  });
+
+  it("plans a metadata edit against the key the product already has", () => {
+    const state = snapshot({
+      products: [product({ metadata: { pricelistPositions: [8] } })],
+      metadata_keys: ["pricelistPositions"],
+    });
+
+    // The owner typed the header in lower case, as a spreadsheet or another
+    // system might. It is the SAME key, and the change is planned on it — not
+    // on a new key that would sit next to the old one forever.
+    const report = plan(
+      [
+        "Код товара;SKU;Метаданные: pricelistpositions",
+        "asd-15;A-100;[9]",
+      ].join("\n"),
+      state,
+    );
+
+    expect(report.fatal).toEqual([]);
+    expect(report.rows[0].changes).toEqual([
+      { field: "Метаданные: pricelistPositions", from: "[8]", to: "[9]" },
+    ]);
+  });
+
   it("stays unchanged on a round trip of a catalogue with ten products", () => {
     const products = Array.from({ length: 10 }, (_unused, index) =>
       product({
