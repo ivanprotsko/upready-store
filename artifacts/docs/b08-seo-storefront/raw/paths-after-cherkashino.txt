@@ -54,8 +54,12 @@
 /ru/pages/about
 /ru/pages/contacts
 /ru/pages/delivery
+/ru/pages/faq
+/ru/pages/legal
 /ru/pages/offer
 /ru/pages/privacy
+/ru/pages/returns
+/ru/pages/terms
 /ru/products/antiseptikom-stumulyatorom-dorogova-tabletki-60-shtuk-cherkashino
 /ru/products/asd-2-fraktsiya-armavir-dorogova-cherkashino
 /ru/products/gepachisty-cherkashino

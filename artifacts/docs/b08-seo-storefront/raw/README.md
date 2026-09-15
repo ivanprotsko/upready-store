@@ -6,7 +6,7 @@
 | Файл | Что это |
 |---|---|
 | `paths-before-cherkashino.txt`, `paths-before-acme.txt` | все пути sitemap двух тенантов ДО фикса (1481 и 1405 строк, 36 языков) |
-| `sitemap-after-*.xml`, `paths-after-*.txt` | то же ПОСЛЕ (88 и 79 адресов, 2 языка) |
+| `sitemap-after-*.xml`, `paths-after-*.txt` | то же ПОСЛЕ (92 и 79 адресов, 2 языка) |
 | `collections-api.txt` | ответы `/store/collections` и `/store/tenant/collections` для обоих тенантов |
 | `redirects-after.txt` | коды ответа и Location для старых адресов `page`, `legacy_page` и каталога |
-| `leak-sweep-after.txt` | обход всех 88 адресов sitemap + поиск и корзина на вхождения `olavka.ru` |
+| `leak-sweep-after.txt` | обход всех 92 адресов sitemap + поиск и корзина на вхождения `olavka.ru` |

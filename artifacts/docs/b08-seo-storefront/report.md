@@ -1,6 +1,7 @@
 # b08-seo-storefront — отчёт
 
-Написан 2026-09-16 00:53 WITA. Ветка `fix/day16-seo-storefront`, база `dev` (после мержа `b02` и `b06`).
+Написан 2026-09-16 00:53 WITA, замеры пересняты после мержа `dev` в 01:05 WITA.
+Ветка `fix/day16-seo-storefront`, база `dev` (в неё к этому моменту влиты `b02`, `b06` и `b14`).
 Источники задачи: `handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck/gap-recheck.md` §7 и
 `.../accept-t11-seo-redirects-3/REPORT.md` «Нитки», пункты 5 и 6.
 
@@ -41,7 +42,7 @@
 
 ```
                           ДО (код dev)            ПОСЛЕ
-cherkashino sitemap.xml   1481 <loc>, 36 языков   88 <loc>, 2 языка (en, ru)
+cherkashino sitemap.xml   1481 <loc>, 36 языков   92 <loc>, 2 языка (en, ru)
 acme sitemap.xml          1405 <loc>, 36 языков   79 <loc>, 2 языка (en, ru)
 hreflang в карточке       37 ссылок               3 (x-default, en, ru)
 ```
@@ -201,34 +202,57 @@ backfill-tenant-redirects: done — 0 written across 0 tenant(s)
 
 # завели одну недостающую страницу (фикстура b08-seed-delivery-page.ts) и прогнали снова
 backfill-tenant-redirects: cherkashino — 1 written (0 catalogue, 1 pages)
+
+# влили dev, в нём приехал b14-pages-legal-content; прогнали ЕГО скрипт и снова наш
+seed-cherkashino-pages: cherkashino — 4 created (returns, faq, terms, legal), 1 left as they are (delivery)
+backfill-tenant-redirects: cherkashino — 2 written (0 catalogue, 2 pages), 0 already present, 7 unmapped
+select count(*) from tenant_redirect → 55   (47 каталог b02 + 8 страниц)
 ```
+
+Последние две строки — главное доказательство, что механизм живой: чужая задача завела страницы, а
+**наш деплойный скрипт дописал два 301 сам, без единой правки кода**.
 
 Ответы витрины (прод-сборка), `raw/redirects-after.txt`:
 
 ```
-                          ДО      ПОСЛЕ
-/ru/ru/contact            404  →  301 → /ru/pages/contacts
-/ru/ru/terms              404  →  301 → /ru/pages/offer
-/ru/ru/privacy            404  →  301 → /ru/pages/privacy
-/ru/ru/about              404  →  301 → /ru/pages/about
-/ru/en/about              404  →  301 → /en/pages/about
-/ru/ru/delivery           404  →  301 → /ru/pages/delivery   (после того как страница заведена)
-/ru/ru/faq                404  →  404   страницы нет
-/ru/ru/returns            404  →  404   страницы нет
-/ru/ru/consent            404  →  404   страницы нет
-/ru/ru/wholesale          404  →  404   страницы нет
-/ru/ru/pages/asd-istoriya 404  →  404   адрес чужого домена asd2-3.com, редиректу неоткуда взяться
-/ru/ru/pages/otzyvy       404  →  404   то же
-/ru/ru/pages/kupit-asd    404  →  404   то же
-# каталог b02, контроль — не трогали
+все 15 адресов kind=page            ДО      ПОСЛЕ
+/ru/ru/contact                      404  →  301 → /ru/pages/contacts
+/ru/ru/terms                        404  →  301 → /ru/pages/offer
+/ru/ru/privacy                      404  →  301 → /ru/pages/privacy
+/ru/ru/about                        404  →  301 → /ru/pages/about
+/ru/en/about                        404  →  301 → /en/pages/about
+/ru/ru/delivery                     404  →  301 → /ru/pages/delivery
+/ru/ru/faq                          404  →  301 → /ru/pages/faq
+/ru/ru/returns                      404  →  301 → /ru/pages/returns
+/ru/ru/consent                      404  →  404   страницы нет
+/ru/ru/consent-marketing            404  →  404   страницы нет
+/ru/ru/return-memo                  404  →  404   страницы нет
+/ru/ru/wholesale                    404  →  404   страницы нет
+/ru/en/delivery, /ru/en/faq,
+/ru/en/wholesale                    404  →  404   английских версий этих страниц нет
+
+kind=legacy_page (3 из 39)
+/ru/ru/pages/asd-istoriya           404  →  404   адрес чужого домена asd2-3.com, редиректу неоткуда взяться
+/ru/ru/pages/otzyvy                 404  →  404   то же
+/ru/ru/pages/kupit-asd              404  →  404   то же
+
+каталог b02, контроль — не трогали
 /ru/ru/products/svechi-asd-s-chesnokom-10-sht → 301 → /ru/products/svechi-asd-s-chesnokom-10-sht-cherkashino
 /ru/ru/categories/dobavki                     → 301 → /ru/categories/dobavki-cherkashino
 ```
 
-Девять адресов остаются 404, потому что страниц `faq`, `returns`, `consent`, `consent-marketing`,
-`return-memo`, `wholesale` у магазина нет. Их заведение — задача `b14-pages-legal-content`
-(«delivery/faq/returns дают 404»), и как только она их заведёт, деплой сам допишет девять 301.
-Каждый такой адрес деплой пишет в лог отдельной строкой, а не молчит:
+**8 из 15 адресов `page` отдают 301** (было 0). Три из восьми — `delivery`, `faq`, `returns` — появились
+ровно так, как задумано: страницы завела чужая задача `b14`, а наш скрипт дописал редиректы на
+следующем прогоне.
+
+Оговорка про `/ru/ru/terms`. `b14` завёл отдельную страницу с ключом `terms` («Условия использования»),
+но старый адрес `/ru/ru/terms` ведёт на `/ru/pages/offer`: по реестру миграции содержимое старой
+страницы `terms` (файл `offer.ts` старого репозитория) уехало именно в `offer`. Редирект ведёт туда,
+где лежит ТОТ ЖЕ текст, а не туда, где совпало имя ключа.
+
+Семь адресов остаются 404, потому что страниц `consent`, `consent-marketing`, `return-memo`,
+`wholesale` (и английских `delivery`, `faq`, `wholesale`) у магазина нет. Каждый такой адрес деплой
+пишет в лог отдельной строкой, а не молчит:
 
 ```
 backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/faq: the shop has no published page
@@ -270,11 +294,11 @@ SEO-переопределения товара (`util/tenant-seo.ts`) и кар
 
 ### Замер после фикса
 
-Обход ВСЕХ 88 адресов из sitemap магазина плюс поиск и корзина, прод-сборка витрины
+Обход ВСЕХ 92 адресов из sitemap магазина плюс поиск и корзина, прод-сборка витрины
 (`next build` + `next start`), `raw/leak-sweep-after.txt`:
 
 ```
-страниц пройдено: 90, вхождений olavka.ru суммарно: 0
+страниц пройдено: 94, вхождений olavka.ru суммарно: 0
 ```
 
 Поштучно, в форме критерия приёмки:
@@ -287,7 +311,7 @@ migrated_from, source_handle в HTML карточки: 67 / 65 → 0 / 0
 ```
 
 Оговорка про dev-сервер: при `next dev` первый (холодный) рендер маршрута иногда ещё отдавал 2
-вхождения, повтор того же адреса — 0; на прод-сборке 0 на всех 90 адресах с первого запроса. Замеры
+вхождения, повтор того же адреса — 0; на прод-сборке 0 на всех 94 адресах с первого запроса. Замеры
 в отчёте сняты на прод-сборке.
 
 ---
@@ -298,11 +322,11 @@ migrated_from, source_handle в HTML карточки: 67 / 65 → 0 / 0
 |---|---|
 | `apps/storefront` `npx tsc --noEmit` | rc=0 |
 | `apps/storefront` `npx next build` (тянет tsc + next lint) | rc=0, 1 предупреждение — предсуществующее `no-img-element` в `yandex-metrica` |
-| `apps/storefront` `pnpm test:unit` (vitest) | `Test Files 26 passed (26)`, `Tests 241 passed (241)` |
+| `apps/storefront` `pnpm test:unit` (vitest, после мержа `dev`) | `Test Files 26 passed (26)`, `Tests 245 passed (245)` |
 | из них три новых файла отдельно | `Test Files 3 passed (3)`, `Tests 16 passed (16)` |
 | `apps/backend` `npx tsc --noEmit` | rc=0 |
 | `apps/backend` `npx medusa lint` | `0 errors, 70 warnings` — все предсуществующие (`use-medusa-error-not-generic-error`) |
-| `apps/backend` `pnpm test:unit` | `Tests: 1 failed, 361 passed, 362 total` — падает `migration-scripts/__tests__/profile-data.unit.spec.ts` |
+| `apps/backend` `pnpm test:unit` (после мержа `dev`) | `Tests: 1 failed, 384 passed, 385 total` — падает `migration-scripts/__tests__/profile-data.unit.spec.ts` |
 | то же падение на `dev` | **предсуществующее**: файлов `migration-scripts/**` эта ветка не касается, и приёмка `t11` (раунд 3) зафиксировала ровно это падение на `dev` 2026-09-15. Чинит `b15-quality-debt` |
 | `apps/backend` `npx jest --testPathPattern tenant-redirects` | `Test Suites: 4 passed`, `Tests: 35 passed, 35 total` |
 | `apps/backend` seam `tenants-collections.spec.ts` (`TEST_TYPE=integration:http`, `DB_HOST=localhost DB_PORT=5433 PORT=9308`) | `Tests: 4 passed, 4 total` |
@@ -326,7 +350,7 @@ npx medusa exec ./src/scripts/backfill-tenant-locale-settings.ts
 npx medusa exec ./src/scripts/backfill-tenant-redirects.ts     # ждём «5 written (0 catalogue, 5 pages)»
 
 # 3. sitemap: языки и пересечение
-curl -s http://cherkashino.localhost:82NN/sitemap.xml | grep -c '<loc>'
+curl -s http://cherkashino.localhost:82NN/sitemap.xml | grep -c '<loc>'   # 92, не 1481
 curl -s http://cherkashino.localhost:82NN/sitemap.xml | grep -o '<loc>[^<]*' | sed -E 's|.*//[^/]+/([a-z-]+).*|\1|' | sort -u   # en ru
 # пересечение путей двух магазинов — только /ru /en /ru/store /en/store
 
@@ -342,9 +366,11 @@ curl -sI http://cherkashino.localhost:82NN/ru/ru/pages/asd-istoriya | head -1   
 
 1. **39 `legacy_page` без 301** — их единственный адрес принадлежит `asd2-3.com`, чужому сайту;
    у старой витрины магазина маршрута для этих слагов не было. Замер в §3, закреплён тестом.
-2. **Девять адресов `page` остаются 404** — страниц `faq`, `returns`, `consent`, `consent-marketing`,
-   `return-memo`, `wholesale` у магазина нет. Заводит их `b14-pages-legal-content`; механизм готов и
-   подхватит их сам.
+2. **Семь адресов `page` остаются 404** — страниц `consent`, `consent-marketing`, `return-memo`,
+   `wholesale` и английских версий `delivery`/`faq`/`wholesale` у магазина нет. Ни я, ни `b14` их не
+   заводили (это юридические согласия и оптовый раздел — тексты решает владелица). Механизм готов:
+   как только страница появится, ближайший деплой допишет её 301 сам, что уже подтверждено на трёх
+   страницах `b14`.
 3. **На живом магазине sitemap останется 36-язычным**, пока тенанту не поставят `enabled_locales`
    (одна команда, §1). Подключать этот скрипт к каждому старту контейнера я не стал: это меняет
    переключатель языков у всех магазинов платформы, и это решение деплоя или Ивана.
