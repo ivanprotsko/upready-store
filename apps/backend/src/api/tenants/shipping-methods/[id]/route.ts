@@ -3,7 +3,7 @@ import { MedusaError } from "@medusajs/framework/utils";
 import deleteTenantShippingMethodWorkflow from "../../../../workflows/tenant/shipping-methods/delete-tenant-shipping-method";
 import updateTenantShippingMethodWorkflow from "../../../../workflows/tenant/shipping-methods/update-tenant-shipping-method";
 import { normaliseTariff, TENANT_METHOD_SCHEMA, type TenantMethodData } from "../../../../shipping-tariffs/tariff";
-import { assertOwnedMethod, getTenantWarehouse, providerFor } from "../helpers";
+import { assertOwnedMethod, getTenantWarehouse, labelledZone, providerFor } from "../helpers";
 import type { PostTenantShippingMethodUpdateBody } from "../validators";
 
 /**
@@ -38,8 +38,11 @@ export const POST = async (
     body.zone === undefined
       ? current.zone
       : body.zone
-        ? { country_code: body.zone.country_code.toLowerCase(), provinces: body.zone.provinces ?? [] }
+        ? labelledZone(body.zone.country_code, body.zone.provinces ?? [])
         : null;
+  // A zone that stayed as it was still gets its name refreshed: a method saved
+  // before zones had names carries none, and the checkout reads it from here.
+  const labelled = zone ? labelledZone(zone.country_code, zone.provinces) : null;
 
   const data: TenantMethodData = {
     schema: TENANT_METHOD_SCHEMA,
@@ -49,7 +52,8 @@ export const POST = async (
     sort_order: current.sort_order,
     default_weight_g: warehouse.default_weight_g,
     own_zone: current.own_zone,
-    zone,
+    zone: labelled,
+    carrier: body.carrier === undefined ? current.carrier : (body.carrier ?? null),
     // «Confirmed» means the owner sent a tariff of her own. Flipping the
     // method on or off, or renaming it, leaves the badge on the list where it
     // is — that edit says nothing about the price.

@@ -83,6 +83,14 @@ export const tariffSummary = (
   }
 }
 
+/**
+ * The zone as the list shows it. The backend names every zone it saves
+ * (`zone.label`, «Урал»), so the panel prints that name rather than counting
+ * regions again; the count below is for a method saved before zones had names.
+ */
+export const methodZoneSummary = (method: TenantShippingMethod): string =>
+  method.zone_label || zoneSummary(method.zone)
+
 export const zoneSummary = (zone: MethodZone | null): string => {
   if (!zone) {
     return "Все страны магазина"
@@ -102,3 +110,13 @@ export const zoneSummary = (zone: MethodZone | null): string => {
 
 export const methodSummary = (method: TenantShippingMethod): string =>
   tariffSummary(method.tariff, method.currency_code)
+
+export const CARRIER_LABEL: Record<string, string> = {
+  cdek: "СДЭК",
+  post_ru: "Почта России",
+  courier: "Свой курьер",
+  pickup: "Самовывоз",
+}
+
+export const carrierLabel = (key: string | null): string | null =>
+  key ? (CARRIER_LABEL[key] ?? key) : null

@@ -30,6 +30,8 @@ export type MethodZone = {
   country_code: string
   /** Region strings as the backend's ru-regions list spells them; empty = the whole country. */
   provinces: string[]
+  /** Human name of the zone («Урал»), written by the backend on every save. */
+  label?: string | null
 }
 
 export type TenantShippingMethod = {
@@ -43,6 +45,10 @@ export type TenantShippingMethod = {
   tariff_source: "provisioned-default" | null
   /** `null` = every country the shop ships to. */
   zone: MethodZone | null
+  /** The zone's name as the buyer reads it; always filled by the backend. */
+  zone_label: string
+  /** Delivery service key (`cdek`, `post_ru`, `courier`, `pickup`), or null. */
+  carrier: string | null
   sort_order: number
   price_type: "flat" | "calculated"
   provider_id: string
@@ -72,7 +78,57 @@ export type ShippingMethodBody = {
   delivery_hint?: string | null
   enabled: boolean
   zone: MethodZone | null
+  carrier?: string | null
   tariff: ShippingTariff
+}
+
+// b03-shipping-zones-weight: ready-made Russian zones and the carriers a
+// method can name. Backend: apps/backend/src/api/tenants/shipping-methods/zone-presets.
+
+export type ShippingCarrier = {
+  key: string
+  label: string
+  method_name: string
+  description: string
+  delivery_hint: string | null
+  /** One paragraph for the owner: what she does by hand for this carrier. */
+  instruction: string
+  tracking_hint: string | null
+}
+
+export type ZonePreset = {
+  key: string
+  name: string
+  description: string
+  regions: { code: string; name: string }[]
+  provinces: string[]
+}
+
+export type ZonePresetsResponse = {
+  currency_code: string
+  carriers: ShippingCarrier[]
+  presets: ZonePreset[]
+  existing_names: string[]
+}
+
+export type ZonePresetsBody = {
+  carrier: string
+  name?: string | null
+  description?: string | null
+  delivery_hint?: string | null
+  enabled: boolean
+  zones: {
+    key: string
+    base_amount: number
+    per_kg_amount: number
+    min_weight_g?: number | null
+  }[]
+}
+
+export type ZonePresetsResult = {
+  created: { key: string; name: string; id: string }[]
+  skipped: { key: string; name: string; reason: string }[]
+  methods: TenantShippingMethod[]
 }
 
 const SHIPPING_METHODS_QUERY_KEY = "tenant-shipping-methods" as const
@@ -142,6 +198,34 @@ export const useShippingRegions = (countryCode: string | null) => {
 
   return { regions: data?.regions ?? [], ...rest }
 }
+
+export const useZonePresets = () => {
+  const { data, ...rest } = useQuery({
+    queryFn: () =>
+      sdk.client.fetch<ZonePresetsResponse>(
+        "/tenants/shipping-methods/zone-presets"
+      ),
+    queryKey: [SHIPPING_METHODS_QUERY_KEY, "zone-presets"],
+  })
+
+  return { ...data, ...rest }
+}
+
+export const useCreateZoneMethods = (
+  options?: UseMutationOptions<ZonePresetsResult, FetchError, ZonePresetsBody>
+) =>
+  useMutation({
+    mutationFn: (payload) =>
+      sdk.client.fetch<ZonePresetsResult>(
+        "/tenants/shipping-methods/zone-presets",
+        { method: "POST", body: payload }
+      ),
+    onSuccess: (data, variables, context) => {
+      invalidate()
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
 
 export const useCreateShippingMethod = (
   options?: UseMutationOptions<

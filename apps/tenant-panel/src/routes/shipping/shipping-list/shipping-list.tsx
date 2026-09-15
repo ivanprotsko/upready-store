@@ -25,7 +25,12 @@ import {
   useUpdateShippingSettings,
   type TenantShippingMethod,
 } from "../../../hooks/api/shipping-methods"
-import { TARIFF_KIND_LABEL, tariffSummary, zoneSummary } from "../labels"
+import {
+  TARIFF_KIND_LABEL,
+  carrierLabel,
+  methodZoneSummary,
+  tariffSummary,
+} from "../labels"
 
 // t04-shipping-tariffs: the panel's own /shipping screen, no Admin
 // counterpart. The list IS the order the checkout shows the methods in; the
@@ -185,14 +190,20 @@ export const ShippingList = () => {
               покупатель видит слово в слово.
             </Text>
           </div>
-          <Button size="small" variant="secondary" asChild>
-            <Link to="create">Добавить способ</Link>
-          </Button>
+          <div className="flex items-center gap-x-2">
+            <Button size="small" variant="secondary" asChild>
+              <Link to="zones">Зоны по России</Link>
+            </Button>
+            <Button size="small" variant="secondary" asChild>
+              <Link to="create">Добавить способ</Link>
+            </Button>
+          </div>
         </div>
         {methods.length === 0 ? (
           <div className="px-6 py-8">
             <Text size="small" className="text-ui-fg-subtle">
-              Способов доставки пока нет. Пока их нет, покупатель не сможет оформить заказ.
+              Способов доставки пока нет. Пока их нет, покупатель не сможет оформить заказ. Быстрее всего
+              начать с кнопки «Зоны по России»: она создаст по способу на каждую зону с ценой за килограмм.
             </Text>
           </div>
         ) : (
@@ -238,6 +249,11 @@ export const ShippingList = () => {
                       <Text size="small" weight="plus">
                         {method.name}
                       </Text>
+                      {carrierLabel(method.carrier) && (
+                        <Text size="xsmall" className="text-ui-fg-muted">
+                          Служба: {carrierLabel(method.carrier)}
+                        </Text>
+                      )}
                       {method.description && (
                         <Text size="xsmall" className="text-ui-fg-subtle">
                           {method.description}
@@ -246,7 +262,7 @@ export const ShippingList = () => {
                     </div>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="small">{zoneSummary(method.zone)}</Text>
+                    <Text size="small">{methodZoneSummary(method)}</Text>
                   </Table.Cell>
                   <Table.Cell>
                     <div className="flex flex-col">

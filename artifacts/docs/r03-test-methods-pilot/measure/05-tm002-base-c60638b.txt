@@ -1,0 +1,13 @@
+ID      STATUS  NEW  KNOWN  SCANNED                                            
+------  ------  ---  -----  ---------------------------------------------------
+tm-002  RED     1    1      panelFiles=877 storefrontFiles=418 readerFiles=1711
+
+  RED  tm-002/owner-data-loses-to-build-defaults  apps/storefront/src/app/[locale]/(main)/page.tsx:68
+       `own` is built from the owner's own data and kept only when it holds 3 items or more; below that the page falls back to `profileCategoryTiles`, which is baked in at build time. The owner's single entry disappears with no message anywhere.
+       evidence: if (own.length >= 3) {
+
+  known tm-002/written-never-read  apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx:61  (r03-test-methods-pilot → штабу на заведение)
+       Живая находка, заведена этой задачей: форма профиля пишет выбор языка в user.metadata.language, а по умолчанию подставляет i18n.language (значение из браузера). Прочитать metadata.language не пытается никто — выбор владелицы не переживает вход с другого устройства. Починка — отдельная задача, здесь только замер.
+
+measured against c60638b (c60638b7da70fd49b769f776c6fd5bd93cb095cd), the working tree untouched.
+rc=1

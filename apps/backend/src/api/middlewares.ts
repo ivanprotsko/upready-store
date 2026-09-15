@@ -185,6 +185,7 @@ import {
   PostTenantShippingMethodsReorderSchema,
   PostTenantShippingMethodUpdateSchema,
   PostTenantShippingSettingsSchema,
+  PostTenantZonePresetsSchema,
 } from "./tenants/shipping-methods/validators";
 // ---- t09-reviews: moderation body (tenant side) and the storefront's form.
 import { PostTenantReviewSchema } from "./tenants/reviews/validators";
@@ -1225,6 +1226,12 @@ export default defineMiddlewares({
       matcher: "/tenants/shipping-methods/regions",
       method: ["GET"],
       middlewares: [validateAndTransformQuery(GetShippingRegionsSchema, {})],
+    },
+    {
+      // b03-shipping-zones-weight: one method per Russian zone in a single call.
+      matcher: "/tenants/shipping-methods/zone-presets",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantZonePresetsSchema)],
     },
     {
       matcher: "/tenants/shipping-methods/:id",

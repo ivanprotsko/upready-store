@@ -151,7 +151,8 @@
     "shippingLink": "配送",
     "shippingUnavailable": "利用可能な配送方法がありません",
     "signIn": "サインイン",
-    "total": "合計"
+    "total": "合計",
+    "shippingZone": "地域: {zone}"
   },
   "ClaimOrders": {
     "heading": "アカウントなしで注文しましたか？",

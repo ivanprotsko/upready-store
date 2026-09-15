@@ -151,7 +151,8 @@
     "shippingLink": "Levering",
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
     "signIn": "Log ind",
-    "total": "I alt"
+    "total": "I alt",
+    "shippingZone": "Zone: {zone}"
   },
   "ClaimOrders": {
     "heading": "Bestilte du uden konto?",

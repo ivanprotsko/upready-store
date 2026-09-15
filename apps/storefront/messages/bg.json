@@ -151,7 +151,8 @@
     "shippingLink": "Доставка",
     "shippingUnavailable": "Няма налични методи за доставка",
     "signIn": "Вход",
-    "total": "Общо"
+    "total": "Общо",
+    "shippingZone": "Зона: {zone}"
   },
   "ClaimOrders": {
     "heading": "Поръчали сте без регистрация?",

@@ -151,7 +151,8 @@
     "shippingLink": "Хүргэлт",
     "shippingUnavailable": "Хүргэлтийн боломжит арга алга",
     "signIn": "Нэвтрэх",
-    "total": "Нийт"
+    "total": "Нийт",
+    "shippingZone": "Бүс: {zone}"
   },
   "ClaimOrders": {
     "heading": "Бүртгэлгүйгээр захиалсан уу?",

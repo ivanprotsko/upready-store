@@ -638,6 +638,12 @@ const routes: RouteObject[] = [
                     lazy: () => import("./routes/shipping/shipping-create"),
                   },
                   {
+                    // b03-shipping-zones-weight: nine ready-made Russian zones,
+                    // one price per kilogram each, created in a single save.
+                    path: "zones",
+                    lazy: () => import("./routes/shipping/shipping-zones"),
+                  },
+                  {
                     path: ":id/edit",
                     lazy: () => import("./routes/shipping/shipping-edit"),
                   },
