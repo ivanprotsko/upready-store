@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 39,
+  "action": "status-set",
+  "ts": "2026-09-15T09:43:16+08:00",
+  "status": "2026-09-15 09:43 WITA: приёмка PR #35 t15-product-attributes раунд 2 — REJECTED: экран /products/:id/custom-attributes падает (useRouteModal вне провайдера), владелица не может заполнить значения; API/фасеты/витрина/изоляция/скорость замерены мной и зелены; шов 10/10, скриншот 04 в PR — страница ошибки"
+}

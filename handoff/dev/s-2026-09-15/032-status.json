@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 32,
+  "action": "status-set",
+  "ts": "2026-09-15T07:36:52+08:00",
+  "status": "2026-09-15 07:36 WITA: штаб дня Оксаны — найдены и убиты три параллельных экземпляра диспетчера (дубли запусков у 10 задач), движок починен: singleton, живой агент по экрану, приёмка без взаимной блокировки слотов, fix-round ждёт пуша; t09 получил нового агента с замечаниями, dev выровнен с origin/dev; счёт: merged 9, done 7, accepting 2, running 3, queued 14"
+}

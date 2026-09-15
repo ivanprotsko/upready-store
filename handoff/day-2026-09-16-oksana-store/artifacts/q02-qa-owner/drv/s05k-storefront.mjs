@@ -1,0 +1,18 @@
+import { launch, shot, timedGoto, save, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch();
+const n1 = await timedGoto(page, SHOP + '/ru/store', {waitUntil:'load'});
+await page.waitForTimeout(6000);
+const txt = await page.evaluate(()=>document.body.innerText);
+console.log('catalog status', n1.status, 'ms', n1.ms, 'hasTest', /ТЕСТ QA/.test(txt));
+const count = (txt.match(/₽/g)||[]).length;
+console.log('price marks on page:', count);
+await shot(page,'s05-catalog');
+const n2 = await timedGoto(page, SHOP + '/ru/products/' + encodeURIComponent('тест-qa-не-покупать'), {waitUntil:'load'});
+await page.waitForTimeout(5000);
+const t2 = await page.evaluate(()=>document.body.innerText);
+console.log('product page status', n2.status, 'ms', n2.ms);
+console.log(t2.replace(/\n{2,}/g,'\n').slice(0,900));
+await shot(page,'s05-storefront-product');
+save('s05-storefront.json',{n1,n2,hasTest:/ТЕСТ QA/.test(txt),t2:t2.slice(0,1500),errors});
+console.log('errors', JSON.stringify(errors.slice(0,5)));
+await browser.close();

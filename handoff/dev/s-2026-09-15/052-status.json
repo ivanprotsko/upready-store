@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 52,
+  "action": "status-set",
+  "ts": "2026-09-15T12:00:06+08:00",
+  "status": "2026-09-15 12:00 WITA: d03-deploy-mt-3 (headless -p, attempt 2) — сборка v2 завершена (образы mt-backend/storefront/panel Built, CreatedAt 05:19-05:24 CEST внутри окна), backend пересоздан и healthy (миграции волны 2 уже применены, сиды no-op), up -d оборвался на mt-panel/mt-storefront (Created, не запущены — backend не успел стать healthy до дедлайна compose), следующий шаг: повторить up -d без пересборки, затем бэкфиллы/health-sweep/пост-дамп/отчёт"
+}

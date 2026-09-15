@@ -1,0 +1,15 @@
+import { launch, shot, timedGoto, save, PANEL } from './lib.mjs';
+const { browser, page, errors } = await launch();
+await timedGoto(page, PANEL + '/promotions'); await page.waitForTimeout(7000);
+const t0=Date.now();
+await page.locator('a:has-text("Создать"), button:has-text("Создать")').first().click();
+await page.waitForTimeout(6000);
+console.log('openMs', Date.now()-t0, 'url', page.url());
+await shot(page,'s09-create-step1');
+const D = (await page.$$eval('[role=dialog]', e=>e.length)) ? page.locator('[role=dialog]').last() : page.locator('body');
+console.log((await D.innerText()).replace(/\n{2,}/g,'\n').slice(0,2000));
+const c = await page.evaluate(()=>{const ds=[...document.querySelectorAll('[role=dialog]')];const d=ds[ds.length-1]||document.body;
+ return [...d.querySelectorAll('input,textarea,select,button')].map(e=>({tag:e.tagName,name:e.name,type:e.type,ph:e.placeholder,t:(e.innerText||'').trim().slice(0,30)}));});
+console.log('CTRL', JSON.stringify(c).slice(0,2500));
+save('s09-create.json',{c,errors});
+await browser.close();

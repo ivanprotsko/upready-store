@@ -1,0 +1,14 @@
+acme <loc> count: 1693
+cherkashino <loc> count: 1008
+acme content urls: 1405 cherkashino content urls: 720
+intersection of content paths: 108
+sample intersecting content paths: ['/ar/collections/bestsellers-cherkashino', '/ar/collections/new', '/ar/collections/new-arrivals-cherkashino', '/bg/collections/bestsellers-cherkashino', '/bg/collections/new']
+total path intersection (incl. static): 396
+sample acme content: ['/ar/categories/night-2-cat', '/ar/collections/bestsellers-cherkashino']
+sample cherkashino content: ['/ar/categories/cubes-cherkashino', '/ar/categories/cylinders-cherkashino']
+products: acme=1260 cherkashino=360 intersection=0 []
+categories: acme=36 cherkashino=252 intersection=0 []
+pages: acme=1 cherkashino=0 intersection=0 []
+journal: acme=0 cherkashino=0 intersection=0 []
+collections: acme=108 cherkashino=108 intersection=108 ['/ar/collections/bestsellers-cherkashino', '/ar/collections/new']
+locales present in cherkashino sitemap: 36 ['ar', 'bg', 'bn', 'cs', 'da', 'de', 'el', 'en', 'es', 'fi']

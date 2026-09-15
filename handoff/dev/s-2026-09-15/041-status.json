@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 41,
+  "action": "status-set",
+  "ts": "2026-09-15T10:10:02+08:00",
+  "status": "2026-09-15 10:10 WITA: приёмка PR #35 t15-product-attributes раунд 3 — MERGED (46b52b7), обе находки раунда 2 закрыты своими замерами: экран заполнения открывается кликом, правка доезжает до карточки, фасеты и изоляция сверены с SQL"
+}

@@ -1,0 +1,1751 @@
+added in remote
+  their  100644 cb78353a309d346c714c5f6279d6004fca762531 apps/backend/integration-tests/http/tenants-locale-settings.spec.ts
+@@ -0,0 +1,196 @@
++import { medusaIntegrationTestRunner } from "@medusajs/test-utils";
++
++jest.setTimeout(180_000);
++
++/**
++ * Seam test of the tenant's language/currency defaults (t06-locale-currency):
++ * the write and read on `/tenants/locale-settings`, the ways a document is
++ * refused, and the field's arrival in the storefront's own bootstrap call,
++ * `GET /storefront/by-host`.
++ *
++ * Sibling of `tenants-home.spec.ts`, same runner facts: the database is
++ * restored from its post-`beforeAll` snapshot before every test, and
++ * `DB_HOST` must be the literal `localhost` or the runner forces SSL and
++ * nothing connects at all.
++ */
++type Tenant = {
++  id: string;
++  handle: string;
++  api_key: { id: string; token: string };
++};
++
++type Registered = {
++  token: string;
++  tenant: Tenant;
++};
++
++const PASSWORD = "supersecret";
++
++const document = (overrides: Record<string, unknown> = {}) => ({
++  default_locale: "ru",
++  enabled_locales: ["ru", "en"],
++  default_country: "ru",
++  ...overrides,
++});
++
++medusaIntegrationTestRunner({
++  testSuite: ({ api }) => {
++    describe("tenants: locale settings", () => {
++      let a: Registered;
++      let b: Registered;
++
++      const bearer = (token: string) => ({ headers: { authorization: `Bearer ${token}` } });
++
++      const failed = (promise: Promise<any>) => promise.catch((error) => error.response);
++
++      const registerTenant = async (handle: string, name: string): Promise<Registered> => {
++        const email = `admin@${handle}.test`;
++        const registration = await api.post("/auth/tenant/emailpass/register", {
++          email,
++          password: PASSWORD,
++        });
++        expect(registration.status).toBe(200);
++
++        const created = await api.post(
++          "/tenants",
++          { name, handle, admin: { email, first_name: name } },
++          bearer(registration.data.token),
++        );
++        expect(created.status).toBe(201);
++
++        const login = await api.post("/auth/tenant/emailpass", { email, password: PASSWORD });
++        expect(login.status).toBe(200);
++
++        return { token: login.data.token, tenant: created.data.tenant };
++      };
++
++      beforeAll(async () => {
++        a = await registerTenant("acme", "Acme");
++        b = await registerTenant("globex", "Globex");
++      });
++
++      it("answers null before anything is saved", async () => {
++        const read = await api.get("/tenants/locale-settings", bearer(a.token));
++        expect(read.status).toBe(200);
++        expect(read.data.locale_settings).toBeNull();
++      });
++
++      it("refuses an anonymous call", async () => {
++        const anonymous = await failed(api.get("/tenants/locale-settings"));
++        expect(anonymous.status).toBe(401);
++      });
++
++      it("saves a document and reads it back", async () => {
++        const saved = await api.put("/tenants/locale-settings", document(), bearer(a.token));
++        expect(saved.status).toBe(200);
++        expect(saved.data.locale_settings).toEqual(document());
++
++        const read = await api.get("/tenants/locale-settings", bearer(a.token));
++        expect(read.status).toBe(200);
++        expect(read.data.locale_settings).toEqual(document());
++      });
++
++      it("overwrites the one row rather than adding a second", async () => {
++        const first = await api.put("/tenants/locale-settings", document(), bearer(a.token));
++        expect(first.status).toBe(200);
++
++        const second = await api.put(
++          "/tenants/locale-settings",
++          document({ default_locale: "en", enabled_locales: ["en", "ru"], default_country: "us" }),
++          bearer(a.token),
++        );
++        expect(second.status).toBe(200);
++
++        const read = await api.get("/tenants/locale-settings", bearer(a.token));
++        expect(read.data.locale_settings.default_locale).toBe("en");
++        expect(read.data.locale_settings.default_country).toBe("us");
++      });
++
++      it("refuses a locale code the storefront does not ship with 400", async () => {
++        const rejected = await failed(
++          api.put(
++            "/tenants/locale-settings",
++            document({ default_locale: "xx", enabled_locales: ["xx"] }),
++            bearer(a.token),
++          ),
++        );
++        expect(rejected.status).toBe(400);
++      });
++
++      it("refuses enabled_locales that omits default_locale with 400", async () => {
++        const rejected = await failed(
++          api.put(
++            "/tenants/locale-settings",
++            document({ default_locale: "de", enabled_locales: ["ru", "en"] }),
++            bearer(a.token),
++          ),
++        );
++        expect(rejected.status).toBe(400);
++      });
++
++      it("refuses an empty enabled_locales with 400", async () => {
++        const rejected = await failed(
++          api.put(
++            "/tenants/locale-settings",
++            document({ default_locale: "ru", enabled_locales: [] }),
++            bearer(a.token),
++          ),
++        );
++        expect(rejected.status).toBe(400);
++      });
++
++      it("refuses a repeated locale in enabled_locales with 400", async () => {
++        const rejected = await failed(
++          api.put(
++            "/tenants/locale-settings",
++            document({ enabled_locales: ["ru", "en", "ru"] }),
++            bearer(a.token),
++          ),
++        );
++        expect(rejected.status).toBe(400);
++      });
++
++      it("accepts a null default_country (no currency override)", async () => {
++        const saved = await api.put(
++          "/tenants/locale-settings",
++          document({ default_country: null }),
++          bearer(a.token),
++        );
++        expect(saved.status).toBe(200);
++        expect(saved.data.locale_settings.default_country).toBeNull();
++      });
++
++      it("keeps B's document null after A saved its own", async () => {
++        const saved = await api.put("/tenants/locale-settings", document(), bearer(a.token));
++        expect(saved.status).toBe(200);
++
++        const mine = await api.get("/tenants/locale-settings", bearer(b.token));
++        expect(mine.status).toBe(200);
++        expect(mine.data.locale_settings).toBeNull();
++      });
++
++      it("surfaces the saved document on the storefront's by-host bootstrap", async () => {
++        const saved = await api.put(
++          "/tenants/locale-settings",
++          document({ default_locale: "ru", enabled_locales: ["ru", "en"], default_country: "ru" }),
++          bearer(a.token),
++        );
++        expect(saved.status).toBe(200);
++
++        const resolved = await api.get("/storefront/by-host?host=acme.localhost");
++        expect(resolved.status).toBe(200);
++        expect(resolved.data.locale).toEqual({
++          default_locale: "ru",
++          enabled_locales: ["ru", "en"],
++          default_country: "ru",
++        });
++      });
++
++      it("is null on by-host for a tenant that never saved locale settings", async () => {
++        const resolved = await api.get("/storefront/by-host?host=globex.localhost");
++        expect(resolved.status).toBe(200);
++        expect(resolved.data.locale).toBeNull();
++      });
++    });
++  },
++});
+changed in both
+  base   100644 ad8c681a07a8fad13d2e4fbab977824811885b71 apps/backend/src/api/middlewares.ts
+  our    100644 0183e777c6023c053f03137220055552a0b73ed9 apps/backend/src/api/middlewares.ts
+  their  100644 a2f5aceababc64865457a16b2136e20322177f39 apps/backend/src/api/middlewares.ts
+@@ -170,6 +170,7 @@
+ // ---- piece 8: the home-page document body schema (zod for theme/content;
+ // `settings` is checked by store/storefront-settings/validation.ts inside it).
+ import { PutTenantHomeBody } from "./tenants/home/validators";
++import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
+ import { PostTenantSeedBody } from "./tenants/seed/validators";
+ import {
+   AdminGetTenantsParams,
+@@ -990,6 +991,14 @@
+       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+     },
+ 
++    // t06-locale-currency: the tenant's default storefront locale, its enabled
++    // subset of the 36 shipped locales, and the country its default prices in.
++    {
++      matcher: "/tenants/locale-settings",
++      method: ["PUT"],
++      middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
++    },
++
+     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
+     // `GET /storefront/by-host` takes no middleware entry on purpose: it reads
+     // one query parameter and normalises it itself (`api/storefront/by-host/hosts.ts`),
+merged
+  result 100644 a734c7cfd74b8f24a611b1d91f43ecd30d725bc9 apps/backend/src/api/storefront/by-host/route.ts
+  our    100644 68af0fd682bf9fb62a27572058b5dcb2ddac3931 apps/backend/src/api/storefront/by-host/route.ts
+@@ -116,6 +116,9 @@
+       "home_config.config",
+       "domains.host",
+       "domains.is_primary",
++      "locale_settings.default_locale",
++      "locale_settings.enabled_locales",
++      "locale_settings.default_country",
+     ],
+     filters: { id: [tenantId] },
+   });
+@@ -171,5 +174,16 @@
+     ),
+     settings,
+     home,
++    // t06-locale-currency: absent (null) for a tenant that never saved
++    // `tenant_locale_settings` — the storefront then falls back to its own
++    // build-time `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`,
++    // exactly today's single-image behaviour.
++    locale: tenant.locale_settings
++      ? {
++          default_locale: tenant.locale_settings.default_locale,
++          enabled_locales: tenant.locale_settings.enabled_locales,
++          default_country: tenant.locale_settings.default_country ?? null,
++        }
++      : null,
+   });
+ };
+added in remote
+  their  100644 5d1e141104e9234b33fa9739577c78fd388cd1e9 apps/backend/src/api/tenants/locale-settings/route.ts
+@@ -0,0 +1,62 @@
++import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
++import { TENANT_MODULE } from "../../../modules/tenant";
++import type TenantModuleService from "../../../modules/tenant/service";
++import upsertTenantLocaleSettingsWorkflow from "../../../workflows/tenant/upsert-tenant-locale-settings";
++import { getTenantScope } from "../tenant-scope";
++import type {
++  PutTenantLocaleSettingsBodyType,
++  TenantLocaleSettingsDocument,
++} from "./validators";
++
++/**
++ * `GET`/`PUT /tenants/locale-settings` (t06-locale-currency) — the tenant's
++ * default storefront locale, its enabled subset of the 36 shipped locales, and
++ * the country its default prices in. One row per tenant in
++ * `tenant_locale_settings`, written by the panel's «Язык и валюта» screen and
++ * read by every storefront request through `GET /storefront/by-host`.
++ *
++ * Scope: the tenant behind the token, the same as `/tenants/home` — no id in
++ * the URL, no foreign row to reach.
++ */
++
++export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
++  const tenant = await getTenantScope(req);
++  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
++
++  const [row] = await tenantModuleService.listTenantLocaleSettings({
++    tenant_id: tenant.id,
++  });
++
++  if (!row) {
++    res.json({ locale_settings: null });
++    return;
++  }
++
++  const document: TenantLocaleSettingsDocument = {
++    default_locale: row.default_locale,
++    enabled_locales: row.enabled_locales as unknown as string[],
++    default_country: row.default_country ?? null,
++  };
++
++  res.json({ locale_settings: document });
++};
++
++export const PUT = async (
++  req: AuthenticatedMedusaRequest<PutTenantLocaleSettingsBodyType>,
++  res: MedusaResponse,
++) => {
++  const tenant = await getTenantScope(req);
++  const body = req.validatedBody;
++
++  const document: TenantLocaleSettingsDocument = {
++    default_locale: body.default_locale,
++    enabled_locales: body.enabled_locales,
++    default_country: body.default_country ?? null,
++  };
++
++  await upsertTenantLocaleSettingsWorkflow(req.scope).run({
++    input: { tenant_id: tenant.id, ...document },
++  });
++
++  res.json({ locale_settings: document });
++};
+added in remote
+  their  100644 66671e7bdf27fea8c01934cdf4558c20e830436f apps/backend/src/api/tenants/locale-settings/validators.ts
+@@ -0,0 +1,90 @@
++import { z } from "@medusajs/framework/zod";
++
++/**
++ * `apps/storefront/src/i18n/config.ts` `locales`, hand-transcribed. Same reason
++ * `THEME_PRESETS` is transcribed in `tenants/home/validators.ts`: `pnpm-workspace.yaml`
++ * lists only `apps/**`, so there is no shared package the backend could import the
++ * storefront's own list from.
++ */
++export const LOCALE_CODES = [
++  "ar",
++  "bg",
++  "bn",
++  "cs",
++  "da",
++  "de",
++  "el",
++  "en",
++  "es",
++  "fi",
++  "fr",
++  "he",
++  "hi",
++  "hu",
++  "id",
++  "it",
++  "ja",
++  "ka",
++  "ko",
++  "lt",
++  "mn",
++  "ms",
++  "nb",
++  "nl",
++  "pl",
++  "pt",
++  "ro",
++  "ru",
++  "sk",
++  "sv",
++  "th",
++  "tl",
++  "tr",
++  "uk",
++  "vi",
++  "zh",
++] as const;
++
++export type LocaleCode = (typeof LOCALE_CODES)[number];
++
++/** ISO 3166-1 alpha-2, lowercase — the shape `LOCALE_COUNTRY_MAP` values already take. */
++const countryCodeSchema = z
++  .string()
++  .regex(/^[a-z]{2}$/, "default_country must be a two-letter country code.")
++  .nullable();
++
++export const PutTenantLocaleSettingsBody = z
++  .object({
++    default_locale: z.enum(LOCALE_CODES),
++    enabled_locales: z
++      .array(z.enum(LOCALE_CODES))
++      .min(1, "enabled_locales must name at least one locale.")
++      .refine((locales) => new Set(locales).size === locales.length, {
++        message: "enabled_locales must not repeat a locale.",
++      }),
++    default_country: countryCodeSchema.optional().default(null),
++  })
++  .refine((body) => body.enabled_locales.includes(body.default_locale), {
++    message: "enabled_locales must include default_locale.",
++    path: ["enabled_locales"],
++  });
++
++export type PutTenantLocaleSettingsBodyType = z.infer<
++  typeof PutTenantLocaleSettingsBody
++>;
++
++/**
++ * The stored (and returned) document. `string`/`string[]` rather than
++ * `LocaleCode`/`LocaleCode[]`: the generated `TenantLocaleSettings` service
++ * methods type every `model.json()` field as `Record<string, unknown>` (an
++ * array has no STRING index signature, so a `LocaleCode[]` is not assignable
++ * to it), the same reason `tenant-home/validators.ts`'s `TenantHomeDocument`
++ * is read back through an `as unknown as` cast rather than typed straight
++ * through the service. The zod schema above is what actually enforces the
++ * 36-code vocabulary on input.
++ */
++export type TenantLocaleSettingsDocument = {
++  default_locale: string;
++  enabled_locales: string[];
++  default_country: string | null;
++};
+added in remote
+  their  100644 0f129d7a4cb432c13d1e27a66a4c993f3a88d060 apps/backend/src/modules/tenant/migrations/Migration20260915042009.ts
+@@ -0,0 +1,21 @@
++import { Migration } from "@medusajs/framework/mikro-orm/migrations";
++
++/**
++ * t06-locale-currency: one `tenant_locale_settings` row per tenant, holding the
++ * shop's default storefront locale, the subset of the 36 locales it enables,
++ * and the country its default prices in.
++ */
++export class Migration20260915042009 extends Migration {
++
++  override async up(): Promise<void> {
++    this.addSql(`create table if not exists "tenant_locale_settings" ("id" text not null, "default_locale" text not null, "enabled_locales" jsonb not null, "default_country" text null, "tenant_id" text not null, "created_at" timestamptz not null default now(), "updated_at" timestamptz not null default now(), "deleted_at" timestamptz null, constraint "tenant_locale_settings_pkey" primary key ("id"));`);
++    this.addSql(`CREATE UNIQUE INDEX IF NOT EXISTS "IDX_tenant_locale_settings_tenant_id_unique" ON "tenant_locale_settings" ("tenant_id") WHERE deleted_at IS NULL;`);
++    this.addSql(`CREATE INDEX IF NOT EXISTS "IDX_tenant_locale_settings_deleted_at" ON "tenant_locale_settings" ("deleted_at") WHERE deleted_at IS NULL;`);
++    this.addSql(`alter table if exists "tenant_locale_settings" add constraint "tenant_locale_settings_tenant_id_foreign" foreign key ("tenant_id") references "tenant" ("id") on update cascade;`);
++  }
++
++  override async down(): Promise<void> {
++    this.addSql(`drop table if exists "tenant_locale_settings" cascade;`);
++  }
++
++}
+added in remote
+  their  100644 86683ebfa9c635659cbc638d3a143279a872b5cc apps/backend/src/modules/tenant/models/tenant-locale-settings.ts
+@@ -0,0 +1,36 @@
++import { model } from "@medusajs/framework/utils";
++import Tenant from "./tenant";
++
++/**
++ * The tenant's language and currency defaults (t06-locale-currency): which
++ * storefront locale a visitor with no pick of their own lands on, which of the
++ * 36 shipped locales the switcher offers for THIS shop, and which country (and
++ * therefore which Medusa region, and therefore which currency) prices open in.
++ * One row per tenant, absent for a shop that has never saved these — the
++ * storefront then falls back to the deployment's own `STOREFRONT_DEFAULT_LOCALE`
++ * / `LOCALE_PIN` / `LOCALE_COUNTRY_MAP`, which is exactly today's single-image
++ * behaviour.
++ *
++ * Kept as its own document rather than folded into `tenant_home_config`: the
++ * home document is replaced whole on every `PUT /tenants/home`, and coupling it
++ * to language/currency would mean a home-page edit could silently wipe a
++ * locale pick made through a different screen.
++ */
++const TenantLocaleSettings = model.define("tenant_locale_settings", {
++  id: model.id({ prefix: "tloc" }).primaryKey(),
++  /** One of the 36 storefront locale codes (`LOCALE_CODES` in `validators.ts`). */
++  default_locale: model.text(),
++  /** A non-empty subset of the 36 codes, always containing `default_locale`. */
++  enabled_locales: model.json(),
++  /**
++   * Two-letter ISO country code the shop's `default_locale` prices in, e.g.
++   * `"ru"` for roubles. Null falls back to the deployment's own
++   * `LOCALE_COUNTRY_MAP` entry for that locale, or to region detection.
++   */
++  default_country: model.text().nullable(),
++  tenant: model.belongsTo(() => Tenant, {
++    mappedBy: "locale_settings",
++  }),
++});
++
++export default TenantLocaleSettings;
+changed in both
+  base   100644 f580dc68248226936d87f965df5500ea32b4e464 apps/backend/src/modules/tenant/models/tenant.ts
+  our    100644 cf54196c0de54622ed165f4ad7bbca2b733747f3 apps/backend/src/modules/tenant/models/tenant.ts
+  their  100644 24d6d73098daeaf84e4546e6fab762ce1fca7a4c apps/backend/src/modules/tenant/models/tenant.ts
+@@ -3,7 +3,11 @@
+ import TenantDomain from "./tenant-domain";
+ import TenantHandleAlias from "./tenant-handle-alias";
+ import TenantHomeConfig from "./tenant-home-config";
++<<<<<<< .our
+ import TenantIntegrationSecret from "./tenant-integration-secret";
++=======
++import TenantLocaleSettings from "./tenant-locale-settings";
++>>>>>>> .their
+ import TenantPage from "./tenant-page";
+ 
+ /**
+@@ -37,6 +41,11 @@
+   home_config: model.hasOne(() => TenantHomeConfig, {
+     mappedBy: "tenant",
+   }),
++  // t06-locale-currency: which of the 36 storefront locales this shop offers,
++  // its default, and the country its default prices in.
++  locale_settings: model.hasOne(() => TenantLocaleSettings, {
++    mappedBy: "tenant",
++  }),
+   domains: model.hasMany(() => TenantDomain, {
+     mappedBy: "tenant",
+   }),
+changed in both
+  base   100644 12d6e7edf759c0506693abe9ce8f86dc0b36e948 apps/backend/src/modules/tenant/service.ts
+  our    100644 15174189a8c8fe832d6e0168db396d7fdb7a57a6 apps/backend/src/modules/tenant/service.ts
+  their  100644 fc80839275b8985ecfe76175d7ecef20664b4441 apps/backend/src/modules/tenant/service.ts
+@@ -4,7 +4,11 @@
+ import TenantDomain from "./models/tenant-domain";
+ import TenantHandleAlias from "./models/tenant-handle-alias";
+ import TenantHomeConfig from "./models/tenant-home-config";
++<<<<<<< .our
+ import TenantIntegrationSecret from "./models/tenant-integration-secret";
++=======
++import TenantLocaleSettings from "./models/tenant-locale-settings";
++>>>>>>> .their
+ import TenantPage from "./models/tenant-page";
+ 
+ class TenantModuleService extends MedusaService({
+@@ -12,6 +16,7 @@
+   TenantAdmin,
+   TenantPage,
+   TenantHomeConfig,
++  TenantLocaleSettings,
+   TenantDomain,
+   TenantHandleAlias,
+   TenantIntegrationSecret,
+added in remote
+  their  100644 7191bf17287bf641dab80535315df74f3eac3ddc apps/backend/src/scripts/backfill-tenant-locale-settings.ts
+@@ -0,0 +1,73 @@
++import type { ExecArgs } from "@medusajs/framework/types";
++import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
++import { TENANT_MODULE } from "../modules/tenant";
++import type TenantModuleService from "../modules/tenant/service";
++import upsertTenantLocaleSettingsWorkflow from "../workflows/tenant/upsert-tenant-locale-settings";
++
++/**
++ * Gives every tenant that has never saved `tenant_locale_settings`
++ * (t06-locale-currency) the shop's default: Russian first, English enabled,
++ * no currency override (the deployment's own `LOCALE_COUNTRY_MAP`, or region
++ * detection, decides the country). A tenant that already saved its own row —
++ * through the panel, or an earlier run of this script — is left alone: the
++ * script never overwrites a pick that "says otherwise".
++ *
++ * Idempotent: a second run finds every tenant already covered and patches
++ * none.
++ *
++ * `medusa exec` hands a script's own flags through as bare, dash-less
++ * positionals (measured 2026-09-15: a leading `--` before `--dry-run` is
++ * swallowed by the CLI's own arg parser and never reaches `args` at all,
++ * while `medusa exec ./script.js dry-run` does), so the switch is spelled
++ * without dashes here.
++ *
++ *   docker exec mt-backend node_modules/.bin/medusa exec ./src/scripts/backfill-tenant-locale-settings.js
++ *   docker exec mt-backend node_modules/.bin/medusa exec ./src/scripts/backfill-tenant-locale-settings.js dry-run
++ */
++const DEFAULT_LOCALE = "ru";
++const ENABLED_LOCALES = ["ru", "en"];
++
++export default async function backfillTenantLocaleSettings({ container, args }: ExecArgs) {
++  const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
++  const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
++  const dryRun = args.includes("dry-run") || args.includes("--dry-run");
++
++  const tenants = await tenantModuleService.listTenants({});
++  const existing = await tenantModuleService.listTenantLocaleSettings({});
++  const covered = new Set(existing.map((row) => row.tenant_id));
++
++  let patched = 0;
++  let skipped = 0;
++
++  for (const tenant of tenants) {
++    if (covered.has(tenant.id)) {
++      skipped += 1;
++      continue;
++    }
++
++    if (dryRun) {
++      logger.info(
++        `backfill-tenant-locale-settings: [dry-run] would set tenant ${tenant.id} (${tenant.handle}) to default_locale=${DEFAULT_LOCALE}, enabled_locales=${ENABLED_LOCALES.join(",")}`,
++      );
++      patched += 1;
++      continue;
++    }
++
++    await upsertTenantLocaleSettingsWorkflow(container).run({
++      input: {
++        tenant_id: tenant.id,
++        default_locale: DEFAULT_LOCALE,
++        enabled_locales: ENABLED_LOCALES,
++        default_country: null,
++      },
++    });
++    patched += 1;
++    logger.info(
++      `backfill-tenant-locale-settings: tenant ${tenant.id} (${tenant.handle}) — set to ru/en default`,
++    );
++  }
++
++  logger.info(
++    `backfill-tenant-locale-settings: ${tenants.length} tenants, ${patched} ${dryRun ? "would be patched" : "patched"}, ${skipped} left alone (already have their own locale settings).`,
++  );
++}
+added in remote
+  their  100644 a1b75ec65b0cb9b3471a851676f6c613e226a203 apps/backend/src/workflows/tenant/upsert-tenant-locale-settings/index.ts
+@@ -0,0 +1,18 @@
++import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk";
++import upsertTenantLocaleSettingsStep, {
++  type UpsertTenantLocaleSettingsStepInput,
++} from "./steps/upsert-tenant-locale-settings";
++
++export type UpsertTenantLocaleSettingsWorkflowInput = UpsertTenantLocaleSettingsStepInput;
++
++/** `PUT /tenants/locale-settings` (t06-locale-currency). One step, the same shape `upsert-tenant-home` uses. */
++const upsertTenantLocaleSettingsWorkflow = createWorkflow(
++  "upsert-tenant-locale-settings",
++  (input: UpsertTenantLocaleSettingsWorkflowInput) => {
++    const localeSettings = upsertTenantLocaleSettingsStep(input);
++
++    return new WorkflowResponse(localeSettings);
++  },
++);
++
++export default upsertTenantLocaleSettingsWorkflow;
+added in remote
+  their  100644 43473e6c35c9b11bb26a64e351cfc0a8160b662d apps/backend/src/workflows/tenant/upsert-tenant-locale-settings/steps/upsert-tenant-locale-settings.ts
+@@ -0,0 +1,97 @@
++import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
++import { TENANT_MODULE } from "../../../../modules/tenant";
++import TenantModuleService from "../../../../modules/tenant/service";
++import type { TenantLocaleSettingsDocument } from "../../../../api/tenants/locale-settings/validators";
++
++export type UpsertTenantLocaleSettingsStepInput = {
++  tenant_id: string;
++} & TenantLocaleSettingsDocument;
++
++type UpsertTenantLocaleSettingsCompensation = {
++  id: string;
++  previous: TenantLocaleSettingsDocument | null;
++};
++
++/**
++ * The generated `TenantLocaleSettings` service types every `model.json()`
++ * field as `Record<string, unknown>` — an array has no STRING index signature,
++ * so `enabled_locales: string[]` needs this cast at every service call, in
++ * (`toRow`) and out (`fromRow`), the same way `upsert-tenant-home` casts
++ * `config` through `as unknown as TenantHomeDocument` on the way in.
++ */
++const toRow = (document: TenantLocaleSettingsDocument) => ({
++  default_locale: document.default_locale,
++  enabled_locales: document.enabled_locales as unknown as Record<string, unknown>,
++  default_country: document.default_country,
++});
++
++const fromRow = (row: {
++  default_locale: string;
++  enabled_locales: unknown;
++  default_country: string | null;
++}): TenantLocaleSettingsDocument => ({
++  default_locale: row.default_locale,
++  enabled_locales: row.enabled_locales as unknown as string[],
++  default_country: row.default_country ?? null,
++});
++
++/**
++ * Writes the tenant's one `tenant_locale_settings` row, the same
++ * update-or-create-with-compensation shape as `upsert-tenant-home`: a failed
++ * run leaves the shop on exactly the locale defaults it had before.
++ */
++const upsertTenantLocaleSettingsStep = createStep(
++  "upsert-tenant-locale-settings",
++  async (
++    { tenant_id, ...document }: UpsertTenantLocaleSettingsStepInput,
++    { container },
++  ) => {
++    const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
++
++    const [existing] = await tenantModuleService.listTenantLocaleSettings({ tenant_id });
++
++    if (existing) {
++      const previous = fromRow(existing);
++
++      const [updated] = await tenantModuleService.updateTenantLocaleSettings([
++        { id: existing.id, ...toRow(document) },
++      ]);
++
++      return new StepResponse<typeof updated, UpsertTenantLocaleSettingsCompensation>(
++        updated,
++        { id: existing.id, previous },
++      );
++    }
++
++    const created = await tenantModuleService.createTenantLocaleSettings({
++      tenant_id,
++      ...toRow(document),
++    });
++
++    return new StepResponse<typeof created, UpsertTenantLocaleSettingsCompensation>(
++      created,
++      { id: created.id, previous: null },
++    );
++  },
++  async (
++    compensation: UpsertTenantLocaleSettingsCompensation | undefined,
++    { container },
++  ) => {
++    if (!compensation) {
++      return;
++    }
++
++    const tenantModuleService: TenantModuleService = container.resolve(TENANT_MODULE);
++
++    if (compensation.previous === null) {
++      await tenantModuleService.deleteTenantLocaleSettings(compensation.id);
++      return;
++    }
++
++    await tenantModuleService.updateTenantLocaleSettings([
++      { id: compensation.id, ...toRow(compensation.previous) },
++    ]);
++  },
++);
++
++export default upsertTenantLocaleSettingsStep;
+merged
+  result 100644 5e33f6ae1e251a811bfac4ad3f132bf0d8f192c5 apps/storefront/src/i18n/config.test.ts
+  our    100644 15abbce5b5104ec8af6e4f83e09bb2f99d304a35 apps/storefront/src/i18n/config.test.ts
+@@ -52,4 +52,41 @@
+     expect(matchBrowserLocale("sw, ga")).toBeUndefined()
+     expect(matchBrowserLocale("*")).toBeUndefined()
+   })
++
++  describe("options.allowed (t06-locale-currency: a tenant's enabled_locales)", () => {
++    it("never lands on a locale outside the allowed set", () => {
++      expect(
++        matchBrowserLocale("de-DE,de;q=0.9,en;q=0.8", { allowed: ["ru", "en"] })
++      ).toBe("en")
++    })
++
++    it("is undefined when none of the browser's languages is allowed", () => {
++      expect(
++        matchBrowserLocale("de-DE,de;q=0.9,fr;q=0.8", { allowed: ["ru", "en"] })
++      ).toBeUndefined()
++    })
++
++    it("still matches by language subtag inside the allowed set", () => {
++      expect(matchBrowserLocale("pt-BR", { allowed: ["ru", "en", "pt"] })).toBe(
++        "pt"
++      )
++    })
++  })
++
++  describe("options.preferred (a tenant's own default_locale)", () => {
++    it("overrides the deployment's preferredLocales for this call", () => {
++      expect(
++        matchBrowserLocale("en-US,en;q=0.9,de;q=0.8", { preferred: ["de"] })
++      ).toBe("de")
++    })
++
++    it("combines with allowed: the preferred locale still has to be allowed", () => {
++      expect(
++        matchBrowserLocale("en-US,en;q=0.9,de;q=0.8", {
++          allowed: ["en", "de"],
++          preferred: ["ru"],
++        })
++      ).toBe("en")
++    })
++  })
+ })
+merged
+  result 100644 4b9f89aa34004294acdee2c7ee18782f253d357c apps/storefront/src/i18n/config.ts
+  our    100644 60cb81f555f6607db5ee0f4a194e2455d001be17 apps/storefront/src/i18n/config.ts
+@@ -171,20 +171,36 @@
+  * their languages is one the storefront ships. Every tag is tried as written and then
+  * by its language subtag (`pt-BR` → `pt`); a `preferredLocales` entry wins wherever it
+  * stands in the list, otherwise the visitor's own order decides.
++ *
++ * `options.allowed` restricts which of the 36 shipped locales this negotiation may
++ * land on — a tenant's `enabled_locales` (t06-locale-currency, `src/middleware.ts`):
++ * a browser asking for a language the shop never enabled must not land on a
++ * catalog the shop has no content for. `options.preferred` overrides
++ * `preferredLocales` for the same call — a tenant's own `default_locale` wins
++ * wherever it appears in the visitor's list, the same rule `preferredLocales`
++ * already applies deployment-wide.
+  */
+ export function matchBrowserLocale(
+-  acceptLanguage: string | null | undefined
++  acceptLanguage: string | null | undefined,
++  options?: { allowed?: readonly string[]; preferred?: readonly string[] }
+ ): AppLocale | undefined {
++  const allowed = options?.allowed
++  const preferred = options?.preferred ?? preferredLocales
++
+   const candidates: AppLocale[] = []
+   for (const tag of parseAcceptLanguage(acceptLanguage)) {
+     for (const code of [tag, tag.split("-")[0]]) {
+-      if (isAppLocale(code) && !candidates.includes(code)) candidates.push(code)
++      if (
++        isAppLocale(code) &&
++        (!allowed || allowed.includes(code)) &&
++        !candidates.includes(code)
++      )
++        candidates.push(code)
+     }
+   }
+ 
+   return (
+-    candidates.find((code) =>
+-      (preferredLocales as readonly string[]).includes(code)
+-    ) ?? candidates[0]
++    candidates.find((code) => (preferred as readonly string[]).includes(code)) ??
++    candidates[0]
+   )
+ }
+merged
+  result 100644 efd5880f32c7ce7fd5b45c3c6738dfd7c72e9f17 apps/storefront/src/lib/data/cookies.ts
+  our    100644 0a40d6387e71845b240174570ab8b17c0b0d20a8 apps/storefront/src/lib/data/cookies.ts
+@@ -3,6 +3,7 @@
+ import { SITE_NAME, getBaseURL } from "@lib/util/env"
+ import { cookies as nextCookies, headers as nextHeaders } from "next/headers"
+ import { decodeTenantHeaderValue } from "@lib/tenant/headers"
++import { appLocales, type Locale } from "@i18n/config"
+ 
+ export const getAuthHeaders = async (): Promise<
+   { authorization: string } | Record<string, never>
+@@ -83,6 +84,47 @@
+ }
+ 
+ /**
++ * The locales THIS shop's switcher may offer (`x-tenant-locales`,
++ * `src/middleware.ts`, t06-locale-currency), or null for a host with no tenant
++ * or a tenant that never saved `tenant_locale_settings` — the switcher then
++ * falls back to every locale the storefront ships (single-store behaviour,
++ * unchanged).
++ */
++export const getEnabledLocales = async (): Promise<string[] | null> => {
++  try {
++    const headers = await nextHeaders()
++    const raw = decodeTenantHeaderValue(headers.get("x-tenant-locales"))
++
++    if (!raw) {
++      return null
++    }
++
++    const codes = raw.split(",").filter(Boolean)
++
++    return codes.length ? codes : null
++  } catch {
++    return null
++  }
++}
++
++/**
++ * The language switcher's own list: `appLocales` narrowed to `getEnabledLocales()`
++ * when a tenant resolved one, else every locale the storefront ships — the
++ * single-store fallback (t06-locale-currency). Every `nav/variants/h*.tsx` reads
++ * this instead of `appLocales` directly, so a shop that has not enabled a
++ * language never offers it in the switcher.
++ */
++export const getSwitcherLocales = async (): Promise<Locale[]> => {
++  const enabled = await getEnabledLocales()
++
++  if (!enabled) {
++    return appLocales
++  }
++
++  return appLocales.filter((locale) => enabled.includes(locale.code))
++}
++
++/**
+  * The origin this request arrived on, put on `x-tenant-origin` by `src/middleware.ts`
+  * for a host that resolves to a shop (`lib/tenant/origin.ts`). Null on a single-store
+  * deployment, where no tenant is resolved.
+merged
+  result 100644 a29a19860426b77eef2c35305650f112a33644cb apps/storefront/src/lib/geolocation/index.ts
+  our    100644 6327bcac75e970a000f6e3211ef524319faae6a8 apps/storefront/src/lib/geolocation/index.ts
+@@ -103,7 +103,8 @@
+ const resolve = async (
+   request: NextRequest,
+   regionMap: RegionMap,
+-  locale: string | null
++  locale: string | null,
++  localeCountryMap?: Map<string, string> | null
+ ): Promise<Resolution> => {
+   const existing = request.cookies.get(COUNTRY_COOKIE)?.value
+   const chosen = request.cookies.get(COUNTRY_CHOICE_COOKIE)?.value === "1"
+@@ -115,10 +116,11 @@
+     return fromCookie(existing)
+   }
+ 
+-  // The locale of the page being served, when this deployment maps one
+-  // (`LOCALE_COUNTRY_MAP`). Above the pin, because the pin names ONE country for
+-  // the whole deployment and the map is what makes /ru and /en differ.
+-  const mapped = countryForLocale(locale)
++  // The locale of the page being served, when this deployment (or this TENANT,
++  // `localeCountryMap` — t06-locale-currency) maps one. Above the pin, because
++  // the pin names ONE country for the whole deployment and the map is what
++  // makes /ru and /en differ.
++  const mapped = countryForLocale(locale, localeCountryMap)
+ 
+   if (mapped && regionMap.has(mapped)) {
+     return fromLocale(mapped)
+@@ -166,9 +168,10 @@
+ export const resolveCountry = async (
+   request: NextRequest,
+   regionMap: RegionMap,
+-  locale: string | null = null
++  locale: string | null = null,
++  localeCountryMap: Map<string, string> | null = null
+ ): Promise<CountryResolution> => {
+-  const resolution = await resolve(request, regionMap, locale)
++  const resolution = await resolve(request, regionMap, locale, localeCountryMap)
+ 
+   const apply: ApplyCountry = (res) => {
+     res.cookies.set(COUNTRY_COOKIE, resolution.countryCode, {
+merged
+  result 100644 d75ed32d0b3e1358f944008f77ffa25c460b8572 apps/storefront/src/lib/geolocation/locale-country.test.ts
+  our    100644 885b3c55241857045fdb1f59c7b993246239583b apps/storefront/src/lib/geolocation/locale-country.test.ts
+@@ -1,6 +1,6 @@
+ import { describe, expect, it } from "vitest"
+ 
+-import { parseLocaleCountryMap } from "./locale-country"
++import { countryForLocale, parseLocaleCountryMap } from "./locale-country"
+ 
+ describe("parseLocaleCountryMap", () => {
+   it("reads the deployment's pairs", () => {
+@@ -25,3 +25,24 @@
+     expect(Array.from(parseLocaleCountryMap("ru:,:us,,de:de"))).toEqual([["de", "de"]])
+   })
+ })
++
++describe("countryForLocale (t06-locale-currency: a tenant's own default_country)", () => {
++  it("prefers the override over the deployment's own map", () => {
++    const override = new Map([["ru", "kz"]])
++    expect(countryForLocale("ru", override)).toBe("kz")
++  })
++
++  it("is case-insensitive on the locale key", () => {
++    const override = new Map([["ru", "kz"]])
++    expect(countryForLocale("RU", override)).toBe("kz")
++  })
++
++  it("falls through to null when neither the override nor the deployment map names one", () => {
++    expect(countryForLocale("fr", new Map([["ru", "kz"]]))).toBeNull()
++    expect(countryForLocale("fr", null)).toBeNull()
++  })
++
++  it("is null for a missing locale regardless of the override", () => {
++    expect(countryForLocale(null, new Map([["ru", "kz"]]))).toBeNull()
++  })
++})
+merged
+  result 100644 98cee4e3876d84e83ca2561de4621fae25d31814 apps/storefront/src/lib/geolocation/locale-country.ts
+  our    100644 cc7a00f30ae6aed9bea8e8cbbbb5e38c81735ed3 apps/storefront/src/lib/geolocation/locale-country.ts
+@@ -40,15 +40,24 @@
+ 
+ const localeCountryMap = parseLocaleCountryMap(process.env.LOCALE_COUNTRY_MAP ?? "")
+ 
+-/** The configured country for a locale, or null when this deployment maps none. */
++/**
++ * The configured country for a locale, or null when neither an `override` (the
++ * tenant's own `default_country`, `src/middleware.ts`) nor this deployment's
++ * `LOCALE_COUNTRY_MAP` names one. `override` wins: a shop's own currency pick
++ * is a property of THAT shop, not of the image every tenant shares
++ * (t06-locale-currency).
++ */
+ export const countryForLocale = (
+-  locale: string | null | undefined
++  locale: string | null | undefined,
++  override?: Map<string, string> | null
+ ): string | null => {
+   if (!locale) {
+     return null
+   }
+ 
+-  return localeCountryMap.get(locale.toLowerCase()) ?? null
++  const key = locale.toLowerCase()
++
++  return override?.get(key) ?? localeCountryMap.get(key) ?? null
+ }
+ 
+ /** True when this deployment maps any locale at all — for tests and diagnostics. */
+merged
+  result 100644 728fed01b8f9b3bacaaf80aa39f67bbde3102fa4 apps/storefront/src/lib/tenant/headers.test.ts
+  our    100644 d05890b95f53670e915a119e4b461328a3c95852 apps/storefront/src/lib/tenant/headers.test.ts
+@@ -58,6 +58,7 @@
+       "x-tenant-mode",
+       "x-tenant-origin",
+       "x-tenant-attribution",
++      "x-tenant-locales",
+     ])
+   })
+ })
+merged
+  result 100644 38b95d56b1e917422d93a0f01eed7d01a7974785 apps/storefront/src/lib/tenant/headers.ts
+  our    100644 0083b2f5b3c26df276873279c91078c1f3ba671e apps/storefront/src/lib/tenant/headers.ts
+@@ -32,6 +32,7 @@
+   "x-tenant-mode",
+   "x-tenant-origin",
+   "x-tenant-attribution",
++  "x-tenant-locales",
+ ] as const
+ 
+ export type TenantHeaderName = (typeof TENANT_HEADERS)[number]
+merged
+  result 100644 c759b0e722305296593a9689690c296f6df7903f apps/storefront/src/lib/tenant/resolve.ts
+  our    100644 55c1238ee5149020e303123ff294df6aa426e702 apps/storefront/src/lib/tenant/resolve.ts
+@@ -37,6 +37,18 @@
+    * (`specs/tenant-address/CANONICAL.md`).
+    */
+   primaryHost: string | null
++  /**
++   * Language and currency defaults owned by the shop (t06-locale-currency),
++   * not by the build. Null for a tenant that never saved
++   * `tenant_locale_settings` — the storefront then falls back to
++   * `STOREFRONT_DEFAULT_LOCALE`/`LOCALE_PIN`/`LOCALE_COUNTRY_MAP`, exactly the
++   * single-image behaviour every deployment ran before this change.
++   */
++  locale: {
++    defaultLocale: string
++    enabledLocales: string[]
++    defaultCountry: string | null
++  } | null
+ }
+ 
+ const TTL_MS = 60_000
+@@ -98,9 +110,23 @@
+         theme?: { preset?: string | null; mode?: string | null } | null
+         attribution?: Partial<TenantAttribution> | null
+         primary_host?: string | null
++        locale?: {
++          default_locale?: string | null
++          enabled_locales?: string[] | null
++          default_country?: string | null
++        } | null
+       }
+ 
+       if (body?.tenant?.handle) {
++        const locale =
++          body.locale?.default_locale && body.locale.enabled_locales?.length
++            ? {
++                defaultLocale: body.locale.default_locale,
++                enabledLocales: body.locale.enabled_locales,
++                defaultCountry: body.locale.default_country ?? null,
++              }
++            : null
++
+         resolved = {
+           handle: body.tenant.handle,
+           name: body.tenant.name ?? body.tenant.handle,
+@@ -109,6 +135,7 @@
+           mode: body.theme?.mode ?? null,
+           attribution: readAttribution(body.attribution),
+           primaryHost: body.primary_host?.trim().toLowerCase() || null,
++          locale,
+         }
+       }
+     }
+merged
+  result 100644 abf54c354aca84ac6368a019d45712aa2c2ffe42 apps/storefront/src/middleware.ts
+  our    100644 cdd53f397d8a5567c65af955959174197c3b1b20 apps/storefront/src/middleware.ts
+@@ -257,6 +257,17 @@
+     if (tenant.mode) {
+       headers.set("x-tenant-mode", encodeTenantHeaderValue(tenant.mode))
+     }
++    // The language switcher's own list (t06-locale-currency): comma-separated
++    // locale codes are plain ASCII, so `encodeTenantHeaderValue` never actually
++    // has anything to escape here, but it goes through the same pair as every
++    // other tenant value crossing this boundary rather than being a one-off
++    // exception to the rule above.
++    if (tenant.locale) {
++      headers.set(
++        "x-tenant-locales",
++        encodeTenantHeaderValue(tenant.locale.enabledLocales.join(","))
++      )
++    }
+     // The origin the shop was resolved FROM, for every absolute URL a page emits
+     // (canonical, hreflang, JSON-LD, sitemap, robots, llms.txt, Open Graph).
+     // `NEXT_PUBLIC_BASE_URL` is one value baked into the image for every shop this
+@@ -339,14 +350,40 @@
+   // followed (t-2026-09-10-01).
+   const chosenLocale = request.cookies.get(LOCALE_CHOICE_COOKIE)?.value
+ 
+-  const entryLocale =
+-    chosenLocale && isAppLocale(chosenLocale)
++  // A shop's own `default_locale`/`enabled_locales` (t06-locale-currency) win
++  // over the build's `defaultLocale`/`LOCALE_PIN`/`preferredLocales` once a host
++  // resolves to a tenant that saved them: a visitor whose browser asks for a
++  // language the shop never enabled gets the shop's OWN default rather than a
++  // language it ships no content for. A choice-cookie pick from a DIFFERENT
++  // tenant's switcher (or a stale cookie from before the shop narrowed its list)
++  // is honoured only while it is still one of THIS shop's enabled locales.
++  const tenantLocale = tenant?.locale
++
++  const entryLocale = tenantLocale
++    ? chosenLocale &&
++      isAppLocale(chosenLocale) &&
++      tenantLocale.enabledLocales.includes(chosenLocale)
++      ? chosenLocale
++      : (matchBrowserLocale(request.headers.get("accept-language"), {
++          allowed: tenantLocale.enabledLocales,
++          preferred: [tenantLocale.defaultLocale],
++        }) ?? (tenantLocale.defaultLocale as typeof defaultLocale))
++    : chosenLocale && isAppLocale(chosenLocale)
+       ? chosenLocale
+       : LOCALE_PINNED
+         ? defaultLocale
+         : (matchBrowserLocale(request.headers.get("accept-language")) ??
+           defaultLocale)
+ 
++  // The tenant's own `default_locale → default_country` pairing overrides the
++  // deployment-wide `LOCALE_COUNTRY_MAP` for that one locale: which currency a
++  // shop's default language prices in is that shop's own pick, not the image's
++  // (t06-locale-currency). Locales the tenant enabled beyond its default still
++  // fall through to the deployment map (or to detection), same as today.
++  const tenantLocaleCountryMap = tenantLocale?.defaultCountry
++    ? new Map([[tenantLocale.defaultLocale, tenantLocale.defaultCountry]])
++    : null
++
+   // The locale of THIS request, whether it came from the URL or was just
+   // negotiated. The country is resolved from it, so it has to be known first.
+   const locale = hasLocaleInUrl ? (firstSegment as string) : entryLocale
+@@ -359,7 +396,8 @@
+   const { countryCode, apply: applyCountry } = await resolveCountry(
+     request,
+     regionMap,
+-    locale
++    locale,
++    tenantLocaleCountryMap
+   )
+ 
+   // Server components read this instead of waiting for the cookie to come back on
+merged
+  result 100644 f38f815191147e4f28ed876c2a9383e59f8c21af apps/storefront/src/modules/layout/templates/nav/variants/h1.tsx
+  our    100644 3ead90d3dbc01bf47656714cde0907d3e670e46a apps/storefront/src/modules/layout/templates/nav/variants/h1.tsx
+@@ -1,9 +1,8 @@
+ import { getTranslations } from "next-intl/server"
+ import { Link } from "@i18n/navigation"
+ 
+-import { appLocales } from "@i18n/config"
+ import { listRegions } from "@lib/data/regions"
+-import { getCountryCode, getSiteName } from "@lib/data/cookies"
++import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+ import type { StoreRegion } from "@medusajs/types"
+ import { User } from "@medusajs/icons"
+ import CartButton from "@modules/layout/components/cart-button"
+@@ -22,10 +21,11 @@
+  */
+ export default async function NavH1() {
+   const t = await getTranslations()
+-  const [regions, countryCode, siteName] = await Promise.all([
++  const [regions, countryCode, siteName, locales] = await Promise.all([
+     listRegions().then((regions: StoreRegion[]) => regions),
+     getCountryCode(),
+     getSiteName(),
++    getSwitcherLocales(),
+   ])
+ 
+   return (
+@@ -61,7 +61,7 @@
+               <RegionSelect
+                 regions={regions}
+                 currentCountryCode={countryCode ?? undefined}
+-                locales={appLocales}
++                locales={locales}
+                 className="min-w-0"
+               />
+             </div>
+merged
+  result 100644 3aa62f1986395c6b173c15a775e1d746a5b03904 apps/storefront/src/modules/layout/templates/nav/variants/h2.tsx
+  our    100644 60c3fcdac005c14d7bc2161776f2f76081036751 apps/storefront/src/modules/layout/templates/nav/variants/h2.tsx
+@@ -8,9 +8,8 @@
+ import RegionSelect from "@modules/layout/components/region-select"
+ import Search from "@modules/layout/components/search"
+ import BrandUnlock from "@modules/studio/components/brand-unlock"
+-import { appLocales } from "@i18n/config"
+ import { listRegions } from "@lib/data/regions"
+-import { getCountryCode, getSiteName } from "@lib/data/cookies"
++import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+ import type { StoreRegion } from "@medusajs/types"
+ 
+ const MAX_NAV_LINKS = 4
+@@ -37,11 +36,12 @@
+  */
+ export default async function NavH2() {
+   const t = await getTranslations()
+-  const [categories, regions, countryCode, siteName] = await Promise.all([
++  const [categories, regions, countryCode, siteName, locales] = await Promise.all([
+     listCategories(),
+     listRegions().then((regions: StoreRegion[]) => regions),
+     getCountryCode(),
+     getSiteName(),
++    getSwitcherLocales(),
+   ])
+   const topLevelLinks = categories
+     .filter((category) => !category.parent_category_id)
+@@ -93,7 +93,7 @@
+               <RegionSelect
+                 regions={regions}
+                 currentCountryCode={countryCode ?? undefined}
+-                locales={appLocales}
++                locales={locales}
+                 className="min-w-0"
+               />
+             </div>
+merged
+  result 100644 aa77eb0f4f21bb01668966a250267cd20d4b6bf2 apps/storefront/src/modules/layout/templates/nav/variants/h3.tsx
+  our    100644 96dad59a25e3fd8b3fca21288e399d95effa8dd9 apps/storefront/src/modules/layout/templates/nav/variants/h3.tsx
+@@ -1,11 +1,10 @@
+ import { getLocale, getTranslations } from "next-intl/server"
+ import { Link } from "@i18n/navigation"
+ 
+-import { appLocales } from "@i18n/config"
+ import { listCategories } from "@lib/data/categories"
+ import { listRegions } from "@lib/data/regions"
+ import { shopPromoText, shopTagline } from "@lib/data/shop-copy"
+-import { getCountryCode, getSiteName } from "@lib/data/cookies"
++import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+ import type { StoreRegion } from "@medusajs/types"
+ import CartButton from "@modules/layout/components/cart-button"
+ import ModeToggle from "@modules/layout/components/mode-toggle"
+@@ -40,13 +39,14 @@
+  * search and mode toggle on mobile.
+  */
+ export default async function NavH3() {
+-  const [t, locale, categories, regions, countryCode, siteName] = await Promise.all([
++  const [t, locale, categories, regions, countryCode, siteName, locales] = await Promise.all([
+     getTranslations(),
+     getLocale(),
+     listCategories(),
+     listRegions().then((regions: StoreRegion[]) => regions),
+     getCountryCode(),
+     getSiteName(),
++    getSwitcherLocales(),
+   ])
+   const topLevelLinks = categories
+     .filter((category) => !category.parent_category_id)
+@@ -65,7 +65,7 @@
+               <RegionSelect
+                 regions={regions}
+                 currentCountryCode={countryCode ?? undefined}
+-                locales={appLocales}
++                locales={locales}
+                 className="min-w-0"
+               />
+               <Link
+merged
+  result 100644 852bdaeab1de80adb5d0e1fe08c62f535f330d61 apps/storefront/src/modules/layout/templates/nav/variants/h4.tsx
+  our    100644 b52f90ca69296ead63fc8ee6faefbf4852ea0664 apps/storefront/src/modules/layout/templates/nav/variants/h4.tsx
+@@ -1,10 +1,9 @@
+ import { getTranslations } from "next-intl/server"
+ import { Link } from "@i18n/navigation"
+ 
+-import { appLocales } from "@i18n/config"
+ import { listCategories } from "@lib/data/categories"
+ import { listRegions } from "@lib/data/regions"
+-import { getCountryCode, getSiteName } from "@lib/data/cookies"
++import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+ import type { StoreRegion } from "@medusajs/types"
+ import { User } from "@medusajs/icons"
+ import CartButton from "@modules/layout/components/cart-button"
+@@ -43,11 +42,12 @@
+  */
+ export default async function NavH4() {
+   const t = await getTranslations()
+-  const [categories, regions, countryCode, siteName] = await Promise.all([
++  const [categories, regions, countryCode, siteName, locales] = await Promise.all([
+     listCategories(),
+     listRegions().then((regions: StoreRegion[]) => regions),
+     getCountryCode(),
+     getSiteName(),
++    getSwitcherLocales(),
+   ])
+   const topLevelLinks = categories
+     .filter((category) => !category.parent_category_id)
+@@ -99,7 +99,7 @@
+               <RegionSelect
+                 regions={regions}
+                 currentCountryCode={countryCode ?? undefined}
+-                locales={appLocales}
++                locales={locales}
+                 className="min-w-0"
+               />
+             </div>
+merged
+  result 100644 8b9bbaa8193483c8e79eb50783848f39a5836294 apps/storefront/src/modules/layout/templates/nav/variants/h6.tsx
+  our    100644 52e0dd7692d5b539137938d3202241d1fb9bf243 apps/storefront/src/modules/layout/templates/nav/variants/h6.tsx
+@@ -1,10 +1,9 @@
+ import { getTranslations } from "next-intl/server"
+ import { Link } from "@i18n/navigation"
+ 
+-import { appLocales } from "@i18n/config"
+ import { listTopCategoriesWithCounts } from "@lib/data/categories"
+ import { listRegions } from "@lib/data/regions"
+-import { getCountryCode, getSiteName } from "@lib/data/cookies"
++import { getCountryCode, getSiteName, getSwitcherLocales } from "@lib/data/cookies"
+ import type { StoreRegion } from "@medusajs/types"
+ import { User } from "@medusajs/icons"
+ import CartButton from "@modules/layout/components/cart-button"
+@@ -36,11 +35,12 @@
+  */
+ export default async function NavH6() {
+   const t = await getTranslations()
+-  const [{ categories, totalCount }, regions, countryCode, siteName] = await Promise.all([
++  const [{ categories, totalCount }, regions, countryCode, siteName, locales] = await Promise.all([
+     listTopCategoriesWithCounts(),
+     listRegions().then((regions: StoreRegion[]) => regions),
+     getCountryCode(),
+     getSiteName(),
++    getSwitcherLocales(),
+   ])
+ 
+   return (
+@@ -53,7 +53,7 @@
+               <RegionSelect
+                 regions={regions}
+                 currentCountryCode={countryCode ?? undefined}
+-                locales={appLocales}
++                locales={locales}
+                 className="min-w-0"
+               />
+             </div>
+changed in both
+  base   100644 9333de0a8165774639fcdf0af7f5c250712d61e5 apps/tenant-panel/src/app.tsx
+  our    100644 a92fd4f6d7ab34f19817cb0b686cde13b1e08dda apps/tenant-panel/src/app.tsx
+  their  100644 d075a4ef4f61ad9e7dbeb89b2b4d2bb66aad23f4 apps/tenant-panel/src/app.tsx
+@@ -584,6 +584,7 @@
+             lazy: () => import("./routes/settings/domains"),
+           },
+           {
++<<<<<<< .our
+             // «Приём оплат» (t03-tenant-secrets-robokassa): the shop's own
+             // payment account, stored encrypted per tenant. No Admin
+             // counterpart — the Admin configures providers in medusa-config
+@@ -592,6 +593,19 @@
+             handle: { breadcrumb: () => t("paymentSettings.title") },
+             errorElement: <ErrorBoundary />,
+             lazy: () => import("./routes/settings/payments"),
++=======
++            // t06-locale-currency: which of the storefront's 36 locales this
++            // shop offers, its default, and the currency its default prices
++            // in. Same shape as /settings/domains next to it — one screen,
++            // no children, the document is edited in place.
++            path: "/settings/locale",
++            handle: {
++              breadcrumb: () =>
++                t("localeSettings.title", { defaultValue: "Язык и валюта" }),
++            },
++            errorElement: <ErrorBoundary />,
++            lazy: () => import("./routes/settings/locale"),
++>>>>>>> .their
+           },
+         ],
+       },
+added in remote
+  their  100644 a0bc28c5a95b059e918696a2e0ff6a5fb23cae23 apps/tenant-panel/src/hooks/api/locale-settings.tsx
+@@ -0,0 +1,77 @@
++import { FetchError } from "@medusajs/js-sdk"
++import {
++  QueryKey,
++  UseMutationOptions,
++  UseQueryOptions,
++  useMutation,
++  useQuery,
++} from "@tanstack/react-query"
++
++import { sdk } from "../../lib/client"
++import { queryKeysFactory } from "../../lib/query-key-factory"
++import { queryClient } from "../../lib/query-client"
++import type { LocaleCode } from "../../lib/locale-catalog"
++
++// tenant-panel: own hook file, no Admin counterpart — GET/PUT
++// /tenants/locale-settings per t06-locale-currency. Same shape as
++// hooks/api/home.tsx: the response is the whole document or null (nothing
++// saved yet), never a list.
++
++export type TenantLocaleSettingsDocument = {
++  default_locale: LocaleCode
++  enabled_locales: LocaleCode[]
++  default_country: string | null
++}
++
++export type TenantLocaleSettingsResponse = {
++  locale_settings: TenantLocaleSettingsDocument | null
++}
++
++const LOCALE_SETTINGS_QUERY_KEY = "tenant-locale-settings" as const
++export const tenantLocaleSettingsQueryKeys = queryKeysFactory(
++  LOCALE_SETTINGS_QUERY_KEY
++)
++
++export const useTenantLocaleSettings = (
++  options?: Omit<
++    UseQueryOptions<
++      TenantLocaleSettingsResponse,
++      FetchError,
++      TenantLocaleSettingsResponse,
++      QueryKey
++    >,
++    "queryFn" | "queryKey"
++  >
++) => {
++  const { data, ...rest } = useQuery({
++    queryFn: () =>
++      sdk.client.fetch<TenantLocaleSettingsResponse>("/tenants/locale-settings"),
++    queryKey: tenantLocaleSettingsQueryKeys.details(),
++    ...options,
++  })
++
++  return { ...data, ...rest }
++}
++
++export const useUpdateTenantLocaleSettings = (
++  options?: UseMutationOptions<
++    TenantLocaleSettingsResponse,
++    FetchError,
++    TenantLocaleSettingsDocument
++  >
++) => {
++  return useMutation({
++    mutationFn: (payload) =>
++      sdk.client.fetch<TenantLocaleSettingsResponse>("/tenants/locale-settings", {
++        method: "PUT",
++        body: payload,
++      }),
++    onSuccess: (data, variables, context) => {
++      queryClient.invalidateQueries({
++        queryKey: tenantLocaleSettingsQueryKeys.details(),
++      })
++      options?.onSuccess?.(data, variables, context)
++    },
++    ...options,
++  })
++}
+added in remote
+  their  100644 24e44bbc109745c7cba6e529aac9bfef40a45fe2 apps/tenant-panel/src/lib/locale-catalog.ts
+@@ -0,0 +1,90 @@
++/**
++ * `apps/storefront/src/i18n/config.ts` `locales`/`localeLabels`, hand-transcribed
++ * — same reason `apps/backend/src/api/tenants/locale-settings/validators.ts`
++ * `LOCALE_CODES` is: `pnpm-workspace.yaml` lists only `apps/**`, so there is no
++ * shared package the panel could import the storefront's own list from.
++ */
++export const LOCALE_CODES = [
++  "ar",
++  "bg",
++  "bn",
++  "cs",
++  "da",
++  "de",
++  "el",
++  "en",
++  "es",
++  "fi",
++  "fr",
++  "he",
++  "hi",
++  "hu",
++  "id",
++  "it",
++  "ja",
++  "ka",
++  "ko",
++  "lt",
++  "mn",
++  "ms",
++  "nb",
++  "nl",
++  "pl",
++  "pt",
++  "ro",
++  "ru",
++  "sk",
++  "sv",
++  "th",
++  "tl",
++  "tr",
++  "uk",
++  "vi",
++  "zh",
++] as const
++
++export type LocaleCode = (typeof LOCALE_CODES)[number]
++
++export const LOCALE_LABELS: Record<LocaleCode, string> = {
++  ar: "العربية",
++  bg: "Български",
++  bn: "বাংলা",
++  cs: "Čeština",
++  da: "Dansk",
++  de: "Deutsch",
++  el: "Ελληνικά",
++  en: "English",
++  es: "Español",
++  fi: "Suomi",
++  fr: "Français",
++  he: "עברית",
++  hi: "हिन्दी",
++  hu: "Magyar",
++  id: "Bahasa Indonesia",
++  it: "Italiano",
++  ja: "日本語",
++  ka: "ქართული",
++  ko: "한국어",
++  lt: "Lietuvių",
++  mn: "Монгол",
++  ms: "Bahasa Melayu",
++  nb: "Norsk bokmål",
++  nl: "Nederlands",
++  pl: "Polski",
++  pt: "Português",
++  ro: "Română",
++  ru: "Русский",
++  sk: "Slovenčina",
++  sv: "Svenska",
++  th: "ไทย",
++  tl: "Tagalog",
++  tr: "Türkçe",
++  uk: "Українська",
++  vi: "Tiếng Việt",
++  zh: "中文",
++}
++
++export const localeOptions = LOCALE_CODES.map((code) => ({
++  label: `${LOCALE_LABELS[code]} (${code})`,
++  value: code,
++}))
+changed in both
+  base   100644 4d7d50b3636a587083b708409826598959cc39f7 apps/tenant-panel/src/routes/home/home.tsx
+  our    100644 973ea43d417bf2d7bd5ad6274799b02a7ff7ba8b apps/tenant-panel/src/routes/home/home.tsx
+  their  100644 60a7375b3c1b8bde8f0ff576dbd2188507e8f211 apps/tenant-panel/src/routes/home/home.tsx
+@@ -81,11 +81,21 @@
+           >
+             {t("tenantAddress.title")}
+           </Link>
++<<<<<<< .our
+           <Link
+             to="/settings/payments"
+             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+           >
+             {t("paymentSettings.title")}
++=======
++          {/* t06-locale-currency: the shop's own default language and its
++              enabled subset of the storefront's 36 locales. */}
++          <Link
++            to="/settings/locale"
++            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
++          >
++            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
++>>>>>>> .their
+           </Link>
+         </div>
+       </Container>
+added in remote
+  their  100644 f8233599a53dc1a1da802109bf2ea3202c8cac0e apps/tenant-panel/src/routes/settings/locale/index.ts
+@@ -0,0 +1 @@
++export { LocaleSettings as Component } from "./locale"
+added in remote
+  their  100644 1722b8ee83367c5c8fcd88923e321d6521d89ad7 apps/tenant-panel/src/routes/settings/locale/locale.tsx
+@@ -0,0 +1,189 @@
++import { useEffect, useRef, useState } from "react"
++import { useTranslation } from "react-i18next"
++import { Button, Container, Heading, Label, Select, Text, toast } from "@medusajs/ui"
++
++import { SingleColumnPage } from "../../../components/layout/pages"
++import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
++import { Combobox } from "../../../components/inputs/combobox"
++import { CountrySelect } from "../../../components/inputs/country-select"
++import {
++  useTenantLocaleSettings,
++  useUpdateTenantLocaleSettings,
++  type TenantLocaleSettingsDocument,
++} from "../../../hooks/api/locale-settings"
++import { LOCALE_LABELS, localeOptions, type LocaleCode } from "../../../lib/locale-catalog"
++
++const DEFAULT_DOCUMENT: TenantLocaleSettingsDocument = {
++  default_locale: "ru",
++  enabled_locales: ["ru", "en"],
++  default_country: null,
++}
++
++// t06-locale-currency: no Admin counterpart. Which of the storefront's 36
++// locales this shop offers, its default, and the country its default prices
++// in — the owner's own pick, replacing the build's shared
++// STOREFRONT_DEFAULT_LOCALE/LOCALE_PIN/LOCALE_COUNTRY_MAP for this one shop.
++export const LocaleSettings = () => {
++  const { t } = useTranslation()
++  const { locale_settings: saved, isPending, isError, error } = useTenantLocaleSettings()
++  const { mutateAsync, isPending: isSaving } = useUpdateTenantLocaleSettings()
++
++  const [doc, setDoc] = useState<TenantLocaleSettingsDocument>(DEFAULT_DOCUMENT)
++  // Three states, not two: "still loading" is not "nothing saved" (rule 19h).
++  // `loaded` is what enables Save, and the initial load never overwrites a
++  // pick the owner has already made while the request was in flight.
++  const [loaded, setLoaded] = useState(false)
++  const touchedRef = useRef(false)
++
++  useEffect(() => {
++    if (isPending || isError) {
++      return
++    }
++    if (!touchedRef.current) {
++      setDoc(saved ?? DEFAULT_DOCUMENT)
++    }
++    setLoaded(true)
++  }, [isPending, isError, saved])
++
++  if (isError) {
++    throw error
++  }
++
++  const edit = (next: TenantLocaleSettingsDocument) => {
++    touchedRef.current = true
++    setDoc(next)
++  }
++
++  const setEnabledLocales = (codes: string[]) => {
++    const enabled_locales = codes as LocaleCode[]
++    // The default is always a member of the enabled set: dropping it from the
++    // multi-select falls back to whichever enabled locale is now first,
++    // rather than saving a document the backend would refuse.
++    const default_locale = enabled_locales.includes(doc.default_locale)
++      ? doc.default_locale
++      : enabled_locales[0]
++
++    edit({ ...doc, enabled_locales, default_locale: default_locale ?? doc.default_locale })
++  }
++
++  const onSave = async () => {
++    if (doc.enabled_locales.length === 0) {
++      toast.error(
++        t("localeSettings.needsOneLocale", {
++          defaultValue: "Enable at least one language before saving.",
++        })
++      )
++      return
++    }
++
++    try {
++      await mutateAsync(doc)
++      touchedRef.current = false
++      toast.success(
++        t("localeSettings.saved", { defaultValue: "Language and currency were saved." })
++      )
++    } catch (saveError) {
++      toast.error(
++        saveError instanceof Error
++          ? saveError.message
++          : t("localeSettings.saveFailed", { defaultValue: "The settings could not be saved." })
++      )
++    }
++  }
++
++  if (isPending) {
++    return <SingleColumnPageSkeleton sections={1} />
++  }
++
++  return (
++    <SingleColumnPage widgets={{ before: [], after: [] }} hasOutlet={false}>
++      <Container className="flex flex-col gap-y-6 p-6">
++        <div>
++          <Heading level="h2">
++            {t("localeSettings.title", { defaultValue: "Язык и валюта" })}
++          </Heading>
++          <Text size="small" className="text-ui-fg-subtle">
++            {t("localeSettings.subtitle", {
++              defaultValue:
++                "Какой язык витрина открывает по умолчанию, какие языки видит переключатель, и в какой валюте показывать цены по умолчанию.",
++            })}
++          </Text>
++        </div>
++
++        <div className="flex flex-col gap-y-2 max-w-[420px]">
++          <Label size="small" weight="plus" htmlFor="enabled-locales">
++            {t("localeSettings.enabledLocales", { defaultValue: "Языки магазина" })}
++          </Label>
++          <Combobox
++            value={doc.enabled_locales}
++            onChange={(next) => setEnabledLocales(next ?? [])}
++            options={localeOptions}
++            displayMode="chips"
++            disabled={!loaded}
++            placeholder={t("localeSettings.enabledLocalesPlaceholder", {
++              defaultValue: "Выберите языки",
++            })}
++          />
++          <Text size="xsmall" className="text-ui-fg-subtle">
++            {t("localeSettings.enabledLocalesHint", {
++              defaultValue:
++                "Только эти языки увидит переключатель на витрине. Остальные 34 остаются в каталоге, но магазин их не предлагает.",
++            })}
++          </Text>
++        </div>
++
++        <div className="flex flex-col gap-y-2 max-w-[420px]">
++          <Label size="small" weight="plus" htmlFor="default-locale">
++            {t("localeSettings.defaultLocale", { defaultValue: "Язык по умолчанию" })}
++          </Label>
++          <Select
++            value={doc.default_locale}
++            onValueChange={(next) => edit({ ...doc, default_locale: next as LocaleCode })}
++            disabled={!loaded || doc.enabled_locales.length === 0}
++          >
++            <Select.Trigger id="default-locale" data-testid="default-locale">
++              <Select.Value />
++            </Select.Trigger>
++            <Select.Content>
++              {doc.enabled_locales.map((code) => (
++                <Select.Item key={code} value={code}>
++                  {LOCALE_LABELS[code]} ({code})
++                </Select.Item>
++              ))}
++            </Select.Content>
++          </Select>
++          <Text size="xsmall" className="text-ui-fg-subtle">
++            {t("localeSettings.defaultLocaleHint", {
++              defaultValue:
++                "Посетитель без выбора и без подходящего языка в браузере попадает именно сюда.",
++            })}
++          </Text>
++        </div>
++
++        <div className="flex flex-col gap-y-2 max-w-[420px]">
++          <Label size="small" weight="plus" htmlFor="default-country">
++            {t("localeSettings.defaultCountry", { defaultValue: "Валюта по умолчанию" })}
++          </Label>
++          <CountrySelect
++            value={doc.default_country ?? undefined}
++            onChange={(next) => edit({ ...doc, default_country: next || null })}
++            allowClear
++            disabled={!loaded}
++          />
++          <Text size="xsmall" className="text-ui-fg-subtle">
++            {t("localeSettings.defaultCountryHint", {
++              defaultValue:
++                "Страна, в валюте которой открывается язык по умолчанию — курс не пересчитывается, показываются только цены, заведённые в этом регионе. Пусто — решает регион посетителя.",
++            })}
++          </Text>
++        </div>
++
++        <div>
++          <Button size="small" onClick={onSave} isLoading={isSaving} disabled={!loaded}>
++            {t("actions.save", { defaultValue: "Сохранить" })}
++          </Button>
++        </div>
++      </Container>
++    </SingleColumnPage>
++  )
++}

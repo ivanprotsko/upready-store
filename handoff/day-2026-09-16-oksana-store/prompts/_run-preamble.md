@@ -7,3 +7,5 @@ Rules that stay: every `git commit` carries the `IVAN_OK=1` prefix and literal p
 Finish: print `ARTIFACT: <absolute path or URL>` for each report/screenshot, then the LAST line exactly `RESULT: OK <one-line summary>` or `RESULT: FAIL <reason>`.
 
 IMPORTANT — a Stop hook (auto-save / durable-save) may interrupt your final answer and demand a save. Do the save it asks for, and then END AGAIN with the `ARTIFACT:` lines and the `RESULT:` line as the very last line of your final message. A final message without `RESULT:` counts as a failed run and the task is re-launched from scratch (measured: x03 ran twice for this reason).
+
+HEADLESS MEANS NOBODY COMES BACK: there is no second turn. Never start a command with run_in_background, never end a message with «waiting for the build / notification» — a run that stops to wait exits WITHOUT `RESULT:` and is counted as failed (measured: d03-deploy-mt-3 failed twice exactly this way). Every long step runs in the FOREGROUND with an explicit timeout (`timeout` is absent on macOS — use the Bash tool's timeout parameter, or `ssh … 'cmd'` and read its output), and you read its output before the next step.

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 55,
+  "action": "status-set",
+  "ts": "2026-09-15T12:05:31+08:00",
+  "status": "2026-09-15 12:05 WITA: приёмка f03-guest-order-not-in-account раунд 1 — PR #42 ОТКЛОНЁН. Блокер один: mergeable CONFLICTING, конфликтный хунк ровно один и он в HANDOFF.json (updated+status), проверено git merge-tree без merge; 36 messages/*.json сливаются чисто; origin/dev ушёл вперёд на bac261b (f04 #40). Второе: tsc витрины на ветке rc=2 (request-shop.test.ts TS2739 missing analytics/branding) — на dev фикстура УЖЕ починена #40, снимается тем же ребейзом; в отчёте воркера это ошибочно записано как состояние dev. Нит: unit бэкенда 1 failed 206 passed 207 total, profile-data.unit.spec.ts предсуществует на dev. Содержательных дефектов в коде НЕТ (адрес и магазин из сессии и publishable-ключа, тело не читается; гейт select-claimable-orders.ts поверх SQL-фильтра; негатив доказан 4 отказными seam-кейсами + unit PASS; пустой ключ даёт 404 а не claimed:0; sdk.client.fetch no-store = ключ пер-реквест; вызов после login() достижим). Живой замер критериев 1-5 приёмщиком НЕ делался и скриншотов нет — PR несливаем, а dev ушёл вперёд на гейт чекаута по городу/индексу, замер устарел бы сразу; раунд 2 = ребейз, зелёный tsc, живой замер. Findings: handoff/day-2026-09-16-oksana-store/logs/accept-f03-guest-order-not-in-account-1.findings.md, комментарий в PR #42 оставлен."
+}

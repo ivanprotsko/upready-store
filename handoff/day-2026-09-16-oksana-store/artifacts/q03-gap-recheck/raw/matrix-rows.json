@@ -1,0 +1,1523 @@
+[
+ {
+  "id": "varianty-tovara",
+  "cat": "Каталог и товары",
+  "fn": "Варианты товара",
+  "morning": "есть",
+  "why": "`apps/tenant-panel/src/routes/products/**` (variants, options batch, prices)",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "svoystva-i-parametry-tovara",
+  "cat": "Каталог и товары",
+  "fn": "Свойства и параметры товара",
+  "morning": "частично",
+  "why": "только встроенные поля Medusa (вес/габариты/материал/страна/HS) + `metadata`, нет схемы произвольных характеристик (capabilities «Каталог»)",
+  "need": "критично — макет карточки с характеристиками (артикул, состав, объём, страна) отклонён Иваном без готовой схемы, #460492",
+  "task": "t15-product-attributes"
+ },
+ {
+  "id": "gruppovoe-redaktirovanie-variantov",
+  "cat": "Каталог и товары",
+  "fn": "Групповое редактирование вариантов",
+  "morning": "нет",
+  "why": "не найдено в инвентаре",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vidy-tsen",
+  "cat": "Каталог и товары",
+  "fn": "Виды цен",
+  "morning": "нет",
+  "why": "инвентарь называет только регионные цены и промо-скидки, отдельных «розничная/оптовая/закупочная/старая» не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "tipy-tsen",
+  "cat": "Каталог и товары",
+  "fn": "Типы цен (по клиенту/оплате/количеству)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "komplekty-tovarov",
+  "cat": "Каталог и товары",
+  "fn": "Комплекты товаров",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — клиент предлагала «книгу рецептов» как подарок к товару, #460492",
+  "task": "—"
+ },
+ {
+  "id": "umnye-kategorii",
+  "cat": "Каталог и товары",
+  "fn": "Умные категории",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "skrytye-kategorii-i-gruppy",
+  "cat": "Каталог и товары",
+  "fn": "Скрытые категории и группы",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "tsifrovye-tovary",
+  "cat": "Каталог и товары",
+  "fn": "Цифровые товары",
+  "morning": "нет",
+  "why": "курсы у клиента живут на GetCourse, не в нашем каталоге (§8 telegram-digest)",
+  "need": "важно — «купить в подарок» для курса, вход второго человека через Telegram, #460706",
+  "task": "—"
+ },
+ {
+  "id": "sortirovka-tovarov",
+  "cat": "Каталог и товары",
+  "fn": "Сортировка товаров",
+  "morning": "частично",
+  "why": "`apps/storefront/src/modules/store/components/sort-select` (capabilities «Поиск и фильтры» PARTIAL)",
+  "need": "важно",
+  "task": "t07-catalog-filters-hero"
+ },
+ {
+  "id": "massovye-operatsii-s-tovarami",
+  "cat": "Каталог и товары",
+  "fn": "Массовые операции с товарами",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "poisk-po-katalogu-v-adminke",
+  "cat": "Каталог и товары",
+  "fn": "Поиск по каталогу в админке",
+  "morning": "нет",
+  "why": "не найдено в перечне маршрутов `apps/tenant-panel/src/routes/products/**`",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "redaktor-kartochki-tovara",
+  "cat": "Каталог и товары",
+  "fn": "Редактор карточки товара (WYSIWYG)",
+  "morning": "нет",
+  "why": "панель редактирует поля товара по формам, WYSIWYG-редактора текста в инвентаре не названо",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "dopolnitelnye-tovary",
+  "cat": "Каталог и товары",
+  "fn": "Дополнительные товары",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — «обычно покупают вместе» в отклонённом макете, #460492",
+  "task": "—"
+ },
+ {
+  "id": "otzyvy-na-tovary",
+  "cat": "Каталог и товары",
+  "fn": "Отзывы на товары",
+  "morning": "нет",
+  "why": "капабилити: «Отзывы — MISSING, у Черкашиной 332 отзыва — переносить некуда»",
+  "need": "критично — 332 отзыва клиента, #469350 (перенос данных каталога)",
+  "task": "t09-reviews"
+ },
+ {
+  "id": "markirovannye-tovary-487-fz",
+  "cat": "Каталог и товары",
+  "fn": "Маркированные товары (487-ФЗ)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — клиент продаёт БАД (метка «БАД» в отклонённом макете, #460492)",
+  "task": "—"
+ },
+ {
+  "id": "tovarnyy-uchet-i-ostatki",
+  "cat": "Каталог и товары",
+  "fn": "Товарный учёт и остатки",
+  "morning": "есть",
+  "why": "`apps/tenant-panel` `stock`, API `tenants/stock-locations`, `reservations`",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "sklady-multisklad-s-rezervirovaniem",
+  "cat": "Каталог и товары",
+  "fn": "Склады (мультисклад с резервированием)",
+  "morning": "частично",
+  "why": "один склад на тенанта провижинится автоматически, резерв есть только через API — экрана складов в панели нет (`routes/locations/common` — только общие компоненты)",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "import-eksport-csv-xls-xlsx",
+  "cat": "Каталог и товары",
+  "fn": "Импорт/экспорт CSV, XLS, XLSX",
+  "morning": "нет",
+  "why": "капабилити: «импорта товаров (CSV/XLSX/InSales/WB) нет»; есть только CSV-экспорт заказов",
+  "need": "критично — нужен для переноса 38 товаров Черкашиной вне неслитой ветки `feat/cherkashina-tenant`",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "import-eksport-yml-xml",
+  "cat": "Каталог и товары",
+  "fn": "Импорт/экспорт YML, XML",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "import-po-raspisaniyu",
+  "cat": "Каталог и товары",
+  "fn": "Импорт по расписанию",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "import-iz-google-sheets-po-ssylke",
+  "cat": "Каталог и товары",
+  "fn": "Импорт из Google Sheets по ссылке",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "zagruzka-izobrazheniy-po-ssylkam",
+  "cat": "Каталог и товары",
+  "fn": "Загрузка изображений по ссылкам",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "avtoopredelenie-struktury-importa",
+  "cat": "Каталог и товары",
+  "fn": "Автоопределение структуры импорта",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "t14-product-import"
+ },
+ {
+  "id": "sistemnye-parametry-dlya-marketpleysov",
+  "cat": "Каталог и товары",
+  "fn": "Системные параметры для маркетплейсов",
+  "morning": "нет",
+  "why": "не найдено — интеграций с площадками нет вовсе",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "faylovoe-hranilische",
+  "cat": "Каталог и товары",
+  "fn": "Файловое хранилище",
+  "morning": "частично",
+  "why": "`/opt/upready-store/media*` на одном хосте, S3 не включён на МТ (capabilities §1 «Медиа»)",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "gotovye-adaptivnye-shablony",
+  "cat": "Витрина и дизайн",
+  "fn": "Готовые адаптивные шаблоны",
+  "morning": "частично",
+  "why": "7 пресетов (`electronics, geist, home-goods, medusa, sneakers, supplements, womens-fashion`, `lib/theme/presets.generated.ts`) против «40+» у insales",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "vizualnyy-redaktor-sayta",
+  "cat": "Витрина и дизайн",
+  "fn": "Визуальный редактор сайта",
+  "morning": "нет",
+  "why": "владелец выбирает только пресет и композицию блоков в `routes/home-settings`, свободного визуального редактора нет",
+  "need": "важно — концепция «магазин-журнал» с баннерами предложена Иваном, явного ответа Оксаны нет, #460349",
+  "task": "—"
+ },
+ {
+  "id": "vidzhety-vitriny",
+  "cat": "Витрина и дизайн",
+  "fn": "Виджеты витрины",
+  "morning": "частично",
+  "why": "`routes/home-settings` — композиция блоков H1–H6/F1–F6, hero-варианты",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "redaktor-koda-html-css-js-liquid",
+  "cat": "Витрина и дизайн",
+  "fn": "Редактор кода HTML/CSS/JS/Liquid",
+  "morning": "нет",
+  "why": "не найдено — платформа закрытая, кода правкой владелец не касается",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "otdelnye-versii-desktop-mobilnaya",
+  "cat": "Витрина и дизайн",
+  "fn": "Отдельные версии десктоп/мобильная",
+  "morning": "частично",
+  "why": "Next.js отзывчивая вёрстка на одном шаблоне, раздельной настройки версий нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "generator-logotipov",
+  "cat": "Витрина и дизайн",
+  "fn": "Генератор логотипов",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — у клиента нет логотипа, есть только черновики леттерингов от Ивана, #469372/#469373",
+  "task": "t16-owner-branding"
+ },
+ {
+  "id": "storonnie-shablony",
+  "cat": "Витрина и дизайн",
+  "fn": "Сторонние шаблоны",
+  "morning": "нет",
+  "why": "не найдено — темы не устанавливаются извне",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "palitra-tsvetov-shablona",
+  "cat": "Витрина и дизайн",
+  "fn": "Палитра цветов шаблона",
+  "morning": "нет",
+  "why": "capabilities: «владелец не загружает логотип, не меняет цвета/шрифты/фавикон — только пресет»",
+  "need": "важно — согласован единый фирстиль после запуска, #469345",
+  "task": "t16-owner-branding"
+ },
+ {
+  "id": "upravlenie-kontentom",
+  "cat": "Витрина и дизайн",
+  "fn": "Управление контентом",
+  "morning": "частично",
+  "why": "`tenant_page` (5 ключей), `home-settings` — нет редактора меню, нет блога",
+  "need": "важно",
+  "task": "t05-page-keys / t10-blog"
+ },
+ {
+  "id": "galereya-shablonov-katalog",
+  "cat": "Витрина и дизайн",
+  "fn": "Галерея шаблонов (каталог)",
+  "morning": "частично",
+  "why": "выбор из 7 пресетов в панели заменяет отдельную страницу-каталог",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "klientskaya-baza",
+  "cat": "Заказы и CRM",
+  "fn": "Клиентская база",
+  "morning": "частично",
+  "why": "API только `GET /tenants/customers/[id]`, экрана списка/поиска в панели нет",
+  "need": "важно",
+  "task": "t13-customers-screen"
+ },
+ {
+  "id": "statusy-zakaza",
+  "cat": "Заказы и CRM",
+  "fn": "Статусы заказа",
+  "morning": "есть",
+  "why": "стандартные статусы Medusa, панель `routes/orders/**`",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "sinhronizatsiya-statusov-s-marketpleysami",
+  "cat": "Заказы и CRM",
+  "fn": "Синхронизация статусов с маркетплейсами",
+  "morning": "нет",
+  "why": "интеграций с площадками нет вовсе",
+  "need": "важно — «единая панель заказов WB + Ozon + магазин» согласовано, #468851",
+  "task": "—"
+ },
+ {
+  "id": "polnyy-tsikl-obrabotki-zakazov-marketpleysov",
+  "cat": "Заказы и CRM",
+  "fn": "Полный цикл обработки заказов маркетплейсов",
+  "morning": "нет",
+  "why": "то же",
+  "need": "важно — #468851/#472253",
+  "task": "—"
+ },
+ {
+  "id": "massovye-operatsii-s-zakazami",
+  "cat": "Заказы и CRM",
+  "fn": "Массовые операции с заказами",
+  "morning": "нет",
+  "why": "не найдено (кроме CSV-экспорта заказов)",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "dokumenty-po-zakazam",
+  "cat": "Заказы и CRM",
+  "fn": "Документы по заказам (чек/накладная/счёт-фактура)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "zadachi-k-zakazam",
+  "cat": "Заказы и CRM",
+  "fn": "Задачи к заказам",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "lichnyy-kabinet-pokupatelya",
+  "cat": "Заказы и CRM",
+  "fn": "Личный кабинет покупателя",
+  "morning": "есть",
+  "why": "`modules/account/**` — регистрация, вход, адреса, заказы, профиль, таймлайн заказа",
+  "need": "важно — клиент просила ЛК с историей и трек-номерами, #463691",
+  "task": "—"
+ },
+ {
+  "id": "segmentatsiya-pokupateley",
+  "cat": "Заказы и CRM",
+  "fn": "Сегментация покупателей",
+  "morning": "нет",
+  "why": "экрана клиентов в панели нет вовсе",
+  "need": "можно позже",
+  "task": "t13-customers-screen"
+ },
+ {
+  "id": "avtorizatsiya-pokupatelya",
+  "cat": "Заказы и CRM",
+  "fn": "Авторизация покупателя",
+  "morning": "частично",
+  "why": "только email/пароль (`modules/account/**`); RU-версии нужны Яндекс ID/Max/Госуслуги, аккаунт не создан с 2026-09-04",
+  "need": "критично — #469665/#472573, открытый вопрос без ответа",
+  "task": "—"
+ },
+ {
+  "id": "nastroyka-oformleniya-zakaza",
+  "cat": "Заказы и CRM",
+  "fn": "Настройка оформления заказа",
+  "morning": "частично",
+  "why": "чекаут с шитами есть (`modules/checkout/**`), кастомных полей заказа (чекбоксы/файлы/даты) в инвентаре не названо",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "zakaz-v-odin-klik",
+  "cat": "Заказы и CRM",
+  "fn": "Заказ в один клик",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "uvedomleniya-o-novyh-zakazah",
+  "cat": "Заказы и CRM",
+  "fn": "Уведомления о новых заказах",
+  "morning": "частично",
+  "why": "подписчик `order-placed-tenant-link.ts` только привязывает заказ к тенанту, письма/Telegram владельцу нет; SMTP на МТ не настроен",
+  "need": "критично",
+  "task": "t08-order-notifications"
+ },
+ {
+  "id": "avtoopredelenie-naselennogo-punkta-antibot-kommentarii",
+  "cat": "Заказы и CRM",
+  "fn": "Автоопределение города, антибот, комментарии",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "dokumentatsiya-zakazy-klienty",
+  "cat": "Заказы и CRM",
+  "fn": "Документация «Заказы», «Клиенты»",
+  "morning": "не применимо",
+  "why": "справочные разделы insales для владельцев магазинов, не код нашей платформы",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "sistema-skidok",
+  "cat": "Маркетинг",
+  "fn": "Система скидок",
+  "morning": "есть",
+  "why": "`routes/promotions`, API `tenants/promotions/**` (DONE по коду)",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "promokody",
+  "cat": "Маркетинг",
+  "fn": "Промокоды",
+  "morning": "есть",
+  "why": "`checkout/components/discount-code`",
+  "need": "важно — промокод в корзине заявлен клиентом, #460474",
+  "task": "—"
+ },
+ {
+  "id": "bonusnaya-programma",
+  "cat": "Маркетинг",
+  "fn": "Бонусная программа",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "polzovatelskie-skidki",
+  "cat": "Маркетинг",
+  "fn": "Пользовательские скидки",
+  "morning": "частично",
+  "why": "стандартные типы Medusa (процент/сумма/buy-get), собственных правил нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "natsenki-i-skidki-na-sposoby-oplaty",
+  "cat": "Маркетинг",
+  "fn": "Наценки/скидки на способы оплаты",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "broshennye-korziny",
+  "cat": "Маркетинг",
+  "fn": "Брошенные корзины",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "massovye-rassylki-email-sms",
+  "cat": "Маркетинг",
+  "fn": "Массовые рассылки email/SMS",
+  "morning": "нет",
+  "why": "есть только транзакционные письма по событиям заказа, маркетинговых рассылок нет",
+  "need": "важно — клиент хочет блог и лид-магниты в баннерах, #460352",
+  "task": "—"
+ },
+ {
+  "id": "triggernye-rassylki",
+  "cat": "Маркетинг",
+  "fn": "Триггерные рассылки",
+  "morning": "частично",
+  "why": "подписчики на события заказа есть (`subscribers/order-*-email.ts`), в мессенджеры/SMS не отправляют",
+  "need": "важно",
+  "task": "t08-order-notifications"
+ },
+ {
+  "id": "retargeting-vkontakte",
+  "cat": "Маркетинг",
+  "fn": "Ретаргетинг ВКонтакте",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "reklamnye-servisy",
+  "cat": "Маркетинг",
+  "fn": "Рекламные сервисы (СберТаргет, VK, Директ)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "generator-utm-metok",
+  "cat": "Маркетинг",
+  "fn": "Генератор UTM-меток",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "schetchiki-i-pikseli",
+  "cat": "Маркетинг",
+  "fn": "Счётчики и пиксели",
+  "morning": "частично",
+  "why": "GA4 через `NEXT_PUBLIC_GA_MEASUREMENT_ID`, но один ID на все магазины сразу и не задан на МТ (капабилити: `rg -n 'GA_|GOOGLE_ANALYTICS' deploy/mt/shipshift.env.example deploy/compose.mt.yml` → пусто)",
+  "need": "критично",
+  "task": "t17-analytics"
+ },
+ {
+  "id": "startovye-reklamnye-bonusy",
+  "cat": "Маркетинг",
+  "fn": "Стартовые рекламные бонусы",
+  "morning": "не применимо",
+  "why": "промо-бонус линейки insales «Интернет-магазин» на подключение рекламы, не функция платформы",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "yukassa",
+  "cat": "Оплата",
+  "fn": "ЮKassa",
+  "morning": "нет",
+  "why": "капабилити: `rg` по `robokassa|yookassa|юkassa|tinkoff|cloudpayments|paykeeper` в `apps deploy` → 0 файлов; только ручной `pp_system_default`",
+  "need": "критично — тестовый режим Robokassa клиент уже подключил, #463583",
+  "task": "t03-tenant-secrets-robokassa"
+ },
+ {
+  "id": "sposoby-oplaty-cherez-yukassa",
+  "cat": "Оплата",
+  "fn": "Способы оплаты через ЮKassa (карты/СБП/SberPay)",
+  "morning": "нет",
+  "why": "то же измерение",
+  "need": "критично — способы в макете чекаута: карта РФ/СНГ, СБП, #460479",
+  "task": "t03-tenant-secrets-robokassa"
+ },
+ {
+  "id": "drugie-platezhnye-servisy",
+  "cat": "Оплата",
+  "fn": "Другие платёжные сервисы",
+  "morning": "частично",
+  "why": "плагин `@gorgo/medusa-payment-robokassa` оценён на неслитой ветке `feat/cherkashina-tenant`, заблокирован вопросом пер-тенантных секретов",
+  "need": "критично",
+  "task": "t03-tenant-secrets-robokassa"
+ },
+ {
+  "id": "onlayn-kassy",
+  "cat": "Оплата",
+  "fn": "Онлайн-кассы (54-ФЗ)",
+  "morning": "нет",
+  "why": "не найдено, платёжных модулей в `medusa-config.ts`/`package.json` бэкенда нет",
+  "need": "критично — без ККТ магазин не может легально принимать деньги",
+  "task": "—"
+ },
+ {
+  "id": "oflayn-sposoby-oplaty",
+  "cat": "Оплата",
+  "fn": "Офлайн-способы оплаты",
+  "morning": "нет",
+  "why": "капабилити называет только `pp_system_default` (ручной, без списания)",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "onlayn-kreditovanie",
+  "cat": "Оплата",
+  "fn": "Онлайн-кредитование",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vneshnie-sposoby-oplaty-cherez-api",
+  "cat": "Оплата",
+  "fn": "Внешние способы оплаты через API",
+  "morning": "частично",
+  "why": "Medusa технически допускает платёжные модули (это и есть путь для Robokassa-плагина), готового внешнего API-модуля своей разработки нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "svyaz-oplaty-i-dostavki",
+  "cat": "Оплата",
+  "fn": "Связь оплаты и доставки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "insales-dostavka",
+  "cat": "Доставка",
+  "fn": "Собственный агрегатор служб доставки",
+  "morning": "нет",
+  "why": "капабилити: только две плоские опции на тенанта, никакого агрегатора",
+  "need": "важно — ApiShip у клиента заблокирован кабинетом Почты России, #469812–#469859",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "sdek-pochta-rossii-dpd-dalli",
+  "cat": "Доставка",
+  "fn": "СДЭК, Почта России, DPD, Dalli",
+  "morning": "нет",
+  "why": "не найдено — только `manual_manual` провайдер",
+  "need": "критично — СДЭК данные получены и «подключён» вручную клиентом, #468816/#469345; Почта России заблокирована, #469812",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "boxberry-dostavista",
+  "cat": "Доставка",
+  "fn": "Boxberry, Dostavista",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "yandeks-dostavka-5post",
+  "cat": "Доставка",
+  "fn": "Яндекс Доставка, 5Post",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "raschet-dostavki-v-kartochke-tovara",
+  "cat": "Доставка",
+  "fn": "Расчёт доставки в карточке товара",
+  "morning": "нет",
+  "why": "две плоские опции без расчёта стоимости до оформления",
+  "need": "важно",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "zony-dostavki",
+  "cat": "Доставка",
+  "fn": "Зоны доставки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "критично — сценарий «цена за кг по зонам» закрывает заявленную клиентом потребность, #463839",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "pravila-stoimosti-dostavki",
+  "cat": "Доставка",
+  "fn": "Правила стоимости доставки (по сумме/весу/региону)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "критично — #463839",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "sposoby-dostavki",
+  "cat": "Доставка",
+  "fn": "Способы доставки (курьер/самовывоз/ПВЗ)",
+  "morning": "частично",
+  "why": "две опции «pickup/courier» с машинными названиями на тенанта, статический сид ПВЗ (`migration-scripts/data/pickup-points`)",
+  "need": "важно",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "kalendar-i-intervaly-dostavki",
+  "cat": "Доставка",
+  "fn": "Календарь и интервалы доставки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "edinye-etiketki-i-treking",
+  "cat": "Доставка",
+  "fn": "Единые этикетки и трекинг",
+  "morning": "нет",
+  "why": "не найдено — ручной ввод трек-номера в панели ещё не в коде",
+  "need": "критично — ручной ввод трека согласован с клиентом, #463850",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "otgruzki",
+  "cat": "Доставка",
+  "fn": "Отгрузки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "nalozhennye-platezhi-i-balans",
+  "cat": "Доставка",
+  "fn": "Наложенные платежи и баланс",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "natsenka-na-dostavku",
+  "cat": "Доставка",
+  "fn": "Наценка на доставку",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vozvraty",
+  "cat": "Доставка",
+  "fn": "Возвраты",
+  "morning": "частично",
+  "why": "returns/exchanges/claims — копия Admin в панели заказов (`routes/orders/**`), но не через ПВЗ и не «в пару кликов»",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "upakovki-i-kontakty-sklada",
+  "cat": "Доставка",
+  "fn": "Упаковки и контакты склада",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vneshnie-sposoby-dostavki-cherez-api",
+  "cat": "Доставка",
+  "fn": "Внешние способы доставки через API",
+  "morning": "частично",
+  "why": "Medusa допускает fulfillment-провайдеров технически, ApiShip оценивался на ветке `feat/cherkashina-tenant`, не реализовано",
+  "need": "важно",
+  "task": "t04-shipping-tariffs"
+ },
+ {
+  "id": "ozon-wildberries-yandeks-market-avito",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Ozon, Wildberries, Яндекс Маркет, Avito",
+  "morning": "нет",
+  "why": "интеграции с площадками в коде нет вовсе",
+  "need": "важно — клиент активно продаёт на WB, синхронизация запрошена, #472253/#472573",
+  "task": "—"
+ },
+ {
+  "id": "shemy-fbs-fbo-dbs",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Схемы FBS, FBO, DBS",
+  "morning": "нет",
+  "why": "то же",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "obedinenie-kartochek",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Объединение карточек",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "ai-generatsiya-opisaniy-kartochek",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "AI-генерация описаний карточек",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "edinyy-ostatok-i-tablitsa-tsen",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Единый остаток и таблица цен",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — клиент просила синхронизацию остатков с WB, #472253",
+  "task": "—"
+ },
+ {
+  "id": "edinaya-lenta-zakazov-ploschadok",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Единая лента заказов площадок",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — «единая панель заказов WB + Ozon + магазин» согласовано, #468851",
+  "task": "—"
+ },
+ {
+  "id": "avtootvety-na-otzyvy-wildberries",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Автоответы на отзывы Wildberries",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vkontakte-i-odnoklassniki",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "ВКонтакте и Одноклассники",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "messendzhery-kak-kanal-prodazh",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Мессенджеры как канал продаж",
+  "morning": "частично",
+  "why": "Telegram-бот (`apps/bot`) продаёт тарифы платформы, не товары магазина; демо TG-входа для курса на «зарубежной версии», #460706",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "prochie-ploschadki",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Прочие площадки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "spravka-po-integratsiyam",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Справка по интеграциям",
+  "morning": "не применимо",
+  "why": "документация insales для владельцев, не код платформы",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "onbording-na-marketpleysy",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Онбординг на маркетплейсы",
+  "morning": "не применимо",
+  "why": "платная услуга insales, не функция магазина",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "sayt-iz-vitriny-marketpleysa",
+  "cat": "Маркетплейсы и соцсети",
+  "fn": "Сайт из витрины маркетплейса",
+  "morning": "не применимо",
+  "why": "отдельный тариф insales, не функция «Комбо»",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "osnovnye-pokazateli-prodazh",
+  "cat": "Аналитика и отчёты",
+  "fn": "Основные показатели продаж",
+  "morning": "нет",
+  "why": "капабилити: «дашборда продаж в панели нет (главная панели = обзор)»",
+  "need": "важно",
+  "task": "t17-analytics"
+ },
+ {
+  "id": "tovarnaya-analitika",
+  "cat": "Аналитика и отчёты",
+  "fn": "Товарная аналитика",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "reklama-tovarov",
+  "cat": "Аналитика и отчёты",
+  "fn": "Реклама товаров (CPC/CPA)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "pribyl-i-ubytki",
+  "cat": "Аналитика и отчёты",
+  "fn": "Прибыль и убытки",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "oborachivaemost",
+  "cat": "Аналитика и отчёты",
+  "fn": "Оборачиваемость",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "otchety-po-prodazham",
+  "cat": "Аналитика и отчёты",
+  "fn": "Отчёты по продажам",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно",
+  "task": "t17-analytics"
+ },
+ {
+  "id": "istochniki-zakazov",
+  "cat": "Аналитика и отчёты",
+  "fn": "Источники заказов",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "abc-xyz-analiz",
+  "cat": "Аналитика и отчёты",
+  "fn": "ABC/XYZ-анализ",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "posescheniya-konversiya-vremya-obrabotki",
+  "cat": "Аналитика и отчёты",
+  "fn": "Посещения, конверсия, время обработки",
+  "morning": "частично",
+  "why": "только сырой GA4 без агрегации в панели",
+  "need": "важно",
+  "task": "t17-analytics"
+ },
+ {
+  "id": "ai-analitik",
+  "cat": "Аналитика и отчёты",
+  "fn": "AI-Аналитик",
+  "morning": "нет",
+  "why": "не найдено; клиент интересовалась чат-ассистентом администратора, #468852",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "opovescheniya-o-defitsite-ostatkov",
+  "cat": "Аналитика и отчёты",
+  "fn": "Оповещения о дефиците остатков",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "vstroennye-seo-instrumenty",
+  "cat": "SEO и контент",
+  "fn": "Встроенные SEO-инструменты",
+  "morning": "частично",
+  "why": "canonical/hreflang/sitemap/robots/JSON-LD есть, но нет meta title/description у товаров/категорий/страниц",
+  "need": "важно",
+  "task": "t11-seo-redirects"
+ },
+ {
+  "id": "seo-filtry",
+  "cat": "SEO и контент",
+  "fn": "SEO-фильтры",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "seo-parametry-stranits-i-tovarov",
+  "cat": "SEO и контент",
+  "fn": "SEO-параметры страниц и товаров",
+  "morning": "нет",
+  "why": "капабилити: «Medusa их не имеет — только metadata»",
+  "need": "важно",
+  "task": "t11-seo-redirects"
+ },
+ {
+  "id": "robots-txt-i-sitemap-xml",
+  "cat": "SEO и контент",
+  "fn": "Robots.txt и Sitemap.xml",
+  "morning": "частично",
+  "why": "генерируются кодом `app/sitemap.ts`, `robots.ts`, редактирования из панели нет",
+  "need": "можно позже",
+  "task": "t11-seo-redirects"
+ },
+ {
+  "id": "301-redirekty",
+  "cat": "SEO и контент",
+  "fn": "301-редиректы",
+  "morning": "нет",
+  "why": "только `X-Robots-Tag: noindex` на редиректах есть, управляемых 301 нет",
+  "need": "важно — клиент переезжает с `cherkashinaoks.ru`/Tilda, нужны редиректы",
+  "task": "t11-seo-redirects"
+ },
+ {
+  "id": "blog-i-stati",
+  "cat": "SEO и контент",
+  "fn": "Блог и статьи",
+  "morning": "нет",
+  "why": "капабилити: «Блог — MISSING, у Черкашиной 18 статей — переносить некуда»",
+  "need": "критично — блог с ИИ-генерацией явно запрошен клиентом, #460352/#468852",
+  "task": "t10-blog"
+ },
+ {
+  "id": "chpu-ssylki",
+  "cat": "SEO и контент",
+  "fn": "ЧПУ-ссылки",
+  "morning": "есть",
+  "why": "Next App Router слаги категорий/товаров",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "prilozhenie-ios-i-android",
+  "cat": "Мобильное приложение",
+  "fn": "Приложение iOS и Android",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "upravlenie-zakazami",
+  "cat": "Мобильное приложение",
+  "fn": "Управление заказами с телефона",
+  "morning": "нет",
+  "why": "панель — адаптивное веб-приложение, нативного приложения нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "tovary-i-ostatki",
+  "cat": "Мобильное приложение",
+  "fn": "Товары и остатки с телефона",
+  "morning": "нет",
+  "why": "то же",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "analitika-prodazh",
+  "cat": "Мобильное приложение",
+  "fn": "Аналитика продаж в приложении",
+  "morning": "нет",
+  "why": "то же",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "redaktor-struktury-i-kontenta",
+  "cat": "Мобильное приложение",
+  "fn": "Редактор структуры и контента в приложении",
+  "morning": "нет",
+  "why": "то же",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "kommunikatsii",
+  "cat": "Мобильное приложение",
+  "fn": "Коммуникации в приложении",
+  "morning": "нет",
+  "why": "то же",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "mobilnye-pushi-o-zakazah",
+  "cat": "Мобильное приложение",
+  "fn": "Мобильные пуши о заказах",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "multikanalnyy-chat-dialogi",
+  "cat": "Коммуникации",
+  "fn": "Мультиканальный чат «Диалоги +»",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно — клиент интересовалась чат-ассистентом администратора, #468852",
+  "task": "—"
+ },
+ {
+  "id": "onlayn-chat-dlya-sayta",
+  "cat": "Коммуникации",
+  "fn": "Онлайн-чат для сайта",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "kanaly-kommunikatsii",
+  "cat": "Коммуникации",
+  "fn": "Каналы коммуникации (WhatsApp/TG/Viber/VK/email)",
+  "morning": "частично",
+  "why": "Telegram-бот тарифов (`apps/bot`) и транзакционные email-подписчики есть, канала клиентского общения по магазину нет",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "shablony-soobscheniy-i-pisem",
+  "cat": "Коммуникации",
+  "fn": "Шаблоны сообщений и писем",
+  "morning": "частично",
+  "why": "React Email шаблоны на 36 языков для транзакционных писем (`subscribers/**`)",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "uvedomleniya-o-statusah",
+  "cat": "Коммуникации",
+  "fn": "Уведомления о статусах",
+  "morning": "частично",
+  "why": "подписчики есть, SMTP не настроен на МТ (`deploy/mt/shipshift.env.example` без `SMTP_HOST`)",
+  "need": "критично",
+  "task": "t08-order-notifications"
+ },
+ {
+  "id": "triggery-na-sbor-otzyvov",
+  "cat": "Коммуникации",
+  "fn": "Триггеры на сбор отзывов",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "promokody-na-povtornuyu-pokupku",
+  "cat": "Коммуникации",
+  "fn": "Промокоды на повторную покупку через чат",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "priem-zvonkov",
+  "cat": "Коммуникации",
+  "fn": "Приём звонков",
+  "morning": "нет",
+  "why": "не найдено, телефония вне описанного скоупа",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "sinhronizatsiya-s-1s",
+  "cat": "Интеграции",
+  "fn": "Синхронизация с 1С",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "moysklad",
+  "cat": "Интеграции",
+  "fn": "МойСклад",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "bitriks24-retailcrm",
+  "cat": "Интеграции",
+  "fn": "Битрикс24, RetailCRM",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "chaty-i-servisy-obsluzhivaniya",
+  "cat": "Интеграции",
+  "fn": "Чаты и сервисы обслуживания",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "marketing-i-prodvizhenie",
+  "cat": "Интеграции",
+  "fn": "Маркетинг и продвижение (UniSender, Roistat и т.п.)",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "rasshireniya-funktsionala",
+  "cat": "Интеграции",
+  "fn": "Расширения функционала (Sber ID и т.п.)",
+  "morning": "нет",
+  "why": "не найдено — Sber ID отдельно нужен для RU-авторизации, #469665",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "prodazhi-i-bez-ustanovki",
+  "cat": "Интеграции",
+  "fn": "Продажи и «без установки»",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "magazin-prilozheniy-insales",
+  "cat": "Интеграции",
+  "fn": "Магазин приложений inSales",
+  "morning": "не применимо",
+  "why": "магазин приложений — собственный бизнес insales как SaaS-платформы",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "otkrytyy-api-insales",
+  "cat": "Интеграции",
+  "fn": "Открытый API inSales",
+  "morning": "есть",
+  "why": "Medusa REST/Admin API открыт, документация в репозитории",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "portal-razrabotchikov-liquidhub",
+  "cat": "Интеграции",
+  "fn": "Портал разработчиков Liquidhub",
+  "morning": "не применимо",
+  "why": "внешний портал insales для тем/приложений",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "tehpodderzhka-24-7",
+  "cat": "Поддержка и обучение",
+  "fn": "Техподдержка 24/7",
+  "morning": "не применимо",
+  "why": "обязательство подрядчика (Ивана) перед клиентом, не код платформы",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "besplatnye-dorabotki-do-15-minut",
+  "cat": "Поддержка и обучение",
+  "fn": "Бесплатные доработки до 15 минут",
+  "morning": "не применимо",
+  "why": "то же",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "dokumentatsiya",
+  "cat": "Поддержка и обучение",
+  "fn": "Документация",
+  "morning": "не применимо",
+  "why": "справочный сервис insales своим клиентам",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "faq",
+  "cat": "Поддержка и обучение",
+  "fn": "FAQ",
+  "morning": "не применимо",
+  "why": "то же",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "universitet-insales-keysy",
+  "cat": "Поддержка и обучение",
+  "fn": "Университет inSales, кейсы",
+  "morning": "не применимо",
+  "why": "обучающий блог самого insales",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "pereezd-na-insales",
+  "cat": "Поддержка и обучение",
+  "fn": "Переезд на inSales",
+  "morning": "не применимо",
+  "why": "платная услуга миграции insales",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "magazin-pod-klyuch-uslugi-razrabotki",
+  "cat": "Поддержка и обучение",
+  "fn": "Магазин «под ключ», услуги разработки",
+  "morning": "не применимо",
+  "why": "платная услуга insales",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "referalnaya-i-partnerskaya-programmy",
+  "cat": "Поддержка и обучение",
+  "fn": "Реферальная и партнёрская программы",
+  "morning": "не применимо",
+  "why": "бизнес самого insales",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "sobstvennyy-domen",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Собственный домен",
+  "morning": "есть",
+  "why": "панель `/settings/domains`, `POST /tenants/domains`, `mt-ingress-sync`, LE-сертификат за ~70 с (замер capabilities 2026-09-12)",
+  "need": "критично — клиент купила cherkashino.ru и черкашино.рф, ждут привязки",
+  "task": "x02-domains"
+ },
+ {
+  "id": "besplatnyy-poddomen",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Бесплатный поддомен",
+  "morning": "есть",
+  "why": "`<handle>.shipshift.dev`",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "ssl-sertifikat",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "SSL-сертификат",
+  "morning": "есть",
+  "why": "wildcard `*.shipshift.dev` + LE HTTP-01 на свои домены",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "domennaya-pochta",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Доменная почта",
+  "morning": "нет",
+  "why": "не найдено",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "neogranichennyy-trafik-i-hranilische",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Неограниченный трафик и хранилище",
+  "morning": "частично",
+  "why": "явных лимитов в коде нет, но медиа только на одном хосте без S3 — риск места (`compose.mt.yml:112-118`)",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "monitoring-24-7-i-avtoobnovleniya",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Мониторинг 24/7 и автообновления",
+  "morning": "нет",
+  "why": "деплой ручной по команде Ивана (rule 21c), автообновлений нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "uptime-99-9-zaschita-ot-atak",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Uptime 99,9%, защита от атак",
+  "morning": "нет",
+  "why": "не найдено данных о DDoS-защите в инвентаре",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "avtomaticheskoe-rezervnoe-kopirovanie",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Автоматическое резервное копирование",
+  "morning": "нет",
+  "why": "только ручной `pg_dump`, ночной job и R2/restic — лишь спека `backup-spec.md`, не реализовано",
+  "need": "важно",
+  "task": "—"
+ },
+ {
+  "id": "dokumentatsiya-nastroyki-domena",
+  "cat": "Домены, SSL, инфраструктура",
+  "fn": "Документация «Настройки домена»",
+  "morning": "не применимо",
+  "why": "справочный раздел insales",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "proizvolnye-stranitsy-magazina",
+  "cat": "Юридические страницы",
+  "fn": "Произвольные страницы магазина",
+  "morning": "частично",
+  "why": "`tenant_page` только с ключами `contacts|legal|about|privacy|offer` (`modules/tenant/models/tenant-page.ts:11`), нет delivery/faq/wholesale/returns/consent",
+  "need": "критично — оферта и политика обязательны для боевого запуска Robokassa, #463427/#463583",
+  "task": "t05-page-keys"
+ },
+ {
+  "id": "yur-dokumenty-platformy",
+  "cat": "Юридические страницы",
+  "fn": "Юр. документы платформы",
+  "morning": "не применимо",
+  "why": "это юр.документы самого insales как SaaS-провайдера, не магазина на «Комбо»",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "komplaens-i-kiberbezopasnost",
+  "cat": "Юридические страницы",
+  "fn": "Комплаенс и кибербезопасность",
+  "morning": "не применимо",
+  "why": "страницы insales о собственном комплаенсе",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "multiyazychnost",
+  "cat": "Мультивалюта и мультиязычность",
+  "fn": "Мультиязычность",
+  "morning": "частично",
+  "why": "36 локалей в коде (`src/i18n/config.ts`), но список языков магазина владелец не настраивает и стартовый каталог не переведён на русский",
+  "need": "важно",
+  "task": "t06-locale-currency"
+ },
+ {
+  "id": "nalogi-i-valyuty",
+  "cat": "Мультивалюта и мультиязычность",
+  "fn": "Налоги и валюты",
+  "morning": "частично",
+  "why": "валюта задаётся через регион кодом (`LOCALE_COUNTRY_MAP`), владелец её не настраивает",
+  "need": "важно",
+  "task": "t06-locale-currency"
+ },
+ {
+  "id": "sotrudniki-i-prava-dostupa",
+  "cat": "Права сотрудников",
+  "fn": "Сотрудники и права доступа",
+  "morning": "нет",
+  "why": "`tenant_admin` без поля роли, экрана «Команда» в панели нет",
+  "need": "можно позже",
+  "task": "—"
+ },
+ {
+  "id": "limit-polzovateley",
+  "cat": "Права сотрудников",
+  "fn": "Лимит пользователей",
+  "morning": "не применимо",
+  "why": "лимит тарифа insales — у нас нет платных тарифов с ограничением числа пользователей",
+  "need": "—",
+  "task": "—"
+ },
+ {
+  "id": "kartochka-magazina",
+  "cat": "Права сотрудников",
+  "fn": "Карточка магазина (контакты, владелец, учёт)",
+  "morning": "нет",
+  "why": "не найдено в инвентаре",
+  "need": "можно позже",
+  "task": "—"
+ }
+]

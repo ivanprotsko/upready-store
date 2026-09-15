@@ -1,0 +1,4 @@
+
+> @dtc/gorgo-medusa-tenant-panel@0.1.0 typecheck /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-seo-redirects/apps/tenant-panel
+> tsc --noEmit
+

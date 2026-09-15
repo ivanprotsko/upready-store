@@ -1,0 +1,12 @@
+{
+  "dateInputs": 2,
+  "summaryRequests": [
+    "http://localhost:5317/tenants/analytics/summary?period=7d",
+    "http://localhost:5317/tenants/analytics/summary?period=7d",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-12-09&to=2-12-09",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-12-09&to=20-12-09",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-12-09&to=202-12-09",
+    "http://localhost:5317/tenants/analytics/summary?period=custom&from=2026-12-09&to=2026-12-09"
+  ],
+  "salesBlock": "Продажи\nСегодня\n7 дней\n30 дней\nПроизвольный\nс\n09\n.\n12\n.\n2026\nпо\n09\n.\n12\n.\n2026\nВыручка\n₽ 0.00 RUB\nЗаказы\n0\nСредний чек\n₽ 0.00 RUB\nВыручка по дням\nТоп товаров\nЗа этот период продаж не было"
+}

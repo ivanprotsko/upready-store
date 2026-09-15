@@ -1,0 +1,8 @@
+{
+  "notes": [
+    "CATEGORY PICKER:\nesc\n\t\nНазвание\n\t\nОписание\n\t\nСтатус\n\t\nСоздано\n\t\nОбновлено\n\t\nОксана Черкашина\n\t\nSales channel of tenant \"cherkashino\"\n\t\nВключено\n\t\n15 сент. 2026 г.\n\t\n15 сент. 2026 г.\n1\n1 из 1 результатов\n1 из 1 страниц\nНазад\nДалее\nОтмена\nСохранить"
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}

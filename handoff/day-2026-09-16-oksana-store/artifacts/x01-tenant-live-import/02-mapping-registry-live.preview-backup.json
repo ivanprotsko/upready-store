@@ -1,0 +1,210 @@
+{
+ "format": "upready.cherkashina-migration-registry/v1",
+ "created_at": "2026-09-15 03:55 WITA",
+ "updated_at": "2026-09-15 03:56 WITA",
+ "tenant": {
+  "id": "ten_01M2GQVGEN1204CN90C510DNRG",
+  "handle": "cherkashino",
+  "name": "Оксана Черкашина",
+  "sales_channel_id": "sc_01M2GQVE0NVSWBRT9Q082MPDYE",
+  "publishable_key": "pk_8198573d694d799176db98d87e17e5d53b073cf905ce0b050f72e443331f1e31",
+  "admin_email": "ivanprotsko+cherkashino@ivanprotsko.com",
+  "storefront_url": "http://cherkashino.shipshift.dev/ru",
+  "source_store_name": "Oksansa Cherkashina",
+  "locales_needed": {
+   "default": "ru",
+   "enabled": [
+    "ru",
+    "en"
+   ]
+  }
+ },
+ "rows": [
+  {
+   "kind": "tenant",
+   "source_id": "store",
+   "source_handle": "olavka",
+   "target_handle": "cherkashino",
+   "status": "migrated",
+   "reason": "one tenant on the shared backend; name/handle per this run's arguments",
+   "checked_at": "2026-09-15 03:56 WITA",
+   "target_id": "ten_01M2GQVGEN1204CN90C510DNRG"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "customers",
+   "count": 46,
+   "status": "pending",
+   "reason": "customers (46) are NOT migrated by default — question to Ivan: consent/legal basis for moving personal data between operators; recommendation: do not migrate, re-registration on the new site",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "orders",
+   "count": 88,
+   "status": "pending",
+   "reason": "orders (88) are NOT migrated by default — history stays in the source ring; recommendation: export the order list as an archive for Oksana, do not re-create orders",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "reviews",
+   "count": 332,
+   "status": "pending",
+   "reason": "customer reviews live as translation rows (resource review, en+ru, 332 each); the target has no reviews feature — recommendation: keep the export, revisit when a reviews block exists",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "articles",
+   "count": 18,
+   "status": "pending",
+   "reason": "journal articles (18 = 9 ru + 9 en, module blog); the target has no blog — recommendation: decide with Ivan (port the blog module or publish as static pages)",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "courses",
+   "count": 2,
+   "status": "pending",
+   "reason": "courses (2) + entitlements (10) + progress (37) — the course engine is not in the target; recommendation: not part of the shop tenant",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "pickup_point_records",
+   "count": 3,
+   "status": "skipped",
+   "reason": "manual pickup datasets (3) belong to the carrier-abstraction layer — follows the ApiShip/shipping port decision",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "order_tracking",
+   "count": 0,
+   "status": "skipped",
+   "reason": "0 rows",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "loyalty_gift_cards",
+   "count": 0,
+   "status": "skipped",
+   "reason": "0 rows",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "agent_conversations",
+   "count": 50,
+   "status": "skipped",
+   "reason": "AI agent dialogues (50) — the agent chat is not in the target; not customer data of the shop",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "ai_image_generations",
+   "count": 4,
+   "status": "skipped",
+   "reason": "AI image generation log (4) — tooling state",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "auth_identities",
+   "count": 34,
+   "status": "skipped",
+   "reason": "34 emailpass identities of customers/admins — never migrated (password hashes stay with the operator); no telegram/yandex provider rows exist",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "email_link_codes",
+   "count": 3,
+   "status": "skipped",
+   "reason": "Telegram login codes (3) — transient",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "ui_translations",
+   "count": 910,
+   "status": "skipped",
+   "reason": "910 UI keys × ru/en override the SOURCE storefront's own strings; the target storefront has different keys — only the page texts were carried over (see kind page)",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "product_types",
+   "count": 8,
+   "status": "skipped",
+   "reason": "global reference data in Medusa (no tenant-scoped create): value kept in product metadata.source_type; matched to a global type when one with the same value exists",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "product_tags",
+   "count": 14,
+   "status": "skipped",
+   "reason": "same as types: metadata.source_tags (4 product↔tag links in the source)",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "collections",
+   "count": 2,
+   "status": "skipped",
+   "reason": "2 collections (bestsellers, new-arrivals) with 0 products assigned — nothing to carry",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "regions",
+   "count": 2,
+   "status": "skipped",
+   "reason": "source regions (Россия и СНГ rub, US usd) are store-wide infrastructure; target already has Russia/rub, United States/usd, Germany/eur",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "site_locales",
+   "count": 2,
+   "status": "pending",
+   "reason": "source locales ru (default) + en → tenant needs default ru; per-tenant locale/currency is the open decision of the wave-2 track (STOREFRONT_DEFAULT_LOCALE/LOCALE_PIN not touched)",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "shipping_options",
+   "count": 2,
+   "status": "pending",
+   "reason": "2 abstract options (Курьером до двери / Заберу сам, provider shipping_shipping, calculated) — depend on porting the carrier-abstraction provider; the tenant warehouse comes with the platform's default options",
+   "checked_at": "2026-09-15 03:55 WITA"
+  },
+  {
+   "kind": "dataset",
+   "source_id": "review_translations",
+   "count": 332,
+   "status": "skipped",
+   "reason": "see reviews",
+   "checked_at": "2026-09-15 03:55 WITA"
+  }
+ ],
+ "summary": {
+  "tenant": {
+   "total": 1,
+   "migrated": 1,
+   "skipped": 0,
+   "failed": 0,
+   "pending": 0
+  },
+  "dataset": {
+   "total": 20,
+   "migrated": 0,
+   "skipped": 13,
+   "failed": 0,
+   "pending": 7
+  }
+ }
+}

@@ -1,0 +1,7 @@
+run 1: typed=1 481 field=variants.0.prices.rub sentRub=[1481] before=1355 after=1481 -> SAVED (blurBeforeSubmit=true) panel=1 481,00 ₽ storefront=1 481,00 ₽
+run 2: typed=1 482 field=variants.0.prices.rub sentRub=[1482] before=1481 after=1482 -> SAVED (blurBeforeSubmit=true) panel=1 482,00 ₽ storefront=1 482,00 ₽
+run 3: typed=1 483 field=variants.0.prices.rub sentRub=[1483] before=1482 after=1483 -> SAVED (blurBeforeSubmit=true) panel=1 483,00 ₽ storefront=1 483,00 ₽
+run 4: typed=1 484 field=variants.0.prices.rub sentRub=[1484] before=1483 after=1484 -> SAVED (blurBeforeSubmit=true) panel=1 484,00 ₽ storefront=1 484,00 ₽
+run 5: typed=1 485 field=variants.0.prices.rub sentRub=[1485] before=1484 after=1485 -> SAVED (blurBeforeSubmit=true) panel=1 485,00 ₽ storefront=1 485,00 ₽
+
+5/5 SAVED  (acceptor-click)

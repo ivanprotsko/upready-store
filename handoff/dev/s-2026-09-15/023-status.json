@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 23,
+  "action": "status-set",
+  "ts": "2026-09-15T06:27:37+08:00",
+  "status": "2026-09-15 06:27 WITA: d02-deploy-mt-2 ЗАВЕРШЁН — sha origin/dev 2508708 задеплоен (8 PR с волны 1), 5/5 health-checks 200, 4 миграции tenant-модуля применились, бэкфиллы прогнаны, каталог Оксаны цел (38 товаров, проверено браузером и БД); находки: compose.mt.yml не прокидывает новые SMTP_*/TELEGRAM_*/BACKEND_PUBLIC_URL (баг PR#23/#28), up -d нужен повтор из-за гонки с healthcheck backend; report.md commit ad135cd"
+}

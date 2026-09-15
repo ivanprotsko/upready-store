@@ -1,0 +1,60 @@
+#39 313.8 ├ ƒ /api/demo/onboarding                             168 B         103 kB
+#39 313.8 ├ ƒ /api/demo/pay                                    168 B         103 kB
+#39 313.8 ├ ƒ /api/payment-return                              246 B         115 kB
+#39 313.8 ├ ƒ /api/revalidate                                  168 B         103 kB
+#39 313.8 ├ ƒ /api/studio/settings                             246 B         115 kB
+#39 313.8 ├ ƒ /api/studio/unlock                               168 B         103 kB
+#39 313.8 ├ ƒ /healthz                                         168 B         103 kB
+#39 313.8 ├ ○ /icon.svg                                          0 B            0 B
+#39 313.8 ├ ƒ /llms.txt                                        246 B         115 kB
+#39 313.8 ├ ƒ /opengraph-image                                 168 B         103 kB
+#39 313.8 ├ ƒ /robots.txt                                      168 B         103 kB
+#39 313.8 ├ ƒ /sitemap.xml                                     168 B         103 kB
+#39 313.8 ├ ƒ /start                                           220 B         107 kB
+#39 313.8 ├ ƒ /start/onboarding                              4.66 kB         111 kB
+#39 313.8 ├ ƒ /start/pay                                     3.45 kB         110 kB
+#39 313.8 ├ ƒ /start/plan                                      220 B         107 kB
+#39 313.8 ├ ƒ /start/service                                   220 B         107 kB
+#39 313.8 └ ƒ /twitter-image                                   168 B         103 kB
+#39 313.8 + First Load JS shared by all                       103 kB
+#39 313.8   ├ chunks/34c212fd-2e6c5b59c032e9c3.js            54.3 kB
+#39 313.8   ├ chunks/6032-acca1313c814180f.js                46.6 kB
+#39 313.8   └ other shared chunks (total)                    2.13 kB
+#39 313.8 
+#39 313.8 
+#39 313.8 ƒ Middleware                                       39.1 kB
+#39 313.8 
+#39 313.8 ○  (Static)   prerendered as static content
+#39 313.8 ƒ  (Dynamic)  server-rendered on demand
+#39 313.8 
+#39 314.0 npm notice
+#39 314.0 npm notice New major version of npm available! 10.9.8 -> 12.0.2
+#39 314.0 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#39 314.0 npm notice To update run: npm install -g npm@12.0.2
+#39 314.0 npm notice
+#39 DONE 314.5s
+
+#46 [storefront runtime 2/5] WORKDIR /app
+#46 CACHED
+
+#55 [storefront runtime 3/5] COPY --from=build /repo/apps/storefront/.next/standalone ./
+#55 DONE 2.6s
+
+#56 [storefront runtime 4/5] COPY --from=build /repo/apps/storefront/.next/static ./apps/storefront/.next/static
+#56 DONE 0.3s
+
+#57 [storefront runtime 5/5] COPY --from=build /repo/apps/storefront/public ./apps/storefront/public
+#57 DONE 0.2s
+
+#58 [storefront] exporting to image
+#58 exporting layers
+#58 exporting layers 1.4s done
+#58 writing image sha256:6e95da506370f1ef1a727a67eeaab70b1f8a98da9bed9845f9e6573aa11ee814 done
+#58 naming to docker.io/library/mt-storefront:latest 0.0s done
+#58 DONE 1.5s
+
+#59 [storefront] resolving provenance for metadata file
+#59 DONE 0.0s
+ Image mt-backend:latest Built 
+ Image mt-storefront:latest Built 
+ Image mt-panel:latest Built 

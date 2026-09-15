@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 62,
+  "action": "status-set",
+  "ts": "2026-09-15T13:33:45+08:00",
+  "status": "2026-09-15 13:33 WITA: штаб дня — ИНЦИДЕНТ ДИСК: ~13:27 WITA диск Mac заполнен под ноль (ENOSPC у всех сессий, диспетчер тик-крэшил 13:27–13:28), воркер f17 освободил 25 ГБ (npm-кэш 29 ГБ, npm cache clean); штаб чистит node_modules/.next в worktree смёрженных задач; локальный containerd после переполнения даёт I/O error — f17 делает одну сборку, при провале откроет PR со статическими замерами и blocked-файлом; диспетчер снова тикает (pid 81586)"
+}

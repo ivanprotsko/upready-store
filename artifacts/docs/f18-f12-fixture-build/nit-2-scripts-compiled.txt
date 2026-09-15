@@ -1,0 +1,9 @@
+# Находка 2 (нит приёмки): apps/backend/scripts тоже компилируется
+
+$ printf "export const probe: string = \"nit-2\";\n" > apps/backend/scripts/zz-nit-probe.ts
+$ cd apps/backend && npx tsc --noEmit --listFiles | grep zz-nit-probe
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/scripts/zz-nit-probe.ts
+tsc rc=0
+
+Файл вне scripts/fixtures попадает в программу компиляции => фикстура там уронила бы medusa build,
+а старый гейт, сканировавший только src/, промолчал бы. Нит подтверждён, не отклонён.

@@ -1,0 +1,6 @@
+"first_name","last_name","email","phone","orders_count","total_spent","currency_code","has_account","created_at"
+"","","ivanprotsko+qa1@ivanprotsko.com","","2","2188","rub","false","2026-09-14T22:46:44.507Z"
+"","","ivanprotsko+qa2@ivanprotsko.com","","2","2168","rub","false","2026-09-14T22:57:24.431Z"
+"","","f01-thankyou@upready.dev","","4","5420","rub","false","2026-09-15T02:24:51.562Z"
+"","","f01-accept@upready.dev","","2","2710","rub","false","2026-09-15T02:42:55.309Z"
+"Иван","Тестовый","ivanprotsko+q03@ivanprotsko.com","+79001234567","2","3614","rub","true","2026-09-15T06:52:43.107Z"

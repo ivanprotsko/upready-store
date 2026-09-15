@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { chromium } from '/Users/ivanprotsko/upready/projects/upready-store/node_modules/playwright/index.mjs';
+const ROOT = '/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck';
+const SHOP = 'https://cherkashino.shipshift.dev';
+const browser = await chromium.launch({ headless: true });
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'ru-RU', storageState: path.join(ROOT, '.buyer-state.json') });
+const page = await ctx.newPage();
+const errors = []; page.on('console', m => { if (m.type() === 'error') errors.push(m.text().slice(0, 200)); });
+const txt = async () => (await page.evaluate(() => document.body.innerText)).replace(/\n{2,}/g, '\n');
+await page.goto(SHOP + '/ru/checkout?step=delivery', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(10000);
+console.log('RADIOS', JSON.stringify(await page.$$eval('[role=radio],input[type=radio]', els => els.map(e => ({ tag: e.tagName, v: e.getAttribute('value') || e.value, aria: e.getAttribute('aria-label'), checked: e.getAttribute('aria-checked') || e.checked, txt: (e.closest('label')?.innerText || e.parentElement?.innerText || '').trim().slice(0, 60) }))).catch(() => [])));
+console.log('BUTTONS', JSON.stringify(await page.$$eval('button', els => els.map(e => ({ t: (e.innerText || '').trim().slice(0, 40), d: e.disabled })).filter(x => x.t))));
+await page.screenshot({ path: path.join(ROOT, 'shots', 's05-delivery-1280x900.png') });
+console.log('TEXT', (await txt()).slice(0, 1200));
+fs.writeFileSync(path.join(ROOT, 'raw', 's05-errors.json'), JSON.stringify(errors, null, 1));
+await browser.close();

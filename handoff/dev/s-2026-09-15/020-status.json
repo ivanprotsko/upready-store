@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 20,
+  "action": "status-set",
+  "ts": "2026-09-15T05:54:44+08:00",
+  "status": "2026-09-15 05:54 WITA: приёмка PR #28 t08-order-notifications — MERGED; свои замеры: seam 9/9, unit 95/96 (падение давнее и на dev), tsc/lint/бот/панель зелёные, изоляция двух магазинов и ссылки на витрину подтверждены"
+}

@@ -1,0 +1,14 @@
+import path from 'node:path';
+import { chromium } from '/Users/ivanprotsko/upready/projects/upready-store/node_modules/playwright/index.mjs';
+const ROOT = '/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck';
+const browser = await chromium.launch({ headless: true });
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'ru-RU', storageState: path.join(ROOT, '.buyer2.json') });
+const page = await ctx.newPage();
+await page.goto('https://cherkashino.shipshift.dev/ru/checkout?step=payment', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(12000);
+console.log('URL', page.url());
+console.log('BUTTONS', JSON.stringify(await page.$$eval('button', els => els.map(e => ({ t: (e.innerText || '').trim().slice(0, 45), d: e.disabled, tid: e.getAttribute('data-testid') })).filter(x => x.t || x.tid))));
+console.log('RADIOGROUPS', await page.locator('[role=radiogroup]').count());
+console.log('RADIOS', JSON.stringify(await page.$$eval('[role=radio]', els => els.map(e => ({ tid: e.getAttribute('data-testid'), checked: e.getAttribute('aria-checked'), t: (e.closest('label')?.innerText || e.parentElement?.innerText || '').trim().slice(0, 40) })))));
+await page.screenshot({ path: path.join(ROOT, 'shots', 's08-step-payment-1280x900.png') });
+await browser.close();

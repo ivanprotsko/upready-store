@@ -1,0 +1,3 @@
+run 1: typed=1 355 field=variants.0.prices.rub sentRub=[1355] before=1485 after=1355 -> SAVED (blurBeforeSubmit=true) panel=1 355,00 ₽ storefront=1 355,00 ₽
+
+1/1 SAVED  (acceptor-restore)

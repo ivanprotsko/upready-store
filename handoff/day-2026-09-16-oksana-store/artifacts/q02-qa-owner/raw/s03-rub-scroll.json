@@ -1,0 +1,26 @@
+{
+  "found": true,
+  "steps": 95,
+  "ms": 696,
+  "cols": [
+    "",
+    "Заголовок",
+    "SKU",
+    "Количество",
+    "Запасы",
+    "",
+    "Заголовок",
+    "Цена PEN",
+    "Цена PHP",
+    "Цена PKR",
+    "Цена PLN",
+    "Цена PYG",
+    "Цена QAR",
+    "Цена RON",
+    "Цена RSD",
+    "Цена RUB"
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}
