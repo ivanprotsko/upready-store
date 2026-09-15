@@ -11,11 +11,14 @@ import path from "node:path";
  *    Wildberries host, besides the read transport of w01. The read lint
  *    (`src/modules/wb/__tests__/transport-single-call-site.unit.spec.ts`)
  *    checks the same thing from the other side.
- * 2. Nothing outside the write modules and their tests calls `wbWrite` or
- *    `marketplaceWrite`. The task w20 builds the mechanism; w21-w23 add the
- *    callers, one operation class at a time, each with its own acceptance.
- *    Until then the repository cannot mutate Wildberries even with every gate
- *    open, because nobody asks it to.
+ * 2. The callers of `wbWrite` / `marketplaceWrite` outside the write modules
+ *    are exactly the ones listed in `REGISTERED_CALLERS` below. w20 built the
+ *    mechanism; w21-w23 add the callers, one operation class at a time, each
+ *    with its own acceptance, and each arriving as ONE line here — so a caller
+ *    that slipped in unreviewed turns this suite red.
+ * 3. No source in this repository sets the live gate. `WB_WRITE_LIVE` is
+ *    READ in one place and written in none, which is why every answer the
+ *    callers of claim 2 can produce today is a dry run.
  */
 
 const REPO_ROOT = path.resolve(__dirname, "../../../../../..");
@@ -24,6 +27,18 @@ const SCANNED_ROOTS = ["apps/backend/src", "apps/storefront/src", "apps/tenant-p
 
 const WRITE_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb-write", "write-transport.ts");
 const READ_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb", "transport.ts");
+
+/**
+ * The reviewed callers, one line per operation class.
+ *
+ * Adding a file here is the reviewable act: it says "this class of mutation
+ * now has a caller", and it is what an acceptor greps for when asking what a
+ * branch made reachable.
+ */
+const REGISTERED_CALLERS = [
+  // w23-wb-write-fbs-orders: the FBS desk, class `fbs_orders`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "fbs-orders", "actions", "route.ts"),
+];
 
 /** The two modules that own the mechanism. Their own files may name it. */
 const WRITE_MODULE_DIRS = [
@@ -88,7 +103,7 @@ describe("the WB write path has no live caller", () => {
     expect(offenders).toEqual([]);
   });
 
-  it("has no production caller of wbWrite or marketplaceWrite", () => {
+  it("has no caller of wbWrite or marketplaceWrite besides the registered ones", () => {
     const callers = relatives.filter((relative) => {
       if (WRITE_MODULE_DIRS.some((dir) => relative.startsWith(`${dir}${path.sep}`))) {
         return false;
@@ -97,6 +112,50 @@ describe("the WB write path has no live caller", () => {
       return WRITE_CALL.test(source);
     });
 
-    expect(callers).toEqual([]);
+    expect(callers.sort()).toEqual([...REGISTERED_CALLERS].sort());
+  });
+
+  it("finds every registered caller on disk", () => {
+    // A path that has been renamed would otherwise make the assertion above
+    // pass by BOTH sides shrinking to nothing (rule 20a: zero is not empty).
+    for (const caller of REGISTERED_CALLERS) {
+      expect(relatives).toContain(caller);
+    }
+  });
+
+  it("has no source that turns the live gate on", () => {
+    // An ASSIGNMENT into this process's environment, which is the only way a
+    // Node source can open gate (e) at runtime. Deliberately not a bare
+    // `WB_WRITE_LIVE=1`: that string stands in the head comments of the write
+    // transport, of the desk route and of this very file, and a lint that
+    // flags the prose describing an invariant is a lint nobody keeps.
+    const ASSIGNS_LIVE_ENV =
+      /process\.env\s*(?:\.WB_WRITE_LIVE\b|\[\s*["']WB_WRITE_LIVE["']\s*\])\s*=(?!=)/;
+
+    // This file holds the assignment as a STRING, in the case below that
+    // proves the regex can fail. Scanning it would flag the lint's own
+    // evidence (guard class 8b, self-inflicted-trigger).
+    const self = path.relative(REPO_ROOT, __filename).replace(/\.js$/, ".ts");
+    expect(relatives).toContain(self);
+
+    const setters = relatives
+      .filter((relative) => relative !== self)
+      .filter((relative) =>
+        ASSIGNS_LIVE_ENV.test(readFileSync(path.join(REPO_ROOT, relative), "utf8")),
+      );
+
+    expect(setters).toEqual([]);
+  });
+
+  it("would catch such an assignment if one appeared", () => {
+    // The scan above proves nothing unless it can fail (rule 20a): a regex
+    // that matches nothing would pass on an empty repository too.
+    const ASSIGNS_LIVE_ENV =
+      /process\.env\s*(?:\.WB_WRITE_LIVE\b|\[\s*["']WB_WRITE_LIVE["']\s*\])\s*=(?!=)/;
+
+    expect(ASSIGNS_LIVE_ENV.test('process.env.WB_WRITE_LIVE = "1";')).toBe(true);
+    expect(ASSIGNS_LIVE_ENV.test('process.env["WB_WRITE_LIVE"] = "1";')).toBe(true);
+    expect(ASSIGNS_LIVE_ENV.test('if (process.env.WB_WRITE_LIVE === "1") {')).toBe(false);
+    expect(ASSIGNS_LIVE_ENV.test("// set WB_WRITE_LIVE=1 to send for real")).toBe(false);
   });
 });

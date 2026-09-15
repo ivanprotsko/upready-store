@@ -74,6 +74,18 @@ export type FbsSupplyFacts = {
   orders: number;
 };
 
+/**
+ * What stands in the path of step 2 of «Собрать» while there is no live mode.
+ *
+ * A supply's id is minted by WB and arrives in the 201 of the create call, so
+ * with nothing being sent there is no id to substitute. The placeholder is
+ * spelled out rather than left as an empty string or a plausible-looking
+ * `WB-GI-…`: an audit row has to read as a dry run to whoever opens it later,
+ * and a value that impersonates a real id is worse than a value that names
+ * itself (rule 20a).
+ */
+export const NEW_SUPPLY_PLACEHOLDER = "dry-run-new-supply";
+
 /** One planned mutation: an id of `WB_WRITE_ENDPOINTS` and its call. */
 export type FbsPlannedCall = { endpointId: string; call: MarketplaceWriteCall };
 
@@ -214,7 +226,7 @@ export const planAssemble = (
       // With no open supply the id is not known until the first call answers.
       // The placeholder is what a DRY RUN can honestly show: today nothing is
       // sent, so there is no 201 to read an id out of (rule 17a).
-      params: { supplyId: supply?.supply_id ?? "<id новой поставки>" },
+      params: { supplyId: supply?.supply_id ?? NEW_SUPPLY_PLACEHOLDER },
       body: { orders: ids },
     },
   });
