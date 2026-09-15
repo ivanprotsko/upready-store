@@ -142,7 +142,7 @@ medusaIntegrationTestRunner({
         // scoped for (tenant id from the bearer/publishable key, never the body).
         const bPage = await api.get("/store/tenant/pages/offer", storeKey(b));
         expect(bPage.status).toBe(200);
-        expect(bPage.data.page.body).toBe(`Наш ИНН: {{ИНН}}.`);
+        expect(bPage.data.page.body).toBe("Наш ИНН: `{{ИНН}}`.");
         expect(bPage.data.page.body).not.toContain(FULL_REQUISITES.inn);
 
         // Now clear one field on A and confirm only ITS token goes back to
@@ -162,7 +162,7 @@ medusaIntegrationTestRunner({
         expect(body).toContain(FULL_REQUISITES.return_address);
 
         const bPageAfter = await api.get("/store/tenant/pages/offer", storeKey(b));
-        expect(bPageAfter.data.page.body).toBe(`Наш ИНН: {{ИНН}}.`);
+        expect(bPageAfter.data.page.body).toBe("Наш ИНН: `{{ИНН}}`.");
       });
 
       it("withholds {{ТЕЛЕФОН}} while phone_confirmed is false, and fills it once confirmed", async () => {
@@ -175,7 +175,7 @@ medusaIntegrationTestRunner({
 
         const unconfirmed = await api.get("/store/tenant/pages/offer", storeKey(b));
         expect(unconfirmed.status).toBe(200);
-        expect(unconfirmed.data.page.body).toBe("Тел: {{ТЕЛЕФОН}}.");
+        expect(unconfirmed.data.page.body).toBe("Тел: `{{ТЕЛЕФОН}}`.");
 
         const missing = await api.get("/tenants/requisites", bearer(b.token));
         expect(missing.data.missing.map((m: { token: string }) => m.token)).toContain("ТЕЛЕФОН");

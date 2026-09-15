@@ -124,6 +124,17 @@ export const valuesFromRequisites = (
  * value is non-blank. A token with no value, or one this module does not
  * know, is left exactly as written — the literal braces ARE the "not filled"
  * signal on the page, and it must survive (step plan, piece 2).
+ *
+ * A left-literal token is wrapped in backtick code marks: the storefront
+ * renders this text as the hand-rolled markdown of
+ * `apps/storefront/src/lib/util/markdown.ts`, which treats a lone `_` as
+ * emphasis with no escape syntax at all, and 10 of the 16 tokens contain one
+ * (`{{ЮР_АДРЕС}}` → the underscores are eaten and the middle turns italic —
+ * measured on the live storefront, round-2 acceptance finding). Wrapping the
+ * WHOLE `{{…}}` span in backticks makes the code-span branch of
+ * `parseInline`'s alternation match first, so the underscores inside never
+ * reach the emphasis branch; a resolved VALUE is never wrapped, only the
+ * literal "not filled" placeholder.
  */
 export const resolveLegalPlaceholders = (
   body: string,
@@ -131,7 +142,7 @@ export const resolveLegalPlaceholders = (
 ): string =>
   body.replace(tokenPattern(), (match, token: string) => {
     const value = values[token];
-    return value && value.trim().length > 0 ? value : match;
+    return value && value.trim().length > 0 ? value : `\`${match}\``;
   });
 
 /** The tokens still unfilled, in the list's own canonical order. */

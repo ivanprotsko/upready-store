@@ -72,8 +72,10 @@ describe("tenant-legal/requisites: resolveLegalPlaceholders", () => {
     expect(rendered).toContain("{{ИНН}}");
     expect((rendered.match(/\{\{/g) ?? []).length).toBe(1);
 
-    // Every other token resolved to its FULL_ROW value, unchanged.
-    const withoutInn = rendered.replace("{{ИНН}} ", "").replace(" {{ИНН}}", "");
+    // Every other token resolved to its FULL_ROW value, unchanged. The
+    // missing one renders backtick-wrapped (see the "wraps a left-literal
+    // token" test below), so strip that whole span, not just the braces.
+    const withoutInn = rendered.replace("`{{ИНН}}` ", "").replace(" `{{ИНН}}`", "");
     expect(withoutInn).not.toMatch(/\{\{/);
   });
 
@@ -96,6 +98,18 @@ describe("tenant-legal/requisites: resolveLegalPlaceholders", () => {
     const values = valuesFromRequisites(EMPTY_ROW, "acme.upready.dev");
     const rendered = resolveLegalPlaceholders(`{{${DOMAIN_TOKEN}}}`, values);
     expect(rendered).toBe("acme.upready.dev");
+  });
+
+  it("wraps a left-literal token in backticks, so the storefront's markdown reader does not eat its underscores as emphasis", () => {
+    const values = valuesFromRequisites(EMPTY_ROW, null);
+    const rendered = resolveLegalPlaceholders("адрес {{ЮР_АДРЕС}}.", values);
+    expect(rendered).toBe("адрес `{{ЮР_АДРЕС}}`.");
+  });
+
+  it("never wraps a resolved value, even when the value itself is a code span already", () => {
+    const values = valuesFromRequisites({ ...FULL_ROW, legal_name: "`literally quoted`" }, "acme.upready.dev");
+    const rendered = resolveLegalPlaceholders("{{ФИО_ИП}}", values);
+    expect(rendered).toBe("`literally quoted`");
   });
 });
 
@@ -125,7 +139,7 @@ describe("tenant-legal/requisites: phone confirmation", () => {
     const row: RequisitesRow = { ...EMPTY_ROW, phone: "+7 (911) 718-01-23", phone_confirmed: false };
     const values = valuesFromRequisites(row, null);
     expect(values.ТЕЛЕФОН).toBeNull();
-    expect(resolveLegalPlaceholders("{{ТЕЛЕФОН}}", values)).toBe("{{ТЕЛЕФОН}}");
+    expect(resolveLegalPlaceholders("{{ТЕЛЕФОН}}", values)).toBe("`{{ТЕЛЕФОН}}`");
     expect(missingLegalTokens(row, null)).toContain("ТЕЛЕФОН");
   });
 
