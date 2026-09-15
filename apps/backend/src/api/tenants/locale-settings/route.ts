@@ -1,8 +1,10 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import upsertTenantLocaleSettingsWorkflow from "../../../workflows/tenant/upsert-tenant-locale-settings";
 import { getTenantScope } from "../tenant-scope";
+import { relocalizeDefaultShippingMethods } from "./relocalize-shipping-methods";
 import type {
   PutTenantLocaleSettingsBodyType,
   TenantLocaleSettingsDocument,
@@ -57,6 +59,18 @@ export const PUT = async (
   await upsertTenantLocaleSettingsWorkflow(req.scope).run({
     input: { tenant_id: tenant.id, ...document },
   });
+
+  // The shop's own language now drives the two provisioned default shipping
+  // methods (pickup, courier), not the deployment-wide STOREFRONT_DEFAULT_LOCALE
+  // they were provisioned with — a method the owner already renamed is left
+  // alone (`relocalize-shipping-methods.ts`).
+  const relocalized = await relocalizeDefaultShippingMethods(req, document.default_locale);
+  if (relocalized > 0) {
+    const logger = req.scope.resolve(ContainerRegistrationKeys.LOGGER);
+    logger.info(
+      `PUT /tenants/locale-settings: relocalized ${relocalized} default shipping method(s) of tenant ${tenant.id} to ${document.default_locale}`,
+    );
+  }
 
   res.json({ locale_settings: document });
 };

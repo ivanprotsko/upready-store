@@ -4,6 +4,7 @@ import {
   homeCountryForLocale,
   isMachineMadeDefaultName,
   LEGACY_COURIER_AMOUNT,
+  matchesKnownDefaultName,
 } from "../default-method-names";
 
 /**
@@ -48,5 +49,14 @@ describe("default delivery method copy", () => {
     expect(isMachineMadeDefaultName("Оксана Черкашина courier", "Оксана Черкашина")).toBe("courier");
     expect(isMachineMadeDefaultName("Самовывоз", "Оксана Черкашина")).toBeNull();
     expect(isMachineMadeDefaultName("Оксана Черкашина pickup", "Золотая нить")).toBeNull();
+  });
+
+  it("recognises a still-provisioned default name in any locale this file ships, so relocalizing on a locale change is safe", () => {
+    expect(matchesKnownDefaultName("Самовывоз")).toBe("pickup");
+    expect(matchesKnownDefaultName("Курьером")).toBe("courier");
+    expect(matchesKnownDefaultName("Pickup")).toBe("pickup");
+    expect(matchesKnownDefaultName("Courier")).toBe("courier");
+    expect(matchesKnownDefaultName("Самовывоз из шоурума")).toBeNull();
+    expect(matchesKnownDefaultName("Оксана Черкашина pickup")).toBeNull();
   });
 });

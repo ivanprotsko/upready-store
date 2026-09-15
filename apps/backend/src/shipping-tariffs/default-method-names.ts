@@ -47,6 +47,24 @@ export const defaultMethodNames = (locale?: string | null): DefaultMethodNames =
   return NAMES[language] ?? NAMES.en;
 };
 
+/**
+ * Whether `name` is still one of the copies this file mints for SOME locale
+ * `NAMES` carries (today ru, en — everything else provisions in English), so
+ * it is a still-provisioned default rather than a name the owner picked
+ * herself. Used to relocalize the two default methods when the shop's own
+ * `default_locale` changes (`PUT /tenants/locale-settings`,
+ * `relocalize-default-method-names.ts`): a name outside this set is the
+ * owner's own and is left alone, exactly like `isMachineMadeDefaultName`
+ * leaves an owner-renamed option alone for the legacy `<Shop> pickup` shape.
+ */
+export const matchesKnownDefaultName = (name: string): "pickup" | "courier" | null => {
+  for (const copy of Object.values(NAMES)) {
+    if (name === copy.pickup.name) return "pickup";
+    if (name === copy.courier.name) return "courier";
+  }
+  return null;
+};
+
 /** The store's default locale as the backend knows it (`STOREFRONT_DEFAULT_LOCALE`, the same variable the emails read). */
 export const storeDefaultLocale = (): string => process.env.STOREFRONT_DEFAULT_LOCALE || "en";
 
