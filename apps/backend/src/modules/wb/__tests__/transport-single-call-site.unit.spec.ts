@@ -2,12 +2,13 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 /**
- * The repository lint behind the read-only invariant (w01-wb-readonly-client).
+ * The repository lint behind the read-only invariant (w01-wb-readonly-client),
+ * widened to the write transport by w20-wb-write-core.
  *
  * `transport.ts` can only send registered reads, but that is worth nothing if
  * a second file quietly calls Wildberries with a bare `fetch`. This scans the
- * three application sources and fails when any file other than the transport
- * holds a network call site next to a Wildberries host.
+ * three application sources and fails when any file other than the two
+ * transports holds a network call site next to a Wildberries host.
  *
  * It is meant to be RED the moment someone adds one: the PR for this task
  * shows the red run (a second call site added on purpose) next to the green
@@ -27,8 +28,20 @@ const SCANNED_ROOTS = [
   "apps/tenant-panel/src",
 ];
 
-/** The one file allowed to hold a Wildberries call site. */
-const ALLOWED_CALL_SITE = path.join("apps", "backend", "src", "modules", "wb", "transport.ts");
+/**
+ * The files allowed to hold a Wildberries call site.
+ *
+ * `wb/transport.ts` sends the registered READS (w01). `wb-write/write-transport.ts`
+ * is the mutation half added by w20-wb-write-core: it can only be reached
+ * through the five gates of `src/modules/marketplace-write/execute.ts`, the
+ * last of which is an env var no deployment sets, and it has no production
+ * caller (`src/modules/wb-write/__tests__/no-live-write-call-site.unit.spec.ts`).
+ * Nothing else may open a socket towards Wildberries.
+ */
+const ALLOWED_CALL_SITES = [
+  path.join("apps", "backend", "src", "modules", "wb", "transport.ts"),
+  path.join("apps", "backend", "src", "modules", "wb-write", "write-transport.ts"),
+];
 
 /** A Wildberries host, in either of the two domains WB serves its APIs from. */
 const WB_HOST = /wildberries\.ru|(^|[^a-z0-9.-])wb\.ru/i;
@@ -61,14 +74,16 @@ const walk = (dir: string, found: string[] = []): string[] => {
   return found;
 };
 
-describe("Wildberries is reachable from exactly one file", () => {
+describe("Wildberries is reachable from exactly two files", () => {
   const files = SCANNED_ROOTS.flatMap((root) => walk(path.join(REPO_ROOT, root)));
 
   it("finds the sources it claims to scan", () => {
     // A scan that silently found nothing would pass every assertion below
     // while proving nothing at all (rule 20a: zero is not empty).
     expect(files.length).toBeGreaterThan(500);
-    expect(files.some((file) => file.endsWith(ALLOWED_CALL_SITE))).toBe(true);
+    for (const allowed of ALLOWED_CALL_SITES) {
+      expect(files.some((file) => file.endsWith(allowed))).toBe(true);
+    }
   });
 
   it("has no second call site", () => {
@@ -76,7 +91,10 @@ describe("Wildberries is reachable from exactly one file", () => {
 
     for (const file of files) {
       const relative = path.relative(REPO_ROOT, file);
-      if (relative.endsWith(ALLOWED_CALL_SITE) || relative.includes(`${path.sep}__tests__${path.sep}`)) {
+      if (
+        ALLOWED_CALL_SITES.some((allowed) => relative.endsWith(allowed)) ||
+        relative.includes(`${path.sep}__tests__${path.sep}`)
+      ) {
         continue;
       }
 

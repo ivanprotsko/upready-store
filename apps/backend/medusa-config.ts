@@ -204,6 +204,14 @@ module.exports = defineConfig({
     // the only file here that calls *.wildberries.ru, and it can send nothing
     // but the reads listed in src/modules/wb/endpoints.ts.
     { resolve: "./src/modules/wb" },
+    // The marketplace WRITE core — w20-wb-write-core. Owns the gates, the
+    // consent ledger (marketplace_write_consent) and the audit journal
+    // (marketplace_write_audit). It sends nothing itself: an adapter brings a
+    // registry of mutations and a `send`, and src/modules/marketplace-write/execute.ts
+    // decides whether `send` is called at all. Wildberries is the first
+    // adapter (src/modules/wb-write); Ozon is meant to be the second without
+    // copying a gate (Ivan's order 2026-09-16 04:44 WITA).
+    { resolve: "./src/modules/marketplace-write" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {
