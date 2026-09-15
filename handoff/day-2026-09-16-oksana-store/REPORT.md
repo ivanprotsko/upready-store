@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-15 23:56 WITA диспетчером (тик 1454; работает). UI: http://localhost:5390
+Обновлено 2026-09-16 00:07 WITA диспетчером (тик 1465; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
+merged: 42 · done: 15 · accepting: 1 · queued: 4 · pr_open: 2 · running: 2 · blocked: 1
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -536,13 +536,21 @@ merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
 - r03-test-methods-pilot: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-unit-tests.txt
 - r03-test-methods-pilot: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-via-symlink-path.txt
 - r03-test-methods-pilot: file:///Users/ivanprotsko/upready/.ai/resume/upready-store/2026-09-15-2310-3e9d609e.md
-- b02-legal-and-redirects «Пачка: {{ТОКЕНЫ}} на юридических страницах живого магазина и 301-редиректы, которых живьём нет» — PR https://github.com/ivanprotsko/upready-store/pull/63 (accepting)
+- b02-legal-and-redirects «Пачка: {{ТОКЕНЫ}} на юридических страницах живого магазина и 301-редиректы, которых живьём нет» — PR https://github.com/ivanprotsko/upready-store/pull/63 (merged)
 - b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/01-jest-unit.log
 - b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/02-backfill-rerun-idempotent.log
 - b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/03-merge-tree-conflict-at-pr-head.txt
 - b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/04-live-measures.txt
 - b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.findings.md
+- b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-2/offer-1280x900.png
+- b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-2/privacy-1280x900.png
+- b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-2/contacts-1280x900.png
+- b02-legal-and-redirects: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-2/about-1280x900.png
 - b06-order-tracking «Пачка: трек-номер и путь заказа «собрать → отгрузить → трек» в панели и у покупателя» — PR https://github.com/ivanprotsko/upready-store/pull/62 (accepting)
+- b06-order-tracking: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/01-vitest-order-status-tracking.log
+- b06-order-tracking: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/02-jest-emails-tracking.log
+- b06-order-tracking: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/03-handoff-three-way-merge-conflict.json
+- b06-order-tracking: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.findings.md
 - c01-wave5-composer: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/c01-wave5-composer/tasks.json
 - c01-wave5-composer: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/c01-wave5-composer/report.md
 - c01-wave5-composer: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/c01-wave5-composer/needs-ivan.md
@@ -573,6 +581,8 @@ merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/02-jest-tenant-legal.log
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/03-contacts-1280x900-worker-frame-uncommitted.png
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/04-live-measures.txt
+- b11-owner-labels «Пачка: подписи владелицы — Sales channel of tenant, Default option в импорте, дата первой публикации статьи, label у характеристик, карточка самовывоза» — PR https://github.com/ivanprotsko/upready-store/pull/64 (pr_open)
+- b13-locale-single-source «Пачка: локали — три рукописные копии каталога, имена способов доставки по локали сборки, скелетон вместо третьего состояния» — PR https://github.com/ivanprotsko/upready-store/pull/65 (pr_open)
 - живой адрес: https://cherkashino.shipshift.dev/ru — витрина магазина Оксаны (после x01; сейчас 502, тенанта ещё нет)
 - живой адрес: https://panel-store.upready.dev — панель владельца магазина
 - живой адрес: https://start.upready.dev/start/onboarding — мастер создания магазина
@@ -636,8 +646,8 @@ merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
 | 63 | b03-shipping-zones-weight | Пачка: региональные зоны РФ и правило «цена за кг по зонам» в доставке | build | opus/high | feat/day16-shipping-zones-weight | **merged** | [#58](https://github.com/ivanprotsko/upready-store/pull/58) | 2 | 2026-09-15 21:05 WITA |
 | 64 | b04-product-attributes | Пачка: схема характеристик товаров и заполнение 39 товаров Оксаны из metadata | build | opus/high | feat/day16-product-attributes-fill | **merged** | [#59](https://github.com/ivanprotsko/upready-store/pull/59) | 3 | 2026-09-15 21:05 WITA |
 | 65 | r03-test-methods-pilot | Пилот реестра методов тестирования: три детектора на багах sharp, image_url и фикстуры f12 | build | opus/high | feat/day16-test-methods-pilot | **merged** | [#56](https://github.com/ivanprotsko/upready-store/pull/56) | 3 | 2026-09-15 21:08 WITA |
-| 66 | b02-legal-and-redirects | Пачка: {{ТОКЕНЫ}} на юридических страницах живого магазина и 301-редиректы, которых живьём нет | build | opus/high | fix/day16-legal-and-redirects | **accepting** | [#63](https://github.com/ivanprotsko/upready-store/pull/63) | 2 | 2026-09-15 22:16 WITA |
-| 67 | b06-order-tracking | Пачка: трек-номер и путь заказа «собрать → отгрузить → трек» в панели и у покупателя | build | opus/high | feat/day16-order-tracking | **accepting** | [#62](https://github.com/ivanprotsko/upready-store/pull/62) | 1 | 2026-09-15 22:36 WITA |
+| 66 | b02-legal-and-redirects | Пачка: {{ТОКЕНЫ}} на юридических страницах живого магазина и 301-редиректы, которых живьём нет | build | opus/high | fix/day16-legal-and-redirects | **merged** | [#63](https://github.com/ivanprotsko/upready-store/pull/63) | 2 | 2026-09-15 22:16 WITA |
+| 67 | b06-order-tracking | Пачка: трек-номер и путь заказа «собрать → отгрузить → трек» в панели и у покупателя | build | opus/high | feat/day16-order-tracking | **accepting** | [#62](https://github.com/ivanprotsko/upready-store/pull/62) | 2 | 2026-09-15 22:36 WITA |
 | 68 | c01-wave5-composer | Составитель волны 5: непринятые находки, мелочи q03 и незакрытые задачи HANDOFF → пачки задач | qa | opus/high | main | **done** |  | 1 | 2026-09-15 21:05 WITA |
 | 70 | d05-deploy-mt-5 | Деплой f18 (починенная сборка) на живой хост: origin/dev с #50/f12 и проверка (после f18-f12-fixture-build, d04-deploy-mt-4) | deploy | opus/high |  | **done** |  | 1 | 2026-09-15 22:22 WITA |
 | 72 | d06-deploy-mt-6 | Деплой пачек волны 5 (b01–b06, r03) на живой хост и проверка (после d05-deploy-mt-5) | deploy | opus/high |  | **queued** |  | 0 |  |
@@ -646,14 +656,24 @@ merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
 | 81 | b08-seo-storefront | Пачка: SEO витрины — sitemap на 35 языков, коллекции без скоупа тенанта, 55 старых адресов без 301, чужой домен в HTML | build | opus/high | fix/day16-seo-storefront | **queued** |  | 0 |  |
 | 82 | b09-storefront-render | Пачка: витрина — абзац читается таблицей, пустой thead, бэктики токенов в meta/og, токен в title, ошибка в консоли на чекауте | build | sonnet/medium | fix/day16-storefront-render | **merged** | [#60](https://github.com/ivanprotsko/upready-store/pull/60) | 1 | 2026-09-15 22:56 WITA |
 | 83 | b10-panel-gaps | Пачка: панель — нет экрана редиректов и поля SEO-верификации, страницу нельзя удалить, Result URL Robokassa по http | build | opus/high | feat/day16-panel-gaps | **queued** |  | 0 |  |
-| 84 | b11-owner-labels | Пачка: подписи владелицы — Sales channel of tenant, Default option в импорте, дата первой публикации статьи, label у характеристик, карточка самовывоза | build | sonnet/medium | fix/day16-owner-labels | **running** |  | 1 | 2026-09-15 23:30 WITA |
+| 84 | b11-owner-labels | Пачка: подписи владелицы — Sales channel of tenant, Default option в импорте, дата первой публикации статьи, label у характеристик, карточка самовывоза | build | sonnet/medium | fix/day16-owner-labels | **pr_open** | [#64](https://github.com/ivanprotsko/upready-store/pull/64) | 1 | 2026-09-15 23:30 WITA |
 | 85 | b12-analytics-accuracy | Пачка: аналитика — выручка суммируется по смешанным валютам, версии строк заказа задваивают топ-товары | build | opus/high | fix/day16-analytics-accuracy | **running** |  | 1 | 2026-09-15 23:36 WITA |
-| 86 | b13-locale-single-source | Пачка: локали — три рукописные копии каталога, имена способов доставки по локали сборки, скелетон вместо третьего состояния | build | sonnet/medium | fix/day16-locale-single-source | **running** |  | 1 | 2026-09-15 23:40 WITA |
+| 86 | b13-locale-single-source | Пачка: локали — три рукописные копии каталога, имена способов доставки по локали сборки, скелетон вместо третьего состояния | build | sonnet/medium | fix/day16-locale-single-source | **pr_open** | [#65](https://github.com/ivanprotsko/upready-store/pull/65) | 1 | 2026-09-15 23:40 WITA |
 | 87 | b14-pages-legal-content | Пачка: страницы магазина — delivery/faq/returns дают 404, три ссылки чекаута ведут в оферту, раздел «Реквизиты» не заведён | build | opus/high | feat/day16-pages-legal-content | **queued** |  | 0 |  |
 | 88 | b15-quality-debt | Пачка: краснота dev — четыре падающих теста, снапшот модуля tenant без tenant_requisites, нет HTTP-сюит на отзывы | build | opus/high | fix/day16-quality-debt | **running** |  | 1 | 2026-09-15 23:54 WITA |
 | 89 | b16-media-and-backup | Пачка: медиа магазина без бэкапа и без S3, 30 клонов базы съели диск машины разработки | data | opus/high | main | **blocked** |  | 0 |  |
 
 ## Последние события
+- 2026-09-16 00:06 WITA · b02-legal-and-redirects · worker-closed: терминал 7cd1898a-b1a4-4393-864e-746933ca9d16 закрыт после /compact (по экрану)
+- 2026-09-16 00:06 WITA · b06-order-tracking · accept-started: раунд 2, PR #62, pid 47166
+- 2026-09-16 00:05 WITA · b13-locale-single-source · pr-open: https://github.com/ivanprotsko/upready-store/pull/65
+- 2026-09-16 00:04 WITA · b11-owner-labels · pr-open: https://github.com/ivanprotsko/upready-store/pull/64
+- 2026-09-16 00:04 WITA · b02-legal-and-redirects · merged: https://github.com/ivanprotsko/upready-store/pull/63 (приёмка раунд 2)
+- 2026-09-16 00:04 WITA · b02-legal-and-redirects · compact-sent: терминал 7cd1898a-b1a4-4393-864e-746933ca9d16, ветка fix/day16-legal-and-redirects
+- 2026-09-16 00:04 WITA · b02-legal-and-redirects · orphans-killed: 1 процессов под worktree (merged): 34222 07:10 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-r
+- 2026-09-16 00:02 WITA · b06-order-tracking · pr-open: https://github.com/ivanprotsko/upready-store/pull/62
+- 2026-09-16 00:01 WITA · b06-order-tracking · fix-sent: в живой терминал 10d3cd61-47c6-440a-8b19-8b1aebb7a2e2
+- 2026-09-16 00:01 WITA · b06-order-tracking · rejected: раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.findings.md
 - 2026-09-15 23:54 WITA · b15-quality-debt · launched: ws 79a7db4f-0732-45af-ab1d-8e628b711d7f · opus/high · fix/day16-quality-debt
 - 2026-09-15 23:54 WITA · b02-legal-and-redirects · accept-started: раунд 2, PR #63, pid 4785
 - 2026-09-15 23:49 WITA · b07-store-api-isolation · worker-closed: терминал 6759451e-11d7-4c95-96fd-dc50adb5ff4b закрыт после /compact
@@ -684,15 +704,5 @@ merged: 41 · done: 15 · accepting: 2 · queued: 4 · running: 4 · blocked: 1
 - 2026-09-15 23:34 WITA · f09-price-editor-currencies · orphans-killed: 5 сирот (merged): 65968 08:04:38 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-edito | 66176 08:04:33 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96 | 66369 08:04:29 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-cur | 79084 08:01:42 node /Users/ivanprotsko/upready
 - 2026-09-15 23:34 WITA · f07-page-markdown-tables · orphans-killed: 1 сирот (merged): 77970 11:29:26 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-markdo
 - 2026-09-15 23:34 WITA · f05-checkout-legal-stubs · orphans-killed: 2 сирот (merged): 1361 11:36:20 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-checkout-le | 2445 12:13:12 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-checkout-le
-- 2026-09-15 23:34 WITA · f04-address-without-city · orphans-killed: 3 сирот (merged): 35837 11:55:59 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-address-fie | 60046 12:18:22 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-address-fie | 60136 12:18:20 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96
-- 2026-09-15 23:34 WITA · f03-guest-order-not-in-account · orphans-killed: 2 сирот (merged): 2873 11:25:20 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-guest-order | 88760 10:15:42 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-guest-order
-- 2026-09-15 23:34 WITA · t15-product-attributes · orphans-killed: 3 сирот (merged): 55709 14:56:26 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at | 55796 14:56:26 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-attribu | 65032 13:46:56 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at
-- 2026-09-15 23:34 WITA · t13-customers-screen · orphans-killed: 2 сирот (merged): 44452 16:29:18 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-customers- | 44472 16:29:17 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-customers-scree
-- 2026-09-15 23:34 WITA · t12-legal-requisites · orphans-killed: 11 сирот (merged): 8829 11:47:11 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 26105 11:11:59 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 27529 11:57:40 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 29108 12:10:02 node /Users/ivanprotsko/upready/
-- 2026-09-15 23:34 WITA · t09-reviews · orphans-killed: 2 сирот (merged): 57142 16:58:57 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-reviews/ap | 57314 16:58:57 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-reviews/node_mo
-- 2026-09-15 23:34 WITA · t04-shipping-tariffs · orphans-killed: 2 сирот (merged): 11354 19:19:25 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-t | 11455 19:19:25 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-tariff
-- 2026-09-15 23:33 WITA · b07-store-api-isolation · pr-open: https://github.com/ivanprotsko/upready-store/pull/61
-- 2026-09-15 23:30 WITA · b11-owner-labels · launched: ws 6f8efc2a-acec-46ce-9793-17e8dfa6b7bd · sonnet/medium · fix/day16-owner-labels
-- 2026-09-15 23:30 WITA · b09-storefront-render · accept-started: раунд 1, PR #60, pid 98501
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json
