@@ -210,7 +210,7 @@ select pi.provider, pi.user_metadata->>'name', ai.app_metadata->>'customer_id' �
 
 select … from customer where id = 'cus_01M2KD0YYDAJEVPDEB2QKBFFCE';
  email_masked   | first_name | last_name  | has_account | metadata
- c***@yandex.ru | Оксана     | Черкашина  | t           | {"locale":"ru","yandex_login":"Cherkashino-67"}
+ c***@yandex.ru | Оксана     | Черкашина  | t           | {"locale":"ru","yandex_login":"C***"}
 ```
 
 Заход 2 — тот же человек, но аккаунт на этой почте уже был заведён по паролю (проверка связывания).
@@ -240,16 +240,33 @@ select count(*) from customer where email = <та же почта>;      →  1 
 
 ### Секреты в дерево не попали
 
+Замер раунда 2 (после исправления пункта 1 приёмки), значения подставлены из шелла, не набраны:
+
 ```
-$ git grep -n -e "$YANDEX_CLIENT_ID" -- .            → rc=1 (не найдено)
-$ git grep для секрета, логина и пароля              → не найдено ни одного
-$ git log -p c20d8b40..HEAD | grep -c <все четыре>   → 0
-$ git status --porcelain | grep -c "\.env"           → 0
+$ set -a; . /Users/ivanprotsko/upready/projects/upready-store/.env.cherkashino; set +a
+$ git grep -c -F "$YANDEX_CLIENT_ID" -- .      → 0
+$ git grep -c -F "$YANDEX_CLIENT_SECRET" -- .  → 0
+$ git grep -c -F "$YANDEX_ID_LOGIN" -- .       → 0
+$ git grep -c -F "$YANDEX_ID_PASSWORD" -- .    → 0
+$ git status --porcelain | grep -c "\.env"     → 0
 ```
 
 `apps/backend/.env` и `apps/storefront/.env` стенда — под `.gitignore` (`apps/backend/.gitignore:2`,
 `.gitignore:37`), ключи Яндекса в них не записаны вовсе: они подставляются в окружение через
 `set -a; source …/.env.cherkashino; set +a` перед запуском.
+
+**Дефект раунда 1 и как он вышел.** В этом же файле, строкой ниже, поле `yandex_login` из вывода SQL
+стояло ЦЕЛИКОМ — логин личного Яндекс-аккаунта Ивана из блока `# WEB`. Почту в той же строке я
+замаскировал, а соседнее поле под маскировку не попало. Причина не в маскировке, а в порядке:
+проверку `git grep` по четырём значениям я прогнал ПЕРЕД тем, как написал этот отчёт, и после
+последней записи не повторил — проверка, стоящая раньше последнего write, ничего не проверяет.
+Исправлено в раунде 2, значение замаскировано тем же способом (`C***`), grep выше перемерен уже
+после правки.
+
+**Что остаётся и чинить нечем.** В ИСТОРИИ коммитов ветки на GitHub (коммит `afbca245`) значение
+останется и после этой правки: force-push в workspace-ветку запрещён. Мерж делается squash'ем, так
+что в `dev` уедет только финальное дерево и туда логин не попадёт. Это личный аккаунт Ивана и логин
+без пароля — решение, оставлять так или чистить историю, за ним; штаб предупреждён этой строкой.
 
 ## Что нашлось по дороге и исправлено
 
