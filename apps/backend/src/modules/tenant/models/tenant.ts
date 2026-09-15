@@ -11,6 +11,7 @@ import TenantPage from "./tenant-page";
 import TenantProductAttribute from "./tenant-product-attribute";
 import TenantProductImport from "./tenant-product-import";
 import TenantRedirect from "./tenant-redirect";
+import TenantRequisites from "./tenant-requisites";
 
 /**
  * One tenant = one storefront on the shared backend. The recipe this module
@@ -85,6 +86,11 @@ const Tenant = model.define("tenant", {
   // Catalogue files the owner uploaded (t14-product-import): one row per
   // upload, holding the dry-run report and the file it was made from.
   product_imports: model.hasMany(() => TenantProductImport, {
+    mappedBy: "tenant",
+  }),
+  // The seller's legal details, used to fill the `{{ТОКЕН}}` placeholders left
+  // in this tenant's legal pages (t12-legal-requisites, `tenant-requisites.ts`).
+  requisites: model.hasOne(() => TenantRequisites, {
     mappedBy: "tenant",
   }),
 });

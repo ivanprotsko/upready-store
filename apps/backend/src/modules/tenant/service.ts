@@ -14,6 +14,7 @@ import TenantProductAttributeOption from "./models/tenant-product-attribute-opti
 import TenantProductAttributeValue from "./models/tenant-product-attribute-value";
 import TenantProductImport from "./models/tenant-product-import";
 import TenantRedirect from "./models/tenant-redirect";
+import TenantRequisites from "./models/tenant-requisites";
 
 class TenantModuleService extends MedusaService({
   Tenant,
@@ -31,6 +32,7 @@ class TenantModuleService extends MedusaService({
   TenantProductAttributeValue,
   TenantProductImport,
   TenantRedirect,
+  TenantRequisites,
 }) {}
 
 export default TenantModuleService;
