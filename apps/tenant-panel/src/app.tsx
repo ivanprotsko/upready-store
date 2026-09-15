@@ -49,6 +49,23 @@ const routes: RouteObject[] = [
                     path: "create",
                     lazy: () => import("./routes/products/product-create"),
                   },
+                  // t14-product-import: the two buttons the product list has
+                  // always rendered (`product-list-table.tsx`) had no routes
+                  // behind them until now. `import/:import_id` is a separate
+                  // URL on purpose — the dry-run report is read from the server
+                  // by id, so a page reload does not lose it.
+                  {
+                    path: "export",
+                    lazy: () => import("./routes/products/product-export"),
+                  },
+                  {
+                    path: "import",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
+                  {
+                    path: "import/:import_id",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
                 ],
               },
               {
