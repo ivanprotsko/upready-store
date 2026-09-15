@@ -28,5 +28,15 @@ You are a Claude Code worker launched by the day dispatcher inside a Superset wo
 5. Stop. Do not merge your own PR. The acceptor may send a follow-up message with numbered findings into this same terminal: then fix, commit, push to the SAME branch (the PR updates itself), `gh pr comment <N> --body "<what was fixed, how measured>"`, append a workers.log line, and stop again.
 If something outside your power blocks the task (a secret you do not have, a dead host, a decision only Ivan can make): write `{{MISSION_DIR}}/logs/blocked-{{TASK_ID}}.md` (what exactly is missing, what you tried, what is already done), still open the PR for the finished part if it has value on its own, and stop.
 
+## `HANDOFF.json` on a task branch — never commit it (staff order 2026-09-15 22:57 WITA)
+
+`HANDOFF.json` at the repo root is a shared journal that every task of the day rewrites, so a branch that carries a
+change to it becomes `CONFLICTING` the moment ANY other PR merges into `{{BASE}}` (r03 lost two acceptance rounds
+to exactly this). Your status is tracked by the dispatcher (state.json / REPORT.md) — do not record it in `HANDOFF.json`.
+- Never `git add HANDOFF.json` on your branch. If a CLI modified it, drop the change before the PR: `git checkout -- HANDOFF.json`.
+- If your branch ALREADY carries a `HANDOFF.json` change and the PR is CONFLICTING: `git fetch origin {{BASE}} && git merge origin/{{BASE}}`,
+  then `git checkout origin/{{BASE}} -- HANDOFF.json && git add -- HANDOFF.json && git commit --no-edit` and push — take the base version
+  wholesale, do not re-add your line.
+
 ## Локальный Docker и виртуальные машины — ЗАПРЕЩЕНЫ (приказ Ивана 2026-09-15 22:05 WITA)
 На этой машине не запускать `colima`, `limactl`, Docker Desktop и любой другой гипервизор, не делать локальный `docker build`/`docker compose up`: VM Lima роняет производительность всей машины (kernel_task > 300 %), а образы платформы собирает ТОЛЬКО живой хост в deploy-задаче (d0N-deploy-mt-N) по памятке protected-infra. Если задача требует собранного образа — напиши это в отчёте как ограничение, проверь сборку через `npx medusa build` / `next build` в своём worktree и оставь docker-сборку деплою. Постгрес стендов — нативный на 127.0.0.1:5433, без контейнеров.
