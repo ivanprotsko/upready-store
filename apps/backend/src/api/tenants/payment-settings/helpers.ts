@@ -9,18 +9,42 @@ import {
 } from "../../../tenant-secrets/robokassa";
 
 /**
- * The Result URL the owner pastes into the Robokassa dashboard. The public
- * address of the engine is a deployment value (`BACKEND_PUBLIC_URL`, on the
- * MT host `https://shipshift.dev`); when it is not set the request's own host
- * is used, which is right on a local stand and behind a proxy that forwards
- * the host header.
+ * A host served over plain HTTP for real: a local stand. Everything else on
+ * this platform answers over TLS, so `http://` in front of it is never the
+ * scheme the shop actually lives on.
  */
-export const resultUrlFor = (req: AuthenticatedMedusaRequest): string => {
-  const base =
-    process.env.BACKEND_PUBLIC_URL ||
-    `${req.get("x-forwarded-proto") ?? req.protocol}://${req.get("x-forwarded-host") ?? req.get("host")}`;
-  return `${base.replace(/\/$/, "")}/robokassa/result`;
+const LOCAL_HOST = /^(?:localhost|127\.0\.0\.1|\[::1\]|[a-z0-9-]+\.localhost)(?::\d+)?$/i;
+
+/**
+ * The origin of the engine as the outside world reaches it. `BACKEND_PUBLIC_URL`
+ * is the deployment's own answer (on the MT host `https://shipshift.dev`) and
+ * wins whenever it is set; without it the request's own host is used.
+ *
+ * b10-panel-gaps: that fallback used to copy the scheme off the request, and the
+ * request reaches the engine from the panel's nginx over plain HTTP inside the
+ * compose network. The owner was handed `http://…` for a field Robokassa refuses,
+ * measured on the live panel 2026-09-15 (`artifacts/q02-qa-owner/report.md` §4).
+ * A public host is therefore always `https`; only a local stand keeps `http`.
+ */
+export const backendPublicOrigin = (req: AuthenticatedMedusaRequest): string => {
+  const configured = process.env.BACKEND_PUBLIC_URL;
+
+  if (configured) {
+    return configured.replace(/\/$/, "");
+  }
+
+  const host = req.get("x-forwarded-host") ?? req.get("host") ?? "";
+  const forwarded = req.get("x-forwarded-proto");
+  const scheme = LOCAL_HOST.test(host) ? forwarded ?? req.protocol : "https";
+
+  return `${scheme}://${host}`;
 };
+
+/**
+ * The Result URL the owner pastes into the Robokassa dashboard.
+ */
+export const resultUrlFor = (req: AuthenticatedMedusaRequest): string =>
+  `${backendPublicOrigin(req)}/robokassa/result`;
 
 export type PaymentSettingsResponse = {
   /** `null` while the shop has no Robokassa row yet. */

@@ -169,6 +169,7 @@ import {
   PostTenantArticleSchema,
   PostTenantPageSchema,
   PostTenantRedirectSchema,
+  PutTenantRedirectSchema,
   PutTenantBrandingSchema,
   PutTenantSeoVerificationSchema,
   PutTenantAnalyticsSchema,
@@ -1136,6 +1137,13 @@ export default defineMiddlewares({
       matcher: "/tenants/redirects",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
+    },
+    {
+      // b10-panel-gaps: editing one rule in place, so the owner's screen can fix
+      // a target without dropping the rule and re-typing its source path.
+      matcher: "/tenants/redirects/:id",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantRedirectSchema)],
     },
     {
       matcher: "/tenants/seo-verification",

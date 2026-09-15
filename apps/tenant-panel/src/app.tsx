@@ -728,6 +728,25 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/requisites"),
           },
           {
+            // b10-panel-gaps: «Старые адреса» — the shop's own redirect table.
+            // The routes shipped with t11-seo-redirects and stayed API-only, so
+            // the 47 rules imported with the shop were invisible to its owner.
+            // Same shape as /settings/domains above: one screen, no children.
+            path: "/settings/redirects",
+            handle: { breadcrumb: () => t("redirects.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/redirects"),
+          },
+          {
+            // b10-panel-gaps: the Yandex/Google ownership codes. `PUT
+            // /tenants/seo-verification` shipped with t11-seo-redirects with no
+            // field anywhere, so the storefront head never carried a code.
+            path: "/settings/seo",
+            handle: { breadcrumb: () => t("seoVerification.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/seo"),
+          },
+          {
             // t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids.
             // No Admin counterpart — a native install has one build-time GA
             // id, set in the environment.
