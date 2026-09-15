@@ -45,6 +45,18 @@ import path from "node:path";
 import { createRequire } from "node:module";
 
 const root = path.resolve(process.argv[2] ?? process.cwd());
+
+/**
+ * Mirror the container: the Dockerfile's runtime stage sets WORKDIR /app and
+ * the entrypoint runs from there. medusa-config.ts declares this repo's own
+ * modules as paths relative to the working directory ("./src/modules/tenant",
+ * "./src/modules/smtp-notification", "./src/modules/tariff-fulfillment"), and
+ * Medusa resolves them against process.cwd(). Run this script from anywhere
+ * else and those three resolve against the wrong root, which reads as a
+ * missing module when nothing is missing at all.
+ */
+process.chdir(root);
+
 const require_ = createRequire(path.join(root, "package.json"));
 
 /**
@@ -68,8 +80,13 @@ const BOOT_DIRS = [
 
 const BOOT_FILES = ["medusa-config.js"];
 
-/** Seed payloads, not code. `medusa build` copies them in as-is. */
-const SKIP_DIRS = new Set(["data", "node_modules"]);
+/**
+ * `data` is seed payloads, not code (`medusa build` copies them in as-is).
+ * `__tests__` is compiled into the output too, but jest never runs in this
+ * image, so those files only throw "describe is not defined" and say nothing
+ * about whether the image can boot.
+ */
+const SKIP_DIRS = new Set(["data", "node_modules", "__tests__"]);
 
 function collect(dir, out) {
   let entries;
