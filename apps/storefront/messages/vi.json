@@ -151,7 +151,8 @@
     "shippingLink": "Vận chuyển",
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "signIn": "Đăng nhập",
-    "total": "Tổng cộng"
+    "total": "Tổng cộng",
+    "shippingZone": "Khu vực: {zone}"
   },
   "ClaimOrders": {
     "heading": "Bạn đã đặt hàng mà không có tài khoản?",

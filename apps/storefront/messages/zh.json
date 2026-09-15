@@ -151,7 +151,8 @@
     "shippingLink": "配送",
     "shippingUnavailable": "暂无可用的配送方式",
     "signIn": "登录",
-    "total": "总计"
+    "total": "总计",
+    "shippingZone": "配送区域：{zone}"
   },
   "ClaimOrders": {
     "heading": "没有账户时下过单？",

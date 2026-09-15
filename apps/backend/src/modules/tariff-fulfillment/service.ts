@@ -7,6 +7,7 @@ import type {
   FulfillmentOption,
 } from "@medusajs/framework/types";
 import { isTenantMethodData, quoteTariff, type QuoteItem } from "../../shipping-tariffs/tariff";
+import { zoneLabelFor } from "../../shipping-tariffs/ru-zone-presets";
 
 /**
  * Fulfillment provider for a tenant's own delivery methods. Like the manual
@@ -26,11 +27,26 @@ class TariffFulfillmentService extends AbstractFulfillmentProviderService {
     return [{ id: "tariff" }];
   }
 
+  /**
+   * What the cart's (and then the order's) shipping method keeps in `data`.
+   * Medusa stores whatever this returns, and the client sends nothing, so
+   * without this the order records only a method NAME: the owner packing the
+   * parcel would have to read the zone out of that name. The zone and the
+   * carrier are copied in from the option (b03-shipping-zones-weight).
+   */
   async validateFulfillmentData(
-    _optionData: Record<string, unknown>,
+    optionData: Record<string, unknown>,
     data: Record<string, unknown>,
   ): Promise<Record<string, unknown>> {
-    return data;
+    if (!isTenantMethodData(optionData)) {
+      return data;
+    }
+    return {
+      ...data,
+      zone_label: optionData.zone?.label || zoneLabelFor(optionData.zone ?? null),
+      carrier: optionData.carrier ?? null,
+      tariff_kind: optionData.tariff.kind,
+    };
   }
 
   async validateOption(_data: Record<string, unknown>): Promise<boolean> {

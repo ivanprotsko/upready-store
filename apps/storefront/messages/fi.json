@@ -151,7 +151,8 @@
     "shippingLink": "Toimitus",
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "signIn": "Kirjaudu sisään",
-    "total": "Yhteensä"
+    "total": "Yhteensä",
+    "shippingZone": "Vyöhyke: {zone}"
   },
   "ClaimOrders": {
     "heading": "Tilasitko ilman tiliä?",

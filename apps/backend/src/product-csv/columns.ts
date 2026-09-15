@@ -163,6 +163,23 @@ export const metadataCell = (value: unknown): string => {
   return JSON.stringify(value);
 };
 
+/**
+ * The key as THIS product already spells it, so a header written in another
+ * case updates the key that is there instead of adding a twin next to it.
+ * An unknown key is returned as written: a new key keeps the owner's spelling.
+ */
+export const matchMetadataKey = (
+  metadata: Record<string, unknown> | null | undefined,
+  key: string,
+): string => {
+  if (!metadata || Object.prototype.hasOwnProperty.call(metadata, key)) {
+    return key;
+  }
+
+  const lower = key.toLowerCase();
+  return Object.keys(metadata).find((candidate) => candidate.toLowerCase() === lower) ?? key;
+};
+
 /** The separator between image URLs inside one cell, and what is accepted back. */
 export const IMAGE_SEPARATOR = " | ";
 
@@ -172,13 +189,23 @@ export const IMAGE_SEPARATOR = " | ";
  * column that "looks right" but does not match is the worst failure this
  * feature can have, so they go before anything is compared.
  */
-export const normalizeHeader = (raw: string): string =>
+/**
+ * The same cleanup WITHOUT the lowercasing, for the one thing a header carries
+ * that is not a fixed vocabulary: the metadata key. `Метаданные:
+ * pricelistPositions` names the key `pricelistPositions`, and lowercasing it
+ * here made the import look for a key the product does not have — every one of
+ * the live shop's 20 products carrying that key reported a change on a round
+ * trip with no edits, and confirming would have written a SECOND key differing
+ * only in case (b01-owner-numbers).
+ */
+const cleanHeader = (raw: string): string =>
   raw
     .replace(/[\uFEFF\u200B-\u200D\u2060]/g, "")
     .replace(/\u00A0/g, " ")
     .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
+    .trim();
+
+export const normalizeHeader = (raw: string): string => cleanHeader(raw).toLowerCase();
 
 export type ResolvedColumn =
   | { kind: "fixed"; id: FixedColumnId }
@@ -232,9 +259,12 @@ export const resolveColumn = (raw: string): ResolvedColumn => {
   }
 
   for (const pattern of METADATA_PATTERNS) {
+    // Matched on the lowercased header (the prefix «Метаданные:» is a word),
+    // but the KEY is taken from the header as written.
     const match = normalized.match(pattern);
     if (match) {
-      return { kind: "metadata", key: match[1].trim() };
+      const asWritten = cleanHeader(raw).match(new RegExp(pattern.source, "i"));
+      return { kind: "metadata", key: (asWritten?.[1] ?? match[1]).trim() };
     }
   }
 

@@ -22,6 +22,7 @@ import {
 import { KeyboundForm } from "../../../../components/utilities/keybound-form"
 import {
   useShippingRegions,
+  useZonePresets,
   type ShippingMethodBody,
   type TenantShippingMethod,
 } from "../../../../hooks/api/shipping-methods"
@@ -48,6 +49,7 @@ const ShippingMethodSchema = zod.object({
   description: zod.string().max(500),
   delivery_hint: zod.string().max(120),
   enabled: zod.boolean(),
+  carrier: zod.string(),
   zone_mode: zod.enum(["all", "country", "regions"]),
   country_code: zod.string(),
   provinces: zod.array(zod.string()),
@@ -90,6 +92,7 @@ const toBody = (values: FormValues): ShippingMethodBody => {
     delivery_hint: values.delivery_hint.trim() || null,
     enabled: values.enabled,
     zone,
+    carrier: values.carrier || null,
     tariff,
   }
 }
@@ -101,6 +104,7 @@ const fromMethod = (method?: TenantShippingMethod): FormValues => {
     description: method?.description ?? "",
     delivery_hint: method?.delivery_hint ?? "",
     enabled: method?.enabled ?? true,
+    carrier: method?.carrier ?? "",
     zone_mode: !method?.zone
       ? "all"
       : method.zone.provinces.length
@@ -143,6 +147,7 @@ export const ShippingMethodForm = ({
   const countryCode = form.watch("country_code")
   const provinces = form.watch("provinces")
   const { regions } = useShippingRegions(zoneMode === "regions" ? countryCode : null)
+  const { presets, carriers } = useZonePresets()
   const [regionFilter, setRegionFilter] = useState("")
 
   const visibleRegions = useMemo(() => {
@@ -151,6 +156,9 @@ export const ShippingMethodForm = ({
       ? regions.filter((region) => region.name.toLowerCase().includes(needle))
       : regions
   }, [regions, regionFilter])
+
+  const carrierKey = form.watch("carrier")
+  const selectedCarrier = (carriers ?? []).find((item) => item.key === carrierKey) ?? null
 
   const currency = currencyCode.toUpperCase()
 
@@ -181,6 +189,56 @@ export const ShippingMethodForm = ({
       <KeyboundForm onSubmit={handleSubmit} className="flex flex-1 flex-col overflow-hidden">
         <RouteFocusModal.Body className="flex flex-1 flex-col items-center overflow-y-auto py-16">
           <div className="flex w-full max-w-[720px] flex-col gap-y-8">
+            <Form.Field
+              control={form.control}
+              name="carrier"
+              render={({ field }) => (
+                <Form.Item>
+                  <Form.Label optional>Служба доставки</Form.Label>
+                  <Form.Hint>
+                    Цену всегда считает магазин по вашему тарифу — служба нужна, чтобы вы помнили, чем
+                    отправляете, и видели подсказку про трек-номер в заказе.
+                  </Form.Hint>
+                  <Form.Control>
+                    <Select
+                      value={field.value || "none"}
+                      onValueChange={(value) => {
+                        const key = value === "none" ? "" : value
+                        field.onChange(key)
+                        const carrier = (carriers ?? []).find((item) => item.key === key)
+                        // A method being created takes the carrier's own copy;
+                        // an existing one keeps whatever the owner already wrote.
+                        if (carrier && !method && !form.getValues("name").trim()) {
+                          form.setValue("name", carrier.method_name, { shouldDirty: true })
+                          form.setValue("description", carrier.description, { shouldDirty: true })
+                          form.setValue("delivery_hint", carrier.delivery_hint ?? "", {
+                            shouldDirty: true,
+                          })
+                        }
+                      }}
+                    >
+                      <Select.Trigger ref={field.ref} data-testid="method-carrier-select">
+                        <Select.Value />
+                      </Select.Trigger>
+                      <Select.Content>
+                        <Select.Item value="none">Не указана</Select.Item>
+                        {(carriers ?? []).map((item) => (
+                          <Select.Item key={item.key} value={item.key}>
+                            {item.label}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )}
+            />
+            {selectedCarrier && (
+              <Text size="small" className="text-ui-fg-subtle">
+                {selectedCarrier.instruction}
+              </Text>
+            )}
             <Form.Field
               control={form.control}
               name="name"
@@ -293,6 +351,29 @@ export const ShippingMethodForm = ({
                         Покупатель увидит способ, только если регион его адреса отмечен здесь.
                         Отмечено: {provinces.length}.
                       </Form.Hint>
+                      {presets && presets.length > 0 && countryCode === "ru" && (
+                        <div className="flex flex-wrap items-center gap-2 pb-2">
+                          <Text size="xsmall" className="text-ui-fg-subtle">
+                            Готовые зоны:
+                          </Text>
+                          {presets.map((preset) => (
+                            <Button
+                              key={preset.key}
+                              type="button"
+                              size="small"
+                              variant="transparent"
+                              className="border"
+                              data-testid={`preset-${preset.key}`}
+                              onClick={() => {
+                                form.setValue("provinces", preset.provinces, { shouldDirty: true })
+                                form.clearErrors("provinces")
+                              }}
+                            >
+                              {preset.name}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
                       {regions.length === 0 ? (
                         <Text size="small" className="text-ui-fg-subtle">
                           Для этой страны списка регионов пока нет. Выберите «В одну страну целиком».

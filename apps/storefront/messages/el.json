@@ -151,7 +151,8 @@
     "shippingLink": "Αποστολή",
     "shippingUnavailable": "Δεν υπάρχουν διαθέσιμοι τρόποι αποστολής",
     "signIn": "Σύνδεση",
-    "total": "Σύνολο"
+    "total": "Σύνολο",
+    "shippingZone": "Ζώνη: {zone}"
   },
   "ClaimOrders": {
     "heading": "Παραγγείλατε χωρίς λογαριασμό;",

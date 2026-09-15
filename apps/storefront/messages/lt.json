@@ -151,7 +151,8 @@
     "shippingLink": "Pristatymas",
     "shippingUnavailable": "Nėra galimų pristatymo būdų",
     "signIn": "Prisijungti",
-    "total": "Iš viso"
+    "total": "Iš viso",
+    "shippingZone": "Zona: {zone}"
   },
   "ClaimOrders": {
     "heading": "Užsisakėte be paskyros?",

@@ -28,16 +28,49 @@ export type CsvContext = {
 /**
  * The currencies of the store, and the one this shop prices in by default.
  *
- * The shop's own currency is derived, not stored: `tenant_locale_settings.
- * default_country` names the country it sells in (t06-locale-currency), and the
- * Medusa region covering that country names the currency. A shop that has never
- * saved those settings falls back to the store's default currency, which is
- * exactly what its storefront shows today.
+ * The shop's own currency is derived, not stored, and the chain is the
+ * storefront's own (b01-owner-numbers):
+ *
+ * 1. `tenant_locale_settings.default_country` — the owner's explicit pick on
+ *    «Язык и валюта» (t06-locale-currency) — resolved through the Medusa
+ *    region covering that country;
+ * 2. else the shop's `default_locale` through this deployment's
+ *    `LOCALE_COUNTRY_MAP` (`"ru:ru,en:us"`, the same variable
+ *    `apps/storefront/src/lib/geolocation/locale-country.ts` reads), which is
+ *    empty on a single-store stand and, measured 2026-09-15, is NOT set on
+ *    `mt-backend` either — so on the live platform this step yields nothing;
+ * 3. else `null`, and the currency is then taken from the catalogue itself:
+ *    the one its own variants are actually priced in (`collectCurrencies` in
+ *    `product-csv/catalog.ts`).
+ *
+ * The store's default currency is the LAST resort, never the first. The store
+ * row is shared by every tenant of this platform and its default is `usd` from
+ * the seed, which is how a shop selling in roubles was handed a file with one
+ * column, «Цена, USD», carrying `18` for a product priced 1 084 ₽ on its own
+ * storefront (q03 gap-recheck, 2026-09-15). The same reasoning already governs
+ * the panel's price editor (`use-pricing-scope.tsx`, f09).
  */
+
+/** `"ru:ru,en:us"` → `Map { "ru" => "ru", "en" => "us" }`. Junk entries are dropped, not thrown on. */
+const parseLocaleCountryMap = (raw: string): Map<string, string> => {
+  const map = new Map<string, string>();
+
+  for (const pair of raw.split(",")) {
+    const [locale, country] = pair.split(":").map((part) => part.trim().toLowerCase());
+
+    if (!locale || !country) {
+      continue;
+    }
+
+    map.set(locale, country);
+  }
+
+  return map;
+};
 const resolveCurrencies = async (
   req: AuthenticatedMedusaRequest,
   tenantId: string,
-): Promise<{ allowed: string[]; preferred: string | null }> => {
+): Promise<{ allowed: string[]; preferred: string | null; storeDefault: string | null }> => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
   const { data: stores } = await query.graph({
@@ -63,17 +96,27 @@ const resolveCurrencies = async (
   try {
     const [settings] = await tenantModule.listTenantLocaleSettings({ tenant_id: tenantId });
     country = settings?.default_country ? String(settings.default_country).toLowerCase() : null;
+
+    if (!country && settings?.default_locale) {
+      const localeCountries = parseLocaleCountryMap(process.env.LOCALE_COUNTRY_MAP ?? "");
+      country = localeCountries.get(String(settings.default_locale).toLowerCase()) ?? null;
+    }
   } catch {
     country = null;
   }
 
   if (!country) {
-    return { allowed, preferred: storeDefault };
+    // Not "the store's default": the catalogue decides (step 3 above).
+    return { allowed, preferred: null, storeDefault };
   }
 
+  // `take: null` — the seed creates 241 regions and `query.graph` pages by
+  // default, so a find() over the first page alone would miss Russia and drop
+  // the shop back to the store's `usd`.
   const { data: regions } = await query.graph({
     entity: "region",
     fields: ["id", "currency_code", "countries.iso_2"],
+    pagination: { take: null } as never,
   });
 
   const region = regions.find((candidate) =>
@@ -82,11 +125,11 @@ const resolveCurrencies = async (
     ),
   );
 
-  const preferred = region?.currency_code
-    ? String(region.currency_code).toLowerCase()
-    : storeDefault;
-
-  return { allowed, preferred };
+  return {
+    allowed,
+    preferred: region?.currency_code ? String(region.currency_code).toLowerCase() : null,
+    storeDefault,
+  };
 };
 
 export const loadCsvContext = async (req: AuthenticatedMedusaRequest): Promise<CsvContext> => {
@@ -96,7 +139,7 @@ export const loadCsvContext = async (req: AuthenticatedMedusaRequest): Promise<C
     listTenantCategoryIds(req),
   ]);
 
-  const { allowed, preferred } = await resolveCurrencies(req, tenant.id);
+  const { allowed, preferred, storeDefault } = await resolveCurrencies(req, tenant.id);
 
   const snapshot = await loadCatalogSnapshot({
     container: req.scope,
@@ -104,13 +147,14 @@ export const loadCsvContext = async (req: AuthenticatedMedusaRequest): Promise<C
     categoryIds,
     salesChannelId: tenant.sales_channel_id,
     defaultCurrency: preferred,
+    fallbackCurrency: storeDefault,
   });
 
   return {
     tenant,
     tenant_admin_id: req.auth_context.actor_id,
     snapshot,
-    allowed_currencies: allowed.length > 0 ? allowed : preferred ? [preferred] : [],
+    allowed_currencies: allowed.length > 0 ? allowed : snapshot.currencies,
   };
 };
 
