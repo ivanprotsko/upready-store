@@ -21,6 +21,7 @@ import {
   useDomains,
   useSetPrimaryDomain,
 } from "../../../hooks/api/domains"
+import { domainToUnicode, isAceHostname } from "../../../lib/idn"
 
 // The shop's address (t-2026-09-12-tenant-address-canonical). It replaces the
 // "Domains" screen of tenant-panel wave 2, piece 9, which could only add a custom
@@ -263,9 +264,16 @@ export const Domains = () => {
           {domains?.length ? (
             domains.map((domain) => (
               <div key={domain.id} className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <Text size="small" className="font-mono">
-                  {domain.host}
-                </Text>
+                <div className="flex flex-col">
+                  <Text size="small" className="font-mono">
+                    {domainToUnicode(domain.host)}
+                  </Text>
+                  {isAceHostname(domain.host) ? (
+                    <Text size="xsmall" className="text-ui-fg-subtle font-mono">
+                      {domain.host}
+                    </Text>
+                  ) : null}
+                </div>
                 {domain.is_primary ? (
                   <Badge size="2xsmall">{t("tenantAddress.primaryBadge")}</Badge>
                 ) : (

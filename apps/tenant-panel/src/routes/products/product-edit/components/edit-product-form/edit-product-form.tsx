@@ -148,12 +148,11 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                           </Select.Trigger>
                           <Select.Content>
                             {(
-                              [
-                                "draft",
-                                "published",
-                                "proposed",
-                                "rejected",
-                              ] as const
+                              // This store has no review workflow, so
+                              // "proposed"/"rejected" (a multi-vendor
+                              // marketplace concept) are states a shop owner
+                              // can select but never actually reach or use.
+                              ["draft", "published"] as const
                             ).map((status) => {
                               return (
                                 <Select.Item key={status} value={status}>

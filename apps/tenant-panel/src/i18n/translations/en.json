@@ -1363,7 +1363,8 @@
       "testSent": "Test message sent",
       "unlink": "Disconnect",
       "unlinked": "Telegram disconnected — orders no longer arrive there"
-    }
+    },
+    "noProviderError": "The store has no mail server configured."
   },
   "notifications": {
     "accessibility": {
@@ -1533,7 +1534,8 @@
       "debitDescription": "Subtracts a negative sum from the order",
       "operation": "Operation",
       "title": "Credit lines",
-      "total": "Sum of all credit lines"
+      "total": "Sum of all credit lines",
+      "storeCreditRefund": "Store credit refund"
     },
     "customer": {
       "contactLabel": "Contact",
@@ -1743,7 +1745,11 @@
       "stillPending": "Payment is still pending authorization.",
       "title": "Payments",
       "totalPaidByCustomer": "Total paid by customer",
-      "totalStoreCreditRefunds": "Total store credit refunds"
+      "totalStoreCreditRefunds": "Total store credit refunds",
+      "provider": {
+        "manual": "Manual payment",
+        "unknown": "Unknown provider"
+      }
     },
     "refund": {
       "error": {
