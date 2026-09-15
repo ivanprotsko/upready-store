@@ -124,12 +124,15 @@ medusaIntegrationTestRunner({
           filters: { id: owner.tenant.sales_channel.id },
         });
 
-        const ids = (channels[0]?.stock_locations ?? []).flatMap((location: any) =>
-          (location?.fulfillment_sets ?? []).flatMap((set: any) =>
-            (set?.service_zones ?? []).flatMap((zone: any) =>
-              (zone?.shipping_options ?? []).map((option: any) => option?.id as string),
+        const ids: string[] = ((channels[0]?.stock_locations ?? []) as any[]).flatMap(
+          (location: any) =>
+            ((location?.fulfillment_sets ?? []) as any[]).flatMap((set: any) =>
+              ((set?.service_zones ?? []) as any[]).flatMap((zone: any) =>
+                ((zone?.shipping_options ?? []) as any[]).map(
+                  (option: any) => option?.id as string,
+                ),
+              ),
             ),
-          ),
         );
 
         return [...new Set(ids.filter(Boolean))].sort();
