@@ -148,24 +148,21 @@ tenant=cherkashino force:            1 written, 46 already present, строк 4
 medusa exec ./src/scripts/backfill-tenant-redirects.js → rc=0, «0 written … 12 tenant(s) examined»
 ```
 
-## 3. Побочная находка: образ бэкенда не собирался
+## 3. Побочная находка: образ бэкенда не собирался (закрыто чужой задачей)
 
-`npx medusa build --lint false` — ровно та команда, что стоит в `apps/backend/Dockerfile`
-(`RUN npx medusa build --lint false && node scripts/copy-migration-data.js`) — на текущем `dev`
-падала с rc=1:
+В 23:05 WITA `npx medusa build --lint false` — ровно та команда, что стоит в
+`apps/backend/Dockerfile` — падала на тогдашнем `dev` с rc=1:
 
 ```
 src/scripts/f12-seed-test-order.ts:55:16 - error TS2322: Type '{ id: string[]; }' is not assignable to type 'undefined'.
 ```
 
-Это сборка ОБРАЗА: следующий деплой (d05) на этом бы и встал, вместе с моим шагом 6. Причина —
-`filters: { sales_channels: { id: [...] } }` инлайном: сгенерированный тип фильтров сущности знает
-только её собственные колонки. Запрос не менялся, фильтр передан через промежуточный объект;
-после правки `npx tsc --noEmit` по всему бэкенду — rc=0, `medusa build --lint false` — rc=0, а сам
-скрипт прогнан на стенде: `f12-seed: created order order_f12testc4hga1 for cherkashino`.
-
-Файл чужой (PR #50, f12-owner-raw-keys). Если приёмщик предпочитает отдельный PR — коммит
-`99853a05` снимается одним `git revert`, но тогда образ не соберётся.
+Это сборка ОБРАЗА, то есть следующий деплой встал бы на ней вместе с моим шагом 6. Я починил это
+коммитом `99853a05` и прогнал скрипт на стенде. Через полчаса, подтягивая `origin/dev` перед PR,
+обнаружил PR #55 (`f18-f12-fixture-build`, смёржен 22:20 WITA), который закрыл тот же класс
+правильнее: приёмочные фикстуры вынесены из компилируемого `src/` в `apps/backend/scripts/fixtures`
+с собственным `tsconfig`. Свой дубль откатил (`bf668805`), в ветке его нет; в `AGENTS.md` при мерже
+оставлены ОБА правила — их и моё.
 
 ## Проверки
 
@@ -176,10 +173,24 @@ src/scripts/f12-seed-test-order.ts:55:16 - error TS2322: Type '{ id: string[]; }
 | паритет с реестром импорта | 47 из 47 строк реестра воспроизведены деривацией, `unmapped` пуст |
 | `pnpm test:integration:http tenants-requisites.spec.ts` | 5 passed (контракт переписан под новое правило + `hidden_blocks`) |
 | `npx medusa lint` | rc=0, 61 warning (все — чужие, в моих файлах ноль) |
-| `npx tsc --noEmit` (backend) | rc=0 после правки из §3 |
+| `npx tsc --noEmit` (backend) | rc=0 |
 | `npx tsc --noEmit` (tenant-panel) | rc=0 |
 | `npx medusa build --lint false` | rc=0; `.medusa/server/src/scripts/backfill-tenant-redirects.js` на месте |
 | `sh -n docker-entrypoint.sh` | rc=0 |
+
+### Перепроверка после мержа `origin/dev` (23:33 WITA, 5 задач дня: #55 #56 #57 #58 #59)
+
+```
+tsc --noEmit (backend)            rc=0
+pnpm test:unit                    332 passed, 1 failed (тот же чужой profile-data)
+medusa build --lint false         rc=0
+integration tenants-requisites    5 passed
+стенд: таблица редиректов очищена, метка снята — состояние как на живом
+  до:    /ru/ru/products/zubnaya-pasta-… 404, /ru/ru/categories/dobavki 404
+  прогон: 47 written, 0 unmapped
+  после: 301 → /ru/products/zubnaya-pasta-…-cherkashino, 301 → /ru/categories/dobavki-cherkashino
+  юр-страницы покупателю: contacts 0, offer 0, privacy 0 вхождений «{{»
+```
 
 Docker локально не запускался (приказ Ивана 2026-09-15 22:05): образ собирает живой хост в задаче
 деплоя.
