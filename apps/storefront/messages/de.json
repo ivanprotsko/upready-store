@@ -62,6 +62,11 @@
     "description": "Sehen Sie sich Ihre Lieferadressen an und aktualisieren Sie sie, Sie können beliebig viele hinzufügen. Gespeicherte Adressen stehen Ihnen beim Checkout zur Verfügung.",
     "heading": "Lieferadressen"
   },
+  "AnalyticsConsent": {
+    "message": "Wir verwenden Cookies, um zu verstehen, wie Besucher diese Website nutzen.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
   "Breadcrumb": {
     "home": "Startseite",
     "store": "Shop"

@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte své doručovací adresy, můžete jich přidat libovolné množství. Uložené adresy budou dostupné při dokončování objednávky.",
     "heading": "Doručovací adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používáme soubory cookie, abychom pochopili, jak návštěvníci používají tento web.",
+    "accept": "Přijmout",
+    "decline": "Odmítnout"
+  },
   "Breadcrumb": {
     "home": "Domů",
     "store": "Obchod"

@@ -62,6 +62,11 @@
     "description": "查看并更新您的收货地址，您可以添加任意数量的地址。保存地址后，结账时即可直接选用。",
     "heading": "收货地址"
   },
+  "AnalyticsConsent": {
+    "message": "我们使用 Cookie 来了解访客如何使用本网站。",
+    "accept": "接受",
+    "decline": "拒绝"
+  },
   "Breadcrumb": {
     "home": "首页",
     "store": "商店"

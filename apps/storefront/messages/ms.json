@@ -62,6 +62,11 @@
     "description": "Lihat dan kemas kini alamat penghantaran anda, anda boleh menambah seberapa banyak yang anda mahu. Menyimpan alamat anda akan menjadikannya tersedia semasa pembayaran.",
     "heading": "Alamat Penghantaran"
   },
+  "AnalyticsConsent": {
+    "message": "Kami menggunakan kuki untuk memahami cara pelawat menggunakan laman ini.",
+    "accept": "Terima",
+    "decline": "Tolak"
+  },
   "Breadcrumb": {
     "home": "Utama",
     "store": "Kedai"

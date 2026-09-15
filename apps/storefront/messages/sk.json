@@ -62,6 +62,11 @@
     "description": "Zobrazte a upravte svoje doručovacie adresy, môžete ich pridať toľko, koľko chcete. Uložené adresy budú dostupné pri pokladni.",
     "heading": "Doručovacie adresy"
   },
+  "AnalyticsConsent": {
+    "message": "Používame súbory cookie, aby sme pochopili, ako návštevníci používajú túto stránku.",
+    "accept": "Prijať",
+    "decline": "Odmietnuť"
+  },
   "Breadcrumb": {
     "home": "Domov",
     "store": "Obchod"

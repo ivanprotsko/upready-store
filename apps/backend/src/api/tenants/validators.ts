@@ -296,6 +296,29 @@ export const PutTenantSeoVerificationSchema = z.strictObject({
 export type PutTenantSeoVerificationBody = z.infer<typeof PutTenantSeoVerificationSchema>;
 
 /**
+ * `PUT /tenants/analytics` (t17-analytics) — the shop's own counters. A
+ * Yandex Metrica number is digits only (the counter id shown in its
+ * dashboard); a GA4 measurement id is `G-` followed by alphanumerics. Empty
+ * string clears a counter, the same convention `seo_verification` uses above.
+ */
+export const PutTenantAnalyticsSchema = z.strictObject({
+  yandex_metrica_id: z
+    .string()
+    .trim()
+    .regex(/^$|^\d{6,10}$/, "6 to 10 digits, the Metrica counter number")
+    .nullable()
+    .optional(),
+  ga4_measurement_id: z
+    .string()
+    .trim()
+    .regex(/^$|^G-[A-Z0-9]{6,12}$/, "a GA4 measurement id, e.g. G-XXXXXXXXXX")
+    .nullable()
+    .optional(),
+});
+
+export type PutTenantAnalyticsBody = z.infer<typeof PutTenantAnalyticsSchema>;
+
+/**
  * `PUT /tenants/notification-settings` — the two fields the owner controls over
  * their customers' letters (t08-order-notifications). The `From` ADDRESS is
  * deliberately absent: the platform's SMTP account sends for every shop, and an

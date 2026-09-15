@@ -62,6 +62,11 @@
     "description": "Bekijk en werk uw verzendadressen bij, u kunt er zoveel toevoegen als u wilt. Opgeslagen adressen zijn beschikbaar tijdens het afrekenen.",
     "heading": "Verzendadressen"
   },
+  "AnalyticsConsent": {
+    "message": "We gebruiken cookies om te begrijpen hoe bezoekers deze site gebruiken.",
+    "accept": "Accepteren",
+    "decline": "Weigeren"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Winkel"

@@ -61,6 +61,21 @@
       "label": "Адрес доставки"
     }
   },
+  "analyticsSettings": {
+    "title": "Аналитика",
+    "subtitle": "собственные счётчики на вашей витрине",
+    "yandexMetrica": {
+      "label": "Номер счётчика Яндекс Метрики",
+      "hint": "номер из кабинета Метрики, только цифры"
+    },
+    "ga4": {
+      "label": "Идентификатор GA4",
+      "hint": "начинается с G-, из свойства Google Analytics 4"
+    },
+    "save": "Сохранить",
+    "loading": "Загрузка…",
+    "saved": "Настройки аналитики сохранены"
+  },
   "apiKeyManagement": {
     "actions": {
       "copy": "Копировать API-ключ",
@@ -2499,6 +2514,23 @@
     "tooltip": {
       "cannotDeleteDefault": "Нельзя удалить канал продаж по умолчанию"
     }
+  },
+  "salesSummary": {
+    "title": "Продажи",
+    "period": {
+      "today": "Сегодня",
+      "7d": "7 дней",
+      "30d": "30 дней"
+    },
+    "revenue": "Выручка",
+    "orders": "Заказы",
+    "aov": "Средний чек",
+    "chartTitle": "Выручка по дням",
+    "topProducts": "Топ товаров",
+    "topProductRow": "{{quantity}} шт — {{revenue}}",
+    "noSalesThisPeriod": "За этот период продаж не было",
+    "loading": "Загрузка…",
+    "noOrdersYet": "Заказов пока нет"
   },
   "sales_channels": {
     "availableIn": "Доступно в <0>{{x}}</0> из <1>{{y}}</1> каналов продаж"

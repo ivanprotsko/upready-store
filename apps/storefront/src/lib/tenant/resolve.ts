@@ -51,6 +51,14 @@ export type ResolvedTenant = {
   } | null
   /** Search-console ownership tags (t11-seo-redirects step 6), null when unset. */
   seoVerification: { yandex: string | null; google: string | null } | null
+  /**
+   * The shop's own analytics counters (t17-analytics step 1), null when the
+   * owner has set neither. A tenant that resolves here NEVER falls back to
+   * the build-time `NEXT_PUBLIC_GA_MEASUREMENT_ID` — that variable is the
+   * single-store install's own fallback, not a shared id for every shop on
+   * this process.
+   */
+  analytics: { yandexMetricaId: string | null; ga4MeasurementId: string | null } | null
 }
 
 const TTL_MS = 60_000
@@ -112,6 +120,7 @@ export async function resolveTenantByHost(
         theme?: { preset?: string | null; mode?: string | null } | null
         attribution?: Partial<TenantAttribution> | null
         seo_verification?: { yandex?: string | null; google?: string | null } | null
+        analytics?: { yandex_metrica_id?: string | null; ga4_measurement_id?: string | null } | null
         primary_host?: string | null
         locale?: {
           default_locale?: string | null
@@ -144,6 +153,13 @@ export async function resolveTenantByHost(
               ? {
                   yandex: body.seo_verification.yandex ?? null,
                   google: body.seo_verification.google ?? null,
+                }
+              : null,
+          analytics:
+            body.analytics?.yandex_metrica_id || body.analytics?.ga4_measurement_id
+              ? {
+                  yandexMetricaId: body.analytics.yandex_metrica_id ?? null,
+                  ga4MeasurementId: body.analytics.ga4_measurement_id ?? null,
                 }
               : null,
         }

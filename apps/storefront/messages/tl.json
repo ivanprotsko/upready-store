@@ -62,6 +62,11 @@
     "description": "Tingnan at i-update ang iyong mga address ng paghahatid, maaari kang magdagdag ng kahit ilan. Ang pag-save ng iyong mga address ay magpapadali sa checkout.",
     "heading": "Mga Address ng Paghahatid"
   },
+  "AnalyticsConsent": {
+    "message": "Gumagamit kami ng cookies upang maunawaan kung paano ginagamit ng mga bisita ang site na ito.",
+    "accept": "Tanggapin",
+    "decline": "Tanggihan"
+  },
   "Breadcrumb": {
     "home": "Home",
     "store": "Tindahan"

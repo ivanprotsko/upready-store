@@ -162,6 +162,7 @@ import {
   PostTenantPageSchema,
   PostTenantRedirectSchema,
   PutTenantSeoVerificationSchema,
+  PutTenantAnalyticsSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantArticleSchema,
@@ -1075,6 +1076,14 @@ export default defineMiddlewares({
       matcher: "/tenants/seo-verification",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantSeoVerificationSchema)],
+    },
+    // t17-analytics: the shop's own Yandex Metrica / GA4 ids, plus the
+    // read-only sales summary computed from the tenant's own orders
+    // (`GET /tenants/analytics/summary`, no body to validate).
+    {
+      matcher: "/tenants/analytics",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantAnalyticsSchema)],
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware

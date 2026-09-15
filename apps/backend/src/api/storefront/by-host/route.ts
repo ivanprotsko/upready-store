@@ -120,6 +120,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       "locale_settings.enabled_locales",
       "locale_settings.default_country",
     ],
+    // t17-analytics: `analytics` below reads `tenant.metadata.analytics`,
+    // written by `PUT /tenants/analytics`. `metadata` is already fetched.
     filters: { id: [tenantId] },
   });
 
@@ -185,6 +187,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
         ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
           | Record<string, unknown>
           | undefined)?.google as string | undefined ?? null,
+    },
+    // t17-analytics step 1: this shop's own counters, or both null when the
+    // owner has set neither — the storefront then loads no analytics script
+    // at all for this tenant (never the platform's build-time GA id, which
+    // is the single-store fallback only, not a shared default for tenants).
+    analytics: {
+      yandex_metrica_id:
+        ((tenant.metadata as Record<string, unknown> | null)?.analytics as
+          | Record<string, unknown>
+          | undefined)?.yandex_metrica_id as string | undefined ?? null,
+      ga4_measurement_id:
+        ((tenant.metadata as Record<string, unknown> | null)?.analytics as
+          | Record<string, unknown>
+          | undefined)?.ga4_measurement_id as string | undefined ?? null,
     },
     settings,
     home,

@@ -62,6 +62,11 @@
     "description": "Visa och uppdatera dina leveransadresser, du kan lägga till så många du vill. Sparade adresser blir tillgängliga vid kassan.",
     "heading": "Leveransadresser"
   },
+  "AnalyticsConsent": {
+    "message": "Vi använder cookies för att förstå hur besökare använder den här webbplatsen.",
+    "accept": "Acceptera",
+    "decline": "Avvisa"
+  },
   "Breadcrumb": {
     "home": "Hem",
     "store": "Butik"

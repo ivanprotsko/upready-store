@@ -1,7 +1,7 @@
 import { getLocaleDir } from "@i18n/config"
-import { GA_MEASUREMENT_ID } from "@lib/util/env"
 import { getRequestBaseURL } from "@lib/data/cookies"
-import GoogleAnalytics from "@modules/common/components/google-analytics"
+import { getTenantAnalytics } from "@lib/data/analytics"
+import Analytics from "@modules/common/components/analytics"
 import type { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale } from "next-intl/server"
@@ -53,11 +53,18 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   //   3. the profile's own built-in default (readProfileTheme(), unchanged).
   // A visitor who never touched the toggle sees step 2/3 with no overwrite (nothing in
   // storage disagrees); one who did gets it overwritten before paint.
-  const [settings, tenantPreset, tenantMode] = await Promise.all([
+  const [settings, tenantPreset, tenantMode, analytics] = await Promise.all([
     getEffectiveSettings(),
     getTenantThemePreset(),
     getTenantModeDefault(),
+    getTenantAnalytics(),
   ])
+  // A Metrica id is validated server-side as 6-10 digits (`validators.ts`);
+  // this parse only ever produces a clean integer or null, never NaN reaching
+  // the component (t17-analytics step 1).
+  const yandexCounterId = analytics.yandexMetricaId
+    ? Number.parseInt(analytics.yandexMetricaId, 10)
+    : null
   const theme = isAllowed("data-theme", tenantPreset) ? tenantPreset : profileTheme
   // The shop's own default sits ahead of the site-wide one: on a multi-shop process
   // `store.metadata.storefrontSettings` belongs to the whole backend and cannot speak
@@ -83,7 +90,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <body>
         <main className="relative">{props.children}</main>
-        {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         {/* Renders the hidden settings panel only for a browser that carries the
             studio cookie; null for everybody else, including the HTML of a visitor.
             Wrapped in its own NextIntlClientProvider: this root layout sits OUTSIDE the
@@ -92,8 +98,16 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             popover threw on open (measured 2026-09-10 on every stand: "Application
             error: a client-side exception", next-intl rethrows as Error(undefined) in
             production). The provider without props inherits locale and messages from
-            the request config. */}
+            the request config.
+
+            Analytics' own consent banner (`useTranslations("AnalyticsConsent")`)
+            needs the same provider, so it is mounted here rather than as a
+            second sibling provider (t17-analytics step 3). */}
         <NextIntlClientProvider>
+          <Analytics
+            ga4MeasurementId={analytics.ga4MeasurementId}
+            yandexCounterId={yandexCounterId}
+          />
           <StudioMount />
         </NextIntlClientProvider>
       </body>

@@ -309,6 +309,16 @@ function tenantRequestHeaders(
         encodeTenantHeaderValue(JSON.stringify(tenant.seoVerification))
       )
     }
+    // t17-analytics step 1: this shop's own Yandex Metrica / GA4 ids, read by
+    // `lib/data/analytics.ts` the same way the footer reads the attribution
+    // line above. Absent entirely when the owner has set neither, which the
+    // root layout reads as "load no analytics script for this tenant."
+    if (tenant.analytics) {
+      headers.set(
+        "x-tenant-analytics",
+        encodeTenantHeaderValue(JSON.stringify(tenant.analytics))
+      )
+    }
   }
 
   return headers

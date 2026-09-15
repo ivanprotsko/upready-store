@@ -62,6 +62,11 @@
     "description": "Consulta y actualiza tus direcciones de envío, puedes añadir tantas como quieras. Guardar tus direcciones las hará disponibles durante el pago.",
     "heading": "Direcciones de envío"
   },
+  "AnalyticsConsent": {
+    "message": "Utilizamos cookies para entender cómo los visitantes usan este sitio.",
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
   "Breadcrumb": {
     "home": "Inicio",
     "store": "Tienda"
