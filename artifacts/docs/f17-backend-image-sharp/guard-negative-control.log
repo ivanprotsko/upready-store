@@ -1,0 +1,9 @@
+negative-control build rc=1  (ожидается НЕ 0)
+#6 9.167 verify-runtime-modules: 1 of 324 boot modules cannot resolve an import inside this image:
+#6 9.168   src/api/tenants/branding/upload/route.js  ->  cannot find module 'sharp'
+#6 ERROR: process "/bin/sh -c node /usr/local/bin/verify-runtime-modules.mjs /app" did not complete successfully: exit code: 1
+ > [3/3] RUN node /usr/local/bin/verify-runtime-modules.mjs /app:
+9.167 verify-runtime-modules: 1 of 324 boot modules cannot resolve an import inside this image:
+9.168   src/api/tenants/branding/upload/route.js  ->  cannot find module 'sharp'
+   3 | >>> RUN node /usr/local/bin/verify-runtime-modules.mjs /app
+ERROR: failed to build: failed to solve: process "/bin/sh -c node /usr/local/bin/verify-runtime-modules.mjs /app" did not complete successfully: exit code: 1
