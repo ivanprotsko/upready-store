@@ -1,0 +1,30 @@
+import { launch, shot, save, SHOP } from './lib.mjs';
+const { browser, page, errors } = await launch({ storage: false });
+const out = { steps: [] };
+const log = (k, v) => { out.steps.push({ k, v }); console.log(k, JSON.stringify(v).slice(0, 400)); };
+
+await page.goto(SHOP + '/ru/products/gepachisty-cherkashino', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(6000);
+const addBtn = page.locator('button:has-text("В корзину")').first();
+log('addBtnVisible', await addBtn.isVisible().catch(() => false));
+await addBtn.click({ timeout: 30000 });
+await page.waitForTimeout(6000);
+await page.goto(SHOP + '/ru/cart', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(6000);
+out.cartText = (await page.evaluate(() => document.body.innerText)).slice(0, 700);
+log('cart', out.cartText.replace(/\n+/g, ' | ').slice(0, 300));
+await shot(page, 's01-cart');
+// go to checkout
+const go = page.locator('a:has-text("Оформить"), button:has-text("Оформить")').first();
+log('checkoutLinkVisible', await go.isVisible().catch(() => false));
+await go.click({ timeout: 30000 }).catch(async () => { await page.goto(SHOP + '/ru/checkout?step=address', { waitUntil: 'domcontentloaded' }); });
+await page.waitForTimeout(9000);
+out.checkoutUrl = page.url();
+out.checkoutText = (await page.evaluate(() => document.body.innerText)).slice(0, 2500);
+log('checkoutUrl', out.checkoutUrl);
+console.log('--- CHECKOUT TEXT ---\n' + out.checkoutText.replace(/\n{2,}/g, '\n'));
+out.legalLinks = await page.$$eval('a', els => els.map(e => ({ t: (e.innerText || '').trim().slice(0, 60), h: e.getAttribute('href') })).filter(x => /оферт|услови|политик|возврат|конфиденц|terms|privacy|returns|shipping|pages/i.test(x.t + ' ' + x.h)));
+log('legalLinks', out.legalLinks);
+await shot(page, 's01-checkout');
+save('s01-checkout.json', { ...out, errors: errors.slice(0, 10) });
+await browser.close();

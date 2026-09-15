@@ -1,0 +1,17 @@
+200 /ru
+200 /ru/store
+200 /ru/journal
+404 /ru/blog
+200 /sitemap.xml
+200 /robots.txt
+200 /ru/pages/offer
+200 /ru/pages/contacts
+200 /ru/pages/privacy
+404 /ru/pages/delivery
+404 /ru/pages/faq
+404 /ru/pages/returns
+307 /ru/terms
+404 /ru/shipping
+307 /ru/privacy
+404 /ru/returns
+200 /ru/products/gepachisty-cherkashino

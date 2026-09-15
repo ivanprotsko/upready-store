@@ -1,0 +1,33 @@
+import path from 'node:path';
+import { chromium } from '/Users/ivanprotsko/upready/projects/upready-store/node_modules/playwright/index.mjs';
+const ROOT = '/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/q03-gap-recheck';
+const SHOP = 'https://cherkashino.shipshift.dev';
+const EMAIL = 'ivanprotsko+q03@ivanprotsko.com';
+const browser = await chromium.launch({ headless: true });
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'ru-RU' });
+const page = await ctx.newPage();
+const fill = async (n, v) => { const l = page.locator(`input[name="${n}"]`).first(); if (await l.count()) await l.fill(v); };
+await page.goto(SHOP + '/ru/products/gepachisty-cherkashino', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(6000);
+await page.locator('button:has-text("В корзину")').first().click({ timeout: 30000 });
+await page.waitForTimeout(6000);
+await page.goto(SHOP + '/ru/checkout?step=address', { waitUntil: 'domcontentloaded', timeout: 120000 });
+await page.waitForTimeout(9000);
+await page.locator('button:has-text("Контакты")').first().click({ timeout: 20000 }); await page.waitForTimeout(3000);
+await fill('first_name', 'Иван'); await fill('last_name', 'Тестовый'); await fill('email', EMAIL); await fill('phone', '+79001234567');
+await page.locator('button:has-text("Сохранить")').first().click({ timeout: 20000 }); await page.waitForTimeout(6000);
+await page.locator('button:has-text("Адрес доставки")').first().click({ timeout: 20000 }); await page.waitForTimeout(3000);
+await fill('address_1', 'ул. Ленина, д. 1, кв. 2'); await fill('postal_code', '630099'); await fill('city', 'Новосибирск');
+const sels = page.locator('select:visible');
+for (let i = 0, n = await sels.count(); i < n; i++) { const opts = await sels.nth(i).locator('option').allTextContents(); const m = opts.find(o => /Новосибирск/i.test(o)); if (m) await sels.nth(i).selectOption({ label: m }); }
+await page.locator('button:has-text("Сохранить")').first().click({ timeout: 20000 }); await page.waitForTimeout(8000);
+await page.locator('[role=radio]').first().click({ force: true }); await page.waitForTimeout(8000);
+console.log('TESTIDS', JSON.stringify(await page.$$eval('[data-testid]', els => els.map(e => e.getAttribute('data-testid')).slice(0, 80))));
+console.log('PAYAREA', JSON.stringify(await page.evaluate(() => {
+  const h = [...document.querySelectorAll('*')].find(e => e.children.length === 0 && /Способ оплаты/.test(e.textContent || ''));
+  let n = h; for (let i = 0; i < 5 && n; i++) n = n.parentElement;
+  return n ? n.outerHTML.slice(0, 3000) : 'not found';
+})));
+await page.screenshot({ path: path.join(ROOT, 'shots', 's07-payarea-1280x900.png') });
+await ctx.storageState({ path: path.join(ROOT, '.buyer2.json') });
+await browser.close();
