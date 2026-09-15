@@ -580,12 +580,13 @@
     "seeDetails": "Детальніше"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Збережіть номер замовлення. Він знадобиться для зв'язку з магазином.",
     "orderSuccess": "Ваше замовлення успішно оформлено.",
     "thankYou": "Дякуємо!"
   },
   "OrderDetails": {
     "backToOrders": "Назад до замовлень",
-    "confirmationSentBefore": "Ми надіслали підтвердження замовлення на",
+    "contactEmailBefore": "Замовлення оформлено на адресу",
     "fulfillmentStatuses": {
       "canceled": "Скасовано",
       "delivered": "Доставлено",

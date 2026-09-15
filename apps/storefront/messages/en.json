@@ -580,12 +580,13 @@
     "seeDetails": "See details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Keep the order number. You need it when you contact the shop.",
     "orderSuccess": "Your order was placed successfully.",
     "thankYou": "Thank you!"
   },
   "OrderDetails": {
     "backToOrders": "Back to orders",
-    "confirmationSentBefore": "We have sent the order confirmation details to",
+    "contactEmailBefore": "The contact address for this order is",
     "fulfillmentStatuses": {
       "canceled": "Canceled",
       "delivered": "Delivered",

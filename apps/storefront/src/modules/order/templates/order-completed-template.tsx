@@ -47,6 +47,12 @@ export default async function OrderCompletedTemplate({
             {t("orderSuccess")}
           </Text>
           <OrderDetails order={order} locale={locale} showStatus />
+          <Text
+            className="txt-medium text-ui-fg-subtle"
+            data-testid="order-keep-number"
+          >
+            {t("keepOrderNumber")}
+          </Text>
         </div>
 
         <OrderSection title={td("items")}>

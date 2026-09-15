@@ -580,12 +580,13 @@
     "seeDetails": "Bekijk details"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Bewaar het bestelnummer. U hebt het nodig als u contact opneemt met de winkel.",
     "orderSuccess": "Uw bestelling is succesvol geplaatst.",
     "thankYou": "Bedankt!"
   },
   "OrderDetails": {
     "backToOrders": "Terug naar bestellingen",
-    "confirmationSentBefore": "We hebben de bestelbevestiging verzonden naar",
+    "contactEmailBefore": "Het contactadres voor deze bestelling is",
     "fulfillmentStatuses": {
       "canceled": "Geannuleerd",
       "delivered": "Bezorgd",

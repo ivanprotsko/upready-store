@@ -580,12 +580,13 @@
     "seeDetails": "ดูรายละเอียด"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "เก็บหมายเลขคำสั่งซื้อไว้ คุณจะต้องใช้เมื่อติดต่อร้านค้า",
     "orderSuccess": "สั่งซื้อสำเร็จแล้ว",
     "thankYou": "ขอบคุณ!"
   },
   "OrderDetails": {
     "backToOrders": "กลับไปที่คำสั่งซื้อ",
-    "confirmationSentBefore": "เราได้ส่งรายละเอียดยืนยันคำสั่งซื้อไปที่",
+    "contactEmailBefore": "ที่อยู่ติดต่อสำหรับคำสั่งซื้อนี้คือ",
     "fulfillmentStatuses": {
       "canceled": "ยกเลิกแล้ว",
       "delivered": "ส่งถึงแล้ว",

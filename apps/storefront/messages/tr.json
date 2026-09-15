@@ -580,12 +580,13 @@
     "seeDetails": "Detayları gör"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Sipariş numaranızı saklayın. Mağazayla iletişime geçerken gerekecek.",
     "orderSuccess": "Siparişiniz başarıyla oluşturuldu.",
     "thankYou": "Teşekkürler!"
   },
   "OrderDetails": {
     "backToOrders": "Siparişlere dön",
-    "confirmationSentBefore": "Sipariş onay bilgilerini şu adrese gönderdik:",
+    "contactEmailBefore": "Bu siparişin iletişim adresi",
     "fulfillmentStatuses": {
       "canceled": "İptal edildi",
       "delivered": "Teslim edildi",

@@ -580,12 +580,13 @@
     "seeDetails": "Visa detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Spara ordernumret. Du behöver det när du kontaktar butiken.",
     "orderSuccess": "Din order har lagts.",
     "thankYou": "Tack!"
   },
   "OrderDetails": {
     "backToOrders": "Tillbaka till beställningar",
-    "confirmationSentBefore": "Vi har skickat orderbekräftelsen till",
+    "contactEmailBefore": "Kontaktadressen för den här ordern är",
     "fulfillmentStatuses": {
       "canceled": "Avbruten",
       "delivered": "Levererad",

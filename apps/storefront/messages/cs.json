@@ -580,12 +580,13 @@
     "seeDetails": "Zobrazit detaily"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Uschovejte si číslo objednávky. Budete ho potřebovat při kontaktu s obchodem.",
     "orderSuccess": "Vaše objednávka byla úspěšně vytvořena.",
     "thankYou": "Děkujeme!"
   },
   "OrderDetails": {
     "backToOrders": "Zpět na objednávky",
-    "confirmationSentBefore": "Potvrzení objednávky jsme zaslali na",
+    "contactEmailBefore": "Kontaktní adresa této objednávky je",
     "fulfillmentStatuses": {
       "canceled": "Zrušeno",
       "delivered": "Doručeno",

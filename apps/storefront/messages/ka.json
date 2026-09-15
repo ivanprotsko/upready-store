@@ -580,12 +580,13 @@
     "seeDetails": "დეტალების ნახვა"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "შეინახეთ შეკვეთის ნომერი. დაგჭირდებათ მაღაზიასთან დაკავშირებისას.",
     "orderSuccess": "თქვენი შეკვეთა წარმატებით გაფორმდა.",
     "thankYou": "გმადლობთ!"
   },
   "OrderDetails": {
     "backToOrders": "შეკვეთებზე დაბრუნება",
-    "confirmationSentBefore": "შეკვეთის დადასტურების დეტალები გამოგზავნილია მისამართზე",
+    "contactEmailBefore": "ამ შეკვეთის საკონტაქტო მისამართია",
     "fulfillmentStatuses": {
       "canceled": "გაუქმებული",
       "delivered": "მიწოდებული",

@@ -580,12 +580,13 @@
     "seeDetails": "Vezi detalii"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Păstrați numărul comenzii. Veți avea nevoie de el când contactați magazinul.",
     "orderSuccess": "Comanda dvs. a fost plasată cu succes.",
     "thankYou": "Vă mulțumim!"
   },
   "OrderDetails": {
     "backToOrders": "Înapoi la comenzi",
-    "confirmationSentBefore": "Am trimis detaliile de confirmare a comenzii la",
+    "contactEmailBefore": "Adresa de contact pentru această comandă este",
     "fulfillmentStatuses": {
       "canceled": "Anulată",
       "delivered": "Livrată",
