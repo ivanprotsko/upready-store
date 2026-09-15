@@ -311,8 +311,12 @@
     "unauthorized": "Sila log masuk untuk meneruskan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Isih",
-    "title": "Penapis"
+    "title": "Penapis",
+    "to": "hingga",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -701,6 +705,11 @@
     "outOfStock": "Kehabisan stok",
     "selectOptions": "Pilih Opsyen",
     "selectVariant": "Pilih varian"
+  },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",

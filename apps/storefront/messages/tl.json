@@ -311,8 +311,12 @@
     "unauthorized": "Mag-sign in muna para magpatuloy."
   },
   "Filters": {
+    "from": "mula",
+    "no": "Hindi",
     "sort": "Ayusin",
-    "title": "Mga Filter"
+    "title": "Mga Filter",
+    "to": "hanggang",
+    "yes": "Oo"
   },
   "Footer": {
     "categoriesHeading": "Mga Kategorya",
@@ -701,6 +705,11 @@
     "outOfStock": "Wala nang stock",
     "selectOptions": "Pumili ng Opsyon",
     "selectVariant": "Pumili ng variant"
+  },
+  "ProductAttributes": {
+    "no": "Hindi",
+    "title": "Mga katangian",
+    "yes": "Oo"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",

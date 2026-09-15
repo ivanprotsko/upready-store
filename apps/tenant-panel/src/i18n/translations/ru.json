@@ -2156,6 +2156,10 @@
         "heading": "Нет вариантов"
       },
       "header": "Варианты"
+    },
+    "csv": {
+      "exportAction": "Выгрузить CSV",
+      "importAction": "Загрузить CSV"
     }
   },
   "profile": {

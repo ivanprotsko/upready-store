@@ -311,8 +311,12 @@
     "unauthorized": "Silakan masuk untuk melanjutkan."
   },
   "Filters": {
+    "from": "dari",
+    "no": "Tidak",
     "sort": "Urutkan",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "sampai",
+    "yes": "Ya"
   },
   "Footer": {
     "categoriesHeading": "Kategori",
@@ -701,6 +705,11 @@
     "outOfStock": "Stok habis",
     "selectOptions": "Pilih Opsi",
     "selectVariant": "Pilih varian"
+  },
+  "ProductAttributes": {
+    "no": "Tidak",
+    "title": "Spesifikasi",
+    "yes": "Ya"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Lanjutkan pengaturan di admin",

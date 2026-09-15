@@ -311,8 +311,12 @@
     "unauthorized": "A folytatáshoz jelentkezzen be."
   },
   "Filters": {
+    "from": "-tól",
+    "no": "Nem",
     "sort": "Rendezés",
-    "title": "Szűrők"
+    "title": "Szűrők",
+    "to": "-ig",
+    "yes": "Igen"
   },
   "Footer": {
     "categoriesHeading": "Kategóriák",
@@ -701,6 +705,11 @@
     "outOfStock": "Elfogyott",
     "selectOptions": "Opciók kiválasztása",
     "selectVariant": "Válasszon variánst"
+  },
+  "ProductAttributes": {
+    "no": "Nem",
+    "title": "Jellemzők",
+    "yes": "Igen"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",

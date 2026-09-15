@@ -311,8 +311,12 @@
     "unauthorized": "Please sign in to continue."
   },
   "Filters": {
+    "from": "from",
+    "no": "No",
     "sort": "Sort",
-    "title": "Filters"
+    "title": "Filters",
+    "to": "to",
+    "yes": "Yes"
   },
   "Footer": {
     "categoriesHeading": "Categories",
@@ -701,6 +705,11 @@
     "outOfStock": "Out of stock",
     "selectOptions": "Select options",
     "selectVariant": "Select variant"
+  },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Specifications",
+    "yes": "Yes"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continue setup in admin",

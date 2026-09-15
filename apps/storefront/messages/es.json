@@ -311,8 +311,12 @@
     "unauthorized": "Inicia sesión para continuar."
   },
   "Filters": {
+    "from": "desde",
+    "no": "No",
     "sort": "Ordenar",
-    "title": "Filtros"
+    "title": "Filtros",
+    "to": "hasta",
+    "yes": "Sí"
   },
   "Footer": {
     "categoriesHeading": "Categorías",
@@ -701,6 +705,11 @@
     "outOfStock": "Agotado",
     "selectOptions": "Seleccionar opciones",
     "selectVariant": "Seleccionar variante"
+  },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Características",
+    "yes": "Sí"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuar configuración en el admin",

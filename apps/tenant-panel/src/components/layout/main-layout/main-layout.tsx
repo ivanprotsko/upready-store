@@ -180,6 +180,14 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <Tag />,
       label: t("products.domain"),
       to: "/products",
+      // t15-product-attributes: the shop's own characteristics sit under
+      // Products, the way Campaigns sits under Promotions below.
+      items: [
+        {
+          label: "Характеристики",
+          to: "/product-attributes",
+        },
+      ],
     },
     {
       icon: <ShoppingCart />,

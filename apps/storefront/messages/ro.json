@@ -311,8 +311,12 @@
     "unauthorized": "Vă rugăm să vă autentificați pentru a continua."
   },
   "Filters": {
+    "from": "de la",
+    "no": "Nu",
     "sort": "Sortare",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "până la",
+    "yes": "Da"
   },
   "Footer": {
     "categoriesHeading": "Categorii",
@@ -701,6 +705,11 @@
     "outOfStock": "Stoc epuizat",
     "selectOptions": "Selectează opțiunile",
     "selectVariant": "Selectează varianta"
+  },
+  "ProductAttributes": {
+    "no": "Nu",
+    "title": "Caracteristici",
+    "yes": "Da"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuă configurarea în admin",

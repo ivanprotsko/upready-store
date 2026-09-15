@@ -311,8 +311,12 @@
     "unauthorized": "Accedi per continuare."
   },
   "Filters": {
+    "from": "da",
+    "no": "No",
     "sort": "Ordina",
-    "title": "Filtri"
+    "title": "Filtri",
+    "to": "a",
+    "yes": "Sì"
   },
   "Footer": {
     "categoriesHeading": "Categorie",
@@ -701,6 +705,11 @@
     "outOfStock": "Esaurito",
     "selectOptions": "Seleziona opzioni",
     "selectVariant": "Seleziona variante"
+  },
+  "ProductAttributes": {
+    "no": "No",
+    "title": "Caratteristiche",
+    "yes": "Sì"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continua la configurazione nel pannello",

@@ -311,8 +311,12 @@
     "unauthorized": "Будь ласка, увійдіть, щоб продовжити."
   },
   "Filters": {
+    "from": "від",
+    "no": "Ні",
     "sort": "Сортування",
-    "title": "Фільтри"
+    "title": "Фільтри",
+    "to": "до",
+    "yes": "Так"
   },
   "Footer": {
     "categoriesHeading": "Категорії",
@@ -701,6 +705,11 @@
     "outOfStock": "Немає в наявності",
     "selectOptions": "Обрати опції",
     "selectVariant": "Оберіть варіант"
+  },
+  "ProductAttributes": {
+    "no": "Ні",
+    "title": "Характеристики",
+    "yes": "Так"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",

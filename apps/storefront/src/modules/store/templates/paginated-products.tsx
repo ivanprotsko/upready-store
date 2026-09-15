@@ -7,6 +7,18 @@ import type { SortOptions } from "@modules/store/components/refinement-list/sort
 
 export const PRODUCT_LIMIT = 12
 
+/**
+ * The listing when a filter leaves nothing. Deliberately a grid with no items
+ * rather than a message: the filter bar above it is what explains the zero, and
+ * the pagination is gone because there is nothing to page through.
+ */
+const EmptyGrid = () => (
+  <ul
+    className="grid grid-cols-2 w-full small:grid-cols-2 medium:grid-cols-3 gap-x-2 small:gap-x-6 gap-y-8"
+    data-testid="products-list"
+  />
+)
+
 type PaginatedProductsParams = {
   limit: number
   collection_id?: string[]
@@ -24,6 +36,7 @@ export default async function PaginatedProducts({
   productsIds,
   countryCode,
   optionValueIds,
+  attributeProductIds,
 }: {
   sortBy?: SortOptions
   page: number
@@ -33,6 +46,14 @@ export default async function PaginatedProducts({
   productsIds?: string[]
   countryCode: string
   optionValueIds?: OptionValueIds
+  /**
+   * The products a characteristic filter leaves (t15-product-attributes):
+   * `undefined`/`null` when nothing is selected, an EMPTY ARRAY when the
+   * selection matches nothing. The two are not the same — an empty `id` filter
+   * is NO filter to Medusa and would put the whole catalogue back on the page —
+   * so an empty array returns early with the empty grid.
+   */
+  attributeProductIds?: string[] | null
 }) {
   const queryParams: PaginatedProductsParams = {
     limit: 12,
@@ -48,8 +69,21 @@ export default async function PaginatedProducts({
     queryParams["category_id"] = [categoryId]
   }
 
-  if (productsIds) {
-    queryParams["id"] = productsIds
+  if (attributeProductIds && attributeProductIds.length === 0) {
+    return <EmptyGrid />
+  }
+
+  // Both narrowings are id lists, so the two intersect rather than override.
+  const narrowedIds =
+    attributeProductIds && productsIds
+      ? productsIds.filter((id) => attributeProductIds.includes(id))
+      : (attributeProductIds ?? productsIds)
+
+  if (narrowedIds) {
+    if (narrowedIds.length === 0) {
+      return <EmptyGrid />
+    }
+    queryParams["id"] = narrowedIds
   }
 
   if (sortBy === "created_at") {

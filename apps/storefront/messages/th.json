@@ -311,8 +311,12 @@
     "unauthorized": "กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ"
   },
   "Filters": {
+    "from": "ตั้งแต่",
+    "no": "ไม่ใช่",
     "sort": "เรียงลำดับ",
-    "title": "ตัวกรอง"
+    "title": "ตัวกรอง",
+    "to": "ถึง",
+    "yes": "ใช่"
   },
   "Footer": {
     "categoriesHeading": "หมวดหมู่",
@@ -701,6 +705,11 @@
     "outOfStock": "สินค้าหมด",
     "selectOptions": "เลือกตัวเลือก",
     "selectVariant": "เลือกตัวเลือกสินค้า"
+  },
+  "ProductAttributes": {
+    "no": "ไม่ใช่",
+    "title": "ข้อมูลจำเพาะ",
+    "yes": "ใช่"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",

@@ -183,6 +183,11 @@ import { PostStoreReviewSchema } from "./store/tenant/reviews/validators";
 // ---- piece 8: the home-page document body schema (zod for theme/content;
 // `settings` is checked by store/storefront-settings/validation.ts inside it).
 import { PutTenantHomeBody } from "./tenants/home/validators";
+import {
+  PostTenantProductAttributeSchema,
+  PostTenantProductAttributeUpdateSchema,
+  PostTenantProductAttributeValuesSchema,
+} from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
@@ -440,6 +445,25 @@ export default defineMiddlewares({
       matcher: "/tenants/me/password",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantUpdatePasswordSchema)],
+    },
+
+    // ---- t14-product-import: catalogue export and import (/tenants/products/export,
+    // /tenants/products/import/**)
+    //
+    // These come BEFORE `/tenants/products/:id` for the same reason the
+    // variants batch comes before `:variant_id` further down: Express hands a
+    // path to every matching entry in the order they are declared, and
+    // `/tenants/products/:id` matches `/tenants/products/import` just as well
+    // as it matches a product id. Declaring the upload first is what puts
+    // multer in front of the body validator, so `req.files` is populated by the
+    // time the route runs.
+    //
+    // `GET /tenants/products/export` takes no query parameters and answers the
+    // CSV bytes, so it needs no validator of its own.
+    {
+      matcher: "/tenants/products/import",
+      method: ["POST"],
+      middlewares: adminUploadPostMiddlewares,
     },
 
     // ---- piece 1: product detail (/tenants/products/:id/**, variants, options)
@@ -1035,6 +1059,30 @@ export default defineMiddlewares({
       matcher: "/tenants/home",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantHomeBody)],
+    },
+
+    // ---- t15-product-attributes: the shop's own product characteristics
+    // (/tenants/product-attributes/**, /tenants/products/:id/attributes,
+    // /store/tenant/product-attributes/**).
+    //
+    // Only the write verbs take a body. The reads parse their own one or two
+    // query parameters in the route (this resource has no Admin counterpart to
+    // borrow a query config from), and the public `/store/tenant/*` reads ride
+    // the framework's own publishable-key gate on `/store/*`.
+    {
+      matcher: "/tenants/product-attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeSchema)],
+    },
+    {
+      matcher: "/tenants/product-attributes/:id",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeUpdateSchema)],
+    },
+    {
+      matcher: "/tenants/products/:id/attributes",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantProductAttributeValuesSchema)],
     },
 
     // t06-locale-currency: the tenant's default storefront locale, its enabled

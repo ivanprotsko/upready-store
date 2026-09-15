@@ -5,6 +5,7 @@ import { TwoColumnPageSkeleton } from "../../../components/common/skeleton"
 import { LayoutComposer, detailPageDefaultEntries } from "../../../components/layout-composer"
 import { useProduct } from "../../../hooks/api/products"
 import { ProductAttributeSection } from "./components/product-attribute-section"
+import { ProductCustomAttributeSection } from "./components/product-custom-attribute-section"
 import { ProductGeneralSection } from "./components/product-general-section"
 import { ProductMediaSection } from "./components/product-media-section"
 import { ProductOptionSection } from "./components/product-option-section"
@@ -83,6 +84,11 @@ export const ProductDetail = () => {
             </LayoutComposer.Entry>
             <LayoutComposer.Entry id="ProductAttributeSection">
               <ProductAttributeSection product={product} />
+            </LayoutComposer.Entry>
+            {/* t15-product-attributes: the shop's own characteristics, right
+                under Medusa's fixed weight/dimensions/HS-code block. */}
+            <LayoutComposer.Entry id="ProductCustomAttributeSection">
+              <ProductCustomAttributeSection product={product} />
             </LayoutComposer.Entry>
           </>
         ),

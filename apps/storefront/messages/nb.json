@@ -311,8 +311,12 @@
     "unauthorized": "Vennligst logg inn for å fortsette."
   },
   "Filters": {
+    "from": "fra",
+    "no": "Nei",
     "sort": "Sorter",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "til",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -701,6 +705,11 @@
     "outOfStock": "Utsolgt",
     "selectOptions": "Velg alternativer",
     "selectVariant": "Velg variant"
+  },
+  "ProductAttributes": {
+    "no": "Nei",
+    "title": "Spesifikasjoner",
+    "yes": "Ja"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",

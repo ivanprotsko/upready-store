@@ -49,6 +49,23 @@ const routes: RouteObject[] = [
                     path: "create",
                     lazy: () => import("./routes/products/product-create"),
                   },
+                  // t14-product-import: the two buttons the product list has
+                  // always rendered (`product-list-table.tsx`) had no routes
+                  // behind them until now. `import/:import_id` is a separate
+                  // URL on purpose — the dry-run report is read from the server
+                  // by id, so a page reload does not lose it.
+                  {
+                    path: "export",
+                    lazy: () => import("./routes/products/product-export"),
+                  },
+                  {
+                    path: "import",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
+                  {
+                    path: "import/:import_id",
+                    lazy: () => import("./routes/products/product-import"),
+                  },
                 ],
               },
               {
@@ -101,6 +118,14 @@ const routes: RouteObject[] = [
                         path: "attributes",
                         lazy: () =>
                           import("./routes/products/product-attributes"),
+                      },
+                      {
+                        // t15-product-attributes: the shop's own
+                        // characteristics of this product, as opposed to
+                        // Medusa's fixed `attributes` above.
+                        path: "custom-attributes",
+                        lazy: () =>
+                          import("./routes/products/product-custom-attributes"),
                       },
                       {
                         path: "organization",
@@ -355,6 +380,25 @@ const routes: RouteObject[] = [
               {
                 path: "edit",
                 lazy: () => import("./routes/profile/profile-edit"),
+              },
+            ],
+          },
+          {
+            // t15-product-attributes: the shop's own product characteristics,
+            // declared once and filled in on each product. Hangs under Products
+            // in the nav, the way Campaigns hangs under Promotions.
+            path: "/product-attributes",
+            handle: { breadcrumb: () => "Характеристики товаров" },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-list"),
+              },
+              {
+                path: ":id",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-edit"),
               },
             ],
           },

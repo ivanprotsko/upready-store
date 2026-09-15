@@ -311,8 +311,12 @@
     "unauthorized": "Veuillez vous connecter pour continuer."
   },
   "Filters": {
+    "from": "de",
+    "no": "Non",
     "sort": "Tri",
-    "title": "Filtres"
+    "title": "Filtres",
+    "to": "à",
+    "yes": "Oui"
   },
   "Footer": {
     "categoriesHeading": "Catégories",
@@ -701,6 +705,11 @@
     "outOfStock": "Rupture de stock",
     "selectOptions": "Sélectionner les options",
     "selectVariant": "Sélectionner une variante"
+  },
+  "ProductAttributes": {
+    "no": "Non",
+    "title": "Caractéristiques",
+    "yes": "Oui"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuer la configuration dans l'admin",

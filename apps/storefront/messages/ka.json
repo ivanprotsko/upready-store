@@ -311,8 +311,12 @@
     "unauthorized": "გასაგრძელებლად გთხოვთ შეხვიდეთ სისტემაში."
   },
   "Filters": {
+    "from": "დან",
+    "no": "არა",
     "sort": "დალაგება",
-    "title": "ფილტრები"
+    "title": "ფილტრები",
+    "to": "მდე",
+    "yes": "დიახ"
   },
   "Footer": {
     "categoriesHeading": "კატეგორიები",
@@ -701,6 +705,11 @@
     "outOfStock": "არ არის მარაგში",
     "selectOptions": "აირჩიეთ ოფციები",
     "selectVariant": "აირჩიეთ ვარიანტი"
+  },
+  "ProductAttributes": {
+    "no": "არა",
+    "title": "მახასიათებლები",
+    "yes": "დიახ"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",

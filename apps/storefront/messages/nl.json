@@ -311,8 +311,12 @@
     "unauthorized": "Log in om verder te gaan."
   },
   "Filters": {
+    "from": "van",
+    "no": "Nee",
     "sort": "Sorteren",
-    "title": "Filters"
+    "title": "Filters",
+    "to": "tot",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Categorieën",
@@ -701,6 +705,11 @@
     "outOfStock": "Niet op voorraad",
     "selectOptions": "Selecteer opties",
     "selectVariant": "Selecteer variant"
+  },
+  "ProductAttributes": {
+    "no": "Nee",
+    "title": "Kenmerken",
+    "yes": "Ja"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Installatie voortzetten in admin",

@@ -311,8 +311,12 @@
     "unauthorized": "Vui lòng đăng nhập để tiếp tục."
   },
   "Filters": {
+    "from": "từ",
+    "no": "Không",
     "sort": "Sắp xếp",
-    "title": "Bộ lọc"
+    "title": "Bộ lọc",
+    "to": "đến",
+    "yes": "Có"
   },
   "Footer": {
     "categoriesHeading": "Danh mục",
@@ -701,6 +705,11 @@
     "outOfStock": "Hết hàng",
     "selectOptions": "Chọn tùy chọn",
     "selectVariant": "Chọn phiên bản"
+  },
+  "ProductAttributes": {
+    "no": "Không",
+    "title": "Thông số",
+    "yes": "Có"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tiếp tục thiết lập trong trang quản trị",

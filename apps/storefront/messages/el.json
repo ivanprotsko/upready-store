@@ -311,8 +311,12 @@
     "unauthorized": "Παρακαλούμε συνδεθείτε για να συνεχίσετε."
   },
   "Filters": {
+    "from": "από",
+    "no": "Όχι",
     "sort": "Ταξινόμηση",
-    "title": "Φίλτρα"
+    "title": "Φίλτρα",
+    "to": "έως",
+    "yes": "Ναι"
   },
   "Footer": {
     "categoriesHeading": "Κατηγορίες",
@@ -701,6 +705,11 @@
     "outOfStock": "Εξαντλήθηκε",
     "selectOptions": "Επιλέξτε επιλογές",
     "selectVariant": "Επιλέξτε παραλλαγή"
+  },
+  "ProductAttributes": {
+    "no": "Όχι",
+    "title": "Χαρακτηριστικά",
+    "yes": "Ναι"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",

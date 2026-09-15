@@ -311,8 +311,12 @@
     "unauthorized": "जारी रखने के लिए कृपया साइन इन करें।"
   },
   "Filters": {
+    "from": "से",
+    "no": "नहीं",
     "sort": "क्रमबद्ध करें",
-    "title": "फ़िल्टर"
+    "title": "फ़िल्टर",
+    "to": "तक",
+    "yes": "हाँ"
   },
   "Footer": {
     "categoriesHeading": "श्रेणियां",
@@ -701,6 +705,11 @@
     "outOfStock": "स्टॉक में नहीं",
     "selectOptions": "विकल्प चुनें",
     "selectVariant": "वेरिएंट चुनें"
+  },
+  "ProductAttributes": {
+    "no": "नहीं",
+    "title": "विशेषताएँ",
+    "yes": "हाँ"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "एडमिन में सेटअप जारी रखें",

@@ -1,0 +1,36 @@
+язык и страна магазина: PUT /tenants/locale-settings → 200
+файл для панели: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-upload.csv
+правим «sphere-1-cherkashino» / SKU ABS-SPHERE-1-SMALL-CHERKASHINO: цена 4399 → 4444
+цена в БД до импорта: 4399
+вход в панель: http://localhost:5195/
+[консоль] Failed to load resource: net::ERR_CONNECTION_REFUSED
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-1-products.png
+кнопки на экране товаров: Выгрузить CSV · Загрузить CSV · Создать
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-2-export-drawer.png
+скачано панелью: catalog-cherkashino-2026-09-15T00-47-16-899Z.csv
+[консоль] Failed to load resource: net::ERR_CONNECTION_REFUSED
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-3-import-upload.png
+отчёт открылся по своему адресу: http://localhost:5195/products/import/tpimp_01M2H8GTTVQ8J2GDWM9TF6ADTG
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-4-import-report.png
+[консоль] Failed to load resource: net::ERR_CONNECTION_REFUSED
+после F5 отчёт на месте: ДА (адрес http://localhost:5195/products/import/tpimp_01M2H8GTTVQ8J2GDWM9TF6ADTG)
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-5-import-report-after-reload.png
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/panel-6-import-applied.png
+после применения на экране: «Импорт применён»
+цена в БД после импорта: 4444
+revalidate витрины: 200
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] Failed to load resource: the server responded with a status of 404 (Not Found)
+[консоль] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client bran
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/storefront-1-product-page.png
+выбран вариант «Small» на странице товара
+скриншот: /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-import/artifacts/docs/t14-product-import/storefront-2-variant-price.png
+на странице товара найдена новая цена 4444: ДА (4 444,00)
+заголовок страницы витрины: Sphere No. 1 · Chalk white | Магазин Оксаны Черкашиной

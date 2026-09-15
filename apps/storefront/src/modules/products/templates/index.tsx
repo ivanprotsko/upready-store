@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
+import ProductAttributes from "@modules/products/components/product-attributes"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
@@ -107,6 +108,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
               }
             >
               <ProductActionsWrapper id={product.id} region={region} />
+            </Suspense>
+            {/* t15-product-attributes: the shop's own characteristics, above
+                the shipping tab, where a buyer comparing two supplements looks
+                for composition and volume. Renders nothing when the product
+                carries none. */}
+            <Suspense fallback={null}>
+              <ProductAttributes productId={product.id} />
             </Suspense>
             <ProductTabs product={product} />
           </div>

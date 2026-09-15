@@ -2565,6 +2565,10 @@
         "heading": "No results"
       },
       "header": "Variants"
+    },
+    "csv": {
+      "exportAction": "Export CSV",
+      "importAction": "Import CSV"
     }
   },
   "profile": {
