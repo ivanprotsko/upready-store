@@ -1,5 +1,7 @@
 import { retrieveCustomer } from "@lib/data/customer"
 import { getSiteName } from "@lib/data/cookies"
+import { getLegalLinkContext } from "@lib/data/legal-links"
+import { legalHref } from "@lib/util/legal-links"
 import { ArrowLeft, UserMini } from "@medusajs/icons"
 import { Link } from "@i18n/navigation"
 import type { Metadata } from "next"
@@ -17,11 +19,18 @@ export default async function CheckoutLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [customer, t, siteName] = await Promise.all([
+  const [customer, t, siteName, legal] = await Promise.all([
     retrieveCustomer(),
     getTranslations("CheckoutPage"),
     getSiteName(),
+    getLegalLinkContext(),
   ])
+
+  // The mobile twin of the two links in `checkout-form`: same slots, same rule
+  // (shown only while the shop has the page), because the two footers are the
+  // same promise rendered at two widths (f05-checkout-legal-stubs).
+  const shippingLink = legalHref("shipping", legal)
+  const returnsLink = legalHref("returns", legal)
 
   return (
     <div className="min-h-screen bg-ui-bg-base flex flex-col">
@@ -77,12 +86,16 @@ export default async function CheckoutLayout({
 
       <footer className="border-t border-ui-border-base bg-ui-bg-base">
         <div className="flex flex-col items-center gap-2 content-container py-4 text-center lg:hidden">
-          <Link href="/shipping" className="text-base font-light text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
-            {t("shippingLink")}
-          </Link>
-          <Link href="/returns" className="text-base font-light text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
-            {t("returnsLink")}
-          </Link>
+          {shippingLink && (
+            <Link href={shippingLink} className="text-base font-light text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
+              {t("shippingLink")}
+            </Link>
+          )}
+          {returnsLink && (
+            <Link href={returnsLink} className="text-base font-light text-ui-fg-subtle hover:text-ui-fg-base transition-colors">
+              {t("returnsLink")}
+            </Link>
+          )}
           <span className="text-base font-light text-ui-fg-subtle">
             {t("copyright", {
               year: new Date().getFullYear(),

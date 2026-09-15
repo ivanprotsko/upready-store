@@ -1,10 +1,6 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
-import {
-  addToCartWorkflow,
-  completeCartWorkflow,
-  createCartWorkflow,
-} from "@medusajs/medusa/core-flows";
+import { addToCartWorkflow, createCartWorkflow } from "@medusajs/medusa/core-flows";
 
 /**
  * A cart may only hold variants of products sold in its own sales channel.
@@ -21,7 +17,9 @@ import {
  * - `createCartWorkflow`: `POST /store/carts` with `items`
  * - `addToCartWorkflow`: `POST /store/carts/:id/line-items`
  * - `completeCartWorkflow`: `POST /store/carts/:id/complete`, the last gate,
- *   for a cart that gathered a foreign item before this rule existed
+ *   for a cart that gathered a foreign item before this rule existed. That one
+ *   is registered in `complete-cart-validate.ts`, because Medusa accepts a
+ *   single handler per hook and the completion gate now enforces two rules.
  *
  * `updateLineItemInCartWorkflow` is not consumed: it changes quantity and
  * metadata of an existing item and cannot swap its variant.
@@ -29,12 +27,12 @@ import {
  * A cart without a sales channel (no publishable key in play) is out of scope:
  * nothing then says which catalog it belongs to.
  */
-type CartLike = {
+export type CartLike = {
   sales_channel_id?: string | null;
   items?: { variant_id?: string | null }[] | null;
 };
 
-const variantIdsOf = (items?: { variant_id?: string | null }[] | null): string[] =>
+export const variantIdsOf = (items?: { variant_id?: string | null }[] | null): string[] =>
   Array.from(
     new Set((items ?? []).map((item) => item.variant_id).filter((id): id is string => Boolean(id))),
   );
@@ -78,13 +76,5 @@ addToCartWorkflow.hooks.validate(async ({ input, cart }, { container }) => {
     container,
     (cart as CartLike).sales_channel_id,
     variantIdsOf(input.items),
-  );
-});
-
-completeCartWorkflow.hooks.validate(async ({ cart }, { container }) => {
-  await assertVariantsSoldInSalesChannel(
-    container,
-    (cart as CartLike).sales_channel_id,
-    variantIdsOf((cart as CartLike).items),
   );
 });

@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, other {{count}点}}",
     "legal": "「支払う」をクリックすることで、<terms>販売条件</terms>、<termsOfUse>利用規約</termsOfUse>、<returnPolicy>返品ポリシー</returnPolicy>に同意し、<privacyPolicy>プライバシーポリシー</privacyPolicy>に同意するものとします。",
     "manualInput": "住所を手入力する",
+    "addressIncomplete": "住所の必須項目を入力してください。市区町村と郵便番号がないと注文を発送できません。",
     "orderComposition": "注文内容",
     "paymentHeading": "支払い方法",
     "recipientCheckbox": "受取人が異なる場合",

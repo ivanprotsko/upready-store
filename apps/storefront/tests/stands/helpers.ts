@@ -310,16 +310,19 @@ export async function fillCheckoutContacts(
 
 /**
  * Opens the address sheet and fills a manual address (no saved address on a fresh
- * demo cart). The sheet's default address input (`AddressAutocomplete` ->
- * `PlainAddressInput`, no DaData token configured on any of these stands) is ONE
- * field, address_1 alone — city/postal/province only exist once the sheet's own
- * "Enter address manually" checkbox is checked (`ManualAddressFields`) — measured
- * against kerbstone 2026-09-10, where `input[name="city"]` never appeared at all
- * until that checkbox was ticked.
+ * demo cart). Since f04-address-without-city the sheet shows the structured
+ * fields (address_1, postal_code, city, and a region select for a country that
+ * has a list) by DEFAULT, with no checkbox at all, on every stand that has no
+ * DaData token — which is all of them. A stand configured with a working
+ * provider shows the suggest box plus an "enter manually" checkbox instead, so
+ * the checkbox is still ticked when it exists. Tick the CHECKBOX, never its
+ * caption: the caption is a `<label for>` only since f04, and an older build
+ * ignores a click on the words entirely (measured on the f04 stand,
+ * 2026-09-15).
  */
 export async function fillCheckoutAddress(
   page: Page,
-  address: { address1: string; city: string; postalCode: string }
+  address: { address1: string; city: string; postalCode: string; province?: string }
 ) {
   const row = page.getByTestId("checkout-address-row")
   if ((await row.count()) === 0) return // already on the pickup row (no address needed)
@@ -327,8 +330,8 @@ export async function fillCheckoutAddress(
   const addNew = page.getByRole("button", { name: /add a new address|add new address/i })
   if ((await addNew.count()) > 0 && (await addNew.isVisible())) await addNew.click()
 
-  const manualToggle = page.getByText("Enter address manually")
-  if ((await manualToggle.count()) > 0) await manualToggle.click()
+  const manualToggle = page.getByRole("checkbox")
+  if ((await manualToggle.count()) > 0) await manualToggle.first().click()
 
   const address1Input = page.locator('input[name="address_1"]')
   await expect(address1Input).toBeVisible()
@@ -337,6 +340,15 @@ export async function fillCheckoutAddress(
   if ((await cityInput.count()) > 0) {
     await cityInput.fill(address.city)
     await page.locator('input[name="postal_code"]').fill(address.postalCode)
+  }
+  // A country with a region list requires the province since f04; the select
+  // exists only for such a country, so its absence is the "not required" case.
+  const provinceSelect = page.getByTestId("address-province-select")
+  if ((await provinceSelect.count()) > 0) {
+    const value =
+      address.province ??
+      (await provinceSelect.locator("option:not([disabled])").first().getAttribute("value"))
+    if (value) await provinceSelect.selectOption(value)
   }
   await page.locator('form button[type="submit"]:visible').last().click()
   await expect(address1Input).toBeHidden({ timeout: 25_000 })

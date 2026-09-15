@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-address-fields",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-append",
+  "ts": "2026-09-15T11:43:29+08:00",
+  "status": "2026-09-15 10:40 WITA: t17-analytics раунд 2 закрыт — конфликт с #36 разведён, произвольный период + пояс МСК добавлены, PR #37 MERGEABLE/CLEAN на ca929f5, ждёт раунда 3 | 2026-09-15 11:43 WITA: f04-address-without-city — PR #40 открыт (base dev, MERGEABLE, 625e5bf): чекаут без рабочей подсказки сразу показывает индекс/город/регион, гейт в кнопке оплаты + хук completeCart на бэкенде; замерено на стенде upready_store_f04, заказ №19 с полным адресом, отменён"
+}

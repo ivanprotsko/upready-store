@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, other {{count} barang}}",
     "legal": "Dengan mengklik «Bayar», anda menerima <terms>terma</terms>, <termsOfUse>terma penggunaan</termsOfUse> dan <returnPolicy>dasar pemulangan</returnPolicy> kami, serta bersetuju dengan <privacyPolicy>dasar privasi</privacyPolicy> kami.",
     "manualInput": "Masukkan alamat secara manual",
+    "addressIncomplete": "Lengkapkan medan alamat yang diwajibkan. Tanpa bandar dan poskod, pesanan tidak dapat dihantar.",
     "orderComposition": "Ringkasan Pesanan",
     "paymentHeading": "Kaedah pembayaran",
     "recipientCheckbox": "Penerima ialah orang lain",

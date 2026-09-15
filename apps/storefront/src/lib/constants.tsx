@@ -124,7 +124,21 @@ export const isManual = (providerId?: string) => {
 export const addressAutocompleteProvider =
   process.env.NEXT_PUBLIC_ADDRESS_AUTOCOMPLETE_PROVIDER
 
+export const addressAutocompleteApiKey =
+  process.env.NEXT_PUBLIC_ADDRESS_AUTOCOMPLETE_PROVIDER_API_KEY
+
 export const isDaData = (provider?: string) => provider === "dadata"
+
+/**
+ * Whether a suggest provider can actually suggest. DaData answers nothing
+ * without its token, and a shop deployed without one (the multi-tenant host
+ * sets neither variable) then shows a single address line that collects a
+ * quarter of an address. The checkout falls back to the structured fields
+ * whenever this is false, so the customer types city and index by hand.
+ */
+export const hasAddressAutocomplete = Boolean(
+  isDaData(addressAutocompleteProvider) && addressAutocompleteApiKey
+)
 
 // Add currencies that don't need to be divided by 100
 export const noDivisionCurrencies = [

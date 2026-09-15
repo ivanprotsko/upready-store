@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, zero {{count} منتج} one {{count} منتج} two {{count} منتجان} few {{count} منتجات} many {{count} منتجًا} other {{count} منتج}}",
     "legal": "بالنقر على «الدفع»، فإنك توافق على <terms>الشروط</terms> و<termsOfUse>شروط الاستخدام</termsOfUse> و<returnPolicy>سياسة الإرجاع</returnPolicy> الخاصة بنا، كما توافق على <privacyPolicy>سياسة الخصوصية</privacyPolicy> الخاصة بنا.",
     "manualInput": "إدخال العنوان يدويًا",
+    "addressIncomplete": "املأ حقول العنوان المطلوبة. بدون المدينة والرمز البريدي لا يمكن شحن الطلب.",
     "orderComposition": "ملخص الطلب",
     "paymentHeading": "طريقة الدفع",
     "recipientCheckbox": "المستلم شخص آخر",

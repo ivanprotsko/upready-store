@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} бараа} other {{count} бараа}}",
     "legal": "«Төлөх» товчийг дарснаар та манай <terms>нөхцөл</terms>, <termsOfUse>ашиглалтын нөхцөл</termsOfUse> болон <returnPolicy>буцаалтын бодлого</returnPolicy>-г хүлээн зөвшөөрч, <privacyPolicy>нууцлалын бодлого</privacyPolicy>-той санал нийлж байна.",
     "manualInput": "Хаягийг гараар оруулах",
+    "addressIncomplete": "Хаягийн заавал бөглөх талбаруудыг бөглөнө үү. Хот, шуудангийн код байхгүй бол захиалгыг илгээх боломжгүй.",
     "orderComposition": "Захиалгын дэлгэрэнгүй",
     "paymentHeading": "Төлбөрийн арга",
     "recipientCheckbox": "Хүлээн авагч өөр хүн",
