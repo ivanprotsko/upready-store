@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "report.schema.json",
+  "title": "Worker report for the UI card (Ivan's order 2026-09-15 23:11 WITA)",
+  "description": "Short, itemised: what was done (with links), where to look at the result, and the login/password when the result needs a sign-in. Written by the worker to artifacts/<task id>/report.json; validated by ui/report-validate.mjs (tests: ui/report.test.mjs); rendered first in the task card summary.",
+  "type": "object",
+  "required": ["task", "done", "results"],
+  "additionalProperties": false,
+  "properties": {
+    "task": { "type": "string", "minLength": 1, "description": "task id from tasks.json" },
+    "branch": { "type": "string", "description": "task branch (build tasks)" },
+    "pr": { "type": "object", "required": ["number", "url"], "properties": { "number": { "type": "integer" }, "url": { "type": "string", "pattern": "^https://" } } },
+    "done": {
+      "type": "array", "minItems": 1, "maxItems": 20,
+      "items": { "type": "object", "required": ["item"], "additionalProperties": false, "properties": {
+        "item": { "type": "string", "minLength": 3, "maxLength": 240, "description": "one sentence, plain language" },
+        "links": { "type": "array", "items": { "type": "string", "description": "https:// URL, file:// URL, absolute path, or a path relative to the mission dir (artifacts/…)" } } } }
+    },
+    "results": {
+      "type": "array", "minItems": 1, "maxItems": 20,
+      "items": { "type": "object", "required": ["label"], "additionalProperties": false, "properties": {
+        "label": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "url": { "type": "string", "pattern": "^https?://" },
+        "path": { "type": "string", "description": "file:// URL, absolute path, or path relative to the mission dir" },
+        "note": { "type": "string", "maxLength": 240 } },
+        "anyOf": [{ "required": ["url"] }, { "required": ["path"] }] }
+    },
+    "access": {
+      "type": "array", "maxItems": 10,
+      "description": "sign-in for each result that needs it. Test stands: login + password in the clear. Live host: secretRef (where the secret lives) instead of the password — secrets never enter git.",
+      "items": { "type": "object", "required": ["url", "login"], "additionalProperties": false, "properties": {
+        "url": { "type": "string", "pattern": "^https?://" },
+        "login": { "type": "string", "minLength": 1 },
+        "password": { "type": "string", "minLength": 1 },
+        "secretRef": { "type": "string", "minLength": 3, "description": "path or name of the place holding the password, e.g. /opt/upready-store/mt/deploy/mt/shipshift.env" },
+        "note": { "type": "string", "maxLength": 240 } },
+        "anyOf": [{ "required": ["password"] }, { "required": ["secretRef"] }] }
+    },
+    "notes": { "type": "array", "maxItems": 10, "items": { "type": "string", "maxLength": 240 }, "description": "open nits, decisions handed to Ivan" }
+  }
+}

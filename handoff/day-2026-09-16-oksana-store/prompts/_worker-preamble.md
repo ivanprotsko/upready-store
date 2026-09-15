@@ -27,3 +27,29 @@ You are a Claude Code worker launched by the day dispatcher inside a Superset wo
 4. `echo "$(date '+%Y-%m-%d %H:%M WITA') {{TASK_ID}} PR opened: <url>" >> {{MISSION_DIR}}/logs/workers.log`
 5. Stop. Do not merge your own PR. The acceptor may send a follow-up message with numbered findings into this same terminal: then fix, commit, push to the SAME branch (the PR updates itself), `gh pr comment <N> --body "<what was fixed, how measured>"`, append a workers.log line, and stop again.
 If something outside your power blocks the task (a secret you do not have, a dead host, a decision only Ivan can make): write `{{MISSION_DIR}}/logs/blocked-{{TASK_ID}}.md` (what exactly is missing, what you tried, what is already done), still open the PR for the finished part if it has value on its own, and stop.
+
+## `HANDOFF.json` on a task branch — never commit it (staff order 2026-09-15 22:57 WITA)
+
+`HANDOFF.json` at the repo root is a shared journal that every task of the day rewrites, so a branch that carries a
+change to it becomes `CONFLICTING` the moment ANY other PR merges into `{{BASE}}` (r03 lost two acceptance rounds
+to exactly this). Your status is tracked by the dispatcher (state.json / REPORT.md) — do not record it in `HANDOFF.json`.
+- Never `git add HANDOFF.json` on your branch. If a CLI modified it, drop the change before the PR: `git checkout -- HANDOFF.json`.
+- If your branch ALREADY carries a `HANDOFF.json` change and the PR is CONFLICTING: `git fetch origin {{BASE}} && git merge origin/{{BASE}}`,
+  then `git checkout origin/{{BASE}} -- HANDOFF.json && git add -- HANDOFF.json && git commit --no-edit` and push — take the base version
+  wholesale, do not re-add your line.
+
+## Локальный Docker и виртуальные машины — ЗАПРЕЩЕНЫ (приказ Ивана 2026-09-15 22:05 WITA)
+На этой машине не запускать `colima`, `limactl`, Docker Desktop и любой другой гипервизор, не делать локальный `docker build`/`docker compose up`: VM Lima роняет производительность всей машины (kernel_task > 300 %), а образы платформы собирает ТОЛЬКО живой хост в deploy-задаче (d0N-deploy-mt-N) по памятке protected-infra. Если задача требует собранного образа — напиши это в отчёте как ограничение, проверь сборку через `npx medusa build` / `next build` в своём worktree и оставь docker-сборку деплою. Постгрес стендов — нативный на 127.0.0.1:5433, без контейнеров.
+
+## Servers you start are yours to stop (Ivan's order 2026-09-15 23:27 WITA)
+
+Every dev server, watcher, sink or tunnel you start in this worktree (`medusa develop`, `next dev`, esbuild service, `smtp-sink`, `tsc --watch`) is stopped by YOU before the final message of a turn that pushes the branch: identify by PORT (`/usr/sbin/lsof -nP -iTCP -sTCP:LISTEN`), `kill <pid>`, then re-measure (`ps -axo pid=,command= | grep -c '{{WORKTREE}}/'` must print 0). A Stop hook (`orphan-server-guard`) blocks the turn while a process under your worktree is still alive after the push; the dispatcher kills leftovers after merge and records them in the journal as your defect. Measured tonight: 66 such processes of 17 merged tasks were still alive hours after their terminals were closed.
+
+## Exit protocol — branch name, then /compact, then close
+
+When the PR is created (or a fix round is pushed) and nothing remains, the final message of the turn names the branch `{{BRANCH}}` and the PR in one line (`ветка {{BRANCH}}, PR #<n> <url>, результат: <where to look>`) — the Stop hook blocks a pushed branch whose final message omits the branch. Do not start new work after the PR. After merge the dispatcher sends `/compact …` into your terminal (so a later `--resume` reads a short summary instead of the whole window at cold-cache price) and closes the terminal once compaction is done.
+
+## Report for the UI card (mandatory before the final message; Ivan's order 2026-09-15 23:11 WITA)
+
+Write `{{MISSION_DIR}}/artifacts/{{TASK_ID}}/report.json` — short and itemised, it is rendered first in the task card: `task`, `branch`, `pr {number, url}`, `done[]` (one plain sentence per item + `links[]`), `results[]` (`label` + `url` or `path` — where to look at the result), `access[]` (`url`, `login`, and `password` for a test stand or `secretRef` — the place holding the secret — for the live host; secrets never enter git), `notes[]` (open nits, decisions handed to Ivan). Schema: `{{MISSION_DIR}}/ui/report.schema.json`. Validate before the final message and paste the OK line into it:
+`node {{MISSION_DIR}}/ui/report-validate.mjs {{MISSION_DIR}}/artifacts/{{TASK_ID}}/report.json` → must print `OK …` (rc 0). A report that fails the schema shows up red in the UI.

@@ -94,6 +94,41 @@ reaches them (measured on the Medusa CLI 2.19), so the dashed spelling silently 
 real instead of previewing it. Every one of those scripts still accepts `--dry-run` too, in case you
 type it out of habit, but `dry-run` is the form that is guaranteed to work.
 
+## What the Container Does on Every Boot
+
+[`docker-entrypoint.sh`](docker-entrypoint.sh) runs before `medusa start`, and it is the reason an
+ordinary deploy needs no manual follow-up. In order:
+
+1. `medusa db:migrate` — always safe to re-run.
+2. The seed (`initial-data-seed.js`) — a no-op once this stand's store exists.
+3. `seed-storefront-settings.js` — writes the default block composition only when nothing is saved.
+4. `ensure-accounts.js` — converges the Admin user and the demo customer onto the env values. The
+   one step that is NOT allowed to fail.
+5. `rename-default-shipping-methods.js` — renames the machine-made delivery options of shops
+   provisioned by an older image.
+6. `backfill-tenant-redirects.js` — writes the 301 rows a MIGRATED catalogue implies, from the
+   `migrated_from`/`source_url` metadata the importer left on every product and category
+   (`src/tenant-redirects/migrated-redirects.ts`). Old addresses of an imported shop therefore
+   answer 301 after a plain deploy; before this step existed, the rows were written by hand with
+   `import-cherkashino-redirects.ts` against one task's registry JSON, and the live platform ran for
+   three days with an empty `tenant_redirect` and a 404 on every old address.
+
+Steps 5 and 6 are convergence, not correctness: `set -e` is lifted for them and a failure is logged
+rather than kept the backend down. Both are idempotent, and step 6 additionally stamps each tenant
+it seeded (`tenant.metadata.redirects_seeded_from`) so a redirect the OWNER deleted in the panel is
+not resurrected on the next boot. To seed a catalogue imported after that stamp by hand:
+
+```bash
+npx medusa exec ./src/scripts/backfill-tenant-redirects.ts dry-run
+npx medusa exec ./src/scripts/backfill-tenant-redirects.ts tenant=<handle> force
+```
+
+Arguments carry no leading dashes: `medusa exec` parses its own argv first and rejects a `--flag`
+meant for the script.
+
+A new convergence script belongs in this list, in `src/scripts/`, idempotent, with one log line
+saying what it changed — not in a runbook step someone has to remember.
+
 ## Environment Variables
 
 Copy [`.env.template`](.env.template) to `.env`. Only `DATABASE_URL` has to be set for the application to boot, and every `supersecret` value has to be replaced before production.

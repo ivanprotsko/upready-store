@@ -114,7 +114,7 @@ const FIELD_GROUPS: { title: string; fields: FieldDef[] }[] = [
 
 export const RequisitesSettings = () => {
   const { t } = useTranslation()
-  const { requisites, domain, missing, isPending, isError, error } = useRequisites()
+  const { requisites, domain, missing, hidden_blocks, isPending, isError, error } = useRequisites()
 
   const [loaded, setLoaded] = useState<boolean | null>(null)
   const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT)
@@ -164,8 +164,10 @@ export const RequisitesSettings = () => {
           <Heading>Реквизиты продавца</Heading>
           <Text className="text-ui-fg-subtle" size="small">
             Эти данные подставляются вместо {"{{ТОКЕНОВ}}"} в публичной оферте, политике
-            конфиденциальности и контактах магазина. Незаполненное поле остаётся на странице
-            видимым плейсхолдером — так владелец и покупатель видят, что документ не закончен.
+            конфиденциальности и контактах магазина. Незаполненное поле покупателю не
+            показывается: блок, где оно стоит, скрывается со страницы целиком — поэтому
+            документ выглядит законченным, но часть его покупатель не видит, пока вы не
+            заполните реквизиты.
           </Text>
         </div>
 
@@ -194,6 +196,27 @@ export const RequisitesSettings = () => {
             <Text size="small" className="text-ui-fg-subtle">
               Все 16 значений заполнены, включая домен сайта.
             </Text>
+          ) : null}
+          {loaded && hidden_blocks?.length ? (
+            <div
+              className="flex flex-col gap-y-1 rounded-md bg-ui-bg-subtle px-3 py-2"
+              data-testid="hidden-blocks"
+            >
+              <Text size="small" weight="plus">
+                Заполните реквизиты: покупатель не видит часть страниц
+              </Text>
+              <ul className="flex flex-col gap-y-1">
+                {hidden_blocks.map((page) => (
+                  <li
+                    key={`${page.key}-${page.locale}`}
+                    className="text-ui-fg-subtle txt-compact-small"
+                  >
+                    <span className="text-ui-fg-base">{page.title}</span> ({page.locale}) — скрыто
+                    блоков: {page.hidden}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : null}
           <Text size="xsmall" className="text-ui-fg-subtle" data-testid="resolved-domain">
             Домен сайта ({"{{ДОМЕН_САЙТА}}"}) определяется автоматически: {domain || "—"}

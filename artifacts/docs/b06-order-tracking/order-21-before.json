@@ -1,0 +1,16 @@
+{
+  "id": "order_01M2JV58J43HR0FX89X4T2HHGT",
+  "display_id": 21,
+  "status": "pending",
+  "fulfillment_status": "not_fulfilled",
+  "payment_status": "authorized",
+  "currency_code": "rub",
+  "total": 1365,
+  "shipping_methods": [
+    {
+      "name": "Оксана Черкашина courier",
+      "amount": 10
+    }
+  ],
+  "fulfillments": []
+}

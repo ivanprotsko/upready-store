@@ -1,0 +1,5 @@
+# before, live, 2026-09-15 22:30 WITA
+https://cherkashino.shipshift.dev/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya   404 -> 
+https://cherkashino.shipshift.dev/ru/ru/categories/dobavki                                 404 -> 
+https://cherkashino.shipshift.dev/ru/pages/contacts                                        200 -> 
+https://cherkashino.shipshift.dev/ru/pages/offer                                           200 -> 

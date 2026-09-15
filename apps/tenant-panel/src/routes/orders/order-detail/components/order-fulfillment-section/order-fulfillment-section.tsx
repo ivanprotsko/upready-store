@@ -26,7 +26,7 @@ import {
 } from "../../../../../hooks/api/orders"
 import { useStockLocation } from "../../../../../hooks/api/stock-locations"
 import { useDate } from "../../../../../hooks/use-date"
-import { formatProvider } from "../../../../../lib/format-provider"
+import { getFulfillmentProviderLabel } from "../../../../../lib/order-helpers"
 import { getLocaleAmount } from "../../../../../lib/money-amount-helpers"
 import { FulfillmentSetType } from "../../../../locations/common/constants"
 import { ExtendedOrderFulfillment, ExtendedOrder } from "../../constants"
@@ -413,7 +413,7 @@ const Fulfillment = ({
         </Text>
 
         <Text size="small" leading="compact">
-          {formatProvider(fulfillment.provider_id)}
+          {getFulfillmentProviderLabel(t, fulfillment.provider_id)}
         </Text>
       </div>
       <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
