@@ -1,7 +1,7 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T22:37:02+08:00",
+  "updated": "2026-09-15T22:51:30+08:00",
   "status": "2026-09-15 22:12 WITA: f18-f12-fixture-build раунд 2 — обе находки приёмки закрыты, PR #55 MERGEABLE/CLEAN (коммиты 187fd600 merge origin/dev с разрешением HANDOFF.json, e8ec359b гейт расширен на весь apps/backend, f8f8fa2e запись раунда). Нит подтверждён замером: scripts/zz-nit-probe.ts попадает в tsc --listFiles, значит фикстура вне scripts/fixtures тоже уронила бы medusa build; гейт теперь ловит оба размещения (красный на двух подкидышах, зелёный без них). Перезамер: tsc rc=0, medusa build rc=0 (10.00s + 27.36s), lint rc=0, юниты 242/243 (единственный красный profile-data.unit.spec.ts — чужой, п.3 приёмки, отдельная задача). Дальше: раунд 2 приёмки, мерж не мой. | 2026-09-15 22:29 WITA: b01-owner-numbers — PR #57 открыт в dev: дедуп order_summary/order_item по версии (Обзор+Клиенты в одном модуле order-totals.ts), отменённые заказы вне выручки и названы отдельно, выгрузка каталога в валюте магазина (RUB вместо USD), круговой рейс CSV прогнан на клоне живой базы и починен (регистр ключа метаданных, пробелы в описании). Замеры и скриншоты: artifacts/docs/b01-owner-numbers/report.md | 2026-09-15 22:37 WITA: b04-product-attributes — PR #59 открыт (MERGEABLE): набор характеристик по умолчанию (7), идемпотентный backfill из metadata, пресет+покрытие в панели; на клоне базы Оксаны 38/38 товаров с характеристикой, 30/38 описаны каталогом, 115 значений, повтор даёт created 0",
   "tasks": [
     {
@@ -900,6 +900,24 @@
       ],
       "created": "2026-09-14T00:58:27+08:00",
       "updated": "2026-09-14T00:58:27+08:00"
+    },
+    {
+      "id": "t-2026-09-15-01",
+      "title": "Характеристики товара: единица измерения не переводится (unit не .translatable())",
+      "state": "backlog",
+      "priority": "low",
+      "details": "Нит 3 приёмки PR #59 (b04-product-attributes). Колонка unit в модели tenant_product_attribute не .translatable(), поэтому в ответе /store/tenant/product-attributes с x-medusa-locale: en единица приходит как «мл»/«г» рядом с переведённым названием (замер 2026-09-15 на стенде upready_store_b04: {\"key\":\"volume\",\"name\":\"Volume\",\"unit\":\"мл\"}). Поведение t15, не регресс b04. Починка = .translatable() на колонке + миграция + правка редактора характеристики в панели.",
+      "files": [
+        "apps/backend/src/modules/tenant/models/tenant-product-attribute.ts"
+      ],
+      "tags": [
+        "t15",
+        "b04",
+        "i18n"
+      ],
+      "project": "upready-store",
+      "created": "2026-09-15T22:51:30+08:00",
+      "updated": "2026-09-15T22:51:30+08:00"
     }
   ],
   "questions": [
