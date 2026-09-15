@@ -177,3 +177,23 @@ $ git grep -n -E "Client-Id: *[0-9]{3,}" -- .                                   
    ls handoff/day-2026-09-16-oksana-store/research/marketplace-prompts/
    ```
 4. Убедиться, что кода нет: `git diff --name-only origin/dev...HEAD | grep '^apps/'` → пусто.
+
+## Отчёт для карточки UI
+
+`handoff/day-2026-09-16-oksana-store/artifacts/w10-marketplace-spec/report.json` (в ГЛАВНОМ чекауте,
+вне этой ветки — так устроен каталог миссии). Проверен схемой:
+
+```
+$ node handoff/day-2026-09-16-oksana-store/ui/report-validate.mjs \
+       handoff/day-2026-09-16-oksana-store/artifacts/w10-marketplace-spec/report.json
+OK /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/w10-marketplace-spec/report.json: 8 done / 6 results / 0 access
+rc=0
+```
+
+`access` пуст намеренно: задача не поднимает стендов и не требует входа — все результаты это файлы в
+репозитории и PR #73.
+
+## PR
+
+https://github.com/ivanprotsko/upready-store/pull/73 — база `dev`, голова `feat/day16-marketplace-spec`,
+30 файлов, `mergeable=MERGEABLE`, не черновик. Мержить — приёмщику, не мне.
