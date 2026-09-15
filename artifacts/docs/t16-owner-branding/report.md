@@ -206,3 +206,9 @@ cd apps/storefront && NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9287 PORT=
 2. `cd apps/storefront && npx next build` — успешно, `/opengraph-image` и `/twitter-image` — `ƒ`.
 3. Поднять оба dev-сервера, открыть `/settings/branding` в панели, загрузить логотип+цвет, сохранить,
    обновить витрину.
+
+---
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_01U6jP1TKmtWBKQhTqXGGwRi
