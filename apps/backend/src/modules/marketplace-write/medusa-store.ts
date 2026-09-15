@@ -22,6 +22,27 @@ import type {
  * with the generic reader: the write core has no way to name the READ slot,
  * because `execute.ts` only ever passes `adapter.credentialSlot`.
  */
+/**
+ * The `payload` column is `model.json()`, which Medusa types as an OBJECT, while
+ * an audit row carries whatever the caller passed: every registry body is a
+ * `z.object().strict()`, but the REFUSAL path audits `call.body` before it is
+ * parsed, so a refused call can carry an array, a string or nothing at all.
+ *
+ * A non-object is stored wrapped under `value` rather than dropped or cast: the
+ * audit row exists to say what was attempted, and `payload_sha256` is taken over
+ * the ORIGINAL payload in `execute.ts`, so the fingerprint still identifies what
+ * the caller sent (rule 20a: a substituted value must name itself).
+ */
+const asJsonColumn = (payload: unknown): Record<string, unknown> | null => {
+  if (payload === null || payload === undefined) {
+    return null;
+  }
+  if (typeof payload === "object" && !Array.isArray(payload)) {
+    return payload as Record<string, unknown>;
+  }
+  return { value: payload };
+};
+
 export const createMedusaWriteStore = (options: {
   pg: Knex;
   service: MarketplaceWriteModuleService;
@@ -75,7 +96,10 @@ export const createMedusaWriteStore = (options: {
     },
 
     appendAudit: async (row: MarketplaceWriteAuditRow): Promise<void> => {
-      await service.createMarketplaceWriteAudits(row);
+      await service.createMarketplaceWriteAudits({
+        ...row,
+        payload: asJsonColumn(row.payload),
+      });
     },
   };
 };
