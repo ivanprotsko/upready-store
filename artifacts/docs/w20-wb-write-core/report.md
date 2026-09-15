@@ -1,6 +1,7 @@
 # w20-wb-write-core — слой записи в WB, ядро
 
-Отчёт исполнителя, 2026-09-16 06:07 WITA. Ветка `feat/day16-wb-write-core`, база `dev`.
+Отчёт исполнителя. Раунд 1 — 2026-09-16 06:07 WITA, раунд 2 (по находкам приёмки) — 2026-09-16 06:43 WITA.
+Ветка `feat/day16-wb-write-core`, база `dev`.
 
 ## Что сделано
 
@@ -11,57 +12,120 @@
 
 | гейт | что проверяет | текст отказа |
 |---|---|---|
-| (a) `credential` | ключ записи лежит в **отдельном слоте** адаптера | «read key is a different secret and is never used to write» |
-| (b) `credential_usable` | что ключ говорит о себе сам (`inspectCredential`) | причина от адаптера |
+| (a) `credential` | ключ записи лежит в **отдельном слоте** `wildberries_write` | «read key is a different secret and is never used to write» |
+| (b) `credential_usable` | что ключ говорит о себе сам (бит 30, срок) | причина от адаптера |
 | (c) `enabled` | переключатель записи у этого арендатора | «Writing to wb is switched off for this shop» |
 | (d) `consent` | согласие владелицы **на класс операций** | «Consent is given per class and never globally» |
-| (e) `<LIVE_ENV_VAR> === "1"` | живой режим | иначе dry-run, наружу не уходит ничего |
+| (e) `WB_WRITE_LIVE === "1"` | живой режим | иначе dry-run, наружу не уходит ничего |
 
-Между (d) и (e) тело запроса валидируется схемой из реестра (`bodySchema.safeParse`),
-отказ идёт под гейтом `body` со ссылкой на страницу документации WB.
+Между (d) и (e) тело валидируется схемой из реестра, отказ идёт под гейтом `body` со
+ссылкой на страницу документации WB.
 
-**Allowlist мутаций** — `wb-write/write-endpoints.ts`, 7 записей, только то, что прочитано
-в документации WB, с `docUrl` у каждой: `wb.stocks.update`, `wb.stocks.delete`,
-`wb.prices.upload-task`, `wb.feedbacks.answer`, `wb.feedbacks.answer.edit`,
-`wb.fbs.order.cancel`, `wb.fbs.supply.deliver`. Классы операций: `stocks`, `prices`,
-`feedback_answers`, `fbs_orders`. Эндпоинта нет в реестре — вызвать его нечем.
+**Allowlist мутаций** — `wb-write/write-endpoints.ts`, 7 записей с `docUrl` у каждой.
+Классы: `stocks`, `prices`, `feedback_answers`, `fbs_orders`. Эндпоинта нет в реестре —
+вызвать его нечем.
 
-**Dry-run по умолчанию**: гейт (e) читает переменную окружения адаптера; она не
-выставлена нигде в репозитории, поэтому сегодня любой путь заканчивается строкой
-аудита `outcome = 'dry_run'`, `dry_run = true`.
+**Dry-run по умолчанию**: `WB_WRITE_LIVE` не выставлена нигде в репозитории.
 
-**Журнал аудита** — таблица `marketplace_write_audit` (`models/marketplace-write-audit.ts`):
-арендатор, маркетплейс, класс, эндпоинт, метод, путь, тело, `payload_sha256`, исход
-(`refused` | `dry_run` | `sent`), имя гейта, актор, статус, ответ, ошибка. Отпечаток тела
-берётся до отправки, так что правка `payload` задним числом не проходит незаметно.
-Если запрос УШЁЛ, а строку аудита записать не удалось — это кричит в лог и бросает, а не
-читается как «ничего не было» (правило 20a).
+**Журнал аудита** — `marketplace_write_audit`; **согласия** — `marketplace_write_consent`;
+**переключатель** — `marketplace_write_setting`.
 
-**Согласия** — `marketplace_write_consent`, по паре (маркетплейс, класс операций), с тем,
-кто и когда подтвердил.
+**API и панель (добавлено в раунде 2)**: `GET/PUT /tenants/wb/write-settings` — состояние
+переключателя, согласия по классам, последние 20 строк аудита, плюс **отчёт** о гейтах
+(a)/(b)/(e), которые отсюда выставить нельзя. Раздел «Запись в Wildberries» на странице
+Wildberries в панели: переключатель, кнопки согласия по классам с диалогом подтверждения
+(диалог называет, что именно класс разрешает, и перечисляет вызовы), таблица журнала.
 
-**Живых вызовов нет**: тест `no-live-write-call-site.unit.spec.ts` сканирует исходники и
-держит инвариант — ровно два файла вообще способны дотянуться до Wildberries, и ни одного
-боевого потребителя `wbWrite`/`marketplaceWrite` в продакшен-коде.
+**Живых вызовов нет**: тест `no-live-write-call-site.unit.spec.ts` держит инвариант.
+Новый маршрут его не нарушает — он не вызывает `wbWrite`, а читает и пишет строки,
+которые гейты (c) и (d) потом спрашивают.
+
+## Конкурент (InSales Combo)
+
+Дословно из `handoff/day-2026-09-16-oksana-store/research/insales-combo-features.md`:
+
+- строка 91: «Товарный учёт и остатки | Контроль остатков, редактирование и синхронизация
+  с площадками» — Комбо, линейка, https://www.insales.ru/page/combo
+- строка 197: «Единый остаток и таблица цен | Цены и остатки всех площадок правятся в одной
+  таблице» — платформа, https://www.insales.ru/page/marketplace
+- строка 199: «Автоответы на отзывы Wildberries | AI-генератор ответов на отзывы» — Комбо,
+  линейка, https://www.insales.ru/page/combo
+- строка 194: «Схемы FBS, FBO, DBS | Поддержка всех трёх схем работы» — Комбо, линейка,
+  https://www.insales.ru/page/combo
+
+Вывод: у конкурента запись в маркетплейсы есть по всем четырём классам, и она подана как
+обычная функция тарифа. Отличие нашей конструкции — не в наборе, а в том, что запись
+закрыта пятью гейтами и согласие берётся на класс; у InSales в публичных материалах такого
+разделения прав не описано.
+
+## Аналог Ozon по классам
+
+По сохранённой документации `artifacts/docs/w10-marketplace-spec/docs/ozon-methods-index.tsv`
+и якорям из `docs.ozon.ru-api-seller-index.links.txt`; база URL — https://docs.ozon.ru/api/seller/
+
+| класс | наши вызовы WB | аналог Ozon Seller API |
+|---|---|---|
+| `stocks` | `PUT`/`DELETE /api/v3/stocks/:warehouseId` | `POST /v2/products/stocks` «Обновить количество товаров на складах» — https://docs.ozon.ru/api/seller/#operation/ProductAPI_ProductsStocksV2 |
+| `prices` | `POST /api/v2/upload/task` | `POST /v1/product/import/prices` «Обновить цену» (не больше 10 обновлений в час на товар) — https://docs.ozon.ru/api/seller/#operation/ProductAPI_ImportProductsPrices |
+| `feedback_answers` | `POST`/`PATCH /api/v1/feedbacks/answer` | `POST /v1/review/comment/create` «Оставить комментарий на отзыв» (нужна подписка «Управление отзывами» или Premium Pro) — https://docs.ozon.ru/api/seller/#operation/ReviewAPI_CommentCreate; для вопросов — `POST /v1/question/answer/create` «Создать ответ на вопрос» (Premium Plus) — https://docs.ozon.ru/api/seller/#operation/QuestionAnswer_Create |
+| `fbs_orders` | `PATCH /api/v3/orders/:orderId/cancel`, `PATCH /api/v3/supplies/:supplyId/deliver` | `POST /v2/posting/fbs/cancel` «Отменить отправление» — https://docs.ozon.ru/api/seller/#operation/PostingAPI_CancelFbsPosting; `POST /v2/posting/fbs/awaiting-delivery` «Передать отправление к отгрузке» — https://docs.ozon.ru/api/seller/#operation/PostingAPI_MoveFbsPostingToAwaitingDelivery |
+
+«Не найдено» нет ни по одному классу: у Ozon есть парный метод везде. Две оговорки, которые
+меняют планирование w21–w23: ответы на отзывы и на вопросы у Ozon — **платные подписки**
+(у WB такого условия нет), а подтверждение отгрузки FBS (`/v2/posting/fbs/act/create`)
+**отключается 7 сентября 2026** с переходом на `/v1/carriage/create` + `/v1/carriage/approve`.
+
+Именно поэтому гейты и журнал лежат в `marketplace-write/`, а не в `wb-write/`: адаптер
+`ozon-write` — это второй реестр и второй `send`, гейты не копируются.
 
 ## Чем измерено
 
-- `yarn test:unit` в `apps/backend` → **rc=0, 45 сюит, 484 теста, все зелёные**. Свои три
-  сюиты в прогоне: `write-gates` (гейты поштучно, на подставном store без БД),
-  `write-registry` (реестр и сборка пути), `no-live-write-call-site` (инвариант выше).
-- `npx tsc --noEmit -p tsconfig.json` → **rc=0, 0 ошибок**. Первый прогон дал 1 настоящую
-  ошибку в своём же коде (`medusa-store.ts`: колонка `payload` типизирована Medusa как
-  объект, а строка аудита несёт то, что передал вызывающий) — починено на границе с БД:
-  не-объект кладётся обёрнутым в `{ value }` и называет себя сам, отпечаток `payload_sha256`
-  считается по оригиналу, так что запись остаётся честной.
+- `yarn test:unit` в `apps/backend` → **rc=0, 45 сюит, 484 теста**.
+- `npx tsc --noEmit` бэкенда → **rc=0**; `npx tsc --noEmit` панели → **rc=0**.
+- Локальный стенд: клон `upready_store_w20` из `upready_store_cherkashina` (тенант
+  `cherkashino`), бэкенд :9041, панель :5191. `npx medusa db:migrate` → rc=0, три таблицы
+  `marketplace_write_*` созданы.
+- `GET /tenants/wb/write-settings` → 200, все гейты закрыты. `PUT` (переключатель +
+  согласие на `stocks`) → 200, ответ содержит записанное согласие. `PUT` с несуществующим
+  классом → **400** от валидатора.
+- Прогон через **настоящие** гейты на стенде (скрипт в скретчпаде сессии, не в репозитории):
+  `wb.stocks.update` при выданном согласии → `dryRun: true`; `wb.prices.upload-task` без
+  согласия → отказ на гейте `consent`; **FETCH COUNT = 0**.
+- Журнал на стенде, 4 строки, все с `dry_run=t`:
+  `select marketplace, outcome, count(*) from marketplace_write_audit group by 1,2;`
+  → `wb|dry_run|1`, `wb|refused|3`. Ни одной строки `sent`.
+- Скриншот раздела: `artifacts/docs/w20-wb-write-core/panel-write-section.png`
+  (и страница целиком — `panel-write-section-fullpage.png`).
 
-## Чего НЕ сделано (осознанно, по формулировке задачи)
+## Что нашёл стенд (и чего не видел ни один зелёный тест)
 
-- **Живой записи нет** и не проверялась: ни один запрос к WB из этой ветки не уходил.
-  Транспорт `write-transport.ts` написан, но гейт (e) его не пускает, а боевых вызовов нет.
-- **HTTP-ручек нет**: ядро не подключено ни к одному маршруту — включение переключателя,
-  сбор согласия владелицы и экран журнала это задачи следующей фазы.
-- **Миграции не прогонялись**: модели объявлены, `medusa db:migrate` на стенде не
-  запускался, так что таблиц в живой базе пока нет.
-- **Ozon не трогался**: ядро адаптерное и рассчитано на второй маркетплейс, но адаптера
-  `ozon-write` в этой ветке нет.
+1. **У модуля не было миграции вовсе.** Модели были объявлены, `db:migrate` печатал
+   `MODULE: marketplace_write` и не создавал ничего: миграцию делает `db:generate`.
+   Добавлена `marketplace-write/migrations/Migration20260915223734.ts`.
+2. **Слот `wildberries_write` не мог принять строку.** `tenant_integration_secret.provider`
+   — это `model.enum`, то есть CHECK на уровне БД, и в нём стояли только `robokassa` и
+   `wildberries`. Гейт (a) не открылся бы никогда, даже с настоящим ключом, — а типизация,
+   юниты и линт были зелёные, потому что ни один из них не вставляет такую строку.
+   Список расширен, миграция `tenant/migrations/Migration20260915224049.ts`.
+
+Оба дефекта — цена того, что в раунде 1 не было живого прогона; находка приёмки №1 их и
+вскрыла.
+
+## Расхождение в именах таблиц (осознанное)
+
+Приёмка называет таблицу `wb_write_audit`, в коде она `marketplace_write_audit`, рядом
+`marketplace_write_consent` и `marketplace_write_setting`. Это следствие требования
+адаптерной независимости (приказ Ивана 04:44): таблицы общие для WB и Ozon, маркетплейс
+лежит колонкой `marketplace`, иначе для Ozon пришлось бы заводить вторые такие же.
+
+## Чего НЕ сделано
+
+- **Живой записи нет** и не проверялась: ни один запрос к WB не уходил (FETCH COUNT = 0,
+  в журнале ноль строк `sent`). Транспорт написан, но гейт (e) его не пускает и боевых
+  вызовов нет.
+- **Ozon не реализован**: адаптера `ozon-write` в этой ветке нет, есть только разбор его
+  методов выше — это задача отдельной фазы.
+- **Ключ записи в панели не заводится**: маршрута для сохранения `wildberries_write` нет
+  намеренно — появление ключа это решение Ивана, а не действие владелицы из интерфейса.
+  На стенде ключ засеян синтетическим скриптом (подпись — литерал `test-signature`),
+  чтобы показать строку `dry_run`; в репозитории и в проде его нет.

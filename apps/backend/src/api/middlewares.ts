@@ -202,6 +202,7 @@ import {
   PostTenantProductAttributeValuesSchema,
 } from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
+import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -1122,6 +1123,15 @@ export default defineMiddlewares({
       matcher: "/tenants/locale-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantLocaleSettingsBody)],
+    },
+
+    // w20-wb-write-core: the owner's two gates (the write switch and the
+    // per-class consents). GET takes no middleware — it only reads rows the
+    // tenant already owns.
+    {
+      matcher: "/tenants/wb/write-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbWriteSettingsBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
