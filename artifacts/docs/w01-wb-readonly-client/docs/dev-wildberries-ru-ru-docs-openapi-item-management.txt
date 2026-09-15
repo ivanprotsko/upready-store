@@ -1,0 +1,5096 @@
+URL: https://dev.wildberries.ru/ru/docs/openapi/item-management
+FINAL: https://dev.wildberries.ru/en/docs/openapi/item-management
+TITLE: Documentation — WB API
+
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+Sign In
+General
+Item Management
+Categories, Subcategories, and Characteristics
+Listing Items
+Listings
+Media Files
+Labels
+Recommendations
+Prices and Discounts
+Seller Warehouses
+Seller Warehouses Inventory
+FBS Orders
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Rates
+Analytics and Data
+Reports
+Documents and Accounting
+Item Management
+
+Use the methods in this section to:
+
+list items and edit listings
+get item categories, subcategories, characteristics, and brands
+upload media files for listings
+set up labels for item search
+work with item recommendations
+set prices and discounts
+manage item inventory and warehouses, if you work with the sales model from the seller warehouse
+
+You can test the item management methods in the sandbox. Also you can use special methods in the sandbox for managing listings
+
+You can learn how to use methods in business cases in the instructions on working with items
+Categories, Subcategories, and Characteristics
+To access the methods, use a token for the Content category
+You can learn how to use methods in business cases in the instructions on working with items
+Item Parent Categories
+/content/v2/object/parent/all
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/object/parent/all
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/object/parent/all
+Method description
+
+Returns the list of all item parent categories
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the name field:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+Subcategories List
+/content/v2/object/all
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/object/all
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/object/all
+Method description
+
+Returns the list of all available subcategories, parent categories and their IDs
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the name field:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+
+name	
+string
+Example: name=Socks
+
+Search by item name (Socks), the search works by substring and can be conducted in any of the supported languages
+
+
+limit	
+integer
+Default: 30
+Example: limit=1000
+
+Number of search results, maximum 1,000
+
+
+offset	
+integer
+Default: 0
+Example: offset=5000
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+parentID	
+integer
+Example: parentID=1000
+
+Subcategory parent category ID
+
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{},
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Subcategory Characteristics
+/content/v2/object/charcs/{subjectId}
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/object/charcs/{subjectId}
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/object/charcs/{subjectId}
+Method description
+
+Returns list of the subcategory characteristics by its ID
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+subjectId
+required
+	
+integer
+Example: 105
+
+Subcategory ID
+
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Color
+/content/v2/directory/colors
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/colors
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/colors
+Method description
+
+Provides values of color characteristic.
+
+Request limit per one seller account for Characteristics methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+Gender
+/content/v2/directory/kinds
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/kinds
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/kinds
+Method description
+
+Provides values of gender characteristic.
+
+Request limit per one seller account for Characteristics methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+"Мужской"
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+Country of Origin
+/content/v2/directory/countries
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/countries
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/countries
+Method description
+
+Provides value of characteristic country of origin.
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+Season
+/content/v2/directory/seasons
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/seasons
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/seasons
+Method description
+
+Provide values of season characteristic
+
+Request limit per one seller account for Characteristics methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+"демисезон"
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+VAT Rate
+/content/v2/directory/vat
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/vat
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/vat
+Method description
+
+Returns a list of values for the VAT rate characteristic
+
+Request limit per one seller account for Characteristics methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=ru
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+"0",
+"10",
+"20",
+"Без НДС",
+"13"
+],
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+HS-codes
+/content/v2/directory/tnved
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/directory/tnved
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/directory/tnved
+Method description
+
+The method provides list of HS-codes by category name and filter by HS-code.
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+subjectID
+required
+	
+integer
+Example: subjectID=105
+
+Subcategory ID
+
+
+search	
+integer
+Example: search=6106903000
+
+Search by HS-code. Works only with the subjectID parameter
+
+
+locale	
+string
+Example: locale=en
+
+Language for response of the subjectName and name fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Brands
+/api/content/v1/brands
+GET
+https://content-api.wildberries.ru/api/content/v1/brands
+Method description
+
+The method returns list of brands by subcategory ID.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	1 request	1 s	5 requests
+Service	1 s	1 request	1 s	5 requests
+Base with secret	1 s	1 request	1 s	5 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+subjectId
+required
+	
+integer
+Example: subjectId=1234
+
+Subcategory ID
+
+
+next	
+integer
+Example: next=1234
+
+Pagination parameter. Use the next value from the response to get the next data batch
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"brands": 
+[
+{}
+],
+"next": 1212,
+"total": 344534
+}
+Listing Items
+To access the methods, use a token for the Content category
+You can learn how to use methods in business cases in the instructions on working with items
+Limits for the Listings
+/content/v2/cards/limits
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/cards/limits
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/cards/limits
+Method description
+
+The method allows to get separately free and paid vendor limits for creating listings.
+To calculate the number of items that can be listed, use the formula: (freeLimits + paidLimits) - Number of listed items.
+All items that can be obtained using the listings and listings that are in the trash methods are considered listed.
+
+Request limit per one seller account for the following methods:
+getting limits for the listings
+getting failed listings with errors
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"freeLimits": 1500,
+"paidLimits": 10
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Generation of SKUs
+/content/v2/barcodes
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/barcodes
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/barcodes
+Method description
+
+Generates array of unique SKUs to list size of the item
+
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+count	
+integer
+
+Number of SKUs to be generated, maximum 5,000
+
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"count": 100
+}
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+"5032781145187"
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+List Items
+/content/v2/cards/upload
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/upload
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/upload
+Method description
+
+Lists items. You can specify item description and characteristics.
+
+
+How to list an item:
+
+Get parent categories list
+Get the category and get all subcategories
+Choose the subcategory and get all available characteristics. For Color, Gender, Country of origin, Season, VAT rate, HS-code characteristics use values from category.
+Send the request. If the response is Success (200) but the item was not listed, check errors using failed listing with errors method.
+
+The dimensions of the items can only be specified in centimeters, and the weight of packed items must be specified in kilograms.
+
+
+With one request you can list maximum 100 individual items or 100 groups of merged listings, 30 listings (nmID) in each. Maximum request size is 10 Mb.
+
+
+Items are listed asynchronously. The process of synchronizing a new listing with services may take up to 30 minutes. During this time, you can't add inventory to warehouses and set prices.
+
+
+
+In the sandbox, the product card is created immediately, without waiting.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	10 requests	6 s	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+Array 
+subjectID
+required
+	
+integer
+
+Subcategory ID
+
+
+variants
+required
+	
+Array of objects[ items [ 1 .. 30 ] ]
+
+Merged listings.
+To list individual item, pass only one object.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+413
+
+The request body size exceeds the given limit
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Example
+creatingOneListing
+creatingMergedListings
+creatingGroupOfIndividualListings
+creatingOneListing
+Copy
+Expand
+[
+{
+"subjectID": 105,
+"variants": 
+[]
+}
+]
+Response samples
+200
+400
+401
+402
+403
+413
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+List Items with Merge
+/content/v2/cards/upload/add
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/upload/add
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/upload/add
+Method description
+
+The method lists items by merging it with existing individual listings and groups of merged listings. There can be no more than 30 listings in one group of merged listings, respectively, you can list no more than 29 items in one request.
+
+The dimensions of the items can only be specified in centimeters, and the weight of packed items must be specified in kilograms.
+If this method response is Success (200) but listing was not updated, check errors using failed listings with errors method.
+Items are listed asynchronously. The process of synchronizing a new listing with services may take up to 30 minutes. During this time, you can't add inventory to warehouses and set prices.
+
+
+
+In the sandbox, the product card is created immediately, without waiting.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	10 requests	6 s	5 requests
+Service	1 min	10 requests	6 s	5 requests
+Base with secret	1 min	10 requests	6 s	5 requests
+Base	2 h	1 request	2 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+imtID	
+integer <int64>
+
+imtID of an individual listing or group of merged listings to which the listed items are added
+
+
+cardsToAdd	
+Array of objects[ items [ 1 .. 29 ] ]
+
+Added listings
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+413
+
+The request body size exceeds the given limit
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"imtID": 987654321,
+"cardsToAdd": 
+[
+{},
+{}
+]
+}
+Response samples
+200
+400
+401
+402
+403
+413
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+Listings
+To access the methods, use a token for the Content category
+You can learn how to use methods in business cases in the instructions on working with items
+Listings
+/content/v2/get/cards/list
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/get/cards/list
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/get/cards/list
+Method description
+
+Returns the listings.
+
+
+Listings from the trash are not provided in the method response. You can get these listings via different method
+
+To get more than 100 listings, use pagination:
+
+Make the first request:
+   {
+     "settings": {
+       "sort": {
+         "ascending": true
+       },
+       "cursor": {
+         "limit": 100
+       },
+       "filter": {
+         "withPhoto": -1
+       }
+     }
+   }
+To get only new or updated listings after data export, use ascending sorting: "sort":{"ascending":true}.
+Copy "updatedAt": "***","nmID":"***" from the cursor in the response and insert into the cursor of your next request.
+Make the next request.
+Repeat 2 and 3 until total value in the response is less than the limit value in the request. This will mean you got all listings.
+
+To get only items that were listed or updated after the previous data export:
+
+Save the "cursor":{"updatedAt":"***","nmID":"***"} fields from the last response of the previous data export. When exporting the data, use ascending sorting: "sort":{"ascending":true}.
+Specify the saved "cursor":{"updatedAt":"***","nmID":"***"} fields in the first request. Keep using ascending sorting.
+Save the "cursor":{"updatedAt":"***","nmID":"***"} fields from the last response of the current data export.
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=ru
+
+Language for response of the name, value and object fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+REQUEST BODY SCHEMA: application/json
+required
+settings	
+object
+
+Settings
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"settings": 
+{
+"sort": 
+{},
+"filter": 
+{},
+"cursor": 
+{}
+}
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"cards": 
+[
+{}
+],
+"cursor": 
+{
+"updatedAt": "2023-12-06T11:17:00.96577Z",
+"nmID": 123654123,
+"total": 1
+}
+}
+Failed Listings with Errors
+/content/v2/cards/error/list
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/error/list
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/error/list
+Method description
+
+Returns the listings (drafts) and the list of errors encountered during listing creation or editing.
+
+The data is returned in batches. One batch contains:
+
+all errors for one variants array in one request during listings creation
+all errors in one request during listings creation with merge or editing.
+
+To get more than 100 batches, use pagination:
+Make first request:
+
+   {
+     "cursor": {
+       "limit": 100
+     },
+     "order": {
+       "ascending": true
+     }
+   }
+Copy "updatedAt":"***","batchUUID":"***" from the response cursor and paste into the request cursor.
+Repeat the request.
+Repeat 2 and 3, until you receive in the response "next":false. This will mean that you have received all the batches.
+To delete listing from the errors list, repeat the request for creating or creating with merge and updating request with fixed errors
+Request limit per one seller account for the following methods:
+getting limits for the listings
+getting failed listings with errors
+Period	Limit	Interval	Burst
+1 min	10 requests	6 s	5 requests
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Example: locale=en
+
+Language of subcategory names:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+REQUEST BODY SCHEMA: application/json
+required
+cursor	
+object
+
+Paginator
+
+
+order	
+object
+
+The order of return of batches
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"cursor": 
+{
+"limit": 31,
+"updatedAt": "2025-08-05T17:54:40+08:00",
+"batchUUID": "bca3744c-1c8b-4588-b345-62af3b2899ae"
+},
+"order": 
+{
+"ascending": true
+}
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"items": 
+[],
+"cursor": 
+{}
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Update Listings
+/content/v2/cards/update
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/update
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/update
+Method description
+
+Edits listings. Also use it to add new sizes.
+
+The listing is overwritten when updated. So the request must also include those listing parameters that you are not going to update. To get their values, use Listings and Listings in Trash.
+
+You cannot use this method to update or delete:
+
+item size SKUs. You can only add additional SKUs
+the photos, video and tags parameters
+prices of items. The price can only be set if you add new sizes
+
+When adding a new size, specify its price using the price parameter. If no price is specified in the request, the size price will be 0. In this case, you can update it using the methods:
+
+Set Prices and Discounts, if item has "editablePriceSize":false
+Set Size Prices, if item has "editablePriceSize":true
+
+The dimensions of the items can only be specified in centimeters, and the weight of packed items must be specified in kilograms.
+
+If this method response is Success (200) but listing was not updated, check errors using failed listings with errors method.
+With one request you can edit maximum 3000 listings (nmID). Maximum request size is 10 Mb.
+The process of synchronizing data with services may take up to 30 minutes. During this time, you can't add inventory to warehouses and set prices.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	10 requests	6 s	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+Array 
+nmID
+required
+	
+integer
+
+WB item number
+
+
+vendorCode
+required
+	
+string
+
+Seller item number
+
+
+kizMarked	
+boolean
+Default: false
+
+Confirmation that required labeling code Chestny ZNAK is specified:
+
+true — the seller confirms that required labeling code is applied to the item.
+false — the seller does not confirm that required labeling code is applied to the item. Pass true in the request to confirm that the item has required labeling code. The item will not pass moderation if there is no confirmation from the seller that required labeling code is applied to the item.
+
+To check if labeling code Chestny ZNAK is required, use the Listings method, the response field needKiz
+
+
+brand	
+string
+
+Brand
+
+
+title	
+string <= 60 characters
+
+Item title
+
+
+description	
+string
+
+Item description.
+The maximum number of characters depends on the item category
+Standard — 2000, minimum — 1000, maximum — 5000
+More details about rules for filling out the listing in Instructions category of sellers portal
+
+
+dimensions	
+object
+
+Dimensions and weight of the item with packaging.
+Specify in centimeters and kilograms for any item.
+The process of synchronizing new data with service may take up to 30 minutes
+
+
+documents	
+object
+
+Documents
+
+
+characteristics	
+Array of objects
+
+Item characteristics
+Use the Subcategory characteristics method to get characteristics of the item
+
+
+sizes
+required
+	
+Array of objects
+
+Item sizes
+If item has no sizes, send only SKUs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+413
+
+The request body size exceeds the given limit
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+[
+{
+"nmID": 11111111,
+"vendorCode": "wbiz72wmro",
+"kizMarked": true,
+"brand": "",
+"title": "Свитер женский оверсайз с горлом",
+"description": "12345",
+"dimensions": 
+{},
+"documents": 
+{},
+"characteristics": 
+[],
+"sizes": 
+[]
+}
+]
+Response samples
+200
+400
+401
+402
+403
+413
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+Merging or Separating of Listings
+/content/v2/cards/moveNm
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/moveNm
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/moveNm
+Method description
+
+The method merges and separates listings. Listings are merged if they have the same imtID.
+
+
+
+To merge listings, make a request specifying the imtID. You can merge up to 30 listings at a time.
+
+
+To separate listings, make a request without specifying the imtID. New imtIDs will be generated for the separated listings.
+
+
+
+If you separate multiple listings simultaneously, these listings will merge into one and receive a new imtID.
+
+
+To assign a unique imtID to each listing, you need to send one listing per request.
+
+
+
+The maximum request size is 10 MB.
+
+It is possible to merge listings containing only the same subcategories
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+One of
+requestMoveNmsImtConn
+requestMoveNmsImtDisconn
+targetIMT
+required
+	
+integer
+
+Existing imtID, in which listings have to be merged
+
+
+nmIDs
+required
+	
+Array of integers [ 1 .. 30 ]
+
+nmID to be merged
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+413
+
+The request body size exceeds the given limit
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Example
+requestMoveNmsImtConn
+requestMoveNmsImtDisconn
+requestMoveNmsImtConn
+Copy
+Collapse
+{
+"targetIMT": 123,
+"nmIDs": 
+[
+837459235,
+828572090
+]
+}
+Response samples
+200
+400
+401
+402
+403
+413
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+Transfer Listing to Trash
+/content/v2/cards/delete/trash
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/delete/trash
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/delete/trash
+Method description
+
+Transfers the listing to the trash. In doing so, the listing would not be deleted.
+
+When transferring listings to the trash, this listing is removed from the listing, meaning it is assigned a new imtID — merged listing ID
+
+After 30 days in the trash the listing would be deleted automatically. The trash is cleared every night according to Moscow time.
+The listing can be deleted at any time in personal account.
+
+A listing will remain for sale as long as there is any inventory left, even if moved to the trash. To completely remove the listing from sale, set its inventory to zero.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIDs	
+Array of integers [ 1 .. 1000 ]
+
+Wildberries item numbers
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIDs": 
+[
+123456789,
+987654321
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+Recover Listing from Trash
+/content/v2/cards/recover
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/cards/recover
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/cards/recover
+Method description
+
+Returns the listing from trash
+
+When restoring the listing from the trash, its imtID — merged listing ID — doesn't remain the same as it was for the listing in the trash
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	3 requests	20 s	5 requests
+Service	1 min	3 requests	20 s	5 requests
+Base with secret	1 min	3 requests	20 s	5 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmIDs	
+Array of integers [ 1 .. 1000 ]
+
+Wildberries item numbers
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmIDs": 
+[
+123456789,
+987654321
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": { }
+}
+Listings in Trash
+/content/v2/get/cards/trash
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/get/cards/trash
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/get/cards/trash
+Method description
+
+Returns the listings in trash.
+
+To get more than 100 listings, use pagination.
+
+Make the first request:
+
+   {
+     "settings": {
+       "sort": {
+         "ascending": true
+       },
+       "cursor": {
+         "limit": 100
+       }
+     }
+   }
+To get only listings that were transferred to the trash after data export, use ascending sorting: "sort":{"ascending":true}.
+Copy "trashedAt":"***","nmID":*** from the cursor in the response and insert into the cursor of your next request.
+Make the next request.
+Repeat 2 and 3 until total value in the response is less than the limit value in the request. This will mean you got all listings.
+
+To get only listings that were transferred to the trash after the previous data export:
+
+Save "trashedAt":"***","nmID":*** from the cursor of the previous data export. When data export, use ascending sorting: "sort":{"ascending":true}.
+Specify the "cursor":{"trashedAt":"***","nmID":"***"} saved fields in the first request. Keep using ascending sorting.
+Save the "cursor":{"trashedAt":"***","nmID":"***"} fields from the last response of the current data export.
+Request limit per one seller account for all methods in the Content category:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+
+Exceptions are the methods:
+
+creating listings
+creating listings with merge
+editing listings
+recovering product card from trash
+getting item recommendation list
+setting item recommendations
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Enum: "ru" "en" "zh"
+
+Language for response of the name, value and object fields:
+
+ru — Russian
+en — English
+zh — Chinese
+
+Not used in the sandbox. The sandbox data is returned only in Russian
+
+REQUEST BODY SCHEMA: application/json
+required
+settings	
+object
+
+Settings
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"settings": 
+{
+"sort": 
+{},
+"filter": 
+{},
+"cursor": 
+{}
+}
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"cards": 
+[
+{}
+],
+"cursor": 
+{
+"trashedAt": "2023-12-06T10:57:42.193028Z",
+"nmID": 194128521,
+"total": 1
+}
+}
+Media Files
+To access the methods, use a token for the Content category
+You can learn how to use methods in business cases in the instructions on working with items
+Upload Media File
+/content/v3/media/file
+Prod
+POST
+https://content-api.wildberries.ru/content/v3/media/file
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v3/media/file
+Method description
+
+Uploads and adds one media file for the listing.
+
+Requirements for images:
+
+maximum images for each listing  — 30,
+minimal resolution – 700 × 900 pixels,
+maximum size — 32 МB,
+minimal quality — 65%,
+formats — JPG, PNG, BMP, GIF (static), WebP.
+
+Requirements for video:
+
+maximum one video for each listing
+maximum size — 50 MB
+formats — MOV, MP4
+Request limit per one seller account for all Media Files methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+HEADER PARAMETERS
+X-Nm-Id
+required
+	
+string
+Example: 213864079
+
+Wildberries item number
+
+
+X-Photo-Number
+required
+	
+integer
+Example: 2
+
+Number of media file, starting from 1. To add the video set 1.
+
+To add the image to the uploaded ones, set file the number more then number of uploaded files.
+
+REQUEST BODY SCHEMA: multipart/form-data
+required
+uploadfile	
+string <binary>
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": { },
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Upload Media Files via Links
+/content/v3/media/save
+Prod
+POST
+https://content-api.wildberries.ru/content/v3/media/save
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v3/media/save
+Method description
+
+The method uploads a set of media files to a listing by specifying links in the request.
+
+New media files (data) replace old ones (mediaFiles). To add new files, set links both to new and old files.
+
+Requirements for links:
+
+no authorization is required to access the file via the link
+the link must point directly to the file. Ensure the link does not lead to a preview or authentication page. The link must end with the file name including its extension — for example, /file_name.jpg. If the link opens a TXT or HTML page, it is considered invalid.
+Note that some storage services do not generate direct links and therefore are not suitable for use. Google Drive is an example of such a service, as it only generates links to a file preview or internal service pages.
+
+Requirements for images:
+
+maximum images for each listing — 30
+minimal resolution – 700 × 900 pixels
+maximum size — 32 MB
+minimal quality — 65%
+formats — JPG, PNG, BMP, GIF (static), WebP
+
+Requirements for video:
+
+maximum one video for each listing
+maximum size — 50 MB
+formats — MOV, MP4
+
+If one or several images or a video do not meet the requirements, no images and a video will be uploaded even if you have the success response (200)
+
+Request limit per one seller account for all Media Files methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmId	
+integer
+
+Wildberries item number
+
+
+data	
+Array of strings
+
+Links to images in the order that they are on the listing, and a video at any position of the array
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error saving some of the links
+
+422
+
+The parameter nmId is missing
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmId": 213864079,
+"data": 
+[
+"https://basket-stage-02.dasec.ru/vol669/part66964/66964260/images/big/2.jpg",
+"https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_mb.mp4"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+409
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": { },
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Labels
+To access the methods, use a token for the Content category
+You can learn how to use methods in business cases in the instructions on working with items
+
+Service for operating with the labels of listings. Labels are designed to quickly find a listing in your user panel.
+
+Labels List
+/content/v2/tags
+Prod
+GET
+https://content-api.wildberries.ru/content/v2/tags
+Sandbox
+GET
+https://content-api-sandbox.wildberries.ru/content/v2/tags
+Method description
+
+Returns seller labels list
+
+Request limit per one seller account for all Labels methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"error": false,
+"errorText": "",
+"additionalErrors": ""
+}
+Create a Label
+/content/v2/tag
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/tag
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/tag
+Method description
+
+Creates a label.
+
+It is possible to create 15 labels.
+
+The maximum length of a label is 15 characters
+
+Request limit per one seller account for all Labels methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+color	
+string
+
+Label color.
+
+Available colors:
+
+D1CFD7 — grey
+FEE0E0 — red
+ECDAFF — purple
+E4EAFF — blue
+DEF1DD — green
+FFECC7 — yellow
+
+name	
+string
+
+Label name
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"color": "D1CFD7",
+"name": "Sale"
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Update the Label
+/content/v2/tag/{id}
+Prod
+PATCH
+https://content-api.wildberries.ru/content/v2/tag/{id}
+Sandbox
+PATCH
+https://content-api-sandbox.wildberries.ru/content/v2/tag/{id}
+Method description
+
+Changes label data: name and color
+
+Request limit per one seller account for all Labels methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+id
+required
+	
+integer
+Example: 1
+
+Numeric label ID
+
+REQUEST BODY SCHEMA: application/json
+required
+color	
+string
+
+Label color
+
+
+name	
+string
+
+Label name
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"color": "D1CFD7",
+"name": "Sale"
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+
+Success
+
+Copy
+{
+"data": null,
+"error": true,
+"errorText": "Bad request",
+"additionalErrors": null
+}
+Delete the Label
+/content/v2/tag/{id}
+Prod
+DELETE
+https://content-api.wildberries.ru/content/v2/tag/{id}
+Sandbox
+DELETE
+https://content-api-sandbox.wildberries.ru/content/v2/tag/{id}
+Method description
+
+Deletes the label
+
+Request limit per one seller account for all Labels methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+id
+required
+	
+integer
+Example: 1
+
+Numeric label ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": null,
+"error": true,
+"errorText": "Such a label does not exist",
+"additionalErrors": null
+}
+Label Management in the Listing
+/content/v2/tag/nomenclature/link
+Prod
+POST
+https://content-api.wildberries.ru/content/v2/tag/nomenclature/link
+Sandbox
+POST
+https://content-api-sandbox.wildberries.ru/content/v2/tag/nomenclature/link
+Method description
+
+The method allows to add labels to the listing and remove labels from the listing.
+When removing a label from a listing, the label itself is not removed.
+It is possible to add 15 labels to a listing.
+
+Request limit per one seller account for all Labels methods:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	100 requests	600 ms	5 requests
+Service	1 min	100 requests	600 ms	5 requests
+Base with secret	1 min	100 requests	600 ms	5 requests
+Base	1 h	2 requests	30 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmID	
+integer
+
+WB item number
+
+
+tagsIDs	
+Array of integers
+
+An array of numeric label IDs.
+When removing a label from a listing, the label itself is not removed.
+To add labels to existing ones in the listing, you need to specify in the request the new labels and the labels that are already exist in the listing.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmID": 179891389,
+"tagsIDs": 
+[
+123456
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Recommendations
+To access the methods, use a token for the Content category
+
+Using these methods, you can:
+
+Get item recommendations list
+Set item recommendations
+You can use these methods only with the Advanced or Premium rates of the Jam subscription or with the Seller Recommendations in listings option of Plan Builder
+Item Recommendations List
+/api/content/v1/recommendations/list
+POST
+https://content-api.wildberries.ru/api/content/v1/recommendations/list
+Method description
+Method is available by Personal token, Service token
+
+The method returns item recommendations list.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+brandNames	
+Array of strings <= 30 items
+
+Brands
+
+
+limit	
+integer [ 0 .. 5000 ]
+Default: 20
+
+Number of items in the response
+
+
+next	
+integer
+Default: 0
+
+Cursor. The last nmId in response
+
+
+search	
+string <= 72 characters
+
+Search:
+
+by WB item number nmId — full match
+by seller item number vendorCode — partial match
+
+subjectIds	
+Array of integers <= 30 items
+
+Subject IDs
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"brandNames": 
+[
+"Comma"
+],
+"limit": 20,
+"next": 123,
+"search": "410",
+"subjectIds": 
+[
+123,
+5231
+]
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+],
+"next": 143
+}
+Set Item Recommendations
+/api/content/v1/recommendations/set
+POST
+https://content-api.wildberries.ru/api/content/v1/recommendations/set
+Method description
+Method is available by Personal token, Service token
+
+The method updates, adds or delete item recommendations.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	100 requests	600 ms	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+recList
+required
+	
+Array of objects [ 1 .. 5000 ] items
+
+Item recommendations list
+
+
+replace	
+boolean
+Default: false
+
+Requested action:
+
+false — add new recommendations to the current ones
+true — replace current recommendations with the new ones
+Responses
+200
+
+Success
+
+208
+
+Already reported
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"recList": 
+[
+{}
+],
+"replace": true
+}
+Response samples
+200
+208
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"isError": true,
+"errors": 
+[
+{}
+]
+}
+Prices and Discounts
+To access the methods, use a token for the Prices and Discounts category
+You can learn how to use methods in business cases in the instructions on working with items
+
+Methods to set prices and discounts.
+
+When you update price or discounts, some item data may be not updated. For example, if you set incorrect price or discount. Check the upload status with the processed upload state methods.
+
+Upload statuses:
+
+3 — processed, no errors in items, prices and discounts were updated
+4 — canceled
+5 — processed, but some items have errors. Prices and Discounts for the other items were updated. You can get errors with the processed upload details method.
+6 — processed, but all items have errors. You can get errors with the processed upload details method too.
+
+If you set discounts with promo calendar, uploads are processing. Discount will be set at promo start. This upload has status 1, and you can get upload state and details with the unprocessed upload state and unprocessed upload details methods.
+
+
+
+You can create listings in the Content sandbox and then edit the cards prices in the Prices and Discounts sandbox.
+
+There is no upload status 2.
+Set Prices and Discounts
+/api/v2/upload/task
+Prod
+POST
+https://discounts-prices-api.wildberries.ru/api/v2/upload/task
+Sandbox
+POST
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/upload/task
+Method description
+
+Sets prices and discounts.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+data
+required
+	
+Array of objects
+
+Items, prices and discounts. Maximum 1,000 items. Both price and discount can not be empty
+
+If the new item price with discount is lower than the threshold value, the item will go into price quarantine and the price will not change. You will get the error in the upload details.
+
+You can edit price or discount using API or remove the price out of quarantine in your account
+
+Responses
+200
+
+Success
+
+208
+
+Upload already exists
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error while switching currency
+
+422
+
+Unexpected result
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Response samples
+200
+208
+400
+401
+402
+403
+409
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": 0,
+"alreadyExists": false
+},
+"error": false,
+"errorText": ""
+}
+Set Size Prices
+/api/v2/upload/task/size
+Prod
+POST
+https://discounts-prices-api.wildberries.ru/api/v2/upload/task/size
+Sandbox
+POST
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/upload/task/size
+Method description
+
+Sets different prices for different sizes.
+
+Only for items from categories where size price setting is available. For these items "editableSizePrice":true in Get item sizes with prices response.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+data
+required
+	
+Array of objects
+
+Sizes and prices. Maximum 1,000 sizes
+
+For items with size-based pricing, quarantine does not apply.
+
+Responses
+200
+
+Success
+
+208
+
+Upload already exists
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error while switching currency
+
+422
+
+Unexpected result
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Response samples
+200
+208
+400
+401
+402
+403
+409
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": 0,
+"alreadyExists": false
+},
+"error": false,
+"errorText": ""
+}
+Set WB Club Discounts
+/api/v2/upload/task/club-discount
+Prod
+POST
+https://discounts-prices-api.wildberries.ru/api/v2/upload/task/club-discount
+Sandbox
+POST
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/upload/task/club-discount
+Method description
+
+Sets WB Club subscription discounts.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+data
+required
+	
+Array of objects
+
+Items and WB Club discounts. Maximum 1,000 items.
+
+Responses
+200
+
+Success
+
+208
+
+Upload already exists
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+409
+
+Error while switching currency
+
+422
+
+Unexpected result
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{}
+]
+}
+Response samples
+200
+208
+400
+401
+402
+403
+409
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": 0,
+"alreadyExists": false
+},
+"error": false,
+"errorText": ""
+}
+Set Wholesale Discounts for B2B
+/api/discounts-prices/v1/upload/task/b2b/wholesale
+POST
+https://discounts-prices-api.wildberries.ru/api/discounts-prices/v1/upload/task/b2b/wholesale
+Method description
+Method is available by Personal token, Service token
+
+The method sets wholesale discounts for B2B.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+
+Setting wholesale discounts for B2B
+
+data
+required
+	
+Array of objects [ 1 .. 1000 ] items
+
+Items and wholesale discounts for B2B
+
+Responses
+200
+
+Success
+
+208
+
+Upload already exists
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{},
+{}
+]
+}
+Response samples
+200
+208
+400
+401
+403
+429
+Content type
+application/json
+Example
+MultiItemResponse
+SuccessTrue
+InvalidItemNo
+NewDiscountOutsideAllowedRange
+NewNumberItemsOutsideAllowedRange
+NumberItemsMustIncreaseWithEachLevel
+DiscountMustIncreaseWithEachLevel
+MaximumNumberOfLevels
+DiscountMustInteger
+MultiItemResponse
+
+Multi item response
+
+Copy
+Expand
+{
+"id": 128460434,
+"alreadyExists": false,
+"results": 
+[
+{},
+{},
+{}
+]
+}
+Processed Upload State
+/api/v2/history/tasks
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/history/tasks
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/history/tasks
+Method description
+
+Returns the processed upload data.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+uploadID
+required
+	
+integer
+Example: uploadID=146567
+
+Download ID
+
+Responses
+200
+
+Success
+
+400
+
+Неправильный запрос
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"uploadID": 395643565,
+"status": 3,
+"uploadDate": "2022-08-21T22:00:13+02:00",
+"activationDate": "2022-08-21T22:00:13+02:00",
+"overAllGoodsNumber": 0,
+"successGoodsNumber": 0
+},
+"error": false,
+"errorText": ""
+}
+Processed Upload Details
+/api/v2/history/goods/task
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/history/goods/task
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/history/goods/task
+Method description
+
+Returns items in processed upload including item errors.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer <uint> <= 1000
+Example: limit=10
+
+Number of elements per page (pagination)
+
+
+offset	
+integer <uint> >= 0
+Example: offset=0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+uploadID
+required
+	
+integer
+Example: uploadID=146567
+
+Download ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"uploadID": 3235236546,
+"historyGoods": 
+[]
+}
+}
+Unprocessed Upload State
+/api/v2/buffer/tasks
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/buffer/tasks
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/buffer/tasks
+Method description
+
+Returns the processing upload data.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+uploadID
+required
+	
+integer
+Example: uploadID=146567
+
+Download ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"uploadID": 395643565,
+"status": 1,
+"uploadDate": "2022-08-21T22:00:13+02:00",
+"activationDate": "2022-08-21T22:00:13+02:00",
+"overAllGoodsNumber": 100,
+"successGoodsNumber": 0
+},
+"error": false,
+"errorText": ""
+}
+Unprocessed Upload Details
+/api/v2/buffer/goods/task
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/buffer/goods/task
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/buffer/goods/task
+Method description
+
+Returns items in processing upload including item errors.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer <uint> <= 1000
+Example: limit=10
+
+Number of elements per page (pagination)
+
+
+offset	
+integer <uint> >= 0
+Example: offset=0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+uploadID
+required
+	
+integer
+Example: uploadID=146567
+
+Download ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"uploadID": 3235236546,
+"bufferGoods": 
+[]
+},
+"error": false,
+"errorText": ""
+}
+Get Items with Prices
+/api/v2/list/goods/filter
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/list/goods/filter
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/list/goods/filter
+Method description
+
+Returns item data.
+
+You can specify only one item number in one request.
+
+To get data for all items, do not set the item number, set limit=1000, and use the offset field to set the data offset. The offset should be calculated using the formula: offset plus limit from the previous request. Repeat the request until you receive a response with an empty array.
+
+Use separate methods to get data:
+
+for more than one item by item number
+for the size of the item
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer <uint> <= 1000
+Example: limit=10
+
+Number of elements per page (pagination)
+
+
+offset	
+integer <uint> >= 0
+Example: offset=0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+filterNmID	
+integer
+Example: filterNmID=44589768676
+
+WB item number for search
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"listGoods": 
+[]
+},
+"error": false,
+"errorText": ""
+}
+Get Items with Prices by Item Numbers
+/api/v2/list/goods/filter
+Prod
+POST
+https://discounts-prices-api.wildberries.ru/api/v2/list/goods/filter
+Sandbox
+POST
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/list/goods/filter
+Method description
+
+Returns item data by its item number.
+
+You can specify more than one item number in one request.
+
+Use separate methods to get data:
+
+for all items without specifying item numbers
+for the size of the item.
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+nmList
+required
+	
+Array of integers [ 1 .. 1000 ] items
+
+WB item numbers for search
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"nmList": 
+[
+26613989,
+1348041
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"listGoods": 
+[]
+},
+"error": false,
+"errorText": ""
+}
+Get Item Sizes with Prices
+/api/v2/list/goods/size/nm
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/list/goods/size/nm
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/list/goods/size/nm
+Method description
+
+Returns sizes data for the item. Only for items from categories where size price setting is available. For these items "editableSizePrice":true.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer <uint> <= 1000
+Example: limit=10
+
+Number of elements per page (pagination)
+
+
+offset	
+integer <uint> >= 0
+Example: offset=0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+nmID
+required
+	
+integer
+Example: nmID=1
+
+WB item number
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"listGoods": 
+[]
+},
+"error": false,
+"errorText": "string"
+}
+Get Items in Quarantine
+/api/v2/quarantine/goods
+Prod
+GET
+https://discounts-prices-api.wildberries.ru/api/v2/quarantine/goods
+Sandbox
+GET
+https://discounts-prices-api-sandbox.wildberries.ru/api/v2/quarantine/goods
+Method description
+
+Returns information about items in quarantine.
+
+If the new item price with discount is lower than the threshold value, the item will go into price quarantine and the price will not change. You will get the error in the upload details.
+
+You can change price or discount via API or release item from quarantine in personal account.
+
+For items with size-based pricing, quarantine does not apply.
+
+In sandbox items are automatically deleted from quarantine after 3 days.
+
+Request limit per one seller account for all methods in the Prices and Discounts category:
+Type	Period	Limit	Interval	Burst
+Personal	6 s	10 requests	600 ms	5 requests
+Service	6 s	10 requests	600 ms	5 requests
+Base with secret	6 s	10 requests	600 ms	5 requests
+Base	1 h	4 requests	15 min	1 request
+
+In Sandbox — maximum of 1 request per second for all Content methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+limit
+required
+	
+integer <uint> <= 1000
+Example: limit=10
+
+Number of elements per page (pagination)
+
+
+offset	
+integer <uint> >= 0
+Example: offset=0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+422
+
+Unexpected result
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+422
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"quarantineGoods": 
+[]
+},
+"error": false,
+"errorText": ""
+}
+Seller Warehouses
+To access the methods, use a token for the Marketplace category
+You can learn how to use methods in business cases in the instructions on working with items
+Get Offices
+/api/v3/offices
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/offices
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/offices
+Method description
+
+Returns a list of all WB offices to link to a seller warehouse when you create or edit it.
+
+Request limit per one seller account for all seller warehouses methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"address": "ул. Троицкая, Подольск, Московская обл.",
+"name": "Коледино",
+"city": "Москва",
+"id": 15,
+"longitude": 55.386871,
+"latitude": 37.588898,
+"cargoType": 1,
+"deliveryType": 1,
+"federalDistrict": "Центральный",
+"selected": true
+}
+]
+Get Warehouses
+/api/v3/warehouses
+Prod
+GET
+https://marketplace-api.wildberries.ru/api/v3/warehouses
+Sandbox
+GET
+https://marketplace-api-sandbox.wildberries.ru/api/v3/warehouses
+Method description
+
+Returns a list of all seller warehouses. You can use it to work with item inventory.
+
+Request limit per one seller account for all seller warehouses methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"name": "Kosmonavtov 14",
+"officeId": 15,
+"id": 1,
+"cargoType": 1,
+"deliveryType": 1,
+"isDeleting": false,
+"isProcessing": true
+}
+]
+Create Warehouse
+/api/v3/warehouses
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/warehouses
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/warehouses
+Method description
+
+Creates a seller warehouse to work with item inventory, except for over dimensional cargo (ODC), by the FBS model (Fulfillment by Seller).
+
+Request limit per one seller account for all seller warehouses methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+name
+required
+	
+string [ 1 .. 200 ] characters
+
+Seller warehouse name
+
+
+officeId
+required
+	
+integer >= 1
+
+Office ID.
+You cannot link an office that is already in use
+
+Responses
+201
+
+Created
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error creating a new warehouse
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"name": "Koledino 2",
+"officeId": 15
+}
+Response samples
+201
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Copy
+{
+"id": 2
+}
+Update Warehouse
+/api/v3/warehouses/{warehouseId}
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/warehouses/{warehouseId}
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/warehouses/{warehouseId}
+Method description
+
+Updates seller warehouse details, except warehouses for over dimensional cargo (ODC, "cargoType":2).
+
+Request limit per one seller account for all seller warehouses methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+REQUEST BODY SCHEMA: application/json
+required
+name
+required
+	
+string [ 1 .. 200 ] characters
+
+Seller warehouse name
+
+
+officeId
+required
+	
+integer >= 1
+
+Office ID.
+You cannot link an office that is already in use.
+You can change it no more than once a day
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error updating a warehouse
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"name": "Koledino",
+"officeId": 15
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+WarehouseNameInvalid
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body",
+"code": "IncorrectRequestBody"
+}
+Delete Warehouse
+/api/v3/warehouses/{warehouseId}
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/warehouses/{warehouseId}
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/warehouses/{warehouseId}
+Method description
+
+Deletes a seller warehouse.
+
+Request limit per one seller account for all seller warehouses methods:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+Responses
+204
+
+Deleted
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+401
+402
+403
+404
+429
+Content type
+application/problem+json
+Copy
+{
+"title": "unauthorized",
+"detail": "token problem; token is malformed: could not base64 decode signature: illegal base64 data at input byte 84",
+"code": "07e4668e--a53a3d31f8b0-[UK-oWaVDUqNrKG]; 03bce=277; 84bd353bf-75",
+"requestId": "7b80742415072fe8b6b7f7761f1d1211",
+"origin": "ag-marketplace",
+"status": 401,
+"statusText": "Unauthorized",
+"timestamp": "2024-09-30T06:52:38Z"
+}
+Contacts List
+/api/v3/dbw/warehouses/{warehouseId}/contacts
+GET
+https://marketplace-api.wildberries.ru/api/v3/dbw/warehouses/{warehouseId}/contacts
+Method description
+
+Returns a list of contacts linked to the seller warehouse.
+Only for warehouses with delivery type 3 — Delivery WB (DBW).
+
+Request limit per one seller account for DBW methods:
+for getting and updating contact lists
+for getting and deleting label identifiers
+assembly orders
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"contacts": 
+[
+{}
+]
+}
+Update Contacts List
+/api/v3/dbw/warehouses/{warehouseId}/contacts
+PUT
+https://marketplace-api.wildberries.ru/api/v3/dbw/warehouses/{warehouseId}/contacts
+Method description
+
+Updates the seller warehouse contacts list.
+
+
+The contacts list is overwritten upon update. Therefore, you need to include all contacts list parameters in the request, including those you do not intend to update.
+
+Only for warehouses with delivery type 3 — Delivery WB (DBW).
+
+
+A maximum of 5 contacts can be added to the warehouse. To delete contacts, send an empty contacts array.
+
+Request limit per one seller account for DBW methods:
+for getting and updating contact lists
+for getting and deleting label identifiers
+assembly orders
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+REQUEST BODY SCHEMA: application/json
+required
+contacts	
+Array of objects <= 5 items
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"contacts": 
+[
+{}
+]
+}
+Response samples
+400
+401
+402
+403
+429
+Content type
+application/json
+Example
+IncorrectParameter
+IncorrectRequestBody
+UploadDataLimitDbw
+IncorrectRequest
+IncorrectParameter
+Copy
+{
+"code": "IncorrectParameter",
+"message": "IncorrectParameter"
+}
+Seller Warehouses Inventory
+To access the methods, use a token for the Marketplace category
+You can learn how to use methods in business cases in the instructions on working with items
+
+Inventory in sellers' warehouses
+
+Update Inventory
+/api/v3/stocks/{warehouseId}
+Prod
+PUT
+https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+Sandbox
+PUT
+https://marketplace-api-sandbox.wildberries.ru/api/v3/stocks/{warehouseId}
+Method description
+
+Updates item inventory.
+
+The names of the query parameters are not validated. If invalid names are sent, the response will be successful(204), but the remaining amounts will not be updated.
+Request limit per one seller account for all inventory methods except for the deleting inventory method:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+REQUEST BODY SCHEMA: application/json
+stocks
+required
+	
+Array of objects [ 1 .. 1000 ] items
+
+Array of size IDs and amounts
+
+Responses
+204
+
+Updated
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+406
+
+Inventory update is blocked
+
+409
+
+Error updating inventory
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Expand
+{
+"stocks": 
+[
+{}
+]
+}
+Response samples
+400
+401
+402
+403
+404
+406
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+SKUUploadDisabled
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body",
+"code": "IncorrectRequestBody"
+}
+Delete Inventory
+/api/v3/stocks/{warehouseId}
+Prod
+DELETE
+https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+Sandbox
+DELETE
+https://marketplace-api-sandbox.wildberries.ru/api/v3/stocks/{warehouseId}
+Method description
+
+Deletes item inventory.
+
+This action is irreversible. Deleted stock will require re-uploading to continue sales
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	10 requests	6 s	2 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+REQUEST BODY SCHEMA: application/json
+required
+chrtIds
+required
+	
+Array of integers [ 1 .. 1000 ] items
+
+Size IDs array
+
+Responses
+204
+
+Deleted
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+409
+
+Error deleting inventory
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"chrtIds": 
+[
+123456789
+]
+}
+Response samples
+400
+401
+402
+403
+404
+409
+429
+Content type
+application/json
+Example
+IncorrectRequestBody
+IncorrectRequest
+IncorrectParameter
+IncorrectSkuParameter
+IncorrectRequestBody
+Copy
+{
+"message": "Incorrect request body",
+"code": "IncorrectRequestBody"
+}
+Get Inventory
+/api/v3/stocks/{warehouseId}
+Prod
+POST
+https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouseId}
+Sandbox
+POST
+https://marketplace-api-sandbox.wildberries.ru/api/v3/stocks/{warehouseId}
+Method description
+
+Returns item inventory.
+
+Request limit per one seller account for all inventory methods except for the deleting inventory method:
+Period	Limit	Interval	Burst
+1 min	300 requests	200 ms	20 requests
+
+One request with 4XX response codes is counted as 10 requests.
+
+In Sandbox — maximum of 1 request per second for all Marketplace methods in total.
+
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+warehouseId
+required
+	
+integer <int64>
+Example: 2
+
+The seller warehouse ID
+
+REQUEST BODY SCHEMA: application/json
+required
+chrtIds
+required
+	
+Array of integers <= 1000 items
+
+Size IDs array
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"chrtIds": 
+[
+12345678
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+{
+"stocks": 
+[
+{}
+]
+}
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

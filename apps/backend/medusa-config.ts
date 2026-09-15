@@ -144,6 +144,11 @@ module.exports = defineConfig({
     { resolve: "./src/modules/tenant" },
     // Product reviews, one row per (tenant, product, language) — t09-reviews.
     { resolve: "./src/modules/product-review" },
+    // Wildberries Seller API mirror, read-only by construction — w01-wb-readonly-client.
+    // The module owns the wb_* tables; the client is src/modules/wb/transport.ts,
+    // the only file here that calls *.wildberries.ru, and it can send nothing
+    // but the reads listed in src/modules/wb/endpoints.ts.
+    { resolve: "./src/modules/wb" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

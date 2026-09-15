@@ -124,3 +124,8 @@ deploy/mt/*.env
 artifacts/docs/2026-09-12-mt-storefront-head-footer/shots/
 artifacts/mockups/*/shot-*.png
 artifacts/docs/f01-thankyou-brand/*.png
+
+# w01-wb-readonly-client: full-page screenshots of the WB doc portal (4-12 MB each).
+# The extracted TEXT of those pages is committed next to them and is what the
+# endpoint registry cites; the PNGs stay on disk and are listed in the PR body.
+artifacts/docs/w01-wb-readonly-client/docs/*.png
