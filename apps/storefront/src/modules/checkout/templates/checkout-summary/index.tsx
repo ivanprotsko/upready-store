@@ -1,3 +1,4 @@
+import { getLegalLinkContext } from "@lib/data/legal-links"
 import { listCartPaymentMethods } from "@lib/data/payment"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
@@ -7,7 +8,13 @@ import CheckoutPaymentSection from "@modules/checkout/components/checkout-paymen
 import CheckoutTotals from "@modules/checkout/components/checkout-totals"
 
 const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
-  const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
+  const [paymentMethods, legal] = await Promise.all([
+    listCartPaymentMethods(cart.region?.id ?? ""),
+    // The consent sentence under the Pay button names four documents; this is
+    // where the shop's own pages are read for it, because the section itself is
+    // a client component (rule 19g, f05-checkout-legal-stubs).
+    getLegalLinkContext(),
+  ])
   const meta = cart.metadata as Record<string, string> | null
   const pickupPointName = meta?.[PICKUP_METADATA_KEYS.name]
   const pickupPointAddress = meta?.[PICKUP_METADATA_KEYS.address]
@@ -28,6 +35,7 @@ const CheckoutSummary = async ({ cart }: { cart: HttpTypes.StoreCart }) => {
       <CheckoutPaymentSection
         cart={cart}
         availablePaymentMethods={paymentMethods ?? []}
+        legal={legal}
       />
     </div>
   )

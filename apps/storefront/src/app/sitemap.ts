@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next"
 import { sdk, fetchWithoutLocale } from "@lib/config"
 import { listTenantArticles } from "@lib/data/tenant-articles"
-import { getRequestBaseURL } from "@lib/data/cookies"
+import { getRequestBaseURL, getTenantHandle } from "@lib/data/cookies"
 import { locales } from "@i18n/config"
 
 // Per request, not per module: one process answers for every shop by Host, and the
@@ -15,15 +15,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = await getRequestBaseURL()
   const entries: MetadataRoute.Sitemap = []
 
+  // The six placeholder routes are the starter's own, and on a tenant they no
+  // longer render: `guardStarterLegalPage` redirects each one to the shop's
+  // page or answers 404 (f05-checkout-legal-stubs). Listing them for a tenant
+  // is how "Это страница-заглушка из стартера" got indexed under a shop's own
+  // domain in the first place; the shop's real pages are listed below, from
+  // `/store/tenant/pages/sitemap`.
+  const hasTenant = (await getTenantHandle()) !== null
+
   const staticRoutes = [
     { path: "/", priority: 1.0 },
     { path: "/store", priority: 0.9 },
-    { path: "/customer-service", priority: 0.4 },
-    { path: "/contact", priority: 0.4 },
-    { path: "/shipping", priority: 0.4 },
-    { path: "/returns", priority: 0.4 },
-    { path: "/privacy", priority: 0.3 },
-    { path: "/terms", priority: 0.3 },
+    ...(hasTenant
+      ? []
+      : [
+          { path: "/customer-service", priority: 0.4 },
+          { path: "/contact", priority: 0.4 },
+          { path: "/shipping", priority: 0.4 },
+          { path: "/returns", priority: 0.4 },
+          { path: "/privacy", priority: 0.3 },
+          { path: "/terms", priority: 0.3 },
+        ]),
   ]
 
   const now = new Date()

@@ -2,6 +2,9 @@ import { Link } from "@i18n/navigation"
 import { Button } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
+import { getLegalLinkContext } from "@lib/data/legal-links"
+import { legalHref } from "@lib/util/legal-links"
+
 /**
  * Both redirect targets `app/api/payment-return/route.ts` already writes
  * (`payment_failed`: rejected before an order was attempted; `order_failed`:
@@ -28,7 +31,14 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
     return null
   }
 
-  const t = await getTranslations("OrderFailed")
+  const [t, legal] = await Promise.all([
+    getTranslations("OrderFailed"),
+    getLegalLinkContext(),
+  ])
+  // The buyer is here because their payment failed; "get in touch" has to reach
+  // the shop's own contacts page and is left out when the shop has none, rather
+  // than opening the starter's placeholder (f05-checkout-legal-stubs).
+  const contactLink = legalHref("contact", legal)
   const reasonKey =
     error === "payment_failed"
       ? "paymentFailedReason"
@@ -64,13 +74,15 @@ const OrderErrorBanner = async ({ error }: OrderErrorBannerProps) => {
               {t("retryCheckout")}
             </Button>
           </Link>
-          <Link
-            href="/contact"
-            className="flex items-center justify-center txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover px-4 py-2"
-            data-testid="order-error-contact-link"
-          >
-            {t("contact")}
-          </Link>
+          {contactLink && (
+            <Link
+              href={contactLink}
+              className="flex items-center justify-center txt-compact-small-plus text-ui-fg-interactive hover:text-ui-fg-interactive-hover px-4 py-2"
+              data-testid="order-error-contact-link"
+            >
+              {t("contact")}
+            </Link>
+          )}
         </div>
       </div>
     </div>

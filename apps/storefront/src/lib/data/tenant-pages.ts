@@ -23,7 +23,8 @@
  * `POST /api/revalidate` with `{ "type": "tenant.pages" }`.
  */
 
-import { sdk } from "@lib/config"
+import { sdk, fetchWithoutLocale } from "@lib/config"
+import { siteWideRead } from "./site-wide"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
 
@@ -90,4 +91,39 @@ export async function getTenantPage(key: string): Promise<TenantPage | null> {
   } catch {
     return null
   }
+}
+
+/**
+ * Every page key this tenant has PUBLISHED, footer-linked or not, for the legal
+ * links a buyer meets outside the footer (`@lib/util/legal-links`): the consent
+ * sentence under the Pay button, the checkout footer, the account screens.
+ *
+ * `listTenantPages` above is the wrong source for that decision — it answers
+ * the footer's own list, `in_footer: true` only, so an offer the owner
+ * published without putting it in the footer would read here as "this shop has
+ * no offer" and the checkout would fall back to the starter placeholder. The
+ * sitemap endpoint is already the unfiltered one (t11-seo-redirects step 3, one
+ * row per key per locale) and shares this module's cache tag, so this costs no
+ * new backend surface and no second invalidation path.
+ *
+ * `fetchWithoutLocale` because a key is not translated: the same `offer` page
+ * exists under every locale the owner saved it in, and a locale-scoped fetch
+ * would hold one cache entry per language for an answer that does not vary.
+ *
+ * An empty array is both "this shop has published nothing" and "the read
+ * failed" on purpose: every consumer degrades the same way (a link is hidden,
+ * never pointed at a placeholder), and the failure is reported to the server
+ * log by `siteWideRead` rather than thrown into a checkout render.
+ */
+export async function listPublishedPageKeys(): Promise<string[]> {
+  return siteWideRead("listPublishedPageKeys", async () => {
+    const { pages } = await fetchWithoutLocale<{
+      pages: Array<{ key: string }>
+    }>("/store/tenant/pages/sitemap", {
+      next: { tags: [PAGES_TAG] },
+      cache: "force-cache",
+    })
+
+    return Array.from(new Set((pages ?? []).map((page) => page.key)))
+  }, [])
 }
