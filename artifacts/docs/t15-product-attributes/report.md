@@ -332,9 +332,6 @@ apps/storefront    pnpm test                        → Test Files 14 passed (14
 Быстрее всего шаги 3–7 повторяются скриптами из `artifacts/docs/t15-product-attributes/`:
 `shots.mjs` (снимет те же экраны), `measure.mjs` (числа), `verify.sql` (сверка по данным).
 
----
-
-Отчёт составлен 2026-09-15 09:08 WITA, дополнен после слияния с dev 09:17 WITA.
 
 ## После слияния с `dev`
 
@@ -364,3 +361,60 @@ apps/storefront    pnpm test                  → Test Files 14 passed (14), Tes
 слияния в снимке 13 таблиц: те же 10 плюс мои три. То есть слияние ничего не потеряло, но
 следующий `medusa db:generate tenant` выпишет миграцию на `tenant_redirect`. Чинить чужой снимок
 в этом PR я не стал.
+
+## Раунд 2: замечание приёмки и второе слияние
+
+Замечание раунда 1 — «слияние сделано локально, но не запушено» — было верным на момент
+замера: приёмщик видел `headRefOid 838e04c`, то есть ветку ДО пуша merge-коммита. Пуш ушёл в
+09:14 WITA, и следом `dev` уехал ещё раз — в него влили t14 (`a51e663`, импорт CSV), отчего
+PR снова встал `CONFLICTING`.
+
+Второе слияние (`git merge origin/dev`) дало три конфликта, все механические:
+
+- `modules/tenant/models/tenant.ts` и `modules/tenant/service.ts` — снова соседние импорты и
+  соседние блоки модели (`product_attributes` из t15 против `product_imports` из t14):
+  оставлены ОБА;
+- `modules/tenant/migrations/.snapshot-tenant.json` — генерируемый снимок схемы модуля, где
+  каждая сторона объявила свои таблицы. Разрешено объединением: взята версия `dev`
+  (12 таблиц, включая `tenant_product_import` и `tenant_redirect`) и в неё добавлены три моих
+  (`tenant_product_attribute{,_option,_value}`), итого 15. Ни одна таблица не потеряна —
+  проверено списком имён с обеих сторон конфликта (`git show :2:` и `git show :3:`).
+
+Перемеряно на дереве `7efa260`, которое и уедет в `dev`:
+
+```
+git rev-parse --short HEAD                      → 7efa260
+git rev-parse --short origin/feat/day16-…       → 7efa260      (локально и на GitHub одно и то же)
+gh pr view 35 --json mergeable,mergeStateStatus → MERGEABLE, CLEAN
+
+npx medusa db:migrate                           → rc=0 (миграции t09/t11/t14 и моя легли рядом)
+tenants-product-attributes.spec.ts              → PASS (20.604 s), Tests: 10 passed, 10 total
+apps/backend      npx tsc --noEmit              → rc=0
+apps/tenant-panel pnpm typecheck                → rc=0
+apps/storefront   npx tsc --noEmit              → rc=0
+apps/storefront   pnpm test                     → Test Files 14 passed (14), Tests 141 passed (141)
+
+витрина:  /ru/store → 10 · ?a_obem=100..500 → 3 · ?a_obem=1000..2000 → 0
+карточка: Состав «Трава, витамин C» · Объём 100 мл · Страна Россия (по-английски Composition /
+          Volume / Country · Russia) — «Гипоаллергенно» по-прежнему нет, оно только фильтр
+изоляция: соседний магазин — {"facets":[],"product_ids":null,"count":0} на витрине и
+          {"product_attributes":[],"count":0} в панели
+```
+
+Одна ловушка замера, чтобы приёмщик не наступил на неё: первый запрос к `next dev` сразу после
+`pnpm install` (или после первой компиляции маршрута) отдаёт страницу с ПУСТОЙ сеткой — у меня
+`/ru/store` так один раз показал 0 вместо 10. Это перезапуск дев-сервера, а не дефект: тот же
+адрес со второго запроса даёт 10, и на собранной витрине (`next build`) этого нет. Мерить —
+после `curl -fsS -o /dev/null <url>` в цикле готовности.
+
+**Про t14.** На момент основной работы PR #34 был открыт, поэтому колонки характеристик в CSV
+нет, а в разделе «Чего НЕ сделано» лежит её форма. Сейчас t14 слит и его код пришёл в эту ветку
+вместе с `dev`, так что колонку уже есть куда добавлять — но это отдельная работа в чужих
+модулях (`apps/backend/src/product-csv/**`, 9 модулей и 6 юнит-сьютов), и в раунд правок, где
+единственным замечанием был непушнутый мерж, я её не тащил. Предлагаю отдельную задачу:
+`Характеристика: <название>` плюс технический синоним `attr:<машинное имя>`, разбор значения —
+готовый `coerceValue` из `api/tenants/product-attributes/helpers.ts`.
+
+---
+
+Отчёт составлен 2026-09-15 09:08 WITA, дополнен после слияний с dev и раунда 2 в 09:22 WITA.
