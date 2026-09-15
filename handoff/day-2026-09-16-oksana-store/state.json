@@ -3,9 +3,9 @@
     "paused": false,
     "limitUntil": null,
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-15T15:40:33.559Z",
-    "pid": 48766,
-    "ticks": 1439,
+    "lastTick": "2026-09-15T15:55:55.629Z",
+    "pid": 21558,
+    "ticks": 1454,
     "allTerminalTicks": 0
   },
   "tasks": {
@@ -2339,8 +2339,14 @@
     },
     "b02-legal-and-redirects": {
       "status": "accepting",
-      "attempt": 1,
-      "artifacts": [],
+      "attempt": 2,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/01-jest-unit.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/02-backfill-rerun-idempotent.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/03-merge-tree-conflict-at-pr-head.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b02-legal-and-redirects-1/04-live-measures.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.findings.md"
+      ],
       "ws": "4146fc92-38db-40b8-be9f-87153a2524da",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects",
       "terminalId": "7cd1898a-b1a4-4393-864e-746933ca9d16",
@@ -2359,7 +2365,7 @@
         "mergedAt": null,
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T15:37:34.209Z",
+      "prOpenedAt": "2026-09-15T15:47:34.276Z",
       "acceptance": [
         {
           "n": 1,
@@ -2368,12 +2374,25 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.findings.md",
           "startedAt": "2026-09-15T15:40:44.464Z",
           "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "REJECTED"
+        },
+        {
+          "n": 2,
+          "pid": 4785,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-2.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-2.findings.md",
+          "startedAt": "2026-09-15T15:54:51.554Z",
+          "session": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
           "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
         }
-      ]
+      ],
+      "fixStartedAt": "2026-09-15T15:46:38.099Z",
+      "fixRelaunched": false
     },
     "b06-order-tracking": {
-      "status": "pr_open",
+      "status": "accepting",
       "attempt": 1,
       "artifacts": [],
       "ws": "69a9aa49-1a1a-4659-9367-bd5ef01f1d57",
@@ -2394,7 +2413,18 @@
         "mergedAt": null,
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T15:35:38.917Z"
+      "prOpenedAt": "2026-09-15T15:35:38.917Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 9294,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.findings.md",
+          "startedAt": "2026-09-15T15:46:53.275Z",
+          "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+        }
+      ]
     },
     "c01-wave5-composer": {
       "status": "done",
@@ -2478,9 +2508,12 @@
       "note": "RESULT: OK 304 отзыва (152 ru + 152 en) на 12 товарах живого cherkashino, было 0; дамп mt-medusa_mt-20260915-165414.sql.gz, витрина и панель показывают, 14 отзывов без товара — списком в отчёте"
     },
     "b07-store-api-isolation": {
-      "status": "accepting",
+      "status": "merged",
       "attempt": 1,
-      "artifacts": [],
+      "artifacts": [
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b07-store-api-isolation-1/00-stranger-logged-in-1280x900.png",
+        "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b07-store-api-isolation-1/01-stranger-direct-foreign-order-1280x900.png"
+      ],
       "ws": "3e92eb4d-6503-49f1-91ff-2b29a374fea8",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-store-api-isolation",
       "terminalId": "6759451e-11d7-4c95-96fd-dc50adb5ff4b",
@@ -2495,8 +2528,8 @@
       "pr": {
         "number": 61,
         "url": "https://github.com/ivanprotsko/upready-store/pull/61",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T15:44:35Z",
         "isDraft": false
       },
       "prOpenedAt": "2026-09-15T15:33:13.812Z",
@@ -2508,9 +2541,14 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b07-store-api-isolation-1.findings.md",
           "startedAt": "2026-09-15T15:36:47.003Z",
           "session": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
-          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
-      ]
+      ],
+      "finishedAt": "2026-09-15T15:46:39.685Z",
+      "compactSentAt": "2026-09-15T15:46:41.128Z",
+      "closedAt": "2026-09-15T15:49:49.969Z"
     },
     "b08-seo-storefront": {
       "status": "queued",
@@ -2559,7 +2597,8 @@
         }
       ],
       "finishedAt": "2026-09-15T15:37:35.710Z",
-      "compactSentAt": "2026-09-15T15:37:38.234Z"
+      "compactSentAt": "2026-09-15T15:37:38.234Z",
+      "closedAt": "2026-09-15T15:45:51.291Z"
     },
     "b10-panel-gaps": {
       "status": "queued",
@@ -2579,8 +2618,8 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "method\n  sync).\n  \n⏺ Running cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-… · 39s\n  ⎿  $ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-labels/apps/backend\n     until curl -s -o /dev/null -w \"%{http_code}\" http://localhost:9211/health | grep -q 200; do sleep 3; done\n     echo \"up\" (39s)\n     (ctrl+b to run in background)\n\n✢ Philosophising… (10m 22s · ↓ 31.1k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-owner-labels/backend (fix/day16-owner-labels) | Sonnet 5 | ctx 79%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T15:40:39.915Z"
+      "lastScreen": "оверка label у характеристик и публикация статьи с\n  проверкой даты.\n  \n  Ran 6 shell commands \n\n⏺ Теперь проверю переключатель «Опубликована» и кнопку сохранения в форме редактирования статьи.\n\n  Running 2 shell commands…\n  ⎿  $ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-labels\n     find apps/tenant-panel/src -iname \"*login*\"\n\n✢ Cultivating… (6m 15s · ↓ 14.0k tokens · thought for 1s)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-owner-labels (fix/day16-owner-labels) | Sonnet 5 | ctx 69%\n  ⏵⏵ bypass permissions on · 1 shell · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:56:00.373Z"
     },
     "b12-analytics-accuracy": {
       "status": "running",
@@ -2595,8 +2634,8 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "ompleted (exit code 0)\n     \n⏺ Background command \"Check install, start migration in background\" completed (exit code 0)\n     \n⏺ Background command \"Install with corepack pnpm\" completed (exit code 0)\n\n⏺ Background command \"Finish install (idempotent re-run)\" completed (exit code 0)\n     \n⏺ Background command \"Run db:migrate in background\" completed (exit code 0)\n\n✽ Quantumizing… (3m 44s · ↓ 14.3k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-analytics-accuracy/backend (fix/day16-analytics-accuracy) | Opus 5 | ctx 85%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T15:40:43.880Z"
+      "lastScreen": "n3 - <<'PYEOF'\n     import io\n     p='apps/backend/src/analytics-summary/top-products.ts'\n     s=io.open(p,encoding='utf-8').read()\n     old=' rows.filter((row) => row.item_version === row.order_version);'\n     new=' rows; // TEMPORARY b12 measurement: reproduce the version-blind sum (restored right after)'\n     assert o… (8s · 2 lines)\n     (ctrl+b to run in background)\n\n✽ Quantumizing… (19m 6s · ↓ 70.0k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-analytics-accuracy (fix/day16-analytics-accuracy) | Opus 5 | ctx 76%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:56:05.682Z"
     },
     "b13-locale-single-source": {
       "status": "running",
@@ -2610,7 +2649,9 @@
       "nudges": 0,
       "relaunched": false,
       "error": null,
-      "force": false
+      "force": false,
+      "lastScreen": "me } from \"./default-method-names\";\n     \n⏺ Running 1 shell command · 6s…\n  ⎿  $ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/apps/\n     backend\n     corepack pnpm exec tsc --noEmit > /tmp/backend-tsc2.log 2>&1\n     echo \"rc=$?\"\n     tail -40 /tmp/backend-tsc2.log (6s)\n     (ctrl+b to run in background)\n\n· Manifesting… (15m 14s · ↓ 59.0k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-locale-single-source (fix/day16-locale-single-source) | Sonnet 5 | ctx 76%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:56:10.773Z"
     },
     "b14-pages-legal-content": {
       "status": "queued",
@@ -2618,9 +2659,20 @@
       "artifacts": []
     },
     "b15-quality-debt": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "running",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "79a7db4f-0732-45af-ab1d-8e628b711d7f",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt",
+      "terminalId": "48a8595f-05e9-450a-a688-06141899a276",
+      "launchedAt": "2026-09-15T15:54:58.684Z",
+      "startedAt": "2026-09-15T15:54:58.684Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "л, пока читаю падающие тесты.\n\n⏺ Смотрю модуль i18n сида\n  ⎿  $ ls apps/backend/src/migration-scripts/data/ && wc -l apps/backend/src/migration-scripts/data/i18n.ts 2>/dev/null \n     || ls apps/backend/src/migration-scripts/data/i18n*\n\n⏺ Background command \"pnpm install в фоне с логом\" completed (exit code 0)\n\n⏺ Background command \"corepack pnpm install в фоне\" completed (exit code 0)\n\n✶ Moonwalking… (1m 13s · ↓ 4.4k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-quality-debt (fix/day16-quality-debt) | Opus 5 | ctx 90%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:56:15.897Z"
     },
     "b16-media-and-backup": {
       "status": "blocked",
@@ -4835,23 +4887,89 @@
       "task": "b13-locale-single-source",
       "type": "launched",
       "msg": "ws 5adf5974-e0ab-4afd-8228-42dd58f8f5a4 · sonnet/medium · fix/day16-locale-single-source"
+    },
+    {
+      "ts": "2026-09-15T15:45:51.291Z",
+      "task": "b09-storefront-render",
+      "type": "worker-closed",
+      "msg": "терминал e5569337-a369-4eff-ad56-2abb062a5315 закрыт по таймауту /compact (8 мин)"
+    },
+    {
+      "ts": "2026-09-15T15:46:34.426Z",
+      "task": "b02-legal-and-redirects",
+      "type": "rejected",
+      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.findings.md"
+    },
+    {
+      "ts": "2026-09-15T15:46:38.099Z",
+      "task": "b02-legal-and-redirects",
+      "type": "fix-sent",
+      "msg": "в живой терминал 7cd1898a-b1a4-4393-864e-746933ca9d16"
+    },
+    {
+      "ts": "2026-09-15T15:46:40.412Z",
+      "task": "b07-store-api-isolation",
+      "type": "orphans-killed",
+      "msg": "2 процессов под worktree (merged): 18883 07:16 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-store-api-i | 52772 56:23 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-store-api-i"
+    },
+    {
+      "ts": "2026-09-15T15:46:41.128Z",
+      "task": "b07-store-api-isolation",
+      "type": "compact-sent",
+      "msg": "терминал 6759451e-11d7-4c95-96fd-dc50adb5ff4b, ветка fix/day16-store-api-isolation"
+    },
+    {
+      "ts": "2026-09-15T15:46:41.128Z",
+      "task": "b07-store-api-isolation",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/61 (приёмка раунд 1)"
+    },
+    {
+      "ts": "2026-09-15T15:46:53.275Z",
+      "task": "b06-order-tracking",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #62, pid 9294"
+    },
+    {
+      "ts": "2026-09-15T15:47:34.276Z",
+      "task": "b02-legal-and-redirects",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/63"
+    },
+    {
+      "ts": "2026-09-15T15:49:49.969Z",
+      "task": "b07-store-api-isolation",
+      "type": "worker-closed",
+      "msg": "терминал 6759451e-11d7-4c95-96fd-dc50adb5ff4b закрыт после /compact"
+    },
+    {
+      "ts": "2026-09-15T15:54:51.554Z",
+      "task": "b02-legal-and-redirects",
+      "type": "accept-started",
+      "msg": "раунд 2, PR #63, pid 4785"
+    },
+    {
+      "ts": "2026-09-15T15:54:58.684Z",
+      "task": "b15-quality-debt",
+      "type": "launched",
+      "msg": "ws 79a7db4f-0732-45af-ab1d-8e628b711d7f · opus/high · fix/day16-quality-debt"
     }
   ],
   "sessions": {
     "accept@/Users/ivanprotsko/upready/projects/upready-store": [
       {
         "id": "dbb26141-94f9-4a03-a344-91ff43b11523",
-        "uses": 6,
+        "uses": 7,
         "createdAt": "2026-09-15T14:16:36.924Z",
         "inUse": true,
-        "lastUsed": "2026-09-15T15:40:44.462Z"
+        "lastUsed": "2026-09-15T15:46:53.274Z"
       },
       {
         "id": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
-        "uses": 1,
+        "uses": 2,
         "createdAt": "2026-09-15T15:36:47.001Z",
         "inUse": true,
-        "lastUsed": "2026-09-15T15:36:47.001Z"
+        "lastUsed": "2026-09-15T15:54:51.553Z"
       }
     ],
     "run:deploy@/Users/ivanprotsko/upready/projects/upready-store": [
