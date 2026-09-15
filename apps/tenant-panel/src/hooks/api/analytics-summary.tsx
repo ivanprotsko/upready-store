@@ -13,9 +13,30 @@ export type AnalyticsAggregate = { revenue: number; order_count: number; aov: nu
 
 export type AnalyticsSummaryEmpty = { has_orders: false }
 
+/** One currency's own money for the chosen period. Never summed with another one. */
+export type AnalyticsCurrencyBucket = {
+  currency_code: string
+  revenue: number
+  order_count: number
+  aov: number
+}
+
 export type AnalyticsSummary = {
   has_orders: true
+  /**
+   * The currency EVERY number below is in. The screen shows one currency at a
+   * time, because a shop selling in two of them used to see the two totals
+   * added together under the label of the first order's currency
+   * (b12-analytics-accuracy).
+   */
   currency_code: string | null
+  /** Every currency the shop has ever taken money in, richest first. */
+  currencies: string[]
+  /**
+   * The chosen period, one row per currency. The shown currency is always in
+   * here, as a real computed zero when the period holds none of it.
+   */
+  currency_breakdown: AnalyticsCurrencyBucket[]
   period: { key: AnalyticsPeriodKey; from: string; to: string }
   current: AnalyticsAggregate
   previous: AnalyticsAggregate
@@ -40,6 +61,8 @@ export type AnalyticsSummaryQuery = {
   period: AnalyticsPeriodKey
   from?: string
   to?: string
+  /** The owner's currency pick. Omitted until they make one. */
+  currency?: string
 }
 
 const ANALYTICS_SUMMARY_QUERY_KEY = "tenant-analytics-summary" as const
