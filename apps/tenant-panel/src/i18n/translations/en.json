@@ -3168,6 +3168,13 @@
       "cannotDeleteDefault": "Cannot delete default sales channel"
     }
   },
+  "overview": {
+    "openStorefront": "Open my shop",
+    "productsPublished": "Published",
+    "productsDraft": "Drafts",
+    "loading": "Loading…",
+    "developerDetails": "For developers"
+  },
   "salesSummary": {
     "title": "Sales",
     "period": {
