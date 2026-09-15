@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T08:05:36+08:00",
-  "status": "2026-09-15 08:05 WITA: t11-seo-redirects раунд 3 — все 3 находки приёмщика исправлены (конфликт с dev разведён дважды, SEO-локаль панели/витрины больше не литерал en а tenant_locale_settings.default_locale с фолбэком, живые замеры sitemap/301/петли после финального мержа), PR #29 MERGEABLE/CLEAN, коммит 8d3e6ba, комментарий issuecomment-5672589727, workers.log обновлён, стенд остановлен PID-scoped и DB дропнута. Ждёт приёмки раунда 3.",
+  "updated": "2026-09-15T09:00:16+08:00",
+  "status": "2026-09-15 08:05 WITA: t11-seo-redirects раунд 3 — все 3 находки приёмщика исправлены (конфликт с dev разведён дважды, SEO-локаль панели/витрины больше не литерал en а tenant_locale_settings.default_locale с фолбэком, живые замеры sitemap/301/петли после финального мержа), PR #29 MERGEABLE/CLEAN, коммит 8d3e6ba, комментарий issuecomment-5672589727, workers.log обновлён, стенд остановлен PID-scoped и DB дропнута. Ждёт приёмки раунда 3. | 2026-09-15 09:00 WITA: t14-product-import — PR #34 открыт (feat/day16-product-import→dev, MERGEABLE): выгрузка/импорт каталога CSV, сухой прогон с отчётом по строкам, подтверждение, картинки по ссылке с SSRF-защитой, cp1251, экраны панели. Замеры: круговой рейс 22/22 без изменений и diff БД пуст, цена из файла видна на витрине (4 444,00 ₽), битый файл отклонён целиком. seam 6/6, панель typecheck+lint чисто. XLSX не читается — внятный отказ. Отчёт artifacts/docs/t14-product-import/report.md",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

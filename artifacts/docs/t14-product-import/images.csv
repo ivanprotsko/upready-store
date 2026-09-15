@@ -1,0 +1,3 @@
+﻿Код товара;Название;Категория;Цена, USD;Картинки
+t14-s-kartinkoy;Товар с картинкой;Добавки / АСД;990;https://avatars.githubusercontent.com/u/1
+t14-bez-kartinki;Товар с мёртвой ссылкой;Добавки / АСД;1990;https://no-such-host-t14.example/photo.jpg

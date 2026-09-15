@@ -12,6 +12,7 @@ import TenantPage from "./models/tenant-page";
 import TenantProductAttribute from "./models/tenant-product-attribute";
 import TenantProductAttributeOption from "./models/tenant-product-attribute-option";
 import TenantProductAttributeValue from "./models/tenant-product-attribute-value";
+import TenantProductImport from "./models/tenant-product-import";
 import TenantRedirect from "./models/tenant-redirect";
 
 class TenantModuleService extends MedusaService({
@@ -28,6 +29,7 @@ class TenantModuleService extends MedusaService({
   TenantProductAttribute,
   TenantProductAttributeOption,
   TenantProductAttributeValue,
+  TenantProductImport,
   TenantRedirect,
 }) {}
 

@@ -1,0 +1,61 @@
+{
+  "status": "pending",
+  "filename": "excel-cp1251.csv",
+  "bytes": 141,
+  "delimiter": ";",
+  "bom": false,
+  "encoding": "windows-1251",
+  "summary": {
+    "rows": 2,
+    "create": 2,
+    "create_variant": 0,
+    "update": 0,
+    "unchanged": 0,
+    "reject": 0,
+    "images": 0
+  },
+  "fatal": [],
+  "unknown_columns": [],
+  "categories_to_create": [],
+  "currencies": [
+    "usd"
+  ],
+  "limits": {
+    "max_bytes": 10485760,
+    "max_rows": 5000
+  },
+  "rows": [
+    {
+      "line": 2,
+      "action": "create",
+      "handle": "t14-cp1251-1",
+      "sku": null,
+      "title": "Настойка «Тройчатка», 50 мл",
+      "product_id": null,
+      "variant_id": null,
+      "changes": [],
+      "notes": [
+        "Новый товар создаётся черновиком — опубликуете его сами, проверив карточку."
+      ],
+      "errors": [],
+      "image_urls": [],
+      "planned_handle": "t14-cp1251-1"
+    },
+    {
+      "line": 3,
+      "action": "create",
+      "handle": "t14-cp1251-2",
+      "sku": null,
+      "title": "Щётка для чая",
+      "product_id": null,
+      "variant_id": null,
+      "changes": [],
+      "notes": [
+        "Новый товар создаётся черновиком — опубликуете его сами, проверив карточку."
+      ],
+      "errors": [],
+      "image_urls": [],
+      "planned_handle": "t14-cp1251-2"
+    }
+  ]
+}

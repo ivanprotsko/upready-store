@@ -1,0 +1,90 @@
+{
+  "status": "rejected",
+  "filename": "broken.csv",
+  "bytes": 217,
+  "delimiter": ";",
+  "bom": true,
+  "encoding": "utf-8-bom",
+  "summary": {
+    "rows": 3,
+    "create": 0,
+    "create_variant": 0,
+    "update": 0,
+    "unchanged": 0,
+    "reject": 3,
+    "images": 0
+  },
+  "fatal": [
+    {
+      "code": "duplicate_row",
+      "line": 3,
+      "message": "Строка 3 повторяет товар «cube-1-cherkashino» из строки 2. Оставьте одну строку на товар (или задайте варианты с разными SKU)."
+    }
+  ],
+  "unknown_columns": [],
+  "categories_to_create": [],
+  "currencies": [
+    "usd"
+  ],
+  "limits": {
+    "max_bytes": 10485760,
+    "max_rows": 5000
+  },
+  "rows": [
+    {
+      "line": 2,
+      "action": "reject",
+      "handle": "cube-1-cherkashino",
+      "sku": null,
+      "title": "Дубль",
+      "product_id": null,
+      "variant_id": null,
+      "changes": [],
+      "notes": [],
+      "errors": [
+        {
+          "code": "ambiguous_variant",
+          "message": "У товара «cube-1-cherkashino» несколько вариантов. Укажите SKU или название варианта, чтобы понять, какой правится."
+        }
+      ],
+      "image_urls": []
+    },
+    {
+      "line": 3,
+      "action": "reject",
+      "handle": "cube-1-cherkashino",
+      "sku": null,
+      "title": "Дубль ещё раз",
+      "product_id": null,
+      "variant_id": null,
+      "changes": [],
+      "notes": [],
+      "errors": [
+        {
+          "code": "ambiguous_variant",
+          "message": "У товара «cube-1-cherkashino» несколько вариантов. Укажите SKU или название варианта, чтобы понять, какой правится."
+        }
+      ],
+      "image_urls": []
+    },
+    {
+      "line": 4,
+      "action": "reject",
+      "handle": "nekij-novyi",
+      "sku": null,
+      "title": "Новый товар",
+      "product_id": null,
+      "variant_id": null,
+      "changes": [],
+      "notes": [],
+      "errors": [
+        {
+          "code": "bad_number",
+          "column": "Цена, USD",
+          "message": "Цена «по запросу» — не число. Уберите буквы и лишние символы; разделитель дробной части — запятая или точка."
+        }
+      ],
+      "image_urls": []
+    }
+  ]
+}
