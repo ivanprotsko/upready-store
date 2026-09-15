@@ -1,6 +1,11 @@
 import type { AuthenticatedMedusaRequest } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import {
+  CANCELED_ORDER_STATUS,
+  currentOrderTotalSql,
+  joinCurrentOrderSummary,
+} from "../order-totals";
 import { listTenantOrderIds } from "../tenant-scope";
 
 /**
@@ -17,8 +22,11 @@ import { listTenantOrderIds } from "../tenant-scope";
  */
 
 export type CustomerAggregate = {
+  /** Orders that are revenue: the canceled ones are counted in `canceledOrdersCount`. */
   ordersCount: number;
   totalSpent: number;
+  /** Orders this customer placed and the shop cancelled. Shown apart, never folded in. */
+  canceledOrdersCount: number;
   currencyCode: string | null;
   lastOrderAt: string | null;
 };
@@ -26,6 +34,7 @@ export type CustomerAggregate = {
 export const zeroAggregate: CustomerAggregate = {
   ordersCount: 0,
   totalSpent: 0,
+  canceledOrdersCount: 0,
   currencyCode: null,
   lastOrderAt: null,
 };
@@ -33,6 +42,7 @@ export const zeroAggregate: CustomerAggregate = {
 type AggregateRow = {
   customer_id: string;
   orders_count: string;
+  canceled_orders_count: string;
   total_spent: string | null;
   currency_code: string | null;
   last_order_at: string | Date | null;
@@ -50,6 +60,14 @@ type AggregateRow = {
  * `\d order_summary` on the stand DB shows `totals` as the one jsonb column)
  * — so the cast happens in SQL rather than through a second workflow call per
  * row.
+ *
+ * That table is VERSIONED, and the join that narrows it to the order's current
+ * version lives in `../order-totals.ts` together with the rule that a canceled
+ * order is not revenue — the same module `analytics/summary` reads, because
+ * this fact was wrong on both screens at once (b01-owner-numbers).
+ *
+ * `last_order_at` counts EVERY order, canceled ones included: it answers «when
+ * did this person last order from me», which a cancellation does not undo.
  */
 export const getTenantCustomerAggregates = async (
   req: AuthenticatedMedusaRequest,
@@ -63,19 +81,23 @@ export const getTenantCustomerAggregates = async (
 
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
 
-  const rows: AggregateRow[] = await pg({ o: "order" })
-    .leftJoin({ os: "order_summary" }, function joinSummary() {
-      this.on("os.order_id", "o.id").andOnNull("os.deleted_at");
-    })
+  const rows: AggregateRow[] = await joinCurrentOrderSummary(pg({ o: "order" }))
     .whereIn("o.id", ownedOrderIds)
     .whereNull("o.deleted_at")
     .whereNotNull("o.customer_id")
     .groupBy("o.customer_id")
     .select("o.customer_id")
-    .count("o.id as orders_count")
-    .sum({
-      total_spent: pg.raw("coalesce((os.totals->>'current_order_total')::numeric, 0)"),
-    })
+    .select(
+      pg.raw("count(o.id) filter (where o.status <> ?) as orders_count", [
+        CANCELED_ORDER_STATUS,
+      ]),
+      pg.raw("count(o.id) filter (where o.status = ?) as canceled_orders_count", [
+        CANCELED_ORDER_STATUS,
+      ]),
+      pg.raw(`coalesce(sum(${currentOrderTotalSql()}) filter (where o.status <> ?), 0) as total_spent`, [
+        CANCELED_ORDER_STATUS,
+      ]),
+    )
     .max({ currency_code: "o.currency_code" })
     .max({ last_order_at: "o.created_at" });
 
@@ -83,6 +105,7 @@ export const getTenantCustomerAggregates = async (
     byCustomer.set(row.customer_id, {
       ordersCount: Number(row.orders_count ?? 0),
       totalSpent: Number(row.total_spent ?? 0),
+      canceledOrdersCount: Number(row.canceled_orders_count ?? 0),
       currencyCode: row.currency_code ?? null,
       lastOrderAt: row.last_order_at ? new Date(row.last_order_at).toISOString() : null,
     });

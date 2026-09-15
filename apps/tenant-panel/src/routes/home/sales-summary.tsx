@@ -99,6 +99,7 @@ export const SalesSummary = () => {
           <SalesSummaryMetrics
             current={data.current}
             change={data.change}
+            canceled={data.canceled}
             currencyCode={data.currency_code ?? "usd"}
           />
           <SalesSummaryChart daily={data.daily} />

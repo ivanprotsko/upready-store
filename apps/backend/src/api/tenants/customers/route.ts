@@ -51,6 +51,7 @@ const toResponseRow = (row: CustomerRow, aggregates: Map<string, CustomerAggrega
     has_account: Boolean(row.has_account),
     created_at: row.created_at ?? null,
     orders_count: agg.ordersCount,
+    canceled_orders_count: agg.canceledOrdersCount,
     total_spent: agg.totalSpent,
     currency_code: agg.currencyCode,
     last_order_at: agg.lastOrderAt,
