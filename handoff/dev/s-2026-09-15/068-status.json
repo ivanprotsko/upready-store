@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 68,
+  "action": "status-set",
+  "ts": "2026-09-15T14:56:58+08:00",
+  "status": "2026-09-15 14:56 WITA: приёмка f08-medusa-mark-bottom-nav round 1 — PR #46 смержен (5c147c82), 0 запросов medusa.svg на главной/карточке/корзине 390x844 при Host cherkashino.shipshift.dev, git grep rc=1, tsc/lint/vitest 182 зелёные; отчёт handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/REPORT.md, коммит 180cf3a"
+}
