@@ -842,7 +842,7 @@
       "lane": "build",
       "model": "opus",
       "effort": "high",
-      "branch": "feat/day16-product-attributes",
+      "branch": "feat/day16-product-attributes-fill",
       "deps": [],
       "priority": 64,
       "prompt": "b04-product-attributes.md",

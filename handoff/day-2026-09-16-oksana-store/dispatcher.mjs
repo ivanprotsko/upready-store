@@ -29,6 +29,9 @@ const limited = (state) => !!(state.dispatcher.limitUntil && Date.parse(state.di
 // ---------- запуск ----------
 function launchBuild(cfg, state, t) {
   const s = ensure(state, t);
+  // Класс b04/#35: ветка с именем уже смёрженного PR — хост находит старый PR по head и задача мгновенно «merged». Проверяем ДО создания workspace.
+  if (t.branch) { const q = L.shJson('gh', ['pr', 'list', '--head', t.branch, '--state', 'all', '--repo', cfg.project.repo, '--json', 'number,state']); const hit = !q.rc && Array.isArray(q.json) && q.json.length ? q.json[0] : null;
+    if (hit) { s.status = 'failed'; s.error = `ветка ${t.branch} уже несёт PR #${hit.number} (${hit.state}) — переименуй branch в tasks.json и retry`; L.event(state, { task: t.id, type: 'branch-has-pr', msg: s.error }); return false; } }
   const prompt = L.buildWorkerPrompt(cfg, t);
   const r = L.wsCreate(cfg, t, prompt);
   if (r.rc) { s.status = 'failed'; s.error = 'superset ws create: ' + String(r.error).slice(0, 400); L.event(state, { task: t.id, type: 'ws-create-failed', msg: s.error }); return false; }
