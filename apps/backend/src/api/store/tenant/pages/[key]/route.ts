@@ -7,7 +7,7 @@ import { resolveTenantFromPublishableKey } from "../../resolve-tenant";
 import { resolveTenantDomain } from "../../../../../tenant-legal/domain";
 import { readRequisites } from "../../../../../tenant-legal/shop";
 import { valuesFromRequisites } from "../../../../../tenant-legal/requisites";
-import { redactLegalPlaceholders } from "../../../../../tenant-legal/redact";
+import { redactLegalInline, redactLegalPlaceholders } from "../../../../../tenant-legal/redact";
 
 /**
  * `GET /store/tenant/pages/:key` — one published page of the storefront's own
@@ -16,18 +16,23 @@ import { redactLegalPlaceholders } from "../../../../../tenant-legal/redact";
  * or an unwritten key is a 404, the same answer for both, so the storefront
  * cannot tell an unpublished page from a missing one.
  *
- * The body is returned with its `{{ТОКЕН}}` placeholders resolved against this
- * tenant's own requisites (t12-legal-requisites, `tenant-legal/requisites.ts`)
- * — the ONE place this happens, so every visitor sees the same result. A
- * neighbouring tenant's requisites never reach this response: both the page
- * row and the requisites row are looked up by THIS tenant's id alone.
+* The body, title, SEO title and SEO description are all returned with their
+ * `{{ТОКЕН}}` placeholders resolved against this tenant's own requisites
+ * (t12-legal-requisites, `tenant-legal/requisites.ts`) — the ONE place this
+ * happens, so every visitor sees the same result. `title` used to be left out
+ * of that call (b09), so a page whose title carried a token (a shop's own
+ * name, say) showed the literal `{{ТОКЕН}}` in the browser tab and the `<h1>`
+ * forever, filled requisites or not. A neighbouring tenant's requisites never
+ * reach this response: both the page row and the requisites row are looked up
+ * by THIS tenant's id alone.
  *
- * A token with NO value no longer reaches the buyer at all: the block carrying
- * it is hidden (`tenant-legal/redact.ts`, b02-legal-and-redirects), and the
- * owner is told which pages lost blocks on the panel's «Реквизиты продавца»
- * screen. Until this task the placeholder was printed literally — on the live
- * shop that was 42 visible `{{ТОКЕНОВ}}` on `/ru/pages/contacts` and 46 in the
- * offer (`artifacts/q03-gap-recheck/gap-recheck.md` §3).
+ * A token with NO value does not reach the buyer at all (b02): in the body the
+ * BLOCK carrying it is hidden, in a one-line field (title, SEO) the token is
+ * dropped from the line — `tenant-legal/redact.ts` — and the owner is told
+ * which pages lost blocks on the panel's «Реквизиты продавца» screen. Until
+ * these two tasks the placeholder was printed literally: on the live shop that
+ * was 42 visible `{{ТОКЕНОВ}}` on `/ru/pages/contacts` and 46 in the offer
+ * (`artifacts/q03-gap-recheck/gap-recheck.md` §3).
  */
 export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req);
@@ -53,5 +58,15 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
 
   const redacted = redactLegalPlaceholders(dto.body, values);
 
-  res.json({ page: { ...dto, body: redacted.body } });
+  res.json({
+    page: {
+      ...dto,
+      title: redactLegalInline(dto.title, values),
+      body: redacted.body,
+      seo_title: dto.seo_title ? redactLegalInline(dto.seo_title, values) : dto.seo_title,
+      seo_description: dto.seo_description
+        ? redactLegalInline(dto.seo_description, values)
+        : dto.seo_description,
+    },
+  });
 };

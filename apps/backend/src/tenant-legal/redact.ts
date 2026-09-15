@@ -229,3 +229,33 @@ export const redactLegalPlaceholders = (
 
   return { body: body_.trim(), hidden };
 };
+
+/**
+ * The same rule for a ONE-LINE field — a page title, an SEO title, a meta
+ * description (b09 resolves placeholders in all three; b02 decides what an
+ * unfilled one does there).
+ *
+ * There is no block to hide in a line, and hiding the line would leave a page
+ * with no title at all, so the token is dropped from it and the seam is tidied:
+ * doubled spaces collapse, and a separator left dangling at either end
+ * (« — », «,», «:», «|») goes with it. «Оферта {{ФИО_ИП}}» reads «Оферта», not
+ * «Оферта {{ФИО_ИП}}» and not "".
+ */
+export const redactLegalInline = (
+  text: string,
+  values: Record<string, string | null | undefined>,
+): string => {
+  const filled = resolveLegalPlaceholders(text, values);
+
+  if (tokensInText(filled).length === 0) {
+    return filled;
+  }
+
+  return filled
+    .replace(/`?\{\{[^}]+\}\}`?/g, (match) => (tokensInText(match).length ? "" : match))
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\s+([,.;:!?])/g, "$1")
+    .replace(/^[\s\-–—,;:|]+/, "")
+    .replace(/[\s\-–—,;:|]+$/, "")
+    .trim();
+};

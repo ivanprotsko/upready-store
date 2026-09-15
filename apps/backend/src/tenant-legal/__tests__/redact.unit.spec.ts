@@ -1,4 +1,4 @@
-import { redactLegalPlaceholders } from "../redact";
+import { redactLegalInline, redactLegalPlaceholders } from "../redact";
 import { valuesFromRequisites, type RequisitesRow } from "../requisites";
 
 /**
@@ -144,5 +144,26 @@ describe("redactLegalPlaceholders", () => {
     expect(result.body).not.toContain("718-01-23");
     expect(result.body).toContain("| Email | shop@example.ru |");
     expect(result.hidden).toBe(1);
+  });
+});
+
+describe("redactLegalInline", () => {
+  const empty = (text: string) => redactLegalInline(text, valuesFromRequisites(EMPTY_ROW, "shop.example"));
+  const filled = (text: string) => redactLegalInline(text, valuesFromRequisites(FILLED_ROW, "shop.example"));
+
+  it("drops an unfilled token from a title and tidies the seam", () => {
+    expect(empty("Публичная оферта {{ФИО_ИП}}")).toBe("Публичная оферта");
+    expect(empty("Оферта — {{ФИО_ИП}}")).toBe("Оферта");
+    expect(empty("{{ФИО_ИП}}: контакты")).toBe("контакты");
+    expect(empty("Магазин {{ФИО_ИП}} — контакты")).toBe("Магазин — контакты");
+  });
+
+  it("substitutes a filled one, exactly as before", () => {
+    expect(filled("Публичная оферта {{ФИО_ИП}}")).toBe("Публичная оферта Черкашина Оксана Сергеевна");
+  });
+
+  it("leaves a line with no tokens untouched, including a foreign one", () => {
+    expect(empty("Контакты и реквизиты")).toBe("Контакты и реквизиты");
+    expect(empty("Девиз: {{ДЕВИЗ_МАГАЗИНА}}")).toBe("Девиз: {{ДЕВИЗ_МАГАЗИНА}}");
   });
 });
