@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 85,
+  "action": "status-set",
+  "ts": "2026-09-15T21:26:06+08:00",
+  "status": "2026-09-15 21:26 WITA: штаб — волна 5 идёт (f18, b01, b03, r03 в работе, c01 составитель, b04 в очереди на ветке -fill после коллизии с PR #35), движок: постоянные headless-сессии (68ed7c9) и гвард «ветка уже несёт PR» (abc8b07), диспетчер pid 78336, Monitor b9wqctoa3; dev = origin"
+}

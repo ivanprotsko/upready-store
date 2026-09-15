@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 87,
+  "action": "status-set",
+  "ts": "2026-09-15T22:40:03+08:00",
+  "status": "2026-09-15 22:40 WITA: штаб — замечание Ивана 22:31 по UI выполнено (коммит 696b44ae: карточка законченной задачи = сводка + статистика сессии, форма read-only без RUN); волна 5: b01/b03 accepting (PR #57/#58), b04 pr_open #59, r03 pr_open #56 после раунда 2, b02/b06/d05 running, d06/b05 queued; c01-wave5-composer выдал artifacts/c01-wave5-composer — задачи ещё не заведены"
+}

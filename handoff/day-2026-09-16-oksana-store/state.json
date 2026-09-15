@@ -3,9 +3,9 @@
     "paused": false,
     "limitUntil": null,
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-15T14:42:19.930Z",
-    "pid": 17270,
-    "ticks": 1382,
+    "lastTick": "2026-09-15T15:40:33.559Z",
+    "pid": 48766,
+    "ticks": 1439,
     "allTerminalTicks": 0
   },
   "tasks": {
@@ -2060,9 +2060,16 @@
       "finishedAt": "2026-09-15T14:22:20.597Z"
     },
     "b01-owner-numbers": {
-      "status": "accepting",
+      "status": "merged",
       "attempt": 1,
-      "artifacts": [],
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b01-owner-numbers-1/integration-owner-numbers-green-on-branch.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b01-owner-numbers-1/integration-owner-numbers-RED-on-prefix-code.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b01-owner-numbers-1/integration-product-csv.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b01-owner-numbers-1/unit-product-csv.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b01-owner-numbers-1/unit-backend-all.txt",
+        "file:///Users/ivanprotsko/upready/.ai/resume/upready-store/2026-09-15-2241-3e9d609e.md"
+      ],
       "ws": "86feaba1-5ee1-4688-a1e7-350ca04408bb",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-numbers",
       "terminalId": "76de7fef-5e88-4ec0-8033-aa364c44968f",
@@ -2077,8 +2084,8 @@
       "pr": {
         "number": 57,
         "url": "https://github.com/ivanprotsko/upready-store/pull/57",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T14:39:41Z",
         "isDraft": false
       },
       "prOpenedAt": "2026-09-15T14:29:20.557Z",
@@ -2090,14 +2097,27 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b01-owner-numbers-1.findings.md",
           "startedAt": "2026-09-15T14:34:31.513Z",
           "session": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
-          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
-      ]
+      ],
+      "finishedAt": "2026-09-15T14:43:20.773Z"
     },
     "b03-shipping-zones-weight": {
-      "status": "accepting",
-      "attempt": 1,
-      "artifacts": [],
+      "status": "merged",
+      "attempt": 2,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-1/01-live-quote-two-regions.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-1/02-seam-tenants-shipping-methods.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-1/03-backend-unit-all.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-1/04-dev-baseline-same-failure.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-1/worker-frames-uncommitted/",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b03-shipping-zones-weight-1.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-2/integration-shipping-methods.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b03-shipping-zones-weight-2/unit-shipping-tariffs.txt",
+        "file:///Users/ivanprotsko/upready/.ai/resume/upready-store/2026-09-15-2259-3e9d609e.md"
+      ],
       "ws": "2dcd40f4-a482-417f-9556-fca32cc77eb2",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-zones-weight",
       "terminalId": "3d03103b-2b6d-4d07-8328-878b886f436c",
@@ -2112,11 +2132,11 @@
       "pr": {
         "number": 58,
         "url": "https://github.com/ivanprotsko/upready-store/pull/58",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T14:57:18Z",
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T14:31:21.946Z",
+      "prOpenedAt": "2026-09-15T14:47:20.780Z",
       "acceptance": [
         {
           "n": 1,
@@ -2125,14 +2145,45 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b03-shipping-zones-weight-1.findings.md",
           "startedAt": "2026-09-15T14:36:27.310Z",
           "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
-          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "REJECTED"
+        },
+        {
+          "n": 2,
+          "pid": 7429,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b03-shipping-zones-weight-2.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b03-shipping-zones-weight-2.findings.md",
+          "startedAt": "2026-09-15T14:54:35.982Z",
+          "session": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
-      ]
+      ],
+      "fixStartedAt": "2026-09-15T14:46:24.101Z",
+      "fixRelaunched": false,
+      "finishedAt": "2026-09-15T14:59:39.760Z"
     },
     "b04-product-attributes": {
-      "status": "pr_open",
-      "attempt": 2,
-      "artifacts": [],
+      "status": "merged",
+      "attempt": 3,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-1.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-1/unit-parser.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-1/backfill-rerun-idempotent.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-1/backfill-rerun-report.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-1/pdp-castor-oil-stand.html",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-2/01-backfill-rerun-idempotent.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-2/02-backfill-report.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-2/03-parser-unit.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-2/04-merge-tree-conflict.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-2/05-pdp-block-measured.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-3/unit-parser.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b04-product-attributes-3/pdp-castor-oil-stand.html",
+        "file:///Users/ivanprotsko/upready/.ai/resume/upready-store/2026-09-15-2321-3e9d609e.md"
+      ],
       "ws": "39a1ac79-e663-4790-ba41-804fc4a3ff9e",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-attributes-fill",
       "terminalId": "27133a52-d8ea-4d14-9b88-fb5bd0581136",
@@ -2140,22 +2191,59 @@
       "startedAt": "2026-09-15T13:05:50.772Z",
       "nudges": 0,
       "relaunched": false,
-      "error": null,
+      "error": "приёмка отклонила 2 раз(а) — смотри /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.findings.md",
       "force": false,
       "pr": {
         "number": 59,
         "url": "https://github.com/ivanprotsko/upready-store/pull/59",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T15:20:56Z",
         "isDraft": false
       },
-      "finishedAt": "2026-09-15T13:07:43.490Z",
+      "finishedAt": "2026-09-15T15:22:53.234Z",
       "lastScreen": "cts/docs/b04-product-attributes/report.md && IVAN_OK=1 git commit -q -m \n     \"docs(product-attributes): проверки пересняты после слияния dev (b04-product-attributes)\" -- \n     artifacts/docs/b04-product-attributes/report.md && git log --oneline -1 && git push -u origin feat/day16-…\n\n✶ Tomfoolering… (37m 3s · ↓ 111.3k tokens)\n  ⎿  Tip: Use /clear to start fresh when switching topics and free up context\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-product-attributes-fill (feat/day16-product-attributes-fill) | Opus 5 | ctx 70%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
       "lastScreenAt": "2026-09-15T14:35:25.243Z",
-      "prOpenedAt": "2026-09-15T14:36:21.342Z"
+      "prOpenedAt": "2026-09-15T15:13:00.144Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 66516,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-1.findings.md",
+          "startedAt": "2026-09-15T14:43:33.078Z",
+          "session": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "REJECTED"
+        },
+        {
+          "n": 2,
+          "pid": 24028,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.findings.md",
+          "startedAt": "2026-09-15T14:56:39.185Z",
+          "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "REJECTED"
+        },
+        {
+          "n": 3,
+          "pid": 95340,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-3.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-3.findings.md",
+          "startedAt": "2026-09-15T15:19:09.253Z",
+          "session": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
+        }
+      ],
+      "fixStartedAt": "2026-09-15T15:12:59.340Z",
+      "fixRelaunched": false
     },
     "r03-test-methods-pilot": {
-      "status": "pr_open",
+      "status": "merged",
       "attempt": 3,
       "artifacts": [
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-1.findings.md",
@@ -2167,7 +2255,18 @@
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-2/02-verify-all.txt",
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-2/03-unit.txt",
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-2/04-run-all-strict.txt",
-        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-2.findings.md"
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-2.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-3/01-run-all.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-3/02-verify-all.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-3/03-unit.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-3/04-run-all-strict.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-3/05-merge-tree-conflict.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-verify-all.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-run-all.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-unit-tests.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-r03-test-methods-pilot-4/tm-via-symlink-path.txt",
+        "file:///Users/ivanprotsko/upready/.ai/resume/upready-store/2026-09-15-2310-3e9d609e.md"
       ],
       "ws": "07c4b2c5-430a-4558-ba4d-f3aa6af5f504",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-test-methods-pilot",
@@ -2176,18 +2275,18 @@
       "startedAt": "2026-09-15T13:08:22.026Z",
       "nudges": 0,
       "relaunched": false,
-      "error": null,
+      "error": "приёмка отклонила 3 раз(а) — смотри /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.findings.md",
       "force": false,
       "lastScreen": "ods/__tests__/ … (7s)\n     \n⏺ Background command \"Полный прогон трёх гейтов\" completed (exit code 0)\n\n⏺ Background command \"Типы витрины\" completed (exit code 0)\n\n⏺ Background command \"Типы бэкенда\" completed (exit code 0)\n     (ctrl+b to run in background)\n     \n✳ Reticulating… (45m 58s · ↓ 116.6k tokens)\n  ⎿  Tip: Use /clear to start fresh when switching topics and free up context\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-test-methods-pilot (feat/day16-test-methods-pilot) | Opus 5 | ctx 74%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · gh auth login for PR status · ← 4 agents",
       "lastScreenAt": "2026-09-15T13:55:13.084Z",
       "pr": {
         "number": 56,
         "url": "https://github.com/ivanprotsko/upready-store/pull/56",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T15:09:52Z",
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T14:22:36.074Z",
+      "prOpenedAt": "2026-09-15T14:57:29.517Z",
       "acceptance": [
         {
           "n": 1,
@@ -2210,13 +2309,36 @@
           "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
           "sessionReleased": true,
           "verdict": "REJECTED"
+        },
+        {
+          "n": 3,
+          "pid": 120,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.findings.md",
+          "startedAt": "2026-09-15T14:46:39.196Z",
+          "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "REJECTED"
+        },
+        {
+          "n": 4,
+          "pid": 78887,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-4.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-4.findings.md",
+          "startedAt": "2026-09-15T15:08:21.504Z",
+          "session": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
       ],
-      "fixStartedAt": "2026-09-15T14:21:34.506Z",
-      "fixRelaunched": false
+      "fixStartedAt": "2026-09-15T14:57:26.499Z",
+      "fixRelaunched": false,
+      "finishedAt": "2026-09-15T15:11:53.022Z"
     },
     "b02-legal-and-redirects": {
-      "status": "running",
+      "status": "accepting",
       "attempt": 1,
       "artifacts": [],
       "ws": "4146fc92-38db-40b8-be9f-87153a2524da",
@@ -2228,11 +2350,30 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "_OK=1; node -e '\n     const fs=require(\"fs\");\n     const p=\"/Users/ivanprotsko/upready/.private/upready-store-day-2026-09-16/cherkashino-owner.md\";\n     const lines=fs.readFileSync(p,\"utf8\").split(\"\\n\");\n     const email=lines.find(l=>/^\\s*-\\s*(E-?mail|Почта|Логин)\\s*:/i.test(l));\n     const pass=lines…\n\n⏺ Background command \"Установить зависимости\" completed (exit code 0)\n\n✢ Working… (25m 38s · ↓ 69.2k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-legal-and-redirects (fix/day16-legal-and-redirects) | Opus 5 | ctx 77%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T14:42:25.572Z"
+      "lastScreen": "Следующее предупреждение через +40k. Off: env TURNCOST_OK=1. [turn-cost-guard]\n\n⏺ Пушу ветку и открываю PR.\n\n⏺ Пуш ветки\n  ⎿  $ export MEMORY_FIRST_OK=1; git push -u origin fix/day16-legal-and-redirects > /tmp/claude-502/push.log 2>&1; echo \n     \"push rc=$?\"; tail -3 /tmp/claude-502/push.log\n\n✻ Working… (1h 19m 51s · ↓ 149.4k tokens)\n  ⎿  Tip: Use /clear to start fresh when switching topics and free up context\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-legal-and-redirects (fix/day16-legal-and-redirects) | Opus 5 | ctx 64%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:36:39.126Z",
+      "pr": {
+        "number": 63,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/63",
+        "state": "OPEN",
+        "mergedAt": null,
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-15T15:37:34.209Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 30768,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b02-legal-and-redirects-1.findings.md",
+          "startedAt": "2026-09-15T15:40:44.464Z",
+          "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+        }
+      ]
     },
     "b06-order-tracking": {
-      "status": "running",
+      "status": "pr_open",
       "attempt": 1,
       "artifacts": [],
       "ws": "69a9aa49-1a1a-4659-9367-bd5ef01f1d57",
@@ -2244,8 +2385,16 @@
       "relaunched": false,
       "error": null,
       "force": false,
-      "lastScreen": "alhost:9066/health)\n     p=$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 http://localhost:5166/)\n     s=$(curl -s -o /dev/nul…\n\n⏺ Background command \"Start pnpm install in background\" completed (exit code 0)\n\n⏺ Background command \"Start backend dev server\" completed (exit code 0)\n\n⏺ Background command \"Start storefront and panel dev servers\" completed (exit code 0)\n\n✽ Billowing… (5m 50s · ↓ 19.2k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-order-tracking/backend (feat/day16-order-tracking) | Opus 5 | ctx 83%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T14:42:29.912Z"
+      "lastScreen": "f7dd2-d35c-442d-9636-3c55da1eccf7-feat-day16-or\n     der-tracking/cc1dfe2b-fdbe-46a7-9699-80b54721c29a/scratchpad\n     A=/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-tracking/artifacts/doc\n     s/b06-or… (1m 40s · 6 lines)\n     (ctrl+b to run in background)\n\n✻ Billowing… (57m 33s · ↓ 134.0k tokens)\n  ⎿  Tip: Use /clear to start fresh when switching topics and free up context\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-order-tracking (feat/day16-order-tracking) | Opus 5 | ctx 63%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:34:11.897Z",
+      "pr": {
+        "number": 62,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/62",
+        "state": "OPEN",
+        "mergedAt": null,
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-15T15:35:38.917Z"
     },
     "c01-wave5-composer": {
       "status": "done",
@@ -2269,19 +2418,31 @@
       "note": "RESULT: OK Волна 5 собрана: 38 непринятых пунктов из 24 приёмок, q03 и HANDOFF разложены в 10 пачек b07–b16 (приоритеты 80–89) с промптами, 15 внешних блокеров в needs-ivan.md, таблица пункт→задача в "
     },
     "d05-deploy-mt-5": {
-      "status": "running",
+      "status": "done",
       "attempt": 1,
-      "artifacts": [],
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/report.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/health-final.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/health-pre.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/merged-prs.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/backend-boot.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/build-tail.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/rsync-stale-dryrun.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d05-deploy-mt-5/stale-on-host.txt"
+      ],
       "run": {
         "pid": 99969,
         "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/d05-deploy-mt-5-1.log",
         "startedAt": "2026-09-15T14:22:44.919Z",
         "session": "a31d45d4-5a13-46dc-8475-0a2492e22696",
-        "sessionPool": "run:deploy@/Users/ivanprotsko/upready/projects/upready-store"
+        "sessionPool": "run:deploy@/Users/ivanprotsko/upready/projects/upready-store",
+        "sessionReleased": true
       },
       "startedAt": "2026-09-15T14:22:44.919Z",
       "error": null,
-      "force": false
+      "force": false,
+      "finishedAt": "2026-09-15T14:51:32.424Z",
+      "note": "RESULT: OK деплой 1088507f (#50 f12 + #55 f18) — 5/5 URL + 5/5 карточек 200, бэкенд healthy с первого раза, дампы до/после сняты; находка: rsync без --delete не убирает файл, перенесённый f18 — три фи"
     },
     "d06-deploy-mt-6": {
       "status": "queued",
@@ -2289,14 +2450,67 @@
       "artifacts": []
     },
     "b05-reviews-import-live": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "done",
+      "attempt": 1,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/report.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/01-dry-run.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/02-live-run.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/03-verify-live.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/04-idempotency-dry-run.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-svechi-asd-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-multivarka-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/pdp-maz-asd-3-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/shots/panel-reviews-1280x900.png"
+      ],
+      "run": {
+        "pid": 64593,
+        "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/b05-reviews-import-live-1.log",
+        "startedAt": "2026-09-15T14:51:38.652Z",
+        "session": "5bd835a2-d219-4e3f-85c0-3a2e2d925963",
+        "sessionPool": "run:data@/Users/ivanprotsko/upready/projects/upready-store",
+        "sessionReleased": true
+      },
+      "startedAt": "2026-09-15T14:51:38.652Z",
+      "error": null,
+      "force": false,
+      "finishedAt": "2026-09-15T15:07:03.676Z",
+      "note": "RESULT: OK 304 отзыва (152 ru + 152 en) на 12 товарах живого cherkashino, было 0; дамп mt-medusa_mt-20260915-165414.sql.gz, витрина и панель показывают, 14 отзывов без товара — списком в отчёте"
     },
     "b07-store-api-isolation": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "accepting",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "3e92eb4d-6503-49f1-91ff-2b29a374fea8",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-store-api-isolation",
+      "terminalId": "6759451e-11d7-4c95-96fd-dc50adb5ff4b",
+      "launchedAt": "2026-09-15T14:43:40.141Z",
+      "startedAt": "2026-09-15T14:43:40.141Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "35 shell commands \n\n⏺ Останавливаю стенды по порту и запускаю сборочные проверки.\n\n⏺ Предупреждения линта в моих файлах\n  ⎿  $ grep -E '^/Users' /tmp/claude-502/b07-lint2.log | grep -E \n     'order-access|cart-scope|store-order-access|order-placed|middlewares|b07-' | sed 's|.*/apps/backend/||'\n\n✢ Computing… (48m 22s · ↓ 136.7k tokens)\n  ⎿  Tip: Use /clear to start fresh when switching topics and free up context\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-store-api-isolation (fix/day16-store-api-isolation) | Opus 5 | ctx 68%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:32:05.543Z",
+      "pr": {
+        "number": 61,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/61",
+        "state": "OPEN",
+        "mergedAt": null,
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-15T15:33:13.812Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 70577,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b07-store-api-isolation-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b07-store-api-isolation-1.findings.md",
+          "startedAt": "2026-09-15T15:36:47.003Z",
+          "session": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+        }
+      ]
     },
     "b08-seo-storefront": {
       "status": "queued",
@@ -2304,9 +2518,48 @@
       "artifacts": []
     },
     "b09-storefront-render": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "merged",
+      "attempt": 1,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/01-vitest.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/02-jest-tenant-legal.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/03-contacts-1280x900-worker-frame-uncommitted.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/04-live-measures.txt"
+      ],
+      "ws": "f31026c4-6ad3-48ce-94ef-49926a454850",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-storefront-render",
+      "terminalId": "e5569337-a369-4eff-ad56-2abb062a5315",
+      "launchedAt": "2026-09-15T14:56:49.213Z",
+      "startedAt": "2026-09-15T14:56:49.213Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "creenshot captured. Now let's run the full storefront build (typecheck + lint + build) and backend build check.\n\n  Ran 2 shell commands \n \n⏺ next build succeeds cleanly. Now backend build check:\n\n  Ran 1 shell command \n \n⏺ Both builds pass. Now let's finalize: write the report, commit, push, open PR.\n\n⏺ Running date \"+%Y-%m-%d %H:%M WITA\"\n  ⎿  $ date \"+%Y-%m-%d %H:%M WITA\"\n\n✽ Sprouting… (27m 19s · ↓ 64.1k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-storefront-render (fix/day16-storefront-render) | Sonnet 5 | ctx 72%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:24:12.320Z",
+      "pr": {
+        "number": 60,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/60",
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T15:35:50Z",
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-15T15:25:07.426Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 98501,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b09-storefront-render-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b09-storefront-render-1.findings.md",
+          "startedAt": "2026-09-15T15:30:07.558Z",
+          "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
+        }
+      ],
+      "finishedAt": "2026-09-15T15:37:35.710Z",
+      "compactSentAt": "2026-09-15T15:37:38.234Z"
     },
     "b10-panel-gaps": {
       "status": "queued",
@@ -2314,19 +2567,50 @@
       "artifacts": []
     },
     "b11-owner-labels": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "running",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "6f8efc2a-acec-46ce-9793-17e8dfa6b7bd",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-labels",
+      "terminalId": "c3abf094-b19c-4ab8-9d7e-11a1da4a905c",
+      "launchedAt": "2026-09-15T15:30:14.850Z",
+      "startedAt": "2026-09-15T15:30:14.850Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "method\n  sync).\n  \n⏺ Running cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-… · 39s\n  ⎿  $ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-labels/apps/backend\n     until curl -s -o /dev/null -w \"%{http_code}\" http://localhost:9211/health | grep -q 200; do sleep 3; done\n     echo \"up\" (39s)\n     (ctrl+b to run in background)\n\n✢ Philosophising… (10m 22s · ↓ 31.1k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-owner-labels/backend (fix/day16-owner-labels) | Sonnet 5 | ctx 79%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:40:39.915Z"
     },
     "b12-analytics-accuracy": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "running",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "411cb06c-564f-484e-a9c2-c718c622b97a",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-analytics-accuracy",
+      "terminalId": "0e91a2d6-f7d5-4730-b111-78d5d348fb15",
+      "launchedAt": "2026-09-15T15:36:55.032Z",
+      "startedAt": "2026-09-15T15:36:55.032Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "ompleted (exit code 0)\n     \n⏺ Background command \"Check install, start migration in background\" completed (exit code 0)\n     \n⏺ Background command \"Install with corepack pnpm\" completed (exit code 0)\n\n⏺ Background command \"Finish install (idempotent re-run)\" completed (exit code 0)\n     \n⏺ Background command \"Run db:migrate in background\" completed (exit code 0)\n\n✽ Quantumizing… (3m 44s · ↓ 14.3k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-analytics-accuracy/backend (fix/day16-analytics-accuracy) | Opus 5 | ctx 85%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T15:40:43.880Z"
     },
     "b13-locale-single-source": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "running",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "5adf5974-e0ab-4afd-8228-42dd58f8f5a4",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source",
+      "terminalId": "888f2e27-abdc-4752-9316-c2d3bcfdc37d",
+      "launchedAt": "2026-09-15T15:40:54.359Z",
+      "startedAt": "2026-09-15T15:40:54.359Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false
     },
     "b14-pages-legal-content": {
       "status": "queued",
@@ -2341,7 +2625,8 @@
     "b16-media-and-backup": {
       "status": "blocked",
       "attempt": 0,
-      "artifacts": []
+      "artifacts": [],
+      "error": "ждёт Ивана: бакет R2 (needs-ivan B2) и OK на удаление клонов баз upready_store_* (правило 9); снять — cmd launch b16-media-and-backup"
     }
   },
   "events": [
@@ -4160,23 +4445,413 @@
       "task": "b06-order-tracking",
       "type": "launched",
       "msg": "ws 69a9aa49-1a1a-4659-9367-bd5ef01f1d57 · opus/high · feat/day16-order-tracking"
+    },
+    {
+      "ts": "2026-09-15T14:43:21.539Z",
+      "task": "b01-owner-numbers",
+      "type": "worker-closed",
+      "msg": "терминал 76de7fef-5e88-4ec0-8033-aa364c44968f закрыт после merge"
+    },
+    {
+      "ts": "2026-09-15T14:43:21.539Z",
+      "task": "b01-owner-numbers",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/57 (приёмка раунд 1)"
+    },
+    {
+      "ts": "2026-09-15T14:43:33.078Z",
+      "task": "b04-product-attributes",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #59, pid 66516"
+    },
+    {
+      "ts": "2026-09-15T14:43:40.141Z",
+      "task": "b07-store-api-isolation",
+      "type": "launched",
+      "msg": "ws 3e92eb4d-6503-49f1-91ff-2b29a374fea8 · opus/high · fix/day16-store-api-isolation"
+    },
+    {
+      "ts": "2026-09-15T14:46:20.767Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "rejected",
+      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b03-shipping-zones-weight-1.findings.md"
+    },
+    {
+      "ts": "2026-09-15T14:46:24.101Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "fix-sent",
+      "msg": "в живой терминал 3d03103b-2b6d-4d07-8328-878b886f436c"
+    },
+    {
+      "ts": "2026-09-15T14:46:39.196Z",
+      "task": "r03-test-methods-pilot",
+      "type": "accept-started",
+      "msg": "раунд 3, PR #56, pid 120"
+    },
+    {
+      "ts": "2026-09-15T14:47:20.780Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/58"
+    },
+    {
+      "ts": "2026-09-15T14:48:21.635Z",
+      "task": "b04-product-attributes",
+      "type": "rejected",
+      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-1.findings.md"
+    },
+    {
+      "ts": "2026-09-15T14:48:24.418Z",
+      "task": "b04-product-attributes",
+      "type": "fix-sent",
+      "msg": "в живой терминал 27133a52-d8ea-4d14-9b88-fb5bd0581136"
+    },
+    {
+      "ts": "2026-09-15T14:49:22.371Z",
+      "task": "b04-product-attributes",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/59"
+    },
+    {
+      "ts": "2026-09-15T14:51:32.427Z",
+      "task": "d05-deploy-mt-5",
+      "type": "done",
+      "msg": "RESULT: OK деплой 1088507f (#50 f12 + #55 f18) — 5/5 URL + 5/5 карточек 200, бэкенд healthy с первого раза, дампы до/после сняты; находка: rsync без --delete не убирает файл, перенесённый f18 — три фи"
+    },
+    {
+      "ts": "2026-09-15T14:51:38.652Z",
+      "task": "b05-reviews-import-live",
+      "type": "launched",
+      "msg": "claude -p pid 64593 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store"
+    },
+    {
+      "ts": "2026-09-15T14:52:22.209Z",
+      "task": "r03-test-methods-pilot",
+      "type": "rejected",
+      "msg": "раунд 3: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.findings.md"
+    },
+    {
+      "ts": "2026-09-15T14:52:22.209Z",
+      "task": "r03-test-methods-pilot",
+      "type": "needs-ivan",
+      "msg": "приёмка отклонила 3 раз(а) — смотри /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-r03-test-methods-pilot-3.findings.md"
+    },
+    {
+      "ts": "2026-09-15T14:54:35.982Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "accept-started",
+      "msg": "раунд 2, PR #58, pid 7429"
+    },
+    {
+      "ts": "2026-09-15T14:56:39.185Z",
+      "task": "b04-product-attributes",
+      "type": "accept-started",
+      "msg": "раунд 2, PR #59, pid 24028"
+    },
+    {
+      "ts": "2026-09-15T14:56:49.217Z",
+      "task": "b09-storefront-render",
+      "type": "launched",
+      "msg": "ws f31026c4-6ad3-48ce-94ef-49926a454850 · sonnet/medium · fix/day16-storefront-render"
+    },
+    {
+      "ts": "2026-09-15T14:57:26.494Z",
+      "task": "r03-test-methods-pilot",
+      "type": "fix-sent",
+      "msg": "в живой терминал 3757c77d-fa9b-453d-891f-9f2d845eba8c"
+    },
+    {
+      "ts": "2026-09-15T14:57:26.500Z",
+      "type": "command",
+      "task": "r03-test-methods-pilot",
+      "msg": "fix"
+    },
+    {
+      "ts": "2026-09-15T14:57:29.517Z",
+      "task": "r03-test-methods-pilot",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/56"
+    },
+    {
+      "ts": "2026-09-15T14:59:40.904Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "worker-closed",
+      "msg": "терминал 3d03103b-2b6d-4d07-8328-878b886f436c закрыт после merge"
+    },
+    {
+      "ts": "2026-09-15T14:59:40.910Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/58 (приёмка раунд 2)"
+    },
+    {
+      "ts": "2026-09-15T15:07:03.676Z",
+      "task": "b05-reviews-import-live",
+      "type": "done",
+      "msg": "RESULT: OK 304 отзыва (152 ru + 152 en) на 12 товарах живого cherkashino, было 0; дамп mt-medusa_mt-20260915-165414.sql.gz, витрина и панель показывают, 14 отзывов без товара — списком в отчёте"
+    },
+    {
+      "ts": "2026-09-15T15:07:52.448Z",
+      "task": "b04-product-attributes",
+      "type": "rejected",
+      "msg": "раунд 2: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.findings.md"
+    },
+    {
+      "ts": "2026-09-15T15:07:52.449Z",
+      "task": "b04-product-attributes",
+      "type": "needs-ivan",
+      "msg": "приёмка отклонила 2 раз(а) — смотри /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b04-product-attributes-2.findings.md"
+    },
+    {
+      "ts": "2026-09-15T15:08:21.504Z",
+      "task": "r03-test-methods-pilot",
+      "type": "accept-started",
+      "msg": "раунд 4, PR #56, pid 78887"
+    },
+    {
+      "ts": "2026-09-15T15:11:55.454Z",
+      "task": "r03-test-methods-pilot",
+      "type": "worker-closed",
+      "msg": "терминал 3757c77d-fa9b-453d-891f-9f2d845eba8c закрыт после merge"
+    },
+    {
+      "ts": "2026-09-15T15:11:55.457Z",
+      "task": "r03-test-methods-pilot",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/56 (приёмка раунд 4)"
+    },
+    {
+      "ts": "2026-09-15T15:12:59.338Z",
+      "task": "b04-product-attributes",
+      "type": "fix-sent",
+      "msg": "в живой терминал 27133a52-d8ea-4d14-9b88-fb5bd0581136"
+    },
+    {
+      "ts": "2026-09-15T15:12:59.340Z",
+      "type": "command",
+      "task": "b04-product-attributes",
+      "msg": "fix"
+    },
+    {
+      "ts": "2026-09-15T15:13:00.144Z",
+      "task": "b04-product-attributes",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/59"
+    },
+    {
+      "ts": "2026-09-15T15:19:09.258Z",
+      "task": "b04-product-attributes",
+      "type": "accept-started",
+      "msg": "раунд 3, PR #59, pid 95340"
+    },
+    {
+      "ts": "2026-09-15T15:22:57.652Z",
+      "task": "b04-product-attributes",
+      "type": "worker-closed",
+      "msg": "терминал 27133a52-d8ea-4d14-9b88-fb5bd0581136 закрыт после merge"
+    },
+    {
+      "ts": "2026-09-15T15:22:57.653Z",
+      "task": "b04-product-attributes",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/59 (приёмка раунд 3)"
+    },
+    {
+      "ts": "2026-09-15T15:25:07.426Z",
+      "task": "b09-storefront-render",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/60"
+    },
+    {
+      "ts": "2026-09-15T15:30:07.558Z",
+      "task": "b09-storefront-render",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #60, pid 98501"
+    },
+    {
+      "ts": "2026-09-15T15:30:14.850Z",
+      "task": "b11-owner-labels",
+      "type": "launched",
+      "msg": "ws 6f8efc2a-acec-46ce-9793-17e8dfa6b7bd · sonnet/medium · fix/day16-owner-labels"
+    },
+    {
+      "ts": "2026-09-15T15:33:13.813Z",
+      "task": "b07-store-api-isolation",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/61"
+    },
+    {
+      "ts": "2026-09-15T15:34:19.598Z",
+      "task": "t04-shipping-tariffs",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 11354 19:19:25 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-t | 11455 19:19:25 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-tariff"
+    },
+    {
+      "ts": "2026-09-15T15:34:20.014Z",
+      "task": "t09-reviews",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 57142 16:58:57 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-reviews/ap | 57314 16:58:57 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-reviews/node_mo"
+    },
+    {
+      "ts": "2026-09-15T15:34:20.960Z",
+      "task": "t12-legal-requisites",
+      "type": "orphans-killed",
+      "msg": "11 сирот (merged): 8829 11:47:11 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 26105 11:11:59 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 27529 11:57:40 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-legal-requ | 29108 12:10:02 node /Users/ivanprotsko/upready/"
+    },
+    {
+      "ts": "2026-09-15T15:34:21.601Z",
+      "task": "t13-customers-screen",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 44452 16:29:18 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-customers- | 44472 16:29:17 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-customers-scree"
+    },
+    {
+      "ts": "2026-09-15T15:34:22.000Z",
+      "task": "t15-product-attributes",
+      "type": "orphans-killed",
+      "msg": "3 сирот (merged): 55709 14:56:26 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at | 55796 14:56:26 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-attribu | 65032 13:46:56 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at"
+    },
+    {
+      "ts": "2026-09-15T15:34:22.136Z",
+      "task": "f03-guest-order-not-in-account",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 2873 11:25:20 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-guest-order | 88760 10:15:42 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-guest-order"
+    },
+    {
+      "ts": "2026-09-15T15:34:23.942Z",
+      "task": "f04-address-without-city",
+      "type": "orphans-killed",
+      "msg": "3 сирот (merged): 35837 11:55:59 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-address-fie | 60046 12:18:22 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-address-fie | 60136 12:18:20 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96"
+    },
+    {
+      "ts": "2026-09-15T15:34:24.092Z",
+      "task": "f05-checkout-legal-stubs",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 1361 11:36:20 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-checkout-le | 2445 12:13:12 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-checkout-le"
+    },
+    {
+      "ts": "2026-09-15T15:34:25.459Z",
+      "task": "f07-page-markdown-tables",
+      "type": "orphans-killed",
+      "msg": "1 сирот (merged): 77970 11:29:26 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-markdo"
+    },
+    {
+      "ts": "2026-09-15T15:34:26.352Z",
+      "task": "f09-price-editor-currencies",
+      "type": "orphans-killed",
+      "msg": "5 сирот (merged): 65968 08:04:38 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-edito | 66176 08:04:33 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96 | 66369 08:04:29 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-cur | 79084 08:01:42 node /Users/ivanprotsko/upready"
+    },
+    {
+      "ts": "2026-09-15T15:34:27.697Z",
+      "task": "f12-owner-raw-keys",
+      "type": "orphans-killed",
+      "msg": "3 сирот (merged): 12369 03:13:20 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-raw-k | 88861 06:45:52 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-owner-raw-k | 93491 06:33:11 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96"
+    },
+    {
+      "ts": "2026-09-15T15:34:27.827Z",
+      "task": "f13-page-editor-english",
+      "type": "orphans-killed",
+      "msg": "2 сирот (merged): 94489 07:20:02 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-editor | 98307 07:32:02 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-editor"
+    },
+    {
+      "ts": "2026-09-15T15:34:28.901Z",
+      "task": "f14-no-password-reset",
+      "type": "orphans-killed",
+      "msg": "7 сирот (merged): 1976 07:06:15 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-no-password | 6825 07:05:25 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-no-password | 26633 07:04:41 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-no-password | 73930 06:48:09 node /Users/ivanprotsko/upready/w"
+    },
+    {
+      "ts": "2026-09-15T15:34:29.026Z",
+      "task": "f15-overview-empty",
+      "type": "orphans-killed",
+      "msg": "3 сирот (merged): 30377 06:40:40 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-overview-em | 32002 06:51:32 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-overview-em | 39329 06:50:33 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-overview-em"
+    },
+    {
+      "ts": "2026-09-15T15:34:30.639Z",
+      "task": "f16-category-image-not-shown",
+      "type": "orphans-killed",
+      "msg": "5 сирот (merged): 1693 06:30:53 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-category-im | 1742 06:30:52 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-category-image-n | 26947 06:41:29 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-category-im | 52118 06:24:17 /opt/homebrew/Cellar/node/26.8.1/"
+    },
+    {
+      "ts": "2026-09-15T15:34:31.807Z",
+      "task": "b03-shipping-zones-weight",
+      "type": "orphans-killed",
+      "msg": "6 сирот (merged): 1744 47:31 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96 | 1753 47:31 /opt/homebrew/Cellar/node/26.8.1/bin/node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-96 | 7460 01:36:46 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-shipping-z | 40059 01:34:52 node /Users/ivanprotsko/upready/worktree"
+    },
+    {
+      "ts": "2026-09-15T15:34:33.540Z",
+      "task": "b04-product-attributes",
+      "type": "orphans-killed",
+      "msg": "5 сирот (merged): 13833 01:26:32 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at | 47453 01:08:43 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at | 47457 01:08:43 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-product-at | 47473 01:08:43 /Users/ivanprotsko/upready/work"
+    },
+    {
+      "ts": "2026-09-15T15:35:38.917Z",
+      "task": "b06-order-tracking",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/62"
+    },
+    {
+      "ts": "2026-09-15T15:36:47.003Z",
+      "task": "b07-store-api-isolation",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #61, pid 70577"
+    },
+    {
+      "ts": "2026-09-15T15:36:55.032Z",
+      "task": "b12-analytics-accuracy",
+      "type": "launched",
+      "msg": "ws 411cb06c-564f-484e-a9c2-c718c622b97a · opus/high · fix/day16-analytics-accuracy"
+    },
+    {
+      "ts": "2026-09-15T15:37:34.209Z",
+      "task": "b02-legal-and-redirects",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/63"
+    },
+    {
+      "ts": "2026-09-15T15:37:36.595Z",
+      "task": "b09-storefront-render",
+      "type": "orphans-killed",
+      "msg": "2 процессов под worktree (merged): 14314 05:39 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-storefront- | 41146 32:31 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-storefront-"
+    },
+    {
+      "ts": "2026-09-15T15:37:38.234Z",
+      "task": "b09-storefront-render",
+      "type": "compact-sent",
+      "msg": "терминал e5569337-a369-4eff-ad56-2abb062a5315, ветка fix/day16-storefront-render"
+    },
+    {
+      "ts": "2026-09-15T15:37:38.234Z",
+      "task": "b09-storefront-render",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/60 (приёмка раунд 1)"
+    },
+    {
+      "ts": "2026-09-15T15:40:44.464Z",
+      "task": "b02-legal-and-redirects",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #63, pid 30768"
+    },
+    {
+      "ts": "2026-09-15T15:40:54.359Z",
+      "task": "b13-locale-single-source",
+      "type": "launched",
+      "msg": "ws 5adf5974-e0ab-4afd-8228-42dd58f8f5a4 · sonnet/medium · fix/day16-locale-single-source"
     }
   ],
   "sessions": {
     "accept@/Users/ivanprotsko/upready/projects/upready-store": [
       {
-        "id": "3e9d609e-ba8f-443f-85c6-f224e9aa36b7",
-        "uses": 4,
-        "createdAt": "2026-09-15T13:58:10.888Z",
-        "inUse": true,
-        "lastUsed": "2026-09-15T14:34:31.509Z"
-      },
-      {
         "id": "dbb26141-94f9-4a03-a344-91ff43b11523",
-        "uses": 2,
+        "uses": 6,
         "createdAt": "2026-09-15T14:16:36.924Z",
         "inUse": true,
-        "lastUsed": "2026-09-15T14:36:27.309Z"
+        "lastUsed": "2026-09-15T15:40:44.462Z"
+      },
+      {
+        "id": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
+        "uses": 1,
+        "createdAt": "2026-09-15T15:36:47.001Z",
+        "inUse": true,
+        "lastUsed": "2026-09-15T15:36:47.001Z"
       }
     ],
     "run:deploy@/Users/ivanprotsko/upready/projects/upready-store": [
@@ -4184,8 +4859,17 @@
         "id": "a31d45d4-5a13-46dc-8475-0a2492e22696",
         "uses": 1,
         "createdAt": "2026-09-15T14:22:44.883Z",
-        "inUse": true,
+        "inUse": false,
         "lastUsed": "2026-09-15T14:22:44.883Z"
+      }
+    ],
+    "run:data@/Users/ivanprotsko/upready/projects/upready-store": [
+      {
+        "id": "5bd835a2-d219-4e3f-85c0-3a2e2d925963",
+        "uses": 1,
+        "createdAt": "2026-09-15T14:51:38.646Z",
+        "inUse": false,
+        "lastUsed": "2026-09-15T14:51:38.646Z"
       }
     ]
   }
