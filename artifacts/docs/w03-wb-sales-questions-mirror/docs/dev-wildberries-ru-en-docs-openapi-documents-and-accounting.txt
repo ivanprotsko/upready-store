@@ -1,0 +1,1515 @@
+URL: https://dev.wildberries.ru/en/docs/openapi/documents-and-accounting
+FINAL: https://dev.wildberries.ru/en/docs/openapi/documents-and-accounting#tag/documents/operation/postV1DocumentsDownloadAll
+TITLE: Documentation — WB API
+
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+More
+Sign In
+General
+Item Management
+FBS Orders
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Rates
+Analytics and Data
+Reports
+Documents and Accounting
+Balance
+Financial Reports
+Documents
+GET
+Documents Categories
+/api/v1/documents/categories
+GET
+Documents List
+/api/v1/documents/list
+GET
+Get Document
+/api/v1/documents/download
+POST
+Get Documents
+/api/v1/documents/download/all
+Documents and Accounting
+
+View seller balance, financial reports, and documents.
+
+Balance
+To access the methods, use a token for the Finance category
+
+To view your current balance, use the seller balance method.
+
+Get Seller Balance
+/api/v1/account/balance
+GET
+https://finance-api.wildberries.ru/api/v1/account/balance
+Method description
+
+Balance widget data on the main page of the sellers portal.
+
+
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	24 h	1 request	24 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"currency": "RUB",
+"current": 10196.21,
+"for_withdraw": 6395.8
+}
+Financial Reports
+To access the methods, use a token for the Finance category
+
+Methods for getting:
+
+Sales reports list and details for the reports by IDs and period
+Acquiring expenses reports list and details for the reports by IDs and period. The methods are available only for sellers from Russia
+You can save the report in Google Sheets
+Sales Reports List
+/api/finance/v1/sales-reports/list
+POST
+https://finance-api.wildberries.ru/api/finance/v1/sales-reports/list
+Method description
+Method is available by Personal token, Service token
+
+The method returns sales reports list in the report table format.
+
+The list contains data since January 29, 2024.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	1 request	1 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+dateFrom
+required
+	
+string
+
+Report start date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-25T00:00:00
+
+dateTo
+required
+	
+string
+
+Report end date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-20T00:00:00
+
+limit	
+integer <= 1000
+Default: 1000
+
+Number of reports in the response
+
+
+offset	
+integer
+Default: 0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+
+period	
+string
+Default: "weekly"
+Enum: "daily" "weekly"
+
+Report periodicity:
+
+weekly
+daily
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"dateFrom": "2026-03-17",
+"dateTo": "2026-03-20",
+"limit": 211,
+"offset": 345,
+"period": "daily"
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"reportId": 307401554,
+"sellerFinanceName": "ИП Кружинин В. Р.",
+"dateFrom": "2026-03-16",
+"dateTo": "2026-03-22",
+"createDate": "2026-03-23",
+"currency": "RUB",
+"reportType": 1,
+"retailAmountSum": "258",
+"forPaySum": "183.79",
+"avgSalePercent": 0,
+"deliveryServiceSum": "2558.47",
+"paidStorageSum": "626.84",
+"paidAcceptanceSum": "243.81",
+"deductionSum": "150",
+"penaltySum": "1457.61",
+"additionalPaymentSum": "9509.71",
+"cashbackAmountSum": "2",
+"cashbackDiscountSum": "19",
+"cashbackCommissionChangeSum": "0.2",
+"paymentSchedule": "-1",
+"bankPaymentSum": "5172.94"
+}
+]
+Details for the Sales Reports by Report ID
+/api/finance/v1/sales-reports/detailed/{reportId}
+POST
+https://finance-api.wildberries.ru/api/finance/v1/sales-reports/detailed/{reportId}
+Method description
+Method is available by Personal token, Service token
+
+The method returns details for the sales reports by report IDs.
+
+The data is available since January 29, 2024.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	1 request	1 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+reportId
+required
+	
+integer <int64>
+
+Report ID.
+For daily reports, we recommend using non-standard libraries with BigInt support, instead of standard deserialization
+
+REQUEST BODY SCHEMA: application/json
+required
+limit	
+integer <= 100000
+Default: 100000
+
+Number of rows in the response
+
+
+rrdId	
+integer
+Default: 0
+
+Response row ID. Required to get the report in parts.
+Start report uploading with "rrdid":0. In subsequent requests, specify the rrdId value from the last row of the previous response.
+Repeat the request until you get 204 response
+
+
+fields	
+Array of strings
+
+List of fields that will be returned in response. If the parameter is not specified, all fields are returned
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"limit": 21100,
+"rrdId": 0,
+"fields": 
+[
+"rrdId",
+"nmId",
+"currency",
+"retailAmount",
+"acquiringFee",
+"srid"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"reportId": 1234567,
+"dateFrom": "2026-03-16",
+"dateTo": "2026-03-22",
+"createDate": "2026-03-23",
+"currency": "RUB",
+"reportType": 1,
+"rrdId": 1232610467,
+"giId": 123456,
+"dlvPrc": 1.8,
+"fixTariffDateFrom": "2026-03-18",
+"fixTariffDateTo": "2026-03-19",
+"subjectName": "Mini ovens",
+"nmId": 1234567,
+"brandName": "BlahBlah",
+"vendorCode": "MAB123",
+"title": "ДС тарелка",
+"techSize": "0",
+"sku": "1231312352310",
+"docTypeName": "Продажа",
+"quantity": 1,
+"retailPrice": "1249",
+"retailAmount": "367",
+"salePercent": 0,
+"commissionPercent": 24,
+"officeName": "Склад WB",
+"sellerOperName": "Продажа",
+"orderDt": "2026-03-14T00:00:00Z",
+"saleDt": "2026-03-21T00:00:00Z",
+"rrDate": "2025-10-20",
+"shkId": 1239159661,
+"retailPriceWithDisc": "399.68",
+"deliveryAmount": 0,
+"returnAmount": 0,
+"deliveryService": "0",
+"giBoxTypeName": "Монопаллета",
+"productDiscountForReport": 0,
+"sellerPromo": 0,
+"spp": 25.31,
+"kvwBase": 24.15,
+"kvw": 1.81,
+"supRatingUp": 0,
+"isKgvpV2": 0,
+"ppvzSalesCommission": "23.74",
+"forPay": "376.99",
+"ppvzReward": "0",
+"acquiringFee": "14.89",
+"acquiringPercent": 4.06,
+"paymentProcessing": "Комиссия за организацию платежа с НДС",
+"acquiringBank": "Вайлдберриз Банк",
+"vw": "22.25",
+"vwNds": "4.45",
+"ppvzOfficeName": "Москва Москва Очаковское шоссе 6к2",
+"ppvzOfficeId": 105383,
+"ppvzSupplierName": "ИП Жасмин",
+"ppvzSupplierInn": "010101010101",
+"declarationNumber": "",
+"bonusTypeName": "Штраф МП. Невыполненный заказ (отмена клиентом после недовоза)",
+"stickerId": "1964038895",
+"country": "Россия",
+"srvDbs": true,
+"penalty": "231.35",
+"additionalPayment": "0",
+"rebillLogisticCost": "1.349",
+"rebillLogisticOrg": "ИП Иванов Иван Иванович(123456789012)",
+"paidStorage": "12647.29",
+"deduction": "6354",
+"paidAcceptance": "865",
+"orderId": 2816993144,
+"kiz": "0102900000376311210G2CIS?ehge)S\u001d91002A\u001d92F9Qof4FDo/31Icm14kmtuVYQzLypxm3HWkC1vQ/+pVVjm1dNAth1laFMoAGn7yEMWlTjxIe7lQnJqZ7TRZhlHQ==",
+"isB2b": false,
+"trbxId": "WB-TRBX-1234567",
+"installmentCofinancingAmount": "0",
+"wibesDiscountPercent": 1,
+"cashbackAmount": "2",
+"cashbackDiscount": "19",
+"cashbackCommissionChange": "0.2",
+"paymentSchedule": "-1",
+"deliveryMethod": "FBS, (МГТ)",
+"sellerPromoId": 14350,
+"sellerPromoDiscount": 3,
+"loyaltyId": 0,
+"loyaltyDiscount": 0,
+"uuidPromocode": "",
+"salePricePromocodeDiscountPrc": 0,
+"articleSubstitution": "",
+"salePriceAffiliatedDiscountPrc": 0,
+"agencyVat": 0,
+"salePriceWholesaleDiscountPrc": 0,
+"b2bCustomerTin": "010101010101",
+"paidWithSocialCertificate": false,
+"warehouseLogisticsCoeff": 0,
+"orderUid": "id375f16c4bec295d9995393af803ff7b",
+"srid": "0f1c3999172603062979867564654dac5b702849"
+}
+]
+Details for the Sales Reports by Period
+/api/finance/v1/sales-reports/detailed
+POST
+https://finance-api.wildberries.ru/api/finance/v1/sales-reports/detailed
+Method description
+
+The method returns details for the sales reports by specified period.
+
+The data is available since January 29, 2024.
+
+You can save the report in Google Sheets
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	24 h	2 requests	12 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+dateFrom
+required
+	
+string
+
+Report start date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-25T00:00:00
+
+dateTo
+required
+	
+string
+
+Report end date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-20T00:00:00
+
+limit	
+integer <= 100000
+Default: 100000
+
+Number of rows in the response
+
+
+rrdId	
+integer
+Default: 0
+
+Response row ID. Required to get the report in parts.
+Start report uploading with "rrdid":0. In subsequent requests, specify the rrdId value from the last row of the previous response.
+Repeat the request until you get 204 response
+
+
+period	
+string
+Default: "weekly"
+Enum: "daily" "weekly"
+
+Report periodicity:
+
+weekly
+daily
+
+fields	
+Array of strings
+
+List of fields that will be returned in response. If the parameter is not specified, all fields are returned
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"dateFrom": "2026-03-17",
+"dateTo": "2026-03-20",
+"limit": 21100,
+"rrdId": 0,
+"period": "daily",
+"fields": 
+[
+"rrdId",
+"nmId",
+"docTypeName",
+"retailAmount",
+"acquiringFee",
+"srid"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"reportId": 1234567,
+"dateFrom": "2026-03-16",
+"dateTo": "2026-03-22",
+"createDate": "2026-03-23",
+"currency": "RUB",
+"reportType": 1,
+"rrdId": 1232610467,
+"giId": 123456,
+"dlvPrc": 1.8,
+"fixTariffDateFrom": "2026-03-18",
+"fixTariffDateTo": "2026-03-19",
+"subjectName": "Mini ovens",
+"nmId": 1234567,
+"brandName": "BlahBlah",
+"vendorCode": "MAB123",
+"title": "ДС тарелка",
+"techSize": "0",
+"sku": "1231312352310",
+"docTypeName": "Продажа",
+"quantity": 1,
+"retailPrice": "1249",
+"retailAmount": "367",
+"salePercent": 0,
+"commissionPercent": 24,
+"officeName": "Склад WB",
+"sellerOperName": "Продажа",
+"orderDt": "2026-03-14T00:00:00Z",
+"saleDt": "2026-03-21T00:00:00Z",
+"rrDate": "2025-10-20",
+"shkId": 1239159661,
+"retailPriceWithDisc": "399.68",
+"deliveryAmount": 0,
+"returnAmount": 0,
+"deliveryService": "0",
+"giBoxTypeName": "Монопаллета",
+"productDiscountForReport": 0,
+"sellerPromo": 0,
+"spp": 25.31,
+"kvwBase": 24.15,
+"kvw": 1.81,
+"supRatingUp": 0,
+"isKgvpV2": 0,
+"ppvzSalesCommission": "23.74",
+"forPay": "376.99",
+"ppvzReward": "0",
+"acquiringFee": "14.89",
+"acquiringPercent": 4.06,
+"paymentProcessing": "Комиссия за организацию платежа с НДС",
+"acquiringBank": "Вайлдберриз Банк",
+"vw": "22.25",
+"vwNds": "4.45",
+"ppvzOfficeName": "Москва Москва Очаковское шоссе 6к2",
+"ppvzOfficeId": 105383,
+"ppvzSupplierName": "ИП Жасмин",
+"ppvzSupplierInn": "010101010101",
+"declarationNumber": "",
+"bonusTypeName": "Штраф МП. Невыполненный заказ (отмена клиентом после недовоза)",
+"stickerId": "1964038895",
+"country": "Россия",
+"srvDbs": true,
+"penalty": "231.35",
+"additionalPayment": "0",
+"rebillLogisticCost": "1.349",
+"rebillLogisticOrg": "ИП Иванов Иван Иванович(123456789012)",
+"paidStorage": "12647.29",
+"deduction": "6354",
+"paidAcceptance": "865",
+"orderId": 2816993144,
+"kiz": "0102900000376311210G2CIS?ehge)S\u001d91002A\u001d92F9Qof4FDo/31Icm14kmtuVYQzLypxm3HWkC1vQ/+pVVjm1dNAth1laFMoAGn7yEMWlTjxIe7lQnJqZ7TRZhlHQ==",
+"isB2b": false,
+"trbxId": "WB-TRBX-1234567",
+"installmentCofinancingAmount": "0",
+"wibesDiscountPercent": 1,
+"cashbackAmount": "2",
+"cashbackDiscount": "19",
+"cashbackCommissionChange": "0.2",
+"paymentSchedule": "-1",
+"deliveryMethod": "FBS, (МГТ)",
+"sellerPromoId": 14350,
+"sellerPromoDiscount": 3,
+"loyaltyId": 0,
+"loyaltyDiscount": 0,
+"uuidPromocode": "",
+"salePricePromocodeDiscountPrc": 0,
+"articleSubstitution": "",
+"salePriceAffiliatedDiscountPrc": 0,
+"agencyVat": 0,
+"salePriceWholesaleDiscountPrc": 0,
+"b2bCustomerTin": "010101010101",
+"paidWithSocialCertificate": false,
+"warehouseLogisticsCoeff": 0,
+"orderUid": "id375f16c4bec295d9995393af803ff7b",
+"srid": "0f1c3999172603062979867564654dac5b702849"
+}
+]
+Acquiring Expenses Reports List
+/api/finance/v1/acquiring/list
+POST
+https://finance-api.wildberries.ru/api/finance/v1/acquiring/list
+Method description
+Method is available by Personal token, Service token
+
+The method returns acquiring expenses reports list in the the report table format.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	1 request	1 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+dateFrom
+required
+	
+string
+
+Report start date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-25T00:00:00
+
+dateTo
+required
+	
+string
+
+Report end date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-20T00:00:00
+
+limit	
+integer <= 1000
+Default: 1000
+
+Number of reports in the response
+
+
+offset	
+integer
+Default: 0
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"dateFrom": "2026-03-17",
+"dateTo": "2026-03-20",
+"limit": 211,
+"offset": 345
+}
+Response samples
+200
+400
+401
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"reportId": 307401554,
+"sellerFinanceName": "ИП Кружинин В. Р.",
+"dateFrom": "2026-03-16",
+"dateTo": "2026-03-22",
+"createDate": "2026-03-31",
+"currency": "RUB",
+"acquiringFeeSum": "258",
+"acquiringFeeVatSum": "83.79"
+}
+]
+Details for the Acquiring Expenses Reports by Report ID
+/api/finance/v1/acquiring/detailed/{reportId}
+POST
+https://finance-api.wildberries.ru/api/finance/v1/acquiring/detailed/{reportId}
+Method description
+Method is available by Personal token, Service token
+
+The method returns details for the acquiring expenses reports by report IDs.
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	1 request	1 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+reportId
+required
+	
+integer <int64>
+
+Report ID
+
+REQUEST BODY SCHEMA: application/json
+required
+limit	
+integer <= 100000
+Default: 100000
+
+Number of rows in the response
+
+
+rrdId	
+integer
+Default: 0
+
+Response row ID. Required to get the report in parts.
+Start report uploading with "rrdid":0. In subsequent requests, specify the rrdId value from the last row of the previous response.
+Repeat the request until you get 204 response
+
+
+fields	
+Array of strings
+
+List of fields that will be returned in response. If the parameter is not specified, all fields are returned
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"limit": 21100,
+"rrdId": 0,
+"fields": 
+[
+"rrdId",
+"nmId",
+"currency",
+"retailAmount",
+"acquiringFee",
+"srid"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"rrdId": 1232610467,
+"reportId": 1234567,
+"acqDate": "2026-03-21",
+"acquiringBank": "Вайлдберриз Банк",
+"tin": "010101010101",
+"taxRegistrationReasonCode": "7701123301",
+"saleDate": "2026-03-21",
+"srid": "D0.r3f80c3eec6f845c6840128b4c19986f9.0.0",
+"documentType": "Продажа",
+"nmId": 1234567,
+"retailAmount": "367",
+"acquiringFee": "14.89",
+"acquiringFeeVat": "4.06",
+"invoiceNumber": "С/Ф 123",
+"invoiceDate": "2026-03-20",
+"shkId": 1239159661,
+"currency": "RUB"
+}
+]
+Details for the Acquiring Expenses Reports by Period
+/api/finance/v1/acquiring/detailed
+POST
+https://finance-api.wildberries.ru/api/finance/v1/acquiring/detailed
+Method description
+Method is available by Personal token, Service token
+
+The method returns details for the acquiring expenses reports by specified period.
+
+
+
+Request limit per one seller account:
+Period	Limit	Interval	Burst
+1 min	1 request	1 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+dateFrom
+required
+	
+string
+
+Report start date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-25T00:00:00
+
+dateTo
+required
+	
+string
+
+Report end date.
+Date in the RFC3339 format. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone UTC+3.
+Examples:
+
+2025-06-20
+2025-06-20T23:59:59
+2025-06-20T00:00:00.12345
+2025-06-20T00:00:00
+
+limit	
+integer <= 100000
+Default: 100000
+
+Number of rows in the response
+
+
+rrdId	
+integer
+Default: 0
+
+Response row ID. Required to get the report in parts.
+Start report uploading with "rrdid":0. In subsequent requests, specify the rrdId value from the last row of the previous response.
+Repeat the request until you get 204 response
+
+
+fields	
+Array of strings
+
+List of fields that will be returned in response. If the parameter is not specified, all fields are returned
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"dateFrom": "2026-03-17",
+"dateTo": "2026-03-20",
+"limit": 21100,
+"rrdId": 0,
+"fields": 
+[
+"rrdId",
+"nmId",
+"documentType",
+"retailAmount",
+"acquiringFee",
+"srid"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"rrdId": 1232610467,
+"reportId": 1234567,
+"acqDate": "2026-03-21",
+"acquiringBank": "Вайлдберриз Банк",
+"tin": "010101010101",
+"taxRegistrationReasonCode": "7701123301",
+"saleDate": "2026-03-21",
+"srid": "D0.r3f80c3eec6f845c6840128b4c19986f9.0.0",
+"documentType": "Продажа",
+"nmId": 1234567,
+"retailAmount": "367",
+"acquiringFee": "14.89",
+"acquiringFeeVat": "4.06",
+"invoiceNumber": "С/Ф 123",
+"invoiceDate": "2026-03-20",
+"shkId": 1239159661,
+"currency": "RUB"
+}
+]
+Documents
+To access the methods, use a token for the Documents category
+
+Using these methods, you can get seller documents of various categories: acts, accounting reports, offers, letters, product lists, CCDs (Correction Calculation Documents), UPDs (Universal Transfer Documents), notifications, and so on.
+
+To work with documents, first get the lists:
+
+Of document categories
+Of seller documents available for download
+
+Then you can download a single document or multiple documents from the list.
+
+Documents Categories
+/api/v1/documents/categories
+GET
+https://documents-api.wildberries.ru/api/v1/documents/categories
+Method description
+
+Returns documents categories
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	1 request	10 s	5 requests
+Service	10 s	1 request	10 s	5 requests
+Base with secret	10 s	1 request	10 s	5 requests
+Base	24 h	1 request	24 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Default: "en"
+Example: locale=ru
+
+title field language:
+
+ru — Russian
+en — English
+zh — Chinese
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"categories": 
+[
+{
+"name": "redeem-notification",
+"title": "Уведомление о выкупе"
+}
+]
+}
+}
+Documents List
+/api/v1/documents/list
+GET
+https://documents-api.wildberries.ru/api/v1/documents/list
+Method description
+
+Returns seller documents list
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	1 request	10 s	5 requests
+Service	10 s	1 request	10 s	5 requests
+Base with secret	10 s	1 request	10 s	5 requests
+Base	24 h	1 request	24 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Default: "en"
+Example: locale=ru
+
+category field language:
+
+ru — Russian
+en — English
+zh — Chinese
+
+beginTime	
+string <date>
+Example: beginTime=2024-07-09
+
+Period start. Only with endTime
+
+
+endTime	
+string <date>
+Example: endTime=2024-07-15
+
+Period end. Only with beginTime
+
+
+sort	
+string
+Default: "date"
+Enum: "date" "category"
+Example: sort=category
+
+Sorting:
+
+date — by the document creation date
+category — by category (only when locale=ru)
+
+Only with order
+
+
+order	
+string
+Default: "desc"
+Enum: "desc" "asc"
+Example: order=asc
+
+Data order:
+
+desc — descending
+asc — ascending
+
+Only with sort
+
+
+category	
+string
+Example: category=redeem-notification
+
+Document category ID from the name field
+
+
+serviceName	
+string
+Example: serviceName=redeem-notification-44841941
+
+Unique document ID
+
+
+limit	
+integer <= 50
+Default: 50
+Example: limit=10
+
+The maximum number of response rows
+
+
+offset	
+integer
+Default: 0
+Example: offset=90
+
+From which row to start outputting data
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"documents": 
+[
+{
+"serviceName": "redeem-notification-44841941",
+"name": "redeem-notification",
+"category": "Уведомление о выкупе",
+"extensions": 
+[
+"zip"
+],
+"creationTime": "2023-10-03T00:18:06.879Z",
+"viewed": false
+}
+]
+}
+}
+Get Document
+/api/v1/documents/download
+GET
+https://documents-api.wildberries.ru/api/v1/documents/download
+Method description
+
+Returns one document
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	1 request	10 s	5 requests
+Service	10 s	1 request	10 s	5 requests
+Base with secret	10 s	1 request	10 s	5 requests
+Base	24 h	1 request	24 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+serviceName
+required
+	
+string
+Example: serviceName=redeem-notification-44841941
+
+Unique document ID
+
+
+extension
+required
+	
+string
+Example: extension=zip
+
+Document format
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"fileName": "Notice of redemption 44841941.zip",
+"extension": "zip",
+"document": "UEsDBBQACAgIAAAAAAAAAAAAAAAAAAAAAABHAAAA0KPQstC10LTQvtC80LvQtdC90LjQtSDQviDQstGL0LrRg9C/0LUg4oSWNDQ4NDE5NDEg0L7RgiAyNS4wOS4yMDIzLnhsc3jsnQk0lP3f/0dEUiRkNwmVECI7o0WS7EklxprdkH2bKVkqISRkGSlkaxRlN2TPnmzJvu/Gzmz/Uz33fY/L8/Q8zrn/x/07565zcjrn9f1cn/V6f69v53zTVCWnYATtA+0DAX/Rg0AgM5ip5l2Yg5OwKeyu+Wl3O1vbcA3YV5FDVfPej2vXKptOK1V9LjycmPDG72uW4vcG9xdsOI1V2wj86sk6+4nHJeZ92NFgC/He3gmDlccFXSyumXYUGSKK4hLLsqu5aBTspu5lqlcGB/JNlQVn1Eumj6o8ZEWPRotEVGkH9/kf457totEKj2N2P4dSZWAIaC0ajy5J+VL5fen1YOhcGMxvvUw+XOKFOHL...LSL/tC77s0GzTi2iBuHorbMpcOaw0Hmsc/gpk7ty3/cdDYRmhkRUPAIC37P94CA8oiP/fIvpPK8n9l43YARWRgH/tI6E3ntD/nfOfPyj9jxxDwn+b8/8dZqBDQPjPNSAACJgBAAD21P9s/y8AAP//UEsHCFHrudyQEwAASxQAAFBLAQIUABQACAgIAAAAAACH4v2BaSgAAGNjAABHAAAAAAAAAAAAAAAAAAAAAADQo9Cy0LXQtNC+0LzQu9C10L3QuNC1INC+INCy0YvQutGD0L/QtSDihJY0NDg0MTk0MSDQvtGCIDI1LjA5LjIwMjMueGxzeFBLAQIUABQACAgIAAAAAADTmLxwRQcAAGAPAABLAAAAAAAAAAAAAAAAAN4oAADQo9Cy0LXQtNC+0LzQu9C10L3QuNC1INC+INCy0YvQutGD0L/QtSDihJY0NDg0MTk0MSDQvtGCIDI1LjA5LjIwMjMueGxzeC5zaWdQSwECFAAUAAgACAAAAAAAUeu53JATAABLFAAACAAAAAAAAAAAAAAAAACcMAAAbWNoZC56aXBQSwUGAAAAAAMAAwAkAQAAYkQAAAAA"
+}
+}
+Get Documents
+/api/v1/documents/download/all
+POST
+https://documents-api.wildberries.ru/api/v1/documents/download/all
+Method description
+
+Returns more than one document.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 min	1 request	5 min	5 requests
+Service	5 min	1 request	5 min	5 requests
+Base with secret	5 min	1 request	5 min	5 requests
+Base	24 h	1 request	24 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+params	
+Array of objects [ 1 .. 50 ] items
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"params": 
+[
+{
+"extension": "zip",
+"serviceName": "redeem-notification-44841941"
+},
+{
+"extension": "xlsx",
+"serviceName": "act-income-mp-392460936"
+}
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"fileName": "documents.zip",
+"extension": "zip",
+"document": "UEsDBBQACAgIAAAAAAAAAAAAAAAAAAAAAABHAAAA0KPQstC10LTQvtC80LvQtdC90LjQtSDQviDQstGL0LrRg9C/0LUg4oSWNDQ4NDE5NDEg0L7RgiAyNS4wOS4yMDIzLnhsc3jsnQk0lP3f/0dEUiRkNwmVECI7o0WS7EklxprdkH2bKVkqISRkGSlkaxRlN2TPnmzJvu/Gzmz/Uz33fY/L8/Q8zrn/x/07565zcjrn9f1cn/V6f69v53zTVCWnYATtA+0DAX/Rg0AgM5ip5l2Yg5OwKeyu+Wl3O1vbcA3YV5FDVfPej2vXKptOK1V9LjycmPDG72uW4vcG9xdsOI1V2wj86sk6+4nHJeZ92NFgC/He3gmDlccFXSyumXYUGSKK4hLLsqu5aBTspu5lqlcGB/JNlQVn1Eumj6o8ZEWPRotEVGkH9/kf457totEKj2N2P4dSZWAIaC0ajy5J+VL5fen1YOhcGMxvvUw+XOKFOHL...LSL/tC77s0GzTi2iBuHorbMpcOaw0Hmsc/gpk7ty3/cdDYRmhkRUPAIC37P94CA8oiP/fIvpPK8n9l43YARWRgH/tI6E3ntD/nfOfPyj9jxxDwn+b8/8dZqBDQPjPNSAACJgBAAD21P9s/y8AAP//UEsHCFHrudyQEwAASxQAAFBLAQIUABQACAgIAAAAAACH4v2BaSgAAGNjAABHAAAAAAAAAAAAAAAAAAAAAADQo9Cy0LXQtNC+0LzQu9C10L3QuNC1INC+INCy0YvQutGD0L/QtSDihJY0NDg0MTk0MSDQvtGCIDI1LjA5LjIwMjMueGxzeFBLAQIUABQACAgIAAAAAADTmLxwRQcAAGAPAABLAAAAAAAAAAAAAAAAAN4oAADQo9Cy0LXQtNC+0LzQu9C10L3QuNC1INC+INCy0YvQutGD0L/QtSDihJY0NDg0MTk0MSDQvtGCIDI1LjA5LjIwMjMueGxzeC5zaWdQSwECFAAUAAgACAAAAAAAUeu53JATAABLFAAACAAAAAAAAAAAAAAAAACcMAAAbWNoZC56aXBQSwUGAAAAAAMAAwAkAQAAYkQAAAAA"
+}
+}
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

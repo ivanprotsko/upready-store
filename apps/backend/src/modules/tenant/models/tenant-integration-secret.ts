@@ -15,6 +15,13 @@ import Tenant from "./tenant";
  * reads this slot only, so a read key that happens to carry write rights still
  * cannot write. No shop has this row today.
  *
+ * `ozon` is the shop's Ozon Seller API pair, `{ client_id, api_key }`
+ * (w11-ozon-readonly-client). Two values rather than one because Ozon
+ * authenticates with a `Client-Id` header beside the `Api-Key`, and they are
+ * useless apart. Read only by `src/modules/ozon/transport.ts`, which cannot
+ * write to Ozon; there is deliberately no `ozon_write` slot, because no write
+ * path to Ozon exists.
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -25,6 +32,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "robokassa",
   "wildberries",
   "wildberries_write",
+  "ozon",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
