@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 38,
+  "action": "status-set",
+  "ts": "2026-09-15T09:17:19+08:00",
+  "status": "2026-09-15 09:17 WITA: приёмка PR #35 t15-product-attributes раунд 1 — REJECTED: PR CONFLICTING/DIRTY, merge origin/dev сделан локально (b07f4e5) и не запушен; свои прогоны на смерженном дереве зелёные"
+}

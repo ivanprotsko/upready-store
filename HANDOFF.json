@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T12:00:06+08:00",
-  "status": "2026-09-15 12:00 WITA: d03-deploy-mt-3 (headless -p, attempt 2) — сборка v2 завершена (образы mt-backend/storefront/panel Built, CreatedAt 05:19-05:24 CEST внутри окна), backend пересоздан и healthy (миграции волны 2 уже применены, сиды no-op), up -d оборвался на mt-panel/mt-storefront (Created, не запущены — backend не успел стать healthy до дедлайна compose), следующий шаг: повторить up -d без пересборки, затем бэкфиллы/health-sweep/пост-дамп/отчёт",
+  "updated": "2026-09-15T14:27:59+08:00",
+  "status": "2026-09-15 14:27 WITA: d03-deploy-mt-3 attempt 4 — финальный деплой волны 3 выполнен. sha 2286d43 (локальный dev разошёлся с origin/dev, на хост уехало дерево git archive origin/dev). Образы backend/storefront/panel пересобраны 08:12-08:18 CEST, гвард f17 дал 324 boot modules ok, sharp 0.35.4 проверен в образе ДО up -d. Миграция Migration20260915063900 (tenant_requisites, t12 #32) Completed successfully, остальные модули skipped. Бэкфиллы идемпотентны (0 правок). Health 5/5 200 + 5/5 карточек магазина клиента 200, маркер нового кода — роут t16 /tenants/branding/upload отвечает 401 вместо 404. Дампы: pre 5578143 Б, post 5581654 Б. Медиа 117 МБ / 338 файлов у cherkashino — риск №15 (нет S3, нет автобэкапа). Находка: pg_dump -U postgres на хосте не существует и оставляет 0-байтовый дамп при rc=1, рабочее -U medusa",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1240,6 +1240,11 @@
       "question": "git push origin dev заблокирован: локальный dev разошёлся с origin (15 непушенных локальных коммитов против 6 на origin — журналы приёмки t03/t05/t06/t07/t08/x01/x02 плюс два чекпойнта d02, все сделаны сегодня разными параллельными сессиями диспетчера дня в ОДНОМ общем checkout upready-store). git rebase origin/dev упёрся в конфликт в HANDOFF.json уже на 3-м из 15 коммитов (2fb6165, статус t03) — не резолвил сам, rebase --abort, откатился без потерь. Мой коммит 7c0978b (d02-deploy-mt-2, отчёт о деплое) остался локально, не запушен. Нужно решение: либо ручной разбор конфликтов HANDOFF.json по всем 15 коммитам, либо переиграть журналы через handoff.mjs заново на чистом origin/dev. Похоже на системную проблему диспетчера дня — общий checkout вместо per-task worktree (rule 21e).",
       "asked": "2026-09-15",
       "audience": "ivan"
+    },
+    {
+      "id": "q-priemka-f03-pr-42-smerzhen",
+      "question": "Приёмка f03 (PR #42, смержен) замерила: GET /store/orders/:id отдаёт заказ БЕЗ авторизации вообще, только по publishable-ключу (http=200 без Bearer; чужой аккаунт по прямой ссылке /ru/account/orders/details/<id> видит состав, адрес доставки и телефон покупателя). Это ядровой маршрут Medusa 2.19, не дефект PR #42. Завести задачу вместе с уже названной автором '/store/orders ограничить каналом продаж publishable-ключа'?",
+      "asked": "2026-09-15"
     }
   ],
   "sessions": [

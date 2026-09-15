@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 42,
+  "action": "status-set",
+  "ts": "2026-09-15T10:16:21+08:00",
+  "status": "2026-09-15 10:16 WITA: приёмка PR #37 t17-analytics раунд 1 — REJECTED (mergeable CONFLICTING, конфликт только HANDOFF.json). Свои прогоны в worktree зелёные: be/sf/tp tsc rc=0, storefront vitest 141/141, panel eslint 0 errors. Ещё две недоделки: нет произвольного периода в UI панели, «сегодня» по UTC. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-t17-analytics-1.findings.md"
+}

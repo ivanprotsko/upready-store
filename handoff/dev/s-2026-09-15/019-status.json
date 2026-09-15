@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 19,
+  "action": "status-set",
+  "ts": "2026-09-15T05:44:15+08:00",
+  "status": "2026-09-15 05:44 WITA: приёмка t06-locale-currency раунд 2 — PR #26 MERGED (3e5519bb, GitHub-леджер); замерено самостоятельно: два тенанта из одного процесса витрины расходятся (/ru+₽ и /en+$), Accept-Language de → /ru, переключатель ровно [en,ru] и [en], seam locale-settings 12/12, storefront unit 134/134, три typecheck rc=0, бэкфилл идемпотентен; полный seam 153/156 — три падения из dev (2 приехали с PR #25 t04-shipping, 1 предсуществующее tenants-domains), dev красный = отдельная задача"
+}

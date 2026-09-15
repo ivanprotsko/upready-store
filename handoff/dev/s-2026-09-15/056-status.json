@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 56,
+  "action": "status-set",
+  "ts": "2026-09-15T12:07:05+08:00",
+  "status": "2026-09-15 12:07 WITA: штаб дня — причина 502 платформы mt замерена: новый образ mt-backend без модуля sharp (маршрут брендинга из t16), RestartCount=7; d03 на opus/high запущен принудительно (cmd launch) с приказом откатить бэкенд на прежний образ, затем завести задачу f17-backend-image-sharp"
+}
