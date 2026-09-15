@@ -62,6 +62,8 @@ POST добавлены и в ручной список `POST_READ_ENDPOINT_IDS`
 ```
 apps/backend:  TEST_TYPE=unit … jest --silent --runInBand --forceExit
                → Test Suites: 51 passed, 51 total; Tests: 573 passed, 573 total   (было 484 у w20)
+               после вливания origin/dev (пришёл w11-ozon-readonly-client, PR #79):
+               → Test Suites: 55 passed, 55 total; Tests: 665 passed, 665 total
 apps/backend:  npx tsc --noEmit        → rc=0
 apps/backend:  npx medusa lint         → rc=0 (83 warning, все в чужих файлах, 0 errors)
 apps/tenant-panel: pnpm typecheck      → rc=0
@@ -242,7 +244,7 @@ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fea
 
 # 1. проверки (сервер не нужен)
 cd apps/backend && TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules npx jest --silent --runInBand --forceExit
-#    → 51 suites, 573 tests
+#    → 55 suites, 665 tests (51/573 до вливания dev с w11)
 npx tsc --noEmit && npx medusa lint
 cd ../tenant-panel && pnpm typecheck && pnpm lint
 
