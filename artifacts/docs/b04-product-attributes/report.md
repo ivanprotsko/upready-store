@@ -248,17 +248,20 @@ $ curl … '/store/tenant/product-attributes/facets?a_country=thailand' → 2 т
 
 ## Проверки
 
+Все прогоны — после `git merge origin/dev` (в `dev` подъехал `#55`, чинящий фикстуру f12, из-за
+которой `tsc` был красным до слияния).
+
 ```
-$ cd apps/backend && npx tsc --noEmit
-src/scripts/f12-seed-test-order.ts(55,16): error TS2322: …   # предсуществующая, не в этом диффе
+$ cd apps/backend && npx tsc --noEmit                      # rc=0, вывод пуст
 $ npx medusa lint
-✖ 61 problems (0 errors, 61 warnings)
+✖ 61 problems (0 errors, 61 warnings)                      # все предупреждения — в чужих файлах
 $ pnpm test:unit
-Test Suites: 1 failed, 23 passed, 24 total
-Tests:       1 failed, 273 passed, 274 total
+Test Suites: 1 failed, 24 passed, 25 total
+Tests:       1 failed, 276 passed, 277 total
    единственный красный — src/migration-scripts/__tests__/profile-data.unit.spec.ts
    («i18n merge › leaves a locale the profile never translated identical to the base»,
-   лишний ключ productOptions), файл в этом диффе не участвует
+   лишний ключ productOptions). Файла нет в диффе этой ветки:
+   git diff --name-only origin/dev...HEAD | grep -v ^artifacts/  → 10 файлов, этого среди них нет
 $ npx jest --testMatch '**/src/product-attributes-fill/__tests__/*.unit.spec.ts'
 Tests:       34 passed, 34 total
 $ cd apps/tenant-panel && pnpm typecheck   # rc=0
