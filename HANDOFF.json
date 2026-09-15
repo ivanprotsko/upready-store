@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T22:40:03+08:00",
-  "status": "2026-09-15 22:40 WITA: штаб — замечание Ивана 22:31 по UI выполнено (коммит 696b44ae: карточка законченной задачи = сводка + статистика сессии, форма read-only без RUN); волна 5: b01/b03 accepting (PR #57/#58), b04 pr_open #59, r03 pr_open #56 после раунда 2, b02/b06/d05 running, d06/b05 queued; c01-wave5-composer выдал artifacts/c01-wave5-composer — задачи ещё не заведены",
+  "updated": "2026-09-15T22:42:35+08:00",
+  "status": "2026-09-15 22:42 WITA: штаб — волна 5b заведена из выхода c01: b07–b15 queued (приоритеты 80–88, build), b16 blocked до бакета R2 и OK Ивана на удаление клонов баз; needs-ivan.md композера (15 внешних блокеров + 8 задач HANDOFF вне миссии) ждёт передачи Ивану; r03 и b04 ждут слот приёмки (лейн accept занят b01/b03)",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
