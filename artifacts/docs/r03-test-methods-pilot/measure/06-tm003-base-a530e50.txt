@@ -1,0 +1,12 @@
+ID      STATUS  NEW  KNOWN  SCANNED   
+------  ------  ---  -----  ----------
+tm-003  GREEN   0    2      files=1703
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.
+
+measured against a530e50 (a530e508d074046e02e02e9a0f56d04f42744f3e), the working tree untouched.
+rc=0

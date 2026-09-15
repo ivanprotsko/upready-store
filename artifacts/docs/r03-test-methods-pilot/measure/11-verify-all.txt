@@ -1,0 +1,25 @@
+ID          EXPECT                                    GOT     CASE                                                                                 
+------  --  ----------------------------------------  ------  -------------------------------------------------------------------------------------
+tm-001  ok  red                                       red(1)  74d9c01 коммит перед починкой f17                                                    
+tm-001  ok  green                                     green   2286d43 починка f17: sharp переехал в dependencies                                   
+tm-001  ok  green                                     green   ba126e8 голова ветки задачи                                                          
+tm-001  ok  red                                       red(1)  variant-1-optional-dependency optionalDependencies: установка молча пропускает пакет 
+tm-001  ok  red                                       red(1)  variant-2-undeclared не объявлен вовсе, резолвится хойстингом монорепы               
+tm-001  ok  red                                       red(1)  variant-3-ignore-scripts нативный пакет + --ignore-scripts в рантайм-стадии          
+tm-001  ok  green                                     green   green отрицательный контроль: ленивый require devDependency вну…                     
+tm-002  ok  red                                       red(2)  c60638b коммит перед починкой f16: if (own.length >= 3) на главной                   
+tm-002  ok  green/owner-data-loses-to-build-defaults  red(1)  a530e50 починка f16: порог снят, картинка выводится на трёх повер…                   
+tm-002  ok  green/owner-data-loses-to-build-defaults  red(1)  ba126e8 голова ветки задачи: класс f16 закрыт                                        
+tm-002  ok  red                                       red(1)  variant-1-written-never-read metadata.badge_text: пишет форма товара, не читает никто
+tm-002  ok  red                                       red(1)  variant-2-threshold-gt порог записан через `>` вместо `>=`                           
+tm-002  ok  red                                       red(1)  variant-3-subscript-write запись через metadata["promo_note"] = вместо литерала      
+tm-002  ok  green                                     green   green отрицательный контроль: читатель на витрине (доступ), в б…                     
+tm-003  ok  red                                       red(3)  ba126e8 коммит, на котором сборка образа и упала (d04-deploy-mt-4…                   
+tm-003  ok  green                                     green   5b6e9e2 коммит перед t13-customers-screen: ни одной фикстуры в ко…                   
+tm-003  ok  red                                       red(1)  variant-1-name-only маркеров в тексте нет, выдаёт имя файла                          
+tm-003  ok  red                                       red(1)  variant-2-storefront-fixture тот же класс в другом приложении                        
+tm-003  ok  red                                       red(1)  variant-3-run-once маркер «run once with» / «not wired into any pnpm script»         
+tm-003  ok  green                                     green   green отрицательный контроль: слово throwaway про БАЗУ в продук…                     
+
+20/20 evidence cases hold.
+rc=0
