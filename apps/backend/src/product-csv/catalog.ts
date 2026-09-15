@@ -124,7 +124,7 @@ const PRODUCT_FIELDS = [
   "variants.price_set.prices.price_rules.attribute",
 ];
 
-type GraphPrice = {
+export type GraphPrice = {
   id?: string | null;
   amount?: number | string | null;
   currency_code?: string | null;
@@ -145,7 +145,7 @@ const asNumber = (value: unknown): number | null => {
  * with no price rules on it. A variant priced per region carries several rows
  * for one currency, and picking any of them would make the export a guess.
  */
-const readPrices = (
+export const readPrices = (
   prices: GraphPrice[] | null | undefined,
 ): { rows: CatalogPrice[]; byCurrency: Record<string, number> } => {
   const rows: CatalogPrice[] = [];

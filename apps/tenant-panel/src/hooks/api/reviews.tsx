@@ -19,7 +19,7 @@ import { queryKeysFactory } from "../../lib/query-key-factory"
 export const REVIEW_STATUSES = ["pending", "published", "hidden"] as const
 export type ReviewStatus = (typeof REVIEW_STATUSES)[number]
 
-export type ReviewSource = "shop" | "imported"
+export type ReviewSource = "shop" | "imported" | "wb"
 
 export type TenantReview = {
   id: string

@@ -24,6 +24,7 @@ export const REVIEW_STATUS_COLOR: Record<ReviewStatus, "orange" | "green" | "gre
 export const REVIEW_SOURCE_LABEL: Record<ReviewSource, string> = {
   shop: "С витрины",
   imported: "Перенесён из старого магазина",
+  wb: "С карточки Wildberries",
 }
 
 const LANGUAGE_LABEL: Record<string, string> = {

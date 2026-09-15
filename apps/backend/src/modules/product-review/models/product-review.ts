@@ -3,11 +3,14 @@ import { model } from "@medusajs/framework/utils";
 /**
  * Where the review came from. `shop` is a review a customer left on the
  * storefront; `imported` is one carried over from a shop the owner ran before
- * this platform (t09-reviews imports the Cherkashina corpus). The marker is
- * shown in the panel and decides nothing else: an imported review is moderated
- * with the same three statuses as any other.
+ * this platform (t09-reviews imports the Cherkashina corpus); `wb` is one
+ * carried over from the shop's own Wildberries listing through the WB mirror
+ * (w07-tenant-catalog-enrich), which is a marketplace the owner still sells on
+ * rather than a shop that closed. The marker is shown in the panel and decides
+ * nothing else: an imported review is moderated with the same three statuses
+ * as any other.
  */
-export const REVIEW_SOURCES = ["shop", "imported"] as const;
+export const REVIEW_SOURCES = ["shop", "imported", "wb"] as const;
 export type ReviewSource = (typeof REVIEW_SOURCES)[number];
 
 /**
