@@ -4087,8 +4087,14 @@
     },
     "expiresAt": "Valid until",
     "expired": "(expired)",
+    "expiringSoon": "The Wildberries key expires in {{days}} days — ask the seller to reissue it in the WB cabinet",
     "sellerId": "Seller id",
     "access": "Sections the key opens",
+    "categories": {
+      "granted": "open",
+      "denied": "closed",
+      "unknownBit": "unknown bit {{bit}}"
+    },
     "problem": "Problem with the key",
     "sync": {
       "title": "Last import",
