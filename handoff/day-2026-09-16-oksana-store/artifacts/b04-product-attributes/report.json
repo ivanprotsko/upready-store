@@ -1,0 +1,69 @@
+{
+  "task": "b04-product-attributes",
+  "branch": "feat/day16-product-attributes-fill",
+  "pr": {
+    "number": 59,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/59"
+  },
+  "done": [
+    {
+      "item": "Схема из 7 характеристик по умолчанию (артикул, состав, объём, вес, страна производства, срок годности, назначение) с идемпотентной установкой набора."
+    },
+    {
+      "item": "Парсер metadata.full_characteristics (формы Ozon и WB) с нормализацией имён и единиц, 34 юнит-теста на строках настоящего каталога.",
+      "links": [
+        "apps/backend/src/product-attributes-fill/parse-characteristics.ts",
+        "apps/backend/src/product-attributes-fill/__tests__/parse-characteristics.unit.spec.ts"
+      ]
+    },
+    {
+      "item": "Идемпотентный скрипт заполнения backfill-product-attributes.ts с режимами dry-run, overwrite и report.",
+      "links": [
+        "apps/backend/src/scripts/backfill-product-attributes.ts"
+      ]
+    },
+    {
+      "item": "API-роуты набора характеристик и покрытия по магазину плюс хуки и экраны панели (кнопка «Добавить стандартные», строка покрытия в списке товаров).",
+      "links": [
+        "apps/backend/src/api/tenants/product-attribute-presets/route.ts",
+        "apps/backend/src/api/tenants/product-attribute-coverage/route.ts"
+      ]
+    },
+    {
+      "item": "На стенде заполнено 38 из 38 товаров хотя бы одной характеристикой, 30 из 38 описаны сверх артикула, 115 значений, дублей 0 (измерено приёмщиком дважды)."
+    },
+    {
+      "item": "Блок «Характеристики» подтверждён живьём на витрине стенда (http=200, значения в разметке совпадают со скринами).",
+      "links": [
+        "artifacts/docs/b04-product-attributes/04-pdp-castor-oil.png"
+      ]
+    },
+    {
+      "item": "PR прошёл 3 раунда приёмки (два отказа — только из-за конфликта HANDOFF.json, не по содержанию) и смержен squash-коммитом b630cf0d."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #59 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/59"
+    },
+    {
+      "label": "Отчёт воркера с командами и выводом",
+      "path": "artifacts/docs/b04-product-attributes/report.md"
+    },
+    {
+      "label": "Полный JSON финального прогона скрипта",
+      "path": "artifacts/docs/b04-product-attributes/backfill-report.json"
+    },
+    {
+      "label": "Скрин: блок «Характеристики» на карточке товара",
+      "path": "artifacts/docs/b04-product-attributes/04-pdp-castor-oil.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "8 из 38 товаров описаны только артикулом — в каталоге по ним нет ничего, кроме имени и цены; это работа владелицы в панели.",
+    "Габариты упаковки (24 значения в каталоге) в набор по умолчанию не вошли — постановка их не просила.",
+    "unit характеристик не переводится (в английском ответе остаётся «мл») — заведено воркером строкой в бэклог, не регресс этого PR."
+  ]
+}
