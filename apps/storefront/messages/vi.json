@@ -585,12 +585,13 @@
     "seeDetails": "Xem chi tiết"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Hãy lưu lại mã đơn hàng. Bạn sẽ cần khi liên hệ với cửa hàng.",
     "orderSuccess": "Đơn hàng của bạn đã được đặt thành công.",
     "thankYou": "Cảm ơn bạn!"
   },
   "OrderDetails": {
     "backToOrders": "Quay lại đơn hàng",
-    "confirmationSentBefore": "Chúng tôi đã gửi xác nhận đơn hàng đến",
+    "contactEmailBefore": "Địa chỉ liên hệ cho đơn hàng này là",
     "fulfillmentStatuses": {
       "canceled": "Đã hủy",
       "delivered": "Đã giao",

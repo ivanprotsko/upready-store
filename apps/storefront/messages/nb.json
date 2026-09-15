@@ -585,12 +585,13 @@
     "seeDetails": "Se detaljer"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Ta vare på bestillingsnummeret. Du trenger det når du kontakter butikken.",
     "orderSuccess": "Bestillingen din ble fullført.",
     "thankYou": "Takk!"
   },
   "OrderDetails": {
     "backToOrders": "Tilbake til bestillinger",
-    "confirmationSentBefore": "Vi har sendt bestillingsbekreftelsen til",
+    "contactEmailBefore": "Kontaktadressen for denne bestillingen er",
     "fulfillmentStatuses": {
       "canceled": "Kansellert",
       "delivered": "Levert",

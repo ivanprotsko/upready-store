@@ -101,6 +101,11 @@ services:
       STOREFRONT_REVALIDATE_URL: http://mt-storefront:8000
       STORE_NAME: ${STORE_NAME:-Shipshift}
       STORE_EMAIL: ${STORE_EMAIL:-hello@shipshift.dev}
+      # The footer of every letter (emails/i18n/constants.ts). compose.stand.yml
+      # already passes both; without them here the footer renders an empty
+      # address and an empty phone in every shop's e-mail.
+      STORE_PHONE: ${STORE_PHONE:-}
+      STORE_ADDRESS: ${STORE_ADDRESS:-}
       # Transactional e-mail (t08-order-notifications). Optional, like every
       # other piece of infrastructure here: with SMTP_HOST empty the provider is
       # never registered, the backend boots the same, and each undelivered

@@ -585,12 +585,13 @@
     "seeDetails": "विवरण देखें"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "ऑर्डर नंबर सहेज कर रखें। दुकान से संपर्क करते समय इसकी ज़रूरत पड़ेगी।",
     "orderSuccess": "आपका ऑर्डर सफलतापूर्वक दे दिया गया है।",
     "thankYou": "धन्यवाद!"
   },
   "OrderDetails": {
     "backToOrders": "ऑर्डर पर वापस जाएँ",
-    "confirmationSentBefore": "हमने ऑर्डर पुष्टिकरण विवरण भेजे हैं:",
+    "contactEmailBefore": "इस ऑर्डर का संपर्क पता है",
     "fulfillmentStatuses": {
       "canceled": "रद्द किया गया",
       "delivered": "डिलीवर हुआ",

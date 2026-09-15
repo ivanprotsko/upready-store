@@ -585,12 +585,13 @@
     "seeDetails": "Подробнее"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Сохраните номер заказа. Он понадобится, чтобы связаться с магазином.",
     "orderSuccess": "Ваш заказ успешно оформлен.",
     "thankYou": "Спасибо!"
   },
   "OrderDetails": {
     "backToOrders": "Назад к заказам",
-    "confirmationSentBefore": "Подтверждение заказа отправлено на",
+    "contactEmailBefore": "Заказ оформлен на адрес",
     "fulfillmentStatuses": {
       "canceled": "Отменён",
       "delivered": "Доставлен",

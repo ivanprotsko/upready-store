@@ -585,12 +585,13 @@
     "seeDetails": "বিস্তারিত দেখুন"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "অর্ডার নম্বরটি সংরক্ষণ করুন। দোকানের সঙ্গে যোগাযোগ করতে এটি প্রয়োজন হবে।",
     "orderSuccess": "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
     "thankYou": "ধন্যবাদ!"
   },
   "OrderDetails": {
     "backToOrders": "অর্ডারে ফিরে যান",
-    "confirmationSentBefore": "আমরা অর্ডার নিশ্চিতকরণের বিবরণ পাঠিয়েছি এই ঠিকানায়",
+    "contactEmailBefore": "এই অর্ডারের যোগাযোগের ঠিকানা",
     "fulfillmentStatuses": {
       "canceled": "বাতিল",
       "delivered": "পৌঁছেছে",

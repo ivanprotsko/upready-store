@@ -26,7 +26,7 @@ const OrderDetails = async ({
   return (
     <div className="flex flex-col gap-y-2">
       <Text className="txt-medium text-ui-fg-subtle">
-        {t("confirmationSentBefore")}{" "}
+        {t("contactEmailBefore")}{" "}
         <span className="text-ui-fg-base font-medium" data-testid="order-email">
           {order.email}
         </span>

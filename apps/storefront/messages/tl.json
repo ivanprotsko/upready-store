@@ -585,12 +585,13 @@
     "seeDetails": "Tingnan ang detalye"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Itago ang numero ng order. Kakailanganin mo ito kapag kinontak mo ang tindahan.",
     "orderSuccess": "Matagumpay na naisagawa ang iyong order.",
     "thankYou": "Salamat!"
   },
   "OrderDetails": {
     "backToOrders": "Bumalik sa mga order",
-    "confirmationSentBefore": "Ipinadala namin ang detalye ng kumpirmasyon ng order sa",
+    "contactEmailBefore": "Ang contact address para sa order na ito ay",
     "fulfillmentStatuses": {
       "canceled": "Kanselado",
       "delivered": "Naihatid",

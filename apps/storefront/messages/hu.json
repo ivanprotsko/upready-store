@@ -585,12 +585,13 @@
     "seeDetails": "Részletek megtekintése"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Őrizze meg a rendelésszámot. Szüksége lesz rá, ha kapcsolatba lép az üzlettel.",
     "orderSuccess": "Rendelését sikeresen leadta.",
     "thankYou": "Köszönjük!"
   },
   "OrderDetails": {
     "backToOrders": "Vissza a rendelésekhez",
-    "confirmationSentBefore": "A rendelés visszaigazolását elküldtük a következő címre:",
+    "contactEmailBefore": "A rendelés kapcsolattartási címe",
     "fulfillmentStatuses": {
       "canceled": "Törölve",
       "delivered": "Kézbesítve",

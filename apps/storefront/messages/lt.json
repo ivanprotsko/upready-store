@@ -585,12 +585,13 @@
     "seeDetails": "Peržiūrėti detales"
   },
   "OrderCompleted": {
+    "keepOrderNumber": "Išsaugokite užsakymo numerį. Jo prireiks susisiekiant su parduotuve.",
     "orderSuccess": "Jūsų užsakymas sėkmingai pateiktas.",
     "thankYou": "Ačiū!"
   },
   "OrderDetails": {
     "backToOrders": "Atgal į užsakymus",
-    "confirmationSentBefore": "Užsakymo patvirtinimą išsiuntėme adresu",
+    "contactEmailBefore": "Šio užsakymo kontaktinis adresas yra",
     "fulfillmentStatuses": {
       "canceled": "Atšauktas",
       "delivered": "Pristatytas",
