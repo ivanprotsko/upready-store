@@ -2,51 +2,59 @@ import Image from "next/image"
 
 import { Link } from "@i18n/navigation"
 import type { HttpTypes } from "@medusajs/types"
+import { categoryImage } from "@lib/util/category-image"
 
 import styles from "@modules/home/components/category-tiles/category-tiles.module.css"
 
-function categoryImage(category: HttpTypes.StoreProductCategory) {
-  const meta = (category.metadata ?? {}) as Record<string, unknown>
-  const url = typeof meta.image_url === "string" && meta.image_url.trim() ? meta.image_url : null
-  const alt = typeof meta.image_alt === "string" ? meta.image_alt : ""
-  return { url, alt }
-}
-
 /**
- * A category's own children, as image tiles — the live-data counterpart of
- * `@modules/home/components/category-tiles` (which draws from the build
- * profile's static config, not a tenant's own categories). Reuses that
- * component's CSS module so the hover/frame treatment matches exactly.
+ * A list of categories drawn as image tiles, from LIVE tenant data — the
+ * counterpart of `@modules/home/components/category-tiles`, which draws the build
+ * profile's static config instead. Reuses that component's CSS module so the
+ * hover/frame treatment matches exactly.
  *
- * The image comes from `product_category.metadata.image_url` (t-2026-09-12,
- * W3 of mt-storefront-by-host — the decision and its reasoning are written
- * once, in `@lib/data/categories.ts` and the tenant panel's
- * `edit-category-form.tsx`, not repeated here). A child with none renders the
- * SAME neutral `bg-ui-bg-subtle` frame `CategoryTiles` renders for a missing
- * profile tile — a deliberate empty state, never a broken `<img>` and never
- * silently blank markup (rule 18f: this must be SEEN, not assumed).
+ * Two call sites, both of them a place "the storefront shows this category"
+ * (f16-category-image-not-shown): the children of the category being viewed
+ * (`@modules/categories/templates`) and the catalog's own strip
+ * (`@modules/store/templates`). It was `category-child-tiles` while the first was
+ * the only one.
+ *
+ * The picture comes from `product_category.metadata.image_url`, read through the
+ * one reader in `@lib/util/category-image`. A category with none renders the SAME
+ * neutral `bg-ui-bg-subtle` frame `CategoryTiles` renders for a missing profile
+ * tile — a deliberate empty state, never a broken `<img>` and never silently blank
+ * markup (rule 18f: this must be SEEN, not assumed).
  */
-export default function CategoryChildTiles({
+export default function CategoryImageTiles({
   categories,
   heading,
+  dense = false,
 }: {
   categories: HttpTypes.StoreProductCategory[]
   heading?: string
+  /**
+   * A navigation strip rather than a block: six across instead of three, so a shop
+   * with one pictured category gets a thumbnail above its catalog and not a single
+   * hero-sized square where the products should be (measured on the stand at
+   * 1280x900 before this prop existed).
+   */
+  dense?: boolean
 }) {
   if (!categories.length) {
     return null
   }
 
-  const columns = categories.length === 4 ? "small:grid-cols-4" : "small:grid-cols-3"
+  const columns = dense
+    ? "grid-cols-3 small:grid-cols-6"
+    : `grid-cols-2 ${categories.length === 4 ? "small:grid-cols-4" : "small:grid-cols-3"}`
 
   return (
-    <section className="mb-8" data-testid="category-child-tiles">
+    <section className="mb-8" data-testid="category-image-tiles">
       {heading ? (
         <h2 className="mb-4 text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:mb-6 small:text-xl">
           {heading}
         </h2>
       ) : null}
-      <ul className={`grid grid-cols-2 gap-3 small:gap-6 ${columns}`}>
+      <ul className={`grid gap-3 small:gap-6 ${columns}`}>
         {categories.map((category) => {
           const { url, alt } = categoryImage(category)
 
@@ -54,7 +62,7 @@ export default function CategoryChildTiles({
             <li key={category.id}>
               <Link
                 href={`/categories/${category.handle}`}
-                data-testid="category-child-tile"
+                data-testid="category-image-tile"
                 data-category-handle={category.handle}
                 className={`${styles.tile} group block overflow-hidden rounded-lg border border-ui-border-base transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ui-border-interactive focus-visible:ring-2 focus-visible:ring-[var(--ring)]`}
               >
@@ -65,7 +73,7 @@ export default function CategoryChildTiles({
                       alt={alt}
                       fill
                       quality={60}
-                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      sizes={dense ? "(max-width: 1024px) 33vw, 16vw" : "(max-width: 1024px) 50vw, 25vw"}
                       draggable={false}
                       className={styles.image}
                     />

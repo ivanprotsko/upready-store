@@ -26,13 +26,16 @@ export const CategoryListTable = () => {
   const query = raw.q
     ? {
         include_ancestors_tree: true,
-        fields: "id,name,handle,is_active,is_internal,parent_category",
+        // `metadata` carries the category picture the owner uploads (image_url /
+        // image_alt) — the Image column reads it (f16-category-image-not-shown).
+        fields: "id,name,handle,is_active,is_internal,parent_category,metadata",
         ...searchParams,
       }
     : {
         include_descendants_tree: true,
         parent_category_id: "null",
-        fields: "id,name,category_children,handle,is_internal,is_active",
+        fields:
+          "id,name,category_children,handle,is_internal,is_active,metadata,category_children.metadata",
         ...searchParams,
       }
 
