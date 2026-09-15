@@ -1,0 +1,120 @@
+[32minfo[39m:    Linting project...
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/scripts/fixtures/f12-seed-test-order.ts
+  42:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  46:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/scripts/fixtures/t13-seed-test-tenant.ts
+  51:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  80:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  93:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/scripts/fixtures/t17-seed-test-tenant.ts
+   47:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+   85:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  120:28  warning  `total: 2500` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  121:28  warning  `total: 1800` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  122:28  warning  `total: 3200` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+  123:28  warning  `total: 1200` looks like it's in the smallest currency unit. Medusa expects prices in major units (decimals)                                      @medusajs/prices-in-major-units
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/store/tenant/reviews/route.ts
+  185:25  warning  Avoid calling `reviewService.createProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/telegram/link/route.ts
+  105:9  warning  Avoid calling `tenantModule.updateTenantNotificationSettings(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/analytics/route.ts
+  58:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/articles/[slug]/route.ts
+  105:23  warning  Avoid calling `tenantModuleService.updateTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  152:9   warning  Avoid calling `tenantModuleService.deleteTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/articles/route.ts
+  73:25  warning  Avoid calling `tenantModuleService.createTenantArticles(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/branding/route.ts
+  54:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/domains/[id]/primary/route.ts
+   86:11  warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+   89:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  115:9   warning  Avoid calling `tenantModuleService.updateTenantDomains(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/me/password/route.ts
+  76:45  warning  Avoid calling `authModuleService.updateProvider(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/pages/[key]/route.ts
+  108:13  warning  Avoid calling `tenantModuleService.updateTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  118:13  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  170:9   warning  Avoid calling `tenantModuleService.deleteTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/pages/route.ts
+  78:25  warning  Avoid calling `tenantModuleService.createTenantPages(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/payment-settings/route.ts
+  70:11  warning  Avoid calling `tenantModule.updateTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  77:11  warning  Avoid calling `tenantModule.createTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  96:11  warning  Avoid calling `tenantModule.softDeleteTenantIntegrationSecrets(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/product-attributes/[id]/route.ts
+   85:13  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+   92:9   warning  Avoid calling `tenantModuleService.updateTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+  120:13  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+  125:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  133:13  warning  Avoid calling `tenantModuleService.updateTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  148:27  warning  Avoid calling `tenantModuleService.createTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  194:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`   @medusajs/no-service-mutations-in-api-route
+  203:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  208:9   warning  Avoid calling `tenantModuleService.deleteTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/product-attributes/route.ts
+  78:25  warning  Avoid calling `tenantModuleService.createTenantProductAttributes(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`        @medusajs/no-service-mutations-in-api-route
+  95:33  warning  Avoid calling `tenantModuleService.createTenantProductAttributeOptions(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/products/[id]/attributes/route.ts
+  131:13  warning  Avoid calling `tenantModuleService.updateTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  138:11  warning  Avoid calling `tenantModuleService.createTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  147:11  warning  Avoid calling `tenantModuleService.deleteTenantProductAttributeValues(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/products/import/[import_id]/confirm/route.ts
+   89:27  warning  Avoid calling `tenantModule.updateTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+  114:25  warning  Avoid calling `tenantModule.updateTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/products/import/[import_id]/route.ts
+  35:9  warning  Avoid calling `tenantModule.deleteTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/products/import/route.ts
+  143:25  warning  Avoid calling `tenantModule.createTenantProductImports(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/redirects/[id]/route.ts
+  26:9  warning  Avoid calling `tenantModuleService.deleteTenantRedirects(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/redirects/route.ts
+  63:25  warning  Avoid calling `tenantModuleService.createTenantRedirects(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/reviews/[id]/route.ts
+  55:9  warning  Avoid calling `reviewService.updateProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`      @medusajs/no-service-mutations-in-api-route
+  84:9  warning  Avoid calling `reviewService.softDeleteProductReviews(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/api/tenants/seo-verification/route.ts
+  27:25  warning  Avoid calling `tenantModuleService.updateTenants(...)` directly in an API route handler. Move the mutation into a workflow step and invoke it via `someWorkflow(req.scope).run({ input })`  @medusajs/no-service-mutations-in-api-route
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/modules/tariff-fulfillment/service.ts
+  50:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/scripts/import-cherkashina-reviews.ts
+   81:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  194:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  228:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-f12-fixture-build/apps/backend/src/shipping-tariffs/tariff.ts
+  210:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  225:11  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  231:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  241:15  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+  257:13  warning  Throw `MedusaError` instead of a generic `Error`. Use `new MedusaError(MedusaError.Types.X, "...")` so the error maps to the correct HTTP status  @medusajs/use-medusa-error-not-generic-error
+
+✖ 61 problems (0 errors, 61 warnings)
+[33mwarn[39m:    Lint produced 61 warning(s).
+lint rc=0
