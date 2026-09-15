@@ -2,6 +2,7 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { listTenantOrderIds } from "../../tenant-scope";
+import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone } from "../timezone";
 
 /**
  * `GET /tenants/analytics/summary` (t17-analytics, step 5) — revenue, order
@@ -34,37 +35,33 @@ type OrderRow = {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-const startOfDay = (date: Date): Date =>
-  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-
-const parseDate = (value: unknown): Date | null => {
-  if (typeof value !== "string") {
-    return null;
-  }
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-};
-
 /**
  * `{ start, end }` (end exclusive) for the requested period, plus the
  * immediately preceding period of the same length, so "change against the
  * previous period" always compares like-for-like durations.
+ *
+ * Every boundary is midnight in `ANALYTICS_TIMEZONE`, not UTC (round 1,
+ * finding 3): an order placed at 01:00 Moscow time is 22:00 UTC the day
+ * before, and a UTC-midnight cut put it in the wrong day and closed the
+ * "today" card three hours early for this shop's own morning.
  */
 const resolveRange = (
   req: AuthenticatedMedusaRequest,
   now: Date,
 ): { start: Date; end: Date; prevStart: Date; prevEnd: Date; key: string } => {
   const period = typeof req.query.period === "string" ? req.query.period : "7d";
-  const today = startOfDay(now);
+  const today = startOfDayInZone(now, ANALYTICS_TIMEZONE);
   const end = new Date(today.getTime() + DAY_MS);
 
   if (period === "custom") {
-    const from = parseDate(req.query.from);
-    const to = parseDate(req.query.to);
+    const fromRaw = typeof req.query.from === "string" ? req.query.from : null;
+    const toRaw = typeof req.query.to === "string" ? req.query.to : null;
+    const from = fromRaw ? parseDateInZone(fromRaw, ANALYTICS_TIMEZONE) : null;
+    const to = toRaw ? parseDateInZone(toRaw, ANALYTICS_TIMEZONE) : null;
 
-    if (from && to && to.getTime() > from.getTime()) {
-      const start = startOfDay(from);
-      const rangeEnd = new Date(startOfDay(to).getTime() + DAY_MS);
+    if (from && to && to.getTime() >= from.getTime()) {
+      const start = from;
+      const rangeEnd = new Date(to.getTime() + DAY_MS);
       const length = rangeEnd.getTime() - start.getTime();
 
       return {
@@ -165,7 +162,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     const dayEnd = new Date(cursor + DAY_MS);
     const dayOrders = inRange(dayStart, dayEnd);
     daily.push({
-      date: dayStart.toISOString().slice(0, 10),
+      date: formatDateInZone(dayStart, ANALYTICS_TIMEZONE),
       revenue: aggregate(dayOrders).revenue,
       order_count: dayOrders.length,
     });
