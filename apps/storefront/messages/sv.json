@@ -306,8 +306,12 @@
     "unauthorized": "Logga in för att fortsätta."
   },
   "Filters": {
+    "from": "från",
+    "no": "Nej",
     "sort": "Sortera",
-    "title": "Filter"
+    "title": "Filter",
+    "to": "till",
+    "yes": "Ja"
   },
   "Footer": {
     "categoriesHeading": "Kategorier",
@@ -696,6 +700,11 @@
     "outOfStock": "Slut i lager",
     "selectOptions": "Välj alternativ",
     "selectVariant": "Välj variant"
+  },
+  "ProductAttributes": {
+    "no": "Nej",
+    "title": "Specifikationer",
+    "yes": "Ja"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",

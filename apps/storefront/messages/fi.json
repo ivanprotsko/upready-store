@@ -306,8 +306,12 @@
     "unauthorized": "Kirjaudu sisään jatkaaksesi."
   },
   "Filters": {
+    "from": "alkaen",
+    "no": "Ei",
     "sort": "Lajittele",
-    "title": "Suodattimet"
+    "title": "Suodattimet",
+    "to": "asti",
+    "yes": "Kyllä"
   },
   "Footer": {
     "categoriesHeading": "Kategoriat",
@@ -696,6 +700,11 @@
     "outOfStock": "Ei varastossa",
     "selectOptions": "Valitse vaihtoehdot",
     "selectVariant": "Valitse versio"
+  },
+  "ProductAttributes": {
+    "no": "Ei",
+    "title": "Ominaisuudet",
+    "yes": "Kyllä"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",

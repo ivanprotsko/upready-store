@@ -306,8 +306,12 @@
     "unauthorized": "Ak chcete pokračovať, prihláste sa."
   },
   "Filters": {
+    "from": "od",
+    "no": "Nie",
     "sort": "Zoradiť",
-    "title": "Filtre"
+    "title": "Filtre",
+    "to": "do",
+    "yes": "Áno"
   },
   "Footer": {
     "categoriesHeading": "Kategórie",
@@ -696,6 +700,11 @@
     "outOfStock": "Nie je skladom",
     "selectOptions": "Vybrať možnosti",
     "selectVariant": "Vyberte variant"
+  },
+  "ProductAttributes": {
+    "no": "Nie",
+    "title": "Parametre",
+    "yes": "Áno"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",

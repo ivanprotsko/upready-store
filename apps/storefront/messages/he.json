@@ -306,8 +306,12 @@
     "unauthorized": "יש להתחבר כדי להמשיך."
   },
   "Filters": {
+    "from": "מ־",
+    "no": "לא",
     "sort": "מיון",
-    "title": "מסננים"
+    "title": "מסננים",
+    "to": "עד",
+    "yes": "כן"
   },
   "Footer": {
     "categoriesHeading": "קטגוריות",
@@ -696,6 +700,11 @@
     "outOfStock": "אזל מהמלאי",
     "selectOptions": "בחירת אפשרויות",
     "selectVariant": "בחר וריאציה"
+  },
+  "ProductAttributes": {
+    "no": "לא",
+    "title": "מפרט",
+    "yes": "כן"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",

@@ -306,8 +306,12 @@
     "unauthorized": "চালিয়ে যেতে অনুগ্রহ করে সাইন ইন করুন।"
   },
   "Filters": {
+    "from": "থেকে",
+    "no": "না",
     "sort": "সাজান",
-    "title": "ফিল্টার"
+    "title": "ফিল্টার",
+    "to": "পর্যন্ত",
+    "yes": "হ্যাঁ"
   },
   "Footer": {
     "categoriesHeading": "ক্যাটাগরি",
@@ -696,6 +700,11 @@
     "outOfStock": "স্টকে নেই",
     "selectOptions": "অপশন নির্বাচন করুন",
     "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন"
+  },
+  "ProductAttributes": {
+    "no": "না",
+    "title": "বৈশিষ্ট্য",
+    "yes": "হ্যাঁ"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",

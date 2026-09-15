@@ -306,8 +306,12 @@
     "unauthorized": "続行するにはサインインしてください。"
   },
   "Filters": {
+    "from": "最小",
+    "no": "いいえ",
     "sort": "並び替え",
-    "title": "フィルター"
+    "title": "フィルター",
+    "to": "最大",
+    "yes": "はい"
   },
   "Footer": {
     "categoriesHeading": "カテゴリー",
@@ -696,6 +700,11 @@
     "outOfStock": "在庫切れ",
     "selectOptions": "オプションを選択",
     "selectVariant": "バリエーションを選択"
+  },
+  "ProductAttributes": {
+    "no": "いいえ",
+    "title": "仕様",
+    "yes": "はい"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",

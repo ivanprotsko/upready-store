@@ -306,8 +306,12 @@
     "unauthorized": "Prisijunkite, kad galėtumėte tęsti."
   },
   "Filters": {
+    "from": "nuo",
+    "no": "Ne",
     "sort": "Rūšiuoti",
-    "title": "Filtrai"
+    "title": "Filtrai",
+    "to": "iki",
+    "yes": "Taip"
   },
   "Footer": {
     "categoriesHeading": "Kategorijos",
@@ -696,6 +700,11 @@
     "outOfStock": "Nėra sandėlyje",
     "selectOptions": "Pasirinkti parinktis",
     "selectVariant": "Pasirinkite variantą"
+  },
+  "ProductAttributes": {
+    "no": "Ne",
+    "title": "Savybės",
+    "yes": "Taip"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",

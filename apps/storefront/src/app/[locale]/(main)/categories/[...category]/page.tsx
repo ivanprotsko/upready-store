@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getCategoryByHandle } from "@lib/data/categories"
 import { buildAlternates } from "@lib/util/alternates"
 import { getCountryCode, getSiteName } from "@lib/data/cookies"
+import { parseAttributeSelection } from "@lib/util/product-attribute-filters"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import { parseSubcategoryHandles } from "@lib/util/subcategory-filters"
 import CategoryTemplate from "@modules/categories/templates"
@@ -66,6 +67,7 @@ export default async function CategoryPage(props: Props) {
 
   const { sortBy, page } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
+  const attributeSelection = parseAttributeSelection(searchParams)
   const subcategoryHandles = parseSubcategoryHandles(searchParams)
 
   const productCategory = await getCategoryByHandle(params.category)
@@ -81,6 +83,7 @@ export default async function CategoryPage(props: Props) {
       page={page}
       countryCode={countryCode ?? DEFAULT_REGION}
       optionValueIds={optionValueIds}
+      attributeSelection={attributeSelection}
       subcategoryHandles={subcategoryHandles}
     />
   )
