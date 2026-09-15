@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "Смотреть все"
   },
+  "ProductReviews": {
+    "heading": "Отзывы",
+    "ratingSummary": "{average} из 5 · {count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзыва}}",
+    "ratingValue": "{value} из 5",
+    "formHeading": "Ваш отзыв",
+    "ratingLabel": "Оценка",
+    "nameLabel": "Ваше имя",
+    "titleLabel": "Заголовок (необязательно)",
+    "bodyLabel": "Текст отзыва",
+    "submit": "Отправить отзыв",
+    "pendingNotice": "Спасибо. Отзыв появится на странице после проверки магазином.",
+    "signInPrompt": "Войдите, чтобы оставить отзыв.",
+    "error": "Отзыв не отправился. Попробуйте ещё раз.",
+    "ownerReply": "Ответ магазина",
+    "previousPage": "Назад",
+    "nextPage": "Вперёд",
+    "pageOf": "Страница {page} из {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Лёгкий возврат",
     "easyReturnsDesc": "Просто верните товар — мы вернём деньги. Без лишних вопросов, постараемся сделать возврат максимально простым.",

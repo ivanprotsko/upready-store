@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "צפייה בהכול"
   },
+  "ProductReviews": {
+    "heading": "ביקורות",
+    "ratingSummary": "{average} מתוך 5 · {count, plural, one {ביקורת אחת} two {שתי ביקורות} other {# ביקורות}}",
+    "ratingValue": "{value} מתוך 5",
+    "formHeading": "הביקורת שלך",
+    "ratingLabel": "דירוג",
+    "nameLabel": "השם שלך",
+    "titleLabel": "כותרת (לא חובה)",
+    "bodyLabel": "תוכן הביקורת",
+    "submit": "שליחת ביקורת",
+    "pendingNotice": "תודה. הביקורת תופיע לאחר אישור החנות.",
+    "signInPrompt": "התחברו כדי לכתוב ביקורת.",
+    "error": "לא ניתן היה לשלוח את הביקורת. נסו שוב.",
+    "ownerReply": "תשובת החנות",
+    "previousPage": "הקודם",
+    "nextPage": "הבא",
+    "pageOf": "עמוד {page} מתוך {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "החזרות קלות",
     "easyReturnsDesc": "פשוט החזר את המוצר ואנחנו נחזיר לך את הכסף. ללא שאלות מיותרות - נעשה כמיטב יכולתנו כדי שההחזרה תהיה פשוטה וללא טרחה.",

@@ -709,6 +709,24 @@
   "ProductRail": {
     "viewAll": "Vezi tot"
   },
+  "ProductReviews": {
+    "heading": "Recenzii",
+    "ratingSummary": "{average} din 5 · {count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}",
+    "ratingValue": "{value} din 5",
+    "formHeading": "Recenzia ta",
+    "ratingLabel": "Notă",
+    "nameLabel": "Numele tău",
+    "titleLabel": "Titlu (opțional)",
+    "bodyLabel": "Textul recenziei",
+    "submit": "Trimite recenzia",
+    "pendingNotice": "Mulțumim. Recenzia apare după ce magazinul o aprobă.",
+    "signInPrompt": "Autentifică-te pentru a lăsa o recenzie.",
+    "error": "Recenzia nu a putut fi trimisă. Încearcă din nou.",
+    "ownerReply": "Răspunsul magazinului",
+    "previousPage": "Înapoi",
+    "nextPage": "Înainte",
+    "pageOf": "Pagina {page} din {pages}"
+  },
   "ProductTabs": {
     "easyReturns": "Retururi ușoare",
     "easyReturnsDesc": "Returnați produsul și vă rambursăm banii. Fără întrebări - vom face tot posibilul ca returul dvs. să fie cât mai simplu.",

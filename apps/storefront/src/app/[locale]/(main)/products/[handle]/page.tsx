@@ -15,7 +15,13 @@ import { seoOverride } from "@lib/util/tenant-seo"
 
 type Props = {
   params: Promise<{ handle: string }>
-  searchParams: Promise<{ v_id?: string }>
+  searchParams: Promise<{ v_id?: string; rp?: string }>
+}
+
+/** `?rp=` — the 1-based page of the reviews list. Anything else is page 1. */
+function parseReviewsPage(raw: string | undefined): number {
+  const value = Number(raw)
+  return Number.isInteger(value) && value > 0 ? value : 1
 }
 
 function getImagesForVariant(
@@ -118,6 +124,7 @@ export default async function ProductPage(props: Props) {
       region={region}
       countryCode={cc}
       images={images ?? []}
+      reviewsPage={parseReviewsPage(searchParams.rp)}
     />
   )
 }

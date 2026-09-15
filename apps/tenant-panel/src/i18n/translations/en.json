@@ -214,6 +214,7 @@
         "extensions": "Extensions"
       },
       "main": {
+        "reviews": "Reviews",
         "shipping": "Delivery",
         "homeSettings": "Home page",
         "overview": "Overview",
@@ -588,16 +589,29 @@
       "successToast": "Customer {{email}} was successfully deleted.",
       "title": "Delete Customer"
     },
+    "detail": {
+      "addressesHeading": "Addresses",
+      "noAddresses": "This customer has no saved addresses.",
+      "noOrders": "This customer has no orders yet."
+    },
     "domain": "Customers",
     "edit": {
       "emailDisabledTooltip": "The email address cannot be changed for registered customers.",
       "header": "Edit Customer",
       "successToast": "Customer {{email}} was successfully updated."
     },
+    "export": {
+      "success": {
+        "description_one": "The file has {{count}} customer.",
+        "description_other": "The file has {{count}} customers.",
+        "title": "CSV ready"
+      }
+    },
     "fields": {
       "groups": "Groups",
       "guest": "Guest",
-      "registered": "Registered"
+      "registered": "Registered",
+      "totalSpent": "Total spent"
     },
     "groups": {
       "add": {
