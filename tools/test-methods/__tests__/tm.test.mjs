@@ -202,17 +202,38 @@ test("a baseline entry that still matches is not stale", async () => {
   assert.equal(result.stale.length, 0);
 });
 
-test("--strict has no baseline to go stale, and --base is history rather than rot", () => {
+test("--strict and --base report zero stale, whatever they find", () => {
   const cli = path.join(ROOT, "tm.mjs");
-  // --strict: the baseline is emptied, so the run reports findings and zero stale.
-  assert.throws(
-    () => execFileSync(process.execPath, [cli, "run", "tm-003", "--strict"], { encoding: "utf8" }),
-    (error) => error.status === 1 && /RED/.test(error.stdout) && /\s0\s+files=/.test(error.stdout)
-  );
-  // --base: a baseline describes the tree as it stands today, so replaying an
-  // old commit must not call its entries stale.
-  const old = execFileSync(process.execPath, [cli, "run", "tm-003", "--base", "5b6e9e2"], { encoding: "utf8" });
-  assert.match(old, /GREEN/);
+  const stale = (output) => {
+    const row = output.split("\n").find((line) => line.startsWith("tm-003"));
+    assert.ok(row, `no tm-003 row in:\n${output}`);
+    // ID  STATUS  NEW  KNOWN  STALE  SCANNED
+    return Number(row.trim().split(/\s+/)[4]);
+  };
+
+  // --strict empties the baseline, so there is nothing there to go stale. The
+  // assertion is on the STALE column rather than on the exit code: what this
+  // repository happens to contain today is not the behaviour under test, and
+  // the first version of this test broke the moment the findings were fixed.
+  let strict;
+  try {
+    strict = execFileSync(
+      process.execPath,
+      [cli, "run", "tm-003", "--root", path.join(ROOT, "fixtures/tm-003/variant-1-name-only"), "--strict"],
+      { encoding: "utf8" }
+    );
+  } catch (error) {
+    strict = error.stdout;
+    assert.equal(error.status, 1, "a fixture carrying the class must exit 1");
+  }
+  assert.match(strict, /RED/);
+  assert.equal(stale(strict), 0);
+
+  // --base replays an old commit: its entries are unmatched by construction and
+  // that is history, not rot.
+  const historic = execFileSync(process.execPath, [cli, "run", "tm-003", "--base", "5b6e9e2"], { encoding: "utf8" });
+  assert.match(historic, /GREEN/);
+  assert.equal(stale(historic), 0);
 });
 
 test("the CLI exits non-zero on a red run and zero on a green one", () => {

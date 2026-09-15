@@ -379,3 +379,95 @@ tm-001/tm-002/tm-003  GREEN,  stale=0   rc=0
 
 Приёмщик перепроверил и подтвердил безопасность: в коммитах ноль файлов под `apps/`, весь код ветки —
 отдельные `.mjs` в `tools/`, сборкой приложений не компилируются.
+
+---
+
+# Раунд 3 — правки по приёмке (2026-09-15 22:35 WITA)
+
+## 1. «Коммит `6ba5772b` не запушен» — находка НЕВЕРНА, это была гонка
+
+Замер приёмщика шёл 22:16–22:19 WITA, мой `git push` лёг в 22:18 (строка в `logs/workers.log`).
+`git fetch` приёмщика успел раньше пуша. На момент этого раунда:
+
+```
+$ git fetch origin && git rev-list --left-right --count origin/feat/day16-test-methods-pilot...HEAD
+0	0
+$ git rev-parse HEAD;  git rev-parse origin/feat/day16-test-methods-pilot
+6ba5772b4dd8f5bd4cefdb18275b1a81fe4f7272
+6ba5772b4dd8f5bd4cefdb18275b1a81fe4f7272
+$ gh pr view 56 --json headRefOid
+{"headRefOid":"6ba5772b4dd8f5bd4cefdb18275b1a81fe4f7272"}
+```
+
+То есть `6ba5772b` — голова PR, и проверка протухания в PR есть. Отдельной правки здесь не требуется.
+
+## 2. НОВЫЙ БЛОКЕР, появившийся после замера приёмщика: PR #55 вмержен в `dev`, PR снова конфликтовал
+
+```
+$ gh pr view 56 --json mergeable,mergeStateStatus
+{"mergeStateStatus":"DIRTY","mergeable":"CONFLICTING"}
+$ git log --oneline origin/dev -1
+1088507f fix(backend): Образ бэкенда не собирается после #50: фикстура f12 в компилируемом src/scripts (f18-f12-fixture-build) (#55)
+```
+
+Слито: `git merge origin/dev`. Конфликтовала снова только шапка `HANDOFF.json` (мой вклад — те же
+две строки, `git diff --numstat a339acc6 HEAD -- HANDOFF.json` → `2 2`), разрешено тем же способом:
+сторона `dev` целиком плюс возврат своей строки через `handoff.mjs status append`.
+`package.json` слился сам, и все три скрипта на месте: мой `test:methods` и два от f18
+(`check:backend-build`, `check:backend-fixtures`).
+
+## 3. Проверка протухания baseline сработала на ЖИВОМ событии, а не на модели
+
+Ровно то, что в раунде 2 было смоделировано копией реестра, случилось по-настоящему: f18 перенёс
+все три фикстуры в `apps/backend/scripts/fixtures/`, и после мержа `dev` прогон покраснел сам:
+
+```
+$ node tools/test-methods/tm.mjs run all
+tm-001  GREEN  0  0  0  files=325 imports=1024 packages=6
+tm-002  GREEN  0  1  0  panelFiles=878 storefrontFiles=420 readerFiles=1713
+tm-003  RED    0  0  3  files=1702
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts
+       … Владелец записи: f18-f12-fixture-build.
+  STALE tm-003  …/t13-seed-test-tenant.ts    STALE tm-003  …/t17-seed-test-tenant.ts
+rc=1
+```
+
+Находок при этом НОЛЬ: класс в репозитории закрыт, красная только сама отговорка. Три записи
+удалены из `registry.json`, вместо них поле `baselineClosed` с датой, номером PR и причиной:
+
+```
+$ node tools/test-methods/tm.mjs run all
+tm-001  GREEN  0  0  0
+tm-002  GREEN  0  1  0
+tm-003  GREEN  0  0  0
+rc=0
+```
+
+Полный вывод обоих прогонов — `measure/14-stale-fired-for-real.txt`.
+В baseline осталась **одна** запись: `tm-002` / `metadata.language` (владельца у неё по-прежнему нет,
+задачу заводит Иван). README обновлён.
+
+## 4. Свой тест оказался привязан к состоянию репозитория — переписан
+
+Тест `--strict … --base …` утверждал, что `run tm-003 --strict` выходит с кодом 1. Это было верно,
+пока на `dev` стояли три фикстуры, и сломалось в ту же минуту, когда их не стало: тест проверял не
+поведение, а сегодняшнее содержимое репозитория. Переписан на утверждение о КОЛОНКЕ `STALE`
+(она обязана быть нулевой при `--strict` и при `--base`) и на постоянную фикстуру вместо рабочего
+дерева. Юнит-тестов в сюите по-прежнему 27, проходят все 27.
+
+## 5. Ниты 1 и 2 раунда 2 — закрыты событием
+
+* Порядок мержа: вопрос снят, #55 уже в `dev`, и метод `tm-003` на слитом дереве зелёный без
+  единой записи baseline.
+* `tsc`/`lint` приложений: без изменений — под `apps/` в ветке по-прежнему ноль изменённых файлов
+  (мерж `dev` приносит чужие правки, своих там нет).
+
+## Итог замеров раунда 3
+
+| команда | результат |
+|---|---|
+| `node --test tools/test-methods/__tests__/` | `tests 27 / pass 27 / fail 0`, rc=0 |
+| `node tools/test-methods/tm.mjs verify all` | `20/20 evidence cases hold`, rc=0 |
+| `node tools/test-methods/tm.mjs run all` | tm-001/002/003 GREEN, new=0, known=1, stale=0, rc=0 |
+| `node tools/test-methods/tm.mjs run all --strict` | tm-002 RED 1, остальные GREEN, rc=1 |

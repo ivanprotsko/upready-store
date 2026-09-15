@@ -354,29 +354,8 @@
           "*.test.ts, *.spec.ts, __tests__/ и integration-tests/ исключены: юнит-тесты рядом с кодом — это гейты репозитория, а не одноразовые фикстуры."
         ]
       },
-      "baseline": [
-        {
-          "check": "fixture-marker-in-compiled-tree",
-          "file": "apps/backend/src/scripts/f12-seed-test-order.ts",
-          "reason": "Тот самый файл, из которого вырос метод. Живой на dev, ломает сборку образа. Починку делает отдельная задача f18-f12-fixture-build; здесь он остаётся замером, а не правкой.",
-          "task": "f18-f12-fixture-build",
-          "since": "2026-09-15"
-        },
-        {
-          "check": "fixture-marker-in-compiled-tree",
-          "file": "apps/backend/src/scripts/t13-seed-test-tenant.ts",
-          "reason": "Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.",
-          "task": "r03-test-methods-pilot → штабу на заведение",
-          "since": "2026-09-15"
-        },
-        {
-          "check": "fixture-marker-in-compiled-tree",
-          "file": "apps/backend/src/scripts/t17-seed-test-tenant.ts",
-          "reason": "Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.",
-          "task": "r03-test-methods-pilot → штабу на заведение",
-          "since": "2026-09-15"
-        }
-      ]
+      "baselineClosed": "2026-09-15: три записи baseline (f12-seed-test-order, t13-seed-test-tenant, t17-seed-test-tenant под apps/backend/src/scripts/) удалены — PR #55 (f18-f12-fixture-build) перенёс все три файла в apps/backend/scripts/fixtures/, вне компилируемого дерева. Долг закрыт, и это был первый живой прогон проверки протухания: после мержа dev `tm run all` покраснел тремя строками STALE, назвал владельцев и потребовал удалить записи — ровно то поведение, ради которого проверка заведена.",
+      "baseline": []
     }
   ]
 }

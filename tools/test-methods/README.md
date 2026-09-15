@@ -123,8 +123,11 @@ pnpm test:methods                                    # юниты + verify + run
 прогон красным. `--strict` обнуляет baseline и показывает всё. `tm verify` всегда строгий: baseline
 не имеет права прятать фикстуру, которая обязана краснеть.
 
-Сегодня в baseline четыре записи — все четыре найдены этим же пилотом и все четыре настоящие:
-одна по `tm-002` (`metadata.language`) и три по `tm-003` (`f12`, `t13`, `t17`).
+Сегодня в baseline **одна** запись — `tm-002` / `metadata.language`. Было четыре: три записи
+метода `tm-003` (`f12-seed-test-order`, `t13-seed-test-tenant`, `t17-seed-test-tenant`) сняты
+2026-09-15, когда PR #55 (`f18-f12-fixture-build`) перенёс все три файла в
+`apps/backend/scripts/fixtures/`, вне компилируемого дерева. Сняты не вручную по памяти: после мержа
+`dev` прогон покраснел тремя строками `STALE` и потребовал удалить записи.
 
 ### Протухшая запись baseline — красная
 
@@ -139,16 +142,23 @@ pnpm test:methods                                    # юниты + verify + run
 там записи не совпадают по построению, и протуханием это не считается. `--strict` обнуляет baseline,
 протухать нечему.
 
-```
-$ node tools/test-methods/tm.mjs run tm-003          # состояние после мержа PR #55, смоделировано
-tm-003  RED   3   0   3   files=1705
+Так это выглядело, когда сработало по-настоящему — сразу после мержа PR #55 в `dev`
+(полный вывод: `artifacts/docs/r03-test-methods-pilot/measure/14-stale-fired-for-real.txt`):
 
-  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/scripts/fixtures/f12-seed-test-order.ts
+```
+$ node tools/test-methods/tm.mjs run all
+tm-003  RED   0   0   3   files=1702
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts
        эта запись baseline больше ничего не находит: долг закрыт, а запись осталась
        и теперь молча простит следующую такую же находку. Удалите её из
        registry.json (метод tm-003, baseline). Владелец записи: f18-f12-fixture-build.
+  …то же для t13-seed-test-tenant.ts и t17-seed-test-tenant.ts
 rc=1
 ```
+
+Находок при этом НОЛЬ (`NEW 0`): класс в репозитории закрыт, красная только сама отговорка.
+После удаления трёх записей — `tm-003 GREEN 0 0 0`, rc=0.
 
 ## Раскладка
 
