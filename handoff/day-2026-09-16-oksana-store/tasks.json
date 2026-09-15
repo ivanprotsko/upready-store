@@ -444,16 +444,17 @@
       "title": "Деплой dev на живой хост, волна 3",
       "kind": "run",
       "lane": "deploy",
-      "model": "sonnet",
-      "effort": "medium",
+      "model": "opus",
+      "effort": "high",
       "cwd": "main",
       "deps": [
-        "d02-deploy-mt-2"
+        "d02-deploy-mt-2",
+        "f17-backend-image-sharp"
       ],
       "priority": 26,
       "prompt": "d03-deploy-mt-3.md",
       "maxMin": 120,
-      "maxAttempts": 2,
+      "maxAttempts": 3,
       "doneCheck": {
         "url": "https://cherkashino.shipshift.dev/ru",
         "expect": 200
@@ -634,6 +635,20 @@
       "prompt": "f08-medusa-mark-bottom-nav.md",
       "acceptance": "На 390x844 ни одна страница витрины не запрашивает /medusa.svg, центральная кнопка ведёт на главную и сохраняет доступное имя; git grep medusa.svg по apps/storefront в отчёте; скриншоты главной, карточки и корзины на 390x844",
       "why": "найдено живой приёмкой q01: bottom-nav/index.tsx:37 грузит /medusa.svg на каждой мобильной странице"
+    },
+    {
+      "id": "f17-backend-image-sharp",
+      "title": "Образ mt-backend не содержит модуль sharp — бэкенд падает на старте после деплоя",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "fix/day16-backend-image-sharp",
+      "deps": [],
+      "priority": 35,
+      "prompt": "f17-backend-image-sharp.md",
+      "acceptance": "Образ, собранный по apps/backend/Dockerfile из ветки, стартует и отвечает GET /health 200 в docker run; docker run --rm <image> node -e \"require('sharp')\" печатает ok; в Dockerfile есть сборочная проверка наличия runtime-зависимостей, падающая на build, а не на хосте; замеры до/после в теле PR",
+      "why": "инцидент 11:20–12:17 WITA: вся платформа mt отвечала 502 после деплоя d03, бэкенд падал с Cannot find module sharp (маршрут брендинга из t16); платформа возвращена на образ wave2, деплой волны 3 заблокирован до починки"
     }
   ]
 }
