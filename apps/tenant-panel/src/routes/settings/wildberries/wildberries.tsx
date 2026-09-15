@@ -3,10 +3,14 @@ import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useWbStatus } from "../../../hooks/api/wb-status"
+import { useWbTables } from "../../../hooks/api/wb-tables"
 import { WbCategoryList } from "./components/wb-category-list"
 import { WbEndpointTable } from "./components/wb-endpoint-table"
 import { WbFieldRow } from "./components/wb-field-row"
+import { WbFunnelTable } from "./components/wb-funnel-table"
+import { WbQuestionsTable } from "./components/wb-questions-table"
 import { WbReadOnlyBadge } from "./components/wb-read-only-badge"
+import { WbSalesTable } from "./components/wb-sales-table"
 import { WbSyncTable } from "./components/wb-sync-table"
 import { WbWritePreviewSection } from "./components/wb-write-preview-section"
 import { WbWriteSection } from "./components/wb-write-section"
@@ -37,6 +41,9 @@ const formatDateTime = (value: string | null, locale: string): string => {
 export const WildberriesSettings = () => {
   const { t, i18n } = useTranslation()
   const { wb, isPending, isError, error } = useWbStatus()
+  // The tables load on their own: they aggregate mirrors of tens of thousands
+  // of rows, and the connection card must not wait for them (w03).
+  const { tables, isPending: tablesPending, isError: tablesFailed } = useWbTables()
 
   if (isError) {
     throw error
@@ -137,6 +144,69 @@ export const WildberriesSettings = () => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="flex flex-col gap-y-3 px-6 py-4">
+              <div>
+                <Text weight="plus">{t("wildberries.sales.title")}</Text>
+                <Text className="text-ui-fg-subtle" size="small">
+                  {t("wildberries.sales.hint", { days: tables?.sales.window_days ?? 30 })}
+                </Text>
+              </div>
+              {tables ? (
+                <WbSalesTable sales={tables.sales} />
+              ) : (
+                <Text className="text-ui-fg-subtle" size="small">
+                  {tablesFailed
+                    ? t("wildberries.tablesFailed")
+                    : tablesPending
+                      ? t("wildberries.loading")
+                      : t("wildberries.tablesFailed")}
+                </Text>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-y-3 px-6 py-4">
+              <div>
+                <Text weight="plus">{t("wildberries.questions.title")}</Text>
+                <Text className="text-ui-fg-subtle" size="small">
+                  {t("wildberries.questions.hint")}
+                </Text>
+              </div>
+              {tables ? (
+                <WbQuestionsTable questions={tables.questions} />
+              ) : (
+                <Text className="text-ui-fg-subtle" size="small">
+                  {tablesFailed
+                    ? t("wildberries.tablesFailed")
+                    : tablesPending
+                      ? t("wildberries.loading")
+                      : t("wildberries.tablesFailed")}
+                </Text>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-y-3 px-6 py-4">
+              <div>
+                <Text weight="plus">{t("wildberries.funnel.title")}</Text>
+                <Text className="text-ui-fg-subtle" size="small">
+                  {t("wildberries.funnel.hint")}
+                </Text>
+              </div>
+              {tables ? (
+                <WbFunnelTable
+                  analytics={tables.analytics}
+                  listingsTotal={wb.mirrors.products ?? null}
+                />
+              ) : (
+                <Text className="text-ui-fg-subtle" size="small">
+                  {tablesFailed
+                    ? t("wildberries.tablesFailed")
+                    : tablesPending
+                      ? t("wildberries.loading")
+                      : t("wildberries.tablesFailed")}
+                </Text>
+              )}
             </div>
 
             <div className="flex flex-col gap-y-3 px-6 py-4">

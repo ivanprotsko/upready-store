@@ -1,0 +1,2705 @@
+URL: https://dev.wildberries.ru/en/docs/openapi/customer-communication
+FINAL: https://dev.wildberries.ru/en/docs/openapi/customer-communication#tag/buyersReturns/operation/getV1Claims
+TITLE: Documentation — WB API
+
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+More
+Sign In
+General
+Item Management
+FBS Orders
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Questions
+Feedbacks
+Pinned Feedbacks
+Buyers Chat
+Buyers Returns
+GET
+Buyers Return Applications
+/api/v1/claims
+PATCH
+Answer Buyers Application
+/api/v1/claim
+Rates
+Analytics and Data
+Reports
+Documents and Accounting
+Customer Communication
+
+Management of customer inquiries and feedback, chats, and returns processing
+
+
+
+You can test the customer communication methods in the sandbox. Also you can use special methods in the sandbox for managing test feedbacks and questions
+
+You can learn how to use methods in business cases in the instructions on working with Customer Communication section
+Questions
+To access the methods, use a token for the Feedbacks and Questions category
+Unseen Feedbacks and Questions
+/api/v1/new-feedbacks-questions
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/new-feedbacks-questions
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/new-feedbacks-questions
+Method description
+
+The method displays information about the seller unseen feedbacks and questions
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"hasNewQuestions": true,
+"hasNewFeedbacks": false
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Unanswered Questions
+/api/v1/questions/count-unanswered
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/questions/count-unanswered
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/questions/count-unanswered
+Method description
+
+The method allows you to get the number of unanswered questions for today and for all time
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"countUnanswered": 24,
+"countUnansweredToday": 0
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Number of Questions
+/api/v1/questions/count
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/questions/count
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/questions/count
+Method description
+
+The method allows to get the number of questions for requested period
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom	
+integer
+Example: dateFrom=1688465092
+
+The start date of the period in Unix timestamp format
+
+
+dateTo	
+integer
+Example: dateTo=1688465092
+
+The end date of the period in Unix timestamp format
+
+
+isAnswered	
+boolean
+Default: true
+Example: isAnswered=false
+
+If the question was answered:
+
+true — yes
+false — no
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": 77,
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Questions List
+/api/v1/questions
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/questions
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/questions
+Method description
+
+The method allows you to get a list of questions by the specified parameters with pagination and sorting.
+It is possible to get a maximum of 10,000 questions per query
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+isAnswered
+required
+	
+boolean
+
+The question is answered:
+
+true — yes
+false — no
+
+nmId	
+integer
+
+WB item number
+
+
+take
+required
+	
+integer
+
+Number of requested questions (the maximum possible value for the parameter is 10,000, and the total amount of take and skip parameters must not exceed 10,000)
+
+
+skip
+required
+	
+integer
+
+Number of questions to skip (maximum possible value for the parameter is 10,000, and the total amount of take and skip parameters must not exceed 10,000)
+
+
+order	
+string
+
+Sorting questions by date (dateAsc/dateDesc)
+
+
+dateFrom	
+integer
+Example: dateFrom=1688465092
+
+The start date of the period in Unix timestamp format
+
+
+dateTo	
+integer
+Example: dateTo=1688465092
+
+The end date of the period in Unix timestamp format
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"countUnanswered": 24,
+"countArchive": 508,
+"questions": 
+[
+{
+"id": "2ncBtX4B9I0UHoornoqG",
+"text": "Question text",
+"createdDate": "2022-02-01T11:18:08.769513469Z",
+"state": "suppliersPortalSynch",
+"answer": null,
+"productDetails": 
+{
+"imtId": 11157265,
+"nmId": 14917842,
+"productName": "Coffee",
+"supplierArticle": "123401",
+"supplierName": " ГП Реклама и услуги",
+"brandName": "Nescafe"
+},
+"wasViewed": false,
+"isWarned": false
+}
+]
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Working with Questions
+/api/v1/questions
+Prod
+PATCH
+https://feedbacks-api.wildberries.ru/api/v1/questions
+Sandbox
+PATCH
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/questions
+Method description
+
+Depending on the request body, you can:
+
+View question.
+Reject question.
+Answer question or edit the answer
+All seller responses undergo preliminary moderation before publication
+It is possible to edit a response to a question within 2 months (60 days), after the response has been submitted and only once
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+One of
+object
+object
+id
+required
+	
+string
+
+Question ID
+
+
+wasViewed
+required
+	
+boolean
+
+If the question was viewed
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+422
+
+Error processing request parameters
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Example
+ViewQuestion
+RejectQuestion
+AnswerQuestionOrEditAnswer
+ViewQuestion
+
+View question
+
+Copy
+{
+"id": "n5um6IUBQOOSTxXoo0gV",
+"wasViewed": true
+}
+Response samples
+200
+400
+401
+402
+403
+404
+422
+429
+Content type
+application/json
+Copy
+{
+"data": null,
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Get the Question by ID
+/api/v1/question
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/question
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/question
+Method description
+
+The method allows you to get a question by its ID
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+id
+required
+	
+string
+Example: id=ljAVapEBL38RyMdRln61
+
+Question ID
+
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+422
+
+Error processing request parameters
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": "TfWOp5QBfEYrrd0AMJau",
+"text": "Хороший карандаш? Когда еще поставите?",
+"createdDate": "2025-01-27T11:38:21.202143857Z",
+"state": "wbRu",
+"answer": 
+{
+"text": "На следующей неделе",
+"editable": true,
+"createDate": "2025-07-28T08:24:37.187113704Z"
+},
+"productDetails": 
+{
+"imtId": 202306781,
+"nmId": 224747484,
+"productName": "Карандаш с ластиком",
+"supplierArticle": "12113156uw",
+"supplierName": "",
+"brandName": "Brand"
+},
+"wasViewed": true,
+"isWarned": false
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Feedbacks
+To access the methods, use a token for the Feedbacks and Questions category
+Unanswered Feedbacks
+/api/v1/feedbacks/count-unanswered
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/count-unanswered
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/count-unanswered
+Method description
+
+The method allows you to get the number of unanswered feedbacks for today, for all time.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"countUnanswered": 1,
+"countUnansweredToday": 0
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Number of Feedbacks
+/api/v1/feedbacks/count
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/count
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/count
+Method description
+
+The method allows to get the number of feedbacks
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom	
+integer
+Example: dateFrom=1688465092
+
+The start date of the period in Unix timestamp format
+
+
+dateTo	
+integer
+Example: dateTo=1688465092
+
+The end date of the period in Unix timestamp format
+
+
+isAnswered
+required
+	
+boolean
+Example: isAnswered=false
+
+Return only processed feedbacks:
+
+true — yes
+false — no
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": 724583,
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Feedbacks List
+/api/v1/feedbacks
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks
+Method description
+
+The method allows you to get a list of feedbacks by the specified parameters with pagination and sorting
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+isAnswered
+required
+	
+boolean
+Example: isAnswered=false
+
+Return only processed feedbacks:
+
+true — yes
+false — no
+
+nmId	
+integer
+Example: nmId=5870243
+
+WB item number
+
+
+take
+required
+	
+integer
+Example: take=1
+
+Number of feedbacks (max. 5 000)
+
+
+skip
+required
+	
+integer
+Example: skip=0
+
+Number of feedbacks for skip (max. 199990)
+
+
+order	
+string
+Enum: "dateAsc" "dateDesc"
+
+Sorting of feedbacks by date (dateAsc/dateDesc)
+
+
+dateFrom	
+integer
+Example: dateFrom=1688465092
+
+The start date of the period in Unix timestamp format
+
+
+dateTo	
+integer
+Example: dateTo=1688465092
+
+The end date of the period in Unix timestamp format
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"countUnanswered": 52,
+"countArchive": 1000,
+"feedbacks": 
+[
+{
+"id": "YX52RZEBhH9mrcYdEJuD",
+"text": "Спасибо, всё подошло",
+"pros": "Удобный",
+"cons": "Нет",
+"productValuation": 5,
+"createdDate": "2024-09-26T10:20:48+03:00",
+"answer": 
+{
+"text": "Пожалуйста. Ждём вас снова!",
+"state": "wbRu",
+"editable": false
+},
+"state": "wbRu",
+"productDetails": 
+{
+"imtId": 123456789,
+"nmId": 987654321,
+"productName": "ВАЗ",
+"supplierArticle": "DP02/черный",
+"supplierName": "ГП Реклама и услуги",
+"brandName": "Бест Трикотаж",
+"size": "0"
+},
+"video": 
+{
+"previewImage": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp",
+"link": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8",
+"durationSec": 10
+},
+"wasViewed": true,
+"photoLinks": 
+[
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp"
+}
+],
+"userName": "Николай",
+"orderStatus": "buyout",
+"matchingSize": "ok",
+"isAbleSupplierFeedbackValuation": false,
+"supplierFeedbackValuation": 1,
+"isAbleSupplierProductValuation": false,
+"supplierProductValuation": 2,
+"isAbleReturnProductOrders": false,
+"returnProductOrdersDate": "2024-08-20T16:39:49Z",
+"bables": 
+[
+"цена"
+],
+"lastOrderShkId": 123456789,
+"lastOrderCreatedAt": "2024-08-12T10:20:48+03:00",
+"color": "colorless",
+"subjectId": 219,
+"subjectName": "Футболки-поло",
+"parentFeedbackId": null,
+"childFeedbackId": "bIjTCZDvJni7NGnLbUlf"
+}
+]
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Reply to Feedback
+/api/v1/feedbacks/answer
+Prod
+POST
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/answer
+Sandbox
+POST
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/answer
+Method description
+
+Allows you to respond to the feedback.
+There is no validation by feedback ID: if an incorrect value is provided in the request, you will not receive an error.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+id
+required
+	
+string
+
+Feedback ID
+
+
+text
+required
+	
+string [ 2 .. 5000 ]
+
+Reply text
+
+Responses
+204
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"id": "J2FMRjUj6hwvwCElqssz",
+"text": "Спасибо за Ваш отзыв!"
+}
+Response samples
+400
+401
+402
+403
+429
+Content type
+application/json
+Example
+contentTypeHeaderNotSpecified
+incorrectContentTypeHeader
+incorrectContentType
+invalidJsonSyntax
+contentTypeHeaderNotSpecified
+
+Content-Type header not specified
+
+Copy
+{
+"title": "bad request",
+"requestId": "e6c4100223db8bf5818b2e5f12705891",
+"origin": "fbapi",
+"detail": "content-type header not specified"
+}
+Edit Response to Feedback
+/api/v1/feedbacks/answer
+Prod
+PATCH
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/answer
+Sandbox
+PATCH
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/answer
+Method description
+
+Allows you to edit an already sent response to the feedback.
+You can edit the response only once within 60 days.
+There is no validation by feedback ID: if an incorrect value is provided in the request, you will not receive an error.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+id
+required
+	
+string
+
+Feedback ID
+
+
+text
+required
+	
+string [ 2 .. 5000 ]
+
+Reply text
+
+Responses
+204
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"id": "J2FMRjUj6hwvwCElqssz",
+"text": "Спасибо за Ваш отзыв, он очень важен для нас!"
+}
+Response samples
+401
+402
+403
+429
+Content type
+application/problem+json
+Copy
+{
+"title": "unauthorized",
+"detail": "token problem; token is malformed: could not base64 decode signature: illegal base64 data at input byte 84",
+"code": "07e4668e--a53a3d31f8b0-[UK-oWaVDUqNrKG]; 03bce=277; 84bd353bf-75",
+"requestId": "7b80742415072fe8b6b7f7761f1d1211",
+"origin": "ag-marketplace",
+"status": 401,
+"statusText": "Unauthorized",
+"timestamp": "2024-09-30T06:52:38Z"
+}
+Return Item by Feedback ID
+/api/v1/feedbacks/order/return
+Prod
+POST
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/order/return
+Sandbox
+POST
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/order/return
+Method description
+
+The method allows requesting a return for a item for which a feedback has been left.
+Return is available for feedbacks with "isAbleReturnProductOrders": true
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+feedbackId	
+string
+
+Feedback ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+422
+
+Error processing request parameters
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"feedbackId": "absdfgerrrfff1234"
+}
+Response samples
+200
+400
+401
+402
+403
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": { },
+"error": true,
+"errorText": "string",
+"additionalErrors": 
+[
+"string"
+]
+}
+Get the Feedback by ID
+/api/v1/feedback
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/feedback
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedback
+Method description
+
+The method allows you to get a feedback by its ID
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+id
+required
+	
+string
+Example: id=G7Y9Y1kBAtKOitoBT_lV
+
+Feedback ID
+
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+422
+
+Error processing request parameters
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": "YX52RZEBhH9mrcYdEJuD",
+"text": "Спасибо, всё подошло",
+"pros": "Удобный",
+"cons": "Нет",
+"productValuation": 5,
+"createdDate": "2024-09-26T10:20:48+03:00",
+"answer": 
+{
+"text": "Пожалуйста. Ждём вас снова!",
+"state": "wbRu",
+"editable": false
+},
+"state": "wbRu",
+"productDetails": 
+{
+"imtId": 123456789,
+"nmId": 987654321,
+"productName": "ВАЗ",
+"supplierArticle": "DP02/черный",
+"supplierName": "ГП Реклама и услуги",
+"brandName": "Бест Трикотаж",
+"size": "0"
+},
+"video": 
+{
+"previewImage": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp",
+"link": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8",
+"durationSec": 10
+},
+"wasViewed": true,
+"photoLinks": 
+[
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp"
+}
+],
+"userName": "Николай",
+"orderStatus": "returned",
+"matchingSize": "ok",
+"isAbleSupplierFeedbackValuation": false,
+"supplierFeedbackValuation": 1,
+"isAbleSupplierProductValuation": false,
+"supplierProductValuation": 2,
+"isAbleReturnProductOrders": false,
+"returnProductOrdersDate": "2024-08-20T16:39:49Z",
+"bables": 
+[
+"цена"
+],
+"lastOrderShkId": 123456789,
+"lastOrderCreatedAt": "2024-08-12T10:20:48+03:00",
+"color": "colorless",
+"subjectId": 219,
+"subjectName": "Футболки-поло",
+"parentFeedbackId": null,
+"childFeedbackId": "bIjTCZDvJni7NGnLbUlf"
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+List of Archived Feedbacks
+/api/v1/feedbacks/archive
+Prod
+GET
+https://feedbacks-api.wildberries.ru/api/v1/feedbacks/archive
+Sandbox
+GET
+https://feedbacks-api-sandbox.wildberries.ru/api/v1/feedbacks/archive
+Method description
+
+The method allows you to get a list of archived feedbacks.
+The feedback becomes archived if:
+
+A response to the feedback is received.
+No response to the feedback is received within 30 days.
+The feedback contains no text or photos.
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+nmId	
+integer
+Example: nmId=14917842
+
+WB item number
+
+
+take
+required
+	
+integer
+Example: take=1
+
+Number of feedbacks (max. 5 000)
+
+
+skip
+required
+	
+integer
+Example: skip=0
+
+Number of feedbacks for skip
+
+
+order	
+string
+Enum: "dateAsc" "dateDesc"
+
+Sorting of feedbacks by date (dateAsc/dateDesc)
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+422
+
+Error processing request parameters
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+422
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"feedbacks": 
+[
+{
+"id": "YX52RZEBhH9mrcYdEJuD",
+"text": "Спасибо, всё подошло",
+"pros": "Удобный",
+"cons": "Нет",
+"productValuation": 5,
+"createdDate": "2024-09-26T10:20:48+03:00",
+"answer": 
+{
+"text": "Пожалуйста. Ждём вас снова!",
+"state": "wbRu",
+"editable": false
+},
+"state": "wbRu",
+"productDetails": 
+{
+"imtId": 123456789,
+"nmId": 987654321,
+"productName": "ВАЗ",
+"supplierArticle": "DP02/черный",
+"supplierName": "ГП Реклама и услуги",
+"brandName": "Бест Трикотаж",
+"size": "0"
+},
+"video": 
+{
+"previewImage": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp",
+"link": "https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8",
+"durationSec": 10
+},
+"wasViewed": true,
+"photoLinks": 
+[
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp"
+},
+{
+"fullSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp",
+"miniSize": "https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp"
+}
+],
+"userName": "Николай",
+"orderStatus": "returned",
+"matchingSize": "ok",
+"isAbleSupplierFeedbackValuation": false,
+"supplierFeedbackValuation": 1,
+"isAbleSupplierProductValuation": false,
+"supplierProductValuation": 2,
+"isAbleReturnProductOrders": false,
+"returnProductOrdersDate": "2024-08-20T16:39:49Z",
+"bables": 
+[
+"цена"
+],
+"lastOrderShkId": 123456789,
+"lastOrderCreatedAt": "2024-08-12T10:20:48+03:00",
+"color": "colorless",
+"subjectId": 219,
+"subjectName": "Футболки-поло",
+"parentFeedbackId": null,
+"childFeedbackId": "bIjTCZDvJni7NGnLbUlf"
+}
+]
+},
+"error": false,
+"errorText": "",
+"additionalErrors": null
+}
+Pinned Feedbacks
+To access the methods, use a token for the Feedbacks and Questions category
+
+Use these methods for:
+
+Getting the list of pinned and unpinned feedbacks
+Pinning feedbacks. The method is available for Jam subscription or Pin a feedback option in the Plan Builder
+Unpinning feedbacks
+Getting pinned and unpinned feedback number
+Getting pinned feedback limits
+List of Pinned and Unpinned Feedbacks
+/api/feedbacks/v1/pins
+GET
+https://feedbacks-api.wildberries.ru/api/feedbacks/v1/pins
+Method description
+
+The method allows to get the list of pinned and unpinned feedbacks.
+Only automatically unpinned feedback cause of the reasons specified in the response in the unpinnedCause field are considered unpinned.
+
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+state	
+string
+Enum: "pinned" "unpinned"
+Example: state=pinned
+
+If the feedback is pinned:
+
+pinned — yes
+unpinned — no
+
+pinOn	
+string
+Enum: "nm" "imt"
+Example: pinOn=nm
+
+Feedback pinning placement:
+
+nm — listing
+imt — group of merged listings
+
+imtId	
+integer
+Example: imtId=256972151
+
+Merged listing ID.
+The same for all WB item number of group of merged listings.
+Every listing has imtId, even if is not merged with any other listing
+
+
+nmId	
+integer
+Example: nmId=177974151
+
+WB item number
+
+
+feedbackId	
+integer
+Example: feedbackId=789
+
+Feedback ID
+
+
+dateFrom	
+string <date-time>
+Example: dateFrom=2020-01-01T15:04:05Z
+
+The date the first feedback in the list was pinned
+
+
+dateTo	
+string <date-time>
+Example: dateTo=2020-02-01T15:04:05Z
+
+The date the last feedback in the list was pinned
+
+
+next	
+integer
+Example: next=741
+
+The last pinning operation ID (paginator)
+
+
+limit	
+integer <= 500
+Default: 500
+Example: limit=100
+
+Feedback number per page (pagination)
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+{
+"changeStateAt": "2020-01-01T15:04:05Z",
+"imtId": 256971531,
+"nmId": 177974151,
+"pinId": 1857762,
+"pinMethod": "subscription",
+"pinOn": "imt",
+"feedbackId": "DibuRAImknLyiqgzvGcU",
+"state": "unpinned",
+"unpinnedCause": "sysTariffUnpinned"
+}
+],
+"next": 200
+}
+Pin Feedbacks
+/api/feedbacks/v1/pins
+POST
+https://feedbacks-api.wildberries.ru/api/feedbacks/v1/pins
+Method description
+
+The method allows to pin the feedbacks to a group of merged listings or to a listing.
+To get feedback ID, use the List of pinned and unpinned feedbacks method.
+
+The method is available for Jam subscription or Pin a feedback option in the Plan Builder.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+Array (<= 500 items)
+pinMethod
+required
+	
+string
+Enum: "tariff" "subscription"
+
+Pinning methods:
+
+subscription — Jam subscription
+tariff — rate option
+
+pinOn
+required
+	
+string
+Enum: "nm" "imt"
+
+Feedback pinning placement:
+
+nm — listing
+imt — group of merged listings
+
+feedbackId
+required
+	
+string
+
+Feedback ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"pinMethod": "subscription",
+"pinOn": "imt",
+"feedbackId": "VlbkVVl7mtw37wуWkJZz"
+},
+{
+"pinMethod": "tariff",
+"pinOn": "imt",
+"feedbackId": "DibuRAImknLyiqgzvGcU"
+}
+]
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+{
+"feedbackId": "VlbkVVl7mtw37wуWkJZz",
+"pinId": 18577062,
+"pinMethod": "subscription",
+"pinOn": "imt",
+"isErrors": false
+},
+{
+"feedbackId": "DibuRAImknLyiqgzvGcU",
+"pinMethod": "tariff",
+"pinOn": "imt",
+"isErrors": true,
+"errors": 
+[
+{
+"status": "itemNotFound",
+"title": "item not found",
+"detail": "item not found or does not belong to seller",
+"requestId": "0414dc48df701618e0a3bfc414fe3136",
+"origin": "pin-open-api"
+}
+]
+}
+]
+}
+Unpin Feedback
+/api/feedbacks/v1/pins
+DELETE
+https://feedbacks-api.wildberries.ru/api/feedbacks/v1/pins
+Method description
+
+The method allows to unpin the feedback in a group of merged listings or a listing.
+To get pinId — feedback pinning operation ID, use the List of pinned and unpinned feedback method.
+
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+
+List of pinId — IDs of feedback pinning operations
+
+Array (<= 500 items)
+integer
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+[
+123456,
+234567,
+345678
+]
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+123456,
+234567,
+345678
+]
+}
+Pinned and Unpinned Feedback Number
+/api/feedbacks/v1/pins/count
+GET
+https://feedbacks-api.wildberries.ru/api/feedbacks/v1/pins/count
+Method description
+
+The method returns the number of pinned and unpinned feedbacks for the period.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+state	
+string
+Enum: "pinned" "unpinned"
+Example: state=pinned
+
+If the feedback is pinned:
+
+pinned — yes
+unpinned — no
+
+pinOn	
+string
+Enum: "nm" "imt"
+Example: pinOn=nm
+
+Feedback pinning placement:
+
+nm — listing
+imt — group of merged listings
+
+imtId	
+integer
+Example: imtId=256971531
+
+Merged listing ID.
+The same for all WB item number of group of merged listings.
+Every listing has imtId, even if is not merged with any other listing
+
+
+nmId	
+integer
+Example: nmId=177974151
+
+WB item number
+
+
+feedbackId	
+integer
+Example: feedbackId=789
+
+Feedback ID
+
+
+dateFrom	
+string <date-time>
+Example: dateFrom=2020-01-01T15:04:05Z
+
+The date the first feedback in the list was pinned
+
+
+dateTo	
+string <date-time>
+Example: dateTo=2020-02-01T15:04:05Z
+
+The date the last feedback in the list was pinned
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+{
+"data": 0
+}
+Pinned Feedback Limits
+/api/feedbacks/v1/pins/limits
+GET
+https://feedbacks-api.wildberries.ru/api/feedbacks/v1/pins/limits
+Method description
+
+The method returns the pinned feedback limits for a rate and subscription.
+
+Request limit per one seller account for all methods in the Feedbacks and Questions category:
+Type	Period	Limit	Interval	Burst
+Personal	1 s	3 requests	333 ms	6 requests
+Service	1 s	3 requests	333 ms	6 requests
+Base with secret	1 s	3 requests	333 ms	6 requests
+Base	1 h	5 requests	12 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"subscription": 
+{
+"perUnitLimit": 2,
+"remaining": 5,
+"totalLimit": 15,
+"unlimited": false,
+"used": 10
+},
+"tariff": 
+{
+"perUnitLimit": 2,
+"remaining": 5,
+"totalLimit": 15,
+"unlimited": false,
+"used": 10
+}
+}
+}
+Buyers Chat
+To access the methods, use a token for the Buyers chat category
+Buyers chat allows sellers and buyers to communicate directly.
+Buyers can ask questions about items or file reports. We recommended to respond to the messages in the chat within 10 days.
+The buyer always starts the chat. In one chat you can communicate only with one buyer.
+Processing requests for item refunds is only available in the web version of buyers chat.
+
+
+
+Chat operations:
+
+Get a chats list. Save the chat ID in your database — this will allow you to update the chat information when receiving events.
+Get chat events: messages. New chats will have the isNewChat parameter set to true.
+Send messages to the chat
+Chats List
+/api/v1/seller/chats
+GET
+https://buyer-chat-api.wildberries.ru/api/v1/seller/chats
+Method description
+
+Returns a list of all seller chats.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	10 requests	1 s	10 requests
+Service	10 s	10 requests	1 s	10 requests
+Base with secret	10 s	10 requests	1 s	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"result": 
+[
+{
+"chatID": "1:4019cd7d-cca8-4e90-8b11-f78afbea42e3",
+"replySign": "1:4019cd7d-cca8-4e90-8b11-f78afbea42e3:54828159:bc3a4c04079f5956cff170b25e73523aa1208b5c0bd7aea1e520a64ae3e212b1ebae6712661f3afd27520fa785fa3042254e8a3100ce00644322054ae7cfcd0e",
+"clientName": "Иван",
+"goodCard": 
+{
+"nmID": 0,
+"price": 0,
+"priceCurrency": "string",
+"rid": "string",
+"size": "string"
+},
+"lastMessage": 
+{
+"text": "Можно заказать 100 штук?",
+"addTimestamp": 1766138234889
+}
+}
+],
+"errors": null
+}
+Chat Events
+/api/v1/seller/events
+GET
+https://buyer-chat-api.wildberries.ru/api/v1/seller/events
+Method description
+
+Returns an event list for all chats.
+
+To retrieve all events:
+
+Make the first request without a next parameter.
+Repeat the request with the next parameter value from the previous response until totalEvents becomes 0. This will indicate that you have received all events.
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	10 requests	1 s	10 requests
+Service	10 s	10 requests	1 s	10 requests
+Base with secret	10 s	10 requests	1 s	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+next	
+integer
+
+Paginator. Retrieve the next data packet starting from this moment.
+Format: Unix timestamp with milliseconds
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"result": 
+{
+"next": 1698045576000,
+"newestEventTime": "2023-10-23T07:19:36Z",
+"oldestEventTime": "2023-10-23T05:02:20Z",
+"totalEvents": 4,
+"events": 
+[
+{
+"chatID": "1:1e265a58-a120-b178-008c-60af2460207c",
+"eventID": "55adee45-11f0-33b6-a847-6ccc7c78b2ec",
+"eventType": "message",
+"isNewChat": true,
+"message": 
+{
+"attachments": 
+{
+"goodCard": 
+{
+"nmID": 12345678,
+"price": 500,
+"priceCurrency": "RUB",
+"rid": "2fb52cd9e25e52538a5f05994e688ae5",
+"size": "0"
+},
+"files": 
+[
+{
+"contentType": "application/pdf",
+"date": "2023-10-23T08:02:19.594Z",
+"downloadID": "ecaeb056-a4ee-45b4-ae45-666811755d38",
+"name": "Чек.pdf",
+"url": "https://chat-basket-01.wbbasket.ru/vol0/part3265/fb25c9e9-cae8-52db-b68e-736c1896a3f5/pdf/0380e781-281e-41b5-8ae1-ce281f15a4a7.pdf",
+"size": 1046143
+}
+],
+"images": 
+[
+{
+"date": "2023-10-23T08:02:20.717Z",
+"downloadID": "fd6be4e3-5447-41d7-a1e6-b2d3e06c3b05",
+"url": "https://chat-basket-01.wbbasket.ru/vol0/part2345/fb89c9e9-cae8-52db-b68e-736c1466a3f5/jpg/0823ff24-821e-40e9-8cdf-0a2b5fd86a32.jpg"
+}
+]
+},
+"text": "Здравствуйте! У меня вопрос по товару \"Альбом, бренд Эконом, артикул 13480414, товар получен 18.10.2023\""
+},
+"source": "rusite",
+"addTimestamp": 1698037340000,
+"addTime": "2023-10-23T05:02:20Z",
+"replySign": "1:1e265a58-a120-b178-008c-60af2460207c:66f136e919a8207e136757754f253189bfb9ae1ad9da9170c9d5c478626663908888c370216525bef51c0ca8d77952e05c9c17f9b63ab00374c5555b42efc07d",
+"sender": "client",
+"clientName": "Алёна"
+},
+{
+"chatID": "1:1e265a58-a120-b178-008c-60af2460207c",
+"eventID": "cef95d3c-0345-4dc9-b6df-4c8c57a176a9",
+"eventType": "message",
+"message": 
+{
+"text": "Здравствуйте! Пришёл не тот цвет. Можно вернуть и заказать другой товар?"
+},
+"source": "rusite",
+"addTimestamp": 1698037387000,
+"addTime": "2023-10-23T05:03:07Z",
+"sender": "client",
+"clientName": "Алёна"
+},
+{
+"chatID": "1:1e265a58-a120-b178-008c-60af2460207c",
+"eventID": "fd22e5bf-64fd-43f7-b3a0-ad29uu027f97",
+"eventType": "message",
+"message": 
+{
+"text": "Здравствуйте. Да, сейчас оформим возврат."
+},
+"source": "seller-public-api",
+"addTimestamp": 1698038124000,
+"addTime": "2023-10-23T05:15:24Z",
+"sender": "seller"
+},
+{
+"chatID": "1:1e265a58-a120-b178-008c-60af2460207c",
+"eventID": "cef95d3c-0345-4dc9-b6df-4c8c75a176a7",
+"eventType": "message",
+"addTimestamp": 1698045576000,
+"addTime": "2023-10-23T07:19:36Z",
+"sender": "seller"
+}
+]
+},
+"errors": null
+}
+Send Message
+/api/v1/seller/message
+POST
+https://buyer-chat-api.wildberries.ru/api/v1/seller/message
+Method description
+
+Sends message to the buyer.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	10 requests	1 s	10 requests
+Service	10 s	10 requests	1 s	10 requests
+Base with secret	10 s	10 requests	1 s	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: multipart/form-data
+required
+replySign
+required
+	
+string <= 255 characters
+
+Chat signature. Can be obtained from chat information or event data if the event contains the "isNewChat": true field.
+
+
+message	
+string <= 1000 characters
+
+Message text. Maximum of 1000 symbols.
+
+
+file	
+Array of strings <binary> [ items <binary > ]
+
+Files, in JPEG, PDF, or PNG format, maximum size — 5 MB each. Maximum of total file size — 30 MB.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"result": 
+{
+"addTime": 1712848270018,
+"chatID": "1:641b623c-5c0e-295b-db03-3d5b4d484c32"
+},
+"errors": [ ]
+}
+Get File from the Message
+/api/v1/seller/download/{id}
+GET
+https://buyer-chat-api.wildberries.ru/api/v1/seller/download/{id}
+Method description
+
+The method provides a file or image from the message by its ID.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	10 requests	1 s	10 requests
+Service	10 s	10 requests	1 s	10 requests
+Base with secret	10 s	10 requests	1 s	10 requests
+Base	1 h	10 requests	6 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+id
+required
+	
+string
+
+File ID from the downloadID field in the chat events method
+
+Responses
+200
+
+Success
+
+202
+
+The file is under moderation
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+451
+
+Moderation failed
+
+Response samples
+202
+400
+401
+402
+403
+429
+451
+Content type
+application/json
+Copy
+{
+"moderationState": "pending",
+"retrySeconds": 30
+}
+Buyers Returns
+To access the methods, use a token for the Buyers returns category
+Buyers Return Applications
+/api/v1/claims
+GET
+https://returns-api.wildberries.ru/api/v1/claims
+Method description
+
+Returns buyers applications for item returns for the current 14 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	20 requests	3 s	10 requests
+Service	1 min	20 requests	3 s	10 requests
+Base with secret	1 min	20 requests	3 s	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+is_archive
+required
+	
+boolean
+Example: is_archive=true
+
+Application status:
+
+false — under review
+true — in archive
+
+id	
+string <UUID>
+Example: id=fe3e9337-e9f9-423c-8930-946a8ebef80
+
+Application ID
+
+
+limit	
+integer <uint> [ 1 .. 200 ]
+Default: 50
+Example: limit=50
+
+Number of applications in the response
+
+
+offset	
+integer <uint> >= 0
+Default: 0
+Example: offset=0
+
+From which element to start outputting data. 0 by default
+
+
+nm_id	
+integer
+Example: nm_id=196320101
+
+WB item number
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"claims": 
+[
+{
+"id": "fe3e9337-e9f9-423c-8930-946a8ebef80",
+"claim_type": 1,
+"status": 2,
+"status_ex": 8,
+"nm_id": 196320101,
+"user_comment": "Длина провода не соответствует описанию",
+"wb_comment": "Продавец одобрил вашу заявку. Для возврата средств необходимо вернуть товар продавцу. Укажите дату, когда вам удобно принять курьера.",
+"dt": "2025-03-26T17:06:12.245611",
+"imt_name": "Кабель 0.5 м, 3797",
+"order_dt": "2024-10-27T05:18:56",
+"dt_update": "2025-05-10T18:01:06.999613",
+"photos": 
+[
+"//photos.wbstatic.net/claim/fe3e9337-e9f9-423c-8930-946a8ebef80/1.webp",
+"//photos.wbstatic.net/claim/fe3e9337-e9f9-423c-8930-946a8ebef80/2.webp"
+],
+"video_paths": 
+[
+"//video.wbstatic.net/claim/fe3e9337-e9f9-423c-8930-946a8ebef80/1.mp4"
+],
+"actions": 
+[
+"autorefund1",
+"approve1"
+],
+"price": 157,
+"currency_code": "643",
+"srid": "v5o_7143225816503318733.0.0",
+"origin_id_info": "IMEI 359889346153011, указанный покупателем в  заявке на возврат, не совпадает с IMEI 359889346238986, указанным продавцом или отсканированным на складе Wildberries",
+"delivery_dt": "2025-04-09T14:36:07"
+}
+],
+"total": 31
+}
+Answer Buyers Application
+/api/v1/claim
+PATCH
+https://returns-api.wildberries.ru/api/v1/claim
+Method description
+
+Sends an answer to the buyers application for item return.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	20 requests	3 s	10 requests
+Service	1 min	20 requests	3 s	10 requests
+Base with secret	1 min	20 requests	3 s	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+REQUEST BODY SCHEMA: application/json
+required
+
+Application answer
+
+id
+required
+	
+string <UUID>
+
+Application ID
+
+
+action
+required
+	
+string
+
+Application action.
+Use one of the actions array values from the response of the getting buyers applications method
+
+
+comment	
+string [ 10 .. 1000 ] characters
+
+Comment.
+Only when "action":"rejectcustom" or "action":"approvecc1". When "action":"rejectcustom" this parameter is required
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+{
+"id": "fe3e9337-e9f9-423c-8930-946a8ebef80",
+"action": "rejectcustom",
+"comment": "The photo is not related to the item in the application"
+}
+Response samples
+400
+401
+402
+403
+429
+Content type
+application/json; charset=utf-8
+Copy
+{
+"title": "Validation error",
+"detail": "Input model is not valid; Details: The Action field is required.",
+"requestId": "0HN3PI6JUGFSL:00000004"
+}
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept
