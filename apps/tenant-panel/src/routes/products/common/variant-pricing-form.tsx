@@ -54,6 +54,7 @@ export const VariantPricingForm = ({
       state={form}
       onEditingChange={(editing) => setCloseOnEscape(!editing)}
       headerContent={<PricingCurrencyToggle {...scope} />}
+      isLoading={!scope.isReady}
     />
   )
 }

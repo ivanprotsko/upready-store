@@ -7,6 +7,11 @@ import { useTenantLocaleSettings } from "../../../hooks/api/locale-settings"
 import { useRegions } from "../../../hooks/api/regions"
 import { useStore } from "../../../hooks/api/store"
 import { currencies as CURRENCY_CATALOG } from "../../../lib/data/currencies"
+import {
+  FALLBACK_LOCALE,
+  LOCALE_DEFAULT_COUNTRY,
+  type LocaleCode,
+} from "../../../lib/locale-catalog"
 
 /**
  * f09-price-editor-currencies: which currency columns a price grid opens with.
@@ -44,6 +49,13 @@ export type PricingScope = {
   currencyLabel: (code: string) => string
   showAll: boolean
   setShowAll: (value: boolean) => void
+  /**
+   * False until the store, the regions and the locale settings have all
+   * answered. Until then the shop's own currency is not known, and a grid
+   * built now would open on the store's seeded default and then reshuffle
+   * under the owner's hands (rule 19h: "not answered yet" is not "no").
+   */
+  isReady: boolean
   /** Currency + region columns available in total, for the toggle's label. */
   totalColumnCount: number
   /** How many of them the narrow scope leaves out. */
@@ -68,9 +80,10 @@ export const usePricingScope = ({
   const { t } = useTranslation()
   const [showAll, setShowAll] = useState(false)
 
-  const { store } = useStore()
-  const { regions } = useRegions({ limit: 9999 })
-  const { locale_settings: localeSettings } = useTenantLocaleSettings()
+  const { store, isPending: isStorePending } = useStore()
+  const { regions, isPending: isRegionsPending } = useRegions({ limit: 9999 })
+  const { locale_settings: localeSettings, isPending: isLocalePending } =
+    useTenantLocaleSettings()
 
   const usedCurrencyKey = usedCurrencies.join(",")
   const usedRegionKey = usedRegionIds.join(",")
@@ -81,20 +94,39 @@ export const usePricingScope = ({
   )
 
   const shopCurrency = useMemo(() => {
+    // The store row is shared by every tenant, so its own default currency
+    // (`usd` on this deployment) is the LAST resort, not the first: it says
+    // what the platform was seeded with, not what this shop sells in.
     const storeDefault =
       store?.supported_currencies?.find((c) => c.is_default)?.currency_code ??
       supported[0]
 
-    const country = localeSettings?.default_country?.toLowerCase()
-    const byCountry = country
-      ? regions?.find((region) =>
-          region.countries?.some((c) => c.iso_2?.toLowerCase() === country)
-        )?.currency_code
-      : undefined
+    const currencyOfCountry = (iso2?: string) =>
+      iso2
+        ? regions?.find((region) =>
+            region.countries?.some(
+              (c) => c.iso_2?.toLowerCase() === iso2.toLowerCase()
+            )
+          )?.currency_code
+        : undefined
 
-    // A currency the store does not support cannot carry a price, so an
-    // owner's country whose region prices in one falls back to the store's.
-    return byCountry && supported.includes(byCountry) ? byCountry : storeDefault
+    // 1. the owner's own «Валюта по умолчанию» on /settings/locale;
+    // 2. otherwise the country their shop language prices in — the same chain
+    //    the storefront walks through `LOCALE_COUNTRY_MAP`;
+    // 3. otherwise the panel's own unsaved default language.
+    const byCountry = currencyOfCountry(
+      localeSettings?.default_country ?? undefined
+    )
+    const locale = (localeSettings?.default_locale ??
+      FALLBACK_LOCALE) as LocaleCode
+    const byLocale = currencyOfCountry(LOCALE_DEFAULT_COUNTRY[locale])
+
+    // A currency the store does not support cannot carry a price.
+    const picked = [byCountry, byLocale].find(
+      (code) => code && supported.includes(code)
+    )
+
+    return picked ?? storeDefault
   }, [store, supported, regions, localeSettings])
 
   const allCurrencies = useMemo(() => {
@@ -159,6 +191,7 @@ export const usePricingScope = ({
   )
 
   return {
+    isReady: !isStorePending && !isRegionsPending && !isLocalePending,
     currencies: scopedCurrencies,
     regions: scopedRegions,
     shopCurrency,

@@ -82,6 +82,7 @@ export const ProductCreateVariantsForm = ({
         state={form}
         onEditingChange={(editing) => setCloseOnEscape(!editing)}
         headerContent={<PricingCurrencyToggle {...scope} />}
+        isLoading={!scope.isReady}
       />
     </div>
   )
