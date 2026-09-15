@@ -74,12 +74,12 @@ hidden_blocks: [{"key":"contacts","hidden":8},{"key":"offer","hidden":22},{"key"
 контактов появляются «Индивидуальный предприниматель ИП Черкашина Оксана Ивановна», ОГРНИП и ИНН;
 исчезает только строка «Адрес регистрации», которой у нас нет.
 
-Кадры (вне git):
-- `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects/artifacts/docs/b02-legal-and-redirects/shots/stand-after-contacts-1280x1400.png`
-- `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects/artifacts/docs/b02-legal-and-redirects/shots/stand-after-offer-1280x1400.png`
-- `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects/artifacts/docs/b02-legal-and-redirects/shots/stand-after-privacy-1280x1400.png`
-- `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects/artifacts/docs/b02-legal-and-redirects/shots/stand-after-prefill-contacts-1280x1000.png`
-- `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-legal-and-redirects/artifacts/docs/b02-legal-and-redirects/shots/stand-panel-requisites-1280x1000.png`
+Кадры (в git, пути от корня репозитория):
+- `artifacts/docs/b02-legal-and-redirects/shots/stand-after-contacts-1280x1400.png`
+- `artifacts/docs/b02-legal-and-redirects/shots/stand-after-offer-1280x1400.png`
+- `artifacts/docs/b02-legal-and-redirects/shots/stand-after-privacy-1280x1400.png`
+- `artifacts/docs/b02-legal-and-redirects/shots/stand-after-prefill-contacts-1280x1000.png`
+- `artifacts/docs/b02-legal-and-redirects/shots/stand-panel-requisites-1280x1000.png`
 
 ## 2. 301-редиректов нет на живом
 
@@ -214,9 +214,14 @@ integration tenants-requisites                     5 passed
   пустой <thead> таблицы «Продавец», который я видел до мержа, закрыт правкой b09
 ```
 
-Кадры после мержа (вне git):
-`shots/stand-b09-empty-contacts-1280x1000.png` (реквизиты пусты) и
-`shots/stand-b09-prefilled-contacts-1280x1000.png` (после prefill).
+Кадры после мержа:
+`artifacts/docs/b02-legal-and-redirects/shots/stand-b09-empty-contacts-1280x1000.png` (реквизиты
+пусты) и `artifacts/docs/b02-legal-and-redirects/shots/stand-b09-prefilled-contacts-1280x1000.png`
+(после prefill).
+
+Сырьё замеров — `artifacts/docs/b02-legal-and-redirects/raw/`. HTML-дампы живых страниц (2,1 МБ) в
+git не кладутся; их разбор — сколько каких токенов видел покупатель — в
+`raw/live-before-token-breakdown.txt`.
 
 Docker локально не запускался (приказ Ивана 2026-09-15 22:05): образ собирает живой хост в задаче
 деплоя.
