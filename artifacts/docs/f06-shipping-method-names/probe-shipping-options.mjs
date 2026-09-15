@@ -46,14 +46,34 @@ if (!key) {
 }
 const auth = { "x-publishable-api-key": key, "x-medusa-locale": process.env.LOCALE ?? "ru" }
 
-const { regions } = await get("/store/regions", auth)
+// The store has one region per country (241 of them) and /store/regions pages
+// at 50 by default, so ask for all of them and pick by the country the buyer
+// ships to, not by whichever page the currency happens to land on.
+const { regions } = await get("/store/regions?limit=250", auth)
+const country = (process.env.COUNTRY ?? "ru").toLowerCase()
 const region =
-  regions.find((r) => r.currency_code === (process.env.CURRENCY ?? "rub")) ?? regions[0]
+  regions.find((r) => (r.countries ?? []).some((c) => c.iso_2 === country)) ??
+  regions.find((r) => r.currency_code === (process.env.CURRENCY ?? "rub")) ??
+  regions[0]
 
-const { products } = await get(`/store/products?limit=1&region_id=${region.id}`, auth)
-const variant = products?.[0]?.variants?.[0]
+// A variant without a price in this region is refused by the cart («do not
+// have a price»), so pick the first one the region actually prices.
+const { products } = await get(
+  `/store/products?limit=20&region_id=${region.id}&fields=*variants.calculated_price`,
+  auth,
+)
+let product = null
+let variant = null
+for (const candidate of products ?? []) {
+  const priced = (candidate.variants ?? []).find((v) => v.calculated_price?.calculated_amount != null)
+  if (priced) {
+    product = candidate
+    variant = priced
+    break
+  }
+}
 if (!variant) {
-  throw new Error(`${host} has no purchasable product to build a cart from`)
+  throw new Error(`${host} has no priced variant in region ${region.id} to build a cart from`)
 }
 
 const { cart } = await post("/store/carts", { region_id: region.id }, auth)
@@ -67,7 +87,7 @@ console.log(
       host,
       tenant: { handle: config.handle ?? null, name: config.name ?? config.shop_name ?? null },
       region: { id: region.id, currency_code: region.currency_code },
-      cart: { id: cart.id, product: products[0].title, variant: variant.id },
+      cart: { id: cart.id, product: product.title, variant: variant.id },
       shipping_options: options.map((option) => ({
         id: option.id,
         name: option.name,

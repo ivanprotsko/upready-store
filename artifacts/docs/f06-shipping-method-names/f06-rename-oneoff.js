@@ -61,10 +61,14 @@ module.exports.default = async function f06RenameOneOff({ container }) {
     (regions[0] || {}).currency_code ||
     "usd";
 
-  const { data: tenants } = await query.graph({
+  const only = (process.env.TENANT || "").trim().toLowerCase();
+  const { data: allTenants } = await query.graph({
     entity: "tenant",
-    fields: ["id", "name", "sales_channel.id", "sales_channel.stock_locations.fulfillment_sets.service_zones.id"],
+    fields: ["id", "name", "handle", "sales_channel.id", "sales_channel.stock_locations.fulfillment_sets.service_zones.id"],
   });
+  const tenants = only
+    ? allTenants.filter((t) => String(t.handle || "").toLowerCase() === only || String(t.id || "").toLowerCase() === only)
+    : allTenants;
 
   let renamed = 0;
   let repriced = 0;
@@ -126,6 +130,6 @@ module.exports.default = async function f06RenameOneOff({ container }) {
   }
 
   logger.info(
-    `[f06-rename-oneoff] renamed ${renamed} options across ${tenants.length} tenants, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder (home currency ${homeCurrency})`,
+    `[f06-rename-oneoff] renamed ${renamed} options across ${tenants.length} tenants${only ? ` (TENANT=${only})` : ""}, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder (home currency ${homeCurrency})`,
   );
 };

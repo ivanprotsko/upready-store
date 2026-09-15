@@ -58,10 +58,21 @@ export default async function renameDefaultShippingMethods({ container }: ExecAr
     (regions[0]?.currency_code as string | undefined) ??
     "usd";
 
-  const { data: tenants } = await query.graph({
+  // `TENANT=<handle|id>` narrows the run to one shop, the way the live
+  // operation on cherkashino did before the change was reviewed; without it
+  // every shop with machine-made names is converged, which is what the boot
+  // step is for.
+  const only = (process.env.TENANT ?? "").trim().toLowerCase();
+  const { data: allTenants } = await query.graph({
     entity: "tenant",
-    fields: ["id", "name", "sales_channel.id", "sales_channel.stock_locations.fulfillment_sets.service_zones.id"],
+    fields: ["id", "name", "handle", "sales_channel.id", "sales_channel.stock_locations.fulfillment_sets.service_zones.id"],
   });
+  const tenants = only
+    ? allTenants.filter(
+        (tenant) =>
+          String(tenant.handle ?? "").toLowerCase() === only || String(tenant.id ?? "").toLowerCase() === only,
+      )
+    : allTenants;
 
   let renamed = 0;
   let repriced = 0;
@@ -146,6 +157,6 @@ export default async function renameDefaultShippingMethods({ container }: ExecAr
   }
 
   logger.info(
-    `[rename-default-shipping-methods] renamed ${renamed} options across ${tenants.length} tenants, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder`,
+    `[rename-default-shipping-methods] renamed ${renamed} options across ${tenants.length} tenants${only ? ` (TENANT=${only})` : ""}, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder`,
   );
 }
