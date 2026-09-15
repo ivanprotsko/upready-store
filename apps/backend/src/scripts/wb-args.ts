@@ -25,10 +25,12 @@ export type WbScriptArgs = {
   cards: string | null;
   /** A comma-separated list of WB numbers for the analytics import (w03). */
   nmids: string | null;
+  /** `true` or `false`: import only that half of the customer questions (w03). */
+  answered: string | null;
   flags: Set<string>;
 };
 
-const NAMES = ["tenant", "kind", "cards", "nmids"] as const;
+const NAMES = ["tenant", "kind", "cards", "nmids", "answered"] as const;
 
 export const parseWbArgs = (
   args: string[] = [],
@@ -39,6 +41,7 @@ export const parseWbArgs = (
     kind: null,
     cards: null,
     nmids: null,
+    answered: null,
   };
   const flags = new Set<string>();
 
@@ -69,6 +72,7 @@ export const parseWbArgs = (
     kind: values.kind ?? env.WB_KIND ?? null,
     cards: values.cards ?? env.WB_ANALYTICS_CARDS ?? null,
     nmids: values.nmids ?? env.WB_NM_IDS ?? null,
+    answered: values.answered ?? env.WB_QUESTIONS_ANSWERED ?? null,
     flags,
   };
 };

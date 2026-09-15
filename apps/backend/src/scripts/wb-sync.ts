@@ -27,7 +27,7 @@ import { parseWbArgs } from "./wb-args";
  */
 export default async function wbSync({ container, args }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  const { tenant: handle, kind: kindArg, cards, nmids } = parseWbArgs(args);
+  const { tenant: handle, kind: kindArg, cards, nmids, answered } = parseWbArgs(args);
   const kind = kindArg ?? "all";
 
   if (!handle) {
@@ -92,7 +92,14 @@ export default async function wbSync({ container, args }: ExecArgs) {
           .map((one) => one.trim())
           .filter(Boolean)
       : undefined,
+    questionsAnswered: answered === null ? undefined : answered === "true",
   };
+
+  if (answered !== null && answered !== "true" && answered !== "false") {
+    logger.error(`wb:sync: WB_QUESTIONS_ANSWERED must be true or false, got ${answered}.`);
+    process.exitCode = 1;
+    return;
+  }
 
   if (limits.analyticsCards !== undefined && !Number.isFinite(limits.analyticsCards)) {
     logger.error(`wb:sync: WB_ANALYTICS_CARDS must be a number, got ${cards}.`);

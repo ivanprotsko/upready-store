@@ -29,6 +29,16 @@ export type WbSyncLimits = {
   analyticsCards?: number;
   /** Exactly these WB numbers, instead of the ranking. */
   nmIds?: string[];
+  /**
+   * Which half of the questions to import, when only one of them is worth a
+   * request. `isAnswered` is a required WB parameter, so the import normally
+   * makes both passes — and on a base token the whole Feedbacks and Questions
+   * category shares 5 requests per hour (measured 2026-09-16 05:13 and 05:20
+   * WITA: WB answered 429 asking for 720 s and then 266 s). With two passes
+   * the first one always spends the budget, so an operator who needs the
+   * other half has to be able to say so.
+   */
+  questionsAnswered?: boolean;
 };
 
 export type WbSyncDeps = {
@@ -690,7 +700,16 @@ const syncQuestions = async (
     data?: { countUnanswered?: number; countArchive?: number; questions?: Question[] };
   };
 
-  for (const isAnswered of [false, true]) {
+  const passes =
+    deps.limits?.questionsAnswered === undefined ? [false, true] : [deps.limits.questionsAnswered];
+
+  if (passes.length === 1) {
+    deps.logger.info(
+      `[wb] questions: only the isAnswered=${passes[0]} half this run, by WB_QUESTIONS_ANSWERED`,
+    );
+  }
+
+  for (const isAnswered of passes) {
     for (let page = 0; page < MAX_PAGES; page += 1) {
       const skip = page * QUESTIONS_PAGE;
       if (skip + QUESTIONS_PAGE > QUESTIONS_WINDOW) {
