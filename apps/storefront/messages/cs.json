@@ -153,6 +153,14 @@
     "signIn": "Přihlásit se",
     "total": "Celkem"
   },
+  "ClaimOrders": {
+    "heading": "Objednávali jste bez účtu?",
+    "description": "Pokud jste objednávali jako host se stejnou e-mailovou adresou, připojíme takové objednávky k vašemu účtu.",
+    "button": "Najít moje objednávky",
+    "claimed": "Připojené objednávky: {count}",
+    "none": "V tomto obchodě jsme k vaší e-mailové adrese nenašli žádné objednávky bez účtu.",
+    "failed": "Objednávky se nepodařilo ověřit. Zkuste to prosím znovu."
+  },
   "Common": {
     "clear": "Vymazat",
     "close": "Zavřít",

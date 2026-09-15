@@ -153,6 +153,14 @@
     "signIn": "Giriş yap",
     "total": "Toplam"
   },
+  "ClaimOrders": {
+    "heading": "Hesapsız mı sipariş verdiniz?",
+    "description": "Aynı e-posta adresiyle misafir olarak sipariş verdiyseniz, o siparişleri hesabınıza bağlarız.",
+    "button": "Siparişlerimi bul",
+    "claimed": "Bağlanan sipariş: {count}",
+    "none": "Bu mağazada e-posta adresinize ait misafir siparişi bulunamadı.",
+    "failed": "Siparişlerinizi kontrol edemedik. Birazdan tekrar deneyin."
+  },
   "Common": {
     "clear": "Temizle",
     "close": "Kapat",

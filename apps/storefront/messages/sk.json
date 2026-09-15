@@ -153,6 +153,14 @@
     "signIn": "Prihlásiť sa",
     "total": "Spolu"
   },
+  "ClaimOrders": {
+    "heading": "Objednávali ste bez účtu?",
+    "description": "Ak ste objednávali ako hosť s rovnakou e-mailovou adresou, pripojíme tieto objednávky k vášmu účtu.",
+    "button": "Nájsť moje objednávky",
+    "claimed": "Pripojené objednávky: {count}",
+    "none": "V tomto obchode sme k vašej e-mailovej adrese nenašli žiadne objednávky bez účtu.",
+    "failed": "Objednávky sa nepodarilo overiť. Skúste to znova o chvíľu."
+  },
   "Common": {
     "clear": "Vymazať",
     "close": "Zavrieť",

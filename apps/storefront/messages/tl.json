@@ -153,6 +153,14 @@
     "signIn": "Mag-sign in",
     "total": "Kabuuan"
   },
+  "ClaimOrders": {
+    "heading": "Nag-order nang walang account?",
+    "description": "Kung nag-order ka bilang bisita gamit ang parehong email address, iuugnay namin ang mga order na iyon sa iyong account.",
+    "button": "Hanapin ang mga order ko",
+    "claimed": "Mga naiugnay na order: {count}",
+    "none": "Walang nakitang order bilang bisita para sa iyong email address sa tindahang ito.",
+    "failed": "Hindi namin nasuri ang iyong mga order. Subukan ulit mamaya."
+  },
   "Common": {
     "clear": "I-clear",
     "close": "Isara",

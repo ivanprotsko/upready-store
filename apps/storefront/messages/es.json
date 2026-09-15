@@ -153,6 +153,14 @@
     "signIn": "Iniciar sesión",
     "total": "Total"
   },
+  "ClaimOrders": {
+    "heading": "¿Compraste sin cuenta?",
+    "description": "Si hiciste el pedido como invitado con esta misma dirección de correo, lo vincularemos a tu cuenta.",
+    "button": "Buscar mis pedidos",
+    "claimed": "Pedidos vinculados: {count}",
+    "none": "No encontramos pedidos de invitado con tu dirección de correo en esta tienda.",
+    "failed": "No pudimos comprobar tus pedidos. Inténtalo de nuevo en un momento."
+  },
   "Common": {
     "clear": "Borrar",
     "close": "Cerrar",

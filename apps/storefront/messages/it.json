@@ -153,6 +153,14 @@
     "signIn": "Accedi",
     "total": "Totale"
   },
+  "ClaimOrders": {
+    "heading": "Hai ordinato senza account?",
+    "description": "Se hai ordinato come ospite con lo stesso indirizzo email, collegheremo quegli ordini al tuo account.",
+    "button": "Trova i miei ordini",
+    "claimed": "Ordini collegati: {count}",
+    "none": "Non abbiamo trovato ordini come ospite per il tuo indirizzo email in questo negozio.",
+    "failed": "Non siamo riusciti a controllare i tuoi ordini. Riprova tra poco."
+  },
   "Common": {
     "clear": "Cancella",
     "close": "Chiudi",

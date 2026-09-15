@@ -153,6 +153,14 @@
     "signIn": "Prisijungti",
     "total": "Iš viso"
   },
+  "ClaimOrders": {
+    "heading": "Užsisakėte be paskyros?",
+    "description": "Jei užsakėte kaip svečias tuo pačiu el. pašto adresu, priskirsime tuos užsakymus jūsų paskyrai.",
+    "button": "Rasti mano užsakymus",
+    "claimed": "Priskirti užsakymai: {count}",
+    "none": "Šioje parduotuvėje svečio užsakymų jūsų el. pašto adresu nerasta.",
+    "failed": "Nepavyko patikrinti jūsų užsakymų. Pabandykite dar kartą."
+  },
   "Common": {
     "clear": "Išvalyti",
     "close": "Uždaryti",
