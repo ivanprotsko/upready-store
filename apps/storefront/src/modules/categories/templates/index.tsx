@@ -15,7 +15,8 @@ import PaginatedProducts, {
 } from "@modules/store/templates/paginated-products"
 import { listCategories } from "@lib/data/categories"
 import { listProductOptionFilters } from "@lib/data/products"
-import CategoryChildTiles from "@modules/categories/components/category-child-tiles"
+import CategoryImageTiles from "@modules/categories/components/category-image-tiles"
+import CategoryHeaderImage from "@modules/categories/components/category-header-image"
 import { getCategoryAncestors } from "@lib/util/category-ancestors"
 import type { HttpTypes } from "@medusajs/types"
 import Breadcrumb, {
@@ -101,10 +102,16 @@ export default async function CategoryTemplate({
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="mb-8 lg:grid lg:grid-cols-[280px_1fr] lg:items-center">
-        <div className="flex items-center justify-between">
-          <h1 className="h3-webs" data-testid="category-page-title">
-            {category.name}
-          </h1>
+        <div className="flex items-center justify-between gap-4">
+          {/* The picture the owner gave THIS category, not only its children's
+              (f16-category-image-not-shown). It renders nothing when the field is
+              empty, so a shop that uploaded none keeps today's header exactly. */}
+          <div className="flex min-w-0 items-center gap-3 small:gap-4">
+            <CategoryHeaderImage category={category} />
+            <h1 className="h3-webs truncate" data-testid="category-page-title">
+              {category.name}
+            </h1>
+          </div>
           <MobileRefinement
             sortBy={sort}
             optionFilters={optionFilters}
@@ -131,7 +138,7 @@ export default async function CategoryTemplate({
           locales (AGENTS.md, "Localization"), out of scope for this pass —
           the tiles read as a continuation of the category page above them. */}
       {selectedSubcategories.length === 0 ? (
-        <CategoryChildTiles categories={subcategories} />
+        <CategoryImageTiles categories={subcategories} />
       ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-8">

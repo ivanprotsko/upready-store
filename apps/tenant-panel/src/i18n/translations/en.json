@@ -439,7 +439,7 @@
       "header": "Edit Category",
       "image": "Image",
       "imageAlt": "Image description",
-      "imageHint": "Shown as the tile image wherever the storefront shows this category. Clear the address to remove it.",
+      "imageHint": "Shown on this category's own page, and as a tile in the catalog and on the home page. Clear the address to remove it.",
       "imageUploadFailed": "The image could not be uploaded.",
       "successToast": "Category was successfully updated.",
       "upload": "Upload",
@@ -448,6 +448,9 @@
     "fields": {
       "children": {
         "label": "Children"
+      },
+      "image": {
+        "none": "None"
       },
       "new": {
         "label": "New"
