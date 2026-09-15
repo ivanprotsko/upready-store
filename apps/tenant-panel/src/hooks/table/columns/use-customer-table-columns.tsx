@@ -1,4 +1,4 @@
-import { Badge } from "@medusajs/ui"
+import { Badge, Text } from "@medusajs/ui"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
@@ -55,7 +55,25 @@ export const useCustomerTableColumns = () => {
       }),
       columnHelper.accessor("orders_count", {
         header: () => t("fields.orders"),
-        cell: ({ getValue }) => <TextCell text={getValue()} align="right" />,
+        // Cancelled orders are not in `orders_count` and not in «Сумма
+        // покупок» (b01-owner-numbers). They are named here rather than
+        // dropped, so a customer with one cancelled order reads as «0
+        // +1 отменённых» instead of a bare zero next to an order the owner
+        // can see in the orders list.
+        cell: ({ row }) => (
+          <div className="flex w-full items-baseline justify-end gap-x-2">
+            <Text size="small" leading="compact">
+              {row.original.orders_count}
+            </Text>
+            {row.original.canceled_orders_count > 0 ? (
+              <Text size="xsmall" leading="compact" className="text-ui-fg-muted">
+                {t("customers.fields.canceledOrders", {
+                  count: row.original.canceled_orders_count,
+                })}
+              </Text>
+            ) : null}
+          </div>
+        ),
       }),
       columnHelper.accessor("total_spent", {
         header: () => t("customers.fields.totalSpent"),
