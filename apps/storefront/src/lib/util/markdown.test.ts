@@ -76,4 +76,64 @@ describe("parseMarkdown", () => {
 
     expect(blocks.map((block) => block.type)).toEqual(["quote", "paragraph"])
   })
+
+  // f07-page-markdown-tables: a legal page (contact.ru.md) table, verbatim.
+  it("reads a GFM table as a table block, not a raw-text paragraph", () => {
+    const blocks = parseMarkdown(
+      [
+        "| | |",
+        "|---|---|",
+        "| ОГРНИП | {{ОГРНИП}} |",
+        "| Адрес регистрации | {{ЮР_АДРЕС}} |",
+      ].join("\n")
+    )
+
+    expect(blocks.map((block) => block.type)).toEqual(["table"])
+    const [table] = blocks
+    if (table.type !== "table") throw new Error("expected a table block")
+    expect(table.header).toHaveLength(2)
+    expect(table.rows).toHaveLength(2)
+    expect(table.rows[0][0][0].value).toBe("ОГРНИП")
+    expect(table.rows[1][1][0].value).toBe("{{ЮР_АДРЕС}}")
+  })
+
+  it("keeps a table apart from the paragraph and heading around it", () => {
+    const blocks = parseMarkdown(
+      ["## Контакты", "", "| Способ | Данные |", "|---|---|", "| Email | a@b.c |", "", "Пишите нам."].join(
+        "\n"
+      )
+    )
+
+    expect(blocks.map((block) => block.type)).toEqual(["heading", "table", "paragraph"])
+  })
+
+  it("does not read a plain line with one `|` as a table without a separator row", () => {
+    const blocks = parseMarkdown("цена | 500 ₽")
+
+    expect(blocks.map((block) => block.type)).toEqual(["paragraph"])
+  })
+
+  it("does not italicise a token whose underscore has no matching word-boundary pair nearby", () => {
+    const blocks = parseMarkdown(
+      "Почтовый адрес: {{ЮР_АДРЕС}} (для ИП {{ФИО_ИП}})"
+    )
+
+    expect(blocks).toHaveLength(1)
+    const [block] = blocks
+    if (block.type !== "paragraph") throw new Error("expected a paragraph block")
+    expect(block.content).toEqual([
+      { type: "text", value: "Почтовый адрес: {{ЮР_АДРЕС}} (для ИП {{ФИО_ИП}})" },
+    ])
+  })
+
+  it("still reads a real underscore emphasis at a word boundary", () => {
+    const [block] = parseMarkdown("это _выделенное_ слово")
+
+    if (block.type !== "paragraph") throw new Error("expected a paragraph block")
+    expect(block.content).toEqual([
+      { type: "text", value: "это " },
+      { type: "em", value: "выделенное" },
+      { type: "text", value: " слово" },
+    ])
+  })
 })

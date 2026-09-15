@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} article} other {{count} articles}}",
     "legal": "En cliquant sur « Payer », vous acceptez nos <terms>conditions</terms>, nos <termsOfUse>conditions d'utilisation</termsOfUse> et notre <returnPolicy>politique de retour</returnPolicy>, et consentez à notre <privacyPolicy>politique de confidentialité</privacyPolicy>.",
     "manualInput": "Saisir l'adresse manuellement",
+    "addressIncomplete": "Renseignez les champs obligatoires de l'adresse. Sans ville ni code postal, la commande ne peut pas être expédiée.",
     "orderComposition": "Récapitulatif de la commande",
     "paymentHeading": "Mode de paiement",
     "recipientCheckbox": "Le destinataire est une autre personne",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Aucun mode de livraison disponible",
     "signIn": "Se connecter",
     "total": "Total"
+  },
+  "ClaimOrders": {
+    "heading": "Vous avez commandé sans compte ?",
+    "description": "Si vous avez commandé en tant qu'invité avec cette même adresse e-mail, nous rattacherons ces commandes à votre compte.",
+    "button": "Trouver mes commandes",
+    "claimed": "Commandes rattachées : {count}",
+    "none": "Aucune commande invité n'a été trouvée pour votre adresse e-mail dans cette boutique.",
+    "failed": "Nous n'avons pas pu vérifier vos commandes. Réessayez dans un instant."
   },
   "Common": {
     "clear": "Effacer",

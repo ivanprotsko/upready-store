@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
     "legal": "Bằng cách nhấn «Thanh toán», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
+    "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ. Không có thành phố và mã bưu chính thì không thể gửi đơn hàng.",
     "orderComposition": "Tóm tắt đơn hàng",
     "paymentHeading": "Phương thức thanh toán",
     "recipientCheckbox": "Người nhận là người khác",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Không có phương thức vận chuyển khả dụng",
     "signIn": "Đăng nhập",
     "total": "Tổng cộng"
+  },
+  "ClaimOrders": {
+    "heading": "Bạn đã đặt hàng mà không có tài khoản?",
+    "description": "Nếu bạn đặt hàng với tư cách khách bằng chính địa chỉ email này, chúng tôi sẽ gắn những đơn hàng đó vào tài khoản của bạn.",
+    "button": "Tìm đơn hàng của tôi",
+    "claimed": "Đơn hàng đã gắn: {count}",
+    "none": "Không tìm thấy đơn hàng khách nào với địa chỉ email của bạn tại cửa hàng này.",
+    "failed": "Chúng tôi không kiểm tra được đơn hàng của bạn. Hãy thử lại sau giây lát."
   },
   "Common": {
     "clear": "Xóa",

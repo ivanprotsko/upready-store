@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} vare} other {{count} varer}}",
     "legal": "Ved at klikke på «Betal» accepterer du vores <terms>betingelser</terms>, <termsOfUse>brugsbetingelser</termsOfUse> og <returnPolicy>returpolitik</returnPolicy>, og accepterer vores <privacyPolicy>privatlivspolitik</privacyPolicy>.",
     "manualInput": "Indtast adresse manuelt",
+    "addressIncomplete": "Udfyld de obligatoriske adressefelter. Uden by og postnummer kan ordren ikke sendes.",
     "orderComposition": "Ordreoversigt",
     "paymentHeading": "Betalingsmetode",
     "recipientCheckbox": "Modtager er en anden person",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Ingen leveringsmetoder tilgængelige",
     "signIn": "Log ind",
     "total": "I alt"
+  },
+  "ClaimOrders": {
+    "heading": "Bestilte du uden konto?",
+    "description": "Hvis du bestilte som gæst med den samme e-mailadresse, knytter vi de ordrer til din konto.",
+    "button": "Find mine ordrer",
+    "claimed": "Tilknyttede ordrer: {count}",
+    "none": "Vi fandt ingen gæsteordrer på din e-mailadresse i denne butik.",
+    "failed": "Vi kunne ikke tjekke dine ordrer. Prøv igen om lidt."
   },
   "Common": {
     "clear": "Ryd",

@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
     "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
+    "addressIncomplete": "Täytä osoitteen pakolliset kentät. Ilman kaupunkia ja postinumeroa tilausta ei voi lähettää.",
     "orderComposition": "Tilauksen yhteenveto",
     "paymentHeading": "Maksutapa",
     "recipientCheckbox": "Vastaanottaja on eri henkilö",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Toimitustapoja ei ole saatavilla",
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä"
+  },
+  "ClaimOrders": {
+    "heading": "Tilasitko ilman tiliä?",
+    "description": "Jos tilasit vieraana samalla sähköpostiosoitteella, liitämme ne tilaukset tilillesi.",
+    "button": "Etsi tilaukseni",
+    "claimed": "Liitetyt tilaukset: {count}",
+    "none": "Sähköpostiosoitteellasi ei löytynyt vierastilauksia tästä kaupasta.",
+    "failed": "Tilauksiasi ei voitu tarkistaa. Yritä hetken kuluttua uudelleen."
   },
   "Common": {
     "clear": "Tyhjennä",

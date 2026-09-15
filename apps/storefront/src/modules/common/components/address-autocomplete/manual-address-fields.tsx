@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
 import { listShippingRegions, type ShippingRegion } from "@lib/data/fulfillment"
+import { requiresProvince } from "@lib/util/shipping-address"
 import { useTranslations } from "next-intl"
 import type { AddressAutocompleteProps } from "./types"
 
@@ -20,6 +21,11 @@ const ManualAddressFields = ({
   // from, so a zone restricted to regions matches the typed address exactly.
   // A country without a list keeps the free-text field.
   const [regions, setRegions] = useState<ShippingRegion[]>([])
+  // f04-address-without-city: a country whose parcels are addressed by region
+  // (Russia today, `COUNTRIES_REQUIRING_PROVINCE`) needs the field filled, and
+  // needs it whether the list has arrived yet or not, so the flag comes from
+  // the country rather than from `regions.length`.
+  const provinceRequired = required && requiresProvince(countryCode)
 
   useEffect(() => {
     let cancelled = false
@@ -82,6 +88,7 @@ const ManualAddressFields = ({
           value={values.province}
           onChange={handleChange}
           placeholder={t("fieldProvince")}
+          required={provinceRequired}
           data-testid="address-province-select"
         >
           {regions.map((region) => (
@@ -97,6 +104,7 @@ const ManualAddressFields = ({
           autoComplete="address-level1"
           value={values.province}
           onChange={handleChange}
+          required={provinceRequired}
         />
       )}
     </>

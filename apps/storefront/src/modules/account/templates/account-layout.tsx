@@ -2,6 +2,9 @@ import type React from "react"
 
 import UnderlineLink from "@modules/common/components/interactive-link"
 
+import { getLegalLinkContext } from "@lib/data/legal-links"
+import { legalHref } from "@lib/util/legal-links"
+
 import AccountNav from "../components/account-nav"
 import type { HttpTypes } from "@medusajs/types"
 import { getTranslations } from "next-intl/server"
@@ -13,7 +16,15 @@ interface AccountLayoutProps {
 }
 
 const AccountLayout = async ({ customer, children }: AccountLayoutProps) => {
-  const t = await getTranslations("AccountLayout")
+  const [t, legal] = await Promise.all([
+    getTranslations("AccountLayout"),
+    getLegalLinkContext(),
+  ])
+  // "Customer service" pointed at the starter's placeholder page on every shop
+  // (f05-checkout-legal-stubs). It now reaches the shop's own support or
+  // contacts page, and the whole block goes away when the shop has neither —
+  // an invitation to "get in touch" that leads nowhere is worse than silence.
+  const supportLink = legalHref("support", legal)
 
   return (
     <div className="flex-1" data-testid="account-page">
@@ -30,11 +41,13 @@ const AccountLayout = async ({ customer, children }: AccountLayoutProps) => {
             <h2 className="text-xl-semi mb-4">{t("gotQuestions")}</h2>
             <span className="txt-medium">{t("faqDescription")}</span>
           </div>
-          <div>
-            <UnderlineLink href="/customer-service">
-              {t("customerService")}
-            </UnderlineLink>
-          </div>
+          {supportLink && (
+            <div>
+              <UnderlineLink href={supportLink}>
+                {t("customerService")}
+              </UnderlineLink>
+            </div>
+          )}
         </div>
       </div>
     </div>

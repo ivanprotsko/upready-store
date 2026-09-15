@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import LoginTemplate from "@modules/account/templates/login-template"
 import { getSiteName } from "@lib/data/cookies"
+import { getLegalLinkContext } from "@lib/data/legal-links"
 import { getTranslations } from "next-intl/server"
 import { pageTitle } from "@lib/util/page-title"
 
@@ -16,8 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Login() {
   // LoginTemplate and its children (Register) are client components, so the
-  // tenant's name crosses as a prop rather than through the header-reading
-  // accessor those modules must never import (rule 19g).
-  const siteName = await getSiteName()
-  return <LoginTemplate siteName={siteName} />
+  // tenant's name and its legal pages cross as props rather than through the
+  // header-reading accessors those modules must never import (rule 19g).
+  const [siteName, legal] = await Promise.all([
+    getSiteName(),
+    getLegalLinkContext(),
+  ])
+  return <LoginTemplate siteName={siteName} legal={legal} />
 }

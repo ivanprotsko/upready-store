@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} articolo} other {{count} articoli}}",
     "legal": "Cliccando su «Paga», accetti i nostri <terms>termini</terms>, le <termsOfUse>condizioni d'uso</termsOfUse> e la <returnPolicy>politica di reso</returnPolicy>, e accetti la nostra <privacyPolicy>informativa sulla privacy</privacyPolicy>.",
     "manualInput": "Inserisci l'indirizzo manualmente",
+    "addressIncomplete": "Compila i campi obbligatori dell'indirizzo. Senza città e codice postale l'ordine non può essere spedito.",
     "orderComposition": "Riepilogo ordine",
     "paymentHeading": "Metodo di pagamento",
     "recipientCheckbox": "Il destinatario è una persona diversa",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
     "signIn": "Accedi",
     "total": "Totale"
+  },
+  "ClaimOrders": {
+    "heading": "Hai ordinato senza account?",
+    "description": "Se hai ordinato come ospite con lo stesso indirizzo email, collegheremo quegli ordini al tuo account.",
+    "button": "Trova i miei ordini",
+    "claimed": "Ordini collegati: {count}",
+    "none": "Non abbiamo trovato ordini come ospite per il tuo indirizzo email in questo negozio.",
+    "failed": "Non siamo riusciti a controllare i tuoi ordini. Riprova tra poco."
   },
   "Common": {
     "clear": "Cancella",

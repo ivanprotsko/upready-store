@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} artikel} other {{count} artikelen}}",
     "legal": "Door op «Betalen» te klikken, accepteert u onze <terms>voorwaarden</terms>, <termsOfUse>gebruiksvoorwaarden</termsOfUse> en <returnPolicy>retourbeleid</returnPolicy>, en gaat u akkoord met ons <privacyPolicy>privacybeleid</privacyPolicy>.",
     "manualInput": "Adres handmatig invoeren",
+    "addressIncomplete": "Vul de verplichte adresvelden in. Zonder plaats en postcode kan de bestelling niet worden verzonden.",
     "orderComposition": "Besteloverzicht",
     "paymentHeading": "Betaalmethode",
     "recipientCheckbox": "Ontvanger is een andere persoon",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "signIn": "Inloggen",
     "total": "Totaal"
+  },
+  "ClaimOrders": {
+    "heading": "Zonder account besteld?",
+    "description": "Als u als gast met hetzelfde e-mailadres hebt besteld, koppelen wij die bestellingen aan uw account.",
+    "button": "Mijn bestellingen zoeken",
+    "claimed": "Gekoppelde bestellingen: {count}",
+    "none": "We vonden geen gastbestellingen op uw e-mailadres in deze winkel.",
+    "failed": "We konden uw bestellingen niet controleren. Probeer het zo nog eens."
   },
   "Common": {
     "clear": "Wissen",

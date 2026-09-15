@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} ürün} other {{count} ürün}}",
     "legal": "«Öde» düğmesine tıklayarak <terms>şartlarımızı</terms>, <termsOfUse>kullanım koşullarımızı</termsOfUse> ve <returnPolicy>iade politikamızı</returnPolicy> kabul etmiş ve <privacyPolicy>gizlilik politikamızı</privacyPolicy> onaylamış olursunuz.",
     "manualInput": "Adresi manuel olarak girin",
+    "addressIncomplete": "Adresin zorunlu alanlarını doldurun. Şehir ve posta kodu olmadan sipariş gönderilemez.",
     "orderComposition": "Sipariş Özeti",
     "paymentHeading": "Ödeme yöntemi",
     "recipientCheckbox": "Alıcı farklı bir kişi",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Kullanılabilir teslimat yöntemi yok",
     "signIn": "Giriş yap",
     "total": "Toplam"
+  },
+  "ClaimOrders": {
+    "heading": "Hesapsız mı sipariş verdiniz?",
+    "description": "Aynı e-posta adresiyle misafir olarak sipariş verdiyseniz, o siparişleri hesabınıza bağlarız.",
+    "button": "Siparişlerimi bul",
+    "claimed": "Bağlanan sipariş: {count}",
+    "none": "Bu mağazada e-posta adresinize ait misafir siparişi bulunamadı.",
+    "failed": "Siparişlerinizi kontrol edemedik. Birazdan tekrar deneyin."
   },
   "Common": {
     "clear": "Temizle",

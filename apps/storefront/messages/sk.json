@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položiek}}",
     "legal": "Kliknutím na «Zaplatiť» prijímate naše <terms>podmienky</terms>, <termsOfUse>podmienky používania</termsOfUse> a <returnPolicy>podmienky vrátenia</returnPolicy> a súhlasíte s našimi <privacyPolicy>zásadami ochrany osobných údajov</privacyPolicy>.",
     "manualInput": "Zadať adresu manuálne",
+    "addressIncomplete": "Vyplňte povinné polia adresy. Bez mesta a PSČ sa objednávka nedá odoslať.",
     "orderComposition": "Súhrn objednávky",
     "paymentHeading": "Spôsob platby",
     "recipientCheckbox": "Príjemca je iná osoba",
@@ -151,6 +152,14 @@
     "shippingUnavailable": "Nie sú dostupné žiadne spôsoby dopravy",
     "signIn": "Prihlásiť sa",
     "total": "Spolu"
+  },
+  "ClaimOrders": {
+    "heading": "Objednávali ste bez účtu?",
+    "description": "Ak ste objednávali ako hosť s rovnakou e-mailovou adresou, pripojíme tieto objednávky k vášmu účtu.",
+    "button": "Nájsť moje objednávky",
+    "claimed": "Pripojené objednávky: {count}",
+    "none": "V tomto obchode sme k vašej e-mailovej adrese nenašli žiadne objednávky bez účtu.",
+    "failed": "Objednávky sa nepodarilo overiť. Skúste to znova o chvíľu."
   },
   "Common": {
     "clear": "Vymazať",

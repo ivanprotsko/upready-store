@@ -131,6 +131,68 @@ const revalidateOrdersCache = async () => {
   if (customersCacheTag) revalidateTag(customersCacheTag)
 }
 
+export type ClaimOrdersState = {
+  /** null while the form has not been submitted, a number once it has. */
+  claimed: number | null
+  error: string | null
+}
+
+/**
+ * Attaches the orders this shop holds under the logged-in customer's own email
+ * to their account, and returns how many moved.
+ *
+ * The buyer who checks out as a guest and registers afterwards is the case
+ * this exists for: Medusa hangs the guest order on an account-less customer
+ * row, `GET /store/orders` filters by `customer_id`, and the account is empty
+ * (f03-guest-order-not-in-account). The backend decides what may move; nothing
+ * about the address or the shop is sent from here, because both are read from
+ * the session and the publishable key server-side.
+ *
+ * Zero claimed is a real answer and says so on the screen. It is never
+ * reported as a success with no number, because "nothing was found for your
+ * address" and "the call failed" have to look different to the person reading
+ * it (rule 20a).
+ */
+export const claimGuestOrders = async (): Promise<ClaimOrdersState> => {
+  const headers = await getAuthHeaders()
+
+  if (!headers) {
+    return { claimed: null, error: "unauthorized" }
+  }
+
+  try {
+    const { claimed } = await sdk.client.fetch<{ claimed: number }>(
+      `/store/customers/me/claim-orders`,
+      {
+        method: "POST",
+        headers,
+        cache: "no-store",
+      }
+    )
+
+    if (claimed > 0) {
+      await revalidateOrdersCache()
+    }
+
+    return { claimed, error: null }
+  } catch (error) {
+    console.error("[claimGuestOrders]", error)
+    return { claimed: null, error: String(error) }
+  }
+}
+
+/**
+ * The form action behind the "find my orders" button on the account orders
+ * screen. Submitting it re-renders the route, so a claimed order is in the
+ * list by the time the message is on screen.
+ */
+export const claimGuestOrdersAction = async (
+  _state: ClaimOrdersState,
+  _formData: FormData
+): Promise<ClaimOrdersState> => {
+  return await claimGuestOrders()
+}
+
 export const acceptTransferRequest = async (id: string, token: string) => {
   const headers = await getAuthHeaders()
 
