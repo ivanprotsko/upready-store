@@ -177,6 +177,18 @@ cd apps/backend && TEST_TYPE=unit npx jest (вся сюита)      → Test Sui
                                                               Tests: 1 failed, 327 passed, 328 total, rc=1
 ```
 
+После влитого `origin/dev` @ `5383acb1` (мерж-коммит `3c35679a`) те же гейты прогнаны заново:
+
+```
+cd apps/backend    && npx tsc --noEmit                      → rc=0
+cd apps/tenant-panel && npx tsc --noEmit                    → rc=0
+pnpm check:backend-build                                    → Backend build completed successfully (13.71s),
+                                                              Frontend build completed successfully (27.02s), rc=0
+cd apps/backend && TEST_TYPE=unit npx jest (вся сюита)      → Test Suites: 1 failed, 32 passed, 33 total
+                                                              Tests: 1 failed, 357 passed, 358 total, rc=1
+                                                              (тот же profile-data.unit.spec.ts, см. ниже)
+```
+
 Предупреждения линтеров — в файлах, которых ветка не касается.
 
 **Красный тест в общей сюите — не мой и не от этой ветки.**
