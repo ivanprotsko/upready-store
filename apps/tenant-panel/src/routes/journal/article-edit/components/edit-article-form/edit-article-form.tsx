@@ -110,7 +110,11 @@ export const EditArticleForm = ({ slug, article }: EditArticleFormProps) => {
         cover_url: values.cover_url.trim() || null,
         body: values.body,
         published: values.published,
-        published_at: fromDateInput(values.published_at),
+        // An empty field means "not stamped yet", not "clear the date": the
+        // route stamps it on first publish only when the key is OMITTED, and
+        // reads an explicit `null` as "erase the date" (t10-blog, accept
+        // round 1) — a blank input owner never asked to erase anything.
+        published_at: fromDateInput(values.published_at) ?? undefined,
         tags: values.tags
           .split(",")
           .map((tag) => tag.trim())
