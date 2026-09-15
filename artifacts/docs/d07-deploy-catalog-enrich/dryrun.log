@@ -1,0 +1,100 @@
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:48:43"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:48:43"}
+{"level":"info","message":"Executing script at ./src/scripts/catalog-enrich-from-wb.js...","timestamp":"2026-09-15 22:48:43"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:48:44"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:48:44"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:48:45"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:48:45"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:48:46"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:48:46"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:48:47"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:48:47"}
+{"level":"info","message":"catalog:enrich-from-wb: датасет из /tmp/d07-dataset.json, собран 2026-09-15T21:12:12.179Z, зеркало WB не читается.","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"catalog:enrich-from-wb: магазин cherkashino (ten_01M2GQVGEN1204CN90C510DNRG), DRY-RUN, разделы titles, prices, characteristics, reviews, images.","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"catalog:enrich-from-wb: сопоставлено товаров 20, не сопоставлено 18, карточек без товара 403. В датасете: заголовков 20, цен 20, характеристик 104, отзывов 6, фото 250.","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"catalog:enrich-from-wb: без карточки WB остались — 1268099764-CHERKASHINO («Свечи АСД с чесноком»); 1650264976-CHERKASHINO («Мумие Бальзам Горного Алтая»); PL-09-CHERKASHINO («Тройчатка плюс»); 3302187378-CHERKASHINO («Натуральный сорбент от отравлений от температуры»); 3266733589-CHERKASHINO («Стевия в таблетках, сахарозаменитель»); 3501688032-CHERKASHINO («Антисептик-стимулятор Дорогова, таблетки»); COURSE-OCHISHCHENIE-PECHENI-CHERKASHINO («Очищение печени»); COURSE-BOX-OCHISHCHENIE-PECHENI-CHERKASHINO («Набор «Очищение печени» — Тариф 1»); PL-10-CHERKASHINO («Шампунь мумиё»); PL-11-CHERKASHINO («Шампунь АСД»); PL-21-CHERKASHINO («Шампунь-концентрат для блеска тайский»); PL-23-CHERKASHINO («Сульфат магния, для курса «Печень»»); PL-26-CHERKASHINO («Капли в нос АСД и серебро»); PL-28-CHERKASHINO («Ингалятор портативный»); PL-33-CHERKASHINO («Мёд маточный»); PL-34-CHERKASHINO («Мёд трутневой»); PL-35-CHERKASHINO («Сеннол»); PL-36-CHERKASHINO («Набор для очищения лимфы»)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino: заголовок «Мультиварка для дома и авто 12 Вт / 24 Вт / 220 Вт» -> «Мультиварка для дома и авто 2 л 12 Вт/ 24 Вт/220 Вт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino: цена RUB 9034 -> 7333.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Высота предмета» (vysota_predmeta)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Глубина предмета» (glubina_predmeta)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Длина кабеля» (dlina_kabelya)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Количество программ (общее)» (kolichestvo_programm_obschee)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Комплектация» (komplektatsiya)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Питание» (pitanie)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Доп. опции мультиварки» (dop_optsii_multivarki)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Объем чаши» (obem_chashi)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Покрытие чаши» (pokrytie_chashi)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Программы приготовления» (programmy_prigotovleniya)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Управление» (upravlenie)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Модель» (model)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Тип мультиварки» (tip_multivarki)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Цвет» (tsvet)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Ширина предмета» (shirina_predmeta)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino: 3 отзывов с карточки WB","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino: добавилось бы 28 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-travyanaya-cherkashino: заголовок «Зубная паста тайская травяная» -> «Зубная паста тайская 2 шт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-travyanaya-cherkashino: цена RUB 723 -> 1109.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] ivan-chay-fermentirovannyy-krepkiy-chernyy-cherkashino: цена RUB 1084 -> 499","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Вес товара без упаковки (г)» (ves_tovara_bez_upakovki_g)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Упаковка» (upakovka)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] ivan-chay-fermentirovannyy-krepkiy-chernyy-cherkashino: добавилось бы 10 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino: цена RUB 2710 -> 990","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Тип подарка» (tip_podarka)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Форма выпуска» (forma_vypuska)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Вид экстракта» (vid_ekstrakta)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino: 2 отзывов с карточки WB","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] mumie-altayskoe-ochischennoe-naturalnoe-100-cherkashino: добавилось бы 14 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] maz-s-asd-3-15-100-ml-cherkashino: заголовок «Мазь с АСД 3» -> «Мазь с АСД 3 15% 100 мл»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] maz-s-asd-3-15-100-ml-cherkashino: цена RUB 1355 -> 918","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Минимальная температура хранения» (minimalnaya_temperatura_hraneniya)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Максимальная температура хранения» (maksimalnaya_temperatura_hraneniya)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] asd-2-fraktsiya-armavir-dorogova-cherkashino: цена RUB 1987 -> 917.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Объем (мл)» (obem_ml)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] tester-dlya-vody-elektronnyy-tds-metr-solemer-tds-cherkashino: цена RUB 2259 -> 2352.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Материал корпуса» (material_korpusa)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-s-asd-fraktsiya-2-dorogova-30-sht-cherkashino: заголовок «Капсулы с АСД фракция 2 Дорогова» -> «Капсулы Антисептик Стимулятор Дорогова фракция 2 120 шт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-s-asd-fraktsiya-2-dorogova-30-sht-cherkashino: цена RUB 5420 -> 3429","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Количество в упаковке (шт.)» (kolichestvo_v_upakovke_sht)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-s-asd-fraktsiya-2-dorogova-30-sht-cherkashino: добавилось бы 8 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] karandash-balzam-2-v-1-ot-prostudy-2-sht-cherkashino: заголовок «Карандаш-бальзам 2 в 1 от простуды» -> «Карандаш бальзам 2 в 1 от простуды 2 шт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] karandash-balzam-2-v-1-ot-prostudy-2-sht-cherkashino: цена RUB 452 -> 573.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] karandash-balzam-2-v-1-ot-prostudy-2-sht-cherkashino: 1 отзывов с карточки WB","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kastorovoe-maslo-kastorka-indiyskaya-cherkashino: цена RUB 903 -> 309","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kastorovoe-maslo-kastorka-indiyskaya-cherkashino: добавилось бы 22 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kniga-retseptov-dlya-multivarok-avto-i-dlya-doma-cherkashino: цена RUB 1355 -> 671","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] gepachisty-cherkashino: цена RUB 1807 -> 1678.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-ot-varikoza-s-kashtanom-cherkashino: заголовок «Капсулы от варикоза и отёков, с каштаном» -> «Каштан капсулы от варикоза 60 шт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-ot-varikoza-s-kashtanom-cherkashino: цена RUB 1807 -> 555.5","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Вкус» (vkus)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Количество предметов в упаковке (шт.)» (kolichestvo_predmetov_v_upakovke_sht)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Количество капсул/таблеток» (kolichestvo_kapsul_tabletok)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] kapsuly-ot-varikoza-s-kashtanom-cherkashino: добавилось бы 11 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] svechi-ot-varikoza-s-kashtanom-cherkashino: заголовок «Свечи от варикоза и отёков, с каштаном» -> «Свечи Каштан от варикоза, фитосвечи 10 штук»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] svechi-ot-varikoza-s-kashtanom-cherkashino: цена RUB 1355 -> 712","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Форма упаковки» (forma_upakovki)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Количество предметов в упаковке» (kolichestvo_predmetov_v_upakovke)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] svechi-ot-varikoza-s-kashtanom-cherkashino: добавилось бы 11 фото WB (уже есть 0)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] sila-razdelnogo-pitaniya-250-retseptov-poleznyh-blyud-cherkashino: цена RUB 1355 -> 1312","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Языки» (yazyki)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Автор» (avtor)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Жанры/тематика» (zhanry_tematika)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Наименование книги» (naimenovanie_knigi)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] новая характеристика магазина: «Обложка» (oblozhka)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] maz-ot-varikoza-s-kashtanom-cherkashino: заголовок «Мазь от варикоза и отёков, с каштаном» -> «Мазь Каштан от варикоза, 100 мл»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] maz-ot-varikoza-s-kashtanom-cherkashino: цена RUB 1807 -> 1258","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] maz-ot-varikoza-s-kashtanom-cherkashino: добавилось бы 10 фото WB (уже есть 1)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] tabletki-ot-varikoza-s-kashtanom-cherkashino: заголовок «Таблетки от варикоза с каштаном» -> «Каштан таблетки от варикоза 60 шт»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] tabletki-ot-varikoza-s-kashtanom-cherkashino: цена RUB 1355 -> 782","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] tabletki-ot-varikoza-s-kashtanom-cherkashino: добавилось бы 10 фото WB (уже есть 1)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-uglem-cherkashino: заголовок «Зубная паста тайская с углем» -> «Зубная паста с углем тайская травяная, 25 гр»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-uglem-cherkashino: цена RUB 723 -> 442.89","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-uglem-cherkashino: добавилось бы 8 фото WB (уже есть 1)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino: заголовок «Зубная паста тайская с гвоздикой» -> «Зубная паста с гвоздикой тайская травяная, 25 гр»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino: цена RUB 723 -> 442.89","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-s-gvozdikoy-cherkashino: добавилось бы 9 фото WB (уже есть 1)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino: заголовок «Зубная паста тайская отбеливающая» -> «Зубная паста тайская отбеливающая 2 шт по 50 грамм»","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino: цена RUB 1084 -> 1008.78","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"[enrich] zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino: добавилось бы 21 фото WB (уже есть 1)","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"catalog:enrich-from-wb: связей создано 20, обновлено 0, без изменений 0.","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"catalog:enrich-from-wb: заголовки 12 (без изменений 8, нет у WB 0); цены 20 (без изменений 0, нет у WB 0); характеристики 88 (без изменений 14, новых характеристик магазина 35, не принято 0); отзывы 6 (уже были 0); фото 162 (уже были 88, не скачались 0).","timestamp":"2026-09-15 22:48:48"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:48:48"}
