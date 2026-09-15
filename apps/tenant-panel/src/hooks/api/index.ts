@@ -14,6 +14,8 @@ export * from "./collections"
 export * from "./shipping-profiles"
 export * from "./products"
 export * from "./product-options"
+// t15-product-attributes: the shop's own product characteristics.
+export * from "./product-attributes"
 export * from "./orders"
 // tenant-panel: added by piece 3, rewritten by wave-2 piece 5. See the comment
 // atop categories.tsx: /tenants/product-categories is the tenant's own tree.

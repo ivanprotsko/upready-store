@@ -103,6 +103,14 @@ const routes: RouteObject[] = [
                           import("./routes/products/product-attributes"),
                       },
                       {
+                        // t15-product-attributes: the shop's own
+                        // characteristics of this product, as opposed to
+                        // Medusa's fixed `attributes` above.
+                        path: "custom-attributes",
+                        lazy: () =>
+                          import("./routes/products/product-custom-attributes"),
+                      },
+                      {
                         path: "organization",
                         lazy: () =>
                           import("./routes/products/product-organization"),
@@ -355,6 +363,25 @@ const routes: RouteObject[] = [
               {
                 path: "edit",
                 lazy: () => import("./routes/profile/profile-edit"),
+              },
+            ],
+          },
+          {
+            // t15-product-attributes: the shop's own product characteristics,
+            // declared once and filled in on each product. Hangs under Products
+            // in the nav, the way Campaigns hangs under Promotions.
+            path: "/product-attributes",
+            handle: { breadcrumb: () => "Характеристики товаров" },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-list"),
+              },
+              {
+                path: ":id",
+                lazy: () =>
+                  import("./routes/product-attributes/attribute-edit"),
               },
             ],
           },
