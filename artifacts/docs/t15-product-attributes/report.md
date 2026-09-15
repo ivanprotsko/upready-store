@@ -334,4 +334,33 @@ apps/storefront    pnpm test                        → Test Files 14 passed (14
 
 ---
 
-Отчёт составлен 2026-09-15 09:08 WITA.
+Отчёт составлен 2026-09-15 09:08 WITA, дополнен после слияния с dev 09:17 WITA.
+
+## После слияния с `dev`
+
+`dev` уехал вперёд на t09 (отзывы) и t11 (SEO и редиректы), PR встал `CONFLICTING`. База влита
+в ветку задачи (`git merge origin/dev`), конфликты — три места, все механические: строки
+импортов в `modules/tenant/models/tenant.ts` и `modules/tenant/service.ts` (обе стороны
+добавляли по соседнему импорту — оставлены оба) и импорт в `categories/[...category]/page.tsx`
+(`getTenantDefaultLocale` из dev рядом с моим `parseAttributeSelection`). Ничего содержательного
+разрешать не пришлось.
+
+Перемеряно на слитом коде: миграции применены (`npx medusa db:migrate` → rc=0), бэкенд
+перезапущен, и всё то же самое снова:
+
+```
+tenants-product-attributes.spec.ts            PASS (119.25 s), Tests: 10 passed, 10 total
+apps/backend   npx tsc --noEmit               → exit 0
+apps/tenant-panel  pnpm typecheck             → exit 0
+apps/storefront    npx tsc --noEmit           → exit 0
+apps/storefront    npx next build             → ✓ Compiled successfully in 16.8s
+apps/storefront    pnpm test                  → Test Files 14 passed (14), Tests 141 passed (141)
+витрина: /ru/store → 10, ?a_obem=100..500 → 3, ?a_obem=1000..2000 → 0
+изоляция: соседний магазин по-прежнему видит {"facets":[],"product_ids":null,"count":0}
+```
+
+Одна помарка НЕ моя, но её стоит знать: `modules/tenant/migrations/.snapshot-tenant.json` на
+`dev` отстал — в нём 10 таблиц, а модель `tenant-redirect.ts` (t11) в него не попала. После
+слияния в снимке 13 таблиц: те же 10 плюс мои три. То есть слияние ничего не потеряло, но
+следующий `medusa db:generate tenant` выпишет миграцию на `tenant_redirect`. Чинить чужой снимок
+в этом PR я не стал.
