@@ -10,6 +10,7 @@ import {
   type AttributeRow,
 } from "../../../product-attributes/helpers";
 import type { PostTenantProductAttributeValuesBody } from "../../../product-attributes/validators";
+import { notifyStorefrontRevalidate } from "../../../../../storefront-revalidate";
 import { assertOwnedProduct, getTenantScope } from "../../../tenant-scope";
 
 /**
@@ -145,6 +146,17 @@ export const POST = async (
   if (toDelete.length) {
     await tenantModuleService.deleteTenantProductAttributeValues(toDelete);
   }
+
+  // The storefront caches both reads of this data under one tag
+  // (`lib/data/product-attributes.ts`): the block on the product page and the
+  // facets of the catalogue. Without this call the owner's edit stays invisible
+  // to buyers until the process restarts. Measured on the stand 2026-09-15:
+  // after saving a volume of 175 the panel showed 175 and the product page
+  // still showed the previous 100.
+  await notifyStorefrontRevalidate({
+    type: "tenant.product-attributes",
+    handle: scope.handle,
+  });
 
   const product_attributes = await readAttributes(req, scope.id);
 

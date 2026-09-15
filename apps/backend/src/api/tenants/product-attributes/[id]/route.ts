@@ -2,6 +2,7 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { MedusaError } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
+import { notifyStorefrontRevalidate } from "../../../../storefront-revalidate";
 import { assertOwnedCategory, getTenantScope } from "../../tenant-scope";
 import { listAttributeDtos } from "../attribute-dto";
 import { ATTRIBUTE_REFERENCE, OPTION_REFERENCE, writeTranslations } from "../helpers";
@@ -162,6 +163,17 @@ export const POST = async (
 
   const [dto] = await listAttributeDtos(req.scope, scope.id, { id: [row.id] });
 
+  // The storefront caches both reads of this data under one tag
+  // (`lib/data/product-attributes.ts`): the block on the product page and the
+  // facets of the catalogue. Without this call the owner's edit stays invisible
+  // to buyers until the process restarts. Measured on the stand 2026-09-15:
+  // after saving a volume of 175 the panel showed 175 and the product page
+  // still showed the previous 100.
+  await notifyStorefrontRevalidate({
+    type: "tenant.product-attributes",
+    handle: scope.handle,
+  });
+
   res.json({ product_attribute: dto, cleared_values: clearedValues });
 };
 
@@ -194,6 +206,17 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
   }
 
   await tenantModuleService.deleteTenantProductAttributes([row.id]);
+
+  // The storefront caches both reads of this data under one tag
+  // (`lib/data/product-attributes.ts`): the block on the product page and the
+  // facets of the catalogue. Without this call the owner's edit stays invisible
+  // to buyers until the process restarts. Measured on the stand 2026-09-15:
+  // after saving a volume of 175 the panel showed 175 and the product page
+  // still showed the previous 100.
+  await notifyStorefrontRevalidate({
+    type: "tenant.product-attributes",
+    handle: scope.handle,
+  });
 
   res.json({ id: row.id, object: "product_attribute", deleted: true });
 };
