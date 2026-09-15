@@ -115,9 +115,12 @@ export const ImportReportView = ({
         </div>
       ) : null}
 
-      <ImportRowsTable rows={report.rows} />
-
-      <div className="flex items-center justify-end gap-x-2">
+      {/*
+        The actions sit ABOVE the table on purpose. A price list of five
+        thousand rows makes «scroll to the bottom to confirm» a real cost, and
+        the decision is made from the summary, not from the last line.
+      */}
+      <div className="border-ui-border-base flex items-center justify-end gap-x-2 border-t pt-4">
         <Button
           size="small"
           variant="secondary"
@@ -139,6 +142,8 @@ export const ImportReportView = ({
           </Button>
         ) : null}
       </div>
+
+      <ImportRowsTable rows={report.rows} />
     </div>
   )
 }
