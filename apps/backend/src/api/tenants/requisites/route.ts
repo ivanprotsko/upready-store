@@ -3,6 +3,7 @@ import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
 import type { PutTenantRequisitesBody } from "../validators";
 import { ownRequisites, requisitesView } from "./helpers";
+import { notifyStorefrontRevalidate } from "../../../storefront-revalidate";
 
 /**
  * `GET /tenants/requisites` — the seller's legal details behind this shop's
@@ -62,6 +63,12 @@ export const PUT = async (
     id: record.id,
     ...update,
   });
+
+  // The resolver reads this row on every page render (`tenant-legal/requisites.ts`),
+  // so a value the owner just saved here is exactly as stale on the storefront as
+  // an unsent page edit would be — same `tenant-pages` tag, same fix as
+  // `PUT /tenants/pages/:key` above it.
+  await notifyStorefrontRevalidate({ type: "tenant.pages", handle: tenant.handle });
 
   const { record: saved } = await ownRequisites(req);
   res.json(await requisitesView(req, tenant, saved));
