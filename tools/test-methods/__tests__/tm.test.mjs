@@ -9,11 +9,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 
-import { parseArgs, isKnown, scoreSymptom, loadRegistry, runMethod } from "../tm.mjs";
+import { parseArgs, isKnown, scoreSymptom, loadRegistry, runMethod, sameFile } from "../tm.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, "..");
@@ -234,6 +235,40 @@ test("--strict and --base report zero stale, whatever they find", () => {
   const historic = execFileSync(process.execPath, [cli, "run", "tm-003", "--base", "5b6e9e2"], { encoding: "utf8" });
   assert.match(historic, /GREEN/);
   assert.equal(stale(historic), 0);
+});
+
+test("the CLI runs through a symlinked path instead of printing nothing", () => {
+  // `/tmp` is a symlink to `/private/tmp` on macOS, so comparing path SPELLINGS
+  // to decide whether this module is the program made the CLI exit 0 with an
+  // empty output — indistinguishable from "nothing to report" (rule 20a).
+  const link = path.join(os.tmpdir(), `tm-entrypoint-${process.pid}`);
+  fs.rmSync(link, { force: true });
+  fs.symlinkSync(ROOT, link, "dir");
+  try {
+    const out = execFileSync(process.execPath, [path.join(link, "tm.mjs"), "list"], { encoding: "utf8" });
+    assert.match(out, /tm-001/, "the listing has to print through a symlinked path too");
+  } finally {
+    fs.rmSync(link, { force: true });
+  }
+});
+
+test("sameFile compares files, not spellings of a path", () => {
+  // This is the fallback the entry-point check uses on Node 20 and 22, where
+  // `import.meta.main` does not exist, so it is tested directly.
+  const link = path.join(os.tmpdir(), `tm-samefile-${process.pid}`);
+  fs.rmSync(link, { force: true });
+  fs.symlinkSync(ROOT, link, "dir");
+  try {
+    const viaLink = path.join(link, "tm.mjs");
+    const direct = path.join(ROOT, "tm.mjs");
+    assert.notEqual(viaLink, direct, "the two spellings must really differ");
+    assert.ok(sameFile(viaLink, direct), "the same file under two spellings is the same file");
+    assert.ok(!sameFile(direct, path.join(ROOT, "registry.json")), "two different files are not");
+    // A path that does not exist cannot be resolved and must not throw.
+    assert.ok(!sameFile(direct, path.join(ROOT, "no-such-file.mjs")));
+  } finally {
+    fs.rmSync(link, { force: true });
+  }
 });
 
 test("the CLI exits non-zero on a red run and zero on a green one", () => {

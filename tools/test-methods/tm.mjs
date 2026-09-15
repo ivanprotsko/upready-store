@@ -450,7 +450,39 @@ export async function main(argv) {
   }
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+/**
+ * Whether this module was started as the program, rather than imported by the
+ * test suite.
+ *
+ * The obvious spelling — comparing `process.argv[1]` with this module's own
+ * path — compares SPELLINGS of a path, and two spellings of the same file are
+ * routine: on macOS `/tmp` is a symlink to `/private/tmp`, so a copy of this
+ * tool run as `node /tmp/tm/tm.mjs list` printed nothing and exited 0. Zero
+ * output with a zero exit code is indistinguishable from "nothing to report"
+ * (rule 20a) — the worst possible failure for a gate whose whole job is to
+ * report. So the question is asked of the runtime where it can be
+ * (`import.meta.main`, Node 24 and later) and of the FILESYSTEM otherwise,
+ * through `realpathSync`, which resolves every symlink on the way.
+ */
+export function sameFile(a, b) {
+  const real = (file) => {
+    try {
+      return fs.realpathSync(file);
+    } catch {
+      return path.resolve(file);
+    }
+  };
+  return real(a) === real(b);
+}
+
+function isEntryPoint() {
+  if (typeof import.meta.main === "boolean") return import.meta.main;
+  const invoked = process.argv[1];
+  if (!invoked) return false;
+  return sameFile(invoked, fileURLToPath(import.meta.url));
+}
+
+if (isEntryPoint()) {
   main(process.argv.slice(2))
     .then((code) => process.exit(code))
     .catch((error) => {
