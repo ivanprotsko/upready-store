@@ -1178,6 +1178,154 @@
       "acceptance": "На локальном стенде: кнопка «Войти через Яндекс» на странице входа витрины ведёт на https://oauth.yandex.ru/authorize с client_id, redirect_uri, state, scope и response_type=code (замер curl -I на POST /auth/customer/yandex + скриншот); провайдер yandex зарегистрирован в auth-модуле бэкенда; юнит-тесты провайдера (URL, обмен кода, подделанный state, отсутствие email, секрет не в логах) и HTTP-тест auth-yandex зелёные (строка fail всего файла); покупатель привязан к тенанту как при emailpass, существующий покупатель того же тенанта с тем же email связывается, а не дублируется; при зарегистрированном Redirect URI полный круг заканчивается в /account с именем из Яндекса и строкой provider_identity в БД (скриншот); YANDEX_* не в git; если Redirect URI не зарегистрирован — в PR и blocked-файле перечислены точные URI и scope для регистрации",
       "why": "приказ Ивана 2026-09-16 02:46 WITA (INTAKE.md): ключи Yandex ID переданы, «можно будет сделать авторизацию»; планка InSales Combo — соцвход покупателя",
       "source": "INTAKE.md"
+    },
+    {
+      "id": "w10-marketplace-spec",
+      "title": "Спецификация маркетплейсов WB + Ozon по мерке InSales Combo: матрица паритета, архитектура общего ядра marketplace с адаптерами, разбивка на задачи с промптами",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-marketplace-spec",
+      "deps": [],
+      "softDeps": [],
+      "priority": 95,
+      "prompt": "w10-marketplace-spec.md",
+      "acceptance": "В PR: research/marketplace-spec.md с матрицей паритета (каждая строка — функция InSales Combo с URL источника, состояние в upready-store после PR #71, id задачи, методы WB и Ozon с URL документации и путём сохранённой копии; неизвестное помечено «unknown», выдуманных методов нет — выборочная проверка 5 строк по сохранённым копиям); раздел архитектуры описывает общий модуль marketplace, контракт адаптера, сырые зеркала wb_*/ozon_*, нормализованный слой mp_* с ключом (tenant_id, marketplace, external_id), инвариант «только чтение» как правила кода; research/marketplace-tasks.json — валидный JSON-массив задач в форме tasks.json с id от w11, каждая с измеримой приёмкой и deps, и промпт на английском для каждой в research/marketplace-prompts/; сохранённые страницы документации лежат в artifacts/docs/w10-marketplace-spec/docs/ с URL и датой в первой строке; кода продукта в PR нет; git grep eyJhbGci и OZON_API_KEY= пусты; report.md и report.json по схеме",
+      "why": "приказ Ивана 2026-09-16 04:41 WITA (INTAKE.md): скоро ключ Ozon, проектировать сразу с его учётом, мерка — InSales Combo и документация Ozon; документацию открывать через браузер Ивана",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w03-wb-sales-questions-mirror",
+      "title": "WB зеркала, часть 2: продажи, вопросы покупателей, воронка seller-analytics (+ таблицы в панели), лимиты токена как факты",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-sales-questions-mirror",
+      "deps": [
+        "w01-wb-readonly-client"
+      ],
+      "softDeps": [],
+      "priority": 91,
+      "prompt": "w03-wb-sales-questions-mirror.md",
+      "acceptance": "На origin/dev: реестр endpoints.ts содержит записи sales, questions, analytics с docUrl (финансовый отчёт — только если ответил 200, иначе в отчёте точный код); зеркала wb_sale/wb_question/wb_analytics_daily заполнены на ЛОКАЛЬНОМ стенде реальным чтением (count(*) и wb_sync_run в PR; 429 записан как ожидание, не как ошибка); гвард-тесты и тест-линт единственной точки вызова зелёные; в панели три новые таблицы (скриншот); раздел «аналог Ozon» с URL документации или «не найдено»; git grep eyJhbGci = 0; живой хост не тронут",
+      "why": "план research/wb-plan.md фаза 1 после PR w01 (#71); приказ Ивана 04:44 — аналоги Ozon проверять сразу",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w07-tenant-catalog-enrich",
+      "title": "Обогащение СУЩЕСТВУЮЩИХ товаров тенанта из зеркала WB: заголовки, цены, характеристики, отзывы, фото (наша белая обложка остаётся первой) — локальный стенд + экспорт датасета",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-tenant-catalog-enrich",
+      "deps": [
+        "w01-wb-readonly-client"
+      ],
+      "softDeps": [],
+      "priority": 94,
+      "prompt": "w07-tenant-catalog-enrich.md",
+      "acceptance": "На origin/dev: таблица product_marketplace_link и скрипт catalog:enrich-from-wb с --dry-run/--apply/--export/--import; на ЛОКАЛЬНОМ стенде: таблица сопоставления (сколько товаров, сколько сопоставлено по vendor_code, несопоставленные перечислены), новых товаров 0, счётчики apply по разделам и повторный apply = нули; у 3 товаров скриншоты до/после — заголовок, цена, блок характеристик, блок отзывов, галерея с нашей белой обложкой первой и фото WB после неё; отзывы в product_review с source WB и source_key; датасет artifacts/docs/w07-tenant-catalog-enrich/dataset.json без секретов; pg_dump до apply; раздел «аналог Ozon»; git grep eyJhbGci = 0; живой хост не тронут",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md): обновить товары на сайте тенанта из WB, новые не добавлять, обложку сохранить",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "d07-deploy-catalog-enrich",
+      "title": "Деплой обогащения каталога на живой сайт тенанта cherkashino.shipshift.dev: pg_dump, dry-run, apply, проверка 3 страниц",
+      "kind": "build",
+      "lane": "deploy",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-deploy-catalog-enrich",
+      "deps": [
+        "w07-tenant-catalog-enrich"
+      ],
+      "softDeps": [],
+      "priority": 93,
+      "prompt": "d07-deploy-catalog-enrich.md",
+      "acceptance": "Живой хост: pg_dump сделан до изменений (путь и размер в отчёте); маркер новой сборки виден в ответе бэкенда; dry-run и apply с счётчиками, повторный apply = нули; на https://cherkashino.shipshift.dev у 3 товаров заголовок, цена, характеристики, отзывы и галерея с белой обложкой первой (скриншоты в artifacts, 3 URL картинок отвечают 200); ключ WB на хосте не установлен; разрушающих команд на хосте нет; в отчёте secretRef вместо секретов",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md): обновить товары на сайте тенанта",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w20-wb-write-core",
+      "title": "Слой записи в WB, ядро: отдельный модуль с allowlist мутаций, dry-run по умолчанию, журнал аудита, подтверждение владелицы на класс операций, отдельный ключ; живой записи нет",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-write-core",
+      "deps": [
+        "w01-wb-readonly-client"
+      ],
+      "softDeps": [
+        "w10-marketplace-spec"
+      ],
+      "priority": 88,
+      "prompt": "w20-wb-write-core.md",
+      "acceptance": "На origin/dev: модуль wb-write с реестром мутаций (validateWriteRegistry бросает без docUrl/opClass), единственной точкой отправки wbWrite и пятью воротами (отдельный слот wildberries_write, токен без бита 30, wb_write_enabled, consent на класс, WB_WRITE_LIVE=1); без WB_WRITE_LIVE — dry-run: строка wb_write_audit и 0 сетевых вызовов (fetch-шпион); тесты на каждые ворота зелёные; линт единственной точки; API write-settings и раздел «Запись в Wildberries» в панели (скриншот); примитивы marketplace-write адаптерно-независимы; в отчёте раздел «Конкурент» с цитатами InSales Combo и «аналог Ozon» по классам; wb_api_call содержит только чтения; git grep eyJhbGci = 0",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md): завести все задачи фазы 4 с указанием наличия у конкурентов; инвариант 02:46 — запись в WB исключена до отдельного ключа и подтверждения",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w21-wb-write-stocks-prices",
+      "title": "Запись в WB, классы «остатки» и «цены»: диф магазин→WB, предпросмотр в панели, dry-run push через ядро записи; живой записи нет",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-write-stocks-prices",
+      "deps": [
+        "w20-wb-write-core"
+      ],
+      "softDeps": [
+        "w07-tenant-catalog-enrich"
+      ],
+      "priority": 87,
+      "prompt": "w21-wb-write-stocks-prices.md",
+      "acceptance": "На origin/dev: записи реестра мутаций для остатков и цен с docUrl и bodySchema из документации (не по памяти); диф-сервис и скрипт wb:push --dry-run дают строки wb_write_audit dry_run=true и 0 сетевых вызовов; таблица дифа на локальном стенде (равно/отличается/не сопоставлено) и скриншот предпросмотра; тесты зелёные; в отчёте «Конкурент: да» с цитатами и «аналог Ozon» с URL; git grep eyJhbGci = 0",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md); конкурент InSales Combo: единый остаток и таблица цен",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w22-wb-write-feedback-answers",
+      "title": "Запись в WB, класс «ответы на отзывы и вопросы»: черновики, шаблоны, подтверждение на каждый ответ, dry-run через ядро записи; живой записи нет",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-write-feedback-answers",
+      "deps": [
+        "w20-wb-write-core"
+      ],
+      "softDeps": [
+        "w03-wb-sales-questions-mirror"
+      ],
+      "priority": 86,
+      "prompt": "w22-wb-write-feedback-answers.md",
+      "acceptance": "На origin/dev: записи реестра для ответа на отзыв/вопрос с docUrl; поля draft_answer/answer_status, 3 шаблона; вкладка «Отзывы и вопросы» в панели с реальными зеркальными отзывами (скриншот); подтверждение на каждый ответ фиксируется в аудите; dry-run = 0 сетевых вызовов; дважды ответить нельзя (тест); «Конкурент: да» с цитатами, «аналог Ozon» с URL; git grep eyJhbGci = 0",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md); конкурент InSales Combo: автоответы на отзывы WB",
+      "source": "INTAKE.md"
+    },
+    {
+      "id": "w23-wb-write-fbs-orders",
+      "title": "Заказы FBS: зеркало новых заказов и поставок (чтение) + действия сборки/отмены через ядро записи (класс fbs_orders), dry-run; живой записи нет",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-wb-write-fbs-orders",
+      "deps": [
+        "w20-wb-write-core"
+      ],
+      "softDeps": [],
+      "priority": 85,
+      "prompt": "w23-wb-write-fbs-orders.md",
+      "acceptance": "На origin/dev: чтения FBS (новые заказы, статусы, поставки) в реестре чтений с docUrl, зеркала wb_fbs_order/wb_supply заполнены на локальном стенде (count(*), wb_sync_run; 429 записан, не зациклен); мутации класса fbs_orders в реестре записи с docUrl; вкладка «Заказы FBS» (скриншот), действия дают строки аудита dry_run=true и 0 сетевых вызовов; недопустимые переходы отвергаются (тест); «Конкурент: да» с цитатами, «аналог Ozon» с URL; git grep eyJhbGci = 0",
+      "why": "приказ Ивана 2026-09-16 04:44 WITA (INTAKE.md); конкурент InSales Combo: схемы FBS/FBO/DBS, единая лента заказов",
+      "source": "INTAKE.md"
     }
   ]
 }
