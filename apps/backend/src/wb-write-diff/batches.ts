@@ -16,11 +16,11 @@ import type { PriceDiffRow, StockDiffRow } from "./types";
  *   PUT /api/v3/stocks/{warehouseId} — "stocks, required, Array of objects
  *   [ 1 .. 1000 ] items, Array of size IDs and amounts"
  *   (artifacts/docs/w01-wb-readonly-client/docs/
- *    dev-wildberries-ru-ru-docs-openapi-item-management.txt, lines 4798-4805)
+ *    dev-wildberries-ru-ru-docs-openapi-item-management.txt, lines 4801-4807)
  *
  *   POST /api/v2/upload/task — "data, required, Array of objects, Items,
  *   prices and discounts. Maximum 1,000 items. Both price and discount can not
- *   be empty" (the same file, lines 3080-3086)
+ *   be empty" (the same file, lines 3079-3086)
  *
  * The FIELDS INSIDE those objects are not in the saved copies: both pages
  * render their request sample collapsed (`{"stocks": [{}]}`, `{"data": [{}]}`)
