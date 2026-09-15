@@ -56,21 +56,47 @@ export function isKnown(finding, baseline = []) {
   );
 }
 
-export async function runMethod(method, { root, strict = false } = {}) {
+/**
+ * `checkStale` asks whether the baseline still describes reality.
+ *
+ * A baseline entry is a debt with an owner. When the debt is paid — the fixture
+ * moves out of the compiled tree, the unread key gets a reader — the entry stops
+ * matching anything and turns into an excuse with no subject. Left in place it is
+ * a live hole in the gate: the next occurrence of the same finding is waved
+ * through by a line nobody remembers writing, and the `known` list only ever
+ * grows. So a stale entry is RED, and the cure is deleting it.
+ *
+ * The check runs against THIS REPOSITORY'S OWN WORKING TREE only. A baseline is
+ * a statement about that tree as it stands today, so any other root leaves its
+ * entries unmatched by construction and must not be called rot for it: `--base`
+ * replays an old commit (`run tm-003 --base 5b6e9e2` demonstrates a clean tree
+ * and has to stay green) and `--root` points at a fixture. `--strict` empties
+ * the baseline, so there is nothing there to go stale either. Measured the hard
+ * way: the first version checked `--base` alone, and the CLI's own test — a run
+ * against the green fixture with `--root` — went red on three entries that were
+ * perfectly alive in the repository.
+ */
+export async function runMethod(method, { root, strict = false, checkStale = false } = {}) {
   const detector = await detectorOf(method);
   const result = detector.run(root, method.config ?? {});
   const baseline = strict ? [] : method.baseline ?? [];
   const findings = [];
   const known = [];
+  const matched = new Set();
 
   for (const finding of result.findings ?? []) {
     const entry = isKnown(finding, baseline);
-    if (entry) known.push({ ...finding, known: entry });
-    else findings.push(finding);
+    if (entry) {
+      known.push({ ...finding, known: entry });
+      matched.add(entry);
+    } else findings.push(finding);
   }
 
-  const status = result.status === "skipped" ? "skipped" : findings.length ? "red" : "green";
-  return { ...result, status, findings, known };
+  const stale = checkStale && result.status !== "skipped" ? baseline.filter((entry) => !matched.has(entry)) : [];
+
+  const status =
+    result.status === "skipped" ? "skipped" : findings.length || stale.length ? "red" : "green";
+  return { ...result, status, findings, known, stale };
 }
 
 /* ------------------------------------------------------------------ output */
@@ -211,7 +237,11 @@ async function cmdRun(registry, selector, flags) {
     }
 
     try {
-      const result = await runMethod(method, { root, strict: flags.strict });
+      const result = await runMethod(method, {
+        root,
+        strict: flags.strict,
+        checkStale: !flags.base && !flags.root && !flags.strict,
+      });
       if (result.status === "red") red += 1;
       results.push({ id: method.id, sha, root, ...result });
     } finally {
@@ -231,6 +261,7 @@ async function cmdRun(registry, selector, flags) {
         status: MARK[r.status],
         findings: r.findings.length,
         known: r.known.length,
+        stale: r.stale.length,
         scanned: Object.entries(r.checked ?? {})
           .filter(([, v]) => typeof v === "number")
           .map(([k, v]) => `${k}=${v}`)
@@ -241,6 +272,7 @@ async function cmdRun(registry, selector, flags) {
         { key: "status", title: "STATUS" },
         { key: "findings", title: "NEW" },
         { key: "known", title: "KNOWN" },
+        { key: "stale", title: "STALE" },
         { key: "scanned", title: "SCANNED" },
       ]
     )
@@ -255,6 +287,13 @@ async function cmdRun(registry, selector, flags) {
     for (const f of r.known) {
       console.log(`\n  known ${r.id}/${f.check}  ${f.file}:${f.line}  (${f.known.task ?? "no task"})`);
       console.log(`       ${f.known.reason}`);
+    }
+    for (const entry of r.stale) {
+      const what = [entry.check, entry.file, entry.key, entry.package].filter(Boolean).join("  ");
+      console.log(`\n  STALE ${r.id}  ${what}`);
+      console.log(`       эта запись baseline больше ничего не находит: долг закрыт, а запись осталась`);
+      console.log(`       и теперь молча простит следующую такую же находку. Удалите её из`);
+      console.log(`       registry.json (метод ${r.id}, baseline). Владелец записи: ${entry.task ?? "не указан"}.`);
     }
     if (r.status === "skipped") console.log(`\n  SKIP ${r.id}: ${r.reason}`);
   }

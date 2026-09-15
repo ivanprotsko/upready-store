@@ -292,3 +292,90 @@ rc=0
 ```
 
 Зонд удалён, `git status apps/` чист.
+
+---
+
+# Раунд 2 — правки по приёмке (2026-09-15 22:16 WITA)
+
+Приёмка раунда 1 приняла суть задачи (все критерии перемерены приёмщиком и зелёные) и отказала
+только из-за конфликта мержа.
+
+## 1. БЛОКЕР: PR конфликтовал с `dev` — закрыт
+
+Замер до правки: `gh pr view 56 --json mergeable,mergeStateStatus` → `{"mergeStateStatus":"DIRTY",
+"mergeable":"CONFLICTING"}`.
+
+Конфликтовала ровно шапка `HANDOFF.json`: мой `updated`/`status` против строки `c01-wave5-composer`,
+приехавшей в `dev`. Мой вклад в файл был ровно две строки (`git diff --numstat ba126e8..HEAD --
+HANDOFF.json` → `2 2 HANDOFF.json`), поэтому конфликт разрешён в пользу `dev` целиком
+(`git checkout --theirs -- HANDOFF.json`), а своя строка статуса возвращена поверх штатным
+`handoff.mjs status append` — так чужая запись сохранена без потерь, а `updated` проставлен вызовом,
+а не набран руками.
+
+```
+$ git merge origin/dev            # CONFLICT (content): HANDOFF.json
+$ git checkout --theirs -- HANDOFF.json
+$ node ~/upready/.ai/scripts/handoff.mjs status append "$(date …): r03 — раунд 2 …"
+   сегментов: 2 | updated: 2026-09-15T22:11:45+08:00     # строка c01 на месте, моя добавлена
+$ git commit --no-edit            # 5cf82ca3 Merge remote-tracking branch 'origin/dev'
+$ git push
+$ gh pr view 56 --json mergeable,mergeStateStatus,state
+{"mergeStateStatus":"CLEAN","mergeable":"MERGEABLE","state":"OPEN"}
+```
+
+Гейты после мержа `dev` перемерены: `run all` rc=0, `verify all` rc=0 (`20/20 evidence cases hold`),
+юнитов 24 из 24.
+
+## 2. Нит 1: протухшая запись baseline теперь красная — сделано
+
+Претензия верная: две из четырёх записей baseline исчезнут после мержа PR #55, реестр останется
+зелёным и об этом не скажет.
+
+Запись baseline — это долг с владельцем. Когда долг закрыт, запись перестаёт что-либо находить и
+превращается в отговорку без предмета: следующую такую же находку она простит молча. Поэтому запись,
+которая ничего не нашла, теперь делает прогон **красным** отдельной строкой `STALE` с именем
+владельца и лечится удалением из `registry.json`.
+
+Проверка идёт только по СВОЕМУ рабочему дереву: `--base <sha>` разворачивает старый коммит,
+`--root <dir>` показывает на фикстуру — там записи не совпадают по построению, и протуханием это не
+считается; `--strict` обнуляет baseline. Границу нашёл не я, а собственный тест CLI: первая версия
+исключала только `--base`, и прогон против зелёной фикстуры через `--root` покраснел на трёх
+записях, живых в репозитории.
+
+Замер — смоделировано состояние после мержа PR #55 (пути в baseline указывают на новое место
+`apps/backend/scripts/fixtures/`), полный вывод в `measure/13-stale-baseline.txt`:
+
+```
+$ node tools/test-methods/tm.mjs run tm-003 --registry <копия реестра>
+tm-003  RED   3   0   3   files=1705
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/scripts/fixtures/f12-seed-test-order.ts
+       эта запись baseline больше ничего не находит: долг закрыт, а запись осталась
+       и теперь молча простит следующую такую же находку. Удалите её из
+       registry.json (метод tm-003, baseline). Владелец записи: f18-f12-fixture-build.
+  STALE tm-003  …/t13-seed-test-tenant.ts   Владелец: r03-test-methods-pilot → штабу на заведение.
+  STALE tm-003  …/t17-seed-test-tenant.ts   Владелец: r03-test-methods-pilot → штабу на заведение.
+rc=1
+
+$ node tools/test-methods/tm.mjs run tm-003 --base 5b6e9e2     # история, не протухание
+tm-003  GREEN  0  0  0  files=1526      rc=0
+$ node tools/test-methods/tm.mjs run tm-003 --strict           # baseline обнулён
+tm-003  RED    3  0  0  files=1705      rc=1
+$ node tools/test-methods/tm.mjs run all                       # текущее дерево ветки
+tm-001/tm-002/tm-003  GREEN,  stale=0   rc=0
+```
+
+Закреплено тремя юнит-тестами (`__tests__/tm.test.mjs`): протухшая запись красит прогон и не
+считается находкой; живая запись протухшей не считается; `--strict` и `--base` протухания не
+показывают. Юнитов в сюите стало 27 вместо 24, проходят все 27.
+
+## 3. Нит 2 (порядок мержа) — принято, делать нечего
+
+Верно: если #56 вмержат раньше #55, ничего не ломается, а `tm-003` на `dev` будет отдавать три
+`known`-находки до мержа #55. После мержа #55 те же три записи станут `STALE` и прогон покраснеет —
+это ровно то поведение, которое просил нит 1: кто-то обязан удалить три строки из `registry.json`.
+
+## 4. Нит 3 (`tsc`/`lint` приложений) — принято, делать нечего
+
+Приёмщик перепроверил и подтвердил безопасность: в коммитах ноль файлов под `apps/`, весь код ветки —
+отдельные `.mjs` в `tools/`, сборкой приложений не компилируются.

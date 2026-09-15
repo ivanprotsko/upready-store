@@ -152,6 +152,69 @@ test("the baseline hides exactly the finding it names and nothing else", async (
   assert.equal(stillRed.status, "red");
 });
 
+test("a baseline entry that no longer matches anything is RED, not silence", async () => {
+  const method = registry.methods.find((m) => m.id === "tm-003");
+  const fixture = path.join(ROOT, "fixtures/tm-003/green");
+
+  // The green fixture holds nothing this method finds, so a baseline entry
+  // written for it is by definition stale — this is what a paid-off debt looks
+  // like after the fix lands and the entry stays behind.
+  const withDebt = {
+    ...method,
+    baseline: [
+      {
+        check: "fixture-marker-in-compiled-tree",
+        file: "apps/backend/src/scripts/already-moved.ts",
+        reason: "debt that has already been paid, entry left behind — long enough for the reason gate",
+        task: "some-task",
+      },
+    ],
+  };
+
+  const quiet = await runMethod(withDebt, { root: fixture });
+  assert.equal(quiet.status, "green", "without checkStale the entry is simply unused");
+  assert.equal(quiet.stale.length, 0);
+
+  const checked = await runMethod(withDebt, { root: fixture, checkStale: true });
+  assert.equal(checked.status, "red", "a stale entry has to fail the run");
+  assert.equal(checked.findings.length, 0, "and it is not a finding, it is a rotten excuse");
+  assert.equal(checked.stale.length, 1);
+  assert.equal(checked.stale[0].task, "some-task");
+});
+
+test("a baseline entry that still matches is not stale", async () => {
+  const method = registry.methods.find((m) => m.id === "tm-003");
+  const fixture = path.join(ROOT, "fixtures/tm-003/variant-1-name-only");
+  const live = {
+    ...method,
+    baseline: [
+      {
+        check: "fixture-named-file-in-compiled-tree",
+        file: "apps/backend/src/scripts/q05-seed-test-orders.ts",
+        reason: "a debt that is still standing, reason long enough for the gate above",
+        task: "some-task",
+      },
+    ],
+  };
+  const result = await runMethod(live, { root: fixture, checkStale: true });
+  assert.equal(result.status, "green");
+  assert.equal(result.known.length, 1);
+  assert.equal(result.stale.length, 0);
+});
+
+test("--strict has no baseline to go stale, and --base is history rather than rot", () => {
+  const cli = path.join(ROOT, "tm.mjs");
+  // --strict: the baseline is emptied, so the run reports findings and zero stale.
+  assert.throws(
+    () => execFileSync(process.execPath, [cli, "run", "tm-003", "--strict"], { encoding: "utf8" }),
+    (error) => error.status === 1 && /RED/.test(error.stdout) && /\s0\s+files=/.test(error.stdout)
+  );
+  // --base: a baseline describes the tree as it stands today, so replaying an
+  // old commit must not call its entries stale.
+  const old = execFileSync(process.execPath, [cli, "run", "tm-003", "--base", "5b6e9e2"], { encoding: "utf8" });
+  assert.match(old, /GREEN/);
+});
+
 test("the CLI exits non-zero on a red run and zero on a green one", () => {
   const cli = path.join(ROOT, "tm.mjs");
   const strictRun = () =>
