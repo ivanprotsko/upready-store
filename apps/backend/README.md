@@ -85,6 +85,15 @@ For the full walkthrough, see [Getting Started with Medusa DTC Starter](https://
 
 Linting runs through `medusa lint`, which reads [`eslint.config.mjs`](eslint.config.mjs). `medusa develop` runs the same check before it starts and refuses to boot on a lint error, while `medusa build` reports problems and builds anyway. Pass `--lint false` to either one to skip it.
 
+One-off backfills and imports under [`src/scripts`](src/scripts) that take a `dry-run` switch
+(`backfill-tenant-locale-settings.ts`, `backfill-product-attributes.ts`, `import-cherkashino-redirects.ts`,
+`import-cherkashina-reviews.ts`, `prefill-cherkashino-requisites.ts`) run through `medusa exec` and spell
+it as a bare, dash-less word rather than `--dry-run`: `medusa exec ./src/scripts/<name>.ts dry-run`.
+`medusa exec` hands a script its own positionals verbatim but swallows a leading `--` before it ever
+reaches them (measured on the Medusa CLI 2.19), so the dashed spelling silently runs the script for
+real instead of previewing it. Every one of those scripts still accepts `--dry-run` too, in case you
+type it out of habit, but `dry-run` is the form that is guaranteed to work.
+
 ## What the Container Does on Every Boot
 
 [`docker-entrypoint.sh`](docker-entrypoint.sh) runs before `medusa start`, and it is the reason an
