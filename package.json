@@ -21,6 +21,7 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "test:methods": "node --test tools/test-methods/__tests__/ && node tools/test-methods/tm.mjs verify all && node tools/test-methods/tm.mjs run all",
+    "check:locale-catalogs": "node scripts/check-locale-catalogs.mjs",
     "backend:seed": "turbo seed --filter=@dtc/gorgo-medusa-backend",
     "check:backend-build": "cd apps/backend && npx medusa build --lint false",
     "check:backend-fixtures": "cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json",
