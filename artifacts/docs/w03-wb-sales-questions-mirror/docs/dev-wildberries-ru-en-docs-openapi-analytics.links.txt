@@ -1,0 +1,140 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+#tag/Analytics-and-Data :: 
+#tag/salesFunnel :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a3-fb9a-7c0c-9372-17d880f74ff9/sales-funnel :: instructions
+https://seller.wildberries.ru/content-analytics/interactive-report/main :: statistics
+analytics#tag/salesFunnel/operation/postV3SalesFunnelProducts :: Listings per period
+analytics#tag/salesFunnel/operation/postV3SalesFunnelProductsHistory :: Listings per days
+analytics#tag/salesFunnel/operation/postV3SalesFunnelGroupedHistory :: Grouped listings per days
+https://nodatime.org/TimeZones :: here
+#tag/salesFunnel/operation/postV3SalesFunnelProducts :: 
+documents-and-accounting#tag/financialReports :: details for the realization reports
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/salesFunnel/operation/postV3SalesFunnelProductsHistory :: 
+documents-and-accounting#tag/financialReports :: details for the realization reports
+analytics#tag/sellerAnalyticsCsv :: Seller Analytics CSV
+https://seller.wildberries.ru/monetization/jam :: Jam
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/salesFunnel/operation/postV3SalesFunnelGroupedHistory :: 
+documents-and-accounting#tag/financialReports :: details for the realization reports
+analytics#tag/sellerAnalyticsCsv :: Seller Analytics CSV
+https://seller.wildberries.ru/monetization/jam :: Jam
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/orderFeed :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+analytics#tag/orderFeed/operation/postV1OrderFeed :: Method
+https://seller.wildberries.ru/content-analytics/order-feed :: Order Feed
+#tag/orderFeed/operation/postV1OrderFeed :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/searchQueriesForYourItems :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-0f6a-70bb-a87b-c1237a1a0714/search-queries-for-your-items :: instructions
+https://seller.wildberries.ru/search-analytics/my-search-queries :: report on search queries for your items
+https://seller.wildberries.ru/monetization/jam :: Jam
+#tag/searchQueriesForYourItems/operation/postV2SearchReportReport :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/help-center/article/A-524 :: promo items
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+#tag/searchQueriesForYourItems/operation/postV2SearchReportTableGroups :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/help-center/article/A-524 :: promo items
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+#tag/searchQueriesForYourItems/operation/postV2SearchReportTableDetails :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/help-center/article/A-524 :: promo items
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+#tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts :: 
+https://seller.wildberries.ru/monetization/tariffs :: Jam
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/help-center/article/A-524 :: promo items
+#tag/searchQueriesForYourItems/operation/postV2SearchReportProductOrders :: 
+analytics#tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts :: requested item
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://seller.wildberries.ru/monetization/tariffs :: Jam
+#tag/stocksReport :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/content-analytics/history-remains :: report on inventory metrics
+analytics#tag/sellerAnalyticsCsv :: Seller Analytics CSV
+#tag/stocksReport/operation/postV1StocksReportWbWarehouses :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/stocksReport/operation/postAnalyticsV1StocksReportSellerWarehouses :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/stocksReport/operation/postV2StocksReportProductsGroups :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+#tag/stocksReport/operation/postV2StocksReportProductsProducts :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp :: https://basket-12.wbbasket.ru/vol1788/part178840/178840836/images/c246x328/1.webp
+#tag/stocksReport/operation/postV2StocksReportProductsSizes :: 
+analytics#tag/stocksReport/operation/postV2StocksReportProductsProducts :: items
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/stocksReport/operation/postV2StocksReportOffices :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/itemRating :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+analytics#tag/itemRating/operation/postV2ItemRating :: Method
+https://seller.wildberries.ru/content-ratings :: Item Rating
+#tag/itemRating/operation/postV2ItemRating :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerAnalyticsCsv :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a3-f76b-7f22-82f3-54930b8f59e8/seller-analytics-csv :: instructions
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads :: Create the report
+analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads :: Get the reports list
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry :: regenerate the report
+analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId :: Download the report
+https://seller.wildberries.ru/monetization/jam :: Jam
+#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads :: 
+analytics#tag/salesFunnel :: sales funnel
+analytics#tag/searchQueriesForYourItems :: search parameters
+analytics#tag/searchQueriesForYourItems/operation/postV2SearchReportProductSearchTexts :: search texts
+analytics#tag/stocksReport :: inventory
+analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId :: get report
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry :: repeat generation task
+analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads :: get a list and check the statuses
+https://seller.wildberries.ru/content-analytics/history-remains :: Inventory reports
+https://seller.wildberries.ru/monetization/jam :: Jam
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads :: 
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads :: report IDs
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloadsRetry :: 
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads :: repeated generation task
+analytics#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloads :: received the status
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/sellerAnalyticsCsv/operation/getV2NmReportDownloadsFileDownloadId :: 
+analytics#tag/sellerAnalyticsCsv/operation/postV2NmReportDownloads :: generation task
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies

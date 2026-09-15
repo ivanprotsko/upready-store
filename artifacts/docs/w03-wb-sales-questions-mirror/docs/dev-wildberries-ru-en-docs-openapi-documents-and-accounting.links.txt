@@ -1,0 +1,102 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+documents-and-accounting#tag/balance :: balance
+documents-and-accounting#tag/financialReports :: financial reports
+documents-and-accounting#tag/documents :: documents
+#tag/Documents-and-Accounting :: 
+documents-and-accounting#tag/balance :: balance
+documents-and-accounting#tag/financialReports :: financial reports
+documents-and-accounting#tag/documents :: documents
+#tag/balance :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru :: current balance
+documents-and-accounting#tag/balance/operation/getV1AccountBalance :: seller balance method
+#tag/balance/operation/getV1AccountBalance :: 
+https://seller.wildberries.ru :: the main page
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/financialReports :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+documents-and-accounting#tag/financialReports/operation/postV1SalesReportsList :: list
+documents-and-accounting#tag/financialReports/operation/postV1SalesReportsDetailedReportId :: IDs
+documents-and-accounting#tag/financialReports/operation/postV1SalesReportsDetailed :: period
+documents-and-accounting#tag/financialReports/operation/postV1AcquiringList :: list
+documents-and-accounting#tag/financialReports/operation/postV1AcquiringDetailedReportId :: IDs
+documents-and-accounting#tag/financialReports/operation/postV1AcquiringDetailed :: period
+/en/knowledge-base/articles/019d49a4-650c-7b04-9596-ba441936f9d3 :: Google Sheets
+#tag/financialReports/operation/postV1SalesReportsList :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/suppliers-mutual-settlements :: report table
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+#tag/financialReports/operation/postV1SalesReportsDetailedReportId :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/suppliers-mutual-settlements :: sales reports
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://www.npmjs.com/package/json-bigint :: BigInt
+#tag/financialReports/operation/postV1SalesReportsDetailed :: 
+https://seller.wildberries.ru/suppliers-mutual-settlements :: sales reports
+/en/knowledge-base/articles/019d49a4-650c-7b04-9596-ba441936f9d3 :: Google Sheets
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+#tag/financialReports/operation/postV1AcquiringList :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/suppliers-mutual-settlements/reports-implementations/acquiring-reports :: the report table
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+#tag/financialReports/operation/postV1AcquiringDetailedReportId :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/suppliers-mutual-settlements/reports-implementations/acquiring-reports :: acquiring expenses reports
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/financialReports/operation/postV1AcquiringDetailed :: 
+api-information#tag/authorization/Rules-for-using-API-access-tokens :: available
+https://seller.wildberries.ru/suppliers-mutual-settlements/reports-implementations/acquiring-reports :: acquiring expenses reports
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+https://datatracker.ietf.org/doc/html/rfc3339 :: RFC3339
+#tag/documents :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/supplementary-agreements :: seller documents
+documents-and-accounting#tag/documents/operation/getV1DocumentsCategories :: document categories
+documents-and-accounting#tag/documents/operation/getV1DocumentsList :: seller documents
+documents-and-accounting#tag/documents/operation/getV1DocumentsDownload :: a single document
+documents-and-accounting#tag/documents/operation/postV1DocumentsDownloadAll :: multiple documents
+#tag/documents/operation/getV1DocumentsCategories :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/documents/operation/getV1DocumentsList :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+documents-and-accounting#tag/documents/operation/getV1DocumentsCategories :: Document category
+#tag/documents/operation/getV1DocumentsDownload :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/documents/operation/postV1DocumentsDownloadAll :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies

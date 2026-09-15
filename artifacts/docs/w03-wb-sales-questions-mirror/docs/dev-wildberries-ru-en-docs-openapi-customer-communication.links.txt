@@ -1,0 +1,149 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/en/sandbox :: sandbox
+/en/docs/openapi-other/sandbox-environment#tag/Questions-and-Feedbacks :: special methods
+/en/knowledge-base/articles/019d49a4-0b26-7620-8d0b-e3050b7cd01d/communicating-with-customers :: instructions
+#tag/Customer-Communication :: 
+/en/sandbox :: sandbox
+/en/docs/openapi-other/sandbox-environment#tag/Questions-and-Feedbacks :: special methods
+/en/knowledge-base/articles/019d49a4-0b26-7620-8d0b-e3050b7cd01d/communicating-with-customers :: instructions
+#tag/questions :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/questions/operation/getV1NewFeedbacksQuestions :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/questions/operation/getV1QuestionsCountUnanswered :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/questions/operation/getV1QuestionsCount :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/questions/operation/getV1Questions :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/questions/operation/patchV1Questions :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/questions/operation/getV1Question :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/feedbacks/operation/getV1FeedbacksCountUnanswered :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks/operation/getV1FeedbacksCount :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks/operation/getV1Feedbacks :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8 :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp
+#tag/feedbacks/operation/postV1FeedbacksAnswer :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks/operation/patchV1FeedbacksAnswer :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks/operation/postV1FeedbacksOrderReturn :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/feedbacks/operation/getV1Feedback :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8 :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp
+#tag/feedbacks/operation/getV1FeedbacksArchive :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/preview.webp
+https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8 :: https://videofeedback01.wbbasket.ru/8defc853-7f62-4d6d-b236-8a16cfb63128/index.m3u8
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1333/part133337/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1508/part150887/123456789/photos/ms.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/fs.webp
+https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp :: https://feedback04.wbbasket.ru/vol1486/part148682/123456789/photos/ms.webp
+#tag/pinnedFeedbacks :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+customer-communication#tag/pinnedFeedbacks/operation/getFeedbacksV1Pins :: Getting the list of pinned and unpinned feedbacks
+customer-communication#tag/pinnedFeedbacks/operation/postFeedbacksV1Pins :: Pinning feedbacks
+https://seller.wildberries.ru/monetization/jam :: Jam subscription
+https://seller.wildberries.ru/tariff-constructor :: Plan Builder
+customer-communication#tag/pinnedFeedbacks/operation/deleteFeedbacksV1Pins :: Unpinning feedbacks
+customer-communication#tag/pinnedFeedbacks/operation/getFeedbacksV1PinsCount :: Getting pinned and unpinned feedback number
+customer-communication#tag/pinnedFeedbacks/operation/getFeedbacksV1PinsLimits :: Getting pinned feedback limits
+#tag/pinnedFeedbacks/operation/getFeedbacksV1Pins :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: Merged
+#tag/pinnedFeedbacks/operation/postFeedbacksV1Pins :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+customer-communication#tag/pinnedFeedbacks/operation/getFeedbacksV1Pins :: List of pinned and unpinned feedbacks
+https://seller.wildberries.ru/monetization/jam :: Jam subscription
+https://seller.wildberries.ru/tariff-constructor :: Plan Builder
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+#tag/pinnedFeedbacks/operation/deleteFeedbacksV1Pins :: 
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+customer-communication#tag/pinnedFeedbacks/operation/getFeedbacksV1Pins :: List of pinned and unpinned feedback
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/pinnedFeedbacks/operation/getFeedbacksV1PinsCount :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: merged
+/en/knowledge-base/articles/019d49a4-1320-71bb-9dac-8ba07e7177ce/working-with-items#merging-and-unmerging-listings :: Merged
+#tag/pinnedFeedbacks/operation/getFeedbacksV1PinsLimits :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/buyersChat :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/chat-with-clients :: the web version of buyers chat
+customer-communication#tag/buyersChat/operation/getV1SellerChats :: Get a chats list
+customer-communication#tag/buyersChat/operation/getV1SellerEvents :: Get chat events
+customer-communication#tag/buyersChat/operation/postV1SellerMessage :: Send messages to the chat
+#tag/buyersChat/operation/getV1SellerChats :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/buyersChat/operation/getV1SellerEvents :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://chat-basket-01.wbbasket.ru/vol0/part3265/fb25c9e9-cae8-52db-b68e-736c1896a3f5/pdf/0380e781-281e-41b5-8ae1-ce281f15a4a7.pdf :: https://chat-basket-01.wbbasket.ru/vol0/part3265/fb25c9e9-cae8-52db-b68e-736c1896a3f5/pdf/
+https://chat-basket-01.wbbasket.ru/vol0/part2345/fb89c9e9-cae8-52db-b68e-736c1466a3f5/jpg/0823ff24-821e-40e9-8cdf-0a2b5fd86a32.jpg :: https://chat-basket-01.wbbasket.ru/vol0/part2345/fb89c9e9-cae8-52db-b68e-736c1466a3f5/jpg/
+#tag/buyersChat/operation/postV1SellerMessage :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+customer-communication#tag/buyersChat/operation/getV1SellerChats :: chat information
+customer-communication#tag/buyersChat/operation/getV1SellerEvents :: event data
+#tag/buyersChat/operation/getV1SellerDownloadId :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+customer-communication#tag/buyersChat/operation/getV1SellerEvents :: chat events
+#tag/buyersReturns :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/buyersReturns/operation/getV1Claims :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/buyersReturns/operation/patchV1Claim :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+customer-communication#tag/buyersReturns/operation/getV1Claims :: buyers applications
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies

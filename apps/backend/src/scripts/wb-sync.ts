@@ -6,7 +6,7 @@ import type TenantModuleService from "../modules/tenant/service";
 import { WB_MODULE } from "../modules/wb";
 import type WbModuleService from "../modules/wb/service";
 import { WB_SYNC_KINDS, type WbSyncKind } from "../modules/wb/models/wb-sync-run";
-import { runSync, type WbSyncOutcome } from "../modules/wb/sync";
+import { runSync, type WbSyncLimits, type WbSyncOutcome } from "../modules/wb/sync";
 import { inspectToken, readOnlyWarning } from "../modules/wb/token";
 import { readWildberriesSecret } from "../tenant-secrets/wildberries";
 import { parseWbArgs } from "./wb-args";
@@ -27,7 +27,7 @@ import { parseWbArgs } from "./wb-args";
  */
 export default async function wbSync({ container, args }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  const { tenant: handle, kind: kindArg } = parseWbArgs(args);
+  const { tenant: handle, kind: kindArg, cards, nmids, answered } = parseWbArgs(args);
   const kind = kindArg ?? "all";
 
   if (!handle) {
@@ -82,11 +82,36 @@ export default async function wbSync({ container, args }: ExecArgs) {
     logger.warn(warning);
   }
 
+  // What the operator narrowed for this run. Only the analytics import reads
+  // it: WB takes at most 20 listing numbers per request there (w03).
+  const limits: WbSyncLimits = {
+    analyticsCards: cards ? Number(cards) : undefined,
+    nmIds: nmids
+      ? nmids
+          .split(",")
+          .map((one) => one.trim())
+          .filter(Boolean)
+      : undefined,
+    questionsAnswered: answered === null ? undefined : answered === "true",
+  };
+
+  if (answered !== null && answered !== "true" && answered !== "false") {
+    logger.error(`wb:sync: WB_QUESTIONS_ANSWERED must be true or false, got ${answered}.`);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (limits.analyticsCards !== undefined && !Number.isFinite(limits.analyticsCards)) {
+    logger.error(`wb:sync: WB_ANALYTICS_CARDS must be a number, got ${cards}.`);
+    process.exitCode = 1;
+    return;
+  }
+
   const outcomes: WbSyncOutcome[] = [];
   for (const one of kinds) {
     outcomes.push(
       await runSync(
-        { wb, tenantId: tenant.id, token: secret.credentials.api_key, logger },
+        { wb, tenantId: tenant.id, token: secret.credentials.api_key, logger, limits },
         one,
       ),
     );

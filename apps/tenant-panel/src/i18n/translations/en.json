@@ -4111,12 +4111,17 @@
       "prices": "Prices and discounts",
       "stocks": "Warehouse inventory",
       "orders": "Orders",
-      "feedbacks": "Feedbacks"
+      "feedbacks": "Feedbacks",
+      "sales": "Sales and returns",
+      "questions": "Customer questions",
+      "analytics": "Funnel by listing"
     },
     "statuses": {
       "running": "running",
       "succeeded": "succeeded",
-      "failed": "failed"
+      "failed": "failed",
+      "rate_limited": "waiting for the WB window",
+      "rateLimitedUntil": "waiting for the WB window until {{time}}"
     },
     "mirrors": {
       "title": "How much is mirrored here",
@@ -4125,7 +4130,10 @@
       "prices": "Prices",
       "stocks": "Inventory",
       "orders": "Orders",
-      "feedbacks": "Feedbacks"
+      "feedbacks": "Feedbacks",
+      "sales": "Sales",
+      "questions": "Questions",
+      "analytics": "Funnel days"
     },
     "endpoints": {
       "title": "What we may ask Wildberries for",
@@ -4209,6 +4217,47 @@
         "refusedAt": "refused at gate: {{gate}}",
         "nothingSent": "nothing was sent"
       }
+    },
+    "tablesFailed": "could not load the tables",
+    "sales": {
+      "title": "Sales and returns this month",
+      "hint": "the WB statistics feed for the last {{days}} days; the data is preliminary, accurate money lives in the realization report",
+      "lines": "Lines",
+      "customerPaid": "Customer paid",
+      "forPay": "WB pays the shop",
+      "returnLines": "Of them returns",
+      "when": "When",
+      "item": "Item",
+      "size": "Size",
+      "where": "Where",
+      "empty": "no sales in this period — either the import has not run, or WB returned nothing"
+    },
+    "questions": {
+      "title": "Customer questions",
+      "hint": "the ones waiting for an answer come first; answering happens in the WB cabinet, this platform cannot write to Wildberries",
+      "unanswered": "Waiting for an answer",
+      "answered": "Answered",
+      "state": "State",
+      "when": "Asked",
+      "item": "Item",
+      "text": "Question",
+      "isAnswered": "answered",
+      "isWaiting": "waiting",
+      "answerPrefix": "Answer:",
+      "empty": "no questions — either the import has not run, or WB returned nothing"
+    },
+    "funnel": {
+      "title": "Funnel by listing",
+      "hint": "card opens, adds to cart, orders and buyouts per day, from the seller-analytics report",
+      "window": "{{from}} — {{to}}, {{listings}} of {{total}} listings in the table (WB answers for at most 20 listings per request)",
+      "noWindow": "period unknown: the analytics import has not run yet",
+      "item": "Listing",
+      "openCard": "Card opened",
+      "addToCart": "Added to cart",
+      "orders": "Ordered",
+      "orderedSum": "Order value",
+      "buyouts": "Bought out",
+      "empty": "no funnel data — either the import has not run, or WB returned nothing"
     }
   }
 }
