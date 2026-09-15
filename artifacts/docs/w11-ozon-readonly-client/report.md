@@ -1,6 +1,6 @@
 # w11-ozon-readonly-client — Ozon Seller API: клиент только на чтение по конструкции
 
-Снято 2026-09-16 07:17 WITA. Ветка `feat/day16-ozon-readonly-client`, стенд
+Снято 2026-09-16 07:24 WITA (замеры пересняты после слияния `origin/dev`). Ветка `feat/day16-ozon-readonly-client`, стенд
 `postgres://127.0.0.1:5433/upready_store_w11`, бэкенд `127.0.0.1:9411`, тенант `cherkashino`.
 Живой хост не затронут.
 
@@ -81,8 +81,8 @@ PASS src/modules/ozon/__tests__/transport.unit.spec.ts
 PASS src/modules/ozon/__tests__/transport-single-call-site.unit.spec.ts
 PASS src/modules/ozon/__tests__/credentials.unit.spec.ts (6.126 s)
 PASS src/modules/ozon/__tests__/fixtures.unit.spec.ts
-Test Suites: 46 passed, 46 total
-Tests:       548 passed, 548 total
+Test Suites: 53 passed, 53 total
+Tests:       635 passed, 635 total
 ```
 
 ### 3.2 Repo-линт: КРАСНЫЙ со вторым местом вызова, ЗЕЛЁНЫЙ после
@@ -136,20 +136,21 @@ $ psql -c "count(*) по зеркалам"
 ### 3.4 Что покинуло процесс
 
 ```
-$ psql -c "select endpoint_id, method, is_fixture, count(*) from ozon_api_call group by 1,2,3 order by 1"
-       endpoint_id        | method | is_fixture | count
---------------------------+--------+------------+-------
- posting.fbo.list         | POST   | t          |     1
- posting.fbs.list         | POST   | t          |     1
- product.info.attributes  | POST   | t          |     1
- product.info.description | POST   | t          |     2
- product.info.list        | POST   | t          |     1
- product.list             | POST   | t          |     1
- product.prices           | POST   | t          |     1
- product.stocks           | POST   | t          |     1
- question.list            | POST   | t          |     1
- review.count             | POST   | t          |     1
- review.list              | POST   | t          |     1
+$ psql -c "select endpoint_id, method, is_fixture, status, count(*) from ozon_api_call group by 1,2,3,4 order by 3,1"
+       endpoint_id        | method | is_fixture | status | count
+--------------------------+--------+------------+--------+-------
+ access.roles             | POST   | f          |    400 |     2
+ posting.fbo.list         | POST   | t          |    200 |     1
+ posting.fbs.list         | POST   | t          |    200 |     1
+ product.info.attributes  | POST   | t          |    200 |     1
+ product.info.description | POST   | t          |    200 |     2
+ product.info.list        | POST   | t          |    200 |     1
+ product.list             | POST   | t          |    200 |     1
+ product.prices           | POST   | t          |    200 |     1
+ product.stocks           | POST   | t          |    200 |     1
+ question.list            | POST   | t          |    200 |     1
+ review.count             | POST   | t          |    200 |     1
+ review.list              | POST   | t          |    200 |     1
 ```
 
 **Каждая строка называет зарегистрированное чтение** — запрос «endpoint_id не из реестра» вернул
@@ -208,6 +209,33 @@ rc=1, совпадений 0
 считаются по балансу, чтобы `journal:` из следующего оператора не поручился за этот). Гвард
 показан красным: при снятом `journal` он называет `api/tenants/ozon/status/route.ts`.
 
+## 4a. Слияние с `dev`: чем это обернулось
+
+Пока задача шла, в `dev` приехал **w20-wb-write-core** — ядро ЗАПИСИ для Wildberries. Ветка влита
+(`git merge origin/dev`), четыре конфликта разведены руками: `medusa-config.ts` и `package.json`
+(взяты оба набора), `tenant-integration-secret.ts` (в списке слотов теперь все четыре:
+`robokassa`, `wildberries`, `wildberries_write`, `ozon`), снапшот `tenant` — перегенерирован, а не
+сведён руками.
+
+**Смысловой конфликт, который git молча пропустил бы.** Моя миграция `Migration20260915230613`
+переписывала CHECK-ограничение на `('robokassa','wildberries','ozon')` — и, встав ПОСЛЕ миграции
+w20, стёрла бы из него слот `wildberries_write`. Ни один тест этого не поймал бы: ограничение
+проверяется только вставкой строки, а строки такого слота ни у кого нет (ровно тот провал, который
+w20 описал у себя). Старая миграция удалена, новая `Migration20260915232037` перегенерирована
+поверх состояния `dev` и даёт все четыре слота.
+
+Проверено на базе, созданной С НУЛЯ:
+
+```
+$ dropdb … && createdb … && npx medusa db:migrate       rc=0
+$ psql -c "ограничение слотов секретов"
+CHECK ((provider = ANY (ARRAY['robokassa'::text, 'wildberries'::text, 'wildberries_write'::text, 'ozon'::text])))
+$ psql -c "select count(*) from pg_tables where tablename like 'ozon_%'"   -> 8
+```
+
+Ozon-аналога слота записи нет намеренно: пути записи к Ozon не существует, и заводить под него
+слот значило бы сделать вид, что он есть.
+
 ## 5. Чего НЕ сделано и почему
 
 - **Живого импорта из кабинета нет** — ключа не существует. Всё готово к нему: при появлении
@@ -252,7 +280,7 @@ psql postgres://ivanprotsko@127.0.0.1:5433/upready_store_w11 \
   -c "select endpoint_id, method, is_fixture, count(*) from ozon_api_call group by 1,2,3 order by 1"
 
 # 3. инвариант
-pnpm test:unit    # 548 тестов
+pnpm test:unit    # 635 тестов
 # и руками: добавить в любой файл src/ вызов fetch("https://api-seller.ozon.ru/v1/seller/info")
 #           -> transport-single-call-site.unit.spec.ts краснеет и называет файл
 # и руками: добавить в OZON_READ_ENDPOINTS путь "/v2/products/stocks"

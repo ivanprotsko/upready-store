@@ -1,5 +1,6 @@
-# Замеры w11-ozon-readonly-client, стенд postgres://127.0.0.1:5433/upready_store_w11, тенант cherkashino
-# снято 2026-09-16 07:14 WITA
+# Замеры w11-ozon-readonly-client — ПОСЛЕ слияния origin/dev (там приехал w20, запись в WB)
+# стенд postgres://127.0.0.1:5433/upready_store_w11 создан С НУЛЯ, бэкенд 127.0.0.1:9411, тенант cherkashino
+# снято 2026-09-16 07:23 WITA
 
 $ psql -c "select kind, status, is_fixture, rows, requests from ozon_sync_run order by started_at"
    kind    |  status   | is_fixture | rows | requests 
@@ -12,7 +13,7 @@ $ psql -c "select kind, status, is_fixture, rows, requests from ozon_sync_run or
  questions | succeeded | t          |    1 |        1
 (6 rows)
 
-$ psql -c "select count(*) per mirror"
+$ psql -c "count(*) по зеркалам"
     mirror     | count 
 ---------------+-------
  ozon_posting  |     2
@@ -23,33 +24,36 @@ $ psql -c "select count(*) per mirror"
  ozon_stock    |     3
 (6 rows)
 
-$ psql -c "select endpoint_id, method, is_fixture, count(*) from ozon_api_call group by 1,2,3 order by 1"
-       endpoint_id        | method | is_fixture | count 
---------------------------+--------+------------+-------
- posting.fbo.list         | POST   | t          |     1
- posting.fbs.list         | POST   | t          |     1
- product.info.attributes  | POST   | t          |     1
- product.info.description | POST   | t          |     2
- product.info.list        | POST   | t          |     1
- product.list             | POST   | t          |     1
- product.prices           | POST   | t          |     1
- product.stocks           | POST   | t          |     1
- question.list            | POST   | t          |     1
- review.count             | POST   | t          |     1
- review.list              | POST   | t          |     1
-(11 rows)
+$ psql -c "select endpoint_id, method, is_fixture, status, count(*) from ozon_api_call group by 1,2,3,4 order by 3,1"
+       endpoint_id        | method | is_fixture | status | count 
+--------------------------+--------+------------+--------+-------
+ access.roles             | POST   | f          |    400 |     2
+ posting.fbo.list         | POST   | t          |    200 |     1
+ posting.fbs.list         | POST   | t          |    200 |     1
+ product.info.attributes  | POST   | t          |    200 |     1
+ product.info.description | POST   | t          |    200 |     2
+ product.info.list        | POST   | t          |    200 |     1
+ product.list             | POST   | t          |    200 |     1
+ product.prices           | POST   | t          |    200 |     1
+ product.stocks           | POST   | t          |    200 |     1
+ question.list            | POST   | t          |    200 |     1
+ review.count             | POST   | t          |    200 |     1
+ review.list              | POST   | t          |    200 |     1
+(12 rows)
 
 $ endpoint_id вне реестра:
 (нет — каждая строка журнала называет зарегистрированное чтение)
 
+$ psql -c "CHECK-ограничение слотов секретов после слияния"
+CHECK ((provider = ANY (ARRAY['robokassa'::text, 'wildberries'::text, 'wildberries_write'::text, 'ozon'::text])))
 $ psql -c "образец зеркала ozon_product"
- product_id |       offer_id       |    sku     |                     name                     |               description                | archived 
-------------+----------------------+------------+----------------------------------------------+------------------------------------------+----------
- 1258417301 | ognevka-ultra-60     | 1934857210 | Огнёвка Ультра, экстракт восковой моли, 60 к | Экстракт личинок большой восковой моли в | f
- 1258417455 | shampun-zhenshen-250 | 1934857433 | Шампунь с экстрактом женьшеня, 250 мл        | Шампунь для укрепления волос с экстракто | f
+ product_id |       offer_id       |    sku     |                   name                   |             description              
+------------+----------------------+------------+------------------------------------------+--------------------------------------
+ 1258417301 | ognevka-ultra-60     | 1934857210 | Огнёвка Ультра, экстракт восковой моли,  | Экстракт личинок большой восковой мо
+ 1258417455 | shampun-zhenshen-250 | 1934857433 | Шампунь с экстрактом женьшеня, 250 мл    | Шампунь для укрепления волос с экстр
 (2 rows)
 
-$ psql -c "образец ozon_stock (строка на схему)"
+$ psql -c "ozon_stock: строка на (sku, схема)"
     sku     | stock_type |     shipment_type     | present | reserved 
 ------------+------------+-----------------------+---------+----------
  1934857210 | fbo        | SHIPMENT_TYPE_GENERAL |      18 |        1
@@ -57,9 +61,9 @@ $ psql -c "образец ozon_stock (строка на схему)"
  1934857433 | fbs        | SHIPMENT_TYPE_GENERAL |      15 |        0
 (3 rows)
 
-$ psql -c "секрет в базе зашифрован"
- provider | is_enabled |         payload_head          
-----------+------------+-------------------------------
- ozon     | t          | FLaK7FR72RNjKxRRxOe4qJOz73G6…
+$ psql -c "секрет зашифрован"
+ provider | is_enabled |         payload_head         
+----------+------------+------------------------------
+ ozon     | t          | IalAjXEwumfnU0r2PGN/F8BzVzN/
 (1 row)
 

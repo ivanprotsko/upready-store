@@ -1,5 +1,5 @@
-# GET /tenants/ozon/status — снято 2026-09-16 07:14 WITA на стенде 127.0.0.1:9411
-# токен владельца магазина затёрт: в команде ниже стоит <owner token>
+# GET /tenants/ozon/status — снято 2026-09-16 07:23 WITA на стенде 127.0.0.1:9411 (после слияния origin/dev)
+# токен владельца затёрт: в команде ниже стоит <owner token>
 
 $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants/ozon/status
 {
@@ -25,8 +25,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "products",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.403Z",
-      "finished_at": "2026-09-15T23:14:17.440Z",
+      "started_at": "2026-09-15T23:22:43.999Z",
+      "finished_at": "2026-09-15T23:22:44.035Z",
       "rows": 2,
       "requests": 5,
       "error": null
@@ -35,8 +35,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "prices",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.445Z",
-      "finished_at": "2026-09-15T23:14:17.458Z",
+      "started_at": "2026-09-15T23:22:44.038Z",
+      "finished_at": "2026-09-15T23:22:44.051Z",
       "rows": 2,
       "requests": 1,
       "error": null
@@ -45,8 +45,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "stocks",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.462Z",
-      "finished_at": "2026-09-15T23:14:17.471Z",
+      "started_at": "2026-09-15T23:22:44.054Z",
+      "finished_at": "2026-09-15T23:22:44.064Z",
       "rows": 3,
       "requests": 1,
       "error": null
@@ -55,8 +55,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "postings",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.474Z",
-      "finished_at": "2026-09-15T23:14:17.489Z",
+      "started_at": "2026-09-15T23:22:44.067Z",
+      "finished_at": "2026-09-15T23:22:44.083Z",
       "rows": 2,
       "requests": 2,
       "error": null
@@ -65,8 +65,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "reviews",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.492Z",
-      "finished_at": "2026-09-15T23:14:17.504Z",
+      "started_at": "2026-09-15T23:22:44.087Z",
+      "finished_at": "2026-09-15T23:22:44.098Z",
       "rows": 2,
       "requests": 2,
       "error": null
@@ -75,8 +75,8 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
       "kind": "questions",
       "status": "succeeded",
       "is_fixture": true,
-      "started_at": "2026-09-15T23:14:17.507Z",
-      "finished_at": "2026-09-15T23:14:17.515Z",
+      "started_at": "2026-09-15T23:22:44.103Z",
+      "finished_at": "2026-09-15T23:22:44.116Z",
       "rows": 1,
       "requests": 1,
       "error": null
@@ -113,7 +113,7 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
    POST /v1/analytics/stocks  Получить аналитику по остаткам
    POST /v1/rating/summary  Получить информацию о текущих рейтингах продавца
 
-// denied[38] — deny-list мутаций, первые 8:
+// denied[38] — deny-list мутаций:
    /v3/product/import  Создать или обновить товар
    /v1/product/import/prices  Обновить цену
    /v1/product/import-by-sku  Создать товар по SKU
@@ -122,3 +122,33 @@ $ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants
    /v2/product/pictures/import  Загрузить или обновить изображения товара
    /v1/product/pictures/import  Загрузить или обновить изображения товара Deprecated
    /v1/product/archive  Перенести товар в архив
+   /v1/product/unarchive  Вернуть товар из архива
+   /v2/products/delete  Удалить товар без SKU из архива
+   /v1/product/attributes/update  Обновить характеристики товара
+   /v1/review/comment/create  Оставить комментарий на отзыв
+   /v2/review/comment/delete  Удалить комментарий на отзыв
+   /v1/review/change-status  Изменить статус отзывов Deprecated
+   /v2/review/change-status  Изменить статус отзывов
+   /v1/question/answer/create  Создать ответ на вопрос
+   /v1/question/answer/delete  Удалить ответ на вопрос
+   /v1/question/change-status  Изменить статус вопросов
+   /v1/chat/send/message  Отправить сообщение
+   /v1/chat/send/file  Отправить файл
+   /v1/chat/start  Создать новый чат
+   /v2/chat/read  Отметить сообщения как прочитанные
+   /v1/returns/settings/utilization/update  Обновить настройки автоутилизации
+   /v1/returns/rfbs/action/set  Передать доступные действия для rFBS возвратов
+   /v1/posting/fbs/split  Разделить заказ на отправления без сборки
+   /v1/posting/fbs/traceable/split  Разделить отправление с прослеживаемыми товарами
+   /v1/posting/fbs/timeslot/set  Перенести дату доставки
+   /v1/posting/fbs/package-label/create  Создать задание на выгрузку этикеток
+   /v1/posting/fbs/pick-up-code/verify  Проверить код курьера
+   /v2/posting/fbs/act/create  Подтвердить отгрузку и создать документы
+   /v2/posting/fbs/arbitration  Открыть спор по отправлению
+   /v2/posting/fbs/awaiting-delivery  Передать отправление к отгрузке
+   /v2/posting/fbs/cancel  Отменить отправление
+   /v2/posting/fbs/product/cancel  Отменить отправку некоторых товаров в отправлении
+   /v2/posting/fbs/product/country/set  Добавить информацию о стране-изготовителе товара
+   /v2/posting/fbs/package-label/create  Создать задание на формирование этикеток
+   /v4/posting/fbs/ship  Собрать заказ (версия 4)
+   /v4/posting/fbs/ship/package  Частичная сборка отправления (версия 4)
