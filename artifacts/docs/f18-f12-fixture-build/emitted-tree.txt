@@ -1,0 +1,8 @@
+--- emitted tree: fixtures must be absent ---
+$ ls .medusa/server/scripts
+ls: .medusa/server/scripts: No such file or directory
+rc=1
+$ ls .medusa/server/src/scripts | grep -E "f12|t13|t17"
+grep rc=1
+$ ls .medusa/server/src/scripts | wc -l
+      16

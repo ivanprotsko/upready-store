@@ -151,7 +151,8 @@
     "shippingLink": "शिपिंग",
     "shippingUnavailable": "कोई शिपिंग विधि उपलब्ध नहीं है",
     "signIn": "साइन इन करें",
-    "total": "कुल"
+    "total": "कुल",
+    "shippingZone": "क्षेत्र: {zone}"
   },
   "ClaimOrders": {
     "heading": "क्या आपने बिना खाते के ऑर्डर किया था?",

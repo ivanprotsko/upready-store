@@ -1,0 +1,24 @@
+lockfileVersion: '9.0'
+
+packages:
+
+  '@img/sharp-linux-x64@0.35.4':
+    resolution: {integrity: sha512-fixture}
+    engines: {node: '>=20.9.0'}
+    cpu: [x64]
+    os: [linux]
+
+  sharp@0.35.4:
+    resolution: {integrity: sha512-fixture}
+    engines: {node: '>=20.9.0'}
+
+snapshots:
+
+  '@img/sharp-linux-x64@0.35.4':
+    optional: true
+
+  sharp@0.35.4:
+    dependencies:
+      detect-libc: 2.1.2
+    optionalDependencies:
+      '@img/sharp-linux-x64': 0.35.4

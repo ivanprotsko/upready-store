@@ -1,0 +1,48 @@
+# Раунд 3: PR #55 (f18) вмержен в dev — проверка протухания сработала на ЖИВОМ событии
+
+$ git log --oneline origin/dev -1
+1088507f fix(backend): Образ бэкенда не собирается после #50: фикстура f12 в компилируемом src/scripts (f18-f12-fixture-build) (#55)
+
+# Где теперь три файла, стоявшие в baseline метода tm-003:
+  f12-seed-test-order        apps/backend/src/scripts: нет   apps/backend/scripts/fixtures: ЕСТЬ
+  t13-seed-test-tenant       apps/backend/src/scripts: нет   apps/backend/scripts/fixtures: ЕСТЬ
+  t17-seed-test-tenant       apps/backend/src/scripts: нет   apps/backend/scripts/fixtures: ЕСТЬ
+
+## ДО удаления записей — прогон после мержа dev
+$ node tools/test-methods/tm.mjs run all
+ID      STATUS  NEW  KNOWN  STALE  SCANNED                                            
+------  ------  ---  -----  -----  ---------------------------------------------------
+tm-001  GREEN   0    0      0      files=325 imports=1024 packages=6                  
+tm-002  GREEN   0    1      0      panelFiles=878 storefrontFiles=420 readerFiles=1713
+tm-003  RED     0    0      3      files=1702                                         
+
+  known tm-002/written-never-read  apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx:61  (r03-test-methods-pilot → штабу на заведение)
+       Живая находка, заведена этой задачей: форма профиля пишет выбор языка в user.metadata.language, а по умолчанию подставляет i18n.language (значение из браузера). Прочитать metadata.language не пытается никто — выбор владелицы не переживает вход с другого устройства. Починка — отдельная задача, здесь только замер.
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts
+       эта запись baseline больше ничего не находит: долг закрыт, а запись осталась
+       и теперь молча простит следующую такую же находку. Удалите её из
+       registry.json (метод tm-003, baseline). Владелец записи: f18-f12-fixture-build.
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts
+       эта запись baseline больше ничего не находит: долг закрыт, а запись осталась
+       и теперь молча простит следующую такую же находку. Удалите её из
+       registry.json (метод tm-003, baseline). Владелец записи: r03-test-methods-pilot → штабу на заведение.
+
+  STALE tm-003  fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts
+       эта запись baseline больше ничего не находит: долг закрыт, а запись осталась
+       и теперь молча простит следующую такую же находку. Удалите её из
+       registry.json (метод tm-003, baseline). Владелец записи: r03-test-methods-pilot → штабу на заведение.
+rc=1
+
+## ПОСЛЕ удаления трёх закрытых записей из registry.json
+$ node tools/test-methods/tm.mjs run all
+ID      STATUS  NEW  KNOWN  STALE  SCANNED                                            
+------  ------  ---  -----  -----  ---------------------------------------------------
+tm-001  GREEN   0    0      0      files=325 imports=1024 packages=6                  
+tm-002  GREEN   0    1      0      panelFiles=878 storefrontFiles=420 readerFiles=1713
+tm-003  GREEN   0    0      0      files=1702                                         
+
+  known tm-002/written-never-read  apps/tenant-panel/src/routes/profile/profile-edit/components/edit-profile-form/edit-profile-form.tsx:61  (r03-test-methods-pilot → штабу на заведение)
+       Живая находка, заведена этой задачей: форма профиля пишет выбор языка в user.metadata.language, а по умолчанию подставляет i18n.language (значение из браузера). Прочитать metadata.language не пытается никто — выбор владелицы не переживает вход с другого устройства. Починка — отдельная задача, здесь только замер.
+rc=0

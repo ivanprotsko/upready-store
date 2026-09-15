@@ -15,7 +15,13 @@ import { parseMarkdown } from "@lib/util/markdown"
  * `rel="noreferrer"`, the same pair the footer already uses.
  */
 
-const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
+/**
+ * Exported so a page title can render the same code-span styling a `{{ТОКЕН}}`
+ * left unfilled gets in the body (b09-storefront-render): the resolver wraps
+ * it in backticks either way, and a bare `<h1>{title}</h1>` showed those
+ * backticks as literal characters instead of a styled span.
+ */
+export const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
   <>
     {nodes.map((node, index) => {
       switch (node.type) {
@@ -129,21 +135,31 @@ const Block = ({ block }: { block: MarkdownBlock }) => {
   // not a styled `<div>` grid, so a screen reader still announces row/column
   // structure the way it does for the rest of the markdown block types.
   if (block.type === "table") {
+    // `contact.ru.md`'s first table opens with a blank header row (`| | |`),
+    // written that way because the two real columns are a label and a value
+    // with no heading either needs. Every cell empty means there is nothing
+    // for a `<thead>` to announce, so it is dropped rather than rendered as a
+    // bare grey bar (b09-storefront-render, accept-f07-page-markdown-tables-1
+    // nit 2).
+    const hasHeader = block.header.some((cell) => cell.length > 0)
+
     return (
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-base-regular text-ui-fg-base">
-          <thead>
-            <tr>
-              {block.header.map((cell, index) => (
-                <th
-                  key={index}
-                  className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
-                >
-                  <Inline nodes={cell} />
-                </th>
-              ))}
-            </tr>
-          </thead>
+          {hasHeader ? (
+            <thead>
+              <tr>
+                {block.header.map((cell, index) => (
+                  <th
+                    key={index}
+                    className="border border-ui-border-base bg-ui-bg-subtle px-3 py-2 text-start font-semibold"
+                  >
+                    <Inline nodes={cell} />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          ) : null}
           <tbody>
             {block.rows.map((row, rowIndex) => (
               <tr key={rowIndex}>

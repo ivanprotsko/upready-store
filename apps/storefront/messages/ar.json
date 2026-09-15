@@ -151,7 +151,8 @@
     "shippingLink": "الشحن",
     "shippingUnavailable": "لا توجد طرق شحن متاحة",
     "signIn": "تسجيل الدخول",
-    "total": "الإجمالي"
+    "total": "الإجمالي",
+    "shippingZone": "المنطقة: {zone}"
   },
   "ClaimOrders": {
     "heading": "هل طلبت دون حساب؟",

@@ -151,7 +151,8 @@
     "shippingLink": "Verzending",
     "shippingUnavailable": "Geen verzendmethoden beschikbaar",
     "signIn": "Inloggen",
-    "total": "Totaal"
+    "total": "Totaal",
+    "shippingZone": "Zone: {zone}"
   },
   "ClaimOrders": {
     "heading": "Zonder account besteld?",

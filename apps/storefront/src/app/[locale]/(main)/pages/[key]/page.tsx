@@ -8,7 +8,8 @@ import { decodeSegment } from "@lib/util/decode-segment"
 import { getSiteName } from "@lib/data/cookies"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
-import MarkdownContent from "@modules/content/components/markdown-content"
+import { parseInline } from "@lib/util/markdown"
+import MarkdownContent, { Inline } from "@modules/content/components/markdown-content"
 
 /**
  * One content page of this storefront's tenant, written from the tenant panel
@@ -59,7 +60,9 @@ export default async function TenantContentPage(props: Props) {
 
   return (
     <div className="content-container flex flex-col gap-y-6 py-12 max-w-2xl">
-      <h1 className="text-2xl-semi text-ui-fg-base">{page.title}</h1>
+      <h1 className="text-2xl-semi text-ui-fg-base">
+        <Inline nodes={parseInline(page.title)} />
+      </h1>
       {hasBody ? (
         <MarkdownContent source={page.body} />
       ) : (

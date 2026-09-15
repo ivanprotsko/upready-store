@@ -1,0 +1,56 @@
+{
+  "id": "tpimp_01M2JPPM8V555ZQN2QVEE8Y3AN",
+  "status": "applied",
+  "confirmed_at": "2026-09-15T14:14:39.155Z",
+  "summary": {
+    "rows": 41,
+    "create": 0,
+    "images": 0,
+    "reject": 0,
+    "update": 3,
+    "unchanged": 38,
+    "create_variant": 0,
+    "images_failed": 0
+  },
+  "changed_rows": [
+    {
+      "line": 34,
+      "handle": "gepachisty-cherkashino",
+      "action": "update",
+      "changes": [
+        {
+          "field": "Название",
+          "from": "Гепачисты",
+          "to": "Гепачисты (новая упаковка)"
+        }
+      ],
+      "applied": true
+    },
+    {
+      "line": 36,
+      "handle": "ivan-chay-fermentirovannyy-krepkiy-chernyy-cherkashino",
+      "action": "update",
+      "changes": [
+        {
+          "field": "Цена, RUB",
+          "from": "1084",
+          "to": "999.5"
+        }
+      ],
+      "applied": true
+    },
+    {
+      "line": 222,
+      "handle": "zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino",
+      "action": "update",
+      "changes": [
+        {
+          "field": "Цена, RUB",
+          "from": "1084",
+          "to": "1199"
+        }
+      ],
+      "applied": true
+    }
+  ]
+}

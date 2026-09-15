@@ -1,6 +1,11 @@
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
+import {
+  currentOrderTotalSql,
+  isCanceledOrder,
+  joinCurrentOrderSummary,
+} from "../../order-totals";
 import { listTenantOrderIds } from "../../tenant-scope";
 import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone } from "../timezone";
 
@@ -16,7 +21,10 @@ import { ANALYTICS_TIMEZONE, formatDateInZone, parseDateInZone, startOfDayInZone
  * a JSON blob keyed `current_order_total`, the same fact
  * `customers/helpers.ts` (`getTenantCustomerAggregates`) already measured
  * against the live schema, so this route joins it the same way rather than
- * calling `getOrdersListWorkflow` once per order.
+ * calling `getOrdersListWorkflow` once per order. HOW it is joined — one
+ * summary row per order VERSION, canceled orders counted apart — is
+ * `api/tenants/order-totals.ts`, shared with that file so the two screens
+ * cannot drift again (b01-owner-numbers).
  *
  * `has_orders` is `false` only when the tenant has never had a single order —
  * the honest empty state (step 6: "заказов пока нет", never zeroes that look
@@ -31,6 +39,8 @@ type OrderRow = {
   created_at: Date;
   total: number;
   currency_code: string | null;
+  /** Canceled orders are money the shop did not earn: out of revenue, reported apart. */
+  canceled: boolean;
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -98,6 +108,11 @@ const aggregate = (orders: OrderRow[]) => {
   return { revenue, order_count, aov };
 };
 
+/** The orders that are revenue, and the ones the shop cancelled. */
+const sold = (orders: OrderRow[]): OrderRow[] => orders.filter((order) => !order.canceled);
+const canceledOnly = (orders: OrderRow[]): OrderRow[] =>
+  orders.filter((order) => order.canceled);
+
 /** Percent change, or null when the previous period has nothing to compare against. */
 const changeOf = (current: number, previous: number): number | null => {
   if (previous === 0) {
@@ -123,23 +138,20 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     created_at: Date;
     total: string | null;
     currency_code: string | null;
-  }[] = await pg({ o: "order" })
-    .leftJoin({ os: "order_summary" }, function joinSummary() {
-      this.on("os.order_id", "o.id").andOnNull("os.deleted_at");
-    })
+    status: string | null;
+  }[] = await joinCurrentOrderSummary(pg({ o: "order" }))
     .whereIn("o.id", ownedIds)
     .whereNull("o.deleted_at")
     .where("o.is_draft_order", false)
-    .select("o.id", "o.created_at", "o.currency_code")
-    .select(
-      pg.raw("coalesce((os.totals->>'current_order_total')::numeric, 0) as total"),
-    );
+    .select("o.id", "o.created_at", "o.currency_code", "o.status")
+    .select(pg.raw(`${currentOrderTotalSql()} as total`));
 
   const orders: OrderRow[] = rawOrders.map((row) => ({
     id: row.id,
     created_at: new Date(row.created_at),
     total: Number(row.total ?? 0),
     currency_code: row.currency_code,
+    canceled: isCanceledOrder(row.status),
   }));
 
   const currency_code = orders[0]?.currency_code ?? null;
@@ -153,14 +165,15 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   const currentOrders = inRange(start, end);
   const previousOrders = inRange(prevStart, prevEnd);
 
-  const current = aggregate(currentOrders);
-  const previous = aggregate(previousOrders);
+  const current = aggregate(sold(currentOrders));
+  const previous = aggregate(sold(previousOrders));
+  const canceled = aggregate(canceledOnly(currentOrders));
 
   const daily: { date: string; revenue: number; order_count: number }[] = [];
   for (let cursor = start.getTime(); cursor < end.getTime(); cursor += DAY_MS) {
     const dayStart = new Date(cursor);
     const dayEnd = new Date(cursor + DAY_MS);
-    const dayOrders = inRange(dayStart, dayEnd);
+    const dayOrders = sold(inRange(dayStart, dayEnd));
     daily.push({
       date: formatDateInZone(dayStart, ANALYTICS_TIMEZONE),
       revenue: aggregate(dayOrders).revenue,
@@ -170,7 +183,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
 
   let top_products: { product_id: string; title: string; quantity: number; revenue: number }[] = [];
 
-  if (currentOrders.length > 0) {
+  const soldCurrentOrders = sold(currentOrders);
+
+  if (soldCurrentOrders.length > 0) {
     const rows: {
       product_id: string;
       title: string;
@@ -180,9 +195,17 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       .join({ oli: "order_line_item" }, function joinLineItem() {
         this.on("oli.id", "oi.item_id").andOnNull("oli.deleted_at");
       })
+      // `order_item` is versioned exactly like `order_summary`: an order that
+      // has been through one change carries the same item twice, once per
+      // version. Without this the top-five list doubled both the quantity and
+      // the revenue of every edited order (measured on the stand: one order
+      // of ₽1 094 showed «Зубная паста — 2 шт, ₽2 168»).
+      .join({ o: "order" }, function joinOrder() {
+        this.on("o.id", "oi.order_id").andOn("o.version", "oi.version");
+      })
       .whereIn(
         "oi.order_id",
-        currentOrders.map((order) => order.id),
+        soldCurrentOrders.map((order) => order.id),
       )
       .whereNull("oi.deleted_at")
       .whereNotNull("oli.product_id")
@@ -212,6 +235,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     },
     current,
     previous,
+    canceled: { order_count: canceled.order_count, revenue: canceled.revenue },
     change: {
       revenue_pct: changeOf(current.revenue, previous.revenue),
       order_count_pct: changeOf(current.order_count, previous.order_count),
