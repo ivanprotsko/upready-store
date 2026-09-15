@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-16 03:12 WITA диспетчером (тик 1591; работает). UI: http://localhost:5390
+Обновлено 2026-09-16 03:49 WITA диспетчером (тик 1622; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 48 · done: 16 · accepting: 1 · running: 1 · blocked: 1
+merged: 50 · done: 16 · blocked: 1 · running: 2
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -590,12 +590,22 @@ merged: 48 · done: 16 · accepting: 1 · running: 1 · blocked: 1
 - b07-store-api-isolation «Пачка: Store API отдаёт чужие заказы — маршрут заказа открыт без авторизации, список не скоуплен тенантом» — PR https://github.com/ivanprotsko/upready-store/pull/61 (merged)
 - b07-store-api-isolation: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b07-store-api-isolation-1/00-stranger-logged-in-1280x900.png
 - b07-store-api-isolation: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b07-store-api-isolation-1/01-stranger-direct-foreign-order-1280x900.png
-- b08-seo-storefront «Пачка: SEO витрины — sitemap на 35 языков, коллекции без скоупа тенанта, 55 старых адресов без 301, чужой домен в HTML» — PR https://github.com/ivanprotsko/upready-store/pull/69 (accepting)
+- b08-seo-storefront «Пачка: SEO витрины — sitemap на 35 языков, коллекции без скоупа тенанта, 55 старых адресов без 301, чужой домен в HTML» — PR https://github.com/ivanprotsko/upready-store/pull/69 (merged)
+- b08-seo-storefront: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b08-seo-storefront-1/sitemap-and-collections-measurement.txt
+- b08-seo-storefront: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b08-seo-storefront-1/redirects-and-leak-measurement.txt
 - b09-storefront-render «Пачка: витрина — абзац читается таблицей, пустой thead, бэктики токенов в meta/og, токен в title, ошибка в консоли на чекауте» — PR https://github.com/ivanprotsko/upready-store/pull/60 (merged)
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/01-vitest.log
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/02-jest-tenant-legal.log
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/03-contacts-1280x900-worker-frame-uncommitted.png
 - b09-storefront-render: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b09-storefront-render-1/04-live-measures.txt
+- b10-panel-gaps «Пачка: панель — нет экрана редиректов и поля SEO-верификации, страницу нельзя удалить, Result URL Robokassa по http» — PR https://github.com/ivanprotsko/upready-store/pull/70 (merged)
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/measurements.txt
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/01-redirects-screen-1280x900.png
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/02-redirect-created-1280x900.png
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/03-redirect-edited-1280x900.png
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/05-redirect-deleted-1280x900.png
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/06-seo-verification-1280x900.png
+- b10-panel-gaps: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b10-panel-gaps-1/07-payments-result-url-1280x900.png
 - b11-owner-labels «Пачка: подписи владелицы — Sales channel of tenant, Default option в импорте, дата первой публикации статьи, label у характеристик, карточка самовывоза» — PR https://github.com/ivanprotsko/upready-store/pull/64 (merged)
 - b12-analytics-accuracy «Пачка: аналитика — выручка суммируется по смешанным валютам, версии строк заказа задваивают топ-товары» — PR https://github.com/ivanprotsko/upready-store/pull/66 (merged)
 - b13-locale-single-source «Пачка: локали — три рукописные копии каталога, имена способов доставки по локали сборки, скелетон вместо третьего состояния» — PR https://github.com/ivanprotsko/upready-store/pull/65 (merged)
@@ -681,17 +691,32 @@ merged: 48 · done: 16 · accepting: 1 · running: 1 · blocked: 1
 | 72 | d06-deploy-mt-6 | Деплой пачек волны 5 (b01–b06, r03) на живой хост и проверка (после d05-deploy-mt-5) | deploy | opus/high |  | **done** |  | 1 | 2026-09-16 01:07 WITA |
 | 71 | b05-reviews-import-live | Импорт 332 отзывов Оксаны на живой магазин (с дампом до) (после d05-deploy-mt-5) | data | opus/high | main | **done** |  | 1 | 2026-09-15 22:51 WITA |
 | 80 | b07-store-api-isolation | Пачка: Store API отдаёт чужие заказы — маршрут заказа открыт без авторизации, список не скоуплен тенантом | build | opus/high | fix/day16-store-api-isolation | **merged** | [#61](https://github.com/ivanprotsko/upready-store/pull/61) | 1 | 2026-09-15 22:43 WITA |
-| 81 | b08-seo-storefront | Пачка: SEO витрины — sitemap на 35 языков, коллекции без скоупа тенанта, 55 старых адресов без 301, чужой домен в HTML | build | opus/high | fix/day16-seo-storefront | **accepting** | [#69](https://github.com/ivanprotsko/upready-store/pull/69) | 1 | 2026-09-16 00:08 WITA |
+| 81 | b08-seo-storefront | Пачка: SEO витрины — sitemap на 35 языков, коллекции без скоупа тенанта, 55 старых адресов без 301, чужой домен в HTML | build | opus/high | fix/day16-seo-storefront | **merged** | [#69](https://github.com/ivanprotsko/upready-store/pull/69) | 1 | 2026-09-16 00:08 WITA |
 | 82 | b09-storefront-render | Пачка: витрина — абзац читается таблицей, пустой thead, бэктики токенов в meta/og, токен в title, ошибка в консоли на чекауте | build | sonnet/medium | fix/day16-storefront-render | **merged** | [#60](https://github.com/ivanprotsko/upready-store/pull/60) | 1 | 2026-09-15 22:56 WITA |
-| 83 | b10-panel-gaps | Пачка: панель — нет экрана редиректов и поля SEO-верификации, страницу нельзя удалить, Result URL Robokassa по http | build | opus/high | feat/day16-panel-gaps | **running** |  | 1 | 2026-09-16 01:08 WITA |
+| 83 | b10-panel-gaps | Пачка: панель — нет экрана редиректов и поля SEO-верификации, страницу нельзя удалить, Result URL Robokassa по http | build | opus/high | feat/day16-panel-gaps | **merged** | [#70](https://github.com/ivanprotsko/upready-store/pull/70) | 1 | 2026-09-16 01:08 WITA |
 | 84 | b11-owner-labels | Пачка: подписи владелицы — Sales channel of tenant, Default option в импорте, дата первой публикации статьи, label у характеристик, карточка самовывоза | build | sonnet/medium | fix/day16-owner-labels | **merged** | [#64](https://github.com/ivanprotsko/upready-store/pull/64) | 1 | 2026-09-15 23:30 WITA |
 | 85 | b12-analytics-accuracy | Пачка: аналитика — выручка суммируется по смешанным валютам, версии строк заказа задваивают топ-товары | build | opus/high | fix/day16-analytics-accuracy | **merged** | [#66](https://github.com/ivanprotsko/upready-store/pull/66) | 1 | 2026-09-15 23:36 WITA |
 | 86 | b13-locale-single-source | Пачка: локали — три рукописные копии каталога, имена способов доставки по локали сборки, скелетон вместо третьего состояния | build | sonnet/medium | fix/day16-locale-single-source | **merged** | [#65](https://github.com/ivanprotsko/upready-store/pull/65) | 1 | 2026-09-15 23:40 WITA |
 | 87 | b14-pages-legal-content | Пачка: страницы магазина — delivery/faq/returns дают 404, три ссылки чекаута ведут в оферту, раздел «Реквизиты» не заведён | build | opus/high | feat/day16-pages-legal-content | **merged** | [#67](https://github.com/ivanprotsko/upready-store/pull/67) | 1 | 2026-09-16 00:10 WITA |
 | 88 | b15-quality-debt | Пачка: краснота dev — четыре падающих теста, снапшот модуля tenant без tenant_requisites, нет HTTP-сюит на отзывы | build | opus/high | fix/day16-quality-debt | **merged** | [#68](https://github.com/ivanprotsko/upready-store/pull/68) | 1 | 2026-09-15 23:54 WITA |
 | 89 | b16-media-and-backup | Пачка: медиа магазина без бэкапа и без S3, 30 клонов базы съели диск машины разработки | data | opus/high | main | **blocked** |  | 0 |  |
+| 92 | w01-wb-readonly-client | WB Seller API: клиент только на чтение по конструкции, зеркальные таблицы wb_*, первый импорт кабинета (карточки, цены, остатки) | build | opus/high | feat/day16-wb-readonly-client | **running** |  | 1 | 2026-09-16 03:47 WITA |
+| 90 | w02-yandex-id-auth | Вход через Яндекс ID для покупателей витрины: OAuth-провайдер yandex в auth-модуле, кнопка и callback на витрине, тесты | build | opus/high | feat/day16-yandex-id-auth | **running** |  | 1 | 2026-09-16 03:47 WITA |
 
 ## Последние события
+- 2026-09-16 03:47 WITA · w01-wb-readonly-client · launched: ws 93d6906d-f1e7-4666-9c5f-ced7dddf008e · opus/high · feat/day16-wb-readonly-client
+- 2026-09-16 03:47 WITA · w02-yandex-id-auth · launched: ws ea3d6fa1-cc84-43ad-a94d-f93f2621737c · opus/high · feat/day16-yandex-id-auth
+- 2026-09-16 03:47 WITA · b10-panel-gaps · worker-closed: терминал 28d3158b-ed7a-4b1f-9bce-5bc40e1dbfad закрыт после /compact (по экрану)
+- 2026-09-16 03:39 WITA ·  · all-terminal: DONE
+- 2026-09-16 03:37 WITA · b10-panel-gaps · merged: https://github.com/ivanprotsko/upready-store/pull/70 (приёмка раунд 1)
+- 2026-09-16 03:37 WITA · b10-panel-gaps · compact-sent: терминал 28d3158b-ed7a-4b1f-9bce-5bc40e1dbfad, ветка feat/day16-panel-gaps
+- 2026-09-16 03:37 WITA · b10-panel-gaps · orphans-killed: 1 процессов под worktree (merged): 63361 13:02 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-panel-gaps
+- 2026-09-16 03:31 WITA · b08-seo-storefront · worker-closed: терминал 01422e3f-65a6-4cbb-84fe-bb79a0e38a39 закрыт по таймауту /compact (8 мин); хвост экрана: ────────────────────────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-seo-storefront (fix/day16-seo-storefront) | Opus 5 | ctx 57% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
+- 2026-09-16 03:23 WITA · b10-panel-gaps · accept-started: раунд 1, PR #70, pid 47881
+- 2026-09-16 03:22 WITA · b08-seo-storefront · merged: https://github.com/ivanprotsko/upready-store/pull/69 (приёмка раунд 1)
+- 2026-09-16 03:22 WITA · b08-seo-storefront · compact-sent: терминал 01422e3f-65a6-4cbb-84fe-bb79a0e38a39, ветка fix/day16-seo-storefront
+- 2026-09-16 03:22 WITA · b08-seo-storefront · orphans-killed: 1 процессов под worktree (merged): 39160 10:04 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-seo-storefr
+- 2026-09-16 03:21 WITA · b10-panel-gaps · pr-open: https://github.com/ivanprotsko/upready-store/pull/70
 - 2026-09-16 03:12 WITA · b15-quality-debt · worker-closed: терминал 48a8595f-05e9-450a-a688-06141899a276 закрыт после /compact (по экрану)
 - 2026-09-16 03:11 WITA · b08-seo-storefront · accept-started: раунд 1, PR #69, pid 24862
 - 2026-09-16 03:10 WITA · b08-seo-storefront · pr-open: https://github.com/ivanprotsko/upready-store/pull/69
@@ -719,18 +744,5 @@ merged: 48 · done: 16 · accepting: 1 · running: 1 · blocked: 1
 - 2026-09-16 02:33 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
 - 2026-09-16 02:32 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
 - 2026-09-16 02:31 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:30 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:29 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:28 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:27 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:26 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:25 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:24 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:23 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:22 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:21 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:20 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:19 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
-- 2026-09-16 02:18 WITA · b10-panel-gaps · limit:  удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404.
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json

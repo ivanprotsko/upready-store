@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-16T03:12:05+08:00",
-  "status": "2026-09-16 03:12 WITA: штаб дня Оксаны — ключи WB/Yandex в .env.cherkashino (вне git), проба WB API: 7 категорий ping 200, seller-info «ФНП», флаг read-only в токене не подтверждён по докам (антибот); откат b08/b14 второй раз — причина: прямая запись в state.json во время тика теряется; движок: команда set-task через очередь + защита tick() от отката, диспетчер перезапущен pid 24120; b15 #68 merged, b08 #69 в приёмке, b10 running, b16 blocked; далее: задачи волны 6 (w01 WB read-only клиент, w02 Yandex ID OAuth)",
+  "updated": "2026-09-16T03:49:26+08:00",
+  "status": "2026-09-16 03:49 WITA: штаб дня Оксаны — волна 5 закрыта (merged 50, done 16, b16 blocked ждёт Ивана), волна 6 запущена: w01-wb-readonly-client (ws 93d6906d, транспорт WB только чтение + зеркала + первый импорт) и w02-yandex-id-auth (ws ea3d6fa1, вход через Яндекс ID) работают, диспетчер pid 87615; план WB research/wb-plan.md (фазы 0–4) по вопросу Ивана 03:45; ИНН продавца из токена = ИНН ИП Черкашиной",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
@@ -1260,6 +1260,11 @@
       "id": "q-volna-5-c01-chetyre-pr",
       "question": "Волна 5 c01: четыре PR вне миссии Оксаны открыты с 13–14 сентября — #5 telegram-miniapp (упирается в токен бота), #7 калькулятор себестоимости, #8 market-intelligence (ветка была форк-точкой инцидента aie-20260914-041518-8d97), #20 снятие сборки homepage с upready.dev. Принимаем их отдельной волной после магазина Оксаны или закрываем как отложенные? Список и контекст — artifacts/c01-wave5-composer/needs-ivan.md, раздел C",
       "asked": "2026-09-15"
+    },
+    {
+      "id": "q-vshivat-li-backfill-tenant-locale-settings-v-docker-entrypoi",
+      "question": "Вшивать ли backfill-tenant-locale-settings в docker-entrypoint.sh? Без него sitemap живого магазина Оксаны останется на 36 языках (у тенанта нет строки tenant_locale_settings, фолбэк задан задачей b08). Скрипт идемпотентен, но меняет переключатель языков у ВСЕХ 12 магазинов платформы с 36 языков до двух — воркер b08 сознательно не принял это решение сам, приёмка (PR #69) с ним согласна.",
+      "asked": "2026-09-16"
     }
   ],
   "sessions": [
