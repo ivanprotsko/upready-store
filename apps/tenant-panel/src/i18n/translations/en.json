@@ -4113,7 +4113,9 @@
     "statuses": {
       "running": "running",
       "succeeded": "succeeded",
-      "failed": "failed"
+      "failed": "failed",
+      "rate_limited": "waiting for the WB window",
+      "rateLimitedUntil": "waiting for the WB window until {{time}}"
     },
     "mirrors": {
       "title": "How much is mirrored here",

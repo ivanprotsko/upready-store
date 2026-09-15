@@ -47,6 +47,7 @@ export type WbStatusResponse = {
     rows: number | null
     requests: number | null
     error: string | null
+    retry_at: string | null
   }>
   mirrors: Record<string, number>
 }

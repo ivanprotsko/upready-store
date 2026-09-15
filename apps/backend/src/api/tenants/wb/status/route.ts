@@ -38,6 +38,7 @@ type SyncRunRow = {
   rows: number;
   requests: number;
   error: string | null;
+  retry_at: Date | string | null;
 };
 
 const asIso = (value: Date | string | null | undefined): string | null => {
@@ -130,6 +131,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         rows: run ? Number(run.rows) : null,
         requests: run ? Number(run.requests) : null,
         error: run?.error ?? null,
+        retry_at: asIso(run?.retry_at ?? null),
       };
     }),
     mirrors: Object.fromEntries(counts),

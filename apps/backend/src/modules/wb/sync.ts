@@ -1,7 +1,7 @@
 import type { Logger } from "@medusajs/framework/types";
 import type WbModuleService from "./service";
 import { WB_SYNC_KINDS, type WbSyncKind } from "./models/wb-sync-run";
-import { wbRead, type WbApiCallRecord } from "./transport";
+import { WbApiError, wbRead, type WbApiCallRecord } from "./transport";
 
 /**
  * The imports (w01-wb-readonly-client). Every request in this file goes
@@ -54,8 +54,10 @@ export type WbSyncOutcome = {
   runId: string;
   rows: number;
   requests: number;
-  status: "succeeded" | "failed";
+  status: "succeeded" | "rate_limited" | "failed";
   error: string | null;
+  /** Set only for `rate_limited`: when WB said this kind may be read again. */
+  retryAt: Date | null;
 };
 
 /** Cards come 100 at a time; WB's own pagination example uses this limit. */
@@ -936,6 +938,36 @@ const IMPORTS: Record<
  * Runs one import and records it. The run row exists before the first request,
  * so a process killed mid-import leaves a `running` row rather than no trace.
  */
+/**
+ * What a thrown import means for the run row (w03-wb-sales-questions-mirror).
+ *
+ * A 429 is WB's SCHEDULE, not our defect: on a base token the limits are the
+ * normal operating condition — questions and feedbacks share five requests an
+ * hour, sales get one every two hours — so a run that hits one is waiting, and
+ * a run that wrote rows before hitting it is a PARTIAL SUCCESS. Recording both
+ * as `failed` put four red "с ошибкой" on the owner's screen for kinds that
+ * were merely waiting, which reads as a broken integration.
+ *
+ * `retryAt` is taken from the 429's own header via `WbApiError.retryAfterMs` —
+ * a value WB measured, never one we estimate. A 429 that named no window is
+ * still `rate_limited`, just without a time to show.
+ */
+export const classifyRunFailure = (
+  error: unknown,
+): { status: "rate_limited" | "failed"; retryAt: Date | null; message: string } => {
+  const message = error instanceof Error ? error.message : String(error);
+
+  if (!(error instanceof WbApiError) || error.status !== 429) {
+    return { status: "failed", retryAt: null, message };
+  }
+
+  return {
+    status: "rate_limited",
+    retryAt: error.retryAfterMs === null ? null : new Date(Date.now() + error.retryAfterMs),
+    message,
+  };
+};
+
 export const runSync = async (deps: WbSyncDeps, kind: WbSyncKind): Promise<WbSyncOutcome> => {
   const run = (await deps.wb.createWbSyncRuns({
     tenant_id: deps.tenantId,
@@ -966,28 +998,43 @@ export const runSync = async (deps: WbSyncDeps, kind: WbSyncKind): Promise<WbSyn
       requests: counter.requests,
       status: "succeeded",
       error: null,
+      retryAt: null,
     };
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const { status: outcome, retryAt, message } = classifyRunFailure(error);
+    const limited = outcome === "rate_limited";
+
     await deps.wb.updateWbSyncRuns({
       id: run.id,
-      status: "failed",
+      status: outcome,
       finished_at: new Date(),
       rows: counter.rows,
       requests: counter.requests,
       error: message,
+      retry_at: retryAt,
     });
-    deps.logger.error(
-      `[wb] ${kind} failed after ${counter.requests} WB requests and ${counter.rows} rows ` +
-        `written: ${message}`,
-    );
+
+    if (limited) {
+      const when = retryAt ? `, WB opens the window at ${retryAt.toISOString()}` : "";
+      deps.logger.warn(
+        `[wb] ${kind}: WB rate limit after ${counter.requests} requests and ${counter.rows} rows ` +
+          `written${when}. This is not a failure — run this kind again later.`,
+      );
+    } else {
+      deps.logger.error(
+        `[wb] ${kind} failed after ${counter.requests} WB requests and ${counter.rows} rows ` +
+          `written: ${message}`,
+      );
+    }
+
     return {
       kind,
       runId: run.id,
       rows: counter.rows,
       requests: counter.requests,
-      status: "failed",
+      status: outcome,
       error: message,
+      retryAt,
     };
   }
 };

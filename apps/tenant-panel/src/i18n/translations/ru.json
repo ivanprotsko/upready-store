@@ -4209,7 +4209,9 @@
     "statuses": {
       "running": "идёт",
       "succeeded": "успешно",
-      "failed": "с ошибкой"
+      "failed": "с ошибкой",
+      "rate_limited": "ждёт окна WB",
+      "rateLimitedUntil": "ждёт окна WB до {{time}}"
     },
     "mirrors": {
       "title": "Сколько данных у нас лежит",
