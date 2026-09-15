@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T08:05:36+08:00",
-  "status": "2026-09-15 08:05 WITA: t11-seo-redirects раунд 3 — все 3 находки приёмщика исправлены (конфликт с dev разведён дважды, SEO-локаль панели/витрины больше не литерал en а tenant_locale_settings.default_locale с фолбэком, живые замеры sitemap/301/петли после финального мержа), PR #29 MERGEABLE/CLEAN, коммит 8d3e6ba, комментарий issuecomment-5672589727, workers.log обновлён, стенд остановлен PID-scoped и DB дропнута. Ждёт приёмки раунда 3.",
+  "updated": "2026-09-15T10:00:57+08:00",
+  "status": "2026-09-15 10:00 WITA: t17-analytics — PR #37 opened (feat/day16-analytics → dev), worker stopped per brief, awaiting acceptance",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
