@@ -1,0 +1,8 @@
+## Стенд b02, ПОСЛЕ бэкфилла — 2026-09-15 22:53 WITA (TTL кэша редиректов в middleware — 60 с)
+/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya      301 -> http://127.0.0.1:8202/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino
+/ru/ru/categories/dobavki                                    301 -> http://127.0.0.1:8202/ru/categories/dobavki-cherkashino
+/ru/ru/products/ingalyator-portativnyy                       301 -> http://127.0.0.1:8202/ru/products/ingalyator-portativnyy-cherkashino
+/ru/ru/categories/multivarki                                 301 -> http://127.0.0.1:8202/ru/categories/multivarki-cherkashino
+— и конечные адреса:
+/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya-cherkashino 200
+/ru/categories/dobavki-cherkashino                           200

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 91,
+  "action": "status-set",
+  "ts": "2026-09-15T23:05:18+08:00",
+  "status": "2026-09-15 23:05 WITA: b05 — импорт отзывов Оксаны на живой mt закрыт: было product_review=0, стало 304 (152 ru + 152 en) на 12 товарах; дамп ДО /opt/upready-store/backups/mt-medusa_mt-20260915-165414.sql.gz; витрина и панель показывают (скриншоты), повтор импорта даёт to write=0; 14 отзывов без товара — списком в отчёте, из них 3 с битой оценкой (500/6/6) ждут решения о нормализации. Отчёт: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/b05-reviews-import-live/report.md — коммит edda558c"
+}

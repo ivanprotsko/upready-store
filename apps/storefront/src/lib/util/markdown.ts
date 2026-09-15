@@ -127,9 +127,14 @@ const QUOTE = /^>\s?(.*)$/
 // bullet pattern, or `---` reads as a bullet list item whose text is `--`.
 const RULE = /^(?:-{3,}|\*{3,}|_{3,})$/
 // A GFM table's own separator row: one or more `---`/`:-:`-shaped cells
-// joined by `|`, optionally fenced by a leading/trailing pipe. Never matches
-// a bare `---` (no pipe in it), so it cannot collide with RULE.
-const TABLE_SEPARATOR = /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?$/
+// joined by `|`, optionally fenced by a leading/trailing pipe. The lookahead
+// requires at least one literal `|` in the line, so a bare `---` (no pipe at
+// all) never matches: without it, every part of the rest of the pattern is
+// optional and a plain thematic break read as a one-cell separator row,
+// misreading the previous line as a table header whenever a shop owner
+// happened to write a price line like "цена | 500 ₽" right before one
+// (b09-storefront-render, accept-f07-page-markdown-tables-1 nit 1).
+const TABLE_SEPARATOR = /^(?=.*\|)\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?$/
 // A candidate table row: contains at least one unescaped `|`. Whether it
 // really is a table is decided by the line right after it (TABLE_SEPARATOR).
 const TABLE_ROW = /\|/

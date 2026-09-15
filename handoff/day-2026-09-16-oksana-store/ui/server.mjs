@@ -4,6 +4,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import * as L from '../lib.mjs';
+import { summary } from './summary.mjs';
 const { P } = L;
 const cfg0 = L.loadTasks(); const PORT = Number(process.env.PORT || cfg0.ui?.port || 5390);
 const HTML = path.join(L.DIR, 'ui', 'index.html');
@@ -34,6 +35,8 @@ const server = http.createServer(async (req, res) => {
     if (u.pathname === '/api/log') { const f = safe(P.logs, q.file || '') || safe(P.artifacts, q.file || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, L.tailFile(f, Number(q.n || 400))); }
     if (u.pathname === '/api/logs') return json(res, 200, fs.existsSync(P.logs) ? fs.readdirSync(P.logs).map(f => ({ f, size: fs.statSync(path.join(P.logs, f)).size, m: fs.statSync(path.join(P.logs, f)).mtime })).sort((a, b) => b.m - a.m) : []);
     if (u.pathname === '/api/screen') { const state = L.loadState(); const s = state.tasks[q.id]; if (!s?.ws) return text(res, 404, 'нет workspace'); const term = L.liveAgentTerminal(s.ws); if (!term) return text(res, 200, '(живого терминала нет)\n' + (s.lastScreen || '')); return text(res, 200, L.terminalRead(s.ws, term.terminalId, Number(q.n || 60))); }
+    if (u.pathname === '/api/summary') { const cfg = L.loadTasks(); const state = L.loadState(); const sm = summary(cfg, state, q.id); if (!sm) return json(res, 404, { error: 'no task' }); return json(res, 200, sm); }
+    if (u.pathname === '/api/artifact') { const f = safe(L.DIR, q.f || ''); if (!f || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return text(res, 404, 'нет файла'); const ext = path.extname(f).slice(1).toLowerCase(); const ct = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml', json: 'application/json; charset=utf-8', pdf: 'application/pdf' }[ext] || 'text/plain; charset=utf-8'; res.writeHead(200, { 'content-type': ct, 'cache-control': 'no-store' }); return fs.createReadStream(f).pipe(res); }
     if (u.pathname === '/api/file') { const f = safe(L.DIR, q.f || ''); if (!f || !fs.existsSync(f)) return text(res, 404, 'нет файла'); return text(res, 200, fs.readFileSync(f, 'utf8')); }
     return text(res, 404, 'not found');
   } catch (e) { return json(res, 500, { error: String(e.stack || e) }); }
