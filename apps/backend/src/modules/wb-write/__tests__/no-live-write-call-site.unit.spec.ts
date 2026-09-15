@@ -11,11 +11,16 @@ import path from "node:path";
  *    Wildberries host, besides the read transport of w01. The read lint
  *    (`src/modules/wb/__tests__/transport-single-call-site.unit.spec.ts`)
  *    checks the same thing from the other side.
- * 2. Nothing outside the write modules and their tests calls `wbWrite` or
- *    `marketplaceWrite`. The task w20 builds the mechanism; w21-w23 add the
- *    callers, one operation class at a time, each with its own acceptance.
- *    Until then the repository cannot mutate Wildberries even with every gate
- *    open, because nobody asks it to.
+ * 2. Only a NAMED file may call `wbWrite` or `marketplaceWrite`. w20 built
+ *    the mechanism with that list empty; w21-w23 add the callers, one
+ *    operation class at a time, each with its own acceptance, and each one is
+ *    written into `REGISTERED_CALLERS` below by the task that adds it. A
+ *    caller that is not on the list fails this test, so "who can mutate
+ *    Wildberries" stays a question with a written answer rather than a grep.
+ *
+ * Neither claim is "живой записи нет" on its own. That one holds because the
+ * live gate `WB_WRITE_LIVE` is set by no deployment and no shop has a
+ * `wildberries_write` credential, which is claim 3 below.
  */
 
 const REPO_ROOT = path.resolve(__dirname, "../../../../../..");
@@ -24,6 +29,17 @@ const SCANNED_ROOTS = ["apps/backend/src", "apps/storefront/src", "apps/tenant-p
 
 const WRITE_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb-write", "write-transport.ts");
 const READ_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb", "transport.ts");
+
+/**
+ * The production callers, each added by the task that built it. Adding a line
+ * here is the moment somebody decides a new part of the product may mutate a
+ * marketplace, which is why it is a list in a test and not a convention.
+ */
+const REGISTERED_CALLERS = [
+  // w22-wb-write-feedback-answers: answering a review, and marking a customer
+  // question viewed. Class `feedback_answers`, dry run today.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "feedback-answers", "send", "route.ts"),
+];
 
 /** The two modules that own the mechanism. Their own files may name it. */
 const WRITE_MODULE_DIRS = [
@@ -88,7 +104,7 @@ describe("the WB write path has no live caller", () => {
     expect(offenders).toEqual([]);
   });
 
-  it("has no production caller of wbWrite or marketplaceWrite", () => {
+  it("has no caller of wbWrite or marketplaceWrite outside the registered list", () => {
     const callers = relatives.filter((relative) => {
       if (WRITE_MODULE_DIRS.some((dir) => relative.startsWith(`${dir}${path.sep}`))) {
         return false;
@@ -97,6 +113,56 @@ describe("the WB write path has no live caller", () => {
       return WRITE_CALL.test(source);
     });
 
-    expect(callers).toEqual([]);
+    expect(callers.sort()).toEqual([...REGISTERED_CALLERS].sort());
+  });
+
+  it("finds every registered caller on disk", () => {
+    // A path that stopped existing would make the assertion above pass by
+    // being absent from both sides (rule 20a: zero is not empty).
+    for (const caller of REGISTERED_CALLERS) {
+      expect(relatives).toContain(caller);
+    }
+  });
+
+  it("ships nothing that would SET the live env var", () => {
+    // Claim 3, and the one "живой записи нет" now rests on: a production
+    // caller exists from w22 onwards, so the sentence is no longer true
+    // because nobody asks — it is true because the last gate stays shut.
+    //
+    // What is checkable here is what this repository SHIPS. An operator can
+    // still export the variable by hand on a host, which is the point of it
+    // being a deliberate act; the environment of the live stands is checked
+    // where it lives, not from a unit test (rule 18f).
+    const assignments = relatives.filter((relative) => {
+      if (relative.includes(`${path.sep}__tests__${path.sep}`)) {
+        return false;
+      }
+      const source = readFileSync(path.join(REPO_ROOT, relative), "utf8");
+      // An assignment, not a mention: `write-transport.ts` names the variable
+      // in prose and the panel shows it to the owner, and neither sets it.
+      return /process\.env\s*(?:\.WB_WRITE_LIVE|\[\s*["\u0027`]WB_WRITE_LIVE)[^=!<>]*=[^=]/.test(source);
+    });
+
+    expect(assignments).toEqual([]);
+  });
+
+  it("names the live env var in no env template, workflow or entrypoint", () => {
+    const shipped = [
+      "apps/backend/.env.template",
+      "apps/storefront/.env.template",
+      "apps/tenant-panel/.env.template",
+      "apps/backend/docker-entrypoint.sh",
+      ".github/workflows/update.yaml",
+      ".github/workflows/notify-deploy.yml",
+    ];
+
+    const found = shipped.filter((relative) => {
+      // A file that vanished must fail loudly rather than quietly pass
+      // (rule 20a: zero is not empty).
+      const source = readFileSync(path.join(REPO_ROOT, relative), "utf8");
+      return source.includes("WB_WRITE_LIVE");
+    });
+
+    expect(found).toEqual([]);
   });
 });
