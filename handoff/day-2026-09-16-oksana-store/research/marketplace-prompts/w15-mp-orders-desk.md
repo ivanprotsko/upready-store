@@ -26,6 +26,9 @@ status change on the marketplace side. Confirm that with a test, not with a prom
   register the current versions.
 - Existing order screens to copy: `apps/tenant-panel/src/routes/orders/**`. Geist only.
 
+- **`w23-wb-write-fbs-orders`** (queued 04:44) mirrors WB FBS assembly orders and supplies. Read its tables through
+  `mp_*` rather than importing them again; the actions it adds live behind its own confirmation and are not on this screen.
+
 ## Deliverables (one PR, branch `{{BRANCH}}`)
 
 ### 1. Import of marketplace orders into `mp_order` / `mp_order_line`

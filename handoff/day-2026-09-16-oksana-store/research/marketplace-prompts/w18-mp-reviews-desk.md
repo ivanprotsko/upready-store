@@ -25,6 +25,10 @@ Read-only. `POST /api/v1/feedbacks/answer` (WB) and `POST /v1/review/comment/cre
   look at the `product-review` module before deciding where an imported review may go.
 - Geist: `~/upready/packages/geist-kit/AGENTS.md`.
 
+- **`w03-wb-sales-questions-mirror`** (queued 04:44) already mirrors WB questions and the seller-analytics funnel.
+  Read its tables through the `mp_*` normalization; do not write a second WB questions importer.
+  Sending answers is **`w22-wb-write-feedback-answers`**, not this task.
+
 ## Deliverables (one PR, branch `{{BRANCH}}`)
 
 ### 1. Import into `mp_review` / `mp_question`

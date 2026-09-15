@@ -31,6 +31,9 @@ cabinet actually answers once a key exists, or write «ключа ещё нет�
   `POST /v1/rating/summary`, `POST /v1/rating/history`.
 - Geist: `~/upready/packages/geist-kit/AGENTS.md`.
 
+- **`w03-wb-sales-questions-mirror`** (queued 04:44) brings the WB seller-analytics funnel into the mirror.
+  Read it through `mp_*`; do not re-import it here.
+
 ## Deliverables (one PR, branch `{{BRANCH}}`)
 
 ### 1. Screen «Маркетплейсы → Аналитика»
