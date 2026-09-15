@@ -233,3 +233,7 @@ cd <worktree> && pnpm check:backend-build; echo "rc=$?"
 Если времени на п.4 нет: достаточно строки `Backend build completed successfully` в
 `artifacts/docs/f18-f12-fixture-build/medusa-build.txt` — фикстура ломала именно backend-часть
 компиляции, admin-часть к ней отношения не имеет.
+
+---
+
+**Раунд 2** (PR #55 отклонён по конфликту мержа): что сделано и как измерено — `artifacts/docs/f18-f12-fixture-build/round-2-comment.md`, он же опубликован комментарием к PR. Коротко: merge `origin/dev` с разрешением `HANDOFF.json` (merge-коммит `187fd600`), и гейт фикстур расширен со `src/` на весь компилируемый `apps/backend` (`e8ec359b`) — нит приёмки подтверждён замером `tsc --listFiles`, а не принят на слово.
