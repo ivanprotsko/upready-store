@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} tuote} other {{count} tuotetta}}",
     "legal": "Klikkaamalla «Maksa» hyväksyt <terms>ehtomme</terms>, <termsOfUse>käyttöehtomme</termsOfUse> ja <returnPolicy>palautuskäytäntömme</returnPolicy> sekä <privacyPolicy>tietosuojakäytäntömme</privacyPolicy>.",
     "manualInput": "Syötä osoite manuaalisesti",
+    "addressIncomplete": "Täytä osoitteen pakolliset kentät. Ilman kaupunkia ja postinumeroa tilausta ei voi lähettää.",
     "orderComposition": "Tilauksen yhteenveto",
     "paymentHeading": "Maksutapa",
     "recipientCheckbox": "Vastaanottaja on eri henkilö",

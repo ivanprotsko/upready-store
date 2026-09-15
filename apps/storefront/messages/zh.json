@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, other {{count}件}}",
     "legal": "点击「支付」即表示您接受我们的<terms>条款</terms>、<termsOfUse>使用条款</termsOfUse>和<returnPolicy>退货政策</returnPolicy>，并同意我们的<privacyPolicy>隐私政策</privacyPolicy>。",
     "manualInput": "手动输入地址",
+    "addressIncomplete": "请填写地址的必填项。没有城市和邮政编码，订单无法发货。",
     "orderComposition": "订单摘要",
     "paymentHeading": "支付方式",
     "recipientCheckbox": "收件人为他人",

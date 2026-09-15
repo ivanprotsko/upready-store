@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} na item}}",
     "legal": "Sa pag-click ng «Bayaran», tinatanggap mo ang aming <terms>mga tuntunin</terms>, <termsOfUse>mga tuntunin sa paggamit</termsOfUse>, at <returnPolicy>patakaran sa pagsauli</returnPolicy>, at sumasang-ayon ka sa aming <privacyPolicy>patakaran sa privacy</privacyPolicy>.",
     "manualInput": "Ilagay ang address nang manu-mano",
+    "addressIncomplete": "Punan ang mga kinakailangang field ng address. Kung walang lungsod at postal code, hindi maipapadala ang order.",
     "orderComposition": "Buod ng Order",
     "paymentHeading": "Paraan ng bayad",
     "recipientCheckbox": "Ibang tao ang tatanggap",

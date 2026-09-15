@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} položka} few {{count} položky} many {{count} položky} other {{count} položek}}",
     "legal": "Kliknutím na tlačítko „Zaplatit“ přijímáte naše <terms>podmínky</terms>, <termsOfUse>podmínky užívání</termsOfUse> a <returnPolicy>zásady vracení zboží</returnPolicy> a souhlasíte s našimi <privacyPolicy>zásadami ochrany osobních údajů</privacyPolicy>.",
     "manualInput": "Zadat adresu ručně",
+    "addressIncomplete": "Vyplňte povinná pole adresy. Bez města a PSČ nelze objednávku odeslat.",
     "orderComposition": "Souhrn objednávky",
     "paymentHeading": "Způsob platby",
     "recipientCheckbox": "Příjemce je jiná osoba",

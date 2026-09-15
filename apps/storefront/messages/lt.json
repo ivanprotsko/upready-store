@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} prekė} few {{count} prekės} many {{count} prekės} other {{count} prekių}}",
     "legal": "Spausdami „Mokėti“, jūs sutinkate su mūsų <terms>sąlygomis</terms>, <termsOfUse>naudojimo sąlygomis</termsOfUse> ir <returnPolicy>grąžinimo politika</returnPolicy> bei sutinkate su <privacyPolicy>privatumo politika</privacyPolicy>.",
     "manualInput": "Įvesti adresą rankiniu būdu",
+    "addressIncomplete": "Užpildykite privalomus adreso laukus. Be miesto ir pašto kodo užsakymo išsiųsti negalima.",
     "orderComposition": "Užsakymo santrauka",
     "paymentHeading": "Mokėjimo būdas",
     "recipientCheckbox": "Gavėjas yra kitas asmuo",

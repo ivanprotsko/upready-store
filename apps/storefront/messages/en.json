@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} item} other {{count} items}}",
     "legal": "By clicking «Pay», you accept our <terms>terms</terms>, <termsOfUse>terms of use</termsOfUse> and <returnPolicy>return policy</returnPolicy>, and agree to our <privacyPolicy>privacy policy</privacyPolicy>.",
     "manualInput": "Enter address manually",
+    "addressIncomplete": "Fill in the required address fields. Without a city and a postal code the order cannot be shipped.",
     "orderComposition": "Order summary",
     "paymentHeading": "Payment method",
     "recipientCheckbox": "Recipient is a different person",
