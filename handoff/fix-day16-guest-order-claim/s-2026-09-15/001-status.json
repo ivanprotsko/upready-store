@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "fix-day16-guest-order-claim",
+  "session": "s-2026-09-15",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-15T11:55:35+08:00",
+  "status": "2026-09-15 11:55 WITA: f03-guest-order-not-in-account — PR #42 открыт (base dev, MERGEABLE, не черновик). Гостевой заказ привязывается к аккаунту с тем же e-mail: новый POST /store/customers/me/claim-orders (адрес из строки аккаунта, магазин из publishable-ключа), витрина зовёт его после регистрации И после входа, плюс кнопка «Найти мои заказы»; перенос по ссылке из письма оставлен для заказа на другой адрес. Замерено на стенде с тенантом cherkashino: заказ №21 гостем → регистрация → в кабинете сразу; чужой адрес и ключ другого магазина дают claimed:0; seam 6/6, unit 206/207 (1 падение пришло с dev). Открытые вопросы: подтверждение e-mail при регистрации; /store/orders не ограничен тенантом; фикстура request-shop.test.ts красит tsc витрины на самой dev."
+}
