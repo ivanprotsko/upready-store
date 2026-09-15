@@ -23,7 +23,11 @@ import {
  * has nowhere to put a write.
  */
 
-/** Hard ceiling on one request, including the response body. */
+/**
+ * Default ceiling on one request, including reading the response body. An
+ * endpoint whose body is measurably larger overrides it with `timeoutMs`
+ * (see `statistics.orders` in `endpoints.ts`).
+ */
 export const WB_TIMEOUT_MS = 15_000;
 
 /** 429 is retried this many times in total (the first try included). */
@@ -225,7 +229,7 @@ export const wbRead = async <T = unknown>(
         method: entry.method,
         headers,
         body: entry.method === "POST" ? JSON.stringify(options.body ?? {}) : undefined,
-        signal: AbortSignal.timeout(WB_TIMEOUT_MS),
+        signal: AbortSignal.timeout(entry.timeoutMs ?? WB_TIMEOUT_MS),
       });
 
       status = response.status;

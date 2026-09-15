@@ -60,6 +60,11 @@ export type WbReadEndpoint = {
   summary: string;
   /** Required for, and only for, `method: "POST"`. */
   readViaPost?: WbReadViaPost;
+  /**
+   * Overrides `WB_TIMEOUT_MS` for this endpoint. Only where a measurement
+   * shows the default is too short: the value is a fact, not a preference.
+   */
+  timeoutMs?: number;
 };
 
 /**
@@ -147,6 +152,17 @@ export const WB_READ_ENDPOINTS: readonly WbReadEndpoint[] = [
     path: "/api/v1/supplier/orders",
     docUrl: `${DOC_REPORTS}#tag/mainReports`,
     summary: "Orders",
+    /**
+     * Measured 2026-09-16 04:14 WITA against the live cabinet: WB answered
+     * the headers with 200 and the BODY did not finish inside the default
+     * 15 s (`wb_api_call` row: status 200, ms 15016, error "The operation was
+     * aborted due to timeout"). The docs cap one answer at roughly 80 000
+     * rows, so a 90-day window is simply a large download, not a hung host.
+     *
+     * Raised rather than papered over with a shorter window: the window is
+     * WB's own 90-day retention, and a shorter one would silently lose data.
+     */
+    timeoutMs: 120_000,
   },
   {
     id: "feedbacks.list",

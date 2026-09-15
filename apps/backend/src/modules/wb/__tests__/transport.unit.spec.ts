@@ -6,7 +6,7 @@ import {
   WbWriteForbiddenError,
   type WbReadEndpoint,
 } from "../endpoints";
-import { wbRead } from "../transport";
+import { WB_TIMEOUT_MS, wbRead } from "../transport";
 
 /**
  * The guard suite for the read-only invariant (w01-wb-readonly-client).
@@ -317,5 +317,33 @@ describe("429 is answered from the headers WB really sends", () => {
 
     expect(journal).toHaveBeenCalledTimes(1);
     expect(journal.mock.calls[0][0]).toMatchObject({ status: 429, endpoint_id: "feedbacks.list" });
+  });
+});
+
+describe("the request timeout", () => {
+  it("is the default for an ordinary read", async () => {
+    const timeoutSpy = jest.spyOn(AbortSignal, "timeout");
+
+    await wbRead("common.ping", { token: TOKEN, logger: spyLogger() });
+
+    expect(timeoutSpy).toHaveBeenLastCalledWith(WB_TIMEOUT_MS);
+    timeoutSpy.mockRestore();
+  });
+
+  it("is the endpoint's own value where a measurement demanded one", async () => {
+    // statistics.orders: WB answered 200 and the body did not finish inside
+    // 15 s (measured 2026-09-16 04:14 WITA, wb_api_call ms=15016).
+    const timeoutSpy = jest.spyOn(AbortSignal, "timeout");
+    fetchSpy.mockResolvedValueOnce(okResponse([]));
+
+    await wbRead("statistics.orders", {
+      token: TOKEN,
+      query: { dateFrom: "2026-06-01" },
+      logger: spyLogger(),
+    });
+
+    expect(timeoutSpy).toHaveBeenLastCalledWith(120_000);
+    expect(timeoutSpy).not.toHaveBeenLastCalledWith(WB_TIMEOUT_MS);
+    timeoutSpy.mockRestore();
   });
 });
