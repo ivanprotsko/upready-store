@@ -187,6 +187,13 @@ medusaIntegrationTestRunner({
             last_name: "Buyer",
             address_1: "Street 1",
             city: "Moscow",
+            // Without `province` `completeCartWorkflow` refuses the order for
+            // every country the tariff module ships a region list for
+            // (`missingPostableFields` in `workflows/hooks/validate-cart-shipping-address.ts`,
+            // b03-shipping-zones-weight), and the Result webhook then cancels
+            // the payment instead of paying the order. The string is the
+            // region's own `province` from `shipping-tariffs/ru-regions.ts`.
+            province: "г Москва",
             postal_code: "101000",
             country_code: "ru",
           };

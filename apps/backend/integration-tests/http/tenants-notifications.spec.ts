@@ -93,6 +93,29 @@ medusaIntegrationTestRunner({
         return undefined;
       };
 
+      /**
+       * `until` for a value that has to be fetched rather than read off a sink.
+       *
+       * The delivery stamps on the tenant row are written by the subscribers
+       * AFTER the message leaves, so a letter already in the SMTP sink proves
+       * the send and not yet the record of it (measured: `[smtp] Email sent` at
+       * 00:38:04, `[order-placed-email] Sent to …` a second later). A single
+       * read of `/tenants/notification-settings` can land in between.
+       */
+      const untilAsync = async <T>(
+        read: () => Promise<T | undefined>,
+        attempts = 40,
+      ): Promise<T | undefined> => {
+        for (let attempt = 0; attempt < attempts; attempt += 1) {
+          const value = await read();
+          if (value !== undefined) {
+            return value;
+          }
+          await wait(250);
+        }
+        return undefined;
+      };
+
       const registerTenant = async (handle: string, name: string): Promise<Registered> => {
         const email = `admin@${handle}.test`;
         const registration = await api.post("/auth/tenant/emailpass/register", { email, password: PASSWORD });
@@ -149,6 +172,13 @@ medusaIntegrationTestRunner({
           phone: "+7 900 000-00-00",
           address_1: "ул. Ленина, 1",
           city: "Москва",
+          // `province` is what `completeCartWorkflow` refuses an order without,
+          // for every country the tariff module ships a region list for
+          // (`missingPostableFields` in `workflows/hooks/validate-cart-shipping-address.ts`,
+          // b03-shipping-zones-weight). The value is the region's own `province`
+          // string from `shipping-tariffs/ru-regions.ts`, because a delivery zone
+          // restricted to regions matches on exactly that string.
+          province: "г Москва",
           postal_code: "101000",
           country_code: "ru",
         };
@@ -366,10 +396,17 @@ medusaIntegrationTestRunner({
           expect(toB).toHaveLength(0);
 
           // And the owner sees the delivery without opening a log.
-          const read = await api.get("/tenants/notification-settings", bearer(a.token));
-          expect(read.data.settings.telegram.last.status).toBe("ok");
-          expect(read.data.settings.telegram.last.order).toBe(String(order.display_id));
-          expect(read.data.settings.email.last.status).toBe("ok");
+          const settings = await untilAsync(async () => {
+            const read = await api.get("/tenants/notification-settings", bearer(a.token));
+            const current = read.data.settings;
+            return current?.telegram?.last?.status && current?.email?.last?.status
+              ? current
+              : undefined;
+          });
+          expect(settings).toBeDefined();
+          expect(settings.telegram.last.status).toBe("ok");
+          expect(settings.telegram.last.order).toBe(String(order.display_id));
+          expect(settings.email.last.status).toBe("ok");
         });
 
         it("keeps tenant B's own order to tenant B", async () => {
