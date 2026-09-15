@@ -41,11 +41,20 @@ export type MissingRequisite = {
   pages: { key: string; title: string }[]
 }
 
+/** Страница, часть которой покупатель СЕЙЧАС не видит: реквизит пуст, блок скрыт. */
+export type HiddenBlocks = {
+  key: string
+  title: string
+  locale: string
+  hidden: number
+}
+
 export type RequisitesResponse = {
   requisites: Requisites
   /** {{ДОМЕН_САЙТА}} — read-only, resolved from the shop's own primary address. */
   domain: string
   missing: MissingRequisite[]
+  hidden_blocks: HiddenBlocks[]
 }
 
 export type PutRequisitesBody = Partial<Requisites>

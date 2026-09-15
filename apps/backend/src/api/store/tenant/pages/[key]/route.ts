@@ -6,7 +6,8 @@ import { pickPageForLocale, requestedPageLocale, toPageDto } from "../../../../t
 import { resolveTenantFromPublishableKey } from "../../resolve-tenant";
 import { resolveTenantDomain } from "../../../../../tenant-legal/domain";
 import { readRequisites } from "../../../../../tenant-legal/shop";
-import { resolveLegalPlaceholders, valuesFromRequisites } from "../../../../../tenant-legal/requisites";
+import { valuesFromRequisites } from "../../../../../tenant-legal/requisites";
+import { redactLegalPlaceholders } from "../../../../../tenant-legal/redact";
 
 /**
  * `GET /store/tenant/pages/:key` — one published page of the storefront's own
@@ -17,10 +18,16 @@ import { resolveLegalPlaceholders, valuesFromRequisites } from "../../../../../t
  *
  * The body is returned with its `{{ТОКЕН}}` placeholders resolved against this
  * tenant's own requisites (t12-legal-requisites, `tenant-legal/requisites.ts`)
- * — the ONE place this happens, so every visitor sees the same result and an
- * unfilled token still renders literally. A neighbouring tenant's requisites
- * never reach this response: both the page row and the requisites row are
- * looked up by THIS tenant's id alone.
+ * — the ONE place this happens, so every visitor sees the same result. A
+ * neighbouring tenant's requisites never reach this response: both the page
+ * row and the requisites row are looked up by THIS tenant's id alone.
+ *
+ * A token with NO value no longer reaches the buyer at all: the block carrying
+ * it is hidden (`tenant-legal/redact.ts`, b02-legal-and-redirects), and the
+ * owner is told which pages lost blocks on the panel's «Реквизиты продавца»
+ * screen. Until this task the placeholder was printed literally — on the live
+ * shop that was 42 visible `{{ТОКЕНОВ}}` on `/ru/pages/contacts` and 46 in the
+ * offer (`artifacts/q03-gap-recheck/gap-recheck.md` §3).
  */
 export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const tenant = await resolveTenantFromPublishableKey(req);
@@ -44,5 +51,7 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const values = valuesFromRequisites(requisites, domain);
   const dto = toPageDto(row);
 
-  res.json({ page: { ...dto, body: resolveLegalPlaceholders(dto.body, values) } });
+  const redacted = redactLegalPlaceholders(dto.body, values);
+
+  res.json({ page: { ...dto, body: redacted.body } });
 };

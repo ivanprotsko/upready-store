@@ -7,9 +7,11 @@ import {
   LEGAL_TOKEN_FIELDS,
   missingLegalTokens,
   tokensInText,
+  valuesFromRequisites,
   type LegalToken,
   type RequisitesRow,
 } from "../../../tenant-legal/requisites";
+import { redactLegalPlaceholders } from "../../../tenant-legal/redact";
 import { ensureRequisites, type TenantRequisitesRecord } from "../../../tenant-legal/shop";
 import { getTenantScope } from "../tenant-scope";
 
@@ -35,11 +37,26 @@ export type MissingRequisiteView = {
   pages: { key: string; title: string }[];
 };
 
+/** One page that is showing the buyer LESS than it says, because a requisite is blank. */
+export type HiddenBlocksView = {
+  key: string;
+  title: string;
+  locale: string;
+  /** Blocks hidden from the storefront right now (`tenant-legal/redact.ts`). */
+  hidden: number;
+};
+
 export type RequisitesView = {
   requisites: Omit<RequisitesRow, never>;
   /** `{{ДОМЕН_САЙТА}}`'s resolved value — read-only here, never a form field. */
   domain: string;
   missing: MissingRequisiteView[];
+  /**
+   * What the buyer is NOT seeing while these fields are blank
+   * (b02-legal-and-redirects): the storefront hides the block instead of
+   * printing `{{ТОКЕН}}`, so the panel is the only place that can say so.
+   */
+  hidden_blocks: HiddenBlocksView[];
 };
 
 const REQUISITES_FIELDS = [
@@ -71,41 +88,58 @@ const toRow = (record: TenantRequisitesRecord): RequisitesRow => {
 };
 
 /**
- * The "Не заполнено: …" list (step plan piece 3): every one of the 16 tokens
+ * The "Не заполнено: …" list (t12 step plan piece 3) AND the pages that are
+ * hiding blocks because of it (b02): every one of the 16 tokens
  * with no value, alongside every one of THIS tenant's own pages (reserved or
  * custom, published or draft — a draft still needs the same fix before it can
  * publish) whose body literally names it. A token nobody's page uses is still
  * listed, with an empty `pages` array, since a page not yet written may still
  * need it tomorrow.
  */
-const missingView = async (
+const pagesView = async (
   tenantModuleService: TenantModuleService,
   tenantId: string,
   row: RequisitesRow,
   domain: string,
-): Promise<MissingRequisiteView[]> => {
+): Promise<{ missing: MissingRequisiteView[]; hidden_blocks: HiddenBlocksView[] }> => {
   const missing = missingLegalTokens(row, domain);
-  if (!missing.length) return [];
+  if (!missing.length) return { missing: [], hidden_blocks: [] };
 
   const pages = await tenantModuleService.listTenantPages({ tenant_id: tenantId });
+  const values = valuesFromRequisites(row, domain);
   const byToken = new Map<LegalToken, { key: string; title: string }[]>();
+  const hiddenBlocks: HiddenBlocksView[] = [];
 
   for (const page of pages) {
-    const used = tokensInText(page.body ?? "");
+    const body = page.body ?? "";
+    const used = tokensInText(body);
     if (!used.length) continue;
-    const view = { key: page.key, title: RESERVED_PAGE_LABELS[page.key] ?? page.title ?? page.key };
+
+    const title = RESERVED_PAGE_LABELS[page.key] ?? page.title ?? page.key;
+    const view = { key: page.key, title };
     for (const token of used) {
       const list = byToken.get(token) ?? [];
       list.push(view);
       byToken.set(token, list);
     }
+
+    // The same call the storefront makes, against the same values — so the
+    // number the owner reads is the number of blocks her visitors are missing,
+    // not an estimate of it (rule 18f: measured, not assumed).
+    const { hidden } = redactLegalPlaceholders(body, values);
+    if (hidden > 0) {
+      hiddenBlocks.push({ key: page.key, title, locale: page.locale, hidden });
+    }
   }
 
-  return missing.map((token) => ({
-    token,
-    label: LEGAL_TOKEN_LABELS[token],
-    pages: byToken.get(token) ?? [],
-  }));
+  return {
+    missing: missing.map((token) => ({
+      token,
+      label: LEGAL_TOKEN_LABELS[token],
+      pages: byToken.get(token) ?? [],
+    })),
+    hidden_blocks: hiddenBlocks,
+  };
 };
 
 export const ownRequisites = async (
@@ -125,10 +159,13 @@ export const requisitesView = async (
   const domain = await resolveTenantDomain(req.scope, tenant, req.headers.host);
   const row = toRow(record);
 
+  const { missing, hidden_blocks } = await pagesView(tenantModuleService, tenant.id, row, domain);
+
   return {
     requisites: row,
     domain,
-    missing: await missingView(tenantModuleService, tenant.id, row, domain),
+    missing,
+    hidden_blocks,
   };
 };
 
