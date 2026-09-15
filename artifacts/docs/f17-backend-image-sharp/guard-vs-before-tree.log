@@ -1,0 +1,11 @@
+
+verify-runtime-modules: 1 of 321 boot modules cannot resolve an import inside this image:
+
+  src/api/tenants/branding/upload/route.js  ->  cannot find module 'sharp'
+
+Each of these kills the container on start. The usual cause is a package declared
+under devDependencies in apps/backend/package.json while a boot-loaded file imports it
+at module scope: the runtime stage installs with `npm install --omit=dev`, so the
+package never reaches the image. Move it to dependencies (and refresh pnpm-lock.yaml
+with `pnpm install --lockfile-only`, or the build stage's --frozen-lockfile fails).
+
