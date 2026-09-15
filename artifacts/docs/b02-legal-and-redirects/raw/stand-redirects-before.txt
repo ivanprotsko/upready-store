@@ -1,0 +1,5 @@
+## Стенд b02, ДО бэкфилла — 2026-09-15 22:51 WITA
+строк в tenant_redirect: 0
+/ru/ru/products/zubnaya-pasta-tayskaya-otbelivayuschaya      404 -> 
+/ru/ru/categories/dobavki                                    404 -> 
+/ru/ru/products/ingalyator-portativnyy                       404 -> 
