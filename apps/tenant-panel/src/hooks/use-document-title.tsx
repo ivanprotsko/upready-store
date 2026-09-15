@@ -3,7 +3,9 @@ import { ReactNode, useMemo } from "react"
 import { Helmet } from "react-helmet-async"
 import { UIMatch, useMatches } from "react-router-dom"
 
-const DEFAULT_TITLE = "Medusa"
+import { useStore } from "./api/store"
+
+const DEFAULT_TITLE = "Панель магазина"
 
 export type RouteHandle = {
   breadcrumb?: (match?: UIMatch) => string | ReactNode
@@ -84,11 +86,15 @@ export function getTitleFromMatch(
  * Hook that returns the document title based on the current route.
  *
  * It walks the matched routes from root to leaf and uses the most specific
- * (last) route that yields a title. The format is `"Page Title - Medusa"`,
- * falling back to `"Medusa"` when no route contributes a title.
+ * (last) route that yields a title. The format is `"Page Title — Store Name"`,
+ * falling back to `DEFAULT_TITLE` when no route contributes a title or the
+ * store name is not available yet (loading, or the unauthenticated public
+ * layout, where `GET /tenants/store` 401s and is never retried).
  */
 export function useDocumentTitle() {
   const matches = useMatches() as UIMatch<unknown, RouteHandle>[]
+  const { store } = useStore({ retry: false })
+  const brand = store?.name || DEFAULT_TITLE
 
   const title = useMemo(() => {
     let pageTitle = ""
@@ -103,11 +109,11 @@ export function useDocumentTitle() {
     }
 
     if (!pageTitle) {
-      return DEFAULT_TITLE
+      return brand
     }
 
-    return `${pageTitle} - Medusa`
-  }, [matches])
+    return `${pageTitle} — ${brand}`
+  }, [matches, brand])
 
   return title
 }

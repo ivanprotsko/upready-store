@@ -35,13 +35,14 @@ export const getNativeSymbol = (currencyCode: string) => {
 }
 
 /**
- * In some cases we want to display the amount with the currency code and symbol,
- * in the format of "symbol amount currencyCode". This breaks from the
- * user's locale and is only used in cases where we want to display the
- * currency code and symbol explicitly, e.g. for totals.
+ * Formats an amount for emphasis (totals, summaries): full decimal precision
+ * for the currency plus the sign convention for near-zero amounts. Unlike
+ * `getStylizedAmount`'s previous "symbol amount CODE" shape, this follows the
+ * browser's locale for symbol placement (e.g. "1 084,00 ₽" under ru), because
+ * showing both the native symbol and the ISO code together read as a raw,
+ * doubled-up value on a single-locale storefront.
  */
 export const getStylizedAmount = (amount: number, currencyCode: string) => {
-  const symbol = getNativeSymbol(currencyCode)
   const decimalDigits = getDecimalDigits(currencyCode)
 
   const lessThanRoundingPrecission = isAmountLessThenRoundingError(
@@ -49,13 +50,16 @@ export const getStylizedAmount = (amount: number, currencyCode: string) => {
     currencyCode
   )
 
-  const total = amount.toLocaleString(undefined, {
+  const formatter = new Intl.NumberFormat([], {
+    style: "currency",
+    currencyDisplay: "narrowSymbol",
+    currency: currencyCode,
     minimumFractionDigits: decimalDigits,
     maximumFractionDigits: decimalDigits,
     signDisplay: lessThanRoundingPrecission ? "exceptZero" : "auto",
   })
 
-  return `${symbol} ${total} ${currencyCode.toUpperCase()}`
+  return formatter.format(amount)
 }
 
 /**

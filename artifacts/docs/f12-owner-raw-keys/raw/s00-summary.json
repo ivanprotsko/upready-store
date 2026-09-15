@@ -1,0 +1,208 @@
+{
+  "total": 15,
+  "withRawKeys": 2,
+  "withMachineValues": 1,
+  "titleHasMedusaAnywhere": false,
+  "consoleErrorCount": 29,
+  "results": [
+    {
+      "name": "s01-home",
+      "url": "http://localhost:5190/",
+      "title": "Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s02-products",
+      "url": "http://localhost:5190/products",
+      "title": "Товары — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s03-product-detail",
+      "url": "http://localhost:5190/products/prod_01M29Q5AVB4VJGSBPE2VBH02BH",
+      "title": "Свечи АСД с чесноком — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s04-orders",
+      "url": "http://localhost:5190/orders",
+      "title": "Заказы — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s05-order-detail",
+      "url": "http://localhost:5190/orders/order_f12test5pf3bm",
+      "title": "#17 — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s06-promotions-create-type",
+      "url": "http://localhost:5190/promotions/create",
+      "title": "Акции — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s07-categories",
+      "url": "http://localhost:5190/categories",
+      "title": "Категории — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s08-pages",
+      "url": "http://localhost:5190/pages",
+      "title": "Страницы — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [
+        "cherkashino.upready.dev"
+      ],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s09-home-settings",
+      "url": "http://localhost:5190/home-settings",
+      "title": "Главная страница — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s10-shipping",
+      "url": "http://localhost:5190/shipping",
+      "title": "Доставка — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s11-settings-domains",
+      "url": "http://localhost:5190/settings/domains",
+      "title": "Адрес магазина — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [
+        "cherkashino.upready.dev",
+        "stores.upready.dev"
+      ],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s12-settings-locale",
+      "url": "http://localhost:5190/settings/locale",
+      "title": "Язык и валюта — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s13-settings-payments",
+      "url": "http://localhost:5190/settings/payments",
+      "title": "Приём оплат — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [
+        "Show password"
+      ],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": [
+        {
+          "match": "Show password",
+          "evidence": [
+            {
+              "tag": "span",
+              "className": "sr-only",
+              "width": 1,
+              "height": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)"
+            },
+            {
+              "tag": "span",
+              "className": "sr-only",
+              "width": 1,
+              "height": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)"
+            },
+            {
+              "tag": "span",
+              "className": "sr-only",
+              "width": 1,
+              "height": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)"
+            },
+            {
+              "tag": "span",
+              "className": "sr-only",
+              "width": 1,
+              "height": 1,
+              "display": "block",
+              "visibility": "visible",
+              "clip": "rect(0px, 0px, 0px, 0px)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "s14-settings-notifications",
+      "url": "http://localhost:5190/settings/notifications",
+      "title": "Уведомления — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    },
+    {
+      "name": "s06b-promotions-create-details",
+      "url": "http://localhost:5190/promotions/create",
+      "title": "Акции — Оксана Черкашина",
+      "hasMedusaInTitle": false,
+      "rawKeyMatches": [],
+      "machineValueMatches": [],
+      "visibleMachineValueMatches": [],
+      "invisibleMachineValueMatches": []
+    }
+  ]
+}

@@ -166,9 +166,15 @@ export type SeedPlan = {
   heroImageUrl: string | null;
 };
 
-/** Medusa's own names for the option a single-variant product gets when it has none. */
-const DEFAULT_OPTION_TITLE = "Default option";
-const DEFAULT_OPTION_VALUE = "Default option value";
+// Medusa's own names for the option a single-variant product gets when it has
+// none are "Default option"/"Default option value" — plain English, landing
+// verbatim in the product's own data (this option's title/value), which is
+// what a shop owner saw on her product card (f12-owner-raw-keys). This is the
+// plan builder every tenant onboarding actually runs through, so it, and the
+// storefront's placeholder-hiding filter it must stay in sync with
+// (`storefront/lib/util/option-filter-groups.ts`), both use these values now.
+const DEFAULT_OPTION_TITLE = "Опция по умолчанию";
+const DEFAULT_OPTION_VALUE = "Значение по умолчанию";
 
 /**
  * Turns a dataset into the exact rows one tenant receives. Pure and deterministic: the same

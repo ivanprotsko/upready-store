@@ -1,0 +1,54 @@
+{
+  "name": "s13-settings-payments",
+  "url": "http://localhost:5190/settings/payments",
+  "title": "Приём оплат — Оксана Черкашина",
+  "hasMedusaInTitle": false,
+  "rawKeyMatches": [],
+  "machineValueMatches": [
+    "Show password"
+  ],
+  "visibleMachineValueMatches": [],
+  "invisibleMachineValueMatches": [
+    {
+      "match": "Show password",
+      "evidence": [
+        {
+          "tag": "span",
+          "className": "sr-only",
+          "width": 1,
+          "height": 1,
+          "display": "block",
+          "visibility": "visible",
+          "clip": "rect(0px, 0px, 0px, 0px)"
+        },
+        {
+          "tag": "span",
+          "className": "sr-only",
+          "width": 1,
+          "height": 1,
+          "display": "block",
+          "visibility": "visible",
+          "clip": "rect(0px, 0px, 0px, 0px)"
+        },
+        {
+          "tag": "span",
+          "className": "sr-only",
+          "width": 1,
+          "height": 1,
+          "display": "block",
+          "visibility": "visible",
+          "clip": "rect(0px, 0px, 0px, 0px)"
+        },
+        {
+          "tag": "span",
+          "className": "sr-only",
+          "width": 1,
+          "height": 1,
+          "display": "block",
+          "visibility": "visible",
+          "clip": "rect(0px, 0px, 0px, 0px)"
+        }
+      ]
+    }
+  ]
+}

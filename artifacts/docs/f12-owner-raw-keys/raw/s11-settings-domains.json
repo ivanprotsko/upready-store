@@ -1,0 +1,13 @@
+{
+  "name": "s11-settings-domains",
+  "url": "http://localhost:5190/settings/domains",
+  "title": "Адрес магазина — Оксана Черкашина",
+  "hasMedusaInTitle": false,
+  "rawKeyMatches": [
+    "cherkashino.upready.dev",
+    "stores.upready.dev"
+  ],
+  "machineValueMatches": [],
+  "visibleMachineValueMatches": [],
+  "invisibleMachineValueMatches": []
+}

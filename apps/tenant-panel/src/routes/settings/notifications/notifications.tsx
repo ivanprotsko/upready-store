@@ -29,6 +29,28 @@ type Draft = { email_from_name: string; email_reply_to: string }
 
 const EMPTY_DRAFT: Draft = { email_from_name: "", email_reply_to: "" }
 
+// The backend surfaces a raw provider exception as `last.error`
+// ("Could not find a notification provider for channel: email for
+// notification id noti_…"). A shop owner has no use for that sentence, and
+// the one failure this platform actually produces today — no mail server
+// configured — already has a friendly explanation in `email.offHint`. Map
+// that one recognized cause to it; anything else stays a generic failure
+// notice rather than leaking a stack-shaped string onto the screen.
+const getFriendlyDeliveryError = (
+  t: (key: string) => string,
+  rawError: string | null | undefined
+): string | undefined => {
+  if (!rawError) {
+    return undefined
+  }
+
+  if (/notification provider/i.test(rawError)) {
+    return t("notificationSettings.noProviderError")
+  }
+
+  return undefined
+}
+
 const LastDelivery = ({ last }: { last: DeliveryStatus | undefined }) => {
   const { t, i18n } = useTranslation()
 
@@ -52,10 +74,12 @@ const LastDelivery = ({ last }: { last: DeliveryStatus | undefined }) => {
     )
   }
 
+  const friendlyError = getFriendlyDeliveryError(t, last.error)
+
   return (
     <Text size="small" className="text-ui-fg-error">
       {t("notificationSettings.lastFailed", { when, order: last.order ?? "" })}
-      {last.error ? ` — ${last.error}` : ""}
+      {friendlyError ? ` — ${friendlyError}` : ""}
     </Text>
   )
 }

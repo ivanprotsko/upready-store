@@ -7,11 +7,28 @@ import { getOptionValueHex } from "./color-option"
  * in core-flows): one option titled "Default option" holding one value, "Default
  * option value". It is bookkeeping, never a choice a shopper makes, and it reached the
  * storefront as a filter — "Default option · Default option value" on `/store` and in
- * collections (measured on acme and globex, 2026-09-12). The seed keys off the same
- * two strings (`migration-scripts/lib/products.ts`).
+ * collections (measured on acme and globex, 2026-09-12).
+ *
+ * f12-owner-raw-keys: the same English sentinel also reached the tenant PANEL's own
+ * screens (a shop owner saw "Опции: Default option / Default option value" on her
+ * product card), so the seed paths and the panel's own product-create wizard now mint
+ * "Опция по умолчанию"/"Значение по умолчанию" instead going forward
+ * (`migration-scripts/data/abstract-datasets.ts`, `migration-scripts/lib/products.ts`,
+ * `workflows/tenant/seed-tenant-dataset`, tenant-panel's `product-create/constants.ts`).
+ * Products already seeded before that change still carry the English strings — nothing
+ * rewrites existing data — so BOTH sentinels are recognized here, or a live shop's
+ * existing catalog would start showing the English placeholder as a real filter again.
  */
 export const MEDUSA_DEFAULT_OPTION_TITLE = "Default option"
 export const MEDUSA_DEFAULT_OPTION_VALUE = "Default option value"
+const PLACEHOLDER_OPTION_TITLES = new Set([
+  MEDUSA_DEFAULT_OPTION_TITLE,
+  "Опция по умолчанию",
+])
+const PLACEHOLDER_OPTION_VALUES = new Set([
+  MEDUSA_DEFAULT_OPTION_VALUE,
+  "Значение по умолчанию",
+])
 
 export type ProductOptionFilterValue = {
   id: string
@@ -28,11 +45,15 @@ export type ProductOptionFilterGroup = {
 export function isPlaceholderOption(
   option: Pick<HttpTypes.StoreProductOption, "title" | "values">
 ): boolean {
-  if (option.title === MEDUSA_DEFAULT_OPTION_TITLE) {
+  if (option.title && PLACEHOLDER_OPTION_TITLES.has(option.title)) {
     return true
   }
   const values = option.values ?? []
-  return values.length === 1 && values[0]?.value === MEDUSA_DEFAULT_OPTION_VALUE
+  return (
+    values.length === 1 &&
+    !!values[0]?.value &&
+    PLACEHOLDER_OPTION_VALUES.has(values[0].value)
+  )
 }
 
 /**
