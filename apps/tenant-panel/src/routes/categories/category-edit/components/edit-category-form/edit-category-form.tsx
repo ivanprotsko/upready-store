@@ -13,6 +13,7 @@ import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProductCategory } from "../../../../../hooks/api/categories"
 import { useDocumentDirection } from "../../../../../hooks/use-document-direction"
 import { sdk } from "../../../../../lib/client"
+import { toSlugWhileTyping } from "../../../../../lib/slugify"
 import { mergeSeoMetadata, readSeoOverride, DEFAULT_SEO_METADATA_LOCALE } from "../../../../../lib/seo-metadata"
 import { useTenantLocaleSettings } from "../../../../../hooks/api/locale-settings"
 import { LOCALE_LABELS, type LocaleCode } from "../../../../../lib/locale-catalog"
@@ -185,7 +186,17 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                       {t("fields.handle")}
                     </Form.Label>
                     <Form.Control>
-                      <HandleInput {...field} />
+                      {/*
+                        Transliterated as it is typed (f11-new-product-404).
+                        Nothing follows the name here: the category already has
+                        an address on the storefront.
+                      */}
+                      <HandleInput
+                        {...field}
+                        onChange={(event) =>
+                          field.onChange(toSlugWhileTyping(event.target.value))
+                        }
+                      />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>

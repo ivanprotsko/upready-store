@@ -8,9 +8,17 @@
  * (`IDX_product_handle_unique` on `product`, `WHERE deleted_at IS NULL`). So it
  * has to be produced here, checked for collisions before anything is written
  * (`uniqueness.ts`), and shown in the dry-run report — rather than left to
- * Medusa's own `toHandle`, which strips Cyrillic down to nothing and would give
- * every Russian product the same empty handle.
+ * Medusa's own `toHandle`, which keeps Cyrillic (`\p{L}`) and would hand every
+ * Russian product a Cyrillic URL.
+ *
+ * TWIN: `apps/tenant-panel/src/lib/slugify.ts` (f11-new-product-404). The
+ * panel makes the same code when the owner adds a product by hand, and the two
+ * apps ship in separate images with no package between them, so the block
+ * below is duplicated and held together by `__tests__/slugify-twin.unit.spec.ts`.
+ * Edit both.
  */
+
+/* --- shared with the twin, keep identical --- */
 
 /** GOST-ish transliteration, the spelling a Russian shop expects in a URL. */
 const CYRILLIC: Record<string, string> = {
@@ -57,7 +65,7 @@ export const transliterate = (text: string): string =>
   [...text.toLowerCase()].map((char) => CYRILLIC[char] ?? char).join("");
 
 /**
- * `АСД-2 фракция, 100 мл` becomes `asd-2-frakciya-100-ml`. Empty input, or
+ * `АСД-2 фракция, 100 мл` becomes `asd-2-fraktsiya-100-ml`. Empty input, or
  * input that transliterates to nothing, gives an empty string: the caller
  * decides what to do about that rather than getting a silent placeholder
  * (rule 20a).
@@ -68,6 +76,8 @@ export const toSlug = (text: string): string =>
     .replace(/^-+|-+$/g, "")
     .slice(0, 80)
     .replace(/-+$/g, "");
+
+/* --- end of the shared block --- */
 
 /**
  * The first of `base`, `base-2`, `base-3`… that `taken` does not hold. Used for
