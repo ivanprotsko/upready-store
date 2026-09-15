@@ -2,6 +2,7 @@
 // (старт, последний ход, длительность, токены input/output/cache read/cache write) из стенограмм ~/.claude/projects.
 // Зерно токенов: одна запись = один requestId (usage повторяется во всех строках запроса), сумма — по ключам, не по строкам (правило 20a).
 import fs from 'node:fs';
+import { readReport } from './report-validate.mjs';
 import path from 'node:path';
 import * as L from '../lib.mjs';
 
@@ -127,8 +128,11 @@ export function summary(cfg, state, id) {
     branch: t.branch || null, worktree: s.worktree || null, cwd: t.kind === 'run' ? L.runCwd(cfg, t) : null,
     pr: pr && { number: pr.number, url: pr.url || s.pr.url, title: pr.title, state: pr.state, mergedAt: wita(pr.mergedAt), additions: pr.additions, deletions: pr.deletions, changedFiles: pr.changedFiles, error: pr.error || null },
     acceptance: (s.acceptance || []).map(a => ({ n: a.n, verdict: a.verdict || '…', startedAt: wita(a.startedAt), log: path.basename(a.log), findings: a.findings && fs.existsSync(a.findings) ? path.basename(a.findings) : null })),
-    done: doneText(cfg, t, s, pr), results: taskResults(t, s),
+    done: doneText(cfg, t, s, pr), results: taskResults(t, s), report: workerReport(t),
     dispatcher: { launchedAt: wita(s.launchedAt || s.startedAt), finishedAt: wita(s.finishedAt), attempt: s.attempt || 0, relaunched: !!s.relaunched, nudges: s.nudges || 0 },
     stats: { ...stats, start: wita(stats.start), end: wita(stats.end), method: tr.method, files: stats.files.map(f => f.replace(L.HOME, '~')) },
   };
 }
+
+// Отчёт воркера для UI: artifacts/<id>/report.json по схеме ui/report.schema.json (приказ Ивана 2026-09-15 23:11 WITA). null = не написан.
+function workerReport(t) { const r = readReport(path.join(L.P.artifacts, t.id, 'report.json')); return r ? { file: path.relative(L.DIR, r.file), errors: r.errors, data: r.errors.length ? null : r.data } : null; }

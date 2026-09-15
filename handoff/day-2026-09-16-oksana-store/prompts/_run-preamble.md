@@ -12,3 +12,7 @@ HEADLESS MEANS NOBODY COMES BACK: there is no second turn. Never start a command
 
 ## Локальный Docker и виртуальные машины — ЗАПРЕЩЕНЫ (приказ Ивана 2026-09-15 22:05 WITA)
 На этой машине не запускать `colima`, `limactl`, Docker Desktop и любой другой гипервизор, не делать локальный `docker build`/`docker compose up`: VM Lima роняет производительность всей машины (kernel_task > 300 %), а образы платформы собирает ТОЛЬКО живой хост в deploy-задаче (d0N-deploy-mt-N) по памятке protected-infra. Если задача требует собранного образа — напиши это в отчёте как ограничение, проверь сборку через `npx medusa build` / `next build` в своём worktree и оставь docker-сборку деплою. Постгрес стендов — нативный на 127.0.0.1:5433, без контейнеров.
+
+## Report for the UI card (mandatory before the final line; Ivan's order 2026-09-15 23:11 WITA)
+
+Write `{{MISSION_DIR}}/artifacts/{{TASK_ID}}/report.json` — `task`, `done[]` (one sentence per item + `links[]`), `results[]` (`label` + `url` or `path`), `access[]` (`url`, `login`, `password` for a test stand or `secretRef` for the live host — secrets never enter git), `notes[]`. Schema `{{MISSION_DIR}}/ui/report.schema.json`; validate: `node {{MISSION_DIR}}/ui/report-validate.mjs <file>` must print `OK …` — paste that line into your final output.

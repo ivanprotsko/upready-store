@@ -48,3 +48,8 @@ Every dev server, watcher, sink or tunnel you start in this worktree (`medusa de
 ## Exit protocol — branch name, then /compact, then close
 
 When the PR is created (or a fix round is pushed) and nothing remains, the final message of the turn names the branch `{{BRANCH}}` and the PR in one line (`ветка {{BRANCH}}, PR #<n> <url>, результат: <where to look>`) — the Stop hook blocks a pushed branch whose final message omits the branch. Do not start new work after the PR. After merge the dispatcher sends `/compact …` into your terminal (so a later `--resume` reads a short summary instead of the whole window at cold-cache price) and closes the terminal once compaction is done.
+
+## Report for the UI card (mandatory before the final message; Ivan's order 2026-09-15 23:11 WITA)
+
+Write `{{MISSION_DIR}}/artifacts/{{TASK_ID}}/report.json` — short and itemised, it is rendered first in the task card: `task`, `branch`, `pr {number, url}`, `done[]` (one plain sentence per item + `links[]`), `results[]` (`label` + `url` or `path` — where to look at the result), `access[]` (`url`, `login`, and `password` for a test stand or `secretRef` — the place holding the secret — for the live host; secrets never enter git), `notes[]` (open nits, decisions handed to Ivan). Schema: `{{MISSION_DIR}}/ui/report.schema.json`. Validate before the final message and paste the OK line into it:
+`node {{MISSION_DIR}}/ui/report-validate.mjs {{MISSION_DIR}}/artifacts/{{TASK_ID}}/report.json` → must print `OK …` (rc 0). A report that fails the schema shows up red in the UI.
