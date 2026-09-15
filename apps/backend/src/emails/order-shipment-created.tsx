@@ -15,16 +15,14 @@ import {
   getEmailTranslator,
 } from "./i18n";
 import { useEmailShop } from "./lib/shop";
+import { type FulfillmentLabel, trackingLine } from "./lib/tracking";
 
 /**
- * A shipping label as the Fulfillment Module stores it. Tracking lives here and
- * nowhere else: `create-fulfillment` never receives a tracking number, only
- * `create-shipment` does, through its `labels` input.
+ * Tracking lives on the label and nowhere else: `create-fulfillment` never
+ * receives a tracking number, only `create-shipment` does, through its
+ * `labels` input.
  */
-export type FulfillmentLabel = {
-  tracking_number?: string | null;
-  tracking_url?: string | null;
-};
+export type { FulfillmentLabel };
 
 export type OrderShipmentCreatedEmailProps = {
   order: {
@@ -62,18 +60,7 @@ export function OrderShipmentCreatedEmail({
   const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
-  // «СДЭК 1234567890»: the carrier in front of the number, no new catalog key.
-  // The number comes off the label; naming `trackingText` on the right-hand
-  // side instead recursed until the stack gave out, and since the subscriber
-  // renders this template inside the `shipment.created` handler, EVERY shipment
-  // died there and no customer was ever told their parcel had left (measured
-  // 2026-09-15 on a clone of the client's database: «An error occurred while
-  // processing shipment.created … at trackingText (order-shipment-created.tsx:67)»,
-  // no letter in the inbox).
-  const trackingText = (label: FulfillmentLabel) => {
-    const number = label.tracking_number ?? "";
-    return carrier ? `${carrier} ${number}`.trim() : number;
-  };
+  const trackingText = (label: FulfillmentLabel) => trackingLine(label, carrier);
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>
