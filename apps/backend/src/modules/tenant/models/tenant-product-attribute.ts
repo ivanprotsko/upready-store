@@ -48,7 +48,7 @@ const TenantProductAttribute = model
     id: model.id({ prefix: "tpat" }).primaryKey(),
     key: model.text(),
     name: model.text().translatable(),
-    type: model.enum(ATTRIBUTE_TYPES),
+    type: model.enum([...ATTRIBUTE_TYPES]),
     /** «мл», «кг», «см». Shown after the value on the product page, `number` only. */
     unit: model.text().nullable(),
     /** The owner's order on the product page and in the filter bar. */
