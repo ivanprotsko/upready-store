@@ -234,6 +234,8 @@ function processCommands(cfg, state) {
       case 'pause': state.dispatcher.paused = true; break;
       case 'resume': state.dispatcher.paused = false; state.dispatcher.limitUntil = null; try { fs.unlinkSync(P.stop); } catch { } break;
       case 'clear-limit': state.dispatcher.limitUntil = null; break;
+      // Правка записи задачи извне идёт ТОЛЬКО через очередь команд: прямая запись в state.json теряется, если диспетчер в этот момент внутри тика (откат b08/b14 02:4x).
+      case 'set-task': if (s && c.patch && typeof c.patch === 'object') { Object.assign(s, c.patch); L.event(state, { task: t.id, type: 'set-task', msg: 'правка по команде: ' + Object.keys(c.patch).join(', ').slice(0, 200) }); } break;
       case 'fix': if (s && t.kind === 'build' && s.acceptance?.length && !['accepting'].includes(s.status)) { s.attempt = Math.min(s.attempt || 1, (cfg.stall?.maxAttempts || 3) - 1); fixRound(cfg, state, t, s.acceptance.at(-1).findings); } break;
     }
     L.event(state, { type: 'command', task: c.id, msg: c.op });
@@ -241,11 +243,14 @@ function processCommands(cfg, state) {
 }
 
 // ---------- тик ----------
+// Последняя сохранённая копия state: если файл на диске оказался СТАРШЕ (меньше ticks) — его кто-то откатил (git stash чужой сессии, восстановление из копии); работаем со своей копией и пишем событие.
+let LAST_SAVED = null; const save = (s) => { L.saveState(s); LAST_SAVED = structuredClone(s); };
 export function tick() {
-  const cfg = L.loadTasks(); const state = L.loadState();
+  const cfg = L.loadTasks(); let state = L.loadState();
+  if (LAST_SAVED && (state.dispatcher?.ticks || 0) < (LAST_SAVED.dispatcher?.ticks || 0)) { const disk = state; state = LAST_SAVED; L.event(state, { type: 'state-rollback', msg: `state.json на диске откачен: ticks ${disk.dispatcher?.ticks} < ${state.dispatcher.ticks}, lastTick диска ${disk.dispatcher?.lastTick}; работаю с последней сохранённой копией, диск перезапишу` }); }
   state.dispatcher.lastTick = L.nowIso(); state.dispatcher.ticks = (state.dispatcher.ticks || 0) + 1; state.dispatcher.pid = process.pid; state.dispatcher.startedAt ||= L.nowIso();
   for (const t of cfg.tasks) ensure(state, t);
-  if (fs.existsSync(P.done)) { L.writeReport(cfg, cfg, state); L.saveState(state); return 'done'; }
+  if (fs.existsSync(P.done)) { L.writeReport(cfg, cfg, state); save(state); return 'done'; }
   if (fs.existsSync(P.stop)) state.dispatcher.paused = true;
   processCommands(cfg, state);
   for (const t of cfg.tasks) {
@@ -269,13 +274,13 @@ export function tick() {
       const ok = t.kind === 'build' ? launchBuild(cfg, state, t) : launchRun(cfg, state, t);
       state.tasks[t.id].force = false;
       if (ok) { counts.c[t.lane] = (counts.c[t.lane] || 0) + 1; counts.total++; }
-      L.saveState(state);
+      save(state);
     }
   }
   const allT = cfg.tasks.length > 0 && cfg.tasks.every(t => L.isTerminal(state.tasks[t.id].status));
   state.dispatcher.allTerminalTicks = allT ? (state.dispatcher.allTerminalTicks || 0) + 1 : 0;
   if (allT && state.dispatcher.allTerminalTicks >= 3) { fs.writeFileSync(P.done, L.wita() + ' все задачи в конечном статусе\n'); L.event(state, { type: 'all-terminal', msg: 'DONE' }); }
-  L.writeReport(cfg, cfg, state); L.saveState(state);
+  L.writeReport(cfg, cfg, state); save(state);
   return 'ok';
 }
 
@@ -290,7 +295,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     loop(); setInterval(loop, sec * 1000); console.log(`dispatcher pid ${process.pid}, тик ${sec}с`);
   }
   else if (cmd === 'status') { const cfg = L.loadTasks(); const st = L.loadState(); for (const t of cfg.tasks) { const s = st.tasks[t.id] || {}; console.log(`${String(t.priority ?? '').padStart(3)} ${t.id.padEnd(28)} ${(s.status || t.status || 'queued').padEnd(11)} ${t.lane.padEnd(7)} ${(t.model || '-')}/${t.effort || '-'}  ${s.pr?.url || ''} ${s.error ? '! ' + s.error : ''}`); } console.log(`paused=${st.dispatcher.paused} limitUntil=${st.dispatcher.limitUntil || '-'} lastTick=${st.dispatcher.lastTick || '-'}`); }
-  else if (cmd === 'cmd') { fs.mkdirSync(P.commands, { recursive: true }); const f = path.join(P.commands, `${Date.now()}-${argv[1]}.json`); fs.writeFileSync(f, JSON.stringify({ op: argv[1], id: argv[2] || null })); console.log('queued', f); }
+  else if (cmd === 'cmd') { fs.mkdirSync(P.commands, { recursive: true }); const f = path.join(P.commands, `${Date.now()}-${argv[1]}.json`); const patch = argv[3] ? (argv[3].startsWith('@') ? L.readJson(argv[3].slice(1), null) : JSON.parse(argv[3])) : undefined; fs.writeFileSync(f, JSON.stringify({ op: argv[1], id: argv[2] || null, ...(patch ? { patch } : {}) })); console.log('queued', f, patch ? 'patch keys: ' + Object.keys(patch).join(',') : ''); }
   else if (cmd === 'add-task') { const cfg = L.loadTasks(); const add = JSON.parse(fs.readFileSync(argv[1], 'utf8')); const arr = Array.isArray(add) ? add : [add]; const ids = new Set(cfg.tasks.map(t => t.id)); let n = 0; for (const t of arr) { if (ids.has(t.id)) continue; cfg.tasks.push(t); n++; } L.saveTasks(cfg); console.log(`added ${n}`); }
   else { console.log('usage: dispatcher.mjs run|tick|status|cmd <op> [id]|add-task <file>'); }
 }
