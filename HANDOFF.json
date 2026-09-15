@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T14:39:32+08:00",
-  "status": "2026-09-15 14:39 WITA: приёмка f06-shipping-method-names round 1 — REJECTED только из-за mergeable CONFLICTING (конфликт ровно в HANDOFF.json, поля updated/status); содержательно все 4 критерия перемерены живьём и зелёные (shipping-options 200: Самовывоз 0 / Курьером 300 с описаниями, чекаут 1280x900+390x844, сосед zolotaya-nit не тронут, tsc rc=0, jest 15/15). Воркеру нужен ребейз на origin/dev и push",
+  "updated": "2026-09-15T14:56:58+08:00",
+  "status": "2026-09-15 14:56 WITA: приёмка f08-medusa-mark-bottom-nav round 1 — PR #46 смержен (5c147c82), 0 запросов medusa.svg на главной/карточке/корзине 390x844 при Host cherkashino.shipshift.dev, git grep rc=1, tsc/lint/vitest 182 зелёные; отчёт handoff/day-2026-09-16-oksana-store/artifacts/accept-f08-medusa-mark-bottom-nav-1/REPORT.md, коммит 180cf3a",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
