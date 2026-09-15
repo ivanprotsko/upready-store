@@ -33,7 +33,7 @@ const formatDateTime = (value: string | null, locale: string): string => {
 
 export const WildberriesSettings = () => {
   const { t, i18n } = useTranslation()
-  const { status, isPending, isError, error } = useWbStatus()
+  const { wb, isPending, isError, error } = useWbStatus()
 
   if (isError) {
     throw error
@@ -51,7 +51,7 @@ export const WildberriesSettings = () => {
           </Text>
         </div>
 
-        {isPending || !status ? (
+        {isPending || !wb ? (
           <div className="px-6 py-6">
             <Text className="text-ui-fg-subtle" size="small">
               {t("wildberries.loading")}
@@ -61,16 +61,16 @@ export const WildberriesSettings = () => {
           <>
             <div className="px-6 py-4">
               <WbFieldRow label={t("wildberries.key.label")}>
-                {status.connection.key.set
-                  ? t("wildberries.key.set", { last4: status.connection.key.last4 })
+                {wb.connection.key.set
+                  ? t("wildberries.key.set", { last4: wb.connection.key.last4 })
                   : t("wildberries.key.missing")}
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.readOnly.label")}>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <WbReadOnlyBadge value={status.token.read_only} />
+                  <WbReadOnlyBadge value={wb.token.read_only} />
                   <a
                     className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-                    href={status.token.doc_url}
+                    href={wb.token.doc_url}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -79,25 +79,25 @@ export const WildberriesSettings = () => {
                 </div>
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.expiresAt")}>
-                <span className={status.token.expired ? "text-ui-fg-error" : undefined}>
-                  {formatDateTime(status.token.expires_at, locale)}
-                  {status.token.expired ? ` ${t("wildberries.expired")}` : ""}
+                <span className={wb.token.expired ? "text-ui-fg-error" : undefined}>
+                  {formatDateTime(wb.token.expires_at, locale)}
+                  {wb.token.expired ? ` ${t("wildberries.expired")}` : ""}
                 </span>
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.sellerId")}>
-                <span className="tabular-nums">{status.token.seller_id ?? NOT_SET}</span>
+                <span className="tabular-nums">{wb.token.seller_id ?? NOT_SET}</span>
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.access")}>
-                {status.token.bits.filter((bit) => bit.meaning).length
-                  ? status.token.bits
+                {wb.token.bits.filter((bit) => bit.meaning).length
+                  ? wb.token.bits
                       .filter((bit) => bit.meaning)
                       .map((bit) => bit.meaning)
                       .join(", ")
                   : NOT_SET}
               </WbFieldRow>
-              {status.token.error ? (
+              {wb.token.error ? (
                 <WbFieldRow label={t("wildberries.problem")}>
-                  <span className="text-ui-fg-error">{status.token.error}</span>
+                  <span className="text-ui-fg-error">{wb.token.error}</span>
                 </WbFieldRow>
               ) : null}
             </div>
@@ -109,7 +109,7 @@ export const WildberriesSettings = () => {
                   {t("wildberries.sync.hint")}
                 </Text>
               </div>
-              <WbSyncTable sync={status.sync} />
+              <WbSyncTable sync={wb.sync} />
             </div>
 
             <div className="flex flex-col gap-y-3 px-6 py-4">
@@ -120,7 +120,7 @@ export const WildberriesSettings = () => {
                 </Text>
               </div>
               <div className="flex flex-wrap gap-x-8 gap-y-3">
-                {Object.entries(status.mirrors).map(([name, count]) => (
+                {Object.entries(wb.mirrors).map(([name, count]) => (
                   <div key={name} className="flex flex-col">
                     <Text className="text-ui-fg-subtle" size="small">
                       {t(`wildberries.mirrors.${name}`, { defaultValue: name })}
@@ -140,7 +140,7 @@ export const WildberriesSettings = () => {
                   {t("wildberries.endpoints.hint")}
                 </Text>
               </div>
-              <WbEndpointTable endpoints={status.endpoints} />
+              <WbEndpointTable endpoints={wb.endpoints} />
             </div>
           </>
         )}

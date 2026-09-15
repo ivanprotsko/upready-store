@@ -66,5 +66,11 @@ export const useWbStatus = (
     ...options,
   })
 
-  return { status: data, ...rest }
+  // Named `wb`, not `status`: react-query's own result carries a `status`
+  // field ("pending" | "error" | "success"), and `...rest` after it would
+  // overwrite the response with that string. Measured on the stand
+  // 2026-09-16: the card rendered and threw
+  // `Cannot read properties of undefined (reading 'key')`, because `status`
+  // was the string "success" by the time the component read it.
+  return { wb: data, ...rest }
 }
