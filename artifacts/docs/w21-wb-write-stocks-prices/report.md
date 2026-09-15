@@ -214,6 +214,28 @@ select count(*) from wb_api_call where method not in ('GET','POST'); → 0
 - `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-wb-write-stocks-prices/artifacts/docs/w21-wb-write-stocks-prices/panel-preview-send-disabled.png`
 - `/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-wb-write-stocks-prices/artifacts/docs/w21-wb-write-stocks-prices/panel-wildberries-fullpage.png`
 
+## После слияния с dev (перемер)
+
+PR #81 открылся `CONFLICTING`: пока шла смена, в `dev` уехал w03, который добавил соседние ключи
+в те же два файла переводов панели. Слияние сделано в ветку (`git merge origin/dev`), конфликт
+разрешён взятием версии `dev` целиком плюс повторной вставкой блока `wildberries.preview` —
+своя строка не переписывалась поверх чужой. `HANDOFF.json` ветка не трогает вовсе.
+
+Все замеры повторены на СЛИТОМ дереве, а не остались от прежнего:
+
+```
+$ cd apps/backend && npx tsc --noEmit                → rc=0
+$ cd apps/backend && pnpm run test:unit              → rc=0, 59 сюит, 683 теста
+$ cd apps/tenant-panel && npx tsc --noEmit           → rc=0
+$ cd apps/tenant-panel && npx eslint src             → rc=0 (24 warning, 0 error)
+$ node scripts/check-locale-catalogs.mjs             → OK — 3 catalogs, 36 codes each, all agree
+$ npx medusa db:migrate                              → rc=0 (приехал модуль ozon из w11)
+$ curl …/tenants/wb/write-preview?kind=stocks        → counts {"total":20,"equal":1,"update":5,"skipped":14}
+$ curl …/tenants/wb/write-preview?kind=prices        → counts {"total":20,"equal":19,"update":1,"skipped":0}
+```
+
+Скриншоты в `artifacts/docs/w21-wb-write-stocks-prices/` сняты заново на слитом дереве.
+
 ## Живой записи нет — это теперь проверка, а не фраза
 
 У w20 не было ни одного вызывателя `wbWrite`, и инвариант держался тестом «вызывателей нет».
