@@ -102,6 +102,39 @@ medusaIntegrationTestRunner({
         headers: { "x-publishable-api-key": owner.publishableKey.token },
       });
 
+      /**
+       * The ids of the shipping options provisioned for one tenant's warehouse,
+       * walked the way the resolver itself does: sales channel -> stock location
+       * -> fulfillment set -> service zone -> shipping option.
+       *
+       * Isolation is asserted by these ids and not by the option NAMES. The
+       * shipping-tariffs task (`src/shipping-tariffs/default-method-names.ts`,
+       * PR #25) stopped minting `<Shop> pickup` / `<Shop> courier`, because the
+       * shop's name reached the buyer's checkout as written («Оксана Черкашина
+       * courier», measured on the live stand). Every tenant now gets the same
+       * two human names, written in `STOREFRONT_DEFAULT_LOCALE`, so a name says
+       * nothing about which warehouse an option came from and an assertion on
+       * one would also break with the store's locale.
+       */
+      const shippingOptionIdsOf = async (owner: Registered): Promise<string[]> => {
+        const query = getContainer().resolve(ContainerRegistrationKeys.QUERY);
+        const { data: channels } = await query.graph({
+          entity: "sales_channel",
+          fields: ["stock_locations.fulfillment_sets.service_zones.shipping_options.id"],
+          filters: { id: owner.tenant.sales_channel.id },
+        });
+
+        const ids = (channels[0]?.stock_locations ?? []).flatMap((location: any) =>
+          (location?.fulfillment_sets ?? []).flatMap((set: any) =>
+            (set?.service_zones ?? []).flatMap((zone: any) =>
+              (zone?.shipping_options ?? []).map((option: any) => option?.id as string),
+            ),
+          ),
+        );
+
+        return [...new Set(ids.filter(Boolean))].sort();
+      };
+
       beforeAll(async () => {
         const container = getContainer();
         const {
@@ -303,11 +336,23 @@ medusaIntegrationTestRunner({
         const options = await api.get(`/store/shipping-options?cart_id=${cartId}`, storeKey(a));
         expect(options.status).toBe(200);
 
-        const names = options.data.shipping_options.map((option) => option.name);
-        // Every option comes from Acme's warehouse; none from Globex's.
-        expect(names.length).toBeGreaterThan(0);
-        expect(names.every((name) => name.startsWith("Acme"))).toBe(true);
-        expect(names.some((name) => name.startsWith("Globex"))).toBe(false);
+        const ids: string[] = options.data.shipping_options.map((option) => option.id);
+        const own = await shippingOptionIdsOf(a);
+        const foreign = await shippingOptionIdsOf(b);
+
+        // Every option the cart resolved comes from Acme's warehouse; none from
+        // Globex's, and the two warehouses share no option at all.
+        expect(ids.length).toBeGreaterThan(0);
+        expect(own).toEqual(expect.arrayContaining(ids));
+        expect(ids.filter((id) => foreign.includes(id))).toEqual([]);
+        expect(own.filter((id) => foreign.includes(id))).toEqual([]);
+
+        // And the buyer is never shown the shop's own name as the method's name
+        // (the defect `default-method-names.ts` was written for).
+        const names: string[] = options.data.shipping_options.map((option) => option.name);
+        expect(names.some((name) => name.includes("Acme") || name.includes("Globex"))).toBe(
+          false,
+        );
       });
 
       it("keeps two tenants' warehouses apart even in the same city", async () => {
@@ -347,9 +392,14 @@ medusaIntegrationTestRunner({
           storeKey(a),
         );
         const options = await api.get(`/store/shipping-options?cart_id=${cartId}`, storeKey(a));
-        expect(options.data.shipping_options.every((option) => option.name.startsWith("Acme"))).toBe(
-          true,
-        );
+        // Both warehouses are now called «Москва», so only the ids can tell them
+        // apart — which is the point: isolation is the channel link, not a name.
+        const ids: string[] = options.data.shipping_options.map((option) => option.id);
+        const own = await shippingOptionIdsOf(a);
+        const foreign = await shippingOptionIdsOf(b);
+        expect(ids.length).toBeGreaterThan(0);
+        expect(own).toEqual(expect.arrayContaining(ids));
+        expect(ids.filter((id) => foreign.includes(id))).toEqual([]);
       });
 
       it("links an order placed in tenant A's sales channel to tenant A only", async () => {
