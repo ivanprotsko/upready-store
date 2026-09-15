@@ -15,7 +15,7 @@ import {
 import { useTranslation } from "react-i18next"
 
 import { AdminOrderLineItem } from "@medusajs/types"
-import { By } from "../../../../../components/common/user-link"
+import { ByLine } from "../../../../../components/common/user-link"
 import {
   useCancelOrderTransfer,
   useCustomer,
@@ -268,11 +268,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
                   payment.currency_code
                 )}
               </Text>
-              {refund.created_by && (
-                <div className="flex items-center gap-x-2 text-sm">
-                  {t("fields.by")} <By id={refund.created_by} />
-                </div>
-              )}
+              <ByLine id={refund.created_by} />
             </div>
           ),
         })
@@ -286,11 +282,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
         children: (
           <div className="text-ui-fg-subtle flex flex-col gap-y-2">
             <FulfillmentCreatedBody fulfillment={fulfillment} />
-            {fulfillment.created_by && (
-              <div className="flex items-center gap-x-2 text-sm">
-                {t("fields.by")} <By id={fulfillment.created_by} />
-              </div>
-            )}
+            <ByLine id={fulfillment.created_by} />
           </div>
         ),
       })
@@ -310,11 +302,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           children: (
             <div className="text-ui-fg-subtle flex flex-col gap-y-2">
               <FulfillmentCreatedBody fulfillment={fulfillment} />
-              {fulfillment.marked_shipped_by && (
-                <div className="flex items-center gap-x-2 text-sm">
-                  {t("fields.by")} <By id={fulfillment.marked_shipped_by} />
-                </div>
-              )}
+              <ByLine id={fulfillment.marked_shipped_by} />
             </div>
           ),
         })
@@ -353,9 +341,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
               isReceived={false}
             />
             {ret.created_by && !ret.canceled_at && (
-              <div className="flex items-center gap-x-2 text-sm">
-                {t("fields.by")} <By id={ret.created_by} />
-              </div>
+              <ByLine id={ret.created_by} />
             )}
           </div>
         ),
@@ -405,9 +391,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           <div className="text-ui-fg-subtle flex flex-col gap-y-2">
             <ClaimBody claim={claim} claimReturn={claimReturn} />
             {claim.created_by && !claim.canceled_at && (
-              <div className="flex items-center gap-x-2 text-sm">
-                {t("fields.by")} <By id={claim.created_by} />
-              </div>
+              <ByLine id={claim.created_by} />
             )}
           </div>
         ),
@@ -434,9 +418,7 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           <div className="text-ui-fg-subtle flex flex-col gap-y-2">
             <ExchangeBody exchange={exchange} exchangeReturn={exchangeReturn} />
             {exchange.created_by && !exchange.canceled_at && (
-              <div className="flex items-center gap-x-2 text-sm">
-                {t("fields.by")} <By id={exchange.created_by} />
-              </div>
+              <ByLine id={exchange.created_by} />
             )}
           </div>
         ),
@@ -530,9 +512,8 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           ),
           timestamp: update.created_at,
           children: (
-            <div className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm">
-              {t("fields.by")} <By id={update.created_by || "-"} />
-            </div>
+            <ByLine id={update.created_by}
+              className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm" />
           ),
         })
       }
@@ -562,9 +543,8 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           ),
           timestamp: update.created_at,
           children: (
-            <div className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm">
-              {t("fields.by")} <By id={update.created_by || "-"} />
-            </div>
+            <ByLine id={update.created_by}
+              className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm" />
           ),
         })
       }
@@ -588,9 +568,8 @@ const useActivityItems = (order: ExtendedOrder): Activity[] => {
           ),
           timestamp: update.created_at,
           children: (
-            <div className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm">
-              {t("fields.by")} <By id={update.created_by || "-"} />
-            </div>
+            <ByLine id={update.created_by}
+              className="text-ui-fg-subtle mt-2 flex gap-x-2 text-sm" />
           ),
         })
       }
@@ -1216,11 +1195,7 @@ const OrderEditBody = ({ edit }: { edit: AdminOrderChange }) => {
           </Text>
         </div>
       )}
-      {userId && (
-        <div className="flex items-center gap-x-2 text-sm">
-          {t("fields.by")} <By id={userId} />
-        </div>
-      )}
+      <ByLine id={userId} />
     </div>
   )
 }

@@ -63,8 +63,17 @@ export function OrderShipmentCreatedEmail({
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
   // «СДЭК 1234567890»: the carrier in front of the number, no new catalog key.
-  const trackingText = (label: FulfillmentLabel) =>
-    carrier ? `${carrier} ${trackingText(label)}` : `${trackingText(label)}`;
+  // The number comes off the label; naming `trackingText` on the right-hand
+  // side instead recursed until the stack gave out, and since the subscriber
+  // renders this template inside the `shipment.created` handler, EVERY shipment
+  // died there and no customer was ever told their parcel had left (measured
+  // 2026-09-15 on a clone of the client's database: «An error occurred while
+  // processing shipment.created … at trackingText (order-shipment-created.tsx:67)»,
+  // no letter in the inbox).
+  const trackingText = (label: FulfillmentLabel) => {
+    const number = label.tracking_number ?? "";
+    return carrier ? `${carrier} ${number}`.trim() : number;
+  };
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>

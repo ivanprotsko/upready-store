@@ -96,3 +96,25 @@ export const getPaymentProviderLabel = (
 
   return formatProvider(providerId)
 }
+
+/**
+ * A fulfillment's `provider_id` is an internal identifier too
+ * (`manual_manual` for a shop that packs and posts parcels itself), and
+ * `formatProvider` turned it into the bare word «Manual» on the owner's order
+ * card. The shop owner reads a carrier there, so the manual provider says so
+ * in words and anything else keeps the provider's own segment of the id.
+ */
+export const getFulfillmentProviderLabel = (
+  t: TFunction<"translation">,
+  providerId?: string | null
+): string => {
+  if (!providerId) {
+    return t("orders.fulfillment.provider.unknown")
+  }
+
+  if (providerId === "manual_manual") {
+    return t("orders.fulfillment.provider.manual")
+  }
+
+  return formatProvider(providerId)
+}
