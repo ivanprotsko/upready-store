@@ -347,6 +347,114 @@ medusaIntegrationTestRunner({
         const list = await api.get("/tenants/shipping-methods", bearer(a.token));
         expect(list.data.methods.map((m: { name: string }) => m.name)).toEqual(["Самовывоз", "Курьером"]);
       });
+
+      // b03-shipping-zones-weight: the nine ready-made Russian zones, one
+      // «base + per kg» method each, and the buyer priced by the zone his
+      // address falls into.
+      it("lists the nine Russian zones and the carriers a method can name", async () => {
+        const res = await api.get("/tenants/shipping-methods/zone-presets", bearer(a.token));
+        expect(res.status).toBe(200);
+        expect(res.data.presets.map((p: { key: string }) => p.key)).toEqual([
+          "msk", "spb", "center", "northwest", "south", "volga", "ural", "siberia", "fareast",
+        ]);
+        const ural = res.data.presets.find((p: { key: string }) => p.key === "ural");
+        expect(ural.name).toBe("Урал");
+        expect(ural.provinces).toContain("Свердловская обл");
+        expect(res.data.carriers.map((c: { key: string }) => c.key)).toContain("cdek");
+        expect(res.data.currency_code).toBe("rub");
+      });
+
+      it("creates one method per chosen zone, names the zone, and skips a zone already set up", async () => {
+        const created = await api.post(
+          "/tenants/shipping-methods/zone-presets",
+          {
+            carrier: "cdek",
+            zones: [
+              { key: "msk", base_amount: 150, per_kg_amount: 120 },
+              { key: "ural", base_amount: 150, per_kg_amount: 210 },
+            ],
+          },
+          bearer(a.token),
+        );
+        expect(created.status).toBe(201);
+        expect(created.data.created.map((c: { name: string }) => c.name)).toEqual([
+          "СДЭК (расчёт по тарифу магазина) — Москва и область",
+          "СДЭК (расчёт по тарифу магазина) — Урал",
+        ]);
+        expect(created.data.skipped).toEqual([]);
+
+        const ural = created.data.methods.find((m: { name: string }) => m.name.endsWith("Урал"));
+        expect(ural.zone_label).toBe("Урал");
+        expect(ural.carrier).toBe("cdek");
+        expect(ural.tariff).toMatchObject({ kind: "per_kg", base_amount: 150, per_kg_amount: 210 });
+
+        // Running it again writes nothing new: the names are already taken.
+        const again = await api.post(
+          "/tenants/shipping-methods/zone-presets",
+          { carrier: "cdek", zones: [{ key: "msk", base_amount: 999, per_kg_amount: 999 }] },
+          bearer(a.token),
+        );
+        expect(again.data.created).toEqual([]);
+        expect(again.data.skipped[0]).toMatchObject({ key: "msk" });
+      });
+
+      it("prices a cart by the zone of its address, and hides the other zones", async () => {
+        await api.post(
+          "/tenants/shipping-methods/zone-presets",
+          {
+            carrier: "cdek",
+            zones: [
+              { key: "msk", base_amount: 150, per_kg_amount: 120 },
+              { key: "ural", base_amount: 150, per_kg_amount: 210 },
+            ],
+          },
+          bearer(a.token),
+        );
+        const variant = await createVariant(a, "Мёд", 1000, 500);
+
+        const moscow = await cartWith(
+          a,
+          ruRegionId,
+          [{ variant_id: variant, quantity: 2 }],
+          { city: "Москва", province: "г Москва", postal_code: "101000", country_code: "ru" },
+        );
+        const moscowOptions = await optionsFor(a, moscow);
+        const moscowZone = moscowOptions.filter((o) => o.name.startsWith("СДЭК"));
+        expect(moscowZone.map((o) => o.name)).toEqual(["СДЭК (расчёт по тарифу магазина) — Москва и область"]);
+        const moscowQuote = await api.post(
+          "/store/shipping-methods/quote",
+          { cart_id: moscow, shipping_option_id: moscowZone[0].id },
+          storeKey(a),
+        );
+        // 2 kg × 120 + 150
+        expect(moscowQuote.data.quote).toMatchObject({ amount: 390, weight_g: 2000, zone_label: "Москва и область" });
+
+        const ekb = await cartWith(
+          a,
+          ruRegionId,
+          [{ variant_id: variant, quantity: 2 }],
+          { city: "Екатеринбург", province: "Свердловская обл", postal_code: "620000", country_code: "ru" },
+        );
+        const ekbZone = (await optionsFor(a, ekb)).filter((o) => o.name.startsWith("СДЭК"));
+        expect(ekbZone.map((o) => o.name)).toEqual(["СДЭК (расчёт по тарифу магазина) — Урал"]);
+        const ekbQuote = await api.post(
+          "/store/shipping-methods/quote",
+          { cart_id: ekb, shipping_option_id: ekbZone[0].id },
+          storeKey(a),
+        );
+        // 2 kg × 210 + 150 — the same parcel, a dearer zone
+        expect(ekbQuote.data.quote).toMatchObject({ amount: 570, weight_g: 2000, zone_label: "Урал" });
+
+        // And the price the cart is charged is the quoted one.
+        const set = await api.post(
+          `/store/carts/${ekb}/shipping-methods`,
+          { option_id: ekbZone[0].id },
+          storeKey(a),
+        );
+        expect(set.status).toBe(200);
+        const cart = await api.get(`/store/carts/${ekb}`, storeKey(a));
+        expect(cart.data.cart.shipping_total).toBe(570);
+      });
     });
   },
 });

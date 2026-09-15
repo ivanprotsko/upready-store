@@ -151,7 +151,8 @@
     "shippingLink": "Penghantaran",
     "shippingUnavailable": "Tiada kaedah penghantaran tersedia",
     "signIn": "Log masuk",
-    "total": "Jumlah"
+    "total": "Jumlah",
+    "shippingZone": "Zon: {zone}"
   },
   "ClaimOrders": {
     "heading": "Membuat pesanan tanpa akaun?",

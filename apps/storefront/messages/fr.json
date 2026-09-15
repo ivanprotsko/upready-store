@@ -151,7 +151,8 @@
     "shippingLink": "Livraison",
     "shippingUnavailable": "Aucun mode de livraison disponible",
     "signIn": "Se connecter",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zone : {zone}"
   },
   "ClaimOrders": {
     "heading": "Vous avez commandé sans compte ?",

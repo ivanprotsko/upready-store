@@ -27,6 +27,14 @@ export type MethodZone = {
   country_code: string;
   /** Region strings exactly as the storefront writes `shipping_address.province` (DaData `region_with_type`); empty = the whole country. */
   provinces: string[];
+  /**
+   * Human name of the zone («Урал», «Россия, вся страна»), written by the
+   * routes from `zoneLabelFor` on every save. The checkout reads it straight
+   * out of `shipping_option.data` to show the buyer WHICH zone priced his
+   * parcel, so it has to travel with the data rather than be recomputed in the
+   * browser. Absent on a method saved before zones had names.
+   */
+  label?: string | null;
 };
 
 /** What a tenant method keeps in `shipping_option.data`. */
@@ -42,6 +50,13 @@ export type TenantMethodData = {
   own_zone: boolean;
   /** `null` = the tenant's base zone (every country the store has a region for), where the provisioned defaults live. */
   zone: MethodZone | null;
+  /**
+   * Delivery service the owner picked (`carriers.ts` key: `cdek`, `post_ru`,
+   * `courier`, `pickup`), or null for a method she named herself. It changes
+   * nothing in the arithmetic; the panel shows the carrier next to the method
+   * and its hand-work instruction next to the tracking field.
+   */
+  carrier?: string | null;
   /**
    * `"provisioned-default"` while the tariff is still the one provisioning
    * wrote and no owner has confirmed it; the panel shows that badge and the
