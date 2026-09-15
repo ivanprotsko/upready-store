@@ -2,6 +2,7 @@ import type { ExecArgs } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../modules/tenant";
 import type TenantModuleService from "../modules/tenant/service";
+import { notifyStorefrontRevalidate } from "../storefront-revalidate";
 
 /**
  * Drafts of the five content pages Оксана Черкашина's shop does not have
@@ -420,6 +421,18 @@ export default async function seedCherkashinoPages({ container, args }: ExecArgs
         ...values,
       });
     }
+  }
+
+  // The storefront holds the page list and every page body behind one
+  // `force-cache` fetch tagged `tenant-pages`, and only `POST /api/revalidate`
+  // drops it — the panel's own routes send that notification after every save.
+  // A script that writes the rows straight through the module service sends
+  // nothing, so without this line the shop keeps answering 404 for a page that
+  // is already in its database (measured on this stand: five pages created, the
+  // checkout still underlining `/pages/offer` three times until the tag was
+  // cleared).
+  if (!dryRun && created.length + updated.length > 0) {
+    await notifyStorefrontRevalidate({ type: "tenant.pages", handle: tenant.handle });
   }
 
   logger.info(
