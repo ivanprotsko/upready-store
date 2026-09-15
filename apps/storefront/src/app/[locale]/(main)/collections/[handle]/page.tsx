@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { getCollectionByHandle } from "@lib/data/collections"
 import { buildAlternates } from "@lib/util/alternates"
+import { decodeSegment } from "@lib/util/decode-segment"
 import { getCountryCode, getSiteName } from "@lib/data/cookies"
 import { parseOptionValueIds } from "@lib/util/product-option-filters"
 import CollectionTemplate from "@modules/collections/templates"
@@ -29,7 +30,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     getLocale(),
     getTranslations("Metadata.collection"),
   ])
-  const collection = await getCollectionByHandle(params.handle)
+  const collection = await getCollectionByHandle(decodeSegment(params.handle))
 
   if (!collection) {
     notFound()
@@ -55,7 +56,7 @@ export default async function CollectionPage(props: Props) {
   const { sortBy, page } = searchParams
   const optionValueIds = parseOptionValueIds(searchParams)
 
-  const collection = await getCollectionByHandle(params.handle)
+  const collection = await getCollectionByHandle(decodeSegment(params.handle))
 
   if (!collection) {
     notFound()

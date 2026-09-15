@@ -1,6 +1,31 @@
 import { HttpTypes } from "@medusajs/types"
 import { castNumber } from "../../../lib/cast-number"
+import { toSlug } from "../../../lib/slugify"
 import { ProductCreateSchemaType } from "./types"
+
+/**
+ * The product code the storefront will serve this product at
+ * (f11-new-product-404).
+ *
+ * The form fills the field from the name and transliterates what the owner
+ * types into it, so by the time we are here the value is already Latin. This
+ * is the same rule applied once more where the request is built, because a
+ * value that never went through an `onChange` (a browser autofill, a paste the
+ * form did not see) would otherwise reach Medusa as it stands and come back as
+ * a Cyrillic URL.
+ *
+ * `undefined` when nothing survives transliteration, which is a name written
+ * in a script the table does not cover. Medusa then makes the handle itself,
+ * exactly as it did before this task.
+ */
+const productHandle = (
+  typed: string | undefined,
+  title: string,
+): string | undefined => {
+  const own = toSlug(typed?.trim() ?? "")
+
+  return own || toSlug(title) || undefined
+}
 
 export const normalizeProductFormValues = (
   values: ProductCreateSchemaType & {
@@ -29,7 +54,7 @@ export const normalizeProductFormValues = (
     shipping_profile_id: values.shipping_profile_id || undefined,
     categories: values.categories.map((id) => ({ id })),
     type_id: values.type_id || undefined,
-    handle: values.handle?.trim(),
+    handle: productHandle(values.handle, values.title),
     origin_country: values.origin_country || undefined,
     material: values.material || undefined,
     mid_code: values.mid_code || undefined,
