@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T21:53:19+08:00",
-  "status": "2026-09-15 21:53 WITA: f18-f12-fixture-build ЗАКРЫТ воркером — PR #55 открыт в dev (MERGEABLE/CLEAN), коммиты bd58db5..e514fb64. medusa build --lint false rc=0 на ветке (backend 53.77s, frontend 843.60s) против rc=1 с TS2322 на ba126e8; юнит-гейт fixtures-outside-src.unit.spec.ts красный на раскладке ba126e8 и зелёный на ветке; tsc rc=0, medusa lint rc=0, pnpm check:backend-fixtures rc=0; фикстуры не эмитятся (.medusa/server/scripts отсутствует). Не сделано и объяснено в PR: docker build (запрещён заданием, проверит d05), прогон фикстуры против БД (нет локального Postgres), чужой красный юнит profile-data.unit.spec.ts (productOptions, коммит 7e4ad3f) — отдельная задача. Дальше: приёмка, мерж не мой.",
+  "updated": "2026-09-15T22:12:12+08:00",
+  "status": "2026-09-15 22:12 WITA: f18-f12-fixture-build раунд 2 — обе находки приёмки закрыты, PR #55 MERGEABLE/CLEAN (коммиты 187fd600 merge origin/dev с разрешением HANDOFF.json, e8ec359b гейт расширен на весь apps/backend, f8f8fa2e запись раунда). Нит подтверждён замером: scripts/zz-nit-probe.ts попадает в tsc --listFiles, значит фикстура вне scripts/fixtures тоже уронила бы medusa build; гейт теперь ловит оба размещения (красный на двух подкидышах, зелёный без них). Перезамер: tsc rc=0, medusa build rc=0 (10.00s + 27.36s), lint rc=0, юниты 242/243 (единственный красный profile-data.unit.spec.ts — чужой, п.3 приёмки, отдельная задача). Дальше: раунд 2 приёмки, мерж не мой.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
