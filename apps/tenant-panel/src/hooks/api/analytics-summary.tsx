@@ -19,6 +19,12 @@ export type AnalyticsSummary = {
   period: { key: AnalyticsPeriodKey; from: string; to: string }
   current: AnalyticsAggregate
   previous: AnalyticsAggregate
+  /**
+   * Orders of the SAME period the shop cancelled. They are out of `current`
+   * (a cancelled order is not revenue) and reported here so the screen can say
+   * where they went instead of leaving an unexplained zero (b01-owner-numbers).
+   */
+  canceled: { order_count: number; revenue: number }
   change: {
     revenue_pct: number | null
     order_count_pct: number | null

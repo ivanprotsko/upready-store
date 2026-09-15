@@ -67,6 +67,20 @@ const sortOrderOf = (option: HttpTypes.StoreCartShippingOption): number => {
   return typeof value === "number" ? value : Number.MAX_SAFE_INTEGER
 }
 
+/**
+ * The name of the zone that priced this method («Урал», «Россия, вся страна»),
+ * written into `data.zone.label` by the backend on every save
+ * (`apps/backend/src/shipping-tariffs/ru-zone-presets.ts`). A method saved
+ * before zones had names carries none, and the card simply shows no zone line.
+ */
+const zoneLabel = (
+  option: HttpTypes.StoreCartShippingOption
+): string | null => {
+  const zone = (option.data as { zone?: { label?: unknown } | null } | null)?.zone
+  const label = zone?.label
+  return typeof label === "string" && label.trim() ? label.trim() : null
+}
+
 /** A string the owner wrote into the method's `data` (description, delivery hint), or null. */
 const dataText = (
   option: HttpTypes.StoreCartShippingOption,
@@ -372,6 +386,7 @@ export default function CheckoutShippingSection({
                 : option.id === shippingMethodId
 
               const days = getDeliveryDays(option)
+              const zone = isPickupCard ? null : zoneLabel(option)
               const deliveryHint = dataText(option, "delivery_hint")
               const description = dataText(option, "description")
               const explanation = explanationsMap[option.id] ?? null
@@ -435,6 +450,14 @@ export default function CheckoutShippingSection({
                   <span className="txt-compact-medium-plus text-ui-fg-base">
                     {option.name}
                   </span>
+                  {zone && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      data-testid="delivery-option-zone"
+                    >
+                      {t("shippingZone", { zone })}
+                    </span>
+                  )}
                   {description && (
                     <span
                       className="txt-compact-xsmall text-ui-fg-muted line-clamp-2"

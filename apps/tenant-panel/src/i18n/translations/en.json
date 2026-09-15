@@ -629,7 +629,8 @@
       "groups": "Groups",
       "guest": "Guest",
       "registered": "Registered",
-      "totalSpent": "Total spent"
+      "totalSpent": "Total spent",
+      "canceledOrders": "+{{count}} cancelled"
     },
     "groups": {
       "add": {
@@ -3208,7 +3209,8 @@
     "topProductRow": "{{quantity}} pcs — {{revenue}}",
     "noSalesThisPeriod": "No sales in this period",
     "loading": "Loading…",
-    "noOrdersYet": "No orders yet"
+    "noOrdersYet": "No orders yet",
+    "canceledNote": "Cancelled orders in this period: {{count}} for {{amount}}. They are not counted as revenue."
   },
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"

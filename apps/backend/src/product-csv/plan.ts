@@ -20,7 +20,7 @@
  * is written. Half a catalogue is worse than none.
  */
 
-import { metadataCell, normalizeHeader } from "./columns";
+import { matchMetadataKey, metadataCell, normalizeHeader } from "./columns";
 import type { SpreadsheetEncoding } from "./csv";
 import type { CatalogCategory, CatalogSnapshot } from "./catalog";
 import type { FatalError, ReadFileResult, RowDraft, RowError } from "./rows";
@@ -136,6 +136,10 @@ const asText = (value: unknown): string => {
   }
   return String(value);
 };
+
+/** Two texts that differ only in line endings or surrounding whitespace are the same text. */
+const sameText = (left: unknown, right: unknown): boolean =>
+  asText(left).replace(/\r\n?/g, "\n").trim() === asText(right).replace(/\r\n?/g, "\n").trim();
 
 const pathKey = (path: string[]): string => path.map((part) => normalizeHeader(part)).join(" / ");
 
@@ -446,11 +450,22 @@ const planRow = (
   const product = located.product;
   const variant = located.variant;
 
+  /**
+   * A text field, compared the way the file can carry it.
+   *
+   * Every cell is trimmed on the way in (`cellAt` in `rows.ts`) and line
+   * endings are normalised to `\n` (`normalizeText` in `csv.ts`), so a
+   * description stored with a trailing space or a CRLF came back from a round
+   * trip looking "changed" while carrying the same words: 20 of the live
+   * shop's 41 rows reported an update after an export with three edits in it
+   * (b01-owner-numbers). A difference that is only surrounding whitespace or
+   * line endings is not a change.
+   */
   const textChange = (field: string, from: string | null, to: string | null) => {
     if (to === null) {
       return;
     }
-    if (asText(from) === asText(to)) {
+    if (sameText(from, to)) {
       return;
     }
     changes.push({ field, from: asText(from), to: asText(to) });
@@ -481,9 +496,12 @@ const planRow = (
     for (const [key, value] of Object.entries(draft.metadata)) {
       // `metadataCell`, not `String(...)`: a JSON metadata value coerces to
       // "[object Object]" and would never equal the cell the export wrote.
-      const current = metadataCell(product.metadata?.[key]);
+      // `matchMetadataKey`, not the header as typed: the key is free-form and
+      // the product's own spelling of it decides (`pricelistPositions`).
+      const ownKey = matchMetadataKey(product.metadata, key);
+      const current = metadataCell(product.metadata?.[ownKey]);
       if (current !== value) {
-        changes.push({ field: `Метаданные: ${key}`, from: current, to: value });
+        changes.push({ field: `Метаданные: ${ownKey}`, from: current, to: value });
       }
     }
 

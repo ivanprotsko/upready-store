@@ -126,6 +126,8 @@ export type ShippingQuote = {
   shipping_option_id: string
   name: string
   currency_code: string
+  /** The zone the shop priced this parcel in («Урал»), in the owner's own words. */
+  zone_label?: string | null
   kind: "flat" | "per_kg" | "free_above"
   amount: number
   weight_g: number

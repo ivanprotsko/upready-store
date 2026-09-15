@@ -151,7 +151,8 @@
     "shippingLink": "การจัดส่ง",
     "shippingUnavailable": "ไม่มีวิธีการจัดส่งที่ใช้ได้",
     "signIn": "เข้าสู่ระบบ",
-    "total": "ยอดรวม"
+    "total": "ยอดรวม",
+    "shippingZone": "โซน: {zone}"
   },
   "ClaimOrders": {
     "heading": "สั่งซื้อโดยไม่มีบัญชีใช่ไหม",

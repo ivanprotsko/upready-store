@@ -151,7 +151,8 @@
     "shippingLink": "Shipping",
     "shippingUnavailable": "Delivery to this address is not set up yet. Check the country and region, or write to us and we will find a way.",
     "signIn": "Sign in",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zone: {zone}"
   },
   "ClaimOrders": {
     "heading": "Ordered without an account?",

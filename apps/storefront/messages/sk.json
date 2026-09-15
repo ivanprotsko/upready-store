@@ -151,7 +151,8 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Nie sú dostupné žiadne spôsoby dopravy",
     "signIn": "Prihlásiť sa",
-    "total": "Spolu"
+    "total": "Spolu",
+    "shippingZone": "Zóna: {zone}"
   },
   "ClaimOrders": {
     "heading": "Objednávali ste bez účtu?",

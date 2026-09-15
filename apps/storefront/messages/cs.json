@@ -151,7 +151,8 @@
     "shippingLink": "Doprava",
     "shippingUnavailable": "Žádné dostupné způsoby dopravy",
     "signIn": "Přihlásit se",
-    "total": "Celkem"
+    "total": "Celkem",
+    "shippingZone": "Zóna: {zone}"
   },
   "ClaimOrders": {
     "heading": "Objednávali jste bez účtu?",

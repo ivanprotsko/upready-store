@@ -151,7 +151,8 @@
     "shippingLink": "Paghahatid",
     "shippingUnavailable": "Walang available na paraan ng paghahatid",
     "signIn": "Mag-sign in",
-    "total": "Kabuuan"
+    "total": "Kabuuan",
+    "shippingZone": "Sona: {zone}"
   },
   "ClaimOrders": {
     "heading": "Nag-order nang walang account?",

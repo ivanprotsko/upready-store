@@ -1,0 +1,36 @@
+# Ломающая проверка: детектор обязан уметь покраснеть на НОВОМ коде
+$ printf '// acceptance fixture ONLY …' > apps/backend/src/jobs/__tm003-break-probe.ts
+$ node tools/test-methods/tm.mjs run tm-003
+ID      STATUS  NEW  KNOWN  SCANNED   
+------  ------  ---  -----  ----------
+tm-003  RED     1    3      files=1706
+
+  RED  tm-003/fixture-marker-in-compiled-tree  apps/backend/src/jobs/__tm003-break-probe.ts:1
+       apps/backend/src/jobs/__tm003-break-probe.ts calls itself a throwaway fixture and sits in apps/backend/src, which the production build compiles. A type error in it fails the image build, and the product never runs the file. Move it out of the compiled tree (apps/<app>/scripts/fixtures/).
+       evidence: fixture ONLY, acceptance fixture
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts:8  (f18-f12-fixture-build)
+       Тот самый файл, из которого вырос метод. Живой на dev, ломает сборку образа. Починку делает отдельная задача f18-f12-fixture-build; здесь он остаётся замером, а не правкой.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.
+rc=1
+
+$ rm apps/backend/src/jobs/__tm003-break-probe.ts
+$ node tools/test-methods/tm.mjs run tm-003
+ID      STATUS  NEW  KNOWN  SCANNED   
+------  ------  ---  -----  ----------
+tm-003  GREEN   0    3      files=1705
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/f12-seed-test-order.ts:8  (f18-f12-fixture-build)
+       Тот самый файл, из которого вырос метод. Живой на dev, ломает сборку образа. Починку делает отдельная задача f18-f12-fixture-build; здесь он остаётся замером, а не правкой.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t13-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway data … run once with npx medusa exec … against a scratch database». Сборку сегодня не ломает только потому, что типы в нём сошлись. Штабу на заведение вместе с f18.
+
+  known tm-003/fixture-marker-in-compiled-tree  apps/backend/src/scripts/t17-seed-test-tenant.ts:11  (r03-test-methods-pilot → штабу на заведение)
+       Тот же класс, найден этой задачей: «throwaway fixtures for measuring … not wired into any pnpm script». Штабу на заведение вместе с f18.
+rc=0

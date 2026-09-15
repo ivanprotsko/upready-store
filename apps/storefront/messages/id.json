@@ -151,7 +151,8 @@
     "shippingLink": "Pengiriman",
     "shippingUnavailable": "Tidak ada metode pengiriman yang tersedia",
     "signIn": "Masuk",
-    "total": "Total"
+    "total": "Total",
+    "shippingZone": "Zona: {zone}"
   },
   "ClaimOrders": {
     "heading": "Memesan tanpa akun?",
