@@ -37,7 +37,15 @@ import { WB_TIMEOUT_MS, wbRead } from "../transport";
  *   content.cards.list   "Returns the listings."
  *   marketplace.stocks   "Returns item inventory."
  */
-const POST_READ_ENDPOINT_IDS = ["content.cards.list", "marketplace.stocks"].sort();
+const POST_READ_ENDPOINT_IDS = [
+  "content.cards.list",
+  "marketplace.stocks",
+  // w23-wb-write-fbs-orders: both are WB's own "Returns …" methods whose
+  // question is a list of up to 1000 (statuses) or 100 (stickers) assembly
+  // order ids, which cannot travel in a query string.
+  "marketplace.fbs.orders.status",
+  "marketplace.fbs.orders.stickers",
+].sort();
 
 const TOKEN = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.test-payload.test-signature";
 

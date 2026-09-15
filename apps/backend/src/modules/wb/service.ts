@@ -1,10 +1,12 @@
 import { MedusaService } from "@medusajs/framework/utils";
 import WbApiCall from "./models/wb-api-call";
+import WbFbsOrder from "./models/wb-fbs-order";
 import WbFeedback from "./models/wb-feedback";
 import WbOrder from "./models/wb-order";
 import WbPrice from "./models/wb-price";
 import WbProduct from "./models/wb-product";
 import WbStock from "./models/wb-stock";
+import WbSupply from "./models/wb-supply";
 import WbSyncRun from "./models/wb-sync-run";
 
 class WbModuleService extends MedusaService({
@@ -12,6 +14,8 @@ class WbModuleService extends MedusaService({
   WbPrice,
   WbStock,
   WbOrder,
+  WbFbsOrder,
+  WbSupply,
   WbFeedback,
   WbSyncRun,
   WbApiCall,
