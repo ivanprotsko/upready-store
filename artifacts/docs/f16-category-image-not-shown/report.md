@@ -2,7 +2,8 @@
 
 _Отчёт написан 2026-09-15 17:08 WITA_
 
-Ветка `fix/day16-category-image-not-shown`, база `dev`.
+Ветка `fix/day16-category-image-not-shown`, база `dev`. Все замеры ниже пересняты ПОСЛЕ слияния
+`origin/dev` (c60638b, f15) — конфликтов не было, проверки и живой прогон повторены на слитом дереве.
 
 ## Коротко
 
@@ -106,9 +107,9 @@ asd-cherkashino | {"image_alt":null,"image_url":null,"source_id":"pcat_01KRT1MD7
 `img src` картинки на каждой странице (одна и та же загрузка, разные размеры `next/image`):
 
 ```
-/ru                              …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789462339529-f16-asd-photo.png&w=384&q=60
-/ru/store                        …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789462339529-f16-asd-photo.png&w=256&q=60
-/ru/categories/asd-cherkashino   …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789462339529-f16-asd-photo.png&w=96&q=60
+/ru                              …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png&w=384&q=60
+/ru/store                        …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png&w=256&q=60
+/ru/categories/asd-cherkashino   …/_next/image?url=…/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png&w=96&q=60
 ```
 
 ### 4.2 Полный круг «панель → витрина», в браузере, без обходных HTTP-вызовов
@@ -119,14 +120,17 @@ asd-cherkashino | {"image_alt":null,"image_url":null,"source_id":"pcat_01KRT1MD7
 ```
 --- step 1: the picture the owner already saved
 with picture: category=1 store=1 home=1
+    category: …/static/tenants/ten_01M29Q4…/1789463544134-f16-asd-merged.png&w=96&q=60
+    store:    …/static/tenants/ten_01M29Q4…/1789463544134-f16-asd-merged.png&w=256&q=60
+    home:     …/static/tenants/ten_01M29Q4…/1789463544134-f16-asd-merged.png&w=384&q=60
 --- step 2: clear the address in the panel and save
 after clearing: category=0 store=0 home=0
 --- step 3: upload a file through the panel's Upload button and save
-panel field after Upload: http://localhost:9046/static/tenants/ten_01M29Q4…/1789463110124-f16-asd-round-trip.png
+panel field after Upload: http://localhost:9046/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png
 after uploading: category=1 store=1 home=1
-    category: …1789463110124-f16-asd-round-trip.png&w=96&q=60
-    store:    …1789463110124-f16-asd-round-trip.png&w=256&q=60
-    home:     …1789463110124-f16-asd-round-trip.png&w=384&q=60
+    category: …1789463594084-f16-asd-final.png&w=96&q=60
+    store:    …1789463594084-f16-asd-final.png&w=256&q=60
+    home:     …1789463594084-f16-asd-final.png&w=384&q=60
 ROUND TRIP OK: all three pages carry the newly uploaded file
 ```
 
@@ -137,8 +141,8 @@ ROUND TRIP OK: all three pages carry the newly uploaded file
 
 ```
 list: headers=["Название","Идентификатор","Изображение","Статус","Видимость",""] rows=9 rowsWithImg=1
-form.imageUrl = http://localhost:9046/static/tenants/ten_01M29Q4…/1789462339529-f16-asd-photo.png
-form.preview  = http://localhost:9046/static/tenants/ten_01M29Q4…/1789462339529-f16-asd-photo.png
+form.imageUrl = http://localhost:9046/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png
+form.preview  = http://localhost:9046/static/tenants/ten_01M29Q4…/1789463594084-f16-asd-final.png
 form.hint     = Показывается на странице самой категории, плиткой в каталоге и на главной.
                 Очистите адрес, чтобы убрать картинку.
 ```
@@ -182,7 +186,7 @@ store  http=200 catalogStrip=0 profileHomeTiles=0 headerImg=0
 | Типы витрины | `cd apps/storefront && npx tsc --noEmit` | rc=0 |
 | Линт витрины | `cd apps/storefront && npx next lint` | rc=0 (единственный warning — в `yandex-metrica`, был до этого) |
 | Юниты витрины | `cd apps/storefront && npm run -s test` | Test Files 20 passed, Tests **195 passed** |
-| Сборка витрины | `cd apps/storefront && NEXT_DIST_DIR=.next-f16 npx next build` | `✓ Compiled successfully in 7.4s`, сборка прошла целиком (типы и линт — часть сборки) |
+| Сборка витрины | `cd apps/storefront && NEXT_DIST_DIR=.next-f16 npx next build` (до слияния) | `✓ Compiled successfully in 7.4s`, сборка прошла целиком (типы и линт — часть сборки) |
 | Типы панели | `cd apps/tenant-panel && npx tsc --noEmit` | rc=0 |
 | Линт панели | `cd apps/tenant-panel && npx eslint src` | rc=0, 0 errors (24 warning — все предсуществующие) |
 
