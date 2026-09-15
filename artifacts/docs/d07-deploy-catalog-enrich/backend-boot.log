@@ -1,0 +1,316 @@
+[entrypoint] running database migrations
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:12"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:12"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:12"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:12"}
+{"level":"info","message":"Running migrations...","timestamp":"2026-09-15 22:46:12"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"MODULE: integration","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"MODULE: stock_location","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"MODULE: inventory","timestamp":"2026-09-15 22:46:13"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: product","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: pricing","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: promotion","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: customer","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: sales_channel","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: cart","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: region","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: api_key","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: store","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: tax","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: currency","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: payment","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"MODULE: order","timestamp":"2026-09-15 22:46:14"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: settings","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: translation","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: auth","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: user","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: fulfillment","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: notification","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: cache","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: event_bus","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"MODULE: workflows","timestamp":"2026-09-15 22:46:15"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: locking","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: file","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Skipped. Database is up-to-date for module.","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: tenant","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ● Migrating Migration20260915201055","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ✔ Migrated Migration20260915201055","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: product_review","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ● Migrating Migration20260915211004","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ✔ Migrated Migration20260915211004","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: wb","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ● Migrating Migration20260915201047","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ✔ Migrated Migration20260915201047","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"MODULE: marketplace_link","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ● Migrating Migration20260915211002","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"  ✔ Migrated Migration20260915211002","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Completed successfully","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Migrations completed","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:16"}
+{"level":"info","message":"Syncing links...","timestamp":"2026-09-15 22:46:17"}
+{"level":"info","message":"Database already up-to-date","timestamp":"2026-09-15 22:46:19"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:19"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:21"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:21"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:21"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:21"}
+
+Gorgo collects anonymous telemetry to help improve Medusa plugins. To opt out, set `GORGO_DISABLE_TELEMETRY=true`.
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:22"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:23"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:23"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"Pending migration scripts to execute","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"/app/node_modules/@medusajs/medusa/dist/migration-scripts/create-super-admin-role.js","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"Running migration scripts...","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"","timestamp":"2026-09-15 22:46:25"}
+{"level":"info","message":"Migration scripts completed","timestamp":"2026-09-15 22:46:25"}
+[entrypoint] running the seed (no-op if this stand's store already exists)
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:27"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:27"}
+{"level":"info","message":"Executing script at ./src/migration-scripts/initial-data-seed.js...","timestamp":"2026-09-15 22:46:27"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:28"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:28"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:28"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:28"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:29"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:29"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:30"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:46:30"}
+{"level":"info","message":"Sales channel \"Kerbstone Sales Channel\" was fully seeded at 2026-09-11T15:08:42.608Z — skipping initial data seed.","timestamp":"2026-09-15 22:46:31"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:46:31"}
+[entrypoint] seeding the default block composition (no-op if one is saved)
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"Executing script at ./src/scripts/seed-storefront-settings.js...","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:34"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:34"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:35"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:35"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:36"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:46:38"}
+{"level":"info","message":"seed-storefront-settings: store.metadata.storefrontSettings is already set for \"sneakers\" — left untouched.","timestamp":"2026-09-15 22:46:38"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:46:38"}
+[entrypoint] converging the admin and demo-customer accounts onto the env values
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:41"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:41"}
+{"level":"info","message":"Executing script at ./src/scripts/ensure-accounts.js...","timestamp":"2026-09-15 22:46:41"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:42"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:42"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:42"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:42"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:43"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:43"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:44"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:46:44"}
+{"level":"info","message":"ensure-accounts: admin admin@upready.dev — unchanged.","timestamp":"2026-09-15 22:46:45"}
+{"level":"info","message":"ensure-accounts: demo customer user@upready.dev — unchanged.","timestamp":"2026-09-15 22:46:45"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:46:45"}
+[entrypoint] renaming the machine-made delivery methods of shops provisioned by an older image
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:48"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:48"}
+{"level":"info","message":"Executing script at ./src/scripts/rename-default-shipping-methods.js...","timestamp":"2026-09-15 22:46:48"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:49"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:49"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:49"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:49"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:51"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:51"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:52"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:46:52"}
+{"level":"info","message":"[rename-default-shipping-methods] renamed 0 options across 14 tenants, 0 courier defaults repriced from the 10 placeholder, 0 type rows brought in step","timestamp":"2026-09-15 22:46:54"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:46:54"}
+[entrypoint] writing the redirects a migrated catalogue implies (no-op when nothing was imported)
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"Executing script at ./src/scripts/backfill-tenant-redirects.js...","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:56"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:46:56"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:46:57"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:46:57"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:46:58"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:47:00"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/returns: the shop has no published page \"returns\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/consent: the shop has no published page \"consent\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/consent-marketing: the shop has no published page \"consent-marketing\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/return-memo: the shop has no published page \"return-memo\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/delivery: the shop has no published page \"delivery\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/faq: the shop has no published page \"faq\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/ru/wholesale: the shop has no published page \"wholesale\" in \"ru\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/en/delivery: the shop has no published page \"delivery\" in \"en\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/en/faq: the shop has no published page \"faq\" in \"en\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"warn","message":"backfill-tenant-redirects: cherkashino — unmapped: page /ru/en/wholesale: the shop has no published page \"wholesale\" in \"en\" — no redirect written (it appears by itself once the page exists)","timestamp":"2026-09-15 22:47:02"}
+{"level":"info","message":"backfill-tenant-redirects: cherkashino — 5 written (0 catalogue, 5 pages), 0 already present, 10 unmapped (sources: chrxnasdmds, dry_run=false)","timestamp":"2026-09-15 22:47:02"}
+{"level":"info","message":"backfill-tenant-redirects: done — 5 written across 1 tenant(s), 0 already present, 14 tenant(s) examined (dry_run=false)","timestamp":"2026-09-15 22:47:02"}
+{"level":"info","message":"Finished executing script.","timestamp":"2026-09-15 22:47:02"}
+[entrypoint] starting: /app/node_modules/.bin/medusa start
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:47:04"}
+{"activity_id":"01M2KM17FPVQTTV29QAM315P94","config":{},"level":"info","message":"Creating server","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"Skipping instrumentation registration. No register function found.","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"redisUrl not found. A fake redis instance will be used.","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"Using flag MEDUSA_FF_TRANSLATION from project config with value true","timestamp":"2026-09-15 22:47:04"}
+{"level":"info","message":"No link to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:47:05"}
+{"level":"info","message":"No link to load from /app/node_modules/@gorgo/medusa-integration/.medusa/server/src/links. skipped.","timestamp":"2026-09-15 22:47:05"}
+{"level":"warn","message":"Local Event Bus installed. This is not recommended for production.","timestamp":"2026-09-15 22:47:06"}
+{"level":"info","message":"Locking module: Using \"in-memory\" as default.","timestamp":"2026-09-15 22:47:06"}
+{"level":"info","message":"No workflow to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/workflows. skipped.","timestamp":"2026-09-15 22:47:07"}
+{"level":"info","message":"No subscriber to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/subscribers. skipped.","timestamp":"2026-09-15 22:47:08"}
+{"level":"info","message":"No job to load from /app/node_modules/@medusajs/medusa/dist/jobs. skipped.","timestamp":"2026-09-15 22:47:09"}
+{"level":"info","message":"No job to load from /app/node_modules/@medusajs/draft-order/.medusa/server/src/jobs. skipped.","timestamp":"2026-09-15 22:47:09"}
+{"level":"info","message":"No job to load from /app/src/jobs. skipped.","timestamp":"2026-09-15 22:47:09"}
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.
+{"activity_id":"01M2KM17FPVQTTV29QAM315P94","duration":5683,"level":"info","message":"Server is ready on port: 9000","timestamp":"2026-09-15 22:47:10"}
