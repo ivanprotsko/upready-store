@@ -25,7 +25,10 @@ const Register = ({ setCurrentView, siteName, legal }: Props) => {
   // documents, the contract as the fallback, plain words rather than a link to
   // the starter's placeholder when the shop has written neither.
   const privacyLink = consentHref("privacy", legal)
-  const termsLink = consentHref("terms", legal)
+  // The sentence says "Условиями использования", so it is the usage-terms slot
+  // (b14-pages-legal-content); a shop without that page still falls back to the
+  // contract inside `consentHref`.
+  const termsLink = consentHref("termsOfUse", legal)
   const [message, formAction] = useActionState(signup as (state: string | null, formData: FormData) => Promise<string | null>, null as string | null)
 
   return (
