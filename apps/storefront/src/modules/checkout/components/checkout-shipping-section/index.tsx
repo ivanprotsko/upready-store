@@ -466,7 +466,7 @@ export default function CheckoutShippingSection({
                       {description}
                     </span>
                   )}
-                  <div className="flex flex-col gap-y-0">
+                  <div className="flex flex-col gap-y-1">
                     <div className="min-h-[20px]">
                       {deliveryLabel && (
                         <span className="txt-compact-small text-ui-fg-subtle">

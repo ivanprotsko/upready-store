@@ -49,7 +49,7 @@ const createTenantWorkflow = createWorkflow(
       salesChannelsData: [
         {
           name: input.name,
-          description: `Sales channel of tenant "${input.handle}"`,
+          description: `Канал продаж магазина «${input.handle}»`,
         },
       ],
     }));
