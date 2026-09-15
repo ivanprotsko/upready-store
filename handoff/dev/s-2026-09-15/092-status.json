@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 92,
+  "action": "status-set",
+  "ts": "2026-09-15T23:14:02+08:00",
+  "status": "2026-09-15 23:14 WITA: штаб — b04 (PR #59) снова конфликт только HANDOFF.json → cmd fix, приказ «брать базу целиком» теперь в _fix-round.md (654267f5); r03 раунд 4 идёт; замечания Ивана 3 (структурированный отчёт для UI, схема+тест) и 4 (схема групп задач, рекомендована pull-подача) в INTAKE.md; b16 blocked до Ивана"
+}

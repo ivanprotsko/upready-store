@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-15",
+  "index": 86,
+  "action": "status-set",
+  "ts": "2026-09-15T22:08:10+08:00",
+  "status": "2026-09-15 22:08 WITA: штаб — закрыты 20 терминалов законченных воркеров дня (оставлены f18, b01, b03, r03 на приёмке, b04-fill), colima остановлена (VM подняли t12/t13 в 11:14 — запрещено преамбулой 1d582c46), docker context → default, диспетчер pid 17270 закрывает терминал после merge; светлая тема панели a06f9e72"
+}
