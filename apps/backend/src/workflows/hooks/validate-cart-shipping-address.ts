@@ -1,6 +1,5 @@
 import type { MedusaContainer } from "@medusajs/framework";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
-import { completeCartWorkflow } from "@medusajs/medusa/core-flows";
 import { REGIONS_BY_COUNTRY } from "../../shipping-tariffs/ru-regions";
 
 /**
@@ -13,8 +12,10 @@ import { REGIONS_BY_COUNTRY } from "../../shipping-tariffs/ru-regions";
  * (measured live on `cherkashino.shipshift.dev`, order #5, 2026-09-15:
  * `{"address_1":"ул. Ленина, д. 1, кв. 2","city":"","province":"","postal_code":""}`).
  * `apps/storefront` now shows the structured fields and disables the payment
- * button, and this hook is the half a browser cannot skip: `completeCartWorkflow`
+ * button, and this check is the half a browser cannot skip: `completeCartWorkflow`
  * is the single door every order comes through, whatever client opened the cart.
+ * It is wired there by `complete-cart-validate.ts`, the one handler that hook
+ * accepts.
  *
  * Two carts are deliberately out of scope:
  *
@@ -42,7 +43,7 @@ type AddressLike = {
   country_code?: string | null;
 };
 
-type CartLike = {
+export type CartLike = {
   shipping_address?: AddressLike | null;
   shipping_methods?: { shipping_option_id?: string | null }[] | null;
 };
@@ -115,7 +116,3 @@ export const assertPostableShippingAddress = async (
     );
   }
 };
-
-completeCartWorkflow.hooks.validate(async ({ cart }, { container }) => {
-  await assertPostableShippingAddress(container, cart as unknown as CartLike);
-});

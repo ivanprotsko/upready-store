@@ -260,12 +260,12 @@ export default function CheckoutPaymentSection({
       <ErrorMessage error={error} data-testid="payment-method-error-message" />
 
       {addressIncomplete && (
-        <p
-          className="txt-compact-small text-ui-fg-error"
+        <div
+          className="text-rose-500 text-small-regular"
           data-testid="shipping-address-incomplete"
         >
-          {t("addressIncomplete")}
-        </p>
+          <span>{t("addressIncomplete")}</span>
+        </div>
       )}
 
       <div className="flex flex-col gap-y-3">

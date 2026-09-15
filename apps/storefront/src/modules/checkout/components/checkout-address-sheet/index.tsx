@@ -15,6 +15,20 @@ import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
 import { cartCountryCode, shippingAddressGaps } from "@lib/util/shipping-address"
 
+/** The one sentence a customer can act on when the address cannot be posted. */
+function AddressIncompleteMessage({ show }: { show: boolean }) {
+  const t = useTranslations("CheckoutPage")
+  if (!show) return null
+  return (
+    <div
+      className="pt-2 text-rose-500 text-small-regular"
+      data-testid="address-incomplete-message"
+    >
+      <span>{t("addressIncomplete")}</span>
+    </div>
+  )
+}
+
 interface CheckoutAddressSheetProps {
   open: boolean
   onClose: () => void
@@ -63,6 +77,12 @@ export default function CheckoutAddressSheet({
     province: manualAddress?.province ?? "",
   })
   const [error, setError] = useState<string | null>(null)
+  // Its own state, not `error`: `ErrorMessage` runs whatever it is given through
+  // `resolveErrorKey`, which maps a BACKEND error string onto one of the fixed
+  // `Errors.*` keys — an already-translated sentence handed to it comes out as
+  // the generic message (measured on the f04 stand, 2026-09-15: the sheet
+  // rendered nothing a customer could act on).
+  const [addressIncomplete, setAddressIncomplete] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
@@ -79,6 +99,7 @@ export default function CheckoutAddressSheet({
     })
     setCompany(manualAddress?.company ?? "")
     setError(null)
+    setAddressIncomplete(false)
   }, [open, initialMode, matchingAddress, manualAddress])
 
   const countryName = (code?: string | null) =>
@@ -103,11 +124,12 @@ export default function CheckoutAddressSheet({
     // state the fix exists to prevent.
     if (shippingAddressGaps(address, address.country_code).length > 0) {
       setSelectedId(undefined)
-      setError(t("addressIncomplete"))
+      setAddressIncomplete(true)
       return
     }
     setApplyingId(address.id)
     setError(null)
+    setAddressIncomplete(false)
     const result = await setAddresses({
       shipping_address: {
         company: address.company ?? undefined,
@@ -149,9 +171,10 @@ export default function CheckoutAddressSheet({
     // and index, so a half-filled address is never written to the cart.
     const gaps = shippingAddressGaps(addressFields, countryCode)
     if (gaps.length > 0) {
-      setError(t("addressIncomplete"))
+      setAddressIncomplete(true)
       return
     }
+    setAddressIncomplete(false)
     setIsSubmitting(true)
     setError(null)
     const result = await setAddresses({
@@ -190,6 +213,7 @@ export default function CheckoutAddressSheet({
           </RadioGroup>
 
           <ErrorMessage error={error} />
+          <AddressIncompleteMessage show={addressIncomplete} />
 
           <Button
             type="button"
@@ -219,6 +243,7 @@ export default function CheckoutAddressSheet({
             />
           </div>
           <ErrorMessage error={error} />
+          <AddressIncompleteMessage show={addressIncomplete} />
           <div className="flex gap-x-2 mt-4">
             <Button
               type="button"

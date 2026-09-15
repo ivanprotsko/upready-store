@@ -1,7 +1,7 @@
 "use client"
 
 import { useId, useState } from "react"
-import { Checkbox, Text } from "@medusajs/ui"
+import { Checkbox, Label } from "@medusajs/ui"
 import { useTranslations } from "next-intl"
 import { hasAddressAutocomplete } from "@lib/constants"
 import DaDataAddressInput from "./providers/dadata"
@@ -48,11 +48,13 @@ const AddressAutocomplete = (props: AddressAutocompleteProps) => {
           checked={manual}
           onCheckedChange={(value) => setManual(value === true)}
         />
-        <Text
-          className="text-ui-fg-subtle"
-        >
+        {/* A caption that is not a `<label for>` only looks clickable: clicking
+            the words did nothing, so the escape hatch out of the suggest box
+            was reachable by the 16px box alone (measured on the f04 stand,
+            2026-09-15). */}
+        <Label htmlFor={uid} className="text-ui-fg-subtle cursor-pointer">
           {t("manualInput")}
-        </Text>
+        </Label>
       </div>
 
       {manual ? (
