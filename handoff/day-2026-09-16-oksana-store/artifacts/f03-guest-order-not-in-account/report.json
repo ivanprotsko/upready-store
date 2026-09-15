@@ -1,0 +1,84 @@
+{
+  "task": "f03-guest-order-not-in-account",
+  "branch": "fix/day16-guest-order-claim",
+  "pr": {
+    "number": 42,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/42"
+  },
+  "done": [
+    {
+      "item": "Добавлен маршрут POST /store/customers/me/claim-orders: привязывает гостевые заказы к аккаунту по e-mail из строки покупателя, тело запроса не читается вовсе.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/apps/backend/src/api/store/customers/me/claim-orders/route.ts"
+      ]
+    },
+    {
+      "item": "Чистая функция select-claimable-orders.ts с шестью правилами отказа (чужой адрес, чужой sales channel, уже свой заказ, заказ зарегистрированного владельца, черновик, отменён), покрыта 16 unit-тестами.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/apps/backend/src/guest-order-claim/select-claimable-orders.ts"
+      ]
+    },
+    {
+      "item": "Воркфлоу claim-guest-orders и шаг переноса заказов с компенсацией на случай отката.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/apps/backend/src/workflows/customer/claim-guest-orders/index.ts"
+      ]
+    },
+    {
+      "item": "На витрине: автоматический вызов привязки после регистрации и после входа, плюс кнопка «Найти мои заказы» на /account/orders; тексты переведены на все 36 языков.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/apps/storefront/src/modules/account/components/claim-orders-form/index.tsx"
+      ]
+    },
+    {
+      "item": "Seam-тесты интеграции backend: счастливый путь плюс 4 негатива и проверка регистра адреса, 6 из 6 зелёных.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/apps/backend/integration-tests/http/guest-order-claim.spec.ts"
+      ]
+    },
+    {
+      "item": "Живой замер на стенде тенанта cherkashino: гостевой заказ №17 появляется в /ru/account/orders сразу после регистрации на тот же e-mail, чужой аккаунт видит 0 заказов; скриншоты 1280x900 и 390x844.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f03-guest-order-not-in-account/01-account-orders-1280x900.png",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f03-guest-order-not-in-account/02-account-orders-390x844.png"
+      ]
+    },
+    {
+      "item": "PR #42 смержен во втором раунде приёмки после ребейза на dev (раунд 1 отклонён из-за конфликта в HANDOFF.json).",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/42"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #42 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/42"
+    },
+    {
+      "label": "Отчёт приёмки, раунд 2 (MERGED)",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f03-guest-order-not-in-account-2.findings.md"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/f03-guest-order-not-in-account/report.md"
+    },
+    {
+      "label": "Скриншот: заказ гостя в кабинете, 1280x900",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f03-guest-order-not-in-account/01-account-orders-1280x900.png"
+    },
+    {
+      "label": "Скриншот: деталь заказа, 1280x900",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f03-guest-order-not-in-account/03-order-detail-1280x900.png"
+    },
+    {
+      "label": "Скриншот: чужой аккаунт не видит заказ",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f03-guest-order-not-in-account/04-stranger-account-orders-1280x900.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Нит: GET /store/orders/:id отдаёт заказ без авторизации (дефект не этого PR) — открыт вопрос q-priemka-f03-pr-42-smerzhen.",
+    "Нит: три PNG в воркtree приёмщика остались незакоммиченными, в PR лежит предыдущая версия картинок."
+  ]
+}

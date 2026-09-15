@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 8,
+  "action": "status-set",
+  "ts": "2026-09-16T01:10:11+08:00",
+  "status": "2026-09-16 01:10 WITA: report.json для q02-qa-owner составлен задним числом (sonnet) по report.md/логу приёмки, закоммичен 7b81c12a в upready-store/dev; push заблокирован — origin/dev ушёл на 6 коммитов вперёд (PR #62-#67 смержены), merge/rebase прямо на dev блокируют pr-flow-guard (21l) и классификатор автономного режима даже с эскейпом; нужен ручной git pull/push от Ивана"
+}

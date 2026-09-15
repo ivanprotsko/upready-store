@@ -1,0 +1,56 @@
+{
+  "task": "f04-address-without-city",
+  "branch": "fix/day16-address-fields",
+  "pr": {
+    "number": 40,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/40"
+  },
+  "done": [
+    {
+      "item": "Подсказка адреса включается только когда провайдер = dadata и задан ключ, иначе покупателю сразу показываются структурные поля (город, индекс, регион) без чекбокса."
+    },
+    {
+      "item": "Поле «регион» стало обязательным для стран со списком регионов (сегодня Россия) — и в селекте, и в текстовом резервном поле."
+    },
+    {
+      "item": "Добавлена единая функция проверки полноты адреса (shippingAddressGaps/cartShippingAddressGaps) в apps/storefront/src/lib/util/shipping-address.ts, используется в шторке адреса и в кнопке оплаты."
+    },
+    {
+      "item": "Кнопка оплаты блокируется при неполном адресе, над ней показывается русский текст причины вместо пустоты."
+    },
+    {
+      "item": "На бэкенде добавлен единственный validate-хук completeCartWorkflow (validate-cart-shipping-address.ts + complete-cart-validate.ts): заказ без address_1/postal_code/city/province невозможен, добавлен тест против повторной регистрации хука."
+    },
+    {
+      "item": "Переведено сообщение о неполном адресе на все 36 локалей (messages/*.json, ключ CheckoutPage.addressIncomplete)."
+    },
+    {
+      "item": "Приёмка измерена на локальном стенде с копией данных клиента (тенант cherkashino): зафиксированы форма адреса, отказ браузера и шторки, блокировка оплаты, ответ backend API 400, скриншоты 1280×900 и 390×844."
+    },
+    {
+      "item": "PR #40 смёржен в dev (squash bac261b)."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #40",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/40"
+    },
+    {
+      "label": "Отчёт воркера (report.md)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f04-address-without-city/report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f04-address-without-city-1.findings.md"
+    },
+    {
+      "label": "Отчёт приёмки со скриншотами",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f04-address-without-city-1/REPORT.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Проверено на локальном стенде с копией данных клиента (тенант cherkashino), не на живом хосте — деплой в этом дне отдельная задача, воркеру запрещён."
+  ]
+}

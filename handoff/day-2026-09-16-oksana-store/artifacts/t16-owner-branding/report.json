@@ -1,0 +1,53 @@
+{
+  "task": "t16-owner-branding",
+  "branch": "feat/day16-owner-branding",
+  "pr": {
+    "number": 36,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/36"
+  },
+  "done": [
+    {
+      "item": "Добавлено поле tenant.metadata.branding (логотип светлый/тёмный, фавикон, og-картинка, основной цвет, короткое имя, подпись в подвале) и роуты GET/PUT /tenants/branding."
+    },
+    {
+      "item": "Сделан отдельный роут POST /tenants/branding/upload с allow-list по mime, лимитами размеров и защитой SVG от <script>/обработчиков событий."
+    },
+    {
+      "item": "Реализован расчёт WCAG-контраста; найдено, что порог 4.5:1 никогда не срабатывает (минимум по всей шкале серого — 4.608:1), поэтому порог предупреждения поднят до 7:1."
+    },
+    {
+      "item": "На витрине логотип показан во всех вариантах шапки (h1–h6), основной цвет — через CSS-переменные, фавикон и OG/Twitter-картинка отдаются по данным тенанта."
+    },
+    {
+      "item": "Найден и исправлен побочный баг в middleware.ts: динамический og-роут без точки в пути уходил в бессмысленный редирект на /en/opengraph-image."
+    },
+    {
+      "item": "В панели тенанта добавлена страница /settings/branding с загрузкой файлов, выбором цвета, предупреждением о контрасте и мини-предпросмотром шапки."
+    },
+    {
+      "item": "Написаны интеграционные тесты (10/10 прошли) и проведена ручная проверка через curl и скриншоты для разных тенантов, тем и размеров экрана."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #36 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/36"
+    },
+    {
+      "label": "Отчёт по задаче",
+      "path": "artifacts/docs/t16-owner-branding/report.md"
+    },
+    {
+      "label": "Отчёт приёмки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t16-owner-branding-1.report.md"
+    },
+    {
+      "label": "Скриншоты приёмки (t16test/acme, светлая/тёмная тема, разные экраны)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t16-owner-branding-1"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "В полном наборе test:integration:http падают 3 файла (tenants.spec.ts, tenants-domains.spec.ts, tenants-payment-settings.spec.ts) — не связаны с брендингом, вне периметра t16."
+  ]
+}

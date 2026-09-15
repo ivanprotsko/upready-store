@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 4,
+  "action": "status-set",
+  "ts": "2026-09-16T00:52:41+08:00",
+  "status": "2026-09-16 00:52 WITA: d06 — волна 5b (8 PR: b01–b09, r03) на живом mt-хосте, sha 25bc1ec2, 5/5 URL + 5/5 карточек 200; живьём появились 47 301-редиректов, 115 характеристик, 12 весов; находка: DRY_RUN=1 в backfill-product-attributes не включает холостой режим (сравнение с \"true\"); #64/#65/#66 смёржены посреди прогона и живьём их нет (d06-deploy-mt-6)"
+}

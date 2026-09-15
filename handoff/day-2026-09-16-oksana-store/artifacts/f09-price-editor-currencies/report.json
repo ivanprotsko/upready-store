@@ -1,0 +1,56 @@
+{
+  "task": "f09-price-editor-currencies",
+  "branch": "fix/day16-price-editor-currencies",
+  "pr": {
+    "number": 48,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/48"
+  },
+  "done": [
+    {
+      "item": "Экран «Редактировать цены» теперь открывается сразу на колонке «Цена, ₽»: 0 нажатий Tab и без горизонтальной прокрутки (было 96 Tab и прокрутка на 54000 px)."
+    },
+    {
+      "item": "В мастере создания товара добавлена колонка «Цена, ₽» сразу после «Заголовка» — раньше рублёвого поля в мастере не было вовсе."
+    },
+    {
+      "item": "Публикация товара без цены хотя бы в одной валюте теперь блокируется мастером с русским пояснением; сохранить черновик без цены по-прежнему можно."
+    },
+    {
+      "item": "Переключатель «Все валюты (359)» в шапке таблицы возвращает полный список — 118 валют и 241 регион, ничего из возможностей Admin не потеряно."
+    },
+    {
+      "item": "Проверено, что скрытая в узком виде валюта (например USD) не теряется при сохранении цены в рублях."
+    },
+    {
+      "item": "Путь от карточки товара до рублёвого поля сокращён до двух кликов."
+    },
+    {
+      "item": "Замеры «до/после» сняты на одном стенде с реальными данными магазина (клон БД cherkashina) и сверены с живым бэкендом shipshift.dev; сделаны скриншоты 1280×900 всех ключевых экранов."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #48 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/48"
+    },
+    {
+      "label": "Отчёт по задаче",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f09-price-editor-currencies/report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f09-price-editor-currencies-1.findings.md"
+    },
+    {
+      "label": "Скриншот: экран цен после правки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f09-price-editor-currencies/shots/s01-prices-shop-currency-1280x900.png"
+    },
+    {
+      "label": "Скриншот: шаг «Варианты» мастера создания",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/f09-price-editor-currencies/shots/s04-create-variants-step-1280x900.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал."
+  ]
+}

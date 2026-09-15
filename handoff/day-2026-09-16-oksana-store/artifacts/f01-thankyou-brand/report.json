@@ -1,0 +1,70 @@
+{
+  "task": "f01-thankyou-brand",
+  "branch": "fix/day16-thankyou-brand",
+  "pr": {
+    "number": 38,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/38"
+  },
+  "done": [
+    {
+      "item": "Найдена и замерена причина: серверный редирект после оплаты рендерится через внутренний self-fetch Next.js, чей Host не совпадает с адресом магазина, и страница теряет тенанта."
+    },
+    {
+      "item": "Добавлен модуль resolveShopOfRequest() с правилом Host/x-forwarded-host и 6 тестами.",
+      "links": [
+        "apps/storefront/src/lib/tenant/request-shop.ts",
+        "apps/storefront/src/lib/tenant/request-shop.test.ts"
+      ]
+    },
+    {
+      "item": "В origin.ts добавлены forwardedHost() и publicHost(), requestPort() берёт порт из публичного адреса; добавлено 11 тестов.",
+      "links": [
+        "apps/storefront/src/lib/tenant/origin.ts",
+        "apps/storefront/src/lib/tenant/origin.test.ts"
+      ]
+    },
+    {
+      "item": "middleware.ts переведён на resolveShopOfRequest: primaryHostRedirect и x-tenant-origin считаются от адреса, назвавшего магазин.",
+      "links": [
+        "apps/storefront/src/middleware.ts"
+      ]
+    },
+    {
+      "item": "Замерено на живом магазине cherkashino.shipshift.dev: после правки страница показывает шапку «ОКСАНА ЧЕРКАШИНА», data-mode=light, data-theme=supplements, без строки Free shipping over $120."
+    },
+    {
+      "item": "Сделаны контрольные скриншоты 1280x900 и 390x844 итогового результата на живом магазине."
+    },
+    {
+      "item": "PR прошёл tsc --noEmit, next lint и vitest (154 теста, 15 файлов) в чистом worktree приёмщика и смёржен в dev."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #38 (смёржен)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/38"
+    },
+    {
+      "label": "Отчёт исполнителя",
+      "path": "artifacts/docs/f01-thankyou-brand/report.md"
+    },
+    {
+      "label": "Журнал приёмки (findings)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f01-thankyou-brand-1.findings.md"
+    },
+    {
+      "label": "Скриншот 1280x900 (после правки)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/f01-thankyou-brand/fixed-order-confirmed-1280x900.png"
+    },
+    {
+      "label": "Скриншот 390x844 (после правки)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/f01-thankyou-brand/fixed-order-confirmed-390x844.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Подписная строка «создание интернет-магазина — upready» и e-mail тестового покупателя остаются в тексте страницы — это attribution тенанта, а не дефект, критерий «нет слова Upready» дословно невыполним.",
+    "После оплаты в консоли одна ошибка listTenantArticles — стоит и на чекауте до оплаты, к этому PR не относится.",
+    "Код ещё не задеплоен: живая витрина до выката продолжает показывать дефект, прогон на cherkashino.shipshift.dev нужно повторить после деплоя."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "task": "f13-page-editor-english",
+  "branch": "fix/day16-page-editor-english",
+  "pr": {
+    "number": 49,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/49"
+  },
+  "done": [
+    {
+      "item": "Переведена форма редактирования страницы owner-панели: подписи полей Title, Text, Published, In the footer, Search title, Search description — на русский."
+    },
+    {
+      "item": "Подсказки под полями Markdown переписаны по смыслу, а не дословно, — понятными владелице примерами разметки."
+    },
+    {
+      "item": "Кнопки Cancel и Save переведены как «Отмена» и «Сохранить», тост при сохранении — «Страница сохранена»."
+    },
+    {
+      "item": "Переведено сообщение валидации: у опубликованной страницы должен быть заголовок."
+    },
+    {
+      "item": "Typecheck и lint изменённого файла прошли без ошибок (0 ошибок, 0 новых warning)."
+    },
+    {
+      "item": "Приёмка Playwright на локальном стенде: на /pages/contacts и на своей странице /pages/f13-check в innerText формы найдено 0 английских слов из списка, сохранение формы отработало без ошибок."
+    },
+    {
+      "item": "PR #49 смержен в dev."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #49 (смержен)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/49"
+    },
+    {
+      "label": "Журнал приёмки f13",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f13-page-editor-english-1.findings.md"
+    },
+    {
+      "label": "Скриншот /pages/contacts",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-editor-english/artifacts/docs/f13-page-editor-english/contacts-1280x900.png"
+    },
+    {
+      "label": "Скриншот своей страницы /pages/f13-check",
+      "path": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-page-editor-english/artifacts/docs/f13-page-editor-english/custom-f13-check-1280x900.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Живая приёмка на panel-store.upready.dev не проводилась — деплой не заказывался, проверено на локальном стенде той же ветки.",
+    "Push коммита приёмки в origin/dev отложен: локальный dev разошёлся с origin (общий чекаут), сам PR #49 уже смержен на GitHub."
+  ]
+}

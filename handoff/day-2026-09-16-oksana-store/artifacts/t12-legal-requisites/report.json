@@ -1,0 +1,59 @@
+{
+  "task": "t12-legal-requisites",
+  "branch": "feat/day16-legal-requisites",
+  "pr": {
+    "number": 32,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/32"
+  },
+  "done": [
+    {
+      "item": "Добавлена модель tenant_requisites (15 полей под 16 плейсхолдеров + миграция Migration20260915063900), домен резолвится отдельно из хоста тенанта."
+    },
+    {
+      "item": "Резолвер tenant-legal/requisites.ts подставляет реквизиты в GET /store/tenant/pages/:key, незаполненный токен остаётся написанным буквально."
+    },
+    {
+      "item": "Экран панели /settings/requisites — форма реквизитов и список «Не заполнено» с человеческими метками и указанием, на какой странице токен используется."
+    },
+    {
+      "item": "Идемпотентный скрипт прайфилла prefill-cherkashino-requisites.ts засеял известные реквизиты тенанта cherkashino (3 прогона проверены)."
+    },
+    {
+      "item": "Закрыта находка приёмки: PUT /tenants/requisites теперь шлёт notifyStorefrontRevalidate, витрина обновляется сразу, а не спустя минуты."
+    },
+    {
+      "item": "Закрыта находка приёмки: незаполненные токены оборачиваются в бэктики, markdown больше не превращает подчёркивание в курсив."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #32 (смержен)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/32"
+    },
+    {
+      "label": "Журнал приёмки, раунд 3 (MERGED)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t12-legal-requisites-3.findings.md"
+    },
+    {
+      "label": "Скриншот: оферта до подстановки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/t12-legal-requisites/01-offer-before.png"
+    },
+    {
+      "label": "Скриншот: оферта после подстановки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/t12-legal-requisites/02-offer-after.png"
+    },
+    {
+      "label": "Скриншот: экран панели «Реквизиты»",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/t12-legal-requisites/03-panel-requisites.png"
+    },
+    {
+      "label": "Скриншот: витрина сразу после сохранения в панели",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/t12-legal-requisites/07-offer-live-immediate-after-panel-save.png"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Нит: бэктики протекают в meta description и og:description страницы — там токен виден с голым бэктиком.",
+    "Нит: резолвер подставляет реквизиты только в тело страницы, токен в title остаётся буквальным."
+  ]
+}

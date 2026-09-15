@@ -1,0 +1,66 @@
+{
+  "task": "t04-shipping-tariffs",
+  "branch": "feat/day16-shipping-tariffs",
+  "pr": {
+    "number": 25,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/25"
+  },
+  "done": [
+    {
+      "item": "Реализована модель тарифов доставки тенанта поверх Medusa shipping_option: тариф flat/per_kg/free_above, зона по стране и регионам РФ хранятся в data по схеме upready.shipping-method/v1."
+    },
+    {
+      "item": "Новый fulfillment-провайдер tariff_tariff считает цену по весу корзины и региону; витрина получает цену и пояснение формулы через POST /store/shipping-methods/quote."
+    },
+    {
+      "item": "Добавлен API панели /tenants/shipping-methods (CRUD, reorder, settings, regions) со скоупом строго по складу тенанта, чужой id = 404."
+    },
+    {
+      "item": "В панели тенанта появился экран «Доставка»: таблица способов с порядком показа, создание/правка в модалке (название, зона, тариф), вес товара по умолчанию."
+    },
+    {
+      "item": "В чекауте карточки способов доставки показывают цену и пояснение по формуле; для стран со списком регионов (RU) добавлен выбор региона при ручном вводе адреса."
+    },
+    {
+      "item": "В форму отгрузки добавлено поле «Перевозчик»; перевозчик и трек-номер видны покупателю в кабинете заказа и в письме об отгрузке."
+    },
+    {
+      "item": "Дефолтные способы доставки при провижининге тенанта получают человекочитаемые названия; скриптом rename-default-shipping-methods.ts переименованы 22 опции у 15 существующих тенантов."
+    },
+    {
+      "item": "Попутно исправлен баг: заказ без shipping_profile_id терял вес корзины при расчёте доставки (считало 0 кг вместо 2,4 кг)."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #25 (merged)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/25"
+    },
+    {
+      "label": "Отчёт по задаче",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t04-shipping-tariffs/report.md"
+    },
+    {
+      "label": "Отчёт приёмки",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t04-shipping-tariffs-1/REPORT.md"
+    },
+    {
+      "label": "Скриншот: экран «Доставка» в панели",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t04-shipping-tariffs-1/01-panel-shipping.png"
+    },
+    {
+      "label": "Скриншот: доставка в чекауте",
+      "path": "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t04-shipping-tariffs-1/03-checkout-shipping.png"
+    },
+    {
+      "label": "Журнал приёмки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t04-shipping-tariffs-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Открыто: мультивалютные плоские цены и списки регионов для не-RU стран не реализованы; письмо об отгрузке не проверено вживую (SMTP на стенде нет).",
+    "Переименование дефолтных способов на живом хосте — отдельным шагом после деплоя (npx medusa exec ./src/scripts/rename-default-shipping-methods.ts).",
+    "pnpm test:unit бэкенда: 1 из 72 тестов падает (profile-data.unit.spec.ts), воспроизводится и на dev — не из-за этой ветки."
+  ]
+}

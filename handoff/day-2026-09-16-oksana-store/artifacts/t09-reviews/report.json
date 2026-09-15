@@ -1,0 +1,67 @@
+{
+  "task": "t09-reviews",
+  "branch": "feat/day16-reviews",
+  "pr": {
+    "number": 30,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/30"
+  },
+  "done": [
+    {
+      "item": "Бэкенд-модуль product_review: модель, сервис, миграция, статусы pending/published/hidden, уникальный индекс по source_key для идемпотентного импорта."
+    },
+    {
+      "item": "Эндпоинты GET/POST /tenants/reviews (панель, с фильтрами и пагинацией) и GET/POST /store/tenant/reviews (витрина, POST только для авторизованного покупателя)."
+    },
+    {
+      "item": "Витрина: блок отзывов на карточке товара, средняя оценка и число отзывов, aggregateRating в JSON-LD, переводы ключа ProductReviews добавлены во всех 36 каталогов messages/."
+    },
+    {
+      "item": "Панель владельца: раздел «Отзывы» — публикация, скрытие, возврат на проверку, ответ магазина, удаление, фильтры по статусу и товару."
+    },
+    {
+      "item": "Скрипт импорта отзывов Оксаны из старого магазина: 166 отзывов (304 строки ru+en), идемпотентен, повторный прогон пишет 0 новых строк, 14 неcопоставленных отзывов и отзывы с оценкой вне 1–5 выведены поимённо."
+    },
+    {
+      "item": "Живая приёмка на стенде: 11/11 проверок модерации (отзыв покупателя скрыт до публикации, средняя и счётчик пересчитываются после публикации)."
+    },
+    {
+      "item": "PR смёржен после двух раундов разрешения конфликтов с dev (HANDOFF.json и apps/storefront/src/app/api/revalidate/route.ts — оставлены оба независимых if-блока)."
+    }
+  ],
+  "results": [
+    {
+      "label": "Pull request #30 (MERGED)",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/30"
+    },
+    {
+      "label": "Отчёт по приёмочному сценарию (README + acceptance.mjs)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t09-reviews/README.md"
+    },
+    {
+      "label": "Приёмочный скрипт (живой прогон на стенде)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/t09-reviews/acceptance.mjs"
+    },
+    {
+      "label": "Находки приёмки, раунд 4 — MERGED",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t09-reviews-4.findings.md"
+    },
+    {
+      "label": "Скриншот: страница товара после публикации отзыва",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-t09-reviews-4/07-pdp-after.png"
+    }
+  ],
+  "access": [
+    {
+      "url": "http://localhost:5209",
+      "login": "owner-cherkashino@example.test",
+      "password": "supersecret1",
+      "note": "Панель владельца тестового стенда t09-reviews (раздел «Отзывы»)"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Не закрыто: сьюта integration-tests/http/tenants-reviews.spec.ts на новые роуты и 1 упавший тест в pnpm test:unit.",
+    "Открыт вопрос владелице: 3 отзыва с оценкой вне диапазона 1–5 (500, 6, 6) и один без названия товара; 14 отзывов не сопоставлены с товаром.",
+    "Решение отложено: links/tenant-product-review.ts, упомянутое в комментарии к PR."
+  ]
+}

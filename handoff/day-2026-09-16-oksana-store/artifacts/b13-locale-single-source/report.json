@@ -1,0 +1,36 @@
+{
+  "task": "b13-locale-single-source",
+  "branch": "fix/day16-locale-single-source",
+  "pr": { "number": 65, "url": "https://github.com/ivanprotsko/upready-store/pull/65" },
+  "done": [
+    {
+      "item": "Каталог из 36 локалей больше не может молча разойтись между тремя приложениями: скрипт-сверка красит CI, если один из трёх файлов отстаёт от остальных.",
+      "links": ["scripts/check-locale-catalogs.mjs"]
+    },
+    {
+      "item": "Имена способов доставки по умолчанию (Самовывоз/Курьером) теперь следуют за языком, который владелец сохранил на экране «Язык и валюта», а не за общей переменной сборки — проверено на двух тенантах с разными языками.",
+      "links": [
+        "apps/backend/src/shipping-tariffs/relocalize-default-methods.ts",
+        "apps/backend/src/api/tenants/locale-settings/route.ts"
+      ]
+    },
+    {
+      "item": "Экран «Язык и валюта» показывает реальную форму в сером (недоступном) виде, пока грузятся настройки, вместо серой заглушки-скелетона.",
+      "links": ["apps/tenant-panel/src/routes/settings/locale/locale.tsx"]
+    },
+    {
+      "item": "В README бэкенда записана нестандартная форма флага dry-run (без дефиса) у скриптов бэкфилла/импорта.",
+      "links": ["apps/backend/README.md"]
+    }
+  ],
+  "results": [
+    { "label": "Pull request", "url": "https://github.com/ivanprotsko/upready-store/pull/65" },
+    { "label": "Отчёт с командами и прогонами", "path": "artifacts/docs/b13-locale-single-source/report.md" },
+    { "label": "Скриншот экрана «Язык и валюта» до ответа сервера (1280×900)", "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/artifacts/docs/b13-locale-single-source/locale-settings-loading-1280x900.png" },
+    { "label": "Имена доставки двух тенантов с разными языками (GET /store/shipping-options)", "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-locale-single-source/artifacts/docs/b13-locale-single-source/fixture-run.log" }
+  ],
+  "notes": [
+    "Не в этой пачке: локаль СОВСЕМ нового тенанта до первого сохранения экрана «Язык и валюта» берётся из STOREFRONT_DEFAULT_LOCALE. Разрыв закрывается первым сохранением; регистрация — отдельная задача.",
+    "Каталог локалей остался тремя файлами (тест-сверка вместо общего пакета) — выбор объяснён в отчёте; @upready/* пакет тянет сборочную обвязку во всех трёх приложениях."
+  ]
+}

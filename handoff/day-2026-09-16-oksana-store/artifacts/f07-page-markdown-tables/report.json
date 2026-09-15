@@ -1,0 +1,63 @@
+{
+  "task": "f07-page-markdown-tables",
+  "branch": "fix/day16-page-markdown",
+  "pr": {
+    "number": 43,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/43"
+  },
+  "done": [
+    {
+      "item": "В собственном markdown-парсере витрины (markdown.ts) добавлен разбор GFM-таблиц: строки таблицы больше не склеиваются в сырой текст с | и |---|."
+    },
+    {
+      "item": "Исправлено правило эмфазы _..._ и __..__ — теперь требуется словесная граница, и подчёркивания внутри токенов вроде {{ЮР_АДРЕС}} и {{ФИО_ИП}} больше не спариваются в курсив."
+    },
+    {
+      "item": "Таблица рендерится настоящей разметкой table/thead/tbody в markdown-content/index.tsx, в стиле токенов @medusajs/ui."
+    },
+    {
+      "item": "Добавлено 6 новых тестов в markdown.test.ts, весь файл проходит: 11 из 11 (vitest)."
+    },
+    {
+      "item": "Проверки tsc --noEmit, next lint и next build пройдены без новых ошибок (одна предсуществующая TS2739 не связана с задачей)."
+    },
+    {
+      "item": "Живым измерением в Chromium (Playwright) поверх next dev подтверждено: в innerText нет | и |---|, отрисованы 2 таблицы и 2 hr, на 390px нет горизонтального скролла."
+    },
+    {
+      "item": "PR #43 смержен 2026-09-15, приёмка раунда 1 — вердикт MERGED, находок-блокеров нет."
+    }
+  ],
+  "results": [
+    {
+      "label": "PR #43",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/43"
+    },
+    {
+      "label": "Отчёт воркера",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/f07-page-markdown-tables/report.md"
+    },
+    {
+      "label": "Скриншот 1280x900 (contacts)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/f07-page-markdown-tables/contacts-1280x900.png"
+    },
+    {
+      "label": "Скриншот 390x844 (contacts)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/f07-page-markdown-tables/contacts-390x844.png"
+    },
+    {
+      "label": "Отчёт приёмки (замеры, артефакты)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-f07-page-markdown-tables-1/REPORT.md"
+    },
+    {
+      "label": "Находки приёмки",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-f07-page-markdown-tables-1.findings.md"
+    }
+  ],
+  "notes": [
+    "Составлен штабом задним числом (sonnet) по PR и журналу приёмки; воркер задачи отчёта не писал.",
+    "Комментарий над TABLE_SEPARATOR в коде неточен: регэксп матчит и голый ---, коллизии с <hr> нет только из-за порядка веток в parseMarkdown.",
+    "Таблица без заголовка рисует пустую полосу thead (видно на contacts-1280x900.png).",
+    "/ru/pages/offer и /ru/pages/privacy не проверены отдельным живым замером — только экстраполяция по тому же компоненту и коду."
+  ]
+}

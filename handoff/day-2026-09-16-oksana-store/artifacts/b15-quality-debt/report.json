@@ -1,0 +1,81 @@
+{
+  "task": "b15-quality-debt",
+  "branch": "fix/day16-quality-debt",
+  "pr": {
+    "number": 68,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/68"
+  },
+  "done": [
+    {
+      "item": "Юнит-сюит бэкенда снова зелёный: 306 passed, 0 failed (был 1 failed). Падал не тест, а код — загрузчик сид-локалей нормализовал группы переводов только когда выбран профиль магазина.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/unit.log"
+      ]
+    },
+    {
+      "item": "Два теста изоляции складов переписаны на проверку по опциям своего склада: после переименования способов доставки их имена одинаковы у всех магазинов и зависят от языка стенда, то есть изоляцию доказать не могут.",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/68/files"
+      ]
+    },
+    {
+      "item": "Тест доменов обновлён под поле is_primary, которое панель получает из задачи адресов.",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/68/files"
+      ]
+    },
+    {
+      "item": "Написан HTTP-сюит на отзывы: модерация от pending до публикации и ответа, 401 без токена владельца, 401 анонима на публичную форму, изоляция двух магазинов по одному товару.",
+      "links": [
+        "https://github.com/ivanprotsko/upready-store/pull/68/files"
+      ]
+    },
+    {
+      "item": "Снапшот модуля tenant проверен замером и оказался уже догнанным на dev: db:generate не создаёт новой миграции, а схема живой базы сходится со снапшотом по всем 16 таблицам. Кода менять не потребовалось.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/db-generate-tenant.log"
+      ]
+    },
+    {
+      "item": "По ходу найдены и починены ещё три причины красноты: незадокументированная переменная STORE_PROFILES_MEDIA_BASE_URL, адрес корзины без региона в двух спеках (заказ не завершался) и рейс в тесте уведомлений.",
+      "links": [
+        "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/report.md"
+      ]
+    },
+    {
+      "item": "Все 25 HTTP-спек прогнаны и зелёные: 93 + 89 + 50 = 232 passed, 0 failed (тремя пачками — в один процесс сюит умирает на нехватке heap).",
+      "links": [
+        "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/integration-http-batch1.extract.log"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "PR 68 — вся пачка одним PR",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/68"
+    },
+    {
+      "label": "Отчёт: причина каждого падения и все замеры",
+      "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/report.md"
+    },
+    {
+      "label": "Юнит-сюит после правок (306 passed)",
+      "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/unit.log"
+    },
+    {
+      "label": "HTTP-сюит, три пачки, ни одного FAIL",
+      "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/",
+      "note": "integration-http-batch1/2/3.log и их выжимки .extract.log"
+    },
+    {
+      "label": "Снапшот tenant: db:generate без новых миграций + сверка со схемой базы",
+      "path": "file:///Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-quality-debt/artifacts/docs/b15-quality-debt/db-columns-tenant.txt"
+    }
+  ],
+  "notes": [
+    "Стенда с экраном здесь нет: задача целиком про тесты и снапшот, смотреть надо прогоны и PR.",
+    "Нитка для диспетчера: pnpm test:integration:http в один процесс умирает на heap (--runInBand держит все 25 загрузок приложения). Лечится --max-old-space-size в скрипте пакета или прогоном пачками; общий скрипт я не менял.",
+    "Хвостовые файлы длинного прогона падают по таймауту beforeAll и выглядят дефектами: tenant-branding был именно таким, в изоляции зелёный целиком. Проверять в изоляции прежде, чем называть красным.",
+    "Долг t12 про снапшот tenant закрыт замером, а не правкой: на dev он уже догнан. Строку про него в списке долгов можно снимать."
+  ]
+}

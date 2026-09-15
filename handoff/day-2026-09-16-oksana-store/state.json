@@ -1,11 +1,11 @@
 {
   "dispatcher": {
     "paused": false,
-    "limitUntil": null,
+    "limitUntil": "2026-09-15T18:56:26.391Z",
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-15T16:07:16.053Z",
+    "lastTick": "2026-09-15T18:41:22.727Z",
     "pid": 21558,
-    "ticks": 1465,
+    "ticks": 1560,
     "allTerminalTicks": 0
   },
   "tasks": {
@@ -2401,13 +2401,16 @@
       "closedAt": "2026-09-15T16:06:33.490Z"
     },
     "b06-order-tracking": {
-      "status": "accepting",
+      "status": "merged",
       "attempt": 2,
       "artifacts": [
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/01-vitest-order-status-tracking.log",
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/02-jest-emails-tracking.log",
         "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-1/03-handoff-three-way-merge-conflict.json",
-        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.findings.md"
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-1.findings.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-2/01-vitest-order-status-tracking.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-2/02-jest-emails-tracking.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-b06-order-tracking-2/03-vitest-full-suite.log"
       ],
       "ws": "69a9aa49-1a1a-4659-9367-bd5ef01f1d57",
       "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-order-tracking",
@@ -2423,8 +2426,8 @@
       "pr": {
         "number": 62,
         "url": "https://github.com/ivanprotsko/upready-store/pull/62",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T16:08:19Z",
         "isDraft": false
       },
       "prOpenedAt": "2026-09-15T16:02:17.375Z",
@@ -2447,11 +2450,15 @@
           "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b06-order-tracking-2.findings.md",
           "startedAt": "2026-09-15T16:06:29.079Z",
           "session": "dbb26141-94f9-4a03-a344-91ff43b11523",
-          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store"
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "MERGED"
         }
       ],
       "fixStartedAt": "2026-09-15T16:01:19.840Z",
-      "fixRelaunched": false
+      "fixRelaunched": false,
+      "finishedAt": "2026-09-15T17:07:23.679Z",
+      "closedAt": "2026-09-15T17:07:25.003Z"
     },
     "c01-wave5-composer": {
       "status": "done",
@@ -2502,9 +2509,34 @@
       "note": "RESULT: OK деплой 1088507f (#50 f12 + #55 f18) — 5/5 URL + 5/5 карточек 200, бэкенд healthy с первого раза, дампы до/после сняты; находка: rsync без --delete не убирает файл, перенесённый f18 — три фи"
     },
     "d06-deploy-mt-6": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "done",
+      "attempt": 1,
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/report.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/report.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/markers.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/tenant-redirects.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/health-pre.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/health-final.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/backend-boot.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/build-tail.txt",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/merged-prs.json",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/rsync-stale-dryrun.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d06-deploy-mt-6/stale-on-host.txt"
+      ],
+      "run": {
+        "pid": 55577,
+        "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/d06-deploy-mt-6-1.log",
+        "startedAt": "2026-09-15T17:07:31.556Z",
+        "session": "a31d45d4-5a13-46dc-8475-0a2492e22696",
+        "sessionPool": "run:deploy@/Users/ivanprotsko/upready/projects/upready-store",
+        "sessionReleased": true
+      },
+      "startedAt": "2026-09-15T17:07:31.556Z",
+      "error": null,
+      "force": false,
+      "finishedAt": "2026-09-15T17:15:25.772Z",
+      "note": "RESULT: OK деплой 25bc1ec2 (8 PR волны 5b) — 5/5 URL + 5/5 карточек 200, бэкенд healthy с первого раза; живьём появились 47 301-редиректов, 115 характеристик и 12 весов; находка: DRY_RUN=1 в backfill-"
     },
     "b05-reviews-import-live": {
       "status": "done",
@@ -2578,9 +2610,11 @@
       "closedAt": "2026-09-15T15:49:49.969Z"
     },
     "b08-seo-storefront": {
-      "status": "queued",
+      "status": "failed",
       "attempt": 0,
-      "artifacts": []
+      "artifacts": [],
+      "error": "ветка fix/day16-seo-storefront уже несёт PR #69 (OPEN) — переименуй branch в tasks.json и retry",
+      "force": false
     },
     "b09-storefront-render": {
       "status": "merged",
@@ -2628,12 +2662,23 @@
       "closedAt": "2026-09-15T15:45:51.291Z"
     },
     "b10-panel-gaps": {
-      "status": "queued",
-      "attempt": 0,
-      "artifacts": []
+      "status": "running",
+      "attempt": 1,
+      "artifacts": [],
+      "ws": "2f9a24c5-9f52-4839-a8a9-7b2b2f4bc42f",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-panel-gaps",
+      "terminalId": "28d3158b-ed7a-4b1f-9bce-5bc40e1dbfad",
+      "launchedAt": "2026-09-15T17:08:30.805Z",
+      "startedAt": "2026-09-15T17:08:30.805Z",
+      "nudges": 0,
+      "relaunched": false,
+      "error": null,
+      "force": false,
+      "lastScreen": "esets Sep 21 at 11am (Asia/Makassar)\n\n✻ Cooked for 6m 1s · done 1:14 AM                                               \n                                                                                                                                                 new task? /clear to save 183.9k tokens\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-panel-gaps (feat/day16-panel-gaps) | Opus 5 | ctx 82%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-15T18:41:26.391Z"
     },
     "b11-owner-labels": {
-      "status": "pr_open",
+      "status": "merged",
       "attempt": 1,
       "artifacts": [],
       "ws": "6f8efc2a-acec-46ce-9793-17e8dfa6b7bd",
@@ -2650,14 +2695,16 @@
       "pr": {
         "number": 64,
         "url": "https://github.com/ivanprotsko/upready-store/pull/64",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T16:32:56Z",
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T16:04:20.835Z"
+      "prOpenedAt": "2026-09-15T16:04:20.835Z",
+      "finishedAt": "2026-09-15T17:07:25.643Z",
+      "closedAt": "2026-09-15T17:07:26.307Z"
     },
     "b12-analytics-accuracy": {
-      "status": "running",
+      "status": "merged",
       "attempt": 1,
       "artifacts": [],
       "ws": "411cb06c-564f-484e-a9c2-c718c622b97a",
@@ -2670,10 +2717,19 @@
       "error": null,
       "force": false,
       "lastScreen": " ⎿  $ command sleep 100; echo \"=== backend tsc ===\"; tail -4 /tmp/claude-502-b12-tsc2.log; echo \"=== panel tsc ===\"; \n     tail -3 /tmp/claude-502-b12-tscpanel2.log; echo \"=== unit ===\"; tail -7 /tmp/claude-502-b12-unit2.log (1m 24s)\n     \n⏺ Background command \"Verify HANDOFF clean and re-run checks after merge\" completed (exit code 0)\n     (ctrl+b to run in background)\n\n✳ Quantumizing… (30m 20s · ↓ 88.6k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-analytics-accuracy (fix/day16-analytics-accuracy) | Opus 5 | ctx 72%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T16:07:21.260Z"
+      "lastScreenAt": "2026-09-15T16:07:21.260Z",
+      "pr": {
+        "number": 66,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/66",
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T16:38:50Z",
+        "isDraft": false
+      },
+      "finishedAt": "2026-09-15T17:07:26.959Z",
+      "closedAt": "2026-09-15T17:07:27.866Z"
     },
     "b13-locale-single-source": {
-      "status": "pr_open",
+      "status": "merged",
       "attempt": 1,
       "artifacts": [],
       "ws": "5adf5974-e0ab-4afd-8228-42dd58f8f5a4",
@@ -2690,19 +2746,23 @@
       "pr": {
         "number": 65,
         "url": "https://github.com/ivanprotsko/upready-store/pull/65",
-        "state": "OPEN",
-        "mergedAt": null,
+        "state": "MERGED",
+        "mergedAt": "2026-09-15T16:39:55Z",
         "isDraft": false
       },
-      "prOpenedAt": "2026-09-15T16:05:22.897Z"
+      "prOpenedAt": "2026-09-15T16:05:22.897Z",
+      "finishedAt": "2026-09-15T17:07:28.532Z",
+      "closedAt": "2026-09-15T17:07:30.323Z"
     },
     "b14-pages-legal-content": {
-      "status": "queued",
+      "status": "failed",
       "attempt": 0,
-      "artifacts": []
+      "artifacts": [],
+      "error": "ветка feat/day16-pages-legal-content уже несёт PR #67 (MERGED) — переименуй branch в tasks.json и retry",
+      "force": false
     },
     "b15-quality-debt": {
-      "status": "running",
+      "status": "pr_open",
       "attempt": 1,
       "artifacts": [],
       "ws": "79a7db4f-0732-45af-ab1d-8e628b711d7f",
@@ -2715,7 +2775,28 @@
       "error": null,
       "force": false,
       "lastScreen": " по снапшоту: db:migrate → build → db:generate tenant.\n\n  Medusa build · 6s\n  ⎿  $ S=/tmp/claude-502/-Users-ivanprotsko-upready-worktrees-b29f7dd2-d35c-442d-9636-3c55da1eccf7-fix-day16-quality-deb\n     t/e07683c0-653d-4992-9352-afe57bebfb93/scratchpad; npx medusa build > $S/build.log 2>&1; echo \"build rc=$?\"; tail \n     -4 $S/build.log (6s)\n     (ctrl+b to run in background)\n\n· Moonwalking… (12m 22s · ↓ 39.3k tokens)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day16-quality-debt/backend (fix/day16-quality-debt) | Opus 5 | ctx 81%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-15T16:07:25.509Z"
+      "lastScreenAt": "2026-09-15T16:07:25.509Z",
+      "pr": {
+        "number": 68,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/68",
+        "state": "OPEN",
+        "mergedAt": null,
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-15T17:07:30.962Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 55568,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b15-quality-debt-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-b15-quality-debt-1.findings.md",
+          "startedAt": "2026-09-15T17:07:31.499Z",
+          "session": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "sessionReleased": true,
+          "verdict": "NONE"
+        }
+      ]
     },
     "b16-media-and-backup": {
       "status": "blocked",
@@ -2725,534 +2806,6 @@
     }
   },
   "events": [
-    {
-      "ts": "2026-09-14T19:22:07.358Z",
-      "type": "command",
-      "task": null,
-      "msg": "resume"
-    },
-    {
-      "ts": "2026-09-14T19:22:11.999Z",
-      "task": "t01-checkout-thankyou",
-      "type": "launched",
-      "msg": "ws 5f41644b-3e57-427b-bafb-85eecb69d2ad · opus/high · feat/day16-checkout-thankyou"
-    },
-    {
-      "ts": "2026-09-14T19:22:16.131Z",
-      "task": "t02-cherkashina-port",
-      "type": "launched",
-      "msg": "ws 98c0e269-d6a3-45fe-bbf9-cb21df4878a7 · opus/high · feat/day16-cherkashina-port"
-    },
-    {
-      "ts": "2026-09-14T19:22:20.604Z",
-      "task": "t03-tenant-secrets-robokassa",
-      "type": "launched",
-      "msg": "ws f254ff9b-cc39-42da-ab01-7dc81f213444 · fable/high · feat/day16-tenant-secrets-psp"
-    },
-    {
-      "ts": "2026-09-14T19:22:20.607Z",
-      "task": "r01-gap-matrix",
-      "type": "launched",
-      "msg": "claude -p pid 54700 · sonnet/medium · cwd /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store"
-    },
-    {
-      "ts": "2026-09-14T19:22:20.609Z",
-      "task": "d01-deploy-mt-1",
-      "type": "launched",
-      "msg": "claude -p pid 54701 · sonnet/medium · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T19:32:04.754Z",
-      "task": "r01-gap-matrix",
-      "type": "done",
-      "msg": "RESULT: OK 169 функций: 11 есть, 33 частично, 106 нет, 19 не применимо; критичных без задачи дня: 2 (онлайн-кассы, авторизация через Яндекс ID)"
-    },
-    {
-      "ts": "2026-09-14T19:32:04.756Z",
-      "task": "x03-orders-archive",
-      "type": "launched",
-      "msg": "claude -p pid 32550 · opus/medium · cwd /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store"
-    },
-    {
-      "ts": "2026-09-14T19:41:02.048Z",
-      "task": "t02-cherkashina-port",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/21"
-    },
-    {
-      "ts": "2026-09-14T19:41:25.297Z",
-      "task": "x03-orders-archive",
-      "type": "run-retry",
-      "msg": "нет строки RESULT в логе"
-    },
-    {
-      "ts": "2026-09-14T19:41:25.837Z",
-      "task": "x03-orders-archive",
-      "type": "launched",
-      "msg": "claude -p pid 3399 · opus/medium · cwd /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store"
-    },
-    {
-      "ts": "2026-09-14T19:43:09.570Z",
-      "task": "d01-deploy-mt-1",
-      "type": "done",
-      "msg": "RESULT: OK deploy bd4ced7 — 4/4 health checks 200"
-    },
-    {
-      "ts": "2026-09-14T19:44:25.612Z",
-      "task": "t02-cherkashina-port",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #21, pid 29783"
-    },
-    {
-      "ts": "2026-09-14T19:44:30.964Z",
-      "task": "t04-shipping-tariffs",
-      "type": "launched",
-      "msg": "ws 2a730645-009b-4218-81bc-7588686c0aa1 · fable/high · feat/day16-shipping-tariffs"
-    },
-    {
-      "ts": "2026-09-14T19:50:02.262Z",
-      "task": "t02-cherkashina-port",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/21 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T19:54:27.051Z",
-      "task": "x03-orders-archive",
-      "type": "failed",
-      "msg": "нет строки RESULT в логе"
-    },
-    {
-      "ts": "2026-09-14T19:54:27.058Z",
-      "task": "x01-tenant-live-import",
-      "type": "launched",
-      "msg": "claude -p pid 9191 · opus/medium · cwd /Users/ivanprotsko/upready/worktrees/upready-store/feat/cherkashina-tenant"
-    },
-    {
-      "ts": "2026-09-14T20:00:21.872Z",
-      "task": "t01-checkout-thankyou",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/22"
-    },
-    {
-      "ts": "2026-09-14T20:04:04.684Z",
-      "task": "t01-checkout-thankyou",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #22, pid 98305"
-    },
-    {
-      "ts": "2026-09-14T20:04:10.593Z",
-      "task": "t05-page-keys",
-      "type": "launched",
-      "msg": "ws 5be5822c-d8e3-4e25-8031-bdd16bb59d12 · sonnet/medium · feat/day16-page-keys"
-    },
-    {
-      "ts": "2026-09-14T20:08:59.483Z",
-      "task": "t03-tenant-secrets-robokassa",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/23"
-    },
-    {
-      "ts": "2026-09-14T20:10:59.649Z",
-      "task": "t01-checkout-thankyou",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/22 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T20:13:58.824Z",
-      "type": "command",
-      "task": "x03-orders-archive",
-      "msg": "mark-done"
-    },
-    {
-      "ts": "2026-09-14T20:15:23.840Z",
-      "task": "t03-tenant-secrets-robokassa",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #23, pid 14655"
-    },
-    {
-      "ts": "2026-09-14T20:15:32.081Z",
-      "task": "t06-locale-currency",
-      "type": "launched",
-      "msg": "ws ae49892c-aaa7-4b19-b4f0-505f27941f48 · sonnet/medium · feat/day16-locale-currency"
-    },
-    {
-      "ts": "2026-09-14T20:24:06.231Z",
-      "task": "x01-tenant-live-import",
-      "type": "run-retry",
-      "msg": "нет строки RESULT в логе"
-    },
-    {
-      "ts": "2026-09-14T20:24:06.237Z",
-      "task": "x01-tenant-live-import",
-      "type": "launched",
-      "msg": "claude -p pid 9082 · opus/medium · cwd /Users/ivanprotsko/upready/worktrees/upready-store/feat/cherkashina-tenant"
-    },
-    {
-      "ts": "2026-09-14T20:27:21.580Z",
-      "task": "t03-tenant-secrets-robokassa",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/23 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T20:32:09.093Z",
-      "task": "x01-tenant-live-import",
-      "type": "done",
-      "msg": "RESULT: OK cherkashino.shipshift.dev — 29 опубликованных товаров (9 черновиков), 9 категорий, 320/320 картинок 200, реестр failed=0; русские страницы ждут волны деплоя 2 (фикс 8b8b482 не задеплоен, да"
-    },
-    {
-      "ts": "2026-09-14T20:32:09.109Z",
-      "task": "x02-domains",
-      "type": "launched",
-      "msg": "claude -p pid 86925 · opus/medium · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T20:44:02.681Z",
-      "task": "t05-page-keys",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/24"
-    },
-    {
-      "ts": "2026-09-14T20:44:25.310Z",
-      "task": "x02-domains",
-      "type": "done",
-      "msg": "RESULT: OK 4 хоста зарегистрированы на тенанте и в ingress, маршрут проверен в обход DNS; DNS не менял — доступа к зонам reg.ru нет, нужна инструкция (domain-instruction.md); punycode в брифе был чужи"
-    },
-    {
-      "ts": "2026-09-14T20:48:21.440Z",
-      "task": "t04-shipping-tariffs",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/25"
-    },
-    {
-      "ts": "2026-09-14T20:48:25.598Z",
-      "task": "t05-page-keys",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #24, pid 98154"
-    },
-    {
-      "ts": "2026-09-14T20:48:29.123Z",
-      "task": "t07-catalog-filters-hero",
-      "type": "launched",
-      "msg": "ws 14e88715-a886-43e5-a9f9-d1934623f0fc · sonnet/medium · feat/day16-catalog-filters-hero"
-    },
-    {
-      "ts": "2026-09-14T20:52:04.411Z",
-      "task": "t04-shipping-tariffs",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #25, pid 41999"
-    },
-    {
-      "ts": "2026-09-14T20:52:10.065Z",
-      "task": "t08-order-notifications",
-      "type": "launched",
-      "msg": "ws 790236cc-9ddd-4bc5-9785-4a26896570ba · opus/high · feat/day16-order-notifications"
-    },
-    {
-      "ts": "2026-09-14T21:01:59.813Z",
-      "task": "t05-page-keys",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/24 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T21:02:21.717Z",
-      "task": "t04-shipping-tariffs",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/25 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T21:06:00.240Z",
-      "task": "t06-locale-currency",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/26"
-    },
-    {
-      "ts": "2026-09-14T21:08:05.179Z",
-      "task": "t06-locale-currency",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #26, pid 89448"
-    },
-    {
-      "ts": "2026-09-14T21:08:10.502Z",
-      "task": "t09-reviews",
-      "type": "launched",
-      "msg": "ws 6d416a75-9021-4a79-b8ac-cd96104394d7 · opus/high · feat/day16-reviews"
-    },
-    {
-      "ts": "2026-09-14T21:11:21.742Z",
-      "task": "t06-locale-currency",
-      "type": "rejected",
-      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t06-locale-currency-1.findings.md"
-    },
-    {
-      "ts": "2026-09-14T21:11:23.031Z",
-      "task": "t06-locale-currency",
-      "type": "fix-sent",
-      "msg": "в живой терминал 6d73d09b-7a33-4770-81c4-7ede3f71b12b"
-    },
-    {
-      "ts": "2026-09-14T21:11:59.876Z",
-      "task": "t06-locale-currency",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/26"
-    },
-    {
-      "ts": "2026-09-14T21:12:07.524Z",
-      "task": "t06-locale-currency",
-      "type": "accept-started",
-      "msg": "раунд 2, PR #26, pid 33477"
-    },
-    {
-      "ts": "2026-09-14T21:22:59.878Z",
-      "task": "t07-catalog-filters-hero",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/27"
-    },
-    {
-      "ts": "2026-09-14T21:27:04.453Z",
-      "task": "t07-catalog-filters-hero",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #27, pid 68374"
-    },
-    {
-      "ts": "2026-09-14T21:27:11.206Z",
-      "task": "t10-blog",
-      "type": "launched",
-      "msg": "ws aafcfae3-28a9-45c4-9a04-b583d3b5fd21 · opus/high · feat/day16-blog"
-    },
-    {
-      "ts": "2026-09-14T21:35:21.658Z",
-      "task": "t07-catalog-filters-hero",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/27 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T21:46:00.071Z",
-      "task": "t06-locale-currency",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/26 (приёмка раунд 2)"
-    },
-    {
-      "ts": "2026-09-14T21:46:06.684Z",
-      "task": "d02-deploy-mt-2",
-      "type": "launched",
-      "msg": "claude -p pid 23443 · sonnet/medium · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T21:47:00.036Z",
-      "task": "t08-order-notifications",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/28"
-    },
-    {
-      "ts": "2026-09-14T21:50:26.416Z",
-      "task": "t08-order-notifications",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #28, pid 59309"
-    },
-    {
-      "ts": "2026-09-14T21:50:31.519Z",
-      "task": "t11-seo-redirects",
-      "type": "launched",
-      "msg": "ws 2096eb5d-62cf-4419-adef-b92bb8fda868 · sonnet/medium · feat/day16-seo-redirects"
-    },
-    {
-      "ts": "2026-09-14T21:56:00.536Z",
-      "task": "t08-order-notifications",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/28 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T22:04:26.845Z",
-      "task": "d02-deploy-mt-2",
-      "type": "run-retry",
-      "msg": "нет строки RESULT в логе"
-    },
-    {
-      "ts": "2026-09-14T22:04:26.849Z",
-      "task": "d02-deploy-mt-2",
-      "type": "launched",
-      "msg": "claude -p pid 72295 · sonnet/medium · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T22:29:11.901Z",
-      "task": "d02-deploy-mt-2",
-      "type": "done",
-      "msg": "RESULT: OK deploy 2508708 — 5/5 health checks 200, смёржено сегодня: 8 задач"
-    },
-    {
-      "ts": "2026-09-14T22:29:11.911Z",
-      "task": "q01-qa-customer",
-      "type": "launched",
-      "msg": "claude -p pid 61422 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T22:31:00.126Z",
-      "task": "t09-reviews",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/30"
-    },
-    {
-      "ts": "2026-09-14T22:31:03.203Z",
-      "task": "t11-seo-redirects",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/29"
-    },
-    {
-      "ts": "2026-09-14T22:31:03.963Z",
-      "task": "t09-reviews",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #30, pid 82273"
-    },
-    {
-      "ts": "2026-09-14T22:31:10.607Z",
-      "task": "t12-legal-requisites",
-      "type": "launched",
-      "msg": "ws 42eda8f1-2cda-4325-ac8c-fcef4b3d9540 · sonnet/medium · feat/day16-legal-requisites"
-    },
-    {
-      "ts": "2026-09-14T22:32:00.224Z",
-      "task": "t10-blog",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/31"
-    },
-    {
-      "ts": "2026-09-14T22:34:24.192Z",
-      "task": "t11-seo-redirects",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #29, pid 35225"
-    },
-    {
-      "ts": "2026-09-14T22:34:39.743Z",
-      "task": "t13-customers-screen",
-      "type": "launched",
-      "msg": "ws 58f83d81-a978-4f82-99f2-d8e4b57a09f7 · sonnet/medium · feat/day16-customers-screen"
-    },
-    {
-      "ts": "2026-09-14T22:41:02.000Z",
-      "task": "t11-seo-redirects",
-      "type": "rejected",
-      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t11-seo-redirects-1.findings.md"
-    },
-    {
-      "ts": "2026-09-14T22:41:04.714Z",
-      "task": "t11-seo-redirects",
-      "type": "fix-sent",
-      "msg": "в живой терминал 4e7753e2-00f2-49b3-8a74-8cf8fe3e6ca2"
-    },
-    {
-      "ts": "2026-09-14T22:41:22.948Z",
-      "task": "t11-seo-redirects",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/29"
-    },
-    {
-      "ts": "2026-09-14T23:00:02.700Z",
-      "task": "t12-legal-requisites",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/32"
-    },
-    {
-      "ts": "2026-09-14T23:12:02.599Z",
-      "task": "t13-customers-screen",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/33"
-    },
-    {
-      "ts": "2026-09-14T23:13:03.154Z",
-      "task": "q01-qa-customer",
-      "type": "done",
-      "msg": "RESULT: OK 12 шагов пройдено, 8 дефектов заведено (f01–f08), критичных 3 — чужой бренд UPREADY на странице после оплаты, письмо о заказе не уходит при обещании «отправлено», заказ гостя не попадает в "
-    },
-    {
-      "ts": "2026-09-14T23:13:03.735Z",
-      "task": "t10-blog",
-      "type": "accept-started",
-      "msg": "раунд 1, PR #31, pid 3854"
-    },
-    {
-      "ts": "2026-09-14T23:13:03.737Z",
-      "task": "q02-qa-owner",
-      "type": "launched",
-      "msg": "claude -p pid 3855 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T23:15:22.678Z",
-      "task": "t09-reviews",
-      "type": "rejected",
-      "msg": "раунд 1: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t09-reviews-1.findings.md"
-    },
-    {
-      "ts": "2026-09-14T23:15:24.410Z",
-      "task": "t09-reviews",
-      "type": "fix-sent",
-      "msg": "в живой терминал 48fca8ab-1c72-4a63-b85f-e2934a7156bd"
-    },
-    {
-      "ts": "2026-09-14T23:16:00.536Z",
-      "task": "t09-reviews",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/30"
-    },
-    {
-      "ts": "2026-09-14T23:17:03.479Z",
-      "task": "q02-qa-owner",
-      "type": "run-retry",
-      "msg": "нет строки RESULT в логе"
-    },
-    {
-      "ts": "2026-09-14T23:17:04.064Z",
-      "task": "t09-reviews",
-      "type": "accept-started",
-      "msg": "раунд 2, PR #30, pid 39445"
-    },
-    {
-      "ts": "2026-09-14T23:17:04.068Z",
-      "task": "q02-qa-owner",
-      "type": "launched",
-      "msg": "claude -p pid 39446 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store"
-    },
-    {
-      "ts": "2026-09-14T23:19:22.226Z",
-      "task": "t09-reviews",
-      "type": "rejected",
-      "msg": "раунд 2: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-t09-reviews-2.findings.md"
-    },
-    {
-      "ts": "2026-09-14T23:19:23.654Z",
-      "task": "t09-reviews",
-      "type": "fix-sent",
-      "msg": "в живой терминал 48fca8ab-1c72-4a63-b85f-e2934a7156bd"
-    },
-    {
-      "ts": "2026-09-14T23:20:00.481Z",
-      "task": "t09-reviews",
-      "type": "pr-open",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/30"
-    },
-    {
-      "ts": "2026-09-14T23:29:19.922Z",
-      "task": "t10-blog",
-      "type": "merged",
-      "msg": "https://github.com/ivanprotsko/upready-store/pull/31 (приёмка раунд 1)"
-    },
-    {
-      "ts": "2026-09-14T23:29:22.417Z",
-      "task": "t09-reviews",
-      "type": "accept-started",
-      "msg": "раунд 3, PR #30, pid 11691"
-    },
-    {
-      "ts": "2026-09-14T23:30:30.135Z",
-      "task": "t11-seo-redirects",
-      "type": "accept-started",
-      "msg": "раунд 2, PR #29, pid 17377"
-    },
-    {
-      "ts": "2026-09-14T23:30:31.420Z",
-      "task": "t14-product-import",
-      "type": "launched",
-      "msg": "ws abaab8c9-c250-4520-9120-dcb1ab80c44d · opus/high · feat/day16-product-import"
-    },
     {
       "ts": "2026-09-14T23:31:31.425Z",
       "type": "command",
@@ -5056,6 +4609,600 @@
       "task": "b02-legal-and-redirects",
       "type": "worker-closed",
       "msg": "терминал 7cd1898a-b1a4-4393-864e-746933ca9d16 закрыт после /compact (по экрану)"
+    },
+    {
+      "ts": "2026-09-15T17:07:25.003Z",
+      "task": "b06-order-tracking",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/62 (приёмка раунд 2)"
+    },
+    {
+      "ts": "2026-09-15T17:07:25.643Z",
+      "task": "b11-owner-labels",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/64"
+    },
+    {
+      "ts": "2026-09-15T17:07:26.959Z",
+      "task": "b12-analytics-accuracy",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/66"
+    },
+    {
+      "ts": "2026-09-15T17:07:28.532Z",
+      "task": "b13-locale-single-source",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/65"
+    },
+    {
+      "ts": "2026-09-15T17:07:30.962Z",
+      "task": "b15-quality-debt",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/68"
+    },
+    {
+      "ts": "2026-09-15T17:07:31.499Z",
+      "task": "b15-quality-debt",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #68, pid 55568"
+    },
+    {
+      "ts": "2026-09-15T17:07:31.556Z",
+      "task": "d06-deploy-mt-6",
+      "type": "launched",
+      "msg": "claude -p pid 55577 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store"
+    },
+    {
+      "ts": "2026-09-15T17:07:32.459Z",
+      "task": "b08-seo-storefront",
+      "type": "branch-has-pr",
+      "msg": "ветка fix/day16-seo-storefront уже несёт PR #69 (OPEN) — переименуй branch в tasks.json и retry"
+    },
+    {
+      "ts": "2026-09-15T17:07:33.192Z",
+      "task": "b14-pages-legal-content",
+      "type": "branch-has-pr",
+      "msg": "ветка feat/day16-pages-legal-content уже несёт PR #67 (MERGED) — переименуй branch в tasks.json и retry"
+    },
+    {
+      "ts": "2026-09-15T17:08:30.805Z",
+      "task": "b10-panel-gaps",
+      "type": "launched",
+      "msg": "ws 2f9a24c5-9f52-4839-a8a9-7b2b2f4bc42f · opus/high · feat/day16-panel-gaps"
+    },
+    {
+      "ts": "2026-09-15T17:15:25.773Z",
+      "task": "d06-deploy-mt-6",
+      "type": "done",
+      "msg": "RESULT: OK деплой 25bc1ec2 (8 PR волны 5b) — 5/5 URL + 5/5 карточек 200, бэкенд healthy с первого раза; живьём появились 47 301-редиректов, 115 характеристик и 12 весов; находка: DRY_RUN=1 в backfill-"
+    },
+    {
+      "ts": "2026-09-15T17:15:32.649Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:16:26.566Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:17:27.700Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:18:25.897Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:19:26.489Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:20:31.163Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:20:32.941Z",
+      "type": "limit",
+      "task": "b15-quality-debt",
+      "msg": " ===== 2026-09-15T17:07:31.498Z start accept-b15-quality-debt cwd=/Users/ivanprotsko/upready/projects/upready-store model=opus effort=medium session=7d8f8030-fbdf-47c9-b1ef-3b670949acbd/resume ===== You've hit your weekl"
+    },
+    {
+      "ts": "2026-09-15T17:21:27.369Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:22:30.627Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:23:30.686Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:24:26.444Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:25:27.076Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:26:26.635Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:27:27.005Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:28:26.328Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:29:26.710Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:30:27.126Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:31:26.170Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:32:27.713Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:33:27.769Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:34:26.143Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:35:26.584Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:36:28.488Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:37:30.187Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:38:26.132Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:39:25.831Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:40:25.716Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:41:27.364Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:42:27.351Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:43:26.355Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:44:26.328Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:45:27.093Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:46:26.667Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:47:26.797Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:48:26.171Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:49:27.145Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:50:27.639Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:51:25.994Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:52:26.741Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:53:26.481Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:54:25.783Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:55:25.963Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:56:27.129Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:57:26.318Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:58:26.279Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T17:59:25.962Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:00:26.280Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:01:26.280Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:02:27.213Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:03:26.824Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:04:26.645Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:05:28.042Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:06:27.766Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:07:27.351Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:08:26.993Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:09:26.744Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:10:26.507Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:11:26.607Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:12:27.598Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:13:26.378Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:14:26.866Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:15:27.028Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:16:29.343Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:17:26.398Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:18:25.789Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:19:27.689Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:20:26.379Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:21:26.195Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:22:26.305Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:23:26.589Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:24:26.205Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:25:26.574Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:26:26.803Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:27:27.253Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:28:26.343Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:29:26.694Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:30:26.294Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:31:26.283Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:32:26.067Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:33:25.975Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:34:26.951Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:35:26.408Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:36:26.479Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:37:26.667Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:38:25.919Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:39:26.526Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
+    },
+    {
+      "ts": "2026-09-15T18:40:26.049Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " ## Что сделать Экраны в стиле соседних экранов панели (канон `~/upready/packages/geist-kit/AGENTS.md`, правило 27; смотри, как сделаны «Страницы» и «Домены»): список, создание, правка, удаление; человеческие подписи, бе"
+    },
+    {
+      "ts": "2026-09-15T18:41:26.391Z",
+      "type": "limit",
+      "task": "b10-panel-gaps",
+      "msg": " ## Что сделать Экраны в стиле соседних экранов панели (канон `~/upready/packages/geist-kit/AGENTS.md`, правило 27; смотри, как сделаны «Страницы» и «Домены»): список, создание, правка, удаление; человеческие подписи, бе"
     }
   ],
   "sessions": {
@@ -5064,24 +5211,24 @@
         "id": "dbb26141-94f9-4a03-a344-91ff43b11523",
         "uses": 8,
         "createdAt": "2026-09-15T14:16:36.924Z",
-        "inUse": true,
+        "inUse": false,
         "lastUsed": "2026-09-15T16:06:29.078Z"
       },
       {
         "id": "7d8f8030-fbdf-47c9-b1ef-3b670949acbd",
-        "uses": 2,
+        "uses": 3,
         "createdAt": "2026-09-15T15:36:47.001Z",
         "inUse": false,
-        "lastUsed": "2026-09-15T15:54:51.553Z"
+        "lastUsed": "2026-09-15T17:07:31.498Z"
       }
     ],
     "run:deploy@/Users/ivanprotsko/upready/projects/upready-store": [
       {
         "id": "a31d45d4-5a13-46dc-8475-0a2492e22696",
-        "uses": 1,
+        "uses": 2,
         "createdAt": "2026-09-15T14:22:44.883Z",
         "inUse": false,
-        "lastUsed": "2026-09-15T14:22:44.883Z"
+        "lastUsed": "2026-09-15T17:07:31.555Z"
       }
     ],
     "run:data@/Users/ivanprotsko/upready/projects/upready-store": [

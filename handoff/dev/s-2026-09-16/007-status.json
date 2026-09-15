@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 7,
+  "action": "status-set",
+  "ts": "2026-09-16T01:04:54+08:00",
+  "status": "2026-09-16 01:04 WITA: report.json для q01-qa-customer составлен задним числом (sonnet) по report.md/логу приёмки, закоммичен 971940d0 в upready-store/dev (не запушен, журналы дня не пушат — 21b/21c)"
+}
