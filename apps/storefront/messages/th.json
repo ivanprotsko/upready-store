@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "ปิด",
+    "counter": "รูปที่ {index} จาก {total}",
     "goToImage": "ไปที่ภาพ {index}",
-    "openFullImage": "เปิดภาพเต็ม"
+    "nextImage": "รูปถัดไป",
+    "openFullImage": "เปิดภาพเต็ม",
+    "previousImage": "รูปก่อนหน้า",
+    "showImage": "แสดงรูปที่ {index}",
+    "thumbnails": "รูปย่อของสินค้า"
   },
   "Journal": {
     "navLabel": "บทความ",
@@ -730,6 +736,9 @@
     "no": "ไม่ใช่",
     "title": "ข้อมูลจำเพาะ",
     "yes": "ใช่"
+  },
+  "ProductInfo": {
+    "description": "รายละเอียดสินค้า"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "ตั้งค่าต่อในหน้าผู้ดูแลระบบ",

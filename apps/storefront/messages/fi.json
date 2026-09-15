@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Sulje",
+    "counter": "Kuva {index}/{total}",
     "goToImage": "Siirry kuvaan {index}",
-    "openFullImage": "Avaa kuva täysikokoisena"
+    "nextImage": "Seuraava kuva",
+    "openFullImage": "Avaa kuva täysikokoisena",
+    "previousImage": "Edellinen kuva",
+    "showImage": "Näytä kuva {index}",
+    "thumbnails": "Tuotteen pienoiskuvat"
   },
   "Journal": {
     "navLabel": "Lehti",
@@ -730,6 +736,9 @@
     "no": "Ei",
     "title": "Ominaisuudet",
     "yes": "Kyllä"
+  },
+  "ProductInfo": {
+    "description": "Kuvaus"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",

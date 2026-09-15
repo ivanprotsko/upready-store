@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Kapat",
+    "counter": "{total} görselden {index}.",
     "goToImage": "{index}. görsele git",
-    "openFullImage": "Görseli tam boyutta aç"
+    "nextImage": "Sonraki görsel",
+    "openFullImage": "Görseli tam boyutta aç",
+    "previousImage": "Önceki görsel",
+    "showImage": "{index}. görseli göster",
+    "thumbnails": "Ürün küçük görselleri"
   },
   "Journal": {
     "navLabel": "Dergi",
@@ -730,6 +736,9 @@
     "no": "Hayır",
     "title": "Özellikler",
     "yes": "Evet"
+  },
+  "ProductInfo": {
+    "description": "Açıklama"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",

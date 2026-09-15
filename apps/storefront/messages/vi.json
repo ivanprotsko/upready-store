@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Đóng",
+    "counter": "Ảnh {index} trên {total}",
     "goToImage": "Đến ảnh {index}",
-    "openFullImage": "Mở ảnh đầy đủ"
+    "nextImage": "Ảnh tiếp theo",
+    "openFullImage": "Mở ảnh đầy đủ",
+    "previousImage": "Ảnh trước",
+    "showImage": "Hiển thị ảnh {index}",
+    "thumbnails": "Ảnh thu nhỏ của sản phẩm"
   },
   "Journal": {
     "navLabel": "Tạp chí",
@@ -730,6 +736,9 @@
     "no": "Không",
     "title": "Thông số",
     "yes": "Có"
+  },
+  "ProductInfo": {
+    "description": "Mô tả"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tiếp tục thiết lập trong trang quản trị",

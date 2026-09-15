@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Κλείσιμο",
+    "counter": "Εικόνα {index} από {total}",
     "goToImage": "Μετάβαση στην εικόνα {index}",
-    "openFullImage": "Άνοιγμα πλήρους εικόνας"
+    "nextImage": "Επόμενη εικόνα",
+    "openFullImage": "Άνοιγμα πλήρους εικόνας",
+    "previousImage": "Προηγούμενη εικόνα",
+    "showImage": "Εμφάνιση εικόνας {index}",
+    "thumbnails": "Μικρογραφίες προϊόντος"
   },
   "Journal": {
     "navLabel": "Άρθρα",
@@ -730,6 +736,9 @@
     "no": "Όχι",
     "title": "Χαρακτηριστικά",
     "yes": "Ναι"
+  },
+  "ProductInfo": {
+    "description": "Περιγραφή"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",

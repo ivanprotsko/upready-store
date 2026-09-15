@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Isara",
+    "counter": "Larawang {index} sa {total}",
     "goToImage": "Pumunta sa larawan {index}",
-    "openFullImage": "Buksan ang buong larawan"
+    "nextImage": "Susunod na larawan",
+    "openFullImage": "Buksan ang buong larawan",
+    "previousImage": "Nakaraang larawan",
+    "showImage": "Ipakita ang larawang {index}",
+    "thumbnails": "Mga thumbnail ng produkto"
   },
   "Journal": {
     "navLabel": "Journal",
@@ -730,6 +736,9 @@
     "no": "Hindi",
     "title": "Mga katangian",
     "yes": "Oo"
+  },
+  "ProductInfo": {
+    "description": "Paglalarawan"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Ipagpatuloy ang setup sa admin",

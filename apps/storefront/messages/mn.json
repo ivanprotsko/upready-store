@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Хаах",
+    "counter": "{total}-аас {index} дэх зураг",
     "goToImage": "{index}-р зураг руу очих",
-    "openFullImage": "Бүтэн зургийг нээх"
+    "nextImage": "Дараагийн зураг",
+    "openFullImage": "Бүтэн зургийг нээх",
+    "previousImage": "Өмнөх зураг",
+    "showImage": "{index} дугаар зургийг харах",
+    "thumbnails": "Барааны жижиг зургууд"
   },
   "Journal": {
     "navLabel": "Сэтгүүл",
@@ -730,6 +736,9 @@
     "no": "Үгүй",
     "title": "Үзүүлэлт",
     "yes": "Тийм"
+  },
+  "ProductInfo": {
+    "description": "Тайлбар"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",
