@@ -149,6 +149,9 @@ module.exports = defineConfig({
     // the only file here that calls *.wildberries.ru, and it can send nothing
     // but the reads listed in src/modules/wb/endpoints.ts.
     { resolve: "./src/modules/wb" },
+    // Which product of a shop is which listing on a marketplace — the pairing the
+    // WB enrichment reads and writes (w07-tenant-catalog-enrich).
+    { resolve: "./src/modules/marketplace-link" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

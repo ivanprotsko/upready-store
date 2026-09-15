@@ -149,14 +149,23 @@ const readEntry = (entry: unknown): RawCharacteristic | null => {
     return null;
   }
 
-  // `value` (Ozon) and `values` (Wildberries) are the two shapes measured in
-  // the migrated catalog; a multi-value list joins with «; », the separator
-  // the migration itself already used inside a single string.
+  // Three shapes: `value` as a scalar (Ozon), `values` as a list (the
+  // migrated catalog's own export) and `value` as a LIST, which is what the
+  // WB Content API answers — `{"id": 14177451, "name": "Страна производства",
+  // "value": ["Россия"]}`, an array even for a single item (measured on
+  // `wb_product.raw` 2026-09-16, w07). A multi-value list joins with «; », the
+  // separator the migration itself already used inside a single string.
+  const list = Array.isArray(record.value)
+    ? record.value
+    : Array.isArray(record.values)
+      ? record.values
+      : null;
+
   let value = "";
   if (typeof record.value === "string" || typeof record.value === "number") {
     value = String(record.value);
-  } else if (Array.isArray(record.values)) {
-    value = record.values
+  } else if (list) {
+    value = list
       .filter((item) => typeof item === "string" || typeof item === "number")
       .map((item) => collapse(String(item)))
       .filter(Boolean)
