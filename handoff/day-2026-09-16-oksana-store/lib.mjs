@@ -218,3 +218,23 @@ export function killProcsUnder(dir, procs) {
   for (const p of procsUnder(dir)) { try { process.kill(p.pid, 'SIGKILL'); } catch {} }
   return { killed: ps.length, left: procsUnder(dir).length, list: ps.map(p => `${p.pid} ${p.etime} ${p.cmd.slice(0, 100)}`) };
 }
+
+// Стенограмма воркера на диске (~/.claude/projects/<путь worktree, все не-[A-Za-z0-9] → '-'>/<sid>.jsonl):
+// строка {"type":"system","subtype":"compact_boundary","timestamp":…} новее sinceIso = компакция прошла, независимо от экрана.
+export function transcriptDir(worktree) { return path.join(process.env.HOME || '', '.claude', 'projects', String(worktree || '').replace(/[^A-Za-z0-9]/g, '-')); }
+export function compactDone(worktree, sinceIso, tailBytes = 400000) {
+  const dir = transcriptDir(worktree); if (!worktree || !fs.existsSync(dir)) return null;
+  const since = new Date(sinceIso).getTime() - 60000;
+  for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.jsonl'))) {
+    const p = path.join(dir, f); let st; try { st = fs.statSync(p); } catch { continue; }
+    if (st.mtimeMs < since) continue;
+    const start = Math.max(0, st.size - tailBytes); const buf = Buffer.alloc(st.size - start); const fd = fs.openSync(p, 'r');
+    try { fs.readSync(fd, buf, 0, buf.length, start); } finally { fs.closeSync(fd); }
+    for (const line of buf.toString('utf8').split('\n')) {
+      if (!line.includes('"compact_boundary"')) continue;
+      const m = line.match(/"timestamp":"([^"]+)"/); const ts = m ? new Date(m[1]).getTime() : st.mtimeMs;
+      if (ts >= since) return { file: p, ts: m ? m[1] : null };
+    }
+  }
+  return null;
+}

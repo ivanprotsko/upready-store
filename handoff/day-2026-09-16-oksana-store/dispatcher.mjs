@@ -100,10 +100,10 @@ function finishTask(cfg, state, t, s, why) {
 }
 function closeAfterCompact(cfg, state, t, s) {
   const term = L.terminalById(s.ws, s.terminalId); if (!term) { s.closedAt = L.nowIso(); return; }
-  const tail = L.terminalRead(s.ws, s.terminalId, 40) || ''; const done = /Compacted|Compaction (complete|canceled)/i.test(tail); const late = L.minutesSince(s.compactSentAt) > 8;
+  const tail = L.terminalRead(s.ws, s.terminalId, 120) || ''; const onScreen = /Compacted|Compaction (complete|canceled)/i.test(tail); const inLog = onScreen ? null : L.compactDone(s.worktree, s.compactSentAt); const done = onScreen || !!inLog; const late = L.minutesSince(s.compactSentAt) > 8;
   if (!done && !late) return;
   const c = L.terminalClose(s.ws, s.terminalId); s.closedAt = L.nowIso();
-  L.event(state, { task: t.id, type: 'worker-closed', msg: (c.rc ? 'не закрылся: ' + String(c.error || '').slice(0, 80) : `терминал ${s.terminalId} закрыт`) + (done ? ' после /compact' : ' по таймауту /compact (8 мин)') });
+  L.event(state, { task: t.id, type: 'worker-closed', msg: (c.rc ? 'не закрылся: ' + String(c.error || '').slice(0, 80) : `терминал ${s.terminalId} закрыт`) + (done ? (onScreen ? ' после /compact (по экрану)' : ` после /compact (compact_boundary ${inLog.ts || '?'} в стенограмме)`) : ` по таймауту /compact (8 мин); хвост экрана: ${tail.trim().split('\n').slice(-6).join(' ⏎ ').slice(-300)}`) });
   if (s.worktree) { const k = L.killProcsUnder(s.worktree); if (k.killed) L.event(state, { task: t.id, type: 'orphans-killed', msg: `${k.killed} после закрытия: ${k.list.join(' | ').slice(0, 300)}` }); }
 }
 // Каждый тик: процессы под worktree задач в конечном статусе — сироты, убить и записать (кто запустил, тот и закрывает).
