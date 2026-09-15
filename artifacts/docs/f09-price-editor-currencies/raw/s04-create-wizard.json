@@ -1,0 +1,41 @@
+{
+  "title": "f09 — проверка цены D",
+  "wizardHeaders": [
+    "Default option",
+    "Заголовок",
+    "Цена, ₽",
+    "SKU",
+    "Управляемые запасы",
+    "Разрешить предзаказ",
+    "Имеет набор запасов"
+  ],
+  "rubFieldCount": 1,
+  "openingCell": "variants.0.title",
+  "rubFieldBox": {
+    "x": 325,
+    "right": 442,
+    "width": 117
+  },
+  "rubWithinViewport": true,
+  "publishWithoutPrice": {
+    "refused": true,
+    "message": [
+      "Укажите цену хотя бы в одной валюте: без цены товар попадёт в каталог карточкой без цены. Если цена ещё не известна — сохраните черновик."
+    ]
+  },
+  "publishWithPrice": {
+    "leftTheWizard": true,
+    "url": "http://localhost:5182/products"
+  },
+  "shots": {
+    "variantsStep": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-currencies/artifacts/docs/f09-price-editor-currencies/shots/s04-create-variants-step-1280x900.png",
+    "refused": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-currencies/artifacts/docs/f09-price-editor-currencies/shots/s04-publish-without-price-refused-1280x900.png"
+  },
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ]
+}
