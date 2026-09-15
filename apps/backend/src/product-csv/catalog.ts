@@ -244,6 +244,12 @@ export type LoadSnapshotInput = {
   salesChannelId: string | null;
   /** Currency the shop prices in by default, first column of the export. */
   defaultCurrency: string | null;
+  /**
+   * Last resort when neither the shop nor its catalogue names a currency: the
+   * store's own default. A shop with products but no prices still needs a
+   * column to type them into.
+   */
+  fallbackCurrency?: string | null;
 };
 
 export const loadCatalogSnapshot = async ({
@@ -252,6 +258,7 @@ export const loadCatalogSnapshot = async ({
   categoryIds,
   salesChannelId,
   defaultCurrency,
+  fallbackCurrency = null,
 }: LoadSnapshotInput): Promise<CatalogSnapshot> => {
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const stockLocationId = await resolveStockLocation(container, salesChannelId);
@@ -278,7 +285,7 @@ export const loadCatalogSnapshot = async ({
     return {
       products: [],
       categories,
-      currencies: defaultCurrency ? [defaultCurrency] : [],
+      currencies: collectCurrencies([], defaultCurrency, fallbackCurrency),
       metadata_keys: [],
       stock_location_id: stockLocationId,
     };
@@ -355,7 +362,7 @@ export const loadCatalogSnapshot = async ({
 
   await attachStock(container, products, stockLocationId);
 
-  const currencies = collectCurrencies(products, defaultCurrency);
+  const currencies = collectCurrencies(products, defaultCurrency, fallbackCurrency);
   const metadataKeys = collectMetadataKeys(products);
 
   return {
@@ -436,25 +443,53 @@ const attachStock = async (
  * edit. The import still accepts a column for any currency the STORE prices in,
  * so an owner who sells in two can add the second column by hand, and the
  * currencies with no column are left exactly as they are.
+ *
+ * When the shop has not named a currency (`defaultCurrency` is null — see the
+ * chain in `api/tenants/products/csv-context.ts`), the CATALOGUE names it: the
+ * currency the most of its own variants carry an unconditional price in. That
+ * is a measurement of what this shop sells for, and it is why the file is no
+ * longer handed over in the platform's seeded `usd`
+ * (b01-owner-numbers: the live shop's 41 variants are priced in roubles, 38 of
+ * them also carry a leftover seed price in dollars, and «first currency found»
+ * could return either). The store's default is the last resort, for a
+ * catalogue with no prices at all.
  */
-const collectCurrencies = (
+export const collectCurrencies = (
   products: CatalogProduct[],
   defaultCurrency: string | null,
+  fallbackCurrency: string | null = null,
 ): string[] => {
   if (defaultCurrency) {
     return [defaultCurrency.toLowerCase()];
   }
 
+  const counts = new Map<string, number>();
+
   for (const product of products) {
     for (const variant of product.variants) {
-      const [first] = Object.keys(variant.prices);
-      if (first) {
-        return [first];
+      for (const currency of Object.keys(variant.prices)) {
+        counts.set(currency, (counts.get(currency) ?? 0) + 1);
       }
     }
   }
 
-  return [];
+  let winner: string | null = null;
+  let best = 0;
+
+  // Ties keep the currency seen first, so the result does not depend on the
+  // iteration order of a Map two runs could build differently.
+  for (const [currency, count] of counts) {
+    if (count > best) {
+      winner = currency;
+      best = count;
+    }
+  }
+
+  if (winner) {
+    return [winner];
+  }
+
+  return fallbackCurrency ? [fallbackCurrency.toLowerCase()] : [];
 };
 
 const collectMetadataKeys = (products: CatalogProduct[]): string[] => {

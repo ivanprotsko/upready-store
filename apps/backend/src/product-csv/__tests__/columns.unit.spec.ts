@@ -1,4 +1,5 @@
 import {
+  matchMetadataKey,
   normalizeHeader,
   parseNumber,
   parseStatus,
@@ -45,11 +46,30 @@ describe("product-csv/columns", () => {
     });
 
     it("reads a metadata column and keeps the key as written", () => {
+      // As WRITTEN, including its case: a metadata key is free-form, and the
+      // live shop has one spelled `pricelistPositions`. Lowercasing it here
+      // made the import look for a key no product has, so a round trip with no
+      // edits reported an update on every product carrying it and confirming
+      // would have written a second, lowercase twin (b01-owner-numbers).
       expect(resolveColumn("Метаданные: Производитель")).toEqual({
         kind: "metadata",
-        key: "производитель",
+        key: "Производитель",
+      });
+      expect(resolveColumn("Метаданные: pricelistPositions")).toEqual({
+        kind: "metadata",
+        key: "pricelistPositions",
       });
       expect(resolveColumn("metadata:vendor")).toEqual({ kind: "metadata", key: "vendor" });
+    });
+
+    it("matches a metadata key to the spelling the product already uses", () => {
+      const metadata = { pricelistPositions: [8] };
+
+      expect(matchMetadataKey(metadata, "pricelistpositions")).toBe("pricelistPositions");
+      expect(matchMetadataKey(metadata, "pricelistPositions")).toBe("pricelistPositions");
+      // A key the product does not have keeps the owner's own spelling.
+      expect(matchMetadataKey(metadata, "Поставщик")).toBe("Поставщик");
+      expect(matchMetadataKey(null, "Поставщик")).toBe("Поставщик");
     });
 
     it("calls a column it does not know unknown rather than guessing", () => {
