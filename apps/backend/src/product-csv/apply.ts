@@ -21,10 +21,13 @@ import type { MedusaContainer } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import {
   batchInventoryItemLevelsWorkflow,
+  batchLinksWorkflow,
   batchProductVariantsWorkflow,
+  createInventoryItemsWorkflow,
   updateProductsWorkflow,
   uploadFilesWorkflow,
 } from "@medusajs/medusa/core-flows";
+import { buildBatchVariantInventoryData } from "@medusajs/medusa/api/admin/products/helpers";
 import createTenantProductWorkflow from "../workflows/tenant/create-tenant-product";
 import createTenantProductCategoryWorkflow from "../workflows/tenant/create-tenant-product-category";
 import { tenantFilePrefix } from "../tenant-files";
@@ -114,7 +117,7 @@ export const applyImport = async ({
         }
       }
 
-      await writeStock({
+      const createProblems = await writeStock({
         container,
         productId: created.id,
         locationId: snapshot.stock_location_id,
@@ -129,6 +132,10 @@ export const applyImport = async ({
             Boolean(entry),
           ),
       });
+
+      if (createProblems.length > 0) {
+        group.lead.notes = [...group.lead.notes, ...createProblems];
+      }
     }
 
     for (const row of actionable) {
@@ -183,12 +190,18 @@ export const applyImport = async ({
       });
 
       if (draft.stock !== null) {
-        await writeStock({
+        // A write that did not happen has to SAY so on the row: the report is
+        // the only place the owner looks after confirming (rule 20a).
+        const problems = await writeStock({
           container,
           productId: product.id,
           locationId: snapshot.stock_location_id,
           wanted: [{ sku: draft.sku, title: draft.variant_title, stock: draft.stock }],
         });
+
+        if (problems.length > 0) {
+          row.notes = [...row.notes, ...problems];
+        }
       }
 
       row.applied = true;
@@ -676,9 +689,16 @@ const writeStock = async ({
   productId: string;
   locationId: string | null;
   wanted: { sku: string | null; title: string | null; stock: number }[];
-}): Promise<void> => {
-  if (!locationId || wanted.length === 0) {
-    return;
+}): Promise<string[]> => {
+  const problems: string[] = [];
+
+  if (wanted.length === 0) {
+    return problems;
+  }
+
+  if (!locationId) {
+    problems.push("Остаток записать некуда: у магазина нет склада.");
+    return problems;
   }
 
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
@@ -689,8 +709,8 @@ const writeStock = async ({
     filters: { product_id: [productId] },
   });
 
-  const itemFor = (entry: { sku: string | null; title: string | null }): string | null => {
-    const match = variants.find((variant) => {
+  const variantFor = (entry: { sku: string | null; title: string | null }) =>
+    variants.find((variant) => {
       if (entry.sku) {
         return normalizeHeader(String(variant?.sku ?? "")) === normalizeHeader(entry.sku);
       }
@@ -700,19 +720,75 @@ const writeStock = async ({
       return true;
     });
 
-    return (
-      ((match?.inventory_items ?? []) as { inventory_item_id?: string | null }[])
-        .map((link) => link?.inventory_item_id)
-        .find((id): id is string => Boolean(id)) ?? null
-    );
-  };
+  const itemOf = (variant: Record<string, unknown> | undefined): string | null =>
+    ((variant?.inventory_items ?? []) as { inventory_item_id?: string | null }[])
+      .map((link) => link?.inventory_item_id)
+      .find((id): id is string => Boolean(id)) ?? null;
 
-  const targets = wanted
-    .map((entry) => ({ item: itemFor(entry), stock: entry.stock }))
-    .filter((entry): entry is { item: string; stock: number } => Boolean(entry.item));
+  const targets: { item: string; stock: number }[] = [];
+
+  for (const entry of wanted) {
+    const variant = variantFor(entry);
+
+    if (!variant?.id) {
+      problems.push(
+        `Остаток ${entry.stock} записать некуда: варианта ${entry.sku ? `с SKU «${entry.sku}»` : `«${entry.title ?? ""}»`} у товара уже нет.`,
+      );
+      continue;
+    }
+
+    const existingItem = itemOf(variant);
+
+    if (existingItem) {
+      targets.push({ item: existingItem, stock: entry.stock });
+      continue;
+    }
+
+    // A variant that was not stock-managed has NO inventory item, and turning
+    // `manage_inventory` on does not create one: `updateProductVariantsWorkflow`
+    // only ever DISMISSES inventory (`dismissProductVariantsInventoryStep`),
+    // items are created at variant-creation time. So a stock number on a
+    // previously unmanaged variant needs the item and the link made here, the
+    // way the Admin's inventory kit makes them — measured on the stand
+    // 2026-09-15: without this the report said «Остаток "" → 77» and the
+    // database kept no level at all (rule 20a: a write nobody made must not
+    // read as a write).
+    const { result: created } = await createInventoryItemsWorkflow(container).run({
+      input: {
+        items: [
+          {
+            sku: (variant.sku as string | null) ?? undefined,
+            title: (variant.title as string | null) ?? undefined,
+          },
+        ],
+      },
+    });
+
+    const itemId = created[0]?.id;
+
+    if (!itemId) {
+      problems.push(`Остаток ${entry.stock} не записан: не удалось создать складскую позицию.`);
+      continue;
+    }
+
+    await batchLinksWorkflow(container).run({
+      input: {
+        create: buildBatchVariantInventoryData([
+          {
+            variant_id: String(variant.id),
+            inventory_item_id: itemId,
+            required_quantity: 1,
+          },
+        ]),
+      },
+    });
+
+    targets.push({ item: itemId, stock: entry.stock });
+  }
+
 
   if (targets.length === 0) {
-    return;
+    return problems;
   }
 
   const { data: levels } = await query.graph({
@@ -747,4 +823,6 @@ const writeStock = async ({
   await batchInventoryItemLevelsWorkflow(container).run({
     input: { create, update, delete: [] } as never,
   });
+
+  return problems;
 };

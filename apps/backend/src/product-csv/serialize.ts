@@ -9,7 +9,7 @@
  * the FIRST row of a handle (`plan.ts`).
  */
 
-import { IMAGE_SEPARATOR, joinCategoryPath } from "./columns";
+import { IMAGE_SEPARATOR, joinCategoryPath, metadataCell } from "./columns";
 import type { CatalogProduct, CatalogSnapshot } from "./catalog";
 import { toCsvFile, type Delimiter } from "./csv";
 import { exportHeaderRow } from "./rows";
@@ -21,22 +21,6 @@ const numberCell = (value: number | null | undefined): string => {
   }
 
   return Number.isInteger(value) ? String(value) : String(value).replace(".", ",");
-};
-
-const metadataCell = (value: unknown): string => {
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  if (typeof value === "string") {
-    return value;
-  }
-
-  if (typeof value === "number" || typeof value === "boolean") {
-    return String(value);
-  }
-
-  return JSON.stringify(value);
 };
 
 export const snapshotRows = (snapshot: CatalogSnapshot): string[][] => {

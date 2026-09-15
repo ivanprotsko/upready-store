@@ -138,6 +138,31 @@ export const priceHeader = (currencyCode: string): string =>
 /** `Метаданные: ключ` — one column per product metadata key the shop uses. */
 export const metadataHeader = (key: string): string => `Метаданные: ${key}`;
 
+/**
+ * One metadata value as a cell. The export writes it and the dry run compares
+ * against it, and both HAVE to use this function: a value that is an object
+ * (Medusa's `metadata` is free-form JSON) stringifies to `[object Object]`
+ * through the default coercion, which made every product with a JSON metadata
+ * key read as "changed" on a round trip with no edits — the one thing the
+ * feature promises cannot happen (measured on the stand 2026-09-15, 10 of 10
+ * lead rows reported as updates).
+ */
+export const metadataCell = (value: unknown): string => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return JSON.stringify(value);
+};
+
 /** The separator between image URLs inside one cell, and what is accepted back. */
 export const IMAGE_SEPARATOR = " | ";
 

@@ -20,7 +20,8 @@
  * is written. Half a catalogue is worse than none.
  */
 
-import { normalizeHeader } from "./columns";
+import { metadataCell, normalizeHeader } from "./columns";
+import type { SpreadsheetEncoding } from "./csv";
 import type { CatalogCategory, CatalogSnapshot } from "./catalog";
 import type { FatalError, ReadFileResult, RowDraft, RowError } from "./rows";
 
@@ -95,6 +96,8 @@ export type ImportReport = {
   delimiter: string;
   /** Whether the uploaded bytes started with a BOM, which is what Excel writes. */
   bom: boolean;
+  /** How the bytes were read: UTF-8, UTF-8 with a BOM, or Windows-1251. */
+  encoding: SpreadsheetEncoding;
   summary: ImportSummary;
   fatal: FatalError[];
   /** Headers the importer does not know; they were ignored, not an error. */
@@ -116,6 +119,7 @@ export type PlanInput = {
   filename: string;
   bytes: number;
   bom: boolean;
+  encoding: SpreadsheetEncoding;
   delimiter: string;
 };
 
@@ -267,6 +271,7 @@ export const planImport = ({
   filename,
   bytes,
   bom,
+  encoding,
   delimiter,
 }: PlanInput): ImportReport => {
   const fatal: FatalError[] = [...file.fatal];
@@ -324,6 +329,7 @@ export const planImport = ({
     bytes,
     delimiter,
     bom,
+    encoding,
     summary,
     fatal,
     unknown_columns: file.header.unknown,
@@ -473,9 +479,11 @@ const planRow = (
     }
 
     for (const [key, value] of Object.entries(draft.metadata)) {
-      const current = product.metadata?.[key];
-      if (asText(current) !== value) {
-        changes.push({ field: `Метаданные: ${key}`, from: asText(current), to: value });
+      // `metadataCell`, not `String(...)`: a JSON metadata value coerces to
+      // "[object Object]" and would never equal the cell the export wrote.
+      const current = metadataCell(product.metadata?.[key]);
+      if (current !== value) {
+        changes.push({ field: `Метаданные: ${key}`, from: current, to: value });
       }
     }
 

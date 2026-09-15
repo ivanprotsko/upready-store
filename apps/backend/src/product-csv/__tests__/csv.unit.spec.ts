@@ -1,5 +1,6 @@
 import {
   BOM,
+  decodeSpreadsheet,
   csvCell,
   detectDelimiter,
   normalizeText,
@@ -22,6 +23,38 @@ describe("product-csv/csv", () => {
 
     it("leaves a file with no BOM and LF endings alone", () => {
       expect(normalizeText("a\nb")).toBe("a\nb");
+    });
+  });
+
+  describe("decodeSpreadsheet", () => {
+    it("reads Excel's «CSV UTF-8» — UTF-8 with a BOM", () => {
+      const bytes = Buffer.concat([
+        Buffer.from([0xef, 0xbb, 0xbf]),
+        Buffer.from("Код товара;Цена, RUB", "utf8"),
+      ]);
+
+      expect(decodeSpreadsheet(bytes)).toEqual({
+        text: "Код товара;Цена, RUB",
+        encoding: "utf-8-bom",
+      });
+    });
+
+    it("reads Excel's plain «CSV» on a Russian Windows — cp1251, no BOM", () => {
+      // Those bytes are «Название» in windows-1251. As UTF-8 they are invalid,
+      // which is exactly what makes the two encodings tellable apart.
+      const bytes = Buffer.from([0xcd, 0xe0, 0xe7, 0xe2, 0xe0, 0xed, 0xe8, 0xe5]);
+
+      expect(decodeSpreadsheet(bytes)).toEqual({
+        text: "Название",
+        encoding: "windows-1251",
+      });
+    });
+
+    it("reads a plain UTF-8 file without inventing a BOM", () => {
+      expect(decodeSpreadsheet(Buffer.from("Название", "utf8"))).toEqual({
+        text: "Название",
+        encoding: "utf-8",
+      });
     });
   });
 

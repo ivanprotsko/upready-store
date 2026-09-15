@@ -76,6 +76,7 @@ const plan = (csv: string, state = snapshot(), currencies = ["rub"]) => {
     filename: "catalog.csv",
     bytes: Buffer.byteLength(csv, "utf8"),
     bom: true,
+    encoding: "utf-8-bom",
     delimiter: parsed.delimiter,
   });
 };

@@ -2,7 +2,7 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { MedusaError } from "@medusajs/framework/utils";
 import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
-import { BOM, normalizeText, parseCsv } from "../../../../product-csv/csv";
+import { decodeSpreadsheet, normalizeText, parseCsv } from "../../../../product-csv/csv";
 import { MAX_FILE_BYTES, MAX_ROWS, planImport } from "../../../../product-csv/plan";
 import type { ImportReport } from "../../../../product-csv/plan";
 import { readRows } from "../../../../product-csv/rows";
@@ -73,8 +73,10 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   const context = await loadCsvContext(req);
-  const raw = file.buffer.toString("utf8");
-  const bom = raw.startsWith(BOM);
+  // The encoding is DECIDED, not assumed: Excel's two CSV menu entries produce
+  // UTF-8-with-BOM and Windows-1251 respectively (`decodeSpreadsheet`).
+  const { text: raw, encoding } = decodeSpreadsheet(file.buffer);
+  const bom = encoding === "utf-8-bom";
   const source = normalizeText(raw);
   const parsed = parseCsv(source);
 
@@ -88,6 +90,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
         filename: file.originalname,
         bytes: file.buffer.byteLength,
         bom,
+        encoding,
         delimiter: parsed.delimiter,
       })
     : {
@@ -96,6 +99,7 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
         bytes: file.buffer.byteLength,
         delimiter: ";",
         bom,
+        encoding,
         summary: {
           rows: 0,
           create: 0,

@@ -62,6 +62,11 @@ export const POST = async (req: AuthenticatedMedusaRequest, res: MedusaResponse)
     filename: String(row.filename ?? ""),
     bytes: Number(row.bytes ?? 0),
     bom: Boolean((row.report as { bom?: boolean } | null)?.bom),
+    // `source` was stored already decoded and normalised, so the encoding is a
+    // fact about the original upload, carried over from the first report.
+    encoding:
+      ((row.report as { encoding?: "utf-8-bom" | "utf-8" | "windows-1251" } | null)?.encoding) ??
+      "utf-8",
     delimiter: parsed.delimiter,
   });
 

@@ -17,6 +17,44 @@
 /** UTF-8 byte order mark, what Excel writes in front of a CSV it saved as UTF-8. */
 export const BOM = "\uFEFF";
 
+/** The three bytes of that mark, for reading it off an upload. */
+const BOM_BYTES = Buffer.from([0xef, 0xbb, 0xbf]);
+
+export type SpreadsheetEncoding = "utf-8-bom" | "utf-8" | "windows-1251";
+
+/**
+ * Bytes into text, deciding the encoding rather than assuming it.
+ *
+ * Excel's «CSV UTF-8» writes UTF-8 with a BOM. Excel's plain «CSV (разделители
+ * — запятые)» on a Russian Windows writes WINDOWS-1251 with no BOM, and a shop
+ * owner has no way of telling those two menu entries apart. Read as UTF-8, a
+ * cp1251 file is not merely wrong — `Buffer.toString("utf8")` replaces every
+ * Cyrillic byte with U+FFFD, so the headers stop matching and the importer
+ * would answer «нет колонки Код товара» about a file whose first column is
+ * plainly named.
+ *
+ * So UTF-8 is tried STRICTLY (`fatal: true`), and only a file that is not valid
+ * UTF-8 is read as cp1251. That order matters: valid UTF-8 is never mistaken
+ * for cp1251, and a cp1251 file cannot pass as UTF-8 because its Cyrillic bytes
+ * are invalid continuation sequences.
+ */
+export const decodeSpreadsheet = (
+  bytes: Buffer,
+): { text: string; encoding: SpreadsheetEncoding } => {
+  const hasBom = bytes.subarray(0, 3).equals(BOM_BYTES);
+  const body = hasBom ? bytes.subarray(3) : bytes;
+
+  try {
+    const text = new TextDecoder("utf-8", { fatal: true }).decode(body);
+    return { text, encoding: hasBom ? "utf-8-bom" : "utf-8" };
+  } catch {
+    return {
+      text: new TextDecoder("windows-1251").decode(body),
+      encoding: "windows-1251",
+    };
+  }
+};
+
 /** The separators a Russian spreadsheet actually produces. Excel's locale decides. */
 export const DELIMITERS = [";", ",", "\t"] as const;
 
