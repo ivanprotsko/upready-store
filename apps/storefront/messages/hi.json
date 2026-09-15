@@ -484,7 +484,16 @@
     "joinUs": "हमसे जुड़ें",
     "notMember": "सदस्य नहीं हैं?",
     "password": "पासवर्ड",
-    "signIn": "साइन इन करें"
+    "signIn": "साइन इन करें",
+    "yandexCta": "Yandex ID से साइन इन करें",
+    "yandexDivider": "या",
+    "yandexErrorDenied": "आपने Yandex के पेज पर साइन इन रद्द कर दिया।",
+    "yandexErrorEmailTaken": "इस ईमेल पर पहले से खाता है। अपने पासवर्ड से साइन इन करें।",
+    "yandexErrorExpired": "साइन इन लिंक की अवधि समाप्त हो गई। दोबारा शुरू करें।",
+    "yandexErrorFailed": "साइन इन पूरा नहीं हुआ। थोड़ी देर बाद कोशिश करें।",
+    "yandexErrorNoEmail": "Yandex ने ईमेल पता नहीं दिया, इसलिए खाता नहीं बनाया जा सकता।",
+    "yandexErrorRejected": "Yandex इस साइन इन की पुष्टि नहीं कर सका। फिर से कोशिश करें।",
+    "yandexErrorUnconfigured": "इस स्टोर में Yandex से साइन इन अभी चालू नहीं है।"
   },
   "Metadata": {
     "account": {

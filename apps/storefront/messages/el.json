@@ -484,7 +484,16 @@
     "joinUs": "Εγγραφείτε",
     "notMember": "Δεν είστε μέλος;",
     "password": "Κωδικός πρόσβασης",
-    "signIn": "Σύνδεση"
+    "signIn": "Σύνδεση",
+    "yandexCta": "Σύνδεση με Yandex ID",
+    "yandexDivider": "ή",
+    "yandexErrorDenied": "Ακυρώσατε τη σύνδεση στη σελίδα της Yandex.",
+    "yandexErrorEmailTaken": "Υπάρχει ήδη λογαριασμός με αυτό το email. Συνδεθείτε με τον κωδικό σας.",
+    "yandexErrorExpired": "Ο σύνδεσμος σύνδεσης έληξε. Ξεκινήστε από την αρχή.",
+    "yandexErrorFailed": "Η σύνδεση δεν ολοκληρώθηκε. Δοκιμάστε ξανά σε λίγο.",
+    "yandexErrorNoEmail": "Η Yandex δεν έδωσε διεύθυνση email, οπότε δεν μπορεί να δημιουργηθεί λογαριασμός.",
+    "yandexErrorRejected": "Η Yandex δεν επιβεβαίωσε αυτή τη σύνδεση. Δοκιμάστε ξανά.",
+    "yandexErrorUnconfigured": "Η σύνδεση μέσω Yandex δεν έχει ενεργοποιηθεί ακόμη σε αυτό το κατάστημα."
   },
   "Metadata": {
     "account": {

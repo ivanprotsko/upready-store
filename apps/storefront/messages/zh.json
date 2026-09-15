@@ -484,7 +484,16 @@
     "joinUs": "立即加入",
     "notMember": "还不是会员？",
     "password": "密码",
-    "signIn": "登录"
+    "signIn": "登录",
+    "yandexCta": "使用 Yandex ID 登录",
+    "yandexDivider": "或",
+    "yandexErrorDenied": "你在 Yandex 页面上取消了登录。",
+    "yandexErrorEmailTaken": "该邮箱已有账号，请用密码登录。",
+    "yandexErrorExpired": "登录链接已过期，请重新开始。",
+    "yandexErrorFailed": "登录未完成，请稍后再试。",
+    "yandexErrorNoEmail": "Yandex 未提供邮箱地址，因此无法创建账号。",
+    "yandexErrorRejected": "Yandex 未能确认此次登录，请重试。",
+    "yandexErrorUnconfigured": "本店尚未开启 Yandex 登录。"
   },
   "Metadata": {
     "account": {

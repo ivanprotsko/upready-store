@@ -484,7 +484,16 @@
     "joinUs": "新規登録",
     "notMember": "アカウントをお持ちでない方",
     "password": "パスワード",
-    "signIn": "サインイン"
+    "signIn": "サインイン",
+    "yandexCta": "Yandex ID でログイン",
+    "yandexDivider": "または",
+    "yandexErrorDenied": "Yandex のページでログインをキャンセルしました。",
+    "yandexErrorEmailTaken": "このメールアドレスのアカウントはすでにあります。パスワードでログインしてください。",
+    "yandexErrorExpired": "ログイン用のリンクの有効期限が切れました。最初からやり直してください。",
+    "yandexErrorFailed": "ログインできませんでした。しばらくしてからお試しください。",
+    "yandexErrorNoEmail": "Yandex からメールアドレスが渡されなかったため、アカウントを作成できません。",
+    "yandexErrorRejected": "Yandex がこのログインを確認できませんでした。もう一度お試しください。",
+    "yandexErrorUnconfigured": "このストアでは Yandex でのログインがまだ有効になっていません。"
   },
   "Metadata": {
     "account": {

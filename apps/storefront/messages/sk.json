@@ -484,7 +484,16 @@
     "joinUs": "Zaregistrovať sa",
     "notMember": "Ešte nemáte účet?",
     "password": "Heslo",
-    "signIn": "Prihlásiť sa"
+    "signIn": "Prihlásiť sa",
+    "yandexCta": "Prihlásiť sa cez Yandex ID",
+    "yandexDivider": "alebo",
+    "yandexErrorDenied": "Prihlásenie ste na stránke Yandexu zrušili.",
+    "yandexErrorEmailTaken": "Účet s týmto e-mailom už existuje. Prihláste sa heslom.",
+    "yandexErrorExpired": "Platnosť odkazu na prihlásenie vypršala. Začnite odznova.",
+    "yandexErrorFailed": "Prihlásenie sa nepodarilo. Skúste to o chvíľu.",
+    "yandexErrorNoEmail": "Yandex neposkytol e-mailovú adresu, účet sa preto nedá vytvoriť.",
+    "yandexErrorRejected": "Yandex toto prihlásenie nepotvrdil. Skúste to znova.",
+    "yandexErrorUnconfigured": "Prihlásenie cez Yandex zatiaľ nie je v tomto obchode zapnuté."
   },
   "Metadata": {
     "account": {
