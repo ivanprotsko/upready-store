@@ -1,0 +1,2202 @@
+URL: https://dev.wildberries.ru/ru/docs/openapi/reports
+FINAL: https://dev.wildberries.ru/en/docs/openapi/reports
+TITLE: Documentation — WB API
+
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+More
+Documentation
+Release Notes
+Swagger
+Sandbox
+API Status
+Community
+Knowledge Base
+Sign In
+General
+Item Management
+FBS Orders
+DBW Orders
+DBS
+In-Store Pickup
+FBW Supplies
+Marketing and Promotion
+Customer Communication
+Rates
+Analytics and Data
+Reports
+Main Reports
+Warehouses Inventory Report
+Report on Items with Mandatory Labeling
+Retention Reports
+Acceptance Expenses
+Paid Storage
+Sales by Regions
+Share of Brand in Sales
+Blocked Items
+Returns and Item Movement Report
+Documents and Accounting
+Reports
+
+Reports on items, retentions, and paid storage
+
+Main Reports
+To access the methods, use a token for the Statistics category
+
+You can save the main reports in sheets format
+
+Orders
+/api/v1/supplier/orders
+Prod
+GET
+https://statistics-api.wildberries.ru/api/v1/supplier/orders
+Sandbox
+GET
+https://statistics-api-sandbox.wildberries.ru/api/v1/supplier/orders
+Method description
+
+The method returns order information.
+The data updated every 30 minutes.
+
+
+
+1 line means 1 order and means 1 item.
+The srid field should be used to identify the order.
+
+
+
+Data storage is guaranteed for no more than 90 days from the date of sale.
+
+
+
+The responses do not include orders for which payment was not confirmed. For example, it could be orders with delayed payments or installment payments. However, if there are sales for such orders, you can get it using details for the realization reports.
+To receive all completed orders, use Order Feed.
+
+The data in this report is preliminary and is used for operational monitoring
+
+For a single response to a request with flag=0 or without flag, a conditional limit of 80,000 rows is set. Therefore, more than one request may be necessary to retrieve all orders. In the second and subsequent requests, use the full value of the lastChangeDate field of the last row from the response of the previous request in the dateFrom parameter.
+If the response returns an empty array [], all orders have already been retrieved.
+
+
+
+In the sandbox, the dateFrom and dateTo parameters can only be set to a range within the last 4 months from the current date.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	10 requests
+Service	1 min	1 request	1 min	10 requests
+Base with secret	1 min	1 request	1 min	10 requests
+Base	3 h	1 request	3 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+
+Date and time of last change on the order.
+Date format: RFC3339. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone (UTC+3).
+Examples:
+
+2019-06-20
+2019-06-20T23:59:59
+2019-06-20T00:00:00.12345
+2017-03-25T00:00:00
+
+flag	
+integer
+Default: 0
+
+If parameter flag=0 (or it doesn't exist in requests string), then call of API methods returns data, which value of field lastChangeDate (date and time of refreshing info of service) is greater or equal to the given parameter value dateFrom. In this case the number of returned rows of data varies from 0 to approximately 80,000.
+If parameter flag=1, then information about all orders or sales with the date will be uploaded, that equals to the passed parameter dateFrom (in this case the time in the date doesn't matter). Also the number of returned rows of data will be equal to the number of all orders or sales that were made on the specified date, passed in the dateFrom parameter.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"date": "2022-03-04T18:08:31",
+"lastChangeDate": "2022-03-06T10:11:07",
+"warehouseName": "Склад WB РФ",
+"warehouseType": "Склад продавца",
+"countryName": "Россия",
+"oblastOkrugName": "Центральный федеральный округ",
+"regionName": "Московская",
+"supplierArticle": "12345",
+"nmId": 1234567,
+"barcode": "123453559000",
+"category": "Бытовая техника",
+"subject": "Мультистайлеры",
+"brand": "Тест",
+"techSize": "0",
+"incomeID": 56735459,
+"isSupply": false,
+"isRealization": true,
+"totalPrice": 1887,
+"discountPercent": 18,
+"spp": 26,
+"finishedPrice": 1145,
+"priceWithDisc": 1547,
+"isCancel": true,
+"cancelDate": "2022-03-09T00:00:00",
+"sticker": "926912515",
+"gNumber": "34343462218572569531",
+"srid": "11.rf9ef11fce1684117b0nhj96222982382.3.0"
+}
+]
+Sales
+/api/v1/supplier/sales
+Prod
+GET
+https://statistics-api.wildberries.ru/api/v1/supplier/sales
+Sandbox
+GET
+https://statistics-api-sandbox.wildberries.ru/api/v1/supplier/sales
+Method description
+
+The method returns sale and return information.
+The data updated every 30 minutes.
+
+
+
+1 line means 1 sale/return and means 1 item.
+The srid field should be used to identify the order.
+
+
+
+Data storage is guaranteed for no more than 90 days from the date of sale.
+
+
+
+The data in this report is preliminary and is used for operational monitoring
+The responses do not include orders for which payment was not confirmed, even if these orders are in details for the realization reports. For example, it could be orders with delayed payments or installment payments
+The values of the priceWithDisc and forPay fields are calculated using a simplified logic and may differ from retail_price_withdisc_rub and ppvz_for_pay, respectively, in details for the realization reports
+The fields finishedPrice, priceWithDisc, and forPay may temporarily have the value 0: data is filled in asynchronously and updated within 24 hours
+For orders that are paid in a currency other than the seller currency, prices may be rounded due to currency conversion
+
+Use details for the realization reports for accurate financial calculations, reconciliation, and reporting.
+
+
+
+For a single response to a request with flag=0 or without flag, a conditional limit of 80,000 rows is set. Therefore, more than one request may be necessary to retrieve all sales and returns. In the second and subsequent requests, use the full value of the lastChangeDate field of the last row from the response of the previous request in the dateFrom parameter.
+If the response returns an empty array [], all sales and returns have already been retrieved.
+
+
+
+In the sandbox, the dateFrom and dateTo parameters can only be set to a range within the last 4 months from the current date.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	2 h	1 request	2 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+
+Date and time of last change on the sale/return.
+Date format: RFC3339. You may send date or date with time. Time could be specified in seconds or milliseconds.
+The time stands in Moscow time zone (UTC+3).
+Examples:
+
+2019-06-20
+2019-06-20T23:59:59
+2019-06-20T00:00:00.12345
+2017-03-25T00:00:00
+
+flag	
+integer
+Default: 0
+
+If parameter flag=0 (or it doesn't exist in requests string), then call of API methods returns data, which value of field lastChangeDate (date and time of refreshing info of service) is greater or equal to the given parameter value dateFrom. In this case the number of returned rows of data varies from 0 to approximately 80,000.
+If parameter flag=1, then information about all orders or sales with the date will be uploaded, that equals to the passed parameter dateFrom (in this case the time in the date doesn't matter). Also the number of returned rows of data will be equal to the number of all orders or sales that were made on the specified date, passed in the dateFrom parameter.
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"date": "2022-03-04T18:08:31",
+"lastChangeDate": "2022-03-06T10:11:07",
+"warehouseName": "Склад WB РФ",
+"warehouseType": "Склад продавца",
+"countryName": "Россия",
+"oblastOkrugName": "Центральный федеральный округ",
+"regionName": "Московская",
+"supplierArticle": "12345",
+"nmId": 1234567,
+"barcode": "123453559000",
+"category": "Бытовая техника",
+"subject": "Мультистайлеры",
+"brand": "Тест",
+"techSize": "0",
+"incomeID": 56735459,
+"isSupply": false,
+"isRealization": true,
+"totalPrice": 1887,
+"discountPercent": 18,
+"spp": 20,
+"paymentSaleAmount": 93,
+"forPay": 1284.01,
+"finishedPrice": 1145,
+"priceWithDisc": 1547,
+"saleID": "S9993700024",
+"sticker": "926912515",
+"gNumber": "34343462218572569531",
+"srid": "11.rf9ef11fce1684117b0nhj96222982382.3.0"
+}
+]
+Warehouses Inventory Report
+To access the methods, use a token for the Analytics category
+
+To get the report on WB warehouses remains:
+
+Create the report.
+Wait for the report to be ready. You can check the status of the report readiness. The ready report is stored for 2 hours.
+Get the report.
+Create the Report
+/api/v1/warehouse_remains
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/warehouse_remains
+Method description
+
+Creates a task for report generation. The parameters groupBy and filter can be set in any combination — similar to the version in the personal account.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	5 requests
+Service	1 min	1 request	1 min	5 requests
+Base with secret	1 min	1 request	1 min	5 requests
+Base	1 h	4 requests	15 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Default: "ru"
+Example: locale=ru
+
+Language of the subjectName and warehouseName response fields:
+
+ru — Russian
+en — English
+zh — Chinese. Values of the warehouseName are in English
+
+groupByBrand	
+boolean
+Default: false
+Example: groupByBrand=true
+
+Group by brand
+
+
+groupBySubject	
+boolean
+Default: false
+Example: groupBySubject=true
+
+Group by subcategory
+
+
+groupBySa	
+boolean
+Default: false
+Example: groupBySa=true
+
+Group by seller item number
+
+
+groupByNm	
+boolean
+Default: false
+Example: groupByNm=true
+
+Group by WB item number. If groupByNm=true, there will be volume field in the response
+
+
+groupByBarcode	
+boolean
+Default: false
+Example: groupByBarcode=true
+
+Group by barcode
+
+
+groupBySize	
+boolean
+Default: false
+Example: groupBySize=true
+
+Group by size
+
+
+filterPics	
+integer
+Default: 0
+Example: filterPics=1
+
+Photo filter:
+
+-1 — without photo
+0 — do not apply filter
+1 — with photo
+
+filterVolume	
+integer
+Default: 0
+Example: filterVolume=3
+
+Volume filter:
+
+-1 — without dimensions
+0 — do not apply filter
+3 — over three liters
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"taskId": "219eaecf-e532-4bd8-9f15-8036ec1b042d"
+}
+}
+Check the Status
+/api/v1/warehouse_remains/tasks/{task_id}/status
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/warehouse_remains/tasks/{task_id}/status
+Method description
+
+Returns the status of the generation task
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 s	1 request	5 s	5 requests
+Service	5 s	1 request	5 s	5 requests
+Base with secret	5 s	1 request	5 s	5 requests
+Base	1 h	4 requests	15 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Generation task ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": "cad56ec5-91ec-43a2-b5e8-efcf244cf309",
+"status": "done"
+}
+}
+Get the Report
+/api/v1/warehouse_remains/tasks/{task_id}/download
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/warehouse_remains/tasks/{task_id}/download
+Method description
+
+Returns the report by task ID
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	1 h	4 requests	15 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Generation task ID
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Expand
+[
+{
+"brand": "Wonderful",
+"subjectName": "Photo Albums",
+"vendorCode": "41058/прозрачный",
+"nmId": 183804172,
+"barcode": "2037031652319",
+"techSize": "0",
+"volume": 1.33,
+"warehouses": 
+[]
+}
+]
+Report on Items with Mandatory Labeling
+To access the methods, use a token for the Analytics category
+Report on Items with Mandatory Labeling
+/api/v1/analytics/excise-report
+POST
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/excise-report
+Method description
+
+Returns operations with labeled items.
+
+You can save the main reports in sheets format.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 h	10 requests	30 min	10 requests
+Service	5 h	10 requests	30 min	10 requests
+Base with secret	5 h	10 requests	30 min	10 requests
+Base	24 h	2 requests	12 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+Example: dateFrom=2025-02-28
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string
+Example: dateTo=2025-03-21
+
+Report period end, YYYY-MM-DD
+
+REQUEST BODY SCHEMA: application/json
+optional
+countries	
+Array of strings
+Items Enum: "AM" "BY" "KG" "KZ" "RU" "UZ"
+
+Country code in according with ISO 3166-2. Set the empty parameter to get data without filters by country
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Request samples
+Payload
+Content type
+application/json
+Copy
+Collapse
+{
+"countries": 
+[
+"AM",
+"RU"
+]
+}
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"response": 
+{
+"data": 
+[]
+}
+}
+Retention Reports
+To access the methods, use a token for the Analytics category
+Logistics and Storage Costs Multiplier
+/api/analytics/v1/measurement-penalties
+GET
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/measurement-penalties
+Method description
+
+The method returns a report with logistics and storage costs multiplier
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	6 h	1 request	6 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom	
+string <date-time>
+Example: dateFrom=2025-02-01T15:00:00Z
+
+Report period start. By default the date when data for the report was first received is used
+
+
+dateTo
+required
+	
+string <date-time>
+Example: dateTo=2025-10-11T18:00:00Z
+
+Report period end
+
+
+limit
+required
+	
+integer <= 1000
+Example: limit=330
+
+Number of retentions in the response
+
+
+offset	
+integer
+Default: 0
+Example: offset=220
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"reports": 
+[],
+"total": 3
+}
+}
+Warehouse Measurements
+/api/analytics/v1/warehouse-measurements
+GET
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/warehouse-measurements
+Method description
+
+The method returns a report with warehouse measurements
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	6 h	1 request	6 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom	
+string <date-time>
+Example: dateFrom=2025-02-01T15:00:00Z
+
+Report period start. By default the date when data for the report was first received is used
+
+
+dateTo
+required
+	
+string <date-time>
+Example: dateTo=2025-10-11T18:00:00Z
+
+Report period end
+
+
+limit
+required
+	
+integer <= 1000
+Example: limit=330
+
+Number of measurements in the response
+
+
+offset	
+integer
+Default: 0
+Example: offset=220
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"reports": 
+[],
+"total": 2
+}
+}
+Substitutions and Incorrect Attachments
+/api/analytics/v1/deductions
+GET
+https://seller-analytics-api.wildberries.ru/api/analytics/v1/deductions
+Method description
+
+The method returns a report with substitutions and incorrect attachments retentions
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	1 h	4 requests	15 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom	
+string <date-time>
+Example: dateFrom=2025-02-01T15:00:00Z
+
+Report period start. By default the date and time when data for the report was first received is used
+
+
+dateTo
+required
+	
+string <date-time>
+Example: dateTo=2025-10-11T18:00:00Z
+
+Report period end
+
+
+sort	
+string
+Default: "dtBonus"
+Enum: "nmId" "dtBonus" "bonusSumm"
+Example: sort=nmId
+
+Sorting:
+
+nmId — by Wildberries item number
+dtBonus — by fine date and time
+bonusSumm — by fine amount
+
+order	
+string
+Default: "desc"
+Enum: "desc" "asc"
+Example: order=asc
+
+Data order:
+
+desc — descending
+asc — ascending
+
+limit
+required
+	
+integer <= 1000
+Example: limit=330
+
+Number of retentions in the response
+
+
+offset	
+integer
+Default: 0
+Example: offset=220
+
+How many results to skip. For example, with value 10, the response will start with the 11 element
+
+Responses
+200
+
+Успешно
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+{
+"reports": 
+[],
+"total": 11
+}
+}
+Self-purchases
+/api/v1/analytics/antifraud-details
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/antifraud-details
+Method description
+
+Returns report with self-purchase deductions. The report is generated on Wednesdays at 7:00 UTC+4 and contains weekly data. Also you can get all data starting from August 2023.
+
+Self-purchase deduction is 30% of item price. Minimum deduction is 100,000 ₽, if the total item cost delivered to the pick-up point is more than 100,000 ₽ per one week.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 min	1 request	10 min	10 requests
+Service	10 min	1 request	10 min	10 requests
+Base with secret	10 min	1 request	10 min	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+date	
+string
+Example: date=2023-12-01
+
+Date from report period, YYYY-MM-DD, for example 2023-12-01. To get all data from August 2023 do not use this parameter
+
+Responses
+200
+
+Self-purchase deductions
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"details": 
+[
+{}
+]
+}
+Item Labeling
+/api/v1/analytics/goods-labeling
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/goods-labeling
+Method description
+
+Returns a report on deductions for the absence of mandatory item labeling.
+The report contains photos of items where the labeling is absent or cannot be read.
+Data can be obtained for up to 31 days, starting from March 2024
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	10 requests
+Service	1 min	1 request	1 min	10 requests
+Base with secret	1 min	1 request	1 min	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string <date>
+Example: dateFrom=2024-04-01
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string <date>
+Example: dateTo=2024-04-30
+
+Report period end, YYYY-MM-DD
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"report": 
+[
+{}
+]
+}
+Acceptance Expenses
+To access the methods, use a token for the Analytics category
+
+To get the report on acceptance expenses:
+
+Create the report.
+Wait for the report to be ready. You can check the status of the report readiness. The ready report is stored for 2 hours.
+Get the report.
+Create the Report
+/api/v1/acceptance_report
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/acceptance_report
+Method description
+
+Creates a task for report generation.
+
+Maximum of report period is 31 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	3 h	1 request	3 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+Example: dateFrom=2025-02-28
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string
+Example: dateTo=2025-03-21
+
+Report period end, YYYY-MM-DD
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"taskId": "219eaecf-e532-4bd8-9f15-8036ec1b042d"
+}
+}
+Check the Status
+/api/v1/acceptance_report/tasks/{task_id}/status
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/acceptance_report/tasks/{task_id}/status
+Method description
+
+Returns the status of the generation task
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 s	1 request	5 s	1 request
+Service	5 s	1 request	5 s	1 request
+Base with secret	5 s	1 request	5 s	1 request
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Generation task ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": "cad56ec5-91ec-43a2-b5e8-efcf244cf309",
+"status": "done"
+}
+}
+Get the Report
+/api/v1/acceptance_report/tasks/{task_id}/download
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/acceptance_report/tasks/{task_id}/download
+Method description
+
+Returns the report by task ID
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Generation task ID
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"count": 40,
+"giCreateDate": "2025-03-04",
+"incomeId": 11834106,
+"nmID": 123456789,
+"shkCreateDate": "2025-03-14",
+"subjectName": "Добавки пищевые",
+"total": 873.04
+}
+]
+Paid Storage
+To access the methods, use a token for the Analytics category
+
+To get the report:
+
+Generate the report
+Check if the report is generated with Check the status method. Generated report is available during 2 hours.
+Get the report
+Generate the Report
+/api/v1/paid_storage
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/paid_storage
+Method description
+
+Create a task to generate a report. Maximum of report period — 8 days
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	5 requests
+Service	1 min	1 request	1 min	5 requests
+Base with secret	1 min	1 request	1 min	5 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+Example: dateFrom=2022-01-01
+
+Start of the report period, RFC3339 format. Date or date and time, for example:
+
+2019-06-20
+2019-06-20T23:59:59
+2019-06-20T00:00:00.12345
+2017-03-25T00:00:00
+
+dateTo
+required
+	
+string
+Example: dateTo=2022-01-09
+
+End of the report period, RFC3339 format. Date or date and time, for example:
+
+2019-06-20
+2019-06-20T23:59:59
+2019-06-20T00:00:00.12345
+2017-03-25T00:00:00
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"taskId": "219eaecf-e532-4bd8-9f15-8036ec1b042d"
+}
+}
+Check the Status
+/api/v1/paid_storage/tasks/{task_id}/status
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/paid_storage/tasks/{task_id}/status
+Method description
+
+Returns the status of task
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 s	1 request	5 s	5 requests
+Service	5 s	1 request	5 s	5 requests
+Base with secret	5 s	1 request	5 s	5 requests
+Base	1 h	2 requests	30 min	2 requests
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Task ID
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+{
+"id": "cad56ec5-91ec-43a2-b5e8-efcf244cf309",
+"status": "done"
+}
+}
+Get the Report
+/api/v1/paid_storage/tasks/{task_id}/download
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/paid_storage/tasks/{task_id}/download
+Method description
+
+Returns the report by task ID
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	1 request
+Service	1 min	1 request	1 min	1 request
+Base with secret	1 min	1 request	1 min	1 request
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+PATH PARAMETERS
+task_id
+required
+	
+string
+Example: 06e06887-9d9f-491f-b16a-bb1766fcb8d2
+
+Task ID
+
+Responses
+200
+
+Success
+
+204
+
+No data
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+404
+
+Not found
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+404
+429
+Content type
+application/json
+Copy
+Collapse
+[
+{
+"date": "2023-10-01",
+"logWarehouseCoef": 0,
+"officeId": 0,
+"warehouse": "Склад WB РФ",
+"warehouseCoef": 1.7,
+"giId": 123456,
+"chrtId": 1234567,
+"size": "0",
+"barcode": "",
+"subject": "Маски одноразовые",
+"brand": "1000 Каталог",
+"vendorCode": "567383",
+"nmId": 1234567,
+"volume": 12,
+"calcType": "короба: без габаритов",
+"warehousePrice": 7.65,
+"barcodesCount": 1,
+"palletPlaceCode": 0,
+"palletCount": 0,
+"originalDate": "2023-03-01",
+"loyaltyDiscount": 10,
+"tariffFixDate": "2023-10-01",
+"tariffLowerDate": "2023-11-01"
+}
+]
+Sales by Regions
+To access the methods, use a token for the Analytics category
+Get Report
+/api/v1/analytics/region-sale
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/region-sale
+Method description
+
+Returns sales data grouped by regions of the countries. You can obtain a report for a maximum of 31 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	1 request	10 s	5 requests
+Service	10 s	1 request	10 s	5 requests
+Base with secret	10 s	1 request	10 s	5 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string
+Example: dateFrom=2025-02-28
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string
+Example: dateTo=2025-03-21
+
+Report period end, YYYY-MM-DD
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"report": 
+[
+{}
+]
+}
+Share of Brand in Sales
+To access the methods, use a token for the Analytics category
+
+Reports on the seller brand share in sales.
+
+To obtain a report, you will need:
+
+Brand names.
+ID and names of categories.
+
+You can get a report for a maximum of one year
+
+Seller Brands
+/api/v1/analytics/brand-share/brands
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/brand-share/brands
+Method description
+
+Returns the list of the seller brands.
+
+You can only get brands that:
+
+were sold in the last 90 days
+Have inventory available, regardless of the warehouse
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	10 requests
+Service	1 min	1 request	1 min	10 requests
+Base with secret	1 min	1 request	1 min	10 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+Responses
+200
+
+Success
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Collapse
+{
+"data": 
+[
+"1000 | Каталог",
+"1000 Каталог",
+"AndBerries",
+"H&M",
+"Mirtex",
+"PlayToday",
+"Test1",
+"WOW",
+"[\"Colambetta\"]",
+"dubs",
+"test",
+"Бест Трикотаж",
+"Тест"
+]
+}
+Parent Categories of the Brand
+/api/v1/analytics/brand-share/parent-subjects
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/brand-share/parent-subjects
+Method description
+
+Returns parent categories of the brand.
+
+Data can be obtained starting from 1 November 2022, for up to 365 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 s	1 request	5 s	20 requests
+Service	5 s	1 request	5 s	20 requests
+Base with secret	5 s	1 request	5 s	20 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+locale	
+string
+Default: "ru"
+Example: locale=ru
+
+Language of the response field parentName:
+
+ru — Russian
+en — English
+zh — Chinese
+
+brand
+required
+	
+string
+Example: brand=H%26M
+
+Brand
+
+
+dateFrom
+required
+	
+string
+Example: dateFrom=2025-02-28
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string
+Example: dateTo=2025-03-21
+
+Report period end, YYYY-MM-DD
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"data": 
+[
+{},
+{},
+{},
+{}
+]
+}
+Get Report
+/api/v1/analytics/brand-share
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/brand-share
+Method description
+
+Returns a report on the brand's share in sales.
+
+Data can be obtained starting from 1 November 2022, for up to 365 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	5 s	1 request	5 s	20 requests
+Service	5 s	1 request	5 s	20 requests
+Base with secret	5 s	1 request	5 s	20 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+parentId
+required
+	
+integer
+Example: parentId=1
+
+Parent category ID
+
+
+brand
+required
+	
+string
+Example: brand=H%26M
+
+Brand
+
+
+dateFrom
+required
+	
+string
+Example: dateFrom=2025-02-28
+
+Report period start, YYYY-MM-DD
+
+
+dateTo
+required
+	
+string
+Example: dateTo=2025-03-21
+
+Report period end, YYYY-MM-DD
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"report": 
+[
+{},
+{},
+{},
+{}
+]
+}
+Blocked Items
+To access the methods, use a token for the Analytics category
+Get Report
+/api/v1/analytics/banned-products/blocked
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/banned-products/blocked
+Method description
+
+Returns the list of blocked listings.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	10 s	1 request	10 s	6 requests
+Service	10 s	1 request	10 s	6 requests
+Base with secret	10 s	1 request	10 s	6 requests
+Base	1 h	1 request	1 h	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+sort
+required
+	
+string
+Enum: "brand" "nmId" "title" "vendorCode" "reason"
+Example: sort=nmId
+
+Sorting
+
+brand — by brand
+nmId — by WB item number
+title — by item title
+vendorCode — by seller item number
+reason — by reason for blocking
+
+order
+required
+	
+string
+Enum: "desc" "asc"
+Example: order=asc
+
+Data order
+
+desc — from the largest numeric value to the smallest, from the last alphabetical value to the first
+asc — from the smallest numeric value to the largest, from the first alphabetical value to the last
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"report": 
+[
+{}
+]
+}
+Returns and Item Movement Report
+To access the methods, use a token for the Analytics category
+Get Report
+/api/v1/analytics/goods-return
+GET
+https://seller-analytics-api.wildberries.ru/api/v1/analytics/goods-return
+Method description
+
+Returns a list of item returns to the seller. With one request, you can obtain a report for a maximum of 31 days.
+
+Request limit per one seller account:
+Type	Period	Limit	Interval	Burst
+Personal	1 min	1 request	1 min	10 requests
+Service	1 min	1 request	1 min	10 requests
+Base with secret	1 min	1 request	1 min	10 requests
+Base	1 h	2 requests	30 min	1 request
+AUTHORIZATIONS:
+HeaderApiKey
+QUERY PARAMETERS
+dateFrom
+required
+	
+string <date>
+Example: dateFrom=2024-08-13
+
+Beginning date of the reporting period
+
+
+dateTo
+required
+	
+string <date>
+Example: dateTo=2024-08-27
+
+End date of the reporting period
+
+Responses
+200
+
+Success
+
+400
+
+Bad request
+
+401
+
+Unauthorized
+
+402
+
+Payment required
+
+403
+
+Access denied
+
+429
+
+Too many requests
+
+Response samples
+200
+400
+401
+402
+403
+429
+Content type
+application/json
+Copy
+Expand
+{
+"report": 
+[
+{}
+]
+}
+Russia
+User Agreement of the WB API Service
+WB API Platform Access Agreement
+Policy on the Processing of Personal Data of RWB
+WB API Price List for Third-Party Services
+FAQ. Frequently Asked Questions
+
+© Wildberries 2004-2026. All rights reserved. Contact Information: dev-info@rwb.ru
+
+We use cookies to collect statistics and improve our service
+Accept

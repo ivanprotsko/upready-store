@@ -1,0 +1,142 @@
+/en :: 
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+/en/docs/openapi/api-information :: Documentation
+/en/release-notes :: Release Notes
+/en/sandbox :: Sandbox
+/en/wb-status :: API Status
+/en/forum :: Community
+/en/knowledge-base :: Knowledge Base
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+#tag/Reports :: 
+#tag/mainReports :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+/en/knowledge-base/articles/019d49a4-650c-7b04-9596-ba441936f9d3 :: sheets format
+#tag/mainReports/operation/getV1SupplierOrders :: 
+documents-and-accounting#tag/financialReports :: details for the realization reports
+analytics#tag/orderFeed :: Order Feed
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/mainReports/operation/getV1SupplierSales :: 
+documents-and-accounting#tag/financialReports :: details for the realization reports
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/warehousesInventoryReport :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/analytics-reports/warehouse-remains :: WB warehouses remains
+reports#tag/warehousesInventoryReport/operation/getV1WarehouseRemains :: Create the report
+reports#tag/warehousesInventoryReport/operation/getV1WarehouseRemainsTasksTaskIdStatus :: check the status
+reports#tag/warehousesInventoryReport/operation/getV1WarehouseRemainsTasksTaskIdDownload :: Get the report
+#tag/warehousesInventoryReport/operation/getV1WarehouseRemains :: 
+https://seller.wildberries.ru/analytics-reports/warehouse-remains :: version
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/warehousesInventoryReport/operation/getV1WarehouseRemainsTasksTaskIdStatus :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/warehousesInventoryReport/operation/getV1WarehouseRemainsTasksTaskIdDownload :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/reportOnItemsWithMandatoryLabeling :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/reportOnItemsWithMandatoryLabeling/operation/postV1AnalyticsExciseReport :: 
+/en/knowledge-base/articles/019d49a4-650c-7b04-9596-ba441936f9d3 :: sheets format
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/retentionReports :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/retentionReports/operation/getV1MeasurementPenalties :: 
+https://seller.wildberries.ru/analytics-reports/dimensions-penalties :: logistics and storage costs multiplier
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35154094220_em907759_n1_b2eaa5ed-bf21-4c58-b419-b5b5ec6f29ee.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35154094
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35159094420_em907759_n2_040407b0-7752-4ae7-a4a4-7ec016e86511.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35159094
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35189094220_em904757_n3_9f502e24-3b3e-4efd-9hac-802813046ac3.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/measurement_on_table/wbs35189094
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35619967012_em1178949_nphotoA_d037721f-62c2-4bdd-a5a8-4ad0905e3f8e.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35619967012_em1178949_nphotoB_fb161a65-e4b0-08d7-bb01-1bdba1b4d741.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35619967012_em1178949_nphotoC_9a8b10f7-26c4-4fc0-b2c5-a7e29a545aa4.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35776508795_em644504_nphotoA_1bdac868-a6c0-435a-950f-489f74acdb2e.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35776508795_em644504_nphotoB_8f1802b8-5552-4aae-b930-19e8efbee597.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-photo/gId35776508795_em644504_nphotoC_5d8f1832-e219-46cd-931b-d6d238d6784b.webp :: https://static-basket-09.wbbasket.ru/vol184/obmer-tovarov/handheld-goods-measurements-phot
+#tag/retentionReports/operation/getV1WarehouseMeasurements :: 
+https://seller.wildberries.ru/analytics-reports/dimensions-penalties/warehouse-measurements :: warehouse measurements
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_98bd4653-cc2e-496c-7aee-e035c2329ac0.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_98bd4653-
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_55f71345-58d9-48ef-6ae8-548e34abefc9.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_55f71345-
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_576b1f5b-5245-4e55-4ff4-351fc7a77f72.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/282504229_576b1f5b-
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_a9f839da-c3b7-4ea6-737c-a9e731250fb0.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_a9f839da-c3
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_2aac23b7-c8f9-42db-74e9-b4a9c916017c.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_2aac23b7-c8
+https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_ff93b7c4-19d6-e0a2-4dba-7c2f09f06b3.jpg :: https://static-basket-03.wb.ru/vol54/handheld-goods-measurements-photo/8906416_ff93b7c4-19
+#tag/retentionReports/operation/getV1Deductions :: 
+https://seller.wildberries.ru/analytics-reports/dimensions-penalties/retentions :: substitutions and incorrect attachments
+api-information#tag/introduction/Rate-Limits :: Request limit
+https://static-basket-03.wb.ru/vol49/change_characteristics/19189882946-2023-12-15T10:18:21.125Z-1.webp :: https://static-basket-03.wb.ru/vol49/change_characteristics/19189882946-2023-12-15T10:18:2
+https://static-basket-03.wb.ru/vol49/change_characteristics/19189052946-2023-12-15T10:18:35.249Z-2.webp :: https://static-basket-03.wb.ru/vol49/change_characteristics/19189052946-2023-12-15T10:18:3
+#tag/retentionReports/operation/getV1AnalyticsAntifraudDetails :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/retentionReports/operation/getV1AnalyticsGoodsLabeling :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/acceptanceExpenses :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/analytics-reports/acceptance-report :: acceptance expenses
+reports#tag/acceptanceExpenses/operation/getV1AcceptanceReport :: Create the report
+reports#tag/acceptanceExpenses/operation/getV1AcceptanceReportTasksTaskIdStatus :: check the status
+reports#tag/acceptanceExpenses/operation/getV1AcceptanceReportTasksTaskIdDownload :: Get the report
+#tag/acceptanceExpenses/operation/getV1AcceptanceReport :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/acceptanceExpenses/operation/getV1AcceptanceReportTasksTaskIdStatus :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/acceptanceExpenses/operation/getV1AcceptanceReportTasksTaskIdDownload :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/paidStorage :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+reports#tag/paidStorage/operation/getV1PaidStorage :: Generate the report
+reports#tag/paidStorage/operation/getV1PaidStorageTasksTaskIdStatus :: Check the status
+reports#tag/paidStorage/operation/getV1PaidStorageTasksTaskIdDownload :: Get the report
+#tag/paidStorage/operation/getV1PaidStorage :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/paidStorage/operation/getV1PaidStorageTasksTaskIdStatus :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/paidStorage/operation/getV1PaidStorageTasksTaskIdDownload :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/salesByRegions :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/salesByRegions/operation/getV1AnalyticsRegionSale :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/shareOfBrandInSales :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+https://seller.wildberries.ru/analytics-reports/brand-share :: Reports
+reports#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShare :: obtain a report
+reports#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShareBrands :: Brand names
+reports#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShareParentSubjects :: ID and names of categories
+#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShareBrands :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShareParentSubjects :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/shareOfBrandInSales/operation/getV1AnalyticsBrandShare :: 
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/blockedItems :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/blockedItems/operation/getV1AnalyticsBannedProducsBlocked :: 
+https://seller.wildberries.ru/analytics-reports/banned-products :: blocked listings
+api-information#tag/introduction/Rate-Limits :: Request limit
+#tag/returnsAndItemMovementReport :: 
+api-information#tag/authorization/How-to-create-a-personal-access-base-or-test-token :: token
+#tag/returnsAndItemMovementReport/operation/getV1AnalyticsGoodsReturn :: 
+https://seller.wildberries.ru/analytics-reports/goods-return :: item returns to the seller
+api-information#tag/introduction/Rate-Limits :: Request limit
+/en :: 
+/en/rules :: User Agreement of the WB API Service
+https://legal.wildberries.ru/soglashenie-o-razmeschenii-avtorizovannykh-servisov-na-platforme-wb-api/country/ru/lang/ru/ :: WB API Platform Access Agreement
+/en/privacy :: Policy on the Processing of Personal Data of RWB
+/api/price-list :: WB API Price List for Third-Party Services
+/en/faq :: FAQ. Frequently Asked Questions
+mailto:dev-info@rwb.ru :: dev-info@rwb.ru
+https://max.ru/wbapi :: 
+https://t.me/wb_api_notifications :: 
+/privacy :: cookies

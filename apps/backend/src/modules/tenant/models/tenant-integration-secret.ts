@@ -4,8 +4,13 @@ import Tenant from "./tenant";
 /**
  * The providers a shop can hold credentials for. One row per (tenant, provider);
  * the shape of `payload` is decided per provider in `src/tenant-secrets/`.
+ *
+ * `wildberries` is the shop's WB Seller API key (w01-wb-readonly-client). It
+ * sits here for the same reason Robokassa does: one backend serves every shop
+ * and a WB cabinet belongs to a shop, not to the process. The key is only ever
+ * READ from here, by `src/modules/wb/transport.ts`, which cannot write to WB.
  */
-export const TENANT_INTEGRATION_PROVIDERS = ["robokassa"] as const;
+export const TENANT_INTEGRATION_PROVIDERS = ["robokassa", "wildberries"] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
 /**
