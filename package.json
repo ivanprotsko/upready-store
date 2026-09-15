@@ -21,6 +21,8 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "backend:seed": "turbo seed --filter=@dtc/gorgo-medusa-backend",
+    "check:backend-build": "cd apps/backend && npx medusa build --lint false",
+    "check:backend-fixtures": "cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json",
     "backend:dev": "turbo dev --filter=@dtc/gorgo-medusa-backend",
     "storefront:dev": "turbo dev --filter=@dtc/gorgo-medusa-storefront"
   },
