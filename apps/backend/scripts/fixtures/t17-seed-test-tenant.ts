@@ -2,15 +2,15 @@ import type { MedusaContainer } from "@medusajs/framework";
 import type { IAuthModuleService, Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
-import { TENANT_MODULE } from "../modules/tenant";
-import TenantModuleService from "../modules/tenant/service";
-import createTenantWorkflow from "../workflows/tenant/create-tenant";
-import linkOrderToTenantWorkflow from "../workflows/tenant/link-order-to-tenant";
+import { TENANT_MODULE } from "../../src/modules/tenant";
+import TenantModuleService from "../../src/modules/tenant/service";
+import createTenantWorkflow from "../../src/workflows/tenant/create-tenant";
+import linkOrderToTenantWorkflow from "../../src/workflows/tenant/link-order-to-tenant";
 
 /**
  * t17-analytics: throwaway fixtures for measuring the analytics counters and
  * sales summary on a local stand. Not wired into any pnpm script — run once
- * with `npx medusa exec ./src/scripts/t17-seed-test-tenant.ts` against a
+ * with `npx medusa exec ./scripts/fixtures/t17-seed-test-tenant.ts` against a
  * scratch database, never against a real one. Same shape as
  * `t13-seed-test-tenant.ts`.
  *
