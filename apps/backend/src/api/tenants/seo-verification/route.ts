@@ -4,6 +4,27 @@ import type TenantModuleService from "../../../modules/tenant/service";
 import { getTenantScope } from "../tenant-scope";
 import type { PutTenantSeoVerificationBody } from "../validators";
 
+type SeoVerification = { yandex: string | null; google: string | null };
+
+const readSeoVerification = (metadata: Record<string, unknown>): SeoVerification => {
+  const current = (metadata.seo_verification ?? {}) as Partial<SeoVerification>;
+  return { yandex: current.yandex ?? null, google: current.google ?? null };
+};
+
+/**
+ * `GET /tenants/seo-verification` (b10-panel-gaps) — the tags as they stand,
+ * so the panel's field opens filled in. Added next to the `PUT` t11-seo-redirects
+ * shipped, for the same reason `/tenants/analytics` has both halves: a form
+ * that can only write is a form whose owner never learns what is saved.
+ */
+export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) => {
+  const scope = await getTenantScope(req);
+  const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
+  const tenant = await tenantModuleService.retrieveTenant(scope.id);
+
+  res.json({ seo_verification: readSeoVerification((tenant.metadata ?? {}) as Record<string, unknown>) });
+};
+
 /**
  * `PUT /tenants/seo-verification` — saves the Yandex/Google search console
  * verification tags into `tenant.metadata.seo_verification`, merged with

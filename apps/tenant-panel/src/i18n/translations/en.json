@@ -4024,5 +4024,49 @@
     "removed": "Account removed — Robokassa is no longer offered at checkout",
     "resultUrlTitle": "Result URL for the Robokassa dashboard",
     "resultUrlHint": "Paste this address into your shop's settings in Robokassa (Technical settings → Result URL, method POST). Robokassa reports payments to it; without it an order never becomes paid."
+  },
+  "redirects": {
+    "title": "Old addresses",
+    "subtitle": "where to send a visitor who arrives from a link on your old site, or at a page that no longer exists",
+    "columnFrom": "Old address",
+    "columnTo": "Goes to",
+    "columnKind": "Kind of redirect",
+    "status": {
+      "301": "Permanent (301)",
+      "302": "Temporary (302)",
+      "307": "Temporary, request kept (307)",
+      "308": "Permanent, request kept (308)"
+    },
+    "addAction": "Add a rule",
+    "editAction": "Edit",
+    "deleteAction": "Delete",
+    "deleteConfirm": "Delete",
+    "saveAction": "Save",
+    "cancel": "Cancel",
+    "created": "Rule added",
+    "saved": "Rule changed",
+    "removed": "Rule deleted",
+    "empty": "No rules yet. Add the first one, for example from an old product address to its new one.",
+    "searchPlaceholder": "Search by address",
+    "counter": "showing {{shown}} of {{total}}",
+    "pathError": "An address starts with a slash and carries no site name and no question mark, for example /catalog/cube-1",
+    "loopError": "The old and the new address are the same, so the redirect would loop",
+    "hint": "Choose permanent when the page has moved for good: search engines carry its standing over to the new address. Choose temporary when you plan to bring the old address back."
+  },
+  "seoVerification": {
+    "title": "Search engine ownership",
+    "subtitle": "the code Yandex and Google use to confirm the site is yours",
+    "yandex": {
+      "label": "Yandex Webmaster code",
+      "hint": "in Webmaster pick the Meta tag method and paste its content value here"
+    },
+    "google": {
+      "label": "Google Search Console code",
+      "hint": "in Search Console pick the HTML tag method and paste its content value here"
+    },
+    "hint": "Once saved, the code appears in the source of every page of your shop. Go back to Webmaster or Search Console and press Verify.",
+    "save": "Save",
+    "saved": "Code saved",
+    "loading": "loading…"
   }
 }

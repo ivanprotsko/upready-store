@@ -54,3 +54,7 @@ export * from "./payment-settings"
 // tenant-panel: added by t09-reviews (product reviews). The panel's own
 // module, no Admin counterpart.
 export * from "./reviews"
+// b10-panel-gaps: the shop's redirect table and its search-console codes.
+// Both are the panel's own modules, no Admin counterpart.
+export * from "./redirects"
+export * from "./seo-verification"

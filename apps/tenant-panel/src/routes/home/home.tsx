@@ -128,6 +128,20 @@ export const Home = () => {
           >
             Реквизиты продавца
           </Link>
+          {/* b10-panel-gaps: старые адреса магазина и коды подтверждения в
+              поисковиках — две половины одного переезда со старого сайта. */}
+          <Link
+            to="/settings/redirects"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("redirects.title")}
+          </Link>
+          <Link
+            to="/settings/seo"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("seoVerification.title")}
+          </Link>
           {/* t17-analytics step 1: the shop's own Yandex Metrica / GA4 ids. */}
           <Link
             to="/settings/analytics"
