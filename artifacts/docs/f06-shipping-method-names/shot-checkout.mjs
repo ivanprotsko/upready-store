@@ -40,12 +40,21 @@ for (const [size, viewport] of [
   await page.getByTestId("add-product-button").click({ timeout: 30_000 }).catch(async () => {
     await page.locator('button:has-text("В корзину")').first().click({ timeout: 30_000 })
   })
-  await page.waitForTimeout(2_000)
+  await page.waitForTimeout(2_500)
+  console.log(`${size}: cart page check`)
 
   await page.goto(`${base}/checkout`, { waitUntil: "networkidle", timeout: 60_000 })
-  await page.waitForSelector('[data-testid="delivery-option-radio"], [data-testid="delivery-option-pickup"]', {
-    timeout: 60_000,
-  })
+  const delivery = page.locator('[data-testid="delivery-option-radio"], [data-testid="delivery-option-pickup"]')
+  try {
+    await delivery.first().waitFor({ state: "visible", timeout: 45_000 })
+  } catch {
+    // Screenshot whatever the page does show, so a failure is evidence too.
+    await page.screenshot({ path: `${outDir}/${tag}-${size}-no-delivery.png`, fullPage: false })
+    const ids = await page.locator("[data-testid]").evaluateAll((els) =>
+      Array.from(new Set(els.map((el) => el.getAttribute("data-testid")))).slice(0, 40),
+    )
+    console.log(JSON.stringify({ size, delivery: "not rendered", testids: ids }, null, 2))
+  }
   await page.waitForTimeout(1_500)
 
   const file = `${outDir}/${tag}-${size}.png`

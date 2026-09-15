@@ -9,7 +9,7 @@
     "currency_code": "rub"
   },
   "cart": {
-    "id": "cart_01M2HMQ3Z3TQST6TJ9MSE5FZ76",
+    "id": "cart_01M2HVQBNAB2BMQBJRYEE7AMM0",
     "product": "Свечи АСД с чесноком",
     "variant": "variant_01M2GRC6CJB0VZGW034SG084G0"
   },
@@ -20,9 +20,9 @@
       "amount": 0,
       "price_type": "flat",
       "type": {
-        "label": "Pickup",
+        "label": "Самовывоз",
         "code": "pickup",
-        "description": "Pick up at the warehouse."
+        "description": "Заберите заказ у продавца."
       },
       "data": {
         "description": "Заберите заказ у продавца.",
@@ -41,9 +41,9 @@
       "amount": 300,
       "price_type": "flat",
       "type": {
-        "label": "Courier",
+        "label": "Курьером",
         "code": "courier",
-        "description": "Courier delivery."
+        "description": "До двери. Стоимость подтвердит магазин."
       },
       "data": {
         "description": "До двери. Стоимость подтвердит магазин.",
