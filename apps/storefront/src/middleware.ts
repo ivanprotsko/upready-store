@@ -309,6 +309,13 @@ function tenantRequestHeaders(
         encodeTenantHeaderValue(JSON.stringify(tenant.seoVerification))
       )
     }
+    // Logo, favicon, og image, primary colour, footer credit
+    // (t16-owner-branding) — same channel, so the very first render already
+    // has them with no extra round trip.
+    headers.set(
+      "x-tenant-branding",
+      encodeTenantHeaderValue(JSON.stringify(tenant.branding))
+    )
   }
 
   return headers
@@ -366,7 +373,19 @@ export async function middleware(request: NextRequest) {
     )
   }
 
-  if (request.nextUrl.pathname.includes(".")) {
+  // Root-level metadata routes with no extension in their URL (unlike
+  // robots.txt/sitemap.xml/llms.txt, which the dot check above already
+  // passes through): `opengraph-image`/`twitter-image` render at
+  // `/opengraph-image` with the extension carried in `Content-Type`, not the
+  // path (t16-owner-branding — broke the moment the static
+  // `opengraph-image.png` file became a dynamic `.tsx` route, since a
+  // scraper fetching the exact URL the metadata handed it was getting a
+  // bogus `/en/opengraph-image` redirect, a 404).
+  if (
+    request.nextUrl.pathname.includes(".") ||
+    request.nextUrl.pathname === "/opengraph-image" ||
+    request.nextUrl.pathname === "/twitter-image"
+  ) {
     return nextWithTenant()
   }
 

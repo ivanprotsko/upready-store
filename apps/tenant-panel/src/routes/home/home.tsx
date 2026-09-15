@@ -101,6 +101,13 @@ export const Home = () => {
           >
             {t("notificationSettings.title")}
           </Link>
+          {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
+          <Link
+            to="/settings/branding"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("brandingSettings.title", { defaultValue: "Бренд" })}
+          </Link>
         </div>
       </Container>
     </SingleColumnPage>

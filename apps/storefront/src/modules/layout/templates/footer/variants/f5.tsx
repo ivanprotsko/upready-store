@@ -7,6 +7,7 @@ import { shopPromoText } from "@lib/data/shop-copy"
 import { getSiteName } from "@lib/data/cookies"
 
 import SiteAttribution from "@modules/layout/components/site-attribution"
+import FooterCredit from "@modules/layout/components/footer-credit"
 
 /**
  * F5 · "Условия плитками" — up to 3 fact cards built from the profile's promo clauses,
@@ -145,7 +146,10 @@ export default async function FooterF5() {
               siteName: siteName,
             })}
           </span>
-          <SiteAttribution />
+          <div className="flex flex-col items-start gap-y-1 sm:items-end">
+            <SiteAttribution />
+            <FooterCredit />
+          </div>
         </div>
       </div>
     </footer>

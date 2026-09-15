@@ -6,6 +6,7 @@ import { listTenantPages } from "@lib/data/tenant-pages"
 import { getSiteName } from "@lib/data/cookies"
 
 import SiteAttribution from "@modules/layout/components/site-attribution"
+import FooterCredit from "@modules/layout/components/footer-credit"
 
 /**
  * F2 · "Одна строка" — everything the footer holds (wordmark, categories, collections)
@@ -79,7 +80,10 @@ export default async function FooterF2() {
               siteName: siteName,
             })}
           </span>
-          <SiteAttribution />
+          <div className="flex flex-col items-start gap-y-1 sm:items-end">
+            <SiteAttribution />
+            <FooterCredit />
+          </div>
         </div>
       </div>
     </footer>

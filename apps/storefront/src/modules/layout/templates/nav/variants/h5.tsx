@@ -3,10 +3,12 @@ import { Link } from "@i18n/navigation"
 
 import { listTopCategoriesWithCounts } from "@lib/data/categories"
 import { getSiteName } from "@lib/data/cookies"
+import { getSiteBranding } from "@lib/data/tenant-branding"
 import { hasPublishedArticles } from "@lib/data/tenant-articles"
 import CartButton from "@modules/layout/components/cart-button"
 import ModeToggle from "@modules/layout/components/mode-toggle"
 import Search from "@modules/layout/components/search"
+import SiteLogo from "@modules/layout/components/site-logo"
 import BrandUnlock from "@modules/studio/components/brand-unlock"
 
 /**
@@ -29,11 +31,12 @@ import BrandUnlock from "@modules/studio/components/brand-unlock"
  * 8px 16px }`) — it is not truncated with an ellipsis, it scrolls.
  */
 export default async function NavH5() {
-  const [t, { categories, totalCount }, siteName, showJournal] = await Promise.all([
+  const [t, { categories, totalCount }, siteName, showJournal, branding] = await Promise.all([
     getTranslations(),
     listTopCategoriesWithCounts(),
     getSiteName(),
     hasPublishedArticles(),
+    getSiteBranding(),
   ])
 
   return (
@@ -47,7 +50,7 @@ export default async function NavH5() {
                 className="shrink-0 txt-compact-medium font-semibold text-ui-fg-subtle uppercase hover:text-ui-fg-base transition-colors"
                 data-testid="nav-store-link"
               >
-                {siteName}
+                <SiteLogo siteName={siteName} branding={branding} />
               </Link>
             </BrandUnlock>
           </div>
