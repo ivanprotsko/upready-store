@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, one {{count} товар} few {{count} товари} many {{count} товарів} other {{count} товару}}",
     "legal": "Натискаючи «Оплатити», ви приймаєте <terms>умови</terms>, <termsOfUse>умови використання</termsOfUse> та <returnPolicy>політику повернення</returnPolicy>, а також погоджуєтеся з <privacyPolicy>політикою конфіденційності</privacyPolicy>.",
     "manualInput": "Ввести адресу вручну",
+    "addressIncomplete": "Заповніть обов'язкові поля адреси. Без міста та поштового індексу замовлення не відправити.",
     "orderComposition": "Склад замовлення",
     "paymentHeading": "Спосіб оплати",
     "recipientCheckbox": "Отримувач — інша особа",

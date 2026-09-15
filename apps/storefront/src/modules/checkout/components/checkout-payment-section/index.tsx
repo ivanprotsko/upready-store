@@ -10,6 +10,7 @@ import {
   paymentInfoMap,
 } from "@lib/constants"
 import compareAddresses from "@lib/util/compare-addresses"
+import { cartShippingAddressGaps } from "@lib/util/shipping-address"
 import { paymentMethodName } from "@lib/util/payment"
 import { CreditCard } from "@medusajs/icons"
 import type { HttpTypes } from "@medusajs/types"
@@ -128,6 +129,10 @@ export default function CheckoutPaymentSection({
     billingAddr &&
     compareAddresses(cart.shipping_address, billingAddr)
   )
+  // f04-address-without-city: `PaymentButton` disables itself on the same test.
+  // A disabled button with no reason next to it reads as a broken shop, so the
+  // missing half of the address is named here.
+  const addressIncomplete = cartShippingAddressGaps(cart).length > 0
   const billingText = billingAddr
     ? [billingAddr.address_1, billingAddr.city, billingAddr.postal_code]
         .filter(Boolean)
@@ -253,6 +258,15 @@ export default function CheckoutPaymentSection({
       />
 
       <ErrorMessage error={error} data-testid="payment-method-error-message" />
+
+      {addressIncomplete && (
+        <p
+          className="txt-compact-small text-ui-fg-error"
+          data-testid="shipping-address-incomplete"
+        >
+          {t("addressIncomplete")}
+        </p>
+      )}
 
       <div className="flex flex-col gap-y-3">
         <PaymentButton

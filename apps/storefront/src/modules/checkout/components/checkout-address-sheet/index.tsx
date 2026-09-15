@@ -13,6 +13,7 @@ import AddressAutocomplete, {
 } from "@modules/common/components/address-autocomplete"
 import { Button, RadioGroup } from "@medusajs/ui"
 import { useLocaleDirection } from "@lib/hooks/use-locale-direction"
+import { cartCountryCode, shippingAddressGaps } from "@lib/util/shipping-address"
 
 interface CheckoutAddressSheetProps {
   open: boolean
@@ -33,6 +34,9 @@ export default function CheckoutAddressSheet({
   const router = useRouter()
   const pathname = usePathname()
   const shippingAddress = cart.shipping_address
+  // A cart opened but never addressed has no `country_code` yet, so the region
+  // it belongs to answers which country's rules the form follows.
+  const countryCode = cartCountryCode(cart)
 
   const savedAddresses = addresses ?? []
   const hasSaved = savedAddresses.length > 0
@@ -94,6 +98,14 @@ export default function CheckoutAddressSheet({
       .join(", ")
 
   async function applySaved(address: HttpTypes.StoreCustomerAddress) {
+    // f04-address-without-city: an address saved before this rule existed can
+    // itself be missing a city, and applying it would put the cart back in the
+    // state the fix exists to prevent.
+    if (shippingAddressGaps(address, address.country_code).length > 0) {
+      setSelectedId(undefined)
+      setError(t("addressIncomplete"))
+      return
+    }
     setApplyingId(address.id)
     setError(null)
     const result = await setAddresses({
@@ -131,6 +143,15 @@ export default function CheckoutAddressSheet({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // f04-address-without-city: the browser's own `required` gate is the first
+    // line, this is the one that survives an autofill, a saved address and a
+    // form submitted programmatically. A parcel cannot be posted without city
+    // and index, so a half-filled address is never written to the cart.
+    const gaps = shippingAddressGaps(addressFields, countryCode)
+    if (gaps.length > 0) {
+      setError(t("addressIncomplete"))
+      return
+    }
     setIsSubmitting(true)
     setError(null)
     const result = await setAddresses({
@@ -186,7 +207,7 @@ export default function CheckoutAddressSheet({
               values={addressFields}
               onChange={setAddressFields}
               required
-              countryCode={shippingAddress?.country_code}
+              countryCode={countryCode}
             />
             <Input
               label={t("fieldCompany")}

@@ -135,6 +135,7 @@
     "itemsCount": "{count, plural, other {{count} sản phẩm}}",
     "legal": "Bằng cách nhấn «Thanh toán», bạn đồng ý với <terms>điều khoản</terms>, <termsOfUse>điều khoản sử dụng</termsOfUse> và <returnPolicy>chính sách đổi trả</returnPolicy> của chúng tôi, đồng thời đồng ý với <privacyPolicy>chính sách bảo mật</privacyPolicy>.",
     "manualInput": "Nhập địa chỉ thủ công",
+    "addressIncomplete": "Điền đầy đủ các trường bắt buộc của địa chỉ. Không có thành phố và mã bưu chính thì không thể gửi đơn hàng.",
     "orderComposition": "Tóm tắt đơn hàng",
     "paymentHeading": "Phương thức thanh toán",
     "recipientCheckbox": "Người nhận là người khác",
