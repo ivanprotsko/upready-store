@@ -147,6 +147,14 @@
     "signIn": "Inloggen",
     "total": "Totaal"
   },
+  "ClaimOrders": {
+    "heading": "Zonder account besteld?",
+    "description": "Als u als gast met hetzelfde e-mailadres hebt besteld, koppelen wij die bestellingen aan uw account.",
+    "button": "Mijn bestellingen zoeken",
+    "claimed": "Gekoppelde bestellingen: {count}",
+    "none": "We vonden geen gastbestellingen op uw e-mailadres in deze winkel.",
+    "failed": "We konden uw bestellingen niet controleren. Probeer het zo nog eens."
+  },
   "Common": {
     "clear": "Wissen",
     "close": "Sluiten",

@@ -147,6 +147,14 @@
     "signIn": "Logg inn",
     "total": "Totalt"
   },
+  "ClaimOrders": {
+    "heading": "Bestilte du uten konto?",
+    "description": "Hvis du bestilte som gjest med den samme e-postadressen, knytter vi de bestillingene til kontoen din.",
+    "button": "Finn bestillingene mine",
+    "claimed": "Tilknyttede bestillinger: {count}",
+    "none": "Vi fant ingen gjestebestillinger på e-postadressen din i denne butikken.",
+    "failed": "Vi klarte ikke å sjekke bestillingene dine. Prøv igjen om litt."
+  },
   "Common": {
     "clear": "Tøm",
     "close": "Lukk",

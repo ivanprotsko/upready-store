@@ -147,6 +147,14 @@
     "signIn": "Logga in",
     "total": "Totalt"
   },
+  "ClaimOrders": {
+    "heading": "Beställde du utan konto?",
+    "description": "Om du beställde som gäst med samma e-postadress kopplar vi de beställningarna till ditt konto.",
+    "button": "Hitta mina beställningar",
+    "claimed": "Kopplade beställningar: {count}",
+    "none": "Vi hittade inga gästbeställningar på din e-postadress i den här butiken.",
+    "failed": "Vi kunde inte kontrollera dina beställningar. Försök igen om en stund."
+  },
   "Common": {
     "clear": "Rensa",
     "close": "Stäng",

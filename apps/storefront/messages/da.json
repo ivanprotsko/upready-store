@@ -147,6 +147,14 @@
     "signIn": "Log ind",
     "total": "I alt"
   },
+  "ClaimOrders": {
+    "heading": "Bestilte du uden konto?",
+    "description": "Hvis du bestilte som gæst med den samme e-mailadresse, knytter vi de ordrer til din konto.",
+    "button": "Find mine ordrer",
+    "claimed": "Tilknyttede ordrer: {count}",
+    "none": "Vi fandt ingen gæsteordrer på din e-mailadresse i denne butik.",
+    "failed": "Vi kunne ikke tjekke dine ordrer. Prøv igen om lidt."
+  },
   "Common": {
     "clear": "Ryd",
     "close": "Luk",

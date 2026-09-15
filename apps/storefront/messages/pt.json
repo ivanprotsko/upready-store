@@ -147,6 +147,14 @@
     "signIn": "Iniciar sessão",
     "total": "Total"
   },
+  "ClaimOrders": {
+    "heading": "Fez a encomenda sem conta?",
+    "description": "Se comprou como convidado com o mesmo endereço de email, associamos essas encomendas à sua conta.",
+    "button": "Encontrar as minhas encomendas",
+    "claimed": "Encomendas associadas: {count}",
+    "none": "Não encontrámos encomendas de convidado com o seu endereço de email nesta loja.",
+    "failed": "Não foi possível verificar as suas encomendas. Tente novamente daqui a pouco."
+  },
   "Common": {
     "clear": "Limpar",
     "close": "Fechar",

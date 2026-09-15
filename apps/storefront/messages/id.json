@@ -147,6 +147,14 @@
     "signIn": "Masuk",
     "total": "Total"
   },
+  "ClaimOrders": {
+    "heading": "Memesan tanpa akun?",
+    "description": "Jika Anda memesan sebagai tamu dengan alamat email yang sama, kami akan menautkan pesanan itu ke akun Anda.",
+    "button": "Cari pesanan saya",
+    "claimed": "Pesanan yang ditautkan: {count}",
+    "none": "Tidak ada pesanan tamu dengan alamat email Anda di toko ini.",
+    "failed": "Kami tidak dapat memeriksa pesanan Anda. Coba lagi sebentar lagi."
+  },
   "Common": {
     "clear": "Hapus",
     "close": "Tutup",

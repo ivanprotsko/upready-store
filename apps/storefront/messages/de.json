@@ -147,6 +147,14 @@
     "signIn": "Anmelden",
     "total": "Gesamt"
   },
+  "ClaimOrders": {
+    "heading": "Ohne Konto bestellt?",
+    "description": "Wenn Sie als Gast mit derselben E-Mail-Adresse bestellt haben, ordnen wir diese Bestellungen Ihrem Konto zu.",
+    "button": "Meine Bestellungen finden",
+    "claimed": "Zugeordnete Bestellungen: {count}",
+    "none": "Zu Ihrer E-Mail-Adresse wurden in diesem Shop keine Gastbestellungen gefunden.",
+    "failed": "Wir konnten Ihre Bestellungen nicht prüfen. Versuchen Sie es gleich noch einmal."
+  },
   "Common": {
     "clear": "Löschen",
     "close": "Schließen",

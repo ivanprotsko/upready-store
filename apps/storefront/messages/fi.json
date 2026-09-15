@@ -147,6 +147,14 @@
     "signIn": "Kirjaudu sisään",
     "total": "Yhteensä"
   },
+  "ClaimOrders": {
+    "heading": "Tilasitko ilman tiliä?",
+    "description": "Jos tilasit vieraana samalla sähköpostiosoitteella, liitämme ne tilaukset tilillesi.",
+    "button": "Etsi tilaukseni",
+    "claimed": "Liitetyt tilaukset: {count}",
+    "none": "Sähköpostiosoitteellasi ei löytynyt vierastilauksia tästä kaupasta.",
+    "failed": "Tilauksiasi ei voitu tarkistaa. Yritä hetken kuluttua uudelleen."
+  },
   "Common": {
     "clear": "Tyhjennä",
     "close": "Sulje",

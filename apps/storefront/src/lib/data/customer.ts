@@ -14,6 +14,7 @@ import {
   removeCartId,
   setAuthToken,
 } from "./cookies"
+import { claimGuestOrders } from "./orders"
 import { getLocale } from "./locale-actions"
 import { defaultLocale } from "@i18n/config"
 import { validatePassword } from "@lib/util/password"
@@ -90,6 +91,32 @@ export const retrieveCustomerAddresses =
       .catch(() => null)
   }
 
+/**
+ * Hands the account the orders this shop already holds under its address.
+ *
+ * It runs on the two moments a session begins, because both produce the empty
+ * orders screen f03-guest-order-not-in-account is about: registering after a
+ * guest checkout, and checking out as a guest while an account already exists
+ * (which is what happens whenever somebody buys without noticing they are
+ * logged out).
+ *
+ * A failure here never fails the login. The customer is authenticated either
+ * way, and the orders screen carries a button that runs the same claim, so the
+ * recovery path stays open. It is logged rather than swallowed (rule 20a).
+ */
+async function claimGuestOrdersQuietly(context: string) {
+  try {
+    const { claimed, error } = await claimGuestOrders()
+    if (error) {
+      console.error(`[${context}] claiming guest orders failed:`, error)
+    } else if (claimed) {
+      console.info(`[${context}] ${claimed} guest order(s) claimed`)
+    }
+  } catch (error) {
+    console.error(`[${context}] claiming guest orders threw:`, error)
+  }
+}
+
 export async function signup(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
   const locale = (await getLocale()) ?? defaultLocale
@@ -139,6 +166,8 @@ export async function signup(_currentState: unknown, formData: FormData) {
     revalidateTag(customerCacheTag)
 
     await transferCart()
+
+    await claimGuestOrdersQuietly("signup")
 
     return createdCustomer
   } catch (error) {
@@ -250,6 +279,8 @@ export async function login(_currentState: unknown, formData: FormData) {
   } catch (error) {
     return String(error)
   }
+
+  await claimGuestOrdersQuietly("login")
 }
 
 export async function signout() {
