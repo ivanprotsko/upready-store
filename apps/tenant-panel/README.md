@@ -64,10 +64,14 @@ line per file:
   module instead of `useExtension().getI18nResources()`.
 - `i18n/translations/index.ts`, `i18n/languages.ts` — trimmed from 34 locales to English and
   Russian.
-- `routes/login/login.tsx` — drops extension widgets, `CloudAuthLogin`, `SsoLogin`, MFA state and
-  the reset-password link.
+- `routes/login/login.tsx` — drops extension widgets, `CloudAuthLogin`, `SsoLogin` and MFA state.
 - `routes/login/components/email-pass-login.tsx` — default post-login redirect changed from
-  `/orders` to `/`.
+  `/orders` to `/`; adds a "Forgot password?" link to `routes/forgot-password`
+  (f14-no-password-reset — the Admin's own version ships the reset-password link, this panel had
+  dropped it entirely for wave 1 and never added it back).
+- `routes/forgot-password/`, `routes/reset-password/` — own files, no direct Admin counterpart to
+  copy from (the Admin ships this pair as a single two-step route); `hooks/api/auth.tsx` gained
+  `useGenerateResetPasswordToken`, `useResetPasswordForEmailPass` and `useMailStatus` alongside them.
 - `lib/client/client.ts` — `backendUrl` falls back to `window.location.origin` instead of `"/"`
   (the panel isn't always served from the backend's own origin the way the Admin at `/app` is).
 - `components/common/required-permissions-section/required-permissions-section.tsx` — stub

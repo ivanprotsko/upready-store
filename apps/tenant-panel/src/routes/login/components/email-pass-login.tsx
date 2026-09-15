@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { AuthTypes } from "@medusajs/types"
-import { Alert, Button, Hint, Input } from "@medusajs/ui"
+import { Alert, Button, Hint, Input, Text } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
-import { useLocation, useNavigate } from "react-router-dom"
+import { Trans, useTranslation } from "react-i18next"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import * as z from "zod"
 
 import { Form } from "../../../components/common/form"
@@ -127,6 +127,15 @@ export const EmailPassLogin = ({ onMfaChallenge }: EmailPassLoginProps) => {
             }}
           />
         </div>
+        {/* f14-no-password-reset: the panel had no way back in for an owner
+            who forgot their generated 28-character password other than
+            emailing a developer. */}
+        <Text size="small" className="text-ui-fg-subtle text-center">
+          <Trans
+            i18nKey="login.forgotPassword"
+            components={[<Link key="forgot-password-link" to="/forgot-password" className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover" />]}
+          />
+        </Text>
         {validationError && (
           <div className="text-center">
             <Hint className="inline-flex" variant={"error"}>

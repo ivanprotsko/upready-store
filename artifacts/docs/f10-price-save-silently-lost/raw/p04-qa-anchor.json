@@ -1,0 +1,39 @@
+{
+  "PANEL": "https://panel-store.upready.dev",
+  "runs": [
+    {
+      "n": 1,
+      "tabs": 95,
+      "tag": "INPUT",
+      "field": "variants.0.prices.rsd",
+      "val": "1 355"
+    },
+    {
+      "n": 2,
+      "tabs": 96,
+      "tag": "INPUT",
+      "field": "variants.0.prices.rub",
+      "val": "1 412,00"
+    },
+    {
+      "n": 3,
+      "tabs": 95,
+      "tag": "INPUT",
+      "field": "variants.0.prices.rsd",
+      "val": "1 355"
+    },
+    {
+      "n": 4,
+      "tabs": 95,
+      "tag": "INPUT",
+      "field": "variants.0.prices.rsd",
+      "val": "1 355"
+    }
+  ],
+  "errors": [
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}
