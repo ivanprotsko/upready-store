@@ -1,0 +1,60 @@
+{
+  "host": "cherkashino.shipshift.dev",
+  "tenant": {
+    "handle": null,
+    "name": null
+  },
+  "region": {
+    "id": "reg_01M28EPZ15P07ZB3SC29AG9JPD",
+    "currency_code": "rub"
+  },
+  "cart": {
+    "id": "cart_01M2HMQ3Z3TQST6TJ9MSE5FZ76",
+    "product": "Свечи АСД с чесноком",
+    "variant": "variant_01M2GRC6CJB0VZGW034SG084G0"
+  },
+  "shipping_options": [
+    {
+      "id": "so_01M2GQVF6JH65JWP3CAZS945F3",
+      "name": "Самовывоз",
+      "amount": 0,
+      "price_type": "flat",
+      "type": {
+        "label": "Pickup",
+        "code": "pickup",
+        "description": "Pick up at the warehouse."
+      },
+      "data": {
+        "description": "Заберите заказ у продавца.",
+        "delivery_hint": "Адрес и время пришлём после заказа",
+        "tariff": {
+          "kind": "flat",
+          "amount": 0
+        },
+        "tariff_source": null,
+        "sort_order": 0
+      }
+    },
+    {
+      "id": "so_01M2GQVF6NNQPVWA61TSY2X2G7",
+      "name": "Курьером",
+      "amount": 300,
+      "price_type": "flat",
+      "type": {
+        "label": "Courier",
+        "code": "courier",
+        "description": "Courier delivery."
+      },
+      "data": {
+        "description": "До двери. Стоимость подтвердит магазин.",
+        "delivery_hint": null,
+        "tariff": {
+          "kind": "flat",
+          "amount": 300
+        },
+        "tariff_source": "provisioned-default",
+        "sort_order": 1
+      }
+    }
+  ]
+}

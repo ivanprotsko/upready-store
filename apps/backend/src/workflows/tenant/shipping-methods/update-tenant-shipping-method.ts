@@ -7,6 +7,7 @@ import {
 } from "@medusajs/medusa/core-flows";
 import type { TenantMethodData } from "../../../shipping-tariffs/tariff";
 import ensureLocationProviderLinkStep from "./steps/ensure-location-provider-link";
+import syncOptionTypeStep from "./steps/sync-option-type";
 import { geoZonesOf, zoneNameFor } from "./geo-zones";
 import { priceTypeOf, shippingOptionRules } from "./create-tenant-shipping-method";
 
@@ -95,6 +96,18 @@ const updateTenantShippingMethodWorkflow = createWorkflow(
     });
 
     const updated = updateShippingOptionsWorkflow.runAsStep({ input: optionUpdate });
+
+    // The workflow above carries the `type` in its input and writes none of
+    // it, so a renamed method would keep the label it was created with.
+    const typeInput = transform({ input }, ({ input }) => ({
+      option_id: input.id,
+      copy: {
+        label: input.name,
+        description: input.data.description ?? "",
+        code: "tenant-method",
+      },
+    }));
+    syncOptionTypeStep(typeInput);
 
     when("drop-own-zone", input, (input) => input.current_own_zone && input.data.zone === null).then(() => {
       const ids = transform({ input }, ({ input }) => ({ ids: [input.current_service_zone_id] }));

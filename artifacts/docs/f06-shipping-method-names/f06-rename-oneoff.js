@@ -16,7 +16,7 @@
  * backend's entrypoint runs the real script on every boot and finds nothing
  * left to do (the names no longer match the machine pattern).
  */
-const { ContainerRegistrationKeys } = require("@medusajs/framework/utils");
+const { ContainerRegistrationKeys, Modules } = require("@medusajs/framework/utils");
 const { updateShippingOptionsWorkflow } = require("@medusajs/medusa/core-flows");
 
 const TENANT_METHOD_SCHEMA = "upready.shipping-method/v1";
@@ -50,6 +50,7 @@ const isTenantMethodData = (data) =>
 module.exports.default = async function f06RenameOneOff({ container }) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  const fulfillment = container.resolve(Modules.FULFILLMENT);
   const locale = process.env.LOCALE || process.env.STOREFRONT_DEFAULT_LOCALE || "en";
   const names = defaultMethodNames(locale);
 
@@ -72,6 +73,7 @@ module.exports.default = async function f06RenameOneOff({ container }) {
 
   let renamed = 0;
   let repriced = 0;
+  let typesSynced = 0;
   for (const tenant of tenants) {
     const zoneIds = ((tenant.sales_channel && tenant.sales_channel.stock_locations) || []).flatMap((location) =>
       (location.fulfillment_sets || []).flatMap((set) => (set.service_zones || []).map((zone) => zone.id)),
@@ -80,14 +82,29 @@ module.exports.default = async function f06RenameOneOff({ container }) {
 
     const { data: options } = await query.graph({
       entity: "shipping_option",
-      fields: ["id", "name", "data", "prices.currency_code", "prices.amount"],
+      fields: ["id", "name", "data", "type.id", "type.label", "type.description", "prices.currency_code", "prices.amount"],
       filters: { service_zone_id: zoneIds },
     });
 
     const updates = [];
+    const typeOnly = [];
     for (const option of options) {
+      const typeRow = option.type || null;
       const kind = isMachineMadeDefaultName(option.name, tenant.name);
-      if (!kind) continue;
+      if (!kind) {
+        // Already renamed by an earlier run: only the `type` row may still
+        // carry the English copy, because updateShippingOptionsWorkflow never
+        // writes a nested type (measured on 2.19.0).
+        const already = option.name === names.pickup.name ? "pickup" : option.name === names.courier.name ? "courier" : null;
+        const owned = isTenantMethodData(option.data) ? option.data : null;
+        if (already && owned && (!typeRow || typeRow.label !== option.name || typeRow.description !== (owned.description || ""))) {
+          typeOnly.push({
+            type_id: typeRow && typeRow.id ? typeRow.id : null,
+            copy: { label: option.name, description: owned.description || "", code: already },
+          });
+        }
+        continue;
+      }
       const human = names[kind];
       const existing = isTenantMethodData(option.data) ? option.data : null;
       const priceRows = (option.prices || []).map((price) => ({
@@ -113,6 +130,7 @@ module.exports.default = async function f06RenameOneOff({ container }) {
       if (isUntouchedPlaceholder) repriced += 1;
       updates.push({
         id: option.id,
+        type_id: typeRow && typeRow.id ? typeRow.id : null,
         name: human.name,
         type: { label: human.name, description: human.description, code: kind },
         data,
@@ -122,14 +140,28 @@ module.exports.default = async function f06RenameOneOff({ container }) {
       });
     }
 
+    for (const entry of typeOnly) {
+      if (entry.type_id) {
+        await fulfillment.updateShippingOptionTypes(entry.type_id, entry.copy);
+        typesSynced += 1;
+      }
+    }
+
     if (updates.length) {
-      await updateShippingOptionsWorkflow(container).run({ input: updates });
+      await updateShippingOptionsWorkflow(container).run({
+        input: updates.map(({ type_id, ...update }) => update),
+      });
+      for (const update of updates) {
+        if (update.type_id) {
+          await fulfillment.updateShippingOptionTypes(update.type_id, update.type);
+        }
+      }
       renamed += updates.length;
       logger.info(`[f06-rename-oneoff] ${tenant.name}: ${updates.map((u) => u.name).join(", ")}`);
     }
   }
 
   logger.info(
-    `[f06-rename-oneoff] renamed ${renamed} options across ${tenants.length} tenants${only ? ` (TENANT=${only})` : ""}, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder (home currency ${homeCurrency})`,
+    `[f06-rename-oneoff] renamed ${renamed} options across ${tenants.length} tenants${only ? ` (TENANT=${only})` : ""}, ${repriced} courier defaults repriced from the ${LEGACY_COURIER_AMOUNT} placeholder, ${typesSynced} type rows brought in step (home currency ${homeCurrency})`,
   );
 };
