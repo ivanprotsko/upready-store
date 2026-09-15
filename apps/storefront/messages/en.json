@@ -153,6 +153,14 @@
     "signIn": "Sign in",
     "total": "Total"
   },
+  "ClaimOrders": {
+    "heading": "Ordered without an account?",
+    "description": "If you checked out as a guest with this same email address, we will attach those orders to your account.",
+    "button": "Find my orders",
+    "claimed": "Orders attached: {count}",
+    "none": "No guest orders were found for your email address in this shop.",
+    "failed": "We could not check your orders. Try again in a moment."
+  },
   "Common": {
     "clear": "Clear",
     "close": "Close",

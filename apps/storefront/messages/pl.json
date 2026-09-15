@@ -153,6 +153,14 @@
     "signIn": "Zaloguj się",
     "total": "Razem"
   },
+  "ClaimOrders": {
+    "heading": "Zamawiałeś bez konta?",
+    "description": "Jeśli złożyłeś zamówienie jako gość na ten sam adres e-mail, przypiszemy je do Twojego konta.",
+    "button": "Znajdź moje zamówienia",
+    "claimed": "Przypisane zamówienia: {count}",
+    "none": "Nie znaleźliśmy zamówień gościa na Twój adres e-mail w tym sklepie.",
+    "failed": "Nie udało się sprawdzić zamówień. Spróbuj ponownie za chwilę."
+  },
   "Common": {
     "clear": "Wyczyść",
     "close": "Zamknij",

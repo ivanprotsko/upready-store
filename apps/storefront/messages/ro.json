@@ -153,6 +153,14 @@
     "signIn": "Autentificare",
     "total": "Total"
   },
+  "ClaimOrders": {
+    "heading": "Ați comandat fără cont?",
+    "description": "Dacă ați comandat ca invitat cu aceeași adresă de e-mail, vom lega acele comenzi de contul dumneavoastră.",
+    "button": "Găsește comenzile mele",
+    "claimed": "Comenzi legate: {count}",
+    "none": "Nu am găsit comenzi ca invitat pentru adresa dumneavoastră de e-mail în acest magazin.",
+    "failed": "Nu am putut verifica comenzile. Încercați din nou peste puțin timp."
+  },
   "Common": {
     "clear": "Șterge",
     "close": "Închide",

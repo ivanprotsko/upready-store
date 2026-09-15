@@ -153,6 +153,14 @@
     "signIn": "Đăng nhập",
     "total": "Tổng cộng"
   },
+  "ClaimOrders": {
+    "heading": "Bạn đã đặt hàng mà không có tài khoản?",
+    "description": "Nếu bạn đặt hàng với tư cách khách bằng chính địa chỉ email này, chúng tôi sẽ gắn những đơn hàng đó vào tài khoản của bạn.",
+    "button": "Tìm đơn hàng của tôi",
+    "claimed": "Đơn hàng đã gắn: {count}",
+    "none": "Không tìm thấy đơn hàng khách nào với địa chỉ email của bạn tại cửa hàng này.",
+    "failed": "Chúng tôi không kiểm tra được đơn hàng của bạn. Hãy thử lại sau giây lát."
+  },
   "Common": {
     "clear": "Xóa",
     "close": "Đóng",

@@ -1256,5 +1256,16 @@ export default defineMiddlewares({
         validateAndTransformBody(PostStoreReviewSchema),
       ],
     },
+
+    // ---- f03-guest-order-not-in-account: the buyer takes over the orders
+    // this shop holds under their own address. It carries no body, so there is
+    // nothing to validate; what it needs is a customer behind the call, and
+    // the shop, which the framework's publishable-key gate has already put on
+    // the request by the time the route runs.
+    {
+      matcher: "/store/customers/me/claim-orders",
+      method: ["POST"],
+      middlewares: [authenticate("customer", ["session", "bearer"])],
+    },
   ],
 });

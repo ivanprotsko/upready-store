@@ -153,6 +153,14 @@
     "signIn": "Log masuk",
     "total": "Jumlah"
   },
+  "ClaimOrders": {
+    "heading": "Membuat pesanan tanpa akaun?",
+    "description": "Jika anda membuat pesanan sebagai tetamu dengan alamat e-mel yang sama, kami akan memautkan pesanan itu ke akaun anda.",
+    "button": "Cari pesanan saya",
+    "claimed": "Pesanan dipautkan: {count}",
+    "none": "Tiada pesanan tetamu dengan alamat e-mel anda di kedai ini.",
+    "failed": "Kami tidak dapat menyemak pesanan anda. Cuba lagi sebentar lagi."
+  },
   "Common": {
     "clear": "Kosongkan",
     "close": "Tutup",
