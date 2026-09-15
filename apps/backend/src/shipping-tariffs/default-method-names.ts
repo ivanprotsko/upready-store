@@ -20,7 +20,7 @@ const NAMES: Record<string, DefaultMethodNames> = {
     pickup: {
       name: "Самовывоз",
       description: "Заберите заказ у продавца.",
-      delivery_hint: "Адрес и время пришлём после заказа",
+      delivery_hint: "Адрес пришлём после заказа",
     },
     courier: {
       name: "Курьером",
