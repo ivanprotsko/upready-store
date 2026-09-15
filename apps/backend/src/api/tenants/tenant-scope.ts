@@ -113,6 +113,42 @@ export const listTenantOrderIds = async (req: AuthenticatedMedusaRequest): Promi
 };
 
 /**
+ * Every warehouse the tenant fulfils from, through the sales-channel <-> stock
+ * location link `provisionTenantWarehouseWorkflow` creates for a new shop.
+ *
+ * That link is the same one the Admin's own `sales_channel_id` filter walks
+ * (`api/admin/stock-locations/middlewares.js`, `maybeApplyLinkFilter`), so the
+ * set here is exactly what `GET /tenants/stock-locations?sales_channel_id=<own>`
+ * returns, without the caller having to name the channel.
+ *
+ * A tenant whose channel was deleted through the Admin owns no warehouse and
+ * gets an empty page, never the platform's 250-odd seeded warehouses.
+ */
+export const listTenantStockLocationIds = async (
+  req: AuthenticatedMedusaRequest,
+): Promise<string[]> => {
+  const tenant = await getTenantScope(req);
+
+  if (!tenant.sales_channel_id) {
+    return [];
+  }
+
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
+
+  const {
+    data: [salesChannel],
+  } = await query.graph({
+    entity: "sales_channel",
+    fields: ["id", "stock_locations.id"],
+    filters: {
+      id: [tenant.sales_channel_id],
+    },
+  });
+
+  return idsOf(salesChannel?.stock_locations);
+};
+
+/**
  * Narrows the ids the tenant owns by whatever the caller asked for. The Admin
  * validators type an `id` filter as a string or an array of strings; anything
  * else (an operator map such as `id[$ne]`) matches nothing here rather than

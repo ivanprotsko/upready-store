@@ -1,6 +1,12 @@
 import { clx } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
+import {
+  FULFILLMENT_TONES,
+  PAYMENT_TONES,
+  type StatusTone,
+} from "@lib/util/order-status"
+
 /**
  * The workspace canon's "status = 8 px dot + text, not a giant badge"
  * (`~/upready/packages/geist-kit/AGENTS.md`), built on this storefront's own
@@ -12,7 +18,7 @@ import { getTranslations } from "next-intl/server"
  * "a shared `<StatusDot>` reusing the same color table").
  */
 
-export type StatusTone = "green" | "red" | "orange" | "blue" | "purple" | "neutral"
+export type { StatusTone }
 
 const TONE_DOT_CLASSES: Record<StatusTone, string> = {
   green: "bg-ui-tag-green-icon",
@@ -53,36 +59,6 @@ const StatusDot = ({
 )
 
 export default StatusDot
-
-/**
- * Mirrors how the Medusa Admin colors the same statuses (`order-status/index.tsx`'s
- * own comment), so a shop owner reads an order the same way on both sides: neutral
- * for nothing done yet, orange for part way through, blue for on its way, green for
- * finished and red for something that needs attention.
- */
-const FULFILLMENT_TONES: Record<string, StatusTone> = {
-  canceled: "red",
-  delivered: "green",
-  fulfilled: "blue",
-  not_fulfilled: "neutral",
-  partially_delivered: "orange",
-  partially_fulfilled: "orange",
-  partially_shipped: "orange",
-  shipped: "blue",
-}
-
-const PAYMENT_TONES: Record<string, StatusTone> = {
-  authorized: "orange",
-  awaiting: "orange",
-  canceled: "red",
-  captured: "green",
-  not_paid: "neutral",
-  partially_authorized: "orange",
-  partially_captured: "orange",
-  partially_refunded: "orange",
-  refunded: "neutral",
-  requires_action: "red",
-}
 
 type OrderStatusDotProps = {
   kind: "fulfillment" | "payment"

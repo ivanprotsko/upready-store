@@ -15,16 +15,14 @@ import {
   getEmailTranslator,
 } from "./i18n";
 import { useEmailShop } from "./lib/shop";
+import { type FulfillmentLabel, trackingLine } from "./lib/tracking";
 
 /**
- * A shipping label as the Fulfillment Module stores it. Tracking lives here and
- * nowhere else: `create-fulfillment` never receives a tracking number, only
- * `create-shipment` does, through its `labels` input.
+ * Tracking lives on the label and nowhere else: `create-fulfillment` never
+ * receives a tracking number, only `create-shipment` does, through its
+ * `labels` input.
  */
-export type FulfillmentLabel = {
-  tracking_number?: string | null;
-  tracking_url?: string | null;
-};
+export type { FulfillmentLabel };
 
 export type OrderShipmentCreatedEmailProps = {
   order: {
@@ -62,9 +60,7 @@ export function OrderShipmentCreatedEmail({
   const ordersUrl = `${shop.storefrontUrl}/account/orders`;
   const city = order.shipping_address?.city;
   const tracked = labels.filter((label) => label.tracking_number);
-  // «СДЭК 1234567890»: the carrier in front of the number, no new catalog key.
-  const trackingText = (label: FulfillmentLabel) =>
-    carrier ? `${carrier} ${trackingText(label)}` : `${trackingText(label)}`;
+  const trackingText = (label: FulfillmentLabel) => trackingLine(label, carrier);
 
   return (
     <EmailLayout preview={t("Shipment.preview", { id })} locale={locale}>

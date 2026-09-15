@@ -1,5 +1,6 @@
 import { formatAddressLines, joinFilled } from "@lib/util/address"
 import { convertToLocale } from "@lib/util/money"
+import { trackingLines } from "@lib/util/order-tracking"
 import { PICKUP_METADATA_KEYS } from "@lib/theme/composition"
 import type { HttpTypes } from "@medusajs/types"
 
@@ -30,24 +31,10 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
   const tTimeline = await getTranslations("OrderTimeline")
   const locale = await getLocale()
 
-  // t04-shipping-tariffs: the tracking number(s) the shop owner typed on the
-  // shipment, carrier first («СДЭК 1234567890»), read from
-  // `fulfillments.labels` + `fulfillments.metadata.carrier` (lib/data/orders.ts).
-  type TrackedFulfillment = {
-    labels?: { tracking_number?: string | null }[] | null
-    metadata?: Record<string, unknown> | null
-  }
-  const trackingLines = ((order.fulfillments ?? []) as TrackedFulfillment[]).flatMap(
-    (fulfillment) => {
-      const carrierRaw = fulfillment.metadata?.carrier
-      const carrier =
-        typeof carrierRaw === "string" && carrierRaw.trim() ? carrierRaw.trim() : null
-      return (fulfillment.labels ?? [])
-        .map((label) => label.tracking_number?.trim())
-        .filter((number): number is string => Boolean(number))
-        .map((number) => (carrier ? `${carrier} ${number}` : number))
-    }
-  )
+  // The tracking number(s) the shop owner typed on the shipment, carrier first
+  // («СДЭК 1234567890»), assembled the same way as in the account timeline
+  // (`@lib/util/order-tracking`).
+  const tracking = trackingLines(order.fulfillments)
 
   // `cart.metadata` is copied onto `order.metadata` verbatim by
   // `completeCartWorkflow` (composition.ts's own PICKUP_METADATA_KEYS doc
@@ -122,12 +109,12 @@ const ShippingDetails = async ({ order }: ShippingDetailsProps) => {
         <span>{shippingMethodLabel}</span>
       </OrderDetailColumn>
 
-      {trackingLines.length > 0 && (
+      {tracking.length > 0 && (
         <OrderDetailColumn
           label={tTimeline("trackingNumber")}
           data-testid="order-tracking"
         >
-          {trackingLines.map((line) => (
+          {tracking.map((line) => (
             <span key={line} className="tabular-nums" data-testid="order-tracking-number">
               {line}
             </span>

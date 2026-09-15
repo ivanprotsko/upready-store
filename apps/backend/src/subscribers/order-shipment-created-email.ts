@@ -1,10 +1,8 @@
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 import type { Logger } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import {
-  OrderShipmentCreatedEmail,
-  type FulfillmentLabel,
-} from "../emails/order-shipment-created";
+import { OrderShipmentCreatedEmail } from "../emails/order-shipment-created";
+import { type FulfillmentLabel, trackingLines } from "../emails/lib/tracking";
 import {
   findOrderForEmail,
   sendOrderEmail,
@@ -73,11 +71,7 @@ export default async function orderShipmentCreatedEmailHandler({
     props: { labels, carrier },
     subjectKey: "Shipment.subject",
     text: (t, id, shop) => {
-      const numbers = labels
-        .map((label) => label.tracking_number)
-        .filter(Boolean)
-        .map((number) => (carrier ? `${carrier} ${number}` : number))
-        .join(", ");
+      const numbers = trackingLines(labels, carrier).join(", ");
 
       return [
         t("Shipment.textFallback", { id }),
