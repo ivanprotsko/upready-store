@@ -1,7 +1,8 @@
 # b01-owner-numbers — цифры владелицы: двойной счёт, доллары в выгрузке, неопробованный импорт
 
-Отчёт написан 2026-09-15 22:25 WITA. Ветка `fix/day16-owner-numbers`, три коммита поверх `dev`
-(`8292036f`, `ff94f2db`, `04951a88`).
+Отчёт написан 2026-09-15 22:25 WITA, дополнен после слияния с `dev` (26 коммитов, включая f18
+`1088507f`). Ветка `fix/day16-owner-numbers`, четыре своих коммита: `8292036f`, `ff94f2db`,
+`04951a88`, `6ac745ee`.
 
 Стенд: клон ЖИВОЙ базы платформы — `docker exec mt-postgres pg_dump -U medusa -d medusa_mt`
 (2026-09-15 21:20 WITA, 42 МБ), восстановлен как `upready_store_b01` на `127.0.0.1:5433`, миграции
@@ -240,10 +241,10 @@ zubnaya-pasta-tayskaya-otbelivayuschaya…     | …                          | 
 
 | Команда | Результат |
 |---|---|
-| `cd apps/backend && npx tsc --noEmit` | чисто по моим файлам; одна ОШИБКА не моя и была до меня — `src/scripts/f12-seed-test-order.ts(55,16)` из коммита `ba126e8` (её чинит задача f18) |
+| `cd apps/backend && npx tsc --noEmit` | rc=0, чисто. (До слияния с `dev` была одна чужая ошибка — `src/scripts/f12-seed-test-order.ts(55,16)` из `ba126e8`; её закрыл f18, `1088507f`, и он теперь в ветке) |
 | `cd apps/backend && npx medusa lint` | rc=0 (61 warning, все прежние) |
 | `cd apps/backend && npx jest --silent --runInBand src/product-csv` | 86 passed, rc=0 |
-| `pnpm test:unit` (весь бэкенд) | 244 passed / 1 failed — падает `src/migration-scripts/__tests__/profile-data.unit.spec.ts` («productOptions» в i18n-мерже). Не мой файл и не мой коммит: последним его трогал `9fdcf276`. Сюита уехала в `dev` красной |
+| `pnpm test:unit` (весь бэкенд) | 250 passed / 1 failed — падает `src/migration-scripts/__tests__/profile-data.unit.spec.ts` («productOptions» в i18n-мерже). Не мой файл и не мой коммит: последним его трогал `9fdcf276`. Сюита уехала в `dev` красной и остаётся красной после слияния с `dev` |
 | `pnpm test:integration:http -- tenants-owner-numbers` | 3 passed, rc=0 (новая сюита) |
 | `pnpm test:integration:http -- tenants-product-csv` | 6 passed, rc=0 (прежняя сюита, после всех правок) |
 | `cd apps/tenant-panel && pnpm typecheck` | rc=0 |
