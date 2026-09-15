@@ -1,0 +1,24 @@
+{
+  "productId": "prod_01M29Q5B2NGA743RN8XYN5EVCE",
+  "fieldsInGrid": [
+    "variants.0.prices.rub",
+    "variants.0.prices.usd"
+  ],
+  "pricesBefore": [
+    "rub:1500",
+    "usd:15"
+  ],
+  "pricesAfter": [
+    "rub:1355",
+    "usd:15"
+  ],
+  "usdSurvived": true,
+  "rubChanged": true,
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ]
+}

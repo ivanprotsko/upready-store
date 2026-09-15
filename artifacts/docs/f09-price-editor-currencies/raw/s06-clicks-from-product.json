@@ -1,0 +1,21 @@
+{
+  "productId": "prod_01M29Q5AVB4VJGSBPE2VBH02BH",
+  "clicks": [
+    "меню «…» блока «Варианты»",
+    "пункт «Редактировать цены»"
+  ],
+  "clickCount": 2,
+  "openingCell": "variants.0.prices.rub",
+  "reachedRubField": true,
+  "url": "http://localhost:5182/products/prod_01M29Q5AVB4VJGSBPE2VBH02BH/prices",
+  "shots": [
+    "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/fix/day16-price-editor-currencies/artifacts/docs/f09-price-editor-currencies/shots/s06-price-editor-1280x900.png"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+    "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+  ]
+}
