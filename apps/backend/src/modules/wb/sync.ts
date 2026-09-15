@@ -218,7 +218,7 @@ export const MIRROR_PLURAL: Record<MirrorEntity, string> = {
  * are matched on the model's own unique key inside this tenant, so a second
  * run of the same import updates and never duplicates.
  */
-const upsertRows = async (
+export const upsertRows = async (
   wb: WbModuleService,
   entity: MirrorEntity,
   tenantId: string,
