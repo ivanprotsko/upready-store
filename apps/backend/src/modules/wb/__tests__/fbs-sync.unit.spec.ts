@@ -228,7 +228,7 @@ describe("the FBS mirror", () => {
     expect(fake.tables.WbFbsOrders).toHaveLength(2);
   });
 
-  it("records a failed run with the rows it had already written", async () => {
+  it("records a rate-limited run with the rows it had already written", async () => {
     const fake = fakeService();
     fetchSpy.mockImplementation(((url: string) => {
       if (String(url).includes("/api/v3/orders/new")) {
@@ -244,10 +244,14 @@ describe("the FBS mirror", () => {
 
     const outcome = await runSync(deps(fake), "fbs_orders");
 
-    expect(outcome.status).toBe("failed");
+    // A 429 that names its own window is WAITING, not damage (w03): the run
+    // gets `rate_limited` and a `retry_at`, and the owner reads "come back at
+    // HH:MM" instead of a red "с ошибкой".
+    expect(outcome.status).toBe("rate_limited");
+    expect(outcome.retryAt).toBeInstanceOf(Date);
     // One order was mirrored before the 429: the run row must say 1, not 0.
     expect(outcome.rows).toBe(1);
     expect(fake.tables.WbFbsOrders).toHaveLength(1);
-    expect(fake.tables.WbSyncRuns[0]).toMatchObject({ status: "failed", rows: 1 });
+    expect(fake.tables.WbSyncRuns[0]).toMatchObject({ status: "rate_limited", rows: 1 });
   });
 });

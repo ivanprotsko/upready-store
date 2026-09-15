@@ -1,6 +1,6 @@
 import { Migration } from "@medusajs/framework/mikro-orm/migrations";
 
-export class Migration20260915230944 extends Migration {
+export class Migration20260915235342 extends Migration {
 
   override async up(): Promise<void> {
     this.addSql(`alter table if exists "wb_supply" drop constraint if exists "wb_supply_tenant_id_supply_id_unique";`);
@@ -15,8 +15,11 @@ export class Migration20260915230944 extends Migration {
     this.addSql(`CREATE UNIQUE INDEX IF NOT EXISTS "IDX_wb_supply_tenant_id_supply_id_unique" ON "wb_supply" ("tenant_id", "supply_id") WHERE deleted_at IS NULL;`);
 
     this.addSql(`alter table if exists "wb_sync_run" drop constraint if exists "wb_sync_run_kind_check";`);
+    this.addSql(`alter table if exists "wb_sync_run" drop constraint if exists "wb_sync_run_status_check";`);
 
-    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_kind_check" check("kind" in ('cards', 'prices', 'stocks', 'orders', 'feedbacks', 'supplies', 'fbs_orders'));`);
+    this.addSql(`alter table if exists "wb_sync_run" add column if not exists "retry_at" timestamptz null;`);
+    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_kind_check" check("kind" in ('cards', 'prices', 'stocks', 'orders', 'sales', 'feedbacks', 'questions', 'analytics', 'supplies', 'fbs_orders'));`);
+    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_status_check" check("status" in ('running', 'succeeded', 'rate_limited', 'failed'));`);
   }
 
   override async down(): Promise<void> {
@@ -25,8 +28,12 @@ export class Migration20260915230944 extends Migration {
     this.addSql(`drop table if exists "wb_supply" cascade;`);
 
     this.addSql(`alter table if exists "wb_sync_run" drop constraint if exists "wb_sync_run_kind_check";`);
+    this.addSql(`alter table if exists "wb_sync_run" drop constraint if exists "wb_sync_run_status_check";`);
 
-    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_kind_check" check("kind" in ('cards', 'prices', 'stocks', 'orders', 'feedbacks'));`);
+    this.addSql(`alter table if exists "wb_sync_run" drop column if exists "retry_at";`);
+
+    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_kind_check" check("kind" in ('cards', 'prices', 'stocks', 'orders', 'sales', 'feedbacks', 'questions', 'analytics'));`);
+    this.addSql(`alter table if exists "wb_sync_run" add constraint "wb_sync_run_status_check" check("status" in ('running', 'succeeded', 'failed'));`);
   }
 
 }

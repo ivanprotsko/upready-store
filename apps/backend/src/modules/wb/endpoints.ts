@@ -33,6 +33,13 @@ const DOC_ITEMS = "https://dev.wildberries.ru/en/docs/openapi/item-management";
 const DOC_REPORTS = "https://dev.wildberries.ru/en/docs/openapi/reports";
 const DOC_COMMUNICATION = "https://dev.wildberries.ru/en/docs/openapi/customer-communication";
 const DOC_ORDERS_FBS = "https://dev.wildberries.ru/en/docs/openapi/orders-fbs";
+/**
+ * The analytics page, read on 2026-09-16 for w03. Its text and links sit in
+ * `artifacts/docs/w03-wb-sales-questions-mirror/docs/`.
+ */
+const DOC_ANALYTICS = "https://dev.wildberries.ru/en/docs/openapi/analytics";
+
+export const ANALYTICS_FUNNEL_HISTORY_DOC = `${DOC_ANALYTICS}#tag/salesFunnel/operation/postV3SalesFunnelProductsHistory`;
 
 export const MARKETPLACE_STOCKS_DOC = `${DOC_ITEMS}#tag/sellerWarehousesInventory`;
 
@@ -231,12 +238,75 @@ export const WB_READ_ENDPOINTS: readonly WbReadEndpoint[] = [
     },
   },
   {
+    id: "statistics.sales",
+    host: "statistics-api.wildberries.ru",
+    method: "GET",
+    path: "/api/v1/supplier/sales",
+    docUrl: `${DOC_REPORTS}#tag/mainReports/operation/getV1SupplierSales`,
+    summary: "Sales",
+    /**
+     * The sibling of `statistics.orders` and the same shape of answer:
+     * "1 line means 1 sale/return and means 1 item. The srid field should be
+     * used to identify the order", one conditional answer capped at ~80 000
+     * rows, 90 days of retention. The rate limit printed in the docs table
+     * for this method is one request per 2 hours on a base token (the orders
+     * method says 3 hours), so the two are not interchangeable slots.
+     *
+     * Same 120 s as orders: on 2026-09-16 the orders feed answered its headers
+     * with 200 and did not finish its body inside 15 s, and this feed carries
+     * more columns per line.
+     */
+    timeoutMs: 120_000,
+  },
+  {
     id: "feedbacks.list",
     host: "feedbacks-api.wildberries.ru",
     method: "GET",
     path: "/api/v1/feedbacks",
     docUrl: `${DOC_COMMUNICATION}#tag/feedbacks`,
     summary: "Feedbacks",
+  },
+  {
+    id: "feedbacks.questions",
+    host: "feedbacks-api.wildberries.ru",
+    method: "GET",
+    path: "/api/v1/questions",
+    docUrl: `${DOC_COMMUNICATION}#tag/questions/operation/getV1Questions`,
+    summary: "Questions List",
+    /**
+     * A read, and the only question method that is one: `PATCH /api/v1/questions`
+     * on the SAME path is "Working with Questions", which answers and rejects
+     * customer questions. It is not registered here and cannot be (the registry
+     * refuses every verb but GET and documented read POSTs), which is what
+     * makes the path safe to name at all.
+     *
+     * `isAnswered` is required, so this import makes two passes like feedbacks.
+     * Whole category on a base token: 5 requests per hour.
+     */
+  },
+  {
+    id: "analytics.funnel.history",
+    host: "seller-analytics-api.wildberries.ru",
+    method: "POST",
+    path: "/api/analytics/v3/sales-funnel/products/history",
+    docUrl: ANALYTICS_FUNNEL_HISTORY_DOC,
+    summary: "Listings Statistics per Days",
+    readViaPost: {
+      docUrl: ANALYTICS_FUNNEL_HISTORY_DOC,
+      reason:
+        "Method description: \"The method returns statistics for listings by day or by week.\" " +
+        "The request body is the period plus the list of WB item numbers to report on " +
+        "(`selectedPeriod`, `nmIds`, `aggregationLevel`), which is a query too long for a URL, " +
+        "so WB documents this read as a POST. The seller-analytics host has no write method on " +
+        "this path at all.",
+    },
+    /**
+     * WB caps `nmIds` at 20 items per request and the window at "a maximum of
+     * the last week", and a base token gets 2 requests per hour on this
+     * category. Both are facts of the API, not of this client: the import
+     * covers 20 cards per request and says which ones it left out.
+     */
+    timeoutMs: 60_000,
   },
 ];
 

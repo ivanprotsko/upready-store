@@ -21,16 +21,28 @@
 export type WbScriptArgs = {
   tenant: string | null;
   kind: string | null;
+  /** How many listings the analytics import covers in one run (w03). */
+  cards: string | null;
+  /** A comma-separated list of WB numbers for the analytics import (w03). */
+  nmids: string | null;
+  /** `true` or `false`: import only that half of the customer questions (w03). */
+  answered: string | null;
   flags: Set<string>;
 };
 
-const NAMES = ["tenant", "kind"] as const;
+const NAMES = ["tenant", "kind", "cards", "nmids", "answered"] as const;
 
 export const parseWbArgs = (
   args: string[] = [],
   env: NodeJS.ProcessEnv = process.env,
 ): WbScriptArgs => {
-  const values: Record<string, string | null> = { tenant: null, kind: null };
+  const values: Record<string, string | null> = {
+    tenant: null,
+    kind: null,
+    cards: null,
+    nmids: null,
+    answered: null,
+  };
   const flags = new Set<string>();
 
   for (let index = 0; index < args.length; index += 1) {
@@ -58,6 +70,9 @@ export const parseWbArgs = (
   return {
     tenant: values.tenant ?? env.WB_TENANT ?? null,
     kind: values.kind ?? env.WB_KIND ?? null,
+    cards: values.cards ?? env.WB_ANALYTICS_CARDS ?? null,
+    nmids: values.nmids ?? env.WB_NM_IDS ?? null,
+    answered: values.answered ?? env.WB_QUESTIONS_ANSWERED ?? null,
     flags,
   };
 };

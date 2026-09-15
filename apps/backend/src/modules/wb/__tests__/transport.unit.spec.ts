@@ -36,8 +36,15 @@ import { WB_TIMEOUT_MS, wbRead } from "../transport";
  * artifacts/docs/w01-wb-readonly-client/docs/):
  *   content.cards.list   "Returns the listings."
  *   marketplace.stocks   "Returns item inventory."
+ *
+ * Added for w03 and checked the same way (text in
+ * artifacts/docs/w03-wb-sales-questions-mirror/docs/):
+ *   analytics.funnel.history  "The method returns statistics for listings by
+ *                              day or by week." The seller-analytics host has
+ *                              no write method on that path at all.
  */
 const POST_READ_ENDPOINT_IDS = [
+  "analytics.funnel.history",
   "content.cards.list",
   "marketplace.stocks",
   // w23-wb-write-fbs-orders: both are WB's own "Returns …" methods whose
