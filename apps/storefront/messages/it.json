@@ -151,7 +151,8 @@
     "shippingLink": "Spedizione",
     "shippingUnavailable": "Nessun metodo di spedizione disponibile",
     "signIn": "Accedi",
-    "total": "Totale"
+    "total": "Totale",
+    "shippingZone": "Zona: {zone}"
   },
   "ClaimOrders": {
     "heading": "Hai ordinato senza account?",

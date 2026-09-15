@@ -151,7 +151,8 @@
     "shippingLink": "Szállítás",
     "shippingUnavailable": "Nincs elérhető szállítási mód",
     "signIn": "Bejelentkezés",
-    "total": "Összesen"
+    "total": "Összesen",
+    "shippingZone": "Zóna: {zone}"
   },
   "ClaimOrders": {
     "heading": "Fiók nélkül rendelt?",

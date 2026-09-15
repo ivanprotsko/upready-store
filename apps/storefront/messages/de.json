@@ -151,7 +151,8 @@
     "shippingLink": "Versand",
     "shippingUnavailable": "Keine Versandarten verfügbar",
     "signIn": "Anmelden",
-    "total": "Gesamt"
+    "total": "Gesamt",
+    "shippingZone": "Zone: {zone}"
   },
   "ClaimOrders": {
     "heading": "Ohne Konto bestellt?",
