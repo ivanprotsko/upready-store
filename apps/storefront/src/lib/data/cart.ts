@@ -470,7 +470,23 @@ export async function placeOrder(cartId?: string) {
     revalidateTag(orderCacheTag)
 
     removeCartId()
-    redirect(`/${locale ?? defaultLocale}/order/${cartRes?.order.id}/confirmed`)
+    /*
+     * `order_token` rides along with the completion response
+     * (`api/store/cart-scope.ts` attachOrderAccessToken). Since
+     * b07-store-api-isolation the Store API refuses `GET /store/orders/:id` to
+     * anyone who is neither the order's owner nor holding this token, and a
+     * guest buyer is neither logged in nor anything else — so the token has to
+     * travel to the confirmation page in the URL, the way the order link in
+     * the email does. A buyer who IS logged in reaches the same page through
+     * their session, and the parameter is simply unused.
+     */
+    const orderToken = (cartRes as { order_token?: string }).order_token
+    const confirmedPath = `/${locale ?? defaultLocale}/order/${cartRes?.order.id}/confirmed`
+    redirect(
+      orderToken
+        ? `${confirmedPath}?token=${encodeURIComponent(orderToken)}`
+        : confirmedPath
+    )
   }
 
   return cartRes.cart
