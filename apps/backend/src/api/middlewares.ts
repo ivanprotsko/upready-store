@@ -160,6 +160,8 @@ import {
   PostTenantHandleSchema,
   PostTenantArticleSchema,
   PostTenantPageSchema,
+  PostTenantRedirectSchema,
+  PutTenantSeoVerificationSchema,
   PostTenantUpdateMeSchema,
   PostTenantUpdatePasswordSchema,
   PutTenantArticleSchema,
@@ -1059,6 +1061,20 @@ export default defineMiddlewares({
       matcher: "/tenants/handle",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantHandleSchema)],
+    },
+    // t11-seo-redirects: the tenant's own redirect table
+    // (`/tenants/redirects/**`, read by the storefront at
+    // `/store/tenant/redirects` behind the framework's own publishable-key
+    // gate, no middleware needed there). `GET` and `DELETE` take no body.
+    {
+      matcher: "/tenants/redirects",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantRedirectSchema)],
+    },
+    {
+      matcher: "/tenants/seo-verification",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantSeoVerificationSchema)],
     },
     // `/admin/tenants*` (contract §3): the platform staff's own tenant
     // management API. Auth is the framework's default `/admin/*` middleware

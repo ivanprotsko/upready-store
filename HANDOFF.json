@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-15T07:44:00+08:00",
-  "status": "2026-09-15 07:44 WITA: приёмка PR #33 t13-customers-screen — MERGED (mergedAt 2026-09-14T23:42:36Z). Замеры приёмщика: изоляция 202/1 + чужой id 404, поиск, CSV 202 строки, экран 2351 мс при пороге 3 с, пагинация серверная. Упавший unit profile-data.unit.spec.ts к ветке не относится (0 строк диффа по migration-scripts) — кандидат в дефекты дня. Отчёт: handoff/day-2026-09-16-oksana-store/logs/accept-t13-customers-screen-1.report.md",
+  "updated": "2026-09-15T08:05:36+08:00",
+  "status": "2026-09-15 08:05 WITA: t11-seo-redirects раунд 3 — все 3 находки приёмщика исправлены (конфликт с dev разведён дважды, SEO-локаль панели/витрины больше не литерал en а tenant_locale_settings.default_locale с фолбэком, живые замеры sitemap/301/петли после финального мержа), PR #29 MERGEABLE/CLEAN, коммит 8d3e6ba, комментарий issuecomment-5672589727, workers.log обновлён, стенд остановлен PID-scoped и DB дропнута. Ждёт приёмки раунда 3.",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

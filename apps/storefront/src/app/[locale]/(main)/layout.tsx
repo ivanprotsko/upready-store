@@ -7,6 +7,7 @@ import {
   getTenantHandle,
 } from "@lib/data/cookies"
 import { getEffectiveSettings } from "@lib/data/tenant-home"
+import { getSeoVerification } from "@lib/data/seo-verification"
 import { DEFAULT_HEADER } from "@modules/layout/templates/nav/variants"
 import BottomNav from "@modules/layout/components/bottom-nav"
 import CartNotifications from "@modules/layout/components/cart-notifications"
@@ -16,7 +17,22 @@ import Nav from "@modules/layout/templates/nav"
 
 // Per request, same reason as the root layout: see `lib/tenant/origin.ts`.
 export async function generateMetadata(): Promise<Metadata> {
-  return { metadataBase: new URL(await getRequestBaseURL()) }
+  const [base, seoVerification] = await Promise.all([
+    getRequestBaseURL(),
+    getSeoVerification(),
+  ])
+
+  return {
+    metadataBase: new URL(base),
+    ...(seoVerification
+      ? {
+          verification: {
+            ...(seoVerification.google ? { google: seoVerification.google } : {}),
+            ...(seoVerification.yandex ? { yandex: seoVerification.yandex } : {}),
+          },
+        }
+      : {}),
+  }
 }
 
 export default async function PageLayout(props: { children: React.ReactNode }) {

@@ -172,6 +172,20 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     attribution: resolveAttribution(
       (tenant.metadata ?? null) as Record<string, unknown> | null,
     ),
+    // t11-seo-redirects step 6: the search-engine ownership tags the owner
+    // pasted in from Yandex Webmaster / Google Search Console
+    // (`PUT /tenants/seo-verification`), rendered as `<meta name="…">` in this
+    // shop's `<head>` alone.
+    seo_verification: {
+      yandex:
+        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
+          | Record<string, unknown>
+          | undefined)?.yandex as string | undefined ?? null,
+      google:
+        ((tenant.metadata as Record<string, unknown> | null)?.seo_verification as
+          | Record<string, unknown>
+          | undefined)?.google as string | undefined ?? null,
+    },
     settings,
     home,
     // t06-locale-currency: absent (null) for a tenant that never saved

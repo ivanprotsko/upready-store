@@ -40,6 +40,13 @@ const TenantPage = model
     published: model.boolean().default(false),
     in_footer: model.boolean().default(false),
     footer_order: model.number().nullable(),
+    // t11-seo-redirects step 1: the owner's own `<title>`/meta description for
+    // this page, falling back to `title` and the body's first sentence when
+    // blank (`toPageDto` in `page-helpers.ts` never fabricates a fallback —
+    // the storefront's `generateMetadata` does, the same split product and
+    // category pages use).
+    seo_title: model.text().nullable(),
+    seo_description: model.text().nullable(),
     tenant: model.belongsTo(() => Tenant, {
       mappedBy: "pages",
     }),
