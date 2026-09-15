@@ -178,9 +178,15 @@ export const seedProductOptions = async (container: MedusaContainer) => {
   }
 };
 
-/** Medusa's own names for the option a single-variant product gets when it has none. */
-const DEFAULT_OPTION_TITLE = "Default option";
-const DEFAULT_OPTION_VALUE = "Default option value";
+// Medusa's own names for the option a single-variant product gets when it has
+// none are "Default option"/"Default option value" — plain English, and they
+// land verbatim in the product's own data (this option's title/value), not
+// just a UI label, so they show up on the owner's product card forever
+// (f12-owner-raw-keys). Match the tenant-panel's own values for the same
+// synthetic option (`product-create/constants.ts`) rather than inventing a
+// second Russian phrasing for one concept.
+const DEFAULT_OPTION_TITLE = "Опция по умолчанию";
+const DEFAULT_OPTION_VALUE = "Значение по умолчанию";
 
 export const seedProducts = async (container: MedusaContainer) => {
   const shippingProfile = await getShippingProfile(container);
