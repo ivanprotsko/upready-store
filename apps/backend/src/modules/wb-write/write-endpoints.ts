@@ -124,6 +124,27 @@ export const WB_WRITE_ENDPOINTS: readonly MarketplaceWriteEndpoint[] = [
       .strict(),
   },
   {
+    id: "wb.questions.view",
+    marketplace: WB_MARKETPLACE,
+    method: "PATCH",
+    host: "feedbacks-api.wildberries.ru",
+    path: "/api/v1/questions",
+    opClass: "feedback_answers",
+    docUrl: `${DOC_COMMUNICATION}#tag/questions/operation/patchV1Questions`,
+    summary: "Working with Questions",
+    // w22-wb-write-feedback-answers. "Depending on the request body, you can:
+    // View question. Reject question. Answer question or edit the answer."
+    // Of the three documented request bodies the saved copies expand exactly
+    // ONE, `ViewQuestion`, and they spell out both of its fields: `id`
+    // (required, string, "Question ID") and `wasViewed` (required, boolean,
+    // "If the question was viewed"). Sample from the same page, verbatim:
+    // `{"id": "n5um6IUBQOOSTxXoo0gV", "wasViewed": true}`.
+    //
+    // So this entry registers the VIEW body and nothing else. See the note
+    // below `WB_WRITE_ENDPOINTS` for why answering a question is absent.
+    bodySchema: z.object({ id: z.string().min(1), wasViewed: z.boolean() }).strict(),
+  },
+  {
     id: "wb.fbs.supply.create",
     marketplace: WB_MARKETPLACE,
     method: "POST",
@@ -190,6 +211,53 @@ export const WB_WRITE_ENDPOINTS: readonly MarketplaceWriteEndpoint[] = [
     bodySchema: noBody,
   },
 ];
+
+/**
+ * What this repository deliberately CANNOT express, and why
+ * (w22-wb-write-feedback-answers).
+ *
+ * Answering a customer QUESTION is `PATCH /api/v1/questions` with the
+ * `AnswerQuestionOrEditAnswer` request body. The page documents that the
+ * operation exists ("Answer question or edit the answer"), but it renders its
+ * request samples as a tab strip and the saved copies caught only the first
+ * tab open:
+ *
+ *   artifacts/docs/w01-wb-readonly-client/docs/dev-wildberries-ru-ru-docs-openapi-customer-communication.txt:461-462
+ *   artifacts/docs/w03-wb-sales-questions-mirror/docs/dev-wildberries-ru-en-docs-openapi-customer-communication.txt:485-486
+ *
+ * Both files hold the literal lines `RejectQuestion` and
+ * `AnswerQuestionOrEditAnswer` with no fields under either, and the schema
+ * block above them expands the `ViewQuestion` variant alone. So the FIELD
+ * NAMES of the answer body are not in our evidence, and nothing here guesses
+ * them from memory (rule 17a): a `bodySchema` invented from a plausible
+ * `{id, answer: {text}}` would validate a payload nobody read in the docs,
+ * which is the one thing this registry exists to prevent.
+ *
+ * WB's anti-bot banned this machine's IP with HTTP 498 on 2026-09-16 07:07
+ * WITA (staff order of 07:10), so the page cannot be re-fetched from here.
+ * The gap is listed in the task report as `docs missing` and the panel says
+ * it on the screen rather than offering a button that cannot work.
+ *
+ * Registering it later is one entry in the array above plus one branch in
+ * `api/tenants/wb/feedback-answers/send/route.ts`; the drafts, the templates,
+ * the per-answer confirmation and the audit journal are already built.
+ */
+export const WB_UNREGISTERED_MUTATIONS = [
+  {
+    what: "questions.answer",
+    method: "PATCH",
+    host: "feedbacks-api.wildberries.ru",
+    path: "/api/v1/questions",
+    opClass: "feedback_answers",
+    docUrl: `${DOC_COMMUNICATION}#tag/questions/operation/patchV1Questions`,
+    /** Shown to the owner, in her terms, wherever the action would have been. */
+    reason:
+      "Тело запроса «ответить на вопрос» (вариант AnswerQuestionOrEditAnswer) " +
+      "отсутствует в сохранённых копиях документации WB, а сама документация с этой " +
+      "машины недоступна (анти-бот WB, HTTP 498). Придумывать поля мы не будем: " +
+      "черновик сохраняется и ждёт, пока страницу удастся прочитать.",
+  },
+] as const;
 
 /**
  * Checked at module load, so a bad entry fails the process at boot rather than

@@ -36,6 +36,9 @@ const READ_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb", "tra
  * branch made reachable.
  */
 const REGISTERED_CALLERS = [
+  // w22-wb-write-feedback-answers: answering a review and marking a customer
+  // question viewed, class `feedback_answers`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "feedback-answers", "send", "route.ts"),
   // w23-wb-write-fbs-orders: the FBS desk, class `fbs_orders`.
   path.join("apps", "backend", "src", "api", "tenants", "wb", "fbs-orders", "actions", "route.ts"),
 ];
@@ -157,5 +160,27 @@ describe("the WB write path has no live caller", () => {
     expect(ASSIGNS_LIVE_ENV.test('process.env["WB_WRITE_LIVE"] = "1";')).toBe(true);
     expect(ASSIGNS_LIVE_ENV.test('if (process.env.WB_WRITE_LIVE === "1") {')).toBe(false);
     expect(ASSIGNS_LIVE_ENV.test("// set WB_WRITE_LIVE=1 to send for real")).toBe(false);
+  });
+
+  it("names the live env var in no env template, workflow or entrypoint", () => {
+    // The regex above scans SOURCES; a deployment opens gate (e) from a file
+    // no Node source ever parses (w22-wb-write-feedback-answers). These are
+    // the ones this repository ships.
+    const shipped = [
+      "apps/backend/.env.template",
+      "apps/storefront/.env.template",
+      "apps/tenant-panel/.env.template",
+      "apps/backend/docker-entrypoint.sh",
+      ".github/workflows/update.yaml",
+      ".github/workflows/notify-deploy.yml",
+    ];
+
+    const found = shipped.filter((relative) =>
+      // A file that vanished throws here rather than quietly passing
+      // (rule 20a: zero is not empty).
+      readFileSync(path.join(REPO_ROOT, relative), "utf8").includes("WB_WRITE_LIVE"),
+    );
+
+    expect(found).toEqual([]);
   });
 });
