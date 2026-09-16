@@ -1,0 +1,18 @@
+=== что реально крутится (по ID образа, не по тегу):
+mt-backend     контейнер=7cf5ee8be31c  latest=7cf5ee8be31c  d08-new=7cf5ee8be31c
+mt-storefront  контейнер=9d3629f5ca35  latest=9d3629f5ca35  d08-new=9d3629f5ca35
+mt-panel       контейнер=ae26f430ca87  latest=ae26f430ca87  d08-new=ae26f430ca87
+=== контейнеры:
+mt-panel	Up About a minute (healthy)
+mt-storefront	Up About a minute (healthy)
+mt-backend	Up 2 minutes (healthy)
+upreadystore-bot	Up 2 days
+mt-ingress-sync	Up 4 days
+coolify-proxy	Up 4 days (healthy)
+mt-postgres	Up 4 days (healthy)
+=== диск:
+/dev/sda1       193G  102G   92G  53% /
+=== WB_WRITE_LIVE в работающем бэкенде (должно быть пусто):
+[]
+=== ключ карты в работающей витрине:
+36 символов

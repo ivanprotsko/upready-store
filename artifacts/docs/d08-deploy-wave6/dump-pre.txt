@@ -1,0 +1,7 @@
+rc=0
+-rw-r--r-- 1 root root 5288298 Sep 16 07:46 /opt/upready-store/backups/medusa_mt-pre-d08-20260916-074612.sql.gz
+=== gzip integrity:
+gunzip -t rc=0
+=== readable content check:
+179
+179

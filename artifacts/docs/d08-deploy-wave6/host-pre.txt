@@ -1,0 +1,27 @@
+=== host date:
+Wed Sep 16 07:45:58 CEST 2026
+=== containers:
+mt-panel	Up 7 hours (healthy)	mt-panel:latest
+mt-storefront	Up 7 hours (healthy)	mt-storefront:latest
+mt-backend	Up 7 hours (healthy)	mt-backend:latest
+upreadystore-bot	Up 2 days	upreadystore-bot:local
+mt-ingress-sync	Up 4 days	postgres:16-alpine
+coolify-proxy	Up 4 days (healthy)	traefik:v3.6
+mt-postgres	Up 4 days (healthy)	postgres:16-alpine
+=== running image IDs:
+mt-backend sha256:8f9ac472a845f0835118452d24d4e7e827970cd397d7299d7bb5f6ecd469ce69
+mt-storefront sha256:7866dbe16a91778761c034e2767de1dda668b6304672a752720599ecc685ca8a
+mt-panel sha256:e8288eb4d79d4de5e1e2c5776b7692259154021886d3e4dcfb689e42ade38fa2
+=== image tags:
+mt-backend:latest 8f9ac472a845 2026-09-16 00:45:05 +0200 CEST
+mt-panel:latest e8288eb4d79d 2026-09-16 00:42:00 +0200 CEST
+mt-storefront:latest 7866dbe16a91 2026-09-16 00:44:32 +0200 CEST
+=== disk:
+/dev/sda1       193G   96G   98G  50% /
+=== backups dir:
+-rw-r--r--  1 root root 4449960 Sep 14 04:47 mt-medusa_mt-20260914-044751.sql.gz
+-rw-r--r--  1 root root 4854707 Sep 14 05:39 mt-medusa_mt-20260914-053949.sql.gz
+-rw-r--r--  1 root root 4971267 Sep 14 21:23 mt-medusa_mt-20260914-212303.sql.gz
+-rw-r--r--  1 root root 5069981 Sep 15 00:05 mt-medusa_mt-20260915-000508.sql.gz
+-rw-r--r--  1 root root 5069986 Sep 15 00:06 mt-medusa_mt-20260915-000636.sql.gz
+-rw-r--r--  1 root root 5224797 Sep 15 16:54 mt-medusa_mt-20260915-165414.sql.gz

@@ -1,0 +1,7 @@
+200 ssl=0 https://shipshift.dev/health
+200 ssl=0 https://start.upready.dev/start/onboarding
+200 ssl=0 https://panel-store.upready.dev/
+200 ssl=0 https://cherkashino.shipshift.dev/ru
+200 ssl=0 https://zolotaya-nit-1057.shipshift.dev/ru
+200 ssl=0 https://shipshift.dev/static/store-profiles/abstract/home-hero.webp
+200 ssl=0 https://hooks.svgnoon.upready.dev/health

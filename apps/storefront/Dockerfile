@@ -70,6 +70,13 @@ ARG STORE_MEDIA_BASE_URL
 # beside the handle field, so it has to be baked at build time; the server half
 # reads the plain DEMO_TENANT_BASE_DOMAIN at runtime instead.
 ARG NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN
+# Yandex Maps JS API 2.1 key for the checkout pickup-point map
+# (i03-checkout-pvz-map-address-suggest). The map lives in a "use client"
+# component and reads process.env.NEXT_PUBLIC_YANDEX_MAPS_KEY, which Next
+# inlines at BUILD time — a runtime env var never reaches the browser bundle,
+# and with an empty key the component renders its «карта не загрузилась»
+# state instead of the points (checkout-pickup-map/index.tsx:160).
+ARG NEXT_PUBLIC_YANDEX_MAPS_KEY
 ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NEXT_PUBLIC_MEDUSA_BACKEND_URL=$NEXT_PUBLIC_MEDUSA_BACKEND_URL \
     NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=$NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY \
@@ -79,6 +86,7 @@ ENV NEXT_PUBLIC_STORE_PROFILE=$NEXT_PUBLIC_STORE_PROFILE \
     NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME \
     STORE_MEDIA_BASE_URL=$STORE_MEDIA_BASE_URL \
     NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN=$NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN \
+    NEXT_PUBLIC_YANDEX_MAPS_KEY=$NEXT_PUBLIC_YANDEX_MAPS_KEY \
     NODE_ENV=production \
     REGION_PIN=true
 WORKDIR /repo/apps/storefront
