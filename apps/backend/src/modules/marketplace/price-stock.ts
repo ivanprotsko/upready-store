@@ -244,6 +244,16 @@ export type PriceStockRow = {
   /** `true` when any difference of this row is past its threshold. */
   over_threshold: boolean;
   shop: PriceStockShop | null;
+  /** How many variants of the shop carry this article. */
+  shop_variants: number;
+  /**
+   * `true` when MORE THAN ONE variant carries it, which is why `shop` is
+   * `null` on a row that does belong to the shop. Without this flag an empty
+   * shop cell would read as «нет данных», and the owner would go looking for
+   * an import instead of for the duplicate article (rule 20a). The choice
+   * itself is made on the «Каталог» screen, which owns it.
+   */
+  shop_ambiguous: boolean;
   columns: PriceStockColumn[];
   differences: PriceStockDifference[];
 };
@@ -687,6 +697,8 @@ export const buildPriceStockRows = (input: BuildPriceStockInput): PriceStockRow[
       group,
       over_threshold: differences.some((difference) => difference.highlighted),
       shop,
+      shop_variants: variants.length,
+      shop_ambiguous: variants.length > 1,
       columns,
       differences,
     });
@@ -834,6 +846,13 @@ const GROUP_LABEL: Record<PriceStockGroup, string> = {
 export const toPriceStockCsv = (
   rows: readonly PriceStockRow[],
   marketplaces: readonly string[],
+  /**
+   * How each marketplace is CALLED in the header. The screen says
+   * «Wildberries» and the file must say the same word: a spreadsheet headed
+   * «wb» asks its reader to know our internal ids. Absent, the id stands in —
+   * an unlabelled column is better than a blank one (rule 20a).
+   */
+  labels: Record<string, string> = {},
 ): string => {
   const head = [
     "Артикул",
@@ -844,17 +863,18 @@ export const toPriceStockCsv = (
   ];
 
   for (const marketplace of marketplaces) {
+    const label = labels[marketplace] ?? marketplace;
     head.push(
-      `Цена на ${marketplace}, ₽ без скидки`,
-      `Цена на ${marketplace}, ₽ с учётом скидки`,
-      `Остаток на ${marketplace}, шт`,
-      `Строк mp_offer на ${marketplace}`,
-      `Замер цены на ${marketplace}`,
-      `Замер остатка на ${marketplace}`,
-      `Данные ${marketplace} протухли`,
-      `Расхождение цены с ${marketplace}, ₽`,
-      `Расхождение цены с ${marketplace}, %`,
-      `Расхождение остатка с ${marketplace}, шт`,
+      `Цена на ${label}, ₽ без скидки`,
+      `Цена на ${label}, ₽ с учётом скидки`,
+      `Остаток на ${label}, шт`,
+      `Строк mp_offer на ${label}`,
+      `Замер цены на ${label}`,
+      `Замер остатка на ${label}`,
+      `Данные ${label} протухли`,
+      `Расхождение цены с ${label}, ₽`,
+      `Расхождение цены с ${label}, %`,
+      `Расхождение остатка с ${label}, шт`,
     );
   }
 

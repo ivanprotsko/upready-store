@@ -185,6 +185,24 @@ describe("три группы делят артикулы без остатка"
     expect(counts.both + counts.shop_only + counts.marketplace_only).toBe(counts.total);
   });
 
+  it("артикул на нескольких товарах магазина: строка в «везде есть», а цена магазина не выдумана", () => {
+    const ambiguous = build({
+      variants: [variant(), variant({ id: "var_2", product_id: "prod_2", stock: 7 })],
+    });
+
+    expect(ambiguous[0].group).toBe("both");
+    expect(ambiguous[0].shop).toBeNull();
+    expect(ambiguous[0].shop_variants).toBe(2);
+    expect(ambiguous[0].shop_ambiguous).toBe(true);
+    /* Ни одно расхождение не посчитано: сравнивать не с чем (правило 20a). */
+    expect(ambiguous[0].differences.every((difference) => difference.abs === null)).toBe(true);
+  });
+
+  it("один товар магазина — не двусмысленность", () => {
+    expect(build()[0].shop_ambiguous).toBe(false);
+    expect(build()[0].shop_variants).toBe(1);
+  });
+
   it("вкладка отдаёт ровно строки своей группы", () => {
     expect(filterByTab(rows, "shop_only").map((row) => row.vendor_code)).toEqual(["ART-SHOP"]);
     expect(filterByTab(rows, "marketplace_only").map((row) => row.vendor_code)).toEqual(["ART-MP"]);
@@ -398,6 +416,16 @@ describe("экспорт", () => {
 
     expect(head).toContain("Цена на megamarket, ₽ с учётом скидки");
     expect(head).toContain("Остаток на megamarket, шт");
+  });
+
+  it("шапка зовёт площадку так же, как экран, а без подписи — по id", () => {
+    const named = toPriceStockCsv(rows, ["wb", "ozon"], { wb: "Wildberries", ozon: "Ozon" }).split(
+      "\r\n",
+    )[0];
+
+    expect(named).toContain("Цена на Wildberries, ₽ с учётом скидки");
+    expect(named).toContain("Остаток на Ozon, шт");
+    expect(toPriceStockCsv(rows, ["wb"]).split("\r\n")[0]).toContain("Цена на wb, ₽ без скидки");
   });
 
   it("каждая числовая колонка называет единицу (правило 18e)", () => {

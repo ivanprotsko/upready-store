@@ -30,7 +30,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     tab: tabFromQuery(query),
   });
 
-  const csv = toPriceStockCsv(payload.rows, payload.marketplaces);
+  const csv = toPriceStockCsv(payload.rows, payload.marketplaces, payload.marketplace_labels);
   const stamp = payload.as_of.slice(0, 10);
 
   res.setHeader("Content-Type", "text/csv; charset=utf-8");

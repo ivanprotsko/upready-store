@@ -68,6 +68,10 @@ export type PriceStockRow = {
   vendor_code: string
   group: PriceStockGroup
   over_threshold: boolean
+  /** How many variants of the shop carry this article. */
+  shop_variants: number
+  /** More than one of them, which is why `shop` below is null on a shop row. */
+  shop_ambiguous: boolean
   shop: {
     variant_id: string
     product_id: string

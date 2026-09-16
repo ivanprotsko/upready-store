@@ -105,7 +105,11 @@ const MarketplaceCells = ({
     <>
       <td className="px-3 py-3 align-top tabular-nums">
         <Text size="small">{money(column.price)}</Text>
-        <FreshnessMark freshness={column.price_freshness} testId={`fresh-price-${column.marketplace}`} />
+        <FreshnessMark
+          freshness={column.price_freshness}
+          hasValue={column.effective_price !== null}
+          testId={`fresh-price-${column.marketplace}`}
+        />
       </td>
       <td className="px-3 py-3 align-top tabular-nums">
         <Text size="small" weight="plus">
@@ -115,7 +119,11 @@ const MarketplaceCells = ({
       </td>
       <td className="px-3 py-3 align-top tabular-nums">
         <Text size="small">{units(column.stock)}</Text>
-        <FreshnessMark freshness={column.stock_freshness} testId={`fresh-stock-${column.marketplace}`} />
+        <FreshnessMark
+          freshness={column.stock_freshness}
+          hasValue={column.stock !== null}
+          testId={`fresh-stock-${column.marketplace}`}
+        />
       </td>
       <td className="px-3 py-3 align-top tabular-nums">
         <DiffCell difference={stock} />
@@ -254,6 +262,19 @@ export const PriceStockTable = ({
                   {row.shop?.sku ? (
                     <Text size="xsmall" className="text-ui-fg-subtle">
                       SKU {row.shop.sku}
+                    </Text>
+                  ) : null}
+                  {/*
+                   * An empty shop cell on a row that DOES belong to the shop is
+                   * a different fact from «нет данных», and it says which one it
+                   * is: several products carry this article, so no single price
+                   * or stock of the shop exists to show (rule 20a). The choice
+                   * is made on «Каталог», which owns it.
+                   */}
+                  {!row.shop && row.shop_ambiguous ? (
+                    <Text size="xsmall" className="text-ui-fg-subtle">
+                      артикул несут {row.shop_variants} товара магазина — цену и остаток магазина
+                      покажем после выбора на экране «Каталог»
                     </Text>
                   ) : null}
                 </td>

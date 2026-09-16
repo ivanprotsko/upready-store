@@ -47,6 +47,26 @@ const TABS: Array<{ id: PriceStockTab; label: string }> = [
 
 const DEFAULTS: PriceStockThresholds = { price_pct: 10, stock_abs: 1 }
 
+/**
+ * «1 строка», «2 строки», «5 строк». The screen is read by a shop owner, not
+ * by a developer: «1 строк» on a button is a button nobody proof-read (the
+ * same care `catalog.ts` takes with its own hint).
+ */
+const rowsWord = (count: number): string => {
+  const tens = count % 100
+  const ones = count % 10
+  if (tens >= 11 && tens <= 14) {
+    return "строк"
+  }
+  if (ones === 1) {
+    return "строка"
+  }
+  if (ones >= 2 && ones <= 4) {
+    return "строки"
+  }
+  return "строк"
+}
+
 const ThresholdField = ({
   id,
   label,
@@ -168,7 +188,7 @@ export const MarketplacePriceStock = () => {
               disabled={!rows || rows.length === 0}
               data-testid="export-csv"
             >
-              Скачать CSV ({rows?.length ?? 0} строк)
+              Скачать CSV ({rows?.length ?? 0} {rowsWord(rows?.length ?? 0)})
             </Button>
           </div>
 

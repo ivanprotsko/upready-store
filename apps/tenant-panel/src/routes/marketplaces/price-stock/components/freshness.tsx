@@ -40,11 +40,20 @@ const LABEL: Record<Freshness["family"], string> = {
 
 export const FreshnessMark = ({
   freshness,
+  hasValue,
   testId,
 }: {
   freshness: Freshness
+  /**
+   * Whether the cell above actually shows a number. A date under a «—» dates
+   * an absence: the import did run, it simply brought no number for this line,
+   * and printing its time next to nothing reads as «остаток измерен» (rule
+   * 20a). With no number there is nothing to age, so nothing is printed.
+   */
+  hasValue: boolean
   testId?: string
-}) => (
+}) =>
+  !hasValue ? null : (
   <div className="flex flex-col gap-y-0.5" title={freshness.note} data-testid={testId}>
     <Text size="xsmall" className="text-ui-fg-subtle tabular-nums">
       {LABEL[freshness.family]}: {shortMoment(freshness.as_of)}
@@ -55,4 +64,4 @@ export const FreshnessMark = ({
       </Badge>
     ) : null}
   </div>
-)
+  )
