@@ -259,6 +259,22 @@ buttons in the card: []      forms in the card: 0
 - Ни одного нового метода площадки я не регистрировал: все чтения уже стояли в реестрах w01/w11/w23.
   Устаревших методов (`/v3/posting/fbs/list`, `/v2/posting/fbo/list`) в реестре нет.
 
+## После слияния с `dev`
+
+Ветка слита с `origin/dev` (`git merge origin/dev`, 3 коммита базы — планировщик синхронизации,
+раздел отзывов, экран журнала). Проверено ПОСЛЕ слияния, не до:
+
+```
+npx tsc --noEmit                    → rc=0
+pnpm test:unit                      → Test Suites: 69 passed, Tests: 908 passed
+npx medusa db:migrate               → rc=0 (миграция базы 20260916014707 и моя 20260916015254 встали подряд)
+npx medusa db:generate marketplace  → «Skipped. No changes detected in your models»
+                                      (снимок схемы после слияния совпадает с моделями — лишней миграции нет)
+mp:project                          → те же числа: wb 26812 заказов, ozon 2
+GET /tenants/marketplace-orders     → count 9591, notices rate_limited / missing
+снимки экрана пересняты на слитом коде: в карточке по-прежнему 0 кнопок и 0 форм
+```
+
 ## Серверы
 
 Подняты и остановлены мной: `medusa develop` (:9015) и `vite` (:5195). Проверка перед финальным
