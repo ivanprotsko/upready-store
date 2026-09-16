@@ -122,7 +122,14 @@ export const POST = async (
       text_sha256: null,
       payload_sha256: null,
     };
-    res.status(422).json({ result: payload, state: await readFeedbackAnswersState(req) });
+    // `message` at the top level as well: the panel's SDK builds its thrown
+    // error from that field alone, so a refusal without it would reach the
+    // owner as a bare "Unprocessable Entity" (`@medusajs/js-sdk` client.js).
+    res.status(422).json({
+      message: payload.message,
+      result: payload,
+      state: await readFeedbackAnswersState(req),
+    });
     return;
   }
 
@@ -132,6 +139,19 @@ export const POST = async (
     tenantId: tenant.id,
     marketplace: WB_MARKETPLACE,
   });
+
+  // What the owner asked for, in her words, so every message below names the
+  // operation she pressed rather than calling both of them "an answer".
+  const dryRunMessage =
+    body.intent === "view"
+      ? "Черновой прогон: отметка «просмотрено» проверена по документации Wildberries и " +
+        "записана в журнал, в Wildberries ничего не ушло — живой режим выключен."
+      : "Черновой прогон: ответ проверен по документации Wildberries и записан в журнал, " +
+        "в Wildberries ничего не ушло — живой режим выключен.";
+  const sentMessage =
+    body.intent === "view"
+      ? "Вопрос отмечен просмотренным в Wildberries."
+      : "Ответ отправлен в Wildberries.";
 
   let result: OutcomeBody;
   let nextStatus: WbAnswerStatus | null = null;
@@ -150,10 +170,7 @@ export const POST = async (
     result = {
       ok: true,
       outcome: written.dryRun ? "dry_run" : "sent",
-      message: written.dryRun
-        ? "Черновой прогон: ответ проверен по документации Wildberries и записан в журнал, " +
-          "в Wildberries ничего не ушло — живой режим выключен."
-        : "Ответ отправлен в Wildberries.",
+      message: written.dryRun ? dryRunMessage : sentMessage,
       endpoint_id: written.endpointId,
       gate: null,
       text_sha256: plan.textSha256,
@@ -192,7 +209,9 @@ export const POST = async (
       });
   }
 
-  res
-    .status(result.ok ? 200 : 422)
-    .json({ result, state: await readFeedbackAnswersState(req) });
+  res.status(result.ok ? 200 : 422).json({
+    message: result.message,
+    result,
+    state: await readFeedbackAnswersState(req),
+  });
 };

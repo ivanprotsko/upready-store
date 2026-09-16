@@ -17,7 +17,10 @@ import {
   WB_WRITE_ENDPOINTS,
 } from "../../../../modules/wb-write/write-endpoints";
 import { inspectWbWriteCredential, WB_WRITE_LIVE_ENV } from "../../../../modules/wb-write/write-transport";
-import { readWildberriesWriteSecret } from "../../../../tenant-secrets/wildberries";
+import {
+  readWildberriesWriteSecret,
+  WILDBERRIES_WRITE_SLOT,
+} from "../../../../tenant-secrets/wildberries";
 import { getTenantScope } from "../../tenant-scope";
 import type { PutTenantWbFeedbackAnswerBodyType } from "./validators";
 
@@ -288,7 +291,16 @@ const readState = async (req: AuthenticatedMedusaRequest) => {
      * dry run and the tab says so in words rather than after the fact.
      */
     gates: {
-      credential: { usable: facts?.usable ?? false, reason: facts?.usable === false ? (facts.reason ?? null) : null },
+      credential: {
+        usable: facts?.usable ?? false,
+        // An ABSENT credential is not the same fact as an unusable one, and a
+        // `null` reason next to `usable: false` would leave the screen with
+        // nothing to print (rule 20a): the gate says which of the two it is.
+        reason: facts
+          ? (facts.usable ? null : (facts.reason ?? null))
+          : `У магазина нет отдельного ключа записи (слот ${WILDBERRIES_WRITE_SLOT}). ` +
+            "Ключ на чтение для записи не используется.",
+      },
       live: { env_var: WB_WRITE_LIVE_ENV, enabled: process.env[WB_WRITE_LIVE_ENV] === "1" },
       enabled: setting?.is_enabled ?? false,
       consent: consent

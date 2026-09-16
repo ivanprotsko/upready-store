@@ -4258,6 +4258,62 @@
       "orderedSum": "Order value",
       "buyouts": "Bought out",
       "empty": "no funnel data — either the import has not run, or WB returned nothing"
+    },
+    "answers": {
+      "title": "Feedbacks and questions",
+      "hint": "answer drafts, templates and a confirmation for every answer; today every send stays a dry run",
+      "answered": "answered",
+      "unanswered": "no answer yet",
+      "rating": "rated {{value}} of 5",
+      "byNmId": "WB article {{nmId}}",
+      "noProduct": "product unknown",
+      "noText": "(the customer left no text)",
+      "pros": "Pros: {{text}}",
+      "cons": "Cons: {{text}}",
+      "existingAnswer": "Already answered: {{text}}",
+      "empty": "nothing here under this filter",
+      "templatePlaceholder": "Pick a template",
+      "draftPlaceholder": "Write an answer to the customer",
+      "chars": "{{used}} of {{max}} characters",
+      "save": "Save draft",
+      "send": "Confirm and send",
+      "markViewed": "Mark as viewed",
+      "alreadyViewed": "Viewed",
+      "savedToast": "Draft saved.",
+      "noDraftToast": "Write the answer text first: there is nothing to send.",
+      "liveOff": "Live mode is off ({{env}} is not set): a confirmed answer is checked against the Wildberries documentation and journalled, but it does not reach Wildberries.",
+      "liveOn": "Live mode is on ({{env}}=1): a confirmed answer really goes to Wildberries.",
+      "noConsent": "Consent for the class «Feedback and question answers» has not been given. Give it below, in «Writing to Wildberries», or a send is refused at the consent gate.",
+      "questionGap": "Answering a customer question is not available yet. {{method}} {{path}} — {{reason}}",
+      "statuses": {
+        "draft": "draft",
+        "confirmed": "confirmed, journalled",
+        "sent": "sent to WB",
+        "failed": "refused"
+      },
+      "filters": {
+        "unanswered": "No answer",
+        "answered": "Answered",
+        "all": "All"
+      },
+      "tabs": {
+        "feedbacks": "Feedbacks",
+        "questions": "Questions"
+      },
+      "counts": {
+        "unanswered": "No answer:",
+        "answered": "Answered:",
+        "drafts": "Drafts:"
+      },
+      "confirm": {
+        "title": "Confirm the answer",
+        "body": "The customer will receive exactly this text:\n\n«{{text}}»\n\n{{mode}}",
+        "dryRun": "This is a dry run: {{env}} is not set, so nothing reaches Wildberries and the attempt is journalled.",
+        "live": "Live mode is on: the answer goes to Wildberries and customers will see it.",
+        "ok": "Confirm and send",
+        "cancel": "Cancel"
+      },
+      "cannotAnswer": "sending an answer is unavailable — see the note at the top of the tab"
     }
   }
 }

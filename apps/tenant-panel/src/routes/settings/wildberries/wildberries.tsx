@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useWbStatus } from "../../../hooks/api/wb-status"
 import { useWbTables } from "../../../hooks/api/wb-tables"
+import { WbAnswersSection } from "./components/wb-answers-section"
 import { WbCategoryList } from "./components/wb-category-list"
 import { WbEndpointTable } from "./components/wb-endpoint-table"
 import { WbFieldRow } from "./components/wb-field-row"
@@ -217,6 +218,8 @@ export const WildberriesSettings = () => {
               </div>
               <WbEndpointTable endpoints={wb.endpoints} />
             </div>
+
+            <WbAnswersSection />
 
             <WbWriteSection />
           </>
