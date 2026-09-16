@@ -144,7 +144,7 @@ async function loadOp(){ const r=await api('/api/op/thread?n=30'); opData=r;
       else if(waiting) bodyHtml='<div class="op-doc mut">ищет: '+LADDER.join(' → ')+' · '+ageSec+' с</div>';
       else bodyHtml='<div class="op-doc mut">Задачи и баги оператор не «отвечает» — он их готовит. Нажмите «в очередь», и запись уйдёт штабу.</div>';
       let src='';
-      if(a&&(a.sources||[]).length) src='<div class="op-src">источники: '+a.sources.map(s=>'<a href="/api/file?f='+encodeURIComponent(s.path)+'" target="_blank">'+esc((s.path||'').split('/').pop())+'</a>').join('')+'</div>';
+      if(a&&(a.sources||[]).length) src='<div class="op-src">источники: '+a.sources.map(s=>'<a href="/api/file?f='+encodeURIComponent(s.path)+'" target="_blank" title="'+esc(s.path)+'">'+esc((s.path||'').split('/').slice(-2).join('/'))+'</a>').join('')+'</div>';
       const act='<div class="op-act"><button onclick="opVerdict(\''+rec.id+'\',\'ok\')">ок</button><button onclick="opVerdict(\''+rec.id+'\',\'wrong\')">не то → выше</button><button onclick="opVerdict(\''+rec.id+'\',\'queue\')">в очередь</button><span class="mut">'+esc(rec.id)+'</span></div>';
       parts.push('<div class="op-rec">'+head+bodyHtml+src+act+'</div>');
     }
@@ -152,6 +152,8 @@ async function loadOp(){ const r=await api('/api/op/thread?n=30'); opData=r;
   host.innerHTML=parts.join('')||'<div class="mut">Лента пуста. Напишите оператору — он разберёт промпт и ответит документом со ссылками на источники.</div>';
 }
 
+// Глубокая ссылка на вкладку: #view=operator открывает ленту сразу (и это же адрес для кадров приёмки).
+try{ if(/view=operator/.test(location.hash)) setTimeout(()=>show('operator'),0); }catch(e){}
 try{ const m=location.hash.match(/open=([^&]+)/); if(m){ open=decodeURIComponent(m[1]); scrollOnce=true; } if(open&&/form=1/.test(location.hash)) showForm[open]=true; }catch(e){}
 load(); setInterval(load, 10000);
 </script></body></html>

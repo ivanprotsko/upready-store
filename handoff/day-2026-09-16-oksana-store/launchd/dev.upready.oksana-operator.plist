@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Резидент оператора (OPERATOR-SPEC §6): следит за intake/prompts/, разбирает промпт Ивана через
+       claude -p (haiku) и пишет документы ответов. claude -p берёт логин из keychain, а keychain виден
+       ТОЛЬКО из GUI-сессии: cron и LaunchDaemon его не видят (замерено на этой машине 2026-09-16 05:42 —
+       «OAuth session expired»), поэтому домен gui/<uid> и LimitLoadToSessionType=Aqua (правило 25i).
+       Установка: launchctl bootstrap gui/$(id -u) <этот файл>
+       Снятие:    launchctl bootout gui/$(id -u)/dev.upready.oksana-operator
+       Проверка:  launchctl print gui/$(id -u)/dev.upready.oksana-operator | head -5 -->
+  <key>Label</key>
+  <string>dev.upready.oksana-operator</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/intake/operator.mjs</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store</string>
+  <key>KeepAlive</key>
+  <true/>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>LimitLoadToSessionType</key>
+  <string>Aqua</string>
+  <key>StandardOutPath</key>
+  <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log</string>
+</dict>
+</plist>

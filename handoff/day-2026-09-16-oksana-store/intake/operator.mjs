@@ -3,7 +3,7 @@
 // схеме) → записи → маршрут по kind (routes.mjs) → ответ скриптом (ask.mjs) → ГЕЙТ (gate.mjs) → документ.
 // Красный гейт НЕ показывается как ответ: он становится строкой эскалации для уровня выше (Э2).
 // Ниже Fable никто не пишет tasks.json/state.json, не запускает run.sh и не коммитит (PROMPT.md v1).
-// CLI: operator.mjs [--once] | add "<текст>" | verdict <record-id> <ok|wrong|queue> | thread [--n 20]
+// CLI: operator.mjs [--once] | add "<текст>" | verdict <record-id> <ok|wrong|queue> | thread [--n 20] | reanswer
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -47,8 +47,8 @@ export function answerRecord(rec, { db, cfg } = {}) {
   if (rec.kind === 'status') a = askStatus(rec.ivan || rec.title, { cfg })
   else if (rec.kind === 'where') a = askWhere(rec.target || taskIdIn(rec.ivan || '') || null, rec.ivan || rec.title, { cfg })
   else if (rec.kind === 'live') a = askLive(rec.target || urlIn(rec.ivan || '') || (cfg || loadCorpusConfig()).live.hosts[0].url, { cfg })
-  else if (rec.kind === 'howto') a = askHowto(q, { db, cfg })
-  else a = askPassages(q, { db, cfg, kind: rec.kind })
+  else if (rec.kind === 'howto') a = askHowto(q, { db, cfg, display: rec.ivan || rec.title })
+  else a = askPassages(q, { db, cfg, kind: rec.kind, display: rec.ivan || rec.title })
   a.question = rec.ivan || rec.title
   a.kind = rec.kind
   return a
@@ -175,6 +175,28 @@ export function setVerdict(db, recordId, verdict) {
   return { id: recordId, verdict }
 }
 
+/** Пересобрать ответы по УЖЕ разобранным записям — после переиндексации корпуса или правки ask.mjs.
+ *  Модель не зовётся ни разу: разбор промпта уже оплачен, меняется только уровень «скрипт». */
+export function reanswer({ db, cfg = loadCorpusConfig(), log = () => {} } = {}) {
+  const recs = db.prepare("select * from records where kind in ('fact','where','status','live','howto') order by ts").all()
+  let green = 0
+  for (const rec of recs) {
+    const t0 = Date.now()
+    let a
+    try { a = answerRecord(rec, { db, cfg }) }
+    catch (e) { a = { answered: false, level: 'script', kind: rec.kind, question: rec.ivan, doc_md: '', sources: [], pointers: [], live: [], not_found: [String(e.message)] } }
+    const g = gate(a, { cfg })
+    const doc = writeDoc(rec, a, g)
+    db.prepare('insert into answers(id, record_id, level, ts, doc_path, sources, gate, usage, seconds) values (?,?,?,?,?,?,?,?,?)')
+      .run(rid('ans'), rec.id, 'script', nowIso(), doc, JSON.stringify(a.sources || []), JSON.stringify(g), JSON.stringify({ usage: null, cost: 0 }), (Date.now() - t0) / 1000)
+    db.prepare('update records set status = ? where id = ?').run(g.ok ? 'answered' : 'escalate', rec.id)
+    if (g.ok) green++
+    else { escalate(db, rec, 'script', g.reasons); log(`${rec.id}: КРАСНЫЙ · ${g.reasons.join(' · ')}`) }
+  }
+  log(`пересобрано ответов: ${recs.length}, зелёных ${green}`)
+  return { total: recs.length, green }
+}
+
 export function runOnce({ db, cfg = loadCorpusConfig(), log = () => {} } = {}) {
   const dir = promptsDir()
   fs.mkdirSync(dir, { recursive: true })
@@ -194,11 +216,12 @@ function main(argv) {
   try {
     if (argv[0] === 'verdict') { console.log(JSON.stringify(setVerdict(db, argv[1], argv[2] || 'ok'))); return }
     if (argv[0] === 'thread') { console.log(JSON.stringify(thread(db, Number(argv[2] || 20)), null, 1)); return }
+    if (argv[0] === 'reanswer') { reanswer({ db, log }); return }
     if (argv.includes('--once')) { runOnce({ db, log }); return }
     log(`оператор поднят · база ${answersDir()} · слежу за ${promptsDir()}`)
     runOnce({ db, log })
     setInterval(() => { try { runOnce({ db, log }) } catch (e) { log('цикл: ' + String(e.message)) } }, Number(process.env.OPERATOR_POLL_MS || 2000))
-  } finally { if (argv[0] === 'verdict' || argv[0] === 'thread' || argv.includes('--once')) db.close() }
+  } finally { if (['verdict', 'thread', 'reanswer'].includes(argv[0]) || argv.includes('--once')) db.close() }
 }
 
 /** Лента для UI: промпты Ивана, их записи и ПОСЛЕДНИЙ ответ по каждой записи. */

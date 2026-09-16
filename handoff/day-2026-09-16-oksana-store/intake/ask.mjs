@@ -130,8 +130,10 @@ export function passages(question, { n = 8, db = null, roots = null, boostRoots 
 // ---------- сборка документа ----------
 const q = (s) => String(s).split('\n').map((l) => '> ' + l).join('\n')
 
+// Шапку уровня (уровень · время · гейт) ставит operator.mjs один раз на весь документ — здесь её нет,
+// иначе в ленте две одинаковые строки подряд.
 export function docFromPassages(question, ps, { title = null, preface = null, tail = null } = {}) {
-  const L = [`# ${title || 'Ответ на вопрос Ивана'}`, '', `_уровень: скрипт · ${wita()} · источников: ${ps.length}_`, '']
+  const L = [`# ${title || 'Ответ на вопрос Ивана'}`, '']
   L.push('**Вопрос Ивана (дословно):**', '', q(question), '')
   if (preface) L.push(preface, '')
   if (!ps.length) L.push('_В корпусе ничего не найдено._', '')
@@ -150,11 +152,14 @@ const answerShell = (kind, question, extra = {}) => ({
   doc_md: '', sources: [], pointers: [], confidence: 0, live: [], not_found: [], ...extra,
 })
 
+/** `question` — то, по чему ИЩЕМ (заголовок + текст Ивана); `opts.display` — то, что ПОКАЗЫВАЕМ Ивану
+ *  (его собственная фраза, дословно). Разделены, иначе в документе стоит склейка «вопрос Заголовок». */
 export function askPassages(question, opts = {}) {
   const r = passages(question, opts)
-  const a = answerShell(opts.kind || 'fact', question)
+  const shown = opts.display || question
+  const a = answerShell(opts.kind || 'fact', shown)
   a.sources = r.passages.map((p) => ({ path: p.path, heading: p.heading, date: p.date, quote: p.quote }))
-  a.doc_md = docFromPassages(question, r.passages, { title: opts.title || 'Что нашлось в корпусе' })
+  a.doc_md = docFromPassages(shown, r.passages, { title: opts.title || 'Что нашлось в корпусе' })
   a.confidence = r.passages.length ? Math.min(0.9, 0.3 + 0.1 * r.passages.length) : 0
   a.answered = r.passages.length > 0
   if (!r.passages.length) a.not_found.push(`FTS по основам [${r.stems.join(', ')}] (${r.mode}) не дал ни одного пассажа`)
@@ -187,13 +192,14 @@ export function askHowto(question, opts = {}) {
   const memRoot = cfg.roots.find((r) => r.kind === 'memory')?.path
   const r = passages(question, { ...opts, n: opts.n || 8, boostRoots: memRoot ? [memRoot] : null })
   const ptr = privateNames(question, cfg)
-  const a = answerShell('howto', question)
+  const shown = opts.display || question
+  const a = answerShell('howto', shown)
   a.sources = r.passages.map((p) => ({ path: p.path, heading: p.heading, date: p.date, quote: p.quote }))
   a.pointers = ptr.map((p) => ({ path: p, why: 'файл с доступами — содержимое НЕ читается и НЕ индексируется, откройте сами' }))
   const tail = ptr.length
     ? ['## Где лежат доступы (содержимое не читается)', '', ...ptr.map((p) => `- [${path.basename(p)}](file://${p}) — открыть самому, оператор в .private не заглядывает`)].join('\n')
     : null
-  a.doc_md = docFromPassages(question, r.passages, { title: 'Как это сделать — что записано в каноне', tail })
+  a.doc_md = docFromPassages(shown, r.passages, { title: 'Как это сделать — что записано в каноне', tail })
   a.answered = r.passages.length > 0
   a.confidence = r.passages.length ? Math.min(0.9, 0.3 + 0.1 * r.passages.length) : 0
   if (!r.passages.length) a.not_found.push('в памяти и корпусе не нашлось ни одного пассажа')

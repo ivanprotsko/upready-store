@@ -68,6 +68,13 @@ export function indexAll({ full = false, cfg = loadCorpusConfig(), db = null } =
   const t0 = Date.now()
   const own = !db
   const base = db || open()
+  if (full) {
+    // --full пересобирает индекс НА ЧИСТОМ месте. `delete from corpus_fts` оставляет фрагментацию:
+    // замер — база после --full поверх существующей весит 98,5 МБ против 63,2 МБ у сборки с нуля,
+    // и `vacuum` её не возвращает (фрагментация внутри страниц самого FTS5).
+    base.exec('drop table if exists corpus_fts; delete from corpus;')
+    base.exec(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'schema.sql'), 'utf8'))
+  }
   base.exec('begin')
   try {
     const known = new Map()
@@ -101,6 +108,7 @@ export function indexAll({ full = false, cfg = loadCorpusConfig(), db = null } =
     let removed = 0
     for (const p of known.keys()) if (!seen.has(p)) { delFts.run(p); delCorpus.run(p); removed++ }
     base.exec('commit')
+    if (full) base.exec('vacuum')
     const totalRows = base.prepare('select coalesce(sum(rows), 0) n from corpus').get().n
     return { files, changed, removed, rowsWritten: rows, rows: totalRows, seconds: (Date.now() - t0) / 1000 }
   } catch (e) {
