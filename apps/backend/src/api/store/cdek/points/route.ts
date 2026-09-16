@@ -74,12 +74,28 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
   });
 }
 
+/**
+ * The street line of a point, without the region and city CDEK repeats inside
+ * `address_full`. The city is a field of its own in the answer, and the sheet
+ * already knows which city it asked for.
+ */
+const shortAddress = (point: CdekPoint): string => {
+  const short = point.location?.address?.trim();
+  const index = point.location?.postal_code?.trim();
+  if (short) return index ? `${index}, ${short}` : short;
+  return point.location?.address_full ?? "";
+};
+
 /** The point shape the storefront picker and the map (`i03`) consume. */
 export const toStorePoint = (point: CdekPoint) => ({
   code: point.code,
   name: point.name,
   type: point.type ?? "PVZ",
-  address: point.location?.address_full ?? point.location?.address ?? "",
+  // `address_full` repeats the region and the city («191040, Россия,
+  // Санкт-Петербург, Санкт-Петербург, пр-т Лиговский, 50»), which reads badly in
+  // a list the buyer scans (rule 18e). The short `address` plus the postal code
+  // says the same thing once; `address_full` stays the fallback.
+  address: shortAddress(point),
   city: point.location?.city ?? null,
   postal_code: point.location?.postal_code ?? null,
   lat: point.location?.latitude ?? null,
