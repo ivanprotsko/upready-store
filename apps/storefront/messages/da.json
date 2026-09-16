@@ -116,7 +116,11 @@
     "needCity": "Angiv din leveringsby for at se afhentningssteder.",
     "loading": "Indlæser afhentningssteder…",
     "notConfigured": "CDEK-levering er endnu ikke sat op i denne butik.",
-    "change": "Skift sted"
+    "change": "Skift sted",
+    "tabList": "Liste",
+    "tabMap": "Kort",
+    "mapEmpty": "Der er ingen afhentningssteder på kortet for denne by.",
+    "mapFailed": "Kortet er ikke tilgængeligt. Vælg et sted fra listen."
   },
   "CheckoutPage": {
     "addNewAddress": "Tilføj ny adresse",

@@ -116,7 +116,11 @@
     "needCity": "Anna toimituskaupunki nähdäksesi noutopisteet.",
     "loading": "Ladataan noutopisteitä…",
     "notConfigured": "CDEK-toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
-    "change": "Vaihda piste"
+    "change": "Vaihda piste",
+    "tabList": "Lista",
+    "tabMap": "Kartta",
+    "mapEmpty": "Tälle kaupungille ei ole noutopisteitä kartalla.",
+    "mapFailed": "Kartta ei ole käytettävissä. Valitse piste listalta."
   },
   "CheckoutPage": {
     "addNewAddress": "Lisää uusi osoite",

@@ -116,7 +116,11 @@
     "needCity": "Vul je bezorgstad in om afhaalpunten te zien.",
     "loading": "Afhaalpunten laden…",
     "notConfigured": "CDEK-bezorging is nog niet ingesteld in deze winkel.",
-    "change": "Punt wijzigen"
+    "change": "Punt wijzigen",
+    "tabList": "Lijst",
+    "tabMap": "Kaart",
+    "mapEmpty": "Geen afhaalpunten om op de kaart te tonen voor deze stad.",
+    "mapFailed": "De kaart is niet beschikbaar. Kies een punt uit de lijst."
   },
   "CheckoutPage": {
     "addNewAddress": "Nieuw adres toevoegen",

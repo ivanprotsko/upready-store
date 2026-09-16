@@ -116,7 +116,11 @@
     "needCity": "Indique a cidade de entrega para ver os pontos de recolha.",
     "loading": "A carregar pontos de recolha…",
     "notConfigured": "O envio CDEK ainda não está configurado nesta loja.",
-    "change": "Mudar de ponto"
+    "change": "Mudar de ponto",
+    "tabList": "Lista",
+    "tabMap": "Mapa",
+    "mapEmpty": "Não há pontos de retirada para mostrar no mapa desta cidade.",
+    "mapFailed": "O mapa está indisponível. Escolha um ponto na lista."
   },
   "CheckoutPage": {
     "addNewAddress": "Adicionar nova morada",

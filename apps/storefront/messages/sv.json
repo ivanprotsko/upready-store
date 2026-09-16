@@ -116,7 +116,11 @@
     "needCity": "Ange din leveransstad för att se utlämningsställen.",
     "loading": "Laddar utlämningsställen…",
     "notConfigured": "CDEK-leverans är inte uppsatt i den här butiken än.",
-    "change": "Byt ställe"
+    "change": "Byt ställe",
+    "tabList": "Lista",
+    "tabMap": "Karta",
+    "mapEmpty": "Det finns inga utlämningsställen att visa på kartan för den här staden.",
+    "mapFailed": "Kartan är inte tillgänglig. Välj ett ställe i listan."
   },
   "CheckoutPage": {
     "addNewAddress": "Lägg till ny adress",

@@ -116,7 +116,11 @@
     "needCity": "Inserisci la città di consegna per vedere i punti di ritiro.",
     "loading": "Caricamento dei punti di ritiro…",
     "notConfigured": "La spedizione CDEK non è ancora configurata in questo negozio.",
-    "change": "Cambia punto"
+    "change": "Cambia punto",
+    "tabList": "Elenco",
+    "tabMap": "Mappa",
+    "mapEmpty": "Nessun punto di ritiro da mostrare sulla mappa per questa città.",
+    "mapFailed": "La mappa non è disponibile. Scegli un punto dall'elenco."
   },
   "CheckoutPage": {
     "addNewAddress": "Aggiungi nuovo indirizzo",

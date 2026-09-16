@@ -116,7 +116,11 @@
     "needCity": "Zadejte město doručení, abyste viděli výdejní místa.",
     "loading": "Načítání výdejních míst…",
     "notConfigured": "Doprava CDEK zatím není v tomto obchodě nastavena.",
-    "change": "Změnit místo"
+    "change": "Změnit místo",
+    "tabList": "Seznam",
+    "tabMap": "Mapa",
+    "mapEmpty": "Pro toto město nejsou na mapě žádná místa.",
+    "mapFailed": "Mapa není dostupná. Vyberte místo ze seznamu."
   },
   "CheckoutPage": {
     "addNewAddress": "Přidat novou adresu",

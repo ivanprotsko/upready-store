@@ -116,7 +116,11 @@
     "needCity": "Adja meg a szállítási várost az átvételi pontok megjelenítéséhez.",
     "loading": "Átvételi pontok betöltése…",
     "notConfigured": "A CDEK szállítás még nincs beállítva ebben a boltban.",
-    "change": "Pont módosítása"
+    "change": "Pont módosítása",
+    "tabList": "Lista",
+    "tabMap": "Térkép",
+    "mapEmpty": "Ehhez a városhoz nincs átvételi pont a térképen.",
+    "mapFailed": "A térkép nem érhető el. Válasszon pontot a listából."
   },
   "CheckoutPage": {
     "addNewAddress": "Új cím hozzáadása",

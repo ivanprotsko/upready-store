@@ -116,7 +116,11 @@
     "needCity": "Masukkan bandar penghantaran untuk melihat titik pengambilan.",
     "loading": "Memuatkan titik pengambilan…",
     "notConfigured": "Penghantaran CDEK belum disediakan di kedai ini.",
-    "change": "Tukar titik"
+    "change": "Tukar titik",
+    "tabList": "Senarai",
+    "tabMap": "Peta",
+    "mapEmpty": "Tiada pusat pengambilan untuk ditunjukkan pada peta bagi bandar ini.",
+    "mapFailed": "Peta tidak tersedia. Pilih pusat daripada senarai."
   },
   "CheckoutPage": {
     "addNewAddress": "Tambah alamat baharu",

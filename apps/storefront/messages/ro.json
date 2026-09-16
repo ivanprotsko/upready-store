@@ -116,7 +116,11 @@
     "needCity": "Introduceți orașul de livrare pentru a vedea punctele de ridicare.",
     "loading": "Se încarcă punctele de ridicare…",
     "notConfigured": "Livrarea CDEK nu este încă configurată în acest magazin.",
-    "change": "Schimbă punctul"
+    "change": "Schimbă punctul",
+    "tabList": "Listă",
+    "tabMap": "Hartă",
+    "mapEmpty": "Nu există puncte de ridicare de afișat pe hartă pentru acest oraș.",
+    "mapFailed": "Harta nu este disponibilă. Alege un punct din listă."
   },
   "CheckoutPage": {
     "addNewAddress": "Adaugă o adresă nouă",

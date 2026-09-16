@@ -289,6 +289,27 @@ export default function CheckoutShippingSection({
   )
 
   /**
+   * The sheet's own price line: the same amount the method's card shows, so the
+   * point card inside the sheet cannot quote a different number from the card
+   * that opened it. `null` while the quote is still in flight — a price the
+   * buyer has not been shown yet must not be invented (rule 17a).
+   */
+  const cdekSheetPriceLabel = useMemo(() => {
+    if (!cdekSheetOption) return null
+    const amount =
+      cdekSheetOption.price_type === "flat"
+        ? cdekSheetOption.amount ?? null
+        : calculatedPricesMap[cdekSheetOption.id] ?? null
+    if (amount === null) return null
+    if (amount === 0) return t("freeShipping")
+    return convertToLocale({
+      amount,
+      currency_code: cart.currency_code,
+      locale,
+    })
+  }, [cdekSheetOption, calculatedPricesMap, cart.currency_code, locale, t])
+
+  /**
    * Sets the CDEK method with the point the buyer picked. Returns the error
    * message for the sheet to show, or `null` — the sheet stays open on a
    * failure, because closing it would leave the cart on the previous method
@@ -619,6 +640,8 @@ export default function CheckoutShippingSection({
           pointType={cdekKindOf(cdekSheetOption) === "postamat" ? "POSTAMAT" : "PVZ"}
           selectedCode={cdekChosen?.code ?? null}
           onChoose={handleChooseCdekPoint}
+          priceLabel={cdekSheetPriceLabel}
+          termLabel={cdekTerm}
         />
       )}
     </div>
