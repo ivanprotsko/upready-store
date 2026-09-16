@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-16 20:25 WITA диспетчером (тик 2275; работает). UI: http://localhost:5390
+Обновлено 2026-09-16 21:49 WITA диспетчером (тик 2359; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 79 · done: 16 · blocked: 1 · running: 1 · queued: 1
+merged: 80 · done: 17 · blocked: 1
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -733,6 +733,25 @@ merged: 79 · done: 16 · blocked: 1 · running: 1 · queued: 1
 - d08-deploy-wave6: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-d08-deploy-wave6-1/04-panel-marketplaces-1280x900.png
 - d08-deploy-wave6: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-d08-deploy-wave6-1/05-panel-wildberries-1280x900.png
 - d08-deploy-wave6: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-d08-deploy-wave6-1/06-panel-journal-1280x900.png
+- p01-settings-integrations-restructure «Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем #» — PR https://github.com/ivanprotsko/upready-store/pull/100 (merged)
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/measurements.md
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/01-hub-1280x900.png
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/02-int-wb-1280x900.png
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/03-mp-wb-1280x900.png
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/04-payments-1280x900.png
+- p01-settings-integrations-restructure: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p01-settings-integrations-restructure-1/05-delivery-1280x900.png
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/report.md
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/d09-deploy-integrations/report.json
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/05-integrations-settled-1280x900.png
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/06-wildberries-card-settled-1280x900.png
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/03-marketplaces-wildberries-1280x900.png
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/01-settings-integrations-1280x900.png
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/secrets-before.txt
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/secrets-after.txt
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/health-pre.txt
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/health-post.txt
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/markers.txt
+- d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/backend-boot.log
 - живой адрес: https://cherkashino.shipshift.dev/ru — витрина магазина Оксаны (после x01; сейчас 502, тенанта ещё нет)
 - живой адрес: https://panel-store.upready.dev — панель владельца магазина
 - живой адрес: https://start.upready.dev/start/onboarding — мастер создания магазина
@@ -841,10 +860,18 @@ merged: 79 · done: 16 · blocked: 1 · running: 1 · queued: 1
 | 98 | w24-integration-keys-self-service | Самообслуживание ключей интеграций в панели: форма ключа Wildberries и Ozon, хаб «Маркетплейсы/Интеграции» со всеми сервисами, без CLI-подсказок | build | opus/high | feat/day16-integration-keys-self-service | **merged** | [#96](https://github.com/ivanprotsko/upready-store/pull/96) | 1 | 2026-09-16 12:03 WITA |
 | 90 | r04-out-of-the-box-onboarding | Исследование «всё из коробки»: партнёрские/агентские программы и путь подключения клиента для Robokassa, ЮKassa, CDEK, Почты России, Yandex ID; наборы инструкций, черновик пункта оферты, задачи | build | opus/high | feat/day16-out-of-the-box-onboarding | **merged** | [#97](https://github.com/ivanprotsko/upready-store/pull/97) | 1 | 2026-09-16 12:02 WITA |
 | 99 | d08-deploy-wave6 | Деплой волны дня на живой хост: маркетплейсы, страница товара, блог, Robokassa, ApiShip/CDEK, карта ПВЗ и подсказки адреса, форма ключей; настройка cherkashino через панель в тестовом режиме (после w24-integration-keys-self-service, i02-apiship-cdek-shipping, i03-checkout-pvz-map-address-suggest, b18-blog-full, i01-robokassa-checkout, b17-pdp-gallery-info-layout, w21-wb-write-stocks-prices, w22-wb-write-feedback-answers, w19-mp-analytics) | deploy | opus/high | feat/day16-deploy-wave6 | **merged** | [#99](https://github.com/ivanprotsko/upready-store/pull/99) | 1 | 2026-09-16 13:44 WITA |
-| 99 | p01-settings-integrations-restructure | Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем # | build | opus/high | feat/day16-settings-integrations-restructure | **running** |  | 1 | 2026-09-16 20:25 WITA |
-| 99 | d09-deploy-integrations | Деплой волны p01 (реорганизация настроек) на живой хост cherkashino.shipshift.dev / panel-store.upready.dev с сохранением ключа WB, введённого Иваном (после p01-settings-integrations-restructure) | deploy | opus/high | feat/day16-deploy-integrations | **queued** |  | 0 |  |
+| 99 | p01-settings-integrations-restructure | Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем # | build | opus/high | feat/day16-settings-integrations-restructure | **merged** | [#100](https://github.com/ivanprotsko/upready-store/pull/100) | 1 | 2026-09-16 20:25 WITA |
+| 99 | d09-deploy-integrations | Деплой волны p01 (реорганизация настроек) на живой хост cherkashino.shipshift.dev / panel-store.upready.dev с сохранением ключа WB, введённого Иваном (после p01-settings-integrations-restructure) | deploy | opus/high | feat/day16-deploy-integrations | **done** |  | 1 | 2026-09-16 21:27 WITA |
 
 ## Последние события
+- 2026-09-16 21:48 WITA ·  · all-terminal: DONE
+- 2026-09-16 21:46 WITA · d09-deploy-integrations · done: RESULT: OK деплой 3859e6b8 (p01, PR #100) — ключ WB Ивана пережил деплой и показан как «подключено ••••c6Sg, только чтение, до 17.03.2027»; миграция apiship применена, секретов 3 до и 3 после, старые 
+- 2026-09-16 21:36 WITA · p01-settings-integrations-restructure · worker-closed: терминал 3460d974-16b2-4c22-9c3f-17c7b176e646 закрыт по таймауту /compact (8 мин); хвост экрана: ────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-settings-integrations-restructure (feat/day16-settings-integrations-restructure) | Opus 5 | ctx 54% ⏎   ⏵⏵ bypass permissions on · 1 shell · ← 4 agents
+- 2026-09-16 21:27 WITA · d09-deploy-integrations · launched: claude -p pid 1889 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store
+- 2026-09-16 21:27 WITA · p01-settings-integrations-restructure · merged: https://github.com/ivanprotsko/upready-store/pull/100 (приёмка раунд 1)
+- 2026-09-16 21:27 WITA · p01-settings-integrations-restructure · compact-sent: терминал 3460d974-16b2-4c22-9c3f-17c7b176e646, ветка feat/day16-settings-integrations-restructure
+- 2026-09-16 21:20 WITA · p01-settings-integrations-restructure · accept-started: раунд 1, PR #100, pid 41773
+- 2026-09-16 21:17 WITA · p01-settings-integrations-restructure · pr-open: https://github.com/ivanprotsko/upready-store/pull/100
 - 2026-09-16 20:25 WITA · p01-settings-integrations-restructure · launched: ws 6704755b-ecae-4fa8-9a54-4a19e5c82599 · opus/high · feat/day16-settings-integrations-restructure
 - 2026-09-16 20:25 WITA · d08-deploy-wave6 · worker-closed: терминал ab093b2b-b788-44dc-8a63-1022c2927576 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-deploy-wave6 (feat/day16-deploy-wave6) | Opus 5 | ctx 64% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
 - 2026-09-16 15:01 WITA ·  · all-terminal: DONE
@@ -877,17 +904,7 @@ merged: 79 · done: 16 · blocked: 1 · running: 1 · queued: 1
 - 2026-09-16 12:23 WITA · w21-wb-write-stocks-prices · worker-closed: терминал 3b5a6da5-603e-43f6-829d-ec3dc0649319 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-wb-write-stocks-prices (feat/day16-wb-write-stocks-prices) | Opus 5 | ctx 44% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
 - 2026-09-16 12:23 WITA · w19-mp-analytics · merged: https://github.com/ivanprotsko/upready-store/pull/95 (приёмка раунд 1)
 - 2026-09-16 12:23 WITA · w19-mp-analytics · compact-sent: терминал e9736c9c-4742-4359-b6ea-cf523bc15eda, ветка feat/day16-mp-analytics
-- 2026-09-16 12:23 WITA · w19-mp-analytics · orphans-killed: 1 процессов под worktree (merged): 7550 07:28 node /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-analyti
-- 2026-09-16 12:22 WITA · tp01-store-templates-lab · worker-closed: терминал a93889f2-8e5c-4435-83e1-a574a774d1c1 закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-store-templates-lab (feat/day16-store-templates-lab) | Opus 5 | ctx 41% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:19 WITA · w17-mp-price-stock-table · worker-closed: терминал 02e9652f-eb48-41aa-8ca1-0eba250c9554 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-mp-price-stock-table (feat/day16-mp-price-stock-table) | Opus 5 | ctx 65% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:16 WITA · i02-apiship-cdek-shipping · accept-started: раунд 1, PR #94, pid 4629
-- 2026-09-16 12:15 WITA · w21-wb-write-stocks-prices · merged: https://github.com/ivanprotsko/upready-store/pull/81 (приёмка раунд 4)
-- 2026-09-16 12:15 WITA · w21-wb-write-stocks-prices · compact-sent: терминал 3b5a6da5-603e-43f6-829d-ec3dc0649319, ветка feat/day16-wb-write-stocks-prices
-- 2026-09-16 12:15 WITA · w19-mp-analytics · accept-started: раунд 1, PR #95, pid 92842
-- 2026-09-16 12:14 WITA · tp01-store-templates-lab · merged: https://github.com/ivanprotsko/upready-store/pull/92 (приёмка раунд 1)
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json
 
-## 2026-09-16 20:26 WITA — волна 7 (штаб): реорганизация настроек по приказу 20:22
-
-Иван подключил ключ WB сам на живой панели. Заведены p01-settings-integrations-restructure (хаб «Подключение» /settings/integrations с подстраницами wildberries/ozon/robokassa/apiship/cdek только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем; старые адреса перенаправляют; ключ из слота виден без повторного ввода) и d09-deploy-integrations (деплой за ним, ключ WB Ивана должен пережить деплой). Ответ по gorgojs — из artifacts/docs/i01-robokassa-checkout/decision.md и artifacts/docs/i02-apiship-cdek-shipping/decision.md.
+- 2026-09-16 21:51 WITA: p01 смёржен (PR #100, приёмка раунд 1), d09 задеплоил 3859e6b8: ключ WB Ивана пережил деплой («подключено ••••c6Sg», только чтение, до 17.03.2027), миграция apiship применена, секретов тенанта 3 → 3; старые копии двух переименованных файлов панели сняты с хоста после сверки md5 с блобами коммита (rsync без --delete не переносит переименование — сухой прогон `rsync -anv --delete` теперь часть процедуры деплоя). Сторож очереди вышел по DONE: merged 80, done 17, blocked 1 (b16 — у Ивана). Штаб посмотрел кадры 05 и 03 глазами: хаб /settings/integrations — пять служб, «Подключение» отдельным пунктом сайдбара, якорей нет. Находки на живом экране /settings/marketplaces/wildberries: (а) сопоставление карточек WB с каталогом 0 из 423 — артикулы площадки не равны SKU каталога Оксаны, нужна отдельная задача (сопоставление по штрихкоду/названию или ручной выбор); (б) заголовок «Wildberries — данные едут только в одну сторону» показан дважды подряд (шапка страницы и шапка карточки) — мелкий дефект вёрстки. Отчёт: artifacts/docs/d09-deploy-integrations/report.md (§4 rsync, §9 не доказано, §10 Ивану).
