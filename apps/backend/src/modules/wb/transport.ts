@@ -79,16 +79,26 @@ export type WbReadResult<T = unknown> = {
   endpoint: WbReadEndpoint;
 };
 
-/** A WB answer that is not a 2xx. Carries the status and the redacted body. */
+/**
+ * A WB answer that is not a 2xx. Carries the status and the redacted body.
+ *
+ * `retryAfterMs` is set only for a 429 that named its own window, and it is
+ * what lets a run tell "WB is rate-limiting us, come back at HH:MM" from "the
+ * import is broken" (w03). WB's limits are part of the product on a base
+ * token — questions and feedbacks share five requests an hour — so a run that
+ * hits one is WAITING, not failing, and the owner must not read it as damage.
+ */
 export class WbApiError extends Error {
   readonly status: number;
   readonly body: string;
+  readonly retryAfterMs: number | null;
 
-  constructor(endpointId: string, status: number, body: string) {
+  constructor(endpointId: string, status: number, body: string, retryAfterMs: number | null = null) {
     super(`WB ${endpointId} answered ${status}: ${body.slice(0, 500)}`);
     this.name = "WbApiError";
     this.status = status;
     this.body = body;
+    this.retryAfterMs = retryAfterMs;
   }
 }
 
@@ -262,6 +272,7 @@ export const wbRead = async <T = unknown>(
             ? text
             : `${text} [WB asks to retry in ${Math.round(asked / 1000)} s, which is longer than ` +
               `this client waits inside one run (${MAX_BACKOFF_MS / 1000} s). Run this kind again later.]`,
+          asked,
         );
       }
 
