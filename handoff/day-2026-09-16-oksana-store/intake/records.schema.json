@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Разбор промпта Ивана на записи (шаг 2 OPERATOR-SPEC). Схема тонкая намеренно: модель решает только то, чего не решает скрипт.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["records"],
+  "properties": {
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "area", "title", "ivan"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["fact", "where", "status", "live", "howto", "decision", "bug", "task", "remark", "order", "approval"] },
+          "area": { "type": "string", "enum": ["panel", "checkout", "storefront", "marketplaces", "integrations", "deploy", "content", "engine", "other"] },
+          "title": { "type": "string", "minLength": 8, "maxLength": 200 },
+          "ivan": { "type": "string", "minLength": 1 },
+          "target": { "type": "string", "description": "task id for kind=where, URL for kind=live, empty otherwise" },
+          "goal": { "type": "string" },
+          "acceptance": { "type": "string" },
+          "priority": { "type": "integer", "enum": [1, 2, 3] },
+          "live": { "type": "boolean" },
+          "refs": { "type": "array", "items": { "type": "string" }, "maxItems": 10 },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
