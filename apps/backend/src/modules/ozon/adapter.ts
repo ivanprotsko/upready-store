@@ -308,6 +308,19 @@ export const ozonAdapter: MarketplaceAdapter = {
   inspectCredentials,
   readCredentials,
   syncKinds: OZON_SYNC_KINDS,
+  /**
+   * Ozon's own vocabulary against the normalized kinds (w18-mp-reviews-desk).
+   * Here the two happen to coincide for reviews and questions; on Wildberries
+   * they do not, which is why the mapping is a member of the adapter and not a
+   * convention the core assumes.
+   */
+  mirrorKinds: {
+    products: ["products"],
+    offers: ["prices", "stocks"],
+    orders: ["postings"],
+    reviews: ["reviews"],
+    questions: ["questions"],
+  },
   runSync: runSyncForKind,
   loadMirror,
   loadJournal,

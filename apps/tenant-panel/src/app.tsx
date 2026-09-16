@@ -776,6 +776,16 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/marketplaces"),
           },
           {
+            // w18-mp-reviews-desk: «Маркетплейсы → Отзывы» — отзывы и вопросы
+            // покупателей с обеих площадок, фильтр «без ответа», черновик
+            // ответа в нашей базе. Кнопки отправки на площадку нет: ответ это
+            // запись, а площадки у нас только на чтение.
+            path: "/settings/marketplaces/reviews",
+            handle: { breadcrumb: () => t("marketplaces.desk.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/reviews"),
+          },
+          {
             // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
             // раздел выше: адрес у владелицы в закладках, ломать его нельзя.
             path: "/settings/wildberries",

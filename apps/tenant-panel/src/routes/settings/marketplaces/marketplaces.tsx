@@ -1,5 +1,6 @@
 import { Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useMarketplaces } from "../../../hooks/api/marketplaces"
@@ -40,6 +41,14 @@ export const MarketplacesSettings = () => {
           <Text className="text-ui-fg-subtle" size="small">
             {t("marketplaces.subtitle")}
           </Text>
+          {/* w18-mp-reviews-desk: отзывы и вопросы покупателей — отдельный
+              экран, потому что это список на сотни строк, а не поле карточки. */}
+          <Link
+            to="/settings/marketplaces/reviews"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus mt-2 block w-fit"
+          >
+            {t("marketplaces.desk.link")}
+          </Link>
         </div>
       </Container>
 
