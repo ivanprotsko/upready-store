@@ -67,6 +67,27 @@ export type ShopVariant = {
   stock: number | null;
   /** How many images the product carries. */
   photos: number;
+  /** `null` where the enrichment has never touched this product. */
+  enriched?: ShopEnrichment | null;
+};
+
+/**
+ * What `w07-tenant-catalog-enrich` recorded about ONE product of the shop:
+ * which card its content was taken from, and when the pairing was made
+ * (`product_marketplace_link`, merged as PR #74).
+ *
+ * It is a DIFFERENT row from `mp_link` and deliberately so — `mp-link.ts` says
+ * why at length: this one belongs to the shop's catalog and answers «откуда
+ * приехало описание», the other belongs to the marketplace side and answers
+ * «какой товар магазина — эта карточка». The catalog screen shows this one
+ * next to the differences so a gap in price or photos can be read against the
+ * date the content last came over.
+ */
+export type ShopEnrichment = {
+  marketplace: string;
+  external_id: string;
+  matched_by: string;
+  linked_at: string | null;
 };
 
 /** One row of `mp_link`, as stored today. */
@@ -166,6 +187,7 @@ export type CatalogRow = {
     currency: string | null;
     stock: number | null;
     photos: number;
+    enriched: ShopEnrichment | null;
   } | null;
   candidates: CatalogCandidate[];
   cards: CatalogCardSide[];
@@ -436,6 +458,7 @@ export const buildCatalogRows = (input: BuildCatalogInput): CatalogRow[] => {
           currency,
           stock: shopVariant.stock,
           photos: shopVariant.photos,
+          enriched: shopVariant.enriched ?? null,
         }
       : null;
 

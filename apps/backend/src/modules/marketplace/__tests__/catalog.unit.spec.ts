@@ -265,6 +265,43 @@ describe("differences", () => {
   });
 });
 
+describe("происхождение содержимого (w07-tenant-catalog-enrich)", () => {
+  it("несёт запись обогащения рядом с товаром магазина", () => {
+    const rows = buildCatalogRows({
+      cards: [card("100", "Сбитень")],
+      offers: [offer("100")],
+      variants: [
+        variant("var_1", "prod_1", "Сбитень", {
+          enriched: {
+            marketplace: "wb",
+            external_id: "71853946",
+            matched_by: "vendor_code",
+            linked_at: "2026-09-16T04:13:20.000Z",
+          },
+        }),
+      ],
+      links: [storedLink("100")],
+    })
+
+    expect(rows[0].shop?.enriched).toMatchObject({
+      marketplace: "wb",
+      external_id: "71853946",
+      linked_at: "2026-09-16T04:13:20.000Z",
+    })
+  })
+
+  it("оставляет null там, где обогащение не запускалось — а не выдуманную дату", () => {
+    const rows = buildCatalogRows({
+      cards: [card("100", "Сбитень")],
+      offers: [offer("100")],
+      variants: [variant("var_1", "prod_1", "Сбитень")],
+      links: [storedLink("100")],
+    })
+
+    expect(rows[0].shop?.enriched).toBeNull()
+  })
+})
+
 describe("catalogSummary — a zero is an error of setup, never «нет данных»", () => {
   const sources = {
     matcher: "/abs/path/link.ts",

@@ -14,6 +14,7 @@ import {
   type CatalogRow,
   type CatalogSources,
   type CatalogThresholds,
+  type ShopEnrichment,
   type ShopVariant,
   type StoredLink,
 } from "../../../../modules/marketplace/catalog";
@@ -158,6 +159,55 @@ const shopFacts = async (
   return { prices, stock, products };
 };
 
+/**
+ * What `w07-tenant-catalog-enrich` recorded for these products
+ * (`product_marketplace_link`, PR #74, merged 2026-09-16).
+ *
+ * Read with SQL and not through w07's module service for the same reason the
+ * price and the stock are: it is one row per product and the alternative is
+ * resolving another module's service here just to list it. The column set is
+ * that module's own (`models/product-marketplace-link.ts`).
+ *
+ * A shop whose enrichment has never run gets an empty map and the screen says
+ * nothing — it does NOT say «обновлено» with an invented date.
+ */
+const enrichmentByProduct = async (
+  pg: Knex,
+  productIds: readonly string[],
+): Promise<Map<string, ShopEnrichment>> => {
+  const index = new Map<string, ShopEnrichment>();
+
+  if (!productIds.length) {
+    return index;
+  }
+
+  const rows = (await pg("product_marketplace_link")
+    .select("product_id", "marketplace", "external_id", "matched_by", "linked_at")
+    .whereIn("product_id", productIds as string[])
+    .whereNull("deleted_at")
+    .orderBy("linked_at", "desc")) as {
+    product_id: string;
+    marketplace: string;
+    external_id: string;
+    matched_by: string;
+    linked_at: unknown;
+  }[];
+
+  for (const row of rows) {
+    /** Newest first, so the first row of a product is the one that stands. */
+    if (!index.has(row.product_id)) {
+      index.set(row.product_id, {
+        marketplace: row.marketplace,
+        external_id: row.external_id,
+        matched_by: row.matched_by,
+        linked_at: asIso(row.linked_at),
+      });
+    }
+  }
+
+  return index;
+};
+
 export type CatalogPayload = {
   rows: CatalogRow[];
   counts: CatalogCounts;
@@ -165,7 +215,13 @@ export type CatalogPayload = {
   thresholds: CatalogThresholds;
   sources: CatalogSources;
   /** What the raw layers hold, so a zero on the screen can be told from an empty import. */
-  stored: { cards: number; offers: number; links: number; variants: number };
+  stored: {
+    cards: number;
+    offers: number;
+    links: number;
+    variants: number;
+    enriched: number;
+  };
 };
 
 export const loadCatalog = async (
@@ -183,11 +239,15 @@ export const loadCatalog = async (
     tenantVariants({ container: scope, tenantId }),
   ]);
 
-  const facts = await shopFacts(
-    pg,
-    variantRows.map((variant) => variant.id),
-    [...new Set(variantRows.map((variant) => variant.product_id))],
-  );
+  const productIds = [...new Set(variantRows.map((variant) => variant.product_id))];
+  const [facts, enrichment] = await Promise.all([
+    shopFacts(
+      pg,
+      variantRows.map((variant) => variant.id),
+      productIds,
+    ),
+    enrichmentByProduct(pg, productIds),
+  ]);
 
   const cards: CatalogCard[] = productRows.map((row) => ({
     marketplace: String(row.marketplace),
@@ -227,6 +287,7 @@ export const loadCatalog = async (
       prices: facts.prices.get(variant.id) ?? {},
       stock: facts.stock.has(variant.id) ? (facts.stock.get(variant.id) as number) : null,
       photos: product?.photos ?? 0,
+      enriched: enrichment.get(variant.product_id) ?? null,
     };
   });
 
@@ -245,6 +306,8 @@ export const loadCatalog = async (
       offers: offers.length,
       links: links.length,
       variants: variants.length,
+      /** How many products the content enrichment (w07) has touched. */
+      enriched: enrichment.size,
     },
   };
 };

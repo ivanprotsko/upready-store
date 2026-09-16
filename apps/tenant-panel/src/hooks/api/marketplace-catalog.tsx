@@ -75,6 +75,17 @@ export type CatalogCandidate = {
   sku: string | null
 }
 
+/**
+ * What `w07-tenant-catalog-enrich` recorded for this product: which card its
+ * content came from, and when. `null` where the enrichment never ran.
+ */
+export type ShopEnrichment = {
+  marketplace: string
+  external_id: string
+  matched_by: string
+  linked_at: string | null
+}
+
 export type CatalogRow = {
   vendor_code: string
   state: CatalogState
@@ -88,6 +99,7 @@ export type CatalogRow = {
     currency: string | null
     stock: number | null
     photos: number
+    enriched: ShopEnrichment | null
   } | null
   candidates: CatalogCandidate[]
   cards: CatalogCardSide[]
@@ -120,7 +132,14 @@ export type CatalogResponse = {
     variants: string
     links: string
   }
-  stored: { cards: number; offers: number; links: number; variants: number }
+  stored: {
+    cards: number
+    offers: number
+    links: number
+    variants: number
+    /** Products the content enrichment (w07) has touched. */
+    enriched: number
+  }
 }
 
 export type AutoLinkResponse = {

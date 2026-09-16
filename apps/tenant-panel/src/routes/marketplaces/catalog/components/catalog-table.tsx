@@ -36,6 +36,15 @@ const REASON_HINT = {
 
 const NOT_SET = "—"
 
+/** `product_marketplace_link.linked_at` as a date a shop owner reads. */
+const formatDate = (value: string | null): string => {
+  if (!value) {
+    return NOT_SET
+  }
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? NOT_SET : date.toLocaleDateString("ru-RU")
+}
+
 const HEAD = [
   "Артикул",
   "Товар магазина",
@@ -132,6 +141,21 @@ export const CatalogTable = ({ rows }: { rows: CatalogRow[] }) => {
                           <Text size="xsmall" className="text-ui-fg-subtle">
                             SKU {row.shop.sku ?? NOT_SET}
                           </Text>
+                          {/*
+                            Where the CONTENT of this product came from, per
+                            w07-tenant-catalog-enrich (PR #74). It is not this
+                            screen's job to import anything — this line only
+                            says when the content was last taken over, so a gap
+                            in price or photos can be read against a date.
+                            Absent enrichment renders nothing rather than a
+                            date nobody recorded (rule 17a).
+                          */}
+                          {row.shop.enriched ? (
+                            <Text size="xsmall" className="text-ui-fg-subtle">
+                              обновлено из {row.shop.enriched.marketplace.toUpperCase()}{" "}
+                              {formatDate(row.shop.enriched.linked_at)}
+                            </Text>
+                          ) : null}
                         </div>
                       ) : row.candidates.length > 1 ? (
                         <Text size="small" className="text-ui-fg-subtle">
