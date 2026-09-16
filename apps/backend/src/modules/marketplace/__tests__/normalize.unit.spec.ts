@@ -133,22 +133,31 @@ describe("Wildberries -> mp_*", () => {
   });
 
   it("does not invent a delivery scheme for a statistics order", () => {
+    /*
+     * The loader tags every row with the mirror it came from
+     * (w15-mp-orders-desk): `wb_order` rows are `statistics`, `wb_fbs_order`
+     * rows are `fbs`. The tag is what lets this function stay pure instead of
+     * guessing the mirror from the fields it happens to see.
+     */
     const [order] = fromWb.orders([
       {
-        id: "wborder_1",
-        tenant_id: "ten_1",
-        srid: "srid-1",
-        nm_id: "71853946",
-        supplier_article: "Сбитень",
-        finished_price: 450,
-        discount_percent: 10,
-        is_cancel: false,
-        warehouse_name: "Коледино",
-        region_name: "Москва",
-        order_date: new Date("2026-09-10T08:00:00Z"),
-        last_change_date: new Date("2026-09-11T08:00:00Z"),
-        fetched_at: new Date("2026-09-16T00:00:00Z"),
-        raw: {},
+        source: "statistics",
+        row: {
+          id: "wborder_1",
+          tenant_id: "ten_1",
+          srid: "srid-1",
+          nm_id: "71853946",
+          supplier_article: "Сбитень",
+          finished_price: 450,
+          discount_percent: 10,
+          is_cancel: false,
+          warehouse_name: "Коледино",
+          region_name: "Москва",
+          order_date: new Date("2026-09-10T08:00:00Z"),
+          last_change_date: new Date("2026-09-11T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+          raw: {},
+        },
       },
     ]);
 
@@ -156,6 +165,127 @@ describe("Wildberries -> mp_*", () => {
     expect(order.is_cancelled).toBe(false);
     expect(order.lines).toHaveLength(1);
     expect(order.lines[0]).toMatchObject({ vendor_code: "Сбитень", qty: 1, price: 450 });
+  });
+
+  it("takes the scheme and BOTH statuses from an FBS assembly order", () => {
+    const [order] = fromWb.orders([
+      {
+        source: "fbs",
+        row: {
+          id: "wbfbs_1",
+          tenant_id: "ten_1",
+          order_id: "3122442104",
+          rid: "srid-1",
+          delivery_type: "fbs",
+          supplier_status: "complete",
+          wb_status: "sold",
+          article: "Сбитень",
+          nm_id: "71853946",
+          chrt_id: "204370123",
+          converted_price: 45000,
+          price: 45000,
+          currency_code: "643",
+          warehouse_id: "507",
+          wb_created_at: new Date("2026-09-12T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+        },
+      },
+    ]);
+
+    expect(order.external_id).toBe("3122442104");
+    /*
+     * WB отвечает в КОПЕЙКАХ (замер w23: «Мумие банка» — price 81600 при 816 ₽),
+     * а `mp_order.total` хранит рубли, потому что статистический метод отдаёт
+     * уже рубли и в ленте эти две колонки стоят рядом.
+     */
+    expect(order.total).toBe(450);
+    expect(order.lines[0].price).toBe(450);
+    expect(order.scheme).toBe("FBS");
+    expect(order.status).toBe("complete");
+    expect(order.status_detail).toBe("sold");
+    /* WB answers 643, the screen shows a sum: the numeric code is translated. */
+    expect(order.currency).toBe("RUB");
+    /*
+     * WB does not say when it changed the status of an assembly order, so this
+     * stays null rather than borrowing our own clock (rule 20a).
+     */
+    expect(order.status_changed_at).toBeNull();
+    expect(order.lines[0]).toMatchObject({ vendor_code: "Сбитень", qty: 1 });
+  });
+
+  it("does not show one parcel twice when both WB order mirrors hold it", () => {
+    /*
+     * The join is on the VALUES: a statistics row whose `srid` equals the `rid`
+     * of an FBS row is the same order, and the FBS row wins because it carries
+     * the scheme and both statuses. Nothing is assumed about the two
+     * identifiers — where they differ, both rows stand.
+     */
+    const orders = fromWb.orders([
+      {
+        source: "statistics",
+        row: {
+          id: "wborder_1",
+          tenant_id: "ten_1",
+          srid: "srid-1",
+          nm_id: "71853946",
+          finished_price: 450,
+          order_date: new Date("2026-09-12T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+          raw: {},
+        },
+      },
+      {
+        source: "statistics",
+        row: {
+          id: "wborder_2",
+          tenant_id: "ten_1",
+          srid: "srid-only-in-statistics",
+          nm_id: "71853946",
+          finished_price: 450,
+          order_date: new Date("2026-09-12T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+          raw: {},
+        },
+      },
+      {
+        source: "fbs",
+        row: {
+          id: "wbfbs_1",
+          tenant_id: "ten_1",
+          order_id: "3122442104",
+          rid: "srid-1",
+          delivery_type: "fbs",
+          supplier_status: "complete",
+          wb_status: "sold",
+          wb_created_at: new Date("2026-09-12T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+        },
+      },
+    ]);
+
+    expect(orders.map((order) => order.external_id).sort()).toEqual([
+      "3122442104",
+      "srid-only-in-statistics",
+    ]);
+  });
+
+  it("keeps WB's own word when the delivery type has no name in the spec's set", () => {
+    const [order] = fromWb.orders([
+      {
+        source: "fbs",
+        row: {
+          id: "wbfbs_2",
+          tenant_id: "ten_1",
+          order_id: "42",
+          delivery_type: "wbgo",
+          supplier_status: "new",
+          wb_created_at: new Date("2026-09-12T08:00:00Z"),
+          fetched_at: new Date("2026-09-16T00:00:00Z"),
+        },
+      },
+    ]);
+
+    expect(order.scheme).toBe("WBGO");
   });
 
   it("maps a question and takes «answered» from WB's own flag", () => {
@@ -299,6 +429,58 @@ describe("Ozon -> mp_*", () => {
     expect(withLines.buyer_region).toBe("Москва");
     expect(empty.total).toBeNull();
     expect(empty.is_cancelled).toBe(true);
+  });
+
+  it("reads Ozon's money object, and its currency, instead of summing to zero", () => {
+    /*
+     * На отправлении Ozon отдаёт цену ОБЪЕКТОМ — `{"amount":"1290.00","currency":"RUB"}`
+     * (форма снята с записанной фикстуры, срезанной со справочника Ozon). Голый
+     * `Number()` давал NaN → null, и заказ 2×1290 ₽ показывался на экране как
+     * «0,00» без валюты (замер на стенде, w15-mp-orders-desk).
+     */
+    const [order] = fromOzon.orders([
+      {
+        id: "ozpost_3",
+        tenant_id: "ten_1",
+        posting_number: "0003-1",
+        scheme: "fbs",
+        status: "delivered",
+        products: [
+          {
+            sku: "1934857210",
+            offer_id: "ognevka-ultra-60",
+            quantity: 2,
+            price: { amount: "1290.00", currency: "RUB" },
+          },
+        ],
+        posting_created_at: new Date("2026-09-10T08:00:00Z"),
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+        raw: {},
+      },
+    ]);
+
+    expect(order.lines[0].price).toBe(1290);
+    expect(order.total).toBe(2580);
+    /* Валюта тоже лежит внутри объекта цены, когда financial_data её не несёт. */
+    expect(order.currency).toBe("RUB");
+    expect(order.scheme).toBe("FBS");
+  });
+
+  it("не превращает отправление без цен в бесплатный заказ", () => {
+    const [order] = fromOzon.orders([
+      {
+        id: "ozpost_4",
+        tenant_id: "ten_1",
+        posting_number: "0004-1",
+        status: "delivering",
+        products: [{ sku: "1", offer_id: "a", quantity: 1 }],
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+        raw: {},
+      },
+    ]);
+
+    expect(order.lines[0].price).toBeNull();
+    expect(order.total).toBeNull();
   });
 
   it("reads «answered» off the comment count rather than guessing", () => {

@@ -262,6 +262,12 @@ export type MpOrderDraft = DraftBase & {
   /** FBS | FBO | DBS | rFBS, or `null` where the marketplace does not say. */
   scheme: string | null;
   status: string | null;
+  /**
+   * The marketplace's second status string (WB `wbStatus`, Ozon `substatus`),
+   * raw. `null` where the marketplace answers with one status only
+   * (w15-mp-orders-desk).
+   */
+  status_detail: string | null;
   status_changed_at: Date | null;
   ordered_at: Date | null;
   buyer_region: string | null;
@@ -408,6 +414,22 @@ export type MarketplaceAdapter = {
   credentialHowTo: string;
   /** The adapter's own import kinds, in its own vocabulary (WB: cards, Ozon: products). */
   syncKinds: readonly string[];
+  /**
+   * Which of THIS adapter's import kinds fill one normalized kind
+   * (w18-mp-reviews-desk).
+   *
+   * The desk screens are written per normalized kind — «отзывы», «вопросы» —
+   * while the importers are written in each marketplace's own vocabulary: WB
+   * imports `feedbacks`, Ozon imports `reviews`. Without this member a caller
+   * that wants "import what fills mp_review, everywhere" has to keep a table
+   * of marketplace vocabularies of its own, which is the second enumeration
+   * the registry exists to remove (rule 20).
+   *
+   * Every value must be one of `syncKinds`; `guards.ts` refuses a typo. A
+   * normalized kind this adapter does not import at all maps to an empty
+   * array, which is a statement rather than a gap.
+   */
+  mirrorKinds: Readonly<Record<MpKind, readonly string[]>>;
   runSync: (deps: SyncDeps, kind: string) => Promise<SyncOutcome>;
   /**
    * The raw mirror rows one normalized kind is computed from, in whatever
@@ -458,6 +480,7 @@ export const ADAPTER_KEYS = [
   "readCredentials",
   "credentialHowTo",
   "syncKinds",
+  "mirrorKinds",
   "runSync",
   "loadMirror",
   "loadJournal",

@@ -192,8 +192,26 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
     ];
   }
 
+  /**
+   * Orders come from TWO mirrors and the tag says which (w15-mp-orders-desk):
+   * `wb_order` holds the statistics method's rows, `wb_fbs_order` the assembly
+   * orders w23 mirrors. They answer different questions — statistics knows the
+   * money and the buyer's region, an assembly order knows the scheme and both
+   * statuses — and the single order feed needs the union of the two.
+   *
+   * The tag is what keeps `normalize.ts` pure: without it the normalizer would
+   * have to guess which mirror a row came from by sniffing its fields, and a
+   * column added on either side would change that guess silently.
+   */
   if (kind === "orders") {
-    return (await wb.listWbOrders(scope)) as unknown[];
+    const [statistics, fbs] = await Promise.all([
+      wb.listWbOrders(scope) as Promise<Record<string, unknown>[]>,
+      wb.listWbFbsOrders(scope) as Promise<Record<string, unknown>[]>,
+    ]);
+    return [
+      ...statistics.map((row) => ({ source: "statistics" as const, row })),
+      ...fbs.map((row) => ({ source: "fbs" as const, row })),
+    ];
   }
 
   if (kind === "reviews") {
@@ -257,6 +275,19 @@ export const wbAdapter: MarketplaceAdapter = {
     "WB_API_KEY=<ключ> WB_TENANT=<handle> pnpm --filter backend wb:seed-key. " +
     "Действия в панели для этого нет.",
   syncKinds: WB_SYNC_KINDS,
+  /**
+   * Wildberries' own vocabulary against the normalized kinds
+   * (w18-mp-reviews-desk). `feedbacks` is what WB calls reviews; `sales`,
+   * `analytics`, `supplies` and `fbs_orders` fill mirrors that no normalized
+   * kind reads yet, so they are named by no entry here.
+   */
+  mirrorKinds: {
+    products: ["cards"],
+    offers: ["prices", "stocks"],
+    orders: ["orders"],
+    reviews: ["feedbacks"],
+    questions: ["questions"],
+  },
   runSync: runSyncForKind,
   loadMirror,
   loadJournal,

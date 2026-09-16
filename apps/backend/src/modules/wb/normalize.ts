@@ -5,6 +5,7 @@ import type {
   MpQuestionDraft,
   MpReviewDraft,
 } from "../marketplace/contract";
+import { canonicalScheme } from "../marketplace/scheme";
 
 /**
  * Wildberries mirror rows -> `mp_*` drafts (w12-marketplace-core, spec 2.3).
@@ -214,6 +215,13 @@ export const offers = (rows: unknown[]): MpOfferDraft[] => {
 };
 
 /**
+ * WB's minor units -> the major-unit amount `mp_order.total` holds. `null`
+ * stays `null`: an amount WB did not send is not zero roubles (rule 20a).
+ */
+const minorToMajor = (value: number | null): number | null =>
+  value === null ? null : value / 100;
+
+/**
  * Statistics orders. WB's own note on `GET /api/v1/supplier/orders`: "1 line
  * means 1 order and means 1 item. The srid field should be used to identify
  * the order." So one mirror row becomes one `mp_order` with exactly one line,
@@ -222,40 +230,200 @@ export const offers = (rows: unknown[]): MpOfferDraft[] => {
  * `scheme` stays `null`: this method does not say whether the order is FBS or
  * FBO, and guessing it from a warehouse name would be an invention (rule 17a).
  */
-export const orders = (rows: unknown[]): MpOrderDraft[] =>
-  (rows as Row[]).map((row) => {
-    const raw = (row.raw ?? {}) as Row;
-    const externalId = String(row.srid);
-    const total = num(row.finished_price);
+const statisticsOrder = (row: Row): MpOrderDraft => {
+  const raw = (row.raw ?? {}) as Row;
+  const externalId = String(row.srid);
+  const total = num(row.finished_price);
 
-    return {
-      tenant_id: String(row.tenant_id),
-      marketplace: "wb" as const,
-      source_row_id: String(row.id),
-      synced_at: date(row.fetched_at) ?? new Date(),
-      external_id: externalId,
-      scheme: null,
-      /** WB statistics has no status field on this method; cancellation is its own flag. */
-      status: row.is_cancel ? "cancelled" : null,
-      status_changed_at: date(row.last_change_date),
-      ordered_at: date(row.order_date),
-      buyer_region: text(row.region_name),
-      warehouse_name: text(row.warehouse_name),
-      total,
-      currency: text(raw.currencyCode),
-      is_cancelled: Boolean(row.is_cancel),
-      lines: [
-        {
-          line_key: `${externalId}|${text(row.nm_id) ?? ""}`,
-          vendor_code: text(row.supplier_article),
-          external_id: text(row.nm_id),
-          qty: 1,
-          price: total,
-          discount: num(row.discount_percent),
-        },
-      ],
-    };
-  });
+  return {
+    tenant_id: String(row.tenant_id),
+    marketplace: "wb" as const,
+    source_row_id: String(row.id),
+    synced_at: date(row.fetched_at) ?? new Date(),
+    external_id: externalId,
+    scheme: null,
+    /** WB statistics has no status field on this method; cancellation is its own flag. */
+    status: row.is_cancel ? "cancelled" : null,
+    status_detail: null,
+    status_changed_at: date(row.last_change_date),
+    ordered_at: date(row.order_date),
+    buyer_region: text(row.region_name),
+    warehouse_name: text(row.warehouse_name),
+    total,
+    currency: text(raw.currencyCode),
+    is_cancelled: Boolean(row.is_cancel),
+    lines: [
+      {
+        line_key: `${externalId}|${text(row.nm_id) ?? ""}`,
+        vendor_code: text(row.supplier_article),
+        external_id: text(row.nm_id),
+        qty: 1,
+        price: total,
+        discount: num(row.discount_percent),
+      },
+    ],
+  };
+};
+
+/**
+ * FBS assembly orders (`wb_fbs_order`, mirrored by w23-wb-write-fbs-orders).
+ *
+ * THE IDENTITY IS WB's `id`, held as `order_id` on the mirror: it is the
+ * argument every FBS method of WB takes, and w23 measured it against the live
+ * cabinet. `rid` travels along as `status_detail`'s neighbour on the card
+ * rather than as the key, because nothing in the saved documentation says how
+ * `rid` relates to the statistics method's `srid` and asserting an equality we
+ * have not read would be an invention (rule 17a). `dedupeOrders` below joins
+ * the two ON THE VALUES instead, which costs nothing when they never match.
+ *
+ * TWO STATUSES, BOTH KEPT. `supplierStatus` is what the seller did with the
+ * order, `wbStatus` is where the parcel is; the owner needs both to tell «я
+ * собрал» from «покупатель отказался». See `mp_order.status_detail`.
+ *
+ * ONE LINE PER ORDER: an FBS assembly order is one item on WB ("сборочное
+ * задание" carries a single `nmId`/`chrtId`/`article`), so the line list has
+ * exactly one entry, built from the fields of the order itself.
+ */
+const fbsOrder = (row: Row): MpOrderDraft => {
+  const externalId = String(row.order_id);
+  /**
+   * WB answers the FBS methods in MINOR units: «Мумие банка» arrives as
+   * `price: 81600` with `currencyCode: 643` and sells for 816 ₽ — measured
+   * against the live cabinet by w23-wb-write-fbs-orders
+   * (`artifacts/docs/w23-wb-write-fbs-orders/measurements.md`, section 2), not
+   * taken from the documentation. `mp_order.total` is a MAJOR-unit amount,
+   * because the statistics method's `finished_price` already is one and the
+   * feed sums the two columns side by side, so this is where the hundred goes.
+   *
+   * `convertedPrice` is the amount in the SELLER's currency and is what the
+   * desk should show; `price` is the buyer's currency, and for a foreign order
+   * the two differ (BYN 946 against 26434 converted). Where WB sent neither,
+   * the total stays `null` rather than becoming a zero the feed would sort and
+   * sum as a free order (rule 20a).
+   */
+  const total = minorToMajor(num(row.converted_price) ?? num(row.price));
+
+  return {
+    tenant_id: String(row.tenant_id),
+    marketplace: "wb" as const,
+    source_row_id: String(row.id),
+    synced_at: date(row.fetched_at) ?? new Date(),
+    external_id: externalId,
+    /**
+     * WB's `deliveryType` is `fbs`, `dbs` or `wbgo`. The first two are the
+     * spec's own names in WB's lower case; `wbgo` is WB's courier delivery and
+     * has no name in the spec's set, so it travels as WB wrote it rather than
+     * being mapped onto the nearest one (rule 17a). `canonicalScheme` is in the
+     * core because both adapters need exactly this rule (rule 20).
+     */
+    scheme: canonicalScheme(row.delivery_type),
+    status: text(row.supplier_status),
+    status_detail: text(row.wb_status),
+    /**
+     * WB does not say WHEN it last changed the status of an assembly order.
+     * `status_fetched_at` is when WE asked, and putting our clock in a column
+     * the card labels as the marketplace's would be a value substituted for an
+     * absence (rule 20a) — the observation time lives in
+     * `mp_order_status_event.observed_at`, where it is labelled as ours.
+     */
+    status_changed_at: null,
+    ordered_at: date(row.wb_created_at),
+    /**
+     * WB's assembly order carries no buyer region: the only place the address
+     * appears is the `address` object, which w23 drops before writing the row
+     * because a shop's database is not the place for a stranger's address.
+     */
+    buyer_region: null,
+    /** WB names the warehouse by id here, not by name. `warehouse_id` is what there is. */
+    warehouse_name: text(row.warehouse_id),
+    total,
+    /** WB's `currencyCode` on this method is ISO 4217 NUMERIC (643 = RUB). */
+    currency: currencyOfCode(row.currency_code),
+    is_cancelled:
+      text(row.supplier_status) === "cancel" ||
+      text(row.supplier_status) === "cancel_carrier" ||
+      text(row.wb_status) === "canceled",
+    lines: [
+      {
+        line_key: `${externalId}|${text(row.chrt_id) ?? text(row.nm_id) ?? ""}`,
+        vendor_code: text(row.article),
+        external_id: text(row.nm_id),
+        qty: 1,
+        price: total,
+        discount: null,
+      },
+    ],
+  };
+};
+
+/**
+ * WB answers `currencyCode` as an ISO 4217 NUMERIC code on the FBS methods
+ * (`643` is the rouble). The feed shows an alphabetic code next to a sum, so
+ * the two codes the client's cabinet actually returns are translated and
+ * anything else travels as the digits WB sent: a number we cannot name is
+ * still WB's answer, and naming it anyway would be a guess (rule 17a).
+ */
+const CURRENCY_BY_NUMERIC: Record<string, string> = {
+  "643": "RUB",
+  "933": "BYN",
+  "398": "KZT",
+  "051": "AMD",
+  "417": "KGS",
+  "840": "USD",
+  "978": "EUR",
+};
+
+function currencyOfCode(value: unknown): string | null {
+  const raw = text(value);
+  if (!raw) {
+    return null;
+  }
+  return CURRENCY_BY_NUMERIC[raw] ?? raw;
+}
+
+/**
+ * The two WB order mirrors describe overlapping sets of orders, and the shop
+ * that runs both imports must not see one parcel twice.
+ *
+ * The join is ON THE VALUES: a statistics row whose `srid` equals the `rid` of
+ * an FBS row is the same order, and the FBS row wins because it carries the
+ * scheme and both statuses. Nothing is assumed about the two identifiers — if
+ * they never match, nothing is dropped and both rows stand, which is exactly
+ * what happens on a stand where only one of the two imports has ever run.
+ */
+const dedupeOrders = (fbsRows: Row[], statisticsDrafts: MpOrderDraft[]): MpOrderDraft[] => {
+  const ridsFromFbs = new Set(
+    fbsRows.map((row) => text(row.rid)).filter((rid): rid is string => Boolean(rid)),
+  );
+  return statisticsDrafts.filter((draft) => !ridsFromFbs.has(draft.external_id));
+};
+
+/**
+ * Orders of both WB mirrors, normalized into one list (w15-mp-orders-desk).
+ *
+ * The loader tags every row with the mirror it came from (`adapter.ts`), so
+ * this function stays pure and the two shapes never have to be told apart by
+ * sniffing their fields.
+ */
+export const orders = (rows: unknown[]): MpOrderDraft[] => {
+  const tagged = rows as { source?: "statistics" | "fbs"; row?: Row }[];
+
+  const statisticsRows: Row[] = [];
+  const fbsRows: Row[] = [];
+
+  for (const entry of tagged) {
+    if (entry?.source === "fbs" && entry.row) {
+      fbsRows.push(entry.row);
+    } else if (entry?.source === "statistics" && entry.row) {
+      statisticsRows.push(entry.row);
+    }
+  }
+
+  const fbsDrafts = fbsRows.map(fbsOrder);
+  const statisticsDrafts = dedupeOrders(fbsRows, statisticsRows.map(statisticsOrder));
+
+  return [...fbsDrafts, ...statisticsDrafts];
+};
 
 /**
  * Feedbacks. `vendor_code` is not on the feedback itself, so the loader
