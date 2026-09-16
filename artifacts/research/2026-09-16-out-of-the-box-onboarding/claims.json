@@ -1,0 +1,542 @@
+[
+  {
+    "id": "R1",
+    "service": "robokassa",
+    "question": 1,
+    "claim": "Партнёрская программа Robokassa — реферальная: партнёр приводит бизнес и получает процент, деньги клиента идут Robokassa напрямую.",
+    "quote": "Рекомендуйте интернет-эквайринг и платежные решения Robokassa своим клиентам и получайте пассивный доход с каждого привлеченного бизнеса.",
+    "url": "https://robokassa.com/partners/",
+    "source": "raw/robokassa/partners.md"
+  },
+  {
+    "id": "R2",
+    "service": "robokassa",
+    "question": 1,
+    "claim": "У партнёра есть виджет регистрации: клиент регистрируется в Robokassa, не уходя с нашего сервиса.",
+    "quote": "Готовая форма регистрации клиентов в Robokassa, не покидая вашего сервиса",
+    "url": "https://robokassa.com/partners/",
+    "source": "raw/robokassa/partners.md"
+  },
+  {
+    "id": "R3",
+    "service": "robokassa",
+    "question": 1,
+    "claim": "Партнёром может быть юрлицо, ИП или самозанятый; интеграторы и студии названы прямо.",
+    "quote": "Мы сотрудничаем с юридическими лицами, индивидуальными предпринимателями и самозанятыми",
+    "url": "https://robokassa.com/partners/",
+    "source": "raw/robokassa/partners.md"
+  },
+  {
+    "id": "R4",
+    "service": "robokassa",
+    "question": 1,
+    "claim": "Вход в программу — заявка плюс оферта онлайн, без вложений и минимальных оборотов.",
+    "quote": "Оставьте заявку, подпишите оферту онлайн за 5 минут — и вы партнер",
+    "url": "https://robokassa.com/partners/",
+    "source": "raw/robokassa/partners.md"
+  },
+  {
+    "id": "R5",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Платёж 1 ₽ подтверждён первоисточником: это сумма платёжного поручения, которым магазин подтверждает присоединение к договору.",
+    "quote": "В поле «Сумма» платежного поручения указывается сумма 1 (один) рубль",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R6",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Назначение платежа задано дословно; ошибка в реквизитах — платёж не считается подтверждением.",
+    "quote": "«Подтверждение в заключении Договора об оказании услуг с ООО «РОБОКАССА», НДС не облагается»",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R7",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Подключение двухступенчатое: Частичная активация даёт приём оплат, Полная — вывод денег.",
+    "quote": "Частичная активация осуществляется Компанией после проверки Пользовательской информации, предоставленной Получателем при Регистрации",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R8",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Самозанятым платёж 1 ₽ не нужен: у них Полная активация наступает вместе с Частичной.",
+    "quote": "В отношении Самозанятых Полная активация осуществляется с момента Частичной активации",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R9",
+    "service": "robokassa",
+    "question": 4,
+    "claim": "До заключения договора Robokassa обязана идентифицировать самого получателя, его представителя и бенефициара — это стена для схемы «мы регистрируем за клиента».",
+    "quote": "Проводить Идентификацию Получателя, его представителя, бенефициарного владельца и выгодоприобретателя, до момента заключения Договора",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R10",
+    "service": "robokassa",
+    "question": 4,
+    "claim": "Вход в кабинет Robokassa привязан к телефону получателя (одноразовый код), а не к паре логин-пароль, которую можно передать.",
+    "quote": "Посредством созданного Получателем в мобильном приложении Robokassa App короткого пароля",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R11",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Robokassa сама продаёт услугу «сделаем оформление за вас» за 1 999 ₽ — это рыночный ориентир для нашей бесплатной услуги.",
+    "quote": "Введите ИНН — остальное сделаем мы.",
+    "url": "https://robokassa.com/services/help-with-connection/",
+    "source": "raw/robokassa/help-with-connection.md"
+  },
+  {
+    "id": "R12",
+    "service": "robokassa",
+    "question": 2,
+    "claim": "Цена услуги названа на странице.",
+    "quote": "Стоимость услуги 1 999 ₽",
+    "url": "https://robokassa.com/services/help-with-connection/",
+    "source": "raw/robokassa/help-with-connection.md"
+  },
+  {
+    "id": "R13",
+    "service": "robokassa",
+    "question": 3,
+    "claim": "Деньги перечисляются получателю (магазину) — это предмет Полной активации, посредник в потоке не стоит.",
+    "quote": "Полная активация – тип Активации, позволяющий осуществлять Перечисление в пользу Получателя",
+    "url": "https://docs.robokassa.ru/media/1285/dogovor_robokassa.pdf",
+    "source": "raw/robokassa/dogovor-oferta.md"
+  },
+  {
+    "id": "R14",
+    "service": "robokassa",
+    "question": 3,
+    "claim": "Что именно Robokassa берёт на себя в услуге быстрого старта.",
+    "quote": "Мы возьмем на себя оформление заявки, проверку документов и подготовку магазина к активации.",
+    "url": "https://robokassa.com/services/help-with-connection/",
+    "source": "raw/robokassa/help-with-connection.md"
+  },
+  {
+    "id": "Y1",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "Партнёрская программа ЮKassa — агентская: вознаграждение процентом от комиссии, деньги клиента идут мимо нас.",
+    "quote": "Приводите новых клиентов и получайте вознаграждение — процент от комиссии за принятые ими платежи",
+    "url": "https://promo.yookassa.ru/agents",
+    "source": "raw/yookassa/agents-promo.md"
+  },
+  {
+    "id": "Y2",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "Условия партнёрства не публичны: страница прямо снимает с себя силу оферты, договор индивидуальный.",
+    "quote": "Информация, размещённая на данной странице, не является публичной офертой НКО.",
+    "url": "https://promo.yookassa.ru/agents",
+    "source": "raw/yookassa/agents-promo.md"
+  },
+  {
+    "id": "Y3",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "Форма агентского договора опубликована: агент привлекает Поставщиков за вознаграждение.",
+    "quote": "Агент обязуется за вознаграждение от своего имени и за счет Оператора осуществлять деятельность по привлечению Поставщиков к использованию Сервиса «ЮKassa».",
+    "url": "https://yoomoney.ru/i/forms/annex10_1_01012026.pdf",
+    "source": "raw/yookassa/agent-contract-rezidenty-postavshchiki.md"
+  },
+  {
+    "id": "Y4",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "В том же договоре есть факультативный пункт, прямо описывающий нашу роль платформы.",
+    "quote": "2.4. Агент является Администратором Платформы.",
+    "url": "https://yoomoney.ru/i/forms/annex10_1_01012026.pdf",
+    "source": "raw/yookassa/agent-contract-rezidenty-postavshchiki.md"
+  },
+  {
+    "id": "Y5",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "Роль «Интегратор» нам недоступна: Правила требуют права на осуществление переводов денежных средств.",
+    "quote": "Интегратор – организация, имеющая право на осуществление переводов денежных средств в соответствии с законодательством места ее нахождения",
+    "url": "https://yoomoney.ru/i/forms/offer_merchants_49_01092026.pdf",
+    "source": "raw/yookassa/offer-merchants.md"
+  },
+  {
+    "id": "Y6",
+    "service": "yookassa",
+    "question": 1,
+    "claim": "Администратор Платформы — тот, кто организует на своей платформе продажу чужих товаров; это модель маркетплейса, а не наша.",
+    "quote": "организующее с использованием принадлежащей ему Платформы продажу собственных Товаров и/или Товаров иных лиц",
+    "url": "https://yoomoney.ru/i/forms/offer_merchants_49_01092026.pdf",
+    "source": "raw/yookassa/offer-merchants.md"
+  },
+  {
+    "id": "Y7",
+    "service": "yookassa",
+    "question": 2,
+    "claim": "Шаг 1 подключения: регистрация с ИНН и собственным паролем клиента.",
+    "quote": "Нужно будет ввести номер телефона, имя, почту, форму бизнеса и номер ИНН, придумать пароль",
+    "url": "https://yookassa.ru/connection/",
+    "source": "raw/yookassa/connection.md"
+  },
+  {
+    "id": "Y8",
+    "service": "yookassa",
+    "question": 2,
+    "claim": "Шаг 2 требует персональных документов владельцев — их за клиента не подготовить.",
+    "quote": "цветной снимок паспорта",
+    "url": "https://yookassa.ru/connection/",
+    "source": "raw/yookassa/connection.md"
+  },
+  {
+    "id": "Y9",
+    "service": "yookassa",
+    "question": 2,
+    "claim": "ЮKassa проверяет сайт магазина и возвращает заявку на доработку.",
+    "quote": "Проверка может занять пару дней, но чаще всего проходит быстрее",
+    "url": "https://yookassa.ru/connection/",
+    "source": "raw/yookassa/connection.md"
+  },
+  {
+    "id": "Y10",
+    "service": "yookassa",
+    "question": 2,
+    "claim": "Договор подписывает сам клиент — от руки или кодом из СМС.",
+    "quote": "Его нужно будет подписать",
+    "url": "https://yookassa.ru/connection/",
+    "source": "raw/yookassa/connection.md"
+  },
+  {
+    "id": "Y11",
+    "service": "yookassa",
+    "question": 4,
+    "claim": "Всё, что сделано в кабинете, юридически считается действиями клиента — включая то, что сделаем мы его логином.",
+    "quote": "Любые действия, совершенные с использованием Личного кабинета, признаются совершенными Контрагентом.",
+    "url": "https://yoomoney.ru/i/forms/offer_merchants_49_01092026.pdf",
+    "source": "raw/yookassa/offer-merchants.md"
+  },
+  {
+    "id": "Y12",
+    "service": "yookassa",
+    "question": 4,
+    "claim": "Клиент обязан хранить авторизационные данные в тайне, а оператор не отвечает за последствия их разглашения.",
+    "quote": "Контрагент обязан хранить свои авторизационные данные в тайне.",
+    "url": "https://yoomoney.ru/i/forms/offer_merchants_49_01092026.pdf",
+    "source": "raw/yookassa/offer-merchants.md"
+  },
+  {
+    "id": "Y13",
+    "service": "yookassa",
+    "question": 4,
+    "claim": "Логин и пароль создаёт сам контрагент — сервис их не выдаёт и передать их «официально» нельзя.",
+    "quote": "Авторизационные данные создаются Контрагентом самостоятельно",
+    "url": "https://yoomoney.ru/i/forms/offer_merchants_49_01092026.pdf",
+    "source": "raw/yookassa/offer-merchants.md"
+  },
+  {
+    "id": "Y14",
+    "service": "yookassa",
+    "question": 3,
+    "claim": "Деньги идут на счёт магазина, ЮKassa стоит между плательщиком и поставщиком, а не мы.",
+    "quote": "ЮKassa принимает платежи и отправляет деньги на ваш счёт",
+    "url": "https://yookassa.ru/connection/",
+    "source": "raw/yookassa/connection.md"
+  },
+  {
+    "id": "Y15",
+    "service": "yookassa",
+    "question": 3,
+    "claim": "Права и обязанности агента определяются Правилами, вознаграждение считается от вознаграждения Оператора — денег клиента агент не касается.",
+    "quote": "Размер вознаграждения Агента за Отчетный период исчисляется на основании Отчета Агента в процентах",
+    "url": "https://yoomoney.ru/i/forms/annex10_1_01012026.pdf",
+    "source": "raw/yookassa/agent-contract-rezidenty-postavshchiki.md"
+  },
+  {
+    "id": "C1",
+    "service": "cdek",
+    "question": 4,
+    "claim": "СДЭК ПРЯМО запрещает клиенту передавать логин и пароль третьим лицам — модель «отдадим клиенту логины и пароли» здесь противоречит регламенту.",
+    "quote": "Сведения об идентификаторах (логин и пароль) относятся к конфиденциальным и не подлежат передаче Клиентом третьим лицам.",
+    "url": "https://www.cdek.ru/storage/source/Документы/Договора/2026/Регламент возмездного оказания курьерских услуг_10.07.2026_РФ.pdf",
+    "source": "raw/cdek/reglament-kurerskih-uslug.md"
+  },
+  {
+    "id": "C2",
+    "service": "cdek",
+    "question": 2,
+    "claim": "Доступ в кабинет выдаётся письмом при заключении договора: регистрацию завершает сам клиент по ссылке.",
+    "quote": "Для завершения регистрации и создания пароля Клиенту необходимо пройти по ссылке, направленной Исполнителем в электронном письме.",
+    "url": "https://www.cdek.ru/storage/source/Документы/Договора/2026/Регламент возмездного оказания курьерских услуг_10.07.2026_РФ.pdf",
+    "source": "raw/cdek/reglament-kurerskih-uslug.md"
+  },
+  {
+    "id": "C3",
+    "service": "cdek",
+    "question": 4,
+    "claim": "Пароль создаёт клиент, и даже сам СДЭК его не знает — «получить ключ за клиента» технически не к кому обратиться.",
+    "quote": "Клиент самостоятельно создает пароль к Личному кабинету, Исполнитель не имеет доступа к данной информации.",
+    "url": "https://www.cdek.ru/storage/source/Документы/Договора/2026/Регламент возмездного оказания курьерских услуг_10.07.2026_РФ.pdf",
+    "source": "raw/cdek/reglament-kurerskih-uslug.md"
+  },
+  {
+    "id": "C4",
+    "service": "cdek",
+    "question": 4,
+    "claim": "Законный путь представительства у СДЭК — доверенность, а не чужие учётные данные.",
+    "quote": "доверенность, подтверждающую полномочия представителя на оплату услуг и заключение Договора от имени юридического лица",
+    "url": "https://www.cdek.ru/storage/source/Документы/Договора/2026/Регламент возмездного оказания курьерских услуг_10.07.2026_РФ.pdf",
+    "source": "raw/cdek/reglament-kurerskih-uslug.md"
+  },
+  {
+    "id": "C5",
+    "service": "cdek",
+    "question": 2,
+    "claim": "Договор с СДЭК заключается в том числе акцептом оферты на сайте.",
+    "quote": "акцепта оферты на Сайте",
+    "url": "https://www.cdek.ru/storage/source/Документы/Договора/2026/Регламент возмездного оказания курьерских услуг_10.07.2026_РФ.pdf",
+    "source": "raw/cdek/reglament-kurerskih-uslug.md"
+  },
+  {
+    "id": "C6",
+    "service": "cdek",
+    "question": 2,
+    "claim": "Регламент — неотъемлемая часть договора, и заказ услуги сам по себе означает согласие с ним.",
+    "quote": "Заказ услуг Исполнителю является надлежащим и достаточным подтверждением того, что Клиент ознакомлен и согласен с условиями их оказания.",
+    "url": "https://www.cdek.ru/ru/offer/offer_im",
+    "source": "raw/cdek/dogovor-internet-magazin.md"
+  },
+  {
+    "id": "C7",
+    "service": "cdek",
+    "question": 2,
+    "claim": "Личный кабинет СДЭК — это самообслуживание по заявкам и сверкам.",
+    "quote": "самостоятельно формировать акты сверки взаиморасчетов, оформлять заявки и заказы на услуги",
+    "url": "https://www.cdek.ru/ru/offer/offer_im",
+    "source": "raw/cdek/dogovor-internet-magazin.md"
+  },
+  {
+    "id": "P1",
+    "service": "pochta",
+    "question": 4,
+    "claim": "Почта России ПРЯМО запрещает передавать токен, ключ, логин и пароль третьим лицам.",
+    "quote": "не передавайте эти данные третьим лицам!",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-main.md"
+  },
+  {
+    "id": "P2",
+    "service": "pochta",
+    "question": 4,
+    "claim": "Ключ авторизации пользователя — это base64 от пары логин:пароль, то есть выдать нам ключ = выдать пароль от аккаунта Почты.",
+    "quote": "Перед кодированием имя и пароль, выданные сервисом passport.pochta.ru, разделяются двоеточием.",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-authorization-key.md"
+  },
+  {
+    "id": "P3",
+    "service": "pochta",
+    "question": 2,
+    "claim": "Токен приложения приходит на почту, указанную при регистрации в «Отправке», после активации доступа к API.",
+    "quote": "После активации доступа к API токен высылается на электронную почту, указанную при регистрации на онлайн-сервисе «Отправка»",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-authorization-token.md"
+  },
+  {
+    "id": "P4",
+    "service": "pochta",
+    "question": 2,
+    "claim": "Для интеграции нужны ровно две вещи — токен приложения и ключ пользователя.",
+    "quote": "токеном авторизации приложения ; ключом авторизации пользователя .",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-main.md"
+  },
+  {
+    "id": "P5",
+    "service": "pochta",
+    "question": 4,
+    "claim": "Предупреждение о хранении пароля стоит в самой документации — оно задаёт тон нашему регламенту обращения с доступами.",
+    "quote": "Не сохраняйте и не храните ваш пароль к API в текстовых файлах",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-main.md"
+  },
+  {
+    "id": "YA1",
+    "service": "yandex-id",
+    "question": 2,
+    "claim": "Верификация сервиса Яндекс ID делается через Госуслуги — это подтверждение личности владельца аккаунта.",
+    "quote": "подтвердите личность через Госуслуги",
+    "url": "https://yandex.ru/dev/id/doc/ru/confirm-account",
+    "source": "raw/yandex-id/confirm-account.md"
+  },
+  {
+    "id": "YA2",
+    "service": "yandex-id",
+    "question": 4,
+    "claim": "Для организации верификацию может пройти ТОЛЬКО её единоличный исполнительный орган через свой профиль Госуслуг.",
+    "quote": "Войдите в профиль Госуслуг от имени генерального директора или другого единоличного исполнительного органа организации.",
+    "url": "https://yandex.ru/dev/id/doc/ru/confirm-account",
+    "source": "raw/yandex-id/confirm-account.md"
+  },
+  {
+    "id": "YA3",
+    "service": "yandex-id",
+    "question": 4,
+    "claim": "Обходного пути нет — это сказано дословно.",
+    "quote": "Подтвердить другим способом не получится.",
+    "url": "https://yandex.ru/dev/id/doc/ru/confirm-account",
+    "source": "raw/yandex-id/confirm-account.md"
+  },
+  {
+    "id": "YA4",
+    "service": "yandex-id",
+    "question": 2,
+    "claim": "Неверифицированный аккаунт ограничен пятью приложениями — это упирается в модель «приложение на каждого клиента».",
+    "quote": "Регистрация более 5 приложений.",
+    "url": "https://yandex.ru/dev/id/doc/ru/confirm-account",
+    "source": "raw/yandex-id/confirm-account.md"
+  },
+  {
+    "id": "YA5",
+    "service": "yandex-id",
+    "question": 2,
+    "claim": "Приложение регистрирует разработчик в сервисе Яндекс OAuth, кабинет остаётся у владельца аккаунта.",
+    "quote": "разработчик должен зарегистрировать приложение в сервисе",
+    "url": "https://yandex.ru/dev/id/doc/ru/register-client",
+    "source": "raw/yandex-id/dev-id-doc-register.md"
+  },
+  {
+    "id": "YA6",
+    "service": "yandex-id",
+    "question": 1,
+    "claim": "Условия использования запрещают авторизацию для программ, нарушающих закон РФ или вредящих репутации Яндекса — это фильтр для наших тенантов.",
+    "quote": "Пользователю запрещается использовать Сервис для авторизации Конечных пользователей через Яндекс ID в случае, если Программа не соответствует законодательству Российской Федерации",
+    "url": "https://yandex.ru/dev/id/doc/ru/requirements",
+    "source": "raw/yandex-id/requirements.md"
+  },
+  {
+    "id": "YA7",
+    "service": "yandex-id",
+    "question": 2,
+    "claim": "Одно приложение может обслуживать несколько доменов: Redirect URI разрешено добавлять несколько.",
+    "quote": "добавьте дополнительные Redirect URI",
+    "url": "https://yandex.ru/dev/id/doc/ru/register-auth",
+    "source": "raw/yandex-id/register-auth.md"
+  },
+  {
+    "id": "YA8",
+    "service": "yandex-id",
+    "question": 1,
+    "claim": "Верификация открывает поддержку и снимает лимит приложений — аргумент в пользу одного верифицированного аккаунта upready.",
+    "quote": "Техническая поддержка Яндекс OAuth для разработчиков.",
+    "url": "https://yandex.ru/dev/id/doc/ru/confirm-account",
+    "source": "raw/yandex-id/confirm-account.md"
+  },
+  {
+    "id": "A1",
+    "service": "apiship",
+    "question": 1,
+    "claim": "ApiShip ПРЯМО разрешает агенту регистрировать и настраивать кабинеты своих клиентов — единственная из пяти площадок, где наша схема описана как штатная.",
+    "quote": "Агент регистрирует и настраивает аккаунты своих клиентов в Личном кабинете.",
+    "url": "https://apiship.ru/for-developers",
+    "source": "raw/apiship/for-developers.md"
+  },
+  {
+    "id": "A2",
+    "service": "apiship",
+    "question": 1,
+    "claim": "Для нас как платформы предусмотрен отдельный ключ platform_key.",
+    "quote": "Для платформ CMS и CRM, веб-студий, разработчиков модулей и сайтов.",
+    "url": "https://apiship.ru/for-developers",
+    "source": "raw/apiship/for-developers.md"
+  },
+  {
+    "id": "A3",
+    "service": "apiship",
+    "question": 3,
+    "claim": "Вознаграждение партнёра — процент от выручки ApiShip, деньги клиента через нас не идут.",
+    "quote": "Мы ежеквартально перечисляем партнерам процент от выручки.",
+    "url": "https://apiship.ru/for-developers",
+    "source": "raw/apiship/for-developers.md"
+  },
+  {
+    "id": "A4",
+    "service": "apiship",
+    "question": 2,
+    "claim": "ApiShip НЕ снимает необходимость собственного договора клиента со службой доставки.",
+    "quote": "нужную информацию вы получаете в рамках своего договора со службой доставки",
+    "url": "https://apiship.ru/start",
+    "source": "raw/apiship/start.md"
+  },
+  {
+    "id": "A5",
+    "service": "apiship",
+    "question": 1,
+    "claim": "Сама платформа ApiShip бесплатна для разработчика.",
+    "quote": "Использование платформы ApiShip - БЕСПЛАТНО.",
+    "url": "https://apiship.ru/for-developers",
+    "source": "raw/apiship/for-developers.md"
+  },
+  {
+    "id": "A6",
+    "service": "apiship",
+    "question": 2,
+    "claim": "Регистрация в ApiShip — по рабочему e-mail с принятием публичной оферты.",
+    "quote": "Регистрируясь, вы принимаете публичную оферту.",
+    "url": "https://apiship.ru/start",
+    "source": "raw/apiship/start.md"
+  },
+  {
+    "id": "C8",
+    "service": "cdek",
+    "question": 3,
+    "claim": "Деньги за наложенный платёж СДЭК перечисляет магазину напрямую на его банковские реквизиты — посредника в потоке нет.",
+    "quote": "Исполнитель обязуется перечислять Клиенту денежные средства, поступившие от Получателей",
+    "url": "https://www.cdek.ru/ru/offer/offer_im",
+    "source": "raw/cdek/dogovor-internet-magazin.md"
+  },
+  {
+    "id": "C9",
+    "service": "cdek",
+    "question": 3,
+    "claim": "Обязательство считается исполненным списанием на реквизиты Клиента — то есть счёт получателя денег принадлежит магазину.",
+    "quote": "считаются исполненными с момента списания денежных средств с корреспондентского счета банка обслуживающего Исполнителя по банковским реквизитам Клиента",
+    "url": "https://www.cdek.ru/ru/offer/offer_im",
+    "source": "raw/cdek/dogovor-internet-magazin.md"
+  },
+  {
+    "id": "A7",
+    "service": "apiship",
+    "question": 3,
+    "claim": "Партнёр ApiShip зарабатывает на доходности своих клиентов в платформе, а не на их деньгах за доставку.",
+    "quote": "вы можете получать дополнительное вознаграждение от своих заказчиков – от суммы доходности, сгенерированной вашими клиентами в Платформе ApiShip",
+    "url": "https://apiship.ru/for-developers",
+    "source": "raw/apiship/for-developers.md"
+  },
+  {
+    "id": "YA9",
+    "service": "yandex-id",
+    "question": 1,
+    "claim": "Яндекс отдельно запрещает программы, имитирующие его сервисы или использующие бренд без прямого партнёрства — рамка для нашей кнопки входа.",
+    "quote": "Программы, которые используют имя и (или) бренд Яндекса в рекламных целях, при этом не являются прямыми партнерами Яндекса.",
+    "url": "https://yandex.ru/dev/id/doc/ru/requirements",
+    "source": "raw/yandex-id/requirements.md"
+  },
+  {
+    "id": "P6",
+    "service": "pochta",
+    "question": 2,
+    "claim": "Интеграция «Отправки» покрывает ярлыки, документы и электронную передачу в отделение — то, что мы настраиваем за клиента после получения им доступа.",
+    "quote": "подготовку электронных документов с автоматической отсылкой в почтовое отделение",
+    "url": "https://otpravka.pochta.ru/specification",
+    "source": "raw/pochta/otpravka-main.md"
+  }
+]
