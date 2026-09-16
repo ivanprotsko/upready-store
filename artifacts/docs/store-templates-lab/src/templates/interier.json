@@ -550,15 +550,18 @@
        "options": [
         {
          "label": "Натуральный дуб",
-         "key": "oak"
+         "key": "oak",
+         "color": "#c9a227"
         },
         {
          "label": "Тёмное масло",
-         "key": "dark"
+         "key": "dark",
+         "color": "#4a3524"
         },
         {
          "label": "Белёный",
-         "key": "white"
+         "key": "white",
+         "color": "#e8e0d2"
         }
        ]
       },

@@ -529,15 +529,18 @@
        "options": [
         {
          "label": "Стальной",
-         "key": "steel"
+         "key": "steel",
+         "color": "#9aa3ad"
         },
         {
          "label": "Чёрный",
-         "key": "black"
+         "key": "black",
+         "color": "#26292e"
         },
         {
          "label": "Белый",
-         "key": "white"
+         "key": "white",
+         "color": "#f2f4f6"
         }
        ]
       }

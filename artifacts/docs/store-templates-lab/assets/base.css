@@ -323,6 +323,7 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .btn[data-variant="secondary"]:hover { background: var(--secondary); }
 .btn[data-variant="ghost"] { color: var(--foreground); }
 .btn[data-variant="ghost"]:hover { background: var(--secondary); }
+.btn svg { width: var(--space-4); height: var(--space-4); flex: none; }
 .btn[data-full] { width: 100%; }
 /* Спека: «на мобиле размер sm не используется» — здесь это записано кодом,
    а не обещанием: ни одна цель не опускается ниже пальца (QR-HIT). */
@@ -882,9 +883,12 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .var-chip.is-out { color: var(--muted-foreground); text-decoration: line-through; cursor: not-allowed; }
 .swatch { display: grid; justify-items: center; gap: var(--space-1); min-width: var(--tap); min-height: var(--tap); cursor: pointer; }
 .swatch input { position: absolute; opacity: 0; width: 0; height: 0; }
+/* Цвет приходит из карточки товара как --swatch (данные, не правило стиля);
+   без него кружок остаётся нейтральным, а не пустым. */
 .swatch-dot {
   width: var(--space-6); height: var(--space-6); border-radius: var(--r-pill);
-  border: var(--hairline) solid var(--border); background: var(--secondary);
+  border: var(--hairline) solid var(--border);
+  background: var(--swatch, var(--secondary));
 }
 .swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: var(--space-1); }
 .sum-facts { list-style: none; padding: 0; display: grid; gap: var(--space-3); width: 100%; }

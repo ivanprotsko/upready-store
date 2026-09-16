@@ -172,6 +172,7 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .btn[data-variant="secondary"]:hover { background: var(--secondary); }
 .btn[data-variant="ghost"] { color: var(--foreground); }
 .btn[data-variant="ghost"]:hover { background: var(--secondary); }
+.btn svg { width: var(--space-4); height: var(--space-4); flex: none; }
 .btn[data-full] { width: 100%; }
 /* Спека: «на мобиле размер sm не используется» — здесь это записано кодом,
    а не обещанием: ни одна цель не опускается ниже пальца (QR-HIT). */

@@ -9,7 +9,7 @@ const variantGroup = (g) => {
     return `<fieldset class="var-group"><legend data-role="meta">${esc(g.label)}</legend>
       <div class="var-row">${map(g.options, (o, i) => `<label class="swatch" title="${esc(o.label)}">
         <input type="radio" name="${esc(g.label)}"${i === 0 ? " checked" : ""}>
-        <span class="swatch-dot" data-swatch="${esc(o.key)}" aria-hidden="true"></span>
+        <span class="swatch-dot" data-swatch="${esc(o.key)}"${o.color ? ` style="--swatch: ${esc(o.color)}"` : ""} aria-hidden="true"></span>
         <span class="swatch-name" data-role="meta">${esc(o.label)}</span>
       </label>`)}</div></fieldset>`
   }

@@ -479,15 +479,18 @@
        "options": [
         {
          "label": "Молочный",
-         "key": "milk"
+         "key": "milk",
+         "color": "#efe9df"
         },
         {
          "label": "Графит",
-         "key": "graphite"
+         "key": "graphite",
+         "color": "#3a3a3c"
         },
         {
          "label": "Охра",
-         "key": "ochre"
+         "key": "ochre",
+         "color": "#b57a2a"
         }
        ]
       },

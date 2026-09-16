@@ -488,11 +488,13 @@
        "options": [
         {
          "label": "Голубой",
-         "key": "blue"
+         "key": "blue",
+         "color": "#6fa8dc"
         },
         {
          "label": "Чёрный",
-         "key": "black"
+         "key": "black",
+         "color": "#26292e"
         }
        ]
       }
