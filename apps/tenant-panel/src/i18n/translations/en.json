@@ -4551,5 +4551,61 @@
         "sentToast": "Sent to Wildberries."
       }
     }
+  },
+  "deliverySettings": {
+    "title": "CDEK delivery",
+    "subtitle": "your shop's own CDEK contract; passwords are stored encrypted and never shown back",
+    "stateTest": "test mode",
+    "stateLive": "live mode",
+    "stateOff": "off",
+    "stateNone": "not set up",
+    "loading": "loading…",
+    "fields": {
+      "account": "Live account login",
+      "test_account": "Test account login",
+      "password": "Live account password",
+      "test_password": "Test account password",
+      "sender_mode": "Where the parcel is collected",
+      "sender_city_name": "Departure city",
+      "sender_address": "Departure address",
+      "shipment_point": "CDEK office code you drop parcels at",
+      "sender_name": "Sender name",
+      "sender_phone": "Sender phone",
+      "kinds": "Delivery options at checkout",
+      "markup_amount": "Markup, ₽",
+      "markup_percent": "Markup, %",
+      "free_above_total": "Free above, ₽",
+      "is_test": "Test mode",
+      "is_enabled": "Offer CDEK at checkout"
+    },
+    "kinds": {
+      "courier": "Courier to the door",
+      "pickup": "To a CDEK pickup point",
+      "postamat": "To a CDEK locker"
+    },
+    "kindsHint": "Each option you switch on becomes its own card at checkout. CDEK itself prices it for the buyer's address.",
+    "senderWarehouse": "I drop parcels at a CDEK office",
+    "senderDoor": "A CDEK courier collects from me",
+    "senderModeHint": "This decides which CDEK tariffs apply: «warehouse-…» or «door-…».",
+    "secretSet": "set ····{{last4}}",
+    "secretNotSet": "not set",
+    "keepPlaceholder": "leave empty to keep the stored one",
+    "emptyPlaceholder": "paste from your CDEK dashboard",
+    "freeAbovePlaceholder": "empty — never free",
+    "testHint": "Test mode uses CDEK's training contour (api.edu.cdek.ru): orders there create no real parcels. Live mode needs a CDEK contract.",
+    "senderCityRequired": "Enter the departure city — without it CDEK prices nothing",
+    "save": "Save",
+    "remove": "Remove contract",
+    "saved": "Delivery settings saved",
+    "savedWithTariffs": "Saved. CDEK answered with {{count}} tariffs",
+    "removed": "Contract removed — CDEK is no longer offered at checkout",
+    "webhookFailed": "Settings saved, but the status subscription did not register: {{reason}}",
+    "methodsTitle": "Shipping options created for CDEK",
+    "methodOn": "at checkout",
+    "methodOff": "off",
+    "webhookTitle": "Status callback address for CDEK",
+    "webhookHint": "CDEK posts parcel status changes to this address. It is registered automatically when you save.",
+    "webhookRegistered": "subscription registered",
+    "webhookNotRegistered": "subscription not registered"
   }
 }

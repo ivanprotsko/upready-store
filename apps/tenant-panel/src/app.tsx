@@ -725,6 +725,16 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/payments"),
           },
           {
+            // «Доставка СДЭК» (i02-apiship-cdek-shipping): the shop's own CDEK
+            // account plus the delivery kinds it offers, stored encrypted per
+            // tenant. No Admin counterpart — the Admin configures fulfillment
+            // providers in medusa-config for the one store it serves.
+            path: "/settings/delivery",
+            handle: { breadcrumb: () => t("deliverySettings.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/delivery"),
+          },
+          {
             // Реквизиты продавца (t12-legal-requisites): значения, которыми на
             // витрине заполняются {{ТОКЕНЫ}} в оферте, политике
             // конфиденциальности и контактах. No Admin counterpart — a native

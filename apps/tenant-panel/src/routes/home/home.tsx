@@ -114,6 +114,14 @@ export const Home = () => {
           >
             {t("paymentSettings.title")}
           </Link>
+          {/* i02-apiship-cdek-shipping: реквизиты СДЭК и способы доставки,
+              которые магазин показывает на кассе. */}
+          <Link
+            to="/settings/delivery"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+          >
+            {t("deliverySettings.title")}
+          </Link>
           <Link
             to="/settings/notifications"
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
