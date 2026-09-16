@@ -1,0 +1,14 @@
+=== контейнеры ===
+mt-backend	Up 8 minutes (healthy)
+mt-ingress-sync	Up 4 days
+mt-panel	Up 6 minutes (healthy)
+mt-postgres	Up 4 days (healthy)
+mt-storefront	Up 8 hours (healthy)
+upreadystore-bot	Up 2 days
+=== inspect ===
+mt-backend      sha256:a0015a163680
+mt-storefront   sha256:9d3629f5ca35
+mt-panel        sha256:eb33f734473a
+=== дамп ПОСЛЕ ===
+pg_dump rc=0
+24250313 /opt/upready-store/backups/mt-medusa_mt-20260916-154107-post-d09.sql.gz

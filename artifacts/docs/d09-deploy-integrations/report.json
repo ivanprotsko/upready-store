@@ -1,0 +1,109 @@
+{
+  "task": "d09-deploy-integrations",
+  "pr": {
+    "number": 100,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/100"
+  },
+  "done": [
+    {
+      "item": "Задеплировал на живую платформу волну p01 (sha 3859e6b8): «Подключение» = /settings/integrations/<служба> только с реквизитами, страницы площадок = /settings/marketplaces/{wildberries,ozon}.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/report.md"
+      ]
+    },
+    {
+      "item": "Ключ Wildberries, который Иван ввёл сам около 20:00, деплой пережил: на новом экране «подключено ••••c6Sg», права «только чтение», действует до 17.03.2027 (осталось 181 день) — повторно вводить ничего не нужно.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/report.md"
+      ]
+    },
+    {
+      "item": "Снял дамп базы ДО деплоя и ПОСЛЕ (24 080 960 и 24 250 313 байт) формой из памятки защищённой инфраструктуры.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/report.md"
+      ]
+    },
+    {
+      "item": "Применил миграцию Migration20260916123201 (слот apiship в ограничении provider): строки секретов тенанта не изменились — 3 до и 3 после, те же провайдеры cdek/robokassa/wildberries, содержимое ключей не читалось.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/secrets-before.txt",
+        "artifacts/docs/d09-deploy-integrations/secrets-after.txt"
+      ]
+    },
+    {
+      "item": "Принял пять экранов на живой панели как владелица: пять служб с настоящим состоянием, карточка Wildberries только с реквизитами, страница площадки с 3 загруженными таблицами и 86 строками.",
+      "links": [
+        "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/05-integrations-settled-1280x900.png"
+      ]
+    },
+    {
+      "item": "Проверил старые адреса: /settings/wildberries ведёт на /settings/marketplaces/wildberries, /settings/ozon на /settings/marketplaces/ozon, /settings/marketplaces на /settings/integrations; в сайдбаре 13 ссылок и ни одной с якорем.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/report.md"
+      ]
+    },
+    {
+      "item": "Убедился, что витрина магазина не затронута: страница магазина и карточка товара отдают 200 до и после, образ витрины не пересобирался, потому что волна её не трогала.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/health-pre.txt",
+        "artifacts/docs/d09-deploy-integrations/health-post.txt"
+      ]
+    },
+    {
+      "item": "Нашёл и обошёл ловушку деплоя: p01 переименовал два файла панели, а синхронизация без --delete оставляет старые копии в компилируемом дереве — удалил их после доказательства восстановимости из git.",
+      "links": [
+        "artifacts/docs/d09-deploy-integrations/report.md"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Экран «Подключение» — пять служб магазина",
+      "url": "https://panel-store.upready.dev/settings/integrations",
+      "note": "Wildberries подключено ••••c6Sg, только чтение, осталось дней 181"
+    },
+    {
+      "label": "Страница площадки Wildberries — права ключа и загрузки",
+      "url": "https://panel-store.upready.dev/settings/marketplaces/wildberries",
+      "note": "3 таблицы, 86 строк, действует до 17.03.2027"
+    },
+    {
+      "label": "Карточка службы Wildberries — только реквизиты",
+      "url": "https://panel-store.upready.dev/settings/integrations/wildberries",
+      "note": "ключ сохранён, обратно не показывается — только последние 4 знака"
+    },
+    {
+      "label": "Магазин Оксаны — витрина не затронута",
+      "url": "https://cherkashino.shipshift.dev/ru",
+      "note": "200 до и после деплоя"
+    },
+    {
+      "label": "Отчёт со всеми замерами",
+      "path": "artifacts/docs/d09-deploy-integrations/report.md"
+    },
+    {
+      "label": "Кадр приёмки: экран «Подключение» 1280x900 (кадры вне git)",
+      "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/shots/05-integrations-settled-1280x900.png"
+    },
+    {
+      "label": "Ключи тенанта до и после — счёт и провайдер, без содержимого",
+      "path": "artifacts/docs/d09-deploy-integrations/secrets-after.txt"
+    }
+  ],
+  "access": [
+    {
+      "url": "https://panel-store.upready.dev/settings/integrations",
+      "login": "учётная запись владелицы магазина",
+      "secretRef": "/Users/ivanprotsko/upready/.private/upready-store-day-2026-09-16/cherkashino-owner.md",
+      "note": "пароль в отчёт и в кадры не попадает: перед каждым кадром страница проверяется детектором утечки"
+    }
+  ],
+  "notes": [
+    "На странице площадки красным: «Сопоставление не сработало: 0 из 423». С Wildberries приехали 423 карточки, ни одна не связалась с товарами магазина — артикул площадки не совпадает с SKU каталога. Отдельная задача, деплоем не вызвана.",
+    "Ozon и ApiShip показаны как «не подключено» — это настоящее состояние: реквизитов у магазина нет, вводит их только владелица.",
+    "Запись и удаление ключа через новую форму НЕ проверялись: сохранять поверх ключа Ивана или удалять его — риск ровно того, что задача велела сберечь.",
+    "Новых переменных окружения волна не потребовала: реквизиты ApiShip хранятся per-tenant в базе, как у остальных служб.",
+    "Находка рецепта: git mv внутри apps/*/src не доезжает до хоста — синхронизация идёт без --delete. Сухой прогон rsync -anv --delete перед сборкой теперь часть процедуры.",
+    "Риск прежний: медиа магазина на одном хосте без S3 и автоматических бэкапов — pg_dump спасает базу, но не картинки."
+  ]
+}

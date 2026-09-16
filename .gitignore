@@ -136,3 +136,6 @@ artifacts/docs/w01-wb-readonly-client/docs/*.png
 
 # b18-blog-full: скриншоты приёмки журнала — бинарники в историю не кладём (правило 21f)
 artifacts/docs/b18-blog-full/**/*.png
+
+# d09: кадры приёмки панели — бинарники вне git.
+artifacts/docs/d09-deploy-integrations/shots/
