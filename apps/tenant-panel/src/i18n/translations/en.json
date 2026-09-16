@@ -236,7 +236,9 @@
         "pages": "Pages",
         "journal": "Journal",
         "store": "Store",
-        "storeSettings": "Store settings"
+        "storeSettings": "Store settings",
+        "marketplaces": "Marketplaces",
+        "wildberries": "Wildberries"
       },
       "settings": {
         "developer": "Developer",

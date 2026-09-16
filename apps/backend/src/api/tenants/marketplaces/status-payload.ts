@@ -121,7 +121,19 @@ export const buildCard = async (
     id: adapter.id,
     label: adapter.label,
     connection: {
-      key: { set: Boolean(slot), last4: slot?.last4 ?? null },
+      key: {
+        set: Boolean(slot),
+        last4: slot?.last4 ?? null,
+        /**
+         * How this shop's key gets stored, for the panel to show INSTEAD of a
+         * three-state verdict when there is no key at all (w14-mp-catalog-link,
+         * Ivan 2026-09-16 09:11). «Не удалось определить» is the answer to a
+         * key that was read and did not say; a key that was never stored has
+         * not been asked anything, and rendering the two the same reads as a
+         * broken key (rule 20a).
+         */
+        how_to_store: adapter.credentialHowTo,
+      },
       is_enabled: slot?.isEnabled ?? false,
     },
     credentials: facts

@@ -1,4 +1,5 @@
 import {
+  BuildingStorefront,
   ChartBar,
   ChatBubbleLeftRight,
   DocumentText,
@@ -251,6 +252,28 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ChatBubbleLeftRight />,
       label: t("app.nav.main.reviews", { defaultValue: "Reviews" }),
       to: "/reviews",
+    },
+    {
+      // w14-mp-catalog-link: «Маркетплейсы». The section existed as a screen
+      // (`/settings/marketplaces`, w12) and was reachable ONLY through a tile
+      // on the panel home page — Ivan found it missing from the sidebar on the
+      // live panel, 2026-09-16 09:11. It hangs its own pages the way Campaigns
+      // hangs under Promotions: the catalog is the landing screen because it
+      // is the daily one, the connection settings sit under it, and Ozon gets
+      // its own entry here the day it has a page of its own.
+      icon: <BuildingStorefront />,
+      label: t("app.nav.main.marketplaces", { defaultValue: "Marketplaces" }),
+      to: "/marketplaces/catalog",
+      items: [
+        {
+          label: t("marketplaces.title"),
+          to: "/settings/marketplaces",
+        },
+        {
+          label: t("app.nav.main.wildberries", { defaultValue: "Wildberries" }),
+          to: "/settings/wildberries",
+        },
+      ],
     },
   ]
 }

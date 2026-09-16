@@ -242,7 +242,9 @@
         "pages": "Страницы",
         "journal": "Журнал",
         "store": "Магазин",
-        "storeSettings": "Настройки магазина"
+        "storeSettings": "Настройки магазина",
+        "marketplaces": "Маркетплейсы",
+        "wildberries": "Wildberries"
       },
       "settings": {
         "developer": "Разработчик",
