@@ -139,3 +139,16 @@ artifacts/docs/b18-blog-full/**/*.png
 
 # d09: кадры приёмки панели — бинарники вне git.
 artifacts/docs/d09-deploy-integrations/shots/
+
+# p02-operator-v1: рабочие данные оператора. Индекс корпуса, документы ответов, входящие промпты и
+# журнал эскалаций — состояние РАБОТЫ, не исходник: база пересобирается `node intake/index.mjs` за
+# 11 с, а в ответах и промптах стоит дословный текст Ивана. Кадры приёмки — бинарники (правило 21f).
+handoff/day-2026-09-16-oksana-store/intake/operator.db
+handoff/day-2026-09-16-oksana-store/intake/operator.db-wal
+handoff/day-2026-09-16-oksana-store/intake/operator.db-shm
+handoff/day-2026-09-16-oksana-store/intake/answers/
+handoff/day-2026-09-16-oksana-store/intake/prompts/
+handoff/day-2026-09-16-oksana-store/intake/escalations.log
+handoff/day-2026-09-16-oksana-store/intake/inbox.json
+artifacts/docs/p02-operator-v1/shots/
+handoff/day-2026-09-16-oksana-store/logs/launchd-operator.log

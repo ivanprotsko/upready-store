@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ответ ОДНОГО уровня (script | haiku | sonnet | opus | fable). Один и тот же гейт gate.mjs судит любой из них — OPERATOR-SPEC §5.",
+  "type": "object",
+  "required": ["answered", "doc_md", "sources"],
+  "properties": {
+    "answered": { "type": "boolean", "description": "мнение уровня; гейтом НЕ является" },
+    "kind": { "type": "string" },
+    "question": { "type": "string", "description": "дословный вопрос Ивана: путь, который он написал сам, гейт не считает выдумкой уровня" },
+    "level": { "type": "string", "enum": ["script", "haiku", "sonnet", "opus", "fable"] },
+    "ts": { "type": "string" },
+    "doc_md": { "type": "string", "description": "то, что читает Иван; ≥200 знаков, без путей вне sources/pointers" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "quote"],
+        "properties": {
+          "path": { "type": "string", "description": "существует на диске, внутри корпуса, не .private/.env/стенограмма" },
+          "heading": { "type": "string" },
+          "date": { "type": "string" },
+          "quote": { "type": "string", "description": "≥20 знаков, найдена в файле ДОСЛОВНО" }
+        }
+      }
+    },
+    "pointers": {
+      "type": "array",
+      "description": "файлы и каталоги, на которые документ ССЫЛАЕТСЯ, но не цитирует (.private с доступами, каталоги кадров). Гейт проверяет существование, цитату не требует.",
+      "items": { "type": "object", "required": ["path"], "properties": { "path": { "type": "string" }, "why": { "type": "string" } } }
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "live": {
+      "type": "array",
+      "items": { "type": "object", "required": ["cmd", "result", "ts"], "properties": { "cmd": { "type": "string" }, "result": { "type": "string" }, "ts": { "type": "string", "description": "время ЭТОГО прогона" } } }
+    },
+    "not_found": { "type": "array", "items": { "type": "string" } }
+  }
+}

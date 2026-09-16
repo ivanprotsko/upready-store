@@ -1,0 +1,23 @@
+{
+  "_": "Корпус оператора (OPERATOR-SPEC §3). Абсолютные пути: индекс читает РЕАЛЬНЫЕ документы главного чекаута и канона, а не копию в worktree воркера.",
+  "roots": [
+    { "path": "/Users/ivanprotsko/upready/projects/upready-store/artifacts/docs", "kind": "report" },
+    { "path": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store", "kind": "journal" },
+    { "path": "/Users/ivanprotsko/upready/.ai/resume/upready-store", "kind": "resume" },
+    { "path": "/Users/ivanprotsko/upready/memory", "kind": "memory" }
+  ],
+  "ext": [".md"],
+  "excludeDir": [".private", "node_modules", ".git", "__pycache__", "batches", "prompts/done"],
+  "excludeName": ["^\\.env", "\\.jsonl$", "\\.pid$", "^operator\\.db"],
+  "secretNames": "TOKEN|SECRET|PASSWORD|API_KEY|APIKEY|COOKIE|PASS|PRIVATE_KEY|CREDENTIAL",
+  "maxBody": 2000,
+  "live": {
+    "dayDir": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store",
+    "repo": "/Users/ivanprotsko/upready/projects/upready-store",
+    "privateDir": "/Users/ivanprotsko/upready/.private",
+    "hosts": [
+      { "name": "витрина тенанта cherkashino", "url": "https://cherkashino.shipshift.dev/ru" },
+      { "name": "панель управления", "url": "https://panel-store.upready.dev" }
+    ]
+  }
+}

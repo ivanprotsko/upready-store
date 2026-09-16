@@ -211,3 +211,71 @@ Fable не пишет в `tasks.json`, `state.json`, не запускает `ru
 Сборка: одна задача очереди дня на Э1 (`p02-operator-v1`, opus/high, ветка feat/day16-operator-v1),
 затем Э2 отдельной задачей после приёмки Э1 на живом UI. Штаб (Fable) код не пишет — пишет промпт
 воркера по этому документу и принимает по §10.
+
+## 11. Как запустить (Э1 собран задачей p02-operator-v1, 2026-09-17 00:01 WITA)
+
+Все команды — из каталога штаба `handoff/day-2026-09-16-oksana-store` ГЛАВНОГО чекаута
+`/Users/ivanprotsko/upready/projects/upready-store`. Пути корпуса и живого каталога штаба заданы в
+`intake/corpus.json` абсолютными путями — оператор читает канон, а не копию в чьём-то worktree.
+
+### Индекс корпуса
+```
+node intake/index.mjs           # инкрементально: перечитываются только файлы с новым mtime/size
+node intake/index.mjs --full    # полная пересборка
+```
+Печатает: файлов · разделов · перечитано · удалено · секунд · размер operator.db.
+Замер 2026-09-16 на реальном корпусе: **1462 файла, 10 689 разделов, 10,7 с, operator.db 63,3 МБ**;
+повторный прогон без изменений — 0,1 с. Индекс — только `.md`; `.private/`, `.env*`, `.jsonl` не
+читаются вовсе, значения переменных с именами `TOKEN|SECRET|PASSWORD|API_KEY|COOKIE|PASS|…`
+маскируются на входе (имя остаётся, значение — нет).
+
+### Оператор
+```
+node intake/operator.mjs                 # резидент: следит за intake/prompts/*.json
+node intake/operator.mjs --once          # обработать, что накопилось, и выйти
+node intake/operator.mjs add "<текст>"   # положить промпт из терминала (то же, что поле ввода в UI)
+node intake/operator.mjs verdict <record-id> <ok|wrong|queue>
+node intake/operator.mjs reanswer        # пересобрать ответы после переиндексации; модель НЕ зовётся
+node intake/operator.mjs thread          # лента в JSON
+```
+
+### UI
+Страница «Оператор» живёт в том же сервере, что очередь дня: `http://localhost:5390` → кнопка
+«💬 Оператор» (прямая ссылка `http://localhost:5390/#view=operator`). Свой экземпляр для проверки —
+`PORT=5391 node ui/server.mjs` (свободный порт мерить: `/usr/sbin/lsof -nP -iTCP:5391 -sTCP:LISTEN`,
+пусто = свободен).
+
+### LaunchAgent
+```
+launchctl bootstrap gui/$(id -u) launchd/dev.upready.oksana-operator.plist
+launchctl print gui/$(id -u)/dev.upready.oksana-operator | head -5     # state = running
+launchctl bootout gui/$(id -u)/dev.upready.oksana-operator
+```
+Домен `gui/<uid>` и `LimitLoadToSessionType=Aqua` обязательны: `claude -p` берёт логин из keychain,
+а cron и LaunchDaemon его не видят (правило 25i, замер на этой машине 2026-09-16 05:42). Проба из
+самого запускателя сделана на тестовой метке `dev.upready.oksana-operator-test`: разбор haiku прошёл
+за 18,4 с с непустым `usage` (in 10, cache_creation 1848, cache_read 4873, out 2160, $0,0163).
+
+### Приёмочные команды
+```
+node --test intake/ ui/          # вся сюита; читать строку «ℹ fail» ВСЕГО прогона
+node intake/testset.mjs          # таблица по шести реальным вопросам дня, rc=1 если хоть один не зелёный
+node intake/secret-audit.mjs     # ни одно значение секрета из ~/upready/.env.keys не лежит в базе и в ответах
+node intake/gate.mjs <answer.json>
+```
+
+### Что штаб делает после мёржа
+1. Перезапустить UI очереди дня ПО ПОРТУ (правило 5q), чтобы поднялась новая страница:
+   `/usr/sbin/lsof -t -nP -iTCP:5390 -sTCP:LISTEN | xargs -r kill -9`, затем `bash run.sh` поднимет его снова.
+2. Построить индекс: `node intake/index.mjs` (≈11 с).
+3. Поставить резидента: `launchctl bootstrap gui/$(id -u) launchd/dev.upready.oksana-operator.plist`.
+
+### Где лежат рабочие данные (всё в .gitignore — это состояние работы, не исходник)
+| путь | что |
+|---|---|
+| `intake/operator.db` (+ `-wal`, `-shm`) | индекс корпуса, промпты, записи, ответы, эскалации |
+| `intake/answers/<record-id>.md` | документы, которые читает Иван |
+| `intake/answers/live/*.txt` | протоколы живых замеров (kind=live) |
+| `intake/prompts/*.json` | входящие промпты; после обработки уезжают в `prompts/done/` |
+| `intake/escalations.log` | строки для Fable: `ts | record_id | script → haiku | причины` |
+| `intake/inbox.json` | очередь v1 (intake.mjs), её пачки штабу продолжают работать |
