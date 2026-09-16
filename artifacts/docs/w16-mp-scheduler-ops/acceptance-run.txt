@@ -1,0 +1,66 @@
+
+=== 1. SCHEDULE (cron */5 * * * *, stale lock 30 min)
+  wb: key set (…c6Sg), enabled true
+    wb.cards       every    60 min | last succeeded    | due true  (interval_elapsed)
+    wb.prices      every    60 min | last succeeded    | due true  (interval_elapsed)
+    wb.stocks      every    15 min | last succeeded    | due true  (interval_elapsed)
+    wb.orders      every    10 min | last failed       | due true  (interval_elapsed)
+    wb.sales       every    10 min | last NEVER RAN    | due true  (never_ran)
+    wb.feedbacks   every    30 min | last failed       | due true  (interval_elapsed)
+    wb.questions   every    30 min | last NEVER RAN    | due true  (never_ran)
+    wb.analytics   every  1440 min | last NEVER RAN    | due true  (never_ran)
+    wb.supplies    every    10 min | last NEVER RAN    | due true  (never_ran)
+    wb.fbs_orders  every    10 min | last NEVER RAN    | due true  (never_ran)
+    wb.projection  every    10 min | last succeeded    | due true  (interval_elapsed)
+  ozon: key NOT set, enabled false
+    ozon.products    every    60 min | last succeeded    | due true  (interval_elapsed)
+    ozon.prices      every    60 min | last succeeded    | due true  (interval_elapsed)
+    ozon.stocks      every    15 min | last succeeded    | due true  (interval_elapsed)
+    ozon.postings    every    10 min | last succeeded    | due true  (interval_elapsed)
+    ozon.reviews     every    30 min | last succeeded    | due true  (interval_elapsed)
+    ozon.questions   every    30 min | last succeeded    | due true  (interval_elapsed)
+    ozon.projection  every    10 min | last succeeded    | due true  (interval_elapsed)
+
+=== 2. A STALE LOCK IS TAKEN OVER, AND THE DEAD ROW STAYS VISIBLE
+  planted a `running` row older than the lock timeout
+[31merror[39m:   [mp-sync] wb projection: stale lock mprun_w16_stale taken over after 31 min (limit 30 min), the row is now failed
+[32minfo[39m:    [marketplace] projection wb / ten_01M2KB5W7R2WRXFJX1F25KCJ8P: 12364 rows. Связано 2 из 423. Не найдено: 421, требует выбора: 0.
+[32minfo[39m:    [mp-sync] wb projection: 12364 rows in 0 requests (attempt 1/3)
+  takeover run: succeeded (stale_lock_taken_over), rows 12364
+  the dead row: mprun_w16_stale — Прогон не завершился: строка «running» стоит 31 мин, дольше замка в 30 мин. Процесс, который его начал, пропал (перезапуск бэкенда или падение). Замок снят, вид разрешён к запуску.
+
+=== 3. TWO RUNS OF ONE KIND AT DIFFERENT TIMES (wb.projection, 0 marketplace requests)
+[32minfo[39m:    [marketplace] projection wb / ten_01M2KB5W7R2WRXFJX1F25KCJ8P: 12364 rows. Связано 2 из 423. Не найдено: 421, требует выбора: 0.
+[32minfo[39m:    [mp-sync] wb projection: 12364 rows in 0 requests (attempt 1/3)
+  run 1: succeeded, rows 12364, requests 0, run mprun_01M2KZ73EY193AY8X4181P29GQ
+[32minfo[39m:    [marketplace] projection wb / ten_01M2KB5W7R2WRXFJX1F25KCJ8P: 12364 rows. Связано 2 из 423. Не найдено: 421, требует выбора: 0.
+[32minfo[39m:    [mp-sync] wb projection: 12364 rows in 0 requests (attempt 1/3)
+  run 2: succeeded, rows 12364, requests 0, run mprun_01M2KZ76FJCR0B5NPNWH8XKFS1
+  run 3 (no ageing, interval not elapsed): skipped (waiting)
+
+=== 3b. ONE RUN PER TRIPLE
+[32minfo[39m:    [marketplace] projection wb / ten_01M2KB5W7R2WRXFJX1F25KCJ8P: 12364 rows. Связано 2 из 423. Не найдено: 421, требует выбора: 0.
+[32minfo[39m:    [mp-sync] wb projection: 12364 rows in 0 requests (attempt 1/3)
+  two concurrent starts -> succeeded/interval_elapsed + skipped/locked
+  rows left in status=running: 0
+  raw second running row: refused by Postgres — , $8, $9, $10, $11) - duplicate key value violates unique constraint "IDX_mp_sync_run_tenant_id_marketplace_kind_unique"
+
+=== 4. A RUN THAT FAILS ON PURPOSE (wb.cards with a key WB will refuse)
+[31merror[39m:   [wb] cards failed after 1 WB requests and 0 rows written: WB content.cards.list answered 401: {"status":401,"statusText":"Unauthorized","title":"Unauthorized","detail":"invalid API access token: token is malformed: token contains an invalid number of segments","requestId":"b43a5597d3c054d50879ed109ffd0fab","origin":"ag-content","timestamp":"2026-09-16T02:02:43Z"}
+[31merror[39m:   [mp-sync] wb cards: failed after 1 attempt(s), endpoint content.cards.list, status 401: WB content.cards.list answered 401: {"status":401,"statusText":"Unauthorized","title":"Unauthorized","detail":"invalid API access token: token is malformed: token contains an invalid number of segments","requestId":"b43a5597d3c054d50879ed109ffd0fab","origin":"ag-content","timestamp":"2026-09-16T02:02:43Z"}
+  wb.cards: failed, attempts 1, error: WB content.cards.list answered 401: {"status":401,"statusText":"Unauthorized","title":"Unauthorized","detail":"invalid API access token: token is malformed: token contains an invalid number of segments","requestId":"b43a5597d3c054d50879ed109ffd0fab","origin":"ag-content","timestamp":"2026-09-16T02:02:43Z"}
+
+=== 5. THE TABLE THE ACCEPTOR READS
+  wb    cards       failed       started 2026-09-16T02:02:41.000Z rows      0 req   1 att 1 err: WB content.cards.list answered 401: {"status":401,"statusText":"Unauthorized","title":"Una
+  wb    projection  succeeded    started 2026-09-16T02:02:38.000Z rows  12364 req   0 att 1 
+  wb    projection  succeeded    started 2026-09-16T01:51:34.000Z rows  12364 req   0 att 1 
+  wb    projection  succeeded    started 2026-09-16T01:40:31.000Z rows  12364 req   0 att 1 
+  wb    projection  succeeded    started 2026-09-16T01:29:28.000Z rows  12364 req   0 att 1 
+  wb    projection  failed       started 2026-09-16T00:58:28.000Z rows      0 req   0 att 0 err: Прогон не завершился: строка «running» стоит 31 мин, дольше замка в 30 мин. Процесс, котор
+  ozon  projection  succeeded    started 2026-09-16T00:38:46.000Z rows     12 req   0 att 1 
+  ozon  projection  succeeded    started 2026-09-16T00:29:39.000Z rows     12 req   0 att 1 
+  ozon  projection  succeeded    started 2026-09-16T00:15:17.000Z rows     12 req   0 att 1 
+  ozon  projection  succeeded    started 2026-09-16T00:14:59.000Z rows     12 req   0 att 1 
+  ozon  projection  succeeded    started 2026-09-16T00:14:41.000Z rows     12 req   0 att 1 
+  wb    projection  succeeded    started 2026-09-16T00:05:42.000Z rows  12364 req   0 att 1 
+

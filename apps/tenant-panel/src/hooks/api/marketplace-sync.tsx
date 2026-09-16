@@ -60,8 +60,18 @@ export type MarketplaceSyncEntry = {
 
 export type MarketplaceSyncWarning = {
   marketplace: string
+  marketplace_label: string
   kind: string | null
   type: "no_key" | "key_expired" | "key_expiring" | "failed" | "never_ran"
+  expires_at?: string | null
+  expires_in_days?: number | null
+  error?: string | null
+  /**
+   * The ready-made Russian sentence, for a consumer with no catalog of its own
+   * (an alert, a digest). The SCREEN does not use it: it composes the sentence
+   * from the fields above so the kind reads as «Карточки товаров» and not as
+   * `cards`, in the locale the owner chose (rule 18e).
+   */
   text: string
 }
 

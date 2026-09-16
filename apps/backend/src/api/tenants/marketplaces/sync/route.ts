@@ -169,16 +169,35 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
   );
 
   /**
-   * The warnings, computed once here rather than in the panel: the screen and
-   * any other consumer have to agree about what counts as a warning, and a
-   * second rule written in TSX would drift from this one.
+   * WHAT needs attention, decided once here rather than in the panel: the rule
+   * has to be one rule, and a second copy written in TSX would drift from this
+   * one. WHAT IT READS LIKE is the panel's job — the fields below carry the
+   * marketplace label, the kind id and the error, and the screen puts them
+   * into a sentence with the kind in plain language («Карточки товаров», not
+   * `cards`) and the locale the owner chose (rule 18e).
+   *
+   * `text` stays as the ready-made Russian sentence for a consumer that has no
+   * catalog of its own: an alert, a digest, a report.
    */
   const warnings = marketplaces.flatMap((entry) => {
-    const found: { marketplace: string; kind: string | null; type: string; text: string }[] = [];
+    type Warning = {
+      marketplace: string;
+      marketplace_label: string;
+      kind: string | null;
+      type: string;
+      expires_at?: string | null;
+      expires_in_days?: number | null;
+      error?: string | null;
+      text: string;
+    };
+    const found: Warning[] = [];
+    const head = (value: string | null | undefined, limit = 200): string =>
+      !value ? "" : value.length > limit ? `${value.slice(0, limit)}…` : value;
 
     if (!entry.connection.key.set) {
       found.push({
         marketplace: entry.id,
+        marketplace_label: entry.label,
         kind: null,
         type: "no_key",
         text: `${entry.label}: ключ не сохранён, синхронизация не запускается.`,
@@ -186,15 +205,22 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     } else if (entry.credentials.expired) {
       found.push({
         marketplace: entry.id,
+        marketplace_label: entry.label,
         kind: null,
         type: "key_expired",
-        text: `${entry.label}: ключ истёк ${entry.credentials.expires_at ?? ""}. Выпустите новый в личном кабинете площадки.`,
+        expires_at: entry.credentials.expires_at,
+        text:
+          `${entry.label}: ключ истёк. Выпустите новый в личном кабинете площадки — ` +
+          `импорт остановлен.`,
       });
     } else if (entry.credentials.expiring_soon) {
       found.push({
         marketplace: entry.id,
+        marketplace_label: entry.label,
         kind: null,
         type: "key_expiring",
+        expires_at: entry.credentials.expires_at,
+        expires_in_days: entry.credentials.expires_in_days,
         text:
           `${entry.label}: ключ истекает через ${entry.credentials.expires_in_days} дн. ` +
           `Выпустите новый в личном кабинете площадки — после истечения импорт остановится.`,
@@ -205,13 +231,16 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       if (kind.status === "failed") {
         found.push({
           marketplace: entry.id,
+          marketplace_label: entry.label,
           kind: kind.kind,
           type: "failed",
-          text: `${entry.label} / ${kind.kind}: последний прогон с ошибкой — ${kind.error ?? "без текста"}`,
+          error: head(kind.error),
+          text: `${entry.label} / ${kind.kind}: последний прогон с ошибкой — ${head(kind.error) || "без текста"}`,
         });
       } else if (kind.status === null && entry.connection.key.set) {
         found.push({
           marketplace: entry.id,
+          marketplace_label: entry.label,
           kind: kind.kind,
           type: "never_ran",
           text: `${entry.label} / ${kind.kind}: ни разу не запускалась.`,
