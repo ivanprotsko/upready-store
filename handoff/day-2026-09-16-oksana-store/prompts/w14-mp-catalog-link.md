@@ -56,3 +56,8 @@ Report: `{{WORKTREE}}/artifacts/docs/{{TASK_ID}}/report.md` + the UI `report.jso
 ## Do not
 Auto-link an ambiguous match. Build a second importer of card content (that is `w07-tenant-catalog-enrich`).
 Add any call that writes to a marketplace. Touch the live host.
+
+## Added by staff (Ivan, 2026-09-16 09:11 WITA, live panel screenshot)
+Two defects of the existing `/settings/wildberries` page, fix them in this PR (same panel area):
+1. Navigation: the page is reachable only through a link on the panel home page; the side navigation has no entry. Add the marketplace section you create («Маркетплейсы») to the side navigation with the Wildberries settings page inside it (and the Ozon one when it exists), so the owner reaches it in one click.
+2. No-key state: with no key stored the row «Права ключа» renders the three-state badge as «не удалось определить», which reads as a broken key. When `inspectToken` reports no stored key, render «—» in that row and a one-line hint of how the key is stored for this shop (the exact mechanism from `apps/backend/src/tenant-secrets/wildberries.ts` — name the command or the panel action, do not invent one); keep «не удалось определить» only for a stored but unreadable key. Screenshots of both states in the report.
