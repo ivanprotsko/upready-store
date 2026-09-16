@@ -1,4 +1,5 @@
-import { Alert, Container, Heading, Text } from "@medusajs/ui"
+import { Alert, Button, Container, Heading, Text } from "@medusajs/ui"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
@@ -6,6 +7,7 @@ import { useWbStatus } from "../../../hooks/api/wb-status"
 import { useWbTables } from "../../../hooks/api/wb-tables"
 import { WbCategoryList } from "./components/wb-category-list"
 import { WbEndpointTable } from "./components/wb-endpoint-table"
+import { WbFbsSection } from "./components/wb-fbs-section"
 import { WbFieldRow } from "./components/wb-field-row"
 import { WbFunnelTable } from "./components/wb-funnel-table"
 import { WbQuestionsTable } from "./components/wb-questions-table"
@@ -27,6 +29,17 @@ import { WbWriteSection } from "./components/wb-write-section"
 // a copy of Medusa Admin 2.19. The divergence from the Geist canon is recorded
 // in artifacts/docs/w01-wb-readonly-client/report.md rather than left silent.
 
+/**
+ * The two halves of this screen (w23-wb-write-fbs-orders added the second).
+ *
+ * Tabs and not two routes: the connection, its key and the audit journal are
+ * the context in which the desk's «ничего не отправлено» is checkable, and a
+ * separate URL would put the claim and its evidence on different pages.
+ */
+const TABS = ["connection", "fbs"] as const
+
+type Tab = (typeof TABS)[number]
+
 const NOT_SET = "—"
 
 const formatDateTime = (value: string | null, locale: string): string => {
@@ -40,6 +53,7 @@ const formatDateTime = (value: string | null, locale: string): string => {
 export const WildberriesSettings = () => {
   const { t, i18n } = useTranslation()
   const { wb, isPending, isError, error } = useWbStatus()
+  const [tab, setTab] = useState<Tab>("connection")
   // The tables load on their own: they aggregate mirrors of tens of thousands
   // of rows, and the connection card must not wait for them (w03).
   const { tables, isPending: tablesPending, isError: tablesFailed } = useWbTables()
@@ -53,11 +67,25 @@ export const WildberriesSettings = () => {
   return (
     <SingleColumnPage hasOutlet={false} widgets={{ before: [], after: [] }}>
       <Container className="divide-y p-0">
-        <div className="px-6 py-4">
-          <Heading>{t("wildberries.title")}</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            {t("wildberries.subtitle")}
-          </Text>
+        <div className="flex flex-col gap-y-3 px-6 py-4">
+          <div>
+            <Heading>{t("wildberries.title")}</Heading>
+            <Text className="text-ui-fg-subtle" size="small">
+              {t("wildberries.subtitle")}
+            </Text>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {TABS.map((name) => (
+              <Button
+                key={name}
+                size="small"
+                variant={tab === name ? "primary" : "secondary"}
+                onClick={() => setTab(name)}
+              >
+                {t(`wildberries.tabs.${name}`)}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {isPending || !wb ? (
@@ -66,6 +94,8 @@ export const WildberriesSettings = () => {
               {t("wildberries.loading")}
             </Text>
           </div>
+        ) : tab === "fbs" ? (
+          <WbFbsSection />
         ) : (
           <>
             {wb.token.expiring_soon ? (

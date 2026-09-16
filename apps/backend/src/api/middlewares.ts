@@ -203,6 +203,7 @@ import {
 } from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
+import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -1132,6 +1133,16 @@ export default defineMiddlewares({
       matcher: "/tenants/wb/write-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantWbWriteSettingsBody)],
+    },
+
+    // w23-wb-write-fbs-orders: «Собрать» / «Отменить» / «Передать в доставку».
+    // The body names an ACTION and the orders it applies to, never a method or
+    // a path; the mutations come from the write registry. GET of the desk
+    // takes no middleware — it only reads this tenant's own mirror.
+    {
+      matcher: "/tenants/wb/fbs-orders/actions",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantWbFbsActionBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)
