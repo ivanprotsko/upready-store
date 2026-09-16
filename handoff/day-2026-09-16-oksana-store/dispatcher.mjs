@@ -58,13 +58,13 @@ function launchRun(cfg, state, t) {
   L.event(state, { task: t.id, type: 'launched', msg: `claude -p pid ${pid} · ${t.model || 'default'}/${t.effort || 'default'} · cwd ${cwd}` });
   return true;
 }
-function launchAccept(cfg, state, t) {
+function launchAccept(cfg, state, t, headOid = null) {
   const s = state.tasks[t.id]; const n = (s.acceptance?.length || 0) + 1;
   const log = path.join(P.logs, `accept-${t.id}-${n}.log`); const findings = path.join(P.logs, `accept-${t.id}-${n}.findings.md`);
   const prompt = L.buildTemplatePrompt(cfg, '_acceptor.md', t, { PR_NUMBER: s.pr.number, PR_URL: s.pr.url, FINDINGS_FILE: findings, ROUND: n, LOG_FILE: log });
   const pool = `accept@${cfg.project.mainCheckout}`; const sess = L.acquireSession(state, pool, cfg.lanes?.accept || 2, cfg.persistent?.maxUses || 8);
   const pid = L.runClaude({ cwd: cfg.project.mainCheckout, prompt, model: cfg.acceptor?.model || 'opus', effort: cfg.acceptor?.effort || 'medium', logFile: log, name: 'accept-' + t.id, session: sess });
-  (s.acceptance ||= []).push({ n, pid, log, findings, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool });
+  (s.acceptance ||= []).push({ n, pid, log, findings, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool, headOid }); // headOid — голова ветки, которую судит этот раунд
   s.status = 'accepting';
   L.event(state, { task: t.id, type: 'accept-started', msg: `раунд ${n}, PR #${s.pr.number}, pid ${pid}` });
 }
@@ -79,7 +79,7 @@ function sendToWorker(cfg, state, t, text, why) {
 function fixRound(cfg, state, t, findingsFile) {
   const s = state.tasks[t.id];
   if ((s.attempt || 1) >= (cfg.stall?.maxAttempts || 3)) { s.status = 'needs-ivan'; s.error = `приёмка отклонила ${s.acceptance.length} раз(а) — смотри ${findingsFile}`; L.event(state, { task: t.id, type: 'needs-ivan', msg: s.error }); return; }
-  if (sendToWorker(cfg, state, t, fixPrompt(cfg, state, t, findingsFile), 'fix')) { s.status = 'running'; s.attempt = (s.attempt || 1) + 1; s.fixStartedAt = L.nowIso(); s.nudges = 0; s.relaunched = false; s.fixRelaunched = false; }
+  if (sendToWorker(cfg, state, t, fixPrompt(cfg, state, t, findingsFile), 'fix')) { s.status = 'running'; s.attempt = (s.attempt || 1) + 1; s.fixStartedAt = L.nowIso(); s.fixBaseHead = s.acceptance?.at(-1)?.headOid || null; s.nudges = 0; s.relaunched = false; s.fixRelaunched = false; }
 }
 function fixPrompt(cfg, state, t, findingsFile) {
   const s = state.tasks[t.id];
@@ -167,8 +167,11 @@ function maybeAccept(cfg, state, t, counts) {
   // pr_open уже сидит в ACTIVE_BUILD и в counts.total — переход в accepting слотов не добавляет; проверка total здесь
   // давала взаимную блокировку (4 pr_open + 1 accepting + 1 run = 6 → приёмка не стартует, слоты не освобождаются).
   if (limited(state) || state.dispatcher.paused) return;
-  const head = L.branchHeadDate(cfg, t.branch); const ageMin = head ? (Date.now() - Date.parse(head)) / 60000 : 99;
-  if (s.fixStartedAt && (!head || Date.parse(head) < Date.parse(s.fixStartedAt))) { // правка после отказа ещё не запушена
+  const h = L.branchHead(cfg, t.branch); const head = h?.date || null; const ageMin = head ? (Date.now() - Date.parse(head)) / 60000 : 99;
+  // «Правка выложена» = голова origin/<branch> сменилась относительно той, что судил приёмщик (fixBaseHead);
+  // дата коммита — запасной критерий (когда fixBaseHead не записан). Пуш старых коммитов дату не меняет — w21 11:23 WITA.
+  const fixPushed = !s.fixStartedAt || (s.fixBaseHead && h?.oid && h.oid !== s.fixBaseHead) || (head && Date.parse(head) >= Date.parse(s.fixStartedAt));
+  if (!fixPushed) { // правка после отказа ещё не запушена
     const term = L.liveAgentTerminal(s.ws, s.terminalId);
     if (!term) {
       if (!s.fixRelaunched) { s.fixRelaunched = true; L.event(state, { task: t.id, type: 'fix-relaunch', msg: 'агент вышел, не запушив правку — поднимаю нового с теми же замечаниями' }); if (sendToWorker(cfg, state, t, fixPrompt(cfg, state, t, s.acceptance.at(-1).findings), 'fix-relaunch')) s.fixStartedAt = L.nowIso(); }
@@ -177,7 +180,7 @@ function maybeAccept(cfg, state, t, counts) {
     return;
   }
   if (ageMin < (cfg.acceptor?.headQuietMin ?? 4)) return; // воркер ещё пушит
-  launchAccept(cfg, state, t); counts.c.accept = (counts.c.accept || 0) + 1;
+  launchAccept(cfg, state, t, h?.oid || null); counts.c.accept = (counts.c.accept || 0) + 1;
 }
 function checkAccepting(cfg, state, t) {
   const s = state.tasks[t.id]; const a = s.acceptance.at(-1);

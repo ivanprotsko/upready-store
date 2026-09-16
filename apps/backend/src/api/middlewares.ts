@@ -202,6 +202,10 @@ import {
   PostTenantProductAttributeValuesSchema,
 } from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
+import {
+  PostTenantWbFeedbackAnswerSendBody,
+  PutTenantWbFeedbackAnswerBody,
+} from "./tenants/wb/feedback-answers/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
 import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
 import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
@@ -1162,6 +1166,22 @@ export default defineMiddlewares({
       matcher: "/tenants/wb/write-preview",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantWbWritePreviewBody)],
+    },
+
+    // w22-wb-write-feedback-answers: drafts for reviews and questions, and the
+    // one dispatch of this task. GET takes no middleware — it reads rows the
+    // tenant already owns. The POST body carries the per-ANSWER confirmation
+    // (a sha256 of the text the dialog quoted); the route compares it against
+    // the stored draft, which is a check no validator can do.
+    {
+      matcher: "/tenants/wb/feedback-answers",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbFeedbackAnswerBody)],
+    },
+    {
+      matcher: "/tenants/wb/feedback-answers/send",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantWbFeedbackAnswerSendBody)],
     },
 
     // w23-wb-write-fbs-orders: «Собрать» / «Отменить» / «Передать в доставку».

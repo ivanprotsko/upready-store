@@ -37,6 +37,26 @@ const WbQuestion = model
     is_warned: model.boolean().nullable(),
     /** WB's `createdDate`: when the customer asked. */
     created_date: model.dateTime().nullable(),
+    /**
+     * The answer the owner is drafting, before anything is sent
+     * (w22-wb-write-feedback-answers). Nullable: most rows never get one.
+     */
+    draft_answer: model.text().nullable(),
+    /**
+     * Where that draft stands. `sent` is reachable ONLY when a real request
+     * left the process, so a dry run through the write core leaves the row at
+     * `confirmed` — the status may never say more than happened (rule 20a).
+     */
+    answer_status: model
+      .enum(["draft", "confirmed", "sent", "failed"])
+      .default("draft"),
+    /** sha256 of the draft TEXT the owner confirmed, not of the request body. */
+    answer_sha256: model.text().nullable(),
+    /** The tenant admin who pressed the confirmation. Same id the audit row carries. */
+    answer_confirmed_by: model.text().nullable(),
+    answer_confirmed_at: model.dateTime().nullable(),
+    /** Why the last attempt failed, in the owner's terms. */
+    answer_error: model.text().nullable(),
     source: model.text().default("wb"),
     fetched_at: model.dateTime(),
     raw: model.json(),

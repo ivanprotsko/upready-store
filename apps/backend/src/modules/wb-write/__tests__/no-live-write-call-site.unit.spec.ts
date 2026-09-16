@@ -38,6 +38,9 @@ const READ_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb", "tra
 const REGISTERED_CALLERS = [
   // w21-wb-write-stocks-prices: the store -> WB push, classes `stocks` and `prices`.
   path.join("apps", "backend", "src", "wb-write-diff", "push.ts"),
+  // w22-wb-write-feedback-answers: answering a review and marking a customer
+  // question viewed, class `feedback_answers`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "feedback-answers", "send", "route.ts"),
   // w23-wb-write-fbs-orders: the FBS desk, class `fbs_orders`.
   path.join("apps", "backend", "src", "api", "tenants", "wb", "fbs-orders", "actions", "route.ts"),
 ];
@@ -78,12 +81,7 @@ const walk = (dir: string, found: string[] = []): string[] => {
   return found;
 };
 
-/**
- * The env-carrying files a live gate could realistically be switched on in
- * (w21-wb-write-stocks-prices). The source scan above cannot see these: a
- * `.env` or a compose file is not a module, and it is the likelier place for
- * `WB_WRITE_LIVE=1` to appear than any line of TypeScript.
- */
+/** The env-carrying extensions the sweep below looks at (w21-wb-write-stocks-prices). */
 const CONFIG_EXTENSIONS = new Set([".yml", ".yaml", ".env", ".template", ".example", ".sh"]);
 
 const walkConfigs = (dir: string, found: string[] = []): string[] => {
@@ -191,10 +189,41 @@ describe("the WB write path has no live caller", () => {
     expect(ASSIGNS_LIVE_ENV.test('if (process.env.WB_WRITE_LIVE === "1") {')).toBe(false);
     expect(ASSIGNS_LIVE_ENV.test("// set WB_WRITE_LIVE=1 to send for real")).toBe(false);
   });
+
+  it("names the live env var in no env template, workflow or entrypoint", () => {
+    // The regex above scans SOURCES; a deployment opens gate (e) from a file
+    // no Node source ever parses (w22-wb-write-feedback-answers). These are
+    // the ones this repository ships.
+    const shipped = [
+      "apps/backend/.env.template",
+      "apps/storefront/.env.template",
+      "apps/tenant-panel/.env.template",
+      "apps/backend/docker-entrypoint.sh",
+      ".github/workflows/update.yaml",
+      ".github/workflows/notify-deploy.yml",
+    ];
+
+    const found = shipped.filter((relative) =>
+      // A file that vanished throws here rather than quietly passing
+      // (rule 20a: zero is not empty).
+      readFileSync(path.join(REPO_ROOT, relative), "utf8").includes("WB_WRITE_LIVE"),
+    );
+
+    expect(found).toEqual([]);
+  });
+  /**
+   * The sweep, next to the named-file check above (w21-wb-write-stocks-prices).
+   *
+   * That one lists six files this repository ships and throws when one of them
+   * vanishes, which the sweep cannot do. The sweep walks `apps`, `deploy` and
+   * `.github` instead, so a NEW env file nobody thought to add to that list is
+   * covered too — `deploy/` holds the stand and mt env files and is not on it.
+   * Two checks, two failure modes, neither redundant.
+   */
   it("has no config file that turns the live gate on", () => {
-    // In a config file the variable is set by being written down at the start
-    // of a line: `WB_WRITE_LIVE=1`, `WB_WRITE_LIVE: "1"`. `(?!_)` keeps the
-    // `WB_WRITE_LIVE_ENV` constant out of it and `=(?!=)` keeps a comparison out.
+    // In a config file the variable is SET by standing at the start of a line:
+    // `WB_WRITE_LIVE=1`, `WB_WRITE_LIVE: "1"`. `(?!_)` keeps the
+    // `WB_WRITE_LIVE_ENV` constant out and `=(?!=)` keeps a comparison out.
     const SETS_LIVE_IN_CONFIG =
       /^[\s-]*(?:export\s+)?WB_WRITE_LIVE(?!_)\s*(?:=(?!=)|:)\s*["']?1/m;
 
@@ -204,7 +233,7 @@ describe("the WB write path has no live caller", () => {
       ...walkConfigs(path.join(REPO_ROOT, ".github")),
     ];
 
-    // A scan that found nothing would pass while proving nothing (rule 20a).
+    // A sweep that found nothing would pass while proving nothing (rule 20a).
     expect(configs.length).toBeGreaterThan(10);
 
     const setters = configs
