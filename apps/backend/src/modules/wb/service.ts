@@ -1,5 +1,6 @@
 import { MedusaService } from "@medusajs/framework/utils";
 import WbAnalyticsDaily from "./models/wb-analytics-daily";
+import WbAnswerTemplate from "./models/wb-answer-template";
 import WbApiCall from "./models/wb-api-call";
 import WbFbsOrder from "./models/wb-fbs-order";
 import WbFeedback from "./models/wb-feedback";
@@ -25,6 +26,7 @@ class WbModuleService extends MedusaService({
   WbAnalyticsDaily,
   WbSyncRun,
   WbApiCall,
+  WbAnswerTemplate,
 }) {}
 
 export default WbModuleService;
