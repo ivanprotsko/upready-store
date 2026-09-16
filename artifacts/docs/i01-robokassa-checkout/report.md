@@ -254,3 +254,13 @@ npx playwright test --config tests/stands/playwright.config.ts robokassa.pw.ts -
   такой проверкой, а не тестом отдельного файла.
 - **Агентов не привлекал** (правило 3b: без явного OK Ивана) — задача одна, ветка одна,
   фан-аут не нужен.
+
+## Карточка задачи
+
+`report.json` для UI-карточки записан и прошёл схему:
+
+```
+node handoff/day-2026-09-16-oksana-store/ui/report-validate.mjs \
+  handoff/day-2026-09-16-oksana-store/artifacts/i01-robokassa-checkout/report.json
+OK …/artifacts/i01-robokassa-checkout/report.json: 8 done / 5 results / 3 access
+```
