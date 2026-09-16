@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Sluiten",
+    "counter": "Afbeelding {index} van {total}",
     "goToImage": "Naar afbeelding {index}",
-    "openFullImage": "Volledige afbeelding openen"
+    "nextImage": "Volgende afbeelding",
+    "openFullImage": "Volledige afbeelding openen",
+    "previousImage": "Vorige afbeelding",
+    "showImage": "Afbeelding {index} tonen",
+    "thumbnails": "Miniaturen van het product"
   },
   "Journal": {
     "navLabel": "Magazine",
@@ -730,6 +736,9 @@
     "no": "Nee",
     "title": "Kenmerken",
     "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Omschrijving"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Installatie voortzetten in admin",

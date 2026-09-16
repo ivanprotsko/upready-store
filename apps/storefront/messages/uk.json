@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Закрити",
+    "counter": "Зображення {index} з {total}",
     "goToImage": "Перейти до зображення {index}",
-    "openFullImage": "Відкрити зображення повністю"
+    "nextImage": "Наступне зображення",
+    "openFullImage": "Відкрити зображення повністю",
+    "previousImage": "Попереднє зображення",
+    "showImage": "Показати зображення {index}",
+    "thumbnails": "Мініатюри товару"
   },
   "Journal": {
     "navLabel": "Журнал",
@@ -730,6 +736,9 @@
     "no": "Ні",
     "title": "Характеристики",
     "yes": "Так"
+  },
+  "ProductInfo": {
+    "description": "Опис"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продовжити налаштування в адмін-панелі",

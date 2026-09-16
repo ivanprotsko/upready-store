@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Închide",
+    "counter": "Imaginea {index} din {total}",
     "goToImage": "Mergi la imaginea {index}",
-    "openFullImage": "Deschide imaginea completă"
+    "nextImage": "Imaginea următoare",
+    "openFullImage": "Deschide imaginea completă",
+    "previousImage": "Imaginea anterioară",
+    "showImage": "Afișează imaginea {index}",
+    "thumbnails": "Miniaturi ale produsului"
   },
   "Journal": {
     "navLabel": "Jurnal",
@@ -730,6 +736,9 @@
     "no": "Nu",
     "title": "Caracteristici",
     "yes": "Da"
+  },
+  "ProductInfo": {
+    "description": "Descriere"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuă configurarea în admin",

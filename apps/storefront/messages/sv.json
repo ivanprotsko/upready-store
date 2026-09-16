@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Stäng",
+    "counter": "Bild {index} av {total}",
     "goToImage": "Gå till bild {index}",
-    "openFullImage": "Öppna bilden i full storlek"
+    "nextImage": "Nästa bild",
+    "openFullImage": "Öppna bilden i full storlek",
+    "previousImage": "Föregående bild",
+    "showImage": "Visa bild {index}",
+    "thumbnails": "Miniatyrbilder av produkten"
   },
   "Journal": {
     "navLabel": "Magasin",
@@ -730,6 +736,9 @@
     "no": "Nej",
     "title": "Specifikationer",
     "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beskrivning"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsätt konfigurationen i adminpanelen",

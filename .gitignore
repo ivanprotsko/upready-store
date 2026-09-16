@@ -86,6 +86,9 @@ artifacts/docs/f10-price-save-silently-lost/.state-*.json
 # Stand index screenshots (t-store-profiles-pilot): binaries never enter git.
 # build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
 artifacts/docs/stands/shot-*.png
+# b17: reference/before/after screenshots of the product page, kept on disk
+# for the PR body and named there by absolute path (rule 21f: no binaries in history)
+artifacts/docs/b17-pdp-gallery-info-layout/design/*.png
 artifacts/docs/hero-lab/shot-*.png
 artifacts/docs/hero-lab-2/shot-*.png
 artifacts/docs/hero-lab-2/collection/*.webp

@@ -204,9 +204,25 @@ module.exports = defineConfig({
     // the only file here that calls *.wildberries.ru, and it can send nothing
     // but the reads listed in src/modules/wb/endpoints.ts.
     { resolve: "./src/modules/wb" },
+    // Ozon Seller API mirror, read-only by construction — w11-ozon-readonly-client.
+    // The module owns the ozon_* tables; the client is src/modules/ozon/transport.ts,
+    // and nothing in this repository can send Ozon anything but the reads listed in
+    // src/modules/ozon/endpoints.ts. On Ozon the verb decides nothing (461 of 467
+    // documented methods are POST), so the allow-list covers the whole registry and a
+    // deny-list of known mutations fails module load on top.
+    { resolve: "./src/modules/ozon" },
     // Which product of a shop is which listing on a marketplace — the pairing the
     // WB enrichment reads and writes (w07-tenant-catalog-enrich).
     { resolve: "./src/modules/marketplace-link" },
+
+    // The marketplace WRITE core — w20-wb-write-core. Owns the gates, the
+    // consent ledger (marketplace_write_consent) and the audit journal
+    // (marketplace_write_audit). It sends nothing itself: an adapter brings a
+    // registry of mutations and a `send`, and src/modules/marketplace-write/execute.ts
+    // decides whether `send` is called at all. Wildberries is the first
+    // adapter (src/modules/wb-write); Ozon is meant to be the second without
+    // copying a gate (Ivan's order 2026-09-16 04:44 WITA).
+    { resolve: "./src/modules/marketplace-write" },
     {
       resolve: "@medusajs/medusa/notification",
       options: {

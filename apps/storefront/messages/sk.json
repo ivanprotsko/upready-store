@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Zavrieť",
+    "counter": "Obrázok {index} z {total}",
     "goToImage": "Prejsť na obrázok {index}",
-    "openFullImage": "Otvoriť obrázok v plnej veľkosti"
+    "nextImage": "Ďalší obrázok",
+    "openFullImage": "Otvoriť obrázok v plnej veľkosti",
+    "previousImage": "Predchádzajúci obrázok",
+    "showImage": "Zobraziť obrázok {index}",
+    "thumbnails": "Náhľady produktu"
   },
   "Journal": {
     "navLabel": "Magazín",
@@ -730,6 +736,9 @@
     "no": "Nie",
     "title": "Parametre",
     "yes": "Áno"
+  },
+  "ProductInfo": {
+    "description": "Popis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovať v nastavení v administrácii",

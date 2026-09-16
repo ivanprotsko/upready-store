@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "feat-day16-wb-sales-questions-mirror",
+  "session": "s-2026-09-16",
+  "index": 1,
+  "action": "status-set",
+  "ts": "2026-09-16T06:12:10+08:00",
+  "status": "2026-09-16 06:12 WITA: w03 закрыт — PR #76 в dev открыт и mergeable. Ворота перемерены на голове ветки: 41 сюита/436 тестов, tsc backend+panel rc=0, lint 0 errors. Добавлена сюита upsert-batch.unit.spec.ts (дедупликация батча сама с собой), плейсхолдеры отчёта заполнены живыми замерами базы стенда. Дырка, названная в PR: wb_sale=0, продажи живым прогоном не подтверждены — окно лимита (1 запрос в 2 часа от 05:12) откроется после 07:12 WITA, первый шаг приёмки — WB_KIND=sales."
+}

@@ -1197,7 +1197,9 @@
           "comment": null,
           "enumItems": [
             "robokassa",
-            "wildberries"
+            "wildberries",
+            "wildberries_write",
+            "ozon"
           ],
           "mappedType": "enum"
         },

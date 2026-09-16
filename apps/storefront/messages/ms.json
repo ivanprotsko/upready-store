@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Tutup",
+    "counter": "Imej {index} daripada {total}",
     "goToImage": "Ke imej {index}",
-    "openFullImage": "Buka imej penuh"
+    "nextImage": "Imej seterusnya",
+    "openFullImage": "Buka imej penuh",
+    "previousImage": "Imej sebelumnya",
+    "showImage": "Tunjukkan imej {index}",
+    "thumbnails": "Imej kecil produk"
   },
   "Journal": {
     "navLabel": "Jurnal",
@@ -730,6 +736,9 @@
     "no": "Tidak",
     "title": "Spesifikasi",
     "yes": "Ya"
+  },
+  "ProductInfo": {
+    "description": "Penerangan"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",

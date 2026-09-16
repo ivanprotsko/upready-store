@@ -38,6 +38,7 @@ type SyncRunRow = {
   rows: number;
   requests: number;
   error: string | null;
+  retry_at: Date | string | null;
 };
 
 const asIso = (value: Date | string | null | undefined): string | null => {
@@ -76,7 +77,13 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         ["prices", "listWbPrices"],
         ["stocks", "listWbStocks"],
         ["orders", "listWbOrders"],
+        ["sales", "listWbSales"],
         ["feedbacks", "listWbFeedbacks"],
+        ["questions", "listWbQuestions"],
+        // `WbAnalyticsDaily` pluralizes to `…Dailies`, not `…Dailys`: the
+        // method name is the framework's, checked by
+        // `src/modules/wb/__tests__/service-methods.unit.spec.ts` (w03).
+        ["analytics", "listWbAnalyticsDailies"],
       ] as const
     ).map(async ([label, method]) => {
       const rows = (await (
@@ -99,9 +106,13 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       sandbox: token.sandbox,
       expires_at: token.expiresAt,
       expired: token.expired,
+      expires_in_days: token.expiresInDays,
+      expiring_soon: token.expiringSoon,
       mask: token.mask,
       bits: token.bits,
+      categories: token.categories,
       read_only: token.readOnly,
+      read_only_source: token.docUrl,
       doc_url: token.docUrl,
       error: token.error,
     },
@@ -124,6 +135,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
         rows: run ? Number(run.rows) : null,
         requests: run ? Number(run.requests) : null,
         error: run?.error ?? null,
+        retry_at: asIso(run?.retry_at ?? null),
       };
     }),
     mirrors: Object.fromEntries(counts),

@@ -4087,8 +4087,14 @@
     },
     "expiresAt": "Valid until",
     "expired": "(expired)",
+    "expiringSoon": "The Wildberries key expires in {{days}} days — ask the seller to reissue it in the WB cabinet",
     "sellerId": "Seller id",
     "access": "Sections the key opens",
+    "categories": {
+      "granted": "open",
+      "denied": "closed",
+      "unknownBit": "unknown bit {{bit}}"
+    },
     "problem": "Problem with the key",
     "sync": {
       "title": "Last import",
@@ -4105,12 +4111,19 @@
       "prices": "Prices and discounts",
       "stocks": "Warehouse inventory",
       "orders": "Orders",
-      "feedbacks": "Feedbacks"
+      "feedbacks": "Feedbacks",
+      "sales": "Sales and returns",
+      "questions": "Customer questions",
+      "analytics": "Funnel by listing",
+      "supplies": "FBS supplies",
+      "fbs_orders": "FBS assembly orders"
     },
     "statuses": {
       "running": "running",
       "succeeded": "succeeded",
-      "failed": "failed"
+      "failed": "failed",
+      "rate_limited": "waiting for the WB window",
+      "rateLimitedUntil": "waiting for the WB window until {{time}}"
     },
     "mirrors": {
       "title": "How much is mirrored here",
@@ -4119,7 +4132,10 @@
       "prices": "Prices",
       "stocks": "Inventory",
       "orders": "Orders",
-      "feedbacks": "Feedbacks"
+      "feedbacks": "Feedbacks",
+      "sales": "Sales",
+      "questions": "Questions",
+      "analytics": "Funnel days"
     },
     "endpoints": {
       "title": "What we may ask Wildberries for",
@@ -4127,6 +4143,213 @@
       "method": "Method",
       "address": "Address",
       "summary": "Method in the WB documentation"
+    },
+    "write": {
+      "title": "Writing to Wildberries",
+      "hint": "off entirely for now: five gates must be open before a single request reaches WB. Two of them are yours — the switch and a consent per operation class.",
+      "gate": {
+        "open": "open",
+        "shut": "shut",
+        "keyStored": "write key in slot {{slot}}, ending {{last4}}",
+        "noKey": "no separate write key (slot {{slot}}); the read key is never used to write",
+        "liveOn": "{{env}}=1 — live mode is on",
+        "liveOff": "{{env}} is not set: every call stays a dry run and nothing leaves the process"
+      },
+      "gates": {
+        "credential": "Separate write key",
+        "credential_usable": "Key usable (not read-only, not expired)",
+        "enabled": "Shop switch",
+        "consent": "Consent for the operation class",
+        "live": "Live mode",
+        "body": "Request body per WB documentation"
+      },
+      "switch": {
+        "label": "Allow writing to Wildberries for this shop",
+        "onToast": "Switch is on. Writing still will not happen: the other gates are shut.",
+        "offToast": "Switch is off."
+      },
+      "consent": {
+        "title": "Consents per operation class",
+        "grant": "Confirm",
+        "revoke": "Revoke",
+        "grantConfirm": "I confirm",
+        "revokeConfirm": "Revoke",
+        "cancel": "Cancel",
+        "grantTitle": "Confirm the class “{{name}}”",
+        "revokeTitle": "Revoke consent for “{{name}}”",
+        "grantBody": "You are confirming that the platform may {{what}}. This covers only these calls: {{methods}}. A consent applies to one operation class and never to the others. Today nothing will be sent regardless: there is no separate write key and live mode is off.",
+        "revokeBody": "The consent for “{{name}}” will be deleted. Every call of that class is refused afterwards.",
+        "note": "The owner confirmed: {{what}}. Calls in this class: {{count}}.",
+        "givenAt": "confirmed {{when}}",
+        "notGiven": "no consent — calls of this class are refused",
+        "grantedToast": "Consent for “{{name}}” recorded.",
+        "revokedToast": "Consent for “{{name}}” revoked."
+      },
+      "classes": {
+        "stocks": {
+          "title": "Stocks",
+          "does": "update and delete item inventory on Wildberries warehouses"
+        },
+        "prices": {
+          "title": "Prices",
+          "does": "send new prices and discounts to Wildberries"
+        },
+        "feedback_answers": {
+          "title": "Feedback answers",
+          "does": "publish and edit answers to customer feedback"
+        },
+        "fbs_orders": {
+          "title": "FBS orders",
+          "does": "cancel FBS orders and hand supplies over to delivery"
+        }
+      },
+      "outcomes": {
+        "refused": "refused at a gate",
+        "dry_run": "dry run, nothing sent",
+        "sent": "sent to WB"
+      },
+      "audit": {
+        "title": "Attempt journal",
+        "hint": "every write attempt, whatever came of it. “Dry run” means nothing left the process.",
+        "empty": "no write attempts yet",
+        "when": "When",
+        "what": "What",
+        "outcome": "Outcome",
+        "detail": "Details",
+        "refusedAt": "refused at gate: {{gate}}",
+        "nothingSent": "nothing was sent"
+      }
+    },
+    "tablesFailed": "could not load the tables",
+    "sales": {
+      "title": "Sales and returns this month",
+      "hint": "the WB statistics feed for the last {{days}} days; the data is preliminary, accurate money lives in the realization report",
+      "lines": "Lines",
+      "customerPaid": "Customer paid",
+      "forPay": "WB pays the shop",
+      "returnLines": "Of them returns",
+      "when": "When",
+      "item": "Item",
+      "size": "Size",
+      "where": "Where",
+      "empty": "no sales in this period — either the import has not run, or WB returned nothing"
+    },
+    "questions": {
+      "title": "Customer questions",
+      "hint": "the ones waiting for an answer come first; answering happens in the WB cabinet, this platform cannot write to Wildberries",
+      "unanswered": "Waiting for an answer",
+      "answered": "Answered",
+      "state": "State",
+      "when": "Asked",
+      "item": "Item",
+      "text": "Question",
+      "isAnswered": "answered",
+      "isWaiting": "waiting",
+      "answerPrefix": "Answer:",
+      "empty": "no questions — either the import has not run, or WB returned nothing"
+    },
+    "funnel": {
+      "title": "Funnel by listing",
+      "hint": "card opens, adds to cart, orders and buyouts per day, from the seller-analytics report",
+      "window": "{{from}} — {{to}}, {{listings}} of {{total}} listings in the table (WB answers for at most 20 listings per request)",
+      "noWindow": "period unknown: the analytics import has not run yet",
+      "item": "Listing",
+      "openCard": "Card opened",
+      "addToCart": "Added to cart",
+      "orders": "Ordered",
+      "orderedSum": "Order value",
+      "buyouts": "Bought out",
+      "empty": "no funnel data — either the import has not run, or WB returned nothing"
+    },
+    "tabs": {
+      "connection": "Connection",
+      "fbs": "FBS orders"
+    },
+    "fbs": {
+      "title": "FBS orders",
+      "hint": "assembly orders and supplies from the Wildberries cabinet. This is our copy: the list comes from our own database, so reloading the page does not spend the shop's request budget.",
+      "empty": "no orders in this status",
+      "sync": {
+        "line": "{{kind}}: {{status}}, {{rows}} rows, {{when}}",
+        "howTo": "the import is a script: WB_KIND=supplies,fbs_orders pnpm --filter backend wb:sync"
+      },
+      "filters": {
+        "new": "New",
+        "confirm": "In assembly",
+        "complete": "In delivery",
+        "cancel": "Cancelled",
+        "all": "All"
+      },
+      "columns": {
+        "order": "Assembly order",
+        "created": "Created",
+        "article": "Item",
+        "price": "Price",
+        "status": "Status",
+        "supply": "Supply"
+      },
+      "supplierStatuses": {
+        "new": "new",
+        "confirm": "in assembly",
+        "complete": "in delivery",
+        "cancel": "cancelled by the seller",
+        "cancel_carrier": "cancelled by the carrier"
+      },
+      "wbStatuses": {
+        "waiting": "waiting at Wildberries",
+        "sorted": "sorted at the WB warehouse",
+        "sold": "sold",
+        "canceled": "cancelled",
+        "canceled_by_client": "cancelled by the buyer on receipt",
+        "declined_by_client": "cancelled by the buyer within the hour",
+        "defect": "defect",
+        "ready_for_pickup": "waiting at the pickup point",
+        "postponed_delivery": "delivery postponed",
+        "accepted_by_carrier": "accepted by the carrier",
+        "sent_to_carrier": "dispatched to the carrier",
+        "canceled_by_carrier": "cancelled by the carrier"
+      },
+      "assemble": {
+        "button": "Assemble ({{count}})",
+        "title": "Assemble {{count}} order(s)",
+        "intoSupply": "The orders are added to the supply «{{supply}}» and move to the in-assembly status. Wildberries has no separate confirm method: adding an order to a supply IS confirming it. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "newSupply": "No supply is chosen, so a new one is created first and {{count}} order(s) are then added to it and moved to the in-assembly status. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Assemble"
+      },
+      "cancel": {
+        "button": "Cancel ({{count}})",
+        "title": "Cancel {{count}} order(s)",
+        "body": "Orders {{orders}} move to the cancelled-by-the-seller status. Cancelling is possible only before the order is handed over to Wildberries. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Cancel the orders"
+      },
+      "deliver": {
+        "button": "Hand over for delivery",
+        "title": "Hand the supply «{{supply}}» over for delivery",
+        "body": "The supply closes and all {{count}} order(s) move to the in-delivery status. Nothing can be added to it afterwards, and Wildberries calls the action irreversible. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Hand over for delivery"
+      },
+      "supply": {
+        "title": "Open supplies",
+        "empty": "no open supplies",
+        "newOne": "Create a new supply",
+        "orders": "{{count}} orders"
+      },
+      "blocked": {
+        "assemble": "Order {{order}} cannot be assembled: {{reason}}.",
+        "cancel": "Order {{order}} cannot be cancelled: {{reason}}."
+      },
+      "gates": {
+        "consentGiven": "The consent for the FBS orders class was given on the Connection tab.",
+        "consentMissing": "The consent for the FBS orders class has not been given. It can be confirmed on the Connection tab; without it every attempt is refused at the consent gate."
+      },
+      "result": {
+        "dryRun": "Dry run: nothing left this process",
+        "sent": "Sent to Wildberries",
+        "journalled": "journalled, payload fingerprint {{sha}}…",
+        "refusedAt": "refused at the «{{gate}}» gate: {{message}}",
+        "dryRunToast": "The attempt is in the journal. Nothing was sent to Wildberries.",
+        "sentToast": "Sent to Wildberries."
+      }
     }
   }
 }

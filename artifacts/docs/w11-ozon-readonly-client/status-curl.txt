@@ -1,0 +1,154 @@
+# GET /tenants/ozon/status — снято 2026-09-16 07:23 WITA на стенде 127.0.0.1:9411 (после слияния origin/dev)
+# токен владельца затёрт: в команде ниже стоит <owner token>
+
+$ curl -s -H "Authorization: Bearer <owner token>" http://127.0.0.1:9411/tenants/ozon/status
+{
+  "connection": {
+    "key": {
+      "set": true,
+      "last4": "0000"
+    },
+    "client_id": "0",
+    "is_enabled": true
+  },
+  "credentials": {
+    "expires_at": null,
+    "expired": null,
+    "roles": [],
+    "read_only": "unknown",
+    "read_only_source": "Не определено: ключ не ответил на https://docs.ozon.ru/api/seller/#operation/AccessAPI_RolesByToken. «unknown» — это честный ответ; выдумывать «только чтение» нельзя (правило 17a).",
+    "write_methods": [],
+    "error": "Ozon не ответил на POST /v1/roles: Ozon access.roles answered 400: {\"code\":3,\"message\":\"Client-Id header value should be positive integer\"}"
+  },
+  "sync": [
+    {
+      "kind": "products",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:43.999Z",
+      "finished_at": "2026-09-15T23:22:44.035Z",
+      "rows": 2,
+      "requests": 5,
+      "error": null
+    },
+    {
+      "kind": "prices",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:44.038Z",
+      "finished_at": "2026-09-15T23:22:44.051Z",
+      "rows": 2,
+      "requests": 1,
+      "error": null
+    },
+    {
+      "kind": "stocks",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:44.054Z",
+      "finished_at": "2026-09-15T23:22:44.064Z",
+      "rows": 3,
+      "requests": 1,
+      "error": null
+    },
+    {
+      "kind": "postings",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:44.067Z",
+      "finished_at": "2026-09-15T23:22:44.083Z",
+      "rows": 2,
+      "requests": 2,
+      "error": null
+    },
+    {
+      "kind": "reviews",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:44.087Z",
+      "finished_at": "2026-09-15T23:22:44.098Z",
+      "rows": 2,
+      "requests": 2,
+      "error": null
+    },
+    {
+      "kind": "questions",
+      "status": "succeeded",
+      "is_fixture": true,
+      "started_at": "2026-09-15T23:22:44.103Z",
+      "finished_at": "2026-09-15T23:22:44.116Z",
+      "rows": 1,
+      "requests": 1,
+      "error": null
+    }
+  ],
+  "mirrors": {
+    "products": 2,
+    "prices": 2,
+    "stocks": 3,
+    "postings": 2,
+    "reviews": 2,
+    "questions": 1
+  }
+}
+
+// endpoints[19] — реестр разрешённых чтений:
+   POST /v1/roles  Получить список ролей и методов по API-ключу
+   POST /v1/seller/info  Информация о кабинете продавца
+   POST /v3/product/list  Список товаров
+   POST /v3/product/info/list  Получить информацию о товарах по идентификаторам
+   POST /v4/product/info/attributes  Получить описание характеристик товара
+   POST /v1/product/info/description  Получить описание товара
+   POST /v5/product/info/prices  Получить информацию о цене товара
+   POST /v4/product/info/stocks  Информация о количестве товаров
+   POST /v2/warehouse/list  Список складов
+   POST /v4/posting/fbs/list  Получить список отправлений
+   POST /v3/posting/fbs/get  Получить информацию об отправлении по идентификатору
+   POST /v3/posting/fbo/list  Получить список отправлений
+   POST /v1/returns/list  Информация о возвратах FBO и FBS
+   POST /v2/review/list  Получить список отзывов
+   POST /v2/review/count  Получить количество отзывов по статусам
+   POST /v1/question/list  Список вопросов
+   POST /v1/analytics/data  Данные аналитики  [не чаще 1 раза в 60 с]
+   POST /v1/analytics/stocks  Получить аналитику по остаткам
+   POST /v1/rating/summary  Получить информацию о текущих рейтингах продавца
+
+// denied[38] — deny-list мутаций:
+   /v3/product/import  Создать или обновить товар
+   /v1/product/import/prices  Обновить цену
+   /v1/product/import-by-sku  Создать товар по SKU
+   /v2/products/stocks  Обновить количество товаров на складах
+   /v1/product/digital/stocks/import  Обновить количество цифровых товаров
+   /v2/product/pictures/import  Загрузить или обновить изображения товара
+   /v1/product/pictures/import  Загрузить или обновить изображения товара Deprecated
+   /v1/product/archive  Перенести товар в архив
+   /v1/product/unarchive  Вернуть товар из архива
+   /v2/products/delete  Удалить товар без SKU из архива
+   /v1/product/attributes/update  Обновить характеристики товара
+   /v1/review/comment/create  Оставить комментарий на отзыв
+   /v2/review/comment/delete  Удалить комментарий на отзыв
+   /v1/review/change-status  Изменить статус отзывов Deprecated
+   /v2/review/change-status  Изменить статус отзывов
+   /v1/question/answer/create  Создать ответ на вопрос
+   /v1/question/answer/delete  Удалить ответ на вопрос
+   /v1/question/change-status  Изменить статус вопросов
+   /v1/chat/send/message  Отправить сообщение
+   /v1/chat/send/file  Отправить файл
+   /v1/chat/start  Создать новый чат
+   /v2/chat/read  Отметить сообщения как прочитанные
+   /v1/returns/settings/utilization/update  Обновить настройки автоутилизации
+   /v1/returns/rfbs/action/set  Передать доступные действия для rFBS возвратов
+   /v1/posting/fbs/split  Разделить заказ на отправления без сборки
+   /v1/posting/fbs/traceable/split  Разделить отправление с прослеживаемыми товарами
+   /v1/posting/fbs/timeslot/set  Перенести дату доставки
+   /v1/posting/fbs/package-label/create  Создать задание на выгрузку этикеток
+   /v1/posting/fbs/pick-up-code/verify  Проверить код курьера
+   /v2/posting/fbs/act/create  Подтвердить отгрузку и создать документы
+   /v2/posting/fbs/arbitration  Открыть спор по отправлению
+   /v2/posting/fbs/awaiting-delivery  Передать отправление к отгрузке
+   /v2/posting/fbs/cancel  Отменить отправление
+   /v2/posting/fbs/product/cancel  Отменить отправку некоторых товаров в отправлении
+   /v2/posting/fbs/product/country/set  Добавить информацию о стране-изготовителе товара
+   /v2/posting/fbs/package-label/create  Создать задание на формирование этикеток
+   /v4/posting/fbs/ship  Собрать заказ (версия 4)
+   /v4/posting/fbs/ship/package  Частичная сборка отправления (версия 4)

@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Lukk",
+    "counter": "Bilde {index} av {total}",
     "goToImage": "Gå til bilde {index}",
-    "openFullImage": "Åpne bildet i full størrelse"
+    "nextImage": "Neste bilde",
+    "openFullImage": "Åpne bildet i full størrelse",
+    "previousImage": "Forrige bilde",
+    "showImage": "Vis bilde {index}",
+    "thumbnails": "Miniatyrbilder av produktet"
   },
   "Journal": {
     "navLabel": "Magasin",
@@ -730,6 +736,9 @@
     "no": "Nei",
     "title": "Spesifikasjoner",
     "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beskrivelse"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsett oppsett i admin",

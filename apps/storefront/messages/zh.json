@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "关闭",
+    "counter": "第 {index} 张，共 {total} 张",
     "goToImage": "跳转到第 {index} 张图片",
-    "openFullImage": "查看大图"
+    "nextImage": "下一张图片",
+    "openFullImage": "查看大图",
+    "previousImage": "上一张图片",
+    "showImage": "显示第 {index} 张图片",
+    "thumbnails": "商品缩略图"
   },
   "Journal": {
     "navLabel": "专栏",
@@ -730,6 +736,9 @@
     "no": "否",
     "title": "规格参数",
     "yes": "是"
+  },
+  "ProductInfo": {
+    "description": "商品描述"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "前往管理后台继续设置",

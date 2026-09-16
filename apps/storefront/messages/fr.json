@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Fermer",
+    "counter": "Image {index} sur {total}",
     "goToImage": "Aller à l'image {index}",
-    "openFullImage": "Ouvrir l'image en grand"
+    "nextImage": "Image suivante",
+    "openFullImage": "Ouvrir l'image en grand",
+    "previousImage": "Image précédente",
+    "showImage": "Afficher l’image {index}",
+    "thumbnails": "Miniatures du produit"
   },
   "Journal": {
     "navLabel": "Journal",
@@ -730,6 +736,9 @@
     "no": "Non",
     "title": "Caractéristiques",
     "yes": "Oui"
+  },
+  "ProductInfo": {
+    "description": "Description"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuer la configuration dans l'admin",
