@@ -792,6 +792,16 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/marketplaces/catalog"),
           },
           {
+            // w17-mp-price-stock-table: «Маркетплейсы → Цены и остатки» — цена
+            // и остаток магазина рядом с ценой и остатком каждой площадки,
+            // одной строкой на артикул. Соседний ежедневный экран каталога, не
+            // настройка, поэтому рядом с ним, а не под /settings.
+            path: "/marketplaces/price-stock",
+            handle: { breadcrumb: () => "Цены и остатки" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplaces/price-stock"),
+          },
+          {
             // w12-marketplace-core: раздел «Маркетплейсы» — карточка на
             // площадку, собранная из реестра адаптеров бэкенда. Только чтение:
             // ключ, его срок и права, реестр разрешённых чтений, список того,

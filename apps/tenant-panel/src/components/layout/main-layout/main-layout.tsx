@@ -284,6 +284,13 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           to: "/marketplaces/catalog",
         },
         {
+          // w17-mp-price-stock-table: цены и остатки магазина и площадок одной
+          // таблицей. Стоит сразу за каталогом: тот отвечает «какие карточки
+          // есть», этот — «сходятся ли по ним цена и остаток».
+          label: t("app.nav.main.mpPriceStock", { defaultValue: "Prices and stock" }),
+          to: "/marketplaces/price-stock",
+        },
+        {
           label: t("app.nav.main.mpOrders", { defaultValue: "Marketplace orders" }),
           to: "/marketplace-orders",
         },
