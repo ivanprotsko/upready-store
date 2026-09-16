@@ -1839,6 +1839,22 @@
       "acceptance": "письмо доставлено в ящик Ивана (не в спам), заголовки DKIM pass",
       "why": "заказ Ивана от 01:35 WITA, п. 3.2",
       "source": "INTAKE.md 01:35"
+    },
+    {
+      "id": "l01-storefront-dev-compile",
+      "title": "Локальный стенд: витрина в dev-режиме падает на компиляции — apps/storefront/src/lib/data/products.ts:101 «export type {…}» в файле серверных действий (Turbopack: Ecmascript file had an error), /ru отвечает 500; вынести type-реэкспорт из файла «use server»",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "low",
+      "branch": "feat/day17-storefront-dev-compile",
+      "deps": [],
+      "softDeps": [],
+      "priority": 97,
+      "prompt": "l01-storefront-dev-compile.md",
+      "acceptance": "http://localhost:8000/ru и http://cherkashino.localhost:8000/ru отвечают 200 в dev-режиме, prod build зелёный",
+      "why": "заказ Ивана от 01:35 WITA п. 0.1 и п. 6: локальный проект должен быть всегда поднят",
+      "source": "INTAKE.md 01:35"
     }
   ],
   "budget": {
