@@ -80,6 +80,7 @@ artifacts/media/*/*
 artifacts/docs/contact-sheet/shots/
 artifacts/docs/f06-shipping-method-names/shots/
 artifacts/docs/f10-price-save-silently-lost/shots/
+artifacts/docs/w12-marketplace-core/shots/
 # Playwright session state of the shop owner (cookies): never in git.
 artifacts/docs/f10-price-save-silently-lost/.state-*.json
 

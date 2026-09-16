@@ -4069,6 +4069,103 @@
     "saved": "Code saved",
     "loading": "loading…"
   },
+  "marketplaces": {
+    "title": "Marketplaces",
+    "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
+    "loading": "Loading…",
+    "empty": "No marketplace is registered on the platform. That is a backend configuration error, not an empty list — please contact support.",
+    "card": {
+      "subtitle": "data moves one way only: the marketplace into your shop",
+      "statusFailed": "The marketplace could not be asked about this key. Everything else on the card comes from our own database and is correct."
+    },
+    "key": {
+      "label": "API key",
+      "set": "stored, ends with {{last4}}",
+      "missing": "not stored"
+    },
+    "enabled": {
+      "label": "Connection",
+      "yes": "on",
+      "no": "off"
+    },
+    "readOnly": {
+      "label": "Key permissions",
+      "yes": "read only",
+      "no": "writing is allowed",
+      "unknown": "could not be determined",
+      "asking": "asking the key…"
+    },
+    "expiresAt": "Valid until",
+    "expired": "(expired)",
+    "expiringSoon": "The {{label}} key expires in {{days}} days. Ask the seller to issue a new one in the marketplace cabinet",
+    "access": "What the key may reach",
+    "problem": "Problem with the key",
+    "scopes": {
+      "granted": "granted",
+      "denied": "denied",
+      "none": "the marketplace said nothing about this key"
+    },
+    "linking": {
+      "title": "Link to your catalog",
+      "hint": "marketplace listings are matched to your products by article: the marketplace article equals your product SKU",
+      "total": "Listings",
+      "linked": "Linked",
+      "notFound": "Not found",
+      "needsChoice": "Needs a choice",
+      "stored": "Links stored"
+    },
+    "sync": {
+      "title": "Latest imports",
+      "hint": "the wb:sync and ozon:sync scripts import, mp:project normalizes; the last run of each kind is here",
+      "kind": "What is imported",
+      "status": "Outcome",
+      "rows": "Rows",
+      "requests": "Requests sent",
+      "finishedAt": "Finished",
+      "error": "Error",
+      "never": "never ran",
+      "fixture": "from recorded answers"
+    },
+    "normalized": {
+      "title": "Already here",
+      "hint": "rows of the shared layer: the order feed, the price and stock table and the reviews are built from them"
+    },
+    "normalizedKinds": {
+      "products": "Listings",
+      "offers": "Prices and stock",
+      "orders": "Orders",
+      "reviews": "Reviews",
+      "questions": "Questions"
+    },
+    "endpoints": {
+      "title": "What we are allowed to ask for",
+      "hint": "the full list of requests the platform may send this marketplace; nothing beyond it can be sent",
+      "method": "Method",
+      "address": "Address",
+      "summary": "What the documentation calls it"
+    },
+    "denied": {
+      "toggle": "What this marketplace's documentation calls a write, and what we cannot register ({{count}})",
+      "anyVerb": "any"
+    },
+    "kinds": {
+      "cards": "Product listings",
+      "prices": "Prices and discounts",
+      "stocks": "Warehouse stock",
+      "orders": "Orders",
+      "feedbacks": "Reviews",
+      "products": "Product listings",
+      "postings": "Shipments",
+      "reviews": "Reviews",
+      "questions": "Questions",
+      "projection": "Shared-layer recompute"
+    },
+    "statuses": {
+      "running": "running",
+      "succeeded": "succeeded",
+      "failed": "failed"
+    }
+  },
   "wildberries": {
     "title": "Wildberries",
     "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",

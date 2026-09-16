@@ -1,1 +1,1 @@
-export { WildberriesSettings as Component } from "./wildberries"
+export { WildberriesRedirect as Component } from "./redirect"
