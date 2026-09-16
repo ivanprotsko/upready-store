@@ -768,6 +768,18 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/marketplaces"),
           },
           {
+            // w16-mp-scheduler-ops: «Маркетплейсы → Синхронизация» — строка на
+            // (площадка, вид): когда последний раз пришло, сколько строк и
+            // запросов, когда следующий запуск, текст последней ошибки целиком
+            // и предупреждение о ключе, которому осталось меньше 14 дней.
+            // Вид, который НИ РАЗУ не запускался, говорит это словами, а не
+            // нулём (правило 20a).
+            path: "/settings/marketplaces/sync",
+            handle: { breadcrumb: () => t("marketplaceSync.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplace-sync"),
+          },
+          {
             // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
             // раздел выше: адрес у владелицы в закладках, ломать его нельзя.
             path: "/settings/wildberries",

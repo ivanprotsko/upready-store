@@ -1,5 +1,6 @@
 import { Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useMarketplaces } from "../../../hooks/api/marketplaces"
@@ -40,6 +41,14 @@ export const MarketplacesSettings = () => {
           <Text className="text-ui-fg-subtle" size="small">
             {t("marketplaces.subtitle")}
           </Text>
+          {/* w16-mp-scheduler-ops: расписание и состояние загрузок живут на
+              отдельном экране — там строка на (площадка, вид), а не карточка. */}
+          <Link
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
+            to="/settings/marketplaces/sync"
+          >
+            {t("marketplaceSync.title")}
+          </Link>
         </div>
       </Container>
 
