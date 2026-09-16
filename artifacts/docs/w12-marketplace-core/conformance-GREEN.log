@@ -1,0 +1,61 @@
+PASS src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts
+  every registered marketplace adapter
+    ✓ registers at least the two this repository has (1 ms)
+    ✓ refuses an adapter that grows an escape hatch (1 ms)
+    ✓ refuses an adapter with an empty deny-list
+    ✓ compares deny-list paths by placeholder POSITION, not by placeholder name
+    wb
+      ✓ passes the shared validator over its real registry
+      ✓ registers no write verb (1 ms)
+      ✓ registers no host outside its own suffixes
+      ✓ cites documentation on every entry, and a reason on every POST (1 ms)
+      ✓ registers nothing its own deny-list calls a mutation
+      ✓ refuses an unregistered endpoint id before opening a socket (5 ms)
+      ✓ has no way to express a PUT, and trying opens no socket
+      ✓ has no way to express a PATCH, and trying opens no socket (1 ms)
+      ✓ has no way to express a DELETE, and trying opens no socket
+      ✓ refuses a foreign host before opening a socket (1 ms)
+      ✓ exposes no fetch, no base URL and no raw helper
+      ✓ names every normalized kind with a pure function (1 ms)
+      ✓ declares its sync kinds and its deny-list
+      ✓ rejects a hand-built entry with a write verb (2 ms)
+      ✓ rejects a hand-built entry with a foreign host
+      ✓ rejects a hand-built entry with no documentation (1 ms)
+      ✓ rejects a hand-built entry with a relative path
+      ✓ rejects a hand-built entry with a POST without readViaPost
+      ✓ rejects a hand-built entry with a POST without a quoted reason
+      ✓ rejects a hand-built entry with a GET carrying readViaPost (1 ms)
+      ✓ rejects two entries with the same id
+      ✓ rejects an entry whose path the documentation calls a mutation
+      ✓ accepts a well-formed hand-built entry, so the rejections above mean something (1 ms)
+    ozon
+      ✓ passes the shared validator over its real registry
+      ✓ registers no write verb (1 ms)
+      ✓ registers no host outside its own suffixes
+      ✓ cites documentation on every entry, and a reason on every POST (1 ms)
+      ✓ registers nothing its own deny-list calls a mutation (25 ms)
+      ✓ refuses an unregistered endpoint id before opening a socket (3 ms)
+      ✓ has no way to express a PUT, and trying opens no socket
+      ✓ has no way to express a PATCH, and trying opens no socket (1 ms)
+      ✓ has no way to express a DELETE, and trying opens no socket
+      ✓ refuses a foreign host before opening a socket
+      ✓ exposes no fetch, no base URL and no raw helper (2 ms)
+      ✓ names every normalized kind with a pure function (3 ms)
+      ✓ declares its sync kinds and its deny-list (1 ms)
+      ✓ rejects a hand-built entry with a write verb (2 ms)
+      ✓ rejects a hand-built entry with a foreign host
+      ✓ rejects a hand-built entry with no documentation (1 ms)
+      ✓ rejects a hand-built entry with a relative path (2 ms)
+      ✓ rejects a hand-built entry with a POST without readViaPost
+      ✓ rejects a hand-built entry with a POST without a quoted reason (1 ms)
+      ✓ rejects a hand-built entry with a GET carrying readViaPost
+      ✓ rejects two entries with the same id (1 ms)
+      ✓ rejects an entry whose path the documentation calls a mutation
+      ✓ accepts a well-formed hand-built entry, so the rejections above mean something
+
+Test Suites: 1 passed, 1 total
+Tests:       50 passed, 50 total
+Snapshots:   0 total
+Time:        2.115 s
+Ran all test suites matching /src\/modules\/marketplace\/__tests__\/adapters-conform.unit.spec.ts/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

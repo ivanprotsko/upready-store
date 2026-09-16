@@ -1,0 +1,21 @@
+diff --git a/apps/backend/src/modules/marketplace/registry.ts b/apps/backend/src/modules/marketplace/registry.ts
+index 63c3bbdb..ea13de69 100644
+--- a/apps/backend/src/modules/marketplace/registry.ts
++++ b/apps/backend/src/modules/marketplace/registry.ts
+@@ -1,6 +1,7 @@
+ import type { MarketplaceAdapter, MarketplaceId, MutationEntry } from "./contract";
+ import { ozonAdapter } from "../ozon/adapter";
+ import { wbAdapter } from "../wb/adapter";
++import { demoAdapter } from "./third-adapter.demo";
+ 
+ /**
+  * THE ONE PLACE ADAPTERS ARE ENUMERATED (w12-marketplace-core, spec 2.1).
+@@ -16,7 +17,7 @@ import { wbAdapter } from "../wb/adapter";
+  * the repo lint takes its host list from `MARKETPLACES` below, so registering
+  * a marketplace puts its hosts under the lint WITHOUT the test being edited.
+  */
+-export const MARKETPLACES: readonly MarketplaceAdapter[] = [wbAdapter, ozonAdapter];
++export const MARKETPLACES: readonly MarketplaceAdapter[] = [wbAdapter, ozonAdapter, demoAdapter];
+ 
+ /** The adapter with that id, or `undefined`. The caller decides what a miss means. */
+ export const adapterFor = (id: string): MarketplaceAdapter | undefined =>

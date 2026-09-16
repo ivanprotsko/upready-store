@@ -1,0 +1,363 @@
+FAIL src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts
+  every registered marketplace adapter
+    ✕ registers at least the two this repository has (2 ms)
+    ✓ refuses an adapter that grows an escape hatch (1 ms)
+    ✓ refuses an adapter with an empty deny-list
+    ✓ compares deny-list paths by placeholder POSITION, not by placeholder name
+    wb
+      ✓ passes the shared validator over its real registry (1 ms)
+      ✓ registers no write verb
+      ✓ registers no host outside its own suffixes (1 ms)
+      ✓ cites documentation on every entry, and a reason on every POST
+      ✓ registers nothing its own deny-list calls a mutation (1 ms)
+      ✓ refuses an unregistered endpoint id before opening a socket (4 ms)
+      ✓ has no way to express a PUT, and trying opens no socket (1 ms)
+      ✓ has no way to express a PATCH, and trying opens no socket (1 ms)
+      ✓ has no way to express a DELETE, and trying opens no socket
+      ✓ refuses a foreign host before opening a socket
+      ✓ exposes no fetch, no base URL and no raw helper
+      ✓ names every normalized kind with a pure function (1 ms)
+      ✓ declares its sync kinds and its deny-list
+      ✓ rejects a hand-built entry with a write verb (2 ms)
+      ✓ rejects a hand-built entry with a foreign host
+      ✓ rejects a hand-built entry with no documentation
+      ✓ rejects a hand-built entry with a relative path
+      ✓ rejects a hand-built entry with a POST without readViaPost
+      ✓ rejects a hand-built entry with a POST without a quoted reason (1 ms)
+      ✓ rejects a hand-built entry with a GET carrying readViaPost
+      ✓ rejects two entries with the same id
+      ✓ rejects an entry whose path the documentation calls a mutation
+      ✓ accepts a well-formed hand-built entry, so the rejections above mean something
+    ozon
+      ✓ passes the shared validator over its real registry (1 ms)
+      ✓ registers no write verb (8 ms)
+      ✓ registers no host outside its own suffixes
+      ✓ cites documentation on every entry, and a reason on every POST (2 ms)
+      ✓ registers nothing its own deny-list calls a mutation (1 ms)
+      ✓ refuses an unregistered endpoint id before opening a socket
+      ✓ has no way to express a PUT, and trying opens no socket (1 ms)
+      ✓ has no way to express a PATCH, and trying opens no socket
+      ✓ has no way to express a DELETE, and trying opens no socket
+      ✓ refuses a foreign host before opening a socket
+      ✓ exposes no fetch, no base URL and no raw helper (1 ms)
+      ✓ names every normalized kind with a pure function
+      ✓ declares its sync kinds and its deny-list
+      ✓ rejects a hand-built entry with a write verb (1 ms)
+      ✓ rejects a hand-built entry with a foreign host
+      ✓ rejects a hand-built entry with no documentation
+      ✓ rejects a hand-built entry with a relative path
+      ✓ rejects a hand-built entry with a POST without readViaPost
+      ✓ rejects a hand-built entry with a POST without a quoted reason
+      ✓ rejects a hand-built entry with a GET carrying readViaPost (1 ms)
+      ✓ rejects two entries with the same id
+      ✓ rejects an entry whose path the documentation calls a mutation
+      ✓ accepts a well-formed hand-built entry, so the rejections above mean something
+    broken
+      ✕ passes the shared validator over its real registry (13 ms)
+      ✕ registers no write verb
+      ✕ registers no host outside its own suffixes
+      ✕ cites documentation on every entry, and a reason on every POST
+      ✓ registers nothing its own deny-list calls a mutation
+      ✕ refuses an unregistered endpoint id before opening a socket
+      ✕ has no way to express a PUT, and trying opens no socket (1 ms)
+      ✕ has no way to express a PATCH, and trying opens no socket
+      ✕ has no way to express a DELETE, and trying opens no socket
+      ✕ refuses a foreign host before opening a socket (1 ms)
+      ✕ exposes no fetch, no base URL and no raw helper
+      ✕ names every normalized kind with a pure function (1 ms)
+      ✕ declares its sync kinds and its deny-list
+      ✓ rejects a hand-built entry with a write verb
+      ✓ rejects a hand-built entry with a foreign host
+      ✓ rejects a hand-built entry with no documentation
+      ✓ rejects a hand-built entry with a relative path
+      ✓ rejects a hand-built entry with a POST without readViaPost
+      ✓ rejects a hand-built entry with a POST without a quoted reason (1 ms)
+      ✓ rejects a hand-built entry with a GET carrying readViaPost
+      ✓ rejects two entries with the same id
+      ✕ rejects an entry whose path the documentation calls a mutation
+      ✓ accepts a well-formed hand-built entry, so the rejections above mean something
+
+  ● every registered marketplace adapter › registers at least the two this repository has
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+      Array [
+    +   "broken",
+        "ozon",
+        "wb",
+      ]
+
+      58 |     // below while proving nothing at all (rule 20a: zero is not empty).
+      59 |     expect(MARKETPLACES.length).toBeGreaterThanOrEqual(2);
+    > 60 |     expect(MARKETPLACES.map((adapter) => adapter.id).sort()).toEqual(["ozon", "wb"]);
+         |                                                              ^
+      61 |   });
+      62 |
+      63 |   describe.each(MARKETPLACES.map((adapter) => [adapter.id, adapter] as const))(
+
+      at Object.toEqual (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:60:62)
+
+  ● every registered marketplace adapter › broken › passes the shared validator over its real registry
+
+    expect(received).not.toThrow()
+
+    Error name:    "MarketplaceGuardError"
+    Error message: "Adapter broken carries members the contract does not define: rawRequest. The contract is the whole surface; an extra member is an escape hatch by another name."
+
+          175 |   const extra = keys.filter((key) => !expected.includes(key));
+          176 |   if (extra.length) {
+        > 177 |     throw new MarketplaceGuardError(
+              |           ^
+          178 |       `Adapter ${adapter.id} carries members the contract does not define: ${extra.join(", ")}. ` +
+          179 |         "The contract is the whole surface; an extra member is an escape hatch by another name.",
+          180 |     );
+
+      at validateAdapterShape (src/modules/marketplace/guards.ts:177:11)
+      at validateAdapterShape (src/modules/marketplace/guards.ts:209:3)
+      at src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:67:37
+      at Object.<anonymous> (../../node_modules/.pnpm/expect@29.7.0/node_modules/expect/build/toThrowMatchers.js:74:11)
+      at Object.throwingMatcher [as toThrow] (../../node_modules/.pnpm/expect@29.7.0/node_modules/expect/build/index.js:320:21)
+      at Object.toThrow (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:67:52)
+      at Object.toThrow (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:67:52)
+
+  ● every registered marketplace adapter › broken › registers no write verb
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "DELETE"
+    Received array: ["GET", "POST"]
+
+      70 |       it("registers no write verb", () => {
+      71 |         for (const entry of adapter.endpoints) {
+    > 72 |           expect(["GET", "POST"]).toContain(entry.method);
+         |                                   ^
+      73 |         }
+      74 |       });
+      75 |
+
+      at Object.toContain (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:72:35)
+
+  ● every registered marketplace adapter › broken › registers no host outside its own suffixes
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      76 |       it("registers no host outside its own suffixes", () => {
+      77 |         for (const entry of adapter.endpoints) {
+    > 78 |           expect(adapter.hostSuffixes.some((suffix) => entry.host.endsWith(suffix))).toBe(true);
+         |                                                                                      ^
+      79 |         }
+      80 |       });
+      81 |
+
+      at Object.toBe (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:78:86)
+
+  ● every registered marketplace adapter › broken › cites documentation on every entry, and a reason on every POST
+
+    expect(received).toBeTruthy()
+
+    Received: ""
+
+      82 |       it("cites documentation on every entry, and a reason on every POST", () => {
+      83 |         for (const entry of adapter.endpoints) {
+    > 84 |           expect(entry.docUrl).toBeTruthy();
+         |                                ^
+      85 |           if (entry.method === "POST") {
+      86 |             expect(entry.readViaPost?.docUrl).toBeTruthy();
+      87 |             expect(entry.readViaPost?.reason).toBeTruthy();
+
+      at Object.toBeTruthy (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:84:32)
+
+  ● every registered marketplace adapter › broken › refuses an unregistered endpoint id before opening a socket
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "https://evil.example.com/steal"
+
+      100 |           adapter.read("this.id.is.not.registered", { credentials: "probe" }),
+      101 |         ).rejects.toThrow();
+    > 102 |         expect(fetchSpy).not.toHaveBeenCalled();
+          |                              ^
+      103 |       });
+      104 |
+      105 |       it.each(["PUT", "PATCH", "DELETE"])(
+
+      at Object.toHaveBeenCalled (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:102:30)
+
+  ● every registered marketplace adapter › broken › has no way to express a PUT, and trying opens no socket
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "https://evil.example.com/steal"
+
+      115 |             adapter.read(`${verb} ${adapter.endpoints[0].path}`, { credentials: "probe" }),
+      116 |           ).rejects.toThrow();
+    > 117 |           expect(fetchSpy).not.toHaveBeenCalled();
+          |                                ^
+      118 |         },
+      119 |       );
+      120 |
+
+      at toHaveBeenCalled (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:117:32)
+
+  ● every registered marketplace adapter › broken › has no way to express a PATCH, and trying opens no socket
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "https://evil.example.com/steal"
+
+      115 |             adapter.read(`${verb} ${adapter.endpoints[0].path}`, { credentials: "probe" }),
+      116 |           ).rejects.toThrow();
+    > 117 |           expect(fetchSpy).not.toHaveBeenCalled();
+          |                                ^
+      118 |         },
+      119 |       );
+      120 |
+
+      at toHaveBeenCalled (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:117:32)
+
+  ● every registered marketplace adapter › broken › has no way to express a DELETE, and trying opens no socket
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "https://evil.example.com/steal"
+
+      115 |             adapter.read(`${verb} ${adapter.endpoints[0].path}`, { credentials: "probe" }),
+      116 |           ).rejects.toThrow();
+    > 117 |           expect(fetchSpy).not.toHaveBeenCalled();
+          |                                ^
+      118 |         },
+      119 |       );
+      120 |
+
+      at toHaveBeenCalled (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:117:32)
+
+  ● every registered marketplace adapter › broken › refuses a foreign host before opening a socket
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "https://evil.example.com/steal"
+
+      123 |           adapter.read("https://evil.example.com/steal", { credentials: "probe" }),
+      124 |         ).rejects.toThrow();
+    > 125 |         expect(fetchSpy).not.toHaveBeenCalled();
+          |                              ^
+      126 |       });
+      127 |
+      128 |       it("exposes no fetch, no base URL and no raw helper", () => {
+
+      at Object.toHaveBeenCalled (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:125:30)
+
+  ● every registered marketplace adapter › broken › exposes no fetch, no base URL and no raw helper
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 0
+    + Received  + 1
+
+    @@ -5,10 +5,11 @@
+        "inspectCredentials",
+        "label",
+        "loadMirror",
+        "mutationDenyList",
+        "normalize",
+    +   "rawRequest",
+        "read",
+        "readCredentials",
+        "runSync",
+        "syncKinds",
+      ]
+
+      127 |
+      128 |       it("exposes no fetch, no base URL and no raw helper", () => {
+    > 129 |         expect(Object.keys(adapter).sort()).toEqual([...ADAPTER_KEYS].sort());
+          |                                             ^
+      130 |         const surface = adapter as unknown as Record<string, unknown>;
+      131 |         for (const escape of ["fetch", "baseUrl", "base_url", "raw", "request", "client", "write"]) {
+      132 |           expect(surface[escape]).toBeUndefined();
+
+      at Object.toEqual (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:129:45)
+
+  ● every registered marketplace adapter › broken › names every normalized kind with a pure function
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 5
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "oops": true,
+    +   },
+    + ]
+
+      139 |           // A pure function of an empty input answers with an empty output and
+      140 |           // touches nothing.
+    > 141 |           expect(adapter.normalize[kind]([])).toEqual([]);
+          |                                               ^
+      142 |           expect(fetchSpy).not.toHaveBeenCalled();
+      143 |         }
+      144 |       });
+
+      at Object.toEqual (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:141:47)
+
+  ● every registered marketplace adapter › broken › declares its sync kinds and its deny-list
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      145 |
+      146 |       it("declares its sync kinds and its deny-list", () => {
+    > 147 |         expect(adapter.syncKinds.length).toBeGreaterThan(0);
+          |                                          ^
+      148 |         expect(adapter.mutationDenyList.length).toBeGreaterThan(0);
+      149 |         expect(MUTATION_DENY_LIST[adapter.id]).toBe(adapter.mutationDenyList);
+      150 |       });
+
+      at Object.toBeGreaterThan (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:147:42)
+
+  ● every registered marketplace adapter › broken › rejects an entry whose path the documentation calls a mutation
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      193 |         );
+      194 |
+    > 195 |         expect(mutation).toBeDefined();
+          |                          ^
+      196 |
+      197 |         expect(() =>
+      198 |           validateEndpointRegistry(adapter, [
+
+      at Object.toBeDefined (src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts:195:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       14 failed, 59 passed, 73 total
+Snapshots:   0 total
+Time:        1.71 s
+Ran all test suites matching /src\/modules\/marketplace\/__tests__\/adapters-conform.unit.spec.ts/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
