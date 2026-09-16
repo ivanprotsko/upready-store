@@ -66,6 +66,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     xyz: data.xyz,
     xyz_bucket: data.xyz_bucket,
     xyz_buckets: data.xyz_buckets,
+    stock_shape: data.stock_shape,
+    stock_note: data.stock_note,
     xyz_dropped_days: data.xyz_dropped_days,
     formulas: data.formulas,
     facets: data.facets,

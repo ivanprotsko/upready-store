@@ -316,7 +316,7 @@ export const MarketplaceAnalytics = () => {
               />
               <Metric
                 label={t("marketplaceAnalytics.metrics.orders")}
-                value={`${new Intl.NumberFormat(locale).format(analytics.totals.orders)} шт`}
+                value={new Intl.NumberFormat(locale).format(analytics.totals.orders)}
                 hint={t("marketplaceAnalytics.metrics.ordersHint")}
               />
               <Metric
@@ -331,7 +331,7 @@ export const MarketplaceAnalytics = () => {
                 label={t("marketplaceAnalytics.metrics.cancelled")}
                 value={`${new Intl.NumberFormat(locale).format(
                   analytics.totals.cancelled_orders
-                )} шт`}
+                )} зак.`}
                 hint={t("marketplaceAnalytics.metrics.cancelledHint", {
                   amount: money(analytics.totals.cancelled_revenue),
                 })}
@@ -490,6 +490,13 @@ export const MarketplaceAnalytics = () => {
                         ),
                 })}
               </Text>
+              {/* Предупреждение считается по САМИМ числам остатка, а не написано
+                  в код навсегда: пропадут повторы — пропадёт и оно. */}
+              {analytics.stock_note ? (
+                <Text className="text-ui-tag-orange-text mt-2" size="small">
+                  {analytics.stock_note}
+                </Text>
+              ) : null}
               <Text className="text-ui-fg-muted mt-2" size="xsmall">
                 {analytics.formulas.stock}
               </Text>

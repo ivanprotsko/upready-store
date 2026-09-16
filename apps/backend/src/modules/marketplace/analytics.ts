@@ -743,6 +743,60 @@ export const totalsOf = (
   };
 };
 
+export type StockShape = {
+  /** How many `mp_offer` lines carry a stock number at all. */
+  lines: number;
+  /** How many different numbers those lines hold. */
+  distinct_values: number;
+  /** The number that occurs most often, and how many lines carry it. */
+  dominant_value: number | null;
+  dominant_lines: number;
+  /**
+   * True when one number fills at least half the lines: that is what a
+   * DECLARED stock looks like, not a counted one.
+   */
+  looks_declared: boolean;
+};
+
+/**
+ * WHAT THE STOCK NUMBERS LOOK LIKE — and why the screen has to say it.
+ *
+ * `mp_offer.stock` comes from WB's «Get Inventory» over the seller's own
+ * warehouses, which is what the SELLER declared there. Measured on the
+ * client's mirror: 8943 of 11 605 stock lines hold exactly 100, and one
+ * listing carries 59 lines of 100 each. Summed, that reads «остаток 5900 шт»
+ * and turns into «дней до нуля: 3031», a date in 2035 — arithmetically right
+ * and about a quantity that is not a physical inventory.
+ *
+ * So the shape of the numbers is measured and shown next to the sum. The
+ * screen still computes the days — the owner asked for them — but says what
+ * they rest on, because a number nobody can argue with is the one that gets
+ * acted on (rule 18e).
+ */
+export const stockShape = (offers: OfferStock[]): StockShape => {
+  const counts = new Map<number, number>();
+  let lines = 0;
+
+  for (const offer of offers) {
+    const stock = asNumber(offer.stock);
+    if (stock === null) {
+      continue;
+    }
+    lines += 1;
+    counts.set(stock, (counts.get(stock) ?? 0) + 1);
+  }
+
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+
+  return {
+    lines,
+    distinct_values: counts.size,
+    dominant_value: top?.[0] ?? null,
+    dominant_lines: top?.[1] ?? 0,
+    looks_declared: Boolean(top && lines > 0 && top[1] / lines >= 0.5 && lines > 1),
+  };
+};
+
 /** The one line that explains where the money on this screen comes from. */
 export const REVENUE_FORMULA =
   "Выручка = сумма (цена строки × количество) по строкам заказов площадки за период. " +
@@ -752,10 +806,24 @@ export const REVENUE_FORMULA =
 
 /** And the one line that explains the stock half. */
 export const STOCK_FORMULA =
-  "Остаток — сумма mp_offer.stock по всем строкам карточки (размер × склад) на момент последнего импорта. " +
+  "Остаток — сумма mp_offer.stock по всем строкам карточки (размер × склад) на момент последнего импорта, " +
+  "источник — метод остатков площадки по складам продавца. " +
   "Темп продаж = штуки за период ÷ дней в периоде. " +
   "Оборачиваемость = «дней до нуля» = остаток ÷ темп: истории остатков мы не ведём, " +
   "поэтому среднего остатка за период у нас нет и двух разных чисел тут быть не может.";
+
+/** Что сказать владелице, когда остатки выглядят ЗАЯВЛЕННЫМИ, а не посчитанными. */
+export const stockShapeNote = (shape: StockShape): string | null => {
+  if (!shape.looks_declared || shape.dominant_value === null) {
+    return null;
+  }
+  return (
+    `Осторожно с «днями до нуля»: в ${shape.dominant_lines} строках остатка из ${shape.lines} ` +
+    `стоит одно и то же число — ${shape.dominant_value}. Так выглядит остаток, ЗАЯВЛЕННЫЙ продавцом ` +
+    "на складах площадки, а не пересчитанный физический: одна и та же партия объявлена на многих " +
+    "складах. Сумма по строкам тогда завышена, а срок «до нуля» — оценка сверху, а не дата."
+  );
+};
 
 export type CardRow = CardStat & {
   abc: AbcClass;

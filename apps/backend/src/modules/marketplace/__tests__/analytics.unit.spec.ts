@@ -4,6 +4,8 @@ import {
   buyerMarkets,
   sellerCurrencyOf,
   stockOnlyCards,
+  stockShape,
+  stockShapeNote,
   XYZ_BOUNDS,
   abcClasses,
   cardKey,
@@ -472,3 +474,58 @@ describe("неполный интервал XYZ", () => {
     expect(xyz.rows.get(cardKey("wb", "FLAT"))?.xyz).toBe("X");
   });
 });
+
+describe("остаток, который ЗАЯВЛЕН, а не посчитан", () => {
+  const declared = Array.from({ length: 10 }, (_, index) => ({
+    marketplace: "wb",
+    card_id: "100",
+    stock: index < 8 ? 100 : 7,
+    reserved: null,
+    measured_at: null,
+  }))
+
+  it("повторяющееся число в большинстве строк опознаётся и объясняется", () => {
+    const shape = stockShape(declared)
+    expect(shape.lines).toBe(10)
+    expect(shape.dominant_value).toBe(100)
+    expect(shape.dominant_lines).toBe(8)
+    expect(shape.looks_declared).toBe(true)
+
+    const note = stockShapeNote(shape)
+    expect(note).toContain("8 строках остатка из 10")
+    expect(note).toContain("ЗАЯВЛЕННЫЙ")
+    /* Предупреждение обязано назвать, чем «дни до нуля» становятся. */
+    expect(note).toContain("оценка сверху")
+  })
+
+  it("разные остатки предупреждения не рождают", () => {
+    const varied = [3, 17, 42, 8, 91].map((stock) => ({
+      marketplace: "wb",
+      card_id: "100",
+      stock,
+      reserved: null,
+      measured_at: null,
+    }))
+    const shape = stockShape(varied)
+    expect(shape.looks_declared).toBe(false)
+    expect(stockShapeNote(shape)).toBeNull()
+  })
+
+  it("одна строка остатка — это не «заявленный остаток», а просто одна строка", () => {
+    const shape = stockShape([
+      { marketplace: "wb", card_id: "100", stock: 100, reserved: null, measured_at: null },
+    ])
+    expect(shape.looks_declared).toBe(false)
+    expect(stockShapeNote(shape)).toBeNull()
+  })
+
+  it("строки без остатка в форму не считаются (правило 20a: null — не ноль)", () => {
+    const shape = stockShape([
+      { marketplace: "wb", card_id: "100", stock: null, reserved: null, measured_at: null },
+      { marketplace: "wb", card_id: "100", stock: null, reserved: null, measured_at: null },
+    ])
+    expect(shape.lines).toBe(0)
+    expect(shape.dominant_value).toBeNull()
+    expect(shape.looks_declared).toBe(false)
+  })
+})

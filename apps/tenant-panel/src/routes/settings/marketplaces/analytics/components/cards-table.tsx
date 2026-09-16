@@ -143,9 +143,14 @@ export const CardsTable = ({ cards, currency, locale, marketplaceLabels }: Props
                 : "—"}
             </Table.Cell>
             <Table.Cell className="text-right">
-              {card.turnover.days_to_zero === null ? (
+              {card.turnover.stock === 0 ? (
+                /* Ноль на складе — это «кончился», а не «кончится через 0 дней». */
                 <Text className="text-ui-fg-muted" size="xsmall">
-                  {card.turnover.stock === null ? "нет остатка" : "продаж за период нет"}
+                  остаток кончился
+                </Text>
+              ) : card.turnover.days_to_zero === null ? (
+                <Text className="text-ui-fg-muted" size="xsmall">
+                  {card.turnover.stock === null ? "площадка не прислала остаток" : "продаж за период нет"}
                 </Text>
               ) : (
                 <>

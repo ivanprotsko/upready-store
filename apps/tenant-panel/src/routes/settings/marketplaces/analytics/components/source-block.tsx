@@ -63,8 +63,15 @@ export const SourceBlock = ({
 
     {source.refusal ? (
       <Text className="text-ui-fg-muted" size="xsmall">
+        {/*
+          Текст журнала часто и есть «HTTP 403» — печатать его вторым разом
+          значит писать «HTTP 403 — HTTP 403». Показываем текст, только когда он
+          добавляет что-то к коду.
+        */}
         {`Ответ площадки: HTTP ${source.refusal.status ?? "?"}${
-          source.refusal.text ? ` — ${source.refusal.text}` : ""
+          source.refusal.text && source.refusal.text !== `HTTP ${source.refusal.status}`
+            ? ` — ${source.refusal.text}`
+            : ""
         }${
           source.refusal.at
             ? `, ${new Intl.DateTimeFormat(locale, {

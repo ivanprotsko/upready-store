@@ -149,6 +149,16 @@ export type MarketplaceAnalyticsResponse = {
   /** `week` | `day` — which interval the coefficient of variation was taken over. */
   xyz_bucket: string
   xyz_buckets: number
+  /** What the stock numbers look like: one repeated value means a DECLARED stock. */
+  stock_shape: {
+    lines: number
+    distinct_values: number
+    dominant_value: number | null
+    dominant_lines: number
+    looks_declared: boolean
+  }
+  /** The warning that follows from the shape; `null` when there is nothing to warn about. */
+  stock_note: string | null
   /** Days at the start of the period left out of XYZ: the interval would be partial. */
   xyz_dropped_days: number
   /** The one line each block prints above itself, so its number can be argued with. */

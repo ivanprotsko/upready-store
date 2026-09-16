@@ -18,6 +18,8 @@ import {
   salesByDay,
   sellerCurrencyOf,
   stockOnlyCards,
+  stockShape,
+  stockShapeNote,
   totalsOf,
   turnoverRows,
   xyzClasses,
@@ -27,6 +29,7 @@ import {
   type DayPoint,
   type RawLineWithOrder,
   type ResolvedPeriod,
+  type StockShape,
 } from "../../../modules/marketplace/analytics";
 import {
   RATING_ENDPOINTS,
@@ -101,6 +104,9 @@ export type LoadedAnalytics = {
   xyz: AbcSummaryRow[];
   xyz_bucket: string;
   xyz_buckets: number;
+  /** What the stock numbers LOOK like, and the warning that follows from it. */
+  stock_shape: StockShape;
+  stock_note: string | null;
   xyz_dropped_days: number;
   formulas: { revenue: string; stock: string; abc: string; xyz: string };
   facets: MarketplaceFacet[];
@@ -259,6 +265,7 @@ export const loadAnalytics = async (
       measured_at: (offer.measured_at ?? offer.synced_at ?? null) as Date | null,
     }));
 
+  const shape = stockShape(stockRows);
   const soldTurnover = turnoverRows(sold, stockRows, period);
   const cards = [
     ...sold,
@@ -400,6 +407,8 @@ export const loadAnalytics = async (
     xyz: summarise(cardRows, (row) => row.xyz, ["X", "Y", "Z", null]),
     xyz_bucket: xyz.bucket,
     xyz_buckets: xyz.buckets,
+    stock_shape: shape,
+    stock_note: stockShapeNote(shape),
     xyz_dropped_days: xyz.dropped_days,
     formulas: { revenue: REVENUE_FORMULA, stock: STOCK_FORMULA, abc: ABC_FORMULA, xyz: xyz.formula },
     facets,

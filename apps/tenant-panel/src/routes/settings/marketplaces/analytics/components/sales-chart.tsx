@@ -28,6 +28,21 @@ type Props = {
 const HEIGHT = 160
 const GAP = 2
 
+/**
+ * `YYYY-MM-DD` -> «18 авг.» по локали. День печатается как ДЕНЬ: момент
+ * сдвинулся бы часовым поясом, а подпись оси рядом с таблицей, где даты уже
+ * человеческие, не должна быть единственным сырым значением на экране.
+ */
+const shortDay = (day: string | undefined, locale: string) => {
+  if (!day) {
+    return ""
+  }
+  const [year, month, date] = day.split("-").map(Number)
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "short" }).format(
+    new Date(year, (month ?? 1) - 1, date ?? 1)
+  )
+}
+
 export const SalesChart = ({ days, currency, locale, measure }: Props) => {
   const { max, width } = useMemo(() => {
     const values = days.map((day) =>
@@ -87,7 +102,7 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
         })}
         {/* Подписи только у краёв: тридцать дат подряд не читаются. */}
         <text className="fill-ui-fg-muted text-[10px]" x={0} y={HEIGHT + 16}>
-          {days[0]?.day ?? ""}
+          {shortDay(days[0]?.day, locale)}
         </text>
         <text
           className="fill-ui-fg-muted text-[10px]"
@@ -95,7 +110,7 @@ export const SalesChart = ({ days, currency, locale, measure }: Props) => {
           x={width}
           y={HEIGHT + 16}
         >
-          {days[days.length - 1]?.day ?? ""}
+          {shortDay(days[days.length - 1]?.day, locale)}
         </text>
       </svg>
       <Text className="text-ui-fg-muted" size="xsmall">
