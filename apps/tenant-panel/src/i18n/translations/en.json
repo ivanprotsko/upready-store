@@ -4327,6 +4327,79 @@
       "observedAt": "Seen at"
     }
   },
+  "marketplaceAnalytics": {
+    "title": "Marketplace analytics",
+    "navLabel": "Marketplace analytics",
+    "subtitle": "Sales by day and by listing, ABC/XYZ, stock turnover and days to zero, seller rating and P&L. The screen only folds our own tables: it sends nothing to a marketplace and asks none of them when it opens.",
+    "period": "Period: {{period}} ({{days}} days)",
+    "periodDefault": "The screen chose the period: the last {{days}} days.",
+    "undated": "Orders with no date: {{count}}. The marketplace sent none, so they fall in no period.",
+    "empty": "No sales in the selected period ({{period}}).",
+    "emptyStock": "There are {{units}} items in marketplace warehouses, but turnover cannot be computed without sales.",
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "marketplace": "Marketplace",
+      "reset": "Reset"
+    },
+    "connection": {
+      "ok": "{{label}}: {{orders}} orders in the period, last import — {{status}}.",
+      "noKey": "{{label}}: no key, so this marketplace has no data on the screen at all.",
+      "neverRun": "never run"
+    },
+    "metrics": {
+      "revenue": "Revenue",
+      "revenueHint": "Marketplace orders, cancellations excluded",
+      "orders": "Orders",
+      "ordersHint": "Order lines in the period",
+      "units": "Items",
+      "avgOrder": "Average order",
+      "cancelled": "Cancelled",
+      "cancelledHint": "Worth {{amount}}, not counted as revenue",
+      "cards": "Listings",
+      "cardsHint": "With sales, out of all in the table"
+    },
+    "byDay": {
+      "title": "Sales by day",
+      "subtitle": "One bar per day of the period. A zero day is a measured zero, not a gap.",
+      "day": "Day"
+    },
+    "markets": {
+      "title": "Where the buyers were",
+      "subtitle": "Amounts are in {{currency}}, the currency of the shop's own price list. The code on an order is the buyer's country, not the currency of the amount: WB stores the price already converted into the seller's currency.",
+      "market": "Market"
+    },
+    "abc": {
+      "title": "ABC by revenue",
+      "row": "{{cards}} listings, {{revenue}}, {{share}} % of revenue"
+    },
+    "xyz": {
+      "title": "XYZ by demand stability",
+      "row": "{{cards}} listings, {{units}} items",
+      "noClass": "no class"
+    },
+    "turnover": {
+      "title": "Turnover and days to zero",
+      "subtitle": "Marketplace warehouses hold {{stock}} items. At the period's pace that lasts {{days}} days.",
+      "running": "Runs out within two weeks",
+      "nothingRunningOut": "No listing runs out in the next 14 days at the current pace.",
+      "row": "{{title}} — {{days}} days (stock {{stock}} items, pace {{rate}} items/day)"
+    },
+    "cards": {
+      "title": "Sales by listing",
+      "subtitle": "Showing {{shown}} of {{total}}. A listing with stock but no sales is in the table too, as a zero row.",
+      "more": "Show {{count}} more"
+    },
+    "rating": {
+      "title": "Seller rating",
+      "subtitle": "Only the marketplace knows the rating. When it refuses, its own answer is printed here instead of an empty space."
+    },
+    "pnl": {
+      "title": "P&L",
+      "subtitle": "A full P&L needs the marketplace's finance reports: commission, logistics, storage, penalties.",
+      "note": "No profit is computed or estimated on this screen. Everything one could guess it from — revenue, price, discount — is right here, which is exactly why there is no invented number: the owner would act on it and nothing could check it."
+    }
+  },
   "wildberries": {
     "title": "Wildberries",
     "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",

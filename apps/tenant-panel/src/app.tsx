@@ -816,6 +816,17 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/marketplaces/reviews"),
           },
           {
+            // w19-mp-analytics: «Маркетплейсы → Аналитика» — дашборд селлера:
+            // продажи по дням и карточкам, ABC/XYZ, оборачиваемость и «дней до
+            // нуля», рейтинг продавца и честно неполный P&L. Только чтение:
+            // экран складывает mp_order / mp_order_line / mp_offer и к площадке
+            // при открытии не обращается (приказ Ивана 2026-09-16 02:46 WITA).
+            path: "/settings/marketplaces/analytics",
+            handle: { breadcrumb: () => t("marketplaceAnalytics.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/analytics"),
+          },
+          {
             // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
             // раздел выше: адрес у владелицы в закладках, ломать его нельзя.
             path: "/settings/wildberries",
