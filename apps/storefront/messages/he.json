@@ -436,7 +436,14 @@
     "previous": "הקודם",
     "next": "הבא",
     "pageOf": "עמוד {page} מתוך {lastPage}",
-    "pagination": "עמודי המגזין"
+    "pagination": "עמודי המגזין",
+    "readingTime": "{minutes} דק׳ קריאה",
+    "related": "כדאי לקרוא גם",
+    "share": "שיתוף",
+    "copyLink": "העתקת קישור",
+    "linkCopied": "הקישור הועתק",
+    "allCategories": "כל הנושאים",
+    "categories": "נושאים"
   },
   "LanguageSelect": {
     "locales": {

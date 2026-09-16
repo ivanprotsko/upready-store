@@ -264,6 +264,19 @@ export const wbAdapter: MarketplaceAdapter = {
   inspectCredentials,
   readCredentials,
   syncKinds: WB_SYNC_KINDS,
+  /**
+   * Wildberries' own vocabulary against the normalized kinds
+   * (w18-mp-reviews-desk). `feedbacks` is what WB calls reviews; `sales`,
+   * `analytics`, `supplies` and `fbs_orders` fill mirrors that no normalized
+   * kind reads yet, so they are named by no entry here.
+   */
+  mirrorKinds: {
+    products: ["cards"],
+    offers: ["prices", "stocks"],
+    orders: ["orders"],
+    reviews: ["feedbacks"],
+    questions: ["questions"],
+  },
   runSync: runSyncForKind,
   loadMirror,
   loadJournal,

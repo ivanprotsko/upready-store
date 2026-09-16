@@ -436,7 +436,14 @@
     "previous": "Назад",
     "next": "Напред",
     "pageOf": "Страница {page} от {lastPage}",
-    "pagination": "Страници на списанието"
+    "pagination": "Страници на списанието",
+    "readingTime": "{minutes} мин четене",
+    "related": "Прочетете също",
+    "share": "Споделяне",
+    "copyLink": "Копирай връзката",
+    "linkCopied": "Връзката е копирана",
+    "allCategories": "Всички рубрики",
+    "categories": "Рубрики"
   },
   "LanguageSelect": {
     "locales": {

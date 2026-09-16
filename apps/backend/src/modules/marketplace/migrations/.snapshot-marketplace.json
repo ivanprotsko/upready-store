@@ -3035,6 +3035,54 @@
           "enumItems": [],
           "mappedType": "text"
         },
+        "retry_at": {
+          "name": "retry_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "1",
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "integer"
+        },
+        "source_run_id": {
+          "name": "source_run_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz",
@@ -3104,6 +3152,15 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_mp_sync_run_tenant_id_marketplace_kind_started_at\" ON \"mp_sync_run\" (\"tenant_id\", \"marketplace\", \"kind\", \"started_at\") WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_mp_sync_run_tenant_id_marketplace_kind_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_mp_sync_run_tenant_id_marketplace_kind_unique\" ON \"mp_sync_run\" (\"tenant_id\", \"marketplace\", \"kind\") WHERE status = 'running' AND deleted_at IS NULL"
         },
         {
           "keyName": "mp_sync_run_pkey",

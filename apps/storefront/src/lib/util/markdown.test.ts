@@ -158,3 +158,68 @@ describe("parseMarkdown", () => {
     ])
   })
 })
+
+/**
+ * b18-blog-full: pictures inside an article. The panel's editor uploads a file
+ * through `POST /tenants/uploads` and inserts `![подпись](/static/tenants/…)`
+ * at the cursor, so this is the exact shape the parser has to read — before
+ * this change the whole token rendered as literal text, `!` included.
+ */
+describe("parseMarkdown: images in the body", () => {
+  it("reads a site-relative upload as an image node, caption and source apart", () => {
+    const [block] = parseMarkdown("![Пептиды в пробирке](/static/tenants/ten_1/p.jpg)")
+
+    expect(block).toEqual({
+      type: "paragraph",
+      content: [
+        {
+          type: "image",
+          value: "Пептиды в пробирке",
+          src: "/static/tenants/ten_1/p.jpg",
+        },
+      ],
+    })
+  })
+
+  it("does not leave a stray «!» when an image sits inside a sentence", () => {
+    const [block] = parseMarkdown("До ![схема](https://cdn.test/s.png) после")
+
+    expect(block).toEqual({
+      type: "paragraph",
+      content: [
+        { type: "text", value: "До " },
+        { type: "image", value: "схема", src: "https://cdn.test/s.png" },
+        { type: "text", value: " после" },
+      ],
+    })
+  })
+
+  it("keeps an ordinary link a link, not an image", () => {
+    const [block] = parseMarkdown("[каталог](/store)")
+
+    expect(block).toEqual({
+      type: "paragraph",
+      content: [{ type: "link", value: "каталог", href: "/store" }],
+    })
+  })
+
+  it("drops the picture but keeps the caption when the source is not fetchable", () => {
+    // `data:` would let a tenant ship an arbitrary payload into every visitor's
+    // page; the words the owner wrote are still their words.
+    const [block] = parseMarkdown("![подпись](data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=)")
+
+    expect(block).toEqual({
+      type: "paragraph",
+      content: [{ type: "text", value: "подпись" }],
+    })
+  })
+
+  it("reads an image with an empty alt, which is what «decorative» means", () => {
+    const [block] = parseMarkdown("![](/static/tenants/ten_1/divider.png)")
+
+    expect(block).toEqual({
+      type: "paragraph",
+      content: [{ type: "image", value: "", src: "/static/tenants/ten_1/divider.png" }],
+    })
+  })
+})

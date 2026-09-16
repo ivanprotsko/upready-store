@@ -194,6 +194,22 @@ export const validateAdapterShape = (adapter: MarketplaceAdapter): void => {
     );
   }
 
+  /**
+   * `mirrorKinds` names this adapter's OWN import kinds, so a value that is
+   * not one of them is a typo that would otherwise surface as "nothing to
+   * import" on a screen months later (w18-mp-reviews-desk).
+   */
+  for (const [kind, importKinds] of Object.entries(adapter.mirrorKinds)) {
+    for (const importKind of importKinds) {
+      if (!adapter.syncKinds.includes(importKind)) {
+        throw new MarketplaceGuardError(
+          `Adapter ${adapter.id} maps normalized kind ${kind} to import kind ${importKind}, ` +
+            `which is not one of its syncKinds (${adapter.syncKinds.join(", ")}).`,
+        );
+      }
+    }
+  }
+
   for (const entry of adapter.mutationDenyList) {
     if (!entry.path.startsWith("/") || !entry.summary || !entry.docUrl) {
       throw new MarketplaceGuardError(

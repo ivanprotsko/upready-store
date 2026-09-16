@@ -436,7 +436,14 @@
     "previous": "Trước",
     "next": "Tiếp",
     "pageOf": "Trang {page} trên {lastPage}",
-    "pagination": "Các trang tạp chí"
+    "pagination": "Các trang tạp chí",
+    "readingTime": "Đọc {minutes} phút",
+    "related": "Đọc thêm",
+    "share": "Chia sẻ",
+    "copyLink": "Sao chép liên kết",
+    "linkCopied": "Đã sao chép liên kết",
+    "allCategories": "Tất cả chuyên mục",
+    "categories": "Chuyên mục"
   },
   "LanguageSelect": {
     "locales": {

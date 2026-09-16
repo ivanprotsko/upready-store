@@ -474,9 +474,9 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "published": {
-          "name": "published",
-          "type": "boolean",
+        "status": {
+          "name": "status",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -485,10 +485,10 @@
           "length": null,
           "precision": null,
           "scale": null,
-          "default": "false",
+          "default": "'draft'",
           "comment": null,
           "enumItems": [],
-          "mappedType": "boolean"
+          "mappedType": "text"
         },
         "published_at": {
           "name": "published_at",
@@ -505,6 +505,38 @@
           "comment": null,
           "enumItems": [],
           "mappedType": "datetime"
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "author": {
+          "name": "author",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
         },
         "tags": {
           "name": "tags",
@@ -650,13 +682,13 @@
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_tenant_article_tenant_id_slug_locale_unique\" ON \"tenant_article\" (\"tenant_id\", \"slug\", \"locale\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_tenant_article_tenant_id_published_published_at",
+          "keyName": "IDX_tenant_article_tenant_id_status_published_at",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_article_tenant_id_published_published_at\" ON \"tenant_article\" (\"tenant_id\", \"published\", \"published_at\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_tenant_article_tenant_id_status_published_at\" ON \"tenant_article\" (\"tenant_id\", \"status\", \"published_at\") WHERE deleted_at IS NULL"
         },
         {
           "keyName": "tenant_article_pkey",

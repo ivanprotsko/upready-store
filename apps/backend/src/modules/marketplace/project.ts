@@ -167,7 +167,19 @@ const carryJournal = async (
     mp.listMpApiCalls(scope) as Promise<Row[]>,
   ]);
 
-  const knownRuns = new Set(storedRuns.map((row) => row.id));
+  /**
+   * A run the SCHEDULER already recorded is not carried a second time
+   * (w16-mp-scheduler-ops). Its row holds `source_run_id` — the adapter's own
+   * run id — and the id this function would derive from that adapter run is
+   * exactly `mprun_<source_run_id>`. Without this line one scheduled import
+   * would leave two rows in the shared table, the scheduler's and the carried
+   * one, and the sync screen would show every sync twice.
+   */
+  const knownRuns = new Set(
+    storedRuns.flatMap((row) =>
+      row.source_run_id ? [row.id, `mprun_${String(row.source_run_id)}`] : [row.id],
+    ),
+  );
   const knownCalls = new Set(storedCalls.map((row) => row.id));
 
   const runDrafts = runs
@@ -302,21 +314,35 @@ const recordStatusEvents = async (
 export const projectFromMirrors = async (
   deps: Deps,
   marketplace: string,
+  options: {
+    /**
+     * An existing `mp_sync_run` row to report into, instead of opening one.
+     *
+     * The scheduler takes the single-run lock by INSERTING the `running` row
+     * itself (`scheduler.ts`), and a second insert for the same triple is
+     * refused by the partial unique index — correctly, since that is the lock.
+     * So a scheduled projection hands its own row down here and one run stays
+     * one row.
+     */
+    runId?: string;
+  } = {},
 ): Promise<ProjectionResult> => {
   const adapter: MarketplaceAdapter = requireAdapter(marketplace);
   const mp = service(deps);
   const logger = deps.logger ?? console;
   const startedAt = new Date();
 
-  const run = (await mp.createMpSyncRuns({
-    tenant_id: deps.tenantId,
-    marketplace: adapter.id,
-    kind: "projection",
-    status: "running",
-    started_at: startedAt,
-    rows: 0,
-    requests: 0,
-  })) as { id: string };
+  const run = options.runId
+    ? { id: options.runId }
+    : ((await mp.createMpSyncRuns({
+        tenant_id: deps.tenantId,
+        marketplace: adapter.id,
+        kind: "projection",
+        status: "running",
+        started_at: startedAt,
+        rows: 0,
+        requests: 0,
+      })) as { id: string });
 
   const counts: ProjectionCounts = {
     products: 0,
