@@ -236,6 +236,87 @@ $ curl …/tenants/wb/write-preview?kind=prices        → counts {"total":20,"e
 
 Скриншоты в `artifacts/docs/w21-wb-write-stocks-prices/` сняты заново на слитом дереве.
 
+## Раунд 2 приёмки: слияние с dev и переезд раздела панели (2026-09-16 11:56 WITA)
+
+За время жизни ветки в `dev` влилось 16 коммитов, из них семь трогали те же файлы. Слияние сделано
+в ветку, шесть файлов разрешены руками, и один из них вскрыл НАСТОЯЩИЙ дефект, которого не было
+видно ни в типах, ни в тестах.
+
+**Дефект: раздел панели стал недостижимым.** w12 превратил `/settings/wildberries` в редирект на
+`/settings/marketplaces` (`routes/settings/wildberries/redirect.tsx`), а страница `wildberries.tsx`,
+куда я вписал свою секцию, осталась в дереве, но её больше никто не рендерит. Типизация зелёная,
+юниты зелёные, `eslint` зелёный — и ни один из них про это сказать не может: мёртвый импорт
+компилируется. Нашлось живым прогоном (правило 18f): селектор
+`[data-testid="wb-write-preview-section"]` не находился на странице 60 с, при том что соседний
+`wb-write-section` находился.
+
+Починка: секция переехала туда, где сейчас живёт поверхность WB, — в карточку Wildberries
+(`routes/settings/marketplaces/components/mp-card.tsx`), рядом с разделом согласий, под тем же
+условием `card.id === "wb"`. Мои две строки из мёртвой `wildberries.tsx` убраны, файл вернулся к
+версии `dev` дословно.
+
+Замер после починки:
+
+```
+old path /settings/wildberries lands on: /settings/marketplaces   <- редирект w12 цел
+preview sections on page: 1
+consent sections on page: 1
+card that owns the section: Wildberries                            <- не Ozon
+```
+
+**Разрешение шести файлов — что в каждом.**
+
+| файл | как разрешён |
+|---|---|
+| `apps/backend/package.json` | авто; `wb:push` и `mp:*` из dev стоят рядом |
+| `apps/backend/src/api/middlewares.ts` | руками: оба импорта и оба маршрута (`write-preview` мой, `fbs-orders/actions` от w23) |
+| `no-live-write-call-site.unit.spec.ts` | взята версия dev (у неё лучше самопроверка регулярки), в `REGISTERED_CALLERS` добавлена моя строка, сверху добавлена моя половина про КОНФИГИ |
+| `i18n/ru.json`, `i18n/en.json` | версия dev целиком + повторная вставка блока `wildberries.preview`; выжили и `tabs`/`fbs` от dev, и мой `preview` |
+| `routes/settings/wildberries/wildberries.tsx` | вернулась к версии dev дословно (см. дефект выше) |
+
+`HANDOFF.json` в слиянии не участвовал вовсе.
+
+**Общий страж «живой записи нет» теперь покрывает оба класса.** Раньше у меня был свой список
+`ALLOWED_CALLERS`, у w23 — свой `REGISTERED_CALLERS`; после слияния список ОДИН:
+
+```
+const REGISTERED_CALLERS = [
+  // w21-wb-write-stocks-prices: the store -> WB push, classes `stocks` and `prices`.
+  path.join("apps", "backend", "src", "wb-write-diff", "push.ts"),
+  // w23-wb-write-fbs-orders: the FBS desk, class `fbs_orders`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "fbs-orders", "actions", "route.ts"),
+];
+```
+
+Сюита файла, 8 из 8 зелёных, включая обе половины живого гейта (исходники — от dev, конфиги — моя):
+
+```
+✓ has no caller of wbWrite or marketplaceWrite besides the registered ones
+✓ finds every registered caller on disk
+✓ has no source that turns the live gate on
+✓ would catch such an assignment if one appeared
+✓ has no config file that turns the live gate on
+✓ would catch such a config line if one appeared
+```
+
+**Проверки на слитом дереве:**
+
+```
+$ cd apps/backend && npx tsc --noEmit            → rc=0
+$ cd apps/backend && npx medusa lint             → rc=0 (98 warning, 0 error — все предсуществующие)
+$ cd apps/backend && pnpm run test:unit          → rc=0, 74 сюиты, 961 тест (было 59/683 у меня, 71/931 в dev)
+$ cd apps/tenant-panel && npx tsc --noEmit       → rc=0
+$ cd apps/tenant-panel && npx eslint src         → rc=0 (24 warning, 0 error)
+$ pnpm check:backend-fixtures                    → rc=0
+$ node scripts/check-locale-catalogs.mjs         → OK — 3 catalogs, 36 codes each, all agree
+$ npx medusa db:migrate                          → rc=0
+$ curl …/tenants/wb/write-preview?kind=stocks    → counts {"total":20,"equal":1,"update":5,"skipped":14}
+$ curl …/tenants/wb/write-preview?kind=prices    → counts {"total":20,"equal":19,"update":1,"skipped":0}
+$ curl …/tenants/wb/fbs-orders                   → 200 (маршрут w23 не задет)
+```
+
+Скриншоты пересняты на слитом дереве с нового адреса `/settings/marketplaces`.
+
 ## Живой записи нет — это теперь проверка, а не фраза
 
 У w20 не было ни одного вызывателя `wbWrite`, и инвариант держался тестом «вызывателей нет».
