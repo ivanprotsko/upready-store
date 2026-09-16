@@ -291,7 +291,8 @@ cd apps/backend && W14_OWNER_EMAIL=owner@cherkashino.example \
 #    /usr/sbin/lsof -t -nP -iTCP:5198 -sTCP:LISTEN | xargs -r kill -9
 ```
 
-Карточка для UI: `handoff/day-2026-09-16-oksana-store/artifacts/w17-mp-price-stock-table/report.json`.
+Карточка для UI: `handoff/day-2026-09-16-oksana-store/artifacts/w17-mp-price-stock-table/report.json`
+— `report-validate.mjs` → `OK …: 8 done / 6 results / 1 access` (rc 0).
 
 ## Дизайн-система
 
