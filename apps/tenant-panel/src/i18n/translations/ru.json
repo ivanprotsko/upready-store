@@ -246,7 +246,10 @@
         "marketplaces": "Маркетплейсы",
         "wildberries": "Wildberries",
         "mpCatalog": "Каталог",
-        "mpConnections": "Подключение площадок"
+        "mpConnections": "Подключение площадок",
+        "mpOrders": "Заказы площадок",
+        "mpReviews": "Отзывы площадок",
+        "mpSync": "Синхронизация"
       },
       "settings": {
         "developer": "Разработчик",

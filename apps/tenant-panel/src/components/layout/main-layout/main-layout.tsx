@@ -269,6 +269,12 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       // hangs under Promotions: the catalog is the landing screen because it
       // is the daily one, the connection settings sit under it, and Ozon gets
       // its own entry here the day it has a page of its own.
+      //
+      // The siblings of the same wave land in the same section rather than in
+      // four places: w15 «Заказы площадок» (/marketplace-orders), w18 «Отзывы»
+      // and w16 «Синхронизация» (under /settings/marketplaces) merged into
+      // `dev` while this task was open, and each of them was reachable only by
+      // typing its URL — which is exactly the defect this entry exists to fix.
       icon: <BuildingStorefront />,
       label: t("app.nav.main.marketplaces", { defaultValue: "Marketplaces" }),
       to: "/marketplaces/catalog",
@@ -276,6 +282,18 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
         {
           label: t("app.nav.main.mpCatalog", { defaultValue: "Catalog" }),
           to: "/marketplaces/catalog",
+        },
+        {
+          label: t("app.nav.main.mpOrders", { defaultValue: "Marketplace orders" }),
+          to: "/marketplace-orders",
+        },
+        {
+          label: t("app.nav.main.mpReviews", { defaultValue: "Marketplace reviews" }),
+          to: "/settings/marketplaces/reviews",
+        },
+        {
+          label: t("app.nav.main.mpSync", { defaultValue: "Synchronisation" }),
+          to: "/settings/marketplaces/sync",
         },
         {
           label: t("app.nav.main.mpConnections", { defaultValue: "Connections" }),

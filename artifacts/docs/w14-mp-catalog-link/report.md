@@ -305,7 +305,23 @@ stored: {"cards":425,"offers":11819,"links":1,"variants":36,"enriched":3}
 для проверки этой строки достаточно связей и цен. Фото магазина остались 3 против 30 у площадки —
 это расхождение и видно в кадре.
 
-### 8. Кадры экрана
+### 8. После слияния `dev` (w15, w16, w18 влились, пока задача была открыта)
+
+```
+$ git merge origin/dev        → конфликтов 0 (e5d2c61c)
+$ cd apps/backend && jest …   → Test Suites: 71 passed, Tests: 931 passed, rc=0
+$ corepack pnpm check:backend-build → rc=0
+$ cd apps/tenant-panel && tsc --noEmit → rc=0; eslint src → 0 errors
+$ cd apps/backend && medusa db:migrate → rc=0 (на стенде появились таблицы соседей)
+```
+
+Соседние задачи привезли три экрана того же раздела, и каждый из них был достижим ТОЛЬКО
+набором адреса — ровно тот дефект, ради которого этот пункт навигации и появился. Поэтому они
+добавлены в тот же раздел: «Заказы площадок» (`/marketplace-orders`, w15), «Отзывы площадок»
+(`/settings/marketplaces/reviews`, w18), «Синхронизация» (`/settings/marketplaces/sync`, w16).
+Кадр `10-nav-after-dev-merge.png` — навигация и работающий каталог после слияния.
+
+### 9. Кадры экрана
 
 Абсолютные пути (PNG вне git):
 
@@ -318,6 +334,7 @@ stored: {"cards":425,"offers":11819,"links":1,"variants":36,"enriched":3}
 - `…/06b-ozon-no-key.png` — карточка Ozon, ключа НЕТ: «Права ключа — —» и строка о хранении
 - `…/08-manual-link-dialog.png`
 - `…/09-catalog-enriched-from-wb.png` — «обновлено из WB 16.09.2026», расхождение цены 0
+- `…/10-nav-after-dev-merge.png` — раздел «Маркетплейсы» с шестью пунктами после слияния `dev`
 
 Боковая навигация с разделом «Маркетплейсы» и подпунктами видна на каждом кадре.
 
