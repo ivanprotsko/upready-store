@@ -8,7 +8,9 @@ import { notifyStorefrontRevalidate } from "../../../../storefront-revalidate";
 import {
   assertArticleSlug,
   byPublishedDesc,
+  normaliseCategory,
   parseArticleLocale,
+  resolveArticlePublication,
   toArticleDto,
 } from "../article-helpers";
 
@@ -37,7 +39,7 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     throw new MedusaError(MedusaError.Types.NOT_FOUND, `Article with slug "${slug}" was not found`);
   }
 
-  res.json({ articles: rows.map(toArticleDto).sort(byPublishedDesc) });
+  res.json({ articles: rows.map((row) => toArticleDto(row)).sort(byPublishedDesc) });
 };
 
 /**
@@ -53,9 +55,16 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
  * created rows would let a typo in the panel's URL bar silently mint an
  * article nobody meant to write.
  *
- * `published: true` with a blank title is `INVALID_DATA`: the title is the feed
- * card, the page heading and the `<title>` tag, and an empty one would ship a
- * nameless entry to readers and to search engines.
+ * A non-draft `status` with a blank title is `INVALID_DATA`: the title is the
+ * feed card, the page heading and the `<title>` tag, and an empty one would
+ * ship a nameless entry to readers and to search engines.
+ *
+ * b18-blog-full: `status` (`draft` | `published` | `scheduled`) replaced the
+ * boolean, `slug` renames the whole article, and `category`/`author` are the
+ * two new fields. `published` is still accepted as a deprecated alias so the
+ * panel bundle deployed before this change keeps saving; `status` wins when
+ * both arrive. What the three states MEAN for a visitor is decided in exactly
+ * one place, `isArticleVisible` — this route stores intent, not visibility.
  *
  * `published_at` is stamped on the FIRST publish when the caller sends none, so
  * an owner who just flips the switch still gets a dated article, and left alone
@@ -73,13 +82,6 @@ export const PUT = async (
   const locale = parseArticleLocale(body.locale);
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
 
-  if (body.published && body.title.trim().length === 0) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      "Invalid request: a published article needs a title",
-    );
-  }
-
   const [existing] = await tenantModuleService.listTenantArticles({
     tenant_id: scope.id,
     slug,
@@ -93,14 +95,47 @@ export const PUT = async (
     );
   }
 
-  const publishedAt =
-    body.published_at !== undefined
-      ? body.published_at === null
-        ? null
-        : new Date(body.published_at)
-      : body.published && !existing.published_at
-        ? new Date()
-        : (existing.published_at ?? null);
+  const publication = resolveArticlePublication(body, existing);
+
+  if (publication.status !== "draft" && body.title.trim().length === 0) {
+    throw new MedusaError(
+      MedusaError.Types.INVALID_DATA,
+      "Invalid request: a published article needs a title",
+    );
+  }
+
+  // b18-blog-full: renaming the address. The slug NAMES THE ARTICLE, not one of
+  // its texts, so every language row moves together — a rename that touched
+  // only the row being saved would split one article into two, each missing a
+  // language. A slug another article of this shop already uses is refused
+  // before anything is written, rather than left to the unique index.
+  const targetSlug = body.slug ?? slug;
+  const renaming = targetSlug !== slug;
+  let renamedRows = 0;
+
+  if (renaming) {
+    const [clash] = await tenantModuleService.listTenantArticles({
+      tenant_id: scope.id,
+      slug: targetSlug,
+    });
+
+    if (clash) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Invalid request: address "${targetSlug}" is already taken by another article`,
+      );
+    }
+
+    const siblings = await tenantModuleService.listTenantArticles({
+      tenant_id: scope.id,
+      slug,
+    });
+
+    for (const sibling of siblings) {
+      await tenantModuleService.updateTenantArticles({ id: sibling.id, slug: targetSlug });
+    }
+    renamedRows = siblings.length;
+  }
 
   const saved = await tenantModuleService.updateTenantArticles({
     id: existing.id,
@@ -108,8 +143,10 @@ export const PUT = async (
     excerpt: body.excerpt ?? null,
     cover_url: body.cover_url ?? null,
     body: body.body,
-    published: body.published,
-    published_at: publishedAt,
+    status: publication.status,
+    published_at: publication.published_at,
+    category: normaliseCategory(body.category),
+    author: body.author?.trim() || null,
     tags: body.tags ?? null,
     seo_title: body.seo_title ?? null,
     seo_description: body.seo_description ?? null,
@@ -122,7 +159,7 @@ export const PUT = async (
   // an unsent notification leaves every one of them stale on the shop.
   await notifyStorefrontRevalidate({ type: "tenant.articles", handle: scope.handle });
 
-  res.json({ article: toArticleDto(row) });
+  res.json({ article: toArticleDto(row), ...(renaming && { renamed_locales: renamedRows }) });
 };
 
 /**
