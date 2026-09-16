@@ -436,7 +436,14 @@
     "previous": "Назад",
     "next": "Вперёд",
     "pageOf": "Страница {page} из {lastPage}",
-    "pagination": "Страницы журнала"
+    "pagination": "Страницы журнала",
+    "readingTime": "{minutes} мин чтения",
+    "related": "Читайте также",
+    "share": "Поделиться",
+    "copyLink": "Скопировать ссылку",
+    "linkCopied": "Ссылка скопирована",
+    "allCategories": "Все рубрики",
+    "categories": "Рубрики журнала"
   },
   "LanguageSelect": {
     "locales": {

@@ -436,7 +436,14 @@
     "previous": "Назад",
     "next": "Далі",
     "pageOf": "Сторінка {page} з {lastPage}",
-    "pagination": "Сторінки журналу"
+    "pagination": "Сторінки журналу",
+    "readingTime": "{minutes} хв читання",
+    "related": "Читайте також",
+    "share": "Поділитися",
+    "copyLink": "Скопіювати посилання",
+    "linkCopied": "Посилання скопійовано",
+    "allCategories": "Усі рубрики",
+    "categories": "Рубрики журналу"
   },
   "LanguageSelect": {
     "locales": {

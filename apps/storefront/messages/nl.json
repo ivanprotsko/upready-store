@@ -436,7 +436,14 @@
     "previous": "Vorige",
     "next": "Volgende",
     "pageOf": "Pagina {page} van {lastPage}",
-    "pagination": "Magazinepagina's"
+    "pagination": "Magazinepagina's",
+    "readingTime": "{minutes} min lezen",
+    "related": "Lees ook",
+    "share": "Delen",
+    "copyLink": "Link kopiëren",
+    "linkCopied": "Link gekopieerd",
+    "allCategories": "Alle rubrieken",
+    "categories": "Rubrieken"
   },
   "LanguageSelect": {
     "locales": {

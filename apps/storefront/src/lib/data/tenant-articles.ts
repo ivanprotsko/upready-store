@@ -28,15 +28,22 @@ import { defaultLocale } from "@i18n/config"
 
 const ARTICLES_TAG = "tenant-articles"
 
+export type ArticleStatus = "draft" | "published" | "scheduled"
+
 export type TenantArticleSummary = {
   slug: string
   locale: string
   title: string
   excerpt: string | null
   cover_url: string | null
+  status: ArticleStatus
   published: boolean
   published_at: string | null
+  category: string | null
+  author: string | null
   tags: string[]
+  /** Whole minutes, computed by the backend so every screen agrees. */
+  reading_minutes: number
 }
 
 export type TenantArticle = TenantArticleSummary & {
@@ -51,7 +58,11 @@ export type TenantArticlePage = {
   count: number
   limit: number
   offset: number
+  /** Echoed back when the feed was narrowed to one rubric. */
+  category?: string
 }
+
+export type TenantArticleCategory = { category: string; count: number }
 
 const EMPTY_PAGE: TenantArticlePage = { articles: [], count: 0, limit: 0, offset: 0 }
 
@@ -67,9 +78,9 @@ let warnedUnreachable = false
  * an empty page is the right answer.
  */
 export async function listTenantArticles(
-  params: { limit?: number; offset?: number } = {}
+  params: { limit?: number; offset?: number; category?: string } = {}
 ): Promise<TenantArticlePage> {
-  const { limit = 12, offset = 0 } = params
+  const { limit = 12, offset = 0, category } = params
 
   try {
     const locale = (await getLocale()) ?? defaultLocale
@@ -77,6 +88,10 @@ export async function listTenantArticles(
       locale,
       limit: String(limit),
       offset: String(offset),
+      // b18-blog-full: the rubric rides the query, so Next caches one entry per
+      // rubric behind the shared tag rather than serving the whole feed for a
+      // filtered URL.
+      ...(category ? { category } : {}),
     })
     const page = await sdk.client.fetch<TenantArticlePage>(
       `/store/tenant/articles?${query.toString()}`,
@@ -119,14 +134,50 @@ export async function hasPublishedArticles(): Promise<boolean> {
  * visitor whether the slug exists as a draft.
  */
 export async function getTenantArticle(slug: string): Promise<TenantArticle | null> {
+  const found = await getTenantArticleWithRelated(slug)
+  return found?.article ?? null
+}
+
+/**
+ * The article AND the three the backend suggests reading next (b18-blog-full),
+ * in one request: the related strip is part of the article page, and a second
+ * round trip for it would double the page's backend time for a list the same
+ * handler already has in memory.
+ */
+export async function getTenantArticleWithRelated(
+  slug: string
+): Promise<{ article: TenantArticle; related: TenantArticleSummary[] } | null> {
   try {
     const locale = (await getLocale()) ?? defaultLocale
-    const { article } = await sdk.client.fetch<{ article: TenantArticle }>(
+    const { article, related } = await sdk.client.fetch<{
+      article: TenantArticle
+      related?: TenantArticleSummary[]
+    }>(
       `/store/tenant/articles/${encodeURIComponent(slug)}?locale=${encodeURIComponent(locale)}`,
       { next: { tags: [ARTICLES_TAG] }, cache: "force-cache" }
     )
-    return article ?? null
+    return article ? { article, related: related ?? [] } : null
   } catch {
     return null
+  }
+}
+
+/**
+ * The rubrics a visitor can browse — only those carried by an article that is
+ * public right now. An empty list is normal (a shop that files nothing) and the
+ * feed simply shows no filter row; a backend that is down must not take the
+ * feed with it, so the failure is an empty list and a server-log line, never a
+ * throw into the render.
+ */
+export async function listTenantArticleCategories(): Promise<TenantArticleCategory[]> {
+  try {
+    const locale = (await getLocale()) ?? defaultLocale
+    const { categories } = await sdk.client.fetch<{ categories: TenantArticleCategory[] }>(
+      `/store/tenant/article-categories?locale=${encodeURIComponent(locale)}`,
+      { next: { tags: [ARTICLES_TAG] }, cache: "force-cache" }
+    )
+    return categories ?? []
+  } catch {
+    return []
   }
 }

@@ -436,7 +436,14 @@
     "previous": "Previous",
     "next": "Next",
     "pageOf": "Page {page} of {lastPage}",
-    "pagination": "Journal pages"
+    "pagination": "Journal pages",
+    "readingTime": "{minutes} min read",
+    "related": "Read next",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "allCategories": "All topics",
+    "categories": "Journal topics"
   },
   "LanguageSelect": {
     "locales": {
