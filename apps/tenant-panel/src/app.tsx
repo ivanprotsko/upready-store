@@ -232,6 +232,24 @@ const routes: RouteObject[] = [
             ],
           },
           {
+            // w15-mp-orders-desk: «Заказы маркетплейсов» — одна лента заказов
+            // магазина, Wildberries и Ozon с фильтрами по площадке, схеме,
+            // статусу и периоду. Только чтение: экран показывает то, что импорт
+            // положил в `mp_order`, и ничего не меняет на площадке (приказ
+            // Ивана 2026-09-16 02:46 WITA). Строка магазина ведёт на обычный
+            // экран заказа `/orders/:id`, строка площадки — на карточку ниже.
+            path: "/marketplace-orders",
+            handle: { breadcrumb: () => t("marketplaceOrders.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplace-orders"),
+          },
+          {
+            path: "/marketplace-orders/:id",
+            handle: { breadcrumb: () => t("marketplaceOrders.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/marketplace-order-detail"),
+          },
+          {
             path: "/orders",
             // tenant-panel: same breadcrumb handle as the Admin route map (get-route.map.tsx)
             handle: { breadcrumb: () => t("orders.domain") },

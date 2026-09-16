@@ -193,6 +193,14 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ShoppingCart />,
       label: t("orders.domain"),
       to: "/orders",
+      // w15-mp-orders-desk: единая лента заказов площадок висит под «Заказами»
+      // ровно так же, как «Характеристики» висят под «Товарами» выше.
+      items: [
+        {
+          label: t("marketplaceOrders.navLabel"),
+          to: "/marketplace-orders",
+        },
+      ],
     },
     {
       // t13-customers-screen: right after Orders (task step 4).
