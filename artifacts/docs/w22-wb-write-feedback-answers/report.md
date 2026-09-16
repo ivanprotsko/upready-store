@@ -66,11 +66,12 @@ artifacts/docs/w03-wb-sales-questions-mirror/docs/dev-wildberries-ru-en-docs-ope
 черновик есть и укладывается в границы WB, на отзыв ещё не отвечали, подтверждение совпадает
 с черновиком. Дальше — ядро w20 без изменений.
 
-`POST /tenants/wb/feedback-answers/send` — ПЕРВЫЙ боевой вызов `wbWrite` в репозитории. Тест
+`POST /tenants/wb/feedback-answers/send` — боевой вызов `wbWrite`. Тест
 `no-live-write-call-site.unit.spec.ts` переписан: вместо «вызывающих нет» он держит
-**именной список** `REGISTERED_CALLERS` (сейчас один файл) и отдельно проверяет, что
-`WB_WRITE_LIVE` не выставляется ничем, что репозиторий поставляет (шаблоны env,
-`docker-entrypoint.sh`, оба workflow).
+**именной список** `REGISTERED_CALLERS` и отдельно проверяет, что `WB_WRITE_LIVE` не
+выставляется ничем, что репозиторий поставляет (шаблоны env, `docker-entrypoint.sh`, оба
+workflow). На момент раунда 1 в списке был один файл — мой; после сведения с `dev` их два,
+второй пришёл из w23 (раздел «Раунд 2» ниже).
 
 ## Конкурент — ДА (и шире)
 
@@ -324,3 +325,55 @@ w13, совпадения приходят из промптов дня и ст�
    текст → тост «Черновой прогон: …, в Wildberries ничего не ушло».
 5. `select outcome, gate, dry_run, count(*) from marketplace_write_audit group by 1,2,3;` —
    строк `sent` быть не должно.
+
+---
+
+## Раунд 2 — сведение с `dev` (2026-09-16 08:24 WITA)
+
+Пока шла приёмка, в `dev` уехал w23-wb-write-fbs-orders (PR #80, коммит `e8e0230c`), и PR #83
+стал `CONFLICTING`. Смержил базу в ветку (`git merge origin/dev`, merge-коммит `ca3e61b7`) —
+шесть конфликтов, все аддитивные, обе стороны живы:
+
+| файл | как сведён |
+|---|---|
+| `api/middlewares.ts` | обе записи маршрутов рядом: `/tenants/wb/feedback-answers*` (w22) и `/tenants/wb/fbs-orders/actions` (w23) |
+| `wb-write/write-endpoints.ts` | обе записи реестра: `wb.questions.view` (w22) и `wb.fbs.supply.create` + `wb.fbs.supply.add-orders` (w23). Итог — 10 мутаций |
+| `wb-write/__tests__/no-live-write-call-site.unit.spec.ts` | взял версию `dev` целиком (она строже моей: исключает сам файл из скана и отдельным кейсом доказывает, что регулярка умеет падать) и добавил в `REGISTERED_CALLERS` свою строку + свой кейс про env-шаблоны, workflow и entrypoint — он смотрит на поверхность, которую скан исходников не видит |
+| `wb/migrations/.snapshot-wb.json` | снимок — генерируемое состояние, руками не сводится: взял версию `dev` и перегенерировал (`npx medusa db:generate wb`). Сгенерированная миграция оказалась **побайтово тем же SQL**, что уже лежит в `Migration20260915235004`, поэтому её файл удалён, а обновлённый снимок оставлен. В снимке 13 таблиц, включая `wb_answer_template` и `wb_fbs_order`/`wb_supply` |
+| `i18n/translations/{ru,en}.json` | сведены как JSON глубоким объединением, а не склейкой текста: конфликт сидел внутри одного объекта, и ручная правка скобок — ровно то место, где каталог молча теряет ключ. Скрипт объединения проверял два инварианта и отказался бы писать при нарушении любого: ни один ключ ни одной стороны не потерян, и ни один общий ключ не разошёлся текстом. **ru 2936 + 2956 → 3000, en 2840 + 2860 → 2904, потеряно 0, расхождений 0.** Мелочь, которую поверхностный spread испортил бы молча: `wildberries.kinds` есть у обеих сторон, и w23 добавил туда `supplies` и `fbs_orders` — после сведения в нём все 10 видов |
+
+### Перепрогон после сведения (всё на слитом дереве)
+
+```
+apps/backend  npm run test:unit        → rc=0, 59 сюит, 704 теста   (было 57/674 до мержа)
+apps/backend  npx tsc --noEmit         → rc=0
+apps/backend  npx medusa lint          → rc=0, 0 ошибок
+pnpm check:backend-build               → rc=0, «Backend build completed successfully»
+apps/tenant-panel  npx tsc --noEmit    → rc=0
+apps/tenant-panel  npx eslint src      → rc=0, 0 ошибок
+node scripts/check-locale-catalogs.mjs → rc=0, «OK — 3 catalogs, 36 codes each, all agree»
+```
+
+Живой стенд после мержа (`npx medusa db:migrate` → `Migrated Migration20260915235342`, бэкенд поднят заново):
+
+```
+GET  /tenants/wb/feedback-answers?answered=unanswered  → 200
+     endpoints: wb.feedbacks.answer, wb.feedbacks.answer.edit, wb.questions.view
+     unregistered: questions.answer
+     feedbacks: 122 unanswered, rows 50 | questions: 2 unanswered, rows 2
+     строка из раунда 1 на месте: answer_status=confirmed, sha 836d9fa0b42e
+POST .../send (отзыв, верное подтверждение)            → 200  dry_run  wb.feedbacks.answer
+POST .../send (вопрос, intent=view)                    → 200  dry_run  wb.questions.view
+
+     op_class     |     endpoint_id     | outcome | gate    | dry_run | count
+------------------+---------------------+---------+---------+---------+-------
+ feedback_answers | wb.feedbacks.answer | dry_run |         | t       |     3
+ feedback_answers | wb.feedbacks.answer | refused | consent | t       |     1
+ feedback_answers | wb.feedbacks.answer | refused | enabled | t       |     1
+ feedback_answers | wb.questions.view   | dry_run |         | t       |     3
+
+sent rows: 0
+```
+
+Скриншоты пересняты на слитом дереве (`page errors: none`); вкладка «Отзывы и вопросы» и
+раздел FBS от w23 стоят на одной странице и друг другу не мешают.
