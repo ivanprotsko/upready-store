@@ -7,7 +7,7 @@ import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 import type MarketplaceModuleService from "../../../modules/marketplace/service";
 import { linkSummary, matchByVendorCode } from "../../../modules/marketplace/link";
 import { tenantVariants } from "../../../modules/marketplace/project";
-import { maskSecret } from "../../../tenant-secrets/crypto";
+import { credentialFieldViews, readRawCredentials } from "../marketplace-keys";
 
 /**
  * The body of one marketplace card, built once and served by both
@@ -55,6 +55,13 @@ export const buildCard = async (
   const mp = scope.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
 
   const slot = await adapter.readCredentials(pg, tenantId);
+  /**
+   * The RAW payload beside the adapter-shaped credential: the form's fields are
+   * named after the payload keys, while `slot.credentials` is whatever that
+   * adapter's transport wants (a bare string on WB). Reading fields out of the
+   * latter yields nothing and renders «ключ не сохранён» over a stored key.
+   */
+  const rawCredentials = await readRawCredentials(pg, adapter, tenantId);
 
   /**
    * Asking the key what it may do costs a network request on Ozon and nothing
@@ -149,20 +156,7 @@ export const buildCard = async (
        * authorise) carries what is stored, because the owner has to see which
        * cabinet this shop is bound to.
        */
-      fields: adapter.credentialFields.map((field) => {
-        const stored = (slot?.credentials ?? {}) as Record<string, unknown>;
-        const value = stored[field.name];
-        const text = typeof value === "string" ? value : null;
-        return {
-          name: field.name,
-          label: field.label,
-          secret: field.secret,
-          hint: field.hint,
-          doc_url: field.docUrl,
-          value: field.secret ? null : text,
-          masked: field.secret ? maskSecret(text) : null,
-        };
-      }),
+      fields: credentialFieldViews(adapter, rawCredentials),
     },
     credentials: facts
       ? {

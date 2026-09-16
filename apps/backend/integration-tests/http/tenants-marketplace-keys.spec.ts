@@ -282,8 +282,13 @@ medusaIntegrationTestRunner({
         expect(removed.data.connection.key).toEqual({ set: false, last4: null });
         expect(removed.data.credentials).toBeNull();
 
+        // The card's own `key` carries `how_to_store` beside the mask, so the
+        // comparison is on the two fields this test is about.
         const card = await api.get("/tenants/marketplaces/wb/status", bearer(a.token));
-        expect(card.data.connection.key).toEqual({ set: false, last4: null });
+        expect(card.data.connection.key).toMatchObject({ set: false, last4: null });
+        expect(card.data.connection.fields).toEqual([
+          expect.objectContaining({ name: "api_key", masked: { set: false, last4: null } }),
+        ]);
 
         // Saving again REVIVES the row instead of adding a second one: the
         // readers take the first row with `deleted_at is null`, so two live

@@ -2,7 +2,9 @@ import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/frame
 import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type { CredentialField, MarketplaceAdapter } from "../../modules/marketplace/contract";
+import { MARKETPLACE_MODULE } from "../../modules/marketplace";
 import { requireAdapter } from "../../modules/marketplace/registry";
+import type MarketplaceModuleService from "../../modules/marketplace/service";
 import { TENANT_MODULE } from "../../modules/tenant";
 import type TenantModuleService from "../../modules/tenant/service";
 import {
@@ -53,7 +55,7 @@ import { getTenantScope } from "./tenant-scope";
 /** The body: one string per declared field. Unknown keys are refused by the validator. */
 export type MarketplaceKeyBody = Record<string, string>;
 
-type FieldView = {
+export type FieldView = {
   name: string;
   label: string;
   secret: boolean;
@@ -88,14 +90,6 @@ export type MarketplaceKeyResponse = {
 };
 
 /**
- * The field whose value IS the key: the first secret one. `{ set, last4 }` of
- * the card comes from it, the same value `readCredentials` reports, so the
- * card and this route can never disagree about whether a shop is connected.
- */
-const keyFieldOf = (adapter: MarketplaceAdapter): CredentialField =>
-  adapter.credentialFields.find((field) => field.secret) ?? adapter.credentialFields[0];
-
-/**
  * The adapter's slot, checked against the column's own CHECK constraint before
  * anything is written.
  *
@@ -119,17 +113,50 @@ const slotOf = (adapter: MarketplaceAdapter): TenantIntegrationProvider => {
   return slot;
 };
 
-const storedCredentials = async (
-  req: AuthenticatedMedusaRequest,
+/**
+ * The RAW payload of the slot: the object whose keys are the adapter's field
+ * names, which is what the form reads and writes.
+ *
+ * Deliberately NOT `adapter.readCredentials`: that one returns the credential
+ * in the shape the adapter's own transport wants — a bare string on
+ * Wildberries, `{ clientId, apiKey }` on Ozon — and reading a field out of it
+ * by the field's name silently yields nothing (measured: the WB card reported
+ * «ключ не сохранён» next to a stored key). Both readers have their place:
+ * this one for the form, the adapter's for `inspectCredentials`.
+ */
+export const readRawCredentials = async (
+  pg: Knex,
   adapter: MarketplaceAdapter,
   tenantId: string,
-): Promise<{ credentials: Record<string, unknown>; isEnabled: boolean } | null> => {
-  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+): Promise<Record<string, unknown> | null> => {
   const slot = await readTenantSecretSlot(pg, tenantId, slotOf(adapter), {
     includeDisabled: true,
   });
-  return slot ? { credentials: slot.credentials, isEnabled: slot.is_enabled } : null;
+  return slot ? slot.credentials : null;
 };
+
+/**
+ * The form, as the panel renders it: one entry per declared field, carrying
+ * what is stored today. ONE builder for the key routes and for the marketplace
+ * card, so the two screens cannot disagree about what is saved (rule 20).
+ */
+export const credentialFieldViews = (
+  adapter: MarketplaceAdapter,
+  values: Record<string, unknown> | null,
+): FieldView[] =>
+  adapter.credentialFields.map((field) => {
+    const value = (values ?? {})[field.name];
+    const text = typeof value === "string" ? value : null;
+    return {
+      name: field.name,
+      label: field.label,
+      secret: field.secret,
+      hint: field.hint,
+      doc_url: field.docUrl,
+      value: field.secret ? null : text,
+      masked: field.secret ? maskSecret(text) : null,
+    };
+  });
 
 /**
  * The whole state, assembled once. `PUT` and `DELETE` answer with it too, so
@@ -141,8 +168,9 @@ const readState = async (
   adapter: MarketplaceAdapter,
 ): Promise<MarketplaceKeyResponse> => {
   const tenant = await getTenantScope(req);
-  const stored = await storedCredentials(req, adapter, tenant.id);
-  const values = stored?.credentials ?? {};
+  const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
+  const values = await readRawCredentials(pg, adapter, tenant.id);
+  const slot = await adapter.readCredentials(pg, tenant.id);
 
   /**
    * Asking costs one request on Ozon and nothing on Wildberries, and it is the
@@ -150,32 +178,37 @@ const readState = async (
    * it may do. A key that was never stored is not asked anything — an absent
    * credential has no verdict (rule 20a).
    */
-  const facts = stored ? await adapter.inspectCredentials(values) : null;
-
-  const keyField = keyFieldOf(adapter);
-  const keyValue = values[keyField.name];
+  const mp = req.scope.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
+  const facts = slot
+    ? await adapter.inspectCredentials(slot.credentials, {
+        tenantId: tenant.id,
+        /**
+         * Asking an Ozon key what it may do IS a request to Ozon, so the call
+         * leaves a row in the shared journal exactly as the card route's does
+         * — a request that leaves the process without one makes `mp_api_call`
+         * lie by omission (rule 20a), and
+         * `modules/ozon/__tests__/inspect-journalled.unit.spec.ts` fails any
+         * call site that forgets it. `medusa lint` warns about a service
+         * mutation in a route handler; kept as a warning on purpose, for the
+         * reason `status-payload.ts` states.
+         */
+        journal: async (entry) => {
+          await mp.createMpApiCalls({ ...entry, marketplace: adapter.id });
+        },
+      })
+    : null;
 
   return {
     marketplace: adapter.id,
     label: adapter.label,
     connection: {
-      key: maskSecret(typeof keyValue === "string" ? keyValue : null),
-      is_enabled: stored?.isEnabled ?? false,
+      // `last4` comes from the adapter, the same value the card shows: the
+      // adapter knows WHICH of its fields is the key.
+      key: { set: Boolean(slot), last4: slot?.last4 ?? null },
+      is_enabled: slot?.isEnabled ?? false,
       how_to_store: adapter.credentialHowTo,
     },
-    fields: adapter.credentialFields.map((field) => {
-      const value = values[field.name];
-      const text = typeof value === "string" ? value : null;
-      return {
-        name: field.name,
-        label: field.label,
-        secret: field.secret,
-        hint: field.hint,
-        doc_url: field.docUrl,
-        value: field.secret ? null : text,
-        masked: field.secret ? maskSecret(text) : null,
-      };
-    }),
+    fields: credentialFieldViews(adapter, values),
     credentials: facts
       ? {
           expires_at: facts.expiresAt,
@@ -251,12 +284,8 @@ export const putMarketplaceKey = async (
     );
   }
 
-  const stored = await storedCredentials(req, adapter, tenant.id);
-  const { credentials, missing } = buildCredentials(
-    adapter.credentialFields,
-    stored?.credentials ?? {},
-    body,
-  );
+  const stored = await readRawCredentials(pg, adapter, tenant.id);
+  const { credentials, missing } = buildCredentials(adapter.credentialFields, stored ?? {}, body);
 
   if (missing.length) {
     // The FIELD, never its content: an error message is the shortest path from
