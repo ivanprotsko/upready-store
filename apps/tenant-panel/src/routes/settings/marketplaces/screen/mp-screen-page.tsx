@@ -16,7 +16,7 @@ import { MpCard } from "../components/mp-card"
  *
  * Ivan, 2026-09-16 20:22 WITA: «страницы для ozon и WB сделай по таким адресам
  * settings/marketplaces/wildberries settings/marketplaces/ozon». Before this
- * the sidebar carried `/settings/marketplaces#wb`, an anchor into the middle of
+ * the sidebar carried the shared hub plus a `#wb` anchor into the middle of
  * a shared page, which is exactly what the order forbids.
  *
  * The content is the marketplace card the hub used to stack: connection state,

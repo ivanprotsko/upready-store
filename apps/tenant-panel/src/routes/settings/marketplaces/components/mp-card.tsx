@@ -1,4 +1,4 @@
-import { Alert, Container, Heading, Text } from "@medusajs/ui"
+import { Alert, Badge, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { useMarketplaceStatus, type MarketplaceCard } from "../../../../hooks/api/marketplaces"
@@ -126,6 +126,30 @@ export const MpCard = ({
       {showKeyForm ? <MpKeyForm card={detail ?? card} /> : null}
 
       <div className="px-6 py-4">
+        {/*
+          p01-settings-integrations-restructure: with the form hidden, the card
+          would report the RIGHTS of a key whose existence it never states —
+          the owner would read «ключ только на чтение» next to nothing saying a
+          key is stored at all. The state comes back as a ROW, so the marketplace
+          screen answers «подключено ••••last4» the same way the hub and the
+          connection page do (measured on the stand: this check was the one FAIL
+          of the first acceptance run).
+        */}
+        {showKeyForm ? null : (
+          <MpFieldRow label={t("marketplaces.key.form.title")}>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <Badge
+                size="2xsmall"
+                color={hasKey ? "green" : "grey"}
+                data-testid={`mp-key-state-${card.id}`}
+              >
+                {hasKey
+                  ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
+                  : t("marketplaces.key.missing")}
+              </Badge>
+            </div>
+          </MpFieldRow>
+        )}
         <MpFieldRow label={t("marketplaces.enabled.label")}>
           {card.connection.is_enabled
             ? t("marketplaces.enabled.yes")

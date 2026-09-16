@@ -4852,7 +4852,6 @@
     "emptyPlaceholder": "paste from your CDEK dashboard",
     "freeAbovePlaceholder": "empty — never free",
     "testHint": "Test mode uses CDEK's training contour (api.edu.cdek.ru): orders there create no real parcels. Live mode needs a CDEK contract.",
-    "senderCityRequired": "Enter the departure city — without it CDEK prices nothing",
     "save": "Save",
     "remove": "Remove contract",
     "saved": "Delivery settings saved",
@@ -4865,7 +4864,8 @@
     "webhookTitle": "Status callback address for CDEK",
     "webhookHint": "CDEK posts parcel status changes to this address. It is registered automatically when you save.",
     "webhookRegistered": "subscription registered",
-    "webhookNotRegistered": "subscription not registered"
+    "webhookNotRegistered": "subscription not registered",
+    "savedWithoutCity": "The credentials are saved, but delivery stays off: set the departure city on «CDEK delivery» and CDEK starts pricing."
   },
   "integrations": {
     "title": "Integrations",

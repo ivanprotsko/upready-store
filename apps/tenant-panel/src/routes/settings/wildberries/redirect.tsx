@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom"
  *
  * The old path is in the owner's bookmarks, so it stays and redirects rather
  * than 404-ing. What changed is the TARGET: it used to be
- * `/settings/marketplaces#wb`, an anchor into the middle of a shared page, and
+ * the shared hub plus a `#wb` anchor into the middle of it, and
  * Ivan's order of 2026-09-16 20:22 WITA removes every `#` from this panel's
  * navigation. Wildberries has a screen of its own now.
  *

@@ -161,14 +161,20 @@ export const useCdekForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 
-    // The city is checked on BOTH screens, because the backend refuses the save
-    // without it and the field itself lives on «Доставка». Saying so here beats
-    // handing the owner of the requisites screen a CDEK error she cannot act on
-    // from that page (the message names the other screen, `senderCityRequired`).
-    if (draft.is_enabled && !draft.sender_city_name.trim() && !draft.sender_city_code.trim()) {
-      toast.error(t("deliverySettings.senderCityRequired"))
-      return
-    }
+    /**
+     * THE SENDER CITY LIVES ON THE OTHER SCREEN, and the backend refuses to
+     * ENABLE a CDEK account without it («без него СДЭК не считает ни одного
+     * тарифа»). Refusing the save here would be a dead end: the owner who has
+     * just typed her CDEK login on `/settings/integrations/cdek` cannot fill a
+     * field that is not on her screen, and she has nowhere to fill it either,
+     * because «Доставка СДЭК» has nothing to save until the account exists.
+     *
+     * So the requisites are STORED, switched off, and the reason is said out
+     * loud. Silently flipping `is_enabled` would be the swallowed failure of
+     * rule 20a; the warning below is the other end of it.
+     */
+    const missingCity = !draft.sender_city_name.trim() && !draft.sender_city_code.trim()
+    const enabled = draft.is_enabled && !missingCity
 
     const secrets = Object.fromEntries(
       CDEK_SECRET_FIELDS.filter((field) => draft[field].trim().length > 0).map((field) => [
@@ -181,7 +187,7 @@ export const useCdekForm = () => {
       {
         provider: "cdek",
         is_test: draft.is_test,
-        is_enabled: draft.is_enabled,
+        is_enabled: enabled,
         account: draft.account.trim(),
         test_account: draft.test_account.trim(),
         ...secrets,
@@ -208,6 +214,9 @@ export const useCdekForm = () => {
               ? t("deliverySettings.savedWithTariffs", { count: saved.verified.tariffs })
               : t("deliverySettings.saved")
           )
+          if (draft.is_enabled && !enabled) {
+            toast.warning(t("deliverySettings.savedWithoutCity"))
+          }
           if (saved.webhook && !saved.webhook.registered && saved.webhook.error) {
             // Not a failed save: the shop quotes and ships without the
             // subscription, it only loses the automatic status updates.

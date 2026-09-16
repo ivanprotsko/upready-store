@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url"
  * needs i18next, a router and React; rendering it would pull the whole panel
  * into a test runner this package does not have. What the rule forbids is a
  * STRING in a `to`, and a string is exactly what the source carries — no
- * runtime can make `to: "/settings/marketplaces#wb"` stop containing a hash.
+ * runtime can make a `to` whose text carries a hash stop carrying one.
  * The check therefore costs one `node --test` run and no dependency.
  *
  *   node --test apps/tenant-panel/src/__tests__/

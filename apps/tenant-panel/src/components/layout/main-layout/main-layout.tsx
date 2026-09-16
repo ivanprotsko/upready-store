@@ -6,6 +6,7 @@ import {
   EllipsisHorizontal,
   Folder,
   House,
+  Key,
   RocketLaunch,
   OpenRectArrowOut,
   ReceiptPercent,
@@ -326,6 +327,23 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           to: "/settings/marketplaces/ozon",
         },
       ],
+    },
+    {
+      // p01-settings-integrations-restructure: «Подключение» — реквизиты ВСЕХ
+      // сервисов магазина (площадки, Robokassa, ApiShip, СДЭК). Приказ Ивана
+      // 2026-09-16 20:22 WITA: переименовать «подключение площадок» в
+      // «подключение» и вынести из маркетплейсов, потому что ключи Robokassa и
+      // СДЭК к площадкам отношения не имеют.
+      //
+      // ОДИН пункт и ВЕРХНИЙ уровень, сразу за группой «Маркетплейсы»: раньше
+      // их было три (подключение площадок, Wildberries, Ozon), и два из них
+      // вели на якоря внутри одной страницы. Группы «Настройки» в этом сайдбаре
+      // нет вовсе — `/settings/payments`, `/settings/delivery` и
+      // `/settings/domains` живут строкой ссылок на главной, и «Подключение»
+      // стоит там же (`routes/home/home.tsx`).
+      icon: <Key />,
+      label: t("integrations.title"),
+      to: "/settings/integrations",
     },
   ]
 }
