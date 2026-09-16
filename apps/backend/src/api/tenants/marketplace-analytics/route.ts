@@ -21,6 +21,9 @@ import { loadAnalytics } from "./load-analytics";
  * What the answer carries besides the numbers, and why:
  *   `formulas`    the one line each block prints above itself, so a number can
  *                 be argued with rather than believed (rule 18e).
+ *   `seller_currency` the currency every sum here is IN, taken from the shop's
+ *                 own price list. The `currency` of an order is the BUYER's
+ *                 country code and is broken out in `markets` instead.
  *   `connections` whether each marketplace has a key and how its last ORDER
  *                 import ended — the reason an empty screen is empty.
  *   `rating`      per marketplace: the seller rating, or WHY there is none,
@@ -51,6 +54,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
       default_days: DEFAULT_PERIOD_DAYS,
     },
     applied: data.applied,
+    seller_currency: data.seller_currency,
+    markets: data.markets,
     totals: data.totals,
     by_day: data.by_day,
     cards: data.cards.slice(offset, offset + limit),
@@ -60,6 +65,8 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     abc: data.abc,
     xyz: data.xyz,
     xyz_bucket: data.xyz_bucket,
+    xyz_buckets: data.xyz_buckets,
+    xyz_dropped_days: data.xyz_dropped_days,
     formulas: data.formulas,
     facets: data.facets,
     connections: data.connections,

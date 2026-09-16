@@ -369,16 +369,29 @@ const CURRENCY_BY_NUMERIC: Record<string, string> = {
   "398": "KZT",
   "051": "AMD",
   "417": "KGS",
+  "860": "UZS",
   "840": "USD",
   "978": "EUR",
 };
 
+/**
+ * WB SENDS THE CODE WITHOUT ITS LEADING ZERO, and the map above is keyed the
+ * way ISO 4217 prints it — three digits. Measured on the client's own orders
+ * (w19-mp-analytics, stand `upready_store_w19`): 58 orders carry `51` and 6
+ * carry `860`, so `51` fell past the lookup and reached the dashboard as the
+ * bare digits «51» while `860` (Uzbek som) was simply missing from the table.
+ * A currency column showing «51» is a raw value with no meaning on an owner's
+ * screen (rule 18e), so the code is padded to three digits before the lookup
+ * and the som is in the table. Anything still unknown travels as WB's own
+ * digits: a number we cannot name is still WB's answer (rule 17a).
+ */
 function currencyOfCode(value: unknown): string | null {
   const raw = text(value);
   if (!raw) {
     return null;
   }
-  return CURRENCY_BY_NUMERIC[raw] ?? raw;
+  const padded = /^\d{1,3}$/.test(raw) ? raw.padStart(3, "0") : raw;
+  return CURRENCY_BY_NUMERIC[padded] ?? raw;
 }
 
 /**

@@ -11,15 +11,19 @@ import {
   abcClasses,
   cardKey,
   cardRowsOf,
+  buyerMarkets,
   resolvePeriod,
   saleRowsOf,
   salesByCard,
   salesByDay,
+  sellerCurrencyOf,
+  stockOnlyCards,
   totalsOf,
   turnoverRows,
   xyzClasses,
   type AnalyticsTotals,
   type CardRow,
+  type BuyerMarket,
   type DayPoint,
   type RawLineWithOrder,
   type ResolvedPeriod,
@@ -86,12 +90,18 @@ export type AnalyticsConnection = {
 export type LoadedAnalytics = {
   period: ResolvedPeriod;
   applied: { marketplace: string[] };
+  /** The currency every sum here is IN, taken from the shop's own price list. */
+  seller_currency: string | null;
+  /** Where the buyers were, in the seller's currency — NOT a split into currencies. */
+  markets: BuyerMarket[];
   totals: AnalyticsTotals;
   by_day: DayPoint[];
   cards: CardRow[];
   abc: AbcSummaryRow[];
   xyz: AbcSummaryRow[];
   xyz_bucket: string;
+  xyz_buckets: number;
+  xyz_dropped_days: number;
   formulas: { revenue: string; stock: string; abc: string; xyz: string };
   facets: MarketplaceFacet[];
   connections: AnalyticsConnection[];
@@ -225,10 +235,19 @@ export const loadAnalytics = async (
   }
 
   const saleRows = saleRowsOf(raw, period);
+
+  /**
+   * ONE CURRENCY, AND IT IS THE SELLER'S. `mp_order.currency` is the BUYER's
+   * code (WB reports an order in the buyer's country currency) while
+   * `mp_order.total` is `convertedPrice` / `finished_price`, both in the
+   * seller's own currency — measured on the stand, see `buyerMarkets`. So the
+   * sums are added up across markets and the markets are broken out as a
+   * separate block, without a made-up rate anywhere.
+   */
+  const markets = buyerMarkets(saleRows);
+
   const byDay = salesByDay(saleRows, period);
-  const cards = salesByCard(saleRows);
-  const abc = abcClasses(cards);
-  const xyz = xyzClasses(saleRows, cards, period);
+  const sold = salesByCard(saleRows);
 
   const stockRows = offers
     .filter((offer) => !wanted.length || wanted.includes(String(offer.marketplace)))
@@ -240,7 +259,18 @@ export const loadAnalytics = async (
       measured_at: (offer.measured_at ?? offer.synced_at ?? null) as Date | null,
     }));
 
+  const soldTurnover = turnoverRows(sold, stockRows, period);
+  const cards = [
+    ...sold,
+    ...stockOnlyCards(sold, soldTurnover, (marketplace, cardId) => {
+      const named = titleByCard.get(cardKey(marketplace, cardId));
+      return { title: named?.title ?? null, vendor_code: named?.vendor_code ?? null };
+    }),
+  ];
+
   const turnover = turnoverRows(cards, stockRows, period);
+  const abc = abcClasses(cards);
+  const xyz = xyzClasses(saleRows, cards, period);
   const cardRows = cardRowsOf(cards, abc, xyz.rows, turnover);
   const totals = totalsOf(saleRows, cards, turnover, period);
 
@@ -283,7 +313,8 @@ export const loadAnalytics = async (
             is_fixture: Boolean(last.is_fixture),
           }
         : null,
-      orders_in_period: saleRows.filter((row) => row.marketplace === id && !row.is_cancelled).length,
+      orders_in_period: saleRows.filter((row) => row.marketplace === id && !row.is_cancelled)
+        .length,
     });
 
     facets.push({
@@ -358,12 +389,18 @@ export const loadAnalytics = async (
   return {
     period,
     applied: { marketplace: wanted },
+    seller_currency: sellerCurrencyOf(
+      offers.map((offer) => ({ currency: (offer.currency ?? null) as string | null })),
+    ),
+    markets,
     totals,
     by_day: byDay,
     cards: cardRows,
     abc: summarise(cardRows, (row) => row.abc, ["A", "B", "C"]),
     xyz: summarise(cardRows, (row) => row.xyz, ["X", "Y", "Z", null]),
     xyz_bucket: xyz.bucket,
+    xyz_buckets: xyz.buckets,
+    xyz_dropped_days: xyz.dropped_days,
     formulas: { revenue: REVENUE_FORMULA, stock: STOCK_FORMULA, abc: ABC_FORMULA, xyz: xyz.formula },
     facets,
     connections,

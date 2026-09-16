@@ -1,5 +1,9 @@
 import {
   ABC_BOUNDS,
+  buyerMarketLabel,
+  buyerMarkets,
+  sellerCurrencyOf,
+  stockOnlyCards,
   XYZ_BOUNDS,
   abcClasses,
   cardKey,
@@ -202,11 +206,16 @@ describe("XYZ по стабильности спроса", () => {
   });
 
   it("ровный спрос — X, рваный — Z", () => {
-    /* Одна штука в каждую из пяти недель против пяти штук в одну. */
-    const steady = [2, 9, 16, 23, 30].map((day) =>
+    /*
+     * Одна штука в каждую из ЧЕТЫРЁХ полных недель периода против пяти штук в
+     * одну. Период 1–30 сентября делится на 4 недели плюс 2 дня; неполные два
+     * дня в начале в расчёт не входят (см. bucketsOf), поэтому и ровный, и
+     * рваный спрос заданы внутри считаемых недель.
+     */
+    const steady = [9, 16, 23, 30].map((day) =>
       line({ card_id: "STEADY", ordered_at: `2026-09-${String(day).padStart(2, "0")}T00:00:00.000Z` }),
     );
-    const spiky = [line({ card_id: "SPIKY", qty: 5, ordered_at: "2026-09-02T00:00:00.000Z" })];
+    const spiky = [line({ card_id: "SPIKY", qty: 5, ordered_at: "2026-09-20T00:00:00.000Z" })];
 
     const rows = saleRowsOf([...steady, ...spiky], PERIOD);
     const cards = salesByCard(rows);
@@ -229,12 +238,23 @@ describe("XYZ по стабильности спроса", () => {
     expect(xyz.rows.get(cardKey("wb", "DEAD"))?.variation).toBeNull();
   });
 
-  it("формула названа на экране вместе с интервалом", () => {
+  it("формула названа на экране вместе с интервалом и отброшенными днями", () => {
     const rows = saleRowsOf([line()], PERIOD);
     const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
     expect(xyz.formula).toContain("CV");
     expect(xyz.formula).toContain("неделям");
     expect(xyz.formula).toContain("10 %");
+    /* 30 дней = 4 полных недели и 2 дня; про эти 2 дня экран говорит сам. */
+    expect(xyz.buckets).toBe(4);
+    expect(xyz.dropped_days).toBe(2);
+    expect(xyz.formula).toContain("2 дн.");
+  });
+
+  it("продажи, попавшие ТОЛЬКО в отброшенный хвост, класса не дают", () => {
+    const rows = saleRowsOf([line({ card_id: "TAIL", ordered_at: "2026-09-01T00:00:00.000Z" })], PERIOD);
+    const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
+    /* Штука продана, но внутри считаемых недель её нет — честный «класса нет». */
+    expect(xyz.rows.get(cardKey("wb", "TAIL"))?.xyz).toBeNull();
   });
 });
 
@@ -352,5 +372,103 @@ describe("итоги и таблица экрана", () => {
      */
     expect(table[0].turnover.days_to_zero).toBe(1350);
     expect(table.every((row) => row.xyz === null || ["X", "Y", "Z"].includes(row.xyz))).toBe(true);
+  });
+});
+
+describe("валюта покупателя против валюты продавца", () => {
+  const rows = saleRowsOf(
+    [
+      line({ card_id: "100", price: 1000, currency: "RUB" }),
+      line({ card_id: "100", price: 900, currency: "RUB" }),
+      line({ card_id: "200", price: 500, currency: "BYN" }),
+      line({ card_id: "300", price: 300, currency: null }),
+    ],
+    PERIOD,
+  );
+
+  it("рынки перечислены по убыванию выручки, строки без кода — отдельным рынком", () => {
+    const markets = buyerMarkets(rows);
+    expect(markets.map((market) => market.currency)).toEqual(["RUB", "BYN", null]);
+    expect(markets[0].revenue).toBe(1900);
+    expect(markets[2].label).toContain("метод статистики");
+  });
+
+  it("выручка НЕ делится по валютам: суммы уже в валюте продавца", () => {
+    const markets = buyerMarkets(rows);
+    const all = markets.reduce((sum, market) => sum + market.revenue, 0);
+    const cards = salesByCard(rows).reduce((sum, card) => sum + card.revenue, 0);
+    /* Сумма рынков равна сумме карточек: это одно и то же в одной валюте. */
+    expect(all).toBe(cards);
+    expect(all).toBe(2700);
+  });
+
+  it("числовой код рынка идёт словом «код», а не сырым числом (правило 18e)", () => {
+    expect(buyerMarketLabel("51")).toBe("код 51");
+    expect(buyerMarketLabel("RUB")).toBe("RUB");
+    expect(buyerMarketLabel(null)).toContain("не присылает");
+  });
+
+  it("валюта продавца берётся из прайса магазина, а не из заказа", () => {
+    expect(sellerCurrencyOf([{ currency: "RUB" }, { currency: "RUB" }, { currency: null }])).toBe(
+      "RUB",
+    );
+    /* Площадка ничего не сказала — экран печатает суммы без знака валюты. */
+    expect(sellerCurrencyOf([{ currency: null }])).toBeNull();
+    expect(sellerCurrencyOf([])).toBeNull();
+  });
+});
+
+describe("карточки с остатком, но без продаж", () => {
+  it("попадают в таблицу нулевой строкой, а не исчезают", () => {
+    const rows = saleRowsOf([line({ card_id: "100", price: 1000 })], PERIOD);
+    const sold = salesByCard(rows);
+    const turnover = turnoverRows(
+      sold,
+      [
+        { marketplace: "wb", card_id: "100", stock: 10, reserved: null, measured_at: null },
+        { marketplace: "wb", card_id: "900", stock: 40, reserved: null, measured_at: null },
+        { marketplace: "wb", card_id: "901", stock: 0, reserved: null, measured_at: null },
+      ],
+      PERIOD,
+    );
+
+    const extra = stockOnlyCards(sold, turnover, () => ({ title: "Залежался", vendor_code: "V-900" }));
+
+    /* Карточка с нулевым остатком нулевой строкой не заводится: лежать нечему. */
+    expect(extra.map((card) => card.card_id)).toEqual(["900"]);
+    expect(extra[0].revenue).toBe(0);
+    expect(extra[0].units).toBe(0);
+    expect(extra[0].title).toBe("Залежался");
+  });
+
+  it("нулевая карточка не портит ни ABC, ни доли проданных", () => {
+    const rows = saleRowsOf([line({ card_id: "100", price: 1000 })], PERIOD);
+    const sold = salesByCard(rows);
+    const turnover = turnoverRows(
+      sold,
+      [{ marketplace: "wb", card_id: "900", stock: 40, reserved: null, measured_at: null }],
+      PERIOD,
+    );
+    const cards = [...sold, ...stockOnlyCards(sold, turnover, () => ({ title: null, vendor_code: null }))];
+    const abc = abcClasses(cards);
+
+    expect(abc.get(cardKey("wb", "100"))?.abc).toBe("A");
+    /* Ноль выручки — последний класс, и это правда, а не наказание. */
+    expect(abc.get(cardKey("wb", "900"))?.abc).toBe("C");
+    expect(cards[0].revenue_share).toBeCloseTo(100, 6);
+  });
+});
+
+describe("неполный интервал XYZ", () => {
+  it("ровный темп в 30 дней (4 недели + 2 дня) остаётся X, а не Z", () => {
+    /* Одна штука КАЖДЫЙ день периода: спрос идеально ровный. */
+    const daily = daysOf(PERIOD).map((day) =>
+      line({ card_id: "FLAT", ordered_at: `${day}T09:00:00.000Z` }),
+    );
+    const rows = saleRowsOf(daily, PERIOD);
+    const xyz = xyzClasses(rows, salesByCard(rows), PERIOD);
+
+    expect(xyz.rows.get(cardKey("wb", "FLAT"))?.variation).toBeCloseTo(0, 6);
+    expect(xyz.rows.get(cardKey("wb", "FLAT"))?.xyz).toBe("X");
   });
 });
