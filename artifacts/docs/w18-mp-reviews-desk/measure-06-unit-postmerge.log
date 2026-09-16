@@ -1,0 +1,76 @@
+
+> @dtc/gorgo-medusa-backend@1.0.0 test:unit /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk/apps/backend
+> TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit
+
+PASS src/tenant-secrets/__tests__/robokassa.unit.spec.ts
+PASS src/modules/ozon/__tests__/credentials.unit.spec.ts (6.133 s)
+PASS src/product-csv/__tests__/prices.unit.spec.ts
+PASS src/api/tenants/marketplaces/__tests__/reviews-desk-read-only.unit.spec.ts
+PASS src/catalog-enrich/__tests__/reviews.unit.spec.ts
+PASS src/migration-scripts/__tests__/prices.unit.spec.ts
+PASS src/modules/marketplace/__tests__/single-call-site.unit.spec.ts
+PASS src/catalog-enrich/__tests__/wb-source.unit.spec.ts
+PASS src/modules/ozon/__tests__/transport.unit.spec.ts
+PASS src/migration-scripts/__tests__/abstract-datasets.unit.spec.ts
+PASS src/modules/wb/__tests__/fbs-sync.unit.spec.ts
+PASS src/workflows/hooks/__tests__/complete-cart-validate.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/oauth.unit.spec.ts
+PASS src/workflows/hooks/__tests__/validate-cart-shipping-address.unit.spec.ts
+PASS src/api/tenants/marketplaces/__tests__/reviews-desk.unit.spec.ts
+PASS src/modules/marketplace/__tests__/adapters-conform.unit.spec.ts
+PASS src/modules/wb/__tests__/upsert-batch.unit.spec.ts
+PASS src/api/tenants/reviews/__tests__/review-helpers.unit.spec.ts
+PASS src/modules/marketplace/__tests__/normalize.unit.spec.ts
+PASS src/tenant-secrets/__tests__/crypto.unit.spec.ts
+PASS src/modules/wb/__tests__/rate-limit-status.unit.spec.ts
+PASS src/product-csv/__tests__/currencies.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/service.unit.spec.ts
+PASS src/product-csv/__tests__/csv.unit.spec.ts
+PASS src/modules/wb/__tests__/service-methods.unit.spec.ts
+PASS src/modules/auth-yandex/__tests__/state.unit.spec.ts
+PASS src/modules/wb-write/__tests__/no-live-write-call-site.unit.spec.ts
+PASS src/product-csv/__tests__/rows.unit.spec.ts
+PASS src/modules/ozon/__tests__/transport-single-call-site.unit.spec.ts
+PASS src/tenant-legal/__tests__/requisites.unit.spec.ts
+PASS src/modules/wb/__tests__/transport-single-call-site.unit.spec.ts
+PASS src/tenant-legal/__tests__/redact.unit.spec.ts
+PASS src/modules/wb/__tests__/transport.unit.spec.ts
+PASS src/scripts/__tests__/fixtures-outside-src.unit.spec.ts
+PASS src/tenant-notifications/__tests__/notifications.unit.spec.ts
+PASS src/migration-scripts/__tests__/profile-data.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-redirects.unit.spec.ts
+PASS src/modules/wb-write/__tests__/fbs-orders.unit.spec.ts
+PASS src/modules/wb-write/__tests__/write-registry.unit.spec.ts
+PASS src/modules/marketplace/__tests__/link.unit.spec.ts
+PASS src/modules/wb-write/__tests__/write-gates.unit.spec.ts
+PASS src/modules/wb/__tests__/token.unit.spec.ts
+PASS src/catalog-enrich/__tests__/match.unit.spec.ts
+PASS src/product-csv/__tests__/images.unit.spec.ts
+PASS src/analytics-summary/__tests__/top-products.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/hosts.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/weight-from-metadata.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/tariff.unit.spec.ts
+PASS src/guest-order-claim/__tests__/select-claimable-orders.unit.spec.ts
+PASS src/product-attributes-fill/__tests__/parse-characteristics.unit.spec.ts
+PASS src/reviews-import/__tests__/cherkashina-rules.unit.spec.ts
+PASS src/product-csv/__tests__/plan.unit.spec.ts
+PASS src/analytics-summary/__tests__/currency.unit.spec.ts
+PASS src/product-csv/__tests__/columns.unit.spec.ts
+PASS src/modules/ozon/__tests__/fixtures.unit.spec.ts
+PASS src/tenant-redirects/__tests__/registry-parity.unit.spec.ts
+PASS src/migration-scripts/__tests__/store-profile.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/default-method-names.unit.spec.ts
+PASS src/catalog-enrich/__tests__/images.unit.spec.ts
+PASS src/api/storefront/by-host/__tests__/attribution.unit.spec.ts
+PASS src/shipping-tariffs/__tests__/ru-zone-presets.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-pages.unit.spec.ts
+PASS src/tenant-redirects/__tests__/migrated-pages-parity.unit.spec.ts
+PASS src/emails/__tests__/tracking.unit.spec.ts
+PASS src/product-csv/__tests__/slugify-twin.unit.spec.ts
+
+Test Suites: 65 passed, 65 total
+Tests:       799 passed, 799 total
+Snapshots:   0 total
+Time:        24.809 s, estimated 26 s
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
+rc=0

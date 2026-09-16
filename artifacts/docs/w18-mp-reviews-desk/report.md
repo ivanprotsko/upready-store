@@ -77,6 +77,16 @@ Test Suites: 64 passed, 64 total
 Tests:       784 passed, 784 total
 ```
 
+После слияния свежего `dev` (b18-blog, r03, i01 приехали, пока задача делалась) — пересняты:
+
+```
+cd apps/backend && corepack pnpm test:unit
+Test Suites: 65 passed, 65 total
+Tests:       799 passed, 799 total
+cd apps/backend && npx tsc --noEmit            # rc=0
+cd apps/tenant-panel && corepack pnpm typecheck # rc=0
+```
+
 (из них 23 новых: `reviews-desk.unit.spec.ts` — 16, `reviews-desk-read-only.unit.spec.ts` — 7;
 полный лог: `artifacts/docs/w18-mp-reviews-desk/measure-03-unit.log`)
 
@@ -221,7 +231,7 @@ questions?rating=5   -> count=1   applied=[]   (у вопроса нет оце�
 cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-mp-reviews-desk
 
 # 1. сюита
-cd apps/backend && corepack pnpm test:unit          # Tests: 784 passed
+cd apps/backend && corepack pnpm test:unit          # Tests: 799 passed
 
 # 2. пояс кусается: добавить в mutationDenyList путь ответа как endpoint -> падает последний тест
 #    (он это и делает сам: «refuses an adapter that registers one anyway»)
