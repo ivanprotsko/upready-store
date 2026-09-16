@@ -103,6 +103,21 @@
     "title": "Kategorien",
     "viewAll": "Alle anzeigen"
   },
+  "CdekPoint": {
+    "heading": "CDEK-Abholstelle",
+    "chooseHeading": "CDEK-Abholstelle wählen",
+    "searchPlaceholder": "Nach Adresse oder Metro suchen",
+    "cityLabel": "Stadt",
+    "cityPlaceholder": "Stadt eingeben",
+    "choose": "Wählen",
+    "chosen": "Gewählt",
+    "found": "Gefundene Abholstellen: {count}",
+    "noResults": "In {city} wurden keine Abholstellen gefunden.",
+    "needCity": "Geben Sie Ihre Lieferstadt ein, um Abholstellen zu sehen.",
+    "loading": "Abholstellen werden geladen…",
+    "notConfigured": "CDEK-Versand ist in diesem Shop noch nicht eingerichtet.",
+    "change": "Stelle ändern"
+  },
   "CheckoutPage": {
     "addNewAddress": "Neue Adresse hinzufügen",
     "addressHeading": "Lieferadresse",

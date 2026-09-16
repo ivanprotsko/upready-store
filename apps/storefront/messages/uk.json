@@ -103,6 +103,21 @@
     "title": "Категорії",
     "viewAll": "Переглянути всі"
   },
+  "CdekPoint": {
+    "heading": "Пункт видачі CDEK",
+    "chooseHeading": "Оберіть пункт видачі CDEK",
+    "searchPlaceholder": "Пошук за адресою або метро",
+    "cityLabel": "Місто",
+    "cityPlaceholder": "Почніть вводити місто",
+    "choose": "Обрати",
+    "chosen": "Обрано",
+    "found": "Знайдено пунктів видачі: {count}",
+    "noResults": "У місті {city} не знайдено пунктів видачі.",
+    "needCity": "Вкажіть місто доставки, щоб побачити пункти видачі.",
+    "loading": "Завантажуємо пункти видачі…",
+    "notConfigured": "Доставка CDEK ще не налаштована в цьому магазині.",
+    "change": "Змінити пункт"
+  },
   "CheckoutPage": {
     "addNewAddress": "Додати нову адресу",
     "addressHeading": "Адреса доставки",

@@ -103,6 +103,21 @@
     "title": "الفئات",
     "viewAll": "عرض الكل"
   },
+  "CdekPoint": {
+    "heading": "نقطة استلام CDEK",
+    "chooseHeading": "اختر نقطة استلام CDEK",
+    "searchPlaceholder": "ابحث بالعنوان أو المترو",
+    "cityLabel": "المدينة",
+    "cityPlaceholder": "ابدأ بكتابة المدينة",
+    "choose": "اختيار",
+    "chosen": "تم الاختيار",
+    "found": "نقاط الاستلام الموجودة: {count}",
+    "noResults": "لم يتم العثور على نقاط استلام في {city}.",
+    "needCity": "أدخل مدينة التوصيل لعرض نقاط الاستلام.",
+    "loading": "جارٍ تحميل نقاط الاستلام…",
+    "notConfigured": "لم يتم إعداد التوصيل عبر CDEK في هذا المتجر بعد.",
+    "change": "تغيير النقطة"
+  },
   "CheckoutPage": {
     "addNewAddress": "إضافة عنوان جديد",
     "addressHeading": "عنوان الشحن",

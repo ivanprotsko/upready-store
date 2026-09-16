@@ -103,6 +103,21 @@
     "title": "Mga Kategorya",
     "viewAll": "Tingnan lahat"
   },
+  "CdekPoint": {
+    "heading": "CDEK pickup point",
+    "chooseHeading": "Pumili ng CDEK pickup point",
+    "searchPlaceholder": "Maghanap ayon sa address o metro",
+    "cityLabel": "Lungsod",
+    "cityPlaceholder": "Simulang i-type ang lungsod",
+    "choose": "Piliin",
+    "chosen": "Napili",
+    "found": "Mga pickup point na nakita: {count}",
+    "noResults": "Walang pickup point na nakita sa {city}.",
+    "needCity": "Ilagay ang lungsod ng paghahatid para makita ang mga pickup point.",
+    "loading": "Nilo-load ang mga pickup point…",
+    "notConfigured": "Hindi pa naka-set up ang paghahatid ng CDEK sa tindahang ito.",
+    "change": "Palitan ang point"
+  },
   "CheckoutPage": {
     "addNewAddress": "Magdagdag ng bagong address",
     "addressHeading": "Address ng Paghahatid",

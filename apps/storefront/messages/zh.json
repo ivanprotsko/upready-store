@@ -103,6 +103,21 @@
     "title": "分类",
     "viewAll": "查看全部"
   },
+  "CdekPoint": {
+    "heading": "CDEK 自提点",
+    "chooseHeading": "选择 CDEK 自提点",
+    "searchPlaceholder": "按地址或地铁搜索",
+    "cityLabel": "城市",
+    "cityPlaceholder": "开始输入城市",
+    "choose": "选择",
+    "chosen": "已选择",
+    "found": "找到自提点：{count}",
+    "noResults": "在 {city} 未找到自提点。",
+    "needCity": "请填写收货城市以查看自提点。",
+    "loading": "正在加载自提点…",
+    "notConfigured": "本店尚未设置 CDEK 配送。",
+    "change": "更换自提点"
+  },
   "CheckoutPage": {
     "addNewAddress": "添加新地址",
     "addressHeading": "收货地址",

@@ -103,6 +103,21 @@
     "title": "Kategóriák",
     "viewAll": "Összes megtekintése"
   },
+  "CdekPoint": {
+    "heading": "CDEK átvételi pont",
+    "chooseHeading": "Válasszon CDEK átvételi pontot",
+    "searchPlaceholder": "Keresés cím vagy metró alapján",
+    "cityLabel": "Város",
+    "cityPlaceholder": "Kezdje el beírni a várost",
+    "choose": "Kiválaszt",
+    "chosen": "Kiválasztva",
+    "found": "Talált átvételi pontok: {count}",
+    "noResults": "Nem található átvételi pont itt: {city}.",
+    "needCity": "Adja meg a szállítási várost az átvételi pontok megjelenítéséhez.",
+    "loading": "Átvételi pontok betöltése…",
+    "notConfigured": "A CDEK szállítás még nincs beállítva ebben a boltban.",
+    "change": "Pont módosítása"
+  },
   "CheckoutPage": {
     "addNewAddress": "Új cím hozzáadása",
     "addressHeading": "Szállítási cím",

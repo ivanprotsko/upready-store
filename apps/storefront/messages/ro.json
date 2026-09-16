@@ -103,6 +103,21 @@
     "title": "Categorii",
     "viewAll": "Vezi tot"
   },
+  "CdekPoint": {
+    "heading": "Punct de ridicare CDEK",
+    "chooseHeading": "Alegeți un punct de ridicare CDEK",
+    "searchPlaceholder": "Căutați după adresă sau metrou",
+    "cityLabel": "Oraș",
+    "cityPlaceholder": "Începeți să scrieți orașul",
+    "choose": "Alege",
+    "chosen": "Ales",
+    "found": "Puncte de ridicare găsite: {count}",
+    "noResults": "Nu s-au găsit puncte de ridicare în {city}.",
+    "needCity": "Introduceți orașul de livrare pentru a vedea punctele de ridicare.",
+    "loading": "Se încarcă punctele de ridicare…",
+    "notConfigured": "Livrarea CDEK nu este încă configurată în acest magazin.",
+    "change": "Schimbă punctul"
+  },
   "CheckoutPage": {
     "addNewAddress": "Adaugă o adresă nouă",
     "addressHeading": "Adresa de livrare",

@@ -103,6 +103,21 @@
     "title": "Kategorijos",
     "viewAll": "Žiūrėti visus"
   },
+  "CdekPoint": {
+    "heading": "CDEK atsiėmimo punktas",
+    "chooseHeading": "Pasirinkite CDEK atsiėmimo punktą",
+    "searchPlaceholder": "Ieškoti pagal adresą ar metro",
+    "cityLabel": "Miestas",
+    "cityPlaceholder": "Pradėkite rašyti miestą",
+    "choose": "Pasirinkti",
+    "chosen": "Pasirinkta",
+    "found": "Rasta atsiėmimo punktų: {count}",
+    "noResults": "Mieste {city} atsiėmimo punktų nerasta.",
+    "needCity": "Nurodykite pristatymo miestą, kad matytumėte atsiėmimo punktus.",
+    "loading": "Kraunami atsiėmimo punktai…",
+    "notConfigured": "CDEK pristatymas šioje parduotuvėje dar nesukonfigūruotas.",
+    "change": "Keisti punktą"
+  },
   "CheckoutPage": {
     "addNewAddress": "Pridėti naują adresą",
     "addressHeading": "Pristatymo adresas",

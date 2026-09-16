@@ -9,8 +9,18 @@ import {
 import { TARIFF_PROVIDER_ID } from "@lib/util/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { getDeliveryDays, isPickupShippingOption } from "@lib/util/fulfillment"
+import {
+  cdekKindOf,
+  cdekNeedsPoint,
+  chosenCdekPoint,
+  cdekTermOf,
+  cityForPointSearch,
+  isCdekOption,
+  type CdekStorePoint,
+} from "@lib/util/cdek"
 import { useCartUpdate } from "@modules/checkout/context/cart-update-context"
 import { usePickupSheet } from "@modules/checkout/context/pickup-sheet-context"
+import CheckoutCdekPointSheet from "@modules/checkout/components/checkout-cdek-point-sheet"
 import { Loader, CursorDefault } from "@medusajs/icons"
 import { DropdownMenu, RadioGroup, clx } from "@medusajs/ui"
 import type { HttpTypes } from "@medusajs/types"
@@ -118,6 +128,17 @@ export default function CheckoutShippingSection({
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
   )
+
+  /**
+   * The CDEK method whose point sheet is open, and the point already on the
+   * cart (i02-apiship-cdek-shipping). A CDEK pickup option cannot be set as the
+   * shipping method without a point code — the provider rejects it — so
+   * choosing its card opens the sheet and the sheet performs the
+   * `setShippingMethod`, the same shape the shop's own pickup card uses.
+   */
+  const [cdekSheetOptionId, setCdekSheetOptionId] = useState<string | null>(null)
+  const cdekChosen = chosenCdekPoint(cart)
+  const cdekTerm = cdekTermOf(cart)
 
   const [now, setNow] = useState<Date | null>(null)
   useEffect(() => {
@@ -262,7 +283,44 @@ export default function CheckoutShippingSection({
     }
   }
 
+  const cdekSheetOption = useMemo(
+    () => (availableShippingOptions ?? []).find((sm) => sm.id === cdekSheetOptionId) ?? null,
+    [availableShippingOptions, cdekSheetOptionId]
+  )
+
+  /**
+   * Sets the CDEK method with the point the buyer picked. Returns the error
+   * message for the sheet to show, or `null` — the sheet stays open on a
+   * failure, because closing it would leave the cart on the previous method
+   * with no sign of what went wrong.
+   */
+  const handleChooseCdekPoint = async (point: CdekStorePoint): Promise<string | null> => {
+    if (!cdekSheetOptionId) return null
+    setShippingError(null)
+    const prev = shippingMethodId
+    setShippingMethodId(cdekSheetOptionId)
+    const err = await trackCartUpdate(() =>
+      setShippingMethod({
+        cartId: cart.id,
+        shippingMethodId: cdekSheetOptionId,
+        data: { cdek_point_code: point.code, cdek_point_name: point.name },
+      })
+    ).catch((e: Error) => e.message)
+    if (err) {
+      setShippingMethodId(prev)
+      return getErrorMessage(err as string)
+    }
+    return null
+  }
+
   const handleValueChange = (value: string) => {
+    const option = (availableShippingOptions ?? []).find((sm) => sm.id === value)
+    if (cdekNeedsPoint(option)) {
+      // The provider refuses a pickup method with no point, so the sheet runs
+      // `setShippingMethod` once the buyer has chosen one.
+      setCdekSheetOptionId(value)
+      return
+    }
     if (value === PICKUP_GROUP_VALUE) {
       // D2 frame 1: choosing "Pickup" opens the point sheet — whether no
       // point is chosen yet, or an already-chosen one is being changed
@@ -466,6 +524,28 @@ export default function CheckoutShippingSection({
                       {description}
                     </span>
                   )}
+                  {/*
+                    The CDEK point and term are shown only once this method IS
+                    the cart's: both come from `shipping_methods[].data`, which
+                    the provider writes, and inventing either before the buyer
+                    has chosen would be a number nobody measured.
+                  */}
+                  {isSelected && isCdekOption(option) && cdekChosen && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-base"
+                      data-testid="delivery-option-cdek-point"
+                    >
+                      {cdekChosen.name ?? cdekChosen.code}
+                    </span>
+                  )}
+                  {isSelected && isCdekOption(option) && cdekTerm && (
+                    <span
+                      className="txt-compact-xsmall text-ui-fg-subtle"
+                      data-testid="delivery-option-cdek-term"
+                    >
+                      {cdekTerm}
+                    </span>
+                  )}
                   <div className="flex flex-col gap-y-1">
                     <div className="min-h-[20px]">
                       {deliveryLabel && (
@@ -529,6 +609,17 @@ export default function CheckoutShippingSection({
         <p className="txt-compact-small text-rose-500">
           {getErrorMessage(shippingError)}
         </p>
+      )}
+
+      {cdekSheetOption && (
+        <CheckoutCdekPointSheet
+          open
+          onClose={() => setCdekSheetOptionId(null)}
+          initialCity={cityForPointSearch(cart)}
+          pointType={cdekKindOf(cdekSheetOption) === "postamat" ? "POSTAMAT" : "PVZ"}
+          selectedCode={cdekChosen?.code ?? null}
+          onChoose={handleChooseCdekPoint}
+        />
       )}
     </div>
   )

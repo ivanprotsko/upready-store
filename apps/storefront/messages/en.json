@@ -103,6 +103,21 @@
     "title": "Categories",
     "viewAll": "View all"
   },
+  "CdekPoint": {
+    "heading": "CDEK pickup point",
+    "chooseHeading": "Choose a CDEK pickup point",
+    "searchPlaceholder": "Search by address or metro",
+    "cityLabel": "City",
+    "cityPlaceholder": "Start typing a city",
+    "choose": "Choose",
+    "chosen": "Chosen",
+    "found": "Pickup points found: {count}",
+    "noResults": "No pickup points found in {city}.",
+    "needCity": "Enter your delivery city to see pickup points.",
+    "loading": "Loading pickup points…",
+    "notConfigured": "CDEK delivery is not set up in this shop yet.",
+    "change": "Change point"
+  },
   "CheckoutPage": {
     "addNewAddress": "Add new address",
     "addressHeading": "Shipping address",

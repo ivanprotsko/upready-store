@@ -103,6 +103,21 @@
     "title": "Категории",
     "viewAll": "Виж всички"
   },
+  "CdekPoint": {
+    "heading": "Пункт за получаване CDEK",
+    "chooseHeading": "Изберете пункт за получаване CDEK",
+    "searchPlaceholder": "Търсене по адрес или метро",
+    "cityLabel": "Град",
+    "cityPlaceholder": "Започнете да въвеждате град",
+    "choose": "Избор",
+    "chosen": "Избран",
+    "found": "Намерени пунктове: {count}",
+    "noResults": "В {city} не са намерени пунктове за получаване.",
+    "needCity": "Въведете град на доставка, за да видите пунктовете.",
+    "loading": "Зареждане на пунктовете…",
+    "notConfigured": "Доставката с CDEK още не е настроена в този магазин.",
+    "change": "Смяна на пункт"
+  },
   "CheckoutPage": {
     "addNewAddress": "Добави нов адрес",
     "addressHeading": "Адрес за доставка",

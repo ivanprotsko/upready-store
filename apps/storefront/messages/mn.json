@@ -103,6 +103,21 @@
     "title": "Ангилал",
     "viewAll": "Бүгдийг харах"
   },
+  "CdekPoint": {
+    "heading": "CDEK хүлээн авах цэг",
+    "chooseHeading": "CDEK хүлээн авах цэгээ сонгоно уу",
+    "searchPlaceholder": "Хаяг эсвэл метроор хайх",
+    "cityLabel": "Хот",
+    "cityPlaceholder": "Хотоо бичиж эхлэнэ үү",
+    "choose": "Сонгох",
+    "chosen": "Сонгосон",
+    "found": "Олдсон цэг: {count}",
+    "noResults": "{city} хотод хүлээн авах цэг олдсонгүй.",
+    "needCity": "Хүргэлтийн хотоо оруулж цэгүүдийг харна уу.",
+    "loading": "Хүлээн авах цэгүүдийг ачаалж байна…",
+    "notConfigured": "Энэ дэлгүүрт CDEK хүргэлт хараахан тохируулаагүй байна.",
+    "change": "Цэг солих"
+  },
   "CheckoutPage": {
     "addNewAddress": "Шинэ хаяг нэмэх",
     "addressHeading": "Хүргэлтийн хаяг",

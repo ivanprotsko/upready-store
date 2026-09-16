@@ -241,16 +241,28 @@ export async function deleteLineItem(lineId: string) {
 export async function setShippingMethod({
   cartId,
   shippingMethodId,
+  data,
 }: {
   cartId: string
   shippingMethodId: string
+  /**
+   * Handed to the provider's `validateFulfillmentData` and stored on the
+   * cart's shipping method. A CDEK pickup method needs `cdek_point_code` here
+   * (i02-apiship-cdek-shipping); every other method sends nothing.
+   */
+  data?: Record<string, unknown>
 }) {
   const headers = {
     ...(await getAuthHeaders()),
   }
 
   return sdk.store.cart
-    .addShippingMethod(cartId, { option_id: shippingMethodId }, {}, headers)
+    .addShippingMethod(
+      cartId,
+      data ? { option_id: shippingMethodId, data } : { option_id: shippingMethodId },
+      {},
+      headers
+    )
     .then(async () => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)

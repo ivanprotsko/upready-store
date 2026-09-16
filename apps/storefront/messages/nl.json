@@ -103,6 +103,21 @@
     "title": "Categorieën",
     "viewAll": "Alles bekijken"
   },
+  "CdekPoint": {
+    "heading": "CDEK-afhaalpunt",
+    "chooseHeading": "Kies een CDEK-afhaalpunt",
+    "searchPlaceholder": "Zoeken op adres of metro",
+    "cityLabel": "Stad",
+    "cityPlaceholder": "Begin met typen",
+    "choose": "Kiezen",
+    "chosen": "Gekozen",
+    "found": "Gevonden afhaalpunten: {count}",
+    "noResults": "Geen afhaalpunten gevonden in {city}.",
+    "needCity": "Vul je bezorgstad in om afhaalpunten te zien.",
+    "loading": "Afhaalpunten laden…",
+    "notConfigured": "CDEK-bezorging is nog niet ingesteld in deze winkel.",
+    "change": "Punt wijzigen"
+  },
   "CheckoutPage": {
     "addNewAddress": "Nieuw adres toevoegen",
     "addressHeading": "Verzendadres",

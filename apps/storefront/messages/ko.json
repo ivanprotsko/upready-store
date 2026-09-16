@@ -103,6 +103,21 @@
     "title": "카테고리",
     "viewAll": "전체 보기"
   },
+  "CdekPoint": {
+    "heading": "CDEK 픽업 장소",
+    "chooseHeading": "CDEK 픽업 장소 선택",
+    "searchPlaceholder": "주소나 지하철역으로 검색",
+    "cityLabel": "도시",
+    "cityPlaceholder": "도시를 입력하세요",
+    "choose": "선택",
+    "chosen": "선택됨",
+    "found": "찾은 픽업 장소: {count}",
+    "noResults": "{city}에서 픽업 장소를 찾지 못했습니다.",
+    "needCity": "픽업 장소를 보려면 배송 도시를 입력하세요.",
+    "loading": "픽업 장소를 불러오는 중…",
+    "notConfigured": "이 상점에는 아직 CDEK 배송이 설정되지 않았습니다.",
+    "change": "장소 변경"
+  },
   "CheckoutPage": {
     "addNewAddress": "새 주소 추가",
     "addressHeading": "배송지",
