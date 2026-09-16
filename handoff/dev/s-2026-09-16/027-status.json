@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 27,
+  "action": "status-set",
+  "ts": "2026-09-16T06:56:19+08:00",
+  "status": "2026-09-16 06:56 WITA: w20-wb-write-core ПРИНЯТ раунд 2 и смержен (PR #75, merge c1c5efda). Обе находки раунда 1 закрыты (API write-settings + раздел панели со скриншотом; «Конкурент» и «аналог Ozon» в отчёте). Перемерено: tsc бэкенда/панели rc=0, юнит 49/538 rc=0, на стенде upready_store_w20 аудит 4 строки все dry_run, wb_api_call 0 строк. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w20-wb-write-core-2/measurements.md"
+}

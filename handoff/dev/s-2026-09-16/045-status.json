@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 45,
+  "action": "status-set",
+  "ts": "2026-09-16T12:04:00+08:00",
+  "status": "2026-09-16 12:04 WITA: приёмка w21-wb-write-stocks-prices раунд 3 (PR #81) — REJECTED. Слияние с dev сделано локально, чисто и правильно (0 конфликтов, 0 отставания, суита после слияния 980/980, обе стороны i18n целы, страж no-live-write покрывает w21+w22+w23). Дефект один: merge-коммит 8d4fdd2d не выложен, голова PR стоит на 4a2e9000, отсюда CONFLICTING. Нужен ровно git push. Третий раунд подряд на одном классе — ветка не доезжает до origin; продуктовых претензий не было ни разу. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-w21-wb-write-stocks-prices-3.findings.md"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 44,
+  "action": "status-set",
+  "ts": "2026-09-16T11:50:23+08:00",
+  "status": "2026-09-16 11:50 WITA: приёмка w22 (PR #83) раунд 2 — ПРИНЯТО и смержено (mergedAt 2026-09-16T03:48:45Z). Замерено приёмщиком на СВОЁМ стенде (клон upready_store_w22acc, бэкенд 9142, панель 5280): юниты 59/704 rc=0, tsc бэкенда и панели rc=0, check:backend-build rc=0; ворота no_draft/confirmation_mismatch/unregistered_mutation/already_sent/already_answered — 422 каждое, dry_run 200 по отзыву и по «отметить просмотренным», outcome='sent' = 0, wb_api_call за прогон = 0, запросов панели на wildberries.ru = 0; вкладка «Отзывы и вопросы» снята своим Playwright. Стенд снят, клон БД удалён."
+}

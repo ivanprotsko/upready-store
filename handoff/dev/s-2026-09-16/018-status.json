@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 18,
+  "action": "status-set",
+  "ts": "2026-09-16T05:14:12+08:00",
+  "status": "2026-09-16 05:14 WITA: приёмка w02-yandex-id-auth раунд 2 — блокер раунда 1 (личный логин Яндекса в report.md) закрыт, git grep по четырём значениям 0 файлов; юниты 33/33, HTTP-сюита auth-yandex 11/11, кнопка/согласие/личный кабинет проверены глазами; PR #72 смержен squash'ем ffe7bc33, мелочи в комментарии PR"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 41,
+  "action": "status-set",
+  "ts": "2026-09-16T11:11:41+08:00",
+  "status": "2026-09-16 11:11 WITA: приёмка w14-mp-catalog-link (PR #91) — MERGED. Сам замерил: test:unit 931/931, панель typecheck rc=0, четыре счётчика пересчитаны своим SQL (1+1+423+33=458=425 карточек+33 SKU), link.ts:105 не связывает неоднозначное, 0 из N несёт абсолютный путь, оба состояния ключа на кадрах, раздел Маркетплейсы в сайдбаре. Ниты: подсказка владельцу печатает неработающее pnpm --filter backend (замер: No projects matched, rc=0 молча) — надо @dtc/gorgo-medusa-backend; все 10 скриншотов остались неотслеженными и в PR не попали, копии сохранены в artifacts/accept-w14-mp-catalog-link-1/shots-preserved/. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w14-mp-catalog-link-1/measurements.md"
+}

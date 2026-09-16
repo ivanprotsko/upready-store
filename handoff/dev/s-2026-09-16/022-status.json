@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 22,
+  "action": "status-set",
+  "ts": "2026-09-16T06:31:42+08:00",
+  "status": "2026-09-16 06:31 WITA: приёмка w03/PR #76 раунд 1 — REJECTED по двум критериям: зеркало wb_sale пустое (0 строк; прогон sales упал на дубле srid, ключ уже починен в коде и покрыт сюитой, нужен один живой прогон после окна 07:12 WITA) и 429 записан как status=failed вместо ожидания (WB_SYNC_STATUSES без waiting; на скриншоте панели владелица видит четыре красных «с ошибкой» вместо «ждёт лимита»). Плюс нет report.json. Существо зелёное и перемерено: реестр с docUrl, тесты 5 сюит/51, wb_question 1002, wb_analytics_daily 133, три таблицы в панели, раздел Ozon. Находки: logs/accept-w03-wb-sales-questions-mirror-1.findings.md"
+}

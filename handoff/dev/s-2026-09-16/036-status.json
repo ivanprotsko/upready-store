@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 36,
+  "action": "status-set",
+  "ts": "2026-09-16T08:31:03+08:00",
+  "status": "2026-09-16 08:31 WITA: b17-pdp-gallery-info-layout ПРИНЯТ раунд 2 и смержен (PR #82, merge 401a44e8). Находка раунда 1 закрыта: маска исключения vitest сужена, npm run test:unit печатает 27 файлов / 262 теста (было 26 / 239), заведён скрипт test:pdp. Перемерено: tsc и lint витрины rc=0, e2e новым скриптом на поднятом мной стенде 11 passed, стенды погашены. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-b17-pdp-gallery-info-layout-2/measurements.md"
+}

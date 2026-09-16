@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 34,
+  "action": "status-set",
+  "ts": "2026-09-16T07:47:24+08:00",
+  "status": "2026-09-16 07:47 WITA: w23-wb-write-fbs-orders раунд 1 — REJECTED, единственная причина конфликт с dev (9 файлов, 62 маркера; их тронул w03/PR #76, смерженный в 07:40). Существо принято полностью и перемерено: tsc rc=0 оба, юнит 55/665, стенд upready_store_w23 — wb_fbs_order 8074 / wb_supply 908, аудит fbs_orders 8 dry_run + 1 refused, sent=0, вкладка «Заказы FBS» глазами. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-w23-wb-write-fbs-orders-1.findings.md"
+}

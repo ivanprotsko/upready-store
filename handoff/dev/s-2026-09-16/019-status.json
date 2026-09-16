@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 19,
+  "action": "status-set",
+  "ts": "2026-09-16T05:27:08+08:00",
+  "status": "2026-09-16 05:27 WITA: приёмка w10-marketplace-spec раунд 1 — принято, PR #73 смержен squash'ем 57916390. Перемерено: кода продукта 0 файлов, 5+ строк матрицы сверены по сохранённым копиям дословно, выдуманных методов нет, marketplace-tasks.json валиден (9 задач w11-w19, коллизий с dev нет), 9 английских промптов, report.json валиден (8 done/6 results). Мелочи в комментарии PR"
+}

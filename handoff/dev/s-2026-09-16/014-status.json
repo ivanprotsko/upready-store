@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 14,
+  "action": "status-set",
+  "ts": "2026-09-16T03:49:26+08:00",
+  "status": "2026-09-16 03:49 WITA: штаб дня Оксаны — волна 5 закрыта (merged 50, done 16, b16 blocked ждёт Ивана), волна 6 запущена: w01-wb-readonly-client (ws 93d6906d, транспорт WB только чтение + зеркала + первый импорт) и w02-yandex-id-auth (ws ea3d6fa1, вход через Яндекс ID) работают, диспетчер pid 87615; план WB research/wb-plan.md (фазы 0–4) по вопросу Ивана 03:45; ИНН продавца из токена = ИНН ИП Черкашиной"
+}

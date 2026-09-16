@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-16T20:26:18+08:00",
-  "status": "2026-09-16 20:26 WITA: штаб дня Оксаны — приказ Ивана 20:22 (настройки: /settings/integrations/<сервис>, /settings/marketplaces/<mp>, без якорей в сайдбаре) → p01 build p99 + d09 deploy заведены, DONE снят, run.sh поднят; ответ по gorgojs дан по decision.md i01/i02",
+  "updated": "2026-09-16T20:38:31+08:00",
+  "status": "2026-09-16 20:38 WITA: штаб дня Оксаны — входящая очередь Ивана готова (handoff/day-2026-09-16-oksana-store/intake: intake.mjs 6/6 тестов, SPEC.md, PROMPT.md для sonnet), сторож пачек вооружён; p01 running, d09 queued",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 49,
+  "action": "status-set",
+  "ts": "2026-09-16T12:19:40+08:00",
+  "status": "2026-09-16 12:19 WITA: приёмка i02-apiship-cdek-shipping (PR #94) — MERGED. Сам замерил: test:unit 859/859, tsc бэкенд и витрина rc=0 по 0 ошибок, report.json проходит схему (3 access с secretRef), секретов 0, миграция аддитивна (CHECK + cdek). Заглавный критерий сошёлся по двум уликам: кадр чекаута для адреса в СПб и priced-options.json дают одни и те же 325 руб курьер и 185 руб ПВЗ; ПВЗ Москва 142/142 с координатами, СПб 57/57. Развилка решена замером: ApiShip calculator отдаёт 0 тарифов, прямой CDEK 42 — отсюда свой клиент CDEK. Вебхук доказан end-to-end со сменой статусов и записью в БД; не зарегистрировалась только подписка у СДЭК (400 на localhost) — ограничение стенда, повторить при деплое. Нитов нет. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-i02-apiship-cdek-shipping-1/measurements.md"
+}

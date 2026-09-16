@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 23,
+  "action": "status-set",
+  "ts": "2026-09-16T06:35:07+08:00",
+  "status": "2026-09-16 06:35 WITA: штаб 7b183b97 после жёсткого сброса Mac (btn_rst 05:42:50, Иван нёс ноутбук). cron поднял диспетчер без keychain (gh 401, OAuth expired) → перезапущен из GUI-сессии, cron заменён LaunchAgent dev.upready.oksana-store-runner (проба gh из launchd зелёная). w02/w10 merged (#72/#73). w07 приёмка перезапущена (PR #74), d07 queued за w07. w03 PR #76 и w20 PR #75 — раунд 1 отклонён, правки отправлены. Заведены w11–w19 из спецификации w10: w11, w13 running, w12 queued. Лимит GitHub REST 5000/5000 исчерпан до 07:03 WITA — gh 1514 соединений за 10 мин, источник ищется"
+}
