@@ -34,7 +34,10 @@ import type MarketplaceModuleService from "./service";
  * marketplace had nothing" (rule 20a).
  */
 
-export type ProjectionCounts = Record<MpKind | "order_lines" | "links", number>;
+export type ProjectionCounts = Record<
+  MpKind | "order_lines" | "links" | "journal_runs" | "journal_calls",
+  number
+>;
 
 export type ProjectionResult = {
   tenantId: string;
@@ -136,6 +139,82 @@ export const tenantVariants = async (deps: Deps) => {
 };
 
 /**
+ * Carries the adapter's OWN run log and transport journal into the shared
+ * tables, on every projection.
+ *
+ * WHY THIS RUNS EVERY TIME. `Migration20260916000100` carried the rows that
+ * existed when it ran, once. The imports were not rewritten by this task —
+ * `modules/wb/sync.ts` and `modules/ozon/sync.ts` keep writing their own
+ * tables — so without this the shared journal would age into a lie the day
+ * after the migration: the acceptor's one query would answer with yesterday's
+ * imports and call it everything.
+ *
+ * The id is DERIVED from the adapter's own (`mprun_<id>`, `mpcall_<id>`),
+ * exactly as the migration derives it, so a row carried by the migration and a
+ * row carried here are the same row and copying twice is impossible.
+ */
+const carryJournal = async (
+  mp: MarketplaceModuleService,
+  adapter: MarketplaceAdapter,
+  deps: Deps,
+  syncDeps: SyncDeps,
+): Promise<{ runs: number; calls: number }> => {
+  const { runs, calls } = await adapter.loadJournal(syncDeps);
+
+  const scope = { tenant_id: deps.tenantId, marketplace: adapter.id };
+  const [storedRuns, storedCalls] = await Promise.all([
+    mp.listMpSyncRuns(scope) as Promise<Row[]>,
+    mp.listMpApiCalls(scope) as Promise<Row[]>,
+  ]);
+
+  const knownRuns = new Set(storedRuns.map((row) => row.id));
+  const knownCalls = new Set(storedCalls.map((row) => row.id));
+
+  const runDrafts = runs
+    .map((run) => ({
+      id: `mprun_${String(run.id)}`,
+      tenant_id: String(run.tenant_id),
+      marketplace: adapter.id,
+      kind: String(run.kind),
+      status: String(run.status),
+      is_fixture: Boolean(run.is_fixture),
+      started_at: run.started_at as Date,
+      finished_at: (run.finished_at ?? null) as Date | null,
+      rows: Number(run.rows ?? 0),
+      requests: Number(run.requests ?? 0),
+      error: (run.error ?? null) as string | null,
+    }))
+    .filter((run) => !knownRuns.has(run.id));
+
+  const callDrafts = calls
+    .map((call) => ({
+      id: `mpcall_${String(call.id)}`,
+      tenant_id: (call.tenant_id ?? null) as string | null,
+      marketplace: adapter.id,
+      sync_run_id: call.sync_run_id ? `mprun_${String(call.sync_run_id)}` : null,
+      endpoint_id: String(call.endpoint_id),
+      host: String(call.host),
+      method: String(call.method),
+      path: String(call.path),
+      status: (call.status ?? null) as number | null,
+      ms: Number(call.ms ?? 0),
+      error: (call.error ?? null) as string | null,
+      is_fixture: Boolean(call.is_fixture),
+      fetched_at: call.fetched_at as Date,
+    }))
+    .filter((call) => !knownCalls.has(call.id));
+
+  if (runDrafts.length) {
+    await mp.createMpSyncRuns(runDrafts);
+  }
+  if (callDrafts.length) {
+    await mp.createMpApiCalls(callDrafts);
+  }
+
+  return { runs: runDrafts.length, calls: callDrafts.length };
+};
+
+/**
  * Recomputes the whole normalized layer of one marketplace for one shop.
  *
  * `marketplace` is resolved through `registry.ts`, so this function knows
@@ -168,6 +247,8 @@ export const projectFromMirrors = async (
     questions: 0,
     order_lines: 0,
     links: 0,
+    journal_runs: 0,
+    journal_calls: 0,
   };
 
   let report: LinkReport = {
@@ -187,6 +268,10 @@ export const projectFromMirrors = async (
     };
 
     const scope = { tenant_id: deps.tenantId, marketplace: adapter.id };
+
+    const carried = await carryJournal(mp, adapter, deps, syncDeps);
+    counts.journal_runs = carried.runs;
+    counts.journal_calls = carried.calls;
 
     for (const kind of MP_KINDS) {
       const rows = await adapter.loadMirror(syncDeps, kind as MpKind);
@@ -321,7 +406,15 @@ export const projectFromMirrors = async (
       (updated) => mp.updateMpLinks(updated),
     );
 
-    const rows = Object.values(counts).reduce((sum, value) => sum + value, 0);
+    /**
+     * `rows` counts the NORMALIZED rows this projection wrote. The journal
+     * rows it carried across are counted separately in `counts` and shown, but
+     * they are not normalized data and adding them here would inflate a number
+     * the panel presents as "how much of your marketplace is in our database".
+     */
+    const rows = (Object.entries(counts) as [string, number][])
+      .filter(([name]) => !name.startsWith("journal_"))
+      .reduce((sum, [, value]) => sum + value, 0);
 
     await mp.updateMpSyncRuns([
       {

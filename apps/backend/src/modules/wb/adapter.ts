@@ -214,6 +214,21 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   return [];
 };
 
+/**
+ * The Wildberries run log and transport journal, exactly as `modules/wb` wrote
+ * them. `sync.ts` is untouched by this task, so this is how its rows reach the
+ * shared tables (see `loadJournal` in the contract).
+ */
+const loadJournal = async (deps: SyncDeps) => {
+  const wb = wbService(deps);
+  const scope = { tenant_id: deps.tenantId };
+  const [runs, calls] = await Promise.all([
+    wb.listWbSyncRuns(scope) as Promise<Record<string, unknown>[]>,
+    wb.listWbApiCalls(scope) as Promise<Record<string, unknown>[]>,
+  ]);
+  return { runs, calls };
+};
+
 export const wbAdapter: MarketplaceAdapter = {
   id: "wb",
   label: "Wildberries",
@@ -226,6 +241,7 @@ export const wbAdapter: MarketplaceAdapter = {
   syncKinds: WB_SYNC_KINDS,
   runSync: runSyncForKind,
   loadMirror,
+  loadJournal,
   normalize: {
     products: normalize.products,
     offers: normalize.offers,

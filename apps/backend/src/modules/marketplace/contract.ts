@@ -394,6 +394,23 @@ export type MarketplaceAdapter = {
    * is inside; it only passes the array on.
    */
   loadMirror: (deps: SyncDeps, kind: MpKind) => Promise<unknown[]>;
+  /**
+   * This adapter's OWN run log and transport journal, as rows.
+   *
+   * The imports keep writing `wb_sync_run` / `ozon_sync_run` — `modules/wb`
+   * and `modules/ozon` are not rewritten by this task — so the shared
+   * `mp_sync_run` / `mp_api_call` would otherwise hold nothing but what the
+   * backfill migration carried across once, and would age into a lie the day
+   * after it ran. The projector copies these on every run, keyed on a derived
+   * id so a second copy is impossible.
+   *
+   * The shapes are the adapter's own; `project.ts` maps the fields it needs
+   * and carries the rest untouched.
+   */
+  loadJournal: (deps: SyncDeps) => Promise<{
+    runs: Record<string, unknown>[];
+    calls: Record<string, unknown>[];
+  }>;
   /** Raw rows of this marketplace -> `mp_*` drafts. Pure functions, no I/O. */
   normalize: {
     products: (rows: unknown[]) => MpProductDraft[];
@@ -421,5 +438,6 @@ export const ADAPTER_KEYS = [
   "syncKinds",
   "runSync",
   "loadMirror",
+  "loadJournal",
   "normalize",
 ] as const;

@@ -287,6 +287,17 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   }));
 };
 
+/** The Ozon run log and transport journal. Same reason as the WB adapter's. */
+const loadJournal = async (deps: SyncDeps) => {
+  const ozon = ozonService(deps);
+  const scope = { tenant_id: deps.tenantId };
+  const [runs, calls] = await Promise.all([
+    ozon.listOzonSyncRuns(scope) as Promise<Record<string, unknown>[]>,
+    ozon.listOzonApiCalls(scope) as Promise<Record<string, unknown>[]>,
+  ]);
+  return { runs, calls };
+};
+
 export const ozonAdapter: MarketplaceAdapter = {
   id: "ozon",
   label: "Ozon",
@@ -299,6 +310,7 @@ export const ozonAdapter: MarketplaceAdapter = {
   syncKinds: OZON_SYNC_KINDS,
   runSync: runSyncForKind,
   loadMirror,
+  loadJournal,
   normalize: {
     products: normalize.products,
     offers: normalize.offers,
