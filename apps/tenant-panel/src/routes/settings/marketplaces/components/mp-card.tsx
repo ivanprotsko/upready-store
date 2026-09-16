@@ -1,4 +1,4 @@
-import { Alert, Container, Heading, Text } from "@medusajs/ui"
+import { Alert, Badge, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { useMarketplaceStatus, type MarketplaceCard } from "../../../../hooks/api/marketplaces"
@@ -37,7 +37,21 @@ const formatDateTime = (value: string | null, locale: string): string => {
  * «спрашиваем ключ…» and not «неизвестно» (rule 19h: an unanswered question is
  * a third state, not a negative answer).
  */
-export const MpCard = ({ card }: { card: MarketplaceCard }) => {
+export const MpCard = ({
+  card,
+  showKeyForm = true,
+}: {
+  card: MarketplaceCard
+  /**
+   * p01-settings-integrations-restructure: the marketplace SCREEN
+   * (`/settings/marketplaces/<слаг>`) shows the connection and reports on it,
+   * and the key itself is entered at `/settings/integrations/<слаг>` — Ivan's
+   * order of 2026-09-16 20:22 WITA («оставь там только поля для ввода
+   * ключей»). One card, two readings; a second card without the form would be
+   * the copy that stops being updated (rule 20).
+   */
+  showKeyForm?: boolean
+}) => {
   const { t, i18n } = useTranslation()
   const locale = i18n.language || "ru"
 
@@ -66,8 +80,12 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
       : ("unknown" as const)
 
   return (
-    // `id` is the anchor `/settings/wildberries` and `/settings/ozon` land on:
-    // both paths redirect here since the card is the live surface (w12, w24).
+    // `id` is kept as a DOM id for tests and deep links inside one page. It is
+    // no longer an anchor any route navigates to: p01 removed every `#` target
+    // from this panel, and `/settings/wildberries` now lands on the marketplace
+    // screen `/settings/marketplaces/wildberries` (Ivan, 2026-09-16 20:22
+    // WITA: «не правильно делать отдельный пункт для навигации в внутри одной
+    // страницы через якорь #»).
     <Container className="divide-y p-0" id={card.id}>
       <div className="px-6 py-4">
         <Heading level="h2">{card.label}</Heading>
@@ -105,9 +123,33 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
         renders the same fields — an unanswered question is a third state, not
         a reason to hide the input (rule 19h).
       */}
-      <MpKeyForm card={detail ?? card} />
+      {showKeyForm ? <MpKeyForm card={detail ?? card} /> : null}
 
       <div className="px-6 py-4">
+        {/*
+          p01-settings-integrations-restructure: with the form hidden, the card
+          would report the RIGHTS of a key whose existence it never states —
+          the owner would read «ключ только на чтение» next to nothing saying a
+          key is stored at all. The state comes back as a ROW, so the marketplace
+          screen answers «подключено ••••last4» the same way the hub and the
+          connection page do (measured on the stand: this check was the one FAIL
+          of the first acceptance run).
+        */}
+        {showKeyForm ? null : (
+          <MpFieldRow label={t("marketplaces.key.form.title")}>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <Badge
+                size="2xsmall"
+                color={hasKey ? "green" : "grey"}
+                data-testid={`mp-key-state-${card.id}`}
+              >
+                {hasKey
+                  ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
+                  : t("marketplaces.key.missing")}
+              </Badge>
+            </div>
+          </MpFieldRow>
+        )}
         <MpFieldRow label={t("marketplaces.enabled.label")}>
           {card.connection.is_enabled
             ? t("marketplaces.enabled.yes")

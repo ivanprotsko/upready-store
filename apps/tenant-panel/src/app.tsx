@@ -812,14 +812,14 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/marketplaces/price-stock"),
           },
           {
-            // w12-marketplace-core: раздел «Маркетплейсы» — карточка на
-            // площадку, собранная из реестра адаптеров бэкенда. Только чтение:
-            // ключ, его срок и права, реестр разрешённых чтений, список того,
-            // что документация площадки называет записью, последние загрузки и
-            // сколько строк уже у нас. Кнопки импорта нет — импорт это скрипт,
-            // а писать в площадку платформа не умеет по конструкции.
+            // p01-settings-integrations-restructure: старый хаб «Подключение
+            // площадок» (w12) больше не экран. Реквизиты всех сервисов живут в
+            // разделе «Подключение» (/settings/integrations), а у каждой
+            // площадки своя страница (/settings/marketplaces/<слаг>). Адрес
+            // остаётся и редиректит: он в закладках владелицы, а якоря `#wb` и
+            // `#ozon` из прежнего сайдбара ведут прямо на нужную площадку.
             path: "/settings/marketplaces",
-            handle: { breadcrumb: () => t("marketplaces.title") },
+            handle: { breadcrumb: () => t("integrations.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/marketplaces"),
           },
@@ -857,8 +857,75 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/marketplaces/analytics"),
           },
           {
-            // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
-            // раздел выше: адрес у владелицы в закладках, ломать его нельзя.
+            // p01-settings-integrations-restructure: «Подключение» — хаб всех
+            // реквизитов магазина. Приказ Ивана 2026-09-16 20:22 WITA:
+            // «перенесем все подключения на страницу /settings/integrations/
+            // [robokassa, wildberries, ozon, apiship, cdek]». Хаб показывает
+            // только состояние и ссылку; поля живут на странице сервиса.
+            path: "/settings/integrations",
+            handle: { breadcrumb: () => t("integrations.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations"),
+          },
+          {
+            // Реквизиты Wildberries и ничего больше. Экран площадки — на
+            // /settings/marketplaces/wildberries.
+            path: "/settings/integrations/wildberries",
+            handle: { breadcrumb: () => "Wildberries" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/wildberries"),
+          },
+          {
+            path: "/settings/integrations/ozon",
+            handle: { breadcrumb: () => "Ozon" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/ozon"),
+          },
+          {
+            // Реквизиты Robokassa. Тестовый режим и алгоритм подписи остались
+            // на /settings/payments — это поведение магазина, а не его логин.
+            path: "/settings/integrations/robokassa",
+            handle: { breadcrumb: () => t("integrations.robokassa.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/robokassa"),
+          },
+          {
+            // Токен ApiShip. Единственная НОВАЯ интеграция задачи: слот
+            // `apiship` в tenant_integration_secret плюс проба токена. В
+            // чекаут не заведена — i02 замерил ноль тарифов у калькулятора
+            // ApiShip, и страница говорит это словами.
+            path: "/settings/integrations/apiship",
+            handle: { breadcrumb: () => t("integrations.apiship.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/apiship"),
+          },
+          {
+            // Аккаунт СДЭК. Отправитель, виды доставки, наценка и порог
+            // бесплатной доставки остались на /settings/delivery.
+            path: "/settings/integrations/cdek",
+            handle: { breadcrumb: () => t("integrations.cdek.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/integrations/cdek"),
+          },
+          {
+            // Экран площадки: состояние ключа, права, что связано и что
+            // загружено. Полей ключа здесь нет — они на странице подключения.
+            path: "/settings/marketplaces/wildberries",
+            handle: { breadcrumb: () => "Wildberries" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/wildberries"),
+          },
+          {
+            path: "/settings/marketplaces/ozon",
+            handle: { breadcrumb: () => "Ozon" },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/ozon"),
+          },
+          {
+            // Старый путь страницы Wildberries (w01). Остаётся и редиректит:
+            // адрес у владелицы в закладках, ломать его нельзя. Цель сменилась
+            // в p01 — теперь это /settings/marketplaces/wildberries, а не якорь
+            // `#wb` внутри общего хаба (приказ Ивана 2026-09-16 20:22 WITA).
             path: "/settings/wildberries",
             handle: { breadcrumb: () => t("marketplaces.title") },
             errorElement: <ErrorBoundary />,
@@ -866,10 +933,11 @@ const routes: RouteObject[] = [
           },
           {
             // «Ozon» (w24-integration-keys-self-service): адрес, по которому
-            // владелица ищет, куда вписать свой Client-Id и ключ. Ведёт на
-            // карточку Ozon в разделе «Маркетплейсы» — экран на площадку
-            // генерируется из реестра, отдельная страница была бы копией,
-            // которую перестанут обновлять (правило 20).
+            // владелица ищет, куда вписать свой Client-Id и ключ. В p01 у Ozon
+            // появился собственный экран, и этот путь редиректит на него;
+            // поля ключа — на /settings/integrations/ozon. Копии кода это не
+            // создаёт: и экран, и форма построены из реестра адаптеров, один
+            // компонент на все площадки (правило 20).
             path: "/settings/ozon",
             handle: { breadcrumb: () => t("marketplaces.title") },
             errorElement: <ErrorBoundary />,

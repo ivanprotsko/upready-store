@@ -157,12 +157,17 @@ export const Home = () => {
           >
             {t("analyticsSettings.title")}
           </Link>
-          {/* w01-wb-readonly-client: the shop's Wildberries connection, read-only. */}
+          {/* p01-settings-integrations-restructure: «Подключение» — реквизиты
+              всех сервисов магазина одним разделом. Стоит здесь, рядом с
+              «Приёмом оплат» и «Доставкой», а не внутри маркетплейсов: ключи
+              Robokassa и СДЭК к площадкам отношения не имеют (приказ Ивана
+              2026-09-16 20:22 WITA). Прежняя ссылка вела на хаб
+              `/settings/marketplaces`, который теперь редиректит сюда. */}
           <Link
-            to="/settings/marketplaces"
+            to="/settings/integrations"
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus"
           >
-            {t("marketplaces.title")}
+            {t("integrations.title")}
           </Link>
           {/* t16-owner-branding: logo, favicon, og image, primary colour, footer credit. */}
           <Link

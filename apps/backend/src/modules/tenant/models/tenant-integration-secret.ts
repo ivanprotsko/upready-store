@@ -22,6 +22,15 @@ import Tenant from "./tenant";
  * write to Ozon; there is deliberately no `ozon_write` slot, because no write
  * path to Ozon exists.
  *
+ * `apiship` is the shop's ApiShip aggregator token, `{ token }`
+ * (p01-settings-integrations-restructure). ONE value: ApiShip authenticates
+ * with a bare `Authorization: <token>` header, measured 2026-09-16 against
+ * `GET https://api.apiship.ru/v1/connections` (HTTP 200 with the raw token,
+ * HTTP 401 with the same token behind `Bearer `). Stored and PROBED only; no
+ * checkout path reads it, because i02 measured the ApiShip calculator
+ * answering zero tariffs for this account and the checkout quotes CDEK
+ * directly (`artifacts/docs/i02-apiship-cdek-shipping/decision.md`).
+ *
  * This list is not decoration — `model.enum` renders it as a CHECK constraint
  * on `provider`, so a slot absent here cannot hold a row at all. Measured on
  * the local stand 2026-09-16: an insert into `wildberries_write` died on
@@ -34,6 +43,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "wildberries_write",
   "ozon",
   "cdek",
+  "apiship",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
