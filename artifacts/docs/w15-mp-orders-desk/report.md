@@ -275,10 +275,22 @@ GET /tenants/marketplace-orders     → count 9591, notices rate_limited / missi
 снимки экрана пересняты на слитом коде: в карточке по-прежнему 0 кнопок и 0 форм
 ```
 
-## Серверы
+## Серверы и карточка задачи
 
-Подняты и остановлены мной: `medusa develop` (:9015) и `vite` (:5195). Проверка перед финальным
-сообщением — в конце отчёта PR.
+Подняты и остановлены мной: `medusa develop` (:9015) и `vite` (:5195).
+
+```
+/usr/sbin/lsof -t -nP -iTCP:9015 -iTCP:5195 -sTCP:LISTEN | xargs -r kill -9
+ps -axo pid=,command= | grep '<worktree>/' | grep -vc shell-snapshots   → 0
+/usr/sbin/lsof -nP -iTCP:9015 -iTCP:5195 -sTCP:LISTEN | wc -l           → 0
+```
+
+Отчёт для карточки задачи проверен схемой:
+
+```
+node handoff/day-2026-09-16-oksana-store/ui/report-validate.mjs      handoff/day-2026-09-16-oksana-store/artifacts/w15-mp-orders-desk/report.json
+OK …/artifacts/w15-mp-orders-desk/report.json: 9 done / 7 results / 1 access
+```
 
 ## Экономия
 
