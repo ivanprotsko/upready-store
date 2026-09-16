@@ -49,6 +49,14 @@ export const MarketplacesSettings = () => {
           >
             {t("marketplaceSync.title")}
           </Link>
+          {/* w19-mp-analytics: аналитика продаж — отдельный экран: это фолд по
+              десяткам тысяч заказов, а не поле карточки площадки. */}
+          <Link
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-compact-small-plus mt-2 block w-fit"
+            to="/settings/marketplaces/analytics"
+          >
+            {t("marketplaceAnalytics.title")}
+          </Link>
           {/* w18-mp-reviews-desk: отзывы и вопросы покупателей — отдельный
               экран, потому что это список на сотни строк, а не поле карточки. */}
           <Link

@@ -41,6 +41,14 @@ const DOC_ANALYTICS = "https://dev.wildberries.ru/en/docs/openapi/analytics";
 
 export const ANALYTICS_FUNNEL_HISTORY_DOC = `${DOC_ANALYTICS}#tag/salesFunnel/operation/postV3SalesFunnelProductsHistory`;
 
+/**
+ * The two analytics reports w19-mp-analytics reads, both on the same page and
+ * both quoted from the extract kept at
+ * `artifacts/docs/w03-wb-sales-questions-mirror/docs/dev-wildberries-ru-en-docs-openapi-analytics.txt`.
+ */
+export const ANALYTICS_STOCKS_REPORT_DOC = `${DOC_ANALYTICS}#tag/stocksReport/operation/postV2StocksReportProductsProducts`;
+export const ANALYTICS_ITEM_RATING_DOC = `${DOC_ANALYTICS}#tag/itemRating/operation/postV2ItemRating`;
+
 export const MARKETPLACE_STOCKS_DOC = `${DOC_ITEMS}#tag/sellerWarehousesInventory`;
 
 /**
@@ -305,6 +313,68 @@ export const WB_READ_ENDPOINTS: readonly WbReadEndpoint[] = [
      * the last week", and a base token gets 2 requests per hour on this
      * category. Both are facts of the API, not of this client: the import
      * covers 20 cards per request and says which ones it left out.
+     */
+    timeoutMs: 60_000,
+  },
+  {
+    id: "analytics.stocks-report.products",
+    host: "seller-analytics-api.wildberries.ru",
+    method: "POST",
+    path: "/api/v2/stocks-report/products/products",
+    docUrl: ANALYTICS_STOCKS_REPORT_DOC,
+    summary: "Item Data (inventory by items)",
+    readViaPost: {
+      docUrl: ANALYTICS_STOCKS_REPORT_DOC,
+      reason:
+        'Method description: "Forms a dataset for inventory by items." The body is the report\'s ' +
+        "own query — `currentPeriod`, `stockType`, `skipDeletedNm`, `orderBy`, " +
+        "`availabilityFilters`, `offset` — five required members, which is why WB documents this " +
+        "read as a POST. Nothing on this host writes to this path.",
+    },
+    /**
+     * WHY THIS ENDPOINT IS REGISTERED AT ALL (w19-mp-analytics). Its answer
+     * carries WB's OWN `saleRate` and `avgStockTurnover` per item, next to
+     * `stockCount` and `feedbackRating`. Our screen computes turnover from
+     * `mp_offer` and the sales rate of the period; this is the only second
+     * opinion that exists, and a number nobody can check against anything is
+     * the one a shop owner cannot argue with (rule 18e).
+     *
+     * Its own limit table names a base token explicitly: "Base — 1 h — 2
+     * requests — 30 min — 1 request". The report itself "is updated once an
+     * hour", so asking more often buys nothing.
+     *
+     * MEASURED 2026-09-16 on the cabinet «ФНП / Фабрика Натуральных
+     * Продуктов»: see `artifacts/docs/w19-mp-analytics/report.md`. The screen
+     * shows what it answered, refusal included, and never a number of ours
+     * dressed up as WB's.
+     */
+    timeoutMs: 60_000,
+  },
+  {
+    id: "analytics.item-rating",
+    host: "seller-analytics-api.wildberries.ru",
+    method: "POST",
+    path: "/api/analytics/v2/item-rating",
+    docUrl: ANALYTICS_ITEM_RATING_DOC,
+    summary: "Item Rating",
+    readViaPost: {
+      docUrl: ANALYTICS_ITEM_RATING_DOC,
+      reason:
+        'Method description: "The method forms a dataset for item rating." The body carries ' +
+        "`currentPeriod`, `orderBy`, `limit` and `offset` (the first two required), so the query " +
+        "travels in a body. There is no write method on this path.",
+    },
+    /**
+     * THE SELLER RATING LIVES HERE, in `data.sellerRating.current` next to
+     * `dynamics` and the five-star breakdown — WB has no separate
+     * seller-rating method, and this is the one the panel's rating block reads
+     * (w19-mp-analytics).
+     *
+     * The doc line above the method says it plainly: "Method is available by
+     * Personal token, Service token". A base token is therefore expected to be
+     * refused, and the screen says WHAT it was refused with rather than
+     * showing an empty rating (rule 20a). What this cabinet actually answered
+     * is in this task's report.
      */
     timeoutMs: 60_000,
   },

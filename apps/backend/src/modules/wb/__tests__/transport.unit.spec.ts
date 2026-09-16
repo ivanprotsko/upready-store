@@ -52,6 +52,12 @@ const POST_READ_ENDPOINT_IDS = [
   // order ids, which cannot travel in a query string.
   "marketplace.fbs.orders.status",
   "marketplace.fbs.orders.stickers",
+  // w19-mp-analytics: the two analytics reports the seller dashboard reads.
+  // Both are POSTs because their query is an object (period, sorting,
+  // filters); both are on `seller-analytics-api` where no write method exists
+  // on either path.
+  "analytics.stocks-report.products",
+  "analytics.item-rating",
 ].sort();
 
 const TOKEN = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.test-payload.test-signature";
