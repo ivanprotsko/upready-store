@@ -262,6 +262,12 @@ export type MpOrderDraft = DraftBase & {
   /** FBS | FBO | DBS | rFBS, or `null` where the marketplace does not say. */
   scheme: string | null;
   status: string | null;
+  /**
+   * The marketplace's second status string (WB `wbStatus`, Ozon `substatus`),
+   * raw. `null` where the marketplace answers with one status only
+   * (w15-mp-orders-desk).
+   */
+  status_detail: string | null;
   status_changed_at: Date | null;
   ordered_at: Date | null;
   buyer_region: string | null;

@@ -6,6 +6,7 @@ import type {
   MpQuestionDraft,
   MpReviewDraft,
 } from "../marketplace/contract";
+import { canonicalScheme } from "../marketplace/scheme";
 
 /**
  * Ozon mirror rows -> `mp_*` drafts (w12-marketplace-core, spec 2.3).
@@ -231,8 +232,10 @@ export const orders = (rows: unknown[]): MpOrderDraft[] =>
       source_row_id: String(row.id),
       synced_at: date(row.fetched_at) ?? new Date(),
       external_id: externalId,
-      scheme: text(row.scheme),
+      scheme: canonicalScheme(row.scheme),
       status: text(row.status),
+      /** Ozon's own second string. WB's `wbStatus` sits in the same column. */
+      status_detail: text(row.substatus),
       status_changed_at: date(row.in_process_at),
       ordered_at: date(row.posting_created_at),
       buyer_region: text(analytics.region) ?? text(analytics.city),
