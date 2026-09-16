@@ -6,6 +6,7 @@ import {
   EllipsisHorizontal,
   Folder,
   House,
+  Key,
   RocketLaunch,
   OpenRectArrowOut,
   ReceiptPercent,
@@ -270,6 +271,13 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       // is the daily one, the connection settings sit under it, and Ozon gets
       // its own entry here the day it has a page of its own.
       //
+      // p01-settings-integrations-restructure: «Подключение» больше НЕ в этой
+      // группе. Реквизиты всех сервисов магазина — маркетплейсы, Robokassa,
+      // ApiShip, СДЭК — живут одним разделом `/settings/integrations`, рядом с
+      // «Приёмом оплат» и «Доставкой» в списке настроек на главной, а не внутри
+      // маркетплейсов (приказ Ивана 2026-09-16 20:22 WITA, пункт 2). Здесь
+      // остались только рабочие экраны площадок.
+      //
       // The siblings of the same wave land in the same section rather than in
       // four places: w15 «Заказы площадок» (/marketplace-orders), w18 «Отзывы»
       // and w16 «Синхронизация» (under /settings/marketplaces) merged into
@@ -303,22 +311,39 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           to: "/settings/marketplaces/sync",
         },
         {
-          label: t("app.nav.main.mpConnections", { defaultValue: "Connections" }),
-          to: "/settings/marketplaces",
-        },
-        {
+          // p01-settings-integrations-restructure: каждая площадка — свой
+          // экран, и пункт ведёт ПРЯМО на него. Раньше здесь стояли
+          // `/settings/wildberries` и `/settings/ozon`, которые редиректили на
+          // якоря `#wb` / `#ozon` внутри общего хаба; приказ Ивана 2026-09-16
+          // 20:22 WITA: «не правильно делать отдельный пункт для навигации в
+          // внутри одной страницы через якорь #». В этом массиве больше нет ни
+          // одного `to` с решёткой, и это проверяет тест
+          // `src/__tests__/nav-routes.test.mjs`.
           label: t("app.nav.main.wildberries", { defaultValue: "Wildberries" }),
-          to: "/settings/wildberries",
+          to: "/settings/marketplaces/wildberries",
         },
         {
-          // w24-integration-keys-self-service: «Ozon gets its own entry here
-          // the day it has a page of its own» — the comment above wrote that
-          // down, and this is that day: `/settings/ozon` is where the owner
-          // enters her Client-Id and key (it lands on the Ozon card).
           label: t("app.nav.main.ozon", { defaultValue: "Ozon" }),
-          to: "/settings/ozon",
+          to: "/settings/marketplaces/ozon",
         },
       ],
+    },
+    {
+      // p01-settings-integrations-restructure: «Подключение» — реквизиты ВСЕХ
+      // сервисов магазина (площадки, Robokassa, ApiShip, СДЭК). Приказ Ивана
+      // 2026-09-16 20:22 WITA: переименовать «подключение площадок» в
+      // «подключение» и вынести из маркетплейсов, потому что ключи Robokassa и
+      // СДЭК к площадкам отношения не имеют.
+      //
+      // ОДИН пункт и ВЕРХНИЙ уровень, сразу за группой «Маркетплейсы»: раньше
+      // их было три (подключение площадок, Wildberries, Ozon), и два из них
+      // вели на якоря внутри одной страницы. Группы «Настройки» в этом сайдбаре
+      // нет вовсе — `/settings/payments`, `/settings/delivery` и
+      // `/settings/domains` живут строкой ссылок на главной, и «Подключение»
+      // стоит там же (`routes/home/home.tsx`).
+      icon: <Key />,
+      label: t("integrations.title"),
+      to: "/settings/integrations",
     },
   ]
 }
