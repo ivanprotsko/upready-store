@@ -22,6 +22,10 @@ import { defineConfig, devices } from "@playwright/test"
  */
 export default defineConfig({
   testDir: ".",
+  // `*.pw.ts`, not `*.spec.ts`: `vitest` collects `**/*.spec.ts` by default and
+  // would try to run a Playwright suite as a unit test (the same reason
+  // `tests/stands` gives for its own extension).
+  testMatch: "**/*.pw.ts",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: 0,
