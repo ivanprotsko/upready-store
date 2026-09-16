@@ -6,6 +6,7 @@ import { WbWriteSection } from "../../wildberries/components/wb-write-section"
 import { MpDeniedTable } from "./mp-denied-table"
 import { MpEndpointTable } from "./mp-endpoint-table"
 import { MpFieldRow } from "./mp-field-row"
+import { MpKeyForm } from "./mp-key-form"
 import { MpReadOnlyBadge } from "./mp-read-only-badge"
 import { MpScopeList } from "./mp-scope-list"
 import { MpSyncTable } from "./mp-sync-table"
@@ -89,12 +90,21 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
         </div>
       ) : null}
 
+      {/*
+        The owner's own connect form (w24-integration-keys-self-service). It
+        stands FIRST because it is the action of this card: before it the card
+        could only report a key somebody else had stored, and the «Ключ» row it
+        replaces said the same thing without letting her change it.
+
+        `detail ?? card`: the list route does not ask the key what it may do,
+        so only the detail carries `credentials`, and the form needs it to say
+        «ключ с правами записи». While the detail is in flight the list card
+        renders the same fields — an unanswered question is a third state, not
+        a reason to hide the input (rule 19h).
+      */}
+      <MpKeyForm card={detail ?? card} />
+
       <div className="px-6 py-4">
-        <MpFieldRow label={t("marketplaces.key.label")}>
-          {card.connection.key.set
-            ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
-            : t("marketplaces.key.missing")}
-        </MpFieldRow>
         <MpFieldRow label={t("marketplaces.enabled.label")}>
           {card.connection.is_enabled
             ? t("marketplaces.enabled.yes")
