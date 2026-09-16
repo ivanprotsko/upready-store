@@ -844,6 +844,17 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/wildberries"),
           },
           {
+            // «Ozon» (w24-integration-keys-self-service): адрес, по которому
+            // владелица ищет, куда вписать свой Client-Id и ключ. Ведёт на
+            // карточку Ozon в разделе «Маркетплейсы» — экран на площадку
+            // генерируется из реестра, отдельная страница была бы копией,
+            // которую перестанут обновлять (правило 20).
+            path: "/settings/ozon",
+            handle: { breadcrumb: () => t("marketplaces.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/ozon"),
+          },
+          {
             // «Бренд владельца» (t16-owner-branding): логотип, фавикон,
             // картинка для соцсетей, основной цвет, подпись в подвале. No
             // Admin counterpart — a native install has one build-time theme

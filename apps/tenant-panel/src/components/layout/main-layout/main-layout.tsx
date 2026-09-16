@@ -310,6 +310,14 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           label: t("app.nav.main.wildberries", { defaultValue: "Wildberries" }),
           to: "/settings/wildberries",
         },
+        {
+          // w24-integration-keys-self-service: «Ozon gets its own entry here
+          // the day it has a page of its own» — the comment above wrote that
+          // down, and this is that day: `/settings/ozon` is where the owner
+          // enters her Client-Id and key (it lands on the Ozon card).
+          label: t("app.nav.main.ozon", { defaultValue: "Ozon" }),
+          to: "/settings/ozon",
+        },
       ],
     },
   ]

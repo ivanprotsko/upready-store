@@ -66,7 +66,9 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
       : ("unknown" as const)
 
   return (
-    <Container className="divide-y p-0">
+    // `id` is the anchor `/settings/wildberries` and `/settings/ozon` land on:
+    // both paths redirect here since the card is the live surface (w12, w24).
+    <Container className="divide-y p-0" id={card.id}>
       <div className="px-6 py-4">
         <Heading level="h2">{card.label}</Heading>
         <Text className="text-ui-fg-subtle" size="small">

@@ -244,7 +244,8 @@
         "mpConnections": "Connections",
         "mpOrders": "Marketplace orders",
         "mpReviews": "Marketplace reviews",
-        "mpSync": "Synchronisation"
+        "mpSync": "Synchronisation",
+        "ozon": "Ozon"
       },
       "settings": {
         "developer": "Developer",
@@ -4120,8 +4121,23 @@
     },
     "key": {
       "label": "API key",
-      "set": "stored, ends with {{last4}}",
-      "missing": "not stored"
+      "set": "stored ••••{{last4}}",
+      "missing": "not stored",
+      "form": {
+        "title": "API key",
+        "missing": "Fill in: {{fields}}.",
+        "saved": "Key stored, ends with {{last4}}.",
+        "removed": "Key removed.",
+        "removeTitle": "Remove the {{label}} key?",
+        "removeDescription": "The shop stops receiving this marketplace's data until you enter a key again. The key itself stays in the marketplace cabinet, we only forget it.",
+        "remove": "Remove",
+        "cancel": "Cancel",
+        "save": "Save",
+        "keepPlaceholder": "leave empty to keep the stored value",
+        "emptyPlaceholder": "paste the value from the cabinet",
+        "docs": "where to find it",
+        "writeRights": "This key carries write rights. The shop does not use them: we only read the marketplace."
+      }
     },
     "enabled": {
       "label": "Connection",
@@ -4274,6 +4290,22 @@
         "saved": "Draft saved",
         "generated": "Draft written — read it and save",
         "savedAt": "Draft saved {{at}}"
+      }
+    },
+    "other": {
+      "title": "Other integrations",
+      "subtitle": "the shop's remaining services: payments, delivery. You enter their keys here too.",
+      "connected": "connected",
+      "missing": "not set up",
+      "soon": "soon",
+      "open": "Set up",
+      "robokassa": {
+        "title": "Robokassa",
+        "subtitle": "payments on the shop's site."
+      },
+      "delivery": {
+        "title": "Delivery (ApiShip, CDEK)",
+        "subtitle": "delivery rates and shipments. The settings screen is on the way."
       }
     }
   },
@@ -4593,7 +4625,7 @@
       "empty": "no orders in this status",
       "sync": {
         "line": "{{kind}}: {{status}}, {{rows}} rows, {{when}}",
-        "howTo": "the import is a script: WB_KIND=supplies,fbs_orders pnpm --filter backend wb:sync"
+        "howTo": "the data refreshes on a schedule; the «Synchronisation» screen shows when the last import landed."
       },
       "filters": {
         "new": "New",

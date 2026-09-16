@@ -1,10 +1,12 @@
+import { useEffect } from "react"
 import { Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useMarketplaces } from "../../../hooks/api/marketplaces"
 import { MpCard } from "./components/mp-card"
+import { MpOtherIntegrations } from "./components/mp-other-integrations"
 
 /**
  * «Маркетплейсы» — one section for every marketplace of the shop
@@ -28,6 +30,21 @@ import { MpCard } from "./components/mp-card"
 export const MarketplacesSettings = () => {
   const { t } = useTranslation()
   const { marketplaces, isPending, isError, error } = useMarketplaces()
+  const { hash } = useLocation()
+
+  /**
+   * `/settings/wildberries` and `/settings/ozon` redirect here with `#wb` and
+   * `#ozon`. The browser cannot scroll to an anchor that does not exist yet —
+   * the cards render after their query lands — so the jump waits for the list
+   * and does nothing when the anchor names no card (rule 20a: a miss is a
+   * no-op, not a scroll to the top pretending it worked).
+   */
+  useEffect(() => {
+    if (!hash || !marketplaces?.length) {
+      return
+    }
+    document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" })
+  }, [hash, marketplaces])
 
   if (isError) {
     throw error
@@ -80,6 +97,14 @@ export const MarketplacesSettings = () => {
       ) : (
         marketplaces.map((card) => <MpCard key={card.id} card={card} />)
       )}
+
+      {/*
+        Every other service the shop connects itself: Robokassa today, delivery
+        next (w24-integration-keys-self-service). The owner asked for one place
+        holding all of them, not a marketplace screen next to a payment screen
+        she has to know about (Ivan, 2026-09-16 11:37 WITA).
+      */}
+      <MpOtherIntegrations />
     </SingleColumnPage>
   )
 }
