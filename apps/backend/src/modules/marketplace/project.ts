@@ -35,7 +35,7 @@ import type MarketplaceModuleService from "./service";
  */
 
 export type ProjectionCounts = Record<
-  MpKind | "order_lines" | "links" | "journal_runs" | "journal_calls",
+  MpKind | "order_lines" | "status_events" | "links" | "journal_runs" | "journal_calls",
   number
 >;
 
@@ -227,6 +227,85 @@ const carryJournal = async (
 };
 
 /**
+ * The status history the order card shows, appended rather than rewritten
+ * (w15-mp-orders-desk).
+ *
+ * Neither marketplace hands us a status LOG — both answer with the status an
+ * order has right now — so the only history we can honestly own is the one we
+ * observed. A row is written the first time an order is seen and then only
+ * when the pair (`status`, `status_detail`) has actually changed, which makes
+ * this a change log instead of one row per projection run.
+ *
+ * `observed_at` is the mirror's own `synced_at`: the moment the marketplace
+ * ANSWERED, not the moment this projection ran. Stamping it with the
+ * projector's clock would date every event of a replay to today and quietly
+ * rewrite the history it exists to preserve (rule 17a).
+ *
+ * IDEMPOTENT. `event_key` is `${order_id}|${observed_at}`, so replaying the
+ * same mirrors writes the same keys and nothing doubles.
+ */
+const recordStatusEvents = async (
+  mp: MarketplaceModuleService,
+  scope: { tenant_id: string; marketplace: string },
+  orders: MpOrderDraft[],
+  orderIdByExternal: Map<string, string>,
+): Promise<number> => {
+  const stored = (await mp.listMpOrderStatusEvents(scope)) as Row[];
+
+  /** The newest observation per order, which is what a change is measured against. */
+  const latestByOrder = new Map<string, Row>();
+  for (const event of stored) {
+    const orderId = String(event.order_id);
+    const current = latestByOrder.get(orderId);
+    if (!current || new Date(String(event.observed_at)) > new Date(String(current.observed_at))) {
+      latestByOrder.set(orderId, event);
+    }
+  }
+
+  const known = new Set(stored.map((event) => String(event.event_key)));
+  const drafts: Record<string, unknown>[] = [];
+
+  for (const order of orders) {
+    const orderId = orderIdByExternal.get(order.external_id);
+    if (!orderId) {
+      continue;
+    }
+
+    const latest = latestByOrder.get(orderId);
+    const unchanged =
+      latest &&
+      (latest.status ?? null) === order.status &&
+      (latest.status_detail ?? null) === order.status_detail;
+    if (unchanged) {
+      continue;
+    }
+
+    const eventKey = `${orderId}|${order.synced_at.toISOString()}`;
+    if (known.has(eventKey)) {
+      continue;
+    }
+    known.add(eventKey);
+
+    drafts.push({
+      tenant_id: order.tenant_id,
+      marketplace: order.marketplace,
+      order_id: orderId,
+      event_key: eventKey,
+      status: order.status,
+      status_detail: order.status_detail,
+      status_changed_at: order.status_changed_at,
+      observed_at: order.synced_at,
+    });
+  }
+
+  if (drafts.length) {
+    await mp.createMpOrderStatusEvents(drafts);
+  }
+
+  return drafts.length;
+};
+
+/**
  * Recomputes the whole normalized layer of one marketplace for one shop.
  *
  * `marketplace` is resolved through `registry.ts`, so this function knows
@@ -272,6 +351,7 @@ export const projectFromMirrors = async (
     reviews: 0,
     questions: 0,
     order_lines: 0,
+    status_events: 0,
     links: 0,
     journal_runs: 0,
     journal_calls: 0,
@@ -378,6 +458,8 @@ export const projectFromMirrors = async (
           (created) => mp.createMpOrderLines(created),
           (updated) => mp.updateMpOrderLines(updated),
         );
+
+        counts.status_events = await recordStatusEvents(mp, scope, orders, orderIdByExternal);
         continue;
       }
 

@@ -4269,6 +4269,64 @@
       }
     }
   },
+  "marketplaceOrders": {
+    "title": "Marketplace orders",
+    "navLabel": "Marketplace orders",
+    "subtitle": "Shop, Wildberries and Ozon orders in one feed. The screen only shows them: it changes nothing on a marketplace.",
+    "loading": "Loading…",
+    "export": "Download CSV ({{count}})",
+    "more": "Show more",
+    "shown": "Showing {{shown}} of {{count}}",
+    "empty": "No orders in the selected period ({{from}} — {{to}}).",
+    "period": {
+      "default": "Default period: the last {{days}} days ({{from}} — {{to}}). Pick your own below.",
+      "chosen": "Period: {{from}} — {{to}}",
+      "undated": "{{count}} more order(s) arrived without a date, so they fall in no period."
+    },
+    "filters": {
+      "source": "Source",
+      "scheme": "Scheme",
+      "status": "Status",
+      "from": "From",
+      "to": "To",
+      "reset": "Reset filters",
+      "nothingToFilter": "Nothing to filter in this period."
+    },
+    "columns": {
+      "source": "Source",
+      "number": "Number",
+      "date": "Ordered",
+      "scheme": "Scheme",
+      "status": "Status",
+      "region": "Region",
+      "total": "Total"
+    },
+    "connection": {
+      "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
+      "never_run": "{{marketplace}}: connected, but the order import has never run.",
+      "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
+      "noErrorText": "the marketplace sent no error text",
+      "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
+    },
+    "detail": {
+      "readOnly": "View only. Change the order in the marketplace's own cabinet.",
+      "statusRaw": "Marketplace status",
+      "statusChangedAt": "Marketplace changed the status",
+      "statusChangedUnknown": "the marketplace does not say when",
+      "syncedAt": "Imported at",
+      "warehouse": "Warehouse",
+      "lines": "Items",
+      "noLines": "This order has no lines, which is an import defect rather than an empty order. Check the last import.",
+      "vendorCode": "Article",
+      "product": "Shop product",
+      "qty": "Qty",
+      "notInShop": "not in the shop",
+      "history": "Status history",
+      "historyHint": "What we saw at each import. Neither Wildberries nor Ozon hands out a status log, so the time here is ours.",
+      "observedAt": "Seen at"
+    }
+  },
   "wildberries": {
     "title": "Wildberries",
     "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",

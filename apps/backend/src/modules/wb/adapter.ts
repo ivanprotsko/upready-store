@@ -192,8 +192,26 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
     ];
   }
 
+  /**
+   * Orders come from TWO mirrors and the tag says which (w15-mp-orders-desk):
+   * `wb_order` holds the statistics method's rows, `wb_fbs_order` the assembly
+   * orders w23 mirrors. They answer different questions — statistics knows the
+   * money and the buyer's region, an assembly order knows the scheme and both
+   * statuses — and the single order feed needs the union of the two.
+   *
+   * The tag is what keeps `normalize.ts` pure: without it the normalizer would
+   * have to guess which mirror a row came from by sniffing its fields, and a
+   * column added on either side would change that guess silently.
+   */
   if (kind === "orders") {
-    return (await wb.listWbOrders(scope)) as unknown[];
+    const [statistics, fbs] = await Promise.all([
+      wb.listWbOrders(scope) as Promise<Record<string, unknown>[]>,
+      wb.listWbFbsOrders(scope) as Promise<Record<string, unknown>[]>,
+    ]);
+    return [
+      ...statistics.map((row) => ({ source: "statistics" as const, row })),
+      ...fbs.map((row) => ({ source: "fbs" as const, row })),
+    ];
   }
 
   if (kind === "reviews") {
