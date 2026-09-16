@@ -317,6 +317,56 @@ $ curl …/tenants/wb/fbs-orders                   → 200 (маршрут w23 �
 
 Скриншоты пересняты на слитом дереве с нового адреса `/settings/marketplaces`.
 
+## Второе слияние в том же раунде: пока шла починка, в dev уехал w22 (2026-09-16 12:02 WITA)
+
+`dev` за время раунда ушёл ещё на три коммита (среди них w22, PR #83 — класс `feedback_answers`).
+Здесь стоит отметить методическую вещь: `git merge-tree <base> A B` в старой двухдеревной форме
+сообщил **ноль** конфликтов, а НАСТОЯЩИЙ `git merge --no-commit --no-ff` тут же нашёл **два**
+файла — и GitHub был прав, а не мой замер. Проверять мержабельность надо самим слиянием.
+
+Разрешено два файла, оба — «обе стороны, а не одна»:
+
+- `middlewares.ts`: три группы маршрутов подряд — мой `write-preview`, оба маршрута w22
+  (`feedback-answers`, `feedback-answers/send`) и `fbs-orders/actions` от w23;
+- `no-live-write-call-site.unit.spec.ts`: в `REGISTERED_CALLERS` теперь ТРИ строки, по одной на
+  класс операций:
+
+```
+  // w21-wb-write-stocks-prices: the store -> WB push, classes `stocks` and `prices`.
+  path.join("apps", "backend", "src", "wb-write-diff", "push.ts"),
+  // w22-wb-write-feedback-answers: … class `feedback_answers`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "feedback-answers", "send", "route.ts"),
+  // w23-wb-write-fbs-orders: the FBS desk, class `fbs_orders`.
+  path.join("apps", "backend", "src", "api", "tenants", "wb", "fbs-orders", "actions", "route.ts"),
+```
+
+Обе стороны независимо дописали проверку КОНФИГОВ, и я оставил обе, а не выбрал одну: w22 называет
+шесть файлов поимённо и падает, если один из них исчез (чего обход дерева не умеет), а мой обход
+идёт по `apps`, `deploy` и `.github` и потому ловит НОВЫЙ env-файл, которого в том списке нет —
+`deploy/` в списке отсутствует, а там лежат env стендов и mt. Две проверки, два разных режима
+отказа, ни одна не лишняя; почему их две — написано в комментарии над второй.
+
+Прогоны на этом дереве:
+
+```
+$ cd apps/backend && npx tsc --noEmit                        → rc=0
+$ cd apps/backend && pnpm run test:unit                      → rc=0, 75 сюит, 980 тестов
+$ cd apps/tenant-panel && npx tsc --noEmit                   → rc=0
+$ jest src/modules/wb-write/__tests__/no-live-write-call-site → 9 из 9 зелёных
+$ curl …/tenants/wb/write-preview?kind=stocks                → {"total":20,"equal":1,"update":5,"skipped":14}
+$ curl …/tenants/wb/write-preview?kind=prices                → {"total":20,"equal":19,"update":1,"skipped":0}
+$ curl …/tenants/wb/feedback-answers  …/tenants/wb/fbs-orders → 200, 200 (маршруты w22 и w23 целы)
+```
+
+Размещение раздела перепроверено на живой панели после этого слияния тоже:
+
+```
+old path /settings/wildberries lands on: /settings/marketplaces
+preview sections on page: 1
+consent sections on page: 1
+card that owns the section: Wildberries
+```
+
 ## Живой записи нет — это теперь проверка, а не фраза
 
 У w20 не было ни одного вызывателя `wbWrite`, и инвариант держался тестом «вызывателей нет».
