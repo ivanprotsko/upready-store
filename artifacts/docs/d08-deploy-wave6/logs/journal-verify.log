@@ -1,0 +1,19 @@
+  лента ДО: ссылок на статьи: 0
+  лента ДО: текст: ОКСАНА ЧЕРКАШИНА | Мультиварки | Стевия | АСД | Стимуляторы | Все товары | RU | ₽ | Журнал | Статей пока нет. | ОКСАНА ЧЕРКАШИНА | Категории
+  кадр panel-08-journal-article-editor.png
+  после сохранения URL: https://panel-store.upready.dev/journal/d08-proverka-bloga
+  редактор: статус на экране: Опубликована
+  лента ПОСЛЕ HTTP: 200
+  лента ПОСЛЕ: ссылок на статьи: 1
+  лента ПОСЛЕ: ссылки: ["/journal/d08-proverka-bloga"]
+  кадр store-11-journal-with-article.png
+  статья HTTP: 200
+  статья URL: https://cherkashino.shipshift.dev/ru/journal/d08-proverka-bloga
+  заголовок h1: Проверка блога после деплоя d08
+  текст статьи виден: true
+  кадр store-12-article-page.png
+  кадр store-13-article-mobile.png
+ОШИБКА: locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByTestId('article-status-select') to be visible[22m
+

@@ -11,10 +11,32 @@
  * перед КАЖДЫМ снимком страница проверяется на утечку (детектор ниже) — как в
  * i02, где такой же детектор поймал логины на скриншоте панели.
  */
-import { chromium } from "playwright"
-import { readFileSync, mkdirSync } from "node:fs"
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs"
 import { homedir } from "node:os"
 import path from "node:path"
+
+import { createRequire } from "node:module"
+import { execSync } from "node:child_process"
+/**
+ * В этом worktree зависимости не установлены (`apps/storefront/node_modules`
+ * отсутствует), поэтому playwright берём там, где он реально лежит: в основном
+ * чекауте или в глобальном npm-корне. ESM-резолв идёт от пути ФАЙЛА, а не от
+ * cwd, так что require строим явно. `.chromium` проверяем на месте: отсутствующий
+ * экспорт при деструктуризации ничего не бросает и падает далеко от импорта
+ * (правило 19f).
+ */
+const playwrightRoots = [
+  path.join(homedir(), "upready/projects/upready-store/node_modules"),
+  (() => { try { return execSync("npm root -g", { encoding: "utf8" }).trim() } catch { return "" } })(),
+].filter(Boolean)
+let chromium = null
+for (const root of playwrightRoots) {
+  try {
+    chromium = createRequire(path.join(root, "index.js"))("playwright").chromium
+    if (chromium) { console.log(`playwright: ${root}`); break }
+  } catch { /* следующий корень */ }
+}
+if (!chromium) throw new Error(`playwright: экспорт chromium не найден (искал в ${playwrightRoots.join(", ")})`)
 
 const PANEL = process.env.PANEL_URL ?? "https://panel-store.upready.dev"
 const SHOTS = process.env.SHOTS_DIR ?? "artifacts/docs/d08-deploy-wave6/shots"
@@ -43,28 +65,46 @@ const OWNER_PASSWORD = /Пароль:\s*(\S+)/.exec(owner)[1]
  * Всё, что не должно оказаться ни в одном кадре и ни в одной строке лога.
  * Короткие значения (<8) отброшены: они дают ложные срабатывания на разметке.
  */
-const SECRETS = [
+const SECRET_ENTRIES = Object.entries({
   OWNER_PASSWORD,
-  ref.ROBOKASSA_TEST_PASSWORD_1,
-  ref.ROBOKASSA_TEST_PASSWORD_2,
-  ref.ROBOKASSA_PASSWORD_1,
-  ref.ROBOKASSA_PASSWORD_2,
-  keys.CHEROXANA_CDEK_TEST_ACCOUNT_ID,
-  keys.CHEROXANA_CDEK_TEST_ACCOUNT_SECRET_PASSWORD,
-  keys.CDEK_API_ACCOUNT,
-  keys.CDEK_API_PASSWORD,
-].filter((v) => typeof v === "string" && v.length >= 8)
+  ROBOKASSA_TEST_PASSWORD_1: ref.ROBOKASSA_TEST_PASSWORD_1,
+  ROBOKASSA_TEST_PASSWORD_2: ref.ROBOKASSA_TEST_PASSWORD_2,
+  ROBOKASSA_PASSWORD_1: ref.ROBOKASSA_PASSWORD_1,
+  ROBOKASSA_PASSWORD_2: ref.ROBOKASSA_PASSWORD_2,
+  CHEROXANA_CDEK_TEST_ACCOUNT_ID: keys.CHEROXANA_CDEK_TEST_ACCOUNT_ID,
+  CHEROXANA_CDEK_TEST_ACCOUNT_SECRET_PASSWORD: keys.CHEROXANA_CDEK_TEST_ACCOUNT_SECRET_PASSWORD,
+  CDEK_API_ACCOUNT: keys.CDEK_API_ACCOUNT,
+  CDEK_API_PASSWORD: keys.CDEK_API_PASSWORD,
+}).filter(([, v]) => typeof v === "string" && v.length >= 8)
 
 const required = (name, value) => {
   if (!value) throw new Error(`секрет ${name} не найден — настройка не начата`)
   return value
 }
 
-/** Кадр снимается только после проверки: секрета в DOM нет. */
+/**
+ * Что РЕАЛЬНО попадёт в кадр: видимый текст плюс значения полей, которые
+ * браузер рисует открыто. `input[type=password]` рисуется точками, поэтому его
+ * значение в кадр не попадает — проверять по всему `page.content()` значило бы
+ * судить не тот артефакт (артефакт здесь — растровый PNG, а не HTML).
+ */
+const visibleText = (page) =>
+  page.evaluate(() => {
+    const parts = [document.body.innerText]
+    for (const el of document.querySelectorAll("input, textarea")) {
+      const masked =
+        el.type === "password" ||
+        getComputedStyle(el).webkitTextSecurity === "disc"
+      if (!masked) parts.push(el.value ?? "")
+    }
+    return parts.join("\n")
+  })
+
+/** Кадр снимается только после проверки: секрета в видимой части нет. */
 const shot = async (page, name) => {
-  const html = await page.content()
-  for (const s of SECRETS) {
-    if (html.includes(s)) throw new Error(`УТЕЧКА: секрет виден в DOM на кадре ${name}`)
+  const seen = await visibleText(page)
+  for (const [key, value] of SECRET_ENTRIES) {
+    if (seen.includes(value)) throw new Error(`УТЕЧКА: ${key} виден на кадре ${name}`)
   }
   await page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: true })
   console.log(`  кадр ${name}.png`)
@@ -128,8 +168,14 @@ const run = async () => {
   console.log("3. Настройки → Доставка (СДЭК, ТЕСТОВЫЙ контур)")
   await page.goto(`${PANEL}/settings/delivery`, { waitUntil: "domcontentloaded" })
   await page.locator("#test_account").waitFor({ state: "visible", timeout: 30000 })
-  await fill(page, "test_account", required("CHEROXANA_CDEK_TEST_ACCOUNT_ID", keys.CHEROXANA_CDEK_TEST_ACCOUNT_ID))
-  await fill(page, "test_password", required("CHEROXANA_CDEK_TEST_ACCOUNT_SECRET_PASSWORD", keys.CHEROXANA_CDEK_TEST_ACCOUNT_SECRET_PASSWORD))
+  // Тестовый контур СДЭК — пара CDEK_API_{ACCOUNT,PASSWORD} канона `.env.keys`
+  // («edu-контур», ей же живёт эталонный магазин chrxnasdmds против
+  // https://api.edu.cdek.ru/v2 — значения в обоих источниках побайтно равны).
+  // Пара CHEROXANA_CDEK_TEST_* из того же файла ЗАМЕРЕНА и отвергнута живым
+  // СДЭК: PUT /tenants/delivery-settings → 400 «CDEK auth failed (401)»
+  // (2026-09-16, лог logs/panel-api-cheroxana-401.json).
+  await fill(page, "test_account", required("CDEK_API_ACCOUNT", keys.CDEK_API_ACCOUNT))
+  await fill(page, "test_password", required("CDEK_API_PASSWORD", keys.CDEK_API_PASSWORD))
   await fill(page, "sender_city_name", keys.CDEK_ORIGIN_CITY || "Москва")
   await fill(page, "sender_name", ref.APISHIP_SENDER_NAME || "Магазин Черкашина")
   for (const kind of ["courier", "pickup"]) {
@@ -160,10 +206,33 @@ const run = async () => {
   }
 
   await browser.close()
+  // Ответы API — артефакт приёмки, не только строка в терминале.
+  const outFile = process.env.API_LOG ?? "artifacts/docs/d08-deploy-wave6/logs/panel-api.json"
+  /**
+   * Панель маскирует ПАРОЛИ, но логин аккаунта отдаёт открытым (`test_account`),
+   * а этот файл едет в git. Пароли маскирует сервер, логин — мы здесь: артефакт
+   * приёмки не имеет права нести реквизит ни одной из сторон.
+   */
+  const redact = (node) => {
+    if (Array.isArray(node)) return node.map(redact)
+    if (node && typeof node === "object") {
+      return Object.fromEntries(
+        Object.entries(node).map(([k, v]) =>
+          (k === "account" || k === "test_account" || k === "merchant_login") && typeof v === "string" && v
+            ? [k, `<вырезано, ${v.length} символов>`]
+            : [k, redact(v)],
+        ),
+      )
+    }
+    return node
+  }
+  const safe = redact({ api, results })
+  writeFileSync(outFile, JSON.stringify(safe, null, 1))
+  console.log(`\nответы API записаны: ${outFile}`)
   console.log("\n=== ОТВЕТЫ ПАНЕЛЬНОГО API ===")
-  console.log(JSON.stringify(api, null, 1))
+  console.log(JSON.stringify(safe.api, null, 1))
   console.log("\n=== ЧТО НА ЭКРАНАХ ===")
-  console.log(JSON.stringify(results, null, 1))
+  console.log(JSON.stringify(safe.results, null, 1))
 }
 
 run().catch((e) => { console.error("ОШИБКА:", e.message); process.exit(1) })
