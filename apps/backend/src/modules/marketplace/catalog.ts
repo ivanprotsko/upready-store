@@ -263,6 +263,14 @@ const buildCardSide = (
 
 const round2 = (value: number): number => Math.round(value * 100) / 100;
 
+/**
+ * «по 1 строке», «по 2 строкам». Dative plural, because the hint is read by a
+ * shop owner and not by a developer: a screen that says «по 1 строкам» is a
+ * screen nobody proof-read.
+ */
+const offerLines = (count: number): string =>
+  `${count} ${count % 10 === 1 && count % 100 !== 11 ? "строке" : "строкам"}`;
+
 const priceDifference = (
   shop: CatalogRow["shop"],
   side: CatalogCardSide,
@@ -283,9 +291,10 @@ const priceDifference = (
 
   const note =
     shopPrice === null && currency
-      ? `магазин: цены в ${currency} нет (price.amount) · площадка: ${basis} по ${side.offers} строкам mp_offer`
+      ? `магазин: цены в ${currency} нет (price.amount) · ` +
+        `площадка: ${basis} по ${offerLines(side.offers)} mp_offer`
       : `магазин: price.amount в ${currency ?? "валюте площадки"} · ` +
-        `площадка: ${basis} по ${side.offers} строкам mp_offer`;
+        `площадка: ${basis} по ${offerLines(side.offers)} mp_offer`;
 
   return {
     metric: "price",
@@ -318,7 +327,7 @@ const stockDifference = (
     highlighted: abs !== null && Math.abs(abs) >= thresholds.stock_abs,
     note:
       "магазин: сумма inventory_level.stocked_quantity · " +
-      `площадка: сумма mp_offer.stock по ${side.offers} строкам` +
+      `площадка: сумма mp_offer.stock по ${offerLines(side.offers)}` +
       (side.stock === null ? " (площадка остаток не назвала)" : ""),
   };
 };

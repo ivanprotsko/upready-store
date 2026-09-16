@@ -266,7 +266,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       to: "/marketplaces/catalog",
       items: [
         {
-          label: t("marketplaces.title"),
+          label: t("app.nav.main.mpCatalog", { defaultValue: "Catalog" }),
+          to: "/marketplaces/catalog",
+        },
+        {
+          label: t("app.nav.main.mpConnections", { defaultValue: "Connections" }),
           to: "/settings/marketplaces",
         },
         {

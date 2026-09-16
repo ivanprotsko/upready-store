@@ -81,7 +81,10 @@ export const MarketplaceCatalog = () => {
   const [thresholds, setThresholds] = useState<CatalogThresholds>(DEFAULTS)
   const [tab, setTab] = useState<CatalogState>("linked")
 
-  const { rows, counts, summary, sources, stored, isPending, isError, error } =
+  // `summary` already carries the absolute path of the matcher when the count
+  // is zero, so `sources` is not read here: printing it twice was noise on the
+  // screen (measured on the stand, artifacts 05-catalog-zero-of-n.png).
+  const { rows, counts, summary, stored, isPending, isError, error } =
     useMarketplaceCatalog(thresholds)
 
   const { mutate: autoLink, isPending: isLinking } = useAutoLinkMarketplaceCatalog({
@@ -173,9 +176,6 @@ export const MarketplaceCatalog = () => {
                   <div className="flex flex-col gap-y-1">
                     <Text size="small" weight="plus">
                       {summary}
-                    </Text>
-                    <Text size="xsmall" className="text-ui-fg-subtle break-all">
-                      Правило сопоставления: {sources?.matcher}
                     </Text>
                     <Text size="xsmall" className="text-ui-fg-subtle">
                       Прочитано: карточек {stored?.cards}, строк цен и остатков {stored?.offers},

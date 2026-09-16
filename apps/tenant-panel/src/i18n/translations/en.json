@@ -238,7 +238,9 @@
         "store": "Store",
         "storeSettings": "Store settings",
         "marketplaces": "Marketplaces",
-        "wildberries": "Wildberries"
+        "wildberries": "Wildberries",
+        "mpCatalog": "Catalog",
+        "mpConnections": "Connections"
       },
       "settings": {
         "developer": "Developer",
