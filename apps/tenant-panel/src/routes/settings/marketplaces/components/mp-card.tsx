@@ -43,6 +43,20 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
   const credentials = detail?.credentials ?? null
   const linking = detail?.linking ?? card.linking
 
+  /**
+   * A key that was never stored is not a key that failed to answer
+   * (w14-mp-catalog-link, Ivan 2026-09-16 09:11). With no key the panel showed
+   * «не удалось определить» in «Права ключа», which reads as a BROKEN key: the
+   * owner sees a red-flavoured verdict about a credential she has not created
+   * yet. It is a value substituted for an absence (rule 20a).
+   *
+   * So the row has three cases, not two: no key -> «—» and the one line saying
+   * how a key gets stored for this shop; key stored and unreadable -> «не
+   * удалось определить», which is now a real claim; key stored and readable ->
+   * the verdict.
+   */
+  const hasKey = card.connection.key.set
+
   const readOnly = credentials
     ? credentials.read_only
     : isPending
@@ -87,14 +101,23 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
             : t("marketplaces.enabled.no")}
         </MpFieldRow>
         <MpFieldRow label={t("marketplaces.readOnly.label")}>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <MpReadOnlyBadge value={readOnly} />
-            {credentials?.read_only_source ? (
+          {hasKey ? (
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <MpReadOnlyBadge value={readOnly} />
+              {credentials?.read_only_source ? (
+                <Text className="text-ui-fg-subtle" size="small">
+                  {credentials.read_only_source}
+                </Text>
+              ) : null}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-y-1">
+              <Text size="small">{NOT_SET}</Text>
               <Text className="text-ui-fg-subtle" size="small">
-                {credentials.read_only_source}
+                {card.connection.key.how_to_store}
               </Text>
-            ) : null}
-          </div>
+            </div>
+          )}
         </MpFieldRow>
         <MpFieldRow label={t("marketplaces.expiresAt")}>
           <span className={credentials?.expired ? "text-ui-fg-error" : undefined}>

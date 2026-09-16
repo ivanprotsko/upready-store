@@ -307,6 +307,16 @@ export const ozonAdapter: MarketplaceAdapter = {
   read,
   inspectCredentials,
   readCredentials,
+  /**
+   * The only mechanism that exists today (`src/scripts/ozon-seed-key.ts`).
+   * Ozon needs a PAIR, which is exactly why this line belongs to the adapter
+   * and not to a table in the core.
+   */
+  credentialHowTo:
+    "Ключ хранится в tenant_integration_secret (provider=ozon), " +
+    "зашифрованным под INTEGRATION_ENCRYPTION_KEY. Сохраняет его скрипт: " +
+    "OZON_CLIENT_ID=<id> OZON_API_KEY=<ключ> OZON_TENANT=<handle> " +
+    "pnpm --filter backend ozon:seed-key. Действия в панели для этого нет.",
   syncKinds: OZON_SYNC_KINDS,
   /**
    * Ozon's own vocabulary against the normalized kinds (w18-mp-reviews-desk).

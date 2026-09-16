@@ -236,7 +236,14 @@
         "pages": "Pages",
         "journal": "Journal",
         "store": "Store",
-        "storeSettings": "Store settings"
+        "storeSettings": "Store settings",
+        "marketplaces": "Marketplaces",
+        "wildberries": "Wildberries",
+        "mpCatalog": "Catalog",
+        "mpConnections": "Connections",
+        "mpOrders": "Marketplace orders",
+        "mpReviews": "Marketplace reviews",
+        "mpSync": "Synchronisation"
       },
       "settings": {
         "developer": "Developer",

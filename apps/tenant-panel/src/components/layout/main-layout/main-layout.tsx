@@ -1,4 +1,5 @@
 import {
+  BuildingStorefront,
   ChartBar,
   ChatBubbleLeftRight,
   DocumentText,
@@ -259,6 +260,50 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ChatBubbleLeftRight />,
       label: t("app.nav.main.reviews", { defaultValue: "Reviews" }),
       to: "/reviews",
+    },
+    {
+      // w14-mp-catalog-link: «Маркетплейсы». The section existed as a screen
+      // (`/settings/marketplaces`, w12) and was reachable ONLY through a tile
+      // on the panel home page — Ivan found it missing from the sidebar on the
+      // live panel, 2026-09-16 09:11. It hangs its own pages the way Campaigns
+      // hangs under Promotions: the catalog is the landing screen because it
+      // is the daily one, the connection settings sit under it, and Ozon gets
+      // its own entry here the day it has a page of its own.
+      //
+      // The siblings of the same wave land in the same section rather than in
+      // four places: w15 «Заказы площадок» (/marketplace-orders), w18 «Отзывы»
+      // and w16 «Синхронизация» (under /settings/marketplaces) merged into
+      // `dev` while this task was open, and each of them was reachable only by
+      // typing its URL — which is exactly the defect this entry exists to fix.
+      icon: <BuildingStorefront />,
+      label: t("app.nav.main.marketplaces", { defaultValue: "Marketplaces" }),
+      to: "/marketplaces/catalog",
+      items: [
+        {
+          label: t("app.nav.main.mpCatalog", { defaultValue: "Catalog" }),
+          to: "/marketplaces/catalog",
+        },
+        {
+          label: t("app.nav.main.mpOrders", { defaultValue: "Marketplace orders" }),
+          to: "/marketplace-orders",
+        },
+        {
+          label: t("app.nav.main.mpReviews", { defaultValue: "Marketplace reviews" }),
+          to: "/settings/marketplaces/reviews",
+        },
+        {
+          label: t("app.nav.main.mpSync", { defaultValue: "Synchronisation" }),
+          to: "/settings/marketplaces/sync",
+        },
+        {
+          label: t("app.nav.main.mpConnections", { defaultValue: "Connections" }),
+          to: "/settings/marketplaces",
+        },
+        {
+          label: t("app.nav.main.wildberries", { defaultValue: "Wildberries" }),
+          to: "/settings/wildberries",
+        },
+      ],
     },
   ]
 }

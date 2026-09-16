@@ -263,6 +263,17 @@ export const wbAdapter: MarketplaceAdapter = {
   read,
   inspectCredentials,
   readCredentials,
+  /**
+   * The only mechanism that exists today (`src/scripts/wb-seed-key.ts`). The
+   * key is taken from the environment and never from an argument, because an
+   * argument stands in the shell history and in `ps`. There is no panel action
+   * for it, and this line must not pretend there is (rule 17a).
+   */
+  credentialHowTo:
+    "Ключ хранится в tenant_integration_secret (provider=wildberries), " +
+    "зашифрованным под INTEGRATION_ENCRYPTION_KEY. Сохраняет его скрипт: " +
+    "WB_API_KEY=<ключ> WB_TENANT=<handle> pnpm --filter backend wb:seed-key. " +
+    "Действия в панели для этого нет.",
   syncKinds: WB_SYNC_KINDS,
   /**
    * Wildberries' own vocabulary against the normalized kinds

@@ -113,17 +113,34 @@ export const WildberriesSettings = () => {
                   : t("wildberries.key.missing")}
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.readOnly.label")}>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <WbReadOnlyBadge value={wb.token.read_only} />
-                  <a
-                    className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-                    href={wb.token.read_only_source}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {t("wildberries.readOnly.docs")}
-                  </a>
-                </div>
+                {/*
+                  A key that was never stored has not been asked anything, so
+                  there is no verdict to show (w14-mp-catalog-link). The live
+                  surface of this row is the Wildberries CARD in «Маркетплейсы»
+                  — this page redirects there since w12 — and the same defect
+                  is fixed there; it is fixed here too so reviving the page
+                  cannot revive the bug (rule 20).
+                */}
+                {wb.connection.key.set ? (
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <WbReadOnlyBadge value={wb.token.read_only} />
+                    <a
+                      className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+                      href={wb.token.read_only_source}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {t("wildberries.readOnly.docs")}
+                    </a>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-y-1">
+                    <span>{NOT_SET}</span>
+                    <Text className="text-ui-fg-subtle" size="small">
+                      Ключ не сохранён — как его сохранить, сказано в разделе «Маркетплейсы».
+                    </Text>
+                  </div>
+                )}
               </WbFieldRow>
               <WbFieldRow label={t("wildberries.expiresAt")}>
                 <span className={wb.token.expired ? "text-ui-fg-error" : undefined}>

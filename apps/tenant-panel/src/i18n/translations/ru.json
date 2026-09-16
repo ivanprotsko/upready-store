@@ -242,7 +242,14 @@
         "pages": "Страницы",
         "journal": "Журнал",
         "store": "Магазин",
-        "storeSettings": "Настройки магазина"
+        "storeSettings": "Настройки магазина",
+        "marketplaces": "Маркетплейсы",
+        "wildberries": "Wildberries",
+        "mpCatalog": "Каталог",
+        "mpConnections": "Подключение площадок",
+        "mpOrders": "Заказы площадок",
+        "mpReviews": "Отзывы площадок",
+        "mpSync": "Синхронизация"
       },
       "settings": {
         "developer": "Разработчик",

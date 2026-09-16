@@ -400,6 +400,18 @@ export type MarketplaceAdapter = {
    * because the core does not import the database types either.
    */
   readCredentials: (pg: unknown, tenantId: string) => Promise<CredentialSlot | null>;
+  /**
+   * One line telling the owner HOW this shop's key gets stored, for the panel
+   * to show where the key is absent (w14-mp-catalog-link).
+   *
+   * It belongs to the adapter for the same reason `readCredentials` does: WB
+   * takes one JWT and Ozon takes a `Client-Id` + `Api-Key` pair, and a list of
+   * marketplaces kept anywhere else would have to learn every new one by hand
+   * (rule 20). It names the command or the screen that exists TODAY and
+   * nothing else — a hint that invents a button is worse than no hint, because
+   * the owner goes looking for it (rule 17a).
+   */
+  credentialHowTo: string;
   /** The adapter's own import kinds, in its own vocabulary (WB: cards, Ozon: products). */
   syncKinds: readonly string[];
   /**
@@ -466,6 +478,7 @@ export const ADAPTER_KEYS = [
   "read",
   "inspectCredentials",
   "readCredentials",
+  "credentialHowTo",
   "syncKinds",
   "mirrorKinds",
   "runSync",
