@@ -241,6 +241,20 @@ export const MarketplaceReviewsDesk = () => {
             </Button>
           ) : null}
         </div>
+
+        {/* Состояние генератора черновиков — одной строкой на экран, а не под
+            каждой карточкой: кнопка «Сгенерировать» отключена, и причина
+            должна стоять рядом ровно один раз (правило 18e). */}
+        {desk ? (
+          <div className="border-t border-ui-border-base px-6 py-3">
+            <Text
+              className={desk.generator.available ? "text-ui-fg-subtle" : "text-ui-fg-muted"}
+              size="xsmall"
+            >
+              {desk.generator.reason}
+            </Text>
+          </div>
+        ) : null}
       </Container>
 
       {isPending || !desk ? (

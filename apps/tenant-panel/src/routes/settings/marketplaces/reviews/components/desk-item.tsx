@@ -171,24 +171,18 @@ export const DeskItemCard = ({
               {t("marketplaces.desk.draft.generate")}
             </Button>
 
-            <Text className="text-ui-fg-subtle" size="xsmall">
-              {generator.available
-                ? item.answer_draft_at
-                  ? t("marketplaces.desk.draft.savedAt", {
-                      at: formatDate(item.answer_draft_at, locale),
-                    })
-                  : generator.reason
-                : generator.reason}
-            </Text>
+            {/* Состояние генератора объяснено ОДИН раз в шапке экрана: та же
+                фраза под каждой из ста двадцати карточек — шум, а не
+                информация (правило 18e). Здесь остаётся факт об этой строке —
+                когда её черновик сохранён. */}
+            {item.answer_draft_at ? (
+              <Text className="text-ui-fg-subtle" size="xsmall">
+                {t("marketplaces.desk.draft.savedAt", {
+                  at: formatDate(item.answer_draft_at, locale),
+                })}
+              </Text>
+            ) : null}
           </div>
-
-          {!generator.available && item.answer_draft_at ? (
-            <Text className="text-ui-fg-subtle" size="xsmall">
-              {t("marketplaces.desk.draft.savedAt", {
-                at: formatDate(item.answer_draft_at, locale),
-              })}
-            </Text>
-          ) : null}
         </div>
       </div>
     </Container>
