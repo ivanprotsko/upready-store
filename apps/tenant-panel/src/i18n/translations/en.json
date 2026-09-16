@@ -4114,7 +4114,9 @@
       "feedbacks": "Feedbacks",
       "sales": "Sales and returns",
       "questions": "Customer questions",
-      "analytics": "Funnel by listing"
+      "analytics": "Funnel by listing",
+      "supplies": "FBS supplies",
+      "fbs_orders": "FBS assembly orders"
     },
     "statuses": {
       "running": "running",
@@ -4314,6 +4316,96 @@
         "cancel": "Cancel"
       },
       "cannotAnswer": "sending an answer is unavailable — see the note at the top of the tab"
+    },
+    "tabs": {
+      "connection": "Connection",
+      "fbs": "FBS orders"
+    },
+    "fbs": {
+      "title": "FBS orders",
+      "hint": "assembly orders and supplies from the Wildberries cabinet. This is our copy: the list comes from our own database, so reloading the page does not spend the shop's request budget.",
+      "empty": "no orders in this status",
+      "sync": {
+        "line": "{{kind}}: {{status}}, {{rows}} rows, {{when}}",
+        "howTo": "the import is a script: WB_KIND=supplies,fbs_orders pnpm --filter backend wb:sync"
+      },
+      "filters": {
+        "new": "New",
+        "confirm": "In assembly",
+        "complete": "In delivery",
+        "cancel": "Cancelled",
+        "all": "All"
+      },
+      "columns": {
+        "order": "Assembly order",
+        "created": "Created",
+        "article": "Item",
+        "price": "Price",
+        "status": "Status",
+        "supply": "Supply"
+      },
+      "supplierStatuses": {
+        "new": "new",
+        "confirm": "in assembly",
+        "complete": "in delivery",
+        "cancel": "cancelled by the seller",
+        "cancel_carrier": "cancelled by the carrier"
+      },
+      "wbStatuses": {
+        "waiting": "waiting at Wildberries",
+        "sorted": "sorted at the WB warehouse",
+        "sold": "sold",
+        "canceled": "cancelled",
+        "canceled_by_client": "cancelled by the buyer on receipt",
+        "declined_by_client": "cancelled by the buyer within the hour",
+        "defect": "defect",
+        "ready_for_pickup": "waiting at the pickup point",
+        "postponed_delivery": "delivery postponed",
+        "accepted_by_carrier": "accepted by the carrier",
+        "sent_to_carrier": "dispatched to the carrier",
+        "canceled_by_carrier": "cancelled by the carrier"
+      },
+      "assemble": {
+        "button": "Assemble ({{count}})",
+        "title": "Assemble {{count}} order(s)",
+        "intoSupply": "The orders are added to the supply «{{supply}}» and move to the in-assembly status. Wildberries has no separate confirm method: adding an order to a supply IS confirming it. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "newSupply": "No supply is chosen, so a new one is created first and {{count}} order(s) are then added to it and moved to the in-assembly status. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Assemble"
+      },
+      "cancel": {
+        "button": "Cancel ({{count}})",
+        "title": "Cancel {{count}} order(s)",
+        "body": "Orders {{orders}} move to the cancelled-by-the-seller status. Cancelling is possible only before the order is handed over to Wildberries. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Cancel the orders"
+      },
+      "deliver": {
+        "button": "Hand over for delivery",
+        "title": "Hand the supply «{{supply}}» over for delivery",
+        "body": "The supply closes and all {{count}} order(s) move to the in-delivery status. Nothing can be added to it afterwards, and Wildberries calls the action irreversible. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Hand over for delivery"
+      },
+      "supply": {
+        "title": "Open supplies",
+        "empty": "no open supplies",
+        "newOne": "Create a new supply",
+        "orders": "{{count}} orders"
+      },
+      "blocked": {
+        "assemble": "Order {{order}} cannot be assembled: {{reason}}.",
+        "cancel": "Order {{order}} cannot be cancelled: {{reason}}."
+      },
+      "gates": {
+        "consentGiven": "The consent for the FBS orders class was given on the Connection tab.",
+        "consentMissing": "The consent for the FBS orders class has not been given. It can be confirmed on the Connection tab; without it every attempt is refused at the consent gate."
+      },
+      "result": {
+        "dryRun": "Dry run: nothing left this process",
+        "sent": "Sent to Wildberries",
+        "journalled": "journalled, payload fingerprint {{sha}}…",
+        "refusedAt": "refused at the «{{gate}}» gate: {{message}}",
+        "dryRunToast": "The attempt is in the journal. Nothing was sent to Wildberries.",
+        "sentToast": "Sent to Wildberries."
+      }
     }
   }
 }

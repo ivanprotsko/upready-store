@@ -27,6 +27,10 @@ describe("the mirror plurals name methods that exist", () => {
         "WbQuestion",
         "WbSale",
         "WbStock",
+        // w23-wb-write-fbs-orders. `WbSupply` is the reason this list is kept
+        // by hand: its plural is `WbSupplies`, not `WbSupplys`.
+        "WbFbsOrder",
+        "WbSupply",
       ].sort(),
     );
   });
