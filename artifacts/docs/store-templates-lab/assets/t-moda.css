@@ -1,0 +1,35 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/moda.json — шаблон «Мода» */
+:root {
+  --font-display: "Playfair Display", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --grid-cols: 3;
+  --aspect-card: 3 / 4;
+  --aspect-tile: 3 / 4;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 3 / 4;
+  --aspect-thumb: 3 / 4;
+  --media-fit: cover;
+  --background: #faf8f5;
+  --foreground: #14110e;
+  --card: #ffffff;
+  --card-foreground: #14110e;
+  --popover: #ffffff;
+  --popover-foreground: #14110e;
+  --primary: #14110e;
+  --primary-foreground: #faf8f5;
+  --secondary: #efeae3;
+  --secondary-foreground: #14110e;
+  --muted: #e6e0d7;
+  --muted-foreground: #5b5349;
+  --accent: #e7ded2;
+  --accent-foreground: #4a3a25;
+  --border: #e0d9ce;
+  --input: #e0d9ce;
+  --ring: #14110e;
+  --link: #6b4a22;
+  --destructive: #9b2a2a;
+  --destructive-foreground: #ffffff;
+  --success: #2c6142;
+  --warning: #7a4f10;
+  --surface-media: #efeae3;
+}

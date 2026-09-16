@@ -1,0 +1,253 @@
+/* Примитивы одного языка: сброс, типографические РОЛИ, контейнер, сетка, контролы.
+   Ни одного литерального цвета/кегля/отступа — только var() (QR-TOKENS).
+   Роль = селектор: как элемент назван в разметке, так он и выглядит, поэтому
+   DOM-подпись компонента (QR-CARD-GRAMMAR) и его стиль — один и тот же контракт. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+/* Браузерные значения по умолчанию ломают шкалу отступов (checkbox — margin 3px)
+   и потолок веса (th — bold 700). Проверка QR-SPACE-SCALE/QR-WEIGHT поймала оба. */
+input[type="checkbox"], input[type="radio"] { margin: 0; }
+button { padding: 0; border: 0; background: none; }
+th, legend, b, strong, summary { font-weight: var(--weight-medium); }
+legend { padding: 0; }   /* UA-стиль даёт 2px по горизонтали — вне шкалы отступов */
+select { padding-block: 0; }
+h1, h2, h3, h4, h5, h6, p, figure, ul, ol { margin: 0; }
+ul, ol { padding-inline-start: var(--space-6); }
+a { color: inherit; text-decoration: none; }
+:focus-visible {
+  outline: var(--space-1) solid color-mix(in srgb, var(--ring) 55%, transparent);
+  outline-offset: var(--space-1);
+  border-radius: var(--r-sm);
+}
+::selection { background: var(--foreground); color: var(--background); }
+
+/* --- типографические роли --------------------------------------------- */
+[data-role="display"] {
+  font-family: var(--font-display);
+  font-size: var(--text-display); line-height: var(--lh-display);
+  letter-spacing: var(--tr-display); font-weight: var(--weight-strong);
+  text-wrap: balance;
+}
+[data-role="page-title"] {
+  font-family: var(--font-display);
+  font-size: var(--text-h1); line-height: var(--lh-h1);
+  letter-spacing: var(--tr-h1); font-weight: var(--weight-strong);
+  text-wrap: balance;
+}
+[data-role="section-title"] {
+  font-family: var(--font-display);
+  font-size: var(--text-h2); line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2); font-weight: var(--weight-strong);
+  text-wrap: balance;
+}
+[data-role="subsection-title"] {
+  font-family: var(--font-display);
+  font-size: var(--text-title); line-height: var(--lh-title);
+  letter-spacing: var(--tr-title); font-weight: var(--weight-strong);
+}
+[data-role="lead"] {
+  font-size: var(--text-lead); line-height: var(--lh-lead);
+  color: var(--muted-foreground); max-width: var(--measure); text-wrap: pretty;
+}
+[data-role="body"] { font-size: var(--text-body); line-height: var(--lh-body); }
+[data-role="prose"] { max-width: var(--measure); display: grid; gap: var(--space-4); }
+/* Абзац не тянется шире меры, где бы он ни стоял (QR-MEASURE). На инлайновые
+   подписи и ячейки это не влияет: селектор берёт только <p>. */
+p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(--measure); }
+[data-role="prose"] li { margin-block: var(--space-1); }
+[data-role="meta"] {
+  font-size: var(--text-meta); line-height: var(--lh-meta);
+  color: var(--muted-foreground);
+}
+[data-role="eyebrow"] {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta); line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-eyebrow); text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* --- контейнер, полосы, сетка ----------------------------------------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+/* Полоса — свойство БЛОКА СТРАНИЦЫ, а не всего, у чего есть имя: карточка внутри
+   выкладки тоже «блок» по смыслу, и общий селектор [data-block] выдавал ей 96 px
+   band-отступа (пойман замером на ferma). Компоненты носят data-component. */
+[data-block] { padding-block: var(--band-y); }
+[data-block][data-tight] { padding-block: var(--band-y-tight); }
+[data-block][data-flush] { padding-block: var(--space-0); }
+[data-bleed] { width: 100%; }
+
+.stack { display: grid; gap: var(--space-6); }
+.stack-tight { display: grid; gap: var(--space-3); }
+.row { display: flex; align-items: center; gap: var(--space-3); }
+.between { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+
+.band-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--space-4); margin-block-end: var(--space-8);
+}
+
+.grid-products {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+@media (max-width: 1023px) { .grid-products { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 639px)  { .grid-products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* --- коробка изображения: жёсткая всегда (QR-IMG-ASPECT) --------------- */
+.media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-media);
+  border-radius: var(--r-md);
+  aspect-ratio: var(--aspect-card);
+}
+.media > img, .media > svg {
+  width: 100%; height: 100%;
+  object-fit: var(--media-fit);
+  object-position: center;
+}
+.media[data-media-pad] > img, .media[data-media-pad] > svg { padding: var(--media-pad); }
+.media[data-img-role="tile"]    { aspect-ratio: var(--aspect-tile); }
+.media[data-img-role="hero"]    { aspect-ratio: var(--aspect-hero); }
+.media[data-img-role="gallery"] { aspect-ratio: var(--aspect-gallery); }
+.media[data-img-role="thumb"]   { aspect-ratio: var(--aspect-thumb); }
+
+/* заглушка вместо фотографии — спроектированное состояние (QR-EMPTY) */
+.media[data-empty] {
+  display: grid; place-items: center; background: var(--secondary);
+  border: var(--hairline) dashed var(--border);
+}
+.media[data-empty] .empty-initial {
+  font-family: var(--font-display);
+  font-size: var(--text-h2); line-height: var(--lh-h2);
+  font-weight: var(--weight-strong); color: var(--muted-foreground);
+}
+.media[data-empty] .empty-label {
+  font-size: var(--text-meta); line-height: var(--lh-meta);
+  color: var(--muted-foreground); text-align: center;
+  padding-inline: var(--space-3);
+}
+
+/* --- кнопки ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--control-md); padding-inline: var(--space-6);
+  border-radius: var(--r-sm); border: var(--hairline) solid transparent;
+  font-weight: var(--weight-medium); font-size: var(--text-body);
+  cursor: pointer; text-align: center;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.btn[data-size="lg"] { min-height: var(--control-lg); padding-inline: var(--space-8); }
+.btn[data-size="sm"] { min-height: var(--control-sm); padding-inline: var(--space-4); font-size: var(--text-meta); }
+.btn[data-variant="primary"] { background: var(--primary); color: var(--primary-foreground); }
+.btn[data-variant="primary"]:hover { background: color-mix(in srgb, var(--primary) 88%, var(--background)); }
+.btn[data-variant="secondary"] { border-color: var(--border); color: var(--foreground); background: var(--background); }
+.btn[data-variant="secondary"]:hover { background: var(--secondary); }
+.btn[data-variant="ghost"] { color: var(--foreground); }
+.btn[data-variant="ghost"]:hover { background: var(--secondary); }
+.btn[data-full] { width: 100%; }
+/* Спека: «на мобиле размер sm не используется» — здесь это записано кодом,
+   а не обещанием: ни одна цель не опускается ниже пальца (QR-HIT). */
+@media (max-width: 639px) { .btn[data-size="sm"] { min-height: var(--control-md); } }
+
+/* Зона нажатия текстовой ссылки: по высоте не меньше пальца (QR-HIT). */
+.link { color: var(--link); display: inline-flex; align-items: center; min-height: var(--tap); }
+.link:hover { text-decoration: underline; text-underline-offset: var(--space-1); }
+
+/* иконка-кнопка: зона нажатия никогда не меньше пальца (QR-HIT) */
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--tap); min-height: var(--tap);
+  border-radius: var(--r-sm); border: 0; background: transparent; cursor: pointer;
+  color: var(--foreground);
+  transition: background-color var(--dur-fast) var(--ease);
+}
+.icon-btn:hover { background: var(--secondary); }
+.icon-btn svg { width: var(--space-4); height: var(--space-4); stroke-width: 1.5; }
+
+/* --- метка, цена, рейтинг, наличие ------------------------------------ */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--r-pill);
+  font-size: var(--text-meta); line-height: var(--lh-meta);
+  font-weight: var(--weight-medium);
+  background: var(--accent); color: var(--accent-foreground);
+  border: var(--hairline) solid var(--border);
+}
+.badge[data-tone="sale"] { background: var(--destructive); color: var(--destructive-foreground); border-color: transparent; }
+.badge[data-tone="new"]  { background: var(--primary); color: var(--primary-foreground); border-color: transparent; }
+
+[data-role="price"] {
+  font-family: var(--font-body);
+  font-size: var(--text-title); line-height: var(--lh-title);
+  font-weight: var(--weight-strong);
+  font-variant-numeric: tabular-nums;
+}
+[data-role="card-price"] {
+  font-size: var(--text-body); line-height: var(--lh-body);
+  font-weight: var(--weight-strong);
+  font-variant-numeric: tabular-nums;
+  display: flex; align-items: baseline; gap: var(--space-2);
+}
+[data-role="card-price-old"], [data-role="price-old"] {
+  font-weight: var(--weight-regular);
+  color: var(--muted-foreground);
+  font-size: var(--text-meta);
+}
+
+.rating { display: inline-flex; align-items: center; gap: var(--space-2); }
+.rating svg { width: var(--space-4); height: var(--space-4); }
+.rating .value { font-variant-numeric: tabular-nums; font-size: var(--text-meta); color: var(--muted-foreground); }
+
+.stock { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-meta); }
+.stock::before {
+  content: ""; width: var(--space-2); height: var(--space-2);
+  border-radius: var(--r-pill); background: var(--success);
+}
+.stock[data-state="low"]::before { background: var(--warning); }
+.stock[data-state="out"]::before { background: var(--muted-foreground); }
+
+/* --- поля ввода -------------------------------------------------------- */
+.field { display: grid; gap: var(--space-2); }
+.field > label { font-size: var(--text-meta); color: var(--muted-foreground); }
+.input, .select, .textarea {
+  min-height: var(--control-md);
+  padding: var(--space-2) var(--space-3);
+  background: var(--background); color: var(--foreground);
+  border: var(--hairline) solid var(--input); border-radius: var(--r-sm);
+  transition: border-color var(--dur-fast) var(--ease);
+  width: 100%;
+}
+.input:focus, .select:focus, .textarea:focus { border-color: var(--ring); outline: none; }
+.input::placeholder, .textarea::placeholder { color: var(--muted-foreground); }
+.textarea { min-height: var(--space-24); resize: vertical; }
+
+/* --- разделители и поверхности ---------------------------------------- */
+.hr { height: var(--hairline); background: var(--border); border: 0; }
+.surface {
+  background: var(--card); color: var(--card-foreground);
+  border: var(--hairline) solid var(--border); border-radius: var(--r-md);
+}
+.surface-soft { background: var(--secondary); color: var(--secondary-foreground); border-radius: var(--r-md); }

@@ -1,0 +1,5 @@
+.lb { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+.lb-item { margin: 0; display: grid; gap: var(--space-3); }
+.lb-item[data-wide] { grid-column: 1 / -1; }
+.lb-cap { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+@media (max-width: 639px) { .lb { grid-template-columns: minmax(0, 1fr); } }

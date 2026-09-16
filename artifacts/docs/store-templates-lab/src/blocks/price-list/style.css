@@ -1,0 +1,8 @@
+.pl-scroll { overflow-x: auto; }
+.pl { width: 100%; border-collapse: collapse; }
+.pl th, .pl td { text-align: start; padding: var(--space-3); border-bottom: var(--hairline) solid var(--border); }
+.pl thead th { background: var(--secondary); color: var(--secondary-foreground); white-space: nowrap; }
+.pl-num { text-align: end; }
+.pl-mono { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pl-name { font-weight: var(--weight-regular); min-width: var(--space-32); }
+.pl tbody tr:hover { background: var(--secondary); }

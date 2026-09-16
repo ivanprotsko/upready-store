@@ -1,0 +1,26 @@
+.sum { display: grid; gap: var(--space-4); align-content: start; justify-items: start; }
+.sum-rate { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+.sum-price { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.sum-actions { display: grid; gap: var(--space-3); width: 100%; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+.var-group { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-2); justify-items: start; }
+.var-row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.var-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--tap); min-width: var(--tap); padding-inline: var(--space-4);
+  border: var(--hairline) solid var(--border); border-radius: var(--r-sm); cursor: pointer;
+}
+.var-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+.var-chip:has(input:checked) { border-color: var(--foreground); background: var(--secondary); }
+.var-chip:has(input:focus-visible) { outline: var(--space-1) solid color-mix(in srgb, var(--ring) 55%, transparent); }
+.var-chip.is-out { color: var(--muted-foreground); text-decoration: line-through; cursor: not-allowed; }
+.swatch { display: grid; justify-items: center; gap: var(--space-1); min-width: var(--tap); min-height: var(--tap); cursor: pointer; }
+.swatch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.swatch-dot {
+  width: var(--space-6); height: var(--space-6); border-radius: var(--r-pill);
+  border: var(--hairline) solid var(--border); background: var(--secondary);
+}
+.swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: var(--space-1); }
+.sum-facts { list-style: none; padding: 0; display: grid; gap: var(--space-3); width: 100%; }
+.sum-fact { display: flex; gap: var(--space-3); align-items: flex-start; }
+.sum-fact-icon { flex: none; color: var(--muted-foreground); }
+.sum-fact-icon svg { width: var(--space-4); height: var(--space-4); }

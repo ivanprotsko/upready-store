@@ -1,0 +1,12 @@
+.tiles-grid { display: grid; grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr)); gap: var(--card-gap); }
+.tiles-strip { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; padding-block-end: var(--space-2); }
+.tiles-strip .tile { flex: 0 0 auto; width: calc(100% / var(--grid-cols) - var(--card-gap)); scroll-snap-align: start; }
+.tile { display: grid; gap: var(--space-3); }
+.tile .media { transition: opacity var(--dur-fast) var(--ease); }
+.tile:hover .media { opacity: 0.88; }
+.tile-cap { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+@media (max-width: 1023px) { .tiles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 639px) {
+  .tiles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles-strip .tile { width: 72%; }
+}

@@ -89,7 +89,9 @@ export async function auditPage(page) {
 
     // --- отступы: ненулевые padding/margin/gap ---
     const spaceMap = new Map()
-    const PROPS = ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "marginTop", "marginRight", "marginBottom", "marginLeft", "rowGap", "columnGap"]
+    // margin-left/right исключены намеренно: `margin-inline: auto` возвращается из
+  // getComputedStyle УЖЕ вычисленным числом (190px и т.п.) и это центрирование, не ритм.
+  const PROPS = ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "marginTop", "marginBottom", "rowGap", "columnGap"]
     for (const el of all) {
       const cs = getComputedStyle(el)
       for (const p of PROPS) {
@@ -176,7 +178,10 @@ export async function auditPage(page) {
       const avg = ctx.measureText(SAMPLE).width / SAMPLE.length
       const r = el.getBoundingClientRect()
       const inner = r.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
-      out.lineLength.push({ el: label(el), cpl: Math.round(inner / avg), width: Math.round(inner), fontSize: cs.fontSize })
+      // prose: нижний порог длины строки относится к ДЛИННОМУ тексту в прозаическом
+      // блоке, а не к лиду в узкой колонке героя
+      const prose = !!el.closest('[data-role="prose"]') || el.getAttribute("data-role") === "body"
+      out.lineLength.push({ el: label(el), cpl: Math.round(inner / avg), width: Math.round(inner), fontSize: cs.fontSize, prose })
     }
     out.lineLength.sort((a, b) => b.cpl - a.cpl)
     out.lineLength = out.lineLength.slice(0, 20)
@@ -198,8 +203,14 @@ export async function auditPage(page) {
       const p = el.parentElement
       const inline = el.tagName === "A" && p && getComputedStyle(el).display === "inline" &&
         (p.textContent || "").trim().length > (el.textContent || "").trim().length + 10
+      // iconOnly: цель без собственной подписи — только у неё ширина обязана держать 44px
+      const txt = (el.textContent || "").trim()
       out.hitAreas.push({
         el: label(el), w: Math.round(r.width), h: Math.round(r.height), inline,
+        iconOnly: !txt && !!el.querySelector("svg"),
+        // флажок/радио внутри <label>: нажимают ПОДПИСЬ, её размер и есть цель
+        wrappedInLabel: /^(checkbox|radio)$/.test(el.getAttribute("type") || "") &&
+          !!el.closest("label") && el.closest("label").getBoundingClientRect().height >= 44,
       })
     }
     out.hitAreasSmall = out.hitAreas.filter((a) => !a.inline && (a.w < 44 || a.h < 44))

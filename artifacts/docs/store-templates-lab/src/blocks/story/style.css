@@ -1,0 +1,6 @@
+.story-in { display: grid; grid-template-columns: 5fr 6fr; gap: var(--space-12); align-items: center; }
+.story-copy { justify-items: start; align-content: center; }
+.story-quote { background: var(--secondary); color: var(--secondary-foreground); }
+.story-quote-in { display: grid; gap: var(--space-4); justify-items: center; text-align: center; max-width: var(--measure); margin-inline: auto; }
+.story-q { margin: 0; text-wrap: balance; }
+@media (max-width: 1023px) { .story-in { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); } }
