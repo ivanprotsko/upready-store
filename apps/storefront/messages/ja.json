@@ -436,7 +436,14 @@
     "previous": "前へ",
     "next": "次へ",
     "pageOf": "{lastPage} ページ中 {page} ページ",
-    "pagination": "読みもののページ"
+    "pagination": "読みもののページ",
+    "readingTime": "約{minutes}分で読めます",
+    "related": "あわせて読みたい",
+    "share": "共有",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました",
+    "allCategories": "すべてのテーマ",
+    "categories": "テーマ"
   },
   "LanguageSelect": {
     "locales": {

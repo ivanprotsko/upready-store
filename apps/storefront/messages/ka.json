@@ -436,7 +436,14 @@
     "previous": "წინა",
     "next": "შემდეგი",
     "pageOf": "გვერდი {page} / {lastPage}",
-    "pagination": "ჟურნალის გვერდები"
+    "pagination": "ჟურნალის გვერდები",
+    "readingTime": "{minutes} წთ საკითხავი",
+    "related": "წაიკითხეთ ასევე",
+    "share": "გაზიარება",
+    "copyLink": "ბმულის კოპირება",
+    "linkCopied": "ბმული დაკოპირდა",
+    "allCategories": "ყველა რუბრიკა",
+    "categories": "რუბრიკები"
   },
   "LanguageSelect": {
     "locales": {

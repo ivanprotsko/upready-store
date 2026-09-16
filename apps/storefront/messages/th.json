@@ -436,7 +436,14 @@
     "previous": "ก่อนหน้า",
     "next": "ถัดไป",
     "pageOf": "หน้า {page} จาก {lastPage}",
-    "pagination": "หน้าของบทความ"
+    "pagination": "หน้าของบทความ",
+    "readingTime": "อ่าน {minutes} นาที",
+    "related": "อ่านต่อ",
+    "share": "แชร์",
+    "copyLink": "คัดลอกลิงก์",
+    "linkCopied": "คัดลอกลิงก์แล้ว",
+    "allCategories": "ทุกหมวด",
+    "categories": "หมวด"
   },
   "LanguageSelect": {
     "locales": {

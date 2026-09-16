@@ -436,7 +436,14 @@
     "previous": "पिछला",
     "next": "अगला",
     "pageOf": "पृष्ठ {page} / {lastPage}",
-    "pagination": "पत्रिका के पृष्ठ"
+    "pagination": "पत्रिका के पृष्ठ",
+    "readingTime": "{minutes} मिनट पढ़ें",
+    "related": "यह भी पढ़ें",
+    "share": "साझा करें",
+    "copyLink": "लिंक कॉपी करें",
+    "linkCopied": "लिंक कॉपी हो गया",
+    "allCategories": "सभी विषय",
+    "categories": "विषय"
   },
   "LanguageSelect": {
     "locales": {
