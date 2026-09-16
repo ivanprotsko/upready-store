@@ -4201,6 +4201,72 @@
       "running": "running",
       "succeeded": "succeeded",
       "failed": "failed"
+    },
+    "desk": {
+      "title": "Reviews and questions",
+      "subtitle": "Customer reviews and questions from Wildberries and Ozon in one list. The answer draft is stored here; the answer itself is posted from the marketplace's own cabinet.",
+      "link": "Customer reviews and questions",
+      "sendingOff": "Sending answers to the marketplace is not enabled: the platform reads Wildberries and Ozon and never writes to them.",
+      "tabs": {
+        "reviews": "Reviews",
+        "questions": "Questions"
+      },
+      "unansweredOf": "Unanswered: {{unanswered}} of {{total}}",
+      "shownOf": "Showing {{shown}} of {{count}}",
+      "anonymous": "No name",
+      "notInShop": "Not in the shop",
+      "pros": "Pros",
+      "cons": "Cons",
+      "answered": {
+        "yes": "Answered on the marketplace",
+        "no": "Unanswered"
+      },
+      "marketplaceNames": {
+        "wb": "Wildberries",
+        "ozon": "Ozon"
+      },
+      "filters": {
+        "marketplace": "Marketplace",
+        "rating": "Rating",
+        "answered": "Answer",
+        "period": "Period",
+        "any": "Any",
+        "stars": "{{count}} ★",
+        "reset": "Reset filters"
+      },
+      "filterValues": {
+        "answered": {
+          "all": "All",
+          "no": "Unanswered",
+          "yes": "Answered"
+        },
+        "period": {
+          "all": "All time",
+          "7d": "7 days",
+          "30d": "30 days",
+          "90d": "90 days",
+          "365d": "A year"
+        },
+        "rating": {
+          "5": "5 ★",
+          "4": "4 ★",
+          "3": "3 ★",
+          "2": "2 ★",
+          "1": "1 ★"
+        }
+      },
+      "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
+      "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
+      "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
+      "draft": {
+        "label": "Answer draft — stored here, never sent to the marketplace",
+        "placeholder": "Write the answer, then copy it into the marketplace cabinet",
+        "save": "Save draft",
+        "generate": "Generate",
+        "saved": "Draft saved",
+        "generated": "Draft written — read it and save",
+        "savedAt": "Draft saved {{at}}"
+      }
     }
   },
   "wildberries": {

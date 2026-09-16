@@ -1,0 +1,3530 @@
+[
+ {
+  "id": "checkout-form",
+  "name_ru": "Оформление заказа (форма с контактами)",
+  "name_en": "Checkout form",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 21,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/floristsru",
+    "http://examples-ru.tilda.ws/menidyonru",
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/mythsru",
+    "http://examples-ru.tilda.ws/tukaplantsru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/puzzlesru",
+    "http://examples-ru.tilda.ws/longriverru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "http://examples-ru.tilda.ws/oneproductpageru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-* (одноэкранная касса с шитами), гостевой заказ",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: checkout-form",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "Your Name\nYour Email\nYour Phone\nCheckout",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   },
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "Ваш заказ\nВаше имя\nВаша почта\nВаш телефон\nОформить заказ",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-card-price-badges",
+  "name_ru": "Карточка товара: цена, старая цена, метки SALE/NEW",
+  "name_en": "Product card with price and badges",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 9,
+   "templates": [
+    "https://demo-base.myinsales.ru/collection/new",
+    "https://demo-bubble.myinsales.ru/",
+    "http://demo-fourth.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+    "http://demo-markom.myinsales.ru/",
+    "https://newtone-demo.myinsales.ru/collection/zhenschiny",
+    "https://demo-opening.myinsales.ru/",
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+   ]
+  },
+  "tilda": {
+   "count": 13,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/tukaplantsru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/longriverru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "http://examples-ru.tilda.ws/jewelrystoreru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/products/components/product-price, home/components/product-card",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Цена выводится; зачёркнутой старой цены и меток SALE/NEW/ХИТ на карточке нет, хотя акции в панели (routes/promotions) есть.",
+  "evidence": [
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "В наличии Новинка Предзаказ",
+    "page_url": "https://demo-base.myinsales.ru/collection/new",
+    "verified": true
+   },
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "3174 руб 5290 руб",
+    "page_url": "https://demo-bubble.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Fourth",
+    "source": "insales",
+    "quote": "Распродажа",
+    "page_url": "http://demo-fourth.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "delivery-payment-page",
+  "name_ru": "Страница «Доставка и оплата»",
+  "name_en": "Delivery & payment page",
+  "category": "content",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-cream.myinsales.ru/",
+    "http://demo-fourth.myinsales.ru/",
+    "https://demo-idea.myinsales.ru/",
+    "https://newtone-demo.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 11,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/puzzlesru",
+    "http://examples-ru.tilda.ws/longriverru",
+    "http://examples-ru.tilda.ws/pichyshopru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "статические /shipping, /returns из стартера; редактируемые страницы tenant_page с ключами contacts|legal|about|privacy|offer",
+  "backend_needed": true,
+  "backend_what": "Произвольные ключи страниц (сейчас список ключей зашит) — чтобы владелец завёл «Доставка и оплата».",
+  "priority": "must",
+  "note": "Страница «Доставка и оплата» есть у каждого второго демо InSales.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Доставка бесплатно",
+    "page_url": "https://demo-cream.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Fourth",
+    "source": "insales",
+    "quote": "Доставка с 8:00 до 23:00",
+    "page_url": "http://demo-fourth.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Fourth",
+    "source": "insales",
+    "quote": "Условия доставки Здесь вы можете написать коротко о своих условиях доставки",
+    "page_url": "http://demo-fourth.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "quick-add-to-cart",
+  "name_ru": "Добавление в корзину прямо из списка",
+  "name_en": "Add to cart from listing",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-stories.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 12,
+   "templates": [
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/floristsru",
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/mythsru",
+    "http://examples-ru.tilda.ws/tukaplantsru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/puzzlesru",
+    "http://examples-ru.tilda.ws/happychairru",
+    "http://examples-ru.tilda.ws/oneproductpageru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/home/components/add-to-bag-button (только подборка на главной)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "В каталоге /store и в категории кнопки добавления у карточки нет — только переход на товар.",
+  "evidence": [
+   {
+    "template": "Stories",
+    "source": "insales",
+    "quote": "Добавить в корзину / - 1 шт / [В корзине шт Перейти] / + 1 шт",
+    "page_url": "https://demo-stories.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин",
+    "source": "tilda",
+    "quote": "[Добавить в корзину](http://examples-ru.tilda.ws/shetukaru#order)",
+    "page_url": "http://examples-ru.tilda.ws/shetukaru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин (Instore)",
+    "source": "tilda",
+    "quote": "[Добавить в корзину](http://examples-ru.tilda.ws/instoreru#order)",
+    "page_url": "http://examples-ru.tilda.ws/instoreru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "wishlist",
+  "name_ru": "Избранное (список желаний)",
+  "name_en": "Wishlist",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 8,
+   "templates": [
+    "https://demo-minimalism.myinsales.ru/",
+    "https://demo-base.myinsales.ru/",
+    "https://demo-bubble.myinsales.ru/",
+    "https://demo-fine.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/cart_items",
+    "https://newtone-demo.myinsales.ru/collection/zhenschiny",
+    "https://demo-opening.myinsales.ru/",
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+   ]
+  },
+  "tilda": {
+   "count": 3,
+   "templates": [
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/furnitureru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Модель «избранное покупателя» (customer_id × variant_id) + REST; для гостя — кука.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "0 Избранное",
+    "page_url": "https://demo-minimalism.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "0 → https://demo-base.myinsales.ru/favorites",
+    "page_url": "https://demo-base.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "0 Избранное",
+    "page_url": "https://demo-bubble.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "contacts-map",
+  "name_ru": "Контакты с картой и реквизитами",
+  "name_en": "Contacts with map",
+  "category": "content",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-bubble.myinsales.ru/",
+    "https://myshop-bcp658.myinsales.ru/",
+    "https://newtone-demo.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 8,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/floristsru",
+    "http://examples-ru.tilda.ws/menidyonru",
+    "http://examples-ru.tilda.ws/puzzlesru",
+    "http://examples-ru.tilda.ws/longriverru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "/pages/contacts (живьём), api/tenants/requisites",
+  "backend_needed": true,
+  "backend_what": "Координаты точек + виджет карты (Яндекс.Карты).",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "[Адреса магазинов](https://demo-bubble.myinsales.ru/page/adresa-magazinov)",
+    "page_url": "https://demo-bubble.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "Время работы пн-пт 10:00-19:00\n8 800 555-10-61\n1-я Тверская-Ямская улица, дом 21 пн-пт 10:00-19:00 +7 (800) 555-10-61",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "Наши магазины в Москве / М: Белорусская / М: Маяковская / Адрес: / [Посмотреть на карте](https://yandex.ru/maps/-/CCUCvXf--A)",
+    "page_url": "https://newtone-demo.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "store-reviews",
+  "name_ru": "Отзывы покупателей о магазине",
+  "name_en": "Store reviews",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok",
+    "https://myshop-bcp658.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/",
+    "http://demo-markom.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 7,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/pichyshopru",
+    "http://examples-ru.tilda.ws/oneproductpageru",
+    "http://examples-ru.tilda.ws/jewelrystoreru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Отзыв о магазине (не о товаре) + блок на главной.",
+  "priority": "should",
+  "note": "У InSales это отдельный виджет главной «Отзывы о магазине».",
+  "evidence": [
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Написать отзыв\nОтмена\nОставить отзыв\nРейтинг\nEmail\nОтзыв",
+    "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok",
+    "verified": true
+   },
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "[img: Николай]\nНиколай\nотзыв с VK\nПриветливый персонал, кофе для ожидающих своего часа клиентов, талантливые мастера своего дела. Рекомендую",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "[img: Светлана]\nСветлана\nМилый, забавный суккулент. Выглядит вполне натурально, чуточку видны \"швы\" от литья изделия, но если только придирчиво разглядывать. все гости считают, что он живой)))",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "installments",
+  "name_ru": "Оплата частями (рассрочка, сплит)",
+  "name_en": "Installments / split payment",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 10,
+   "templates": [
+    "https://demo-cream.myinsales.ru/cart_items",
+    "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "https://demo-bubble.myinsales.ru/cart_items",
+    "https://demo-grand.myinsales.ru/cart_items",
+    "https://demo-loft.myinsales.ru/collection/sad-i-ogorod",
+    "https://demo-moon.myinsales.ru/collection/parfyum",
+    "https://newtone-demo.myinsales.ru/collection/zhenschiny",
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Провайдер рассрочки (Долями/Сплит) как ещё один payment provider.",
+  "priority": "later",
+  "note": "У InSales на витрине демо — блок «Оплачивайте покупку по частям», 4×25 %.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+    "page_url": "https://demo-cream.myinsales.ru/cart_items",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+    "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+    "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "compare-products",
+  "name_ru": "Сравнение товаров",
+  "name_en": "Product comparison",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 10,
+   "templates": [
+    "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1",
+    "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "https://demo-fine.myinsales.ru/",
+    "http://demo-fourth.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/compares",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm",
+    "http://demo-mono.myinsales.ru/",
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Хранение списка сравнения (кука/локально) + выдача общих характеристик выбранных товаров одним запросом; на данных product_attributes это делается без новой модели.",
+  "priority": "should",
+  "note": "У InSales — со счётчиком в шапке и отдельной страницей /compares.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Добавить в сравнение",
+    "page_url": "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1",
+    "verified": true
+   },
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "Добавить в сравнение",
+    "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "verified": true
+   },
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "[0 Сравнение](https://demo-fine.myinsales.ru/compares)",
+    "page_url": "https://demo-fine.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "blog",
+  "name_ru": "Блог / журнал магазина",
+  "name_en": "Blog",
+  "category": "content",
+  "insales": {
+   "count": 9,
+   "templates": [
+    "https://demo-cream.myinsales.ru/",
+    "https://demo-minimalism.myinsales.ru/",
+    "https://demo-fine.myinsales.ru/blogs/blog",
+    "http://demo-fourth.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "https://demo-loft.myinsales.ru/",
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-moon.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/loadstoneru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/app/[locale]/(main)/journal/[slug], apps/backend/src/api/tenants/articles, api/store/tenant/articles, панель routes/journal",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "У Оксаны 18 статей — переносить теперь есть куда.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "[Как убрать темные круги под глазами?](https://demo-cream.myinsales.ru/blogs/kosmetika/kak-ubrat-temnye-krugi-pod-glazami)",
+    "page_url": "https://demo-cream.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "[Как выбрать идеальные стулья для вашего дома: советы от экспертов](https://demo-minimalism.myinsales.ru/blogs/mebelnyy-blog/111)",
+    "page_url": "https://demo-minimalism.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Landing",
+    "source": "insales",
+    "quote": "Блог и/или новостная лента на сайте;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "catalog-category-menu",
+  "name_ru": "Меню каталога по категориям",
+  "name_en": "Catalog category menu",
+  "category": "navigation",
+  "insales": {
+   "count": 5,
+   "templates": [
+    "https://demo-bubble.myinsales.ru/",
+    "https://demo-fine.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/collection/oboi",
+    "http://demo-mono.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/puzzlesru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/oneproductpageru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/category-menu, варианты шапки h5/h6 (лента категорий), живьём https://cherkashino.shipshift.dev/ru",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Двух уровней достаточно; у InSales — раскрывающееся дерево подкатегорий.",
+  "evidence": [
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "[Обои](https://demo-grand.myinsales.ru/collection/oboi)\n[Флизелиновые обои](https://demo-grand.myinsales.ru/collection/katalog-26)\nПоказать все\nСкрыть",
+    "page_url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "verified": true
+   },
+   {
+    "template": "Mono",
+    "source": "insales",
+    "quote": "[Категория 1](http://demo-mono.myinsales.ru/collection/kategoriya-1)\n[Подкатегория 1](http://demo-mono.myinsales.ru/collection/podkategoriya)\n[Подкатегория 2](http://demo-mono.myinsales.ru/collection/podkategoriya-2)",
+    "page_url": "http://demo-mono.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Продажа недвижимости",
+    "source": "tilda",
+    "quote": "[Каталог объектов](http://examples-ru.tilda.ws/)",
+    "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "specs-table",
+  "name_ru": "Таблица характеристик товара",
+  "name_en": "Specifications table",
+  "category": "product-page",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka",
+    "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+   ]
+  },
+  "tilda": {
+   "count": 6,
+   "templates": [
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/mythsru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/phantomru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-attributes",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "Вид мягкой игрушки антистресс; игрушки-подушки; кошки Вид упаковки Пакет с липким краем; пакет с клеевым краем Наполнитель синтипух Возрастные ограничения 0+",
+    "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "verified": true
+   },
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "оперативная память: 3 ГБ память: 32 ГБ, слот для карты памяти 4 камеры: 48 МП, 5 МП, 2 МП, 2 МП",
+    "page_url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "Характеристики / Состав / Хлопок / Страна / Турция",
+    "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "preorder",
+  "name_ru": "Предзаказ товара не в наличии",
+  "name_en": "Pre-order",
+  "category": "product-page",
+  "insales": {
+   "count": 10,
+   "templates": [
+    "https://www.insales.ru/collection/themes/product/cream",
+    "https://demo-fine.myinsales.ru/",
+    "http://demo-fourth.myinsales.ru/",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand",
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "https://myshop-bcp658.myinsales.ru/",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "http://demo-mono.myinsales.ru/",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+    "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Разрешение купить при нулевом остатке + признак «предзаказ» в заказе.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина",
+    "page_url": "https://www.insales.ru/collection/themes/product/cream",
+    "verified": true
+   },
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "В наличии Новинка Распродажа Предзаказ",
+    "page_url": "https://demo-fine.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Fourth",
+    "source": "insales",
+    "quote": "В наличии Новинка Предзаказ",
+    "page_url": "http://demo-fourth.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "chat-widget",
+  "name_ru": "Виджет онлайн-чата",
+  "name_en": "Live chat widget",
+  "category": "integrations",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "http://demo-fourth.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/cart_items",
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/pichyshopru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "rg 'jivo|chat' по apps/storefront/src → 0",
+  "backend_needed": true,
+  "backend_what": "Поле «код виджета чата» в настройках тенанта и безопасная вставка.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Fourth",
+    "source": "insales",
+    "quote": "[ru](http://demo-fourth.myinsales.ru/?lang=ru) [en](http://demo-fourth.myinsales.ru/?lang=en)",
+    "page_url": "http://demo-fourth.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "[ua](https://demo-grand.myinsales.ru/cart_items?lang=ua)\n[ru](https://demo-grand.myinsales.ru/cart_items?lang=ru)\n[en](https://demo-grand.myinsales.ru/cart_items?lang=en)",
+    "page_url": "https://demo-grand.myinsales.ru/cart_items",
+    "verified": true
+   },
+   {
+    "template": "Markom",
+    "source": "insales",
+    "quote": "[es](http://demo-markom.myinsales.ru/?lang=es)",
+    "page_url": "http://demo-markom.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "variant-selector",
+  "name_ru": "Выбор вариантов товара (цвет, размер, объём)",
+  "name_en": "Variant selector",
+  "category": "product-page",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "https://demo-moon.myinsales.ru/collection/parfyum",
+    "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/tukaplantsru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/loadstoneru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-actions; живьём «Выбрать вариант»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "130-200 / Белый 130-200 / Бежевый 130-200 / Чёрный 130-200 / Синий",
+    "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "verified": true
+   },
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "черный / 32GB черный / 64GB красный / 32GB красный / 64GB белый / 32GB белый / 64GB",
+    "page_url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Объем / 125 мл / 75 мл / Применить",
+    "page_url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "attribute-filters",
+  "name_ru": "Фильтры по характеристикам товара",
+  "name_en": "Attribute facets",
+  "category": "filters-search",
+  "insales": {
+   "count": 7,
+   "templates": [
+    "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "https://demo-grand.myinsales.ru/collection/oboi",
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "https://newtone-demo.myinsales.ru/collection/zhenschiny",
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/menidyonru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/store/components/refinement-list/attributes-picker.tsx, apps/backend/src/api/tenants/product-attributes; живьём фасеты «Фасовка», «Объём», «Страна производства» на /ru/store",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Сильная сторона: у нас это уже настраиваемые атрибуты магазина, а не хардкод.",
+  "evidence": [
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "[Флизелиновые обои](https://demo-grand.myinsales.ru/collection/katalog-26)\n12",
+    "page_url": "https://demo-grand.myinsales.ru/collection/oboi",
+    "verified": true
+   },
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Товаров\n5\nочистить фильтр",
+    "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "verified": true
+   },
+   {
+    "template": "Landing",
+    "source": "insales",
+    "quote": "Фильтрация товаров по нескольким параметрам и/или свойствам;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "catalog-sorting",
+  "name_ru": "Сортировка каталога",
+  "name_en": "Catalog sorting",
+  "category": "filters-search",
+  "insales": {
+   "count": 8,
+   "templates": [
+    "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "https://demo-minimalism.myinsales.ru/collection/divani",
+    "https://demo-base.myinsales.ru/collection/new",
+    "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "https://demo-fine.myinsales.ru/collection/kategoriya-1",
+    "https://demo-grand.myinsales.ru/collection/oboi",
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek",
+    "https://demo-moon.myinsales.ru/collection/parfyum"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/store/components/sort-select/index.tsx: created_at, price_asc, price_desc",
+  "backend_needed": true,
+  "backend_what": "Сортировка по популярности (по числу продаж) и по рейтингу отзывов.",
+  "priority": "should",
+  "note": "У InSales 4–5 вариантов, включая «по названию» и «по популярности».",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Сортировка По умолчанию по возрастанию цены по убыванию цены сначала новые по названию",
+    "page_url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Сортировка По умолчанию по возрастанию цены по убыванию цены сначала новые по названию",
+    "page_url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Сортировка по возрастанию цены по убыванию цены сначала новые по названию",
+    "page_url": "https://demo-base.myinsales.ru/collection/new",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "social-follow-share",
+  "name_ru": "Соцсети: подписка и кнопки «поделиться»",
+  "name_en": "Social follow and share",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "http://demo-fourth.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 6,
+   "templates": [
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/floristsru",
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/puzzlesru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Ссылки соцсетей магазина можно хранить в настройках тенанта.",
+  "priority": "should",
+  "note": "Оксана ведёт соцсети — блок «подписаться» востребован.",
+  "evidence": [
+   {
+    "template": "Gift",
+    "source": "insales",
+    "quote": "[Instagram](http://demo-gift.myinsales.ru/#)",
+    "page_url": "http://demo-gift.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин товаров для дома",
+    "source": "tilda",
+    "quote": "Делитесь фотографиями своих интерьеров и отмечайте @maisondetail . Ваши идеи вдохновляют других создавать уютные и красивые дома",
+    "page_url": "http://examples-ru.tilda.ws/homegoodsru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин",
+    "source": "tilda",
+    "quote": "сигнал: social-share",
+    "page_url": "http://examples-ru.tilda.ws/shetukaru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-reviews-rating",
+  "name_ru": "Отзывы о товаре с оценкой",
+  "name_en": "Product reviews with rating",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 8,
+   "templates": [
+    "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1",
+    "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "https://demo-grand.myinsales.ru/product/palitra-vinilovye-oboi-na-flizelinovoy-osnove-sea-goryachego-tesneniya-106h1005mshhd",
+    "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy",
+    "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/backend/src/modules/product-review, api/tenants/reviews, api/store/tenant/reviews, витрина modules/products/components/product-reviews; живьём «5 из 5 · 8 отзывов» на карточке мумиё",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Инвентарь возможностей от 2026-09-15 называл отзывы MISSING — замер 2026-09-16 показывает обратное.",
+  "evidence": [
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Перед публикацией отзывы проходят модерацию",
+    "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Перед публикацией отзывы проходят модерацию",
+    "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "verified": true
+   },
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "Перед публикацией отзывы проходят модерацию",
+    "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "customer-account",
+  "name_ru": "Личный кабинет покупателя",
+  "name_en": "Customer account",
+  "category": "account",
+  "insales": {
+   "count": 7,
+   "templates": [
+    "https://demo-cream.myinsales.ru/client_account/login",
+    "https://demo-base.myinsales.ru/",
+    "https://demo-bubble.myinsales.ru/client_account/login",
+    "https://demo-fine.myinsales.ru/client_account/login",
+    "https://demo-loft.myinsales.ru/",
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/account/** (вход, регистрация, адреса, заказы, сброс пароля, вход через Яндекс)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Личный кабинет",
+    "page_url": "https://demo-cream.myinsales.ru/client_account/login",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Личный кабинет",
+    "page_url": "https://demo-base.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "Войти [Восстановить пароль](https://demo-fine.myinsales.ru/client_account/password/change)",
+    "page_url": "https://demo-fine.myinsales.ru/client_account/login",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "one-click-buy",
+  "name_ru": "Купить в один клик",
+  "name_en": "One-click buy",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 7,
+   "templates": [
+    "https://demo-cream.myinsales.ru/",
+    "https://demo-minimalism.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/cart_items",
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "https://demo-moon.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Ручка «заказ по телефону/имени без корзины»: создать заказ из одного варианта + контакта, статус «ожидает подтверждения».",
+  "priority": "must",
+  "note": "В рунете это базовое ожидание покупателя; есть у InSales-шаблонов и у Tilda в виде формы заказа.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Заказ в один клик Ваше имя: Контактный телефон:",
+    "page_url": "https://demo-cream.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Заказ в один клик Ваше имя: Контактный телефон:",
+    "page_url": "https://demo-minimalism.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "Заказ в один клик\nКонтактное лицо (ФИО):\nКонтактный телефон:\nПолучать уведомления о заказе",
+    "page_url": "https://demo-grand.myinsales.ru/cart_items",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "kit-bundle",
+  "name_ru": "Комплекты, наборы, сеты",
+  "name_en": "Kits and bundles",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-idea.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Сущность «набор»: состав из вариантов, своя цена, списание остатков по составу.",
+  "priority": "later",
+  "note": "У InSales и в еда-шаблонах Tilda (сеты) встречается часто.",
+  "evidence": [
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Подписывайтесь\n[img: Иконка социальной сети]",
+    "page_url": "https://demo-idea.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "[img: Посуда]\nПосуда\n[img: Садовая мебель]\nСадовая мебель\n[img: Освещение]\nОсвещение",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "Вы можете добавить в сет дополнительные роллы и получить на них скидку 10%",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "category-sections",
+  "name_ru": "Разделы каталога и подборки на главной",
+  "name_en": "Category sections on home",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "http://demo-gift.myinsales.ru/",
+    "https://newtone-demo.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/longriverru",
+    "http://examples-ru.tilda.ws/loadstoneru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/home/components/category-tiles, featured-products; apps/storefront/src/modules/categories/category-image-tiles",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Gift",
+    "source": "insales",
+    "quote": "Плюшевые игрушки Misha Есть игрушки, которые хочется всегда держать, чувствуя теплоту и нежность от них.",
+    "page_url": "http://demo-gift.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "[Вышевка](https://newtone-demo.myinsales.ru/collection/kategoriya-1) / [Старые коллекции] / [Средиземноморье] / [Спорт]",
+    "page_url": "https://newtone-demo.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин (Ascent)",
+    "source": "tilda",
+    "quote": "Категории одежды\n[Футболки](http://examples-ru.tilda.ws/)\n[Брюки и шорты](http://examples-ru.tilda.ws/)\n[Головные уборы](http://examples-ru.tilda.ws/)\n[Обувь](http://examples-ru.tilda.ws/)",
+    "page_url": "http://examples-ru.tilda.ws/ascentru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-tabs",
+  "name_ru": "Вкладки «Описание / Характеристики / Отзывы»",
+  "name_en": "Product tabs",
+  "category": "product-page",
+  "insales": {
+   "count": 7,
+   "templates": [
+    "https://www.insales.ru/collection/themes/product/cream",
+    "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "https://demo-grand.myinsales.ru/product/palitra-vinilovye-oboi-na-flizelinovoy-osnove-sea-goryachego-tesneniya-106h1005mshhd",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "http://demo-mono.myinsales.ru/",
+    "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-tabs; живьём вкладки «Доставка и возврат», «Отзывы»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+    "page_url": "https://www.insales.ru/collection/themes/product/cream",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Описание Характеристики Отзывы",
+    "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese",
+    "verified": true
+   },
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "Описание\nХарактеристики\nОтзывы",
+    "page_url": "https://demo-grand.myinsales.ru/product/palitra-vinilovye-oboi-na-flizelinovoy-osnove-sea-goryachego-tesneniya-106h1005mshhd",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-gallery-zoom",
+  "name_ru": "Галерея фотографий товара с увеличением",
+  "name_en": "Product gallery with zoom",
+  "category": "product-page",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 7,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "http://examples-ru.tilda.ws/phantomru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/image-gallery/gallery.tsx:295 (cursor-zoom-in) и полноэкранный диалог :385",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Продажа недвижимости",
+    "source": "tilda",
+    "quote": "сигнал: gallery-zoom",
+    "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "verified": true
+   },
+   {
+    "template": "Магазин мебели",
+    "source": "tilda",
+    "quote": "сигнал: gallery-zoom",
+    "page_url": "http://examples-ru.tilda.ws/furnitureru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин (Instore)",
+    "source": "tilda",
+    "quote": "сигнал: gallery-zoom",
+    "page_url": "http://examples-ru.tilda.ws/instoreru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "pickup-points",
+  "name_ru": "Самовывоз и пункты выдачи",
+  "name_en": "Pickup points",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-fine.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 3,
+   "templates": [
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/mythsru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-pickup-point-sheet, apps/backend/src/api/store/pickup-points",
+  "backend_needed": true,
+  "backend_what": "Живой справочник ПВЗ вместо статического сида + карта.",
+  "priority": "must",
+  "note": "Выбор точки с поиском есть; карты нет, список из сида.",
+  "evidence": [
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "[Пункты выдачи](https://demo-fine.myinsales.ru/page/punkty-vydachi)",
+    "page_url": "https://demo-fine.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "[Пункты выдачи](https://demo-loft.myinsales.ru/page/agreement)",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Vibe",
+    "source": "insales",
+    "quote": "сигнал: pickup-points",
+    "page_url": "https://demo-vibe.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "stock-status",
+  "name_ru": "Статус наличия товара",
+  "name_en": "Stock status",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 4,
+   "templates": [
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/menidyonru",
+    "http://examples-ru.tilda.ws/tukaplantsru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "остатки: apps/backend/src/api/tenants/inventory-items, панель routes/products (stock); витрина — кнопка «Выбрать вариант»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Данные об остатке есть, но метки «В наличии / Нет в наличии / Под заказ» в карточке каталога и на товаре не выводятся.",
+  "evidence": [
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Маркер «В наличии» у товаров с ненулевым остатком; / Маркер «Нет в наличии» или «Предзаказ» для отсутствующих товаров;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: stock-status",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "сигнал: stock-status",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "anchor-section-menu",
+  "name_ru": "Якорное меню разделов одностраничника",
+  "name_en": "Anchor section menu",
+  "category": "navigation",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://myshop-bcp658.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/furnitureru",
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/pichyshopru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Приём одностраничников Tilda; нашей многостраничной витрине не нужен.",
+  "evidence": [
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "[Стрижки](https://myshop-bcp658.myinsales.ru/#strigki)\n[Борода и бритье](https://myshop-bcp658.myinsales.ru/#boroda)\n[Преимущества](https://myshop-bcp658.myinsales.ru/#benefit)\n[Отзывы](https://myshop-bcp658.myinsales.ru/#reviews)",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "[Каталог](http://examples-ru.tilda.ws/plantsshopru#catalog)",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   },
+   {
+    "template": "Магазин товаров для дома",
+    "source": "tilda",
+    "quote": "[Каталог](http://examples-ru.tilda.ws/homegoodsru#HomeGoods)",
+    "page_url": "http://examples-ru.tilda.ws/homegoodsru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "quick-view-popup",
+  "name_ru": "Быстрый просмотр товара во всплывающем окне",
+  "name_en": "Quick view popup",
+  "category": "product-page",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1"
+   ]
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/menidyonru",
+    "http://examples-ru.tilda.ws/posteandcoru",
+    "http://examples-ru.tilda.ws/puzzlesru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Данных хватает: тот же товар по handle.",
+  "priority": "should",
+  "note": "Есть почти во всех шаблонах InSales и в части Tilda.",
+  "evidence": [
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "Особенность: крупные изображения, быстрый просмотр карточки товара, гибко настраиваемый шаблон.",
+    "page_url": "https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1",
+    "verified": true
+   },
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "[Заказать](http://examples-ru.tilda.ws/fooddeliveryru#prodpopup)",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   },
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "[BUY NOW](http://examples-ru.tilda.ws/plantsshopru#order)",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "newsletter-signup",
+  "name_ru": "Подписка на email-рассылку",
+  "name_en": "Newsletter signup",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-opening.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 4,
+   "templates": [
+    "http://examples-ru.tilda.ws/ascentru",
+    "http://examples-ru.tilda.ws/bluerinru",
+    "http://examples-ru.tilda.ws/loadstoneru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "apps/storefront/src/modules/layout/templates/footer/variants/index.ts: f4 → FooterF1 (заглушка)",
+  "backend_needed": true,
+  "backend_what": "Ручка подписки (email + согласие) и хранение списка; отправка — через уже существующий smtp-notification.",
+  "priority": "must",
+  "note": "ЗАМЕР: подвал F4 «Инвертированный, с рассылкой» подменён на F1 — владелец выбирает вариант с рассылкой и молча получает другой.",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "СКОРО ОТКРЫТИЕ! / УЗНАЙТЕ ПЕРВЫМ И ПОЛУЧИТЕ СКИДКУ! / Введите электронную почту / Зарегистрироваться",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "Неверно заполнено поле электронная почта",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Vibe",
+    "source": "insales",
+    "quote": "Получите скидку 20% на первый заказ / Подписаться",
+    "page_url": "https://demo-vibe.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "promo-banner",
+  "name_ru": "Промо-баннер акции и распродажи",
+  "name_en": "Promo banner",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "http://demo-gift.myinsales.ru/",
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-moon.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/promo-banner",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Одна строка-объявление; промо-блоков внутри страницы (баннер категории, «скидка 30 %») нет.",
+  "evidence": [
+   {
+    "template": "Gift",
+    "source": "insales",
+    "quote": "Специальное предложение для новых клиентов",
+    "page_url": "http://demo-gift.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Markom",
+    "source": "insales",
+    "quote": "[img: Торты, десерты, сладкая выпечка]\nТорты, десерты, сладкая выпечка\n[img: Рыба, икра, морепродукты]\nРыба, икра, морепродукты",
+    "page_url": "http://demo-markom.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "[Увлажнение и уход - скидки 15%](https://demo-moon.myinsales.ru/collection/uhod)",
+    "page_url": "https://demo-moon.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "widget-library",
+  "name_ru": "Библиотека виджетов страниц (100+)",
+  "name_en": "Page widget library",
+  "category": "admin-customization",
+  "insales": {
+   "count": 5,
+   "templates": [
+    "https://demo-idea.myinsales.ru/",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+    "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2",
+    "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories",
+    "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/lib/theme/composition.ts: 6 шапок × 9 hero × 2 плитки × 5 листингов × 6 подвалов; панель routes/home-settings",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "ЗАМЕР: 3 из 27 вариантов — молчаливые заглушки (hero k и l → ProfileHero в modules/home/variants/index.ts:65-66, подвал f4 → FooterF1). Порядок блоков не меняется, добавить блок нельзя — у InSales «более 100 виджетов» с перестановкой и скрытием.",
+  "evidence": [
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Популярное\n[Тор 6 600 ₽](https://demo-idea.myinsales.ru/collection/dlya-malchikov/product/tor)\n[Медвежонок 990 ₽](https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok)\n[Динозавр 1 990 ₽](https://demo-idea.myinsales.ru/collection/razvitie/product/dinozavr)",
+    "page_url": "https://demo-idea.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+    "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "payment-methods",
+  "name_ru": "Выбор способа оплаты",
+  "name_en": "Payment methods",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-grand.myinsales.ru/page/oplata",
+    "https://myshop-bcp658.myinsales.ru/",
+    "http://demo-mono.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/homegoodsru",
+    "http://examples-ru.tilda.ws/jewelrystoreru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-payment-section (выбор провайдера), apps/backend/src/modules/payment-robokassa, api/tenants/payment-settings",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Модуль Robokassa в коде есть; живой приём денег на витрине Оксаны — задача i01.",
+  "evidence": [
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "Способы оплаты при оформлении заказа можно настроить в разделе [Настройки -> Оплата](https://demo-grand.myinsales.ru/admin2/payment_gateways)",
+    "page_url": "https://demo-grand.myinsales.ru/page/oplata",
+    "verified": true
+   },
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "[img: Иконка платежной системы]",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Mono",
+    "source": "insales",
+    "quote": "[img: Иконка платежной системы]",
+    "page_url": "http://demo-mono.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "about-brand-story",
+  "name_ru": "О бренде, история, производство",
+  "name_en": "About / brand story",
+  "category": "content",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "http://demo-mono.myinsales.ru/",
+    "https://demo-stories.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 3,
+   "templates": [
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/happychairru",
+    "http://examples-ru.tilda.ws/jewelrystoreru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "/ru/pages/about (живьём «Черкашина Оксана»)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Mono",
+    "source": "insales",
+    "quote": "О магазине Mono\nТут вы можете добавить небольшое описание о вашем интернет-магазине. Какие у вас есть плюсы и можете добавить интересные факты о магазине\n[Подробнее](http://demo-mono.myinsales.ru/page/contacts)",
+    "page_url": "http://demo-mono.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Stories",
+    "source": "insales",
+    "quote": "О магазине Stories / Тут вы можете добавить небольшое описание о вашем интернет-магазине.",
+    "page_url": "https://demo-stories.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин ХВОЯ (Hvoya)",
+    "source": "tilda",
+    "quote": "Хвоя — это производство авторских светильников и декора из хвойных пород деревьев. Основано в 2015 году дизайнером Анной Феоктистовой в Нижнем Новгороде.",
+    "page_url": "http://examples-ru.tilda.ws/hvoyastoreru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "advantages-block",
+  "name_ru": "Блок преимуществ магазина",
+  "name_en": "Advantages block",
+  "category": "content",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-idea.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/",
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/floristsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "3–4 плитки «преимущества» в настройках главной (иконка, заголовок, текст).",
+  "priority": "must",
+  "note": "Самый частый блок главной у обоих источников.",
+  "evidence": [
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Наши плюсы\nБыстрая доставка\nАкции и бонусы\nШоурум в центре",
+    "page_url": "https://demo-idea.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "Наши плюсы\n[img: Широкий ассортимент]\nШирокий ассортимент\nПредлагаем большой выбор посуды и подарков из стекла, хрусталя и фарфора. Знаем всё о стекле, хрустале и фарфоре и предложим лучшее!",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Markom",
+    "source": "insales",
+    "quote": "Всегда свежие\nФрукты и овощи перевозятся в машинах-рефрижераторах с разными режимами температуры. Мы знаем, сколько градусов внутри каждого плода!",
+    "page_url": "http://demo-markom.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "related-products",
+  "name_ru": "Сопутствующие и аналогичные товары",
+  "name_en": "Related products",
+  "category": "product-page",
+  "insales": {
+   "count": 5,
+   "templates": [
+    "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1",
+    "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka",
+    "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/related-products",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Подбор по коллекции/категории; ручного выбора «с этим покупают» нет.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Сопутствующие товары",
+    "page_url": "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Сопутствующие товары",
+    "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Аналогичные товары / В наличии / Предзаказ / [Парфюмерная вода \"Пока ты рядом\"]",
+    "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "countdown-timer",
+  "name_ru": "Таймер обратного отсчёта акции",
+  "name_en": "Promo countdown",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 5,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/shetukaru",
+    "http://examples-ru.tilda.ws/instoreru",
+    "http://examples-ru.tilda.ws/posteandcoru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Срок действия акции в campaigns уже есть — нужен публичный вывод дедлайна на витрину.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "сигнал: countdown",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   },
+   {
+    "template": "Магазин украшений",
+    "source": "tilda",
+    "quote": "сигнал: countdown",
+    "page_url": "http://examples-ru.tilda.ws/jewelryru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин",
+    "source": "tilda",
+    "quote": "сигнал: countdown",
+    "page_url": "http://examples-ru.tilda.ws/shetukaru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "legal-pages",
+  "name_ru": "Юридические страницы (оферта, политика)",
+  "name_en": "Legal pages",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 4,
+   "templates": [
+    "https://demo-cream.myinsales.ru/",
+    "https://demo-minimalism.myinsales.ru/",
+    "https://demo-bubble.myinsales.ru/",
+    "https://demo-idea.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/jewelryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "/ru/pages/offer, /ru/pages/privacy (живьём), статические /terms, /returns",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "[Условия обмена и возврата](https://demo-cream.myinsales.ru/page/exchange)",
+    "page_url": "https://demo-cream.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "[Условия обмена и возврата](https://demo-minimalism.myinsales.ru/page/exchange)",
+    "page_url": "https://demo-minimalism.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "[Политика конфиденциальности и оферта](https://demo-bubble.myinsales.ru/page/politika-konfidentsialnosti-i-oferta)",
+    "page_url": "https://demo-bubble.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "callback-request",
+  "name_ru": "Заказ обратного звонка",
+  "name_en": "Callback request",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-base.myinsales.ru/",
+    "https://demo-grand.myinsales.ru/cart_items",
+    "https://demo-moon.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/floristsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Заявка на звонок → уведомление владельцу (telegram уже есть: api/tenants/notification-settings/telegram).",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Обратный звонок Запрос успешно отправлен!",
+    "page_url": "https://demo-base.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Grand",
+    "source": "insales",
+    "quote": "Обратный звонок\nЗапрос успешно отправлен!\nИмя *\nТелефон *\nНастоящим подтверждаю, что я ознакомлен и согласен с условиями оферты и политики конфиденциальности",
+    "page_url": "https://demo-grand.myinsales.ru/cart_items",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Обратный звонок / Запрос успешно отправлен! / Имя / * / Телефон / *",
+    "page_url": "https://demo-moon.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "wholesale-b2b",
+  "name_ru": "Опт и B2B-продажи",
+  "name_en": "Wholesale / B2B",
+  "category": "b2b-wholesale",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-fine.myinsales.ru/",
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/voodoobooksru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Оптовые цены по группе покупателей + запрос прайса.",
+  "priority": "later",
+  "note": "Оксане не нужно; продукту — для магазинов с оборотом.",
+  "evidence": [
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "сигнал: wholesale-b2b",
+    "page_url": "https://demo-fine.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: wholesale-b2b",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Блокноты ручной работы",
+    "source": "tilda",
+    "quote": "Мы работаем с частными и оптовыми клиентами и создаем брендированные блокноты для компаний.",
+    "page_url": "http://examples-ru.tilda.ws/voodoobooksru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "lead-request-form",
+  "name_ru": "Форма заявки и обратной связи с валидацией",
+  "name_en": "Lead / feedback form",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://myshop-bcp658.myinsales.ru/",
+    "https://demo-loft.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "http://examples-ru.tilda.ws/mythsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Универсальная форма заявки с произвольными полями + доставка владельцу.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "Своя идея стрижки? Фотосессия в подарок\n...\nОставить заявку",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "Обратная связь\nСообщение успешно отправлено!\nЗаполните обязательное поле\nНеверно заполнено поле Телефон\nНеверно заполнено поле Email",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Продажа недвижимости",
+    "source": "tilda",
+    "quote": "сигнал: popup",
+    "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "theme-style-editor",
+  "name_ru": "Настройка стилей: цвета, шрифты, логотип без кода",
+  "name_en": "Theme style editor",
+  "category": "admin-customization",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "https://demo-minimalism.myinsales.ru/collection/divani",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "7 пресетов apps/storefront/src/lib/theme/presets.generated.ts, светлый/тёмный режим, api/tenants/branding (лого, цвет) + панель routes/settings/branding",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Цвет и логотип настраиваются; смены шрифтов и их размеров (есть у InSales) нет.",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Фильтры Сбросить Цена от до Цвет золотой голубой зеленый графитовый Бренд",
+    "page_url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey",
+    "verified": true
+   },
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Фильтры Сбросить Цена от до Размер 130-200 Цвет Белый Бежевый Чёрный Синий Бренд Umbra Манн, Иванов и Фербер Altavolo",
+    "page_url": "https://demo-minimalism.myinsales.ru/collection/divani",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "Возможность изменить верстку любой части сайта (за исключением страниц оформления заказа);",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "cart-page",
+  "name_ru": "Корзина покупок",
+  "name_en": "Cart",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-fine.myinsales.ru/cart_items",
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/app/[locale]/(main)/cart, modules/cart/components/empty-cart-message",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "Ваша корзина пуста Акции, специальные предложения и обзоры самых интересных товаров",
+    "page_url": "https://demo-fine.myinsales.ru/cart_items",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: cart",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "сигнал: cart",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "pagination-load-more",
+  "name_ru": "Пагинация и «показать ещё»",
+  "name_en": "Pagination / load more",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/menidyonru",
+    "http://examples-ru.tilda.ws/cannyonlinestoreru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/store/components/pagination",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Постраничная навигация есть; кнопки «показать ещё» с дозагрузкой нет.",
+  "evidence": [
+   {
+    "template": "Stories",
+    "source": "insales",
+    "quote": "Показать еще",
+    "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1",
+    "verified": true
+   },
+   {
+    "template": "Аксессуары для дома (Menidyon)",
+    "source": "tilda",
+    "quote": "сигнал: pagination",
+    "page_url": "http://examples-ru.tilda.ws/menidyonru",
+    "verified": true
+   },
+   {
+    "template": "Интернет-магазин",
+    "source": "tilda",
+    "quote": "Больше продуктов",
+    "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "in-stock-filter",
+  "name_ru": "Фильтр «только в наличии»",
+  "name_en": "In-stock filter",
+  "category": "filters-search",
+  "insales": {
+   "count": 3,
+   "templates": [
+    "https://demo-base.myinsales.ru/collection/new",
+    "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "https://demo-moon.myinsales.ru/collection/parfyum"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Флаг «только в наличии» в запросе каталога (join по inventory).",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Bubble",
+    "source": "insales",
+    "quote": "Фильтры Сбросить Только в наличии Применить",
+    "page_url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Фильтры / Сбросить / Только в наличии / Применить",
+    "page_url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Фильтры Только в наличии Применить Сбросить",
+    "page_url": "https://demo-base.myinsales.ru/collection/new",
+    "verified": false
+   }
+  ]
+ },
+ {
+  "id": "custom-made-order",
+  "name_ru": "Индивидуальный заказ (по меркам, свой дизайн)",
+  "name_en": "Custom-made order",
+  "category": "product-page",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 3,
+   "templates": [
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/floristsru",
+    "http://examples-ru.tilda.ws/tukaplantsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Форма заявки с произвольными полями и отправкой владельцу.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Магазин украшений",
+    "source": "tilda",
+    "quote": "Мы подгоняем размер изделия под ваши параметры по вашему запросу",
+    "page_url": "http://examples-ru.tilda.ws/jewelryru",
+    "verified": true
+   },
+   {
+    "template": "Магазин цветов (Florists)",
+    "source": "tilda",
+    "quote": "Создайте свой уникальный букет\nЗаполните форму и оставьте свои контакты и пожелания.\nE-mail\nИмя\nКомментарии\nОтправить",
+    "page_url": "http://examples-ru.tilda.ws/floristsru",
+    "verified": true
+   },
+   {
+    "template": "Растения для дома (Tuka Plants)",
+    "source": "tilda",
+    "quote": "Если у вас есть особые пожелания, мы может вырастить растение специально для вас.",
+    "page_url": "http://examples-ru.tilda.ws/tukaplantsru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "bestsellers-block",
+  "name_ru": "Блок «хиты продаж»",
+  "name_en": "Bestsellers block",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-base.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/jewelryru",
+    "http://examples-ru.tilda.ws/ascentru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/home/components/featured-products (ручная подборка)",
+  "backend_needed": true,
+  "backend_what": "Подборка «хиты» по числу продаж за период.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Магазин украшений",
+    "source": "tilda",
+    "quote": "Бестселлеры",
+    "page_url": "http://examples-ru.tilda.ws/jewelryru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-магазин (Ascent)",
+    "source": "tilda",
+    "quote": "Наши хиты\n[Sabrina Fossi clock 7599 р. 11000 р.](http://examples-ru.tilda.ws/ascentru#order)",
+    "page_url": "http://examples-ru.tilda.ws/ascentru",
+    "verified": true
+   },
+   {
+    "template": "Base",
+    "source": "insales",
+    "quote": "Новинки Акции Хиты продаж",
+    "page_url": "https://demo-base.myinsales.ru/",
+    "verified": false
+   }
+  ]
+ },
+ {
+  "id": "loyalty-program",
+  "name_ru": "Программа лояльности и бонусы",
+  "name_en": "Loyalty program",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-cream.myinsales.ru/",
+    "http://demo-gift.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/plantsshopru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Бонусный счёт покупателя, начисление/списание при оформлении.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Cream",
+    "source": "insales",
+    "quote": "Дарим 5000 бонусов на первую покупку",
+    "page_url": "https://demo-cream.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Gift",
+    "source": "insales",
+    "quote": "Дарим бонусы на Новый год В честь новогодних праздников, дарим 500 бонусных рублей на вашу скидочную карту! Успей потратить до 14 января",
+    "page_url": "http://demo-gift.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "сигнал: loyalty",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "recaptcha",
+  "name_ru": "Защита форм от спама (reCAPTCHA)",
+  "name_en": "Anti-spam reCAPTCHA",
+  "category": "admin-customization",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "rg 'recaptcha|hcaptcha|turnstile' по apps → 0",
+  "backend_needed": true,
+  "backend_what": "Капча на публичных формах (отзыв, подписка, заявка).",
+  "priority": "should",
+  "note": "Как только появятся публичные формы — станет обязательной.",
+  "evidence": [
+   {
+    "template": "Landing",
+    "source": "insales",
+    "quote": "Поддержка reCAPTCHA для защиты от спама;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "verified": true
+   },
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "Поддержка reCAPTCHA для защиты от спама;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "cart-slide-panel",
+  "name_ru": "Панель корзины после добавления товара",
+  "name_en": "Slide-in cart panel",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "http://demo-markom.myinsales.ru/",
+    "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/cart-dropdown, cart-notifications",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Markom",
+    "source": "insales",
+    "quote": "[В корзине кг Перейти](http://demo-markom.myinsales.ru/cart_items)",
+    "page_url": "http://demo-markom.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Добавить в корзину / Название товара / 100 руб / 1 шт. / Вернуться к покупкам / [Перейти в корзину]",
+    "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "brands-block",
+  "name_ru": "Блок брендов и брендовых коллекций",
+  "name_en": "Brands block",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-loft.myinsales.ru/",
+    "https://newtone-demo.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Сущность «бренд/производитель» у товара (сейчас только product_tags/product_types) + страница бренда.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Loft",
+    "source": "insales",
+    "quote": "Новые коллекции:\n[Terraboom](https://demo-loft.myinsales.ru/collection/terraboom)\n[Eco Line](https://demo-loft.myinsales.ru/collection/eco-line)\n[Reendo](https://demo-loft.myinsales.ru/collection/reendo)\n[Lizard](https://demo-loft.myinsales.ru/collection/lizard)",
+    "page_url": "https://demo-loft.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "Наши бренды",
+    "page_url": "https://newtone-demo.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "care-usage-content",
+  "name_ru": "Инструкции по уходу и применению",
+  "name_en": "Care / usage content",
+  "category": "content",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/hvoyastoreru",
+    "http://examples-ru.tilda.ws/tukaplantsru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "markdown в описании товара и в tenant_page (modules/content/components/markdown-content)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Магазин ХВОЯ (Hvoya)",
+    "source": "tilda",
+    "quote": "Мы гордимся нашими продуктами\nМатериалы\nДизайн\nКачество",
+    "page_url": "http://examples-ru.tilda.ws/hvoyastoreru",
+    "verified": true
+   },
+   {
+    "template": "Растения для дома (Tuka Plants)",
+    "source": "tilda",
+    "quote": "Ухаживать за ними очень просто — достаточно увлажнять шар из мха в соответствии с рекомендациями для каждого растения.",
+    "page_url": "http://examples-ru.tilda.ws/tukaplantsru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "lookbook",
+  "name_ru": "Лукбук и образы",
+  "name_en": "Lookbook",
+  "category": "content",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/mythsru",
+    "http://examples-ru.tilda.ws/happychairru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Одежда и аксессуары (MY.THS)",
+    "source": "tilda",
+    "quote": "[Лукбук](http://examples-ru.tilda.ws/mythsru#lookbook)\nЛУКБУК MY.THS:",
+    "page_url": "http://examples-ru.tilda.ws/mythsru",
+    "verified": true
+   },
+   {
+    "template": "Магазин мебели",
+    "source": "tilda",
+    "quote": "сигнал: lookbook",
+    "page_url": "http://examples-ru.tilda.ws/happychairru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "faq-block",
+  "name_ru": "Вопросы и ответы (FAQ)",
+  "name_en": "FAQ",
+  "category": "content",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/plantsshopru",
+    "http://examples-ru.tilda.ws/homegoodsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Список вопрос/ответ у магазина или у товара + аккордеон на витрине.",
+  "priority": "should",
+  "note": "Нужен магазину БАДов: у покупателя всегда есть вопросы о приёме.",
+  "evidence": [
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "сигнал: faq-accordion",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   },
+   {
+    "template": "Магазин товаров для дома",
+    "source": "tilda",
+    "quote": "Где производится ваша продукция?",
+    "page_url": "http://examples-ru.tilda.ws/homegoodsru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-count-badge",
+  "name_ru": "Счётчик товаров в категории",
+  "name_en": "Product counter",
+  "category": "filters-search",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/oneproductpageru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "счётчики у значений фасетов живьём («Россия 15», «Китай 1»)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Счётчика «N товаров» у категории нет.",
+  "evidence": [
+   {
+    "template": "Vibe",
+    "source": "insales",
+    "quote": "Товаров / 7 / очистить фильтр",
+    "page_url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery",
+    "verified": true
+   },
+   {
+    "template": "Страница товара",
+    "source": "tilda",
+    "quote": "сигнал: countdown, product-badges",
+    "page_url": "http://examples-ru.tilda.ws/oneproductpageru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "marketplace-block",
+  "name_ru": "Блок «мы на маркетплейсах»",
+  "name_en": "Marketplaces block",
+  "category": "integrations",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-stories.myinsales.ru/",
+    "https://demo-vibe.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/backend/src/modules/{wb,wb-write,ozon,marketplace-link,marketplace-write}, панель routes/settings/wildberries",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Зеркала маркетплейсов есть в бэкенде; блока «мы на маркетплейсах» на витрине нет.",
+  "evidence": [
+   {
+    "template": "Vibe",
+    "source": "insales",
+    "quote": "Отзывы клиентов / Постоянно покупаю продукты в данном сервисе / отзыв с Wildberries / отзыв с OZON / отзыв с VK",
+    "page_url": "https://demo-vibe.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Stories",
+    "source": "insales",
+    "quote": "Мы на маркетплейсах / Постоянно покупаю продукты в данном сервисе / отзыв с Wildberries",
+    "page_url": "https://demo-stories.myinsales.ru/",
+    "verified": false
+   }
+  ]
+ },
+ {
+  "id": "hero-slider",
+  "name_ru": "Слайдер-баннер на главной",
+  "name_en": "Hero slider",
+  "category": "navigation",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/home/variants/hero-ga-carousel.tsx (hero «ga» — карусель), hero-gb-strips.tsx",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Карусель есть как вариант hero; отдельного слайдера промо-баннеров с несколькими слайдами и таймингом нет.",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: slider-hero",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Продажа недвижимости",
+    "source": "tilda",
+    "quote": "сигнал: slider-hero",
+    "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-description-expand",
+  "name_ru": "Описание товара со сворачиванием («показать полностью»)",
+  "name_en": "Collapsible description",
+  "category": "product-page",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Живьём описание мумиё выводится целиком простыней — ровно случай, где нужна свёртка.",
+  "evidence": [
+   {
+    "template": "Minimalism",
+    "source": "insales",
+    "quote": "Диван \"Комфортный Уголок\" — это идеальное решение для тех, кто ценит уют и стиль в своем интерьере.",
+    "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1",
+    "verified": true
+   },
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Описание\nМягкая игрушка медвежонок сделана из высококачественного искусственного меха.\n...\nПоказать полностью\nСвернуть",
+    "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "size-chart",
+  "name_ru": "Таблица размеров",
+  "name_en": "Size chart",
+  "category": "product-page",
+  "insales": {
+   "count": 2,
+   "templates": [
+    "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Таблица размеров как ресурс магазина (markdown/таблица) с привязкой к категории или типу товара.",
+  "priority": "later",
+  "note": "Нужна одежде/обуви; у Оксаны не нужна.",
+  "evidence": [
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Таблица размеров / Российский размер Размер производителя Обхват груди, в см Обхват талии, в см Обхват бедер, в см",
+    "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360",
+    "verified": true
+   },
+   {
+    "template": "Newtone 2.0",
+    "source": "insales",
+    "quote": "Таблица размеров / Российский размер Размер производителя Обхват груди, в см Обхват талии, в см Обхват бедер, в см",
+    "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "product-video",
+  "name_ru": "Видео о товаре",
+  "name_en": "Product video",
+  "category": "product-page",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/velottonstrru",
+    "http://examples-ru.tilda.ws/phantomru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Поле «видео» у товара (ссылка YouTube/Rutube/файл) + вывод в галерее.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Промо страница товара",
+    "source": "tilda",
+    "quote": "сигнал: video",
+    "page_url": "http://examples-ru.tilda.ws/velottonstrru",
+    "verified": true
+   },
+   {
+    "template": "Страница товара",
+    "source": "tilda",
+    "quote": "Посмотрите, как это работает",
+    "page_url": "http://examples-ru.tilda.ws/phantomru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "first-order-discount",
+  "name_ru": "Скидка за первый заказ, репост, подписку",
+  "name_en": "Signup/share discount",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 2,
+   "templates": [
+    "http://examples-ru.tilda.ws/fooddeliveryru",
+    "http://examples-ru.tilda.ws/sushideliveryru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "промокоды (routes/promotions)",
+  "backend_needed": true,
+  "backend_what": "Автоматическая выдача промокода за подписку/репост.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Шаблон сервиса доставки еды",
+    "source": "tilda",
+    "quote": "Post a picture with our food on Instagram or Facebook, write a hashtag #japansushi and have free Filadelphia Rolls",
+    "page_url": "http://examples-ru.tilda.ws/fooddeliveryru",
+    "verified": true
+   },
+   {
+    "template": "Онлайн-сервис доставки еды",
+    "source": "tilda",
+    "quote": "Выложите в Инстаграм или Фейсбук фотографию с нашими роллами и получите роллы Филадельфия бесплатно при следущем заказе.",
+    "page_url": "http://examples-ru.tilda.ws/sushideliveryru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "partners-block",
+  "name_ru": "Блок партнёров и брендов",
+  "name_en": "Partners block",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-idea.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/homegoodsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Idea",
+    "source": "insales",
+    "quote": "Наши партнеры",
+    "page_url": "https://demo-idea.myinsales.ru/",
+    "verified": true
+   },
+   {
+    "template": "Магазин товаров для дома",
+    "source": "tilda",
+    "quote": "Мы сотрудничаем с брендами, студиями и магазинами, которые разделяют нашу любовь к спокойной домашней эстетике",
+    "page_url": "http://examples-ru.tilda.ws/homegoodsru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "responsive-mobile",
+  "name_ru": "Адаптивность под мобильные",
+  "name_en": "Responsive layout",
+  "category": "admin-customization",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "Tailwind-вёрстка витрины, bottom-nav для телефона",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "Шаблон адаптирован для просмотра с мобильных устройств.",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "services-price-list",
+  "name_ru": "Прайс-лист услуг с записью",
+  "name_en": "Services price list",
+  "category": "b2b-wholesale",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://myshop-bcp658.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Кейс услуг, не товаров.",
+  "evidence": [
+   {
+    "template": "Jack",
+    "source": "insales",
+    "quote": "Мужская стрижка\n45 мин/1 час\n2800 руб\nЗаписаться",
+    "page_url": "https://myshop-bcp658.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "delivery-options",
+  "name_ru": "Выбор способа доставки при заказе",
+  "name_en": "Delivery options",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/loadstoneru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/backend/src/api/tenants/shipping-options, storefront modules/checkout/components/checkout-shipping-section",
+  "backend_needed": true,
+  "backend_what": "Расчёт стоимости по адресу (ApiShip/CDEK) вместо двух плоских тарифов.",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Онлайн-магазин",
+    "source": "tilda",
+    "quote": "Самовывоз\nБесплатно\nДоставка курьером\n300 руб.\nДоставка почтой",
+    "page_url": "http://examples-ru.tilda.ws/loadstoneru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "multi-currency",
+  "name_ru": "Мультивалютность",
+  "name_en": "Multi-currency",
+  "category": "cart-checkout",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "регионы Medusa, LOCALE_COUNTRY_MAP; живьём ₽ на /ru и $ на /en",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: multi-currency",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "recently-viewed",
+  "name_ru": "Блок «ранее просмотренные товары»",
+  "name_en": "Recently viewed",
+  "category": "catalog-listing",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-fine.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Достаточно localStorage витрины + существующий batch-запрос товаров.",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Fine",
+    "source": "insales",
+    "quote": "Ранее просмотренные",
+    "page_url": "https://demo-fine.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "price-range-filter",
+  "name_ru": "Фильтр по цене (диапазон от/до)",
+  "name_en": "Price range filter",
+  "category": "filters-search",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-moon.myinsales.ru/collection/parfyum"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Параметры min_price/max_price в выдаче каталога + отдача границ цены по категории.",
+  "priority": "must",
+  "note": "Есть у большинства шаблонов InSales («Цена от … до», слайдер).",
+  "evidence": [
+   {
+    "template": "Moon",
+    "source": "insales",
+    "quote": "Фильтры / Сбросить / Цена / от / до",
+    "page_url": "https://demo-moon.myinsales.ru/collection/parfyum",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "live-search",
+  "name_ru": "Живой поиск по каталогу",
+  "name_en": "Live search",
+  "category": "filters-search",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/search/index.tsx (диалог, подсветка совпадений, Cmd+K)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Опечаткоустойчивости (Meilisearch/Algolia) нет — поиск подстрокой.",
+  "evidence": [
+   {
+    "template": "Landing",
+    "source": "insales",
+    "quote": "Поддержка «живого» поиска;",
+    "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "scroll-to-top",
+  "name_ru": "Кнопка «наверх»",
+  "name_en": "Scroll to top",
+  "category": "navigation",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/jewelryru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Магазин украшений",
+    "source": "tilda",
+    "quote": "[Наверх](javascript:t389_scrollToTop();)",
+    "page_url": "http://examples-ru.tilda.ws/jewelryru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "single-product-landing",
+  "name_ru": "Лендинг одного товара",
+  "name_en": "Single-product landing",
+  "category": "product-page",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/oneproductpageru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Отдельный тип страницы «лендинг товара» — сильная сторона Tilda.",
+  "evidence": [
+   {
+    "template": "Страница товара",
+    "source": "tilda",
+    "quote": "Лампа с абажуром ручной работы\nДизайн Zoe Darlington\n3490\nр.",
+    "page_url": "http://examples-ru.tilda.ws/oneproductpageru",
+    "verified": true
+   },
+   {
+    "template": "Страница товара",
+    "source": "tilda",
+    "quote": "PHANTOM 3\nЛовите лучшие моменты!\n[Купить](http://examples-ru.tilda.ws/phantomru#order)",
+    "page_url": "http://examples-ru.tilda.ws/phantomru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "promo-campaigns-page",
+  "name_ru": "Раздел «Акции» со сроками действия",
+  "name_en": "Campaigns page",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "http://demo-markom.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "панель routes/campaigns, api/tenants/campaigns",
+  "backend_needed": true,
+  "backend_what": "Публичная выдача активных акций для раздела «Акции» на витрине.",
+  "priority": "should",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Markom",
+    "source": "insales",
+    "quote": "Акции\n[Отборные фрукты и овощи, с привлекательной ценой](http://demo-markom.myinsales.ru/blogs/blog/otbornye-frukty-i-ovoschi-s-privlekatelnoy-tsenoy)\nc 01.07.2020 по 01.12.2020\n10.11.2020",
+    "page_url": "http://demo-markom.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "promo-code",
+  "name_ru": "Промокод на скидку",
+  "name_en": "Promo code",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/plantsshopru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/discount-code, панель routes/promotions",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Магазин комнатных растений",
+    "source": "tilda",
+    "quote": "Дарим 10% скидку на первый заказ по промокоду FLOWERS",
+    "page_url": "http://examples-ru.tilda.ws/plantsshopru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "bulk-discount",
+  "name_ru": "Скидка за объём покупки",
+  "name_en": "Volume discount",
+  "category": "promo-marketing",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/loadstoneru"
+   ]
+  },
+  "upready_store": "частично",
+  "upready_where": "правила акций в панели routes/promotions (копия Admin)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Механика есть в панели; витрина не объясняет условие («скидка 30 % от 3 вещей»).",
+  "evidence": [
+   {
+    "template": "Онлайн-магазин",
+    "source": "tilda",
+    "quote": "Скидка действует при покупке более чем 3-х вещей в одном чеке. Закажите более двух товаров и получите подарок",
+    "page_url": "http://examples-ru.tilda.ws/loadstoneru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "structured-data",
+  "name_ru": "Микроразметка и SEO-данные страницы",
+  "name_en": "Structured data",
+  "category": "seo-perf",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/newsfeedrealestateru"
+   ]
+  },
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/lib/util/json-ld.ts, app/sitemap.ts, app/robots.ts; живьём sitemap.xml=200, robots.txt=200",
+  "backend_needed": true,
+  "backend_what": "Поля meta title/description/slug у товара, категории и страницы (сейчас их нет).",
+  "priority": "must",
+  "note": "Разметка есть, а редактируемых SEO-полей у сущностей нет.",
+  "evidence": [
+   {
+    "template": "Продажа недвижимости",
+    "source": "tilda",
+    "quote": "сигнал: seo-structured",
+    "page_url": "http://examples-ru.tilda.ws/newsfeedrealestateru",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "web-analytics",
+  "name_ru": "Веб-аналитика",
+  "name_en": "Web analytics",
+  "category": "seo-perf",
+  "insales": {
+   "count": 1,
+   "templates": [
+    "https://demo-opening.myinsales.ru/"
+   ]
+  },
+  "tilda": {
+   "count": 0,
+   "templates": []
+  },
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/common/components/google-analytics (GA4, один ID на образ), api/tenants/analytics + панель routes/settings/analytics",
+  "backend_needed": true,
+  "backend_what": "Пер-тенантный счётчик (GA4/Яндекс.Метрика) из настроек магазина.",
+  "priority": "must",
+  "note": "",
+  "evidence": [
+   {
+    "template": "Открытие 4.0",
+    "source": "insales",
+    "quote": "сигнал: analytics",
+    "page_url": "https://demo-opening.myinsales.ru/",
+    "verified": true
+   }
+  ]
+ },
+ {
+  "id": "cookie-consent",
+  "name_ru": "Баннер согласия на cookie",
+  "name_en": "Cookie consent",
+  "category": "trust-reviews",
+  "insales": {
+   "count": 0,
+   "templates": []
+  },
+  "tilda": {
+   "count": 1,
+   "templates": [
+    "http://examples-ru.tilda.ws/mythsru"
+   ]
+  },
+  "upready_store": "нет",
+  "upready_where": "rg 'CookieConsent|cookie-banner' по apps/storefront/src → 0",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Для российского магазина — согласие на обработку ПД.",
+  "evidence": [
+   {
+    "template": "Одежда и аксессуары (MY.THS)",
+    "source": "tilda",
+    "quote": "Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c политикой конфиденциальности",
+    "page_url": "http://examples-ru.tilda.ws/mythsru",
+    "verified": true
+   }
+  ]
+ }
+]

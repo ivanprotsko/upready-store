@@ -140,18 +140,54 @@ const ARTICLE_SLUG = z
   .max(96)
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase letters, digits and single hyphens");
 
+/** b18-blog-full: the publication state, mirroring `ARTICLE_STATUSES`. */
+const ARTICLE_STATUS = z.enum(["draft", "published", "scheduled"]);
+
+const ARTICLE_COVER = z
+  .string()
+  .max(2_000)
+  .regex(/^(https?:\/\/|\/)/, "an absolute http(s) URL or a site-relative path");
+
 /**
- * `POST /tenants/articles` body — brings one language row of one article into
- * existence, empty and unpublished. `locale` is required and has no default:
- * an article exists per language, and guessing `en` for a shop that writes in
- * Russian is exactly the bug the pages screen had before the Cherkashina
- * migration. `title` is required because the panel's «new article» dialog asks
- * for a name up front and the list has to show something.
+ * The fields an article's text is made of, shared by POST and PUT so the two
+ * cannot drift (rule 20). Every one of them is optional here; POST defaults the
+ * lot to empty, PUT requires `title` and `body` on top of this.
+ */
+const ARTICLE_CONTENT = {
+  excerpt: z.string().max(1_000).nullish(),
+  cover_url: ARTICLE_COVER.nullish(),
+  status: ARTICLE_STATUS.optional(),
+  published_at: z.string().datetime({ offset: true }).nullish(),
+  category: z.string().max(120).nullish(),
+  author: z.string().max(160).nullish(),
+  tags: z.array(z.string().min(1).max(60)).max(20).nullish(),
+  seo_title: z.string().max(300).nullish(),
+  seo_description: z.string().max(1_000).nullish(),
+};
+
+/**
+ * `POST /tenants/articles` body — one language row of one article.
+ *
+ * t10-blog created an EMPTY row here and left the writing to a second call,
+ * which is why the panel's only way into the journal was a form asking for a
+ * URL (Ivan, 2026-09-16 08:31: «странный функционал с указанием адреса статей,
+ * с отсутствием страниц на которые бы можно было бы добавить сами статьи»).
+ * b18-blog-full accepts the WHOLE article here, so «Новая статья» is one
+ * screen and one save; the fields stay optional, so the old two-step call and
+ * the import script keep working unchanged.
+ *
+ * `locale` is required and has no default: an article exists per language, and
+ * guessing `en` for a shop that writes in Russian is exactly the bug the pages
+ * screen had before the Cherkashina migration.
  */
 export const PostTenantArticleSchema = z.strictObject({
   slug: ARTICLE_SLUG,
   locale: ARTICLE_LOCALE,
   title: z.string().min(1).max(300),
+  body: z.string().max(200_000).optional(),
+  /** Deprecated alias for `status`, still sent by the import script. */
+  published: z.boolean().optional(),
+  ...ARTICLE_CONTENT,
 });
 
 export type PostTenantArticleBody = z.infer<typeof PostTenantArticleSchema>;
@@ -172,18 +208,22 @@ export type PostTenantArticleBody = z.infer<typeof PostTenantArticleSchema>;
 export const PutTenantArticleSchema = z.strictObject({
   locale: ARTICLE_LOCALE.optional(),
   title: z.string().max(300),
-  excerpt: z.string().max(1_000).nullish(),
-  cover_url: z
-    .string()
-    .max(2_000)
-    .regex(/^(https?:\/\/|\/)/, "an absolute http(s) URL or a site-relative path")
-    .nullish(),
   body: z.string().max(200_000),
-  published: z.boolean(),
-  published_at: z.string().datetime({ offset: true }).nullish(),
-  tags: z.array(z.string().min(1).max(60)).max(20).nullish(),
-  seo_title: z.string().max(300).nullish(),
-  seo_description: z.string().max(1_000).nullish(),
+  /**
+   * The article's NEW address. Renaming moves EVERY language row of the
+   * article, because the slug names the article and not one of its texts; the
+   * route refuses a slug another article of this shop already uses. Absent
+   * means «keep the address», which is what every ordinary save sends.
+   */
+  slug: ARTICLE_SLUG.optional(),
+  /**
+   * Deprecated alias for `status`, kept so the panel bundle deployed before
+   * b18-blog-full does not start failing the moment the backend is updated:
+   * `true` reads as `published`, `false` as `draft`, and an explicit `status`
+   * always wins.
+   */
+  published: z.boolean().optional(),
+  ...ARTICLE_CONTENT,
 });
 
 export type PutTenantArticleBody = z.infer<typeof PutTenantArticleSchema>;

@@ -436,7 +436,14 @@
     "previous": "السابق",
     "next": "التالي",
     "pageOf": "الصفحة {page} من {lastPage}",
-    "pagination": "صفحات المجلة"
+    "pagination": "صفحات المجلة",
+    "readingTime": "{minutes} د قراءة",
+    "related": "اقرأ أيضًا",
+    "share": "مشاركة",
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط",
+    "allCategories": "كل الأقسام",
+    "categories": "أقسام المجلة"
   },
   "LanguageSelect": {
     "locales": {

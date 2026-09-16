@@ -4,13 +4,14 @@ import { notFound } from "next/navigation"
 import { getLocale, getTranslations } from "next-intl/server"
 
 import { Link } from "@i18n/navigation"
-import { getTenantArticle } from "@lib/data/tenant-articles"
+import { getTenantArticle, getTenantArticleWithRelated } from "@lib/data/tenant-articles"
 import { getRequestBaseURL, getSiteName } from "@lib/data/cookies"
 import { buildAlternates } from "@lib/util/alternates"
 import { decodeSegment } from "@lib/util/decode-segment"
 import { localeUrl } from "@lib/util/json-ld"
 import { metaDescription } from "@lib/util/meta-description"
 import { pageTitle } from "@lib/util/page-title"
+import ArticleShare from "@modules/content/components/article-share"
 import JsonLd from "@modules/common/components/json-ld"
 import MarkdownContent from "@modules/content/components/markdown-content"
 
@@ -56,6 +57,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       description,
       url: localeUrl(base, locale, `/journal/${params.slug}`),
       publishedTime: article.published_at ?? undefined,
+      // b18-blog-full: the byline and the rubric the owner filled in. Absent
+      // stays absent — an og:article with the shop's own name where an author
+      // goes is a claim nobody made (rule 20a).
+      ...(article.author && { authors: [article.author] }),
+      ...(article.category && { section: article.category }),
+      ...(article.tags.length > 0 && { tags: article.tags }),
       ...(cover && { images: [{ url: cover, alt: article.title }] }),
     },
     ...(cover && {
@@ -65,16 +72,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function JournalArticle(props: Props) {
-  const [params, t, locale] = await Promise.all([
+  const [params, t, tBreadcrumb, locale] = await Promise.all([
     props.params,
     getTranslations("Journal"),
+    getTranslations("Breadcrumb"),
     getLocale(),
   ])
-  const article = await getTenantArticle(decodeSegment(params.slug))
+  const found = await getTenantArticleWithRelated(decodeSegment(params.slug))
 
-  if (!article) {
+  if (!found) {
     notFound()
   }
+
+  const { article, related } = found
 
   const [base, siteName] = await Promise.all([getRequestBaseURL(), getSiteName()])
   const cover = article.cover_url ? absolute(base, article.cover_url) : null
@@ -94,8 +104,13 @@ export default async function JournalArticle(props: Props) {
     ...(article.published_at && { datePublished: article.published_at }),
     ...(cover && { image: [cover] }),
     ...(article.tags.length > 0 && { keywords: article.tags.join(", ") }),
+    ...(article.category && { articleSection: article.category }),
     publisher: { "@type": "Organization", name: siteName },
-    author: { "@type": "Organization", name: siteName },
+    // The owner's byline when there is one, the shop itself otherwise — which
+    // is what an unsigned article on a shop's journal actually means.
+    author: article.author
+      ? { "@type": "Person", name: article.author }
+      : { "@type": "Organization", name: siteName },
   }
 
   const dateFormat = new Intl.DateTimeFormat(locale, {
@@ -108,20 +123,56 @@ export default async function JournalArticle(props: Props) {
     <div className="content-container flex flex-col gap-y-6 py-12 max-w-2xl">
       <JsonLd data={jsonLd} />
 
-      <Link
-        href="/journal"
-        className="txt-compact-small text-ui-fg-subtle hover:text-ui-fg-base transition-colors"
-        data-testid="journal-back-link"
+      {/* b18-blog-full: breadcrumbs, the same pair the catalogue pages use —
+          a reader landing from search needs a way up, and one link «back to the
+          feed» is not a path. */}
+      <nav
+        className="txt-compact-small text-ui-fg-subtle flex flex-wrap items-center gap-x-2"
+        aria-label={tBreadcrumb("home")}
+        data-testid="journal-breadcrumbs"
       >
-        {t("backToFeed")}
-      </Link>
+        <Link href="/" className="hover:text-ui-fg-base transition-colors">
+          {tBreadcrumb("home")}
+        </Link>
+        <span aria-hidden>/</span>
+        <Link
+          href="/journal"
+          className="hover:text-ui-fg-base transition-colors"
+          data-testid="journal-back-link"
+        >
+          {t("feedTitle")}
+        </Link>
+        {article.category ? (
+          <>
+            <span aria-hidden>/</span>
+            <Link
+              href={`/journal?category=${encodeURIComponent(article.category)}`}
+              className="hover:text-ui-fg-base transition-colors"
+            >
+              {article.category}
+            </Link>
+          </>
+        ) : null}
+      </nav>
 
       <div className="flex flex-col gap-y-2">
-        {article.published_at ? (
-          <time dateTime={article.published_at} className="txt-compact-small text-ui-fg-muted">
-            {dateFormat.format(new Date(article.published_at))}
-          </time>
-        ) : null}
+        <div className="txt-compact-small text-ui-fg-muted flex flex-wrap items-center gap-x-2">
+          {article.published_at ? (
+            <time dateTime={article.published_at}>
+              {dateFormat.format(new Date(article.published_at))}
+            </time>
+          ) : null}
+          {article.published_at ? <span aria-hidden>·</span> : null}
+          <span data-testid="journal-article-reading-time">
+            {t("readingTime", { minutes: article.reading_minutes })}
+          </span>
+          {article.author ? (
+            <>
+              <span aria-hidden>·</span>
+              <span data-testid="journal-article-author">{article.author}</span>
+            </>
+          ) : null}
+        </div>
         <h1 className="text-2xl-semi text-ui-fg-base" data-testid="journal-article-title">
           {article.title}
         </h1>
@@ -157,6 +208,51 @@ export default async function JournalArticle(props: Props) {
             </li>
           ))}
         </ul>
+      ) : null}
+
+      <ArticleShare
+        url={url}
+        title={article.title}
+        labels={{
+          share: t("share"),
+          copyLink: t("copyLink"),
+          linkCopied: t("linkCopied"),
+        }}
+      />
+
+      {related.length > 0 ? (
+        <section className="border-ui-border-base border-t pt-8" data-testid="journal-related">
+          <h2 className="text-base-semi text-ui-fg-base">{t("related")}</h2>
+          <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-6 small:grid-cols-3">
+            {related.map((item) => (
+              <li key={item.slug}>
+                <Link
+                  href={`/journal/${item.slug}`}
+                  className="group flex flex-col gap-y-2"
+                  data-testid="journal-related-card"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-rounded bg-ui-bg-subtle">
+                    {item.cover_url ? (
+                      <Image
+                        src={absolute(base, item.cover_url)}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 224px"
+                        className="object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
+                    ) : null}
+                  </div>
+                  <span className="txt-compact-small text-ui-fg-muted">
+                    {t("readingTime", { minutes: item.reading_minutes })}
+                  </span>
+                  <span className="text-base-semi text-ui-fg-base group-hover:text-ui-fg-interactive transition-colors">
+                    {item.title}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
     </div>
   )

@@ -1,0 +1,530 @@
+{
+  "group": "insales-2",
+  "templates": [
+    {
+      "template": "Grand",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand",
+      "features": [
+        {
+          "id": "compare-products",
+          "name_ru": "Сравнение товаров (отдельная страница /compares)",
+          "category": "catalog-listing",
+          "evidence": "Сравнение\nНет товаров для сравнения",
+          "page_url": "https://demo-grand.myinsales.ru/compares"
+        },
+        {
+          "id": "wishlist-favorites",
+          "name_ru": "Избранное (список товаров в шапке сайта)",
+          "category": "account",
+          "evidence": "[0 Избранное](https://demo-grand.myinsales.ru/favorites)",
+          "page_url": "https://demo-grand.myinsales.ru/cart_items"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25% с рассрочкой на 6 недель)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям. Получайте заказы сразу, а платите за них постепенно. 25% Платёж сегодня / Через 2 недели / Через 4 недели / Через 6 недель",
+          "page_url": "https://demo-grand.myinsales.ru/cart_items"
+        },
+        {
+          "id": "one-click-order-modal",
+          "name_ru": "Заказ в один клик (модальное окно с ФИО и телефоном)",
+          "category": "cart-checkout",
+          "evidence": "Заказ в один клик\nКонтактное лицо (ФИО):\nКонтактный телефон:\nПолучать уведомления о заказе",
+          "page_url": "https://demo-grand.myinsales.ru/cart_items"
+        },
+        {
+          "id": "preorder-zero-stock",
+          "name_ru": "Кнопка «Предзаказ» для товаров с нулевым остатком с уведомлением менеджера",
+          "category": "cart-checkout",
+          "evidence": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина (блокируемая или не блокируемая)",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-grand"
+        },
+        {
+          "id": "callback-request-form",
+          "name_ru": "Форма «Обратный звонок» с согласием на обработку данных",
+          "category": "promo-marketing",
+          "evidence": "Обратный звонок\nЗапрос успешно отправлен!\nИмя *\nТелефон *\nНастоящим подтверждаю, что я ознакомлен и согласен с условиями оферты и политики конфиденциальности",
+          "page_url": "https://demo-grand.myinsales.ru/cart_items"
+        },
+        {
+          "id": "multilanguage-switcher",
+          "name_ru": "Переключатель языков интерфейса (ru/ua/en)",
+          "category": "navigation",
+          "evidence": "[ua](https://demo-grand.myinsales.ru/cart_items?lang=ua)\n[ru](https://demo-grand.myinsales.ru/cart_items?lang=ru)\n[en](https://demo-grand.myinsales.ru/cart_items?lang=en)",
+          "page_url": "https://demo-grand.myinsales.ru/cart_items"
+        },
+        {
+          "id": "collapsible-catalog-tree",
+          "name_ru": "Дерево категорий каталога в шапке с раскрытием подкатегорий («Показать все / Скрыть»)",
+          "category": "navigation",
+          "evidence": "[Обои](https://demo-grand.myinsales.ru/collection/oboi)\n[Флизелиновые обои](https://demo-grand.myinsales.ru/collection/katalog-26)\nПоказать все\nСкрыть",
+          "page_url": "https://demo-grand.myinsales.ru/collection/oboi"
+        },
+        {
+          "id": "sort-and-stock-filter",
+          "name_ru": "Сортировка каталога (по цене, новизне, названию) и фильтр «Только в наличии»",
+          "category": "filters-search",
+          "evidence": "Сортировка\nпо возрастанию цены\nпо убыванию цены\nсначала новые\nпо названию\n...\nТолько в наличии\nПрименить\nСбросить",
+          "page_url": "https://demo-grand.myinsales.ru/collection/oboi"
+        },
+        {
+          "id": "category-filter-with-counts",
+          "name_ru": "Фильтр по категориям в сайдбаре со счётчиком товаров",
+          "category": "filters-search",
+          "evidence": "[Флизелиновые обои](https://demo-grand.myinsales.ru/collection/katalog-26)\n12",
+          "page_url": "https://demo-grand.myinsales.ru/collection/oboi"
+        },
+        {
+          "id": "product-tabs-desc-specs-reviews",
+          "name_ru": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Описание\nХарактеристики\nОтзывы",
+          "page_url": "https://demo-grand.myinsales.ru/product/palitra-vinilovye-oboi-na-flizelinovoy-osnove-sea-goryachego-tesneniya-106h1005mshhd"
+        },
+        {
+          "id": "product-reviews-with-moderation",
+          "name_ru": "Отзывы о товаре с формой отправки и модерацией перед публикацией",
+          "category": "trust-reviews",
+          "evidence": "Отзывов еще никто не оставлял\nНаписать отзыв\n...Перед публикацией отзывы проходят модерацию",
+          "page_url": "https://demo-grand.myinsales.ru/product/palitra-vinilovye-oboi-na-flizelinovoy-osnove-sea-goryachego-tesneniya-106h1005mshhd"
+        },
+        {
+          "id": "payment-methods-admin-configurable",
+          "name_ru": "Способы оплаты, настраиваемые в панели администратора",
+          "category": "cart-checkout",
+          "evidence": "Способы оплаты при оформлении заказа можно настроить в разделе [Настройки -> Оплата](https://demo-grand.myinsales.ru/admin2/payment_gateways)",
+          "page_url": "https://demo-grand.myinsales.ru/page/oplata"
+        }
+      ]
+    },
+    {
+      "template": "Idea",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-idea",
+      "features": [
+        {
+          "id": "advantages-widget",
+          "name_ru": "Виджет «Наши плюсы» (быстрая доставка, акции и бонусы, шоурум)",
+          "category": "promo-marketing",
+          "evidence": "Наши плюсы\nБыстрая доставка\nАкции и бонусы\nШоурум в центре",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        },
+        {
+          "id": "partners-widget",
+          "name_ru": "Блок «Наши партнёры» с логотипами",
+          "category": "promo-marketing",
+          "evidence": "Наши партнеры",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        },
+        {
+          "id": "popular-products-footer-widget",
+          "name_ru": "Виджет «Популярное» с товарами и ценами в подвале сайта",
+          "category": "catalog-listing",
+          "evidence": "Популярное\n[Тор 6 600 ₽](https://demo-idea.myinsales.ru/collection/dlya-malchikov/product/tor)\n[Медвежонок 990 ₽](https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok)\n[Динозавр 1 990 ₽](https://demo-idea.myinsales.ru/collection/razvitie/product/dinozavr)",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        },
+        {
+          "id": "social-subscribe-block",
+          "name_ru": "Блок «Подписывайтесь» с иконками социальных сетей",
+          "category": "integrations",
+          "evidence": "Подписывайтесь\n[img: Иконка социальной сети]",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        },
+        {
+          "id": "product-badges-new-sale-preorder",
+          "name_ru": "Бейджи товара «Новинка», «Распродажа», «Предзаказ»",
+          "category": "catalog-listing",
+          "evidence": "В наличии\nНовинка\nРаспродажа\nПредзаказ",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek"
+        },
+        {
+          "id": "filter-count-and-reset",
+          "name_ru": "Фильтр каталога со счётчиком товаров и кнопкой «очистить фильтр»",
+          "category": "filters-search",
+          "evidence": "Товаров\n5\nочистить фильтр",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek"
+        },
+        {
+          "id": "catalog-sort-options",
+          "name_ru": "Сортировка каталога («По умолчанию», по цене, по новизне, по названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка\nПо умолчанию\nпо возрастанию цены\nпо убыванию цены\nсначала новые\nпо названию",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek"
+        },
+        {
+          "id": "one-click-buy-button",
+          "name_ru": "Кнопка «Купить в 1 клик» на карточке товара",
+          "category": "cart-checkout",
+          "evidence": "В корзину\n-\n+\nПредзаказ\nКупить в 1 клик\nНет в наличии",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok"
+        },
+        {
+          "id": "product-description-expand-collapse",
+          "name_ru": "Описание товара с кнопками «Показать полностью» / «Свернуть»",
+          "category": "product-page",
+          "evidence": "Описание\nМягкая игрушка медвежонок сделана из высококачественного искусственного меха.\n...\nПоказать полностью\nСвернуть",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok"
+        },
+        {
+          "id": "review-form-with-rating",
+          "name_ru": "Форма отзыва о товаре с полем «Рейтинг»",
+          "category": "trust-reviews",
+          "evidence": "Написать отзыв\nОтмена\nОставить отзыв\nРейтинг\nEmail\nОтзыв",
+          "page_url": "https://demo-idea.myinsales.ru/collection/dlya-devochek/product/medvezhonok"
+        },
+        {
+          "id": "exchange-return-page-link",
+          "name_ru": "Ссылка «Обмен и возврат» в верхней инфо-строке сайта",
+          "category": "cart-checkout",
+          "evidence": "[Обмен и возврат](https://demo-idea.myinsales.ru/page/exchange)",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        },
+        {
+          "id": "delivery-hours-announcement-bar",
+          "name_ru": "Информационная строка в шапке с часами доставки",
+          "category": "promo-marketing",
+          "evidence": "Доставка с 8:00 до 23:00",
+          "page_url": "https://demo-idea.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Jack",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1",
+      "features": [
+        {
+          "id": "one-page-anchor-navigation",
+          "name_ru": "Одностраничный лендинг с якорной навигацией по разделам (услуги, преимущества, отзывы)",
+          "category": "navigation",
+          "evidence": "[Стрижки](https://myshop-bcp658.myinsales.ru/#strigki)\n[Борода и бритье](https://myshop-bcp658.myinsales.ru/#boroda)\n[Преимущества](https://myshop-bcp658.myinsales.ru/#benefit)\n[Отзывы](https://myshop-bcp658.myinsales.ru/#reviews)",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "services-price-list-with-booking",
+          "name_ru": "Прайс-лист услуг с длительностью, ценой и кнопкой «Записаться»",
+          "category": "catalog-listing",
+          "evidence": "Мужская стрижка\n45 мин/1 час\n2800 руб\nЗаписаться",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "lead-request-form",
+          "name_ru": "Форма заявки «Оставить заявку» на странице услуг",
+          "category": "promo-marketing",
+          "evidence": "Своя идея стрижки? Фотосессия в подарок\n...\nОставить заявку",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "customer-reviews-with-source",
+          "name_ru": "Блок отзывов клиентов с фото и указанием источника (например «отзыв с VK»)",
+          "category": "trust-reviews",
+          "evidence": "[img: Николай]\nНиколай\nотзыв с VK\nПриветливый персонал, кофе для ожидающих своего часа клиентов, талантливые мастера своего дела. Рекомендую",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "product-quick-view",
+          "name_ru": "Быстрый просмотр карточки товара в модальном окне",
+          "category": "product-page",
+          "evidence": "Особенность: крупные изображения, быстрый просмотр карточки товара, гибко настраиваемый шаблон.",
+          "page_url": "https://www.insales.ru/collection/themes/product/shablon-internet-magazina-landing-1"
+        },
+        {
+          "id": "footer-hours-and-address",
+          "name_ru": "Адрес и часы работы точек в подвале сайта",
+          "category": "integrations",
+          "evidence": "Время работы пн-пт 10:00-19:00\n8 800 555-10-61\n1-я Тверская-Ямская улица, дом 21 пн-пт 10:00-19:00 +7 (800) 555-10-61",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "payment-system-icons-footer",
+          "name_ru": "Иконки платёжных систем в подвале сайта",
+          "category": "integrations",
+          "evidence": "[img: Иконка платежной системы]",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        },
+        {
+          "id": "preorder-modal",
+          "name_ru": "Модальное окно предзаказа с согласием на обработку персональных данных",
+          "category": "cart-checkout",
+          "evidence": "Предзаказ\nоферты и политики конфиденциальности\nНазвание товара\n100 руб\n1 шт.",
+          "page_url": "https://myshop-bcp658.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Landing",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing",
+      "features": [
+        {
+          "id": "preorder-zero-stock",
+          "name_ru": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с уведомлением менеджера",
+          "category": "cart-checkout",
+          "evidence": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина (блокируемая или не блокируемая)",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "one-click-buy",
+          "name_ru": "Поддержка функции «Купить в 1 клик»",
+          "category": "cart-checkout",
+          "evidence": "Поддержка функции «Купить в 1 клик»;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "compare-products",
+          "name_ru": "Сравнение товаров",
+          "category": "catalog-listing",
+          "evidence": "Сравнение товаров;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "multi-attribute-filtering",
+          "name_ru": "Фильтрация товаров по нескольким параметрам и/или свойствам",
+          "category": "filters-search",
+          "evidence": "Фильтрация товаров по нескольким параметрам и/или свойствам;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "blog-news-feed",
+          "name_ru": "Блог и/или новостная лента на сайте",
+          "category": "content",
+          "evidence": "Блог и/или новостная лента на сайте;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "product-tabs-desc-specs-reviews",
+          "name_ru": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "recaptcha-spam-protection",
+          "name_ru": "Поддержка reCAPTCHA для защиты форм от спама",
+          "category": "seo-perf",
+          "evidence": "Поддержка reCAPTCHA для защиты от спама;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        },
+        {
+          "id": "live-search",
+          "name_ru": "Поддержка «живого» поиска",
+          "category": "filters-search",
+          "evidence": "Поддержка «живого» поиска;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-landing"
+        }
+      ]
+    },
+    {
+      "template": "Loft",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-loft",
+      "features": [
+        {
+          "id": "advantages-widget-with-description",
+          "name_ru": "Виджет «Наши плюсы» из 4 преимуществ с подробным описанием каждого",
+          "category": "promo-marketing",
+          "evidence": "Наши плюсы\n[img: Широкий ассортимент]\nШирокий ассортимент\nПредлагаем большой выбор посуды и подарков из стекла, хрусталя и фарфора. Знаем всё о стекле, хрустале и фарфоре и предложим лучшее!",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "news-blog-with-dates",
+          "name_ru": "Блог «Новости и акции» со статьями и датами публикации",
+          "category": "content",
+          "evidence": "[Дешевый Лофт своими руками](https://demo-loft.myinsales.ru/blogs/blog/deshevyy-loft-svoimi-rukami)\nА это уже вторая новость в интернет-магазине.\n11.03.2021",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "pickup-points-page",
+          "name_ru": "Страница «Пункты выдачи» в информационном меню",
+          "category": "cart-checkout",
+          "evidence": "[Пункты выдачи](https://demo-loft.myinsales.ru/page/agreement)",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "customer-account-login",
+          "name_ru": "Личный кабинет покупателя",
+          "category": "account",
+          "evidence": "[Личный кабинет](https://demo-loft.myinsales.ru/client_account/login)",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "brand-collections-carousel",
+          "name_ru": "Карусель брендовых коллекций на главной странице",
+          "category": "promo-marketing",
+          "evidence": "Новые коллекции:\n[Terraboom](https://demo-loft.myinsales.ru/collection/terraboom)\n[Eco Line](https://demo-loft.myinsales.ru/collection/eco-line)\n[Reendo](https://demo-loft.myinsales.ru/collection/reendo)\n[Lizard](https://demo-loft.myinsales.ru/collection/lizard)",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "detailed-customer-reviews",
+          "name_ru": "Развёрнутые отзывы покупателей с текстом на главной странице",
+          "category": "trust-reviews",
+          "evidence": "[img: Светлана]\nСветлана\nМилый, забавный суккулент. Выглядит вполне натурально, чуточку видны \"швы\" от литья изделия, но если только придирчиво разглядывать. все гости считают, что он живой)))",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "feedback-form-field-validation",
+          "name_ru": "Форма обратной связи с валидацией обязательных полей (телефон, email)",
+          "category": "cart-checkout",
+          "evidence": "Обратная связь\nСообщение успешно отправлено!\nЗаполните обязательное поле\nНеверно заполнено поле Телефон\nНеверно заполнено поле Email",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "sale-price-strikethrough",
+          "name_ru": "Отображение скидки зачёркнутой старой ценой в карточке товара каталога",
+          "category": "catalog-listing",
+          "evidence": "[Мангал №14, 100 х 25 х 11 см, толщина 1,5 мм](https://demo-loft.myinsales.ru/product/mangal-14-100-h-25-h-11-sm-tolschina-15-mm)\n4290 ₽\n3690 ₽\nВ корзину",
+          "page_url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25%)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям. Получайте заказы сразу, а платите за них постепенно. 25% Платёж сегодня / Через 2 недели / Через 4 недели / Через 6 недель",
+          "page_url": "https://demo-loft.myinsales.ru/collection/sad-i-ogorod"
+        },
+        {
+          "id": "category-tile-grid-homepage",
+          "name_ru": "Плиточная сетка категорий с картинками на главной странице",
+          "category": "navigation",
+          "evidence": "[img: Посуда]\nПосуда\n[img: Садовая мебель]\nСадовая мебель\n[img: Освещение]\nОсвещение",
+          "page_url": "https://demo-loft.myinsales.ru/"
+        },
+        {
+          "id": "add-to-compare-product-page",
+          "name_ru": "Кнопка «Добавить в сравнение» на карточке товара",
+          "category": "product-page",
+          "evidence": "Добавить в сравнение",
+          "page_url": "https://demo-loft.myinsales.ru/product/barbekyu-s-kryshkoy-na-kolesikah-d44-sm"
+        }
+      ]
+    },
+    {
+      "template": "Markom",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-markom",
+      "features": [
+        {
+          "id": "weight-based-quantity-selector",
+          "name_ru": "Выбор количества товара в килограммах в мини-корзине (товары на вес)",
+          "category": "product-page",
+          "evidence": "[В корзине кг Перейти](http://demo-markom.myinsales.ru/cart_items)",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "multilanguage-switcher-es",
+          "name_ru": "Переключатель языка интерфейса (испанский)",
+          "category": "navigation",
+          "evidence": "[es](http://demo-markom.myinsales.ru/?lang=es)",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "promo-category-banner-tiles",
+          "name_ru": "Плиточные баннеры-анонсы товарных категорий на главной странице",
+          "category": "promo-marketing",
+          "evidence": "[img: Торты, десерты, сладкая выпечка]\nТорты, десерты, сладкая выпечка\n[img: Рыба, икра, морепродукты]\nРыба, икра, морепродукты",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "blog-teaser-block",
+          "name_ru": "Блок-анонс статьи блога с призывом «Узнать подробнее»",
+          "category": "content",
+          "evidence": "Как подобрать подарок?\nМы сталкиваемся с этим вопросом каждый раз перед праздниками...\n[Узнать подробнее](http://demo-markom.myinsales.ru/#)",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "dated-promo-campaigns",
+          "name_ru": "Раздел «Акции» с новостями и сроками действия акций",
+          "category": "promo-marketing",
+          "evidence": "Акции\n[Отборные фрукты и овощи, с привлекательной ценой](http://demo-markom.myinsales.ru/blogs/blog/otbornye-frukty-i-ovoschi-s-privlekatelnoy-tsenoy)\nc 01.07.2020 по 01.12.2020\n10.11.2020",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "advantages-widget-with-description",
+          "name_ru": "Виджет «Наши плюсы» с описанием (широкий ассортимент, свежесть, контроль качества)",
+          "category": "promo-marketing",
+          "evidence": "Всегда свежие\nФрукты и овощи перевозятся в машинах-рефрижераторах с разными режимами температуры. Мы знаем, сколько градусов внутри каждого плода!",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "sale-price-strikethrough",
+          "name_ru": "Отображение скидки зачёркнутой старой ценой в карточке товара каталога",
+          "category": "catalog-listing",
+          "evidence": "[Авокадо, 1 шт](http://demo-markom.myinsales.ru/product/avokado-1-sht)\n135 ₽\n59 ₽\nВ корзину",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "customer-testimonials-homepage",
+          "name_ru": "Блок отзывов клиентов на главной странице",
+          "category": "trust-reviews",
+          "evidence": "Отзывы клиентов\nAlexey\nLorem ipsum dolor sit amet, consectetur adipiscing elit...",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "product-badge-new",
+          "name_ru": "Бейдж «Новинка» на карточке товара в каталоге",
+          "category": "catalog-listing",
+          "evidence": "В наличии\nНовинка\nПредзаказ\nарт.\n[Огурцы, 1 кг](http://demo-markom.myinsales.ru/product/ogurtsy-1-kg)",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        },
+        {
+          "id": "customer-account-login",
+          "name_ru": "Личный кабинет покупателя",
+          "category": "account",
+          "evidence": "[Личный кабинет](http://demo-markom.myinsales.ru/client_account/login)",
+          "page_url": "http://demo-markom.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Mono",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-mono",
+      "features": [
+        {
+          "id": "megamenu-with-subcategories",
+          "name_ru": "Многоуровневое меню категорий с раскрытием подкатегорий",
+          "category": "navigation",
+          "evidence": "[Категория 1](http://demo-mono.myinsales.ru/collection/kategoriya-1)\n[Подкатегория 1](http://demo-mono.myinsales.ru/collection/podkategoriya)\n[Подкатегория 2](http://demo-mono.myinsales.ru/collection/podkategoriya-2)",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        },
+        {
+          "id": "promo-popular-tabs-homepage",
+          "name_ru": "Переключаемые вкладки «Акции» / «Популярное» на главной странице",
+          "category": "promo-marketing",
+          "evidence": "Акции\nПопулярное\n[Смотреть все](http://demo-mono.myinsales.ru/collection/podkategoriya-5)",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        },
+        {
+          "id": "about-shop-widget",
+          "name_ru": "Блок «О магазине» с описанием и ссылкой «Подробнее»",
+          "category": "content",
+          "evidence": "О магазине Mono\nТут вы можете добавить небольшое описание о вашем интернет-магазине. Какие у вас есть плюсы и можете добавить интересные факты о магазине\n[Подробнее](http://demo-mono.myinsales.ru/page/contacts)",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        },
+        {
+          "id": "payment-system-icons-footer",
+          "name_ru": "Иконки платёжных систем в подвале сайта",
+          "category": "integrations",
+          "evidence": "[img: Иконка платежной системы]",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        },
+        {
+          "id": "wishlist-and-compare-header-icons",
+          "name_ru": "Иконки «Сравнение» и «Избранное» в шапке сайта",
+          "category": "account",
+          "evidence": "[0](http://demo-mono.myinsales.ru/compares)\n[0](http://demo-mono.myinsales.ru/favorites)",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        },
+        {
+          "id": "preorder-modal",
+          "name_ru": "Модальное окно предзаказа с согласием на обработку персональных данных",
+          "category": "cart-checkout",
+          "evidence": "Предзаказ\nоферты и политики конфиденциальности\nНазвание товара\n100 ₽\n1 шт.",
+          "page_url": "http://demo-mono.myinsales.ru/"
+        }
+      ]
+    }
+  ]
+}

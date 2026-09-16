@@ -436,7 +436,14 @@
     "previous": "Өмнөх",
     "next": "Дараах",
     "pageOf": "{lastPage}-аас {page}-р хуудас",
-    "pagination": "Сэтгүүлийн хуудсууд"
+    "pagination": "Сэтгүүлийн хуудсууд",
+    "readingTime": "{minutes} мин унших",
+    "related": "Мөн уншина уу",
+    "share": "Хуваалцах",
+    "copyLink": "Холбоос хуулах",
+    "linkCopied": "Холбоосыг хуулсан",
+    "allCategories": "Бүх сэдэв",
+    "categories": "Сэдэв"
   },
   "LanguageSelect": {
     "locales": {

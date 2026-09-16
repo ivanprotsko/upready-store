@@ -436,7 +436,14 @@
     "previous": "Előző",
     "next": "Következő",
     "pageOf": "Oldal: {page} / {lastPage}",
-    "pagination": "A magazin oldalai"
+    "pagination": "A magazin oldalai",
+    "readingTime": "{minutes} perc olvasás",
+    "related": "Olvassa el ezt is",
+    "share": "Megosztás",
+    "copyLink": "Hivatkozás másolása",
+    "linkCopied": "Hivatkozás másolva",
+    "allCategories": "Minden rovat",
+    "categories": "Rovatok"
   },
   "LanguageSelect": {
     "locales": {

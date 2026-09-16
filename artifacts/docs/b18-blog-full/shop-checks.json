@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "feed-status": 200,
+    "feed-cards": 2,
+    "feed-has-no-draft": false,
+    "feed-chips": [
+      "Здоровье",
+      "Новости"
+    ],
+    "feed-reading-time-shown": true,
+    "feed-filtered-url": "http://cherkashino.localhost:8118/ru/journal?category=%D0%97%D0%B4%D0%BE%D1%80%D0%BE%D0%B2%D1%8C%D0%B5",
+    "feed-filtered-cards": 1,
+    "feed-mobile-cards": 2,
+    "article-status": 200,
+    "article-title": "Пептиды Хавинсона: что это и как работают",
+    "article-breadcrumbs": "Главная / Журнал / Здоровье",
+    "article-reading-time": "1 мин чтения",
+    "article-author": "Оксана Черкашина",
+    "article-images": [
+      {
+        "src": "http://cherkashino.localhost:8118/flags/4x3/ru.svg",
+        "w": 200,
+        "h": 150
+      },
+      {
+        "src": "http://cherkashino.localhost:8118/_next/image?url=http%3A%2F%2Flocalhost%3A9118%2Fstatic%2Ftenants%2Ften_01M29Q4KYQHC70JZBENWZ8Z88M%2F1789521992173-cover-1200x675.png&w=750&q=75",
+        "w": 672,
+        "h": 378
+      },
+      {
+        "src": "http://localhost:9118/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789521989003-inline-900x500.png",
+        "w": 900,
+        "h": 500
+      }
+    ],
+    "article-cover-loaded": true,
+    "article-inline-image-rendered": 1,
+    "article-inline-image-loaded": 900,
+    "article-broken-images": 0,
+    "article-tags": 2,
+    "article-share": true,
+    "article-related-cards": 1,
+    "article-head": {
+      "title": "Пептиды Хавинсона: что это и как работают | Оксана Черкашина",
+      "ogType": "article",
+      "ogTitle": "Пептиды Хавинсона: что это и как работают",
+      "ogImage": "http://localhost:9118/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789521992173-cover-1200x675.png",
+      "ogSection": "Здоровье",
+      "ogAuthor": "Оксана Черкашина",
+      "ogPublished": "2026-09-16T01:26:36.121Z",
+      "ldTypes": [
+        null,
+        "Article"
+      ],
+      "ld": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Пептиды Хавинсона: что это и как работают",
+        "inLanguage": "ru",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://cherkashino.localhost:8118/ru/journal/peptidy-havinsona-chto-eto-i-kak-rabotayut"
+        },
+        "url": "http://cherkashino.localhost:8118/ru/journal/peptidy-havinsona-chto-eto-i-kak-rabotayut",
+        "description": "Короткий разбор: что такое пептиды, чем они отличаются от белков и как их принимают.",
+        "datePublished": "2026-09-16T01:26:36.121Z",
+        "image": [
+          "http://localhost:9118/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789521992173-cover-1200x675.png"
+        ],
+        "keywords": "пептиды, курсы",
+        "articleSection": "Здоровье",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Оксана Черкашина"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Оксана Черкашина"
+        }
+      }
+    },
+    "og-type": "article",
+    "og-image-present": true,
+    "og-section": "Здоровье",
+    "jsonld-author": "Оксана Черкашина",
+    "jsonld-type": "Article",
+    "article-mobile-title-visible": true,
+    "draft-status": 404,
+    "sitemap-status": 200,
+    "sitemap-has-article": true,
+    "sitemap-hides-draft": false
+  },
+  "console": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

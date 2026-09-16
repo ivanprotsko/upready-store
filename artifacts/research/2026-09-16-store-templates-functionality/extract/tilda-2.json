@@ -1,0 +1,439 @@
+{
+  "group": "tilda-2",
+  "templates": [
+    {
+      "template": "Онлайн-магазин (Instore)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=instoreru",
+      "features": [
+        {
+          "id": "product-cards-with-strikethrough-sale-price",
+          "name_ru": "карточка товара со старой (зачёркнутой) и новой ценой на плитке товаров",
+          "category": "catalog-listing",
+          "evidence": "[SALE Часы Multi 3499 р. 4499 р.](http://examples-ru.tilda.ws/instoreru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "product-variant-color-picker",
+          "name_ru": "выбор варианта товара по цвету в карточке (например, цвет блокнотов)",
+          "category": "product-page",
+          "evidence": "Цвет\nГолубой Желтый Зеленый",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "add-to-cart-button-per-product",
+          "name_ru": "кнопка «Добавить в корзину» у каждого товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/instoreru#order)",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "product-gallery-zoom",
+          "name_ru": "увеличение (зум) изображений товара в карточке",
+          "category": "product-page",
+          "evidence": "сигнал: gallery-zoom",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "pickup-points",
+          "name_ru": "выбор точки самовывоза при оформлении заказа",
+          "category": "cart-checkout",
+          "evidence": "Вы можете самостоятельно забрать покупку из точки самовывоза",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "chat-widget",
+          "name_ru": "виджет онлайн-чата с посетителем",
+          "category": "trust-reviews",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "countdown-timer-promo",
+          "name_ru": "таймер обратного отсчёта для промо/распродажи",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "product-badges-sale-new",
+          "name_ru": "бейджи на товарах (SALE, скидка)",
+          "category": "catalog-listing",
+          "evidence": "[SALE Часы Multi 3499 р. 4499 р.](http://examples-ru.tilda.ws/instoreru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "contacts-map-block",
+          "name_ru": "блок контактов с картой расположения магазина",
+          "category": "content",
+          "evidence": "сигнал: contacts-map",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        },
+        {
+          "id": "delivery-info-block",
+          "name_ru": "информационный блок о доставке и самовывозе по региону",
+          "category": "content",
+          "evidence": "Мы находимся в Санкт-Петербурге. Вы можете самостоятельно забрать покупку из точки самовывоза или заказать доставку курьером по городу в пределах КАД.",
+          "page_url": "http://examples-ru.tilda.ws/instoreru"
+        }
+      ]
+    },
+    {
+      "template": "Онлайн-магазин (Ascent)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=ascentru",
+      "features": [
+        {
+          "id": "category-navigation-strip",
+          "name_ru": "полоса категорий одежды с переходом в каталог",
+          "category": "navigation",
+          "evidence": "Категории одежды\n[Футболки](http://examples-ru.tilda.ws/)\n[Брюки и шорты](http://examples-ru.tilda.ws/)\n[Головные уборы](http://examples-ru.tilda.ws/)\n[Обувь](http://examples-ru.tilda.ws/)",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "best-sellers-block",
+          "name_ru": "блок «Наши хиты» с подборкой популярных товаров",
+          "category": "promo-marketing",
+          "evidence": "Наши хиты\n[Sabrina Fossi clock 7599 р. 11000 р.](http://examples-ru.tilda.ws/ascentru#order)",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "add-to-cart-button-per-product",
+          "name_ru": "кнопка «Добавить в корзину» у каждого товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/ascentru#order)",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "email-subscription-form",
+          "name_ru": "форма подписки на рассылку об акциях и скидках",
+          "category": "promo-marketing",
+          "evidence": "Узнайте об акциях и скидках первыми!\nОдин раз в месяц мы будем присылать вам информацию о наших последних коллекциях, скидках и акциях.\nПодписаться",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "product-badges-sale",
+          "name_ru": "метка скидки на товаре (зачёркнутая старая цена)",
+          "category": "catalog-listing",
+          "evidence": "[Sabrina Fossi clock 7599 р. 11000 р.](http://examples-ru.tilda.ws/ascentru#order)",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "worldwide-delivery-info",
+          "name_ru": "текстовый блок о доставке по всему миру",
+          "category": "content",
+          "evidence": "Доставка доступна по всему миру.",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "contacts-map-block",
+          "name_ru": "блок контактов с картой и адресом магазина",
+          "category": "content",
+          "evidence": "сигнал: contacts-map",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        },
+        {
+          "id": "top-nav-anchor-menu",
+          "name_ru": "верхнее меню с якорными ссылками на разделы страницы",
+          "category": "navigation",
+          "evidence": "[Главная](http://examples-ru.tilda.ws/)\n[Магазин](http://examples-ru.tilda.ws/ascentru#shop)\n[О проекте](http://examples-ru.tilda.ws/ascentru#about)\n[Контакты](http://examples-ru.tilda.ws/ascentru#contacts)",
+          "page_url": "http://examples-ru.tilda.ws/ascentru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин цветов (Florists)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=floristsru",
+      "features": [
+        {
+          "id": "buy-button-per-bouquet",
+          "name_ru": "кнопка «Купить» у каждого готового букета",
+          "category": "cart-checkout",
+          "evidence": "[Купить](http://examples-ru.tilda.ws/floristsru#order)",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "custom-bouquet-request-form",
+          "name_ru": "форма заказа индивидуального букета с комментарием и пожеланиями",
+          "category": "cart-checkout",
+          "evidence": "Создайте свой уникальный букет\nЗаполните форму и оставьте свои контакты и пожелания.\nE-mail\nИмя\nКомментарии\nОтправить",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "advantages-block",
+          "name_ru": "блок преимуществ (свежесть цветов, скорость доставки, опытные флористы)",
+          "category": "trust-reviews",
+          "evidence": "Наши преимущества\nВсегда свежие цветы\nБыстрая доставка\nМы доставляем букеты в течение 3 часов после заказа\nТалантливые флористы",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "social-share-buttons",
+          "name_ru": "кнопки шеринга в социальные сети",
+          "category": "promo-marketing",
+          "evidence": "сигнал: social-share",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "social-media-follow-block",
+          "name_ru": "блок с призывом подписаться в соцсетях (Instagram-лента)",
+          "category": "promo-marketing",
+          "evidence": "Следите за нами в Соцсетях\nМы делимся процессом своей работы, фотографиями готовых букетов и нашими счастливыми клиентами. Пишите в директ для заказа букета.",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "contacts-map-block",
+          "name_ru": "блок контактов с картой и адресом",
+          "category": "content",
+          "evidence": "сигнал: contacts-map",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        },
+        {
+          "id": "click-to-call-phone-link",
+          "name_ru": "кликабельный номер телефона (tel:) для звонка в один клик",
+          "category": "trust-reviews",
+          "evidence": "[+1 123 456 78 90](tel:+1 123 456 78 90)",
+          "page_url": "http://examples-ru.tilda.ws/floristsru"
+        }
+      ]
+    },
+    {
+      "template": "Аксессуары для дома (Menidyon)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=menidyonru",
+      "features": [
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон (Checkout)",
+          "category": "cart-checkout",
+          "evidence": "Your Name\nYour Email\nYour Phone\nCheckout",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        },
+        {
+          "id": "sidebar-filters-catalog",
+          "name_ru": "каталог с боковой панелью фильтров товаров",
+          "category": "filters-search",
+          "evidence": "сигнал: filters",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        },
+        {
+          "id": "product-quick-view",
+          "name_ru": "быстрый просмотр товара во всплывающем окне без перехода на отдельную страницу",
+          "category": "product-page",
+          "evidence": "сигнал: quick-view",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        },
+        {
+          "id": "stock-status-indicator",
+          "name_ru": "индикатор наличия товара на складе в карточке",
+          "category": "catalog-listing",
+          "evidence": "сигнал: stock-status",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        },
+        {
+          "id": "catalog-pagination",
+          "name_ru": "постраничная навигация (пагинация) списка товаров каталога",
+          "category": "catalog-listing",
+          "evidence": "сигнал: pagination",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        },
+        {
+          "id": "contacts-map-block",
+          "name_ru": "блок контактов с картой и адресом шоурума",
+          "category": "content",
+          "evidence": "Москва, Страстной бульвар, 12",
+          "page_url": "http://examples-ru.tilda.ws/menidyonru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин ХВОЯ (Hvoya)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=hvoyastoreru",
+      "features": [
+        {
+          "id": "new-product-badge",
+          "name_ru": "метка NEW на новом товаре в плитке каталога",
+          "category": "catalog-listing",
+          "evidence": "[NEW Подвесной светильник «Стакан» 3 900.00 р.](http://examples-ru.tilda.ws/hvoyastoreru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "add-to-cart-button-per-product",
+          "name_ru": "кнопка «Добавить в корзину» у каждого товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/hvoyastoreru#order)",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "product-description-in-listing",
+          "name_ru": "развёрнутое описание товара (материал, технология изготовления) прямо под карточкой в общем списке",
+          "category": "product-page",
+          "evidence": "Каждое изделие выполняется вручную нижегородскими мастерами. В качестве основного сырья используется клееный сосновый брус, поскольку именно сосна обладает уникальным рисунком волокон.",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "brand-story-block",
+          "name_ru": "блок «О проекте» с историей бренда и основателя",
+          "category": "content",
+          "evidence": "Хвоя — это производство авторских светильников и декора из хвойных пород деревьев. Основано в 2015 году дизайнером Анной Феоктистовой в Нижнем Новгороде.",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "product-values-block",
+          "name_ru": "блок ценностей продукта (материалы, дизайн, качество)",
+          "category": "content",
+          "evidence": "Мы гордимся нашими продуктами\nМатериалы\nДизайн\nКачество",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        },
+        {
+          "id": "social-media-follow-block",
+          "name_ru": "блок с призывом подписаться в соцсетях",
+          "category": "promo-marketing",
+          "evidence": "Следите за нами в соцсетях",
+          "page_url": "http://examples-ru.tilda.ws/hvoyastoreru"
+        }
+      ]
+    },
+    {
+      "template": "Одежда и аксессуары (MY.THS)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=mythsru",
+      "features": [
+        {
+          "id": "product-composition-in-card",
+          "name_ru": "состав материала товара в карточке каталога (например, «Шерсть 30%, акрил 70%»)",
+          "category": "catalog-listing",
+          "evidence": "[NEW! Джемпер шерстяной Шерсть 30%, акрил 70% 4 490 р.](http://examples-ru.tilda.ws/mythsru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "lookbook-section",
+          "name_ru": "раздел «Лукбук» с отдельным якорем в меню",
+          "category": "content",
+          "evidence": "[Лукбук](http://examples-ru.tilda.ws/mythsru#lookbook)\nЛУКБУК MY.THS:",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "add-to-cart-button-per-product",
+          "name_ru": "кнопка «Добавить в корзину» у каждого товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/mythsru#order)",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "cookie-consent-banner",
+          "name_ru": "баннер согласия на обработку файлов cookie / персональных данных",
+          "category": "trust-reviews",
+          "evidence": "Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c политикой конфиденциальности",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "contact-feedback-form",
+          "name_ru": "форма обратной связи «Свяжитесь с нами по любым вопросам»",
+          "category": "content",
+          "evidence": "Свяжитесь с нами по любым вопросам\nМы всегда рады коллаборациям, интересным проектам и отзывам наших клиентов\nОтправить",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        },
+        {
+          "id": "pickup-points",
+          "name_ru": "информация о самовывозе / шоуруме для получения заказа",
+          "category": "cart-checkout",
+          "evidence": "сигнал: pickup-points",
+          "page_url": "http://examples-ru.tilda.ws/mythsru"
+        }
+      ]
+    },
+    {
+      "template": "Растения для дома (Tuka Plants)",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=tukaplantsru",
+      "features": [
+        {
+          "id": "product-cards-with-strikethrough-sale-price",
+          "name_ru": "карточка товара со старой (зачёркнутой) и новой ценой на плитке товаров",
+          "category": "catalog-listing",
+          "evidence": "[SALE Тилландсия молодая 1 490 р. 1 790 р.](http://examples-ru.tilda.ws/tukaplantsru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "product-size-attribute",
+          "name_ru": "атрибут размера товара в карточке (например, «Размер 15 x 37 см»)",
+          "category": "product-page",
+          "evidence": "Размер 15 x 37 см",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "add-to-cart-button-per-product",
+          "name_ru": "кнопка «Добавить в корзину» у каждого товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/tukaplantsru#order)",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон\nОформить заказ",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "stock-status-indicator",
+          "name_ru": "индикатор наличия товара на складе",
+          "category": "catalog-listing",
+          "evidence": "сигнал: stock-status",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "care-instructions-text",
+          "name_ru": "текстовый блок с инструкцией по уходу за товаром (растением)",
+          "category": "content",
+          "evidence": "Ухаживать за ними очень просто — достаточно увлажнять шар из мха в соответствии с рекомендациями для каждого растения.",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        },
+        {
+          "id": "custom-request-via-contact",
+          "name_ru": "возможность заказать индивидуальный товар по запросу через контакты",
+          "category": "content",
+          "evidence": "Если у вас есть особые пожелания, мы может вырастить растение специально для вас.",
+          "page_url": "http://examples-ru.tilda.ws/tukaplantsru"
+        }
+      ]
+    }
+  ]
+}

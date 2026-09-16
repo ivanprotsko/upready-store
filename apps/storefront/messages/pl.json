@@ -436,7 +436,14 @@
     "previous": "Poprzednia",
     "next": "Następna",
     "pageOf": "Strona {page} z {lastPage}",
-    "pagination": "Strony magazynu"
+    "pagination": "Strony magazynu",
+    "readingTime": "{minutes} min czytania",
+    "related": "Przeczytaj też",
+    "share": "Udostępnij",
+    "copyLink": "Kopiuj link",
+    "linkCopied": "Link skopiowany",
+    "allCategories": "Wszystkie rubryki",
+    "categories": "Rubryki"
   },
   "LanguageSelect": {
     "locales": {

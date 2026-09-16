@@ -614,6 +614,14 @@ const routes: RouteObject[] = [
                 lazy: () => import("./routes/journal/article-list"),
                 children: [
                   {
+                    // b18-blog-full: «Новая статья» is a SCREEN, not a strip of
+                    // inputs at the bottom of the list. Static before dynamic,
+                    // and the word `new` is refused as an article address in
+                    // the form itself, so the two can never collide.
+                    path: "new",
+                    lazy: () => import("./routes/journal/article-new"),
+                  },
+                  {
                     path: ":slug",
                     lazy: () => import("./routes/journal/article-edit"),
                   },
@@ -778,6 +786,16 @@ const routes: RouteObject[] = [
             handle: { breadcrumb: () => t("marketplaceSync.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/marketplace-sync"),
+          },
+          {
+            // w18-mp-reviews-desk: «Маркетплейсы → Отзывы» — отзывы и вопросы
+            // покупателей с обеих площадок, фильтр «без ответа», черновик
+            // ответа в нашей базе. Кнопки отправки на площадку нет: ответ это
+            // запись, а площадки у нас только на чтение.
+            path: "/settings/marketplaces/reviews",
+            handle: { breadcrumb: () => t("marketplaces.desk.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces/reviews"),
           },
           {
             // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
