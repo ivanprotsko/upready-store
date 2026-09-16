@@ -18,10 +18,13 @@ import { WB_READ_ENDPOINTS } from "./endpoints";
 import { WB_SYNC_KINDS, type WbSyncKind } from "./models/wb-sync-run";
 import { WB_MUTATIONS } from "./mutations";
 import * as normalize from "./normalize";
-import { inspectToken } from "./token";
+import { inspectToken, WB_TOKEN_DOC_URL } from "./token";
 import { wbRead } from "./transport";
 import { runSync } from "./sync";
-import { readWildberriesSecret } from "../../tenant-secrets/wildberries";
+import {
+  readWildberriesSecret,
+  WILDBERRIES_READ_SLOT,
+} from "../../tenant-secrets/wildberries";
 
 /**
  * Wildberries under the common contract (w12-marketplace-core).
@@ -264,16 +267,31 @@ export const wbAdapter: MarketplaceAdapter = {
   inspectCredentials,
   readCredentials,
   /**
-   * The only mechanism that exists today (`src/scripts/wb-seed-key.ts`). The
-   * key is taken from the environment and never from an argument, because an
-   * argument stands in the shell history and in `ps`. There is no panel action
-   * for it, and this line must not pretend there is (rule 17a).
+   * The owner's own action since w24-integration-keys-self-service: the form
+   * on this card writes the key through `PUT /tenants/wb/key`. The line names
+   * the screen that exists TODAY and nothing else (rule 17a) — before this
+   * task it named a seed script, which is a thing a shop owner never runs
+   * (Ivan, 2026-09-16 11:37 WITA).
    */
   credentialHowTo:
-    "Ключ хранится в tenant_integration_secret (provider=wildberries), " +
-    "зашифрованным под INTEGRATION_ENCRYPTION_KEY. Сохраняет его скрипт: " +
-    "WB_API_KEY=<ключ> WB_TENANT=<handle> pnpm --filter backend wb:seed-key. " +
-    "Действия в панели для этого нет.",
+    "Ключ вводится здесь, в поле «Токен Wildberries»: он сохраняется " +
+    "зашифрованным и обратно не показывается — только последние 4 знака.",
+  credentialSlot: WILDBERRIES_READ_SLOT,
+  /**
+   * One field: Wildberries issues a single JWT whose payload carries the whole
+   * access bitmask, so the token IS the credential (`modules/wb/token.ts`).
+   */
+  credentialFields: [
+    {
+      name: "api_key",
+      label: "Токен Wildberries",
+      secret: true,
+      hint:
+        "Личный кабинет продавца: Профиль → Настройки → Доступ к API → создать токен. " +
+        "Достаточно токена «только на чтение».",
+      docUrl: WB_TOKEN_DOC_URL,
+    },
+  ],
   syncKinds: WB_SYNC_KINDS,
   /**
    * Wildberries' own vocabulary against the normalized kinds

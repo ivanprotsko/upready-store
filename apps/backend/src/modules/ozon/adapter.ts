@@ -308,15 +308,31 @@ export const ozonAdapter: MarketplaceAdapter = {
   inspectCredentials,
   readCredentials,
   /**
-   * The only mechanism that exists today (`src/scripts/ozon-seed-key.ts`).
-   * Ozon needs a PAIR, which is exactly why this line belongs to the adapter
-   * and not to a table in the core.
+   * The owner's own action since w24-integration-keys-self-service: the form
+   * on this card writes the pair through `PUT /tenants/ozon/key`. Ozon needs
+   * TWO values, which is exactly why the form is generated from
+   * `credentialFields` rather than written once per marketplace in the panel.
    */
   credentialHowTo:
-    "Ключ хранится в tenant_integration_secret (provider=ozon), " +
-    "зашифрованным под INTEGRATION_ENCRYPTION_KEY. Сохраняет его скрипт: " +
-    "OZON_CLIENT_ID=<id> OZON_API_KEY=<ключ> OZON_TENANT=<handle> " +
-    "pnpm --filter backend ozon:seed-key. Действия в панели для этого нет.",
+    "Client-Id и ключ вводятся здесь: они сохраняются зашифрованными, " +
+    "ключ обратно не показывается — только последние 4 знака.",
+  credentialSlot: "ozon",
+  credentialFields: [
+    {
+      name: "client_id",
+      label: "Client-Id",
+      secret: false,
+      hint: "Личный кабинет Ozon: Настройки → Seller API → идентификатор кабинета.",
+      docUrl: OZON_ROLES_DOC_URL,
+    },
+    {
+      name: "api_key",
+      label: "Api-Key",
+      secret: true,
+      hint: "Там же, кнопка «Сгенерировать ключ». Ключ показывается один раз.",
+      docUrl: OZON_ROLES_DOC_URL,
+    },
+  ],
   syncKinds: OZON_SYNC_KINDS,
   /**
    * Ozon's own vocabulary against the normalized kinds (w18-mp-reviews-desk).
