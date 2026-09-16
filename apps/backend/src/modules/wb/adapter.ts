@@ -154,7 +154,15 @@ const runSyncForKind = async (deps: SyncDeps, kind: string): Promise<SyncOutcome
     },
     kind as WbSyncKind,
   );
-  return { ...outcome, kind: outcome.kind };
+  return {
+    kind: outcome.kind,
+    runId: outcome.runId,
+    rows: outcome.rows,
+    requests: outcome.requests,
+    status: outcome.status,
+    error: outcome.error,
+    retryAt: outcome.retryAt ?? null,
+  };
 };
 
 /**
@@ -206,12 +214,11 @@ const loadMirror = async (deps: SyncDeps, kind: MpKind): Promise<unknown[]> => {
   }
 
   /**
-   * Questions. WB's questions method is not registered in `endpoints.ts`, so
-   * there is no mirror to read and this is an empty list rather than a missing
-   * one: `projectFromMirrors` records the kind with zero rows and the panel
-   * says so (rule 20a).
+   * Questions. Mirrored since w03-wb-sales-questions-mirror added `wb_question`
+   * and registered the read; before that this was an empty list, and saying so
+   * in a comment is the only reason the change was noticed here at all.
    */
-  return [];
+  return (await wb.listWbQuestions(scope)) as unknown[];
 };
 
 /**

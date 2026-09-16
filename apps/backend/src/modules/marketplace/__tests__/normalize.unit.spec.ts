@@ -158,8 +158,41 @@ describe("Wildberries -> mp_*", () => {
     expect(order.lines[0]).toMatchObject({ vendor_code: "Сбитень", qty: 1, price: 450 });
   });
 
-  it("answers an empty list for questions, because WB questions are not mirrored", () => {
-    expect(fromWb.questions([{ anything: true }])).toEqual([]);
+  it("maps a question and takes «answered» from WB's own flag", () => {
+    const [answered, open] = fromWb.questions([
+      {
+        id: "wbq_1",
+        tenant_id: "ten_1",
+        question_id: "q1",
+        nm_id: "71853946",
+        supplier_article: "Сбитень",
+        text: "Какой срок годности?",
+        answer_text: "",
+        is_answered: true,
+        created_date: new Date("2026-09-12T08:00:00Z"),
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+      },
+      {
+        id: "wbq_2",
+        tenant_id: "ten_1",
+        question_id: "q2",
+        text: "Есть ли доставка?",
+        is_answered: false,
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+      },
+    ]);
+
+    expect(answered).toMatchObject({
+      marketplace: "wb",
+      external_id: "q1",
+      vendor_code: "Сбитень",
+      question_text: "Какой срок годности?",
+      is_answered: true,
+    });
+    // Answered with an empty string is still answered: the flag is WB's fact,
+    // the text is not our inference from it.
+    expect(open.is_answered).toBe(false);
+    expect(open.vendor_code).toBeNull();
   });
 });
 

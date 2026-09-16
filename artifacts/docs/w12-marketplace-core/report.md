@@ -37,9 +37,11 @@
 
 ```
 $ cd apps/backend && pnpm test:unit
-Test Suites: 57 passed, 57 total
-Tests:       711 passed, 711 total
+Test Suites: 62 passed, 62 total
+Tests:       761 passed, 761 total
 ```
+
+(после `git merge origin/dev`, который принёс w03 и w23 — см. раздел 7)
 
 ### 2.2 Конформанс-тест КУСАЕТСЯ: RED со сломанным адаптером, GREEN без него
 
@@ -327,7 +329,7 @@ journal»). У Ozon этот вопрос — настоящий `POST /v1/roles
 cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-marketplace-core
 
 # 1. всё зелено
-cd apps/backend && pnpm test:unit            # Tests: 711 passed
+cd apps/backend && pnpm test:unit            # Tests: 761 passed
 
 # 2. суита кусается: добавить в MARKETPLACES любой адаптер с write-глаголом → 14 падений
 #    (готовый сломанный адаптер — в artifacts/docs/w12-marketplace-core/conformance-RED-*.log)
@@ -351,3 +353,25 @@ cd apps/tenant-panel && npx vite --port 5412 --strictPort
 # http://localhost:5412/settings/marketplaces   (owner@cherkashino.example / supersecret)
 # http://localhost:5412/settings/wildberries    → редиректит на раздел выше
 ```
+
+
+## 7. Слияние с `dev` уже после первых замеров
+
+Пока задача делалась, в `dev` приехали w03-wb-sales-questions-mirror (#76) и w23-wb-write-fbs-orders (#80).
+`git merge origin/dev` прошёл без конфликтов, но принёс два настоящих изменения смысла, и оба потребовали
+правки ядра — что само по себе показывает, что ядро действительно держит обе площадки в одном месте:
+
+1. **У прогона появился третий исход.** w03 добавил WB статус `rate_limited` и поле `retry_at`: площадка
+   отказалась отдавать данные СЕЙЧАС, и это не успех и не наш дефект. Сплющить его в `failed` значило бы
+   отправить владелицу искать несуществующую ошибку, поэтому `SyncOutcome.status` в контракте теперь
+   `succeeded | rate_limited | failed` плюс необязательный `retryAt`, а `mp_sync_run.status` — текст, так
+   что он проходит насквозь.
+2. **WB начал зеркалировать вопросы.** До слияния `wb/normalize.ts` возвращал по вопросам пустой список, и
+   в комментарии было написано ПОЧЕМУ («метод вопросов WB не зарегистрирован»). После w03 это стало
+   неправдой — комментарий и был единственной причиной, по которой изменение вообще заметили. Теперь
+   `normalize.questions` читает `wb_question`, `is_answered` берётся из флага WB, а не выводится из
+   непустоты текста ответа. Тест переписан под новое поведение.
+
+Все замеры разделов 2.2–2.4 и 2.6–2.7 переснимались ПОСЛЕ слияния; логи в этом каталоге — послеслиятельные.
+На стенде `wb_question` пуст (импорт w03 здесь не гонялся), поэтому в числах проектора у WB `questions 0` —
+это отсутствие строк в зеркале, а не отсутствие поддержки.

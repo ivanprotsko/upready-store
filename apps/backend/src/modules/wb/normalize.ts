@@ -280,10 +280,24 @@ export const reviews = (rows: unknown[]): MpReviewDraft[] =>
   }));
 
 /**
- * Questions. WB serves them from `PATCH /api/v1/questions` and a GET on the
- * same path, and neither is registered in `endpoints.ts`, so this repository
- * mirrors no WB questions today. An empty array is the honest answer; the
- * panel shows the kind as "не импортируется" rather than as "0 вопросов"
- * (rule 20a).
+ * Questions. Mirrored into `wb_question` by w03-wb-sales-questions-mirror; the
+ * seller's own article comes with the row (`supplier_article`), so unlike
+ * feedbacks this one needs no join.
+ *
+ * `is_answered` is WB's own flag and is not derived from the answer text being
+ * non-empty: a question answered with an empty string is still answered, and
+ * guessing from the text would be our opinion rather than WB's fact.
  */
-export const questions = (_rows: unknown[]): MpQuestionDraft[] => [];
+export const questions = (rows: unknown[]): MpQuestionDraft[] =>
+  (rows as Row[]).map((row) => ({
+    tenant_id: String(row.tenant_id),
+    marketplace: "wb" as const,
+    source_row_id: String(row.id),
+    synced_at: date(row.fetched_at) ?? new Date(),
+    external_id: String(row.question_id),
+    vendor_code: text(row.supplier_article),
+    question_text: text(row.text),
+    author: null,
+    created_at: date(row.created_date),
+    is_answered: Boolean(row.is_answered),
+  }));

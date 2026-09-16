@@ -338,8 +338,17 @@ export type SyncOutcome = {
   runId: string;
   rows: number;
   requests: number;
-  status: "succeeded" | "failed";
+  /**
+   * THREE outcomes, not two. `rate_limited` is a run the marketplace refused
+   * to serve right now, which is neither a success nor a defect of ours, and
+   * flattening it into `failed` would send the owner looking for a bug that is
+   * not there (w03 added it to Wildberries; rule 20a — a run that did not
+   * happen has to be visible AS WHAT IT WAS).
+   */
+  status: "succeeded" | "rate_limited" | "failed";
   error: string | null;
+  /** Set only for `rate_limited`: when the marketplace said this may be read again. */
+  retryAt?: Date | null;
 };
 
 /**
