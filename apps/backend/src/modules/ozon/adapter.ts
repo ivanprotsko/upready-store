@@ -1,5 +1,7 @@
+import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type {
   CredentialFacts,
+  CredentialSlot,
   MarketplaceAdapter,
   MpKind,
   MutationEntry,
@@ -25,6 +27,7 @@ import {
 import * as normalize from "./normalize";
 import { ozonRead, type OzonCredentials } from "./transport";
 import { runSync } from "./sync";
+import { readOzonSecret } from "../../tenant-secrets/ozon";
 
 /**
  * Ozon under the common contract (w12-marketplace-core).
@@ -159,6 +162,27 @@ const inspectCredentials = async (credentials: unknown): Promise<CredentialFacts
   };
 };
 
+/**
+ * Where Ozon keeps its credentials for a shop: the `Client-Id` + `Api-Key`
+ * pair in the `ozon` slot of `tenant_integration_secret`. Same
+ * `includeDisabled` reason as the Wildberries adapter.
+ */
+const readCredentials = async (pg: unknown, tenantId: string): Promise<CredentialSlot | null> => {
+  const secret = await readOzonSecret(pg as Knex, tenantId, { includeDisabled: true });
+  if (!secret) {
+    return null;
+  }
+  const key = secret.credentials.api_key;
+  return {
+    credentials: {
+      clientId: secret.credentials.client_id,
+      apiKey: key,
+    },
+    isEnabled: secret.is_enabled,
+    last4: key ? (key.length >= 4 ? key.slice(-4) : "•".repeat(key.length)) : null,
+  };
+};
+
 const ozonService = (deps: SyncDeps): OzonModuleService =>
   deps.container.resolve<OzonModuleService>(OZON_MODULE);
 
@@ -253,6 +277,7 @@ export const ozonAdapter: MarketplaceAdapter = {
   mutationDenyList: OZON_MUTATIONS,
   read,
   inspectCredentials,
+  readCredentials,
   syncKinds: OZON_SYNC_KINDS,
   runSync: runSyncForKind,
   loadMirror,

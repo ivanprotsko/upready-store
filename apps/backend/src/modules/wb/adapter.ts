@@ -1,5 +1,7 @@
+import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type {
   CredentialFacts,
+  CredentialSlot,
   MarketplaceAdapter,
   MpKind,
   ReadOptions,
@@ -18,6 +20,7 @@ import * as normalize from "./normalize";
 import { inspectToken } from "./token";
 import { wbRead } from "./transport";
 import { runSync } from "./sync";
+import { readWildberriesSecret } from "../../tenant-secrets/wildberries";
 
 /**
  * Wildberries under the common contract (w12-marketplace-core).
@@ -101,6 +104,25 @@ const inspectCredentials = async (credentials: unknown): Promise<CredentialFacts
       expiry_warning_days: EXPIRY_WARNING_DAYS,
     },
     error: facts.error,
+  };
+};
+
+/**
+ * Where Wildberries keeps its key for a shop: one JWT in the
+ * `wildberries` slot of `tenant_integration_secret`. `includeDisabled` is on
+ * because the panel has to show a key that is stored but switched off — an
+ * invisible key is a support call.
+ */
+const readCredentials = async (pg: unknown, tenantId: string): Promise<CredentialSlot | null> => {
+  const secret = await readWildberriesSecret(pg as Knex, tenantId, { includeDisabled: true });
+  if (!secret) {
+    return null;
+  }
+  const key = secret.credentials.api_key;
+  return {
+    credentials: key,
+    isEnabled: secret.is_enabled,
+    last4: key ? (key.length >= 4 ? key.slice(-4) : "•".repeat(key.length)) : null,
   };
 };
 
@@ -190,6 +212,7 @@ export const wbAdapter: MarketplaceAdapter = {
   mutationDenyList: WB_MUTATIONS,
   read,
   inspectCredentials,
+  readCredentials,
   syncKinds: WB_SYNC_KINDS,
   runSync: runSyncForKind,
   loadMirror,

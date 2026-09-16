@@ -287,6 +287,27 @@ export const MP_KINDS = ["products", "offers", "orders", "reviews", "questions"]
 export type MpKind = (typeof MP_KINDS)[number];
 
 /**
+ * The shop's stored credentials for ONE marketplace, as the adapter reads them
+ * out of `tenant_integration_secret`.
+ *
+ * WHERE a marketplace's key lives, and under which provider name, is knowledge
+ * of that marketplace and therefore of its adapter — WB keeps one JWT under
+ * `wildberries`, Ozon keeps a `Client-Id` + `Api-Key` pair under `ozon`. The
+ * core asks the adapter rather than holding a second table of its own that
+ * would have to learn every new marketplace by hand (rule 20).
+ *
+ * The key itself never leaves this object: the routes return `CredentialFacts`.
+ */
+export type CredentialSlot = {
+  /** Adapter-shaped, ready to hand to `read` / `runSync`. */
+  credentials: unknown;
+  /** Whether the shop has the integration switched on. */
+  isEnabled: boolean;
+  /** Last four characters of the key. Never the key. */
+  last4: string | null;
+};
+
+/**
  * What an adapter needs to do its work, without the core knowing any of its
  * types. `container` is Medusa's own, so the adapter resolves ITS module
  * service by ITS key; the core resolves nothing.
@@ -335,6 +356,12 @@ export type MarketplaceAdapter = {
   read: <T>(endpointId: string, options: ReadOptions) => Promise<ReadResult<T>>;
   /** What the key says about itself. Never throws: an unanswered question is a fact. */
   inspectCredentials: (credentials: unknown) => Promise<CredentialFacts>;
+  /**
+   * The shop's stored credentials for this marketplace, or `null` when it has
+   * none. `pg` is the Knex connection Medusa registers; it is `unknown` here
+   * because the core does not import the database types either.
+   */
+  readCredentials: (pg: unknown, tenantId: string) => Promise<CredentialSlot | null>;
   /** The adapter's own import kinds, in its own vocabulary (WB: cards, Ozon: products). */
   syncKinds: readonly string[];
   runSync: (deps: SyncDeps, kind: string) => Promise<SyncOutcome>;
@@ -367,6 +394,7 @@ export const ADAPTER_KEYS = [
   "mutationDenyList",
   "read",
   "inspectCredentials",
+  "readCredentials",
   "syncKinds",
   "runSync",
   "loadMirror",

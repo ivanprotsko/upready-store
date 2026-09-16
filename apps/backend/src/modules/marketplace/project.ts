@@ -104,8 +104,14 @@ const upsert = async <T extends Record<string, unknown>>(
 const identity = (row: Record<string, unknown>): string =>
   `${row.tenant_id}|${row.marketplace}|${row.external_id}`;
 
-/** Every variant of every product this tenant owns, with its SKU. */
-const tenantVariants = async (deps: Deps) => {
+/**
+ * Every variant of every product this tenant owns, with its SKU.
+ *
+ * Exported because the panel route needs exactly the same set: the linking
+ * numbers on the screen have to be the numbers the projector would produce,
+ * and two ways of asking "which variants are this shop's" would drift.
+ */
+export const tenantVariants = async (deps: Deps) => {
   const query = deps.container.resolve<{
     graph: (input: unknown) => Promise<{ data: Record<string, unknown>[] }>;
   }>(ContainerRegistrationKeys.QUERY);
