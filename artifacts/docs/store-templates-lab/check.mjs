@@ -211,6 +211,13 @@ for (const t of templates) {
         out.bandPads = [...new Set(bands.map((b) => getComputedStyle(b).paddingTop).filter((v) => parseFloat(v) > 0))]
         out.containers = [...new Set([...document.querySelectorAll(".container")].filter(vis)
           .map((c) => Math.round(c.getBoundingClientRect().left)))]
+        // QR-TECTONICS: низ тяжелее верха — поверхность футера обязана отличаться от полотна
+        const ft = document.querySelector('[data-block="footer"]')
+        out.tectonics = ft ? {
+          footer: getComputedStyle(ft).backgroundColor,
+          page: getComputedStyle(document.body).backgroundColor,
+        } : null
+
         // фокус меряется снаружи настоящим Tab: :focus-visible не встаёт от .focus()
         out.focusRing = null
         // QR-OCCLUSION: текст, который ЛЕЖИТ ПОД другим элементом. Контраст считается
@@ -378,6 +385,13 @@ for (const t of templates) {
       }
       // QR-OCCLUSION
       for (const o of x.occluded) add("QR-OCCLUSION", where, o)
+
+      // QR-TECTONICS (report): читаемость опоры решают глаза, наличие поверхности — число
+      if (vp === "desktop" && x.tectonics) {
+        note("QR-TECTONICS", where, x.tectonics.footer === x.tectonics.page
+          ? `футер на фоне полотна (${x.tectonics.page}) — опоры нет`
+          : `футер ${x.tectonics.footer} против полотна ${x.tectonics.page}`)
+      }
 
       // QR-CONTROL-DENSITY
       for (const n of x.iconRuns) if (n > 4) add("QR-CONTROL-DENSITY", where, `иконок подряд в шапке: ${n} > 4`)
