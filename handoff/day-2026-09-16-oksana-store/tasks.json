@@ -1649,6 +1649,32 @@
       "acceptance": "В PR: artifacts/research/2026-09-16-out-of-the-box-onboarding/ с raw/ (выжимки с заголовком Source/Fetched/Topic/HTTP), scripts/fetch.mjs (последовательно, ≥2 с, ≤40 страниц на сервис, без headed-браузеров), services.json по схеме, report.md по-русски с ответами на вопросы 1–4 по каждому из 5 сервисов и ≥2 цитатами на ответ (утверждение без цитаты помечено «не найдено в источниках», юридическое — «требует юриста»), kits/ — 5 инструкций с планом видео, offer-clause-draft.md с пометкой ЧЕРНОВИК, onboarding-tasks.json ≥8 задач в форме tasks.json, §Экономия; изменений под apps/* нет; ни одного значения ключа или пароля",
       "why": "Приказ Ивана 2026-09-16 11:37 WITA: обдумать, как давать пользователям всё из коробки, включая приём оплат — стать посредником/гарантом для Robokassa и др., готовить текстовые и видеоинструкции по документации и FAQ сервисов, добавить в оферту пункт о выполнении части работ и передаче логинов/паролей со сменой после запуска",
       "source": "prompts/r04-out-of-the-box-onboarding.md"
+    },
+    {
+      "id": "d08-deploy-wave6",
+      "title": "Деплой волны дня на живой хост: маркетплейсы, страница товара, блог, Robokassa, ApiShip/CDEK, карта ПВЗ и подсказки адреса, форма ключей; настройка cherkashino через панель в тестовом режиме",
+      "kind": "build",
+      "lane": "deploy",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-deploy-wave6",
+      "deps": [
+        "w24-integration-keys-self-service",
+        "i02-apiship-cdek-shipping",
+        "i03-checkout-pvz-map-address-suggest",
+        "b18-blog-full",
+        "i01-robokassa-checkout",
+        "b17-pdp-gallery-info-layout",
+        "w21-wb-write-stocks-prices",
+        "w22-wb-write-feedback-answers",
+        "w19-mp-analytics"
+      ],
+      "softDeps": [],
+      "priority": 99,
+      "prompt": "d08-deploy-wave6.md",
+      "acceptance": "Живой хост: pg_dump до изменений (путь и размер); список новых env по именам (secretRef) и применённых миграций; маркер новой сборки в ответе бэкенда; на https://cherkashino.shipshift.dev страница товара с галереей b17, /ru/journal и статья, на чекауте подсказки адреса, карта ПВЗ CDEK ≥20 точек, тарифы CDEK курьер и ПВЗ с ценой и сроком, тестовый платёж Robokassa доходит до страницы Robokassa и страницы возврата без реальных денег; в панели /settings/marketplaces, /settings/wildberries с формой ключа и «не сохранён» (ключ WB на хосте НЕ установлен), /journal редактор; настройки Robokassa/CDEK тенанта заданы через панель в тестовом режиме; скриншоты 1280×900 и 390×844; разрушающих команд на хосте нет; ни одного вызова WB/Ozon с хоста; §Экономия",
+      "why": "приказы Ивана 2026-09-16 08:31 (интеграции настроены и отражены на чекауте, карта ПВЗ и подсказки) и 11:37 (ключи через поле в панели — ключ WB на хост не ставим); критерий дня — деплой на живой хост",
+      "source": "prompts/d08-deploy-wave6.md"
     }
   ]
 }
