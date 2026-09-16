@@ -1,0 +1,8 @@
+{
+  "name": "apiship-prod-points",
+  "url": "https://api.apiship.ru/v1/lists/points?filter=providerKey=cdek;cityGuid=",
+  "method": "GET",
+  "status": 200,
+  "ms": 320,
+  "body": "{\"rows\":[],\"meta\":{\"total\":0,\"offset\":0,\"limit\":10}}"
+}

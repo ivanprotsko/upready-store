@@ -1,0 +1,32 @@
+Сохранено 2026-09-16 10:50 WITA, HTTP 200. Источник: см. report.md.
+
+ApiShip Integration for Medusa | Gorgo Medusa Integrations Integration Module Tools Search docs... Search... Ctrl K Command Palette Search for a command to run... Toggle theme Medusa Integrations ApiShip Medusa Integrations T-Kassa Robokassa YooKassa ApiShip Overview Getting Started Getting Started v2.0.0-beta Settings Settings v2.0.0-beta Storefront Integration Changelog 1C:Enterprise Yandex YML Feed Medusa Integrations ApiShip 
+ ApiShip Integration for Medusa 
+ This plugin integrates ApiShip into Medusa, giving your store access to 40+ delivery carriers with minimal configuration. Production-ready. 
+ 
+ Plugin Features # 
+ 
+ Production-Ready: Proven in live stores and ready for real-world deployment. 
+ 40+ Shipping Carriers: Work with multiple carriers under direct contracts through a single integration. 
+ Automatic Shipping Rate Calculation: Considers package dimensions, weight, personal discounts, and carrier rates. 
+ Pickup Point Delivery: Select a pickup point from a list or on an interactive map. 
+ One-Click Order Creation: Create shipments in ApiShip directly from Medusa Admin, no manual data entry needed. 
+ Shipment Documents Printing: Labels, waybills, and other documents available in Medusa Admin. 
+ Full Test Coverage: Comprehensive unit and integration tests covering core flows and edge cases. 
+ Storefront Example: A ready-to-use Next.js storefrontexample you can use as a reference. 
+ Test Mode: Simulate calculations and orders without affecting real data. 
+ Detailed Logging: Request and response logs for debugging and support in development mode. 
+ Integration module New : Configure this plugin directly in the Medusa Admin application — no editing configuration files or redeploying the store. 
+ 
+ Integration Module :   This plugin supports the Integration module, which lets store administrators configure it directly in the Medusa Admin application instead of editing configuration files and redeploying the store. Sensitive values are encrypted, and settings are validated before they take effect. 
+ 
+ What is ApiShip # 
+ ApiShip is a Russian delivery aggregator platform that connects online stores to 40+ delivery services through a single API. Instead of integrating each carrier separately, ApiShip provides a unified interface for rate calculation, order creation, tracking, and document generation across all connected providers. 
+ Popular delivery services available through ApiShip include CDEK, Yandex Delivery, Russian Post, Delovye Linii, PECOM, Boxberry, SberLogistics, DPD, and many more. You can browse the full list of delivery services on the ApiShip website. 
+ 
+ Development # 
+ Bootstrapping a development environment Changelog 
+ 
+ 💬  Support & Community # 
+ Got questions or ideas about the plugin? Join the Telegram support chat — @gorgojs_chat 
+ Connect with other Medusa developers on Telegram — @medusajs_chat Getting Started Edited Aug 12, 2026 · Edit this page [ On This Page ] divider Plugin Features What is ApiShip Development 💬  Support & Community divider [ Changelog ] divider v1.0.1 25.06.2026 v1.0.0 22.06.2026 v0.5.13 10.06.2026 divider Version v 2.0.0-beta.5 Downloads 1,177 npm View on NPM GitHub View on GitHub Telegram Chat with Support divider Back to Top Menu

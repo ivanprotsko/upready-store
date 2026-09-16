@@ -1,0 +1,8 @@
+{
+  "name": "cdek-prod-oauth",
+  "url": "https://api.cdek.ru/v2/oauth/token?parameters",
+  "method": "POST",
+  "status": 200,
+  "ms": 838,
+  "body": "{\"access_token\":\"<redacted>\",\"scope\":\"location:all order:all payment:all\",\"token_type\":\"bearer\",\"expires_in\":3599,\"jti\":\"9c8bde2b-9039-4c10-90de-d5f1ef8a0eef\"}"
+}

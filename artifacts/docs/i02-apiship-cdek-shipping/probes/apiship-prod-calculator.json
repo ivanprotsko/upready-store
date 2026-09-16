@@ -1,0 +1,8 @@
+{
+  "name": "apiship-prod-calculator",
+  "url": "https://api.apiship.ru/v1/calculator",
+  "method": "POST",
+  "status": 400,
+  "ms": 340,
+  "body": "{\"code\":\"040003\",\"message\":\"Ошибка валидации\",\"description\":\"Ошибка валидации при попытке рассчитать стоимость доставки\",\"moreInfo\":\"Вопросы пишите на адрес support@apiship.ru\",\"errors\":[{\"field\":\"from[countryCode]\",\"message\":[\"Неизвестный код страны\"]},{\"field\":\"to[countryCode]\",\"message\":[\"Неизвестный код страны\"]}]}"
+}

@@ -1,0 +1,170 @@
+{
+  "apiship_points": {
+    "status": 200,
+    "rows": 1000,
+    "meta": {
+      "total": 10329,
+      "offset": 0,
+      "limit": 1000
+    },
+    "spb": 52,
+    "msk": 99,
+    "with_lat_lng": 1000,
+    "distinct_cities": 380,
+    "countries": [
+      "RU",
+      "KZ",
+      "CN",
+      "KG",
+      "BY"
+    ]
+  },
+  "apiship_tariffs": {
+    "status": 200,
+    "rows": 107,
+    "meta": {
+      "total": 107,
+      "offset": 0,
+      "limit": 200
+    }
+  },
+  "apiship_calc_default": {
+    "status": 200,
+    "door": [
+      {
+        "provider": "cdek",
+        "tariffs": 0
+      }
+    ],
+    "point": [
+      {
+        "provider": "cdek",
+        "tariffs": 0
+      }
+    ],
+    "raw_keys": [
+      "deliveryToDoor",
+      "deliveryToPoint"
+    ]
+  },
+  "apiship_calc_door-door": {
+    "status": 200,
+    "door": [
+      {
+        "provider": "cdek",
+        "tariffs": 0
+      }
+    ],
+    "point": [],
+    "raw_keys": [
+      "deliveryToDoor",
+      "deliveryToPoint"
+    ]
+  },
+  "apiship_calc_door-point": {
+    "status": 200,
+    "door": [],
+    "point": [
+      {
+        "provider": "cdek",
+        "tariffs": 0
+      }
+    ],
+    "raw_keys": [
+      "deliveryToDoor",
+      "deliveryToPoint"
+    ]
+  },
+  "apiship_calc_point-point": {
+    "status": 200,
+    "door": [],
+    "point": [
+      {
+        "provider": "cdek",
+        "tariffs": 0
+      }
+    ],
+    "raw_keys": [
+      "deliveryToDoor",
+      "deliveryToPoint"
+    ]
+  },
+  "cdek_sandbox": {
+    "scope": "location:all order:all payment:all",
+    "tariffs": 17,
+    "door": 3,
+    "to_point": 3,
+    "cheapest": [
+      {
+        "code": 136,
+        "name": "Посылка склад-склад",
+        "sum": 185,
+        "mode": 4,
+        "days": "1-2"
+      },
+      {
+        "code": 368,
+        "name": "Посылка склад-постамат",
+        "sum": 185,
+        "mode": 7,
+        "days": "1-2"
+      },
+      {
+        "code": 138,
+        "name": "Посылка дверь-склад",
+        "sum": 325,
+        "mode": 2,
+        "days": "1-2"
+      }
+    ],
+    "points_spb": 57,
+    "points_with_coords": 57,
+    "point_sample": {
+      "code": "SPB1",
+      "name": "SPB1, Санкт-Петербург, пр-т Лиговский",
+      "lat": 59.9234772,
+      "lng": 30.3621769,
+      "address": "пр-т Лиговский, 50, корп.13, 101а",
+      "work_time": "Пн-Вс 08:00-21:00"
+    }
+  },
+  "cdek_prod": {
+    "scope": "location:all order:all payment:all",
+    "tariffs": 42,
+    "door": 7,
+    "to_point": 7,
+    "cheapest": [
+      {
+        "code": 136,
+        "name": "Посылка склад-склад",
+        "sum": 250,
+        "mode": 4,
+        "days": "1-2"
+      },
+      {
+        "code": 368,
+        "name": "Посылка склад-постамат",
+        "sum": 250,
+        "mode": 7,
+        "days": "1-2"
+      },
+      {
+        "code": 138,
+        "name": "Посылка дверь-склад",
+        "sum": 500,
+        "mode": 2,
+        "days": "1-2"
+      }
+    ],
+    "points_spb": 203,
+    "points_with_coords": 203,
+    "point_sample": {
+      "code": "SPB3",
+      "name": "SPB3, Санкт-Петербург, пр-т Коломяжский",
+      "lat": 60.008152,
+      "lng": 30.29509,
+      "address": "пр-т Коломяжский, 28, корп.2, 14-Н ",
+      "work_time": "Пн-Пт 09:00-21:00, Сб-Вс 10:00-20:00"
+    }
+  }
+}
