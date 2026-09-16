@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 54,
+  "action": "status-set",
+  "ts": "2026-09-16T15:04:08+08:00",
+  "status": "2026-09-16 15:04 WITA: штаб дня Оксаны — d08 смёржен (#99): волна дня на живом cherkashino.shipshift.dev, тенант настроен через панель в тестовом режиме, ключ WB вводит владелец; очередь DONE (79 merged), диспетчер и сторож остановлены; итог в REPORT.md"
+}

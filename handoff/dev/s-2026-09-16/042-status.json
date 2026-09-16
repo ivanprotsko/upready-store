@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 42,
+  "action": "status-set",
+  "ts": "2026-09-16T11:41:57+08:00",
+  "status": "2026-09-16 11:41 WITA: приёмка w21-wb-write-stocks-prices раунд 2 (PR #81) — REJECTED. Замечание раунда 1 закрыто: ветка выложена (HEAD 325d2d3a = голова PR). Новый дефект — отставание от dev на 16 коммитов и конфликт по ШЕСТИ файлам (package.json, middlewares.ts, no-live-write-call-site.unit.spec.ts, i18n ru+en, wildberries.tsx); HANDOFF.json не затронут. Причина: в dev влились w12/w14/w15/w16/w18/w23/b18. По существу работа принята, тесты на голове 683/683, секретов PR не добавил. Находки: handoff/day-2026-09-16-oksana-store/logs/accept-w21-wb-write-stocks-prices-2.findings.md"
+}

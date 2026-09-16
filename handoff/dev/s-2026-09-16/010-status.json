@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 10,
+  "action": "status-set",
+  "ts": "2026-09-16T03:08:01+08:00",
+  "status": "2026-09-16 03:08 WITA: приёмка b15-quality-debt round 2 — PR #68 смержен (squash). Замерено мной на голове 01fba02d: юниты 306 passed / 0 failed (profile-data больше не красный, починен КОД i18n-сида), все 25 HTTP-сюит PASS без FAIL (19 из оборванного прогона round 1 + 6 добитых сейчас, та же голова), db:generate tenant → «Skipped. No changes detected», git status по модулю tenant пуст. Сюита отзывов покрывает модерацию, 401 без токена владельца и токеном покупателя, 401 анонима на store-маршруте, изоляцию двух магазинов по одному product_id. Нит: полные логи прогонов в ветку не уехали, только extract. Следствие для будущих приёмок: dev больше не красный, любой красный тест — регресс ветки."
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 32,
+  "action": "status-set",
+  "ts": "2026-09-16T07:34:08+08:00",
+  "status": "2026-09-16 07:34 WITA: w11-ozon-readonly-client ПРИНЯТ раунд 1 и смержен (PR #79, merge fcd2890a). Перемерено: tsc rc=0, юнит 53/635, сюиты ozon 4/92, реестр 19 записей все POST с readViaPost, deny-list 46 путей, repo-линт повторён своим скриптом (1906 файлов 0 нарушителей; с синтетическим вторым вызовом — 1), стенд upready_store_w11 зеркала заполнены, ozon_api_call только зарегистрированные чтения, CHECK слотов держит wildberries_write. Живого импорта не было — ключа Ozon нет. Замеры: handoff/day-2026-09-16-oksana-store/artifacts/accept-w11-ozon-readonly-client-1/measurements.md"
+}

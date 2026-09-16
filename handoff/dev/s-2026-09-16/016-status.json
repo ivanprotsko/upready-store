@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 16,
+  "action": "status-set",
+  "ts": "2026-09-16T04:53:41+08:00",
+  "status": "2026-09-16 04:53 WITA: штаб дня Оксаны — w01 WB read-only merged (PR #71, токен подтверждён read-only битом 30); по приказам Ивана 04:41/04:44 заведены w10 спецификация маркетплейсов WB+Ozon по мерке InSales Combo (running), w03 зеркала-2, w07 обогащение каталога тенанта из WB, d07 деплой на живой сайт, фаза 4 записи w20–w23 (dry-run, отдельный ключ, аудит); w02 Yandex ID running; журналы efb2da35, dev=origin/dev 38a19488; Иван спит до ~15–17 WITA"
+}

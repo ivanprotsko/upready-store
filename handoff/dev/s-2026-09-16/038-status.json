@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 38,
+  "action": "status-set",
+  "ts": "2026-09-16T09:14:07+08:00",
+  "status": "2026-09-16 09:14 WITA: ответ Ивану 09:11 — WB-страница доступна только ссылкой с главной панели, ключ на хосте не сохранён в слот tenant-secrets «wildberries», «не удалось определить» = третье состояние бейджа без ключа; правки навигации и no-key state добавлены в w14"
+}

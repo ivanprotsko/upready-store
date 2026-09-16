@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-16 15:02 WITA диспетчером (тик 2274; работает). UI: http://localhost:5390
+Обновлено 2026-09-16 20:25 WITA диспетчером (тик 2275; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 79 · done: 16 · blocked: 1
+merged: 79 · done: 16 · blocked: 1 · running: 1 · queued: 1
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -841,8 +841,12 @@ merged: 79 · done: 16 · blocked: 1
 | 98 | w24-integration-keys-self-service | Самообслуживание ключей интеграций в панели: форма ключа Wildberries и Ozon, хаб «Маркетплейсы/Интеграции» со всеми сервисами, без CLI-подсказок | build | opus/high | feat/day16-integration-keys-self-service | **merged** | [#96](https://github.com/ivanprotsko/upready-store/pull/96) | 1 | 2026-09-16 12:03 WITA |
 | 90 | r04-out-of-the-box-onboarding | Исследование «всё из коробки»: партнёрские/агентские программы и путь подключения клиента для Robokassa, ЮKassa, CDEK, Почты России, Yandex ID; наборы инструкций, черновик пункта оферты, задачи | build | opus/high | feat/day16-out-of-the-box-onboarding | **merged** | [#97](https://github.com/ivanprotsko/upready-store/pull/97) | 1 | 2026-09-16 12:02 WITA |
 | 99 | d08-deploy-wave6 | Деплой волны дня на живой хост: маркетплейсы, страница товара, блог, Robokassa, ApiShip/CDEK, карта ПВЗ и подсказки адреса, форма ключей; настройка cherkashino через панель в тестовом режиме (после w24-integration-keys-self-service, i02-apiship-cdek-shipping, i03-checkout-pvz-map-address-suggest, b18-blog-full, i01-robokassa-checkout, b17-pdp-gallery-info-layout, w21-wb-write-stocks-prices, w22-wb-write-feedback-answers, w19-mp-analytics) | deploy | opus/high | feat/day16-deploy-wave6 | **merged** | [#99](https://github.com/ivanprotsko/upready-store/pull/99) | 1 | 2026-09-16 13:44 WITA |
+| 99 | p01-settings-integrations-restructure | Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем # | build | opus/high | feat/day16-settings-integrations-restructure | **running** |  | 1 | 2026-09-16 20:25 WITA |
+| 99 | d09-deploy-integrations | Деплой волны p01 (реорганизация настроек) на живой хост cherkashino.shipshift.dev / panel-store.upready.dev с сохранением ключа WB, введённого Иваном (после p01-settings-integrations-restructure) | deploy | opus/high | feat/day16-deploy-integrations | **queued** |  | 0 |  |
 
 ## Последние события
+- 2026-09-16 20:25 WITA · p01-settings-integrations-restructure · launched: ws 6704755b-ecae-4fa8-9a54-4a19e5c82599 · opus/high · feat/day16-settings-integrations-restructure
+- 2026-09-16 20:25 WITA · d08-deploy-wave6 · worker-closed: терминал ab093b2b-b788-44dc-8a63-1022c2927576 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-deploy-wave6 (feat/day16-deploy-wave6) | Opus 5 | ctx 64% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
 - 2026-09-16 15:01 WITA ·  · all-terminal: DONE
 - 2026-09-16 14:59 WITA · d08-deploy-wave6 · merged: https://github.com/ivanprotsko/upready-store/pull/99 (приёмка раунд 1)
 - 2026-09-16 14:59 WITA · d08-deploy-wave6 · compact-sent: терминал ab093b2b-b788-44dc-8a63-1022c2927576, ветка feat/day16-deploy-wave6
@@ -881,12 +885,9 @@ merged: 79 · done: 16 · blocked: 1
 - 2026-09-16 12:15 WITA · w21-wb-write-stocks-prices · compact-sent: терминал 3b5a6da5-603e-43f6-829d-ec3dc0649319, ветка feat/day16-wb-write-stocks-prices
 - 2026-09-16 12:15 WITA · w19-mp-analytics · accept-started: раунд 1, PR #95, pid 92842
 - 2026-09-16 12:14 WITA · tp01-store-templates-lab · merged: https://github.com/ivanprotsko/upready-store/pull/92 (приёмка раунд 1)
-- 2026-09-16 12:14 WITA · tp01-store-templates-lab · compact-sent: терминал a93889f2-8e5c-4435-83e1-a574a774d1c1, ветка feat/day16-store-templates-lab
-- 2026-09-16 12:11 WITA · w21-wb-write-stocks-prices · accept-started: раунд 4, PR #81, pid 39096
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json
 
-## 2026-09-16 15:04 WITA — итог волны 5–6 (штаб)
-- Очередь дня: 79 merged, 16 done, 1 blocked (b16 — ждёт Ивана: R2 и клоны БД). DONE записан 15:02 WITA, диспетчер вышел, сторож остановлен.
-- Деплой d08 (PR #99) на живой хост: дамп /opt/upready-store/backups/medusa_mt-pre-d08-20260916-074612.sql.gz (5 288 298 байт, gunzip -t rc=0), 15 миграций, маркер новой сборки; тенант cherkashino настроен через панель: Robokassa тестовый режим, СДЭК тест (курьер 275 ₽ / ПВЗ 135 ₽, 1 день), карта ПВЗ 142 точки по Москве, подсказка адреса; ключ WB на хост не ставился — форма /settings/wildberries показывает «не сохранён». Два дефекта волны починены в деплое (ключ Яндекс.Карт не впекался в бандл — Dockerfile/compose build.args; форма СДЭК слала название города вместо кода — 400). Отчёт: artifacts/docs/d08-deploy-wave6/report.md (§9 — что не доказано, §10 — что сказать Ивану).
-- Для Ивана: галерея шаблонов tp01 (artifacts/docs/store-templates-lab/gallery/index.html), реестр r03 (77 функций: есть 26 / частично 18 / нет 33), r04 (варианты модели посредника — решение за Иваном), w24 форма ключей.
+## 2026-09-16 20:26 WITA — волна 7 (штаб): реорганизация настроек по приказу 20:22
+
+Иван подключил ключ WB сам на живой панели. Заведены p01-settings-integrations-restructure (хаб «Подключение» /settings/integrations с подстраницами wildberries/ozon/robokassa/apiship/cdek только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем; старые адреса перенаправляют; ключ из слота виден без повторного ввода) и d09-deploy-integrations (деплой за ним, ключ WB Ивана должен пережить деплой). Ответ по gorgojs — из artifacts/docs/i01-robokassa-checkout/decision.md и artifacts/docs/i02-apiship-cdek-shipping/decision.md.

@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 37,
+  "action": "status-set",
+  "ts": "2026-09-16T08:41:50+08:00",
+  "status": "2026-09-16 08:41 WITA: штаб — приказы Ивана 08:22 (шаблоны, принцип экономии) и 08:31 (WB в панели, блог, Robokassa/ApiShip/CDEK, ПВЗ и подсказки адреса, приоритет cherkashino) внесены; заведены i01 p97, i02 p96, i03 p95, b18 p95, r03 p94, tp01 p93; b17 PR #82 merged, w12 на приёмке PR #84, w21 PR #81 и w22 PR #83 открыты; правило 47 + economy-ledger.md; WB на хосте: раздел есть, ключа в окружении хоста нет, w13/w23 не деплоились → d08"
+}

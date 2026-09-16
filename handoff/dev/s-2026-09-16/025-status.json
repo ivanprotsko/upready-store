@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 25,
+  "action": "status-set",
+  "ts": "2026-09-16T06:40:07+08:00",
+  "status": "2026-09-16 06:40 WITA: штаб 7b183b97. w07 merged (PR #74, приёмка раунд 1 после перезапуска); d07 деплой обогащения каталога ждёт слот deploy. lib.mjs: branchHeadDate через git fetch вместо gh api (REST-квота 5000/ч исчерпана — лог хоста Superset: GitHubUnavailableError rate limit, 212 активных workspace). Диспетчер перезапущен pid 37311 из GUI-сессии; cron снят, LaunchAgent dev.upready.oksana-store-runner активен. Running: w03 (PR #76 fix), w20 (PR #75 fix), w11, w13; queued w12, w14–w19, w21–w23; b16 blocked"
+}

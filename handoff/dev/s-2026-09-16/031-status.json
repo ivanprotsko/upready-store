@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 31,
+  "action": "status-set",
+  "ts": "2026-09-16T07:28:20+08:00",
+  "status": "2026-09-16 07:28 WITA: приёмка w03/PR #76 раунд 2 — REJECTED по единственной причине: PR CONFLICTING с dev по пяти файлам кода (столкновение с w13, merge-коммит 676e9353, лёг в dev в 06:55), а в worktree брошен незавершённый merge с MERGE_HEAD. СУЩЕСТВО ПРИНЯТО ПОЛНОСТЬЮ и перемерено: wb_sale 21573 строки (было 0), статус rate_limited с retry_at вместо failed, report.json валиден (9 done/6 results/1 access). Раунд 3 — только доделать мерж и запушить, кода не трогать. Находки: logs/accept-w03-wb-sales-questions-mirror-2.findings.md"
+}

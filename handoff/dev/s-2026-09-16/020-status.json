@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 20,
+  "action": "status-set",
+  "ts": "2026-09-16T06:14:39+08:00",
+  "status": "2026-09-16 06:14 WITA: сессия-приёмщик 95d6b245. w02 и w10 приняты (PR #72 ffe7bc33, #73 57916390). Приёмка w07/PR #74 НЕ закончена: раунд 1 оборван выключением машины (05:38), раунд 2 умер на Failed to authenticate OAuth (06:05). Частичные замеры сохранены в logs/accept-w07-tenant-catalog-enrich-2.measurements.md — существо зелёное, найден дефект dry-run (select-характеристики всегда считаются к записи, apply.ts:465). Иван подключился к этой сессии по ошибке вместо своей 7b183b97 (Fable)"
+}
