@@ -187,6 +187,9 @@ services:
         NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
         STORE_MEDIA_BASE_URL: https://${ENGINE_DOMAIN}/static/store-profiles/${PROFILE:-sneakers}
         NEXT_PUBLIC_DEMO_TENANT_BASE_DOMAIN: ${DEMO_TENANT_BASE_DOMAIN:-}
+        # Checkout pickup-point map (i03). Baked in, because the map is a
+        # client component: without it the map renders its failure state.
+        NEXT_PUBLIC_YANDEX_MAPS_KEY: ${NEXT_PUBLIC_YANDEX_MAPS_KEY:-}
     image: mt-storefront:${IMAGE_TAG:-latest}
     container_name: mt-storefront
     restart: unless-stopped
@@ -202,6 +205,7 @@ services:
       NEXT_PUBLIC_DEFAULT_REGION: ${DEFAULT_REGION:-us}
       NEXT_PUBLIC_DEFAULT_LOCALE: ${STOREFRONT_DEFAULT_LOCALE:-ru}
       NEXT_PUBLIC_SITE_NAME: ${STORE_NAME:-Shipshift}
+      NEXT_PUBLIC_YANDEX_MAPS_KEY: ${NEXT_PUBLIC_YANDEX_MAPS_KEY:-}
       REGION_PIN: "true"
       # A visitor without a locale in the URL gets NEXT_PUBLIC_DEFAULT_LOCALE
       # whatever their browser sends: this storefront's audience is Russian
