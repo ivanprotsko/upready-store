@@ -93,7 +93,9 @@ async function saveTpl(){ await fetch('/api/template?name='+encodeURIComponent(t
 const LADDER=['скрипт','haiku','sonnet','opus','fable'];
 function mdInline(t){ let h=esc(t);
   h=h.replace(/`([^`]+)`/g,(m,c)=>'<code>'+c+'</code>');
-  h=h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,txt,href)=>{ const u=/^file:\/\//.test(href)?('/api/file?f='+encodeURIComponent(href.replace(/^file:\/\//,''))):href; return '<a href="'+esc(u)+'" target="_blank">'+txt+'</a>'; });
+  const fileUrl=s=>(/^file:\/\//.test(s)||/^\/(Users|Volumes|opt|private|tmp)\//.test(s))?('/api/file?f='+encodeURIComponent(s.replace(/^file:\/\//,''))):s;
+  h=h.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(m,alt,src)=>'<a href="'+esc(fileUrl(src))+'" target="_blank"><img alt="'+esc(alt)+'" src="'+esc(fileUrl(src))+'" style="max-width:100%;border:1px solid var(--line);border-radius:6px;margin:4px 0"></a>');
+  h=h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,txt,href)=>{ const u=fileUrl(href); return '<a href="'+esc(u)+'" target="_blank">'+txt+'</a>'; });
   h=h.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
   h=h.replace(/(^|[\s(])_([^_]+)_($|[\s).,;])/g,'$1<i>$2</i>$3');
   return h; }

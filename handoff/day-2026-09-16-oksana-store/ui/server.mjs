@@ -14,7 +14,12 @@ const body = (req) => new Promise(r => { let b = ''; req.on('data', d => b += d)
 const safe = (base, f) => { const p = path.resolve(base, f); return p.startsWith(base) ? p : null; };
 const REPO = path.resolve(L.DIR, '..', '..');
 // Путь из отчёта воркера может быть относительным к корню репозитория (как в PR) — сначала папка штаба, затем репо.
-const safeAny = (f) => { const a = safe(L.DIR, f); if (a && fs.existsSync(a)) return a; const b = safe(REPO, f); return b && fs.existsSync(b) ? b : a; };
+// Кадры и отчёты воркеров лежат в worktree Superset (…/worktrees/<id>/<ветка>/artifacts/…) — отдаём их только из artifacts/ и никогда из запретной зоны.
+const WT = '/Users/ivanprotsko/upready/worktrees';
+const FORBID = /\/\.private\/|\/\.env|\.jsonl$/;
+const safeAny = (f) => { if (FORBID.test(f)) return null; const a = safe(L.DIR, f); if (a && fs.existsSync(a)) return a; const b = safe(REPO, f); if (b && fs.existsSync(b)) return b; const w = safe(WT, f); if (w && /\/artifacts\//.test(w) && fs.existsSync(w)) return w; return a; };
+const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml', '.html': 'text/html; charset=utf-8', '.md': 'text/markdown; charset=utf-8', '.json': 'application/json; charset=utf-8' };
+const sendFile = (res, f) => { const ct = MIME[path.extname(f).toLowerCase()] || 'text/plain; charset=utf-8'; res.writeHead(200, { 'content-type': ct, 'cache-control': 'no-store' }); res.end(fs.readFileSync(f)); };
 
 // ---------- страница «Оператор» (OPERATOR-SPEC §7) ----------
 // Модули оператора подгружаются лениво: UI штаба обязан подниматься и тогда, когда базы оператора ещё нет.
@@ -64,7 +69,7 @@ const server = http.createServer(async (req, res) => {
     if (u.pathname === '/api/artifact') { const f = safeAny(q.f || ''); if (!f || !fs.existsSync(f) || fs.statSync(f).isDirectory()) return text(res, 404, 'нет файла'); const ext = path.extname(f).slice(1).toLowerCase(); const ct = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml', json: 'application/json; charset=utf-8', pdf: 'application/pdf' }[ext] || 'text/plain; charset=utf-8'; res.writeHead(200, { 'content-type': ct, 'cache-control': 'no-store' }); return fs.createReadStream(f).pipe(res); }
     if (u.pathname === '/api/file') {
       const f = safeAny(q.f || '');
-      if (f && fs.existsSync(f) && !fs.statSync(f).isDirectory()) return text(res, 200, fs.readFileSync(f, 'utf8'));
+      if (f && fs.existsSync(f) && !fs.statSync(f).isDirectory()) return sendFile(res, f);
       // Источники оператора лежат за пределами репозитория (канон ~/upready/memory, resume-блоки) —
       // отдаём их только из корней корпуса и только после проверки запретной зоны.
       const s2 = await safeSource(q.f || '');

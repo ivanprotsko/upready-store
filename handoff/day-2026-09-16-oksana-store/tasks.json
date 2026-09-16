@@ -7,13 +7,13 @@
   },
   "tag": "day-2026-09-16",
   "tickSec": 60,
-  "maxSlots": 8,
+  "maxSlots": 3,
   "lanes": {
-    "build": 5,
+    "build": 2,
     "data": 1,
     "deploy": 1,
     "qa": 1,
-    "accept": 2
+    "accept": 1
   },
   "stall": {
     "nudgeMin": 150,
@@ -1725,6 +1725,126 @@
       "acceptance": "node --test intake/ ui/ зелёные (включая 6 прежних); индекс реального корпуса ≥1400 файлов < 60 с, секретов в operator.db нет; шесть вопросов тестового набора §8 через POST /api/op/prompt на своём порту → шесть документов с gate.ok=true и ожидаемым источником у каждого; кадры ленты 1280×900 с плашкой уровня и ссылками на источники, ссылка открывается 200; промпт «два вопроса + баг» → две записи с документами и карточка bug; провал claude -p → запись fact с parse=fallback; тестовый LaunchAgent разобрал промпт из launchd и снят; operator.db/answers/prompts вне git; §11 «Как запустить» в OPERATOR-SPEC.md; report.md с §Экономия и замерами для ledger 8–10",
       "why": "Заказ Ивана 2026-09-16 22:11 WITA (переосмысление: Иван не пишет в Fable/Opus, общается с оператором; script → haiku → sonnet → opus → fable, вверх только при провале ниже) и «делай» 2026-09-16 23:21 WITA («запусти выполнение задачи intake/OPERATOR-SPEC.md»); этап Э1 по §10 спецификации",
       "source": "prompts/p02-operator-v1.md"
+    },
+    {
+      "id": "q04-live-checkout-check",
+      "title": "Минимум релиза: живая проверка глазами покупателя на cherkashino.shipshift.dev — каталог → товар → корзина → чекаут → Robokassa (тест) → СДЭК → страница успешного заказа → личный кабинет; список дефектов",
+      "kind": "qa",
+      "lane": "qa",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day17-live-checkout-check",
+      "deps": [],
+      "softDeps": [],
+      "priority": 96,
+      "prompt": "q04-live-checkout-check.md",
+      "acceptance": "отчёт с кадрами каждого шага живого пути и списком дефектов с шагом воспроизведения",
+      "why": "минимум первого релиза (заказ Ивана от 2026-09-17 01:44 WITA)",
+      "source": "INTAKE.md 01:44"
+    },
+    {
+      "id": "y01-yandex-id-prod",
+      "title": "Минимум релиза: включить вход через Яндекс ID на проде (YANDEX_LOGIN_ENABLED и ключи OAuth-приложения в окружении стенда, redirect URI, перезапуск mt-storefront/mt-backend по OK Ивана)",
+      "kind": "deploy",
+      "lane": "deploy",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day17-yandex-id-prod",
+      "deps": [],
+      "softDeps": [],
+      "priority": 95,
+      "prompt": "y01-yandex-id-prod.md",
+      "acceptance": "на https://cherkashino.shipshift.dev/ru/login есть кнопка Яндекс ID и живой вход проходит (кадры)",
+      "why": "Иван (заказ от 01:35 WITA): «не вижу, чтобы там была авторизация через Yandex ID»; на проде YANDEX_* отсутствуют",
+      "source": "INTAKE.md 01:35"
+    },
+    {
+      "id": "r03-requisites-oksana",
+      "title": "Реквизиты для боевого контура: Robokassa (боевой магазин), СДЭК (договор, боевые ключи; тестовые дают 401), реальный e-mail Оксаны, ключ Ozon — по письму artifacts/r02-handover/for-oksana.md",
+      "kind": "data",
+      "lane": "data",
+      "model": "haiku",
+      "effort": "low",
+      "branch": "feat/day17-requisites",
+      "deps": [],
+      "softDeps": [],
+      "priority": 94,
+      "prompt": "r03-requisites-oksana.md",
+      "acceptance": "значения внесены через панель/окружение стенда, ни одно не попало в git",
+      "why": "без них оплата и доставка остаются в тестовом контуре",
+      "source": "INTAKE.md 00:2x"
+    },
+    {
+      "id": "p03-wb-card-matching",
+      "title": "Сопоставление карточек WB с каталогом по штрихкоду и названию с ручным выбором (сейчас 0 из 423) + двойной заголовок /settings/marketplaces/wildberries",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "high",
+      "branch": "feat/day17-wb-card-matching",
+      "deps": [],
+      "softDeps": [],
+      "priority": 60,
+      "prompt": "p03-wb-card-matching.md",
+      "acceptance": "на живой панели сопоставлено >0 карточек, ручной выбор работает, заголовок один",
+      "why": "вне минимума первого релиза — ждёт слова Ивана",
+      "source": "INTAKE.md 23:29"
+    },
+    {
+      "id": "o01-ozon-key-instruction",
+      "title": "Инструкция для Оксаны (нетехническая, как для Wildberries): где взять ключ API Ozon и какие настройки выбрать при создании — HTML в artifacts/docs",
+      "kind": "docs",
+      "lane": "data",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day17-ozon-key-instruction",
+      "deps": [],
+      "softDeps": [],
+      "priority": 58,
+      "prompt": "o01-ozon-key-instruction.md",
+      "acceptance": "HTML открывается, шаги с названиями экранов из сохранённых копий документации (без походов на сайт документации)",
+      "why": "заказ Ивана от 01:35 WITA, п. 2; вне минимума релиза",
+      "source": "INTAKE.md 01:35"
+    },
+    {
+      "id": "e01-email-and-phone-auth-research",
+      "title": "Исследование: сервисы рассылок РФ (в т.ч. sendsay.ru — партнёрские условия с подписью в письмах и разделом «партнёры», оплата постфактум), сервис с бесплатными письмами авторизации, нужны ли письма о заказе при чеках Robokassa, авторизация по номеру телефона: сервисы, цена, подключение",
+      "kind": "research",
+      "lane": "data",
+      "model": "sonnet",
+      "effort": "medium",
+      "branch": "feat/day17-email-research",
+      "deps": [],
+      "softDeps": [],
+      "priority": 56,
+      "prompt": "e01-email-and-phone-auth-research.md",
+      "acceptance": "отчёт в ~/upready/research/reports/ с таблицей сервисов, ценами и рекомендацией",
+      "why": "заказ Ивана от 01:35 WITA, пп. 3.3–3.5, 4; вне минимума релиза",
+      "source": "INTAKE.md 01:35"
+    },
+    {
+      "id": "s01-smtp-self-hosted",
+      "title": "SMTP на своём сервере (Postfix + DKIM/SPF/DMARC, rDNS Contabo) и тестовое письмо Ивану — после решения e01, изменения хоста только по OK Ивана",
+      "kind": "build",
+      "lane": "build",
+      "model": "sonnet",
+      "effort": "high",
+      "branch": "feat/day17-smtp-self-hosted",
+      "deps": [
+        "e01-email-and-phone-auth-research"
+      ],
+      "softDeps": [],
+      "priority": 54,
+      "prompt": "s01-smtp-self-hosted.md",
+      "acceptance": "письмо доставлено в ящик Ивана (не в спам), заголовки DKIM pass",
+      "why": "заказ Ивана от 01:35 WITA, п. 3.2",
+      "source": "INTAKE.md 01:35"
     }
-  ]
+  ],
+  "budget": {
+    "regime": "economy",
+    "since": "заказ Ивана от 2026-09-17 01:44 WITA",
+    "rule": "50 % недельного лимита подписки на 6 дней: воркеры/приёмка sonnet, opus только чекаут/оплата/доставка по OK Ивана, Fable только эскалации; задачи вне минимума первого релиза cherkashino — blocked в бэклоге",
+    "memory": "/Users/ivanprotsko/upready/memory/upready-store-budget-regime-2026-09-17.md"
+  }
 }

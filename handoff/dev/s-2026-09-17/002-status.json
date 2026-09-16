@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-17",
+  "index": 2,
+  "action": "status-set",
+  "ts": "2026-09-17T00:27:41+08:00",
+  "status": "2026-09-17 00:27 WITA: штаб дня Оксаны — оператор Э1 (p02, PR #101) смёржен и поднят: индекс 1470 файлов, UI 5390 pid 11298, LaunchAgent dev.upready.oksana-operator pid 11465, проба status ЗЕЛЁНАЯ; очередь DONE (merged 81, done 17, blocked 1 b16); ждём Ивана: шесть вопросов во вкладке «Оператор», «делай p03/q04», решение по Ш1 (STAFF-MULTI-PROJECT.md)"
+}
