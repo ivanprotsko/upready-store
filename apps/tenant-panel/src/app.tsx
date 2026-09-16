@@ -756,12 +756,22 @@ const routes: RouteObject[] = [
             lazy: () => import("./routes/settings/analytics"),
           },
           {
-            // w01-wb-readonly-client: подключение магазина к Wildberries.
-            // Только чтение: ключ, его срок и права, когда последний раз
-            // приходили данные и сколько их. Кнопки импорта нет — импорт это
-            // скрипт, а писать в WB платформа не умеет по конструкции.
+            // w12-marketplace-core: раздел «Маркетплейсы» — карточка на
+            // площадку, собранная из реестра адаптеров бэкенда. Только чтение:
+            // ключ, его срок и права, реестр разрешённых чтений, список того,
+            // что документация площадки называет записью, последние загрузки и
+            // сколько строк уже у нас. Кнопки импорта нет — импорт это скрипт,
+            // а писать в площадку платформа не умеет по конструкции.
+            path: "/settings/marketplaces",
+            handle: { breadcrumb: () => t("marketplaces.title") },
+            errorElement: <ErrorBoundary />,
+            lazy: () => import("./routes/settings/marketplaces"),
+          },
+          {
+            // Старый путь страницы Wildberries (w01). Остаётся и редиректит на
+            // раздел выше: адрес у владелицы в закладках, ломать его нельзя.
             path: "/settings/wildberries",
-            handle: { breadcrumb: () => t("wildberries.title") },
+            handle: { breadcrumb: () => t("marketplaces.title") },
             errorElement: <ErrorBoundary />,
             lazy: () => import("./routes/settings/wildberries"),
           },
