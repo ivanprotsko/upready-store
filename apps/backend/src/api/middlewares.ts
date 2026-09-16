@@ -203,6 +203,7 @@ import {
 } from "./tenants/product-attributes/validators";
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
+import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
 import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
@@ -292,6 +293,14 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The owner ties one marketplace card to one variant of her shop by hand
+      // (w14-mp-catalog-link). This is the answer to «требует выбора», the one
+      // outcome no rule is allowed to decide.
+      matcher: "/tenants/marketplaces/catalog/links",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantMpCatalogLinkBody)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).

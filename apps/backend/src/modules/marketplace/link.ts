@@ -162,3 +162,77 @@ export const linkSummary = (report: LinkReport): string => {
     `Не найдено: ${report.notFound.length}, требует выбора: ${report.ambiguous.length}.`
   );
 };
+
+/** One `mp_link` row as it stands today, as much of it as planning needs. */
+export type StoredLinkRow = {
+  id: string;
+  external_id: string;
+  matched_by: string;
+  product_id: string;
+  variant_id: string | null;
+};
+
+/** What one auto-link run should write (w14-mp-catalog-link). */
+export type LinkPlan<T> = {
+  create: T[];
+  update: (T & { id: string })[];
+  /** Ids of `matched_by = 'vendor_code'` rows the matcher no longer produces. */
+  remove: string[];
+  /** Ids left untouched because a person chose them. */
+  kept_manual: string[];
+};
+
+/**
+ * The write plan of an auto-link, decided here rather than at the two call
+ * sites that need it (the projector and the panel's «Связать всё по артикулу»).
+ *
+ * TWO RULES, AND BOTH ARE ABOUT NOT LOSING A PERSON'S WORK.
+ *
+ * A row with `matched_by = 'manual'` is never rewritten and never removed. The
+ * owner opened the card, looked at two products and chose one; an import an
+ * hour later must not quietly put the other one back. This is the case the
+ * projector got wrong before this task: its upsert keyed on the card alone, so
+ * a manual choice on a card the matcher also resolves was overwritten on the
+ * next projection with no trace.
+ *
+ * A row with `matched_by = 'vendor_code'` that the matcher no longer produces
+ * IS removed. The article moved to another product, or a second variant took
+ * the same SKU and the card became ambiguous — either way the stored link is
+ * now a claim nothing supports, and leaving it would show the card as linked
+ * to a product it no longer matches (rule 20a: a stale value of the right
+ * shape is worse than an absence).
+ */
+export const planLinkWrites = <T extends { external_id: string }>(
+  report: LinkReport,
+  stored: readonly StoredLinkRow[],
+  draftOf: (outcome: Extract<LinkOutcome, { outcome: "linked" }>) => T,
+): LinkPlan<T> => {
+  const byExternalId = new Map(stored.map((row) => [row.external_id, row]));
+  const produced = new Set(report.linked.map((outcome) => outcome.external_id));
+
+  const create: T[] = [];
+  const update: (T & { id: string })[] = [];
+  const kept_manual: string[] = [];
+
+  for (const outcome of report.linked as Extract<LinkOutcome, { outcome: "linked" }>[]) {
+    const existing = byExternalId.get(outcome.external_id);
+
+    if (!existing) {
+      create.push(draftOf(outcome));
+      continue;
+    }
+
+    if (existing.matched_by === "manual") {
+      kept_manual.push(existing.id);
+      continue;
+    }
+
+    update.push({ ...draftOf(outcome), id: existing.id });
+  }
+
+  const remove = stored
+    .filter((row) => row.matched_by !== "manual" && !produced.has(row.external_id))
+    .map((row) => row.id);
+
+  return { create, update, remove, kept_manual };
+};

@@ -11,7 +11,8 @@ import type {
 } from "./contract";
 import { MP_KINDS } from "./contract";
 import { MARKETPLACE_MODULE } from "./index";
-import { matchByVendorCode, linkSummary, type LinkReport } from "./link";
+import { autoLink } from "./autolink";
+import { linkSummary, type LinkReport } from "./link";
 import { requireAdapter } from "./registry";
 import type MarketplaceModuleService from "./service";
 
@@ -386,25 +387,17 @@ export const projectFromMirrors = async (
       external_id: String(row.external_id),
       vendor_code: row.vendor_code ? String(row.vendor_code) : null,
     }));
-    report = matchByVendorCode(cards, await tenantVariants(deps));
-
-    const linkedAt = new Date();
-    counts.links = await upsert(
-      (await mp.listMpLinks(scope)) as Row[],
-      report.linked.map((outcome) => ({
-        tenant_id: deps.tenantId,
-        marketplace: adapter.id,
-        external_id: outcome.external_id,
-        product_id: (outcome as { product_id: string }).product_id,
-        variant_id: (outcome as { variant_id: string }).variant_id,
-        matched_by: "vendor_code",
-        confidence: 1,
-        linked_at: linkedAt,
-      })),
-      identity,
-      (created) => mp.createMpLinks(created),
-      (updated) => mp.updateMpLinks(updated),
-    );
+    /**
+     * The write goes through `autoLink` and not through the `upsert` above,
+     * because a link is the one row here a PERSON can own: `matched_by =
+     * 'manual'` is the owner's choice between two candidates, and the upsert
+     * keyed on the card alone would have overwritten it on the next import
+     * (w14-mp-catalog-link). The same call backs the panel's «Связать всё по
+     * артикулу», so the two can no longer drift.
+     */
+    const outcome = await autoLink(mp, scope, cards, await tenantVariants(deps));
+    report = outcome.report;
+    counts.links = outcome.written;
 
     /**
      * `rows` counts the NORMALIZED rows this projection wrote. The journal
