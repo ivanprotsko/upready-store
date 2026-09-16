@@ -58,12 +58,19 @@ const fakeService = () => {
             row.kind === draft.kind,
         )
       ) {
-        const error = new Error(
-          'duplicate key value violates unique constraint ' +
-            '"IDX_mp_sync_run_tenant_id_marketplace_kind_unique" on table "mp_sync_run"',
-        ) as Error & { code?: string };
-        error.code = "23505";
-        throw error;
+        /**
+         * What the MODULE SERVICE actually throws, measured on the stand:
+         * Medusa's `dbErrorMapper` catches the 23505 and re-throws a
+         * `MedusaError` with no code and no cause, so the sentence is all the
+         * evidence that survives. The fake throws that shape and not the
+         * driver's, or the test would pass against a scheduler that cannot
+         * recognise the lock in production — which is how the first
+         * acceptance run of this task failed.
+         */
+        throw new Error(
+          `Mp sync run with tenant_id: ${String(draft.tenant_id)}, ` +
+            `marketplace: ${String(draft.marketplace)}, kind: ${String(draft.kind)}, already exists.`,
+        );
       }
       seq += 1;
       const row = { id: `mprun_fake_${seq}`, ...draft } as Row;
@@ -198,17 +205,40 @@ describe("one run per (tenant x marketplace x kind)", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(0);
   });
 
-  it("recognises the constraint the migration creates", () => {
-    const error = new Error("boom") as Error & { code?: string };
-    error.code = "23505";
-    expect(isUniqueViolation(error)).toBe(true);
-    expect(isUniqueViolation(new Error("something else"))).toBe(false);
+  it("recognises the constraint in every shape it arrives in", () => {
+    // 1. A raw knex insert: the driver's own code.
+    const raw = new Error("boom") as Error & { code?: string };
+    raw.code = "23505";
+    expect(isUniqueViolation(raw)).toBe(true);
+
+    // 2. The module service: Medusa's dbErrorMapper, measured on the stand
+    //    2026-09-16 — no code, no cause, only this sentence.
+    expect(
+      isUniqueViolation(
+        new Error(
+          "Mp sync run with tenant_id: ten_01M2KB5W7R2WRXFJX1F25KCJ8P, " +
+            "marketplace: wb, kind: projection, already exists.",
+        ),
+      ),
+    ).toBe(true);
+
+    // 3. A wrapped driver error.
     expect(
       isUniqueViolation({
         message: "insert failed",
-        cause: new Error('duplicate key value violates unique constraint on table "mp_sync_run"'),
+        cause: new Error(
+          'duplicate key value violates unique constraint on table "mp_sync_run"',
+        ),
       }),
     ).toBe(true);
+
+    // 4. Anything else stays a failure and is rethrown, never swallowed as
+    //    «уже идёт» — a scheduler that hides a real error is worse than one
+    //    that runs twice.
+    expect(isUniqueViolation(new Error("something else"))).toBe(false);
+    expect(
+      isUniqueViolation(new Error("Tenant with handle: cherkashino, already exists.")),
+    ).toBe(false);
   });
 
   it("takes over a lock older than the timeout and leaves the dead row visible", async () => {
@@ -237,6 +267,45 @@ describe("one run per (tenant x marketplace x kind)", () => {
     expect(dead.status).toBe("failed");
     expect(String(dead.error)).toContain("Прогон не завершился");
     expect(mp.rows).toHaveLength(2);
+  });
+  it("finds a lock by its status even when a later row is newer", async () => {
+    // The shape the acceptance run of this task hit: a `running` row left by a
+    // dead process, and a SUCCEEDED row started after it. A newest-row lookup
+    // sees only the success, calls the kind «waiting», and the next tick then
+    // dies on the unique index instead of reporting «уже идёт».
+    const mp = fakeService();
+    const now = new Date("2026-09-16T10:00:00.000Z");
+    mp.rows.push({
+      id: "mprun_orphan",
+      tenant_id: "ten_test",
+      marketplace: "wb",
+      kind: "stocks",
+      status: "running",
+      started_at: new Date(now.getTime() - 40 * 60_000),
+      finished_at: null,
+      rows: 0,
+      requests: 0,
+      error: null,
+    });
+    mp.rows.push({
+      id: "mprun_newer_success",
+      tenant_id: "ten_test",
+      marketplace: "wb",
+      kind: "stocks",
+      status: "succeeded",
+      started_at: new Date(now.getTime() - 60_000),
+      finished_at: new Date(now.getTime() - 30_000),
+      rows: 5,
+      requests: 2,
+      error: null,
+    });
+
+    const adapter = fakeAdapter(async () => succeeded(9));
+    const result = await runOneSync(deps(mp, now), adapter, "stocks", "token");
+
+    expect(result.reason).toBe("stale_lock_taken_over");
+    expect(result.outcome).toBe("succeeded");
+    expect(mp.rows.find((row) => row.id === "mprun_orphan")!.status).toBe("failed");
   });
 });
 

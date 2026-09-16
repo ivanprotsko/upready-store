@@ -85,15 +85,42 @@ const asDate = (value: Date | string | null | undefined): Date | null => {
 const service = (deps: SchedulerDeps): MarketplaceModuleService =>
   deps.container.resolve<MarketplaceModuleService>(MARKETPLACE_MODULE);
 
-/** Postgres' unique-violation, however deeply the ORM wrapped it. */
+/** The three columns the lock is taken on. Named once, checked below. */
+const LOCK_KEYS = ["tenant_id", "marketplace", "kind"] as const;
+
+/**
+ * Postgres' unique-violation, in every shape it reaches this file in.
+ *
+ * MEASURED, not guessed. A raw `knex` insert throws the driver's error with
+ * `code === "23505"`. The MODULE SERVICE does not: `dbErrorMapper`
+ * (`@medusajs/utils` 2.19, `dal/mikro-orm/db-error-mapper.js`) catches the
+ * 23505, builds a sentence out of the constraint detail and throws a
+ * `MedusaError` — with `type: "invalid_data"`, `code: undefined` and NO
+ * `cause` pointing back at the original. The first acceptance run of this task
+ * died on exactly that: the lock worked, the scheduler did not recognise it.
+ *
+ * So the mapped sentence is evidence too:
+ *
+ *   Mp sync run with tenant_id: ten_…, marketplace: wb, kind: projection, already exists.
+ *
+ * It is matched on all three key names at once, which is the unique index of
+ * `Migration20260916014707` and nothing else.
+ */
 export const isUniqueViolation = (error: unknown): boolean => {
   for (let cause: unknown = error, depth = 0; cause && depth < 6; depth += 1) {
     const entry = cause as { code?: unknown; message?: unknown; cause?: unknown };
     if (entry.code === "23505") {
       return true;
     }
-    if (typeof entry.message === "string" && entry.message.includes("mp_sync_run")) {
-      if (/duplicate key|unique constraint/i.test(entry.message)) {
+    if (typeof entry.message === "string") {
+      const message = entry.message;
+      if (/duplicate key|unique constraint/i.test(message) && message.includes("mp_sync_run")) {
+        return true;
+      }
+      if (
+        /already exists\.?\s*$/i.test(message) &&
+        LOCK_KEYS.every((key) => message.includes(`${key}:`))
+      ) {
         return true;
       }
     }
@@ -114,6 +141,31 @@ export const newestRun = async (
     { order: { started_at: "DESC" }, take: 1 },
   )) as RunRow[];
   return rows[0] ?? null;
+};
+
+/**
+ * The row the due verdict is taken from: the `running` one if the triple has
+ * one, otherwise the newest.
+ *
+ * NOT simply "the newest row", and the acceptance run of this task is why. A
+ * lock is found by its STATUS, never by its recency: the moment some other row
+ * of the triple is newer than the `running` one — a takeover that failed, a
+ * row written by hand, a clock that moved — a newest-row lookup stops seeing
+ * the lock at all and the scheduler starts a second run whose INSERT then dies
+ * on the unique index. The index would still hold the rule, but the run would
+ * be reported as an error instead of as «уже идёт».
+ */
+const lockOrNewest = async (
+  mp: MarketplaceModuleService,
+  tenantId: string,
+  marketplace: string,
+  kind: string,
+): Promise<RunRow | null> => {
+  const locked = (await mp.listMpSyncRuns(
+    { tenant_id: tenantId, marketplace, kind, status: "running" },
+    { order: { started_at: "DESC" }, take: 1 },
+  )) as RunRow[];
+  return locked[0] ?? (await newestRun(mp, tenantId, marketplace, kind));
 };
 
 /**
@@ -236,7 +288,7 @@ export const runOneSync = async (
   const clock = deps.now ?? (() => new Date());
   const now = clock();
 
-  const last = await newestRun(mp, deps.tenantId, adapter.id, kind);
+  const last = await lockOrNewest(mp, deps.tenantId, adapter.id, kind);
   const lastRun: LastRun | null = last
     ? {
         status: last.status,
