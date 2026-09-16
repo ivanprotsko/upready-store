@@ -50,7 +50,7 @@
 | `src/modules/products/components/product-attributes/index.tsx` | форма таблицы «О товаре» эталона: заголовок, строки «имя / значение» с волосяными разделителями; переехал под рейтинг в колонку 2 |
 | `src/modules/products/components/product-tabs/index.tsx` | описание убрано отсюда (оно было первым и самым длинным текстом в самой узкой колонке); остался аккордеон «Доставка и возврат» |
 | `apps/storefront/messages/*.json` (36 файлов) | 7 новых ключей: `ImageGallery.{showImage,previousImage,nextImage,thumbnails,counter,close}` и `ProductInfo.description`, с настоящими переводами на все 36 языков |
-| `apps/storefront/package.json` | `--exclude "tests/**"` вместо `--exclude "tests/ui-lab/**"` в скриптах `test` и `test:unit`: в `tests/` теперь два каталога Playwright-наборов, а не один |
+| `apps/storefront/package.json` | в скриптах `test` и `test:unit` к `--exclude "tests/ui-lab/**"` добавлен `--exclude "tests/pdp/**"`: в `tests/` теперь два каталога Playwright-наборов, а не один. Новый скрипт `test:pdp` — как у соседних наборов |
 
 ## Найденный и исправленный дефект
 
@@ -90,9 +90,10 @@ apps/storefront → npx next dev -p 8417           → «Ready in 3.7s»
 ```
 $ npx tsc --noEmit                                            rc=0
 $ npx next lint                                               rc=0   (1 warning, чужой: yandex-metrica/index.tsx:45)
-$ corepack pnpm --filter ./apps/storefront test                rc=0   Test Files 26 passed (26) · Tests 239 passed (239)
+$ cd apps/storefront && npm run test:unit                      rc=0   Test Files 27 passed (27) · Tests 262 passed (262)
                                                                       в т.ч. image-gallery/items.test.ts — 17 тестов
-$ PDP_URL=… npx playwright test --config tests/pdp/playwright.config.ts   rc=0   11 passed (17.8s)
+                                                                      и tests/profile/unit/build-profile.test.mjs — 23 теста
+$ PDP_URL=… npm run test:pdp                                  rc=0   11 passed (33.4s)
 ```
 
 Состав e2e (`apps/storefront/tests/pdp/`, запускается прямо на хосте — `chromium.launch()` из
@@ -173,8 +174,24 @@ open "http://cherkashino.localhost:8417/ru/products/multivarka-dlya-doma-i-avto-
 полный экран, Esc и крестик закрывают.
 
 ```bash
-corepack pnpm --filter ./apps/storefront test
-cd apps/storefront && npx tsc --noEmit && npx next lint
+cd apps/storefront
+npm run test:unit          # ожидается 27 файлов / 262 теста
+npx tsc --noEmit && npx next lint
 PDP_URL="http://cherkashino.localhost:8417/ru/products/multivarka-dlya-doma-i-avto-2-l-12-vt-24-vt-220-vt-cherkashino" \
-  npx playwright test --config tests/pdp/playwright.config.ts
+  npm run test:pdp
+```
+
+## Раунд 2 приёмки (2026-09-16)
+
+Находка приёмщика принята целиком и подтверждена своим замером: маска `--exclude "tests/**"`
+оказалась шире намерения и унесла с собой живой vitest-набор
+`tests/profile/unit/build-profile.test.mjs` (23 теста) — он не падал, он не запускался,
+а отчёт называл сюиту зелёной, не оговаривая потерю. Исправлено перечислением двух каталогов
+Playwright по именам. Заодно закрыт нит №1: у набора `tests/pdp/` теперь есть свой скрипт
+`test:pdp`, как у `ui-lab` / `profile` / `studio` / `stands`.
+
+```
+до правки:    npm run test:unit → Test Files 26 passed (26) · Tests 239 passed (239)
+после правки: npm run test:unit → Test Files 27 passed (27) · Tests 262 passed (262)
+              PDP_URL=… npm run test:pdp → rc=0, 11 passed (33.4s)
 ```
