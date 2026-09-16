@@ -1,4 +1,4 @@
-import { PencilSquare, Trash } from "@medusajs/icons"
+import { ArrowUpRightOnBox, PencilSquare, Trash } from "@medusajs/icons"
 import { toast, usePrompt } from "@medusajs/ui"
 import { useNavigate } from "react-router-dom"
 
@@ -10,7 +10,13 @@ import type { ArticleGroup } from "./article-list"
 // first and says exactly what disappears — every language of the article, not
 // just the one the row happens to show.
 
-export const ArticleRowActions = ({ group }: { group: ArticleGroup }) => {
+export const ArticleRowActions = ({
+  group,
+  publicHost,
+}: {
+  group: ArticleGroup
+  publicHost?: string
+}) => {
   const navigate = useNavigate()
   const prompt = usePrompt()
   const { mutateAsync: deleteArticle } = useDeleteTenantArticle(group.slug)
@@ -35,6 +41,12 @@ export const ArticleRowActions = ({ group }: { group: ArticleGroup }) => {
     })
   }
 
+  // b18-blog-full: «открыть на сайте» is offered only for an article a visitor
+  // can actually open — a link to a draft is a 404 with the owner's own name on
+  // it. `published` is computed by the backend, so a scheduled article that is
+  // already due counts as open (rule 20 — one definition of «visible»).
+  const openOnSite = publicHost && group.locales.some((row) => row.published)
+
   return (
     <ActionMenu
       groups={[
@@ -45,6 +57,20 @@ export const ArticleRowActions = ({ group }: { group: ArticleGroup }) => {
               label: "Редактировать",
               onClick: () => navigate(group.slug),
             },
+            ...(openOnSite
+              ? [
+                  {
+                    icon: <ArrowUpRightOnBox />,
+                    label: "Открыть на сайте",
+                    onClick: () =>
+                      window.open(
+                        `${publicHost}/journal/${group.slug}`,
+                        "_blank",
+                        "noreferrer"
+                      ),
+                  },
+                ]
+              : []),
           ],
         },
         {

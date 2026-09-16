@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { Button, Heading, Text, toast } from "@medusajs/ui"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { RouteFocusModal } from "../../../components/modals"
 import { useCreateTenantArticle, useTenantArticle } from "../../../hooks/api/articles"
+import { useDomains } from "../../../hooks/api/domains"
 import { ARTICLE_LOCALES, localeLabel } from "../article-locales"
 import { EditArticleForm } from "./components/edit-article-form/edit-article-form"
 
@@ -18,6 +19,8 @@ import { EditArticleForm } from "./components/edit-article-form/edit-article-for
 
 export const ArticleEdit = () => {
   const { slug = "" } = useParams()
+  const navigate = useNavigate()
+  const { primary_host: primaryHost } = useDomains()
   const { articles, isPending, isError, error } = useTenantArticle(slug)
   const { mutateAsync: createLocale, isPending: isAdding } = useCreateTenantArticle()
   const [activeLocale, setActiveLocale] = useState<string | null>(null)
@@ -97,7 +100,16 @@ export const ArticleEdit = () => {
               ))}
             </div>
           )}
-          <EditArticleForm key={current.id} slug={slug} article={current} />
+          <EditArticleForm
+            key={current.id}
+            slug={slug}
+            article={current}
+            publicHost={primaryHost}
+            // b18-blog-full: a rename moves every language row, so the URL this
+            // modal is mounted on stops naming anything. Follow it instead of
+            // closing to a list entry that is no longer there.
+            onRenamed={(next) => navigate(`/journal/${next}`, { replace: true })}
+          />
         </>
       ) : null}
     </RouteFocusModal>
