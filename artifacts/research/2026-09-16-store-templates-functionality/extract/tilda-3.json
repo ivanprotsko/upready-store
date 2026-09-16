@@ -1,0 +1,404 @@
+{
+  "group": "tilda-3",
+  "templates": [
+    {
+      "template": "Блокноты ручной работы",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=voodoobooksru",
+      "features": [
+        {
+          "id": "product-catalog-cards",
+          "name_ru": "Карточки товаров с названием, ценой и коротким описанием в общем списке",
+          "category": "catalog-listing",
+          "evidence": "CORAL NOTE 500.00 р. Коралловая тетрадь формата А5, 42 страницы слоновой кости.",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "sale-price-old-new",
+          "name_ru": "Карточка товара со старой и новой ценой (распродажа)",
+          "category": "catalog-listing",
+          "evidence": "TUKKA 2 190.00 р. 2 490.00 р.",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "buy-button-to-order-form",
+          "name_ru": "Кнопка «Купить» на каждой карточке товара, ведущая к форме заказа",
+          "category": "cart-checkout",
+          "evidence": "[Купить](http://examples-ru.tilda.ws/voodoobooksru#order)",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "Форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ Ваше имя Ваш Email Ваш телефон",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "wholesale-b2b-mention",
+          "name_ru": "Указание на работу с оптовыми и корпоративными клиентами (брендированная продукция для компаний)",
+          "category": "b2b-wholesale",
+          "evidence": "Мы работаем с частными и оптовыми клиентами и создаем брендированные блокноты для компаний.",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "social-media-links-block",
+          "name_ru": "Блок ссылок на страницы бренда в соцсетях",
+          "category": "content",
+          "evidence": "Voodoo books в соцсетях",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "product-gallery-zoom",
+          "name_ru": "Увеличение (zoom) изображения товара в галерее",
+          "category": "product-page",
+          "evidence": "сигнал: gallery-zoom",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        },
+        {
+          "id": "chat-widget",
+          "name_ru": "Виджет онлайн-чата на странице",
+          "category": "integrations",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "http://examples-ru.tilda.ws/voodoobooksru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин постеров",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=posteandcoru",
+      "features": [
+        {
+          "id": "product-quick-view-popup",
+          "name_ru": "Клик по товару в подборке открывает всплывающее окно быстрого просмотра (popup)",
+          "category": "product-page",
+          "evidence": "[«Композиция в красном» Филипп Фролов 1999 р.](http://examples-ru.tilda.ws/posteandcoru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "add-to-cart-button",
+          "name_ru": "Кнопка «Добавить в корзину» на каждой карточке товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/posteandcoru#order)",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "product-material-size-specs",
+          "name_ru": "Описание товара с техникой печати, размером и плотностью материала",
+          "category": "product-page",
+          "evidence": "Оффсетная печать на матовой бумаге Pergraphica. Размер 42 × 59 см, плотность 240 г/м².",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "delivery-info-block",
+          "name_ru": "Блок с информацией о доставке и самовывозе из студии",
+          "category": "content",
+          "evidence": "Мы находимся в Сочи. Вы можете забрать постеры самостоятельно из нашей студии или заказать доставку курьером по городу. Также доступна доставка почтой по всей России.",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "Форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ Ваше имя Ваш Email Ваш телефон",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "reviews-widget",
+          "name_ru": "Виджет отзывов покупателей",
+          "category": "trust-reviews",
+          "evidence": "сигнал: reviews",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        },
+        {
+          "id": "countdown-timer",
+          "name_ru": "Таймер обратного отсчёта (акция/ограниченное предложение)",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown",
+          "page_url": "http://examples-ru.tilda.ws/posteandcoru"
+        }
+      ]
+    },
+    {
+      "template": "Промо страница товара",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=velottonstrru",
+      "features": [
+        {
+          "id": "color-variant-selector",
+          "name_ru": "Выбор варианта товара по цвету перед покупкой",
+          "category": "product-page",
+          "evidence": "Цвет Синий Черный",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "product-detailed-specs-list",
+          "name_ru": "Развёрнутый список характеристик товара (размер, материал, объём, вес)",
+          "category": "product-page",
+          "evidence": "Размер: 35 см х 18 см х 50 см (70 см в развернутом виде). Внешний карман на молнии. Материал: Водонепроницаемый нейлон CORDURA®.",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "customer-reviews-with-names",
+          "name_ru": "Именные отзывы покупателей с текстом впечатлений",
+          "category": "trust-reviews",
+          "evidence": "Кристина Сережкова Я наткнулась на этот рюкзак после долгих поисков и очень рада, что нашла его!",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "lookbook-gallery-section",
+          "name_ru": "Раздел «Лукбук» с товаром в разных ракурсах и подписями к фото",
+          "category": "content",
+          "evidence": "НАШ ЛУКБУК Объем 32 литра Внешний водонепроницаемый карман",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "order-process-steps-block",
+          "name_ru": "Пошаговое объяснение процесса заказа (написать — выбрать — пошив — доставка)",
+          "category": "cart-checkout",
+          "evidence": "КАК ЗАКАЗАТЬ РЮКЗАК НАПИШИТЕ НАМ ЗАКАЖИТЕ РЮКЗАК Выберите рюкзак и доставку ПОШИВ РЮКЗАКА Мы шьем рюкзак неделю",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "delivery-pricing-with-free-threshold",
+          "name_ru": "Условная бесплатная доставка при заказе от двух товаров",
+          "category": "content",
+          "evidence": "Доставка по городу курьером 300 рублей. За пределами МКАД 400 рублей. Если вы делаете заказ на два и более рюкзака — доставка бесплатная.",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        },
+        {
+          "id": "product-video",
+          "name_ru": "Видео товара на странице",
+          "category": "product-page",
+          "evidence": "сигнал: video",
+          "page_url": "http://examples-ru.tilda.ws/velottonstrru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин головоломок",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=puzzlesru",
+      "features": [
+        {
+          "id": "section-nav-menu",
+          "name_ru": "Меню навигации по якорным разделам страницы (Пазлы, Доставка, Соцсети, Контакты)",
+          "category": "navigation",
+          "evidence": "[Пазлы](http://examples-ru.tilda.ws/puzzlesru#puzzles) [Доставка](http://examples-ru.tilda.ws/puzzlesru#delivery) [Соцсети](http://examples-ru.tilda.ws/puzzlesru#social) [Контакты](http://examples-ru.tilda.ws/puzzlesru#contacts)",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "hero-product-popup-links",
+          "name_ru": "Товары в шапке страницы со ссылкой на попап карточки товара и ценой",
+          "category": "catalog-listing",
+          "evidence": "[SERPENT CUBE 999 р.](http://examples-ru.tilda.ws/puzzlesru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "add-to-cart-per-product",
+          "name_ru": "Кнопка «Добавить в корзину» рядом с каждым товаром в подборке",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/puzzlesru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "order-form-with-comment-field",
+          "name_ru": "Форма заказа с дополнительным полем «Ваш комментарий»",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ Ваше имя Ваш Email Ваш телефон Ваш комментарий",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "delivery-terms-text",
+          "name_ru": "Текстовый блок условий доставки со сроком и возможностью альтернативной доставки по комментарию",
+          "category": "content",
+          "evidence": "Доставляем оплаченный заказ курьером в течение двух рабочих дней. Чтобы заказать срочную доставку или альтернативные способы доставки, напишите свои пожелания в комментариях во время заказа.",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "contacts-map",
+          "name_ru": "Карта с расположением/контактами в разделе «Контакты»",
+          "category": "navigation",
+          "evidence": "сигнал: contacts-map",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        },
+        {
+          "id": "social-share-buttons",
+          "name_ru": "Кнопки шаринга страницы/товара в соцсети",
+          "category": "promo-marketing",
+          "evidence": "сигнал: social-share",
+          "page_url": "http://examples-ru.tilda.ws/puzzlesru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин аксессуаров для дома",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=bluerinru",
+      "features": [
+        {
+          "id": "category-nav-menu",
+          "name_ru": "Меню навигации по категориям (О нас, Мебель, Аксессуары, Доставка)",
+          "category": "navigation",
+          "evidence": "[О нас](http://examples-ru.tilda.ws/bluerinru#about) [Мебель](http://examples-ru.tilda.ws/bluerinru#furniture) [Аксессуары](http://examples-ru.tilda.ws/bluerinru#accessories) [Доставка](http://examples-ru.tilda.ws/bluerinru#delivery)",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "two-category-catalog-sections",
+          "name_ru": "Каталог товаров, разбитый на два тематических раздела (мебель и домашние аксессуары)",
+          "category": "catalog-listing",
+          "evidence": "МЕБЕЛЬ ... ДОМАШНИЕ АКСЕССУАРЫ",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "sale-badge-with-old-new-price",
+          "name_ru": "Карточка товара с меткой SALE, старой и новой ценой и артикулом",
+          "category": "catalog-listing",
+          "evidence": "Кресло Liva 6499.00 р. 7999 р. ... Серый. Полиэстер. Артикул: 50196452",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "color-variant-selector",
+          "name_ru": "Выбор цвета товара на карточке (Colour: Grey / Black)",
+          "category": "product-page",
+          "evidence": "Colour Grey Black",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "newsletter-subscribe-form",
+          "name_ru": "Форма подписки на новостную рассылку",
+          "category": "promo-marketing",
+          "evidence": "Не пропустите свежие новости. Подпишитесь на нашу рассылку! Подписаться",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "kit-bundle-offer",
+          "name_ru": "Комплект/набор товаров как отдельное предложение",
+          "category": "catalog-listing",
+          "evidence": "сигнал: kit-bundle",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        },
+        {
+          "id": "chat-widget",
+          "name_ru": "Виджет онлайн-чата на странице",
+          "category": "integrations",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "http://examples-ru.tilda.ws/bluerinru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин мебели",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=happychairru",
+      "features": [
+        {
+          "id": "product-cards-with-material-and-price",
+          "name_ru": "Карточка товара с описанием материала и ценой",
+          "category": "catalog-listing",
+          "evidence": "Стул Periony Стул сделан из массива сосны, плетенье из плотных хлопковых веревок 13900 р.",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "sale-badge-old-new-price",
+          "name_ru": "Карточка товара со старой и новой ценой (распродажа)",
+          "category": "catalog-listing",
+          "evidence": "Стул Crusta Стул сделан из массива сосны, плетенье из плотных хлопковых полос 9900 р. 11900 р.",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "buy-button-per-product",
+          "name_ru": "Кнопка «Купить» на каждой карточке товара",
+          "category": "cart-checkout",
+          "evidence": "[Купить](http://examples-ru.tilda.ws/happychairru#order)",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "about-us-block",
+          "name_ru": "Блок «О нас» с историей студии и её расположением",
+          "category": "content",
+          "evidence": "Мы — дуэт мастеров, любящих работать с деревом. Находимся в Калининграде.",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "Форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ Ваше имя Ваш Email Ваш телефон",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "photo-credits-list",
+          "name_ru": "Список кредитов авторов фотографий в подвале страницы",
+          "category": "content",
+          "evidence": "FLICKR CREDITS: 1_ [ArchDis](https://www.flickr.com/photos/archdis/19921430990/in/album-72157656510825865/)",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        },
+        {
+          "id": "lookbook-section",
+          "name_ru": "Раздел «Лукбук» с товаром в интерьерной съёмке",
+          "category": "content",
+          "evidence": "сигнал: lookbook",
+          "page_url": "http://examples-ru.tilda.ws/happychairru"
+        }
+      ]
+    },
+    {
+      "template": "Аксессуары из кожи",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=longriverru",
+      "features": [
+        {
+          "id": "nav-menu-catalog-about-delivery-contacts",
+          "name_ru": "Меню навигации (Каталог, О нас, Доставка, Контакты), продублированное в хедере и футере",
+          "category": "navigation",
+          "evidence": "[Каталог](http://examples-ru.tilda.ws/longriverru#goods) [О нас](http://examples-ru.tilda.ws/longriverru#about) [Доставка](http://examples-ru.tilda.ws/longriverru#delivery) [Контакты](http://examples-ru.tilda.ws/longriverru#contacs)",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "two-product-category-sections",
+          "name_ru": "Каталог, разбитый на две категории товаров (сумки и рюкзаки, кошельки)",
+          "category": "catalog-listing",
+          "evidence": "Сумки и рюкзаки ... Кошельки ручной работы",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "sale-badge-catalog-card",
+          "name_ru": "Метка SALE на карточке товара в подборке",
+          "category": "catalog-listing",
+          "evidence": "[SALE Сумка через плечо Темза 11990 р.](http://examples-ru.tilda.ws/longriverru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "sale-badge-with-old-new-price",
+          "name_ru": "Товар с меткой SALE и старой/новой ценой",
+          "category": "catalog-listing",
+          "evidence": "[SALE Кошелек Тонг 2590 р. 2790 р.](http://examples-ru.tilda.ws/longriverru#prodpopup)",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "delivery-pricing-by-distance",
+          "name_ru": "Стоимость доставки, различающаяся по удалённости от МКАД",
+          "category": "content",
+          "evidence": "В пределах МКАД доставка стоит 300 рублей, дальше — от 300 до 600 рублей, в зависимости от дальности.",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "Форма оформления заказа с полями имя/email/телефон",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ Ваше имя Ваш Email Ваш телефон",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        },
+        {
+          "id": "contacts-map",
+          "name_ru": "Карта с расположением в разделе «Контакты»",
+          "category": "navigation",
+          "evidence": "сигнал: contacts-map",
+          "page_url": "http://examples-ru.tilda.ws/longriverru"
+        }
+      ]
+    }
+  ]
+}
