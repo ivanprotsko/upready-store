@@ -105,16 +105,22 @@ export function prForBranch(cfg, branch) {
   return { pr: prs[0] || null };
 }
 export function prView(cfg, n) { const r = shJson('gh', ['pr', 'view', String(n), '--repo', cfg.project.repo, '--json', 'number,state,mergedAt,url,title,mergeable,headRefName']); return r.rc ? null : r.json; }
-export function branchHeadDate(cfg, branch) {
+export function branchHead(cfg, branch) {
   // Через git, не через REST GitHub API: квота 5000/ч одна на все инструменты и хост Superset,
   // 2026-09-16 она была исчерпана целиком (resume 0638). git fetch по HTTPS в квоту API не входит.
+  // Возвращает { oid, date } головы origin/<branch>: OID — «что лежит на GitHub», дата — «когда закоммичено».
+  // Пуш старых коммитов дату не омолаживает (w21 11:23 WITA: единственный дефект приёмки был «не запушено»,
+  // воркер запушил через минуту, а диспетчер 210 мин ждал коммита моложе fixStartedAt) — поэтому «правка
+  // выложена» судится по СМЕНЕ OID относительно головы, которую видел приёмщик, а дата остаётся запасным критерием.
   const cwd = cfg.project.mainCheckout;
   const f = sh('git', ['fetch', '-q', 'origin', `+refs/heads/${branch}:refs/remotes/origin/${branch}`], { cwd, timeout: 60000 });
   if (f.rc) return null;
-  const r = sh('git', ['log', '-1', '--format=%cI', `refs/remotes/origin/${branch}`], { cwd });
-  const d = r.rc ? '' : String(r.out || '').trim();
-  return d || null;
+  const r = sh('git', ['log', '-1', '--format=%H%n%cI', `refs/remotes/origin/${branch}`], { cwd });
+  if (r.rc) return null;
+  const [oid, date] = String(r.out || '').trim().split('\n');
+  return oid ? { oid, date: date || null } : null;
 }
+export function branchHeadDate(cfg, branch) { return branchHead(cfg, branch)?.date || null; }
 
 // ---------- claude -p (headless) ----------
 export function runClaude({ cwd, prompt, model, effort, logFile, name, session }) {
