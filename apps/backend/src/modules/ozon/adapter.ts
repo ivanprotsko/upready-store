@@ -2,6 +2,7 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type {
   CredentialFacts,
   CredentialSlot,
+  InspectOptions,
   MarketplaceAdapter,
   MpKind,
   MutationEntry,
@@ -108,13 +109,30 @@ const daysUntil = (expiresAt: string | null): number | null => {
  * journalled like any other read. It never throws: an unanswered question is
  * a fact the panel has to render, not an error that hides the card.
  */
-const inspectCredentials = async (credentials: unknown): Promise<CredentialFacts> => {
+const inspectCredentials = async (
+  credentials: unknown,
+  options?: InspectOptions,
+): Promise<CredentialFacts> => {
   let facts: OzonCredentialFacts;
   try {
     facts = await inspectOzonCredentials(
       credentials && typeof credentials === "object"
         ? (credentials as OzonCredentials)
         : null,
+      {
+        tenantId: options?.tenantId,
+        /**
+         * The question IS a request to Ozon, so it is journalled like any
+         * other read. A call that leaves the process without a row makes the
+         * journal lie by omission, which is the one thing it exists not to do
+         * (rule 20a, and `__tests__/credentials.unit.spec.ts` enforces it over
+         * every call site in `src`).
+         */
+        journal: options?.journal
+          ? (entry) => options.journal?.({ ...entry })
+          : undefined,
+        logger: options?.logger,
+      },
     );
   } catch (error) {
     return {

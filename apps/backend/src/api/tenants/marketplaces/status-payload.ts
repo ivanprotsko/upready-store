@@ -62,7 +62,21 @@ export const buildCard = async (
    * card exists to answer is "what can this key do RIGHT NOW".
    */
   const facts = options.withCredentials
-    ? await adapter.inspectCredentials(slot?.credentials ?? null)
+    ? await adapter.inspectCredentials(slot?.credentials ?? null, {
+        tenantId,
+        /**
+         * Asking an Ozon key what it may do IS a request to Ozon, and the
+         * shared journal is what proves what left this process. `medusa lint`
+         * warns about a service mutation in a route handler; it is kept as a
+         * warning on purpose, exactly as `/tenants/ozon/status` does — this is
+         * not domain state a workflow should own, it is one bookkeeping row
+         * about a request this handler itself sent, and it has to be written
+         * by whoever sent it or the evidence goes missing.
+         */
+        journal: async (entry) => {
+          await mp.createMpApiCalls({ ...entry, marketplace: adapter.id });
+        },
+      })
     : null;
 
   const filter = { tenant_id: tenantId, marketplace: adapter.id };

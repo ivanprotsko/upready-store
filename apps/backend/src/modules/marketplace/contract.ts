@@ -139,6 +139,17 @@ export type CredentialFacts = {
   error: string | null;
 };
 
+/**
+ * What an adapter needs in order to ask the key about itself without the
+ * evidence going missing.
+ */
+export type InspectOptions = {
+  tenantId?: string | null;
+  /** One row per request this question actually sent. */
+  journal?: (entry: ApiCallRecord) => Promise<void> | void;
+  logger?: Pick<Console, "info" | "warn">;
+};
+
 /** How many days before expiry the panel warns. One number for every marketplace. */
 export const EXPIRY_WARNING_DAYS = 14;
 
@@ -354,8 +365,20 @@ export type MarketplaceAdapter = {
   mutationDenyList: readonly MutationEntry[];
   /** The ONE network I/O point of this adapter. No fetch, no base URL, no raw helper. */
   read: <T>(endpointId: string, options: ReadOptions) => Promise<ReadResult<T>>;
-  /** What the key says about itself. Never throws: an unanswered question is a fact. */
-  inspectCredentials: (credentials: unknown) => Promise<CredentialFacts>;
+  /**
+   * What the key says about itself. Never throws: an unanswered question is a
+   * fact to report, not an error that hides the card.
+   *
+   * `options.journal` is REQUIRED reading, not decoration: on Ozon this is a
+   * real `POST /v1/roles`, and a request that leaves the process without a
+   * journal row makes `mp_api_call` lie by omission (rule 20a). Wildberries
+   * decodes its own JWT and calls nobody, so it journals nothing — and that is
+   * the difference the journal is supposed to show.
+   */
+  inspectCredentials: (
+    credentials: unknown,
+    options?: InspectOptions,
+  ) => Promise<CredentialFacts>;
   /**
    * The shop's stored credentials for this marketplace, or `null` when it has
    * none. `pg` is the Knex connection Medusa registers; it is `unknown` here

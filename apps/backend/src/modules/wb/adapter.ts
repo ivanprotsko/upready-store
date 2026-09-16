@@ -2,6 +2,7 @@ import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import type {
   CredentialFacts,
   CredentialSlot,
+  InspectOptions,
   MarketplaceAdapter,
   MpKind,
   ReadOptions,
@@ -73,7 +74,16 @@ const read = async <T>(endpointId: string, options: ReadOptions): Promise<ReadRe
  * documented bit table (`token.ts`, PR #71). No network call — a WB key
  * carries its own scope, unlike Ozon's opaque string.
  */
-const inspectCredentials = async (credentials: unknown): Promise<CredentialFacts> => {
+const inspectCredentials = async (
+  credentials: unknown,
+  _options?: InspectOptions,
+): Promise<CredentialFacts> => {
+  /**
+   * `_options.journal` is unused here and that is the honest answer: a WB key
+   * is a JWT and this function decodes it locally. Nothing leaves the process,
+   * so there is no request to journal, and writing a row anyway would put a
+   * call into `mp_api_call` that never happened.
+   */
   const key = typeof credentials === "string" ? credentials : null;
   const facts = inspectToken(key);
 
