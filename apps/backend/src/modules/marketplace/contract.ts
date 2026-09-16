@@ -262,6 +262,12 @@ export type MpOrderDraft = DraftBase & {
   /** FBS | FBO | DBS | rFBS, or `null` where the marketplace does not say. */
   scheme: string | null;
   status: string | null;
+  /**
+   * The marketplace's second status string (WB `wbStatus`, Ozon `substatus`),
+   * raw. `null` where the marketplace answers with one status only
+   * (w15-mp-orders-desk).
+   */
+  status_detail: string | null;
   status_changed_at: Date | null;
   ordered_at: Date | null;
   buyer_region: string | null;
@@ -394,8 +400,36 @@ export type MarketplaceAdapter = {
    * because the core does not import the database types either.
    */
   readCredentials: (pg: unknown, tenantId: string) => Promise<CredentialSlot | null>;
+  /**
+   * One line telling the owner HOW this shop's key gets stored, for the panel
+   * to show where the key is absent (w14-mp-catalog-link).
+   *
+   * It belongs to the adapter for the same reason `readCredentials` does: WB
+   * takes one JWT and Ozon takes a `Client-Id` + `Api-Key` pair, and a list of
+   * marketplaces kept anywhere else would have to learn every new one by hand
+   * (rule 20). It names the command or the screen that exists TODAY and
+   * nothing else — a hint that invents a button is worse than no hint, because
+   * the owner goes looking for it (rule 17a).
+   */
+  credentialHowTo: string;
   /** The adapter's own import kinds, in its own vocabulary (WB: cards, Ozon: products). */
   syncKinds: readonly string[];
+  /**
+   * Which of THIS adapter's import kinds fill one normalized kind
+   * (w18-mp-reviews-desk).
+   *
+   * The desk screens are written per normalized kind — «отзывы», «вопросы» —
+   * while the importers are written in each marketplace's own vocabulary: WB
+   * imports `feedbacks`, Ozon imports `reviews`. Without this member a caller
+   * that wants "import what fills mp_review, everywhere" has to keep a table
+   * of marketplace vocabularies of its own, which is the second enumeration
+   * the registry exists to remove (rule 20).
+   *
+   * Every value must be one of `syncKinds`; `guards.ts` refuses a typo. A
+   * normalized kind this adapter does not import at all maps to an empty
+   * array, which is a statement rather than a gap.
+   */
+  mirrorKinds: Readonly<Record<MpKind, readonly string[]>>;
   runSync: (deps: SyncDeps, kind: string) => Promise<SyncOutcome>;
   /**
    * The raw mirror rows one normalized kind is computed from, in whatever
@@ -444,7 +478,9 @@ export const ADAPTER_KEYS = [
   "read",
   "inspectCredentials",
   "readCredentials",
+  "credentialHowTo",
   "syncKinds",
+  "mirrorKinds",
   "runSync",
   "loadMirror",
   "loadJournal",

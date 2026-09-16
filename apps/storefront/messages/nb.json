@@ -436,7 +436,14 @@
     "previous": "Forrige",
     "next": "Neste",
     "pageOf": "Side {page} av {lastPage}",
-    "pagination": "Magasinsider"
+    "pagination": "Magasinsider",
+    "readingTime": "{minutes} min lesing",
+    "related": "Les også",
+    "share": "Del",
+    "copyLink": "Kopier lenke",
+    "linkCopied": "Lenke kopiert",
+    "allCategories": "Alle temaer",
+    "categories": "Temaer"
   },
   "LanguageSelect": {
     "locales": {

@@ -1,0 +1,956 @@
+[
+ {
+  "id": "cookie-consent",
+  "name_ru": "Баннер согласия на cookie",
+  "name_en": "Cookie consent",
+  "category": "trust-reviews",
+  "match": [
+   "cookie",
+   "куки"
+  ]
+ },
+ {
+  "id": "marketplace-block",
+  "name_ru": "Блок «мы на маркетплейсах»",
+  "name_en": "Marketplaces block",
+  "category": "integrations",
+  "match": [
+   "marketplace"
+  ]
+ },
+ {
+  "id": "theme-style-editor",
+  "name_ru": "Настройка стилей: цвета, шрифты, логотип без кода",
+  "name_en": "Theme style editor",
+  "category": "admin-customization",
+  "match": [
+   "editable-layout",
+   "style",
+   "customization",
+   "шрифт",
+   "цвет",
+   "логотип",
+   "настройка стилей",
+   "вёрстк"
+  ]
+ },
+ {
+  "id": "product-count-badge",
+  "name_ru": "Счётчик товаров в категории",
+  "name_en": "Product counter",
+  "category": "filters-search",
+  "match": [
+   "product-count",
+   "счётчик количества товаров"
+  ]
+ },
+ {
+  "id": "product-tabs",
+  "name_ru": "Вкладки «Описание / Характеристики / Отзывы»",
+  "name_en": "Product tabs",
+  "category": "product-page",
+  "match": [
+   "product-tabs",
+   "вкладки"
+  ]
+ },
+ {
+  "id": "specs-table",
+  "name_ru": "Таблица характеристик товара",
+  "name_en": "Specifications table",
+  "category": "product-page",
+  "match": [
+   "specs",
+   "характеристик",
+   "composition",
+   "material-size",
+   "product-description-in-listing",
+   "product-material"
+  ]
+ },
+ {
+  "id": "variant-selector",
+  "name_ru": "Выбор вариантов товара (цвет, размер, объём)",
+  "name_en": "Variant selector",
+  "category": "product-page",
+  "match": [
+   "variant",
+   "модификац",
+   "color-size",
+   "product-size-attribute",
+   "выбор (размера|цвета|варианта)"
+  ]
+ },
+ {
+  "id": "stock-status",
+  "name_ru": "Статус наличия товара",
+  "name_en": "Stock status",
+  "category": "catalog-listing",
+  "match": [
+   "stock-status",
+   "stock-indicator",
+   "наличи"
+  ]
+ },
+ {
+  "id": "quick-view-popup",
+  "name_ru": "Быстрый просмотр товара во всплывающем окне",
+  "name_en": "Quick view popup",
+  "category": "product-page",
+  "match": [
+   "quick-view",
+   "quick_view",
+   "product-detail-popup",
+   "product-buy-popup",
+   "hero-product-popup",
+   "быстрый просмотр",
+   "попап карточки",
+   "всплывающее окно"
+  ]
+ },
+ {
+  "id": "related-products",
+  "name_ru": "Сопутствующие и аналогичные товары",
+  "name_en": "Related products",
+  "category": "product-page",
+  "match": [
+   "related",
+   "similar-products",
+   "сопутств",
+   "аналогичн",
+   "похожие"
+  ]
+ },
+ {
+  "id": "preorder",
+  "name_ru": "Предзаказ товара не в наличии",
+  "name_en": "Pre-order",
+  "category": "product-page",
+  "match": [
+   "preorder",
+   "pre-order",
+   "предзаказ"
+  ]
+ },
+ {
+  "id": "product-gallery-zoom",
+  "name_ru": "Галерея фотографий товара с увеличением",
+  "name_en": "Product gallery with zoom",
+  "category": "product-page",
+  "match": [
+   "gallery",
+   "zoom",
+   "галере"
+  ]
+ },
+ {
+  "id": "product-description-expand",
+  "name_ru": "Описание товара со сворачиванием («показать полностью»)",
+  "name_en": "Collapsible description",
+  "category": "product-page",
+  "match": [
+   "description-expand",
+   "expand-collapse",
+   "показать полностью",
+   "свернуть"
+  ]
+ },
+ {
+  "id": "kit-bundle",
+  "name_ru": "Комплекты, наборы, сеты",
+  "name_en": "Kits and bundles",
+  "category": "catalog-listing",
+  "match": [
+   "kit-bundle",
+   "bundle",
+   "product-sets",
+   "set-bundle",
+   "набор",
+   "комплект",
+   "сет"
+  ]
+ },
+ {
+  "id": "recently-viewed",
+  "name_ru": "Блок «ранее просмотренные товары»",
+  "name_en": "Recently viewed",
+  "category": "catalog-listing",
+  "match": [
+   "recently-viewed",
+   "ранее просмотренные",
+   "вы смотрели"
+  ]
+ },
+ {
+  "id": "quick-add-to-cart",
+  "name_ru": "Добавление в корзину прямо из списка",
+  "name_en": "Add to cart from listing",
+  "category": "catalog-listing",
+  "match": [
+   "quick-add",
+   "add-to-cart-button-per",
+   "add-to-cart-per-product",
+   "add-to-cart-button",
+   "buy-button-per",
+   "buy-button-to-order",
+   "buy-now",
+   "кнопка «купить»",
+   "кнопка «добавить в корзину»",
+   "«заказать»"
+  ]
+ },
+ {
+  "id": "bestsellers-block",
+  "name_ru": "Блок «хиты продаж»",
+  "name_en": "Bestsellers block",
+  "category": "promo-marketing",
+  "match": [
+   "bestseller",
+   "best-sellers",
+   "хиты",
+   "популярн"
+  ]
+ },
+ {
+  "id": "lead-request-form",
+  "name_ru": "Форма заявки и обратной связи с валидацией",
+  "name_en": "Lead / feedback form",
+  "category": "trust-reviews",
+  "match": [
+   "lead-request",
+   "lead-form",
+   "feedback-form",
+   "contact-popup",
+   "заявк",
+   "обратной связи"
+  ]
+ },
+ {
+  "id": "services-price-list",
+  "name_ru": "Прайс-лист услуг с записью",
+  "name_en": "Services price list",
+  "category": "b2b-wholesale",
+  "match": [
+   "price-list",
+   "services-price",
+   "прайс",
+   "записаться"
+  ]
+ },
+ {
+  "id": "brands-block",
+  "name_ru": "Блок брендов и брендовых коллекций",
+  "name_en": "Brands block",
+  "category": "catalog-listing",
+  "match": [
+   "brand-collections",
+   "store-brands",
+   "наши бренды",
+   "бренд"
+  ]
+ },
+ {
+  "id": "promo-campaigns-page",
+  "name_ru": "Раздел «Акции» со сроками действия",
+  "name_en": "Campaigns page",
+  "category": "promo-marketing",
+  "match": [
+   "dated-promo",
+   "promo-campaign",
+   "раздел «акции»",
+   "акци\\w* со сроками"
+  ]
+ },
+ {
+  "id": "hero-slider",
+  "name_ru": "Слайдер-баннер на главной",
+  "name_en": "Hero slider",
+  "category": "navigation",
+  "match": [
+   "hero-slider",
+   "slider",
+   "слайдер",
+   "карусел"
+  ]
+ },
+ {
+  "id": "care-usage-content",
+  "name_ru": "Инструкции по уходу и применению",
+  "name_en": "Care / usage content",
+  "category": "content",
+  "match": [
+   "care-instructions",
+   "product-values",
+   "уход",
+   "применени",
+   "ценност"
+  ]
+ },
+ {
+  "id": "compare-products",
+  "name_ru": "Сравнение товаров",
+  "name_en": "Product comparison",
+  "category": "catalog-listing",
+  "match": [
+   "compare",
+   "сравнени"
+  ]
+ },
+ {
+  "id": "wishlist",
+  "name_ru": "Избранное (список желаний)",
+  "name_en": "Wishlist",
+  "category": "catalog-listing",
+  "match": [
+   "wishlist",
+   "избранн",
+   "favorit"
+  ]
+ },
+ {
+  "id": "one-click-buy",
+  "name_ru": "Купить в один клик",
+  "name_en": "One-click buy",
+  "category": "cart-checkout",
+  "match": [
+   "one-click",
+   "в 1 клик",
+   "в один клик",
+   "one_click"
+  ]
+ },
+ {
+  "id": "size-chart",
+  "name_ru": "Таблица размеров",
+  "name_en": "Size chart",
+  "category": "product-page",
+  "match": [
+   "size-chart",
+   "таблица размеров",
+   "размерная сетка"
+  ]
+ },
+ {
+  "id": "countdown-timer",
+  "name_ru": "Таймер обратного отсчёта акции",
+  "name_en": "Promo countdown",
+  "category": "promo-marketing",
+  "match": [
+   "countdown",
+   "таймер"
+  ]
+ },
+ {
+  "id": "newsletter-signup",
+  "name_ru": "Подписка на email-рассылку",
+  "name_en": "Newsletter signup",
+  "category": "promo-marketing",
+  "match": [
+   "newsletter",
+   "email-subscription",
+   "email-validation",
+   "coming-soon",
+   "подписк\\w* на (рассылку|новости)",
+   "сбор\\w* email"
+  ]
+ },
+ {
+  "id": "loyalty-program",
+  "name_ru": "Программа лояльности и бонусы",
+  "name_en": "Loyalty program",
+  "category": "promo-marketing",
+  "match": [
+   "loyalty",
+   "бонус",
+   "лояльност"
+  ]
+ },
+ {
+  "id": "promo-code",
+  "name_ru": "Промокод на скидку",
+  "name_en": "Promo code",
+  "category": "promo-marketing",
+  "match": [
+   "promo-code",
+   "промокод"
+  ]
+ },
+ {
+  "id": "first-order-discount",
+  "name_ru": "Скидка за первый заказ, репост, подписку",
+  "name_en": "Signup/share discount",
+  "category": "promo-marketing",
+  "match": [
+   "first-order",
+   "discount-signup",
+   "social-share-reward",
+   "social-hashtag",
+   "за репост",
+   "giveaway"
+  ]
+ },
+ {
+  "id": "bulk-discount",
+  "name_ru": "Скидка за объём покупки",
+  "name_en": "Volume discount",
+  "category": "promo-marketing",
+  "match": [
+   "bulk-discount",
+   "при покупке от"
+  ]
+ },
+ {
+  "id": "promo-banner",
+  "name_ru": "Промо-баннер акции и распродажи",
+  "name_en": "Promo banner",
+  "category": "promo-marketing",
+  "match": [
+   "promo-banner",
+   "sale-banner",
+   "promo-discount",
+   "promo-popup",
+   "promo-marketing-banner",
+   "промо-баннер",
+   "баннер\\w* (акци|распродаж|скидк)",
+   "promo-category-banner"
+  ]
+ },
+ {
+  "id": "social-follow-share",
+  "name_ru": "Соцсети: подписка и кнопки «поделиться»",
+  "name_en": "Social follow and share",
+  "category": "promo-marketing",
+  "match": [
+   "social-share",
+   "social-media",
+   "ugc-instagram",
+   "соцсет",
+   "поделиться"
+  ]
+ },
+ {
+  "id": "installments",
+  "name_ru": "Оплата частями (рассрочка, сплит)",
+  "name_en": "Installments / split payment",
+  "category": "cart-checkout",
+  "match": [
+   "installment",
+   "частями",
+   "рассрочк",
+   "сплит"
+  ]
+ },
+ {
+  "id": "price-range-filter",
+  "name_ru": "Фильтр по цене (диапазон от/до)",
+  "name_en": "Price range filter",
+  "category": "filters-search",
+  "match": [
+   "price-range",
+   "price-filter",
+   "фильтр по цене"
+  ]
+ },
+ {
+  "id": "in-stock-filter",
+  "name_ru": "Фильтр «только в наличии»",
+  "name_en": "In-stock filter",
+  "category": "filters-search",
+  "match": [
+   "in-stock-only",
+   "только в наличии"
+  ]
+ },
+ {
+  "id": "attribute-filters",
+  "name_ru": "Фильтры по характеристикам товара",
+  "name_en": "Attribute facets",
+  "category": "filters-search",
+  "match": [
+   "size-filter",
+   "material-filter",
+   "country-filter",
+   "volume-variant-filter",
+   "country-material",
+   "sidebar-filters",
+   "show-all-filters",
+   "attribute.*filter",
+   "filter.*attribute",
+   "фильтр"
+  ]
+ },
+ {
+  "id": "catalog-sorting",
+  "name_ru": "Сортировка каталога",
+  "name_en": "Catalog sorting",
+  "category": "filters-search",
+  "match": [
+   "sort",
+   "сортировк"
+  ]
+ },
+ {
+  "id": "live-search",
+  "name_ru": "Живой поиск по каталогу",
+  "name_en": "Live search",
+  "category": "filters-search",
+  "match": [
+   "live-search",
+   "instant-search",
+   "search-suggest",
+   "autocomplete",
+   "живой поиск",
+   "поиск по (каталогу|сайту|товарам)",
+   "search"
+  ]
+ },
+ {
+  "id": "pagination-load-more",
+  "name_ru": "Пагинация и «показать ещё»",
+  "name_en": "Pagination / load more",
+  "category": "catalog-listing",
+  "match": [
+   "pagination",
+   "load-more",
+   "show-more",
+   "подгрузка"
+  ]
+ },
+ {
+  "id": "product-card-price-badges",
+  "name_ru": "Карточка товара: цена, старая цена, метки SALE/NEW",
+  "name_en": "Product card with price and badges",
+  "category": "catalog-listing",
+  "match": [
+   "sale-badge",
+   "sale-price",
+   "old-new",
+   "strikethrough",
+   "price-crossed",
+   "product-badge",
+   "new-badge",
+   "new-product",
+   "product-card",
+   "product-cards",
+   "product-catalog-cards",
+   "product-grid",
+   "product-composition-in-card",
+   "product-buy-price",
+   "dish-card",
+   "new-arrival",
+   "новинка",
+   "метк[аи]",
+   "бейдж",
+   "карточк\\w* товара со? (стар|цен|скидочн|метк)"
+  ]
+ },
+ {
+  "id": "category-sections",
+  "name_ru": "Разделы каталога и подборки на главной",
+  "name_en": "Category sections on home",
+  "category": "catalog-listing",
+  "match": [
+   "category-sections",
+   "category-tabs",
+   "two-category",
+   "two-product-category",
+   "old-collections-menu",
+   "category-navigation-strip",
+   "подборк",
+   "разделы каталога"
+  ]
+ },
+ {
+  "id": "product-video",
+  "name_ru": "Видео о товаре",
+  "name_en": "Product video",
+  "category": "product-page",
+  "match": [
+   "video",
+   "видео"
+  ]
+ },
+ {
+  "id": "custom-made-order",
+  "name_ru": "Индивидуальный заказ (по меркам, свой дизайн)",
+  "name_en": "Custom-made order",
+  "category": "product-page",
+  "match": [
+   "custom-sizing",
+   "custom-bouquet",
+   "custom-design",
+   "индивидуальн"
+  ]
+ },
+ {
+  "id": "single-product-landing",
+  "name_ru": "Лендинг одного товара",
+  "name_en": "Single-product landing",
+  "category": "product-page",
+  "match": [
+   "single-product",
+   "hero-cta-buy",
+   "лендинг товара",
+   "одностраничная карточка"
+  ]
+ },
+ {
+  "id": "cart-page",
+  "name_ru": "Корзина покупок",
+  "name_en": "Cart",
+  "category": "cart-checkout",
+  "match": [
+   "^cart$",
+   "shopping-cart",
+   "cart-page",
+   "корзина покупок",
+   "empty-cart",
+   "пустой корзин"
+  ]
+ },
+ {
+  "id": "cart-slide-panel",
+  "name_ru": "Панель корзины после добавления товара",
+  "name_en": "Slide-in cart panel",
+  "category": "cart-checkout",
+  "match": [
+   "slide-panel",
+   "cart-dropdown",
+   "мини-корзин",
+   "всплывающая панель корзины"
+  ]
+ },
+ {
+  "id": "checkout-form",
+  "name_ru": "Оформление заказа (форма с контактами)",
+  "name_en": "Checkout form",
+  "category": "cart-checkout",
+  "match": [
+   "checkout",
+   "order-form",
+   "order-sidebar",
+   "contact-order",
+   "order-summary",
+   "order-process",
+   "форма заказа",
+   "оформлени\\w* заказа"
+  ]
+ },
+ {
+  "id": "delivery-options",
+  "name_ru": "Выбор способа доставки при заказе",
+  "name_en": "Delivery options",
+  "category": "cart-checkout",
+  "match": [
+   "delivery-option",
+   "multiple-delivery",
+   "способ доставки"
+  ]
+ },
+ {
+  "id": "pickup-points",
+  "name_ru": "Самовывоз и пункты выдачи",
+  "name_en": "Pickup points",
+  "category": "cart-checkout",
+  "match": [
+   "pickup",
+   "самовывоз"
+  ]
+ },
+ {
+  "id": "payment-methods",
+  "name_ru": "Выбор способа оплаты",
+  "name_en": "Payment methods",
+  "category": "cart-checkout",
+  "match": [
+   "payment-method",
+   "payment-settings",
+   "способ\\w* оплаты",
+   "оплата картой",
+   "payment-system-icons",
+   "иконки платёжных систем"
+  ]
+ },
+ {
+  "id": "multi-currency",
+  "name_ru": "Мультивалютность",
+  "name_en": "Multi-currency",
+  "category": "cart-checkout",
+  "match": [
+   "multi-currency",
+   "валют"
+  ]
+ },
+ {
+  "id": "blog",
+  "name_ru": "Блог / журнал магазина",
+  "name_en": "Blog",
+  "category": "content",
+  "match": [
+   "blog",
+   "блог",
+   "журнал",
+   "стать"
+  ]
+ },
+ {
+  "id": "delivery-payment-page",
+  "name_ru": "Страница «Доставка и оплата»",
+  "name_en": "Delivery & payment page",
+  "category": "content",
+  "match": [
+   "delivery-info",
+   "worldwide-delivery",
+   "payment-methods-list",
+   "доставк\\w* и оплат",
+   "условия доставки",
+   "доставк"
+  ]
+ },
+ {
+  "id": "contacts-map",
+  "name_ru": "Контакты с картой и реквизитами",
+  "name_en": "Contacts with map",
+  "category": "content",
+  "match": [
+   "contacts-map",
+   "contacts",
+   "карт[аеу]",
+   "контакт",
+   "footer-hours",
+   "часы работы",
+   "адрес"
+  ]
+ },
+ {
+  "id": "about-brand-story",
+  "name_ru": "О бренде, история, производство",
+  "name_en": "About / brand story",
+  "category": "content",
+  "match": [
+   "brand-story",
+   "about",
+   "о нас",
+   "истори"
+  ]
+ },
+ {
+  "id": "lookbook",
+  "name_ru": "Лукбук и образы",
+  "name_en": "Lookbook",
+  "category": "content",
+  "match": [
+   "lookbook",
+   "лукбук",
+   "образ"
+  ]
+ },
+ {
+  "id": "faq-block",
+  "name_ru": "Вопросы и ответы (FAQ)",
+  "name_en": "FAQ",
+  "category": "content",
+  "match": [
+   "faq",
+   "вопрос"
+  ]
+ },
+ {
+  "id": "advantages-block",
+  "name_ru": "Блок преимуществ магазина",
+  "name_en": "Advantages block",
+  "category": "content",
+  "match": [
+   "advantages",
+   "преимуществ"
+  ]
+ },
+ {
+  "id": "product-reviews-rating",
+  "name_ru": "Отзывы о товаре с оценкой",
+  "name_en": "Product reviews with rating",
+  "category": "trust-reviews",
+  "match": [
+   "product-review",
+   "review-rating",
+   "moderation",
+   "отзыв\\w* о товаре"
+  ]
+ },
+ {
+  "id": "store-reviews",
+  "name_ru": "Отзывы покупателей о магазине",
+  "name_en": "Store reviews",
+  "category": "trust-reviews",
+  "match": [
+   "reviews-widget",
+   "customer-reviews",
+   "client-reviews",
+   "отзыв"
+  ]
+ },
+ {
+  "id": "chat-widget",
+  "name_ru": "Виджет онлайн-чата",
+  "name_en": "Live chat widget",
+  "category": "integrations",
+  "match": [
+   "chat",
+   "чат"
+  ]
+ },
+ {
+  "id": "legal-pages",
+  "name_ru": "Юридические страницы (оферта, политика)",
+  "name_en": "Legal pages",
+  "category": "trust-reviews",
+  "match": [
+   "legal",
+   "оферт",
+   "политик",
+   "соглашени",
+   "exchange-return",
+   "обмен и возврат",
+   "возврат"
+  ]
+ },
+ {
+  "id": "partners-block",
+  "name_ru": "Блок партнёров и брендов",
+  "name_en": "Partners block",
+  "category": "trust-reviews",
+  "match": [
+   "partners",
+   "партн[её]р"
+  ]
+ },
+ {
+  "id": "callback-request",
+  "name_ru": "Заказ обратного звонка",
+  "name_en": "Callback request",
+  "category": "trust-reviews",
+  "match": [
+   "callback",
+   "call-order",
+   "click-to-call",
+   "обратный звонок",
+   "заказать звонок"
+  ]
+ },
+ {
+  "id": "customer-account",
+  "name_ru": "Личный кабинет покупателя",
+  "name_en": "Customer account",
+  "category": "account",
+  "match": [
+   "^account$",
+   "личный кабинет",
+   "client_account",
+   "кабинет покупателя",
+   "account-login",
+   "вход, регистрация"
+  ]
+ },
+ {
+  "id": "wholesale-b2b",
+  "name_ru": "Опт и B2B-продажи",
+  "name_en": "Wholesale / B2B",
+  "category": "b2b-wholesale",
+  "match": [
+   "wholesale",
+   "b2b",
+   "оптов"
+  ]
+ },
+ {
+  "id": "structured-data",
+  "name_ru": "Микроразметка и SEO-данные страницы",
+  "name_en": "Structured data",
+  "category": "seo-perf",
+  "match": [
+   "structured-data",
+   "seo",
+   "schema",
+   "микроразметк"
+  ]
+ },
+ {
+  "id": "web-analytics",
+  "name_ru": "Веб-аналитика",
+  "name_en": "Web analytics",
+  "category": "seo-perf",
+  "match": [
+   "analytics",
+   "аналитик",
+   "метрик"
+  ]
+ },
+ {
+  "id": "widget-library",
+  "name_ru": "Библиотека виджетов страниц (100+)",
+  "name_en": "Page widget library",
+  "category": "admin-customization",
+  "match": [
+   "widget",
+   "виджет"
+  ]
+ },
+ {
+  "id": "recaptcha",
+  "name_ru": "Защита форм от спама (reCAPTCHA)",
+  "name_en": "Anti-spam reCAPTCHA",
+  "category": "admin-customization",
+  "match": [
+   "recaptcha",
+   "спам"
+  ]
+ },
+ {
+  "id": "responsive-mobile",
+  "name_ru": "Адаптивность под мобильные",
+  "name_en": "Responsive layout",
+  "category": "admin-customization",
+  "match": [
+   "responsive",
+   "адаптив",
+   "мобильн"
+  ]
+ },
+ {
+  "id": "anchor-section-menu",
+  "name_ru": "Якорное меню разделов одностраничника",
+  "name_en": "Anchor section menu",
+  "category": "navigation",
+  "match": [
+   "anchor"
+  ]
+ },
+ {
+  "id": "catalog-category-menu",
+  "name_ru": "Меню каталога по категориям",
+  "name_en": "Catalog category menu",
+  "category": "navigation",
+  "match": [
+   "category-nav",
+   "menu-category",
+   "megamenu",
+   "top-nav",
+   "section-nav",
+   "nav-menu",
+   "catalog-nav",
+   "меню",
+   "catalog-tree",
+   "дерево категорий"
+  ]
+ },
+ {
+  "id": "scroll-to-top",
+  "name_ru": "Кнопка «наверх»",
+  "name_en": "Scroll to top",
+  "category": "navigation",
+  "match": [
+   "scroll-to-top",
+   "наверх"
+  ]
+ }
+]

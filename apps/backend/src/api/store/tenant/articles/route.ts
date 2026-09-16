@@ -3,6 +3,8 @@ import { TENANT_MODULE } from "../../../../modules/tenant";
 import type TenantModuleService from "../../../../modules/tenant/service";
 import {
   byPublishedDesc,
+  isArticleVisible,
+  normaliseCategory,
   oneRowPerSlug,
   requestedArticleLocale,
   toArticleSummary,
@@ -41,17 +43,36 @@ export const GET = async (req: MedusaStoreRequest, res: MedusaResponse) => {
   const offset = parsePositiveInt(req.query.offset, 0, Number.MAX_SAFE_INTEGER);
   const tenantModuleService: TenantModuleService = req.scope.resolve(TENANT_MODULE);
 
-  const rows = await tenantModuleService.listTenantArticles({
-    tenant_id: tenant.id,
-    published: true,
-  });
+  // b18-blog-full: the filter is not a column any more. `status` says what the
+  // owner INTENDED and `isArticleVisible` says what a visitor sees right now —
+  // a `scheduled` article goes public at its own minute, with no job having to
+  // have run first. Rows are few per tenant (tens), so the date comparison
+  // happens here rather than in four different query builders.
+  const now = new Date();
+  const rows = (
+    await tenantModuleService.listTenantArticles({
+      tenant_id: tenant.id,
+      status: ["published", "scheduled"],
+    })
+  ).filter((row) => isArticleVisible(row, now));
 
-  const articles = oneRowPerSlug(rows, requested).map(toArticleSummary).sort(byPublishedDesc);
+  // `?category=` narrows the feed to one rubric. An unknown rubric answers an
+  // empty feed rather than the whole journal: a visitor following a stale link
+  // must not silently get «everything» and think that is the rubric.
+  const category = normaliseCategory(
+    Array.isArray(req.query.category) ? req.query.category[0] : req.query.category,
+  );
+
+  const articles = oneRowPerSlug(rows, requested)
+    .map((row) => toArticleSummary(row, now))
+    .filter((article) => !category || article.category === category)
+    .sort(byPublishedDesc);
 
   res.json({
     articles: articles.slice(offset, offset + limit),
     count: articles.length,
     limit,
     offset,
+    ...(category && { category }),
   });
 };

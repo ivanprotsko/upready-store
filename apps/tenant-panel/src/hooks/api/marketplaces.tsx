@@ -36,7 +36,12 @@ export type MarketplaceCard = {
   id: string
   label: string
   connection: {
-    key: { set: boolean; last4: string | null }
+    key: {
+      set: boolean
+      last4: string | null
+      /** One line from the adapter: how this shop's key gets stored. */
+      how_to_store: string
+    }
     is_enabled: boolean
   }
   /** `null` on the list route: not asked, rather than asked and unknown. */

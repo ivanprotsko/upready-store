@@ -307,7 +307,30 @@ export const ozonAdapter: MarketplaceAdapter = {
   read,
   inspectCredentials,
   readCredentials,
+  /**
+   * The only mechanism that exists today (`src/scripts/ozon-seed-key.ts`).
+   * Ozon needs a PAIR, which is exactly why this line belongs to the adapter
+   * and not to a table in the core.
+   */
+  credentialHowTo:
+    "Ключ хранится в tenant_integration_secret (provider=ozon), " +
+    "зашифрованным под INTEGRATION_ENCRYPTION_KEY. Сохраняет его скрипт: " +
+    "OZON_CLIENT_ID=<id> OZON_API_KEY=<ключ> OZON_TENANT=<handle> " +
+    "pnpm --filter backend ozon:seed-key. Действия в панели для этого нет.",
   syncKinds: OZON_SYNC_KINDS,
+  /**
+   * Ozon's own vocabulary against the normalized kinds (w18-mp-reviews-desk).
+   * Here the two happen to coincide for reviews and questions; on Wildberries
+   * they do not, which is why the mapping is a member of the adapter and not a
+   * convention the core assumes.
+   */
+  mirrorKinds: {
+    products: ["products"],
+    offers: ["prices", "stocks"],
+    orders: ["postings"],
+    reviews: ["reviews"],
+    questions: ["questions"],
+  },
   runSync: runSyncForKind,
   loadMirror,
   loadJournal,

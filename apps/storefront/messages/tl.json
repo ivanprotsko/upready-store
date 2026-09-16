@@ -436,7 +436,14 @@
     "previous": "Nakaraan",
     "next": "Susunod",
     "pageOf": "Pahina {page} ng {lastPage}",
-    "pagination": "Mga pahina ng journal"
+    "pagination": "Mga pahina ng journal",
+    "readingTime": "{minutes} min basahin",
+    "related": "Basahin din",
+    "share": "Ibahagi",
+    "copyLink": "Kopyahin ang link",
+    "linkCopied": "Nakopya ang link",
+    "allCategories": "Lahat ng paksa",
+    "categories": "Mga paksa"
   },
   "LanguageSelect": {
     "locales": {

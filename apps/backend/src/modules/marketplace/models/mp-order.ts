@@ -24,6 +24,20 @@ const MpOrder = model
     /** FBS | FBO | DBS | rFBS, or null where the method does not say. */
     scheme: model.text().nullable(),
     status: model.text().nullable(),
+    /**
+     * The marketplace's SECOND status string, where it has one, kept raw
+     * (w15-mp-orders-desk).
+     *
+     * Both marketplaces answer with two: Wildberries an FBS assembly order
+     * carries `supplierStatus` (what the seller did) next to `wbStatus` (where
+     * the parcel is), and Ozon a posting carries `status` next to `substatus`.
+     * Flattening the pair into one column would drop the half the owner needs
+     * to tell "я собрал" from "покупатель отказался", and inventing a combined
+     * vocabulary of our own would replace the marketplace's word with ours
+     * (rule 17a). So `status` holds the seller-facing string, this holds the
+     * other one, and both reach the order card unchanged.
+     */
+    status_detail: model.text().nullable(),
     status_changed_at: model.dateTime().nullable(),
     ordered_at: model.dateTime().nullable(),
     buyer_region: model.text().nullable(),

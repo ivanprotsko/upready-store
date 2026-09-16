@@ -436,7 +436,14 @@
     "previous": "Edellinen",
     "next": "Seuraava",
     "pageOf": "Sivu {page} / {lastPage}",
-    "pagination": "Lehden sivut"
+    "pagination": "Lehden sivut",
+    "readingTime": "{minutes} min lukuaika",
+    "related": "Lue myös",
+    "share": "Jaa",
+    "copyLink": "Kopioi linkki",
+    "linkCopied": "Linkki kopioitu",
+    "allCategories": "Kaikki aiheet",
+    "categories": "Aiheet"
   },
   "LanguageSelect": {
     "locales": {

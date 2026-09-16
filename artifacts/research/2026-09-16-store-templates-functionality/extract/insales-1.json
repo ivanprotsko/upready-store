@@ -1,0 +1,614 @@
+{
+  "group": "insales-1",
+  "templates": [
+    {
+      "template": "Cream",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes/product/cream",
+      "features": [
+        {
+          "id": "catalog-price-color-brand-filter",
+          "name_ru": "Фильтр по цене (от/до), цвету и бренду на странице категории",
+          "category": "filters-search",
+          "evidence": "Фильтры Сбросить Цена от до Цвет золотой голубой зеленый графитовый Бренд",
+          "page_url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey"
+        },
+        {
+          "id": "catalog-sorting",
+          "name_ru": "Сортировка товаров в каталоге (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка По умолчанию по возрастанию цены по убыванию цены сначала новые по названию",
+          "page_url": "https://demo-cream.myinsales.ru/collection/uhod-za-kozhey"
+        },
+        {
+          "id": "one-click-order",
+          "name_ru": "Заказ в один клик с полем имени и телефона",
+          "category": "cart-checkout",
+          "evidence": "Заказ в один клик Ваше имя: Контактный телефон:",
+          "page_url": "https://demo-cream.myinsales.ru/"
+        },
+        {
+          "id": "preorder-out-of-stock-with-manager-notify",
+          "name_ru": "Кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина",
+          "category": "product-page",
+          "evidence": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина",
+          "page_url": "https://www.insales.ru/collection/themes/product/cream"
+        },
+        {
+          "id": "product-comparison",
+          "name_ru": "Добавление товара в сравнение из карточки товара",
+          "category": "product-page",
+          "evidence": "Добавить в сравнение",
+          "page_url": "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25% каждые 2 недели)",
+          "category": "cart-checkout",
+          "evidence": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+          "page_url": "https://demo-cream.myinsales.ru/cart_items"
+        },
+        {
+          "id": "loyalty-signup-bonus",
+          "name_ru": "Бонусная программа: бонусы за первую покупку",
+          "category": "promo-marketing",
+          "evidence": "Дарим 5000 бонусов на первую покупку",
+          "page_url": "https://demo-cream.myinsales.ru/"
+        },
+        {
+          "id": "free-shipping-banner",
+          "name_ru": "Промо-плашка «Доставка бесплатно» в шапке сайта",
+          "category": "promo-marketing",
+          "evidence": "Доставка бесплатно",
+          "page_url": "https://demo-cream.myinsales.ru/"
+        },
+        {
+          "id": "moderated-product-reviews",
+          "name_ru": "Отзывы о товаре, проходящие модерацию перед публикацией",
+          "category": "trust-reviews",
+          "evidence": "Перед публикацией все отзывы проходят модерацию",
+          "page_url": "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1"
+        },
+        {
+          "id": "product-tabs-description-specs-reviews",
+          "name_ru": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+          "page_url": "https://www.insales.ru/collection/themes/product/cream"
+        },
+        {
+          "id": "related-products-block",
+          "name_ru": "Блок «Сопутствующие товары» в карточке товара",
+          "category": "catalog-listing",
+          "evidence": "Сопутствующие товары",
+          "page_url": "https://demo-cream.myinsales.ru/product/uhod-za-kozhey-test-1"
+        },
+        {
+          "id": "blog-with-dated-posts",
+          "name_ru": "Блог магазина с датированными статьями",
+          "category": "content",
+          "evidence": "[Как убрать темные круги под глазами?](https://demo-cream.myinsales.ru/blogs/kosmetika/kak-ubrat-temnye-krugi-pod-glazami)",
+          "page_url": "https://demo-cream.myinsales.ru/"
+        },
+        {
+          "id": "personal-account",
+          "name_ru": "Личный кабинет покупателя",
+          "category": "account",
+          "evidence": "Личный кабинет",
+          "page_url": "https://demo-cream.myinsales.ru/client_account/login"
+        },
+        {
+          "id": "legal-exchange-policy-pages",
+          "name_ru": "Отдельные страницы оферты, пользовательского соглашения и условий обмена/возврата",
+          "category": "trust-reviews",
+          "evidence": "[Условия обмена и возврата](https://demo-cream.myinsales.ru/page/exchange)",
+          "page_url": "https://demo-cream.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Minimalism",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes/product/shablon-dlya-internet-magazina-minimalism",
+      "features": [
+        {
+          "id": "catalog-price-size-color-brand-filter",
+          "name_ru": "Фильтры по цене, размеру, цвету и бренду на странице каталога",
+          "category": "filters-search",
+          "evidence": "Фильтры Сбросить Цена от до Размер 130-200 Цвет Белый Бежевый Чёрный Синий Бренд Umbra Манн, Иванов и Фербер Altavolo",
+          "page_url": "https://demo-minimalism.myinsales.ru/collection/divani"
+        },
+        {
+          "id": "catalog-sorting",
+          "name_ru": "Сортировка товаров в каталоге (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка По умолчанию по возрастанию цены по убыванию цены сначала новые по названию",
+          "page_url": "https://demo-minimalism.myinsales.ru/collection/divani"
+        },
+        {
+          "id": "favorites-wishlist",
+          "name_ru": "Избранное (список желаний) со счётчиком товаров",
+          "category": "catalog-listing",
+          "evidence": "0 Избранное",
+          "page_url": "https://demo-minimalism.myinsales.ru/"
+        },
+        {
+          "id": "one-click-order",
+          "name_ru": "Заказ в один клик с полем имени и телефона",
+          "category": "cart-checkout",
+          "evidence": "Заказ в один клик Ваше имя: Контактный телефон:",
+          "page_url": "https://demo-minimalism.myinsales.ru/"
+        },
+        {
+          "id": "product-variant-selector",
+          "name_ru": "Выбор модификации товара (размер/цвет) в карточке товара",
+          "category": "product-page",
+          "evidence": "130-200 / Белый 130-200 / Бежевый 130-200 / Чёрный 130-200 / Синий",
+          "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1"
+        },
+        {
+          "id": "long-form-product-description",
+          "name_ru": "Развёрнутое описание товара с раскрытием по кнопке «Показать полностью»",
+          "category": "product-page",
+          "evidence": "Диван \"Комфортный Уголок\" — это идеальное решение для тех, кто ценит уют и стиль в своем интерьере.",
+          "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1"
+        },
+        {
+          "id": "moderated-product-reviews",
+          "name_ru": "Отзывы о товаре, проходящие модерацию перед публикацией",
+          "category": "trust-reviews",
+          "evidence": "Перед публикацией отзывы проходят модерацию",
+          "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1"
+        },
+        {
+          "id": "related-products-block",
+          "name_ru": "Блок «Сопутствующие товары» в карточке товара",
+          "category": "catalog-listing",
+          "evidence": "Сопутствующие товары",
+          "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25% каждые 2 недели)",
+          "category": "cart-checkout",
+          "evidence": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+          "page_url": "https://demo-minimalism.myinsales.ru/product/divan-1"
+        },
+        {
+          "id": "blog-with-dated-posts",
+          "name_ru": "Блог магазина с датированными статьями",
+          "category": "content",
+          "evidence": "[Как выбрать идеальные стулья для вашего дома: советы от экспертов](https://demo-minimalism.myinsales.ru/blogs/mebelnyy-blog/111)",
+          "page_url": "https://demo-minimalism.myinsales.ru/"
+        },
+        {
+          "id": "legal-exchange-policy-pages",
+          "name_ru": "Отдельные страницы оферты, пользовательского соглашения и условий обмена/возврата",
+          "category": "trust-reviews",
+          "evidence": "[Условия обмена и возврата](https://demo-minimalism.myinsales.ru/page/exchange)",
+          "page_url": "https://demo-minimalism.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Base",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-base",
+      "features": [
+        {
+          "id": "catalog-sections-new-sale-bestsellers",
+          "name_ru": "Отдельные разделы каталога «Новинки», «Акции», «Хиты продаж»",
+          "category": "navigation",
+          "evidence": "Новинки Акции Хиты продаж",
+          "page_url": "https://demo-base.myinsales.ru/"
+        },
+        {
+          "id": "favorites-wishlist",
+          "name_ru": "Избранное (список желаний)",
+          "category": "catalog-listing",
+          "evidence": "0 → https://demo-base.myinsales.ru/favorites",
+          "page_url": "https://demo-base.myinsales.ru/"
+        },
+        {
+          "id": "in-stock-only-filter",
+          "name_ru": "Фильтр «Только в наличии» на странице категории",
+          "category": "filters-search",
+          "evidence": "Фильтры Только в наличии Применить Сбросить",
+          "page_url": "https://demo-base.myinsales.ru/collection/new"
+        },
+        {
+          "id": "catalog-sorting",
+          "name_ru": "Сортировка товаров в каталоге (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка по возрастанию цены по убыванию цены сначала новые по названию",
+          "page_url": "https://demo-base.myinsales.ru/collection/new"
+        },
+        {
+          "id": "new-arrival-badge",
+          "name_ru": "Маркер «Новинка» на карточке товара в каталоге",
+          "category": "promo-marketing",
+          "evidence": "В наличии Новинка Предзаказ",
+          "page_url": "https://demo-base.myinsales.ru/collection/new"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25% каждые 2 недели)",
+          "category": "cart-checkout",
+          "evidence": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+          "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese"
+        },
+        {
+          "id": "product-tabs-description-specs-reviews",
+          "name_ru": "Вкладки «Описание», «Характеристики», «Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Описание Характеристики Отзывы",
+          "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese"
+        },
+        {
+          "id": "moderated-product-reviews",
+          "name_ru": "Отзывы о товаре, проходящие модерацию перед публикацией",
+          "category": "trust-reviews",
+          "evidence": "Перед публикацией отзывы проходят модерацию",
+          "page_url": "https://demo-base.myinsales.ru/product/primer-kniga-o-biznese"
+        },
+        {
+          "id": "personal-account",
+          "name_ru": "Личный кабинет покупателя",
+          "category": "account",
+          "evidence": "Личный кабинет",
+          "page_url": "https://demo-base.myinsales.ru/"
+        },
+        {
+          "id": "callback-request-widget",
+          "name_ru": "Виджет заказа обратного звонка",
+          "category": "promo-marketing",
+          "evidence": "Обратный звонок Запрос успешно отправлен!",
+          "page_url": "https://demo-base.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Bubble",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-bubble",
+      "features": [
+        {
+          "id": "favorites-wishlist",
+          "name_ru": "Избранное (список желаний) со счётчиком товаров",
+          "category": "catalog-listing",
+          "evidence": "0 Избранное",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        },
+        {
+          "id": "sms-email-login",
+          "name_ru": "Вход в личный кабинет по SMS-коду или коду из email",
+          "category": "account",
+          "evidence": "Код из SMS Получить код Получить новый код можно через Вход или регистрация по email Email Код из Email",
+          "page_url": "https://demo-bubble.myinsales.ru/client_account/login"
+        },
+        {
+          "id": "in-stock-only-filter",
+          "name_ru": "Фильтр «Только в наличии» на странице категории",
+          "category": "filters-search",
+          "evidence": "Фильтры Сбросить Только в наличии Применить",
+          "page_url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki"
+        },
+        {
+          "id": "catalog-sorting",
+          "name_ru": "Сортировка товаров в каталоге (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка по возрастанию цены по убыванию цены сначала новые по названию",
+          "page_url": "https://demo-bubble.myinsales.ru/collection/myagkie-igrushki"
+        },
+        {
+          "id": "installment-payment",
+          "name_ru": "Оплата покупки частями (4 платежа по 25% каждые 2 недели)",
+          "category": "cart-checkout",
+          "evidence": "Плати частями – просто ещё один способ оплаты: сервис автоматически будет списывать по 1/4 от стоимости покупки каждые 2 недели.",
+          "page_url": "https://demo-bubble.myinsales.ru/cart_items"
+        },
+        {
+          "id": "discount-strikethrough-pricing",
+          "name_ru": "Отображение старой и новой цены (скидка) в каталоге",
+          "category": "promo-marketing",
+          "evidence": "3174 руб 5290 руб",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        },
+        {
+          "id": "product-comparison",
+          "name_ru": "Добавление товара в сравнение из карточки товара",
+          "category": "product-page",
+          "evidence": "Добавить в сравнение",
+          "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm"
+        },
+        {
+          "id": "product-attributes-table",
+          "name_ru": "Таблица характеристик товара (вид, упаковка, наполнитель, возрастные ограничения)",
+          "category": "product-page",
+          "evidence": "Вид мягкой игрушки антистресс; игрушки-подушки; кошки Вид упаковки Пакет с липким краем; пакет с клеевым краем Наполнитель синтипух Возрастные ограничения 0+",
+          "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm"
+        },
+        {
+          "id": "moderated-product-reviews",
+          "name_ru": "Отзывы о товаре, проходящие модерацию перед публикацией",
+          "category": "trust-reviews",
+          "evidence": "Перед публикацией отзывы проходят модерацию",
+          "page_url": "https://demo-bubble.myinsales.ru/product/danielka-myagkaya-igrushka-dlinnyy-kot-igrushka-podushka-igrushka-antistress-kot-baton-70sm-90sm-110sm"
+        },
+        {
+          "id": "legal-policy-page",
+          "name_ru": "Страница политики конфиденциальности и оферты",
+          "category": "trust-reviews",
+          "evidence": "[Политика конфиденциальности и оферта](https://demo-bubble.myinsales.ru/page/politika-konfidentsialnosti-i-oferta)",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        },
+        {
+          "id": "b2b-legal-entities-page",
+          "name_ru": "Отдельная страница «Юридическим лицам» для B2B-клиентов",
+          "category": "b2b-wholesale",
+          "evidence": "[Юридическим лицам](https://demo-bubble.myinsales.ru/page/yuridicheskim-litsam)",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        },
+        {
+          "id": "store-locations-page",
+          "name_ru": "Страница «Адреса магазинов»",
+          "category": "content",
+          "evidence": "[Адреса магазинов](https://demo-bubble.myinsales.ru/page/adresa-magazinov)",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        },
+        {
+          "id": "category-navigation-menu",
+          "name_ru": "Меню навигации по категориям каталога в шапке сайта",
+          "category": "navigation",
+          "evidence": "Мягкие игрушки Верхняя одежда Обувь Подарки для детей Детская электроника Худи для девочек Головные уборы Матрас для санок Рюкзаки",
+          "page_url": "https://demo-bubble.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Fine",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fine",
+      "features": [
+        {
+          "id": "megamenu-multi-level-catalog",
+          "name_ru": "Многоуровневое мегаменю каталога с раскрытием подкатегорий",
+          "category": "navigation",
+          "evidence": "Смартфоны и планшеты Планшеты Электронные книги Аксессуары для планшетов Аксессуары для электронных книг Показать все Скрыть",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "pickup-points-page",
+          "name_ru": "Страница «Пункты выдачи» заказов",
+          "category": "cart-checkout",
+          "evidence": "[Пункты выдачи](https://demo-fine.myinsales.ru/page/punkty-vydachi)",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "product-comparison-with-counter",
+          "name_ru": "Сравнение товаров со счётчиком добавленных позиций в шапке",
+          "category": "product-page",
+          "evidence": "[0 Сравнение](https://demo-fine.myinsales.ru/compares)",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "favorites-wishlist-counter",
+          "name_ru": "Избранное со счётчиком товаров в шапке",
+          "category": "catalog-listing",
+          "evidence": "[0 Избранное](https://demo-fine.myinsales.ru/favorites)",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "recently-viewed-products",
+          "name_ru": "Блок «Ранее просмотренные» товары",
+          "category": "catalog-listing",
+          "evidence": "Ранее просмотренные",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "sale-new-preorder-badges",
+          "name_ru": "Маркеры «Новинка», «Распродажа», «Предзаказ» на карточке товара",
+          "category": "promo-marketing",
+          "evidence": "В наличии Новинка Распродажа Предзаказ",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        },
+        {
+          "id": "multi-attribute-filters",
+          "name_ru": "Многопараметрические фильтры каталога (цена, цвет, объём памяти и т.д.)",
+          "category": "filters-search",
+          "evidence": "Фильтры Цена от — до Цвет черный красный белый Показать еще Объем памяти 32GB 64GB 128GB 256GB",
+          "page_url": "https://demo-fine.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "catalog-sorting",
+          "name_ru": "Сортировка товаров в каталоге (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка по возрастанию цены по убыванию цены сначала новые по названию",
+          "page_url": "https://demo-fine.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "account-login-register-password-recovery",
+          "name_ru": "Вход, регистрация и восстановление пароля в личном кабинете",
+          "category": "account",
+          "evidence": "Войти [Восстановить пароль](https://demo-fine.myinsales.ru/client_account/password/change)",
+          "page_url": "https://demo-fine.myinsales.ru/client_account/login"
+        },
+        {
+          "id": "empty-cart-recommendation-cta",
+          "name_ru": "Рекомендация вернуться в каталог при пустой корзине",
+          "category": "cart-checkout",
+          "evidence": "Ваша корзина пуста Акции, специальные предложения и обзоры самых интересных товаров",
+          "page_url": "https://demo-fine.myinsales.ru/cart_items"
+        },
+        {
+          "id": "product-variant-selector-color-memory",
+          "name_ru": "Выбор модификации товара (цвет/объём памяти) в карточке товара",
+          "category": "product-page",
+          "evidence": "черный / 32GB черный / 64GB красный / 32GB красный / 64GB белый / 32GB белый / 64GB",
+          "page_url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b"
+        },
+        {
+          "id": "detailed-specs-table",
+          "name_ru": "Подробная таблица технических характеристик товара",
+          "category": "product-page",
+          "evidence": "оперативная память: 3 ГБ память: 32 ГБ, слот для карты памяти 4 камеры: 48 МП, 5 МП, 2 МП, 2 МП",
+          "page_url": "https://demo-fine.myinsales.ru/product/kofemashina-delonghi-ecam-44664b"
+        },
+        {
+          "id": "blog-with-dated-reviews",
+          "name_ru": "Блог с обзорами товаров и датами публикации",
+          "category": "content",
+          "evidence": "Обзор JBL Club Pro+ Полностью беспроводные наушники с активным шумоподавлением",
+          "page_url": "https://demo-fine.myinsales.ru/blogs/blog"
+        },
+        {
+          "id": "wholesale-b2b-support",
+          "name_ru": "Поддержка оптовых/B2B-клиентов на уровне разметки шаблона",
+          "category": "b2b-wholesale",
+          "evidence": "сигнал: wholesale-b2b",
+          "page_url": "https://demo-fine.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Fourth",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-fourth",
+      "features": [
+        {
+          "id": "language-switcher",
+          "name_ru": "Переключатель языка сайта (ru/en)",
+          "category": "navigation",
+          "evidence": "[ru](http://demo-fourth.myinsales.ru/?lang=ru) [en](http://demo-fourth.myinsales.ru/?lang=en)",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "product-comparison-counter",
+          "name_ru": "Сравнение товаров со счётчиком в шапке сайта",
+          "category": "product-page",
+          "evidence": "[0](http://demo-fourth.myinsales.ru/compares)",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "delivery-hours-banner",
+          "name_ru": "Информационная плашка с часами работы доставки",
+          "category": "promo-marketing",
+          "evidence": "Доставка с 8:00 до 23:00",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "stock-new-preorder-badges",
+          "name_ru": "Маркеры «В наличии», «Новинка», «Предзаказ» на карточке товара",
+          "category": "promo-marketing",
+          "evidence": "В наличии Новинка Предзаказ",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "sale-badge",
+          "name_ru": "Маркер «Распродажа» на карточке товара",
+          "category": "promo-marketing",
+          "evidence": "Распродажа",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "discount-strikethrough-pricing",
+          "name_ru": "Отображение старой и новой цены (скидка) в каталоге",
+          "category": "promo-marketing",
+          "evidence": "2 000 ₽ 1 500 ₽",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "delivery-and-payment-info-blocks",
+          "name_ru": "Информационные блоки «Условия доставки» и «Способы оплаты» на главной",
+          "category": "content",
+          "evidence": "Условия доставки Здесь вы можете написать коротко о своих условиях доставки",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "blog-news-feed",
+          "name_ru": "Новостная лента / блог магазина на главной странице",
+          "category": "content",
+          "evidence": "Четвертая новость магазина А это уже четвертая новость в интернет-магазине. 28.01.2021",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        },
+        {
+          "id": "social-media-links",
+          "name_ru": "Ссылки на социальные сети магазина",
+          "category": "integrations",
+          "evidence": "[Instagram](http://demo-fourth.myinsales.ru/#) Мы в соц. сетях",
+          "page_url": "http://demo-fourth.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Gift",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-gift",
+      "features": [
+        {
+          "id": "category-navigation-audience-segments",
+          "name_ru": "Навигация по категориям по адресату подарка (для всех/женщин/мужчин/детей)",
+          "category": "navigation",
+          "evidence": "Для всех Для женщин Для мужчин Для детей Интерьер Аксессуары",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "product-comparison-counter",
+          "name_ru": "Сравнение товаров со счётчиком в шапке сайта",
+          "category": "product-page",
+          "evidence": "[0](http://demo-gift.myinsales.ru/compares)",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "discount-strikethrough-pricing",
+          "name_ru": "Отображение старой и новой цены (скидка) в каталоге",
+          "category": "promo-marketing",
+          "evidence": "3599 ₽ 2590 ₽",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "new-customer-promo-banner",
+          "name_ru": "Промо-баннер специального предложения для новых клиентов",
+          "category": "promo-marketing",
+          "evidence": "Специальное предложение для новых клиентов",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "seasonal-bonus-promo",
+          "name_ru": "Сезонная бонусная акция с начислением бонусных рублей на скидочную карту",
+          "category": "promo-marketing",
+          "evidence": "Дарим бонусы на Новый год В честь новогодних праздников, дарим 500 бонусных рублей на вашу скидочную карту! Успей потратить до 14 января",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "curated-collection-editorial-block",
+          "name_ru": "Редакционный блок с подборкой коллекции товаров",
+          "category": "content",
+          "evidence": "Плюшевые игрушки Misha Есть игрушки, которые хочется всегда держать, чувствуя теплоту и нежность от них.",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "audience-segment-imagery-blocks",
+          "name_ru": "Иллюстрированные блоки-подборки по адресату подарка на главной",
+          "category": "content",
+          "evidence": "Для него Для неё Сладости Подарочная упаковка Детали интерьера",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "blog-promo-news",
+          "name_ru": "Новостной блог с акциями («Распродажа костюмов на хэллоуин» и т.п.)",
+          "category": "content",
+          "evidence": "Распродажа костюмов на хэллоуин В интернет-магазине на InSales Вы можете вести блог магазина",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        },
+        {
+          "id": "social-media-links",
+          "name_ru": "Ссылки на социальные сети магазина",
+          "category": "integrations",
+          "evidence": "[Instagram](http://demo-gift.myinsales.ru/#)",
+          "page_url": "http://demo-gift.myinsales.ru/"
+        }
+      ]
+    }
+  ]
+}

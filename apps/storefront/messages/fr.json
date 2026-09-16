@@ -436,7 +436,14 @@
     "previous": "Précédent",
     "next": "Suivant",
     "pageOf": "Page {page} sur {lastPage}",
-    "pagination": "Pages du journal"
+    "pagination": "Pages du journal",
+    "readingTime": "{minutes} min de lecture",
+    "related": "À lire aussi",
+    "share": "Partager",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié",
+    "allCategories": "Toutes les rubriques",
+    "categories": "Rubriques"
   },
   "LanguageSelect": {
     "locales": {

@@ -1,0 +1,619 @@
+{
+ "_note": "Замер 2026-09-16 по ветке feat/day16-store-templates-research (= dev на 08:40 WITA) и по живой витрине https://cherkashino.shipshift.dev/ru. Статус: «есть» = работает на витрине, «частично» = часть механики есть или есть только в панели/API, «нет» = в коде не найдено (rg по apps/**).",
+ "hero-slider": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/home/variants/hero-ga-carousel.tsx (hero «ga» — карусель), hero-gb-strips.tsx",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Карусель есть как вариант hero; отдельного слайдера промо-баннеров с несколькими слайдами и таймингом нет."
+ },
+ "anchor-section-menu": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Приём одностраничников Tilda; нашей многостраничной витрине не нужен."
+ },
+ "catalog-category-menu": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/category-menu, варианты шапки h5/h6 (лента категорий), живьём https://cherkashino.shipshift.dev/ru",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Двух уровней достаточно; у InSales — раскрывающееся дерево подкатегорий."
+ },
+ "scroll-to-top": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": ""
+ },
+ "compare-products": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Хранение списка сравнения (кука/локально) + выдача общих характеристик выбранных товаров одним запросом; на данных product_attributes это делается без новой модели.",
+  "priority": "should",
+  "note": "У InSales — со счётчиком в шапке и отдельной страницей /compares."
+ },
+ "wishlist": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Модель «избранное покупателя» (customer_id × variant_id) + REST; для гостя — кука.",
+  "priority": "should",
+  "note": ""
+ },
+ "recently-viewed": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Достаточно localStorage витрины + существующий batch-запрос товаров.",
+  "priority": "later",
+  "note": ""
+ },
+ "pagination-load-more": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/store/components/pagination",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Постраничная навигация есть; кнопки «показать ещё» с дозагрузкой нет."
+ },
+ "kit-bundle": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Сущность «набор»: состав из вариантов, своя цена, списание остатков по составу.",
+  "priority": "later",
+  "note": "У InSales и в еда-шаблонах Tilda (сеты) встречается часто."
+ },
+ "stock-status": {
+  "upready_store": "частично",
+  "upready_where": "остатки: apps/backend/src/api/tenants/inventory-items, панель routes/products (stock); витрина — кнопка «Выбрать вариант»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Данные об остатке есть, но метки «В наличии / Нет в наличии / Под заказ» в карточке каталога и на товаре не выводятся."
+ },
+ "product-card-price-badges": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/products/components/product-price, home/components/product-card",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Цена выводится; зачёркнутой старой цены и меток SALE/NEW/ХИТ на карточке нет, хотя акции в панели (routes/promotions) есть."
+ },
+ "quick-add-to-cart": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/home/components/add-to-bag-button (только подборка на главной)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "В каталоге /store и в категории кнопки добавления у карточки нет — только переход на товар."
+ },
+ "category-sections": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/home/components/category-tiles, featured-products; apps/storefront/src/modules/categories/category-image-tiles",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "brands-block": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Сущность «бренд/производитель» у товара (сейчас только product_tags/product_types) + страница бренда.",
+  "priority": "later",
+  "note": ""
+ },
+ "attribute-filters": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/store/components/refinement-list/attributes-picker.tsx, apps/backend/src/api/tenants/product-attributes; живьём фасеты «Фасовка», «Объём», «Страна производства» на /ru/store",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Сильная сторона: у нас это уже настраиваемые атрибуты магазина, а не хардкод."
+ },
+ "price-range-filter": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Параметры min_price/max_price в выдаче каталога + отдача границ цены по категории.",
+  "priority": "must",
+  "note": "Есть у большинства шаблонов InSales («Цена от … до», слайдер)."
+ },
+ "in-stock-filter": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Флаг «только в наличии» в запросе каталога (join по inventory).",
+  "priority": "should",
+  "note": ""
+ },
+ "catalog-sorting": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/store/components/sort-select/index.tsx: created_at, price_asc, price_desc",
+  "backend_needed": true,
+  "backend_what": "Сортировка по популярности (по числу продаж) и по рейтингу отзывов.",
+  "priority": "should",
+  "note": "У InSales 4–5 вариантов, включая «по названию» и «по популярности»."
+ },
+ "product-count-badge": {
+  "upready_store": "частично",
+  "upready_where": "счётчики у значений фасетов живьём («Россия 15», «Китай 1»)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Счётчика «N товаров» у категории нет."
+ },
+ "live-search": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/search/index.tsx (диалог, подсветка совпадений, Cmd+K)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Опечаткоустойчивости (Meilisearch/Algolia) нет — поиск подстрокой."
+ },
+ "product-gallery-zoom": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/image-gallery/gallery.tsx:295 (cursor-zoom-in) и полноэкранный диалог :385",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "variant-selector": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-actions; живьём «Выбрать вариант»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "product-tabs": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-tabs; живьём вкладки «Доставка и возврат», «Отзывы»",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "specs-table": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/product-attributes",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "size-chart": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Таблица размеров как ресурс магазина (markdown/таблица) с привязкой к категории или типу товара.",
+  "priority": "later",
+  "note": "Нужна одежде/обуви; у Оксаны не нужна."
+ },
+ "quick-view-popup": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Данных хватает: тот же товар по handle.",
+  "priority": "should",
+  "note": "Есть почти во всех шаблонах InSales и в части Tilda."
+ },
+ "one-click-buy": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Ручка «заказ по телефону/имени без корзины»: создать заказ из одного варианта + контакта, статус «ожидает подтверждения».",
+  "priority": "must",
+  "note": "В рунете это базовое ожидание покупателя; есть у InSales-шаблонов и у Tilda в виде формы заказа."
+ },
+ "preorder": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Разрешение купить при нулевом остатке + признак «предзаказ» в заказе.",
+  "priority": "should",
+  "note": ""
+ },
+ "related-products": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/products/components/related-products",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Подбор по коллекции/категории; ручного выбора «с этим покупают» нет."
+ },
+ "product-video": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Поле «видео» у товара (ссылка YouTube/Rutube/файл) + вывод в галерее.",
+  "priority": "later",
+  "note": ""
+ },
+ "custom-made-order": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Форма заявки с произвольными полями и отправкой владельцу.",
+  "priority": "later",
+  "note": ""
+ },
+ "single-product-landing": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Отдельный тип страницы «лендинг товара» — сильная сторона Tilda."
+ },
+ "product-description-expand": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Живьём описание мумиё выводится целиком простыней — ровно случай, где нужна свёртка."
+ },
+ "cart-page": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/app/[locale]/(main)/cart, modules/cart/components/empty-cart-message",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "cart-slide-panel": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/cart-dropdown, cart-notifications",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "checkout-form": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-* (одноэкранная касса с шитами), гостевой заказ",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "delivery-options": {
+  "upready_store": "частично",
+  "upready_where": "apps/backend/src/api/tenants/shipping-options, storefront modules/checkout/components/checkout-shipping-section",
+  "backend_needed": true,
+  "backend_what": "Расчёт стоимости по адресу (ApiShip/CDEK) вместо двух плоских тарифов.",
+  "priority": "must",
+  "note": ""
+ },
+ "pickup-points": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-pickup-point-sheet, apps/backend/src/api/store/pickup-points",
+  "backend_needed": true,
+  "backend_what": "Живой справочник ПВЗ вместо статического сида + карта.",
+  "priority": "must",
+  "note": "Выбор точки с поиском есть; карты нет, список из сида."
+ },
+ "payment-methods": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/checkout-payment-section (выбор провайдера), apps/backend/src/modules/payment-robokassa, api/tenants/payment-settings",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Модуль Robokassa в коде есть; живой приём денег на витрине Оксаны — задача i01."
+ },
+ "installments": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Провайдер рассрочки (Долями/Сплит) как ещё один payment provider.",
+  "priority": "later",
+  "note": "У InSales на витрине демо — блок «Оплачивайте покупку по частям», 4×25 %."
+ },
+ "multi-currency": {
+  "upready_store": "есть",
+  "upready_where": "регионы Medusa, LOCALE_COUNTRY_MAP; живьём ₽ на /ru и $ на /en",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "promo-code": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/checkout/components/discount-code, панель routes/promotions",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "promo-banner": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/layout/components/promo-banner",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Одна строка-объявление; промо-блоков внутри страницы (баннер категории, «скидка 30 %») нет."
+ },
+ "countdown-timer": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Срок действия акции в campaigns уже есть — нужен публичный вывод дедлайна на витрину.",
+  "priority": "should",
+  "note": ""
+ },
+ "newsletter-signup": {
+  "upready_store": "нет",
+  "upready_where": "apps/storefront/src/modules/layout/templates/footer/variants/index.ts: f4 → FooterF1 (заглушка)",
+  "backend_needed": true,
+  "backend_what": "Ручка подписки (email + согласие) и хранение списка; отправка — через уже существующий smtp-notification.",
+  "priority": "must",
+  "note": "ЗАМЕР: подвал F4 «Инвертированный, с рассылкой» подменён на F1 — владелец выбирает вариант с рассылкой и молча получает другой."
+ },
+ "loyalty-program": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Бонусный счёт покупателя, начисление/списание при оформлении.",
+  "priority": "later",
+  "note": ""
+ },
+ "first-order-discount": {
+  "upready_store": "частично",
+  "upready_where": "промокоды (routes/promotions)",
+  "backend_needed": true,
+  "backend_what": "Автоматическая выдача промокода за подписку/репост.",
+  "priority": "later",
+  "note": ""
+ },
+ "bulk-discount": {
+  "upready_store": "частично",
+  "upready_where": "правила акций в панели routes/promotions (копия Admin)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Механика есть в панели; витрина не объясняет условие («скидка 30 % от 3 вещей»)."
+ },
+ "bestsellers-block": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/home/components/featured-products (ручная подборка)",
+  "backend_needed": true,
+  "backend_what": "Подборка «хиты» по числу продаж за период.",
+  "priority": "should",
+  "note": ""
+ },
+ "social-follow-share": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "Ссылки соцсетей магазина можно хранить в настройках тенанта.",
+  "priority": "should",
+  "note": "Оксана ведёт соцсети — блок «подписаться» востребован."
+ },
+ "promo-campaigns-page": {
+  "upready_store": "частично",
+  "upready_where": "панель routes/campaigns, api/tenants/campaigns",
+  "backend_needed": true,
+  "backend_what": "Публичная выдача активных акций для раздела «Акции» на витрине.",
+  "priority": "should",
+  "note": ""
+ },
+ "blog": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/app/[locale]/(main)/journal/[slug], apps/backend/src/api/tenants/articles, api/store/tenant/articles, панель routes/journal",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "У Оксаны 18 статей — переносить теперь есть куда."
+ },
+ "delivery-payment-page": {
+  "upready_store": "частично",
+  "upready_where": "статические /shipping, /returns из стартера; редактируемые страницы tenant_page с ключами contacts|legal|about|privacy|offer",
+  "backend_needed": true,
+  "backend_what": "Произвольные ключи страниц (сейчас список ключей зашит) — чтобы владелец завёл «Доставка и оплата».",
+  "priority": "must",
+  "note": "Страница «Доставка и оплата» есть у каждого второго демо InSales."
+ },
+ "contacts-map": {
+  "upready_store": "частично",
+  "upready_where": "/pages/contacts (живьём), api/tenants/requisites",
+  "backend_needed": true,
+  "backend_what": "Координаты точек + виджет карты (Яндекс.Карты).",
+  "priority": "should",
+  "note": ""
+ },
+ "about-brand-story": {
+  "upready_store": "есть",
+  "upready_where": "/ru/pages/about (живьём «Черкашина Оксана»)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "lookbook": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": ""
+ },
+ "faq-block": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Список вопрос/ответ у магазина или у товара + аккордеон на витрине.",
+  "priority": "should",
+  "note": "Нужен магазину БАДов: у покупателя всегда есть вопросы о приёме."
+ },
+ "advantages-block": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "3–4 плитки «преимущества» в настройках главной (иконка, заголовок, текст).",
+  "priority": "must",
+  "note": "Самый частый блок главной у обоих источников."
+ },
+ "care-usage-content": {
+  "upready_store": "частично",
+  "upready_where": "markdown в описании товара и в tenant_page (modules/content/components/markdown-content)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": ""
+ },
+ "product-reviews-rating": {
+  "upready_store": "есть",
+  "upready_where": "apps/backend/src/modules/product-review, api/tenants/reviews, api/store/tenant/reviews, витрина modules/products/components/product-reviews; живьём «5 из 5 · 8 отзывов» на карточке мумиё",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "Инвентарь возможностей от 2026-09-15 называл отзывы MISSING — замер 2026-09-16 показывает обратное."
+ },
+ "store-reviews": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Отзыв о магазине (не о товаре) + блок на главной.",
+  "priority": "should",
+  "note": "У InSales это отдельный виджет главной «Отзывы о магазине»."
+ },
+ "cookie-consent": {
+  "upready_store": "нет",
+  "upready_where": "rg 'CookieConsent|cookie-banner' по apps/storefront/src → 0",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Для российского магазина — согласие на обработку ПД."
+ },
+ "legal-pages": {
+  "upready_store": "есть",
+  "upready_where": "/ru/pages/offer, /ru/pages/privacy (живьём), статические /terms, /returns",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "partners-block": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": ""
+ },
+ "callback-request": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Заявка на звонок → уведомление владельцу (telegram уже есть: api/tenants/notification-settings/telegram).",
+  "priority": "should",
+  "note": ""
+ },
+ "lead-request-form": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Универсальная форма заявки с произвольными полями + доставка владельцу.",
+  "priority": "should",
+  "note": ""
+ },
+ "customer-account": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/modules/account/** (вход, регистрация, адреса, заказы, сброс пароля, вход через Яндекс)",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ },
+ "wholesale-b2b": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": true,
+  "backend_what": "Оптовые цены по группе покупателей + запрос прайса.",
+  "priority": "later",
+  "note": "Оксане не нужно; продукту — для магазинов с оборотом."
+ },
+ "services-price-list": {
+  "upready_store": "нет",
+  "upready_where": "",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Кейс услуг, не товаров."
+ },
+ "chat-widget": {
+  "upready_store": "нет",
+  "upready_where": "rg 'jivo|chat' по apps/storefront/src → 0",
+  "backend_needed": true,
+  "backend_what": "Поле «код виджета чата» в настройках тенанта и безопасная вставка.",
+  "priority": "should",
+  "note": ""
+ },
+ "marketplace-block": {
+  "upready_store": "частично",
+  "upready_where": "apps/backend/src/modules/{wb,wb-write,ozon,marketplace-link,marketplace-write}, панель routes/settings/wildberries",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "later",
+  "note": "Зеркала маркетплейсов есть в бэкенде; блока «мы на маркетплейсах» на витрине нет."
+ },
+ "structured-data": {
+  "upready_store": "есть",
+  "upready_where": "apps/storefront/src/lib/util/json-ld.ts, app/sitemap.ts, app/robots.ts; живьём sitemap.xml=200, robots.txt=200",
+  "backend_needed": true,
+  "backend_what": "Поля meta title/description/slug у товара, категории и страницы (сейчас их нет).",
+  "priority": "must",
+  "note": "Разметка есть, а редактируемых SEO-полей у сущностей нет."
+ },
+ "web-analytics": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/modules/common/components/google-analytics (GA4, один ID на образ), api/tenants/analytics + панель routes/settings/analytics",
+  "backend_needed": true,
+  "backend_what": "Пер-тенантный счётчик (GA4/Яндекс.Метрика) из настроек магазина.",
+  "priority": "must",
+  "note": ""
+ },
+ "widget-library": {
+  "upready_store": "частично",
+  "upready_where": "apps/storefront/src/lib/theme/composition.ts: 6 шапок × 9 hero × 2 плитки × 5 листингов × 6 подвалов; панель routes/home-settings",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": "ЗАМЕР: 3 из 27 вариантов — молчаливые заглушки (hero k и l → ProfileHero в modules/home/variants/index.ts:65-66, подвал f4 → FooterF1). Порядок блоков не меняется, добавить блок нельзя — у InSales «более 100 виджетов» с перестановкой и скрытием."
+ },
+ "theme-style-editor": {
+  "upready_store": "частично",
+  "upready_where": "7 пресетов apps/storefront/src/lib/theme/presets.generated.ts, светлый/тёмный режим, api/tenants/branding (лого, цвет) + панель routes/settings/branding",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "should",
+  "note": "Цвет и логотип настраиваются; смены шрифтов и их размеров (есть у InSales) нет."
+ },
+ "recaptcha": {
+  "upready_store": "нет",
+  "upready_where": "rg 'recaptcha|hcaptcha|turnstile' по apps → 0",
+  "backend_needed": true,
+  "backend_what": "Капча на публичных формах (отзыв, подписка, заявка).",
+  "priority": "should",
+  "note": "Как только появятся публичные формы — станет обязательной."
+ },
+ "responsive-mobile": {
+  "upready_store": "есть",
+  "upready_where": "Tailwind-вёрстка витрины, bottom-nav для телефона",
+  "backend_needed": false,
+  "backend_what": "",
+  "priority": "must",
+  "note": ""
+ }
+}

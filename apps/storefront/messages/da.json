@@ -436,7 +436,14 @@
     "previous": "Forrige",
     "next": "Næste",
     "pageOf": "Side {page} af {lastPage}",
-    "pagination": "Magasinets sider"
+    "pagination": "Magasinets sider",
+    "readingTime": "{minutes} min læsning",
+    "related": "Læs også",
+    "share": "Del",
+    "copyLink": "Kopiér link",
+    "linkCopied": "Link kopieret",
+    "allCategories": "Alle emner",
+    "categories": "Emner"
   },
   "LanguageSelect": {
     "locales": {

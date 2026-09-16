@@ -436,7 +436,14 @@
     "previous": "Anterior",
     "next": "Seguinte",
     "pageOf": "Página {page} de {lastPage}",
-    "pagination": "Páginas da revista"
+    "pagination": "Páginas da revista",
+    "readingTime": "{minutes} min de leitura",
+    "related": "Leia também",
+    "share": "Partilhar",
+    "copyLink": "Copiar ligação",
+    "linkCopied": "Ligação copiada",
+    "allCategories": "Todas as rubricas",
+    "categories": "Rubricas"
   },
   "LanguageSelect": {
     "locales": {

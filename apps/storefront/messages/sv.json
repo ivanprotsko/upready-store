@@ -436,7 +436,14 @@
     "previous": "Föregående",
     "next": "Nästa",
     "pageOf": "Sida {page} av {lastPage}",
-    "pagination": "Magasinets sidor"
+    "pagination": "Magasinets sidor",
+    "readingTime": "{minutes} min läsning",
+    "related": "Läs också",
+    "share": "Dela",
+    "copyLink": "Kopiera länk",
+    "linkCopied": "Länk kopierad",
+    "allCategories": "Alla ämnen",
+    "categories": "Ämnen"
   },
   "LanguageSelect": {
     "locales": {
