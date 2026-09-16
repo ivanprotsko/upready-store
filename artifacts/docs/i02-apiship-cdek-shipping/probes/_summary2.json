@@ -1,0 +1,86 @@
+[
+  {
+    "name": "apiship-calc-country2",
+    "url": "https://api.apiship.ru/v1/calculator",
+    "method": "POST",
+    "status": 200,
+    "ms": 1037
+  },
+  {
+    "name": "apiship-points-spb",
+    "url": "https://api.apiship.ru/v1/lists/points?countryCode=RU&city=Санкт-Петербург&providerKeys=cdek&limit=1000",
+    "method": "GET",
+    "status": 200,
+    "ms": 4300
+  },
+  {
+    "name": "apiship-points-msk",
+    "url": "https://api.apiship.ru/v1/lists/points?countryCode=RU&city=Москва&providerKeys=cdek&limit=1000",
+    "method": "GET",
+    "status": 200,
+    "ms": 3544
+  },
+  {
+    "name": "apiship-tariffs-cdek",
+    "url": "https://api.apiship.ru/v1/lists/tariffs?filter=providerKey=cdek&limit=100",
+    "method": "GET",
+    "status": 200,
+    "ms": 339
+  },
+  {
+    "name": "cdek-sandbox-oauth",
+    "url": "https://api.edu.cdek.ru/v2/oauth/token?parameters",
+    "method": "POST",
+    "status": 200,
+    "ms": 1257
+  },
+  {
+    "name": "cdek-sandbox-tarifflist",
+    "url": "https://api.edu.cdek.ru/v2/calculator/tarifflist",
+    "method": "POST",
+    "status": 200,
+    "ms": 299
+  },
+  {
+    "name": "cdek-sandbox-deliverypoints",
+    "url": "https://api.edu.cdek.ru/v2/deliverypoints?city_code=137&type=PVZ&size=1000",
+    "method": "GET",
+    "status": 200,
+    "ms": 498
+  },
+  {
+    "name": "cdek-sandbox-cities",
+    "url": "https://api.edu.cdek.ru/v2/location/cities?city=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3&size=5",
+    "method": "GET",
+    "status": 200,
+    "ms": 290
+  },
+  {
+    "name": "cdek-prod-oauth",
+    "url": "https://api.cdek.ru/v2/oauth/token?parameters",
+    "method": "POST",
+    "status": 200,
+    "ms": 838
+  },
+  {
+    "name": "cdek-prod-tarifflist",
+    "url": "https://api.cdek.ru/v2/calculator/tarifflist",
+    "method": "POST",
+    "status": 200,
+    "ms": 293
+  },
+  {
+    "name": "cdek-prod-deliverypoints",
+    "url": "https://api.cdek.ru/v2/deliverypoints?city_code=137&type=PVZ&size=1000",
+    "method": "GET",
+    "status": 200,
+    "ms": 703
+  },
+  {
+    "name": "cdek-prod-cities",
+    "url": "https://api.cdek.ru/v2/location/cities?city=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3&size=5",
+    "method": "GET",
+    "status": 200,
+    "ms": 251
+  }
+]

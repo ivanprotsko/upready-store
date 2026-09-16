@@ -103,6 +103,21 @@
     "title": "Kategorie",
     "viewAll": "Zobrazit vše"
   },
+  "CdekPoint": {
+    "heading": "Výdejní místo CDEK",
+    "chooseHeading": "Vyberte výdejní místo CDEK",
+    "searchPlaceholder": "Hledat podle adresy nebo metra",
+    "cityLabel": "Město",
+    "cityPlaceholder": "Začněte psát město",
+    "choose": "Vybrat",
+    "chosen": "Vybráno",
+    "found": "Nalezeno výdejních míst: {count}",
+    "noResults": "Ve městě {city} nebyla nalezena žádná výdejní místa.",
+    "needCity": "Zadejte město doručení, abyste viděli výdejní místa.",
+    "loading": "Načítání výdejních míst…",
+    "notConfigured": "Doprava CDEK zatím není v tomto obchodě nastavena.",
+    "change": "Změnit místo"
+  },
   "CheckoutPage": {
     "addNewAddress": "Přidat novou adresu",
     "addressHeading": "Doručovací adresa",

@@ -103,6 +103,21 @@
     "title": "Kategori",
     "viewAll": "Lihat semua"
   },
+  "CdekPoint": {
+    "heading": "Titik pengambilan CDEK",
+    "chooseHeading": "Pilih titik pengambilan CDEK",
+    "searchPlaceholder": "Cari mengikut alamat atau metro",
+    "cityLabel": "Bandar",
+    "cityPlaceholder": "Mula taip nama bandar",
+    "choose": "Pilih",
+    "chosen": "Dipilih",
+    "found": "Titik pengambilan dijumpai: {count}",
+    "noResults": "Tiada titik pengambilan dijumpai di {city}.",
+    "needCity": "Masukkan bandar penghantaran untuk melihat titik pengambilan.",
+    "loading": "Memuatkan titik pengambilan…",
+    "notConfigured": "Penghantaran CDEK belum disediakan di kedai ini.",
+    "change": "Tukar titik"
+  },
   "CheckoutPage": {
     "addNewAddress": "Tambah alamat baharu",
     "addressHeading": "Alamat Penghantaran",

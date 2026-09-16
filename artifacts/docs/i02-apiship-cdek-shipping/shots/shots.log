@@ -1,0 +1,39 @@
+
+── desktop 1440×1000 ──
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/desktop-01-checkout.png
+  корзина браузера: cart_01M2M5C2DGGA8J6KC0T4DFTSSN
+  адрес записан на корзину: HTTP 200
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/desktop-02-address.png
+  карточек доставки: 4
+    • Оксана Черкашина pickup Бесплатно
+    • Оксана Черкашина courier 10,00 ₽
+    • СДЭК — курьером до двери 325,00 ₽
+    • СДЭК — пункт выдачи 185,00 ₽
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/desktop-03-delivery-cards.png
+  лист ПВЗ: строк=57, счётчик «Найдено пунктов выдачи: 57»
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/desktop-04-cdek-point-sheet.png
+  выбранный пункт на карточке: «SPB55, Санкт-Петербург, пр-т 2-й Муринский», срок: «1-2 дня»
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/desktop-05-point-chosen.png
+
+── mobile 390×844 ──
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/mobile-01-checkout.png
+  корзина браузера: cart_01M2M5CZJXTZG0W04D86RE8Q0C
+  адрес записан на корзину: HTTP 200
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/mobile-02-address.png
+  карточек доставки: 4
+    • Оксана Черкашина pickup Бесплатно
+    • Оксана Черкашина courier 10,00 ₽
+    • СДЭК — курьером до двери 325,00 ₽
+    • СДЭК — пункт выдачи 185,00 ₽
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/mobile-03-delivery-cards.png
+  лист ПВЗ: строк=57, счётчик «Найдено пунктов выдачи: 57»
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/mobile-04-cdek-point-sheet.png
+  выбранный пункт на карточке: «SPB55, Санкт-Петербург, пр-т 2-й Муринский», срок: «1-2 дня»
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/mobile-05-point-chosen.png
+
+── панель ──
+  после входа: http://localhost:5182/
+  заголовок: «Доставка СДЭК»
+  поле «логин боевого аккаунта» заполнено: да (значение не печатаем)
+  способы: на кассе СДЭК — курьером до двери на кассе СДЭК — пункт выдачи
+  снимок: artifacts/docs/i02-apiship-cdek-shipping/shots/panel-01-delivery-settings.png

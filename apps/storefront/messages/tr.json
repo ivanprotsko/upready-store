@@ -103,6 +103,21 @@
     "title": "Kategoriler",
     "viewAll": "Tümünü gör"
   },
+  "CdekPoint": {
+    "heading": "CDEK teslim noktası",
+    "chooseHeading": "CDEK teslim noktası seçin",
+    "searchPlaceholder": "Adrese veya metroya göre arayın",
+    "cityLabel": "Şehir",
+    "cityPlaceholder": "Şehir yazmaya başlayın",
+    "choose": "Seç",
+    "chosen": "Seçildi",
+    "found": "Bulunan teslim noktası: {count}",
+    "noResults": "{city} şehrinde teslim noktası bulunamadı.",
+    "needCity": "Teslim noktalarını görmek için teslimat şehrinizi girin.",
+    "loading": "Teslim noktaları yükleniyor…",
+    "notConfigured": "Bu mağazada CDEK teslimatı henüz ayarlanmadı.",
+    "change": "Noktayı değiştir"
+  },
   "CheckoutPage": {
     "addNewAddress": "Yeni adres ekle",
     "addressHeading": "Teslimat Adresi",

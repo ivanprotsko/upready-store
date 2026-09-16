@@ -103,6 +103,21 @@
     "title": "Kategoriat",
     "viewAll": "Näytä kaikki"
   },
+  "CdekPoint": {
+    "heading": "CDEK-noutopiste",
+    "chooseHeading": "Valitse CDEK-noutopiste",
+    "searchPlaceholder": "Hae osoitteella tai metrolla",
+    "cityLabel": "Kaupunki",
+    "cityPlaceholder": "Ala kirjoittaa kaupunkia",
+    "choose": "Valitse",
+    "chosen": "Valittu",
+    "found": "Löytyneet noutopisteet: {count}",
+    "noResults": "Kaupungista {city} ei löytynyt noutopisteitä.",
+    "needCity": "Anna toimituskaupunki nähdäksesi noutopisteet.",
+    "loading": "Ladataan noutopisteitä…",
+    "notConfigured": "CDEK-toimitusta ei ole vielä otettu käyttöön tässä kaupassa.",
+    "change": "Vaihda piste"
+  },
   "CheckoutPage": {
     "addNewAddress": "Lisää uusi osoite",
     "addressHeading": "Toimitusosoite",

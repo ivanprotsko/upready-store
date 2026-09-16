@@ -103,6 +103,21 @@
     "title": "Danh mục",
     "viewAll": "Xem tất cả"
   },
+  "CdekPoint": {
+    "heading": "Điểm nhận hàng CDEK",
+    "chooseHeading": "Chọn điểm nhận hàng CDEK",
+    "searchPlaceholder": "Tìm theo địa chỉ hoặc ga tàu",
+    "cityLabel": "Thành phố",
+    "cityPlaceholder": "Bắt đầu nhập thành phố",
+    "choose": "Chọn",
+    "chosen": "Đã chọn",
+    "found": "Số điểm nhận hàng tìm thấy: {count}",
+    "noResults": "Không tìm thấy điểm nhận hàng ở {city}.",
+    "needCity": "Nhập thành phố giao hàng để xem các điểm nhận hàng.",
+    "loading": "Đang tải điểm nhận hàng…",
+    "notConfigured": "Cửa hàng này chưa thiết lập giao hàng CDEK.",
+    "change": "Đổi điểm"
+  },
   "CheckoutPage": {
     "addNewAddress": "Thêm địa chỉ mới",
     "addressHeading": "Địa chỉ giao hàng",

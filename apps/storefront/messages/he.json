@@ -103,6 +103,21 @@
     "title": "קטגוריות",
     "viewAll": "צפייה בהכול"
   },
+  "CdekPoint": {
+    "heading": "נקודת איסוף CDEK",
+    "chooseHeading": "בחרו נקודת איסוף CDEK",
+    "searchPlaceholder": "חיפוש לפי כתובת או מטרו",
+    "cityLabel": "עיר",
+    "cityPlaceholder": "התחילו להקליד עיר",
+    "choose": "בחירה",
+    "chosen": "נבחרה",
+    "found": "נקודות איסוף שנמצאו: {count}",
+    "noResults": "לא נמצאו נקודות איסוף ב{city}.",
+    "needCity": "הזינו את עיר המשלוח כדי לראות נקודות איסוף.",
+    "loading": "טוען נקודות איסוף…",
+    "notConfigured": "משלוח CDEK עדיין לא הוגדר בחנות הזו.",
+    "change": "החלפת נקודה"
+  },
   "CheckoutPage": {
     "addNewAddress": "הוספת כתובת חדשה",
     "addressHeading": "כתובת למשלוח",

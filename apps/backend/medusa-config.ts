@@ -188,6 +188,12 @@ module.exports = defineConfig({
         providers: [
           { resolve: "@medusajs/medusa/fulfillment-manual", id: "manual" },
           { resolve: "./src/modules/tariff-fulfillment", id: "tariff" },
+          // CDEK (`cdek_cdek`, src/modules/cdek-fulfillment): prices a shipment
+          // against the shop's OWN CDEK account, read per tenant from
+          // `tenant_integration_secret`. Registered unconditionally because the
+          // provider costs nothing until a shop has a row and a method
+          // (i02-apiship-cdek-shipping).
+          { resolve: "./src/modules/cdek-fulfillment", id: "cdek" },
         ],
       },
     },

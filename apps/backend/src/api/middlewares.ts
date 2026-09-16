@@ -164,6 +164,7 @@ import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PutTenantDeliverySettingsSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantNotificationSettingsSchema,
   PutTenantRequisitesSchema,
@@ -312,6 +313,13 @@ export default defineMiddlewares({
       matcher: "/tenants/payment-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantPaymentSettingsSchema)],
+    },
+    {
+      // The shop's CDEK account and the delivery kinds it offers
+      // (i02-apiship-cdek-shipping).
+      matcher: "/tenants/delivery-settings",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantDeliverySettingsSchema)],
     },
     {
       // Who hears about this shop's orders (t08-order-notifications).

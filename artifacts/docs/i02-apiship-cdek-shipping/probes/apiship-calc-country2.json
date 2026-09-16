@@ -1,0 +1,8 @@
+{
+  "name": "apiship-calc-country2",
+  "url": "https://api.apiship.ru/v1/calculator",
+  "method": "POST",
+  "status": 200,
+  "ms": 1037,
+  "body": "{\"deliveryToDoor\":[{\"providerKey\":\"cdek\",\"tariffs\":[]}],\"deliveryToPoint\":[{\"providerKey\":\"cdek\",\"tariffs\":[]}]}"
+}

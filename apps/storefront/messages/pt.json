@@ -103,6 +103,21 @@
     "title": "Categorias",
     "viewAll": "Ver tudo"
   },
+  "CdekPoint": {
+    "heading": "Ponto de recolha CDEK",
+    "chooseHeading": "Escolha um ponto de recolha CDEK",
+    "searchPlaceholder": "Pesquisar por morada ou metro",
+    "cityLabel": "Cidade",
+    "cityPlaceholder": "Comece a escrever a cidade",
+    "choose": "Escolher",
+    "chosen": "Escolhido",
+    "found": "Pontos de recolha encontrados: {count}",
+    "noResults": "Não foram encontrados pontos de recolha em {city}.",
+    "needCity": "Indique a cidade de entrega para ver os pontos de recolha.",
+    "loading": "A carregar pontos de recolha…",
+    "notConfigured": "O envio CDEK ainda não está configurado nesta loja.",
+    "change": "Mudar de ponto"
+  },
   "CheckoutPage": {
     "addNewAddress": "Adicionar nova morada",
     "addressHeading": "Morada de Entrega",

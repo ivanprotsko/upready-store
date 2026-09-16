@@ -103,6 +103,21 @@
     "title": "Catégories",
     "viewAll": "Voir tout"
   },
+  "CdekPoint": {
+    "heading": "Point de retrait CDEK",
+    "chooseHeading": "Choisissez un point de retrait CDEK",
+    "searchPlaceholder": "Rechercher par adresse ou métro",
+    "cityLabel": "Ville",
+    "cityPlaceholder": "Saisissez une ville",
+    "choose": "Choisir",
+    "chosen": "Choisi",
+    "found": "Points de retrait trouvés : {count}",
+    "noResults": "Aucun point de retrait trouvé à {city}.",
+    "needCity": "Indiquez votre ville de livraison pour voir les points de retrait.",
+    "loading": "Chargement des points de retrait…",
+    "notConfigured": "La livraison CDEK n'est pas encore configurée dans cette boutique.",
+    "change": "Changer de point"
+  },
   "CheckoutPage": {
     "addNewAddress": "Ajouter une nouvelle adresse",
     "addressHeading": "Adresse de livraison",

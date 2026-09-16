@@ -103,6 +103,21 @@
     "title": "カテゴリー",
     "viewAll": "すべて見る"
   },
+  "CdekPoint": {
+    "heading": "CDEK 受取場所",
+    "chooseHeading": "CDEK の受取場所を選択",
+    "searchPlaceholder": "住所や駅名で検索",
+    "cityLabel": "都市",
+    "cityPlaceholder": "都市名を入力",
+    "choose": "選択",
+    "chosen": "選択済み",
+    "found": "見つかった受取場所：{count}",
+    "noResults": "{city} に受取場所は見つかりませんでした。",
+    "needCity": "受取場所を表示するには配送先の都市を入力してください。",
+    "loading": "受取場所を読み込んでいます…",
+    "notConfigured": "このショップでは CDEK 配送はまだ設定されていません。",
+    "change": "場所を変更"
+  },
   "CheckoutPage": {
     "addNewAddress": "新しい住所を追加",
     "addressHeading": "配送先住所",

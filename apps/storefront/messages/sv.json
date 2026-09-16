@@ -103,6 +103,21 @@
     "title": "Kategorier",
     "viewAll": "Visa alla"
   },
+  "CdekPoint": {
+    "heading": "CDEK-utlämningsställe",
+    "chooseHeading": "Välj ett CDEK-utlämningsställe",
+    "searchPlaceholder": "Sök på adress eller tunnelbana",
+    "cityLabel": "Stad",
+    "cityPlaceholder": "Börja skriva en stad",
+    "choose": "Välj",
+    "chosen": "Vald",
+    "found": "Hittade utlämningsställen: {count}",
+    "noResults": "Inga utlämningsställen hittades i {city}.",
+    "needCity": "Ange din leveransstad för att se utlämningsställen.",
+    "loading": "Laddar utlämningsställen…",
+    "notConfigured": "CDEK-leverans är inte uppsatt i den här butiken än.",
+    "change": "Byt ställe"
+  },
   "CheckoutPage": {
     "addNewAddress": "Lägg till ny adress",
     "addressHeading": "Leveransadress",

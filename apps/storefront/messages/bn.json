@@ -103,6 +103,21 @@
     "title": "ক্যাটাগরি",
     "viewAll": "সব দেখুন"
   },
+  "CdekPoint": {
+    "heading": "CDEK পিকআপ পয়েন্ট",
+    "chooseHeading": "একটি CDEK পিকআপ পয়েন্ট বেছে নিন",
+    "searchPlaceholder": "ঠিকানা বা মেট্রো দিয়ে খুঁজুন",
+    "cityLabel": "শহর",
+    "cityPlaceholder": "শহরের নাম লিখতে শুরু করুন",
+    "choose": "বেছে নিন",
+    "chosen": "নির্বাচিত",
+    "found": "পাওয়া পিকআপ পয়েন্ট: {count}",
+    "noResults": "{city}-এ কোনো পিকআপ পয়েন্ট পাওয়া যায়নি।",
+    "needCity": "পিকআপ পয়েন্ট দেখতে আপনার ডেলিভারি শহর লিখুন।",
+    "loading": "পিকআপ পয়েন্ট লোড হচ্ছে…",
+    "notConfigured": "এই দোকানে CDEK ডেলিভারি এখনও সেট করা হয়নি।",
+    "change": "পয়েন্ট বদলান"
+  },
   "CheckoutPage": {
     "addNewAddress": "নতুন ঠিকানা যোগ করুন",
     "addressHeading": "শিপিং ঠিকানা",

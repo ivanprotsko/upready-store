@@ -103,6 +103,21 @@
     "title": "Kategorier",
     "viewAll": "Se alle"
   },
+  "CdekPoint": {
+    "heading": "CDEK-afhentningssted",
+    "chooseHeading": "Vælg et CDEK-afhentningssted",
+    "searchPlaceholder": "Søg efter adresse eller metro",
+    "cityLabel": "By",
+    "cityPlaceholder": "Begynd at skrive en by",
+    "choose": "Vælg",
+    "chosen": "Valgt",
+    "found": "Fundne afhentningssteder: {count}",
+    "noResults": "Ingen afhentningssteder fundet i {city}.",
+    "needCity": "Angiv din leveringsby for at se afhentningssteder.",
+    "loading": "Indlæser afhentningssteder…",
+    "notConfigured": "CDEK-levering er endnu ikke sat op i denne butik.",
+    "change": "Skift sted"
+  },
   "CheckoutPage": {
     "addNewAddress": "Tilføj ny adresse",
     "addressHeading": "Leveringsadresse",

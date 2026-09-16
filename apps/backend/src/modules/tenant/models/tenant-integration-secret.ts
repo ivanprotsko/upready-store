@@ -33,6 +33,7 @@ export const TENANT_INTEGRATION_PROVIDERS = [
   "wildberries",
   "wildberries_write",
   "ozon",
+  "cdek",
 ] as const;
 export type TenantIntegrationProvider = (typeof TENANT_INTEGRATION_PROVIDERS)[number];
 
