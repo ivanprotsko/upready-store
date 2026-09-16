@@ -2,6 +2,7 @@ import { Alert, Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
 import { useMarketplaceStatus, type MarketplaceCard } from "../../../../hooks/api/marketplaces"
+import { WbWritePreviewSection } from "../../wildberries/components/wb-write-preview-section"
 import { WbWriteSection } from "../../wildberries/components/wb-write-section"
 import { MpDeniedTable } from "./mp-denied-table"
 import { MpEndpointTable } from "./mp-endpoint-table"
@@ -223,6 +224,14 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
       </div>
 
       {card.id === "wb" ? <WbWriteSection /> : null}
+
+      {/*
+        w21-wb-write-stocks-prices: «Что изменится на WB» — the store -> WB diff
+        for the classes `stocks` and `prices`. Wildberries-only for the same
+        reason the consent screen above is: the diff reads WB's own mirrors and
+        WB's own warehouse ids. The Ozon twin is a second card, not a flag here.
+      */}
+      {card.id === "wb" ? <WbWritePreviewSection /> : null}
     </Container>
   )
 }
