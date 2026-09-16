@@ -1,0 +1,281 @@
+[
+ {
+  "id": "tp02-catalog-card-badges",
+  "title": "Карточка товара в каталоге: метки наличия и скидки, старая цена, добавление в корзину из списка, «показать ещё»",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp02-catalog-card-badges",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 94,
+  "prompt": "tp02-catalog-card-badges.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Local stand per AGENTS.md; a product with a promotion shows the struck-through price and the −N% badge; a product with zero stock shows «Нет в наличии» and its add-to-cart control is disabled. Screenshots of /ru/store at 390 and 1440 px, before and after, into artifacts/docs/<id>/. `pnpm --filter @dtc/gorgo-medusa-storefront typecheck` and the storefront unit suite green — quote the result lines.",
+  "why": "product-card-price-badges («Карточка товара: цена, старая цена, метки SALE/NEW»): у нас — частично (apps/storefront/src/modules/products/components/product-price, home/components/product-card); есть у InSales: да, в 9 шаблонах; есть у Tilda: да, в 13 шаблонах | stock-status («Статус наличия товара»): у нас — частично (остатки: apps/backend/src/api/tenants/inventory-items, панель routes/products (stock)); есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 4 шаблонах | quick-add-to-cart («Добавление в корзину прямо из списка»): у нас — частично (apps/storefront/src/modules/home/components/add-to-bag-button (только подборка на главной)); есть у InSales: да, в 1 шаблонах; есть у Tilda: да, в 12 шаблонах | pagination-load-more («Пагинация и «показать ещё»»): у нас — частично (apps/storefront/src/modules/store/components/pagination); есть у InSales: да, в 1 шаблонах; есть у Tilda: да, в 2 шаблонах",
+  "features": [
+   "product-card-price-badges",
+   "stock-status",
+   "quick-add-to-cart",
+   "pagination-load-more"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp03-catalog-query-capabilities",
+  "title": "Выдача каталога: фильтр по цене, «только в наличии», сортировка по популярности и рейтингу, признак наличия в ответе",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp03-catalog-query-capabilities",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 95,
+  "prompt": "tp03-catalog-query-capabilities.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Integration tests over the new parameters, including the tenant-isolation case, in the suite AGENTS.md prescribes for backend routes. curl against the local stand for each parameter, with the command and its output in the PR body. No migration that drops or rewrites data; if a schema change is needed, `pg_dump` first.",
+  "why": "price-range-filter («Фильтр по цене (диапазон от/до)»): у нас — нет; есть у InSales: да, в 1 шаблонах; есть у Tilda: нет | in-stock-filter («Фильтр «только в наличии»»): у нас — нет; есть у InSales: да, в 3 шаблонах; есть у Tilda: нет | catalog-sorting («Сортировка каталога»): у нас — частично (apps/storefront/src/modules/store/components/sort-select/index.tsx: created_at, price_asc, price_desc); есть у InSales: да, в 8 шаблонах; есть у Tilda: нет | stock-status («Статус наличия товара»): у нас — частично (остатки: apps/backend/src/api/tenants/inventory-items, панель routes/products (stock)); есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 4 шаблонах",
+  "features": [
+   "price-range-filter",
+   "in-stock-filter",
+   "catalog-sorting",
+   "stock-status"
+  ],
+  "side": "backend"
+ },
+ {
+  "id": "tp04-catalog-filters-ui",
+  "title": "Фильтры и сортировка каталога на витрине: цена диапазоном, «только в наличии», расширенные сортировки, счётчики",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp04-catalog-filters-ui",
+  "deps": [
+   "tp03-catalog-query-capabilities"
+  ],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 96,
+  "prompt": "tp04-catalog-filters-ui.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Local stand: filter, sort, share the URL, reload — the same selection comes back. Screenshots at 390 and 1440 px. Typecheck and unit suite green; result lines quoted in the PR.",
+  "why": "price-range-filter («Фильтр по цене (диапазон от/до)»): у нас — нет; есть у InSales: да, в 1 шаблонах; есть у Tilda: нет | in-stock-filter («Фильтр «только в наличии»»): у нас — нет; есть у InSales: да, в 3 шаблонах; есть у Tilda: нет | catalog-sorting («Сортировка каталога»): у нас — частично (apps/storefront/src/modules/store/components/sort-select/index.tsx: created_at, price_asc, price_desc); есть у InSales: да, в 8 шаблонах; есть у Tilda: нет | product-count-badge («Счётчик товаров в категории»): у нас — частично (счётчики у значений фасетов живьём («Россия 15», «Китай 1»)); есть у InSales: да, в 1 шаблонах; есть у Tilda: да, в 1 шаблонах",
+  "features": [
+   "price-range-filter",
+   "in-stock-filter",
+   "catalog-sorting",
+   "product-count-badge"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp05-home-content-blocks-api",
+  "title": "Блоки доверия как данные магазина: преимущества, вопросы-ответы, соцсети, отзывы о магазине (API + панель)",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp05-home-content-blocks-api",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 97,
+  "prompt": "tp05-home-content-blocks-api.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Integration tests per resource, including tenant isolation and the moderation flag. Owner screens in `apps/tenant-panel` reachable from the navigation; a short screencast or screenshots of creating one item of each kind. curl of each public endpoint with output in the PR body.",
+  "why": "advantages-block («Блок преимуществ магазина»): у нас — нет; есть у InSales: да, в 4 шаблонах; есть у Tilda: да, в 1 шаблонах | faq-block («Вопросы и ответы (FAQ)»): у нас — нет; есть у InSales: нет; есть у Tilda: да, в 2 шаблонах | social-follow-share («Соцсети: подписка и кнопки «поделиться»»): у нас — нет; есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 6 шаблонах | store-reviews («Отзывы покупателей о магазине»): у нас — нет; есть у InSales: да, в 4 шаблонах; есть у Tilda: да, в 7 шаблонах",
+  "features": [
+   "advantages-block",
+   "faq-block",
+   "social-follow-share",
+   "store-reviews"
+  ],
+  "side": "backend"
+ },
+ {
+  "id": "tp06-home-content-blocks-ui",
+  "title": "Витрина: блоки преимуществ, FAQ, соцсетей и отзывов о магазине + починка заглушек композиции (hero k, hero l, подвал f4)",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp06-home-content-blocks-ui",
+  "deps": [
+   "tp05-home-content-blocks-api"
+  ],
+  "softDeps": [
+   "tp01-store-templates-lab"
+  ],
+  "priority": 98,
+  "prompt": "tp06-home-content-blocks-ui.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "On the local stand, switch every composition option one by one and confirm the storefront actually changes; a screenshot per new block. A check (test or script) asserting that every key of the composition vocabulary maps to its OWN component — so this defect cannot come back silently.",
+  "why": "advantages-block («Блок преимуществ магазина»): у нас — нет; есть у InSales: да, в 4 шаблонах; есть у Tilda: да, в 1 шаблонах | faq-block («Вопросы и ответы (FAQ)»): у нас — нет; есть у InSales: нет; есть у Tilda: да, в 2 шаблонах | social-follow-share («Соцсети: подписка и кнопки «поделиться»»): у нас — нет; есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 6 шаблонах | store-reviews («Отзывы покупателей о магазине»): у нас — нет; есть у InSales: да, в 4 шаблонах; есть у Tilda: да, в 7 шаблонах | widget-library («Библиотека виджетов страниц (100+)»): у нас — частично (apps/storefront/src/lib/theme/composition.ts: 6 шапок × 9 hero × 2 плитки × 5 листингов × 6 подвалов); есть у InSales: да, в 5 шаблонах; есть у Tilda: нет",
+  "features": [
+   "advantages-block",
+   "faq-block",
+   "social-follow-share",
+   "store-reviews",
+   "widget-library"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp07-one-click-order-api",
+  "title": "Заказ в один клик и предзаказ: ручки создания заказа без корзины и покупки товара с нулевым остатком, уведомление владельцу",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp07-one-click-order-api",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 99,
+  "prompt": "tp07-one-click-order-api.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Integration tests: order created from one variant; pre-order of a zero-stock variant; both switches off → the endpoint refuses. A live call against the local stand with the request and response in the PR body. Owner notification actually delivered on the stand (log line or received message quoted).",
+  "why": "one-click-buy («Купить в один клик»): у нас — нет; есть у InSales: да, в 7 шаблонах; есть у Tilda: нет | preorder («Предзаказ товара не в наличии»): у нас — нет; есть у InSales: да, в 10 шаблонах; есть у Tilda: нет",
+  "features": [
+   "one-click-buy",
+   "preorder"
+  ],
+  "side": "backend"
+ },
+ {
+  "id": "tp08-quick-view-and-one-click-ui",
+  "title": "Витрина: быстрый просмотр товара в модальном окне, кнопка «Купить в 1 клик», свёртка длинного описания",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp08-quick-view-and-one-click-ui",
+  "deps": [
+   "tp07-one-click-order-api"
+  ],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 100,
+  "prompt": "tp08-quick-view-and-one-click-ui.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Local stand, in a browser: open quick view from the listing, order in one click, see the order in the owner panel. Screenshots of each step. The мумиё product page before/after the collapse, at 390 px. Typecheck and unit suite green.",
+  "why": "quick-view-popup («Быстрый просмотр товара во всплывающем окне»): у нас — нет; есть у InSales: да, в 1 шаблонах; есть у Tilda: да, в 5 шаблонах | one-click-buy («Купить в один клик»): у нас — нет; есть у InSales: да, в 7 шаблонах; есть у Tilda: нет | preorder («Предзаказ товара не в наличии»): у нас — нет; есть у InSales: да, в 10 шаблонах; есть у Tilda: нет | product-description-expand («Описание товара со сворачиванием («показать полностью»)»): у нас — нет; есть у InSales: да, в 2 шаблонах; есть у Tilda: нет",
+  "features": [
+   "quick-view-popup",
+   "one-click-buy",
+   "preorder",
+   "product-description-expand"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp09-public-forms-api",
+  "title": "Публичные формы магазина: подписка на рассылку, обратный звонок, заявка — хранение, антиспам, доставка владельцу",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp09-public-forms-api",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 101,
+  "prompt": "tp09-public-forms-api.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Integration tests: submission, duplicate suppression, anti-spam rejection, tenant isolation. Live submission on the stand delivering a notification — quote the log line or the message. curl of each endpoint in the PR body.",
+  "why": "newsletter-signup («Подписка на email-рассылку»): у нас — нет (apps/storefront/src/modules/layout/templates/footer/variants/index.ts: f4 → FooterF1 (заглушка)); есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 4 шаблонах | callback-request («Заказ обратного звонка»): у нас — нет; есть у InSales: да, в 3 шаблонах; есть у Tilda: да, в 2 шаблонах | lead-request-form («Форма заявки и обратной связи с валидацией»): у нас — нет; есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 2 шаблонах | recaptcha («Защита форм от спама (reCAPTCHA)»): у нас — нет (rg 'recaptcha|hcaptcha|turnstile' по apps → 0); есть у InSales: да, в 2 шаблонах; есть у Tilda: нет",
+  "features": [
+   "newsletter-signup",
+   "callback-request",
+   "lead-request-form",
+   "recaptcha"
+  ],
+  "side": "backend"
+ },
+ {
+  "id": "tp10-newsletter-and-trust-ui",
+  "title": "Витрина: настоящая форма рассылки в подвале F4, формы обратного звонка и заявки, баннер согласия на cookie",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp10-newsletter-and-trust-ui",
+  "deps": [
+   "tp09-public-forms-api"
+  ],
+  "softDeps": [
+   "tp06-home-content-blocks-ui"
+  ],
+  "priority": 102,
+  "prompt": "tp10-newsletter-and-trust-ui.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Local stand: submit each form and see it arrive in the owner panel; screenshots. The banner at 390 px with the product page behind it, showing the buy button is still reachable. Typecheck and unit suite green.",
+  "why": "newsletter-signup («Подписка на email-рассылку»): у нас — нет (apps/storefront/src/modules/layout/templates/footer/variants/index.ts: f4 → FooterF1 (заглушка)); есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 4 шаблонах | callback-request («Заказ обратного звонка»): у нас — нет; есть у InSales: да, в 3 шаблонах; есть у Tilda: да, в 2 шаблонах | lead-request-form («Форма заявки и обратной связи с валидацией»): у нас — нет; есть у InSales: да, в 2 шаблонах; есть у Tilda: да, в 2 шаблонах | cookie-consent («Баннер согласия на cookie»): у нас — нет (rg 'CookieConsent|cookie-banner' по apps/storefront/src → 0); есть у InSales: нет; есть у Tilda: да, в 1 шаблонах",
+  "features": [
+   "newsletter-signup",
+   "callback-request",
+   "lead-request-form",
+   "cookie-consent"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp11-wishlist-compare-ui",
+  "title": "Витрина: избранное и сравнение товаров со счётчиками в шапке и отдельными страницами",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp11-wishlist-compare-ui",
+  "deps": [],
+  "softDeps": [
+   "tp03-catalog-query-capabilities"
+  ],
+  "priority": 103,
+  "prompt": "tp11-wishlist-compare-ui.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Local stand: add three products to comparison, see the differing rows, remove one, reload — state survives. Screenshots. A deleted product in the list does not break the page — show it. Typecheck and unit suite green.",
+  "why": "wishlist («Избранное (список желаний)»): у нас — нет; есть у InSales: да, в 8 шаблонах; есть у Tilda: да, в 3 шаблонах | compare-products («Сравнение товаров»): у нас — нет; есть у InSales: да, в 10 шаблонах; есть у Tilda: нет",
+  "features": [
+   "wishlist",
+   "compare-products"
+  ],
+  "side": "storefront"
+ },
+ {
+  "id": "tp12-seo-fields-and-tenant-analytics",
+  "title": "SEO-поля товара, категории и страницы, произвольные ключи страниц магазина, пер-тенантный счётчик аналитики",
+  "kind": "build",
+  "lane": "build",
+  "model": "opus",
+  "effort": "high",
+  "branch": "feat/day16-tp12-seo-fields-and-tenant-analytics",
+  "deps": [],
+  "softDeps": [
+   "r03-store-templates-functionality"
+  ],
+  "priority": 104,
+  "prompt": "tp12-seo-fields-and-tenant-analytics.md",
+  "source": "r03-store-templates-functionality",
+  "acceptance": "Integration tests for the new fields and the page-key change, including that the five legacy keys still resolve. On the stand: set a meta title, load the page, read it back out of the HTML — quote the curl and the output. Set a counter id for one tenant and show it is absent on another tenant's storefront.",
+  "why": "structured-data («Микроразметка и SEO-данные страницы»): у нас — есть (apps/storefront/src/lib/util/json-ld.ts, app/sitemap.ts, app/robots.ts); есть у InSales: нет; есть у Tilda: да, в 1 шаблонах | delivery-payment-page («Страница «Доставка и оплата»»): у нас — частично (статические /shipping, /returns из стартера); есть у InSales: да, в 4 шаблонах; есть у Tilda: да, в 11 шаблонах | web-analytics («Веб-аналитика»): у нас — частично (apps/storefront/src/modules/common/components/google-analytics (GA4, один ID на образ), api/tenants/analytics + панель routes/settings/analytics); есть у InSales: да, в 1 шаблонах; есть у Tilda: нет",
+  "features": [
+   "structured-data",
+   "delivery-payment-page",
+   "web-analytics"
+  ],
+  "side": "backend"
+ }
+]

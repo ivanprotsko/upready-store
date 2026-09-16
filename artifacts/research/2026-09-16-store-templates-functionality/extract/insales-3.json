@@ -1,0 +1,586 @@
+{
+  "group": "insales-3",
+  "templates": [
+    {
+      "template": "Moon",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon",
+      "features": [
+        {
+          "id": "one-click-order",
+          "name_ru": "заказ в один клик",
+          "category": "cart-checkout",
+          "evidence": "Заказ в один клик / Контактное лицо (ФИО): / Контактный телефон: / Комментарий:",
+          "page_url": "https://demo-moon.myinsales.ru/"
+        },
+        {
+          "id": "buy-in-one-click-widget",
+          "name_ru": "кнопка «Купить в 1 клик» на карточке товара",
+          "category": "product-page",
+          "evidence": "Поддержка функции «Купить в 1 клик»;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon"
+        },
+        {
+          "id": "preorder-out-of-stock",
+          "name_ru": "форма предзаказа для товара с нулевым остатком",
+          "category": "product-page",
+          "evidence": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина (блокируемая или не блокируемая);",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon"
+        },
+        {
+          "id": "installments-payment",
+          "name_ru": "оплата покупки частями (сплит-платёж 4х25% раз в 2 недели)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям / Получайте заказы сразу, а платите за них постепенно. / 25% Платёж сегодня / 25% Через 2 недели / 25% Через 4 недели / 25% Через 6 недель",
+          "page_url": "https://demo-moon.myinsales.ru/collection/parfyum"
+        },
+        {
+          "id": "price-range-filter",
+          "name_ru": "фильтр по цене (диапазон от/до)",
+          "category": "filters-search",
+          "evidence": "Фильтры / Сбросить / Цена / от / до",
+          "page_url": "https://demo-moon.myinsales.ru/collection/parfyum"
+        },
+        {
+          "id": "volume-variant-filter",
+          "name_ru": "фильтр по объёму (модификации товара)",
+          "category": "filters-search",
+          "evidence": "Объем / 125 мл / 75 мл / Применить",
+          "page_url": "https://demo-moon.myinsales.ru/collection/parfyum"
+        },
+        {
+          "id": "sort-options",
+          "name_ru": "сортировка каталога (по цене, новизне, названию)",
+          "category": "filters-search",
+          "evidence": "Сортировка / по возрастанию цены / по убыванию цены / сначала новые / по названию",
+          "page_url": "https://demo-moon.myinsales.ru/collection/parfyum"
+        },
+        {
+          "id": "in-stock-only-filter",
+          "name_ru": "фильтр «Только в наличии»",
+          "category": "filters-search",
+          "evidence": "Фильтры / Сбросить / Только в наличии / Применить",
+          "page_url": "https://demo-moon.myinsales.ru/collection/parfyum"
+        },
+        {
+          "id": "size-chart",
+          "name_ru": "таблица размеров в карточке товара",
+          "category": "product-page",
+          "evidence": "Таблица размеров / Российский размер Размер производителя Обхват груди, в см Обхват талии, в см Обхват бедер, в см",
+          "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+        },
+        {
+          "id": "product-tabs-description-reviews",
+          "name_ru": "вкладки «Описание»/«Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Описание / Отзывы / Описание / Роматическая симфония парфюма начинается с нежного освежающего цитрусового аромата",
+          "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+        },
+        {
+          "id": "product-reviews-with-moderation",
+          "name_ru": "отзывы о товаре с формой и модерацией",
+          "category": "trust-reviews",
+          "evidence": "Написать отзыв / Имя * / Email * / Отзыв * / Оставить отзыв / Перед публикацией отзывы проходят модерацию",
+          "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+        },
+        {
+          "id": "similar-products-block",
+          "name_ru": "блок «Аналогичные товары»",
+          "category": "product-page",
+          "evidence": "Аналогичные товары / В наличии / Предзаказ / [Парфюмерная вода \"Пока ты рядом\"]",
+          "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+        },
+        {
+          "id": "add-to-cart-slide-panel",
+          "name_ru": "всплывающая панель корзины после добавления товара",
+          "category": "cart-checkout",
+          "evidence": "Добавить в корзину / Название товара / 100 руб / 1 шт. / Вернуться к покупкам / [Перейти в корзину]",
+          "page_url": "https://demo-moon.myinsales.ru/product/nazvanie-vashego-tovara-budet-zdes-4a8360"
+        },
+        {
+          "id": "callback-request-form",
+          "name_ru": "форма «Обратный звонок»",
+          "category": "trust-reviews",
+          "evidence": "Обратный звонок / Запрос успешно отправлен! / Имя / * / Телефон / *",
+          "page_url": "https://demo-moon.myinsales.ru/"
+        },
+        {
+          "id": "stock-status-badges",
+          "name_ru": "маркеры «В наличии» / «Нет в наличии»",
+          "category": "product-page",
+          "evidence": "Маркер «В наличии» у товаров с ненулевым остатком; / Маркер «Нет в наличии» или «Предзаказ» для отсутствующих товаров;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon"
+        },
+        {
+          "id": "blog-with-product-links",
+          "name_ru": "блог с карточками статей на главной",
+          "category": "content",
+          "evidence": "ЕЖЕДНЕВНЫЙ УХОД ЗА КОЖЕЙ / [Подробнее](https://demo-moon.myinsales.ru/blogs/blog/ezhednevnyy-uhod-za-kozhey)",
+          "page_url": "https://demo-moon.myinsales.ru/"
+        },
+        {
+          "id": "promo-banner-hero",
+          "name_ru": "промо-баннер на главной со скидкой на категорию",
+          "category": "promo-marketing",
+          "evidence": "[Увлажнение и уход - скидки 15%](https://demo-moon.myinsales.ru/collection/uhod)",
+          "page_url": "https://demo-moon.myinsales.ru/"
+        },
+        {
+          "id": "widgets-100-plus",
+          "name_ru": "более 100 настраиваемых виджетов страницы (слайдер, преимущества, подборки, промо-баннеры и др.)",
+          "category": "admin-customization",
+          "evidence": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-moon"
+        }
+      ]
+    },
+    {
+      "template": "Newtone 2.0",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2",
+      "features": [
+        {
+          "id": "size-filter",
+          "name_ru": "фильтр по размеру (S/M/L/XL)",
+          "category": "filters-search",
+          "evidence": "Размер / S / M / L / XL",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "material-filter",
+          "name_ru": "фильтр по составу материала",
+          "category": "filters-search",
+          "evidence": "Состав / Хлопок / Кожа / Лён / Экохлопок / Трикотаж / Шерсть",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "country-filter",
+          "name_ru": "фильтр по стране производства",
+          "category": "filters-search",
+          "evidence": "Страна / Турция / Испания / Италия / Португалия / Швейцария / Китай",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "wishlist-favorites",
+          "name_ru": "список избранного (wishlist) со счётчиком в шапке",
+          "category": "catalog-listing",
+          "evidence": "0 → https://newtone-demo.myinsales.ru/favorites",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "price-crossed-out-discount",
+          "name_ru": "отображение старой/новой цены при скидке",
+          "category": "product-page",
+          "evidence": "4 990 ₽ / 9 990 ₽ / 4 990 ₽",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "size-chart",
+          "name_ru": "таблица размеров в карточке товара",
+          "category": "product-page",
+          "evidence": "Таблица размеров / Российский размер Размер производителя Обхват груди, в см Обхват талии, в см Обхват бедер, в см",
+          "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+        },
+        {
+          "id": "product-tabs-specs",
+          "name_ru": "вкладки «Описание»/«Характеристики»/«Отзывы» в карточке товара",
+          "category": "product-page",
+          "evidence": "Описание / Характеристики / Отзывы",
+          "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+        },
+        {
+          "id": "product-specs-block",
+          "name_ru": "блок характеристик товара (состав, страна)",
+          "category": "product-page",
+          "evidence": "Характеристики / Состав / Хлопок / Страна / Турция",
+          "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+        },
+        {
+          "id": "related-products-block",
+          "name_ru": "блок «Сопутствующие товары» с мини-карточками и добавлением в корзину",
+          "category": "product-page",
+          "evidence": "Сопутствующие товары / В наличии / Предзаказ / S M L XL / [Твидовый кардиган из хлопка]",
+          "page_url": "https://newtone-demo.myinsales.ru/product/povsednevnaya-hlopkovaya-futbolka"
+        },
+        {
+          "id": "installments-payment",
+          "name_ru": "оплата покупки частями (сплит-платёж 4х25%)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям / Получайте заказы сразу, а платите за них постепенно. / 25% Платёж сегодня",
+          "page_url": "https://newtone-demo.myinsales.ru/collection/zhenschiny"
+        },
+        {
+          "id": "store-brands-block",
+          "name_ru": "блок «Наши бренды» на главной",
+          "category": "content",
+          "evidence": "Наши бренды",
+          "page_url": "https://newtone-demo.myinsales.ru/"
+        },
+        {
+          "id": "store-locations-map",
+          "name_ru": "блок магазинов с адресами, телефонами и ссылкой на карту",
+          "category": "content",
+          "evidence": "Наши магазины в Москве / М: Белорусская / М: Маяковская / Адрес: / [Посмотреть на карте](https://yandex.ru/maps/-/CCUCvXf--A)",
+          "page_url": "https://newtone-demo.myinsales.ru/"
+        },
+        {
+          "id": "old-collections-menu",
+          "name_ru": "подменю коллекций товаров (капсулы/сезонные подборки)",
+          "category": "catalog-listing",
+          "evidence": "[Вышевка](https://newtone-demo.myinsales.ru/collection/kategoriya-1) / [Старые коллекции] / [Средиземноморье] / [Спорт]",
+          "page_url": "https://newtone-demo.myinsales.ru/"
+        },
+        {
+          "id": "preorder-out-of-stock",
+          "name_ru": "форма предзаказа для товара с нулевым остатком",
+          "category": "product-page",
+          "evidence": "Настраиваемая кнопка «Предзаказ» для товаров с нулевым остатком с отправкой уведомления менеджеру магазина (блокируемая или не блокируемая);",
+          "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2"
+        },
+        {
+          "id": "widgets-100-plus",
+          "name_ru": "более 100 настраиваемых виджетов страницы",
+          "category": "admin-customization",
+          "evidence": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+          "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-newtone-2"
+        },
+        {
+          "id": "delivery-hours-header",
+          "name_ru": "информация о часах доставки в шапке сайта",
+          "category": "content",
+          "evidence": "Доставка с 8:00 до 23:00",
+          "page_url": "https://newtone-demo.myinsales.ru/"
+        }
+      ]
+    },
+    {
+      "template": "Открытие 4.0",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40",
+      "features": [
+        {
+          "id": "coming-soon-landing",
+          "name_ru": "лендинг «Скоро открытие» с формой сбора email-подписчиков",
+          "category": "promo-marketing",
+          "evidence": "СКОРО ОТКРЫТИЕ! / УЗНАЙТЕ ПЕРВЫМ И ПОЛУЧИТЕ СКИДКУ! / Введите электронную почту / Зарегистрироваться",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "email-validation",
+          "name_ru": "валидация email в форме подписки",
+          "category": "promo-marketing",
+          "evidence": "Неверно заполнено поле электронная почта",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "cart",
+          "name_ru": "корзина покупок",
+          "category": "cart-checkout",
+          "evidence": "сигнал: cart",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "checkout-form",
+          "name_ru": "форма оформления заказа",
+          "category": "cart-checkout",
+          "evidence": "сигнал: checkout-form",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "wishlist",
+          "name_ru": "список избранных товаров",
+          "category": "catalog-listing",
+          "evidence": "сигнал: wishlist",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "stock-status",
+          "name_ru": "статус наличия товара",
+          "category": "product-page",
+          "evidence": "сигнал: stock-status",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "product-badges",
+          "name_ru": "бейджи товара (акции/новинка/скидка)",
+          "category": "product-page",
+          "evidence": "сигнал: product-badges",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "account",
+          "name_ru": "личный кабинет покупателя",
+          "category": "account",
+          "evidence": "сигнал: account",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "wholesale-b2b",
+          "name_ru": "оптовый/B2B-режим продаж",
+          "category": "b2b-wholesale",
+          "evidence": "сигнал: wholesale-b2b",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "chat-widget",
+          "name_ru": "виджет онлайн-чата с покупателем",
+          "category": "integrations",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "slider-hero",
+          "name_ru": "слайдер-баннер на главной странице",
+          "category": "content",
+          "evidence": "сигнал: slider-hero",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "multi-currency",
+          "name_ru": "поддержка нескольких валют",
+          "category": "cart-checkout",
+          "evidence": "сигнал: multi-currency",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "analytics",
+          "name_ru": "подключение веб-аналитики",
+          "category": "seo-perf",
+          "evidence": "сигнал: analytics",
+          "page_url": "https://demo-opening.myinsales.ru/"
+        },
+        {
+          "id": "recaptcha-antispam",
+          "name_ru": "защита форм от спама через reCAPTCHA",
+          "category": "admin-customization",
+          "evidence": "Поддержка reCAPTCHA для защиты от спама;",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+        },
+        {
+          "id": "editable-layout-except-checkout",
+          "name_ru": "возможность менять вёрстку любой части сайта, кроме страниц оформления заказа",
+          "category": "admin-customization",
+          "evidence": "Возможность изменить верстку любой части сайта (за исключением страниц оформления заказа);",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+        },
+        {
+          "id": "mobile-responsive",
+          "name_ru": "адаптация под мобильные устройства",
+          "category": "admin-customization",
+          "evidence": "Шаблон адаптирован для просмотра с мобильных устройств.",
+          "page_url": "https://www.insales.ru/collection/themes-cosmetics/product/shablon-internet-magazina-otkrytie-40"
+        }
+      ]
+    },
+    {
+      "template": "Stories",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories",
+      "features": [
+        {
+          "id": "compare-products",
+          "name_ru": "сравнение товаров со счётчиком в шапке",
+          "category": "catalog-listing",
+          "evidence": "0 → https://demo-stories.myinsales.ru/compares",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "wishlist-favorites",
+          "name_ru": "список избранного со счётчиком в шапке",
+          "category": "catalog-listing",
+          "evidence": "0 → https://demo-stories.myinsales.ru/favorites",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "size-filter",
+          "name_ru": "фильтр по размеру (S/M/L/XL)",
+          "category": "filters-search",
+          "evidence": "Размер / S / M / L / XL",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "country-material-filter",
+          "name_ru": "фильтры по стране и составу товара",
+          "category": "filters-search",
+          "evidence": "Страна / Испания / Италия / Турция / Португалия / Состав / Нейлон / Хлопок / Шёлк / Кашемир",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "quick-add-to-cart-from-listing",
+          "name_ru": "быстрое добавление в корзину и выбор размера прямо из каталога",
+          "category": "catalog-listing",
+          "evidence": "Добавить в корзину / - 1 шт / [В корзине шт Перейти] / + 1 шт",
+          "page_url": "https://demo-stories.myinsales.ru/"
+        },
+        {
+          "id": "new-badge",
+          "name_ru": "бейдж «Новинка» на товаре",
+          "category": "product-page",
+          "evidence": "В наличии / Новинка / Предзаказ",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "show-more-pagination",
+          "name_ru": "подгрузка товаров кнопкой «Показать еще»",
+          "category": "catalog-listing",
+          "evidence": "Показать еще",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "product-review-rating",
+          "name_ru": "отзывы о товаре с оценкой (рейтингом)",
+          "category": "trust-reviews",
+          "evidence": "Написать отзыв / Отмена / Оставить отзыв / Рейтинг / * / Имя / * / Email",
+          "page_url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy"
+        },
+        {
+          "id": "similar-products-block",
+          "name_ru": "блок «Аналогичные товары» с выбором размера",
+          "category": "product-page",
+          "evidence": "Аналогичные товары / В наличии / Предзаказ / [Пальто кашемировое]",
+          "page_url": "https://demo-stories.myinsales.ru/product/koshelek-kozhanyy-korichnevyy"
+        },
+        {
+          "id": "installments-payment",
+          "name_ru": "оплата покупки частями (сплит-платёж 4х25%)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям / Получайте заказы сразу, а платите за них постепенно.",
+          "page_url": "https://demo-stories.myinsales.ru/collection/kategoriya-1"
+        },
+        {
+          "id": "marketplaces-integration-block",
+          "name_ru": "блок «Мы на маркетплейсах» и отзывы, перенесённые с Wildberries/OZON",
+          "category": "integrations",
+          "evidence": "Мы на маркетплейсах / Постоянно покупаю продукты в данном сервисе / отзыв с Wildberries",
+          "page_url": "https://demo-stories.myinsales.ru/"
+        },
+        {
+          "id": "about-store-block",
+          "name_ru": "блок «О магазине» с описанием на главной",
+          "category": "content",
+          "evidence": "О магазине Stories / Тут вы можете добавить небольшое описание о вашем интернет-магазине.",
+          "page_url": "https://demo-stories.myinsales.ru/"
+        },
+        {
+          "id": "widgets-100-plus",
+          "name_ru": "более 100 настраиваемых виджетов страницы",
+          "category": "admin-customization",
+          "evidence": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+          "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories"
+        },
+        {
+          "id": "product-comparison-feature",
+          "name_ru": "функция сравнения товаров",
+          "category": "catalog-listing",
+          "evidence": "Сравнение товаров;",
+          "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-stories"
+        }
+      ]
+    },
+    {
+      "template": "Vibe",
+      "source": "insales",
+      "template_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2",
+      "features": [
+        {
+          "id": "sale-banner-hero",
+          "name_ru": "промо-баннеры «Распродажа», «Скидки до 50%» на главной",
+          "category": "promo-marketing",
+          "evidence": "распродажа / скидки до 50% / Блузки и рубашки",
+          "page_url": "https://demo-vibe.myinsales.ru/"
+        },
+        {
+          "id": "store-advantages-block",
+          "name_ru": "блок «Наши плюсы» (ассортимент, доставка, контроль качества)",
+          "category": "content",
+          "evidence": "Наши плюсы / Широкий ассортимент / Более 5000 моделей одежды и аксессуаров. / Удобная доставка / Контроль качества",
+          "page_url": "https://demo-vibe.myinsales.ru/"
+        },
+        {
+          "id": "customer-reviews-marketplace-block",
+          "name_ru": "блок отзывов клиентов с указанием источника (Wildberries, OZON, VK)",
+          "category": "trust-reviews",
+          "evidence": "Отзывы клиентов / Постоянно покупаю продукты в данном сервисе / отзыв с Wildberries / отзыв с OZON / отзыв с VK",
+          "page_url": "https://demo-vibe.myinsales.ru/"
+        },
+        {
+          "id": "newsletter-discount-signup",
+          "name_ru": "подписка на рассылку за скидку 20% на первый заказ",
+          "category": "promo-marketing",
+          "evidence": "Получите скидку 20% на первый заказ / Подписаться",
+          "page_url": "https://demo-vibe.myinsales.ru/"
+        },
+        {
+          "id": "product-count-in-catalog",
+          "name_ru": "счётчик количества товаров в категории с фильтром",
+          "category": "filters-search",
+          "evidence": "Товаров / 7 / очистить фильтр",
+          "page_url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+        },
+        {
+          "id": "show-all-filters-panel",
+          "name_ru": "разворачиваемая панель «Показать все фильтры»",
+          "category": "filters-search",
+          "evidence": "Показать все фильтры",
+          "page_url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+        },
+        {
+          "id": "color-size-variant-selection",
+          "name_ru": "выбор модификаций товара по размеру и цвету",
+          "category": "product-page",
+          "evidence": "One Size / Молочный (Бежевый) / арт.",
+          "page_url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+        },
+        {
+          "id": "one-click-order",
+          "name_ru": "заказ в один клик с согласием на обработку персональных данных",
+          "category": "cart-checkout",
+          "evidence": "Заказ в один клик / Ваше имя: / Контактный телефон: / Согласие на обработку персональных данных",
+          "page_url": "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+        },
+        {
+          "id": "buy-in-one-click-widget",
+          "name_ru": "кнопка «Купить в 1 клик» на карточке товара",
+          "category": "product-page",
+          "evidence": "В корзину / - / [В корзине шт Перейти] / + / Предзаказ / Купить в 1 клик",
+          "page_url": "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+        },
+        {
+          "id": "product-composition-specs",
+          "name_ru": "блок характеристик состава товара",
+          "category": "product-page",
+          "evidence": "Характеристики / Состав / Кашемир, Шерсть",
+          "page_url": "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+        },
+        {
+          "id": "product-review-rating",
+          "name_ru": "отзывы о товаре с полем рейтинга",
+          "category": "trust-reviews",
+          "evidence": "Написать отзыв / Отмена / Оставить отзыв / Рейтинг / * / Имя",
+          "page_url": "https://demo-vibe.myinsales.ru/product/sviter-s-vysokim-vorotom-bezhevyy"
+        },
+        {
+          "id": "installments-payment",
+          "name_ru": "оплата покупки частями (сплит-платёж 4х25%)",
+          "category": "cart-checkout",
+          "evidence": "Оплачивайте покупку по частям / Получайте заказы сразу, а платите за них постепенно.",
+          "page_url": "https://demo-vibe.myinsales.ru/collection/svitera-i-dzhempery"
+        },
+        {
+          "id": "pickup-points",
+          "name_ru": "доставка в пункты выдачи заказов",
+          "category": "cart-checkout",
+          "evidence": "сигнал: pickup-points",
+          "page_url": "https://demo-vibe.myinsales.ru/"
+        },
+        {
+          "id": "widgets-100-plus",
+          "name_ru": "более 100 настраиваемых виджетов страницы",
+          "category": "admin-customization",
+          "evidence": "Поддержка более 100 виджетов: Слайдер; Преимущества; Подборки товаров; Категории и подкатегории;",
+          "page_url": "https://www.insales.ru/collection/themes-services/product/shablon-internet-magazina-vibe-2"
+        }
+      ]
+    }
+  ]
+}
