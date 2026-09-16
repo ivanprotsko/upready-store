@@ -12,7 +12,7 @@ import {
   readCdekSecret,
   type CdekCredentialsPayload,
 } from "../../../tenant-secrets/cdek";
-import { listTariffs, listWebhooks, registerWebhook } from "../../../cdek/client";
+import { listCities, listTariffs, listWebhooks, registerWebhook } from "../../../cdek/client";
 import type { CdekDeliveryKind } from "../../../cdek/method";
 import provisionTenantCdekMethodsWorkflow from "../../../workflows/tenant/cdek/provision-tenant-cdek-methods";
 import { getTenantScope } from "../tenant-scope";
@@ -109,6 +109,27 @@ export const PUT = async (
       throw new MedusaError(MedusaError.Types.INVALID_DATA, "Не хватает данных аккаунта СДЭК.");
     }
     try {
+      /**
+       * `/calculator/tarifflist` wants a city CODE and nothing else: measured
+       * 2026-09-16 on the sandbox, `{city:"Москва"}` answers HTTP 400
+       * `v2_field_is_empty [from_location.code]` while `{code:44}` answers 24
+       * tariffs. The panel form offers the owner only the city NAME (there is
+       * no sender_city_code field on that screen), so resolving the name here
+       * is what makes the owner's own path work at all — and it is the same
+       * resolution the rate call already does at checkout time
+       * (modules/cdek-fulfillment/service.ts: sender_city_code ?? listCities).
+       * The resolved code is also STORED, so every later call skips the lookup.
+       */
+      if (!credentials.sender_city_code && credentials.sender_city_name) {
+        const cities = await listCities(api, { city: credentials.sender_city_name, size: 1 });
+        const resolved = cities[0]?.code;
+        if (!resolved) {
+          throw new Error(
+            `город отправления «${credentials.sender_city_name}» не найден в справочнике СДЭК`,
+          );
+        }
+        credentials.sender_city_code = resolved;
+      }
       const from = credentials.sender_city_code
         ? { code: credentials.sender_city_code }
         : { city: credentials.sender_city_name ?? undefined };
