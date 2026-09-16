@@ -207,6 +207,7 @@ import {
   PutTenantWbFeedbackAnswerBody,
 } from "./tenants/wb/feedback-answers/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
+import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
 import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
 import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
@@ -1154,6 +1155,17 @@ export default defineMiddlewares({
       matcher: "/tenants/wb/write-settings",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantWbWriteSettingsBody)],
+    },
+
+    // w21-wb-write-stocks-prices: "что изменится на WB". GET takes no
+    // middleware — it parses its own three query parameters (the route says
+    // why) and reads only rows this tenant already owns. PUT changes one
+    // thing and it is not a mutation of Wildberries: which WB seller
+    // warehouse a stock location of the shop stands for.
+    {
+      matcher: "/tenants/wb/write-preview",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantWbWritePreviewBody)],
     },
 
     // w22-wb-write-feedback-answers: drafts for reviews and questions, and the

@@ -4256,11 +4256,11 @@
           "365d": "A year"
         },
         "rating": {
-          "5": "5 ★",
-          "4": "4 ★",
-          "3": "3 ★",
+          "1": "1 ★",
           "2": "2 ★",
-          "1": "1 ★"
+          "3": "3 ★",
+          "4": "4 ★",
+          "5": "5 ★"
         }
       },
       "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
@@ -4671,6 +4671,55 @@
         "refusedAt": "refused at the «{{gate}}» gate: {{message}}",
         "dryRunToast": "The attempt is in the journal. Nothing was sent to Wildberries.",
         "sentToast": "Sent to Wildberries."
+      }
+    },
+    "preview": {
+      "title": "What would change on WB",
+      "hint": "Your shop compared with the Wildberries mirror: what a push would carry if sending were allowed. Nothing is sent — the «Send» button is off and the gates that are shut are listed below.",
+      "empty": "Nothing differs — there is nothing to compare.",
+      "product": "Product",
+      "barcode": "WB barcode",
+      "nmId": "WB item number (nmID)",
+      "store": "In the shop",
+      "wb": "On WB",
+      "proposed": "WB price after the push",
+      "proposedHint": "The WB discount stays at {{discount}}%; only the pre-discount price changes (now {{price}}), so a WB buyer sees your price.",
+      "action": "Outcome",
+      "mirrorRead": "WB mirror read: {{when}}",
+      "send": "Send: {{batches}} request(s), {{rows}} rows",
+      "sendHint": "Sending is impossible: this build has no live write to Wildberries.",
+      "actions": {
+        "equal": "equal",
+        "update": "differs",
+        "skipped": "skipped"
+      },
+      "reasons": {
+        "card_has_several_barcodes": "the WB listing has several sizes, and the data does not say which one is yours",
+        "card_without_barcodes": "the WB listing carries no barcodes",
+        "store_does_not_count_this_variant": "the shop does not count stock for this product",
+        "store_price_absent": "the product has no price in the listing's currency",
+        "wb_price_absent": "the WB mirror holds no price for this listing",
+        "wb_discount_out_of_range": "the WB discount is 100% or more, so no price can be computed",
+        "price_not_reachable_at_current_discount": "at the current WB discount your price is not a whole number of roubles"
+      },
+      "counts": {
+        "update": "differs: {{count}}",
+        "equal": "equal: {{count}}",
+        "skipped": "skipped: {{count}}"
+      },
+      "gates": {
+        "live": "the live write mode is off ({{env}} in the backend's environment)",
+        "credential": "there is no write key in the separate slot {{slot}}",
+        "switch": "writing to Wildberries is switched off in the section above",
+        "consent": "you have not confirmed the class «{{name}}»",
+        "allOpen": "Every gate this page can see is open. Sending is still off: this build has no live calls."
+      },
+      "mapping": {
+        "title": "Shop warehouse and Wildberries warehouse",
+        "hint": "Wildberries keeps stock per seller warehouse, and the warehouse number is part of the update method's address. Until a warehouse is chosen there is nothing to compare stock against.",
+        "none": "no WB warehouse chosen",
+        "saved": "Mapping saved",
+        "unmapped": "Locations with no WB warehouse chosen: {{count}}."
       }
     }
   }
