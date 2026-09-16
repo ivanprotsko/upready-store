@@ -1,4 +1,4 @@
-import { esc, map, money, initial } from "../../lib/html.mjs"
+import { esc, map, money, initial, cap } from "../../lib/html.mjs"
 import { icons } from "../../lib/icons.mjs"
 export const meta = { id: "cart-drawer" }
 
@@ -22,7 +22,7 @@ export function render(b, ctx) {
         </span>
         <span class="cart-main">
           <span data-role="card-title" class="cart-name">${esc(p.name)}</span>
-          <span data-role="meta">${esc(p.unit || p.category)}</span>
+          <span data-role="meta">${esc(p.unit || cap(p.category))}</span>
           <span class="qty">
             <button class="icon-btn" type="button" aria-label="Убрать одну штуку">${icons.minus}</button>
             <span class="qty-n" data-role="body">1</span>

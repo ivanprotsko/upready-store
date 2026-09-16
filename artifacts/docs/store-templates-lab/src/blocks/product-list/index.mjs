@@ -1,4 +1,4 @@
-import { esc, map, money, initial } from "../../lib/html.mjs"
+import { esc, map, money, initial, cap } from "../../lib/html.mjs"
 import { icons } from "../../lib/icons.mjs"
 export const meta = { id: "product-list", variants: ["dense"] }
 
@@ -17,7 +17,7 @@ export function render(b, ctx) {
         </a>
         <div class="plist-main">
           <h3 class="card-title plist-title" data-role="card-title"><a href="${esc(ctx.url("product"))}">${esc(p.name)}</a></h3>
-          <p class="plist-note" data-role="meta">${esc(p.short || p.category)}</p>
+          <p class="plist-note" data-role="meta">${esc(p.short || p.unit || cap(p.category))}</p>
           <span class="stock" data-state="${esc(p.stock || "in")}" data-role="meta">${p.stock === "low" ? "Осталось мало" : p.stock === "out" ? "Нет в наличии" : "В наличии"}</span>
         </div>
         <div class="plist-buy">

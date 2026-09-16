@@ -1,4 +1,4 @@
-import { esc, money, initial, map } from "../../lib/html.mjs"
+import { esc, money, initial, map, cap } from "../../lib/html.mjs"
 import { icons, stars } from "../../lib/icons.mjs"
 export const meta = { id: "quick-view" }
 
@@ -19,7 +19,7 @@ export function render(b, ctx) {
         <h2 data-role="subsection-title">${esc(p.name)}</h2>
         <span class="rating">${stars(4)}<span class="value">4,0</span></span>
         <span data-role="price">${money(p.price)}</span>
-        <p data-role="body">${esc(p.short || p.category)}</p>
+        <p data-role="body">${esc(p.short || cap(p.category))}</p>
         <ul class="qv-facts">${map(b.facts || [], (f) => `<li data-role="meta">${esc(f)}</li>`)}</ul>
         <button class="btn" data-variant="primary" data-full type="button" data-cart-open>В корзину</button>
         <a class="link" data-role="meta" href="${esc(ctx.url("product"))}">Все характеристики и отзывы</a>

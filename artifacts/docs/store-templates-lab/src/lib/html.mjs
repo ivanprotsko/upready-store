@@ -36,6 +36,9 @@ export function plural(n, one, few, many) {
   return many
 }
 
+/** Ярлык из служебного значения: сырая категория на экран не попадает (правило 18e). */
+export const cap = (s) => { const t = String(s || "").trim(); return t ? t[0].toUpperCase() + t.slice(1) : "" }
+
 /** Первая буква названия для спроектированной заглушки (QR-EMPTY). */
 export const initial = (s) => String(s || "?").trim().charAt(0).toUpperCase()
 
