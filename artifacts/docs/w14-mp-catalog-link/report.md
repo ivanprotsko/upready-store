@@ -379,6 +379,9 @@ cd apps/backend && W14_OWNER_EMAIL=owner@cherkashino.example \
 # 7. Остановить свои серверы по порту: /usr/sbin/lsof -t -nP -iTCP:9044 -sTCP:LISTEN | xargs kill
 ```
 
+Карточка для UI: `handoff/day-2026-09-16-oksana-store/artifacts/w14-mp-catalog-link/report.json`
+— `report-validate.mjs` → `OK …: 9 done / 4 results / 1 access` (rc 0).
+
 ## Экономия
 
 - **Скрипт вместо раундов вручную.** Кадры экрана снимает один скрипт на Playwright
