@@ -37,7 +37,21 @@ const formatDateTime = (value: string | null, locale: string): string => {
  * «спрашиваем ключ…» and not «неизвестно» (rule 19h: an unanswered question is
  * a third state, not a negative answer).
  */
-export const MpCard = ({ card }: { card: MarketplaceCard }) => {
+export const MpCard = ({
+  card,
+  showKeyForm = true,
+}: {
+  card: MarketplaceCard
+  /**
+   * p01-settings-integrations-restructure: the marketplace SCREEN
+   * (`/settings/marketplaces/<слаг>`) shows the connection and reports on it,
+   * and the key itself is entered at `/settings/integrations/<слаг>` — Ivan's
+   * order of 2026-09-16 20:22 WITA («оставь там только поля для ввода
+   * ключей»). One card, two readings; a second card without the form would be
+   * the copy that stops being updated (rule 20).
+   */
+  showKeyForm?: boolean
+}) => {
   const { t, i18n } = useTranslation()
   const locale = i18n.language || "ru"
 
@@ -66,8 +80,12 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
       : ("unknown" as const)
 
   return (
-    // `id` is the anchor `/settings/wildberries` and `/settings/ozon` land on:
-    // both paths redirect here since the card is the live surface (w12, w24).
+    // `id` is kept as a DOM id for tests and deep links inside one page. It is
+    // no longer an anchor any route navigates to: p01 removed every `#` target
+    // from this panel, and `/settings/wildberries` now lands on the marketplace
+    // screen `/settings/marketplaces/wildberries` (Ivan, 2026-09-16 20:22
+    // WITA: «не правильно делать отдельный пункт для навигации в внутри одной
+    // страницы через якорь #»).
     <Container className="divide-y p-0" id={card.id}>
       <div className="px-6 py-4">
         <Heading level="h2">{card.label}</Heading>
@@ -105,7 +123,7 @@ export const MpCard = ({ card }: { card: MarketplaceCard }) => {
         renders the same fields — an unanswered question is a third state, not
         a reason to hide the input (rule 19h).
       */}
-      <MpKeyForm card={detail ?? card} />
+      {showKeyForm ? <MpKeyForm card={detail ?? card} /> : null}
 
       <div className="px-6 py-4">
         <MpFieldRow label={t("marketplaces.enabled.label")}>

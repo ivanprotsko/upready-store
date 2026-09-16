@@ -1,1 +1,1 @@
-export { MarketplacesSettings as Component } from "./marketplaces"
+export { MarketplacesRedirect as Component } from "./redirect"

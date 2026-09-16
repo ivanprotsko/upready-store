@@ -241,7 +241,6 @@
         "wildberries": "Wildberries",
         "mpCatalog": "Catalog",
         "mpPriceStock": "Prices and stock",
-        "mpConnections": "Connections",
         "mpOrders": "Marketplace orders",
         "mpReviews": "Marketplace reviews",
         "mpSync": "Synchronisation",
@@ -4291,22 +4290,6 @@
         "generated": "Draft written — read it and save",
         "savedAt": "Draft saved {{at}}"
       }
-    },
-    "other": {
-      "title": "Other integrations",
-      "subtitle": "the shop's remaining services: payments, delivery. You enter their keys here too.",
-      "connected": "connected",
-      "missing": "not set up",
-      "soon": "soon",
-      "open": "Set up",
-      "robokassa": {
-        "title": "Robokassa",
-        "subtitle": "payments on the shop's site."
-      },
-      "delivery": {
-        "title": "Delivery (ApiShip, CDEK)",
-        "subtitle": "delivery rates and shipments. The settings screen is on the way."
-      }
     }
   },
   "marketplaceOrders": {
@@ -4883,5 +4866,70 @@
     "webhookHint": "CDEK posts parcel status changes to this address. It is registered automatically when you save.",
     "webhookRegistered": "subscription registered",
     "webhookNotRegistered": "subscription not registered"
+  },
+  "integrations": {
+    "title": "Integrations",
+    "subtitle": "every credential this shop holds, in one place: marketplaces, payments, delivery. Each page carries the fields of one service and nothing else.",
+    "open": "Open",
+    "state": {
+      "connected": "connected ••••{{last4}}",
+      "missing": "not connected",
+      "asking": "asking…"
+    },
+    "rights": {
+      "readOnly": "read-only key",
+      "write": "the key carries write rights",
+      "unknown": "the key's rights could not be read",
+      "withExpiry": "{{rights}}, days left: {{days}}"
+    },
+    "crossLink": {
+      "credentialsHint": "Login and passwords live on the connection page:",
+      "behaviourHint": "Mode and settings live on:",
+      "marketplaceHint": "Connection state, rights and imports live on the marketplace page:",
+      "keyHint": "The key of this marketplace is entered under"
+    },
+    "marketplace": {
+      "subtitle": "the key of this marketplace. Everything else is on the marketplace page.",
+      "rowSubtitle": "Seller API key",
+      "unknown": "Marketplace «{{slug}}» is not registered in the backend: the page exists, the adapter does not."
+    },
+    "robokassa": {
+      "title": "Robokassa",
+      "subtitle": "the shop's merchant login and the passwords that sign its payments.",
+      "rowSubtitle": "payments on the shop's site",
+      "behaviourHint": "The test mode and the hash algorithm live on «Payments»: they are how the shop behaves, not who it is.",
+      "noAccount": "Robokassa has no credentials yet, so there is nothing to save here. Enter the login and passwords on the connection page."
+    },
+    "cdek": {
+      "title": "CDEK",
+      "subtitle": "the logins and passwords of the CDEK accounts, sandbox and live.",
+      "rowSubtitle": "delivery rates and shipments",
+      "behaviourHint": "The sender city, the delivery kinds, the markup and the free-shipping threshold live on «CDEK delivery».",
+      "noAccount": "No CDEK account is connected yet, so the delivery settings have nothing to save with. Enter the login and password on the connection page."
+    },
+    "apiship": {
+      "title": "ApiShip",
+      "subtitle": "the token of the ApiShip carrier aggregator.",
+      "rowSubtitle": "carrier aggregator",
+      "rowNote": "not used at the checkout: CDEK quotes the rates directly",
+      "notInCheckout": "The token is stored and checked, but ApiShip is not wired into the checkout: the ApiShip calculator answers this account with zero tariffs (measured in i02, 2026-09-16), so CDEK quotes delivery directly. Rating is switched on in the ApiShip cabinet.",
+      "tokenLabel": "ApiShip token",
+      "tokenHint": "ApiShip cabinet, API section. The token goes into the Authorization header as it is, with no Bearer in front of it.",
+      "tokenRequired": "Enter the ApiShip token.",
+      "keepPlaceholder": "keep the stored one",
+      "emptyPlaceholder": "not set",
+      "save": "Save",
+      "remove": "Delete",
+      "cancel": "Cancel",
+      "saved": "ApiShip token saved ••••{{last4}}",
+      "removed": "ApiShip token deleted",
+      "removeTitle": "Delete the ApiShip token?",
+      "removeDescription": "The token is forgotten. You can enter it again at any time.",
+      "probeAsking": "asking ApiShip…",
+      "probeOk": "token accepted",
+      "probeOkWithCount": "token accepted, carriers connected: {{count}}",
+      "probeFailed": "token rejected",
+      "deliveryHint": "The delivery methods a buyer sees live on:"
+    }
   }
 }
