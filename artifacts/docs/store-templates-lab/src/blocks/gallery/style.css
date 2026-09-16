@@ -1,0 +1,23 @@
+.gal { display: grid; gap: var(--space-3); }
+.gal-stage { position: relative; }
+.gal-main { display: grid; }
+.gal-main > img { grid-area: 1 / 1; }
+.gal-zoom { position: absolute; inset-block-start: var(--space-3); inset-inline-end: var(--space-3); background: var(--background); }
+.gal-nav { position: absolute; inset-block-start: 50%; transform: translateY(-50%); background: var(--background); box-shadow: var(--shadow-card); }
+.gal-prev { inset-inline-start: var(--space-3); }
+.gal-next { inset-inline-end: var(--space-3); }
+.gal-thumbs { display: flex; gap: var(--space-2); overflow-x: auto; scroll-snap-type: x mandatory; }
+.gal-thumb {
+  flex: 0 0 auto; width: var(--space-24); padding: 0; border: 0; background: none; cursor: pointer;
+  border-radius: var(--r-md); scroll-snap-align: start;
+  outline: var(--hairline) solid transparent; outline-offset: var(--space-1);
+  transition: outline-color var(--dur-fast) var(--ease);
+}
+.gal-thumb[aria-selected="true"] { outline-color: var(--foreground); }
+.gal-lightbox { border: 0; padding: 0; background: var(--background); max-width: 100%; max-height: 100%; }
+.gal-lightbox::backdrop { background: var(--foreground); opacity: 0.8; }
+.gal-lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+.gal-close { position: fixed; inset-block-start: var(--space-4); inset-inline-end: var(--space-4); background: var(--background); }
+@media (max-width: 639px) {
+  .gal-nav { display: none; }
+}

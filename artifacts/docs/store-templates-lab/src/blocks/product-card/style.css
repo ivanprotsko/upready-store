@@ -1,0 +1,39 @@
+.card { display: grid; gap: var(--space-3); align-content: start; }
+.card-media-link { display: block; }
+.card .media { transition: opacity var(--dur-fast) var(--ease); }
+.card:hover .media { opacity: 0.88; }
+.card-body { display: grid; gap: var(--space-2); justify-items: start; }
+
+/* Название всегда занимает две строки: цены ряда стоят на ОДНОЙ базовой линии
+   независимо от длины названий (диагноз C1 — три базовые линии в ряду). */
+.card-title {
+  font-size: var(--text-body); line-height: var(--lh-body);
+  font-weight: var(--weight-regular);
+  min-height: calc(var(--text-body) * var(--lh-body) * 2);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+/* Цель нажатия — вся двухстрочная коробка названия, а не строка текста (QR-HIT). */
+.card-title a { display: block; min-height: calc(var(--text-body) * var(--lh-body) * 2); }
+.card-title a:hover { text-decoration: underline; text-underline-offset: var(--space-1); }
+.card-meta { font-size: var(--text-meta); line-height: var(--lh-meta); color: var(--muted-foreground); }
+
+/* Карточка обязана иметь поверхность (QR-CARD-SURFACE): её даёт .media,
+   у которой всегда есть --surface-media и радиус. Обрамлённый вариант — для
+   шаблонов с плотной выкладкой. */
+.grid-products[data-framed] .card {
+  background: var(--card); color: var(--card-foreground);
+  border: var(--hairline) solid var(--border); border-radius: var(--r-md);
+  padding: var(--card-pad); gap: var(--space-3);
+}
+.grid-products[data-framed] .card .media { border-radius: var(--r-sm); }
+
+/* Быстрый просмотр: появляется при наведении и при фокусе с клавиатуры.
+   На мобиле стоит всегда — навести там нечем. */
+.card-media-wrap { position: relative; }
+.card-qv {
+  position: absolute; inset-inline: var(--space-3); inset-block-end: var(--space-3);
+  background: var(--background); opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.card-media-wrap:hover .card-qv, .card-qv:focus-visible { opacity: 1; }
+@media (hover: none) { .card-qv { opacity: 1; position: static; margin-block-start: var(--space-2); width: 100%; } }

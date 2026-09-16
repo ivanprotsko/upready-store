@@ -1,0 +1,36 @@
+.filters-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.filters-group { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
+.filter { position: relative; }
+.filter-head {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  min-height: var(--tap); padding-inline: var(--space-4);
+  border: var(--hairline) solid var(--border); border-radius: var(--r-sm);
+  cursor: pointer; list-style: none; font-size: var(--text-body);
+}
+.filter-head::-webkit-details-marker { display: none; }
+.filter-head svg { width: var(--space-4); height: var(--space-4); transition: transform var(--dur-fast) var(--ease); }
+.filter[open] .filter-head svg { transform: rotate(180deg); }
+.filter-panel {
+  position: absolute; z-index: 10; inset-inline-start: 0; top: calc(100% + var(--space-2));
+  display: grid; gap: var(--space-1); padding: var(--space-3); min-width: var(--space-32);
+  box-shadow: var(--shadow-card); background: var(--popover); color: var(--popover-foreground);
+}
+.filter-opt { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; min-height: var(--tap); cursor: pointer; }
+.filter-price { display: flex; align-items: center; gap: var(--space-2); }
+.filter-price .input { width: var(--space-24); }
+.filters-sort { display: inline-flex; align-items: center; gap: var(--space-2); }
+.filters-sort .select { width: auto; }
+.filters-active { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-block-start: var(--space-4); }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  min-height: var(--tap); padding-inline: var(--space-4);
+  border: var(--hairline) solid var(--border); border-radius: var(--r-pill);
+  background: var(--secondary); color: var(--secondary-foreground); cursor: pointer;
+  font-size: var(--text-meta);
+}
+.chip svg { width: var(--space-3); height: var(--space-3); }
+.filters-count { margin-block-start: var(--space-4); }
+@media (max-width: 639px) {
+  .filters-group { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .filters-sort { width: 100%; }
+}

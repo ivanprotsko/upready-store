@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru" data-density="comfortable">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Образец языка — лаборатория шаблонов</title>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" href="../../assets/t-ferma.css" id="tpl-css">
+<style>
+  .spec { padding-block: var(--space-12); }
+  .spec-block { padding-block: var(--space-8); border-top: var(--hairline) solid var(--border); }
+  .sp-h { font-size: var(--text-title); line-height: var(--lh-title); font-weight: var(--weight-strong);
+          font-family: var(--font-display); margin-block-end: var(--space-6); }
+  .sp-grid { display: grid; grid-template-columns: var(--space-32) minmax(0, 1fr); gap: var(--space-4) var(--space-6); align-items: baseline; }
+  .sp-key { font-family: var(--font-mono); font-size: var(--text-meta); color: var(--muted-foreground); }
+  .sw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block-end: var(--space-6); }
+  .sw { display: grid; gap: var(--space-1); justify-items: center; }
+  .sw i { display: block; width: var(--space-8); height: var(--space-8); border-radius: var(--r-sm);
+          border: var(--hairline) solid var(--border); }
+  .sw code, .sp-key code { font-family: var(--font-mono); font-size: var(--text-meta); color: var(--muted-foreground); }
+  .sp-t { width: 100%; border-collapse: collapse; }
+  .sp-t th, .sp-t td { text-align: start; padding: var(--space-2) var(--space-3); border-bottom: var(--hairline) solid var(--border); font-size: var(--text-meta); }
+  .sp-t .n { text-align: end; font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+  .bar-space { background: var(--accent); height: var(--space-4); border-radius: var(--r-sm); }
+  .row-wrap { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .switch { position: sticky; top: 0; z-index: 9; background: var(--background);
+            border-bottom: var(--hairline) solid var(--border); padding-block: var(--space-3); }
+  .radii { display: flex; gap: var(--space-4); }
+  .radii div { width: var(--space-24); height: var(--space-16); background: var(--secondary); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<div class="container spec">
+  <span data-role="eyebrow">tp01 · образец языка</span>
+  <h1 data-role="page-title">Один язык: шкалы, роли, грамматика</h1>
+  <p data-role="lead">Переключатель применяет токены другого шаблона. Всё, что ниже, обязано
+  остаться на месте: меняются только палитра, шрифты и плотность.</p>
+</div>
+
+<div class="switch"><div class="container row-wrap">
+  <span data-role="meta">Шаблон:</span>
+  <button class="btn" data-variant="primary" data-size="sm" type="button"
+     data-tpl="ferma" data-density="comfortable">Натуральные продукты</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="katalog" data-density="compact">Большой каталог</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="moda" data-density="spacious">Мода</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="uhod" data-density="comfortable">Косметика и уход</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="interier" data-density="spacious">Мебель и интерьер</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="lending" data-density="comfortable">Лендинг одного товара</button><button class="btn" data-variant="secondary" data-size="sm" type="button"
+     data-tpl="opt" data-density="compact">Опт и B2B</button>
+</div></div>
+
+<div class="container">
+  <section class="spec-block">
+    <h3 class="sp-h">Типографическая шкала — отношение 1.25, семь ступеней</h3>
+    <div class="sp-grid">
+      <span class="sp-key"><code>display</code><br>заголовок hero</span>
+        <span data-role="display">Мёд, травы и масла</span><span class="sp-key"><code>page-title</code><br>заголовок страницы</span>
+        <span data-role="page-title">Мёд и продукты пчеловодства</span><span class="sp-key"><code>section-title</code><br>заголовок раздела</span>
+        <span data-role="section-title">Что есть в хозяйстве</span><span class="sp-key"><code>subsection-title</code><br>подраздел</span>
+        <span data-role="subsection-title">Доставка и оплата</span><span class="sp-key"><code>lead</code><br>лид</span>
+        <span data-role="lead">Мы сами заготавливаем, сами фасуем и сами отвечаем на звонки.</span><span class="sp-key"><code>body</code><br>тело текста</span>
+        <span data-role="body">Пасека кочует трижды за лето: разнотравье, гречиха, тайга.</span><span class="sp-key"><code>meta</code><br>мета</span>
+        <span data-role="meta">500 г · артикул ART-2102</span><span class="sp-key"><code>eyebrow</code><br>надглавие</span>
+        <span data-role="eyebrow">урожай 2026</span>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Шкала отступов — кратные 4, десять ступеней</h3>
+    <div class="sp-grid">
+      <span class="sp-key"><code>--space-1</code> · 4px</span>
+        <span class="bar-space" style="width: var(--space-1)"></span><span class="sp-key"><code>--space-2</code> · 8px</span>
+        <span class="bar-space" style="width: var(--space-2)"></span><span class="sp-key"><code>--space-3</code> · 12px</span>
+        <span class="bar-space" style="width: var(--space-3)"></span><span class="sp-key"><code>--space-4</code> · 16px</span>
+        <span class="bar-space" style="width: var(--space-4)"></span><span class="sp-key"><code>--space-6</code> · 24px</span>
+        <span class="bar-space" style="width: var(--space-6)"></span><span class="sp-key"><code>--space-8</code> · 32px</span>
+        <span class="bar-space" style="width: var(--space-8)"></span><span class="sp-key"><code>--space-12</code> · 48px</span>
+        <span class="bar-space" style="width: var(--space-12)"></span><span class="sp-key"><code>--space-16</code> · 64px</span>
+        <span class="bar-space" style="width: var(--space-16)"></span><span class="sp-key"><code>--space-24</code> · 96px</span>
+        <span class="bar-space" style="width: var(--space-24)"></span><span class="sp-key"><code>--space-32</code> · 128px</span>
+        <span class="bar-space" style="width: var(--space-32)"></span>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Радиусы — общие для всех шаблонов</h3>
+    <div class="radii">
+      <div style="border-radius: var(--r-sm)"><span data-role="meta">r-sm 6</span></div>
+      <div style="border-radius: var(--r-md)"><span data-role="meta">r-md 8</span></div>
+      <div style="border-radius: var(--r-lg)"><span data-role="meta">r-lg 12</span></div>
+      <div style="border-radius: var(--r-pill)"><span data-role="meta">pill</span></div>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Кнопки, ссылки, метки</h3>
+    <div class="row-wrap">
+      <button class="btn" data-variant="primary" data-size="lg" type="button">Главное действие</button>
+      <button class="btn" data-variant="secondary" data-size="lg" type="button">Второе</button>
+      <button class="btn" data-variant="ghost" data-size="lg" type="button">Третье</button>
+    </div>
+    <div class="row-wrap" style="margin-block-start: var(--space-4)">
+      <button class="btn" data-variant="primary" type="button">Обычная</button>
+      <button class="btn" data-variant="secondary" data-size="sm" type="button">Мелкая</button>
+      <button class="icon-btn" type="button" aria-label="Корзина"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.2 10.4a2 2 0 0 0 2 1.6h7.4a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></button>
+      <a class="link" href="#">Текстовая ссылка</a>
+      <span class="badge">Новинка</span>
+      <span class="badge" data-tone="sale">−20 %</span>
+      <span class="badge" data-tone="new">Хит</span>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Цена, рейтинг, наличие</h3>
+    <div class="row-wrap">
+      <span data-role="price">1 355 ₽</span>
+      <s data-role="price-old">1 690 ₽</s>
+      <span data-role="card-price">990 ₽<s data-role="card-price-old">1 290 ₽</s></span>
+      <span class="rating"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.5 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.5 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.5 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3.5 2.6 5.5 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.5 2.6 5.5 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"/></svg><span class="value">4,0 · 31 отзыв</span></span>
+      <span class="stock">В наличии</span>
+      <span class="stock" data-state="low">Осталось мало</span>
+      <span class="stock" data-state="out">Нет в наличии</span>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Поля ввода</h3>
+    <div class="row-wrap" style="align-items: end">
+      <label class="field" style="min-width: var(--space-32)"><span>Имя</span><input class="input" placeholder="Оксана"></label>
+      <label class="field" style="min-width: var(--space-32)"><span>Город</span>
+        <select class="select"><option>Барнаул</option><option>Новосибирск</option></select></label>
+      <label class="filter-opt" style="min-width: var(--space-32)"><input type="checkbox" checked><span data-role="body">Только в наличии</span><span data-role="meta">12</span></label>
+    </div>
+  </section>
+
+  <section class="spec-block">
+    <h3 class="sp-h">Карточка товара — и её пустое состояние</h3>
+    <div class="grid-products" style="--grid-cols: 4">
+      <article class="card" data-component="product-card" data-product="s1">
+        <div class="card-media-wrap"><a class="card-media-link" data-role="card-media" href="#">
+          <div class="media" data-img-role="card" data-media-pad><img src="../../assets/media/ferma/p-p1.svg" alt="Мёд таёжный" width="400" height="500"></div></a></div>
+        <div class="card-body" data-role="card-body">
+          <h3 class="card-title" data-role="card-title"><a href="#">Мёд таёжный, дикое разнотравье</a></h3>
+          <div data-role="card-price">990 ₽</div>
+          <div class="card-meta" data-role="card-meta">500 г</div>
+        </div>
+      </article>
+      <article class="card" data-component="product-card" data-product="s2">
+        <div class="card-media-wrap"><a class="card-media-link" data-role="card-media" href="#">
+          <div class="media" data-img-role="card" data-media-pad><img src="../../assets/media/ferma/p-p5.svg" alt="Тройчатка плюс" width="400" height="500"></div></a></div>
+        <div class="card-body" data-role="card-body">
+          <span class="badge" data-role="card-badge" data-tone="sale">−20 %</span>
+          <h3 class="card-title" data-role="card-title"><a href="#">Тройчатка плюс, растительный комплекс</a></h3>
+          <div data-role="card-price">1 355 ₽<s data-role="card-price-old">1 690 ₽</s></div>
+          <div class="card-meta" data-role="card-meta">60 капсул</div>
+        </div>
+      </article>
+      <article class="card" data-component="product-card" data-product="s3">
+        <div class="card-media-wrap"><a class="card-media-link" data-role="card-media" href="#">
+          <div class="media" data-img-role="card" data-empty>
+            <span class="empty-initial" aria-hidden="true">П</span>
+            <span class="empty-label">Мёд<br>фото готовится</span>
+          </div></a></div>
+        <div class="card-body" data-role="card-body">
+          <h3 class="card-title" data-role="card-title"><a href="#">Прополис натуральный</a></h3>
+          <div data-role="card-price">990 ₽</div>
+          <div class="card-meta" data-role="card-meta">30 г</div>
+        </div>
+      </article>
+      <article class="card" data-component="product-card" data-product="s4">
+        <div class="card-media-wrap"><a class="card-media-link" data-role="card-media" href="#">
+          <div class="media" data-img-role="card" data-media-pad><img src="../../assets/media/ferma/p-p10.svg" alt="Мультиварка" width="400" height="500"></div></a></div>
+        <div class="card-body" data-role="card-body">
+          <h3 class="card-title" data-role="card-title"><a href="#">Мультиварка для дома и авто, 2 л</a></h3>
+          <div data-role="card-price">7 333 ₽</div>
+          <div class="card-meta" data-role="card-meta">12/24/220 В</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="spec-block">
+  <h3 class="sp-h">Натуральные продукты — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#fbfaf7"></i><code>background</code></span><span class="sw"><i style="background:#1c2620"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#1c2620"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#1c2620"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#274534"></i><code>primary</code></span><span class="sw"><i style="background:#fbfaf7"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f1efe8"></i><code>secondary</code></span><span class="sw"><i style="background:#1c2620"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#e9e6dc"></i><code>muted</code></span><span class="sw"><i style="background:#4d574f"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#f0e4d6"></i><code>accent</code></span><span class="sw"><i style="background:#5a3517"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#e0dccf"></i><code>border</code></span><span class="sw"><i style="background:#e0dccf"></i><code>input</code></span><span class="sw"><i style="background:#274534"></i><code>ring</code></span><span class="sw"><i style="background:#1a5f41"></i><code>link</code></span><span class="sw"><i style="background:#9c2f26"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#1f6340"></i><code>success</code></span><span class="sw"><i style="background:#7a4d0c"></i><code>warning</code></span><span class="sw"><i style="background:#f1efe8"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">14.93</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.21</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.54</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">10.12</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">7.30</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">7.37</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Большой каталог — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#ffffff"></i><code>background</code></span><span class="sw"><i style="background:#111214"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#111214"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#111214"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#111214"></i><code>primary</code></span><span class="sw"><i style="background:#ffffff"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f5f6f7"></i><code>secondary</code></span><span class="sw"><i style="background:#111214"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#eceef0"></i><code>muted</code></span><span class="sw"><i style="background:#535861"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#e8f0fb"></i><code>accent</code></span><span class="sw"><i style="background:#0b3f83"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#e2e4e8"></i><code>border</code></span><span class="sw"><i style="background:#e2e4e8"></i><code>input</code></span><span class="sw"><i style="background:#0b62c4"></i><code>ring</code></span><span class="sw"><i style="background:#0b62c4"></i><code>link</code></span><span class="sw"><i style="background:#c02329"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#116b3c"></i><code>success</code></span><span class="sw"><i style="background:#8a4b06"></i><code>warning</code></span><span class="sw"><i style="background:#f5f6f7"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">18.74</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.15</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.61</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">18.74</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">5.90</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">5.98</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Мода — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#faf8f5"></i><code>background</code></span><span class="sw"><i style="background:#14110e"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#14110e"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#14110e"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#14110e"></i><code>primary</code></span><span class="sw"><i style="background:#faf8f5"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#efeae3"></i><code>secondary</code></span><span class="sw"><i style="background:#14110e"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#e6e0d7"></i><code>muted</code></span><span class="sw"><i style="background:#5b5349"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#e7ded2"></i><code>accent</code></span><span class="sw"><i style="background:#4a3a25"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#e0d9ce"></i><code>border</code></span><span class="sw"><i style="background:#e0d9ce"></i><code>input</code></span><span class="sw"><i style="background:#14110e"></i><code>ring</code></span><span class="sw"><i style="background:#6b4a22"></i><code>link</code></span><span class="sw"><i style="background:#9b2a2a"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#2c6142"></i><code>success</code></span><span class="sw"><i style="background:#7a4f10"></i><code>warning</code></span><span class="sw"><i style="background:#efeae3"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">17.75</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.13</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.32</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">17.75</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">7.54</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">7.61</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Косметика и уход — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#fdfbfa"></i><code>background</code></span><span class="sw"><i style="background:#221a1e"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#221a1e"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#221a1e"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#5c3550"></i><code>primary</code></span><span class="sw"><i style="background:#fdfbfa"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f6eff1"></i><code>secondary</code></span><span class="sw"><i style="background:#221a1e"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#efe4e7"></i><code>muted</code></span><span class="sw"><i style="background:#57484e"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#f3e3e8"></i><code>accent</code></span><span class="sw"><i style="background:#6b2f4d"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#ece0e3"></i><code>border</code></span><span class="sw"><i style="background:#ece0e3"></i><code>input</code></span><span class="sw"><i style="background:#5c3550"></i><code>ring</code></span><span class="sw"><i style="background:#8a2f5e"></i><code>link</code></span><span class="sw"><i style="background:#a52a33"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#276046"></i><code>success</code></span><span class="sw"><i style="background:#7d4a12"></i><code>warning</code></span><span class="sw"><i style="background:#f6eff1"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">16.49</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">8.34</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">7.59</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">9.79</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">7.68</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">7.05</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Мебель и интерьер — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#fbfaf8"></i><code>background</code></span><span class="sw"><i style="background:#1a1917"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#1a1917"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#1a1917"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#2c2a26"></i><code>primary</code></span><span class="sw"><i style="background:#fbfaf8"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f0eeea"></i><code>secondary</code></span><span class="sw"><i style="background:#1a1917"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#e7e4de"></i><code>muted</code></span><span class="sw"><i style="background:#54514b"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#eae2d3"></i><code>accent</code></span><span class="sw"><i style="background:#5c4520"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#e2dfd8"></i><code>border</code></span><span class="sw"><i style="background:#e2dfd8"></i><code>input</code></span><span class="sw"><i style="background:#2c2a26"></i><code>ring</code></span><span class="sw"><i style="background:#7a5316"></i><code>link</code></span><span class="sw"><i style="background:#9e3026"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#2a6042"></i><code>success</code></span><span class="sw"><i style="background:#7a4d0c"></i><code>warning</code></span><span class="sw"><i style="background:#f0eeea"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">16.84</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.58</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.82</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">13.73</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">6.54</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">7.23</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Лендинг одного товара — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#ffffff"></i><code>background</code></span><span class="sw"><i style="background:#0d0f12"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#0d0f12"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#0d0f12"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#0d0f12"></i><code>primary</code></span><span class="sw"><i style="background:#ffffff"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f4f5f6"></i><code>secondary</code></span><span class="sw"><i style="background:#0d0f12"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#eaecee"></i><code>muted</code></span><span class="sw"><i style="background:#50555c"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#fde9d9"></i><code>accent</code></span><span class="sw"><i style="background:#7a3908"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#e3e5e8"></i><code>border</code></span><span class="sw"><i style="background:#e3e5e8"></i><code>input</code></span><span class="sw"><i style="background:#0d0f12"></i><code>ring</code></span><span class="sw"><i style="background:#b04405"></i><code>link</code></span><span class="sw"><i style="background:#b3271f"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#12683c"></i><code>success</code></span><span class="sw"><i style="background:#8a4b06"></i><code>warning</code></span><span class="sw"><i style="background:#f4f5f6"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">19.19</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.51</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.88</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">19.19</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">5.71</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">6.51</td><td>да</td></tr>
+  </tbody></table>
+</section><section class="spec-block">
+  <h3 class="sp-h">Опт и B2B — палитра и контраст</h3>
+  <div class="sw-row"><span class="sw"><i style="background:#fcfcfd"></i><code>background</code></span><span class="sw"><i style="background:#14171c"></i><code>foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>card</code></span><span class="sw"><i style="background:#14171c"></i><code>card-foreground</code></span><span class="sw"><i style="background:#ffffff"></i><code>popover</code></span><span class="sw"><i style="background:#14171c"></i><code>popover-foreground</code></span><span class="sw"><i style="background:#1b3a5c"></i><code>primary</code></span><span class="sw"><i style="background:#fcfcfd"></i><code>primary-foreground</code></span><span class="sw"><i style="background:#f1f3f6"></i><code>secondary</code></span><span class="sw"><i style="background:#14171c"></i><code>secondary-foreground</code></span><span class="sw"><i style="background:#e7eaee"></i><code>muted</code></span><span class="sw"><i style="background:#4d545e"></i><code>muted-foreground</code></span><span class="sw"><i style="background:#e4edf7"></i><code>accent</code></span><span class="sw"><i style="background:#12456f"></i><code>accent-foreground</code></span><span class="sw"><i style="background:#dfe3e9"></i><code>border</code></span><span class="sw"><i style="background:#dfe3e9"></i><code>input</code></span><span class="sw"><i style="background:#1b3a5c"></i><code>ring</code></span><span class="sw"><i style="background:#175486"></i><code>link</code></span><span class="sw"><i style="background:#b0272c"></i><code>destructive</code></span><span class="sw"><i style="background:#ffffff"></i><code>destructive-foreground</code></span><span class="sw"><i style="background:#12643d"></i><code>success</code></span><span class="sw"><i style="background:#80480a"></i><code>warning</code></span><span class="sw"><i style="background:#f1f3f6"></i><code>surface-media</code></span></div>
+  <table class="sp-t"><thead><tr><th>пара</th><th>что это</th><th class="n">контраст</th><th>AA</th></tr></thead><tbody>
+  <tr><td><code>--foreground</code> на <code>--background</code></td><td>основной текст</td>
+      <td class="n">17.52</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--background</code></td><td>второстепенный</td>
+      <td class="n">7.46</td><td>да</td></tr><tr><td><code>--muted-foreground</code> на <code>--surface-media</code></td><td>подпись на подложке кадра</td>
+      <td class="n">6.88</td><td>да</td></tr><tr><td><code>--primary-foreground</code> на <code>--primary</code></td><td>главная кнопка</td>
+      <td class="n">11.34</td><td>да</td></tr><tr><td><code>--link</code> на <code>--background</code></td><td>ссылка</td>
+      <td class="n">7.73</td><td>да</td></tr><tr><td><code>--destructive-foreground</code> на <code>--destructive</code></td><td>метка скидки</td>
+      <td class="n">6.62</td><td>да</td></tr>
+  </tbody></table>
+</section>
+</div>
+
+<script>
+document.querySelectorAll("[data-tpl]").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.getElementById("tpl-css").href = "../../assets/t-" + b.dataset.tpl + ".css";
+    document.documentElement.setAttribute("data-density", b.dataset.density);
+    document.querySelectorAll("[data-tpl]").forEach(function(o){ o.setAttribute("data-variant", o===b ? "primary" : "secondary") });
+  });
+});
+</script>
+</body>
+</html>

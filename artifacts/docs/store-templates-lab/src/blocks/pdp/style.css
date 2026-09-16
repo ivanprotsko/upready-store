@@ -1,0 +1,6 @@
+.pdp-in { display: grid; grid-template-columns: 7fr 5fr; gap: var(--space-12); align-items: start; }
+.pdp-side { position: sticky; top: var(--space-6); }
+@media (max-width: 1023px) {
+  .pdp-in { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+  .pdp-side { position: static; }
+}

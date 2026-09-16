@@ -1,0 +1,10 @@
+.specs { display: grid; gap: var(--space-6); }
+.specs-list { margin: 0; display: grid; }
+.specs-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--space-4); padding-block: var(--space-3);
+  border-bottom: var(--hairline) solid var(--border); align-items: baseline;
+}
+.specs-row dd { margin: 0; }
+.specs-val { font-variant-numeric: tabular-nums; }
+@media (max-width: 639px) { .specs-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); } }
