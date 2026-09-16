@@ -19,12 +19,16 @@ import { WbWriteSection } from "./components/wb-write-section"
 
 // w01-wb-readonly-client: the shop's Wildberries connection, read-only.
 //
-// There is no import button here on purpose. The import is a script
-// (`pnpm --filter backend wb:sync`), and this client cannot write to
+// There is no import button here on purpose. The imports run on a schedule
+// (`src/jobs/marketplace-sync.ts`), and this client cannot write to
 // Wildberries at all: the transport only sends the reads listed in
 // apps/backend/src/modules/wb/endpoints.ts. What the owner needs from this
 // screen is whether the key works, whether it is marked read-only, when data
 // last came in and how much of it there is.
+//
+// The screen itself is asleep since w12: `/settings/wildberries` redirects to
+// the Wildberries CARD of «Маркетплейсы», which is the live surface and the
+// one that carries the owner's key form (w24-integration-keys-self-service).
 //
 // Design system: @medusajs/ui, like every other screen of this panel, which is
 // a copy of Medusa Admin 2.19. The divergence from the Geist canon is recorded
