@@ -47,6 +47,9 @@ export const GET = async (req: AuthenticatedMedusaRequest, res: MedusaResponse) 
     period: {
       from: feed.filters.period.from.toISOString(),
       to: feed.filters.period.to.toISOString(),
+      /** The calendar days the screen prints; an instant would shift by a timezone. */
+      from_day: feed.filters.period.from_day,
+      to_day: feed.filters.period.to_day,
       days: feed.filters.period.days,
       is_default: feed.filters.period.is_default,
       default_days: DEFAULT_PERIOD_DAYS,

@@ -35,6 +35,7 @@ export const ORDER_STATUS_KEYS = [
   "delivered",
   "cancelled",
   "returned",
+  "unspecified",
   "other",
 ] as const;
 export type OrderStatusKey = (typeof ORDER_STATUS_KEYS)[number];
@@ -47,6 +48,7 @@ export const ORDER_STATUS_LABELS: Record<OrderStatusKey, string> = {
   delivered: "Доставлен",
   cancelled: "Отменён",
   returned: "Возврат",
+  unspecified: "Статус площадка не присылает",
   other: "Другой статус площадки",
 };
 
@@ -111,9 +113,16 @@ const SHOP: Record<string, OrderStatusKey> = {
 };
 
 /**
- * `null` in, `other` out — not `new`. An order whose status the marketplace
- * did not send is not a new order, and saying so would put a value where an
- * absence is (rule 20a).
+ * `null` in, `unspecified` out — not `new` and not `other`.
+ *
+ * THREE ANSWERS, NOT TWO. «The marketplace sent no status» and «the
+ * marketplace sent a word we do not know» are different facts, and the owner
+ * acts on them differently: the first is how WB's statistics method WORKS (it
+ * carries no status field at all and flags cancellation separately — measured
+ * on the client's own data: 1623 of the orders of one 30-day period), the
+ * second is a vocabulary we have to go and read. Flattening the pair into one
+ * bucket would hide a missing mapping inside a normal state, and calling
+ * either of them `new` would put a value where an absence is (rule 20a).
  */
 export const statusKeyOf = (
   source: string,
@@ -122,6 +131,10 @@ export const statusKeyOf = (
 ): OrderStatusKey => {
   const main = status ? status.trim().toLowerCase() : null;
   const detail = statusDetail ? statusDetail.trim().toLowerCase() : null;
+
+  if (!main && !detail) {
+    return "unspecified";
+  }
 
   if (source === "wb") {
     if (detail && WB_TERMINAL[detail]) {

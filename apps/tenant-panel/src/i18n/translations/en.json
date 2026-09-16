@@ -4200,8 +4200,9 @@
     },
     "connection": {
       "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
-      "neverRun": "{{marketplace}}: connected, but the order import has never run.",
+      "never_run": "{{marketplace}}: connected, but the order import has never run.",
       "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
       "noErrorText": "the marketplace sent no error text",
       "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
     },

@@ -10,8 +10,10 @@ import {
   inPeriod,
   matchesFilters,
   mpOrderToRow,
+  connectionNotice,
   resolveFilters,
   shopOrderToRow,
+  type ConnectionNotice,
   type FeedFacets,
   type FeedRow,
 } from "../../../modules/marketplace/order-feed";
@@ -58,6 +60,12 @@ export type FeedConnection = {
   } | null;
   /** How many rows of this marketplace are in the period at all. */
   rows_in_period: number;
+  /**
+   * What the screen must SAY about this marketplace, decided in one pure
+   * function the unit suite covers. `null` means «connected, imported, nothing
+   * to announce» — and a banner that is always there stops being read.
+   */
+  notice: ConnectionNotice | null;
 };
 
 export type LoadedFeed = {
@@ -194,22 +202,27 @@ export const loadFeed = async (
 
     const last = ownRuns[0] ?? null;
 
+    const lastRun = last
+      ? {
+          kind: String(last.kind),
+          status: String(last.status),
+          started_at: iso(last.started_at),
+          finished_at: iso(last.finished_at),
+          rows: last.rows === null || last.rows === undefined ? null : Number(last.rows),
+          error: (last.error ?? null) as string | null,
+          is_fixture: Boolean(last.is_fixture),
+        }
+      : null;
+
+    const connected = Boolean(slot?.credentials);
+
     connections.push({
       marketplace: adapter.id,
       label: adapter.label,
-      connected: Boolean(slot?.credentials),
-      last_run: last
-        ? {
-            kind: String(last.kind),
-            status: String(last.status),
-            started_at: iso(last.started_at),
-            finished_at: iso(last.finished_at),
-            rows: last.rows === null || last.rows === undefined ? null : Number(last.rows),
-            error: (last.error ?? null) as string | null,
-            is_fixture: Boolean(last.is_fixture),
-          }
-        : null,
+      connected,
+      last_run: lastRun,
       rows_in_period: periodRows.filter((row) => row.source === adapter.id).length,
+      notice: connectionNotice({ connected, last_run: lastRun }),
     });
   }
 

@@ -196,6 +196,34 @@ export const offers = (rows: unknown[]): MpOfferDraft[] => {
 };
 
 /**
+ * Ozon writes money in two shapes on the same answer: `financial_data` carries
+ * plain numbers, while a posting's `products[].price` is an OBJECT,
+ * `{ "amount": "1290.00", "currency": "RUB" }` — measured against the recorded
+ * fixture, which is cut from Ozon's own reference page. Reading it with a bare
+ * `Number()` gives `NaN` -> `null`, and a whole posting then sums to zero.
+ */
+const amount = (value: unknown): number | null => {
+  if (value !== null && typeof value === "object" && "amount" in (value as Row)) {
+    return num((value as Row).amount);
+  }
+  return num(value);
+};
+
+/** The currency of the first line that names one. `null` when none does. */
+const currencyOfProducts = (products: Row[]): string | null => {
+  for (const product of products) {
+    const price = product.price;
+    if (price !== null && typeof price === "object" && "currency" in (price as Row)) {
+      const currency = text((price as Row).currency);
+      if (currency) {
+        return currency;
+      }
+    }
+  }
+  return null;
+};
+
+/**
  * Postings. On Ozon the unit of an order is the POSTING (`posting_number`),
  * which is what the owner tracks and what the parity matrix calls an order
  * line in the single feed.
@@ -212,18 +240,24 @@ export const orders = (rows: unknown[]): MpOrderDraft[] =>
       vendor_code: text(product.offer_id),
       external_id: text(product.sku),
       qty: num(product.quantity),
-      price: num(product.price),
+      price: amount(product.price),
       discount: null,
     }));
 
     /**
      * The posting's total is the sum of what its lines cost, because Ozon puts
-     * the money on the line and not on the posting. A posting with no lines
-     * gets `null`, not `0`: nothing was reported, and a zero here would sort
-     * and display as a real free order (rule 20a).
+     * the money on the line and not on the posting.
+     *
+     * A posting whose lines carry NO price gets `null`, exactly like a posting
+     * with no lines at all: summing nulls to `0` would render a real order as
+     * free and sort it below every other order (rule 20a). That is not
+     * hypothetical — before `amount()` read Ozon's `{amount, currency}` object
+     * the whole sum came out `0`, and the order desk showed «0,00» for a
+     * posting of 2×1290 ₽ (measured on the stand, w15-mp-orders-desk).
      */
-    const total = lines.length
-      ? lines.reduce((sum, line) => sum + (line.price ?? 0) * (line.qty ?? 1), 0)
+    const priced = lines.filter((line) => line.price !== null);
+    const total = priced.length
+      ? priced.reduce((sum, line) => sum + (line.price as number) * (line.qty ?? 1), 0)
       : null;
 
     return {
@@ -241,7 +275,11 @@ export const orders = (rows: unknown[]): MpOrderDraft[] =>
       buyer_region: text(analytics.region) ?? text(analytics.city),
       warehouse_name: text(analytics.warehouse_name),
       total,
-      currency: text(financial.currency_code) ?? text((financial.posting_services as Row)?.currency_code),
+      currency:
+        text(financial.currency_code) ??
+        text((financial.posting_services as Row)?.currency_code) ??
+        /* Ozon also writes the currency INSIDE the line's price object. */
+        currencyOfProducts(products),
       is_cancelled: text(row.status) === "cancelled" || Boolean(row.cancel_reason_id),
       lines,
     };

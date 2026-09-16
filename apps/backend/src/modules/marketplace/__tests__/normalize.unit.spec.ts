@@ -193,6 +193,13 @@ describe("Wildberries -> mp_*", () => {
     ]);
 
     expect(order.external_id).toBe("3122442104");
+    /*
+     * WB отвечает в КОПЕЙКАХ (замер w23: «Мумие банка» — price 81600 при 816 ₽),
+     * а `mp_order.total` хранит рубли, потому что статистический метод отдаёт
+     * уже рубли и в ленте эти две колонки стоят рядом.
+     */
+    expect(order.total).toBe(450);
+    expect(order.lines[0].price).toBe(450);
     expect(order.scheme).toBe("FBS");
     expect(order.status).toBe("complete");
     expect(order.status_detail).toBe("sold");
@@ -422,6 +429,58 @@ describe("Ozon -> mp_*", () => {
     expect(withLines.buyer_region).toBe("Москва");
     expect(empty.total).toBeNull();
     expect(empty.is_cancelled).toBe(true);
+  });
+
+  it("reads Ozon's money object, and its currency, instead of summing to zero", () => {
+    /*
+     * На отправлении Ozon отдаёт цену ОБЪЕКТОМ — `{"amount":"1290.00","currency":"RUB"}`
+     * (форма снята с записанной фикстуры, срезанной со справочника Ozon). Голый
+     * `Number()` давал NaN → null, и заказ 2×1290 ₽ показывался на экране как
+     * «0,00» без валюты (замер на стенде, w15-mp-orders-desk).
+     */
+    const [order] = fromOzon.orders([
+      {
+        id: "ozpost_3",
+        tenant_id: "ten_1",
+        posting_number: "0003-1",
+        scheme: "fbs",
+        status: "delivered",
+        products: [
+          {
+            sku: "1934857210",
+            offer_id: "ognevka-ultra-60",
+            quantity: 2,
+            price: { amount: "1290.00", currency: "RUB" },
+          },
+        ],
+        posting_created_at: new Date("2026-09-10T08:00:00Z"),
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+        raw: {},
+      },
+    ]);
+
+    expect(order.lines[0].price).toBe(1290);
+    expect(order.total).toBe(2580);
+    /* Валюта тоже лежит внутри объекта цены, когда financial_data её не несёт. */
+    expect(order.currency).toBe("RUB");
+    expect(order.scheme).toBe("FBS");
+  });
+
+  it("не превращает отправление без цен в бесплатный заказ", () => {
+    const [order] = fromOzon.orders([
+      {
+        id: "ozpost_4",
+        tenant_id: "ten_1",
+        posting_number: "0004-1",
+        status: "delivering",
+        products: [{ sku: "1", offer_id: "a", quantity: 1 }],
+        fetched_at: new Date("2026-09-16T00:00:00Z"),
+        raw: {},
+      },
+    ]);
+
+    expect(order.lines[0].price).toBeNull();
+    expect(order.total).toBeNull();
   });
 
   it("reads «answered» off the comment count rather than guessing", () => {

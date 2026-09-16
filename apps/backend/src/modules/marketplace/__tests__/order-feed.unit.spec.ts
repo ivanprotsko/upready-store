@@ -13,6 +13,7 @@ import {
   toCsv,
   type FeedRow,
 } from "../order-feed";
+import { connectionNotice } from "../order-feed";
 import { ORDER_STATUS_LABELS, statusKeyOf } from "../order-status";
 import { canonicalScheme } from "../scheme";
 
@@ -54,6 +55,13 @@ describe("период по умолчанию", () => {
     expect(period.days).toBe(DEFAULT_PERIOD_DAYS);
     expect(period.to.toISOString()).toBe("2026-09-16T23:59:59.999Z");
     expect(period.from.toISOString()).toBe("2026-08-18T00:00:00.000Z");
+    /*
+     * Экран печатает ДНИ, а не моменты: 23:59:59.999Z верхней границы в поясе
+     * магазина (WITA, UTC+8) — это уже следующее утро, и подпись «последние 30
+     * дней» читалась как «по 17 сентября» при периоде по 16-е (замер на стенде).
+     */
+    expect(period.from_day).toBe("2026-08-18");
+    expect(period.to_day).toBe("2026-09-16");
   });
 
   it("названный период не считается умолчанием и считается включительно", () => {
@@ -116,8 +124,19 @@ describe("статус площадки -> общий ключ", () => {
 
   it("неизвестное слово — «другой статус», а не «новый»", () => {
     expect(statusKeyOf("wb", "чего-то новенькое", null)).toBe("other");
-    expect(statusKeyOf("ozon", null, null)).toBe("other");
     expect(ORDER_STATUS_LABELS.other).toBe("Другой статус площадки");
+  });
+
+  it("площадка не прислала статуса вовсе — это третий ответ, а не «другой»", () => {
+    /*
+     * Так устроен статистический метод WB: поля статуса у него нет, отмена —
+     * отдельный флаг. Замер на данных магазина: 1623 таких заказа за 30 дней.
+     * «Нет статуса» и «статус, которого мы не знаем» — разные факты, и лечатся
+     * они по-разному (правило 20a).
+     */
+    expect(statusKeyOf("wb", null, null)).toBe("unspecified");
+    expect(statusKeyOf("ozon", null, null)).toBe("unspecified");
+    expect(ORDER_STATUS_LABELS.unspecified).toBe("Статус площадка не присылает");
   });
 });
 
@@ -227,5 +246,52 @@ describe("CSV", () => {
 
   it("файл начинается с BOM, иначе Excel показывает кириллицу кракозябрами", () => {
     expect(toCsv([]).charCodeAt(0)).toBe(0xfeff);
+  });
+});
+
+describe("что экран обязан сказать про площадку", () => {
+  /*
+   * «Сбой загрузки — это красная строка, а не пустая таблица» (правило 20a).
+   * Пустой столбец «Wildberries» имеет пять разных причин, и владелица не
+   * различит их на глаз. Поэтому причина — не обещание в комментарии, а
+   * значение, которое считает чистая функция, и вот её пять исходов.
+   */
+  const run = (over: Record<string, unknown> = {}) => ({
+    status: "succeeded",
+    is_fixture: false,
+    ...over,
+  });
+
+  it("нет ключа — «нет подключения», а не «нет заказов»", () => {
+    expect(connectionNotice({ connected: false, last_run: null })).toBe("missing");
+    /* Даже если прогоны когда-то были: ключа нет — заказов площадки нет вовсе. */
+    expect(connectionNotice({ connected: false, last_run: run() })).toBe("missing");
+  });
+
+  it("ключ есть, импорт ни разу не запускался — это тоже говорится вслух", () => {
+    expect(connectionNotice({ connected: true, last_run: null })).toBe("never_run");
+  });
+
+  it("сбой последнего импорта — красная строка", () => {
+    expect(connectionNotice({ connected: true, last_run: run({ status: "failed" }) })).toBe(
+      "failed"
+    );
+  });
+
+  it("лимит запросов площадки — свой исход, не «сбой» и не молчание", () => {
+    /* WB отвечает 429 и просит подождать; ядро моделирует это третьим состоянием. */
+    expect(connectionNotice({ connected: true, last_run: run({ status: "rate_limited" }) })).toBe(
+      "rate_limited"
+    );
+  });
+
+  it("строки из записанных ответов не выдаются за живые", () => {
+    expect(connectionNotice({ connected: true, last_run: run({ is_fixture: true }) })).toBe(
+      "fixture"
+    );
+  });
+
+  it("всё в порядке — экран молчит, иначе баннер перестают читать", () => {
+    expect(connectionNotice({ connected: true, last_run: run() })).toBeNull();
   });
 });

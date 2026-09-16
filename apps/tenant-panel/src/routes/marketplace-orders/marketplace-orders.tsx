@@ -59,8 +59,21 @@ const formatDate = (value: string | null, locale: string) =>
       )
     : "—"
 
-const formatDay = (value: string, locale: string) =>
-  new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(value))
+/**
+ * A calendar day (`YYYY-MM-DD`) printed as a day.
+ *
+ * `new Date("2026-09-16")` is midnight UTC, which in a UTC+8 shop is still the
+ * 16th, while `new Date("2026-09-16T23:59:59.999Z")` — the period's own upper
+ * bound — is already the 17th there. So the screen formats the DAY the backend
+ * used and never the instant: the label said «по 17 сентября» for a period that
+ * ended on the 16th before this was fixed (measured on the stand).
+ */
+const formatDay = (day: string, locale: string) => {
+  const [year, month, date] = day.split("-").map(Number)
+  return new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(
+    new Date(year, (month ?? 1) - 1, date ?? 1)
+  )
+}
 
 /**
  * Where a row leads. A marketplace order opens the card this task adds; a shop
@@ -191,12 +204,12 @@ export const MarketplaceOrders = () => {
               {feed.period.is_default
                 ? t("marketplaceOrders.period.default", {
                     days: feed.period.default_days,
-                    from: formatDay(feed.period.from, locale),
-                    to: formatDay(feed.period.to, locale),
+                    from: formatDay(feed.period.from_day, locale),
+                    to: formatDay(feed.period.to_day, locale),
                   })
                 : t("marketplaceOrders.period.chosen", {
-                    from: formatDay(feed.period.from, locale),
-                    to: formatDay(feed.period.to, locale),
+                    from: formatDay(feed.period.from_day, locale),
+                    to: formatDay(feed.period.to_day, locale),
                   })}
             </Text>
             {feed.undated > 0 ? (
@@ -239,8 +252,8 @@ export const MarketplaceOrders = () => {
             {/* Пустой результат НАЗЫВАЕТ период, а не молчит (правило 20a). */}
             <Text className="text-ui-fg-subtle" size="small" data-testid="empty-state">
               {t("marketplaceOrders.empty", {
-                from: formatDay(feed.period.from, locale),
-                to: formatDay(feed.period.to, locale),
+                from: formatDay(feed.period.from_day, locale),
+                to: formatDay(feed.period.to_day, locale),
               })}
             </Text>
           </div>

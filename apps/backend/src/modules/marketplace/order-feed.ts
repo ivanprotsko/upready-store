@@ -69,10 +69,25 @@ export type FeedFilters = {
 export type ResolvedPeriod = {
   from: Date;
   to: Date;
+  /**
+   * The two bounds as calendar days, `YYYY-MM-DD`.
+   *
+   * The screen prints the period, and printing it from the INSTANT is how a
+   * label goes wrong by a day: `to` is 23:59:59.999Z, which in the shop's own
+   * WITA (UTC+8) renders as the NEXT morning, so «последние 30 дней» read
+   * «18 августа — 17 сентября» while the filter meant the 16th (measured on
+   * the stand, 2026-09-16). These strings are the days the filter actually
+   * used, and the screen formats them without a timezone in the way.
+   */
+  from_day: string;
+  to_day: string;
   days: number;
   /** True when the caller named no period and got the default 30 days. */
   is_default: boolean;
 };
+
+/** `YYYY-MM-DD` of a UTC instant — the same calendar day the bounds are built on. */
+const dayOf = (value: Date): string => value.toISOString().slice(0, 10);
 
 const startOfDay = (value: Date): Date =>
   new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), 0, 0, 0, 0));
@@ -116,7 +131,14 @@ export const resolvePeriod = (
   /** Inclusive: «с 1 по 30 сентября» is 30 days, not 29. */
   const days = Math.max(1, Math.round((endOfDay(to).getTime() - from.getTime()) / 86_400_000));
 
-  return { from, to, days, is_default: !askedFrom && !askedTo };
+  return {
+    from,
+    to,
+    from_day: dayOf(from),
+    to_day: dayOf(to),
+    days,
+    is_default: !askedFrom && !askedTo,
+  };
 };
 
 const asList = (value: unknown): string[] => {
@@ -433,4 +455,51 @@ export const facetsOf = (rows: FeedRow[]): FeedFacets => {
       count: statuses.get(one) ?? 0,
     })),
   };
+};
+
+/**
+ * What the owner has to be TOLD about one marketplace before they read the
+ * table (w15-mp-orders-desk).
+ *
+ * THE RULE THIS EXISTS FOR: «a failed run is a red row, not an empty table»
+ * (rule 20a). An empty column under «Wildberries» has five different causes
+ * and the owner cannot tell them apart by looking, so the screen names the
+ * cause. It is a pure function, and its five outcomes are covered by
+ * `__tests__/order-feed.unit.spec.ts`, because a rule about what must never be
+ * silent has to be provable and not promised.
+ *
+ *   missing       no key at all — nothing was ever imported.
+ *   never_run     a key, but the order import has not run.
+ *   failed        the last import broke. Red, with the marketplace's own text.
+ *   rate_limited  the marketplace refused to answer right now. Neither our
+ *                 defect nor an absence of orders — WB's own third outcome,
+ *                 which the core models on purpose and which this screen must
+ *                 not flatten into «failed» or into silence.
+ *   fixture       the rows came from recorded answers, not from the
+ *                 marketplace. Silence here would let a demo read as live data.
+ *   null          connected, imported, nothing to say. A banner that is always
+ *                 there stops being read.
+ */
+export type ConnectionNotice = "missing" | "never_run" | "failed" | "rate_limited" | "fixture";
+
+export const connectionNotice = (connection: {
+  connected: boolean;
+  last_run: { status: string; is_fixture: boolean } | null;
+}): ConnectionNotice | null => {
+  if (!connection.connected) {
+    return "missing";
+  }
+  if (!connection.last_run) {
+    return "never_run";
+  }
+  if (connection.last_run.status === "failed") {
+    return "failed";
+  }
+  if (connection.last_run.status === "rate_limited") {
+    return "rate_limited";
+  }
+  if (connection.last_run.is_fixture) {
+    return "fixture";
+  }
+  return null;
 };

@@ -22,6 +22,7 @@ export type OrderStatusKey =
   | "delivered"
   | "cancelled"
   | "returned"
+  | "unspecified"
   | "other"
 
 export type FeedOrder = {
@@ -61,6 +62,11 @@ export type FeedConnection = {
     is_fixture: boolean
   } | null
   rows_in_period: number
+  /**
+   * What the screen must say about this marketplace, decided by the backend's
+   * `connectionNotice()` and covered by its unit tests. `null` — nothing to say.
+   */
+  notice: "missing" | "never_run" | "failed" | "rate_limited" | "fixture" | null
 }
 
 export type MarketplaceOrdersResponse = {
@@ -71,6 +77,9 @@ export type MarketplaceOrdersResponse = {
   period: {
     from: string
     to: string
+    /** `YYYY-MM-DD` — what the screen prints. An instant would shift by a timezone. */
+    from_day: string
+    to_day: string
     days: number
     /** true when the screen chose the period, not the owner: it must say so. */
     is_default: boolean

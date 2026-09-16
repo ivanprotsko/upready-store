@@ -215,6 +215,13 @@ export const offers = (rows: unknown[]): MpOfferDraft[] => {
 };
 
 /**
+ * WB's minor units -> the major-unit amount `mp_order.total` holds. `null`
+ * stays `null`: an amount WB did not send is not zero roubles (rule 20a).
+ */
+const minorToMajor = (value: number | null): number | null =>
+  value === null ? null : value / 100;
+
+/**
  * Statistics orders. WB's own note on `GET /api/v1/supplier/orders`: "1 line
  * means 1 order and means 1 item. The srid field should be used to identify
  * the order." So one mirror row becomes one `mp_order` with exactly one line,
@@ -280,12 +287,21 @@ const statisticsOrder = (row: Row): MpOrderDraft => {
 const fbsOrder = (row: Row): MpOrderDraft => {
   const externalId = String(row.order_id);
   /**
-   * `convertedPrice` is the same amount in the seller's currency and is what
-   * the desk should sum; `price` is WB's own unit. Where WB sent only one of
-   * them, that one is used, and where it sent neither the total stays `null`
-   * rather than becoming a zero the feed would sort as a free order (20a).
+   * WB answers the FBS methods in MINOR units: «Мумие банка» arrives as
+   * `price: 81600` with `currencyCode: 643` and sells for 816 ₽ — measured
+   * against the live cabinet by w23-wb-write-fbs-orders
+   * (`artifacts/docs/w23-wb-write-fbs-orders/measurements.md`, section 2), not
+   * taken from the documentation. `mp_order.total` is a MAJOR-unit amount,
+   * because the statistics method's `finished_price` already is one and the
+   * feed sums the two columns side by side, so this is where the hundred goes.
+   *
+   * `convertedPrice` is the amount in the SELLER's currency and is what the
+   * desk should show; `price` is the buyer's currency, and for a foreign order
+   * the two differ (BYN 946 against 26434 converted). Where WB sent neither,
+   * the total stays `null` rather than becoming a zero the feed would sort and
+   * sum as a free order (rule 20a).
    */
-  const total = num(row.converted_price) ?? num(row.price);
+  const total = minorToMajor(num(row.converted_price) ?? num(row.price));
 
   return {
     tenant_id: String(row.tenant_id),
