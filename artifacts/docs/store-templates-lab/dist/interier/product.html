@@ -138,11 +138,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-габариты" aria-controls="panel-габариты" aria-selected="false">Габариты</button><button class="tab" type="button" role="tab" id="tab-доставка-и-сборка" aria-controls="panel-доставка-и-сборка" aria-selected="false">Доставка и сборка</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Каркас собран на шкантах и столярном клею: в раме нет ни одного винта, поэтому стул не разбалтывается через год, как сборные модели на эксцентриках.</p><p data-role="body">Дуб сушится полтора месяца до влажности 8 %. Покрытие — твёрдое масло с воском в три слоя: его можно обновить самому, не снимая старый слой.</p><ul><li data-role="body">Выдерживает нагрузку до 140 кг</li><li data-role="body">Сиденье съёмное, перетягивается за полчаса</li><li data-role="body">Обновление масла раз в два года</li></ul></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Каркас собран на шкантах и столярном клею: в раме нет ни одного винта, поэтому стул не разбалтывается через год, как сборные модели на эксцентриках.</p><p data-role="body">Дуб сушится полтора месяца до влажности 8 %. Покрытие — твёрдое масло с воском в три слоя: его можно обновить самому, не снимая старый слой.</p><ul><li data-role="body">Выдерживает нагрузку до 140 кг</li><li data-role="body">Сиденье съёмное, перетягивается за полчаса</li><li data-role="body">Обновление масла раз в два года</li></ul></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-габариты" aria-labelledby="tab-габариты" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Габариты</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="габариты" aria-expanded="false" aria-controls="body-габариты">
+              <span data-role="section-title">Габариты</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-габариты"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Ширина</dt><dd data-role="body" class="specs-val">45 см</dd>
@@ -165,10 +173,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2101</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-доставка-и-сборка" aria-labelledby="tab-доставка-и-сборка" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Доставка и сборка</h2>
-          <div data-role="prose"><p data-role="body">По Новосибирску доставляем своей машиной: подъём на этаж и сборка входят в стоимость, упаковку забираем.</p><p data-role="body">По России — транспортной компанией, 5–12 дней. Стул едет собранным, в жёсткой обрешётке; сборка не требуется.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="доставка-и-сборка" aria-expanded="false" aria-controls="body-доставка-и-сборка">
+              <span data-role="section-title">Доставка и сборка</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-доставка-и-сборка"><div data-role="prose"><p data-role="body">По Новосибирску доставляем своей машиной: подъём на этаж и сборка входят в стоимость, упаковку забираем.</p><p data-role="body">По России — транспортной компанией, 5–12 дней. Стул едет собранным, в жёсткой обрешётке; сборка не требуется.</p></div></div>
         </section>
       </div>
     </div>
@@ -223,21 +235,7 @@
         </div>
         
       </div>
-      <div class="grid-products"><article class="card" data-component="product-card" data-product="p12">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Пуф из овечьей шерсти"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">П</span>
-         <span class="empty-label">Диваны<br>фото готовится</span>
-       </div></a>
-      
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Пуф из овечьей шерсти</a></h3>
-      <div data-role="card-price">11 900 ₽</div>
-      <div class="card-meta" data-role="card-meta">45×45 см</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p11">
+      <div class="grid-products"><article class="card" data-component="product-card" data-product="p11">
     <div class="card-media-wrap">
       <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Подвесной светильник, опаловое стекло"><div class="media" data-img-role="card">
          <img src="../../assets/media/interier/p-p11.svg" alt="Подвесной светильник, опаловое стекло — светильники" loading="lazy" width="400" height="500">
@@ -262,6 +260,19 @@
       <h3 class="card-title" data-role="card-title"><a href="product.html">Стул барный, металл и дуб</a></h3>
       <div data-role="card-price">14 900 ₽</div>
       <div class="card-meta" data-role="card-meta">высота 75 см</div>
+    </div>
+  </article><article class="card" data-component="product-card" data-product="p9">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Стеллаж открытый, пять полок"><div class="media" data-img-role="card">
+         <img src="../../assets/media/interier/p-p9.svg" alt="Стеллаж открытый, пять полок — хранение" loading="lazy" width="400" height="500">
+       </div></a>
+      
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Стеллаж открытый, пять полок</a></h3>
+      <div data-role="card-price">27 900 ₽</div>
+      <div class="card-meta" data-role="card-meta">80×180 см</div>
     </div>
   </article></div>
     </div>

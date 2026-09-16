@@ -7,3 +7,5 @@
 .pager-page:hover { background: var(--secondary); }
 .pager-page[aria-current="page"] { background: var(--primary); color: var(--primary-foreground); }
 .pager-note { margin-inline-start: auto; }
+.pager-gap { display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--space-6); min-height: var(--tap); color: var(--muted-foreground); }

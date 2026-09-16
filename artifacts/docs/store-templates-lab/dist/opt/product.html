@@ -143,7 +143,7 @@
         <h2 data-role="section-title">Цена от количества</h2>
         <a class="btn" data-variant="secondary" href="index.html">Скачать прайс</a>
       </div>
-      <div class="pl-scroll">
+      <div class="pl-scroll scroll-x scroll-x-fade">
         <table class="pl">
           <thead><tr>
             <th scope="col" data-role="meta">Товар</th>
@@ -184,11 +184,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-характеристики" aria-controls="panel-характеристики" aria-selected="false">Характеристики</button><button class="tab" type="button" role="tab" id="tab-отгрузка-и-оплата" aria-controls="panel-отгрузка-и-оплата" aria-selected="false">Отгрузка и оплата</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Нитриловые неопудренные перчатки плотностью 4 грамма — рабочий стандарт для клининга и пищевого производства: тоньше рвутся, толще хуже чувствуют.</p><p data-role="body">Кончики пальцев текстурированы, манжета с валиком — перчатка не сползает под рукавом халата. Пудры и латекса нет, поэтому подходят для аллергиков.</p><ul><li data-role="body">1000 штук в коробе, десять пачек по сто</li><li data-role="body">Срок хранения 3 года от даты выпуска</li><li data-role="body">Номер партии на коробе и в накладной</li></ul></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Нитриловые неопудренные перчатки плотностью 4 грамма — рабочий стандарт для клининга и пищевого производства: тоньше рвутся, толще хуже чувствуют.</p><p data-role="body">Кончики пальцев текстурированы, манжета с валиком — перчатка не сползает под рукавом халата. Пудры и латекса нет, поэтому подходят для аллергиков.</p><ul><li data-role="body">1000 штук в коробе, десять пачек по сто</li><li data-role="body">Срок хранения 3 года от даты выпуска</li><li data-role="body">Номер партии на коробе и в накладной</li></ul></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-характеристики" aria-labelledby="tab-характеристики" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Характеристики</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="характеристики" aria-expanded="false" aria-controls="body-характеристики">
+              <span data-role="section-title">Характеристики</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-характеристики"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Материал</dt><dd data-role="body" class="specs-val">нитрил, без латекса</dd>
@@ -207,10 +215,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2101</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-отгрузка-и-оплата" aria-labelledby="tab-отгрузка-и-оплата" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Отгрузка и оплата</h2>
-          <div data-role="prose"><p data-role="body">Счёт выставляем в день заявки, отгружаем на следующий рабочий день после оплаты. Самовывоз со склада на Монтажников, 5 — в день оплаты.</p><p data-role="body">Со второй поставки доступна отсрочка до 14 дней по договору. Доставка по Свердловской области — своим транспортом, дальше — транспортной компанией.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="отгрузка-и-оплата" aria-expanded="false" aria-controls="body-отгрузка-и-оплата">
+              <span data-role="section-title">Отгрузка и оплата</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-отгрузка-и-оплата"><div data-role="prose"><p data-role="body">Счёт выставляем в день заявки, отгружаем на следующий рабочий день после оплаты. Самовывоз со склада на Монтажников, 5 — в день оплаты.</p><p data-role="body">Со второй поставки доступна отсрочка до 14 дней по договору. Доставка по Свердловской области — своим транспортом, дальше — транспортной компанией.</p></div></div>
         </section>
       </div>
     </div>
@@ -264,6 +276,7 @@
     <span class="ft-link row" data-role="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Екатеринбург, ул. Монтажников, 5</span>
   </div>
       </div>
+      <div class="ft-mark" aria-hidden="true" data-type-exempt="декоративная типографическая масса, кегль задан вьюпортом">Снабжение</div>
       <hr class="hr ft-hr">
       <div class="ft-bottom">
         <span data-role="meta">© 2026 ООО «Снабжение»</span>

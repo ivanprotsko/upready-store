@@ -403,6 +403,15 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .textarea { min-height: var(--space-24); resize: vertical; }
 
 /* --- разделители и поверхности ---------------------------------------- */
+/* Горизонтальный скроллер обязан ПОКАЗЫВАТЬ, что он скроллер: без затухания у края
+   прайс выглядит обрезанным, а полоса категорий — оборванной на букве. */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.scroll-x-fade {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+}
+@media (min-width: 1024px) { .scroll-x-fade { -webkit-mask-image: none; mask-image: none; } }
+
 .hr { height: var(--hairline); background: var(--border); border: 0; }
 .surface {
   background: var(--card); color: var(--card-foreground);
@@ -548,7 +557,7 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 /* --- блок: footer --- */
 /* Низ тяжелее верха (QR-TECTONICS): полоса футера всегда несёт поверхность,
    отличную от полотна — мягкую заливку или полную инверсию. */
-.ft-soft { background: var(--secondary); color: var(--secondary-foreground); }
+.ft-soft { background: var(--muted); color: var(--secondary-foreground); }
 .ft-inverse { background: var(--primary); color: var(--primary-foreground); }
 .ft-inverse [data-role="meta"], .ft-inverse .ft-head { color: var(--primary-foreground); opacity: 0.72; }
 .ft-inverse .ft-link:hover { opacity: 0.72; }
@@ -573,6 +582,10 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
   line-height: var(--lh-display); letter-spacing: var(--tr-display);
   margin-block: var(--space-16) var(--space-8);
   opacity: 0.18; white-space: nowrap; overflow: hidden;
+}
+.ft-soft .ft-mark {
+  /* на светлой поверхности знак нужен контрастнее, иначе его попросту не видно */
+  opacity: 0.1; margin-block: var(--space-12) var(--space-4);
 }
 .ft-bottom { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
 @media (max-width: 639px) { .ft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -659,7 +672,11 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
   .hdr-burger { display: inline-flex; }
   .hdr-search { display: none; }
   .hdr-strip-in { justify-content: center; }
-  .hdr-nav-bar .hdr-nav { overflow-x: auto; flex-wrap: nowrap; gap: var(--space-4); }
+  .hdr-nav-bar .hdr-nav {
+    overflow-x: auto; flex-wrap: nowrap; gap: var(--space-4);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+  }
 }
 
 
@@ -729,6 +746,8 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .pager-page:hover { background: var(--secondary); }
 .pager-page[aria-current="page"] { background: var(--primary); color: var(--primary-foreground); }
 .pager-note { margin-inline-start: auto; }
+.pager-gap { display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--space-6); min-height: var(--tap); color: var(--muted-foreground); }
 
 
 /* --- блок: pdp --- */
@@ -742,6 +761,9 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 
 /* --- блок: price-list --- */
 .pl-scroll { overflow-x: auto; }
+/* Первая колонка остаётся на месте: иначе при прокрутке непонятно, чья это цена. */
+.pl th:first-child, .pl td:first-child, .pl th[scope=row] { position: sticky; inset-inline-start: 0; background: var(--card); z-index: 1; }
+.pl thead th:first-child { background: var(--secondary); }
 .pl { width: 100%; border-collapse: collapse; }
 .pl th, .pl td { text-align: start; padding: var(--space-3); border-bottom: var(--hairline) solid var(--border); }
 .pl thead th { background: var(--secondary); color: var(--secondary-foreground); white-space: nowrap; }
@@ -752,7 +774,18 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 
 
 /* --- блок: product-card --- */
-.card { display: grid; gap: var(--space-3); align-content: start; }
+.card { position: relative; display: grid; gap: var(--space-3); align-content: start; }
+/* Метка лежит НА кадре, а не в потоке над названием: в потоке она сдвигала карточку
+   на 35 px вниз, и цены ряда вставали на разные базовые линии — тот самый дефект C1,
+   ради которого лаборатория и затевалась (замер: 1857 против 1822 у соседей). */
+.card [data-role="card-badge"] {
+  position: absolute; inset-block-start: var(--space-3); inset-inline-start: var(--space-3);
+  z-index: 1;
+}
+.grid-products[data-framed] .card [data-role="card-badge"] {
+  inset-block-start: calc(var(--card-pad) + var(--space-2));
+  inset-inline-start: calc(var(--card-pad) + var(--space-2));
+}
 .card-media-link { display: block; }
 .card .media { transition: opacity var(--dur-fast) var(--ease); }
 .card:hover .media { opacity: 0.88; }
@@ -870,7 +903,7 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 .sum-rate { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
 .sum-price { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
 .sum-actions { display: grid; gap: var(--space-3); width: 100%; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
-.var-group { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-2); justify-items: start; }
+.var-group { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-3); justify-items: start; }
 .var-row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 .var-chip {
   display: inline-flex; align-items: center; justify-content: center;
@@ -890,7 +923,11 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
   border: var(--hairline) solid var(--border);
   background: var(--swatch, var(--secondary));
 }
-.swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: var(--space-1); }
+/* Кольцо прижато к краю кружка (offset 0), а зазор группы поднят до --space-3:
+   раньше outline 4px + offset 4px выходил на 8px при зазоре ровно 8px и перечёркивал
+   подпись группы. box-shadow здесь нельзя — он завёл бы вторую рецептуру тени
+   (поймано QR-ELEVATION). */
+.swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: 0; }
 .sum-facts { list-style: none; padding: 0; display: grid; gap: var(--space-3); width: 100%; }
 .sum-fact { display: flex; gap: var(--space-3); align-items: flex-start; }
 .sum-fact-icon { flex: none; color: var(--muted-foreground); }
@@ -908,14 +945,24 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 .tab[aria-selected="true"] { color: var(--foreground); border-bottom-color: var(--foreground); }
-/* Заголовок панели виден только скринридеру: на экране роль вкладки уже названа. */
-.tab-panel-head { position: absolute; width: var(--hairline); height: var(--hairline); overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-/* Мобиль: та же разметка, поведение аккордеона (заголовки панелей возвращаются). */
+/* На десктопе роль панели уже названа вкладкой — её заголовок остаётся только для
+   скринридера. На мобиле он становится кнопкой аккордеона. */
+.tab-panel-head { position: absolute; width: var(--hairline); height: var(--hairline); overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+.tab-acc {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  width: 100%; min-height: var(--space-16); background: none; border: 0; cursor: pointer; text-align: start;
+}
+.tab-acc svg { flex: none; width: var(--space-6); height: var(--space-6); transition: transform var(--dur-fast) var(--ease); }
+.tab-acc[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* Мобиль: та же разметка, поведение аккордеона — открыта ОДНА секция (спека §8). */
 @media (max-width: 639px) {
   .tabs-bar { display: none; }
-  .tab-panel { position: static; display: block !important; padding-block: var(--space-6); border-bottom: var(--hairline) solid var(--border); }
+  .tabs { gap: var(--space-0); }
+  .tab-panel { display: block !important; border-bottom: var(--hairline) solid var(--border); }
   .tab-panel[hidden] { display: block !important; }
-  .tab-panel-head { position: static; width: auto; height: auto; clip-path: none; margin-block-end: var(--space-4); }
+  .tab-panel-head { position: static; width: auto; height: auto; clip-path: none; overflow: visible; }
+  .tab-body { padding-block-end: var(--space-6); }
 }
 
 

@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="34 96 332 392" width="332" height="392" role="img"><ellipse cx="200" cy="466" rx="147.11" ry="13" fill="#ccd1d6" opacity="0.35"/>
-      <rect x="80.19" y="176" width="239.62" height="30" rx="12" fill="#111214"/>
-      <rect x="90.19" y="200" width="219.62" height="238" rx="24" fill="#3d4550"/>
-      <rect x="116.19" y="268" width="167.62" height="66" rx="8" fill="#111214"/>
-      <rect x="130.19" y="288" width="139.62" height="12" rx="4" fill="#0b62c4"/>
-      <circle cx="134.19" cy="384" r="12" fill="#ccd1d6"/>
-      <circle cx="265.81" cy="384" r="12" fill="#ccd1d6"/>
-      <rect x="166.19" y="374" width="67.62" height="20" rx="10" fill="#ffffff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 70 384 424" width="384" height="424" role="img"><g><ellipse cx="200" cy="466" rx="145.76" ry="13" fill="#ccd1d6" opacity="0.35"/>
+      <rect x="85.53" y="176" width="228.93" height="30" rx="12" fill="#111214"/>
+      <rect x="95.53" y="200" width="208.93" height="238" rx="24" fill="#3b434d"/>
+      <rect x="121.53" y="268" width="156.93" height="66" rx="8" fill="#111214"/>
+      <rect x="135.53" y="288" width="128.93" height="12" rx="4" fill="#0c5ab2"/>
+      <circle cx="139.53" cy="384" r="12" fill="#ccd1d6"/>
+      <circle cx="260.47" cy="384" r="12" fill="#ccd1d6"/>
+      <rect x="171.53" y="374" width="56.93" height="20" rx="10" fill="#ffffff"/></g></svg>

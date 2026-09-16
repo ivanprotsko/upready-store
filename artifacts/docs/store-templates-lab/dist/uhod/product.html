@@ -131,11 +131,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-состав" aria-controls="panel-состав" aria-selected="false">Состав</button><button class="tab" type="button" role="tab" id="tab-как-применять" aria-controls="panel-как-применять" aria-selected="false">Как применять</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Сыворотка на стабилизированной форме витамина C в концентрации 15 % — рабочей для большинства типов кожи и при этом не самой агрессивной.</p><p data-role="body">Главная проблема витамина C — окисление: обычная сыворотка желтеет за две-три недели после вскрытия и перестаёт работать. Флакон с помпой не впускает воздух, поэтому средство доживает до конца срока.</p><ul><li data-role="body">Наносится утром, до крема</li><li data-role="body">Обязательна защита от солнца</li><li data-role="body">После вскрытия — 6 месяцев</li></ul><p data-role="body">Первую неделю достаточно через день: так кожа привыкает без раздражения.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Сыворотка на стабилизированной форме витамина C в концентрации 15 % — рабочей для большинства типов кожи и при этом не самой агрессивной.</p><p data-role="body">Главная проблема витамина C — окисление: обычная сыворотка желтеет за две-три недели после вскрытия и перестаёт работать. Флакон с помпой не впускает воздух, поэтому средство доживает до конца срока.</p><ul><li data-role="body">Наносится утром, до крема</li><li data-role="body">Обязательна защита от солнца</li><li data-role="body">После вскрытия — 6 месяцев</li></ul><p data-role="body">Первую неделю достаточно через день: так кожа привыкает без раздражения.</p></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-состав" aria-labelledby="tab-состав" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Состав</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="состав" aria-expanded="false" aria-controls="body-состав">
+              <span data-role="section-title">Состав</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-состав"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Активное вещество</dt><dd data-role="body" class="specs-val">этилированная аскорбиновая кислота, 15 %</dd>
@@ -154,10 +162,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2101</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-как-применять" aria-labelledby="tab-как-применять" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Как применять</h2>
-          <div data-role="prose"><p data-role="body">Утром на очищенную сухую кожу, два-три нажатия помпы. Подождать минуту, затем крем и защиту от солнца.</p><p data-role="body">Не смешивать в одно нанесение с кислотами и ретинолом — разнести по разным частям дня.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="как-применять" aria-expanded="false" aria-controls="body-как-применять">
+              <span data-role="section-title">Как применять</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-как-применять"><div data-role="prose"><p data-role="body">Утром на очищенную сухую кожу, два-три нажатия помпы. Подождать минуту, затем крем и защиту от солнца.</p><p data-role="body">Не смешивать в одно нанесение с кислотами и ретинолом — разнести по разным частям дня.</p></div></div>
         </section>
       </div>
     </div>
@@ -243,21 +255,7 @@
         </div>
         
       </div>
-      <div class="grid-products"><article class="card" data-component="product-card" data-product="p12">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Бальзам для губ"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">Б</span>
-         <span class="empty-label">Крем<br>фото готовится</span>
-       </div></a>
-      
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Бальзам для губ</a></h3>
-      <div data-role="card-price">390 ₽</div>
-      <div class="card-meta" data-role="card-meta">15 мл</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p11">
+      <div class="grid-products"><article class="card" data-component="product-card" data-product="p11">
     <div class="card-media-wrap">
       <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Шампунь для чувствительной кожи"><div class="media" data-img-role="card" data-media-pad>
          <img src="../../assets/media/uhod/p-p11.svg" alt="Шампунь для чувствительной кожи — мыло" loading="lazy" width="400" height="500">
@@ -296,6 +294,19 @@
       <div data-role="card-price">1 190 ₽</div>
       <div class="card-meta" data-role="card-meta">200 г</div>
     </div>
+  </article><article class="card" data-component="product-card" data-product="p8">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Масло для лица, шиповник"><div class="media" data-img-role="card" data-media-pad>
+         <img src="../../assets/media/uhod/p-p8.svg" alt="Масло для лица, шиповник — сыворотка" loading="lazy" width="400" height="500">
+       </div></a>
+      
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Масло для лица, шиповник</a></h3>
+      <div data-role="card-price">1 990 ₽</div>
+      <div class="card-meta" data-role="card-meta">30 мл</div>
+    </div>
   </article></div>
     </div>
   </section>
@@ -319,6 +330,7 @@
     <span class="ft-link row" data-role="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Санкт-Петербург, наб. Обводного канала, 74</span>
   </div>
       </div>
+      <div class="ft-mark" aria-hidden="true" data-type-exempt="декоративная типографическая масса, кегль задан вьюпортом">Скрупул</div>
       <hr class="hr ft-hr">
       <div class="ft-bottom">
         <span data-role="meta">© 2026 ООО «Скрупул»</span>

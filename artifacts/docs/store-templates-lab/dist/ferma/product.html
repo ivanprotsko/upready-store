@@ -129,11 +129,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-характеристики" aria-controls="panel-характеристики" aria-selected="false">Характеристики</button><button class="tab" type="button" role="tab" id="tab-доставка-и-оплата" aria-controls="panel-доставка-и-оплата" aria-selected="false">Доставка и оплата</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Мумиё — смолистая масса, которую собирают в трещинах скал на высоте от 1 500 метров. Наше добывают в Усть-Коксинском районе Республики Алтай и очищают водным способом, без нагрева выше 40 °C.</p><p data-role="body">Сырьё растворяют в родниковой воде, отстаивают, фильтруют и выпаривают. На выходе остаётся плотная смола, которая ломается при комнатной температуре и тянется в тепле руки — это и есть признак нормальной очистки.</p><ul><li data-role="body">Растворяется в воде без осадка</li><li data-role="body">Горькое на вкус, запах смолистый</li><li data-role="body">Хранится 5 лет в тёмном месте</li></ul><p data-role="body">В банке 100 граммов, этого хватает на два курса. Дозировку и схему приёма подбирает врач: мы продаём продукт, а не назначение.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Мумиё — смолистая масса, которую собирают в трещинах скал на высоте от 1 500 метров. Наше добывают в Усть-Коксинском районе Республики Алтай и очищают водным способом, без нагрева выше 40 °C.</p><p data-role="body">Сырьё растворяют в родниковой воде, отстаивают, фильтруют и выпаривают. На выходе остаётся плотная смола, которая ломается при комнатной температуре и тянется в тепле руки — это и есть признак нормальной очистки.</p><ul><li data-role="body">Растворяется в воде без осадка</li><li data-role="body">Горькое на вкус, запах смолистый</li><li data-role="body">Хранится 5 лет в тёмном месте</li></ul><p data-role="body">В банке 100 граммов, этого хватает на два курса. Дозировку и схему приёма подбирает врач: мы продаём продукт, а не назначение.</p></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-характеристики" aria-labelledby="tab-характеристики" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Характеристики</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="характеристики" aria-expanded="false" aria-controls="body-характеристики">
+              <span data-role="section-title">Характеристики</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-характеристики"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Состав</dt><dd data-role="body" class="specs-val">мумиё очищенное, 100 %</dd>
@@ -152,10 +160,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2102</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-доставка-и-оплата" aria-labelledby="tab-доставка-и-оплата" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Доставка и оплата</h2>
-          <div data-role="prose"><p data-role="body">Почта России и СДЭК по всей стране, срок от 5 дней. Точная стоимость считается на шаге оформления по вашему индексу.</p><p data-role="body">Оплата картой на сайте, через СБП или наличными при самовывозе. Юридическим лицам выставляем счёт.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="доставка-и-оплата" aria-expanded="false" aria-controls="body-доставка-и-оплата">
+              <span data-role="section-title">Доставка и оплата</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-доставка-и-оплата"><div data-role="prose"><p data-role="body">Почта России и СДЭК по всей стране, срок от 5 дней. Точная стоимость считается на шаге оформления по вашему индексу.</p><p data-role="body">Оплата картой на сайте, через СБП или наличными при самовывозе. Юридическим лицам выставляем счёт.</p></div></div>
         </section>
       </div>
     </div>
@@ -241,35 +253,7 @@
         </div>
         
       </div>
-      <div class="grid-products"><article class="card" data-component="product-card" data-product="p12">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Настойка кедрового ореха"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">Н</span>
-         <span class="empty-label">Масла<br>фото готовится</span>
-       </div></a>
-      
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Настойка кедрового ореха</a></h3>
-      <div data-role="card-price">450 ₽</div>
-      <div class="card-meta" data-role="card-meta">50 мл</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p11">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Прополис натуральный"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">П</span>
-         <span class="empty-label">Мёд<br>фото готовится</span>
-       </div></a>
-      
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Прополис натуральный</a></h3>
-      <div data-role="card-price">990 ₽</div>
-      <div class="card-meta" data-role="card-meta">30 г</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p10">
+      <div class="grid-products"><article class="card" data-component="product-card" data-product="p10">
     <div class="card-media-wrap">
       <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Мультиварка для дома и авто, 2 л"><div class="media" data-img-role="card" data-media-pad>
          <img src="../../assets/media/ferma/p-p10.svg" alt="Мультиварка для дома и авто, 2 л — мультиварки" loading="lazy" width="400" height="500">
@@ -294,6 +278,32 @@
       <h3 class="card-title" data-role="card-title"><a href="product.html">Антисептик-стимулятор Дорогова, таблетки</a></h3>
       <div data-role="card-price">1 626 ₽</div>
       <div class="card-meta" data-role="card-meta">60 шт</div>
+    </div>
+  </article><article class="card" data-component="product-card" data-product="p8">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Натуральный сорбент при отравлениях"><div class="media" data-img-role="card" data-media-pad>
+         <img src="../../assets/media/ferma/p-p8.svg" alt="Натуральный сорбент при отравлениях — добавки" loading="lazy" width="400" height="500">
+       </div></a>
+      
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Натуральный сорбент при отравлениях</a></h3>
+      <div data-role="card-price">2 710 ₽</div>
+      <div class="card-meta" data-role="card-meta">40 пакетов</div>
+    </div>
+  </article><article class="card" data-component="product-card" data-product="p7">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Масло облепиховое холодного отжима"><div class="media" data-img-role="card" data-media-pad>
+         <img src="../../assets/media/ferma/p-p7.svg" alt="Масло облепиховое холодного отжима — масла" loading="lazy" width="400" height="500">
+       </div></a>
+      
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Масло облепиховое холодного отжима</a></h3>
+      <div data-role="card-price">1 290 ₽</div>
+      <div class="card-meta" data-role="card-meta">250 мл</div>
     </div>
   </article></div>
     </div>

@@ -11,7 +11,7 @@ export function render(b, ctx) {
         <h2 data-role="section-title">${esc(b.title)}</h2>
         <a class="btn" data-variant="secondary" href="${esc(ctx.url("index"))}">Скачать прайс</a>
       </div>
-      <div class="pl-scroll">
+      <div class="pl-scroll scroll-x scroll-x-fade">
         <table class="pl">
           <thead><tr>
             <th scope="col" data-role="meta">Товар</th>

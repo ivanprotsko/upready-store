@@ -3,7 +3,7 @@
     <rect y="304.04" width="400" height="195.96" fill="#faf8f5"/>
     <circle cx="173.81" cy="266.2" r="157.66" fill="#8a6b45" opacity="0.22"/>
     <g transform="translate(50.36 -10.13) scale(0.75)">
-      <path d="M78.72 200 l58-44 h126.56 l58 44 -44 46 -18-14 v218 h-154.56 V232 l-18 14 z" fill="#8c7f6d"/>
+      <path d="M78.72 200 l58-44 h126.56 l58 44 -44 46 -18-14 v218 h-154.56 V232 l-18 14 z" fill="#5c5347"/>
       <path d="M170 156 q30 40 60 0" fill="none" stroke="#14110e" stroke-width="10"/>
       <rect x="140.72" y="300" width="118.56" height="10" rx="5" fill="#8a6b45"/></g>
     <rect y="303.04" width="400" height="2" fill="#cfc5b6" opacity="0.5"/>

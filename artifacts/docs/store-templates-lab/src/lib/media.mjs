@@ -22,6 +22,28 @@ function rng(seed) {
 const lerp = (a, b, t) => a + (b - a) * t
 const n2 = (v) => Math.round(v * 100) / 100
 
+/** Смешение двух hex-цветов — чтобы два одинаковых предмета различались колористикой. */
+function mixHex(a, b, t) {
+  const h = (x) => [1, 3, 5].map((i) => parseInt(String(x).slice(i, i + 2), 16))
+  const [r1, g1, b1] = h(a), [r2, g2, b2] = h(b)
+  return "#" + [r1, g1, b1].map((v, i) => Math.round(lerp(v, [r2, g2, b2][i], t)).toString(16).padStart(2, "0")).join("")
+}
+
+/**
+ * Колористика ЭКЗЕМПЛЯРА: два свитера одного силуэта не должны быть неразличимы.
+ * Тон корпуса и акцента сдвигается детерминированно по имени товара.
+ */
+function shade(tones, seed) {
+  const r = rng("тон-" + seed)
+  const t1 = lerp(-0.46, 0.44, r())   // разброс широкий: два свитера должны читаться как РАЗНЫЕ товары
+  const soft = t1 < 0 ? mixHex(tones.soft, tones.ink, -t1) : mixHex(tones.soft, tones.light, t1)
+  const accent = r() > 0.55 ? mixHex(tones.accent, tones.ink, lerp(0.05, 0.3, r())) : tones.accent
+  return { ...tones, soft, accent }
+}
+
+/** Кадрирование: галерея показывает один предмет РАЗНЫМИ планами, а не пять копий. */
+const FRAMES = ["34 96 332 392", "96 150 210 248", "58 236 284 236", "8 70 384 424", "34 96 332 392"]
+
 /**
  * Силуэты. Каждый рисуется в системе 400×500, «стоит» на y=460 и получает
  * поле сверху, поэтому предметы разных видов выглядят одного роста.
@@ -235,24 +257,30 @@ export function pickKind(category, seed, fallback = "box") {
 }
 
 /** Паккшот: силуэт с полем. 400×500, прозрачный фон — подложку даёт .media. */
-export function packshot({ seed, kind, tones }) {
+export function packshot({ seed, kind, tones, frame = 0 }) {
   const r = rng(seed)
   const draw = SHAPES[kind] || SHAPES.box
+  const t = shade(tones, seed)
   // Окно viewBox сужено до зоны, где реально стоят фигуры (y 96…484): иначе предмет
   // занимает половину коробки и выкладка читается как «много воздуха» (замер на ferma).
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="34 96 332 392" width="332" height="392" role="img">` +
-    `<ellipse cx="200" cy="466" rx="${n2(lerp(120, 150, r()))}" ry="13" fill="${tones.line}" opacity="0.35"/>` +
-    draw(tones, r) + `</svg>`
+  const box = FRAMES[frame % FRAMES.length]
+  const [, , w, h] = box.split(" ").map(Number)
+  const mirror = frame === 4 ? ' transform="scale(-1,1) translate(-400,0)"' : ""
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" width="${w}" height="${h}" role="img">` +
+    `<g${mirror}><ellipse cx="200" cy="466" rx="${n2(lerp(120, 150, r()))}" ry="13" fill="${t.line}" opacity="0.35"/>` +
+    draw(t, r) + `</g></svg>`
 }
 
 /** Сцена: композиция во весь кадр для шаблонов с --media-fit: cover. */
-export function scene({ seed, kind, tones, w = 400, h = 500 }) {
+export function scene({ seed, kind, tones, w = 400, h = 500, frame = 0 }) {
   const r = rng(seed)
   const draw = SHAPES[kind] || SHAPES.box
+  tones = shade(tones, seed)
+  const zoom = [1, 1.28, 1.14, 0.92, 1][frame % 5]
   const horizon = n2(lerp(h * 0.52, h * 0.68, r()))
   const arcR = n2(lerp(Math.min(w, h) * 0.3, Math.min(w, h) * 0.46, r()))
   const cx = n2(lerp(w * 0.34, w * 0.66, r()))
-  const scale = (Math.min(w, h) / 500) * lerp(0.82, 0.96, r())
+  const scale = (Math.min(w, h) / 500) * lerp(0.82, 0.96, r()) * zoom
   const tx = n2(w / 2 - 200 * scale), ty = n2(horizon - 460 * scale + h * 0.06)
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img">
     <rect width="${w}" height="${h}" fill="${tones.bg}"/>

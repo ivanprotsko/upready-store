@@ -743,5 +743,6 @@
  },
  "order": 2,
  "quickView": true,
- "heroArt": "tiles"
+ "heroArt": "tiles",
+ "storyArt": "columns"
 }

@@ -1,6 +1,6 @@
 /* Низ тяжелее верха (QR-TECTONICS): полоса футера всегда несёт поверхность,
    отличную от полотна — мягкую заливку или полную инверсию. */
-.ft-soft { background: var(--secondary); color: var(--secondary-foreground); }
+.ft-soft { background: var(--muted); color: var(--secondary-foreground); }
 .ft-inverse { background: var(--primary); color: var(--primary-foreground); }
 .ft-inverse [data-role="meta"], .ft-inverse .ft-head { color: var(--primary-foreground); opacity: 0.72; }
 .ft-inverse .ft-link:hover { opacity: 0.72; }
@@ -25,6 +25,10 @@
   line-height: var(--lh-display); letter-spacing: var(--tr-display);
   margin-block: var(--space-16) var(--space-8);
   opacity: 0.18; white-space: nowrap; overflow: hidden;
+}
+.ft-soft .ft-mark {
+  /* на светлой поверхности знак нужен контрастнее, иначе его попросту не видно */
+  opacity: 0.1; margin-block: var(--space-12) var(--space-4);
 }
 .ft-bottom { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
 @media (max-width: 639px) { .ft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

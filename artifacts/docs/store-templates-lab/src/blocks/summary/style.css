@@ -2,7 +2,7 @@
 .sum-rate { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
 .sum-price { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
 .sum-actions { display: grid; gap: var(--space-3); width: 100%; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
-.var-group { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-2); justify-items: start; }
+.var-group { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-3); justify-items: start; }
 .var-row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 .var-chip {
   display: inline-flex; align-items: center; justify-content: center;
@@ -22,7 +22,11 @@
   border: var(--hairline) solid var(--border);
   background: var(--swatch, var(--secondary));
 }
-.swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: var(--space-1); }
+/* Кольцо прижато к краю кружка (offset 0), а зазор группы поднят до --space-3:
+   раньше outline 4px + offset 4px выходил на 8px при зазоре ровно 8px и перечёркивал
+   подпись группы. box-shadow здесь нельзя — он завёл бы вторую рецептуру тени
+   (поймано QR-ELEVATION). */
+.swatch:has(input:checked) .swatch-dot { outline: var(--space-1) solid var(--foreground); outline-offset: 0; }
 .sum-facts { list-style: none; padding: 0; display: grid; gap: var(--space-3); width: 100%; }
 .sum-fact { display: flex; gap: var(--space-3); align-items: flex-start; }
 .sum-fact-icon { flex: none; color: var(--muted-foreground); }

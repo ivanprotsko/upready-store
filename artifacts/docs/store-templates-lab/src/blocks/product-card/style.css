@@ -1,4 +1,15 @@
-.card { display: grid; gap: var(--space-3); align-content: start; }
+.card { position: relative; display: grid; gap: var(--space-3); align-content: start; }
+/* Метка лежит НА кадре, а не в потоке над названием: в потоке она сдвигала карточку
+   на 35 px вниз, и цены ряда вставали на разные базовые линии — тот самый дефект C1,
+   ради которого лаборатория и затевалась (замер: 1857 против 1822 у соседей). */
+.card [data-role="card-badge"] {
+  position: absolute; inset-block-start: var(--space-3); inset-inline-start: var(--space-3);
+  z-index: 1;
+}
+.grid-products[data-framed] .card [data-role="card-badge"] {
+  inset-block-start: calc(var(--card-pad) + var(--space-2));
+  inset-inline-start: calc(var(--card-pad) + var(--space-2));
+}
 .card-media-link { display: block; }
 .card .media { transition: opacity var(--dur-fast) var(--ease); }
 .card:hover .media { opacity: 0.88; }

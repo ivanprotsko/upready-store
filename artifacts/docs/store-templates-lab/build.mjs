@@ -106,10 +106,10 @@ for (const tpl of templates) {
     return `../../assets/${path}`
   }
   const kindOf = (p) => p.kind || pickKind(p.category, `${tpl.id}-${p.name}`, tpl.media.kind || "box")
-  const artFor = (p, seed) =>
+  const artFor = (p, seed, frame = 0) =>
     tpl.media.fit === "cover"
-      ? scene({ seed, kind: kindOf(p), tones, w: 400, h: 500 })
-      : packshot({ seed, kind: kindOf(p), tones })
+      ? scene({ seed, kind: kindOf(p), tones, w: 400, h: 500, frame })
+      : packshot({ seed, kind: kindOf(p), tones, frame })
 
   let page = "index"
   const ctx = {
@@ -119,19 +119,23 @@ for (const tpl of templates) {
     pick(source, limit) {
       const all = tpl.products
       const pool = source === "new" ? [...all].reverse() : source === "sale" ? all.filter((p) => p.oldPrice) : all
-      return pool.slice(0, limit || pool.length)
+      // Товар без фотографии уходит в конец: заглушка спроектирована, но ПЕРВОЙ позицией
+      // в подборке она читается как поломка (дефект E1 живого магазина был именно порядком).
+      const ordered = [...pool].sort((a, b) => (a.image === null ? 1 : 0) - (b.image === null ? 1 : 0))
+      return ordered.slice(0, limit || ordered.length)
     },
     img: (p) => reg(`p-${p.id}`, artFor(p, `${tpl.id}-${p.name}`)),
     tileImg: (c) => reg(`t-${c.id}`, tileArt({ seed: `${tpl.id}-${c.name}`, kind: c.kind || pickKind(c.name, `${tpl.id}-${c.name}`, tpl.media.kind || "box"), tones, w: 600, h: 400 })),
     heroImg: (b) => reg(`hero-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-hero-${b.art || 1}`, tones, variant: tpl.heroArt })),
-    storyImg: (b) => reg(`story-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-story-${b.art || 1}`, tones, variant: tpl.heroArt, w: 900, h: 600 })),
+    storyImg: (b) => reg(`story-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-story-${b.art || 1}`, tones, variant: tpl.storyArt || "orbits", w: 900, h: 600 })),
     // Образ лукбука — сцена С ФИГУРОЙ: абстракция без силуэта читается как
     // незагрузившаяся картинка, а не как редакционный кадр.
     lookImg: (l, i) => reg(`look-${i}`, scene({ seed: `${tpl.id}-look-${i}-${l.title}`, kind: l.kind || tpl.media.kind, tones,
       w: i === 0 ? 1600 : 900, h: i === 0 ? 900 : 675 })),
     galleryImg: (s, i) => {
       const p = tpl.products.find((x) => x.id === s.of) || tpl.products[0]
-      return reg(`g-${p.id}-${i}`, artFor(p, `${tpl.id}-${p.name}-кадр-${i}`))
+      // кадр i — другой ПЛАН того же предмета: пять одинаковых миниатюр листать незачем
+      return reg(`g-${p.id}-${i}`, artFor(p, `${tpl.id}-${p.name}`, i))
     },
   }
 

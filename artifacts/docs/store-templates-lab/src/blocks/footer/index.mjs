@@ -39,6 +39,7 @@ export function render(b, ctx) {
         </div>
         ${columns(ctx, cols)}${contacts}
       </div>
+      <div class="ft-mark" aria-hidden="true" data-type-exempt="декоративная типографическая масса, кегль задан вьюпортом">${esc(brand.name)}</div>
       <hr class="hr ft-hr">
       <div class="ft-bottom">
         <span data-role="meta">© 2026 ${esc(brand.legal)}</span>

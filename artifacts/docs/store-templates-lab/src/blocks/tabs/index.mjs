@@ -1,4 +1,5 @@
 import { esc, map, slug } from "../../lib/html.mjs"
+import { icons } from "../../lib/icons.mjs"
 import { render as renderSpecs } from "../specs/index.mjs"
 export const meta = { id: "tabs" }
 
@@ -24,8 +25,12 @@ export function render(b, ctx) {
           ${map(tabs, (t, i) => `<button class="tab" type="button" role="tab" id="tab-${ids[i]}" aria-controls="panel-${ids[i]}" aria-selected="${i === 0}">${esc(t.label)}</button>`)}
         </div>
         ${map(tabs, (t, i) => `<section class="tab-panel" role="tabpanel" id="panel-${ids[i]}" aria-labelledby="tab-${ids[i]}"${i ? " hidden" : ""}>
-          <h2 class="tab-panel-head" data-role="section-title">${esc(t.label)}</h2>
-          ${panelBody(t, ctx)}
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="${ids[i]}" aria-expanded="${i === 0}" aria-controls="body-${ids[i]}">
+              <span data-role="section-title">${esc(t.label)}</span>${icons.chevronDown}
+            </button>
+          </h2>
+          <div class="tab-body" id="body-${ids[i]}">${panelBody(t, ctx)}</div>
         </section>`)}
       </div>
     </div>

@@ -52,5 +52,9 @@
   .hdr-burger { display: inline-flex; }
   .hdr-search { display: none; }
   .hdr-strip-in { justify-content: center; }
-  .hdr-nav-bar .hdr-nav { overflow-x: auto; flex-wrap: nowrap; gap: var(--space-4); }
+  .hdr-nav-bar .hdr-nav {
+    overflow-x: auto; flex-wrap: nowrap; gap: var(--space-4);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - var(--space-8)), transparent 100%);
+  }
 }

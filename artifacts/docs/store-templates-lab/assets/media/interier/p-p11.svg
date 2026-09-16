@@ -3,7 +3,7 @@
     <rect y="278.6" width="400" height="221.4" fill="#fbfaf8"/>
     <circle cx="173.21" cy="245.96" r="136.01" fill="#a37a3c" opacity="0.22"/>
     <g transform="translate(46.93 -43.45) scale(0.77)">
-      <path d="M121.64 250 l28.21 -96 h100.3 l28.21 96 z" fill="#8b7f6c"/>
+      <path d="M121.64 250 l28.21 -96 h100.3 l28.21 96 z" fill="#61594d"/>
       <rect x="196" y="250" width="8" height="160" fill="#2c2a26"/>
       <ellipse cx="200" cy="420" rx="66" ry="16" fill="#2c2a26"/>
       <ellipse cx="200" cy="250" rx="78.36" ry="12" fill="#a37a3c"/></g>

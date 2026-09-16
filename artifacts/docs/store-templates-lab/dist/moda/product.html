@@ -143,11 +143,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-размеры" aria-controls="panel-размеры" aria-selected="false">Размеры</button><button class="tab" type="button" role="tab" id="tab-уход" aria-controls="panel-уход" aria-selected="false">Уход</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Платье прямого силуэта длиной ниже колена. Вискоза плотностью 180 г/м² держит форму и не просвечивает даже на светлом цвете.</p><p data-role="body">Пояс из той же ткани идёт в комплекте: без него платье носится свободно, с ним — по талии. Карманы врезные, боковые.</p><ul><li data-role="body">Вискоза 100 %, плотность 180 г/м²</li><li data-role="body">Длина по спинке 118 см для размера 44</li><li data-role="body">Стирка при 30 °C, без отжима</li></ul></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Платье прямого силуэта длиной ниже колена. Вискоза плотностью 180 г/м² держит форму и не просвечивает даже на светлом цвете.</p><p data-role="body">Пояс из той же ткани идёт в комплекте: без него платье носится свободно, с ним — по талии. Карманы врезные, боковые.</p><ul><li data-role="body">Вискоза 100 %, плотность 180 г/м²</li><li data-role="body">Длина по спинке 118 см для размера 44</li><li data-role="body">Стирка при 30 °C, без отжима</li></ul></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-размеры" aria-labelledby="tab-размеры" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Размеры</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="размеры" aria-expanded="false" aria-controls="body-размеры">
+              <span data-role="section-title">Размеры</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-размеры"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">42</dt><dd data-role="body" class="specs-val">грудь 88 · талия 70 · бёдра 94 см</dd>
@@ -162,10 +170,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Рост модели</dt><dd data-role="body" class="specs-val">176 см, размер 44</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-уход" aria-labelledby="tab-уход" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Уход</h2>
-          <div data-role="prose"><p data-role="body">Стирка при 30 °C в режиме для деликатных тканей, без отжима. Сушить на плечиках, не выкручивая.</p><p data-role="body">Гладить с изнанки при температуре для вискозы или отпаривать на весу.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="уход" aria-expanded="false" aria-controls="body-уход">
+              <span data-role="section-title">Уход</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-уход"><div data-role="prose"><p data-role="body">Стирка при 30 °C в режиме для деликатных тканей, без отжима. Сушить на плечиках, не выкручивая.</p><p data-role="body">Гладить с изнанки при температуре для вискозы или отпаривать на весу.</p></div></div>
         </section>
       </div>
     </div>
@@ -208,21 +220,7 @@
         </div>
         
       </div>
-      <div class="grid-products"><article class="card" data-component="product-card" data-product="p12">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Кардиган oversize"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">К</span>
-         <span class="empty-label">Футболки<br>фото готовится</span>
-       </div></a>
-      
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Кардиган oversize</a></h3>
-      <div data-role="card-price">8 900 ₽</div>
-      <div class="card-meta" data-role="card-meta">S–L</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p11">
+      <div class="grid-products"><article class="card" data-component="product-card" data-product="p11">
     <div class="card-media-wrap">
       <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Рюкзак городской"><div class="media" data-img-role="card">
          <img src="../../assets/media/moda/p-p11.svg" alt="Рюкзак городской — сумки" loading="lazy" width="400" height="500">
@@ -247,6 +245,19 @@
       <h3 class="card-title" data-role="card-title"><a href="product.html">Ремень из кожи растительного дубления</a></h3>
       <div data-role="card-price">3 200 ₽</div>
       <div class="card-meta" data-role="card-meta">80–100 см</div>
+    </div>
+  </article><article class="card" data-component="product-card" data-product="p9">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Юбка плиссе миди"><div class="media" data-img-role="card">
+         <img src="../../assets/media/moda/p-p9.svg" alt="Юбка плиссе миди — платья" loading="lazy" width="400" height="500">
+       </div></a>
+      
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Юбка плиссе миди</a></h3>
+      <div data-role="card-price">5 900 ₽</div>
+      <div class="card-meta" data-role="card-meta">42–50</div>
     </div>
   </article></div>
     </div>

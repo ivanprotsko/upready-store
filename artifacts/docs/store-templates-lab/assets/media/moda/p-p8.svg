@@ -3,8 +3,10 @@
     <rect y="271.86" width="400" height="228.14" fill="#faf8f5"/>
     <circle cx="200.04" cy="236.83" r="145.95" fill="#8a6b45" opacity="0.22"/>
     <g transform="translate(55.05 -31.53) scale(0.72)">
-      <path d="M133.37 244 v-34 a66.63 46 0 0 1 133.26 0 v34" fill="none" stroke="#14110e" stroke-width="12"/>
-      <rect x="99.37" y="240" width="201.26" height="196" rx="14" fill="#8c7f6d"/>
-      <rect x="127.37" y="316" width="145.26" height="12" rx="6" fill="#8a6b45"/></g>
+      <rect x="103.52" y="212.16" width="192.96" height="247.84" rx="6" fill="#998e7e"/>
+      <rect x="103.52" y="212.16" width="57.89" height="247.84" fill="#faf8f5"/>
+      <rect x="184.56" y="248.16" width="84.9" height="12" rx="6" fill="#8a6b45"/>
+      <rect x="184.56" y="274.16" width="57.89" height="9" rx="4" fill="#cfc5b6"/>
+      <rect x="184.56" y="404" width="69.47" height="9" rx="4" fill="#cfc5b6"/></g>
     <rect y="270.86" width="400" height="2" fill="#cfc5b6" opacity="0.5"/>
   </svg>

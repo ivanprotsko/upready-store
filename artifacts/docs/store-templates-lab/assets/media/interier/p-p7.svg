@@ -3,7 +3,7 @@
     <rect y="291.25" width="400" height="208.75" fill="#fbfaf8"/>
     <circle cx="245.56" cy="249.45" r="174.15" fill="#a37a3c" opacity="0.22"/>
     <g transform="translate(59.48 -1.95) scale(0.7)">
-      <rect x="48.44" y="242" width="303.12" height="86" rx="18" fill="#8b7f6c"/>
+      <rect x="48.44" y="242" width="303.12" height="86" rx="18" fill="#8e826f"/>
       <rect x="48.44" y="312" width="303.12" height="76" rx="16" fill="#2c2a26"/>
       <rect x="62.44" y="264" width="129.56" height="56" rx="10" fill="#a37a3c"/>
       <rect x="208" y="264" width="129.56" height="56" rx="10" fill="#fbfaf8"/>

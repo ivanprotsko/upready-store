@@ -1,4 +1,7 @@
 .pl-scroll { overflow-x: auto; }
+/* Первая колонка остаётся на месте: иначе при прокрутке непонятно, чья это цена. */
+.pl th:first-child, .pl td:first-child, .pl th[scope=row] { position: sticky; inset-inline-start: 0; background: var(--card); z-index: 1; }
+.pl thead th:first-child { background: var(--secondary); }
 .pl { width: 100%; border-collapse: collapse; }
 .pl th, .pl td { text-align: start; padding: var(--space-3); border-bottom: var(--hairline) solid var(--border); }
 .pl thead th { background: var(--secondary); color: var(--secondary-foreground); white-space: nowrap; }

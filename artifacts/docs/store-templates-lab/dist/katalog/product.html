@@ -147,11 +147,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-характеристики" aria-controls="panel-характеристики" aria-selected="false">Характеристики</button><button class="tab" type="button" role="tab" id="tab-доставка-и-оплата" aria-controls="panel-доставка-и-оплата" aria-selected="false">Доставка и оплата</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Мультиварка на пять литров закрывает потребности семьи из трёх-четырёх человек: одной загрузки хватает на обед и ужин.</p><p data-role="body">Двенадцать программ подобраны по способу нагрева, а не по названию блюда: крупа, суп, тушение, выпечка, пар, жарка, йогурт, холодец и четыре ручных режима с настройкой температуры и времени.</p><ul><li data-role="body">Чаша 5 л с антипригарным покрытием, моется в машине</li><li data-role="body">Отложенный старт до 24 часов</li><li data-role="body">Крышка снимается целиком</li></ul><p data-role="body">Мощность 900 Вт — это компромисс: быстрее греет, чем модели на 700 Вт, и не выбивает автомат в старой проводке.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Мультиварка на пять литров закрывает потребности семьи из трёх-четырёх человек: одной загрузки хватает на обед и ужин.</p><p data-role="body">Двенадцать программ подобраны по способу нагрева, а не по названию блюда: крупа, суп, тушение, выпечка, пар, жарка, йогурт, холодец и четыре ручных режима с настройкой температуры и времени.</p><ul><li data-role="body">Чаша 5 л с антипригарным покрытием, моется в машине</li><li data-role="body">Отложенный старт до 24 часов</li><li data-role="body">Крышка снимается целиком</li></ul><p data-role="body">Мощность 900 Вт — это компромисс: быстрее греет, чем модели на 700 Вт, и не выбивает автомат в старой проводке.</p></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-характеристики" aria-labelledby="tab-характеристики" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Характеристики</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="характеристики" aria-expanded="false" aria-controls="body-характеристики">
+              <span data-role="section-title">Характеристики</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-характеристики"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Объём чаши</dt><dd data-role="body" class="specs-val">5 л</dd>
@@ -172,10 +180,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2102</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-доставка-и-оплата" aria-labelledby="tab-доставка-и-оплата" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Доставка и оплата</h2>
-          <div data-role="prose"><p data-role="body">По Москве и области — завтра, если заказ оформлен до 18:00. По России — 2–5 дней транспортной компанией или СДЭК.</p><p data-role="body">Оплата картой, через СБП или наличными курьеру. Юридическим лицам выставляем счёт с НДС.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="доставка-и-оплата" aria-expanded="false" aria-controls="body-доставка-и-оплата">
+              <span data-role="section-title">Доставка и оплата</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-доставка-и-оплата"><div data-role="prose"><p data-role="body">По Москве и области — завтра, если заказ оформлен до 18:00. По России — 2–5 дней транспортной компанией или СДЭК.</p><p data-role="body">Оплата картой, через СБП или наличными курьеру. Юридическим лицам выставляем счёт с НДС.</p></div></div>
         </section>
       </div>
     </div>
@@ -261,35 +273,7 @@
         </div>
         
       </div>
-      <div class="grid-products" data-framed><article class="card" data-component="product-card" data-product="p12">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Мешки для мусора, 120 л"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">М</span>
-         <span class="empty-label">Хозтовары<br>фото готовится</span>
-       </div></a>
-      <button class="card-qv btn" data-variant="secondary" data-size="sm" type="button" data-qv-open>Быстрый просмотр</button>
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Мешки для мусора, 120 л</a></h3>
-      <div data-role="card-price">390 ₽</div>
-      <div class="card-meta" data-role="card-meta">20 шт</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p11">
-    <div class="card-media-wrap">
-      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Фильтр для воды, кувшин 2,5 л"><div class="media" data-img-role="card" data-empty>
-         <span class="empty-initial" aria-hidden="true">Ф</span>
-         <span class="empty-label">Кухня<br>фото готовится</span>
-       </div></a>
-      <button class="card-qv btn" data-variant="secondary" data-size="sm" type="button" data-qv-open>Быстрый просмотр</button>
-    </div>
-    <div class="card-body" data-role="card-body">
-      
-      <h3 class="card-title" data-role="card-title"><a href="product.html">Фильтр для воды, кувшин 2,5 л</a></h3>
-      <div data-role="card-price">1 490 ₽</div>
-      <div class="card-meta" data-role="card-meta">2,5 л</div>
-    </div>
-  </article><article class="card" data-component="product-card" data-product="p10">
+      <div class="grid-products" data-framed><article class="card" data-component="product-card" data-product="p10">
     <div class="card-media-wrap">
       <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Стремянка алюминиевая, 4 ступени"><div class="media" data-img-role="card" data-media-pad>
          <img src="../../assets/media/katalog/p-p10.svg" alt="Стремянка алюминиевая, 4 ступени — инструмент" loading="lazy" width="400" height="500">
@@ -315,6 +299,32 @@
       <div data-role="card-price">1 290 ₽</div>
       <div class="card-meta" data-role="card-meta">6 шт</div>
     </div>
+  </article><article class="card" data-component="product-card" data-product="p8">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Средство для мытья полов, 5 л"><div class="media" data-img-role="card" data-media-pad>
+         <img src="../../assets/media/katalog/p-p8.svg" alt="Средство для мытья полов, 5 л — хозтовары" loading="lazy" width="400" height="500">
+       </div></a>
+      <button class="card-qv btn" data-variant="secondary" data-size="sm" type="button" data-qv-open>Быстрый просмотр</button>
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Средство для мытья полов, 5 л</a></h3>
+      <div data-role="card-price">690 ₽</div>
+      <div class="card-meta" data-role="card-meta">5 л</div>
+    </div>
+  </article><article class="card" data-component="product-card" data-product="p7">
+    <div class="card-media-wrap">
+      <a class="card-media-link" data-role="card-media" href="product.html" aria-label="Термос 1 л, нержавеющая сталь"><div class="media" data-img-role="card" data-media-pad>
+         <img src="../../assets/media/katalog/p-p7.svg" alt="Термос 1 л, нержавеющая сталь — кухня" loading="lazy" width="400" height="500">
+       </div></a>
+      <button class="card-qv btn" data-variant="secondary" data-size="sm" type="button" data-qv-open>Быстрый просмотр</button>
+    </div>
+    <div class="card-body" data-role="card-body">
+      
+      <h3 class="card-title" data-role="card-title"><a href="product.html">Термос 1 л, нержавеющая сталь</a></h3>
+      <div data-role="card-price">2 190 ₽</div>
+      <div class="card-meta" data-role="card-meta">1 л</div>
+    </div>
   </article></div>
     </div>
   </section>
@@ -338,6 +348,7 @@
     <span class="ft-link row" data-role="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Москва, склад в Химках</span>
   </div>
       </div>
+      <div class="ft-mark" aria-hidden="true" data-type-exempt="декоративная типографическая масса, кегль задан вьюпортом">Домовой</div>
       <hr class="hr ft-hr">
       <div class="ft-bottom">
         <span data-role="meta">© 2026 ООО «Домовой»</span>

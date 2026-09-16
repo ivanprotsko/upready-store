@@ -122,11 +122,19 @@
           <button class="tab" type="button" role="tab" id="tab-описание" aria-controls="panel-описание" aria-selected="true">Описание</button><button class="tab" type="button" role="tab" id="tab-характеристики" aria-controls="panel-характеристики" aria-selected="false">Характеристики</button><button class="tab" type="button" role="tab" id="tab-что-в-коробке" aria-controls="panel-что-в-коробке" aria-selected="false">Что в коробке</button>
         </div>
         <section class="tab-panel" role="tabpanel" id="panel-описание" aria-labelledby="tab-описание">
-          <h2 class="tab-panel-head" data-role="section-title">Описание</h2>
-          <div data-role="prose"><p data-role="body">Восьмилотковая версия рассчитана на заготовку вёдрами: за одну закладку уходит до шести килограммов яблок дольками или три килограмма сырой зелени.</p><p data-role="body">Вентилятор стоит сбоку и гонит воздух горизонтально сквозь все лотки сразу, а не снизу вверх. Поэтому лотки не нужно менять местами каждые два часа — разброс температуры между первым и восьмым не превышает одного градуса.</p><ul><li data-role="body">Диапазон 30–70 °C с шагом 1 °C</li><li data-role="body">Таймер до 48 часов</li><li data-role="body">Уровень шума 42 дБ</li></ul><p data-role="body">Нижний порог 30 °C нужен для трав: мята и зверобой теряют цвет уже при 45 °C.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="описание" aria-expanded="true" aria-controls="body-описание">
+              <span data-role="section-title">Описание</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-описание"><div data-role="prose"><p data-role="body">Восьмилотковая версия рассчитана на заготовку вёдрами: за одну закладку уходит до шести килограммов яблок дольками или три килограмма сырой зелени.</p><p data-role="body">Вентилятор стоит сбоку и гонит воздух горизонтально сквозь все лотки сразу, а не снизу вверх. Поэтому лотки не нужно менять местами каждые два часа — разброс температуры между первым и восьмым не превышает одного градуса.</p><ul><li data-role="body">Диапазон 30–70 °C с шагом 1 °C</li><li data-role="body">Таймер до 48 часов</li><li data-role="body">Уровень шума 42 дБ</li></ul><p data-role="body">Нижний порог 30 °C нужен для трав: мята и зверобой теряют цвет уже при 45 °C.</p></div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-характеристики" aria-labelledby="tab-характеристики" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Характеристики</h2>
-          <div class="specs" data-component="specs">
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="характеристики" aria-expanded="false" aria-controls="body-характеристики">
+              <span data-role="section-title">Характеристики</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-характеристики"><div class="specs" data-component="specs">
     
     <dl class="specs-list"><div class="specs-row">
       <dt data-role="meta">Лотков в комплекте</dt><dd data-role="body" class="specs-val">8</dd>
@@ -149,10 +157,14 @@
     </div><div class="specs-row">
       <dt data-role="meta">Артикул</dt><dd data-role="body" class="specs-val">ART-2101</dd>
     </div></dl>
-  </div>
+  </div></div>
         </section><section class="tab-panel" role="tabpanel" id="panel-что-в-коробке" aria-labelledby="tab-что-в-коробке" hidden>
-          <h2 class="tab-panel-head" data-role="section-title">Что в коробке</h2>
-          <div data-role="prose"><p data-role="body">Корпус с блоком управления, восемь лотков, одна сетка для мелких трав, один поддон для пастилы, инструкция и таблица времени сушки.</p><p data-role="body">Дополнительные лотки и сетки продаются отдельно и подходят к обеим версиям.</p></div>
+          <h2 class="tab-panel-head">
+            <button class="tab-acc" type="button" data-acc="что-в-коробке" aria-expanded="false" aria-controls="body-что-в-коробке">
+              <span data-role="section-title">Что в коробке</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </h2>
+          <div class="tab-body" id="body-что-в-коробке"><div data-role="prose"><p data-role="body">Корпус с блоком управления, восемь лотков, одна сетка для мелких трав, один поддон для пастилы, инструкция и таблица времени сушки.</p><p data-role="body">Дополнительные лотки и сетки продаются отдельно и подходят к обеим версиям.</p></div></div>
         </section>
       </div>
     </div>
@@ -276,6 +288,7 @@
     <span class="ft-link row" data-role="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Челябинск, ул. Кирова, 104</span>
   </div>
       </div>
+      <div class="ft-mark" aria-hidden="true" data-type-exempt="декоративная типографическая масса, кегль задан вьюпортом">Урожай</div>
       <hr class="hr ft-hr">
       <div class="ft-bottom">
         <span data-role="meta">© 2026 ИП Ковалёв Д. А.</span>
