@@ -21,8 +21,8 @@
   сервис модуля, цена и остаток магазина — через `shopFacts` КАТАЛОГА (экспортирована из
   `catalog/catalog-data.ts`): два читателя = два ответа на «какая у товара цена в магазине» на двух
   экранах одной панели (правило 19b).
-- Тесты: `__tests__/price-stock.unit.spec.ts` (46 проверок логики) и
-  `__tests__/price-stock-read-only.unit.spec.ts` (27 проверок инварианта «только чтение»).
+- Тесты: `__tests__/price-stock.unit.spec.ts` (31 проверка логики) и
+  `__tests__/price-stock-read-only.unit.spec.ts` (42 проверки инварианта «только чтение»).
 
 ### Панель
 
@@ -87,8 +87,10 @@ $ cd apps/tenant-panel && npx eslint src/routes/marketplaces/price-stock \
     src/hooks/api/marketplace-price-stock.tsx → rc=0, 0 problems
 ```
 
-Из них по задаче: `price-stock.unit.spec.ts` 46 проверок, `price-stock-read-only.unit.spec.ts`
-27 проверок — обе зелёные целиком (`Tests: 73 passed` при прогоне двух файлов).
+Из них по задаче (счёт скопирован с вывода, не предсказан):
+`price-stock.unit.spec.ts` → `Tests: 31 passed, 31 total`;
+`price-stock-read-only.unit.spec.ts` → `Tests: 42 passed, 42 total` (файл проверяет каждый из
+11 файлов экрана отдельным `it.each`, отсюда число).
 
 ### 2. Четыре группы и сходимость — SQL против API
 
@@ -159,8 +161,8 @@ select count(*) lines, sum(o.stock) from mp_offer o
 
 ### 4. Только чтение — вывод теста
 
-`apps/backend/src/modules/marketplace/__tests__/price-stock-read-only.unit.spec.ts`, 27 проверок,
-все зелёные. Что именно проверяется на КАЖДОМ файле экрана (5 файлов бэкенда, 6 файлов панели):
+`apps/backend/src/modules/marketplace/__tests__/price-stock-read-only.unit.spec.ts`,
+`Tests: 42 passed, 42 total`. Что именно проверяется на КАЖДОМ файле экрана (5 файлов бэкенда, 6 файлов панели):
 
 - три `route.ts` экспортируют `GET` и не экспортируют `POST` / `PUT` / `PATCH` / `DELETE`;
 - ни один файл не называет НИ ОДНОГО зарегистрированного эндпоинта площадки
