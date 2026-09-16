@@ -1,0 +1,35 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/interier.json — шаблон «Мебель и интерьер» */
+:root {
+  --font-display: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --grid-cols: 3;
+  --aspect-card: 3 / 2;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 3 / 2;
+  --aspect-thumb: 3 / 2;
+  --media-fit: cover;
+  --background: #fbfaf8;
+  --foreground: #1a1917;
+  --card: #ffffff;
+  --card-foreground: #1a1917;
+  --popover: #ffffff;
+  --popover-foreground: #1a1917;
+  --primary: #2c2a26;
+  --primary-foreground: #fbfaf8;
+  --secondary: #f0eeea;
+  --secondary-foreground: #1a1917;
+  --muted: #e7e4de;
+  --muted-foreground: #54514b;
+  --accent: #eae2d3;
+  --accent-foreground: #5c4520;
+  --border: #e2dfd8;
+  --input: #e2dfd8;
+  --ring: #2c2a26;
+  --link: #7a5316;
+  --destructive: #9e3026;
+  --destructive-foreground: #ffffff;
+  --success: #2a6042;
+  --warning: #7a4d0c;
+  --surface-media: #f0eeea;
+}

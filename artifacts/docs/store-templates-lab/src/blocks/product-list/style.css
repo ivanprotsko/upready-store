@@ -1,0 +1,16 @@
+.plist { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.plist-row {
+  display: grid; grid-template-columns: var(--space-24) minmax(0, 1fr) auto;
+  gap: var(--space-4); align-items: center;
+  background: var(--card); border: var(--hairline) solid var(--border);
+  border-radius: var(--r-md); padding: var(--card-pad);
+}
+.plist-media { display: block; }
+.plist-main { display: grid; gap: var(--space-1); justify-items: start; }
+.plist-title { min-height: 0; -webkit-line-clamp: 1; }
+.plist-note { max-width: var(--measure); }
+.plist-buy { display: grid; gap: var(--space-2); justify-items: end; }
+@media (max-width: 639px) {
+  .plist-row { grid-template-columns: var(--space-16) minmax(0, 1fr); }
+  .plist-buy { grid-column: 1 / -1; justify-items: stretch; }
+}

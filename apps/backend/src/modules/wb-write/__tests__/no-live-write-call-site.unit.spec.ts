@@ -36,6 +36,8 @@ const READ_TRANSPORT = path.join("apps", "backend", "src", "modules", "wb", "tra
  * branch made reachable.
  */
 const REGISTERED_CALLERS = [
+  // w21-wb-write-stocks-prices: the store -> WB push, classes `stocks` and `prices`.
+  path.join("apps", "backend", "src", "wb-write-diff", "push.ts"),
   // w22-wb-write-feedback-answers: answering a review and marking a customer
   // question viewed, class `feedback_answers`.
   path.join("apps", "backend", "src", "api", "tenants", "wb", "feedback-answers", "send", "route.ts"),
@@ -72,6 +74,32 @@ const walk = (dir: string, found: string[] = []): string[] => {
     if (statSync(full).isDirectory()) {
       walk(full, found);
     } else if (SOURCE_EXTENSIONS.has(path.extname(name))) {
+      found.push(full);
+    }
+  }
+
+  return found;
+};
+
+/** The env-carrying extensions the sweep below looks at (w21-wb-write-stocks-prices). */
+const CONFIG_EXTENSIONS = new Set([".yml", ".yaml", ".env", ".template", ".example", ".sh"]);
+
+const walkConfigs = (dir: string, found: string[] = []): string[] => {
+  let entries: string[];
+  try {
+    entries = readdirSync(dir);
+  } catch {
+    return found;
+  }
+
+  for (const name of entries) {
+    if (name === "node_modules" || name === "dist" || name === ".medusa" || name === ".next") {
+      continue;
+    }
+    const full = path.join(dir, name);
+    if (statSync(full).isDirectory()) {
+      walkConfigs(full, found);
+    } else if (CONFIG_EXTENSIONS.has(path.extname(name)) || name.startsWith(".env")) {
       found.push(full);
     }
   }
@@ -182,5 +210,49 @@ describe("the WB write path has no live caller", () => {
     );
 
     expect(found).toEqual([]);
+  });
+  /**
+   * The sweep, next to the named-file check above (w21-wb-write-stocks-prices).
+   *
+   * That one lists six files this repository ships and throws when one of them
+   * vanishes, which the sweep cannot do. The sweep walks `apps`, `deploy` and
+   * `.github` instead, so a NEW env file nobody thought to add to that list is
+   * covered too — `deploy/` holds the stand and mt env files and is not on it.
+   * Two checks, two failure modes, neither redundant.
+   */
+  it("has no config file that turns the live gate on", () => {
+    // In a config file the variable is SET by standing at the start of a line:
+    // `WB_WRITE_LIVE=1`, `WB_WRITE_LIVE: "1"`. `(?!_)` keeps the
+    // `WB_WRITE_LIVE_ENV` constant out and `=(?!=)` keeps a comparison out.
+    const SETS_LIVE_IN_CONFIG =
+      /^[\s-]*(?:export\s+)?WB_WRITE_LIVE(?!_)\s*(?:=(?!=)|:)\s*["']?1/m;
+
+    const configs = [
+      ...walkConfigs(path.join(REPO_ROOT, "apps")),
+      ...walkConfigs(path.join(REPO_ROOT, "deploy")),
+      ...walkConfigs(path.join(REPO_ROOT, ".github")),
+    ];
+
+    // A sweep that found nothing would pass while proving nothing (rule 20a).
+    expect(configs.length).toBeGreaterThan(10);
+
+    const setters = configs
+      .map((file) => path.relative(REPO_ROOT, file))
+      .filter((relative) =>
+        SETS_LIVE_IN_CONFIG.test(readFileSync(path.join(REPO_ROOT, relative), "utf8")),
+      );
+
+    expect(setters).toEqual([]);
+  });
+
+  it("would catch such a config line if one appeared", () => {
+    const SETS_LIVE_IN_CONFIG =
+      /^[\s-]*(?:export\s+)?WB_WRITE_LIVE(?!_)\s*(?:=(?!=)|:)\s*["']?1/m;
+
+    expect(SETS_LIVE_IN_CONFIG.test("WB_WRITE_LIVE=1")).toBe(true);
+    expect(SETS_LIVE_IN_CONFIG.test("  - WB_WRITE_LIVE: \"1\"")).toBe(true);
+    expect(SETS_LIVE_IN_CONFIG.test("export WB_WRITE_LIVE=1")).toBe(true);
+    expect(SETS_LIVE_IN_CONFIG.test("WB_WRITE_LIVE_ENV=1")).toBe(false);
+    expect(SETS_LIVE_IN_CONFIG.test("WB_WRITE_LIVE=")).toBe(false);
   });
 });

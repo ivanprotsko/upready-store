@@ -1,0 +1,35 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/uhod.json — шаблон «Косметика и уход» */
+:root {
+  --font-display: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --grid-cols: 4;
+  --aspect-card: 1 / 1;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 1 / 1;
+  --aspect-thumb: 1 / 1;
+  --media-fit: contain;
+  --background: #fdfbfa;
+  --foreground: #221a1e;
+  --card: #ffffff;
+  --card-foreground: #221a1e;
+  --popover: #ffffff;
+  --popover-foreground: #221a1e;
+  --primary: #5c3550;
+  --primary-foreground: #fdfbfa;
+  --secondary: #f6eff1;
+  --secondary-foreground: #221a1e;
+  --muted: #efe4e7;
+  --muted-foreground: #57484e;
+  --accent: #f3e3e8;
+  --accent-foreground: #6b2f4d;
+  --border: #ece0e3;
+  --input: #ece0e3;
+  --ring: #5c3550;
+  --link: #8a2f5e;
+  --destructive: #a52a33;
+  --destructive-foreground: #ffffff;
+  --success: #276046;
+  --warning: #7d4a12;
+  --surface-media: #f6eff1;
+}

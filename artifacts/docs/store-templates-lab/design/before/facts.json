@@ -1,0 +1,3942 @@
+{
+ "measuredAt": "2026-09-16T02:33:08.362Z",
+ "base": "https://cherkashino.shipshift.dev/ru",
+ "pages": {
+  "home": {
+   "desktop": {
+    "type": {
+     "sizes": [
+      {
+       "px": "13",
+       "count": 25,
+       "samples": [
+        "a.text-ui-fg-subtle «Мультиварки»",
+        "a.text-ui-fg-subtle «Стевия»",
+        "a.text-ui-fg-subtle «АСД»"
+       ]
+      },
+      {
+       "px": "14",
+       "count": 18,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "a.txt-compact-medium-plus «Оксана Черкашина»",
+        "span.txt-medium-plus «Категории»"
+       ]
+      },
+      {
+       "px": "12",
+       "count": 2,
+       "samples": [
+        "span.uppercase «ru»",
+        "span «₽»"
+       ]
+      },
+      {
+       "px": "16",
+       "count": 2,
+       "samples": [
+        "p.mt-4 «Берёте курс на семью или впрок? При весе посылки»",
+        "a.inline-flex «Собрать корзину»"
+       ]
+      },
+      {
+       "px": "48",
+       "count": 1,
+       "samples": [
+        "h1.text-balance «Заказ от 5 кг — скидка 10%»"
+       ]
+      },
+      {
+       "px": "20",
+       "count": 1,
+       "samples": [
+        "h2.mb-6 «В магазине»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 49,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 22,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 15,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 12,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "14/20",
+      "count": 15
+     },
+     {
+      "pair": "13/17.88",
+      "count": 9
+     },
+     {
+      "pair": "13/19.5",
+      "count": 9
+     },
+     {
+      "pair": "13/20",
+      "count": 7
+     },
+     {
+      "pair": "14/22.4",
+      "count": 3
+     },
+     {
+      "pair": "12/20",
+      "count": 2
+     },
+     {
+      "pair": "16/24",
+      "count": 2
+     },
+     {
+      "pair": "48/50.88",
+      "count": 1
+     },
+     {
+      "pair": "20/28",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "2",
+      "count": 18,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 15,
+      "samples": []
+     },
+     {
+      "px": "16",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "4",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "48",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "96",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "80",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "28",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "8",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "9999",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 2,
+      "samples": []
+     }
+    ],
+    "shadows": [],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 25,
+       "samples": []
+      },
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 22,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 1,
+       "samples": []
+      },
+      {
+       "color": "rgba(255, 255, 255, 0.86)",
+       "count": 1,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 9,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 5,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 1280,
+     "clientWidth": 1280,
+     "overflow": 0,
+     "offenders": [],
+     "offenderCount": 0
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "16x16",
+      "ratio": 1,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "1024x682",
+      "rendered": "1280x560",
+      "ratio": 2.286,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x521",
+      "rendered": "400x440",
+      "ratio": 0.909,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "422x562",
+      "rendered": "400x300",
+      "ratio": 1.333,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "422x422",
+      "rendered": "400x360",
+      "ratio": 1.111,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x521",
+      "rendered": "400x440",
+      "ratio": 0.909,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x521",
+      "rendered": "400x300",
+      "ratio": 1.333,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "422x562",
+      "rendered": "400x360",
+      "ratio": 1.111,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x521",
+      "rendered": "400x440",
+      "ratio": 0.909,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "422x562",
+      "rendered": "400x300",
+      "ratio": 1.333,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x521",
+      "rendered": "400x360",
+      "ratio": 1.111,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     }
+    ],
+    "lineLength": [
+     {
+      "el": "p.mt-4 «Берёте курс на семью или впрок? При весе посылки»",
+      "cpl": 49,
+      "width": 464,
+      "fontSize": "16px"
+     }
+    ],
+    "headings": [
+     {
+      "level": 1,
+      "size": "48px",
+      "text": "Заказ от 5 кг — скидка 10%"
+     },
+     {
+      "level": 2,
+      "size": "20px",
+      "text": "В магазине"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Мультиварки»",
+      "w": 84,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стевия»",
+      "w": 45,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «АСД»",
+      "w": 29,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стимуляторы»",
+      "w": 86,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Все товары»",
+      "w": 73,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.flex «ru»",
+      "w": 31,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.flex «₽»",
+      "w": 46,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 900,
+     "pageHeight": 2801,
+     "aboveFold": 68,
+     "textAboveFold": 12
+    },
+    "leftEdges": [
+     {
+      "x": "24",
+      "count": 17,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 16,
+      "samples": []
+     },
+     {
+      "x": "440",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "x": "856",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "x": "480",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "760",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "x": "862",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/home-desktop.png"
+   },
+   "mobile": {
+    "type": {
+     "sizes": [
+      {
+       "px": "13",
+       "count": 20,
+       "samples": [
+        "span.font-medium «Свечи АСД с чесноком»",
+        "span.tabular-nums «1 355,00 ₽»",
+        "span.font-medium «Мумие Бальзам Горного Алтая»"
+       ]
+      },
+      {
+       "px": "14",
+       "count": 19,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "p.mt-4 «Берёте курс на семью или впрок? При весе посылки»",
+        "a.txt-compact-medium-plus «Оксана Черкашина»"
+       ]
+      },
+      {
+       "px": "30",
+       "count": 1,
+       "samples": [
+        "h1.text-balance «Заказ от 5 кг — скидка 10%»"
+       ]
+      },
+      {
+       "px": "16",
+       "count": 1,
+       "samples": [
+        "a.inline-flex «Собрать корзину»"
+       ]
+      },
+      {
+       "px": "18",
+       "count": 1,
+       "samples": [
+        "h2.mb-6 «В магазине»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 42,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 15,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 15,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 12,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "14/20",
+      "count": 15
+     },
+     {
+      "pair": "13/17.88",
+      "count": 9
+     },
+     {
+      "pair": "13/19.5",
+      "count": 9
+     },
+     {
+      "pair": "14/22.4",
+      "count": 3
+     },
+     {
+      "pair": "13/20",
+      "count": 2
+     },
+     {
+      "pair": "30/31.8",
+      "count": 1
+     },
+     {
+      "pair": "14/22.75",
+      "count": 1
+     },
+     {
+      "pair": "16/24",
+      "count": 1
+     },
+     {
+      "pair": "18/28",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "16",
+      "count": 24,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 18,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "px": "40",
+      "count": 4,
+      "samples": []
+     },
+     {
+      "px": "48",
+      "count": 4,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "28",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "4",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "8",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "px": "9999",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 3,
+      "samples": []
+     }
+    ],
+    "shadows": [],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 22,
+       "samples": []
+      },
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 18,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 1,
+       "samples": []
+      },
+      {
+       "color": "rgba(255, 255, 255, 0.86)",
+       "count": 1,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 9,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 6,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 390,
+     "clientWidth": 390,
+     "overflow": 0,
+     "offenders": [],
+     "offenderCount": 0
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "390x260",
+      "rendered": "390x440",
+      "ratio": 0.886,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "180x240",
+      "rendered": "171x250",
+      "ratio": 0.684,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "195x259",
+      "rendered": "171x170",
+      "ratio": 1.006,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "195x195",
+      "rendered": "171x210",
+      "ratio": 0.814,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "180x240",
+      "rendered": "171x250",
+      "ratio": 0.684,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "180x240",
+      "rendered": "171x170",
+      "ratio": 1.006,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "195x259",
+      "rendered": "171x210",
+      "ratio": 0.814,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "180x240",
+      "rendered": "171x250",
+      "ratio": 0.684,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "195x259",
+      "rendered": "171x170",
+      "ratio": 1.006,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "180x240",
+      "rendered": "171x210",
+      "ratio": 0.814,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": ""
+     }
+    ],
+    "lineLength": [
+     {
+      "el": "p.mt-4 «Берёте курс на семью или впрок? При весе посылки»",
+      "cpl": 43,
+      "width": 358,
+      "fontSize": "14px"
+     }
+    ],
+    "headings": [
+     {
+      "level": 1,
+      "size": "30px",
+      "text": "Заказ от 5 кг — скидка 10%"
+     },
+     {
+      "level": 2,
+      "size": "18px",
+      "text": "В магазине"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 20,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 844,
+     "pageHeight": 2964,
+     "aboveFold": 68,
+     "textAboveFold": 5
+    },
+    "leftEdges": [
+     {
+      "x": "16",
+      "count": 32,
+      "samples": []
+     },
+     {
+      "x": "203",
+      "count": 19,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 18,
+      "samples": []
+     },
+     {
+      "x": "4",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/home-mobile.png"
+   }
+  },
+  "category": {
+   "desktop": {
+    "type": {
+     "sizes": [
+      {
+       "px": "14",
+       "count": 31,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "a.hover:text-ui-fg-base «Главная»",
+        "a.hover:text-ui-fg-base «Магазин»"
+       ]
+      },
+      {
+       "px": "13",
+       "count": 19,
+       "samples": [
+        "a.text-ui-fg-subtle «Мультиварки»",
+        "a.text-ui-fg-subtle «Стевия»",
+        "a.text-ui-fg-subtle «АСД»"
+       ]
+      },
+      {
+       "px": "12",
+       "count": 2,
+       "samples": [
+        "span.uppercase «ru»",
+        "span «₽»"
+       ]
+      },
+      {
+       "px": "11",
+       "count": 2,
+       "samples": [
+        "div.first:ps-0 «100 гр»",
+        "div.first:ps-0 «100 гр»"
+       ]
+      },
+      {
+       "px": "40",
+       "count": 1,
+       "samples": [
+        "h1.h3-webs «Мёд»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 55,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 45,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 9,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "13/20",
+      "count": 19
+     },
+     {
+      "pair": "14/20",
+      "count": 18
+     },
+     {
+      "pair": "14/22.4",
+      "count": 13
+     },
+     {
+      "pair": "12/20",
+      "count": 2
+     },
+     {
+      "pair": "11/20",
+      "count": 2
+     },
+     {
+      "pair": "40/44",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "8",
+      "count": 42,
+      "samples": []
+     },
+     {
+      "px": "4",
+      "count": 37,
+      "samples": []
+     },
+     {
+      "px": "16",
+      "count": 24,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 13,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "20",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "80",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "6",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 2,
+      "samples": []
+     }
+    ],
+    "shadows": [
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0p",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(16, 32, 27, 0.08)",
+      "count": 3,
+      "samples": []
+     }
+    ],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 27,
+       "samples": []
+      },
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 26,
+       "samples": []
+      },
+      {
+       "color": "color(srgb 0.301961 0.372549 0.34902)",
+       "count": 2,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 7,
+       "samples": []
+      },
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 5,
+       "samples": []
+      },
+      {
+       "color": "rgb(226, 238, 233)",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 1280,
+     "clientWidth": 1280,
+     "overflow": 0,
+     "offenders": [],
+     "offenderCount": 0
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "16x16",
+      "ratio": 1,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "800x1066",
+      "rendered": "301x301",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие алтайское очищенное натуральное 10"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "652x869",
+      "rendered": "301x301",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие Бальзам Горного Алтая"
+     }
+    ],
+    "lineLength": [],
+    "headings": [
+     {
+      "level": 1,
+      "size": "40px",
+      "text": "Мёд"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Мультиварки»",
+      "w": 84,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стевия»",
+      "w": 45,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «АСД»",
+      "w": 29,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стимуляторы»",
+      "w": 86,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Все товары»",
+      "w": 73,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.flex «ru»",
+      "w": 31,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.flex «₽»",
+      "w": 46,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Главная»",
+      "w": 56,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Магазин»",
+      "w": 58,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "input.txt-compact-small",
+      "w": 180,
+      "h": 32,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-muted",
+      "w": 32,
+      "h": 32,
+      "inline": false
+     },
+     {
+      "el": "input.txt-compact-small",
+      "w": 188,
+      "h": 32,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-muted",
+      "w": 32,
+      "h": 32,
+      "inline": false
+     },
+     {
+      "el": "button.shadow-buttons-neutral «Новинки»",
+      "w": 180,
+      "h": 32,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Мультиварки»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Стевия»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «АСД»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Стимуляторы»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Антисептики»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Фито-свечи»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Масла»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Мёд»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-small «Добавки»",
+      "w": 248,
+      "h": 28,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 900,
+     "pageHeight": 1775,
+     "aboveFold": 149,
+     "textAboveFold": 30
+    },
+    "leftEdges": [
+     {
+      "x": "304",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 10,
+      "samples": []
+     },
+     {
+      "x": "629",
+      "count": 10,
+      "samples": []
+     },
+     {
+      "x": "24",
+      "count": 7,
+      "samples": []
+     },
+     {
+      "x": "955",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "x": "480",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "760",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "x": "862",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru/categories/myod-cherkashino",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/category-desktop.png"
+   },
+   "mobile": {
+    "type": {
+     "sizes": [
+      {
+       "px": "14",
+       "count": 31,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "a.hover:text-ui-fg-base «Главная»",
+        "a.hover:text-ui-fg-base «Магазин»"
+       ]
+      },
+      {
+       "px": "13",
+       "count": 2,
+       "samples": [
+        "span.txt-compact-small-plus «создание интернет-магазина — upready»",
+        "a.underline «создание интернет-магазина»"
+       ]
+      },
+      {
+       "px": "40",
+       "count": 1,
+       "samples": [
+        "h1.h3-webs «Мёд»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 34,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 27,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 6,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "14/20",
+      "count": 18
+     },
+     {
+      "pair": "14/22.4",
+      "count": 13
+     },
+     {
+      "pair": "13/20",
+      "count": 2
+     },
+     {
+      "pair": "40/44",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "16",
+      "count": 30,
+      "samples": []
+     },
+     {
+      "px": "4",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 9,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 7,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 4,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "40",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "8",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 3,
+      "samples": []
+     }
+    ],
+    "shadows": [
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(16, 32, 27, 0.08)",
+      "count": 3,
+      "samples": []
+     }
+    ],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 20,
+       "samples": []
+      },
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 14,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 5,
+       "samples": []
+      },
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 5,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 390,
+     "clientWidth": 390,
+     "overflow": 0,
+     "offenders": [],
+     "offenderCount": 0
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x373",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие алтайское очищенное натуральное 10"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x373",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие Бальзам Горного Алтая"
+     }
+    ],
+    "lineLength": [],
+    "headings": [
+     {
+      "level": 1,
+      "size": "40px",
+      "text": "Мёд"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Главная»",
+      "w": 56,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Магазин»",
+      "w": 58,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.lg:hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 20,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 844,
+     "pageHeight": 2111,
+     "aboveFold": 112,
+     "textAboveFold": 10
+    },
+    "leftEdges": [
+     {
+      "x": "16",
+      "count": 31,
+      "samples": []
+     },
+     {
+      "x": "199",
+      "count": 13,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "x": "203",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "x": "4",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru/categories/myod-cherkashino",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/category-mobile.png"
+   }
+  },
+  "product": {
+   "desktop": {
+    "type": {
+     "sizes": [
+      {
+       "px": "14",
+       "count": 67,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "a.hover:text-ui-fg-base «Главная»",
+        "a.hover:text-ui-fg-base «Магазин»"
+       ]
+      },
+      {
+       "px": "13",
+       "count": 16,
+       "samples": [
+        "a.text-ui-fg-subtle «Мультиварки»",
+        "a.text-ui-fg-subtle «Стевия»",
+        "a.text-ui-fg-subtle «АСД»"
+       ]
+      },
+      {
+       "px": "11",
+       "count": 11,
+       "samples": [
+        "div.first:ps-0 «10 шт»",
+        "div.first:ps-0 «120 капсул»",
+        "div.first:ps-0 «2 банки»"
+       ]
+      },
+      {
+       "px": "12",
+       "count": 2,
+       "samples": [
+        "span.uppercase «ru»",
+        "span «₽»"
+       ]
+      },
+      {
+       "px": "16",
+       "count": 2,
+       "samples": [
+        "h2.txt-large «Характеристики»",
+        "span «Доставка и возврат»"
+       ]
+      },
+      {
+       "px": "32",
+       "count": 1,
+       "samples": [
+        "h1.text-[32px] «Мумие Бальзам Горного Алтая»"
+       ]
+      },
+      {
+       "px": "24",
+       "count": 1,
+       "samples": [
+        "span «1 355,00 ₽»"
+       ]
+      },
+      {
+       "px": "30",
+       "count": 1,
+       "samples": [
+        "h2.font-sans «Отзывы»"
+       ]
+      },
+      {
+       "px": "40",
+       "count": 1,
+       "samples": [
+        "h2.h3-webs «Вам может понравиться»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 102,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 75,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 26,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "14/22.4",
+      "count": 47
+     },
+     {
+      "pair": "14/20",
+      "count": 20
+     },
+     {
+      "pair": "11/20",
+      "count": 11
+     },
+     {
+      "pair": "13/20.8",
+      "count": 9
+     },
+     {
+      "pair": "13/20",
+      "count": 7
+     },
+     {
+      "pair": "12/20",
+      "count": 2
+     },
+     {
+      "pair": "16/25.6",
+      "count": 2
+     },
+     {
+      "pair": "32/51.2",
+      "count": 1
+     },
+     {
+      "pair": "24/30",
+      "count": 1
+     },
+     {
+      "pair": "30/48",
+      "count": 1
+     },
+     {
+      "pair": "40/44",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "4",
+      "count": 40,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 38,
+      "samples": []
+     },
+     {
+      "px": "16",
+      "count": 36,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 36,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 18,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 7,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "10",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "40",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "128",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "80",
+      "count": 2,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "8",
+      "count": 29,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 2,
+      "samples": []
+     }
+    ],
+    "shadows": [
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(16, 32, 27, 0.08)",
+      "count": 6,
+      "samples": []
+     },
+     {
+      "shadow": "rgb(255, 255, 255) 0px 0px 0px 0px, rgb(10, 106, 82) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 45,
+       "samples": []
+      },
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 45,
+       "samples": []
+      },
+      {
+       "color": "color(srgb 0.301961 0.372549 0.34902)",
+       "count": 11,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 1,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 17,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 4,
+       "samples": []
+      },
+      {
+       "color": "rgb(10, 106, 82)",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 1280,
+     "clientWidth": 1280,
+     "overflow": 0,
+     "offenders": [],
+     "offenderCount": 0
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "16x16",
+      "ratio": 1,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "35x47",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "35x47",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "35x47",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "101x134",
+      "rendered": "101x118",
+      "ratio": 0.856,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Thumbnail 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "281x375",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "281x375",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "281x375",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "652x869",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "652x869",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "652x869",
+      "rendered": "767x899",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "450x600",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "450x600",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "450x600",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "571x763",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Свечи АСД с чесноком"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "800x800",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Тройчатка плюс"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "571x763",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Натуральный сорбент от отравлений от тем"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "571x763",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Стевия в таблетках, сахарозаменитель"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "800x1066",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Антисептик-стимулятор Дорогова, таблетки"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "571x763",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мультиварка для дома и авто 2 л 12 Вт/ 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "800x1066",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Зубная паста тайская 2 шт"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "571x763",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Иван чай ферментированный крепкий черный"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие алтайское очищенное натуральное 10"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мазь с АСД 3 15% 100 мл"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "n/a",
+      "rendered": "290x290",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "АСД 2 фракция Армавир Дорогова"
+     }
+    ],
+    "lineLength": [
+     {
+      "el": "p.font-normal «По действию, пока не скажу, на такую оценку врем»",
+      "cpl": 148,
+      "width": 1232,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.font-normal «Расторяю в воде по 1/3ч.ложки на стакан.пью глот»",
+      "cpl": 148,
+      "width": 1232,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.font-normal «Мумиё хорошее. Пришло с инструкцией и лопаточкой»",
+      "cpl": 148,
+      "width": 1232,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.txt-medium «ро мумиё говорят:«Помогает от 1000 болезней!»Оно»",
+      "cpl": 39,
+      "width": 320,
+      "fontSize": "14px"
+     },
+     {
+      "el": "dd.txt-medium «Витамины; ЖКТ; Дерматология; Иммунная система; К»",
+      "cpl": 27,
+      "width": 222,
+      "fontSize": "14px"
+     }
+    ],
+    "headings": [
+     {
+      "level": 1,
+      "size": "32px",
+      "text": "Мумие Бальзам Горного Алтая"
+     },
+     {
+      "level": 2,
+      "size": "16px",
+      "text": "Характеристики"
+     },
+     {
+      "level": 2,
+      "size": "30px",
+      "text": "Отзывы"
+     },
+     {
+      "level": 2,
+      "size": "40px",
+      "text": "Вам может понравиться"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Мультиварки»",
+      "w": 84,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стевия»",
+      "w": 45,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «АСД»",
+      "w": 29,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Стимуляторы»",
+      "w": 86,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle «Все товары»",
+      "w": 73,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "button.flex «ru»",
+      "w": 31,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.flex «₽»",
+      "w": 46,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hidden",
+      "w": 15,
+      "h": 15,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Главная»",
+      "w": 56,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Магазин»",
+      "w": 58,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Мёд»",
+      "w": 29,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex «5 из 5 · 8 отзывов»",
+      "w": 320,
+      "h": 21,
+      "inline": false
+     },
+     {
+      "el": "button.transition-fg «В корзину»",
+      "w": 320,
+      "h": 40,
+      "inline": false
+     },
+     {
+      "el": "a.txt-medium «Вперёд»",
+      "w": 51,
+      "h": 22,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 900,
+     "pageHeight": 8578,
+     "aboveFold": 129,
+     "textAboveFold": 28
+    },
+    "leftEdges": [
+     {
+      "x": "24",
+      "count": 37,
+      "samples": []
+     },
+     {
+      "x": "137",
+      "count": 19,
+      "samples": []
+     },
+     {
+      "x": "652",
+      "count": 19,
+      "samples": []
+     },
+     {
+      "x": "338",
+      "count": 17,
+      "samples": []
+     },
+     {
+      "x": "936",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "x": "966",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "x": "480",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "760",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "x": "862",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "x": "1034",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "x": "397",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru/products/mumie-balzam-gornogo-altaya-100-gramm-cherkashino",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/product-desktop.png"
+   },
+   "mobile": {
+    "type": {
+     "sizes": [
+      {
+       "px": "14",
+       "count": 67,
+       "samples": [
+        "a.shrink-0 «Оксана Черкашина»",
+        "a.hover:text-ui-fg-base «Главная»",
+        "a.hover:text-ui-fg-base «Магазин»"
+       ]
+      },
+      {
+       "px": "13",
+       "count": 11,
+       "samples": [
+        "p.font-normal «5 из 5 · 8 отзывов»",
+        "p.font-normal «5 из 5 · 8 отзывов»",
+        "p.font-normal «31 марта 2026 г.»"
+       ]
+      },
+      {
+       "px": "16",
+       "count": 2,
+       "samples": [
+        "h2.txt-large «Характеристики»",
+        "span «Доставка и возврат»"
+       ]
+      },
+      {
+       "px": "32",
+       "count": 1,
+       "samples": [
+        "h1.text-[32px] «Мумие Бальзам Горного Алтая»"
+       ]
+      },
+      {
+       "px": "24",
+       "count": 1,
+       "samples": [
+        "span «1 355,00 ₽»"
+       ]
+      },
+      {
+       "px": "30",
+       "count": 1,
+       "samples": [
+        "h2.font-sans «Отзывы»"
+       ]
+      },
+      {
+       "px": "40",
+       "count": 1,
+       "samples": [
+        "h2.h3-webs «Вам может понравиться»"
+       ]
+      }
+     ],
+     "families": [
+      {
+       "family": "Inter",
+       "count": 84,
+       "samples": []
+      }
+     ],
+     "weights": [
+      {
+       "weight": "400",
+       "count": 68,
+       "samples": []
+      },
+      {
+       "weight": "500",
+       "count": 15,
+       "samples": []
+      },
+      {
+       "weight": "600",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "lineHeights": [
+     {
+      "pair": "14/22.4",
+      "count": 47
+     },
+     {
+      "pair": "14/20",
+      "count": 20
+     },
+     {
+      "pair": "13/20.8",
+      "count": 9
+     },
+     {
+      "pair": "16/25.6",
+      "count": 2
+     },
+     {
+      "pair": "13/20",
+      "count": 2
+     },
+     {
+      "pair": "32/51.2",
+      "count": 1
+     },
+     {
+      "pair": "24/30",
+      "count": 1
+     },
+     {
+      "pair": "30/48",
+      "count": 1
+     },
+     {
+      "pair": "40/44",
+      "count": 1
+     }
+    ],
+    "spacing": [
+     {
+      "px": "16",
+      "count": 35,
+      "samples": []
+     },
+     {
+      "px": "4",
+      "count": 28,
+      "samples": []
+     },
+     {
+      "px": "8",
+      "count": 26,
+      "samples": []
+     },
+     {
+      "px": "12",
+      "count": 13,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 12,
+      "samples": []
+     },
+     {
+      "px": "32",
+      "count": 7,
+      "samples": []
+     },
+     {
+      "px": "2",
+      "count": 7,
+      "samples": []
+     },
+     {
+      "px": "40",
+      "count": 5,
+      "samples": []
+     },
+     {
+      "px": "64",
+      "count": 4,
+      "samples": []
+     },
+     {
+      "px": "10",
+      "count": 2,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "radii": [
+     {
+      "px": "8",
+      "count": 18,
+      "samples": []
+     },
+     {
+      "px": "9999",
+      "count": 6,
+      "samples": []
+     },
+     {
+      "px": "6",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "px": "24",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "borders": [
+     {
+      "border": "1px color(srgb 0.784608 0.832843 0.813235)",
+      "count": 6,
+      "samples": []
+     },
+     {
+      "border": "1px rgb(215, 227, 222)",
+      "count": 3,
+      "samples": []
+     }
+    ],
+    "shadows": [
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(16, 32, 27, 0.08)",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "colors": {
+     "text": [
+      {
+       "color": "rgb(16, 32, 27)",
+       "count": 45,
+       "samples": []
+      },
+      {
+       "color": "rgb(77, 95, 89)",
+       "count": 38,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 1,
+       "samples": []
+      }
+     ],
+     "background": [
+      {
+       "color": "rgb(238, 245, 242)",
+       "count": 17,
+       "samples": []
+      },
+      {
+       "color": "rgb(255, 255, 255)",
+       "count": 5,
+       "samples": []
+      },
+      {
+       "color": "rgba(24, 24, 27, 0.4)",
+       "count": 1,
+       "samples": []
+      },
+      {
+       "color": "rgb(10, 106, 82)",
+       "count": 1,
+       "samples": []
+      }
+     ]
+    },
+    "overflowX": {
+     "scrollWidth": 390,
+     "clientWidth": 390,
+     "overflow": 0,
+     "offenders": [
+      {
+       "el": "div.relative",
+       "left": 374,
+       "right": 732
+      },
+      {
+       "el": "button.absolute",
+       "left": 374,
+       "right": 732
+      },
+      {
+       "el": "img.rounded-rounded",
+       "left": 374,
+       "right": 732
+      },
+      {
+       "el": "div.relative",
+       "left": 732,
+       "right": 1090
+      },
+      {
+       "el": "button.absolute",
+       "left": 732,
+       "right": 1090
+      },
+      {
+       "el": "img.rounded-rounded",
+       "left": 732,
+       "right": 1090
+      },
+      {
+       "el": "div.relative",
+       "left": 1090,
+       "right": 1448
+      },
+      {
+       "el": "button.absolute",
+       "left": 1090,
+       "right": 1448
+      },
+      {
+       "el": "img.rounded-rounded",
+       "left": 1090,
+       "right": 1448
+      },
+      {
+       "el": "div.relative",
+       "left": 1448,
+       "right": 1806
+      },
+      {
+       "el": "button.absolute",
+       "left": 1448,
+       "right": 1806
+      },
+      {
+       "el": "img.rounded-rounded",
+       "left": 1448,
+       "right": 1806
+      }
+     ],
+     "offenderCount": 15
+    },
+    "images": [
+     {
+      "src": "ru.svg",
+      "natural": "200x150",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "fill",
+      "aspectBox": true,
+      "alt": ""
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "82x109",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Thumbnail 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "228x304",
+      "rendered": "0x0",
+      "ratio": null,
+      "objectFit": "cover",
+      "aspectBox": false,
+      "alt": "Product image 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 1"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 3"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 4"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 5"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "317x423",
+      "rendered": "358x420",
+      "ratio": 0.853,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Product image 6"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Свечи АСД с чесноком"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x279",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Тройчатка плюс"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Натуральный сорбент от отравлений от тем"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Стевия в таблетках, сахарозаменитель"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x373",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Антисептик-стимулятор Дорогова, таблетки"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мультиварка для дома и авто 2 л 12 Вт/ 2"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x373",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Зубная паста тайская 2 шт"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Иван чай ферментированный крепкий черный"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "279x373",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мумие алтайское очищенное натуральное 10"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "Мазь с АСД 3 15% 100 мл"
+     },
+     {
+      "src": "image?url=https%3A%2F%2Fshipshift.dev%2Fstatic%2Ftenants%2Ft",
+      "natural": "258x345",
+      "rendered": "175x175",
+      "ratio": 1,
+      "objectFit": "cover",
+      "aspectBox": true,
+      "alt": "АСД 2 фракция Армавир Дорогова"
+     }
+    ],
+    "lineLength": [
+     {
+      "el": "p.txt-medium «ро мумиё говорят:«Помогает от 1000 болезней!»Оно»",
+      "cpl": 43,
+      "width": 358,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.font-normal «По действию, пока не скажу, на такую оценку врем»",
+      "cpl": 43,
+      "width": 358,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.font-normal «Расторяю в воде по 1/3ч.ложки на стакан.пью глот»",
+      "cpl": 43,
+      "width": 358,
+      "fontSize": "14px"
+     },
+     {
+      "el": "p.font-normal «Мумиё хорошее. Пришло с инструкцией и лопаточкой»",
+      "cpl": 43,
+      "width": 358,
+      "fontSize": "14px"
+     },
+     {
+      "el": "dd.txt-medium «Витамины; ЖКТ; Дерматология; Иммунная система; К»",
+      "cpl": 31,
+      "width": 260,
+      "fontSize": "14px"
+     }
+    ],
+    "headings": [
+     {
+      "level": 1,
+      "size": "32px",
+      "text": "Мумие Бальзам Горного Алтая"
+     },
+     {
+      "level": 2,
+      "size": "16px",
+      "text": "Характеристики"
+     },
+     {
+      "level": 2,
+      "size": "30px",
+      "text": "Отзывы"
+     },
+     {
+      "level": 2,
+      "size": "40px",
+      "text": "Вам может понравиться"
+     }
+    ],
+    "hitAreasSmall": [
+     {
+      "el": "a.shrink-0 «Оксана Черкашина»",
+      "w": 157,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 15,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Главная»",
+      "w": 56,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Магазин»",
+      "w": 58,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.hover:text-ui-fg-base «Мёд»",
+      "w": 29,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "button.h-6",
+      "w": 24,
+      "h": 24,
+      "inline": false
+     },
+     {
+      "el": "a.flex «5 из 5 · 8 отзывов»",
+      "w": 358,
+      "h": 21,
+      "inline": false
+     },
+     {
+      "el": "button.transition-fg «В корзину»",
+      "w": 358,
+      "h": 40,
+      "inline": false
+     },
+     {
+      "el": "a.txt-medium «Вперёд»",
+      "w": 51,
+      "h": 22,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium-plus «Оксана Черкашина»",
+      "w": 155,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мультиварки»",
+      "w": 91,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стевия»",
+      "w": 49,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «АСД»",
+      "w": 31,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Стимуляторы»",
+      "w": 92,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Антисептики»",
+      "w": 88,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Фито-свечи»",
+      "w": 81,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Масла»",
+      "w": 44,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Мёд»",
+      "w": 29,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Добавки»",
+      "w": 60,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Контакты и реквизиты»",
+      "w": 153,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Черкашина Оксана»",
+      "w": 132,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Политика конфиденциальности»",
+      "w": 216,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.txt-compact-medium «Публичная оферта»",
+      "w": 128,
+      "h": 17,
+      "inline": false
+     },
+     {
+      "el": "a.underline «создание интернет-магазина»",
+      "w": 189,
+      "h": 16,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     },
+     {
+      "el": "a.flex",
+      "w": 20,
+      "h": 63,
+      "inline": false
+     },
+     {
+      "el": "button.text-ui-fg-subtle",
+      "w": 20,
+      "h": 20,
+      "inline": false
+     }
+    ],
+    "density": {
+     "viewportHeight": 844,
+     "pageHeight": 6445,
+     "aboveFold": 125,
+     "textAboveFold": 9
+    },
+    "leftEdges": [
+     {
+      "x": "16",
+      "count": 85,
+      "samples": []
+     },
+     {
+      "x": "199",
+      "count": 34,
+      "samples": []
+     },
+     {
+      "x": "0",
+      "count": 14,
+      "samples": []
+     },
+     {
+      "x": "374",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "732",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "1090",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "1448",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "1806",
+      "count": 3,
+      "samples": []
+     },
+     {
+      "x": "203",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "x": "114",
+      "count": 1,
+      "samples": []
+     },
+     {
+      "x": "4",
+      "count": 1,
+      "samples": []
+     }
+    ],
+    "contrast": [],
+    "status": 200,
+    "url": "https://cherkashino.shipshift.dev/ru/products/mumie-balzam-gornogo-altaya-100-gramm-cherkashino",
+    "shot": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day16-store-templates-lab/artifacts/docs/store-templates-lab/design/before/product-mobile.png"
+   }
+  }
+ }
+}

@@ -1,0 +1,9 @@
+.news { background: var(--secondary); color: var(--secondary-foreground); }
+.news-in { display: grid; grid-template-columns: 5fr 6fr; gap: var(--space-12); align-items: center; }
+.news-copy { max-width: var(--measure); }
+.news-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3); align-items: start; }
+.news-field { min-width: 0; }
+.news-legal { grid-column: 1 / -1; max-width: var(--measure); }
+.sr-only { position: absolute; width: var(--hairline); height: var(--hairline); overflow: hidden; clip-path: inset(50%); }
+@media (max-width: 1023px) { .news-in { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); } }
+@media (max-width: 639px) { .news-form { grid-template-columns: minmax(0, 1fr); } }

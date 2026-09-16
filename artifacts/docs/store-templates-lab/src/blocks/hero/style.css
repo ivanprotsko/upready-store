@@ -1,0 +1,29 @@
+.hero-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.hero-facts { list-style: none; padding: 0; display: flex; gap: var(--space-6); flex-wrap: wrap; }
+.hero-copy { align-content: center; justify-items: start; }
+
+.hero-split-in { display: grid; grid-template-columns: 5fr 6fr; gap: var(--space-12); align-items: center; }
+.hero-media { aspect-ratio: var(--aspect-hero); }
+
+.hero-type { text-align: start; }
+/* без собственного max-width: ширину задаёт .container, иначе левый край уезжает (QR-GRID-AXES) */
+.hero-type-in { justify-items: start; }
+.hero-type [data-role="display"] { max-width: calc(var(--measure) * 0.9); }
+
+.hero-cover { position: relative; display: grid; }
+.hero-cover .hero-media { grid-area: 1 / 1; width: 100%; border-radius: 0; }
+/* position обязателен: .media позиционирована, а позиционированное рисуется
+   в более поздней фазе, чем поточное — без этого панель уходит ПОД картинку
+   (поймано глазами: контраст в DOM был в порядке, на экране текста не было). */
+.hero-cover-in { grid-area: 1 / 1; position: relative; display: grid; align-items: center; padding-block: var(--band-y); }
+.hero-panel {
+  background: var(--background); color: var(--foreground);
+  border-radius: var(--r-lg); padding: var(--space-12);
+  max-width: calc(var(--container) / 2); justify-items: start;
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 1023px) {
+  .hero-split-in { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+  .hero-panel { max-width: 100%; padding: var(--space-8); }
+}

@@ -1,0 +1,8 @@
+.usp { list-style: none; padding: 0; display: grid; gap: var(--card-gap); grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+.usp-item { display: flex; gap: var(--space-3); align-items: flex-start; }
+.usp-icon { flex: none; display: grid; place-items: center; width: var(--space-8); height: var(--space-8); border-radius: var(--r-sm); background: var(--secondary); color: var(--foreground); }
+.usp-icon svg { width: var(--space-4); height: var(--space-4); }
+.usp-text { display: grid; gap: var(--space-1); }
+.usp-label { font-weight: var(--weight-medium); }
+.usp-cards .usp-item { background: var(--card); border: var(--hairline) solid var(--border); border-radius: var(--r-md); padding: var(--card-pad); }
+@media (max-width: 639px) { .usp { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

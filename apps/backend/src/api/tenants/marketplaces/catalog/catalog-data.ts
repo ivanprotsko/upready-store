@@ -80,8 +80,13 @@ const photoCount = (value: unknown): number => (Array.isArray(value) ? value.len
  * `price_list_id is null` keeps a sale price out of the comparison: a price
  * list is a temporary override with its own dates, and comparing it against a
  * marketplace price would call a running promotion a mismatch every time.
+ *
+ * EXPORTED because «Маркетплейсы → Цены и остатки» (w17-mp-price-stock-table)
+ * reads the same three numbers. Two readers would be two answers to «какая у
+ * товара цена в магазине» on two screens of one panel, and the owner would be
+ * right to trust neither (rule 19b).
  */
-const shopFacts = async (
+export const shopFacts = async (
   pg: Knex,
   variantIds: readonly string[],
   productIds: readonly string[],

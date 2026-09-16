@@ -1,0 +1,147 @@
+/* ЕДИНЫЙ ЯЗЫК. Здесь и только здесь стоят литеральные значения.
+   Блоки обращаются к ним через var(); проверка QR-TOKENS роняет сборку, если
+   литеральный цвет, кегль, отступ, радиус или тень встретились вне этого файла
+   и вне src/tokens/<шаблон>.css. Спецификация — design/style-spec.md. */
+
+:root {
+  /* --- шрифты (переопределяет шаблон) --- */
+  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- типографическая шкала: отношение 1.25, семь ступеней (ОБЩАЯ) --- */
+  --text-display: 49px;  --lh-display: 1.05;  --tr-display: -0.04em;
+  --text-h1:      39px;  --lh-h1:      1.15;  --tr-h1:      -0.03em;
+  --text-h2:      31px;  --lh-h2:      1.25;  --tr-h2:      -0.02em;
+  --text-title:   25px;  --lh-title:   1.30;  --tr-title:   -0.01em;
+  --text-lead:    20px;  --lh-lead:    1.50;  --tr-lead:     0em;
+  --text-body:    16px;  --lh-body:    1.60;  --tr-body:     0em;
+  --text-meta:    12px;  --lh-meta:    1.45;  --tr-meta:     0em;
+  --tracking-eyebrow: 0.08em;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-strong:  600;
+
+  /* --- шкала отступов: кратные 4, десять ступеней (ОБЩАЯ) --- */
+  --space-0:    0px;
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-24:  96px;
+  --space-32: 128px;
+
+  /* --- контейнер и сетка (ОБЩИЕ) --- */
+  --container: 1200px;
+  --gutter: var(--space-6);
+  --measure: 68ch;
+  --hairline: 1px;
+  --grid-cols: 4;          /* колонок выкладки — выбор шаблона */
+
+  /* --- радиусы (ОБЩИЕ, шаблон не меняет) --- */
+  --r-sm:    6px;
+  --r-md:    8px;
+  --r-lg:   12px;
+  --r-pill: 9999px;
+
+  /* --- движение (ОБЩЕЕ) --- */
+  --dur-fast: 120ms;
+  --dur:      180ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- зоны нажатия (ОБЩИЕ) --- */
+  --tap: 44px;
+  --control-sm: 36px;
+  --control-md: 44px;
+  --control-lg: 52px;
+
+  /* --- коробки изображений (переопределяет шаблон, набор закрыт) --- */
+  --aspect-card:    4 / 5;
+  --aspect-tile:    3 / 2;
+  --aspect-hero:   16 / 9;
+  --aspect-gallery: 4 / 5;
+  --aspect-thumb:   4 / 5;   /* ОБЯЗАНО совпадать с --aspect-gallery (QR-GALLERY) */
+  --media-fit: contain;
+  --media-pad: var(--space-4);
+
+  /* --- цвет: словарь витрины (переопределяет шаблон) --- */
+  --background: #ffffff;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+  --secondary: #fafafa;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #52525b;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #d63640;
+  --destructive-foreground: #ffffff;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #71717a;
+  --link: #0068d6;
+  --success: #17803d;
+  --warning: #9a3412;
+
+  /* --- добавления лаборатории --- */
+  --surface-media: #f4f4f5;   /* ОДНА подложка под все товарные кадры */
+  --shadow-card:
+    0 0 0 1px rgb(0 0 0 / 0.04),
+    0 1px 2px -1px rgb(0 0 0 / 0.06),
+    0 4px 12px -4px rgb(0 0 0 / 0.06);
+}
+
+/* --- плотность: единственная ось, которой шаблон двигает ритм --- */
+[data-density="compact"] {
+  --band-y: var(--space-16);
+  --band-y-tight: var(--space-8);
+  --card-gap: var(--space-4);
+  --card-pad: var(--space-3);
+}
+[data-density="comfortable"] {
+  --band-y: var(--space-24);
+  --band-y-tight: var(--space-12);
+  --card-gap: var(--space-6);
+  --card-pad: var(--space-4);
+}
+[data-density="spacious"] {
+  --band-y: var(--space-32);
+  --band-y-tight: var(--space-16);
+  --card-gap: var(--space-8);
+  --card-pad: var(--space-6);
+}
+
+/* --- мобиль: верхние три ступени кегля и ритм опускаются на рунг --- */
+@media (max-width: 639px) {
+  :root {
+    --text-display: 39px;
+    --text-h1:      31px;
+    --text-h2:      25px;
+    --text-title:   20px;
+    --gutter: var(--space-4);
+  }
+  [data-density="compact"]     { --band-y: var(--space-12); --band-y-tight: var(--space-6); }
+  [data-density="comfortable"] { --band-y: var(--space-16); --band-y-tight: var(--space-8); }
+  [data-density="spacious"]    { --band-y: var(--space-24); --band-y-tight: var(--space-12); }
+}
+
+/* --- канон Geist: движение только у того, что реагирует на действие --- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

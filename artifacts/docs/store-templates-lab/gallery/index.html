@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаборатория шаблонов магазина</title>
+<style>
+:root{
+  --bg:#0a0a0a;--fg:#ededed;--sec:#1a1a1a;--hover:#1f1f1f;--border:#2e2e2e;
+  --muted:#a1a1a1;--faint:#707070;--link:#52a8ff;--elev:#111;--r:8px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: light){:root{
+  --bg:#fff;--fg:#000;--sec:#f4f4f4;--hover:#ececec;--border:#e3e3e3;
+  --muted:#171717;--faint:#8f8f8f;--link:#0068d6;--elev:#fff;}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.45 var(--sans)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1360px;margin:0 auto;padding:32px 24px 96px}
+header.top{border-bottom:1px solid var(--border);padding-bottom:24px;margin-bottom:32px}
+h1{font-size:28px;line-height:1.2;letter-spacing:-.03em;font-weight:600;margin:0 0 8px}
+.lede{color:var(--muted);max-width:76ch;margin:0 0 16px}
+.eyebrow{font:400 10px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.docs{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid var(--border);border-radius:6px;color:var(--fg);font-size:13px}
+.btn:hover{background:var(--hover)}
+.btn[data-on]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);
+  padding:12px 0;margin-bottom:24px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.bar .grp{display:flex;gap:6px;align-items:center}
+.bar .grp>span{color:var(--faint);font:400 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.tpl{border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:24px;background:var(--elev)}
+.tpl-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.tpl-name{font-size:20px;letter-spacing:-.02em;font-weight:600;margin:0}
+.tpl-sub{color:var(--faint);margin:4px 0 0}
+.tpl-links{display:flex;gap:6px;flex-wrap:wrap}
+.tpl-aud{color:var(--muted);max-width:86ch;margin:12px 0 16px}
+.tpl-spec{display:flex;flex-wrap:wrap;gap:4px 24px;margin:0 0 20px;padding:12px 0;border-block:1px solid var(--border)}
+.tpl-spec>div{display:flex;gap:8px;align-items:center}
+.tpl-spec dt{color:var(--faint);font:400 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.tpl-spec dd{margin:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.swatches{display:flex;gap:3px}
+.swatches i{width:14px;height:14px;border-radius:3px;border:1px solid var(--border);display:block}
+.frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.frame{margin:0;display:grid;gap:8px;align-content:start}
+.frame figcaption{font:400 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.shot{position:relative;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--sec);max-height:520px}
+.shot img{width:100%;display:block}
+.shot-label{position:absolute;top:6px;right:6px;z-index:2;background:var(--bg);color:var(--faint);
+  border:1px solid var(--border);border-radius:4px;padding:1px 6px;font:400 10px/1.4 var(--mono)}
+.shot[data-vp=mobile]{max-width:280px}
+.shot-missing{padding:24px;color:var(--faint);font-size:12px}
+.shot a{display:block;max-height:520px;overflow:hidden}
+.checklist{border:1px solid var(--border);border-radius:var(--r);padding:20px;background:var(--elev);margin-bottom:24px}
+.checklist h2{font-size:20px;letter-spacing:-.02em;font-weight:600;margin:0 0 4px}
+.cl-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:16px}
+.cl-group h3{font:400 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:0 0 8px}
+.cl-group ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.cl-group li{display:flex;gap:8px;align-items:flex-start;color:var(--muted)}
+.cl-group input{margin:2px 0 0;accent-color:var(--link)}
+.cl-n{font-family:var(--mono);color:var(--faint);font-size:11px;min-width:16px}
+.note{color:var(--faint);font-size:12px;margin-top:8px}
+@media (max-width:1100px){.frames{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">tp01 · лаборатория шаблонов</span>
+  <h1>Шаблоны магазина: семь одежд одного языка</h1>
+  <p class="lede">Семь шаблонов, у каждого три страницы и два вьюпорта. Они обязаны выглядеть как
+  <strong>одна система</strong>: одна типографическая шкала, одна шкала отступов, одна грамматика
+  компонентов. Отличаться им разрешено только палитрой, парой шрифтов, плотностью, числом колонок
+  и соотношением кадра — всё это напечатано в карточке каждого шаблона.</p>
+  <p class="lede">Кадр открывает живую страницу в новой вкладке — судить лучше её, а не снимок.</p>
+  <div class="docs">
+    <a class="btn" href="../design/diagnosis.md">Диагноз живого магазина</a>
+    <a class="btn" href="../design/style-spec.md">Спецификация стиля</a>
+    <a class="btn" href="../design/quality-rules.md">Правила проверки</a>
+    <a class="btn" href="../design/before/">Кадры «до»</a>
+  </div>
+</header>
+
+<nav class="bar">
+  <span class="grp"><span>страница</span>
+    <button class="btn" data-filter="page" data-val="all" data-on>все</button>
+    <button class="btn" data-filter="page" data-val="index">Главная</button><button class="btn" data-filter="page" data-val="catalog">Каталог</button><button class="btn" data-filter="page" data-val="product">Товар</button>
+  </span>
+  <span class="grp"><span>вьюпорт</span>
+    <button class="btn" data-filter="vp" data-val="all" data-on>оба</button>
+    <button class="btn" data-filter="vp" data-val="desktop">десктоп</button><button class="btn" data-filter="vp" data-val="mobile">мобиль</button>
+  </span>
+  <span class="grp"><span>шаблон</span>
+    <button class="btn" data-filter="tpl" data-val="all" data-on>все 7</button>
+    <button class="btn" data-filter="tpl" data-val="ferma">Натуральные продукты</button><button class="btn" data-filter="tpl" data-val="katalog">Большой каталог</button><button class="btn" data-filter="tpl" data-val="moda">Мода</button><button class="btn" data-filter="tpl" data-val="uhod">Косметика и уход</button><button class="btn" data-filter="tpl" data-val="interier">Мебель и интерьер</button><button class="btn" data-filter="tpl" data-val="lending">Лендинг одного товара</button><button class="btn" data-filter="tpl" data-val="opt">Опт и B2B</button>
+  </span>
+</nav>
+
+<section class="checklist">
+  <h2>Чем судить</h2>
+  <p class="note">Двадцать критериев из <code>design/style-spec.md</code> §Checklist. «Нет» — это дефект, а не мнение. Отметки живут в этом браузере.</p>
+  <div class="cl-groups">
+    <div class="cl-group">
+      <h3>Узнаваемость (главное)</h3>
+      <ul><li><input type="checkbox" id="cl1"><span class="cl-n">1</span><label for="cl1">Три страницы одного шаблона выглядят как <strong>один</strong> магазин: шапка, карточка, кнопка, цена, футер — одна вещь.</label></li><li><input type="checkbox" id="cl2"><span class="cl-n">2</span><label for="cl2">Семь шаблонов рядом выглядят как <strong>одна система</strong> в семи одеждах, а не как семь чужих сайтов.</label></li><li><input type="checkbox" id="cl3"><span class="cl-n">3</span><label for="cl3">Разницу между шаблонами можно назвать словами: «другая палитра, другой шрифт, другая плотность» — и больше ничем.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Первый экран</h3>
+      <ul><li><input type="checkbox" id="cl4"><span class="cl-n">4</span><label for="cl4">Доминанта одна, её видно сразу; глаз не двоится.</label></li><li><input type="checkbox" id="cl5"><span class="cl-n">5</span><label for="cl5">Первый товар или первая точка входа в каталог — до сгиба.</label></li><li><input type="checkbox" id="cl6"><span class="cl-n">6</span><label for="cl6">Заголовок раздела читается как заголовок раздела, а не как жирная строка текста.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Выкладка</h3>
+      <ul><li><input type="checkbox" id="cl7"><span class="cl-n">7</span><label for="cl7">В ряду карточек названия и цены стоят на одной линии.</label></li><li><input type="checkbox" id="cl8"><span class="cl-n">8</span><label for="cl8">Товар опознаётся по кадру; кадры не спорят друг с другом фоном.</label></li><li><input type="checkbox" id="cl9"><span class="cl-n">9</span><label for="cl9">Карточка без фотографии выглядит спроектированной, а не сломанной.</label></li><li><input type="checkbox" id="cl10"><span class="cl-n">10</span><label for="cl10">Цена находится за полсекунды, разряды выровнены.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Товар</h3>
+      <ul><li><input type="checkbox" id="cl11"><span class="cl-n">11</span><label for="cl11">Галерея — галерея: один кадр, миниатюры под ним, тот же кроп.</label></li><li><input type="checkbox" id="cl12"><span class="cl-n">12</span><label for="cl12">Описание читается: абзацы, строка 60–75 знаков, колонка шире картинки-миниатюры.</label></li><li><input type="checkbox" id="cl13"><span class="cl-n">13</span><label for="cl13">«В корзину» — единственное главное действие на экране.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Тон</h3>
+      <ul><li><input type="checkbox" id="cl14"><span class="cl-n">14</span><label for="cl14">Ничего не набрано прописными, кроме крошечных моноширинных надглавий.</label></li><li><input type="checkbox" id="cl15"><span class="cl-n">15</span><label for="cl15">Нет градиентов на контролах, нет второго акцентного цвета, нет цветных декоративных иконок.</label></li><li><input type="checkbox" id="cl16"><span class="cl-n">16</span><label for="cl16">Низ страницы держит опору: футер тяжелее полотна.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Мобиль</h3>
+      <ul><li><input type="checkbox" id="cl17"><span class="cl-n">17</span><label for="cl17">Ни одной цели, в которую трудно попасть пальцем.</label></li><li><input type="checkbox" id="cl18"><span class="cl-n">18</span><label for="cl18">Первый экран не пустует и не забит: 12–32 текстовых элемента.</label></li><li><input type="checkbox" id="cl19"><span class="cl-n">19</span><label for="cl19">Ничего не уезжает вправо.</label></li></ul>
+    </div><div class="cl-group">
+      <h3>Ощущение</h3>
+      <ul><li><input type="checkbox" id="cl20"><span class="cl-n">20</span><label for="cl20">Шаблон не читается как «сделано по шаблону»: есть хотя бы один приём, который его характеризует</label></li></ul>
+    </div>
+  </div>
+</section>
+
+
+<article class="tpl" id="t-ferma" data-tpl="ferma">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Натуральные продукты</h2>
+      <p class="tpl-sub">Фермерский магазин с историей</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/ferma/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/ferma/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/ferma/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Небольшой каталог, товар объясняется словом, кадр на общей подложке. Магазин Оксаны Черкашиной — реальный каталог.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Cormorant Garamond + Inter</dd></div>
+    <div><dt>плотность</dt><dd>comfortable</dd></div>
+    <div><dt>колонок</dt><dd class="num">4</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">4 / 5 · contain</dd></div>
+    <div><dt>товаров</dt><dd class="num">12</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#fbfaf7" title="--background"></i><i style="background:#1c2620" title="--foreground"></i><i style="background:#274534" title="--primary"></i><i style="background:#f1efe8" title="--secondary"></i><i style="background:#e0dccf" title="--border"></i><i style="background:#1a5f41" title="--link"></i><i style="background:#9c2f26" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/ferma/index.html" target="_blank" rel="noopener"><img src="../shots/ferma-index-desktop.webp" alt="Натуральные продукты — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/ferma/index.html" target="_blank" rel="noopener"><img src="../shots/ferma-index-mobile.webp" alt="Натуральные продукты — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/ferma/catalog.html" target="_blank" rel="noopener"><img src="../shots/ferma-catalog-desktop.webp" alt="Натуральные продукты — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/ferma/catalog.html" target="_blank" rel="noopener"><img src="../shots/ferma-catalog-mobile.webp" alt="Натуральные продукты — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/ferma/product.html" target="_blank" rel="noopener"><img src="../shots/ferma-product-desktop.webp" alt="Натуральные продукты — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/ferma/product.html" target="_blank" rel="noopener"><img src="../shots/ferma-product-mobile.webp" alt="Натуральные продукты — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-katalog" data-tpl="katalog">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Большой каталог</h2>
+      <p class="tpl-sub">Техника и товары для дома</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/katalog/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/katalog/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/katalog/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Сотни позиций: плотная выкладка, фильтры, список строкой, быстрый просмотр. Кадр не различает товары — различает текст.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Inter + Inter</dd></div>
+    <div><dt>плотность</dt><dd>compact</dd></div>
+    <div><dt>колонок</dt><dd class="num">4</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">1 / 1 · contain</dd></div>
+    <div><dt>товаров</dt><dd class="num">12</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#ffffff" title="--background"></i><i style="background:#111214" title="--foreground"></i><i style="background:#111214" title="--primary"></i><i style="background:#f5f6f7" title="--secondary"></i><i style="background:#e2e4e8" title="--border"></i><i style="background:#0b62c4" title="--link"></i><i style="background:#c02329" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/katalog/index.html" target="_blank" rel="noopener"><img src="../shots/katalog-index-desktop.webp" alt="Большой каталог — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/katalog/index.html" target="_blank" rel="noopener"><img src="../shots/katalog-index-mobile.webp" alt="Большой каталог — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/katalog/catalog.html" target="_blank" rel="noopener"><img src="../shots/katalog-catalog-desktop.webp" alt="Большой каталог — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/katalog/catalog.html" target="_blank" rel="noopener"><img src="../shots/katalog-catalog-mobile.webp" alt="Большой каталог — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/katalog/product.html" target="_blank" rel="noopener"><img src="../shots/katalog-product-desktop.webp" alt="Большой каталог — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/katalog/product.html" target="_blank" rel="noopener"><img src="../shots/katalog-product-mobile.webp" alt="Большой каталог — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-moda" data-tpl="moda">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Мода</h2>
+      <p class="tpl-sub">Лукбук, размеры, цвета</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/moda/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/moda/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/moda/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Кадр — главный аргумент: крупный модуль, кадрирование по фигуре, выбор цвета и размера с таблицей соответствий.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Playfair Display + Manrope</dd></div>
+    <div><dt>плотность</dt><dd>spacious</dd></div>
+    <div><dt>колонок</dt><dd class="num">3</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">3 / 4 · cover</dd></div>
+    <div><dt>товаров</dt><dd class="num">12</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#faf8f5" title="--background"></i><i style="background:#14110e" title="--foreground"></i><i style="background:#14110e" title="--primary"></i><i style="background:#efeae3" title="--secondary"></i><i style="background:#e0d9ce" title="--border"></i><i style="background:#6b4a22" title="--link"></i><i style="background:#9b2a2a" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/moda/index.html" target="_blank" rel="noopener"><img src="../shots/moda-index-desktop.webp" alt="Мода — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/moda/index.html" target="_blank" rel="noopener"><img src="../shots/moda-index-mobile.webp" alt="Мода — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/moda/catalog.html" target="_blank" rel="noopener"><img src="../shots/moda-catalog-desktop.webp" alt="Мода — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/moda/catalog.html" target="_blank" rel="noopener"><img src="../shots/moda-catalog-mobile.webp" alt="Мода — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/moda/product.html" target="_blank" rel="noopener"><img src="../shots/moda-product-desktop.webp" alt="Мода — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/moda/product.html" target="_blank" rel="noopener"><img src="../shots/moda-product-mobile.webp" alt="Мода — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-uhod" data-tpl="uhod">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Косметика и уход</h2>
+      <p class="tpl-sub">Состав, отзывы, наборы</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/uhod/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/uhod/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/uhod/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Покупают по составу и отзывам: ингредиенты вынесены в характеристики, наборы собраны заранее, отзывы на первом экране товара.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Nunito + Manrope</dd></div>
+    <div><dt>плотность</dt><dd>comfortable</dd></div>
+    <div><dt>колонок</dt><dd class="num">4</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">1 / 1 · contain</dd></div>
+    <div><dt>товаров</dt><dd class="num">12</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#fdfbfa" title="--background"></i><i style="background:#221a1e" title="--foreground"></i><i style="background:#5c3550" title="--primary"></i><i style="background:#f6eff1" title="--secondary"></i><i style="background:#ece0e3" title="--border"></i><i style="background:#8a2f5e" title="--link"></i><i style="background:#a52a33" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/uhod/index.html" target="_blank" rel="noopener"><img src="../shots/uhod-index-desktop.webp" alt="Косметика и уход — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/uhod/index.html" target="_blank" rel="noopener"><img src="../shots/uhod-index-mobile.webp" alt="Косметика и уход — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/uhod/catalog.html" target="_blank" rel="noopener"><img src="../shots/uhod-catalog-desktop.webp" alt="Косметика и уход — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/uhod/catalog.html" target="_blank" rel="noopener"><img src="../shots/uhod-catalog-mobile.webp" alt="Косметика и уход — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/uhod/product.html" target="_blank" rel="noopener"><img src="../shots/uhod-product-desktop.webp" alt="Косметика и уход — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/uhod/product.html" target="_blank" rel="noopener"><img src="../shots/uhod-product-mobile.webp" alt="Косметика и уход — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-interier" data-tpl="interier">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Мебель и интерьер</h2>
+      <p class="tpl-sub">Размеры, доставка, сборка</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/interier/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/interier/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/interier/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Решение принимают по габаритам и сроку: размеры в характеристиках первыми, доставка и сборка — отдельный блок, кадр крупный.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Manrope + IBM Plex Sans</dd></div>
+    <div><dt>плотность</dt><dd>spacious</dd></div>
+    <div><dt>колонок</dt><dd class="num">3</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">3 / 2 · cover</dd></div>
+    <div><dt>товаров</dt><dd class="num">12</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#fbfaf8" title="--background"></i><i style="background:#1a1917" title="--foreground"></i><i style="background:#2c2a26" title="--primary"></i><i style="background:#f0eeea" title="--secondary"></i><i style="background:#e2dfd8" title="--border"></i><i style="background:#7a5316" title="--link"></i><i style="background:#9e3026" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/interier/index.html" target="_blank" rel="noopener"><img src="../shots/interier-index-desktop.webp" alt="Мебель и интерьер — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/interier/index.html" target="_blank" rel="noopener"><img src="../shots/interier-index-mobile.webp" alt="Мебель и интерьер — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/interier/catalog.html" target="_blank" rel="noopener"><img src="../shots/interier-catalog-desktop.webp" alt="Мебель и интерьер — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/interier/catalog.html" target="_blank" rel="noopener"><img src="../shots/interier-catalog-mobile.webp" alt="Мебель и интерьер — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/interier/product.html" target="_blank" rel="noopener"><img src="../shots/interier-product-desktop.webp" alt="Мебель и интерьер — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/interier/product.html" target="_blank" rel="noopener"><img src="../shots/interier-product-mobile.webp" alt="Мебель и интерьер — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-lending" data-tpl="lending">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Лендинг одного товара</h2>
+      <p class="tpl-sub">Длинная страница и форма заказа</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/lending/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/lending/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/lending/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Один товар, вся страница — аргумент: как работает, что в коробке, вопросы, форма заказа прямо на странице.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>Geist + Geist</dd></div>
+    <div><dt>плотность</dt><dd>comfortable</dd></div>
+    <div><dt>колонок</dt><dd class="num">3</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">1 / 1 · contain</dd></div>
+    <div><dt>товаров</dt><dd class="num">6</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#ffffff" title="--background"></i><i style="background:#0d0f12" title="--foreground"></i><i style="background:#0d0f12" title="--primary"></i><i style="background:#f4f5f6" title="--secondary"></i><i style="background:#e3e5e8" title="--border"></i><i style="background:#b04405" title="--link"></i><i style="background:#b3271f" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/lending/index.html" target="_blank" rel="noopener"><img src="../shots/lending-index-desktop.webp" alt="Лендинг одного товара — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/lending/index.html" target="_blank" rel="noopener"><img src="../shots/lending-index-mobile.webp" alt="Лендинг одного товара — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/lending/catalog.html" target="_blank" rel="noopener"><img src="../shots/lending-catalog-desktop.webp" alt="Лендинг одного товара — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/lending/catalog.html" target="_blank" rel="noopener"><img src="../shots/lending-catalog-mobile.webp" alt="Лендинг одного товара — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/lending/product.html" target="_blank" rel="noopener"><img src="../shots/lending-product-desktop.webp" alt="Лендинг одного товара — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/lending/product.html" target="_blank" rel="noopener"><img src="../shots/lending-product-mobile.webp" alt="Лендинг одного товара — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<article class="tpl" id="t-opt" data-tpl="opt">
+  <header class="tpl-head">
+    <div>
+      <h2 class="tpl-name">Опт и B2B</h2>
+      <p class="tpl-sub">Прайс, партии, счёт</p>
+    </div>
+    <div class="tpl-links">
+      <a class="btn" href="../dist/opt/index.html" target="_blank" rel="noopener">Главная ↗</a><a class="btn" href="../dist/opt/catalog.html" target="_blank" rel="noopener">Каталог ↗</a><a class="btn" href="../dist/opt/product.html" target="_blank" rel="noopener">Товар ↗</a>
+    </div>
+  </header>
+  <p class="tpl-aud">Покупатель считает: цена зависит от количества, минимальная партия видна сразу, вместо корзины — запрос счёта.</p>
+  <dl class="tpl-spec">
+    <div><dt>шрифты</dt><dd>IBM Plex Sans + IBM Plex Sans</dd></div>
+    <div><dt>плотность</dt><dd>compact</dd></div>
+    <div><dt>колонок</dt><dd class="num">4</dd></div>
+    <div><dt>кадр карточки</dt><dd class="num">1 / 1 · contain</dd></div>
+    <div><dt>товаров</dt><dd class="num">8</dd></div>
+    <div><dt>палитра</dt><dd class="swatches"><i style="background:#fcfcfd" title="--background"></i><i style="background:#14171c" title="--foreground"></i><i style="background:#1b3a5c" title="--primary"></i><i style="background:#f1f3f6" title="--secondary"></i><i style="background:#dfe3e9" title="--border"></i><i style="background:#175486" title="--link"></i><i style="background:#b0272c" title="--destructive"></i></dd></div>
+  </dl>
+  <div class="frames">
+    <figure class="frame" data-page="index">
+      <figcaption>Главная</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/opt/index.html" target="_blank" rel="noopener"><img src="../shots/opt-index-desktop.webp" alt="Опт и B2B — Главная, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/opt/index.html" target="_blank" rel="noopener"><img src="../shots/opt-index-mobile.webp" alt="Опт и B2B — Главная, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="catalog">
+      <figcaption>Каталог</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/opt/catalog.html" target="_blank" rel="noopener"><img src="../shots/opt-catalog-desktop.webp" alt="Опт и B2B — Каталог, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/opt/catalog.html" target="_blank" rel="noopener"><img src="../shots/opt-catalog-mobile.webp" alt="Опт и B2B — Каталог, 390×844" loading="lazy"></a>
+        </div>
+    </figure><figure class="frame" data-page="product">
+      <figcaption>Товар</figcaption>
+      <div class="shot" data-vp="desktop">
+          <span class="shot-label">1280×900</span>
+          <a href="../dist/opt/product.html" target="_blank" rel="noopener"><img src="../shots/opt-product-desktop.webp" alt="Опт и B2B — Товар, 1280×900" loading="lazy"></a>
+        </div><div class="shot" data-vp="mobile">
+          <span class="shot-label">390×844</span>
+          <a href="../dist/opt/product.html" target="_blank" rel="noopener"><img src="../shots/opt-product-mobile.webp" alt="Опт и B2B — Товар, 390×844" loading="lazy"></a>
+        </div>
+    </figure>
+  </div>
+</article>
+
+<p class="note">Собрано <code>node build.mjs</code> · снято <code>node shots.mjs</code> ·
+проверено <code>node check.mjs</code> · витрина <code>node gallery.mjs</code></p>
+</div>
+<script>
+(function(){
+  var state={page:"all",vp:"all",tpl:"all"};
+  function apply(){
+    document.querySelectorAll("[data-tpl]").forEach(function(t){
+      t.hidden = state.tpl!=="all" && t.dataset.tpl!==state.tpl;
+    });
+    document.querySelectorAll(".frame").forEach(function(f){
+      f.hidden = state.page!=="all" && f.dataset.page!==state.page;
+    });
+    document.querySelectorAll(".shot").forEach(function(s){
+      s.hidden = state.vp!=="all" && s.dataset.vp!==state.vp;
+    });
+    document.querySelectorAll(".frames").forEach(function(g){
+      g.style.gridTemplateColumns = state.page==="all" ? "" : "minmax(0,1fr)";
+    });
+  }
+  document.querySelectorAll("[data-filter]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var k=b.dataset.filter;
+      state[k]=b.dataset.val;
+      document.querySelectorAll('[data-filter="'+k+'"]').forEach(function(o){
+        if(o===b) o.setAttribute("data-on",""); else o.removeAttribute("data-on");
+      });
+      apply();
+    });
+  });
+  // отметки чек-листа переживают перезагрузку, но живут только в этом браузере
+  document.querySelectorAll(".cl-group input").forEach(function(c){
+    try{ c.checked = localStorage.getItem("tp01."+c.id)==="1" }catch(e){}
+    c.addEventListener("change",function(){ try{ localStorage.setItem("tp01."+c.id, c.checked?"1":"0") }catch(e){} });
+  });
+  apply();
+})();
+</script>
+</body>
+</html>

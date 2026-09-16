@@ -1,0 +1,30 @@
+/* Низ тяжелее верха (QR-TECTONICS): полоса футера всегда несёт поверхность,
+   отличную от полотна — мягкую заливку или полную инверсию. */
+.ft-soft { background: var(--secondary); color: var(--secondary-foreground); }
+.ft-inverse { background: var(--primary); color: var(--primary-foreground); }
+.ft-inverse [data-role="meta"], .ft-inverse .ft-head { color: var(--primary-foreground); opacity: 0.72; }
+.ft-inverse .ft-link:hover { opacity: 0.72; }
+
+.ft-grid {
+  display: grid; gap: var(--space-8);
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+.ft-brand { display: grid; gap: var(--space-3); align-content: start; }
+.ft-col { display: grid; gap: var(--space-3); align-content: start; }
+.ft-head { font-weight: var(--weight-medium); }
+.ft-list { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+.ft-link { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap); }
+.ft-link svg { width: var(--space-4); height: var(--space-4); flex: none; }
+.ft-link:hover { text-decoration: underline; text-underline-offset: var(--space-1); }
+.ft-hr { margin-block: var(--space-8); }
+
+/* Кольцо (правило композиции 4): знак шапки рифмуется с гигантским знаком внизу. */
+.ft-mark {
+  font-family: var(--font-display); font-weight: var(--weight-strong);
+  font-size: clamp(var(--text-display), 13vw, calc(var(--text-display) * 3));
+  line-height: var(--lh-display); letter-spacing: var(--tr-display);
+  margin-block: var(--space-16) var(--space-8);
+  opacity: 0.18; white-space: nowrap; overflow: hidden;
+}
+.ft-bottom { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+@media (max-width: 639px) { .ft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

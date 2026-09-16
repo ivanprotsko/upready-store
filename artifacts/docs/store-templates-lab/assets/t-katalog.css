@@ -1,0 +1,36 @@
+/* СГЕНЕРИРОВАНО node build.mjs из src/templates/katalog.json — шаблон «Большой каталог» */
+:root {
+  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --grid-cols: 4;
+  --aspect-card: 1 / 1;
+  --aspect-tile: 3 / 2;
+  --aspect-hero: 16 / 9;
+  --aspect-gallery: 1 / 1;
+  --aspect-thumb: 1 / 1;
+  --media-fit: contain;
+  --background: #ffffff;
+  --foreground: #111214;
+  --card: #ffffff;
+  --card-foreground: #111214;
+  --popover: #ffffff;
+  --popover-foreground: #111214;
+  --primary: #111214;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f6f7;
+  --secondary-foreground: #111214;
+  --muted: #eceef0;
+  --muted-foreground: #535861;
+  --accent: #e8f0fb;
+  --accent-foreground: #0b3f83;
+  --border: #e2e4e8;
+  --input: #e2e4e8;
+  --ring: #0b62c4;
+  --link: #0b62c4;
+  --destructive: #c02329;
+  --destructive-foreground: #ffffff;
+  --success: #116b3c;
+  --warning: #8a4b06;
+  --surface-media: #f5f6f7;
+}
