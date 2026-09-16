@@ -132,3 +132,6 @@ artifacts/docs/f01-thankyou-brand/*.png
 # The extracted TEXT of those pages is committed next to them and is what the
 # endpoint registry cites; the PNGs stay on disk and are listed in the PR body.
 artifacts/docs/w01-wb-readonly-client/docs/*.png
+
+# b18-blog-full: скриншоты приёмки журнала — бинарники в историю не кладём (правило 21f)
+artifacts/docs/b18-blog-full/**/*.png
