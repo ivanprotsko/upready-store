@@ -494,3 +494,26 @@ export const PutTenantDeliverySettingsSchema = z.strictObject({
   free_above_total: z.number().min(0).max(100_000_000).nullable().optional(),
 });
 export type PutTenantDeliverySettingsBody = z.infer<typeof PutTenantDeliverySettingsSchema>;
+
+/**
+ * `PUT /tenants/apiship/key` (p01-settings-integrations-restructure) — the
+ * shop's ApiShip token.
+ *
+ * ONE field, because ApiShip authenticates with a bare `Authorization: <token>`
+ * header and nothing else (measured 2026-09-16, `src/apiship/client.ts`).
+ *
+ * `min(1)` after `trim()` for the reason the marketplace key schema gives: an
+ * empty string is not «keep the stored value», it is a value of the same
+ * quantity that would overwrite a working token with nothing (rule 20a). This
+ * route has no «keep» case at all — a token is either being replaced or the row
+ * is being deleted — so an empty body is refused rather than silently ignored.
+ */
+export const PutTenantApishipKeySchema = z.strictObject({
+  token: z
+    .string()
+    .trim()
+    .min(1, "Пустое значение не сохраняется: введите токен ApiShip.")
+    .max(500),
+  is_enabled: z.boolean().optional(),
+});
+export type PutTenantApishipKeyBody = z.infer<typeof PutTenantApishipKeySchema>;

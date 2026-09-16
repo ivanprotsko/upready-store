@@ -1231,7 +1231,9 @@
             "robokassa",
             "wildberries",
             "wildberries_write",
-            "ozon"
+            "ozon",
+            "cdek",
+            "apiship"
           ],
           "mappedType": "enum"
         },

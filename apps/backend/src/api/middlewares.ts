@@ -164,6 +164,7 @@ import { TENANT_ACTOR_TYPE } from "../modules/tenant";
 import {
   PostTenantCreateSchema,
   PostTenantDomainSchema,
+  PutTenantApishipKeySchema,
   PutTenantDeliverySettingsSchema,
   PutTenantPaymentSettingsSchema,
   PutTenantNotificationSettingsSchema,
@@ -329,6 +330,14 @@ export default defineMiddlewares({
       matcher: "/tenants/ozon/key",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      // p01-settings-integrations-restructure: the shop's ApiShip token. Not a
+      // marketplace adapter, so it cannot ride the registry-driven matcher
+      // above; it shares the slot writer instead of the schema.
+      matcher: "/tenants/apiship/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantApishipKeySchema)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).
