@@ -282,3 +282,88 @@ for P in 9423 5423; do /usr/sbin/lsof -t -nP -iTCP:$P -sTCP:LISTEN | xargs -r ki
 
 Серверы, поднятые ЭТОЙ сессией, уже остановлены: `/usr/sbin/lsof -nP -iTCP:9423 -sTCP:LISTEN` и то
 же для `:5423` пусты, процессов под worktree — 0.
+
+---
+
+## 8. Раунд 2 — сведение с `dev` (замер 2026-09-16 07:59 WITA)
+
+Приёмка раунда 1 приняла существо целиком и отбила ветку по одной причине: пока она шла, в `dev`
+сквошем `f62aeaf7` приехал w03 (PR #76), и девять файлов стали `changed in both`. Продуктовый код не
+менялся — менялось только сведение.
+
+**Было** (`B=$(git merge-base HEAD origin/dev); git merge-tree "$B" HEAD origin/dev`):
+10 блоков «changed in both», 62 маркера конфликта, девять файлов.
+**Стало:** `merge-base == origin/dev`, блоков «changed in both» — **0**, дерево чистое.
+
+Что выжило с обеих сторон:
+
+| Файл | Как сведён |
+|---|---|
+| `wb/endpoints.ts` | обе константы страниц и обе группы записей: `analytics.funnel.history` w03 и пять `marketplace.fbs.*` w23 |
+| `wb/models/wb-sync-run.ts` | **десять** видов: `cards, prices, stocks, orders, sales, feedbacks, questions, analytics, supplies, fbs_orders`; статус `rate_limited` и `retry_at` от w03 сохранены |
+| `wb/service.ts` | `WbSale`, `WbQuestion`, `WbAnalyticsDaily` w03 и `WbFbsOrder`, `WbSupply` w23 |
+| `wb/sync.ts` | взята версия `dev` целиком, блок w23 (`syncSupplies`, `syncFbsOrders`, `fbsOrderRow`, `stripOrderPii`) приставлен к ней, оба вида в `IMPORTS` |
+| `wb/__tests__/transport.unit.spec.ts` | все четыре POST-чтения в ручном списке |
+| `translations/{ru,en}.json` | сведены программно: 143 ключа `wildberries` от `dev` + 64 моих = **207**, расхождений текста в общих ключах — **0** |
+| `wildberries.tsx` | вкладки w23 и таблицы w03 на одной странице |
+| `.snapshot-wb.json` | **не сводился руками** — взят из `dev` и перегенерирован |
+
+### Дефект, который сведение вскрыло (и которого без него бы не заметили)
+
+Моя миграция `Migration20260915230944` переписывала CHECK на `wb_sync_run.kind` СВОИМ списком, а по
+имени файла она встаёт ПОСЛЕ `Migration20260915211441` w03. То есть на свежей базе виды `sales`,
+`questions` и `analytics` перестали бы записываться вовсе — молча, потому что ни один тест базу не
+создаёт. Миграция удалена и перегенерирована из объединённых моделей:
+
+```
+npx medusa db:generate wb   → Generated successfully (Migration20260915235342.ts)
+grep "'cards'" …/Migration20260915235342.ts
+  'cards', 'prices', 'stocks', 'orders', 'sales', 'feedbacks', 'questions', 'analytics', 'supplies', 'fbs_orders'
+```
+
+Проверено на ЧИСТОЙ базе (`drop database` → `create database … template upready_store_w20` →
+`npx medusa db:migrate`, rc=0):
+
+```
+select pg_get_constraintdef(oid) from pg_constraint where conname='wb_sync_run_kind_check';
+ CHECK ((kind = ANY (ARRAY['cards','prices','stocks','orders','sales','feedbacks','questions',
+                           'analytics','supplies','fbs_orders'])))
+таблицы: wb_analytics_daily, wb_fbs_order, wb_question, wb_sale, wb_supply — все пять
+```
+
+Второй прогон `npx medusa db:generate wb` на чистом дереве нового файла не даёт.
+
+### Перепроверено после сведения
+
+```
+apps/backend:  TEST_TYPE=unit … jest   → Test Suites: 58 passed / 58; Tests: 685 passed / 685
+apps/backend:  npx tsc --noEmit rc=0 · npx medusa lint rc=0 (86 warning, 0 errors)
+apps/tenant-panel: pnpm typecheck rc=0 · pnpm lint rc=0 (0 errors)
+
+WB_KIND=supplies,fbs_orders …/wb-sync.ts
+  wb:sync: supplies succeeded, 908 rows, 1 WB requests
+  wb:sync: fbs_orders succeeded, 16301 rows, 19 WB requests
+  wb_fbs_order 8075 / со статусом 8075 ·  wb_supply 908 / закрытых 880
+
+GET  /tenants/wb/fbs-orders?status=new        → 200, orders 100, supplies 28,
+                                                 counts {cancel:183, complete:7130, confirm:425, new:337}
+POST …/actions cancel (new 5778700739)        → dry_run: true,  PATCH /api/v3/orders/5778700739/cancel
+POST …/actions cancel (complete 5768084344)   → 409 invalid_transition, строки в журнале нет
+POST …/actions assemble → WB-GI-278668129     → dry_run: true,  PATCH /api/marketplace/v3/supplies/…/orders
+POST …/actions deliver  → WB-GI-278668129     → dry_run: true,  PATCH /api/v3/supplies/…/deliver
+
+select count(*) from marketplace_write_audit where outcome='sent' or dry_run=false;  → 0
+```
+
+Две правки в тестах, которые потребовало сведение, обе по существу w03:
+
+1. `service-methods.unit.spec.ts` — в ручной список сущностей зеркала добавлены `WbFbsOrder` и
+   `WbSupply`. Это та же двойная бухгалтерия, что у `POST_READ_ENDPOINT_IDS`: `WbSupply`
+   множится в `WbSupplies`, и список существует ровно ради таких случаев.
+2. `fbs-sync.unit.spec.ts` — случай с 429 теперь ждёт `rate_limited` и `retry_at`, а не `failed`.
+   Семантика w03 лучше моей: 429 с названным окном — это ожидание, а не поломка. Проверка «строки,
+   записанные до лимита, не теряются» осталась.
+
+Скриншоты пересняты на объединённом коде: на вкладке «Подключение» в одной таблице стоят и виды w03
+(«Продажи и возвраты», «Вопросы покупателей», «Воронка по карточкам»), и мои («Поставки FBS»,
+«Сборочные задания FBS» — успешно, 908 и 16 301 строк).
