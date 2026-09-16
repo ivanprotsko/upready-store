@@ -89,3 +89,61 @@ export const cdekTermOf = (cart?: HttpTypes.StoreCart | null): string | null => 
  */
 export const cityForPointSearch = (cart?: HttpTypes.StoreCart | null): string =>
   (cart?.shipping_address?.city ?? "").trim()
+
+/** One row of CDEK's city directory, as `/api/cdek/cities` answers it. */
+export type CdekCity = {
+  code: number
+  city: string
+  region: string | null
+  lat: number | null
+  lng: number | null
+}
+
+/** The answer shape of `/api/cdek/points` (and of the store route behind it). */
+export type CdekPointsResponse = {
+  configured: boolean
+  city: { code: number; name: string | null } | null
+  points: CdekStorePoint[]
+}
+
+/**
+ * The two browser-side reads the checkout picker makes
+ * (i03-checkout-pvz-map-address-suggest). They call this storefront's own route
+ * handlers, never the Store API directly: the publishable key belongs to the
+ * request's host and is resolved on the server (`lib/config.ts`).
+ *
+ * Both swallow a failure into an empty answer on purpose — a suggest that
+ * cannot suggest is a plain input, and a picker with no points says so in its
+ * own copy. Both accept an `AbortSignal`, because the city the buyer has
+ * already typed past must not keep a connection open.
+ */
+export const fetchCdekCities = async (
+  term: string,
+  signal?: AbortSignal
+): Promise<CdekCity[]> => {
+  if (term.trim().length < 2) return []
+  try {
+    const response = await fetch(`/api/cdek/cities?q=${encodeURIComponent(term.trim())}`, {
+      signal,
+    })
+    if (!response.ok) return []
+    const answer = (await response.json()) as { cities?: CdekCity[] }
+    return answer.cities ?? []
+  } catch {
+    return []
+  }
+}
+
+export const fetchCdekPoints = async (
+  query: { city: string; type?: "PVZ" | "POSTAMAT" | "ALL" },
+  signal?: AbortSignal
+): Promise<CdekPointsResponse> => {
+  const search = new URLSearchParams({ city: query.city, type: query.type ?? "PVZ" })
+  try {
+    const response = await fetch(`/api/cdek/points?${search.toString()}`, { signal })
+    if (!response.ok) return { configured: false, city: null, points: [] }
+    return (await response.json()) as CdekPointsResponse
+  } catch {
+    return { configured: false, city: null, points: [] }
+  }
+}

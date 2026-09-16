@@ -116,7 +116,11 @@
     "needCity": "Ilagay ang lungsod ng paghahatid para makita ang mga pickup point.",
     "loading": "Nilo-load ang mga pickup point…",
     "notConfigured": "Hindi pa naka-set up ang paghahatid ng CDEK sa tindahang ito.",
-    "change": "Palitan ang point"
+    "change": "Palitan ang point",
+    "tabList": "Listahan",
+    "tabMap": "Mapa",
+    "mapEmpty": "Walang pickup point na maipapakita sa mapa para sa lungsod na ito.",
+    "mapFailed": "Hindi available ang mapa. Pumili ng pickup point sa listahan."
   },
   "CheckoutPage": {
     "addNewAddress": "Magdagdag ng bagong address",

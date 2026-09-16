@@ -116,7 +116,11 @@
     "needCity": "Geben Sie Ihre Lieferstadt ein, um Abholstellen zu sehen.",
     "loading": "Abholstellen werden geladen…",
     "notConfigured": "CDEK-Versand ist in diesem Shop noch nicht eingerichtet.",
-    "change": "Stelle ändern"
+    "change": "Stelle ändern",
+    "tabList": "Liste",
+    "tabMap": "Karte",
+    "mapEmpty": "Für diese Stadt sind keine Punkte auf der Karte vorhanden.",
+    "mapFailed": "Die Karte ist nicht verfügbar. Wählen Sie einen Punkt aus der Liste."
   },
   "CheckoutPage": {
     "addNewAddress": "Neue Adresse hinzufügen",

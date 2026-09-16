@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, type FormEvent } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { setAddresses, updateRegion } from "@lib/data/cart"
 import type { HttpTypes } from "@medusajs/types"
@@ -86,8 +86,28 @@ export default function CheckoutAddressSheet({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyingId, setApplyingId] = useState<string | null>(null)
 
+  /**
+   * The sheet is seeded from the cart when it OPENS, and never again while it
+   * stays open.
+   *
+   * It used to re-seed on every change of `cart` (the dependencies below are
+   * all derived from it), which made the checkout's own `router.refresh()` a
+   * race: the refresh is an RSC round trip that lands whenever the network
+   * decides, and the new cart object then wiped whatever the customer had typed
+   * in the meantime — measured 2026-09-16 on the i03 stand, where a city typed
+   * into the open sheet reverted to the cart's saved one a few seconds later
+   * (rule 19h: an async answer must not own state the customer has touched).
+   * A cart that changes while the sheet is open is never newer than the form in
+   * front of the customer.
+   */
+  const wasOpen = useRef(false)
   useEffect(() => {
-    if (!open) return
+    if (!open) {
+      wasOpen.current = false
+      return
+    }
+    if (wasOpen.current) return
+    wasOpen.current = true
 
     setMode(initialMode)
     setSelectedId(matchingAddress?.id)

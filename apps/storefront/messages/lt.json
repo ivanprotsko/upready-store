@@ -116,7 +116,11 @@
     "needCity": "Nurodykite pristatymo miestą, kad matytumėte atsiėmimo punktus.",
     "loading": "Kraunami atsiėmimo punktai…",
     "notConfigured": "CDEK pristatymas šioje parduotuvėje dar nesukonfigūruotas.",
-    "change": "Keisti punktą"
+    "change": "Keisti punktą",
+    "tabList": "Sąrašas",
+    "tabMap": "Žemėlapis",
+    "mapEmpty": "Šiam miestui žemėlapyje atsiėmimo punktų nėra.",
+    "mapFailed": "Žemėlapis nepasiekiamas. Pasirinkite punktą iš sąrašo."
   },
   "CheckoutPage": {
     "addNewAddress": "Pridėti naują adresą",

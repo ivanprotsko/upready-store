@@ -116,7 +116,11 @@
     "needCity": "Enter your delivery city to see pickup points.",
     "loading": "Loading pickup points…",
     "notConfigured": "CDEK delivery is not set up in this shop yet.",
-    "change": "Change point"
+    "change": "Change point",
+    "tabList": "List",
+    "tabMap": "Map",
+    "mapEmpty": "No pickup points to show on the map for this city.",
+    "mapFailed": "The map is unavailable. Pick a point from the list."
   },
   "CheckoutPage": {
     "addNewAddress": "Add new address",

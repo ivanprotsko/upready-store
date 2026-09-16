@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
 import { listShippingRegions, type ShippingRegion } from "@lib/data/fulfillment"
+import { fetchCdekCities, type CdekCity } from "@lib/util/cdek"
+import SuggestInput from "@modules/common/components/suggest-input"
 import { requiresProvince } from "@lib/util/shipping-address"
 import { useTranslations } from "next-intl"
 import type { AddressAutocompleteProps } from "./types"
@@ -72,13 +74,29 @@ const ManualAddressFields = ({
           onChange={handleChange}
           required={required}
         />
-        <Input
+        {/* i03: the city is the one field of this form a directory we already
+            hold can suggest — CDEK's own city list, the same directory every
+            later CDEK call resolves against, so a picked city can never be a
+            typo the point search then fails on. With CDEK unconfigured
+            `fetchCdekCities` answers `[]` and the control is a plain input,
+            which is why it needs no feature flag. It fills the city ALONE: the
+            province in CDEK's answer is a hierarchy string («городской округ
+            Краснодар, Краснодарский край, Россия»), not the canonical province
+            the shop's delivery zones are built from, and the select below is
+            fed by those exact strings (`listShippingRegions`). */}
+        <SuggestInput<CdekCity>
           label={t("fieldCity")}
           name="city"
           autoComplete="address-level2"
           value={values.city}
-          onChange={handleChange}
+          onValueChange={(text) => onChange({ ...values, city: text })}
+          onPick={(picked) => onChange({ ...values, city: picked.city })}
+          fetchItems={fetchCdekCities}
+          itemKey={(item) => String(item.code)}
+          itemLabel={(item) => item.city}
+          itemHint={(item) => item.region}
           required={required}
+          testId="address-city-suggest"
         />
       </div>
       {regions.length > 0 && provinceInList ? (

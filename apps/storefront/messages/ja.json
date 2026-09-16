@@ -116,7 +116,11 @@
     "needCity": "受取場所を表示するには配送先の都市を入力してください。",
     "loading": "受取場所を読み込んでいます…",
     "notConfigured": "このショップでは CDEK 配送はまだ設定されていません。",
-    "change": "場所を変更"
+    "change": "場所を変更",
+    "tabList": "一覧",
+    "tabMap": "地図",
+    "mapEmpty": "この都市では地図に表示できる受取店舗がありません。",
+    "mapFailed": "地図を利用できません。一覧から受取店舗を選んでください。"
   },
   "CheckoutPage": {
     "addNewAddress": "新しい住所を追加",

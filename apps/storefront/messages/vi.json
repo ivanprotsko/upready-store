@@ -116,7 +116,11 @@
     "needCity": "Nhập thành phố giao hàng để xem các điểm nhận hàng.",
     "loading": "Đang tải điểm nhận hàng…",
     "notConfigured": "Cửa hàng này chưa thiết lập giao hàng CDEK.",
-    "change": "Đổi điểm"
+    "change": "Đổi điểm",
+    "tabList": "Danh sách",
+    "tabMap": "Bản đồ",
+    "mapEmpty": "Không có điểm nhận hàng nào để hiển thị trên bản đồ cho thành phố này.",
+    "mapFailed": "Không dùng được bản đồ. Hãy chọn điểm nhận hàng trong danh sách."
   },
   "CheckoutPage": {
     "addNewAddress": "Thêm địa chỉ mới",
