@@ -1,4 +1,8 @@
-import { AbstractFulfillmentProviderService, ContainerRegistrationKeys } from "@medusajs/framework/utils";
+import {
+  AbstractFulfillmentProviderService,
+  ContainerRegistrationKeys,
+  MedusaError,
+} from "@medusajs/framework/utils";
 import type {
   CalculatedShippingOptionPrice,
   CalculateShippingOptionPriceContext,
@@ -125,7 +129,10 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
     }
     const pointCode = typeof data?.cdek_point_code === "string" ? data.cdek_point_code.trim() : "";
     if (isPointKind(optionData.kind) && !pointCode) {
-      throw new Error("Выберите пункт выдачи СДЭК");
+      // A plain `Error` here reaches the storefront as HTTP 500 «An unknown
+      // error occurred» (measured on the stand 2026-09-16), which tells the
+      // buyer nothing. `MedusaError` maps to 400 and carries the sentence.
+      throw new MedusaError(MedusaError.Types.INVALID_DATA, "Выберите пункт выдачи СДЭК");
     }
 
     let quoted: Awaited<ReturnType<CdekFulfillmentService["quote"]>> = null;
@@ -165,14 +172,20 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
     context: CalculateShippingOptionPriceContext,
   ): Promise<CalculatedShippingOptionPrice> {
     if (!isCdekMethodData(optionData)) {
-      throw new Error("Shipping option data is not a CDEK method");
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Shipping option data is not a CDEK method",
+      );
     }
     const quoted = await this.quote(optionData, context);
     if (!quoted) {
       // Medusa has no «this option does not serve this address» answer: a throw
       // here drops the option out of the list the storefront renders, which is
       // exactly right — better no CDEK card than a card priced at zero.
-      throw new Error("СДЭК не возит по этому адресу выбранным способом");
+      throw new MedusaError(
+        MedusaError.Types.NOT_ALLOWED,
+        "СДЭК не возит по этому адресу выбранным способом",
+      );
     }
     return {
       calculated_amount: quoted.selected.amount,
@@ -206,7 +219,10 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
     const secret = await this.secret(methodData.tenant_id);
     const credentials = secret && cdekApiCredentials(secret);
     if (!secret || !credentials) {
-      throw new Error("СДЭК не настроен для этого магазина: заполните реквизиты в панели");
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "СДЭК не настроен для этого магазина: заполните реквизиты в панели",
+      );
     }
 
     const shippingAddress = (order?.shipping_address ?? {}) as Record<string, string | undefined>;
@@ -391,20 +407,32 @@ class CdekFulfillmentService extends AbstractFulfillmentProviderService {
     secret: ResolvedCdekSecret,
   ): Promise<number> {
     const credentials = cdekApiCredentials(secret);
-    if (!credentials) throw new Error("СДЭК не настроен для этого магазина");
+    if (!credentials) {
+      throw new MedusaError(MedusaError.Types.INVALID_DATA, "СДЭК не настроен для этого магазина");
+    }
     const mode = deliveryModeFor(secret.credentials.sender_mode, methodData.kind);
     const cities = secret.credentials.sender_city_code
       ? []
       : await listCities(credentials, { city: secret.credentials.sender_city_name ?? "", size: 1 });
     const fromCode = secret.credentials.sender_city_code ?? cities[0]?.code;
-    if (!fromCode) throw new Error("В настройках СДЭК не указан город отправления");
+    if (!fromCode) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "В настройках СДЭК не указан город отправления",
+      );
+    }
     const tariffs = await listTariffs(credentials, {
       from_location: { code: fromCode },
       to_location: { code: fromCode },
       packages: [{ weight: 1000 }],
     });
     const selected = selectTariff(tariffs, { delivery_mode: mode });
-    if (!selected) throw new Error("СДЭК не вернул ни одного тарифа нужного режима");
+    if (!selected) {
+      throw new MedusaError(
+        MedusaError.Types.NOT_ALLOWED,
+        "СДЭК не вернул ни одного тарифа нужного режима",
+      );
+    }
     return selected.tariff.tariff_code;
   }
 }

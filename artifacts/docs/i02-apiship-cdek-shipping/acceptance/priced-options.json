@@ -1,0 +1,16 @@
+[
+  {
+    "id": "so_01M2M3VZSWP52CP34RAAA1KWPR",
+    "name": "СДЭК — курьером до двери",
+    "kind": "courier",
+    "status": 200,
+    "amount": 325
+  },
+  {
+    "id": "so_01M2M3VZSXYF3KNM5EPEFV6BCW",
+    "name": "СДЭК — пункт выдачи",
+    "kind": "pickup",
+    "status": 200,
+    "amount": 185
+  }
+]

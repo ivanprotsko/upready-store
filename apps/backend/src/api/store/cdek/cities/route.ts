@@ -2,7 +2,7 @@ import type { MedusaStoreRequest, MedusaResponse } from "@medusajs/framework/htt
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 
-import { listCities } from "../../../../cdek/client";
+import { listCities, suggestCities } from "../../../../cdek/client";
 import { cdekApiCredentials, readCdekSecret } from "../../../../tenant-secrets/cdek";
 import { resolveTenantFromPublishableKey } from "../../tenant/resolve-tenant";
 
@@ -34,12 +34,29 @@ export async function GET(req: MedusaStoreRequest, res: MedusaResponse) {
     return;
   }
 
-  const cities = await listCities(credentials, {
-    city: term,
-    country_codes: "RU",
-    size: Math.min(20, Number(query.limit) || 10),
-  });
+  // A field the buyer types into needs PREFIX matching, and
+  // `/location/cities?city=` matches exactly (measured 2026-09-16: `Санкт-Пет`
+  // → `[]`, `Санкт-Петербург` → one row). `/location/suggest/cities` does the
+  // prefix, so it answers first; the exact lookup fills in the coordinates the
+  // suggest row does not carry, and covers a full name typed or pasted whole.
+  const limit = Math.min(20, Number(query.limit) || 10);
+  const suggested = await suggestCities(credentials, { name: term });
 
+  if (suggested.length) {
+    res.status(200).json({
+      configured: true,
+      cities: suggested.slice(0, limit).map((city) => ({
+        code: city.code,
+        city: city.full_name.split(",")[0].trim(),
+        region: city.full_name.split(",").slice(1).join(",").trim() || null,
+        lat: null,
+        lng: null,
+      })),
+    });
+    return;
+  }
+
+  const cities = await listCities(credentials, { city: term, size: limit });
   res.status(200).json({
     configured: true,
     cities: cities.map((city) => ({

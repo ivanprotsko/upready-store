@@ -41,6 +41,12 @@ export type CdekClientOptions = {
   timeoutMs?: number;
   /** Injected in tests so token expiry is deterministic. */
   now?: () => number;
+  /**
+   * Pauses before each 5xx retry, in milliseconds. Injected so a test drives the
+   * retry path without waiting on a real clock; production uses
+   * {@link RETRY_DELAYS_MS}.
+   */
+  retryDelaysMs?: number[];
 };
 
 export class CdekError extends Error {
@@ -245,10 +251,31 @@ const buildUrl = (base: string, path: string, query?: RequestInit_["query"]): st
 };
 
 /**
- * One request with one retry: CDEK answers 401 both for an expired token and for
- * a token issued against a password that has since been rotated, and the two are
- * indistinguishable in the body, so the single retry drops the cached token and
- * asks for a new one. A second 401 is a real credentials problem and is raised.
+ * How many times a 5xx is retried, and how long the pauses are.
+ *
+ * Measured against the sandbox on 2026-09-16: eight identical
+ * `/calculator/tarifflist` calls in a row answered 200 six times and
+ * `500 v2_internal_error` twice — a transient failure of the carrier, roughly
+ * one call in four. Without a retry that is a CDEK card vanishing from the
+ * checkout every fourth page load (the provider's `calculatePrice` throws and
+ * Medusa drops the option), which reads to the buyer as «this shop does not
+ * deliver here». Two extra attempts take the odds of a dead option from ~25 %
+ * to ~1.6 % and cost nothing on the happy path.
+ */
+const RETRY_DELAYS_MS = [400, 1200];
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * One request, with two kinds of retry.
+ *
+ * A 401 is retried ONCE with a fresh token: CDEK answers 401 both for an expired
+ * token and for a token issued against a password that has since been rotated,
+ * and the two are indistinguishable in the body. A second 401 is a real
+ * credentials problem and is raised.
+ *
+ * A 5xx is retried per {@link RETRY_DELAYS_MS}. A 4xx never is: it is CDEK
+ * saying the request itself is wrong, and repeating it changes nothing.
  */
 const request = async <T>(
   credentials: CdekCredentials,
@@ -277,6 +304,12 @@ const request = async <T>(
   if (res.status === 401) {
     forgetCdekToken(credentials);
     token = await authenticate(credentials, options);
+    ({ res, text } = await attempt(token));
+  }
+
+  for (const delay of options.retryDelaysMs ?? RETRY_DELAYS_MS) {
+    if (res.status < 500) break;
+    await sleep(delay);
     ({ res, text } = await attempt(token));
   }
 
@@ -390,6 +423,29 @@ export const listCities = async (
   );
   if (Array.isArray(answer)) return answer;
   return answer?.items ?? [];
+};
+
+/**
+ * Prefix search over CDEK's city directory.
+ *
+ * `/location/cities?city=…` matches the name EXACTLY — measured 2026-09-16 on the
+ * sandbox: `city=Санкт-Пет` answers `[]` while `city=Санкт-Петербург` answers one
+ * row — so a field the buyer types into needs this endpoint instead. It returns a
+ * thinner row (`code`, `full_name`, `city_uuid`), which is all a suggest list
+ * shows.
+ */
+export const suggestCities = async (
+  credentials: CdekCredentials,
+  query: { name: string; country_code?: string },
+  options: CdekClientOptions = {},
+): Promise<Array<{ code: number; full_name: string; city_uuid?: string; country_code?: string }>> => {
+  const answer = await request<Array<{ code: number; full_name: string; city_uuid?: string; country_code?: string }>>(
+    credentials,
+    "/location/suggest/cities",
+    { query: { name: query.name, country_code: query.country_code ?? "RU" } },
+    options,
+  );
+  return Array.isArray(answer) ? answer : [];
 };
 
 export type CdekCreateOrderInput = {
