@@ -1,4 +1,12 @@
 import {
+  MP_DEFAULT_BACKOFF_MS,
+  MP_MAX_ATTEMPTS,
+  MP_MAX_BACKOFF_MS,
+  backoffFrom,
+  retryAfterMs,
+  sleep,
+} from "../marketplace/backoff";
+import {
   resolveEndpoint,
   OzonWriteForbiddenError,
   type OzonReadEndpoint,
@@ -34,14 +42,14 @@ import {
  */
 export const OZON_TIMEOUT_MS = 15_000;
 
-/** 429 is retried this many times in total (the first try included). */
-const MAX_ATTEMPTS = 3;
-
-/** Upper bound on one backoff, so a hostile Retry-After cannot park the job. */
-const MAX_BACKOFF_MS = 30_000;
-
-/** Used when a 429 carries no usable Retry-After. */
-const DEFAULT_BACKOFF_MS = 2_000;
+/**
+ * The 429 policy is the SHARED one (`modules/marketplace/backoff.ts`,
+ * w16-mp-scheduler-ops). It used to be written out here and again in the
+ * other transport, with the same three numbers and the same two helpers in
+ * both files; the scheduler would have made a third copy. The numbers did
+ * not change when they moved: three attempts, one wait capped at 30 s, 2 s
+ * growing with the attempt when the marketplace names no window of its own.
+ */
 
 /**
  * Ozon's own ceiling, saved page line 245: "Вы можете отправить не больше 50
@@ -157,47 +165,6 @@ const buildQuery = (query: OzonReadOptions["query"]): string => {
 };
 
 /**
- * How long Ozon wants us to wait, in milliseconds, or `null` when it did not
- * say. `Retry-After` is the standard header (seconds or an HTTP date,
- * RFC 9110). `x-ratelimit-reset` is read as a fallback because the Wildberries
- * client measured a marketplace sending only that name; whether Ozon does the
- * same is unknown until a live 429 arrives, and reading a header that is
- * absent costs nothing.
- */
-const retryAfterMs = (headers: Headers): number | null => {
-  const seconds = (raw: string | null): number | null => {
-    if (!raw) {
-      return null;
-    }
-    const value = Number(raw);
-    if (Number.isFinite(value) && value >= 0) {
-      return value * 1000;
-    }
-    const date = Date.parse(raw);
-    return Number.isFinite(date) ? Math.max(date - Date.now(), 0) : null;
-  };
-
-  return seconds(headers.get("retry-after")) ?? seconds(headers.get("x-ratelimit-reset"));
-};
-
-/**
- * The backoff for one 429, or `null` when waiting it out is not this process's
- * job. `/v1/analytics/data` alone is capped at one request per minute, so a
- * 429 there can ask for longer than a sync may sleep; beyond the ceiling the
- * read fails with the wait NAMED, so the operator learns when the data can be
- * fetched instead of watching a silent process.
- */
-const backoffFrom = (headers: Headers, attempt: number): number | null => {
-  const asked = retryAfterMs(headers);
-  if (asked === null) {
-    return Math.min(DEFAULT_BACKOFF_MS * attempt, MAX_BACKOFF_MS);
-  }
-  return asked > MAX_BACKOFF_MS ? null : asked;
-};
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
  * When each Client-Id last sent anything, and when each (Client-Id, endpoint)
  * pair last ran. Process-local: one sync runs in one process, and a shared
  * budget across processes is a thing to measure before it is built, not to
@@ -284,7 +251,7 @@ export const ozonRead = async <T = unknown>(
   let attempt = 0;
   let lastError: unknown = null;
 
-  while (attempt < MAX_ATTEMPTS) {
+  while (attempt < MP_MAX_ATTEMPTS) {
     attempt += 1;
     const startedAt = Date.now();
     let status: number | null = null;
@@ -303,13 +270,13 @@ export const ozonRead = async <T = unknown>(
       const text = await response.text();
 
       if (response.status === 429) {
-        const wait = attempt < MAX_ATTEMPTS ? backoffFrom(response.headers, attempt) : null;
+        const wait = attempt < MP_MAX_ATTEMPTS ? backoffFrom(response.headers, attempt) : null;
 
         if (wait !== null) {
           failure = `429, retrying in ${wait} ms`;
           await journalCall(options, entry, path, status, Date.now() - startedAt, failure, logger);
           logger.warn(
-            `[ozon] ${entry.method} ${entry.host}${path} -> 429, attempt ${attempt}/${MAX_ATTEMPTS}, ` +
+            `[ozon] ${entry.method} ${entry.host}${path} -> 429, attempt ${attempt}/${MP_MAX_ATTEMPTS}, ` +
               `waiting ${wait} ms (Client-Id: ***, Api-Key: ***)`,
           );
           await sleep(wait);
@@ -328,7 +295,7 @@ export const ozonRead = async <T = unknown>(
           asked === null
             ? text
             : `${text} [Ozon asks to retry in ${Math.round(asked / 1000)} s, which is longer than ` +
-              `this client waits inside one run (${MAX_BACKOFF_MS / 1000} s). Run this kind again later.]`,
+              `this client waits inside one run (${MP_MAX_BACKOFF_MS / 1000} s). Run this kind again later.]`,
         );
       }
 
@@ -360,19 +327,19 @@ export const ozonRead = async <T = unknown>(
       const message = error instanceof Error ? error.message : String(error);
       await journalCall(options, entry, path, status, ms, message, logger);
       logger.warn(
-        `[ozon] ${entry.method} ${entry.host}${path} failed on attempt ${attempt}/${MAX_ATTEMPTS}: ` +
+        `[ozon] ${entry.method} ${entry.host}${path} failed on attempt ${attempt}/${MP_MAX_ATTEMPTS}: ` +
           `${message} (Client-Id: ***, Api-Key: ***)`,
       );
-      if (attempt >= MAX_ATTEMPTS) {
+      if (attempt >= MP_MAX_ATTEMPTS) {
         break;
       }
-      await sleep(Math.min(DEFAULT_BACKOFF_MS * attempt, MAX_BACKOFF_MS));
+      await sleep(Math.min(MP_DEFAULT_BACKOFF_MS * attempt, MP_MAX_BACKOFF_MS));
     }
   }
 
   throw lastError instanceof Error
     ? lastError
-    : new Error(`Ozon ${entry.id} failed after ${MAX_ATTEMPTS} attempts.`);
+    : new Error(`Ozon ${entry.id} failed after ${MP_MAX_ATTEMPTS} attempts.`);
 };
 
 /**

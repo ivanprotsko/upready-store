@@ -4069,6 +4069,38 @@
     "saved": "Code saved",
     "loading": "loading…"
   },
+  "marketplaceSync": {
+    "title": "Synchronisation",
+    "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
+    "backToCards": "← back to the marketplace cards",
+    "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
+    "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
+    "warnings": {
+      "noKey": "{{label}}: no key saved, nothing is being imported.",
+      "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
+      "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
+      "failed": "{{where}}: the last run failed — {{error}}",
+      "neverRan": "{{where}}: has never run."
+    },
+    "state": "State",
+    "lastSuccess": "Last successful run",
+    "neverSucceeded": "never succeeded",
+    "every": "How often",
+    "everyMinutes": "every {{count}} min",
+    "notScheduled": "not scheduled",
+    "nextRun": "Next run",
+    "dueNow": "due, starts at the next check",
+    "running": "running right now",
+    "inMinutes": "in {{count}} min",
+    "inHours": "in {{count}} h",
+    "waitingForMarketplace": "the marketplace asks to wait until {{at}}",
+    "lastFailure": "Last failure",
+    "noFailures": "no failures",
+    "neverRan": "never ran",
+    "attempts": "attempts: {{count}}",
+    "keySet": "key ends with {{last4}}, valid until {{until}}",
+    "noExpiry": "no expiry stated"
+  },
   "marketplaces": {
     "title": "Marketplaces",
     "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
@@ -4158,9 +4190,14 @@
       "postings": "Shipments",
       "reviews": "Reviews",
       "questions": "Questions",
+      "sales": "Sales",
+      "analytics": "Listing analytics",
+      "supplies": "Supplies",
+      "fbs_orders": "FBS orders",
       "projection": "Shared-layer recompute"
     },
     "statuses": {
+      "rate_limited": "waiting for the marketplace",
       "running": "running",
       "succeeded": "succeeded",
       "failed": "failed"
