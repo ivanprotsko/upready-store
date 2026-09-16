@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "बंद करें",
+    "counter": "चित्र {index} / {total}",
     "goToImage": "छवि {index} पर जाएं",
-    "openFullImage": "पूरी छवि खोलें"
+    "nextImage": "अगला चित्र",
+    "openFullImage": "पूरी छवि खोलें",
+    "previousImage": "पिछला चित्र",
+    "showImage": "चित्र {index} दिखाएँ",
+    "thumbnails": "उत्पाद की थंबनेल"
   },
   "Journal": {
     "navLabel": "पत्रिका",
@@ -730,6 +736,9 @@
     "no": "नहीं",
     "title": "विशेषताएँ",
     "yes": "हाँ"
+  },
+  "ProductInfo": {
+    "description": "विवरण"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "एडमिन में सेटअप जारी रखें",

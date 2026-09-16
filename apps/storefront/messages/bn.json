@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "বন্ধ করুন",
+    "counter": "ছবি {index} / {total}",
     "goToImage": "ছবি {index}-এ যান",
-    "openFullImage": "সম্পূর্ণ ছবি খুলুন"
+    "nextImage": "পরের ছবি",
+    "openFullImage": "সম্পূর্ণ ছবি খুলুন",
+    "previousImage": "আগের ছবি",
+    "showImage": "ছবি {index} দেখুন",
+    "thumbnails": "পণ্যের থাম্বনেইল"
   },
   "Journal": {
     "navLabel": "ম্যাগাজিন",
@@ -730,6 +736,9 @@
     "no": "না",
     "title": "বৈশিষ্ট্য",
     "yes": "হ্যাঁ"
+  },
+  "ProductInfo": {
+    "description": "বিবরণ"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "অ্যাডমিনে সেটআপ চালিয়ে যান",

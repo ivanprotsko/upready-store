@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Uždaryti",
+    "counter": "Nuotrauka {index} iš {total}",
     "goToImage": "Pereiti prie vaizdo {index}",
-    "openFullImage": "Atverti visą vaizdą"
+    "nextImage": "Kita nuotrauka",
+    "openFullImage": "Atverti visą vaizdą",
+    "previousImage": "Ankstesnė nuotrauka",
+    "showImage": "Rodyti {index} nuotrauką",
+    "thumbnails": "Prekės miniatiūros"
   },
   "Journal": {
     "navLabel": "Žurnalas",
@@ -730,6 +736,9 @@
     "no": "Ne",
     "title": "Savybės",
     "yes": "Taip"
+  },
+  "ProductInfo": {
+    "description": "Aprašymas"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Tęsti nustatymą administravimo skydelyje",

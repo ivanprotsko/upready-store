@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "סגירה",
+    "counter": "תמונה {index} מתוך {total}",
     "goToImage": "מעבר לתמונה {index}",
-    "openFullImage": "פתיחת התמונה המלאה"
+    "nextImage": "התמונה הבאה",
+    "openFullImage": "פתיחת התמונה המלאה",
+    "previousImage": "התמונה הקודמת",
+    "showImage": "הצגת תמונה {index}",
+    "thumbnails": "תמונות ממוזערות של המוצר"
   },
   "Journal": {
     "navLabel": "מגזין",
@@ -730,6 +736,9 @@
     "no": "לא",
     "title": "מפרט",
     "yes": "כן"
+  },
+  "ProductInfo": {
+    "description": "תיאור"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",

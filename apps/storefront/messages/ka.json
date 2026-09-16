@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "დახურვა",
+    "counter": "სურათი {index} / {total}",
     "goToImage": "გადასვლა სურათზე {index}",
-    "openFullImage": "სრული სურათის გახსნა"
+    "nextImage": "შემდეგი სურათი",
+    "openFullImage": "სრული სურათის გახსნა",
+    "previousImage": "წინა სურათი",
+    "showImage": "სურათი {index}-ის ჩვენება",
+    "thumbnails": "პროდუქტის მინიატურები"
   },
   "Journal": {
     "navLabel": "ჟურნალი",
@@ -730,6 +736,9 @@
     "no": "არა",
     "title": "მახასიათებლები",
     "yes": "დიახ"
+  },
+  "ProductInfo": {
+    "description": "აღწერა"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "კონფიგურაციის გაგრძელება ადმინში",

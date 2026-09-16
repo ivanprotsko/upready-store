@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Fechar",
+    "counter": "Imagem {index} de {total}",
     "goToImage": "Ir para a imagem {index}",
-    "openFullImage": "Abrir a imagem completa"
+    "nextImage": "Imagem seguinte",
+    "openFullImage": "Abrir a imagem completa",
+    "previousImage": "Imagem anterior",
+    "showImage": "Mostrar a imagem {index}",
+    "thumbnails": "Miniaturas do produto"
   },
   "Journal": {
     "navLabel": "Revista",
@@ -730,6 +736,9 @@
     "no": "Não",
     "title": "Características",
     "yes": "Sim"
+  },
+  "ProductInfo": {
+    "description": "Descrição"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuar configuração no admin",

@@ -1,4 +1,5 @@
 import type { HttpTypes } from "@medusajs/types"
+import { ChevronRight } from "@medusajs/icons"
 import { Text } from "@medusajs/ui"
 import { getTranslations } from "next-intl/server"
 
@@ -15,14 +16,28 @@ type ProductInfoProps = {
   reviews?: ProductReviewSummary
 }
 
+/**
+ * The head of the product page, beside the gallery: title, rating, and a link
+ * down to the description.
+ *
+ * Structure taken from the chrxnasdmds `product-info-summary` — the title
+ * first, the rating right under it as one clickable line that scrolls to the
+ * reviews, and a chip that jumps to the description further down the page.
+ * The chip is what makes a long description reachable without scrolling past
+ * the whole card, and it renders only when there is a description to reach.
+ */
 const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
-  const t = await getTranslations("ProductReviews")
+  const [t, tInfo] = await Promise.all([
+    getTranslations("ProductReviews"),
+    getTranslations("ProductInfo"),
+  ])
   const hasReviews = !!reviews && reviews.count > 0 && reviews.average !== null
+  const hasDescription = Boolean(product.description?.trim())
 
   return (
-    <div id="product-info" className="flex flex-col gap-y-2">
+    <div id="product-info" className="flex flex-col gap-y-3">
       <h1
-        className="text-[32px] font-medium leading-[160%] text-ui-fg-base"
+        className="text-[28px] small:text-[32px] font-medium leading-tight text-ui-fg-base"
         data-testid="product-title"
       >
         {product.title}
@@ -30,7 +45,7 @@ const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
       {hasReviews && (
         <a
           href="#product-reviews"
-          className="flex items-center gap-x-2"
+          className="flex w-fit items-center gap-x-2"
           data-testid="product-rating"
         >
           <StarRating
@@ -51,6 +66,16 @@ const ProductInfo = async ({ product, reviews }: ProductInfoProps) => {
       )}
       {product.subtitle && (
         <p className="txt-medium text-ui-fg-subtle">{product.subtitle}</p>
+      )}
+      {hasDescription && (
+        <a
+          href="#product-description"
+          className="inline-flex w-fit items-center gap-x-1 rounded-circle border border-ui-border-base px-3 py-1 txt-compact-small text-ui-fg-subtle transition-colors hover:border-ui-border-strong hover:text-ui-fg-base"
+          data-testid="product-description-link"
+        >
+          {tInfo("description")}
+          <ChevronRight className="pointer-events-none" />
+        </a>
       )}
     </div>
   )

@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Bezárás",
+    "counter": "{index}. kép a(z) {total} közül",
     "goToImage": "Ugrás a(z) {index}. képre",
-    "openFullImage": "Teljes méretű kép megnyitása"
+    "nextImage": "Következő kép",
+    "openFullImage": "Teljes méretű kép megnyitása",
+    "previousImage": "Előző kép",
+    "showImage": "{index}. kép megjelenítése",
+    "thumbnails": "A termék indexképei"
   },
   "Journal": {
     "navLabel": "Magazin",
@@ -730,6 +736,9 @@
     "no": "Nem",
     "title": "Jellemzők",
     "yes": "Igen"
+  },
+  "ProductInfo": {
+    "description": "Leírás"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Beállítás folytatása az adminban",
