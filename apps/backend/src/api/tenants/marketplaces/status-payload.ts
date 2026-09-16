@@ -7,6 +7,7 @@ import { MARKETPLACE_MODULE } from "../../../modules/marketplace";
 import type MarketplaceModuleService from "../../../modules/marketplace/service";
 import { linkSummary, matchByVendorCode } from "../../../modules/marketplace/link";
 import { tenantVariants } from "../../../modules/marketplace/project";
+import { maskSecret } from "../../../tenant-secrets/crypto";
 
 /**
  * The body of one marketplace card, built once and served by both
@@ -135,6 +136,33 @@ export const buildCard = async (
         how_to_store: adapter.credentialHowTo,
       },
       is_enabled: slot?.isEnabled ?? false,
+      /**
+       * What the owner types to connect this marketplace, and what is stored
+       * in each field today (w24-integration-keys-self-service). The panel
+       * renders the form from THIS list, so a marketplace registered in
+       * `registry.ts` gets a working form with nothing added to the panel
+       * (rule 20) — which is the whole point of Ivan's order of 2026-09-16
+       * 11:37 WITA: the owner of a SaaS shop enters her own keys.
+       *
+       * A secret field carries `{ set, last4 }` and never a value; a
+       * non-secret one (Ozon's `Client-Id` identifies a cabinet, it does not
+       * authorise) carries what is stored, because the owner has to see which
+       * cabinet this shop is bound to.
+       */
+      fields: adapter.credentialFields.map((field) => {
+        const stored = (slot?.credentials ?? {}) as Record<string, unknown>;
+        const value = stored[field.name];
+        const text = typeof value === "string" ? value : null;
+        return {
+          name: field.name,
+          label: field.label,
+          secret: field.secret,
+          hint: field.hint,
+          doc_url: field.docUrl,
+          value: field.secret ? null : text,
+          masked: field.secret ? maskSecret(text) : null,
+        };
+      }),
     },
     credentials: facts
       ? {

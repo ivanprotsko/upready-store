@@ -325,6 +325,41 @@ export type CredentialSlot = {
 };
 
 /**
+ * ONE field the shop owner types into the panel to connect this marketplace
+ * (w24-integration-keys-self-service).
+ *
+ * `name` is BOTH the body key of `PUT /tenants/marketplaces/:id/key` and the
+ * key inside the encrypted payload, so the route builds the credential object
+ * from this list and nothing maps one spelling onto another. WB declares
+ * `api_key`, Ozon declares `client_id` + `api_key`, and those are exactly the
+ * fields `WildberriesCredentials` and `OzonCredentialsPayload` hold.
+ *
+ * WHY IT IS THE ADAPTER'S. Ivan's order of 2026-09-16 11:37 WITA is that the
+ * owner of a SaaS shop enters every key herself, for every service. A form
+ * hard-coded per marketplace in the panel would have to learn the third
+ * marketplace by hand, in the panel, in Russian and in English, and would be
+ * forgotten there exactly the way the sidebar entry was (rule 20). With this
+ * member the panel renders whatever the registry declares.
+ *
+ * `secret: true` means the value is masked on every read and is KEPT when the
+ * owner saves the form with that field left empty; a field that is not secret
+ * (Ozon's `Client-Id` identifies a cabinet, it does not authorise) comes back
+ * in full and is required on every save.
+ */
+export type CredentialField = {
+  /** Body key and payload key. Lower snake case, as the payload types spell it. */
+  name: string;
+  /** Owner-facing label, in the marketplace's own words («Client-Id», «Токен»). */
+  label: string;
+  /** Masked on read, kept on an empty save. */
+  secret: boolean;
+  /** Where in the marketplace's cabinet the owner finds this value. One sentence. */
+  hint: string;
+  /** The page of the marketplace's own documentation that sentence was read from. */
+  docUrl: string;
+};
+
+/**
  * What an adapter needs to do its work, without the core knowing any of its
  * types. `container` is Medusa's own, so the adapter resolves ITS module
  * service by ITS key; the core resolves nothing.
@@ -412,6 +447,24 @@ export type MarketplaceAdapter = {
    * the owner goes looking for it (rule 17a).
    */
   credentialHowTo: string;
+  /**
+   * The provider name of this marketplace's READ credential in
+   * `tenant_integration_secret` — `wildberries`, `ozon`
+   * (w24-integration-keys-self-service).
+   *
+   * Declared rather than inferred so the key ROUTE can write the same slot
+   * `readCredentials` reads, without the core learning a provider table of its
+   * own. A write slot (`wildberries_write`, w20) is NOT an adapter's slot and
+   * `guards.ts` refuses one here: the owner's form fills the read key and the
+   * write credential stays outside every HTTP surface.
+   */
+  credentialSlot: string;
+  /**
+   * What the owner types to connect this marketplace, in the order the form
+   * shows it. The panel renders the form from this list and the key route
+   * builds the encrypted payload from it.
+   */
+  credentialFields: readonly CredentialField[];
   /** The adapter's own import kinds, in its own vocabulary (WB: cards, Ozon: products). */
   syncKinds: readonly string[];
   /**
@@ -479,6 +532,8 @@ export const ADAPTER_KEYS = [
   "inspectCredentials",
   "readCredentials",
   "credentialHowTo",
+  "credentialSlot",
+  "credentialFields",
   "syncKinds",
   "mirrorKinds",
   "runSync",

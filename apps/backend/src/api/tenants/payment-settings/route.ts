@@ -3,7 +3,7 @@ import { ContainerRegistrationKeys, MedusaError } from "@medusajs/framework/util
 import type { Knex } from "@medusajs/framework/mikro-orm/knex";
 import { TENANT_MODULE } from "../../../modules/tenant";
 import type TenantModuleService from "../../../modules/tenant/service";
-import { encryptJson, keyFromEnv } from "../../../tenant-secrets/crypto";
+import { deleteTenantSecretSlot, writeTenantSecretSlot } from "../../../tenant-secrets/slot";
 import {
   readRobokassaSecret,
   ROBOKASSA_SECRET_FIELDS,
@@ -64,24 +64,17 @@ export const PUT = async (
     );
   }
 
-  const payload = encryptJson(credentials, keyFromEnv());
-
-  if (existing) {
-    await tenantModule.updateTenantIntegrationSecrets({
-      id: existing.id,
-      payload,
-      is_test: isTest,
-      is_enabled: isEnabled,
-    });
-  } else {
-    await tenantModule.createTenantIntegrationSecrets({
-      tenant_id: tenant.id,
-      provider: "robokassa",
-      payload,
-      is_test: isTest,
-      is_enabled: isEnabled,
-    });
-  }
+  // One writer for every slot of `tenant_integration_secret`
+  // (`tenant-secrets/slot.ts`, w24-integration-keys-self-service): the
+  // encryption, the revival of a soft-deleted row and the enabled default are
+  // decided in one place for Robokassa and for every marketplace key.
+  await writeTenantSecretSlot(pg, tenantModule, {
+    tenantId: tenant.id,
+    provider: "robokassa",
+    credentials,
+    isTest,
+    isEnabled,
+  });
 
   res.json(await readOwnPaymentSettings(req));
 };
@@ -91,9 +84,6 @@ export const DELETE = async (req: AuthenticatedMedusaRequest, res: MedusaRespons
   const tenant = await getTenantScope(req);
   const pg = req.scope.resolve<Knex>(ContainerRegistrationKeys.PG_CONNECTION);
   const tenantModule = req.scope.resolve<TenantModuleService>(TENANT_MODULE);
-  const existing = await readRobokassaSecret(pg, tenant.id, { includeDisabled: true });
-  if (existing) {
-    await tenantModule.softDeleteTenantIntegrationSecrets([existing.id]);
-  }
-  res.json({ id: existing?.id ?? null, object: "payment_settings", deleted: Boolean(existing) });
+  const removed = await deleteTenantSecretSlot(pg, tenantModule, tenant.id, "robokassa");
+  res.json({ id: removed.id, object: "payment_settings", deleted: removed.deleted });
 };
