@@ -436,7 +436,14 @@
     "previous": "Ankstesnis",
     "next": "Kitas",
     "pageOf": "{page} puslapis iš {lastPage}",
-    "pagination": "Žurnalo puslapiai"
+    "pagination": "Žurnalo puslapiai",
+    "readingTime": "{minutes} min skaitymo",
+    "related": "Taip pat skaitykite",
+    "share": "Dalintis",
+    "copyLink": "Kopijuoti nuorodą",
+    "linkCopied": "Nuoroda nukopijuota",
+    "allCategories": "Visos rubrikos",
+    "categories": "Rubrikos"
   },
   "LanguageSelect": {
     "locales": {

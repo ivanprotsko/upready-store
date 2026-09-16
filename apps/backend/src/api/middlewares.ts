@@ -1064,7 +1064,15 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantPageSchema)],
     },
 
-    // ---- t10-blog: journal articles (/tenants/articles/**, /store/tenant/articles/**)
+    // ---- t10-blog / b18-blog-full: journal articles
+    // (/tenants/articles/**, /tenants/article-categories,
+    //  /store/tenant/articles/**, /store/tenant/article-categories)
+    // The two category reads take no body and no parameter at all, so they are
+    // not listed here: the owner's one rides the "/tenants/*" authenticate
+    // above, the visitor's one the framework's publishable-key gate on
+    // "/store/*". They are their own paths rather than
+    // "/tenants/articles/categories" because that sits inside the ":slug"
+    // route's space, and a rubric is not an article.
     // Same reasoning as the pages block above: only the write verbs take a
     // body. The two tenant reads parse their one optional `?locale=` in the
     // route (this resource has no Admin counterpart to borrow a query config

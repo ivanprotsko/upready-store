@@ -436,7 +436,14 @@
     "previous": "Προηγούμενη",
     "next": "Επόμενη",
     "pageOf": "Σελίδα {page} από {lastPage}",
-    "pagination": "Σελίδες άρθρων"
+    "pagination": "Σελίδες άρθρων",
+    "readingTime": "{minutes} λεπτά ανάγνωσης",
+    "related": "Διαβάστε επίσης",
+    "share": "Κοινοποίηση",
+    "copyLink": "Αντιγραφή συνδέσμου",
+    "linkCopied": "Ο σύνδεσμος αντιγράφηκε",
+    "allCategories": "Όλες οι κατηγορίες",
+    "categories": "Κατηγορίες"
   },
   "LanguageSelect": {
     "locales": {

@@ -436,7 +436,14 @@
     "previous": "Sebelumnya",
     "next": "Berikutnya",
     "pageOf": "Halaman {page} dari {lastPage}",
-    "pagination": "Halaman jurnal"
+    "pagination": "Halaman jurnal",
+    "readingTime": "Baca {minutes} mnt",
+    "related": "Baca juga",
+    "share": "Bagikan",
+    "copyLink": "Salin tautan",
+    "linkCopied": "Tautan disalin",
+    "allCategories": "Semua rubrik",
+    "categories": "Rubrik"
   },
   "LanguageSelect": {
     "locales": {

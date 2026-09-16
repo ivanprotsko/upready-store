@@ -1,0 +1,22 @@
+[
+ {
+  "group": "tilda-1.json",
+  "template": "Онлайн-магазин",
+  "source": "tilda",
+  "id": "photo-credits-attribution",
+  "name_ru": "Блок с указанием авторства фотографий в подвале",
+  "category": "content",
+  "page_url": "http://examples-ru.tilda.ws/shetukaru",
+  "evidence": "FLICKR CREDITS: [Anka Albrecht](https://www.flickr.com/photos/134465805@N06/21623729612/in/album-72157658553689829/) |"
+ },
+ {
+  "group": "tilda-3.json",
+  "template": "Магазин мебели",
+  "source": "tilda",
+  "id": "photo-credits-list",
+  "name_ru": "Список кредитов авторов фотографий в подвале страницы",
+  "category": "content",
+  "page_url": "http://examples-ru.tilda.ws/happychairru",
+  "evidence": "FLICKR CREDITS: 1_ [ArchDis](https://www.flickr.com/photos/archdis/19921430990/in/album-72157656510825865/)"
+ }
+]

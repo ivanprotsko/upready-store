@@ -436,7 +436,14 @@
     "previous": "Önceki",
     "next": "Sonraki",
     "pageOf": "Sayfa {page} / {lastPage}",
-    "pagination": "Dergi sayfaları"
+    "pagination": "Dergi sayfaları",
+    "readingTime": "{minutes} dk okuma",
+    "related": "Bunu da okuyun",
+    "share": "Paylaş",
+    "copyLink": "Bağlantıyı kopyala",
+    "linkCopied": "Bağlantı kopyalandı",
+    "allCategories": "Tüm konular",
+    "categories": "Konular"
   },
   "LanguageSelect": {
     "locales": {

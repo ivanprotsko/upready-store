@@ -60,7 +60,14 @@
 #    panel is not resurrected by the next boot. Cosmetic like step 5, so
 #    `set -e` is lifted and a failure is logged rather than kept the backend
 #    down.
-# 7. exec the real command (CMD from the Dockerfile, normally `medusa start`)
+# 7. link `pp_robokassa_robokassa` to every RUB region. A payment provider is
+#    offered PER REGION (`region.payment_providers`), so without this row the
+#    store lists no Robokassa for anybody, however many shops saved their
+#    account in the panel — the per-shop check in
+#    `src/api/store/payment-providers/route.ts` only ever narrows that list.
+#    Idempotent (a region that already offers it is skipped) and cosmetic in the
+#    same sense as steps 5 and 6: a failure is logged, the backend still boots.
+# 8. exec the real command (CMD from the Dockerfile, normally `medusa start`)
 #    so it becomes PID 1 and receives signals directly — no shell left
 #    holding the process, matching Docker's own stop/restart expectations.
 set -eu
@@ -93,6 +100,15 @@ redirects_status=$?
 set -e
 if [ "$redirects_status" -ne 0 ]; then
   echo "[entrypoint] WARNING: backfill-tenant-redirects exited $redirects_status; the old addresses of an imported catalogue may still answer 404"
+fi
+
+echo "[entrypoint] offering Robokassa in every RUB region (no-op when already linked)"
+set +e
+node_modules/.bin/medusa exec ./src/scripts/link-robokassa-regions.js
+robokassa_status=$?
+set -e
+if [ "$robokassa_status" -ne 0 ]; then
+  echo "[entrypoint] WARNING: link-robokassa-regions exited $robokassa_status; the checkout will not offer Robokassa to any shop"
 fi
 
 echo "[entrypoint] starting: $*"

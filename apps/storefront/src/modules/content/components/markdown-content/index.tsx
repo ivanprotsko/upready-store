@@ -38,6 +38,22 @@ export const Inline = ({ nodes }: { nodes: MarkdownInline[] }) => (
               {node.value}
             </code>
           )
+        case "image":
+          // b18-blog-full: a picture the owner uploaded into the text. Plain
+          // `<img>` rather than `next/image` on purpose — the source is a
+          // tenant upload whose host is not in `next.config.js`'s allowlist,
+          // and the optimiser answers 400 for a host it does not know.
+          // `loading="lazy"` because these sit far below the fold.
+          return (
+            <img
+              key={index}
+              src={node.src}
+              alt={node.value}
+              loading="lazy"
+              className="rounded-rounded my-4 h-auto w-full"
+              data-testid="markdown-image"
+            />
+          )
         case "link":
           return node.href.startsWith("/") ? (
             <Link

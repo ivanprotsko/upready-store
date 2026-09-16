@@ -1,0 +1,411 @@
+{
+  "group": "tilda-4",
+  "templates": [
+    {
+      "template": "Онлайн-магазин",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=pichyshopru",
+      "features": [
+        {
+          "id": "product-card-sale-badge-old-new-price",
+          "name_ru": "карточка товара со старой и новой ценой и меткой SALE",
+          "category": "product-page",
+          "evidence": "SALE Ваза Tuomas Markunpoika 1699 р. 1499 р.",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "add-to-cart-button",
+          "name_ru": "кнопка «Добавить в корзину» на каждой карточке товара",
+          "category": "cart-checkout",
+          "evidence": "[Добавить в корзину](http://examples-ru.tilda.ws/pichyshopru#order)",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "anchor-nav-menu",
+          "name_ru": "меню навигации по якорным разделам страницы (О нас, Товары, Доставка, Контакты)",
+          "category": "navigation",
+          "evidence": "[Товары](http://examples-ru.tilda.ws/pichyshopru#shop)",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "delivery-info-block",
+          "name_ru": "текстовый блок с условиями доставки и самовывоза",
+          "category": "content",
+          "evidence": "Мы находимся в Москве. Вы можете забрать товары из точки самовывоза или заказать доставку по городу в пределах МКАД.",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "reviews-widget",
+          "name_ru": "виджет отзывов покупателей",
+          "category": "trust-reviews",
+          "evidence": "сигнал: reviews",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "chat-widget-integration",
+          "name_ru": "интеграция онлайн-чата с покупателями",
+          "category": "integrations",
+          "evidence": "сигнал: chat-widget",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        },
+        {
+          "id": "promo-popup-countdown",
+          "name_ru": "всплывающий промо-баннер с таймером обратного отсчёта",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown, popup",
+          "page_url": "http://examples-ru.tilda.ws/pichyshopru"
+        }
+      ]
+    },
+    {
+      "template": "Онлайн-магазин",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=loadstoneru",
+      "features": [
+        {
+          "id": "category-sections-women-men-accessories",
+          "name_ru": "разделы каталога по категориям (женщины, мужчины, аксессуары)",
+          "category": "catalog-listing",
+          "evidence": "[Женщины](http://examples-ru.tilda.ws/loadstoneru#women)",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "product-card-sale-price",
+          "name_ru": "карточка товара со скидочной ценой (SALE)",
+          "category": "product-page",
+          "evidence": "SALE Терракотовый плащ CRF 7990 р. 9990 р.",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "bulk-discount-promo",
+          "name_ru": "промо-блок «скидка 30% при покупке от 3 вещей + подарок»",
+          "category": "promo-marketing",
+          "evidence": "Скидка действует при покупке более чем 3-х вещей в одном чеке. Закажите более двух товаров и получите подарок",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "multiple-delivery-options",
+          "name_ru": "выбор способа доставки: самовывоз бесплатно / курьер 300 руб / почта",
+          "category": "cart-checkout",
+          "evidence": "Самовывоз\nБесплатно\nДоставка курьером\n300 руб.\nДоставка почтой",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "newsletter-signup",
+          "name_ru": "форма подписки на email-рассылку новостей и скидок",
+          "category": "promo-marketing",
+          "evidence": "Подпишитесь на рассылку для получения наших новостей и скидок! Обещаем быть полезными и никакого спама",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "blog-section",
+          "name_ru": "раздел «Блог» с новостями о моде и магазине",
+          "category": "content",
+          "evidence": "Посмотрите наш лукбук и популярные товары. Также у нас есть блог о моде и новостях магазина",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "product-variants",
+          "name_ru": "варианты товара (размер/цвет) на карточке",
+          "category": "product-page",
+          "evidence": "сигнал: variants",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон",
+          "page_url": "http://examples-ru.tilda.ws/loadstoneru"
+        }
+      ]
+    },
+    {
+      "template": "Интернет-магазин",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=cannyonlinestoreru",
+      "features": [
+        {
+          "id": "category-tabs-furniture-accessories",
+          "name_ru": "переключение категорий каталога (Мебель / Аксессуары) кнопками-вкладками",
+          "category": "catalog-listing",
+          "evidence": "Мебель\nАксессуары\nМебель",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "product-card-with-designer-description",
+          "name_ru": "карточка товара с описанием и именем дизайнера, старой/новой ценой",
+          "category": "product-page",
+          "evidence": "Деревянная витрина Прекрасная деревянная витрина для вашего интерьера. Дизайн от Kai Takeshima 6990 р. 7990 р.",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "load-more-products",
+          "name_ru": "кнопка «Больше продуктов» для подгрузки товаров каталога",
+          "category": "catalog-listing",
+          "evidence": "Больше продуктов",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "newsletter-signup",
+          "name_ru": "форма подписки на рассылку о новых поступлениях и скидках",
+          "category": "promo-marketing",
+          "evidence": "Подпишитесь на нашу рассылку\nРаз в месяц мы рассылаем информацию о новых поступлениях, скидках и новостях магазина. Присоединяйтесь к нашему сообществу!",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "wholesale-b2b-block",
+          "name_ru": "блок оптовых/b2b продаж",
+          "category": "b2b-wholesale",
+          "evidence": "сигнал: wholesale-b2b",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "kit-bundle-products",
+          "name_ru": "комплекты/наборы товаров (kit/bundle)",
+          "category": "catalog-listing",
+          "evidence": "сигнал: kit-bundle",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        },
+        {
+          "id": "gallery-zoom-product-photos",
+          "name_ru": "увеличение (зум) фотографий товара в галерее",
+          "category": "product-page",
+          "evidence": "сигнал: gallery-zoom",
+          "page_url": "http://examples-ru.tilda.ws/cannyonlinestoreru"
+        }
+      ]
+    },
+    {
+      "template": "Страница товара",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=oneproductpageru",
+      "features": [
+        {
+          "id": "single-product-landing",
+          "name_ru": "одностраничная карточка одного товара (лендинг товара) с названием, дизайнером, ценой и описанием",
+          "category": "product-page",
+          "evidence": "Лампа с абажуром ручной работы\nДизайн Zoe Darlington\n3490\nр.",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        },
+        {
+          "id": "buy-now-button",
+          "name_ru": "кнопка «Купить» на странице товара, ведущая к форме заказа",
+          "category": "cart-checkout",
+          "evidence": "[Купить](http://examples-ru.tilda.ws/oneproductpageru#order)",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        },
+        {
+          "id": "top-nav-with-store-sections",
+          "name_ru": "верхнее меню со ссылками на разделы родительского магазина (О нас, Мебель, Аксессуары)",
+          "category": "navigation",
+          "evidence": "[Мебель](http://examples-ru.tilda.ws/oneproductpageru#furniture)",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        },
+        {
+          "id": "product-countdown-badge",
+          "name_ru": "метки товара и таймер обратного отсчёта на странице товара",
+          "category": "promo-marketing",
+          "evidence": "сигнал: countdown, product-badges",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        },
+        {
+          "id": "reviews-widget",
+          "name_ru": "виджет отзывов покупателей",
+          "category": "trust-reviews",
+          "evidence": "сигнал: reviews",
+          "page_url": "http://examples-ru.tilda.ws/oneproductpageru"
+        }
+      ]
+    },
+    {
+      "template": "Страница товара",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=phantomru",
+      "features": [
+        {
+          "id": "hero-cta-buy-block",
+          "name_ru": "герой-блок товара с призывом к действию и кнопкой «Купить»",
+          "category": "product-page",
+          "evidence": "PHANTOM 3\nЛовите лучшие моменты!\n[Купить](http://examples-ru.tilda.ws/phantomru#order)",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        },
+        {
+          "id": "specs-table",
+          "name_ru": "таблица технических характеристик товара",
+          "category": "product-page",
+          "evidence": "Диапазон ISO\n100-3200 (видео) 100-1600 (фото)\nМаксимальный размер изображения\n4000 x 3000",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        },
+        {
+          "id": "product-video-block",
+          "name_ru": "видеоблок «Посмотрите, как это работает»",
+          "category": "content",
+          "evidence": "Посмотрите, как это работает",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        },
+        {
+          "id": "product-gallery",
+          "name_ru": "галерея фотографий товара",
+          "category": "product-page",
+          "evidence": "Галерея с PHANTOM 3",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        },
+        {
+          "id": "buy-now-price-cta",
+          "name_ru": "итоговый ценовой блок с ценой и кнопкой «Купить сейчас»",
+          "category": "cart-checkout",
+          "evidence": "PHANTOM 3\nВоплотите свои самые яркие идеи!\n19990\nр.\n[Купить сейчас](http://examples-ru.tilda.ws/phantomru#order)",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Оформить заказ\nВаше имя\nВаш Email\nВаш телефон",
+          "page_url": "http://examples-ru.tilda.ws/phantomru"
+        }
+      ]
+    },
+    {
+      "template": "Магазин украшений",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=jewelrystoreru",
+      "features": [
+        {
+          "id": "product-buy-price-in-link",
+          "name_ru": "карточка товара с кнопкой «Купить за N руб.», ведущей на форму заказа с суммой в ссылке",
+          "category": "product-page",
+          "evidence": "[Купить за 10 800 руб.](http://examples-ru.tilda.ws/jewelrystoreru#order:...)",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "custom-design-order",
+          "name_ru": "возможность заказать индивидуальный дизайн украшения с предоплатой на этапе обсуждения",
+          "category": "content",
+          "evidence": "Если вы заказываете индивидуальное украшение, мы оставляем за собой право взять предоплату на стадии обсуждения дизайна.",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "payment-methods-choice",
+          "name_ru": "выбор способа оплаты: кредитная карта или веб-мани",
+          "category": "cart-checkout",
+          "evidence": "Выберите наиболее удобный для вас способ оплаты: кредитная карта или веб мани.",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "worldwide-delivery-block",
+          "name_ru": "блок «Доставка и оплата» с доставкой по всему миру",
+          "category": "content",
+          "evidence": "Мы доставляем наши украшения по всему миру. Можете выбрать из нашего каталога или заказать уникальный дизайн.",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "brand-story-process-block",
+          "name_ru": "блок «История бренда и рабочий процесс» о мастерах и технике изготовления",
+          "category": "content",
+          "evidence": "История бренда и рабочий процесс\nЦветы, море, природа — наша страсть. Мы используем традиционные техники обработки серебра",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Checkout\nYour Name\nYour Email\nYour Phone",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        },
+        {
+          "id": "reviews-widget",
+          "name_ru": "виджет отзывов покупателей",
+          "category": "trust-reviews",
+          "evidence": "сигнал: reviews",
+          "page_url": "http://examples-ru.tilda.ws/jewelrystoreru"
+        }
+      ]
+    },
+    {
+      "template": "Онлайн-сервис доставки еды",
+      "source": "tilda",
+      "template_url": "https://tilda.cc/tpls/page/?q=sushideliveryru",
+      "features": [
+        {
+          "id": "menu-category-nav",
+          "name_ru": "меню навигации по разделам меню (Роллы, Сеты, Акции, Контакты)",
+          "category": "navigation",
+          "evidence": "[Роллы](http://examples-ru.tilda.ws/sushideliveryru#rolls)",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "dish-card-with-composition",
+          "name_ru": "карточка блюда с составом, весом/количеством и ценой",
+          "category": "catalog-listing",
+          "evidence": "Унаги ролл Лосось, кунжут, рис, 4 шт. 199 р.",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "set-bundle-cards",
+          "name_ru": "карточки готовых сетов из нескольких блюд со скидкой",
+          "category": "catalog-listing",
+          "evidence": "Вы можете добавить в сет дополнительные роллы и получить на них скидку 10%",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "delivery-time-promise",
+          "name_ru": "обещание срока доставки (60 минут) на главном экране",
+          "category": "content",
+          "evidence": "Вкуснейшие роллы и суши с доставкой по Москве в течение 60 минут!",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "promo-discount-blocks",
+          "name_ru": "блок акций со скидкой 10% и подарком за репост в соцсетях",
+          "category": "promo-marketing",
+          "evidence": "Скидка 10 % при заказе от 3000 рублей!\nСкидка распространяется на все меню и действует с 9.00 до 20.00 каждый день.",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "social-share-reward",
+          "name_ru": "вознаграждение за публикацию фото в Instagram/Facebook (бесплатные роллы)",
+          "category": "promo-marketing",
+          "evidence": "Выложите в Инстаграм или Фейсбук фотографию с нашими роллами и получите роллы Филадельфия бесплатно при следущем заказе.",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "contacts-hours-block",
+          "name_ru": "блок контактов с адресом, телефоном и временем работы",
+          "category": "content",
+          "evidence": "Время работы\nЕжедневно\nс 10.00 до 2.00",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        },
+        {
+          "id": "checkout-order-form",
+          "name_ru": "форма оформления заказа (имя, email, телефон)",
+          "category": "cart-checkout",
+          "evidence": "Checkout\nYour Name\nYour Email\nYour Phone",
+          "page_url": "http://examples-ru.tilda.ws/sushideliveryru"
+        }
+      ]
+    }
+  ]
+}

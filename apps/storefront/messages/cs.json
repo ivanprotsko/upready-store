@@ -436,7 +436,14 @@
     "previous": "Předchozí",
     "next": "Další",
     "pageOf": "Stránka {page} z {lastPage}",
-    "pagination": "Stránky magazínu"
+    "pagination": "Stránky magazínu",
+    "readingTime": "{minutes} min čtení",
+    "related": "Přečtěte si také",
+    "share": "Sdílet",
+    "copyLink": "Kopírovat odkaz",
+    "linkCopied": "Odkaz zkopírován",
+    "allCategories": "Všechny rubriky",
+    "categories": "Rubriky"
   },
   "LanguageSelect": {
     "locales": {
