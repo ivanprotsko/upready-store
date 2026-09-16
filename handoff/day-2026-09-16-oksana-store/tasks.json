@@ -1709,6 +1709,22 @@
       "acceptance": "pg_dump до изменений (размер, gunzip -t rc=0); миграции применены; строки tenant_integration_secret cherkashino до/после по count+provider; живая панель как владелец: /settings/integrations показывает Wildberries «подключено ••••last4» без повторного ввода, старые адреса перенаправляют, в сайдбаре нет якорей; витрина /ru и страница товара 200 до и после; кадры вне git; report.md §9/§10/§Экономия",
       "why": "Правки p01 должен увидеть Иван на живой панели; ключ WB, введённый им ~20:00 WITA, должен пережить деплой",
       "source": "prompts/d09-deploy-integrations.md"
+    },
+    {
+      "id": "p02-operator-v1",
+      "title": "Оператор Э1: Иван пишет в UI очереди дня, скрипты отвечают документом с источниками (индекс корпуса FTS5, ask/gate, разбор промпта haiku по схеме, страница «Оператор», LaunchAgent)",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-operator-v1",
+      "deps": [],
+      "softDeps": [],
+      "priority": 99,
+      "prompt": "p02-operator-v1.md",
+      "acceptance": "node --test intake/ ui/ зелёные (включая 6 прежних); индекс реального корпуса ≥1400 файлов < 60 с, секретов в operator.db нет; шесть вопросов тестового набора §8 через POST /api/op/prompt на своём порту → шесть документов с gate.ok=true и ожидаемым источником у каждого; кадры ленты 1280×900 с плашкой уровня и ссылками на источники, ссылка открывается 200; промпт «два вопроса + баг» → две записи с документами и карточка bug; провал claude -p → запись fact с parse=fallback; тестовый LaunchAgent разобрал промпт из launchd и снят; operator.db/answers/prompts вне git; §11 «Как запустить» в OPERATOR-SPEC.md; report.md с §Экономия и замерами для ledger 8–10",
+      "why": "Заказ Ивана 2026-09-16 22:11 WITA (переосмысление: Иван не пишет в Fable/Opus, общается с оператором; script → haiku → sonnet → opus → fable, вверх только при провале ниже) и «делай» 2026-09-16 23:21 WITA («запусти выполнение задачи intake/OPERATOR-SPEC.md»); этап Э1 по §10 спецификации",
+      "source": "prompts/p02-operator-v1.md"
     }
   ]
 }

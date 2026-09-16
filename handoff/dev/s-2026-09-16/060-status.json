@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 60,
+  "action": "status-set",
+  "ts": "2026-09-16T23:30:13+08:00",
+  "status": "2026-09-16 23:30 WITA: штаб дня Оксаны — по «делай» Ивана 23:21 заведена p02-operator-v1 (оператор Э1 по intake/OPERATOR-SPEC.md §10, opus/high, ветка feat/day16-operator-v1), DONE снят (DONE.wave7-2329), диспетчер pid 82353, сторож Monitor bu7cm4t75, ledger строки 8–10; коммит 545ebb90; очередь дня до этого была DONE с 21:48 (merged 80, done 17, blocked 1 b16); отчёт Ивану о статусе и видении — в чате"
+}
