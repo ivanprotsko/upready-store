@@ -135,16 +135,30 @@ export const MpKeyForm = ({ card }: { card: MarketplaceCard }) => {
    */
   const writeRights = stored && card.credentials?.read_only === false
 
+  /**
+   * The per-field badge only where it says something the header does not.
+   * Wildberries has ONE field, so the two badges stood one line apart saying
+   * the same thing (measured on the stand at 390×844: the header one wrapped
+   * across the paragraph beside it). Ozon has two fields, and there the badge
+   * answers «which of them is stored».
+   */
+  const showFieldState = fields.filter((entry) => entry.secret).length > 1
+
   return (
     <div className="flex flex-col gap-y-4 px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+        <div className="min-w-0 flex-1">
           <Text weight="plus">{t("marketplaces.key.form.title")}</Text>
           <Text className="text-ui-fg-subtle" size="small">
             {card.connection.key.how_to_store}
           </Text>
         </div>
-        <Badge size="2xsmall" color={stored ? "green" : "grey"} data-testid={`mp-key-state-${card.id}`}>
+        <Badge
+          size="2xsmall"
+          color={stored ? "green" : "grey"}
+          className="shrink-0 whitespace-nowrap"
+          data-testid={`mp-key-state-${card.id}`}
+        >
           {stored
             ? t("marketplaces.key.set", { last4: card.connection.key.last4 })
             : t("marketplaces.key.missing")}
@@ -161,7 +175,7 @@ export const MpKeyForm = ({ card }: { card: MarketplaceCard }) => {
             <div key={field.name} className="flex flex-col gap-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor={`${card.id}-${field.name}`}>{field.label}</Label>
-                {field.secret ? (
+                {field.secret && showFieldState ? (
                   <Badge size="2xsmall" color={field.masked?.set ? "green" : "grey"}>
                     {field.masked?.set
                       ? t("marketplaces.key.set", { last4: field.masked.last4 ?? "" })
