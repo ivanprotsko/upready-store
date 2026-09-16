@@ -207,11 +207,8 @@ import {
   PutTenantWbFeedbackAnswerBody,
 } from "./tenants/wb/feedback-answers/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
-<<<<<<< HEAD
 import { PutTenantMarketplaceKeyBody } from "./tenants/marketplaces/[marketplace]/key/validators";
-=======
 import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
->>>>>>> origin/dev
 import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
 import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
