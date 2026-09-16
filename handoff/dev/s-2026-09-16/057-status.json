@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-16",
+  "index": 57,
+  "action": "status-set",
+  "ts": "2026-09-16T21:25:52+08:00",
+  "status": "2026-09-16 21:25 WITA: приёмка p01-settings-integrations-restructure (PR #100) раунд 1 — ПРИНЯТО и смержено (mergedAt 2026-09-16T13:25:21Z). Свой стенд (клон upready_store_p01, бэкенд 9231, панель 5231): npm test панели 3/3 fail 0, юниты бэкенда 83/1156 rc=0, оба tsc rc=0, git grep якорей в сайдбаре 0. Экранами: хаб /settings/integrations даёт пять сервисов, ключ WB виден как ••••7788 и на странице интеграции, и на /settings/marketplaces/wildberries без повторного ввода; /settings/payments и /settings/delivery реквизитов не содержат; старые адреса перенаправляют без якорей. Литерал токена apiship искал сам после своего PUT — 0 в ответе, 0 в логе, 0 в БД. Ниты в комментарии: скриншоты незакоммичены, критерий называет vitest вместо node --test. Стенд снят, клон удалён. За день принято семь PR: 83, 92, 95, 96, 98, 99, 100."
+}
