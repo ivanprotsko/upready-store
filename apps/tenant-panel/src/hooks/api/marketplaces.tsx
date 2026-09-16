@@ -1,7 +1,14 @@
 import { FetchError } from "@medusajs/js-sdk"
-import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query"
+import {
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 
 import { sdk } from "../../lib/client"
+import { queryClient } from "../../lib/query-client"
 import { queryKeysFactory } from "../../lib/query-key-factory"
 
 // tenant-panel: own hooks, no Admin counterpart — GET /tenants/marketplaces and
@@ -32,6 +39,23 @@ export type MarketplaceCredentials = {
   error: string | null
 }
 
+/**
+ * One field of the connect form, declared by the adapter
+ * (w24-integration-keys-self-service). The panel renders whatever the backend
+ * sends, so a third marketplace gets a form with nothing added here.
+ */
+export type MarketplaceKeyField = {
+  name: string
+  label: string
+  secret: boolean
+  hint: string
+  doc_url: string
+  /** The stored value of a non-secret field (Ozon's Client-Id). `null` for a secret. */
+  value: string | null
+  /** `{ set, last4 }` of a secret field. The value itself never crosses the wire. */
+  masked: { set: boolean; last4: string | null } | null
+}
+
 export type MarketplaceCard = {
   id: string
   label: string
@@ -43,6 +67,7 @@ export type MarketplaceCard = {
       how_to_store: string
     }
     is_enabled: boolean
+    fields: MarketplaceKeyField[]
   }
   /** `null` on the list route: not asked, rather than asked and unknown. */
   credentials: MarketplaceCredentials | null
@@ -126,4 +151,68 @@ export const useMarketplaceStatus = (
   })
 
   return { card: data, ...rest }
+}
+
+/**
+ * The state `PUT`/`DELETE /tenants/marketplaces/:id/key` answer with: the same
+ * read-back the card shows, so the screen never restates its own request as a
+ * result (rule 20a).
+ */
+export type MarketplaceKeyResponse = {
+  marketplace: string
+  label: string
+  connection: {
+    key: { set: boolean; last4: string | null }
+    is_enabled: boolean
+    how_to_store: string
+  }
+  fields: MarketplaceKeyField[]
+  credentials: MarketplaceCredentials | null
+}
+
+/** One string per declared field. A secret left out keeps its stored value. */
+export type PutMarketplaceKeyBody = Record<string, string>
+
+/**
+ * The owner stores her own key (w24-integration-keys-self-service, Ivan's
+ * order of 2026-09-16 11:37 WITA).
+ *
+ * Both mutations invalidate the whole marketplaces key: the card's own status
+ * query has to ask the key what it may do AGAIN, and the list route carries
+ * `{ set, last4 }` too. Invalidating only the detail would leave the hub
+ * showing «ключ не сохранён» next to a card that just saved one.
+ */
+export const useSaveMarketplaceKey = (
+  marketplace: string,
+  options?: UseMutationOptions<MarketplaceKeyResponse, FetchError, PutMarketplaceKeyBody>
+) => {
+  return useMutation({
+    mutationFn: (payload) =>
+      sdk.client.fetch<MarketplaceKeyResponse>(`/tenants/marketplaces/${marketplace}/key`, {
+        method: "PUT",
+        body: payload,
+      }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: marketplacesQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
+export const useDeleteMarketplaceKey = (
+  marketplace: string,
+  options?: UseMutationOptions<MarketplaceKeyResponse, FetchError, void>
+) => {
+  return useMutation({
+    mutationFn: () =>
+      sdk.client.fetch<MarketplaceKeyResponse>(`/tenants/marketplaces/${marketplace}/key`, {
+        method: "DELETE",
+      }),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: marketplacesQueryKeys.all })
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
 }

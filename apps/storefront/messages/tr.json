@@ -116,7 +116,11 @@
     "needCity": "Teslim noktalarını görmek için teslimat şehrinizi girin.",
     "loading": "Teslim noktaları yükleniyor…",
     "notConfigured": "Bu mağazada CDEK teslimatı henüz ayarlanmadı.",
-    "change": "Noktayı değiştir"
+    "change": "Noktayı değiştir",
+    "tabList": "Liste",
+    "tabMap": "Harita",
+    "mapEmpty": "Bu şehir için haritada gösterilecek teslim noktası yok.",
+    "mapFailed": "Harita kullanılamıyor. Listeden bir nokta seçin."
   },
   "CheckoutPage": {
     "addNewAddress": "Yeni adres ekle",

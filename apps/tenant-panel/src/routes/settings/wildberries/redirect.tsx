@@ -14,4 +14,4 @@ import { Navigate } from "react-router-dom"
  * Wildberries card (w20's owner consent screen is still Wildberries' alone),
  * and the rest became the shared `mp-*` components.
  */
-export const WildberriesRedirect = () => <Navigate replace to="/settings/marketplaces" />
+export const WildberriesRedirect = () => <Navigate replace to="/settings/marketplaces#wb" />

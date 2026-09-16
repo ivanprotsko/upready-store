@@ -116,7 +116,11 @@
     "needCity": "Oppgi leveringsbyen for å se hentesteder.",
     "loading": "Laster hentesteder…",
     "notConfigured": "CDEK-levering er ikke satt opp i denne butikken ennå.",
-    "change": "Bytt sted"
+    "change": "Bytt sted",
+    "tabList": "Liste",
+    "tabMap": "Kart",
+    "mapEmpty": "Ingen hentesteder å vise på kartet for denne byen.",
+    "mapFailed": "Kartet er utilgjengelig. Velg et hentested fra listen."
   },
   "CheckoutPage": {
     "addNewAddress": "Legg til ny adresse",

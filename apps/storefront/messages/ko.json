@@ -116,7 +116,11 @@
     "needCity": "픽업 장소를 보려면 배송 도시를 입력하세요.",
     "loading": "픽업 장소를 불러오는 중…",
     "notConfigured": "이 상점에는 아직 CDEK 배송이 설정되지 않았습니다.",
-    "change": "장소 변경"
+    "change": "장소 변경",
+    "tabList": "목록",
+    "tabMap": "지도",
+    "mapEmpty": "이 도시에는 지도에 표시할 픽업 장소가 없습니다.",
+    "mapFailed": "지도를 사용할 수 없습니다. 목록에서 장소를 선택하세요."
   },
   "CheckoutPage": {
     "addNewAddress": "새 주소 추가",

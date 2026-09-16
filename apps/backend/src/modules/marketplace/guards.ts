@@ -210,6 +210,55 @@ export const validateAdapterShape = (adapter: MarketplaceAdapter): void => {
     }
   }
 
+  /**
+   * The owner's key form (w24-integration-keys-self-service) is generated from
+   * `credentialFields`, and the route writes `credentialSlot`. Two invariants
+   * hold that safe, and both are cheaper here than in a review:
+   *
+   *   - a slot whose name marks it a WRITE credential is refused. Ivan's order
+   *     of 2026-09-16 02:46 WITA is that the product only reads marketplaces;
+   *     `wildberries_write` is filled by nobody and by no route (w20), and an
+   *     adapter pointing its form at one would quietly undo that;
+   *   - an empty field list would render an empty form that saves an empty
+   *     credential — a legal value of the same quantity, invisible on screen
+   *     (rule 20a). At least one field, and at least one of them secret.
+   */
+  if (/(^|_)write$/.test(adapter.credentialSlot)) {
+    throw new MarketplaceGuardError(
+      `Adapter ${adapter.id} declares credentialSlot ${adapter.credentialSlot}, which names a ` +
+        "WRITE credential. The owner's form fills the READ slot only (Ivan, 2026-09-16 02:46 WITA).",
+    );
+  }
+
+  if (!adapter.credentialFields.length) {
+    throw new MarketplaceGuardError(
+      `Adapter ${adapter.id} declares no credentialFields. The panel renders the connect form ` +
+        "from that list, so an empty list is a form that saves an empty key.",
+    );
+  }
+
+  if (!adapter.credentialFields.some((field) => field.secret)) {
+    throw new MarketplaceGuardError(
+      `Adapter ${adapter.id} declares no SECRET credential field. A marketplace that needs no ` +
+        "secret needs no encrypted slot either; say which field authorises.",
+    );
+  }
+
+  for (const field of adapter.credentialFields) {
+    if (!/^[a-z][a-z0-9_]*$/.test(field.name)) {
+      throw new MarketplaceGuardError(
+        `Adapter ${adapter.id} has credential field "${field.name}": the name is the body key AND ` +
+          "the payload key, so it is lower snake case or the two drift.",
+      );
+    }
+    if (!field.label || !field.hint || !field.docUrl) {
+      throw new MarketplaceGuardError(
+        `Adapter ${adapter.id} has a credential field without a label, a hint or a doc URL: ` +
+          `${JSON.stringify(field)}. The owner has to find this value in her cabinet (rule 17a).`,
+      );
+    }
+  }
+
   for (const entry of adapter.mutationDenyList) {
     if (!entry.path.startsWith("/") || !entry.summary || !entry.docUrl) {
       throw new MarketplaceGuardError(

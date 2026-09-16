@@ -208,6 +208,7 @@ import {
   PutTenantWbFeedbackAnswerBody,
 } from "./tenants/wb/feedback-answers/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
+import { PutTenantMarketplaceKeyBody } from "./tenants/marketplaces/[marketplace]/key/validators";
 import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
 import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
 import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
@@ -307,6 +308,27 @@ export default defineMiddlewares({
       matcher: "/tenants/marketplaces/catalog/links",
       method: ["POST"],
       middlewares: [validateAndTransformBody(PostTenantMpCatalogLinkBody)],
+    },
+    // w24-integration-keys-self-service: the shop owner stores her OWN key for
+    // every marketplace. Three matchers, ONE schema and one handler family —
+    // the general route plus the two per-marketplace paths this repository
+    // already uses (`/tenants/wb/*`, `/tenants/ozon/*`). WHICH fields are
+    // required comes from the adapter, not from a schema written per
+    // marketplace (rule 20).
+    {
+      matcher: "/tenants/marketplaces/:marketplace/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      matcher: "/tenants/wb/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
+    },
+    {
+      matcher: "/tenants/ozon/key",
+      method: ["PUT"],
+      middlewares: [validateAndTransformBody(PutTenantMarketplaceKeyBody)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).

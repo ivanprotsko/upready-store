@@ -116,7 +116,11 @@
     "needCity": "Podaj miasto dostawy, aby zobaczyć punkty odbioru.",
     "loading": "Ładowanie punktów odbioru…",
     "notConfigured": "Dostawa CDEK nie jest jeszcze skonfigurowana w tym sklepie.",
-    "change": "Zmień punkt"
+    "change": "Zmień punkt",
+    "tabList": "Lista",
+    "tabMap": "Mapa",
+    "mapEmpty": "Dla tego miasta nie ma punktów odbioru na mapie.",
+    "mapFailed": "Mapa jest niedostępna. Wybierz punkt z listy."
   },
   "CheckoutPage": {
     "addNewAddress": "Dodaj nowy adres",

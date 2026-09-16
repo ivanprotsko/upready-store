@@ -116,7 +116,11 @@
     "needCity": "请填写收货城市以查看自提点。",
     "loading": "正在加载自提点…",
     "notConfigured": "本店尚未设置 CDEK 配送。",
-    "change": "更换自提点"
+    "change": "更换自提点",
+    "tabList": "列表",
+    "tabMap": "地图",
+    "mapEmpty": "该城市没有可在地图上显示的自提点。",
+    "mapFailed": "地图不可用，请从列表中选择自提点。"
   },
   "CheckoutPage": {
     "addNewAddress": "添加新地址",

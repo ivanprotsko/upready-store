@@ -107,6 +107,7 @@ export default function CheckoutShippingSection({
   currentCountry,
 }: CheckoutShippingSectionProps) {
   const t = useTranslations("CheckoutPage")
+  const tCdek = useTranslations("CdekPoint")
   const dir = useLocaleDirection()
   const getErrorMessage = useErrorMessage()
   const locale = useLocale()
@@ -287,6 +288,27 @@ export default function CheckoutShippingSection({
     () => (availableShippingOptions ?? []).find((sm) => sm.id === cdekSheetOptionId) ?? null,
     [availableShippingOptions, cdekSheetOptionId]
   )
+
+  /**
+   * The sheet's own price line: the same amount the method's card shows, so the
+   * point card inside the sheet cannot quote a different number from the card
+   * that opened it. `null` while the quote is still in flight — a price the
+   * buyer has not been shown yet must not be invented (rule 17a).
+   */
+  const cdekSheetPriceLabel = useMemo(() => {
+    if (!cdekSheetOption) return null
+    const amount =
+      cdekSheetOption.price_type === "flat"
+        ? cdekSheetOption.amount ?? null
+        : calculatedPricesMap[cdekSheetOption.id] ?? null
+    if (amount === null) return null
+    if (amount === 0) return t("freeShipping")
+    return convertToLocale({
+      amount,
+      currency_code: cart.currency_code,
+      locale,
+    })
+  }, [cdekSheetOption, calculatedPricesMap, cart.currency_code, locale, t])
 
   /**
    * Sets the CDEK method with the point the buyer picked. Returns the error
@@ -546,6 +568,25 @@ export default function CheckoutShippingSection({
                       {cdekTerm}
                     </span>
                   )}
+                  {/*
+                    The way back into the picker (i03-checkout-pvz-map-address-suggest).
+                    Clicking the card again cannot do it: `RadioGroup` fires
+                    `onValueChange` on a CHANGE of value, and the card is already
+                    the chosen one — so a buyer who picked the wrong point had no
+                    way at all to pick another (measured 2026-09-16 on the i03
+                    stand). It sits above the radio's own full-card hit area,
+                    which is `absolute inset-0 z-10`.
+                  */}
+                  {isSelected && cdekNeedsPoint(option) && cdekChosen && (
+                    <button
+                      type="button"
+                      onClick={() => setCdekSheetOptionId(option.id)}
+                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      data-testid="delivery-option-cdek-change"
+                    >
+                      {tCdek("change")}
+                    </button>
+                  )}
                   <div className="flex flex-col gap-y-1">
                     <div className="min-h-[20px]">
                       {deliveryLabel && (
@@ -619,6 +660,8 @@ export default function CheckoutShippingSection({
           pointType={cdekKindOf(cdekSheetOption) === "postamat" ? "POSTAMAT" : "PVZ"}
           selectedCode={cdekChosen?.code ?? null}
           onChoose={handleChooseCdekPoint}
+          priceLabel={cdekSheetPriceLabel}
+          termLabel={cdekTerm}
         />
       )}
     </div>
