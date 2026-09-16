@@ -61,6 +61,15 @@ check-no-secrets rc=0
 
 Плюс `node --check` по всем 12 скриптам — без ошибок.
 
+Карточка задачи (`report.json`) проверена по схеме миссии:
+
+```
+$ node handoff/day-2026-09-16-oksana-store/ui/report-validate.mjs \
+    handoff/day-2026-09-16-oksana-store/artifacts/r04-out-of-the-box-onboarding/report.json
+OK …/artifacts/r04-out-of-the-box-onboarding/report.json: 9 done / 8 results / 0 access
+rc=0
+```
+
 **Что эти гейты значат.** `verify-claims` отбрасывает утверждение, чью цитату не удалось найти в `raw/` дословно —
 на первом прогоне он отбросил три и оказался прав: их рвала маркдаун-ссылка внутри фразы, и чинить надо было гейт,
 а не цитаты. `check-no-secrets` подтверждает приёмочный пункт «ни одного значения ключа или пароля»:
