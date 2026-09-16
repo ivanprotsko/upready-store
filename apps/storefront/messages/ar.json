@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "إغلاق",
+    "counter": "الصورة {index} من {total}",
     "goToImage": "الانتقال إلى الصورة {index}",
-    "openFullImage": "فتح الصورة بالحجم الكامل"
+    "nextImage": "الصورة التالية",
+    "openFullImage": "فتح الصورة بالحجم الكامل",
+    "previousImage": "الصورة السابقة",
+    "showImage": "عرض الصورة {index}",
+    "thumbnails": "صور مصغّرة للمنتج"
   },
   "Journal": {
     "navLabel": "المجلة",
@@ -430,7 +436,14 @@
     "previous": "السابق",
     "next": "التالي",
     "pageOf": "الصفحة {page} من {lastPage}",
-    "pagination": "صفحات المجلة"
+    "pagination": "صفحات المجلة",
+    "readingTime": "{minutes} د قراءة",
+    "related": "اقرأ أيضًا",
+    "share": "مشاركة",
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط",
+    "allCategories": "كل الأقسام",
+    "categories": "أقسام المجلة"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "لا",
     "title": "المواصفات",
     "yes": "نعم"
+  },
+  "ProductInfo": {
+    "description": "الوصف"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "متابعة الإعداد في لوحة التحكم",

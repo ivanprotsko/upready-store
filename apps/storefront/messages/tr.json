@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Kapat",
+    "counter": "{total} görselden {index}.",
     "goToImage": "{index}. görsele git",
-    "openFullImage": "Görseli tam boyutta aç"
+    "nextImage": "Sonraki görsel",
+    "openFullImage": "Görseli tam boyutta aç",
+    "previousImage": "Önceki görsel",
+    "showImage": "{index}. görseli göster",
+    "thumbnails": "Ürün küçük görselleri"
   },
   "Journal": {
     "navLabel": "Dergi",
@@ -430,7 +436,14 @@
     "previous": "Önceki",
     "next": "Sonraki",
     "pageOf": "Sayfa {page} / {lastPage}",
-    "pagination": "Dergi sayfaları"
+    "pagination": "Dergi sayfaları",
+    "readingTime": "{minutes} dk okuma",
+    "related": "Bunu da okuyun",
+    "share": "Paylaş",
+    "copyLink": "Bağlantıyı kopyala",
+    "linkCopied": "Bağlantı kopyalandı",
+    "allCategories": "Tüm konular",
+    "categories": "Konular"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Hayır",
     "title": "Özellikler",
     "yes": "Evet"
+  },
+  "ProductInfo": {
+    "description": "Açıklama"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kuruluma yönetim panelinde devam et",

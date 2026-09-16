@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Закрыть",
+    "counter": "Изображение {index} из {total}",
     "goToImage": "Перейти к изображению {index}",
-    "openFullImage": "Открыть изображение целиком"
+    "nextImage": "Следующее изображение",
+    "openFullImage": "Открыть изображение целиком",
+    "previousImage": "Предыдущее изображение",
+    "showImage": "Показать изображение {index}",
+    "thumbnails": "Миниатюры товара"
   },
   "Journal": {
     "navLabel": "Журнал",
@@ -430,7 +436,14 @@
     "previous": "Назад",
     "next": "Вперёд",
     "pageOf": "Страница {page} из {lastPage}",
-    "pagination": "Страницы журнала"
+    "pagination": "Страницы журнала",
+    "readingTime": "{minutes} мин чтения",
+    "related": "Читайте также",
+    "share": "Поделиться",
+    "copyLink": "Скопировать ссылку",
+    "linkCopied": "Ссылка скопирована",
+    "allCategories": "Все рубрики",
+    "categories": "Рубрики журнала"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Нет",
     "title": "Характеристики",
     "yes": "Да"
+  },
+  "ProductInfo": {
+    "description": "Описание"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продолжить настройку в панели",

@@ -19,12 +19,41 @@ import Tenant from "./tenant";
  * exists (`pickArticleForLocale`, the same chain `pickPageForLocale` uses) —
  * never a 404 for a slug that has text in some language.
  *
- * `published` is the draft/published state of ONE locale row: an owner may
- * publish the Russian text while the English translation is still a draft.
- * `published_at` is the date shown in the feed and in the `Article` JSON-LD;
- * the panel writes it when the article is first published and the import
- * script carries the source date over unchanged.
+ * `status` is the publication state of ONE locale row: an owner may publish
+ * the Russian text while the English translation is still a draft. Three
+ * values, and only three (`ARTICLE_STATUSES`):
+ *
+ * - `draft` — nobody but the owner sees it;
+ * - `published` — public now;
+ * - `scheduled` — public from `published_at` onwards, and a draft until then.
+ *
+ * b18-blog-full replaced the `published` BOOLEAN this model shipped with (t10)
+ * by this one column on purpose: a boolean plus a date cannot say «scheduled»
+ * without a second field mirroring the first, and a mirror is what goes stale
+ * (rule 20a). Whether a row is visible is answered in ONE place,
+ * `isArticleVisible` in `api/tenants/articles/article-helpers.ts`, off `status`
+ * and `published_at` — no cron job has to have run for a scheduled article to
+ * appear on time.
+ *
+ * `published_at` is the date shown in the feed and in the `Article` JSON-LD,
+ * and for a `scheduled` row it is the FUTURE instant it goes public. The panel
+ * writes it when the article is first published and the import script carries
+ * the source date over unchanged.
+ *
+ * `category` is the owner's own single rubric («Здоровье», «Новости»); the
+ * vocabulary is whatever the shop has typed, discovered by
+ * `GET /tenants/article-categories` rather than kept in a table of its own —
+ * a shop has five rubrics, not five hundred, and a second entity would make
+ * the owner manage a list before writing a first article.
  */
+
+/** The three publication states of one locale row. Order is the panel's. */
+export const ARTICLE_STATUSES = ["draft", "published", "scheduled"] as const;
+
+export type ArticleStatus = (typeof ARTICLE_STATUSES)[number];
+
+export const isArticleStatus = (value: unknown): value is ArticleStatus =>
+  typeof value === "string" && (ARTICLE_STATUSES as readonly string[]).includes(value);
 
 /** Lowercase latin letters, digits and single hyphens, 2 to 96 characters. */
 export const ARTICLE_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -44,8 +73,13 @@ const TenantArticle = model
     cover_url: model.text().nullable(),
     /** Markdown, rendered by `@modules/content/components/markdown-content`. */
     body: model.text().default(""),
-    published: model.boolean().default(false),
+    /** `draft` | `published` | `scheduled` — see the note above. */
+    status: model.text().default("draft"),
     published_at: model.dateTime().nullable(),
+    /** One rubric, the owner's own word. Free vocabulary, like `tags`. */
+    category: model.text().nullable(),
+    /** Byline. Empty means the shop itself, which is what the feed shows. */
+    author: model.text().nullable(),
     /**
      * Free vocabulary, the owner's own. `model.array()` rather than
      * `model.json()`: the framework's own doc comment on `json()` points an
@@ -66,8 +100,8 @@ const TenantArticle = model
       where: "deleted_at IS NULL",
     },
     {
-      // The feed's own read: this tenant's published rows, newest first.
-      on: ["tenant_id", "published", "published_at"],
+      // The feed's own read: this tenant's public rows, newest first.
+      on: ["tenant_id", "status", "published_at"],
       where: "deleted_at IS NULL",
     },
   ]);

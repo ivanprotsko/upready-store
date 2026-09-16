@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Sulje",
+    "counter": "Kuva {index}/{total}",
     "goToImage": "Siirry kuvaan {index}",
-    "openFullImage": "Avaa kuva täysikokoisena"
+    "nextImage": "Seuraava kuva",
+    "openFullImage": "Avaa kuva täysikokoisena",
+    "previousImage": "Edellinen kuva",
+    "showImage": "Näytä kuva {index}",
+    "thumbnails": "Tuotteen pienoiskuvat"
   },
   "Journal": {
     "navLabel": "Lehti",
@@ -430,7 +436,14 @@
     "previous": "Edellinen",
     "next": "Seuraava",
     "pageOf": "Sivu {page} / {lastPage}",
-    "pagination": "Lehden sivut"
+    "pagination": "Lehden sivut",
+    "readingTime": "{minutes} min lukuaika",
+    "related": "Lue myös",
+    "share": "Jaa",
+    "copyLink": "Kopioi linkki",
+    "linkCopied": "Linkki kopioitu",
+    "allCategories": "Kaikki aiheet",
+    "categories": "Aiheet"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Ei",
     "title": "Ominaisuudet",
     "yes": "Kyllä"
+  },
+  "ProductInfo": {
+    "description": "Kuvaus"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Jatka asetusten määrittämistä hallintapaneelissa",

@@ -1,4 +1,20 @@
 /**
+ * TWO HOMES, ONE FILE (b18-blog-full).
+ *
+ * This parser is byte-identical in two places, because the panel's editor
+ * shows a live PREVIEW of the article and a preview that reads the source
+ * differently from the storefront is a lie:
+ *
+ *   apps/storefront/src/lib/util/markdown.ts
+ *   apps/tenant-panel/src/lib/markdown.ts
+ *
+ * It is a copy and not an import because `apps/tenant-panel/Dockerfile` copies
+ * only `apps/tenant-panel` into the image (line 24) — an import across the two
+ * apps builds locally and breaks the panel image. The copies are pinned equal
+ * by `node scripts/check-shared-markdown.mjs` (`pnpm check:shared-markdown`),
+ * which exits non-zero on any drift: change one, run the check, copy it over.
+ */
+/**
  * The smallest markdown reader that covers what a shop owner writes into a
  * content page or a journal article from the tenant panel: headings,
  * paragraphs, bullet and numbered lists, blockquotes, thematic breaks, tables,
@@ -40,6 +56,11 @@ export type MarkdownInline =
   | { type: "em"; value: string }
   | { type: "code"; value: string }
   | { type: "link"; value: string; href: string }
+  // b18-blog-full: pictures INSIDE an article, which the panel's editor now
+  // uploads and inserts as `![подпись](/static/tenants/…)`. Without this node
+  // the whole token rendered as literal text on the page, exclamation mark
+  // included — the one block type a journal cannot do without.
+  | { type: "image"; value: string; src: string }
 
 export type MarkdownBlock =
   | { type: "heading"; level: 1 | 2 | 3; content: MarkdownInline[] }
@@ -58,6 +79,14 @@ export type MarkdownBlock =
  */
 const SAFE_HREF = /^(https?:\/\/|mailto:|tel:|\/)/i
 
+/**
+ * An image SOURCE is narrower than a link href: a browser fetches it without a
+ * click, so `mailto:`/`tel:` make no sense and `data:` would let a tenant ship
+ * an arbitrary payload into every visitor's page. Only an http(s) URL or a
+ * site-relative path — which is exactly what `POST /tenants/uploads` answers.
+ */
+const SAFE_IMAGE_SRC = /^(https?:\/\/|\/)/i
+
 // The `_..._` and `__..__` forms only count as emphasis at a word boundary
 // (CommonMark's intraword rule): a `_` right next to a letter or digit on its
 // inner side cannot open or close one, so a token like `{{ЮР_АДРЕС}}` is left
@@ -66,8 +95,11 @@ const SAFE_HREF = /^(https?:\/\/|mailto:|tel:|\/)/i
 // unlike `\w` — the `u` flag they need only parses as a regex LITERAL under
 // `--target es2015`+, so this one is built via the `RegExp` constructor to
 // keep working under this app's `es5` target (`tsconfig.json`).
+// The image alternative stands FIRST: `![alt](src)` contains `[alt](src)`, so
+// a link tried first would match the tail and leave a stray `!` as text.
 const INLINE_PATTERN = new RegExp(
-  "(\\[[^\\]\\n]+\\]\\([^\\s)]+\\))" +
+  "(!\\[[^\\]\\n]*\\]\\([^\\s)]+\\))" +
+    "|(\\[[^\\]\\n]+\\]\\([^\\s)]+\\))" +
     "|(\\*\\*[^*\\n]+\\*\\*)" +
     "|(?<![\\p{L}\\p{N}])(__[^_\\n]+__)(?![\\p{L}\\p{N}])" +
     "|(\\*[^*\\n]+\\*)" +
@@ -95,7 +127,18 @@ export function parseInline(source: string): MarkdownInline[] {
 
     const token = match[0]
 
-    if (token.startsWith("[")) {
+    if (token.startsWith("![")) {
+      const split = token.indexOf("](")
+      const alt = token.slice(2, split)
+      const src = token.slice(split + 2, -1)
+
+      // An unsafe source drops the picture, never the caption the owner wrote.
+      out.push(
+        SAFE_IMAGE_SRC.test(src)
+          ? { type: "image", value: alt, src }
+          : { type: "text", value: alt }
+      )
+    } else if (token.startsWith("[")) {
       const split = token.indexOf("](")
       const label = token.slice(1, split)
       const href = token.slice(split + 2, -1)

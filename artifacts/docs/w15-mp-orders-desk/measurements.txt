@@ -1,0 +1,96 @@
+### 2. mp_order по площадке и схеме
+ marketplace | scheme | count 
+-------------+--------+-------
+ ozon        | FBO    |     1
+ ozon        | FBS    |     1
+ wb          | FBS    |  8075
+ wb          |        | 18737
+(4 rows)
+
+### 3. mp_sync_run — последние 10
+ marketplace |    kind    |  status   | rows  | requests 
+-------------+------------+-----------+-------+----------
+ ozon        | projection | succeeded |    12 |        0
+ wb          | projection | succeeded | 54048 |        0
+ ozon        | projection | succeeded |    12 |        0
+ wb          | projection | succeeded | 54048 |        0
+ ozon        | projection | succeeded |    12 |        0
+ wb          | projection | succeeded | 54048 |        0
+ wb          | projection | succeeded | 54047 |        0
+ wb          | cards      | succeeded |   423 |        5
+ wb          | projection | succeeded | 53624 |        0
+ wb          | projection | succeeded | 72361 |        0
+(10 rows)
+
+### 6. mp_api_call — все вызовы по эндпоинту и методу
+          endpoint_id          | method | count 
+-------------------------------+--------+-------
+ content.cards.list            | POST   |     5
+ marketplace.fbs.orders        | GET    |     9
+ marketplace.fbs.orders.new    | GET    |     1
+ marketplace.fbs.orders.status | POST   |     9
+ marketplace.fbs.supplies      | GET    |     1
+ posting.fbo.list              | POST   |     1
+ posting.fbs.list              | POST   |     1
+ product.info.attributes       | POST   |     1
+ product.info.description      | POST   |     2
+ product.info.list             | POST   |     1
+ product.list                  | POST   |     1
+ product.prices                | POST   |     1
+ product.stocks                | POST   |     1
+ question.list                 | POST   |     1
+ review.count                  | POST   |     1
+ review.list                   | POST   |     1
+ statistics.orders             | GET    |     2
+(17 rows)
+
+### строки заказов и события статусов
+ order_lines | status_events | links 
+-------------+---------------+-------
+       26814 |         26814 |     1
+(1 row)
+
+### дедупликация: сколько srid статистики совпало с rid сборочных
+ statistics_rows | fbs_rows | matched | mp_order_wb 
+-----------------+----------+---------+-------------
+           25869 |     8075 |    7132 |       26812
+(1 row)
+
+### 5. CSV — экспортируется ровно отфильтрованный набор
+фильтр: ?source=wb&scheme=FBS&status=delivered
+на экране (count): 4089
+строк данных в файле (wc -l минус заголовок): 4089
+Content-Type: text/csv; charset=utf-8
+Content-Disposition: attachment; filename="orders-2026-09-16.csv"
+X-Rows: 4089
+первые две строки:
+﻿source,number,scheme,status,status_marketplace,status_marketplace_detail,ordered_at,region,warehouse,total,currency,lines
+Wildberries,5749725627,FBS,Доставлен,complete,sold,2026-09-13T04:11:41.000Z,,1955606,1567,RUB,1
+logged in as owner-cherkashino@example.test -> http://localhost:5195/
+period line: Период по умолчанию: последние 30 дней (18 августа 2026 г. — 16 сентября 2026 г.). Выберите свой ниже.
+count line: Показано 50 из 9591
+rows on screen: 50
+shot 01-feed-default
+filtered count line: Показано 50 из 4089
+shot 02-feed-filtered
+empty state: За выбранный период (1 января 2020 г. — 31 января 2020 г.) заказов нет.
+shot 03-feed-empty-period
+order: Wildberries · 5778700739
+lines: 1
+history rows: 1
+buttons in the card: []
+forms in the card: 0
+shot 04-order-card
+unlinked cell: нет в магазине · Спрей для носа с АСД 6%
+shot 05-order-card-unlinked
+CONSOLE ERRORS: console: Failed to load resource: the server responded with a status of 401 (Unauthorized)
+
+### 4/7. лента через API: умолчание, фильтры, площадка без ключа
+http=200 time=1.829209s
+count: 9591 | undated: 1
+period: 2026-08-18 — 2026-09-16 | days: 30 | is_default: True
+facets.sources: [('Магазин', 2), ('Wildberries', 9588), ('Ozon', 1)]
+facets.schemes: [('FBO', 1), ('FBS', 7773)]
+facets.statuses: [('Новый', 153), ('В сборке', 419), ('В доставке', 2315), ('Доставлен', 4090), ('Отменён', 991), ('Статус площадка не присылает', 1623)]
+connection: Wildberries connected= True notice= rate_limited last_run= orders rate_limited rows_in_period= 9588
+connection: Ozon connected= False notice= missing last_run= postings succeeded rows_in_period= 1

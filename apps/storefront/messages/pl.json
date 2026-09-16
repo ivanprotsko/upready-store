@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Zamknij",
+    "counter": "Zdjęcie {index} z {total}",
     "goToImage": "Przejdź do obrazu {index}",
-    "openFullImage": "Otwórz pełny obraz"
+    "nextImage": "Następne zdjęcie",
+    "openFullImage": "Otwórz pełny obraz",
+    "previousImage": "Poprzednie zdjęcie",
+    "showImage": "Pokaż zdjęcie {index}",
+    "thumbnails": "Miniatury produktu"
   },
   "Journal": {
     "navLabel": "Magazyn",
@@ -430,7 +436,14 @@
     "previous": "Poprzednia",
     "next": "Następna",
     "pageOf": "Strona {page} z {lastPage}",
-    "pagination": "Strony magazynu"
+    "pagination": "Strony magazynu",
+    "readingTime": "{minutes} min czytania",
+    "related": "Przeczytaj też",
+    "share": "Udostępnij",
+    "copyLink": "Kopiuj link",
+    "linkCopied": "Link skopiowany",
+    "allCategories": "Wszystkie rubryki",
+    "categories": "Rubryki"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Nie",
     "title": "Właściwości",
     "yes": "Tak"
+  },
+  "ProductInfo": {
+    "description": "Opis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Kontynuuj konfigurację w panelu",

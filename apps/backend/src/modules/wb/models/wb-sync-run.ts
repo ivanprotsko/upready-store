@@ -20,9 +20,10 @@ import { model } from "@medusajs/framework/utils";
  */
 /**
  * The import kinds, in the order `--kind all` runs them (w01, extended by
- * w03). The order is the dependency order: `stocks` needs the size ids the
- * `cards` import writes, and `analytics` needs the listing numbers, so both
- * stand after `cards`.
+ * w03 and w23). The order is the dependency order: `stocks` needs the size ids
+ * the `cards` import writes, `analytics` needs the listing numbers, so both
+ * stand after `cards`, and `fbs_orders` stands after `supplies` because the
+ * FBS desk reads supplies to fill in which supply an order sits in.
  */
 export const WB_SYNC_KINDS = [
   "cards",
@@ -33,6 +34,8 @@ export const WB_SYNC_KINDS = [
   "feedbacks",
   "questions",
   "analytics",
+  "supplies",
+  "fbs_orders",
 ] as const;
 export type WbSyncKind = (typeof WB_SYNC_KINDS)[number];
 

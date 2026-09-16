@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "閉じる",
+    "counter": "{total} 枚中 {index} 枚目",
     "goToImage": "画像 {index} へ移動",
-    "openFullImage": "画像を拡大表示"
+    "nextImage": "次の画像",
+    "openFullImage": "画像を拡大表示",
+    "previousImage": "前の画像",
+    "showImage": "画像 {index} を表示",
+    "thumbnails": "商品のサムネイル"
   },
   "Journal": {
     "navLabel": "読みもの",
@@ -430,7 +436,14 @@
     "previous": "前へ",
     "next": "次へ",
     "pageOf": "{lastPage} ページ中 {page} ページ",
-    "pagination": "読みもののページ"
+    "pagination": "読みもののページ",
+    "readingTime": "約{minutes}分で読めます",
+    "related": "あわせて読みたい",
+    "share": "共有",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました",
+    "allCategories": "すべてのテーマ",
+    "categories": "テーマ"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "いいえ",
     "title": "仕様",
     "yes": "はい"
+  },
+  "ProductInfo": {
+    "description": "商品説明"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "管理画面で設定を続ける",

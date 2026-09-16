@@ -12,30 +12,22 @@ type ProductTabsProps = {
   product: HttpTypes.StoreProduct
 }
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+/**
+ * Shipping and returns, as an accordion under the buy button.
+ *
+ * b17: the product description no longer lives here. It was the first thing in
+ * this component and the longest text on the page, wedged into the narrow
+ * column beside the gallery; it now has its own full-width block
+ * (`components/product-description`), where the chrxnasdmds page puts it.
+ * `product` stays on the props so the template keeps passing one component the
+ * product it is about, and so a future tab has it to read.
+ */
+const ProductTabs = ({ product: _product }: ProductTabsProps) => {
   const t = useTranslations("ProductTabs")
   const [shippingOpen, setShippingOpen] = useState(false)
 
   return (
     <div className="w-full flex flex-col">
-      {product.description && (
-        <div className="py-3 border-b">
-          <div className="flex flex-col gap-y-4">
-            {product.description
-              .split(/\n\n+/)
-              .filter(Boolean)
-              .map((para, i) => (
-                <p
-                  key={i}
-                  className="txt-medium text-ui-fg-subtle whitespace-pre-line"
-                >
-                  {para}
-                </p>
-              ))}
-          </div>
-        </div>
-      )}
-
       <div className="border-b">
         <button
           className="flex items-center justify-between w-full py-3 txt-large text-ui-fg-subtle text-start"

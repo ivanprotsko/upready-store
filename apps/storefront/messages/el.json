@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Κλείσιμο",
+    "counter": "Εικόνα {index} από {total}",
     "goToImage": "Μετάβαση στην εικόνα {index}",
-    "openFullImage": "Άνοιγμα πλήρους εικόνας"
+    "nextImage": "Επόμενη εικόνα",
+    "openFullImage": "Άνοιγμα πλήρους εικόνας",
+    "previousImage": "Προηγούμενη εικόνα",
+    "showImage": "Εμφάνιση εικόνας {index}",
+    "thumbnails": "Μικρογραφίες προϊόντος"
   },
   "Journal": {
     "navLabel": "Άρθρα",
@@ -430,7 +436,14 @@
     "previous": "Προηγούμενη",
     "next": "Επόμενη",
     "pageOf": "Σελίδα {page} από {lastPage}",
-    "pagination": "Σελίδες άρθρων"
+    "pagination": "Σελίδες άρθρων",
+    "readingTime": "{minutes} λεπτά ανάγνωσης",
+    "related": "Διαβάστε επίσης",
+    "share": "Κοινοποίηση",
+    "copyLink": "Αντιγραφή συνδέσμου",
+    "linkCopied": "Ο σύνδεσμος αντιγράφηκε",
+    "allCategories": "Όλες οι κατηγορίες",
+    "categories": "Κατηγορίες"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Όχι",
     "title": "Χαρακτηριστικά",
     "yes": "Ναι"
+  },
+  "ProductInfo": {
+    "description": "Περιγραφή"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Συνέχεια ρύθμισης στο διαχειριστικό",

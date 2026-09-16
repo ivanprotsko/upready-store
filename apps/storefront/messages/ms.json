@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Tutup",
+    "counter": "Imej {index} daripada {total}",
     "goToImage": "Ke imej {index}",
-    "openFullImage": "Buka imej penuh"
+    "nextImage": "Imej seterusnya",
+    "openFullImage": "Buka imej penuh",
+    "previousImage": "Imej sebelumnya",
+    "showImage": "Tunjukkan imej {index}",
+    "thumbnails": "Imej kecil produk"
   },
   "Journal": {
     "navLabel": "Jurnal",
@@ -430,7 +436,14 @@
     "previous": "Sebelumnya",
     "next": "Seterusnya",
     "pageOf": "Halaman {page} daripada {lastPage}",
-    "pagination": "Halaman jurnal"
+    "pagination": "Halaman jurnal",
+    "readingTime": "Baca {minutes} min",
+    "related": "Baca juga",
+    "share": "Kongsi",
+    "copyLink": "Salin pautan",
+    "linkCopied": "Pautan disalin",
+    "allCategories": "Semua topik",
+    "categories": "Topik"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Tidak",
     "title": "Spesifikasi",
     "yes": "Ya"
+  },
+  "ProductInfo": {
+    "description": "Penerangan"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Teruskan persediaan di admin",

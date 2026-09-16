@@ -1,0 +1,59 @@
+FAIL src/modules/marketplace/__tests__/single-call-site.unit.spec.ts
+  a marketplace is reachable only from its own transport
+    ✓ finds the sources it claims to scan (2 ms)
+    ✓ takes its host list from the registry rather than from this file (1 ms)
+    ✓ wb has no second call site (154 ms)
+    ✓ ozon has no second call site (45 ms)
+    ✕ demo has no second call site (48 ms)
+    ✕ would cover a host that is registered later, with no edit here (98 ms)
+
+  ● a marketplace is reachable only from its own transport › demo has no second call site
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "apps/backend/src/tenant-notifications/telegram.ts",
+    + ]
+
+      130 |     "%s has no second call site",
+      131 |     (_id, suffixes) => {
+    > 132 |       expect(offendersFor(suffixes)).toEqual([]);
+          |                                      ^
+      133 |     },
+      134 |   );
+      135 |
+
+      at toEqual (src/modules/marketplace/__tests__/single-call-site.unit.spec.ts:132:38)
+
+  ● a marketplace is reachable only from its own transport › would cover a host that is registered later, with no edit here
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "apps/backend/src/tenant-notifications/telegram.ts",
+    + ]
+
+      157 |     );
+      158 |     /** And it is NOT an offender for the hosts actually registered today. */
+    > 159 |     expect(offendersFor(MARKETPLACE_HOST_SUFFIXES)).toEqual([]);
+          |                                                     ^
+      160 |   });
+      161 | });
+      162 |
+
+      at Object.toEqual (src/modules/marketplace/__tests__/single-call-site.unit.spec.ts:159:53)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 4 passed, 6 total
+Snapshots:   0 total
+Time:        1.174 s
+Ran all test suites matching /src\/modules\/marketplace\/__tests__\/single-call-site.unit.spec.ts/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

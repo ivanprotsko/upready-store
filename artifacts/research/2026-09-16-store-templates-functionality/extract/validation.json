@@ -1,0 +1,147 @@
+{
+ "checkedAt": "2026-09-16T01:10:23.595Z",
+ "stats": {
+  "groups": 7,
+  "templates": 47,
+  "features": 440,
+  "evidenceOk": 418,
+  "evidenceFail": 22
+ },
+ "byKind": {
+  "улика не найдена в файле": 22
+ },
+ "problems": [
+  {
+   "group": "insales-1.json",
+   "template": "Cream",
+   "kind": "улика не найдена в файле",
+   "detail": "moderated-product-reviews | insales/demo-demo-cream-product.md | Перед публикацией все отзывы проходят модерацию"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Base",
+   "kind": "улика не найдена в файле",
+   "detail": "catalog-sections-new-sale-bestsellers | insales/demo-demo-base.md | Новинки Акции Хиты продаж"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Base",
+   "kind": "улика не найдена в файле",
+   "detail": "in-stock-only-filter | insales/demo-demo-base-collection.md | Фильтры Только в наличии Применить Сбросить"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Bubble",
+   "kind": "улика не найдена в файле",
+   "detail": "sms-email-login | insales/demo-demo-bubble-account.md | Код из SMS Получить код Получить новый код можно через Вход или регистрация по email Email"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Bubble",
+   "kind": "улика не найдена в файле",
+   "detail": "category-navigation-menu | insales/demo-demo-bubble.md | Мягкие игрушки Верхняя одежда Обувь Подарки для детей Детская электроника Худи для девочек"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Fine",
+   "kind": "улика не найдена в файле",
+   "detail": "megamenu-multi-level-catalog | insales/demo-demo-fine.md | Смартфоны и планшеты Планшеты Электронные книги Аксессуары для планшетов Аксессуары для эл"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Fine",
+   "kind": "улика не найдена в файле",
+   "detail": "multi-attribute-filters | insales/demo-demo-fine-collection.md | Фильтры Цена от — до Цвет черный красный белый Показать еще Объем памяти 32GB 64GB 128GB 2"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Fine",
+   "kind": "улика не найдена в файле",
+   "detail": "blog-with-dated-reviews | insales/demo-demo-fine-blog.md | Обзор JBL Club Pro+ Полностью беспроводные наушники с активным шумоподавлением"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Fourth",
+   "kind": "улика не найдена в файле",
+   "detail": "blog-news-feed | insales/demo-demo-fourth.md | Четвертая новость магазина А это уже четвертая новость в интернет-магазине. 28.01.2021"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Fourth",
+   "kind": "улика не найдена в файле",
+   "detail": "social-media-links | insales/demo-demo-fourth.md | [Instagram](http://demo-fourth.myinsales.ru/#) Мы в соц. сетях"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Gift",
+   "kind": "улика не найдена в файле",
+   "detail": "category-navigation-audience-segments | insales/demo-demo-gift.md | Для всех Для женщин Для мужчин Для детей Интерьер Аксессуары"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Gift",
+   "kind": "улика не найдена в файле",
+   "detail": "audience-segment-imagery-blocks | insales/demo-demo-gift.md | Для него Для неё Сладости Подарочная упаковка Детали интерьера"
+  },
+  {
+   "group": "insales-1.json",
+   "template": "Gift",
+   "kind": "улика не найдена в файле",
+   "detail": "blog-promo-news | insales/demo-demo-gift.md | Распродажа костюмов на хэллоуин В интернет-магазине на InSales Вы можете вести блог магази"
+  },
+  {
+   "group": "insales-2.json",
+   "template": "Grand",
+   "kind": "улика не найдена в файле",
+   "detail": "installment-payment | insales/demo-demo-grand-cart.md | Оплачивайте покупку по частям. Получайте заказы сразу, а платите за них постепенно. 25% Пл"
+  },
+  {
+   "group": "insales-2.json",
+   "template": "Grand",
+   "kind": "улика не найдена в файле",
+   "detail": "product-reviews-with-moderation | insales/demo-demo-grand-product.md | Отзывов еще никто не оставлял\nНаписать отзыв\n...Перед публикацией отзывы проходят модераци"
+  },
+  {
+   "group": "insales-2.json",
+   "template": "Loft",
+   "kind": "улика не найдена в файле",
+   "detail": "installment-payment | insales/demo-demo-loft-collection.md | Оплачивайте покупку по частям. Получайте заказы сразу, а платите за них постепенно. 25% Пл"
+  },
+  {
+   "group": "insales-2.json",
+   "template": "Markom",
+   "kind": "улика не найдена в файле",
+   "detail": "customer-testimonials-homepage | insales/demo-demo-markom.md | Отзывы клиентов\nAlexey\nLorem ipsum dolor sit amet, consectetur adipiscing elit..."
+  },
+  {
+   "group": "insales-3.json",
+   "template": "Stories",
+   "kind": "улика не найдена в файле",
+   "detail": "marketplaces-integration-block | insales/demo-demo-stories.md | Мы на маркетплейсах / Постоянно покупаю продукты в данном сервисе / отзыв с Wildberries"
+  },
+  {
+   "group": "tilda-3.json",
+   "template": "Промо страница товара",
+   "kind": "улика не найдена в файле",
+   "detail": "order-process-steps-block | tilda/demo-velottonstrru.md | КАК ЗАКАЗАТЬ РЮКЗАК НАПИШИТЕ НАМ ЗАКАЖИТЕ РЮКЗАК Выберите рюкзак и доставку ПОШИВ РЮКЗАКА "
+  },
+  {
+   "group": "tilda-3.json",
+   "template": "Магазин аксессуаров для дома",
+   "kind": "улика не найдена в файле",
+   "detail": "two-category-catalog-sections | tilda/demo-bluerinru.md | МЕБЕЛЬ ... ДОМАШНИЕ АКСЕССУАРЫ"
+  },
+  {
+   "group": "tilda-3.json",
+   "template": "Магазин аксессуаров для дома",
+   "kind": "улика не найдена в файле",
+   "detail": "sale-badge-with-old-new-price | tilda/demo-bluerinru.md | Кресло Liva 6499.00 р. 7999 р. ... Серый. Полиэстер. Артикул: 50196452"
+  },
+  {
+   "group": "tilda-3.json",
+   "template": "Аксессуары из кожи",
+   "kind": "улика не найдена в файле",
+   "detail": "two-product-category-sections | tilda/demo-longriverru.md | Сумки и рюкзаки ... Кошельки ручной работы"
+  }
+ ]
+}

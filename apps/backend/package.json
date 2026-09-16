@@ -31,6 +31,8 @@
     "catalog:enrich-from-wb": "medusa exec ./src/scripts/catalog-enrich-from-wb.ts",
     "ozon:seed-key": "medusa exec ./src/scripts/ozon-seed-key.ts",
     "ozon:sync": "medusa exec ./src/scripts/ozon-sync.ts",
+    "mp:project": "medusa exec ./src/scripts/mp-project.ts",
+    "mp:reviews": "medusa exec ./src/scripts/mp-reviews-sync.ts",
     "store-profile:validate": "node scripts/validate-store-profile.mjs",
     "store-profile:up": "node scripts/store-profile-up.mjs",
     "lint": "medusa lint",

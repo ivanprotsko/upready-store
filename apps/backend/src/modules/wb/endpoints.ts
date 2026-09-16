@@ -32,6 +32,7 @@ const DOC_GENERAL = "https://dev.wildberries.ru/en/docs/openapi/api-information"
 const DOC_ITEMS = "https://dev.wildberries.ru/en/docs/openapi/item-management";
 const DOC_REPORTS = "https://dev.wildberries.ru/en/docs/openapi/reports";
 const DOC_COMMUNICATION = "https://dev.wildberries.ru/en/docs/openapi/customer-communication";
+const DOC_ORDERS_FBS = "https://dev.wildberries.ru/en/docs/openapi/orders-fbs";
 /**
  * The analytics page, read on 2026-09-16 for w03. Its text and links sit in
  * `artifacts/docs/w03-wb-sales-questions-mirror/docs/`.
@@ -170,6 +171,71 @@ export const WB_READ_ENDPOINTS: readonly WbReadEndpoint[] = [
      * WB's own 90-day retention, and a shorter one would silently lose data.
      */
     timeoutMs: 120_000,
+  },
+  /**
+   * FBS (w23-wb-write-fbs-orders). The whole desk of new orders and supplies
+   * is READ through these five entries; the three actions the panel offers
+   * travel through `src/modules/wb-write` instead, where they are gated.
+   *
+   * Two of them are POSTs, and both are documented as queries with a body:
+   * WB's assembly order id is an int64 and a request asks about up to 1000 of
+   * them at once, which does not fit a query string. The doc sentences are
+   * quoted verbatim in `readViaPost.reason`.
+   */
+  {
+    id: "marketplace.fbs.orders.new",
+    host: "marketplace-api.wildberries.ru",
+    method: "GET",
+    path: "/api/v3/orders/new",
+    docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+    summary: "Get New Assembly Orders",
+  },
+  {
+    id: "marketplace.fbs.orders",
+    host: "marketplace-api.wildberries.ru",
+    method: "GET",
+    path: "/api/v3/orders",
+    docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+    summary: "Get Assembly Orders",
+  },
+  {
+    id: "marketplace.fbs.orders.status",
+    host: "marketplace-api.wildberries.ru",
+    method: "POST",
+    path: "/api/v3/orders/status",
+    docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+    summary: "Get Assembly Orders Statuses",
+    readViaPost: {
+      docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+      reason:
+        "Method description: \"Returns the statuses of assembly orders from the request.\" The body " +
+        "is `orders`, \"List of assembly order IDs\", up to 1000 int64 values, so the question " +
+        "itself has to travel in a body.",
+    },
+  },
+  {
+    id: "marketplace.fbs.supplies",
+    host: "marketplace-api.wildberries.ru",
+    method: "GET",
+    path: "/api/v3/supplies",
+    docUrl: `${DOC_ORDERS_FBS}#tag/supplies`,
+    summary: "Get a Supplies List",
+  },
+  {
+    id: "marketplace.fbs.orders.stickers",
+    host: "marketplace-api.wildberries.ru",
+    method: "POST",
+    path: "/api/v3/orders/stickers",
+    docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+    summary: "Get Assembly Orders Stickers",
+    readViaPost: {
+      docUrl: `${DOC_ORDERS_FBS}#tag/assemblyOrders`,
+      reason:
+        "Method description: \"Returns a list of stickers for assembly orders in the confirm — in " +
+        "assembly and complete — in delivery statuses.\" The page states no side effect: the " +
+        "sticker exists because the order does, and asking for it again returns the same label. " +
+        "The body is `orders`, up to 100 assembly order IDs.",
+    },
   },
   {
     id: "statistics.sales",

@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Închide",
+    "counter": "Imaginea {index} din {total}",
     "goToImage": "Mergi la imaginea {index}",
-    "openFullImage": "Deschide imaginea completă"
+    "nextImage": "Imaginea următoare",
+    "openFullImage": "Deschide imaginea completă",
+    "previousImage": "Imaginea anterioară",
+    "showImage": "Afișează imaginea {index}",
+    "thumbnails": "Miniaturi ale produsului"
   },
   "Journal": {
     "navLabel": "Jurnal",
@@ -430,7 +436,14 @@
     "previous": "Anterior",
     "next": "Următor",
     "pageOf": "Pagina {page} din {lastPage}",
-    "pagination": "Paginile jurnalului"
+    "pagination": "Paginile jurnalului",
+    "readingTime": "{minutes} min de citit",
+    "related": "Citește și",
+    "share": "Distribuie",
+    "copyLink": "Copiază linkul",
+    "linkCopied": "Link copiat",
+    "allCategories": "Toate rubricile",
+    "categories": "Rubrici"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Nu",
     "title": "Caracteristici",
     "yes": "Da"
+  },
+  "ProductInfo": {
+    "description": "Descriere"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuă configurarea în admin",

@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Schließen",
+    "counter": "Bild {index} von {total}",
     "goToImage": "Zu Bild {index} wechseln",
-    "openFullImage": "Bild in voller Größe öffnen"
+    "nextImage": "Nächstes Bild",
+    "openFullImage": "Bild in voller Größe öffnen",
+    "previousImage": "Vorheriges Bild",
+    "showImage": "Bild {index} anzeigen",
+    "thumbnails": "Vorschaubilder des Produkts"
   },
   "Journal": {
     "navLabel": "Magazin",
@@ -430,7 +436,14 @@
     "previous": "Zurück",
     "next": "Weiter",
     "pageOf": "Seite {page} von {lastPage}",
-    "pagination": "Magazinseiten"
+    "pagination": "Magazinseiten",
+    "readingTime": "{minutes} Min. Lesezeit",
+    "related": "Auch lesenswert",
+    "share": "Teilen",
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link kopiert",
+    "allCategories": "Alle Rubriken",
+    "categories": "Rubriken"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Nein",
     "title": "Eigenschaften",
     "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beschreibung"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Einrichtung im Adminbereich fortsetzen",

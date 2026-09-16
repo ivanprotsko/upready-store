@@ -60,6 +60,45 @@ export default function CheckoutPaymentSection({
   const [showBillingDetails, setShowBillingDetails] = useState(false)
   const [demoCard, setDemoCard] = useState<DemoCardValue>(EMPTY_DEMO_CARD)
 
+  /**
+   * Creating a payment session is not idempotent: `POST
+   * /store/payment-collections/:id/payment-sessions` DELETES the collection's
+   * current session and makes a new one with a new id. So two calls in flight
+   * at once leave the page holding a session the server has already thrown
+   * away — harmless for a provider whose «pay» happens in this tab, fatal for a
+   * redirect provider, because the URL the customer leaves for carries the DEAD
+   * session's `InvId` and `Shp_SessionID`: Robokassa takes the money and its
+   * Result webhook then answers `unknown_session`, so the order is never
+   * created (measured on the stand 2026-09-16 — two sessions milliseconds
+   * apart, `payses_…94M` redirected and `payses_…0KM` stored).
+   *
+   * The duplicate came from THIS effect: the click's own `initiatePaymentSession`
+   * is still in flight when a cart refresh lands with the session list as it was
+   * BEFORE it — a new array, still empty — so `!latestSession` reads true and a
+   * second session is created. The ref is the missing piece: an effect may only
+   * replace a session nobody is creating right now.
+   */
+  const initiatingRef = useRef<string | null>(null)
+  const startSession = (
+    providerId: string,
+    data: ReturnType<typeof buildPaymentSessionData>
+  ) => {
+    // Only a call for the SAME provider is a duplicate. Switching the method
+    // while the previous one is still being created has to go through, or the
+    // page would show one method selected and hold the other's session.
+    if (initiatingRef.current === providerId) {
+      return
+    }
+    initiatingRef.current = providerId
+    return initiatePaymentSession(cart, { provider_id: providerId, data })
+      .catch((e) => setError(e instanceof Error ? e.message : String(e)))
+      .finally(() => {
+        if (initiatingRef.current === providerId) {
+          initiatingRef.current = null
+        }
+      })
+  }
+
   // Re-initiate payment session when it gets cleared (e.g. after promo code change)
   useEffect(() => {
     if (
@@ -68,10 +107,10 @@ export default function CheckoutPaymentSection({
       !paidByGiftcard &&
       isPaymentSessionReady(selectedPaymentMethod, cart)
     ) {
-      initiatePaymentSession(cart, {
-        provider_id: selectedPaymentMethod,
-        data: buildPaymentSessionData(selectedPaymentMethod, cart),
-      }).catch((e) => setError(e instanceof Error ? e.message : String(e)))
+      startSession(
+        selectedPaymentMethod,
+        buildPaymentSessionData(selectedPaymentMethod, cart)
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart.payment_collection?.payment_sessions])
@@ -104,10 +143,7 @@ export default function CheckoutPaymentSection({
       return
     }
 
-    initiatePaymentSession(cart, {
-      provider_id: selectedPaymentMethod,
-      data: sessionData,
-    }).catch((e) => setError(e instanceof Error ? e.message : String(e)))
+    startSession(selectedPaymentMethod, sessionData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [receiptContextKey])
 
@@ -125,14 +161,7 @@ export default function CheckoutPaymentSection({
       return
     }
 
-    try {
-      await initiatePaymentSession(cart, {
-        provider_id: providerId,
-        data: buildPaymentSessionData(providerId, cart),
-      })
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e))
-    }
+    await startSession(providerId, buildPaymentSessionData(providerId, cart))
   }
 
   const billingAddr = cart.billing_address
@@ -192,6 +221,7 @@ export default function CheckoutPaymentSection({
                 <button
                   key={method.id}
                   type="button"
+                  data-testid={`payment-method-${method.id}`}
                   onClick={() => handleSelectPayment(method.id)}
                   className={clx(
                     "flex-shrink-0 w-[111px] p-[10px] rounded-[6px] border text-start transition-colors",

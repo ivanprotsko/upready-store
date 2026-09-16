@@ -204,6 +204,8 @@ import {
 import { PutTenantLocaleSettingsBody } from "./tenants/locale-settings/validators";
 import { PutTenantWbWriteSettingsBody } from "./tenants/wb/write-settings/validators";
 import { PutTenantWbWritePreviewBody } from "./tenants/wb/write-preview/validators";
+import { PostTenantMpCatalogLinkBody } from "./tenants/marketplaces/catalog/links/validators";
+import { PostTenantWbFbsActionBody } from "./tenants/wb/fbs-orders/validators";
 import { PostTenantSeedBody } from "./tenants/seed/validators";
 import {
   AdminGetTenantsParams,
@@ -292,6 +294,14 @@ export default defineMiddlewares({
       matcher: "/auth/tenant/emailpass",
       method: ["POST"],
       middlewares: [blockArchivedTenantLogin],
+    },
+    {
+      // The owner ties one marketplace card to one variant of her shop by hand
+      // (w14-mp-catalog-link). This is the answer to «требует выбора», the one
+      // outcome no rule is allowed to decide.
+      matcher: "/tenants/marketplaces/catalog/links",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantMpCatalogLinkBody)],
     },
     {
       // The shop's payment account (t03-tenant-secrets-robokassa).
@@ -1064,7 +1074,15 @@ export default defineMiddlewares({
       middlewares: [validateAndTransformBody(PutTenantPageSchema)],
     },
 
-    // ---- t10-blog: journal articles (/tenants/articles/**, /store/tenant/articles/**)
+    // ---- t10-blog / b18-blog-full: journal articles
+    // (/tenants/articles/**, /tenants/article-categories,
+    //  /store/tenant/articles/**, /store/tenant/article-categories)
+    // The two category reads take no body and no parameter at all, so they are
+    // not listed here: the owner's one rides the "/tenants/*" authenticate
+    // above, the visitor's one the framework's publishable-key gate on
+    // "/store/*". They are their own paths rather than
+    // "/tenants/articles/categories" because that sits inside the ":slug"
+    // route's space, and a rubric is not an article.
     // Same reasoning as the pages block above: only the write verbs take a
     // body. The two tenant reads parse their one optional `?locale=` in the
     // route (this resource has no Admin counterpart to borrow a query config
@@ -1144,6 +1162,16 @@ export default defineMiddlewares({
       matcher: "/tenants/wb/write-preview",
       method: ["PUT"],
       middlewares: [validateAndTransformBody(PutTenantWbWritePreviewBody)],
+    },
+
+    // w23-wb-write-fbs-orders: «Собрать» / «Отменить» / «Передать в доставку».
+    // The body names an ACTION and the orders it applies to, never a method or
+    // a path; the mutations come from the write registry. GET of the desk
+    // takes no middleware — it only reads this tenant's own mirror.
+    {
+      matcher: "/tenants/wb/fbs-orders/actions",
+      method: ["POST"],
+      middlewares: [validateAndTransformBody(PostTenantWbFbsActionBody)],
     },
 
     // ---- piece 9: storefront by host (/tenants/domains/**, /storefront/by-host)

@@ -1,0 +1,137 @@
+[
+  {
+    "name": "panel-login",
+    "value": "http://localhost:5118/",
+    "ok": true
+  },
+  {
+    "name": "new-article-button",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "editor-is-a-page",
+    "value": "http://localhost:5118/journal/new",
+    "ok": true
+  },
+  {
+    "name": "first-field-is-title",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "slug-derived-from-russian-title",
+    "value": "peptidy-e2e",
+    "ok": true
+  },
+  {
+    "name": "preview-renders-blocks",
+    "value": 7,
+    "ok": true
+  },
+  {
+    "name": "inline-image-in-markdown",
+    "value": "## Что такое пептиды\n\nПептиды — короткие цепочки аминокислот.\n\n- короткие цепочки\n- работают точечно\n\n> Важно: подбирать курс должен врач.\n\n---\n\nПодробности — на [странице доставки](/delivery).\n\n![journal-inline](http://localhost:9118/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789522420882-journal-inline.png)\n\n",
+    "ok": true
+  },
+  {
+    "name": "inline-image-in-preview",
+    "value": 1,
+    "ok": true
+  },
+  {
+    "name": "cover-uploaded",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "saved-and-left-the-form",
+    "value": "http://localhost:5118/journal/peptidy-e2e",
+    "ok": true
+  },
+  {
+    "name": "draft-saved",
+    "value": "http://localhost:5118/journal/chernovik-e2e",
+    "ok": true
+  },
+  {
+    "name": "feed-shows-the-article",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "feed-hides-the-draft",
+    "value": false,
+    "ok": true
+  },
+  {
+    "name": "feed-shows-reading-time",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "feed-shows-the-category-chip",
+    "value": 1,
+    "ok": true
+  },
+  {
+    "name": "article-title-on-site",
+    "value": "Пептиды E2E",
+    "ok": true
+  },
+  {
+    "name": "article-breadcrumbs",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "article-share",
+    "value": true,
+    "ok": true
+  },
+  {
+    "name": "article-inline-image-rendered",
+    "value": 1,
+    "ok": true
+  },
+  {
+    "name": "no-broken-images",
+    "value": [],
+    "ok": true
+  },
+  {
+    "name": "draft-address-is-404",
+    "value": 404,
+    "ok": true
+  },
+  {
+    "name": "renamed-in-panel",
+    "value": "http://localhost:5118/journal/peptidy-e2e-korotko",
+    "ok": true
+  },
+  {
+    "name": "new-address-opens",
+    "value": 200,
+    "ok": true
+  },
+  {
+    "name": "old-address-gone",
+    "value": 404,
+    "ok": true
+  },
+  {
+    "name": "row-gone-from-list",
+    "value": 1,
+    "ok": true
+  },
+  {
+    "name": "deleted-address-is-404",
+    "value": 404,
+    "ok": true
+  },
+  {
+    "name": "cleanup-draft-removed",
+    "value": 0,
+    "ok": true
+  }
+]

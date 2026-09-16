@@ -124,6 +124,42 @@ export const WB_WRITE_ENDPOINTS: readonly MarketplaceWriteEndpoint[] = [
       .strict(),
   },
   {
+    id: "wb.fbs.supply.create",
+    marketplace: WB_MARKETPLACE,
+    method: "POST",
+    host: "marketplace-api.wildberries.ru",
+    path: "/api/v3/supplies",
+    opClass: "fbs_orders",
+    docUrl: `${DOC_ORDERS_FBS}#tag/supplies`,
+    summary: "Create a New Supply",
+    // "Supplies applicable only for assembly orders in the FBS (Fulfillment by
+    // Seller) delivery." Body: `name`, "string [ 1 .. 128 ] characters",
+    // "Supply name". A 201 carries `{"id": "WB-GI-1234567"}`.
+    //
+    // Registered because «Собрать» has nowhere to put an order otherwise: on
+    // WB there is no "confirm this order" method at all, the confirm status is
+    // a SIDE EFFECT of adding the order to a supply (see the next entry).
+    bodySchema: z.object({ name: z.string().min(1).max(128) }).strict(),
+  },
+  {
+    id: "wb.fbs.supply.add-orders",
+    marketplace: WB_MARKETPLACE,
+    method: "PATCH",
+    host: "marketplace-api.wildberries.ru",
+    // Not a typo and not the `/api/v3/` prefix of its neighbours: the doc page
+    // gives this one method the `/api/marketplace/v3/` prefix, and a path is
+    // never guessed from the family it sits in (rule 17a).
+    path: "/api/marketplace/v3/supplies/:supplyId/orders",
+    opClass: "fbs_orders",
+    docUrl: `${DOC_ORDERS_FBS}#tag/supplies`,
+    summary: "Add Assembly Orders to the Supply",
+    // "The method adds up to 100 assembly orders to the supply and moves it to
+    // the confirm status." Path parameter `supplyId` ("WB-GI-1234567"); body:
+    // `orders`, "Array of integers [ 1 .. 100 ] items", "Assembly order IDs".
+    // A 204 is the success answer.
+    bodySchema: z.object({ orders: z.array(z.number().int()).min(1).max(100) }).strict(),
+  },
+  {
     id: "wb.fbs.order.cancel",
     marketplace: WB_MARKETPLACE,
     method: "PATCH",

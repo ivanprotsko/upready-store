@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Cerrar",
+    "counter": "Imagen {index} de {total}",
     "goToImage": "Ir a la imagen {index}",
-    "openFullImage": "Abrir la imagen completa"
+    "nextImage": "Imagen siguiente",
+    "openFullImage": "Abrir la imagen completa",
+    "previousImage": "Imagen anterior",
+    "showImage": "Mostrar la imagen {index}",
+    "thumbnails": "Miniaturas del producto"
   },
   "Journal": {
     "navLabel": "Revista",
@@ -430,7 +436,14 @@
     "previous": "Anterior",
     "next": "Siguiente",
     "pageOf": "Página {page} de {lastPage}",
-    "pagination": "Páginas de la revista"
+    "pagination": "Páginas de la revista",
+    "readingTime": "{minutes} min de lectura",
+    "related": "Lee también",
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "Enlace copiado",
+    "allCategories": "Todas las secciones",
+    "categories": "Secciones"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "No",
     "title": "Características",
     "yes": "Sí"
+  },
+  "ProductInfo": {
+    "description": "Descripción"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continuar configuración en el admin",

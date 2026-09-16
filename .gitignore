@@ -80,12 +80,16 @@ artifacts/media/*/*
 artifacts/docs/contact-sheet/shots/
 artifacts/docs/f06-shipping-method-names/shots/
 artifacts/docs/f10-price-save-silently-lost/shots/
+artifacts/docs/w12-marketplace-core/shots/
 # Playwright session state of the shop owner (cookies): never in git.
 artifacts/docs/f10-price-save-silently-lost/.state-*.json
 
 # Stand index screenshots (t-store-profiles-pilot): binaries never enter git.
 # build.mjs, shot.mjs, tokens.css and index.html stay tracked as documents.
 artifacts/docs/stands/shot-*.png
+# b17: reference/before/after screenshots of the product page, kept on disk
+# for the PR body and named there by absolute path (rule 21f: no binaries in history)
+artifacts/docs/b17-pdp-gallery-info-layout/design/*.png
 artifacts/docs/hero-lab/shot-*.png
 artifacts/docs/hero-lab-2/shot-*.png
 artifacts/docs/hero-lab-2/collection/*.webp
@@ -129,3 +133,6 @@ artifacts/docs/f01-thankyou-brand/*.png
 # The extracted TEXT of those pages is committed next to them and is what the
 # endpoint registry cites; the PNGs stay on disk and are listed in the PR body.
 artifacts/docs/w01-wb-readonly-client/docs/*.png
+
+# b18-blog-full: скриншоты приёмки журнала — бинарники в историю не кладём (правило 21f)
+artifacts/docs/b18-blog-full/**/*.png

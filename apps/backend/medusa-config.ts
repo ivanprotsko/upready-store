@@ -215,6 +215,16 @@ module.exports = defineConfig({
     // WB enrichment reads and writes (w07-tenant-catalog-enrich).
     { resolve: "./src/modules/marketplace-link" },
 
+    // The marketplace READ core — w12-marketplace-core. Owns the normalized
+    // mp_* layer every marketplace screen reads, the shared run log
+    // (mp_sync_run) and the shared transport journal (mp_api_call). Next to
+    // the models sit the adapter contract, the ONE registry of adapters
+    // (src/modules/marketplace/registry.ts) and the shared validator every
+    // adapter runs at load, so the read-only invariant applies to a new
+    // marketplace automatically instead of being copied into it (rule 20).
+    // It talks to no marketplace itself.
+    { resolve: "./src/modules/marketplace" },
+
     // The marketplace WRITE core — w20-wb-write-core. Owns the gates, the
     // consent ledger (marketplace_write_consent) and the audit journal
     // (marketplace_write_audit). It sends nothing itself: an adapter brings a

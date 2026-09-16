@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Zavřít",
+    "counter": "Obrázek {index} z {total}",
     "goToImage": "Přejít na obrázek {index}",
-    "openFullImage": "Otevřít obrázek v plné velikosti"
+    "nextImage": "Další obrázek",
+    "openFullImage": "Otevřít obrázek v plné velikosti",
+    "previousImage": "Předchozí obrázek",
+    "showImage": "Zobrazit obrázek {index}",
+    "thumbnails": "Náhledy produktu"
   },
   "Journal": {
     "navLabel": "Magazín",
@@ -430,7 +436,14 @@
     "previous": "Předchozí",
     "next": "Další",
     "pageOf": "Stránka {page} z {lastPage}",
-    "pagination": "Stránky magazínu"
+    "pagination": "Stránky magazínu",
+    "readingTime": "{minutes} min čtení",
+    "related": "Přečtěte si také",
+    "share": "Sdílet",
+    "copyLink": "Kopírovat odkaz",
+    "linkCopied": "Odkaz zkopírován",
+    "allCategories": "Všechny rubriky",
+    "categories": "Rubriky"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Ne",
     "title": "Parametry",
     "yes": "Ano"
+  },
+  "ProductInfo": {
+    "description": "Popis"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Pokračovat v nastavení v administraci",

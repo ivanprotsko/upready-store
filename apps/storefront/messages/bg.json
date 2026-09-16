@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Затвори",
+    "counter": "Изображение {index} от {total}",
     "goToImage": "Към изображение {index}",
-    "openFullImage": "Отваряне на цялото изображение"
+    "nextImage": "Следващо изображение",
+    "openFullImage": "Отваряне на цялото изображение",
+    "previousImage": "Предишно изображение",
+    "showImage": "Покажи изображение {index}",
+    "thumbnails": "Миниатюри на продукта"
   },
   "Journal": {
     "navLabel": "Списание",
@@ -430,7 +436,14 @@
     "previous": "Назад",
     "next": "Напред",
     "pageOf": "Страница {page} от {lastPage}",
-    "pagination": "Страници на списанието"
+    "pagination": "Страници на списанието",
+    "readingTime": "{minutes} мин четене",
+    "related": "Прочетете също",
+    "share": "Споделяне",
+    "copyLink": "Копирай връзката",
+    "linkCopied": "Връзката е копирана",
+    "allCategories": "Всички рубрики",
+    "categories": "Рубрики"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Не",
     "title": "Характеристики",
     "yes": "Да"
+  },
+  "ProductInfo": {
+    "description": "Описание"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Продължи настройката в администрацията",

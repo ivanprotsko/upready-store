@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Хаах",
+    "counter": "{total}-аас {index} дэх зураг",
     "goToImage": "{index}-р зураг руу очих",
-    "openFullImage": "Бүтэн зургийг нээх"
+    "nextImage": "Дараагийн зураг",
+    "openFullImage": "Бүтэн зургийг нээх",
+    "previousImage": "Өмнөх зураг",
+    "showImage": "{index} дугаар зургийг харах",
+    "thumbnails": "Барааны жижиг зургууд"
   },
   "Journal": {
     "navLabel": "Сэтгүүл",
@@ -430,7 +436,14 @@
     "previous": "Өмнөх",
     "next": "Дараах",
     "pageOf": "{lastPage}-аас {page}-р хуудас",
-    "pagination": "Сэтгүүлийн хуудсууд"
+    "pagination": "Сэтгүүлийн хуудсууд",
+    "readingTime": "{minutes} мин унших",
+    "related": "Мөн уншина уу",
+    "share": "Хуваалцах",
+    "copyLink": "Холбоос хуулах",
+    "linkCopied": "Холбоосыг хуулсан",
+    "allCategories": "Бүх сэдэв",
+    "categories": "Сэдэв"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Үгүй",
     "title": "Үзүүлэлт",
     "yes": "Тийм"
+  },
+  "ProductInfo": {
+    "description": "Тайлбар"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Админ хэсэгт тохиргоог үргэлжлүүлэх",

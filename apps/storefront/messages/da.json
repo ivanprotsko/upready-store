@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Luk",
+    "counter": "Billede {index} af {total}",
     "goToImage": "Gå til billede {index}",
-    "openFullImage": "Åbn billedet i fuld størrelse"
+    "nextImage": "Næste billede",
+    "openFullImage": "Åbn billedet i fuld størrelse",
+    "previousImage": "Forrige billede",
+    "showImage": "Vis billede {index}",
+    "thumbnails": "Miniaturer af produktet"
   },
   "Journal": {
     "navLabel": "Magasin",
@@ -430,7 +436,14 @@
     "previous": "Forrige",
     "next": "Næste",
     "pageOf": "Side {page} af {lastPage}",
-    "pagination": "Magasinets sider"
+    "pagination": "Magasinets sider",
+    "readingTime": "{minutes} min læsning",
+    "related": "Læs også",
+    "share": "Del",
+    "copyLink": "Kopiér link",
+    "linkCopied": "Link kopieret",
+    "allCategories": "Alle emner",
+    "categories": "Emner"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "Nej",
     "title": "Specifikationer",
     "yes": "Ja"
+  },
+  "ProductInfo": {
+    "description": "Beskrivelse"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Fortsæt opsætning i admin",

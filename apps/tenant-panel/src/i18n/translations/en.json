@@ -236,7 +236,14 @@
         "pages": "Pages",
         "journal": "Journal",
         "store": "Store",
-        "storeSettings": "Store settings"
+        "storeSettings": "Store settings",
+        "marketplaces": "Marketplaces",
+        "wildberries": "Wildberries",
+        "mpCatalog": "Catalog",
+        "mpConnections": "Connections",
+        "mpOrders": "Marketplace orders",
+        "mpReviews": "Marketplace reviews",
+        "mpSync": "Synchronisation"
       },
       "settings": {
         "developer": "Developer",
@@ -4069,6 +4076,264 @@
     "saved": "Code saved",
     "loading": "loading…"
   },
+  "marketplaceSync": {
+    "title": "Synchronisation",
+    "subtitle": "when each kind of data last came in, when the next run is due and what went wrong",
+    "backToCards": "← back to the marketplace cards",
+    "scheduleHint": "The schedule runs itself: the platform checks every 5 minutes what needs refreshing. One kind of one marketplace imports at a time; a run stuck for more than {{minutes}} min is released and stays visible as a failure. A key is flagged {{days}} days before it expires.",
+    "noWarnings": "Nothing needs attention: the keys are fine and every kind has run.",
+    "warnings": {
+      "noKey": "{{label}}: no key saved, nothing is being imported.",
+      "keyExpired": "{{label}}: the key has expired. Issue a new one in the marketplace account — the import has stopped.",
+      "keyExpiring": "{{label}}: the key expires in {{days}} days. Issue a new one in the marketplace account before the import stops.",
+      "failed": "{{where}}: the last run failed — {{error}}",
+      "neverRan": "{{where}}: has never run."
+    },
+    "state": "State",
+    "lastSuccess": "Last successful run",
+    "neverSucceeded": "never succeeded",
+    "every": "How often",
+    "everyMinutes": "every {{count}} min",
+    "notScheduled": "not scheduled",
+    "nextRun": "Next run",
+    "dueNow": "due, starts at the next check",
+    "running": "running right now",
+    "inMinutes": "in {{count}} min",
+    "inHours": "in {{count}} h",
+    "waitingForMarketplace": "the marketplace asks to wait until {{at}}",
+    "lastFailure": "Last failure",
+    "noFailures": "no failures",
+    "neverRan": "never ran",
+    "attempts": "attempts: {{count}}",
+    "keySet": "key ends with {{last4}}, valid until {{until}}",
+    "noExpiry": "no expiry stated"
+  },
+  "marketplaces": {
+    "title": "Marketplaces",
+    "subtitle": "Wildberries and Ozon: the key, what it may do, what has already been imported and how it maps onto your catalog",
+    "loading": "Loading…",
+    "empty": "No marketplace is registered on the platform. That is a backend configuration error, not an empty list — please contact support.",
+    "card": {
+      "subtitle": "data moves one way only: the marketplace into your shop",
+      "statusFailed": "The marketplace could not be asked about this key. Everything else on the card comes from our own database and is correct."
+    },
+    "key": {
+      "label": "API key",
+      "set": "stored, ends with {{last4}}",
+      "missing": "not stored"
+    },
+    "enabled": {
+      "label": "Connection",
+      "yes": "on",
+      "no": "off"
+    },
+    "readOnly": {
+      "label": "Key permissions",
+      "yes": "read only",
+      "no": "writing is allowed",
+      "unknown": "could not be determined",
+      "asking": "asking the key…"
+    },
+    "expiresAt": "Valid until",
+    "expired": "(expired)",
+    "expiringSoon": "The {{label}} key expires in {{days}} days. Ask the seller to issue a new one in the marketplace cabinet",
+    "access": "What the key may reach",
+    "problem": "Problem with the key",
+    "scopes": {
+      "granted": "granted",
+      "denied": "denied",
+      "none": "the marketplace said nothing about this key"
+    },
+    "linking": {
+      "title": "Link to your catalog",
+      "hint": "marketplace listings are matched to your products by article: the marketplace article equals your product SKU",
+      "total": "Listings",
+      "linked": "Linked",
+      "notFound": "Not found",
+      "needsChoice": "Needs a choice",
+      "stored": "Links stored"
+    },
+    "sync": {
+      "title": "Latest imports",
+      "hint": "the wb:sync and ozon:sync scripts import, mp:project normalizes; the last run of each kind is here",
+      "kind": "What is imported",
+      "status": "Outcome",
+      "rows": "Rows",
+      "requests": "Requests sent",
+      "finishedAt": "Finished",
+      "error": "Error",
+      "never": "never ran",
+      "fixture": "from recorded answers"
+    },
+    "normalized": {
+      "title": "Already here",
+      "hint": "rows of the shared layer: the order feed, the price and stock table and the reviews are built from them"
+    },
+    "normalizedKinds": {
+      "products": "Listings",
+      "offers": "Prices and stock",
+      "orders": "Orders",
+      "reviews": "Reviews",
+      "questions": "Questions"
+    },
+    "endpoints": {
+      "title": "What we are allowed to ask for",
+      "hint": "the full list of requests the platform may send this marketplace; nothing beyond it can be sent",
+      "method": "Method",
+      "address": "Address",
+      "summary": "What the documentation calls it"
+    },
+    "denied": {
+      "toggle": "What this marketplace's documentation calls a write, and what we cannot register ({{count}})",
+      "anyVerb": "any"
+    },
+    "kinds": {
+      "cards": "Product listings",
+      "prices": "Prices and discounts",
+      "stocks": "Warehouse stock",
+      "orders": "Orders",
+      "feedbacks": "Reviews",
+      "products": "Product listings",
+      "postings": "Shipments",
+      "reviews": "Reviews",
+      "questions": "Questions",
+      "sales": "Sales",
+      "analytics": "Listing analytics",
+      "supplies": "Supplies",
+      "fbs_orders": "FBS orders",
+      "projection": "Shared-layer recompute"
+    },
+    "statuses": {
+      "rate_limited": "waiting for the marketplace",
+      "running": "running",
+      "succeeded": "succeeded",
+      "failed": "failed"
+    },
+    "desk": {
+      "title": "Reviews and questions",
+      "subtitle": "Customer reviews and questions from Wildberries and Ozon in one list. The answer draft is stored here; the answer itself is posted from the marketplace's own cabinet.",
+      "link": "Customer reviews and questions",
+      "sendingOff": "Sending answers to the marketplace is not enabled: the platform reads Wildberries and Ozon and never writes to them.",
+      "tabs": {
+        "reviews": "Reviews",
+        "questions": "Questions"
+      },
+      "unansweredOf": "Unanswered: {{unanswered}} of {{total}}",
+      "shownOf": "Showing {{shown}} of {{count}}",
+      "anonymous": "No name",
+      "notInShop": "Not in the shop",
+      "pros": "Pros",
+      "cons": "Cons",
+      "answered": {
+        "yes": "Answered on the marketplace",
+        "no": "Unanswered"
+      },
+      "marketplaceNames": {
+        "wb": "Wildberries",
+        "ozon": "Ozon"
+      },
+      "filters": {
+        "marketplace": "Marketplace",
+        "rating": "Rating",
+        "answered": "Answer",
+        "period": "Period",
+        "any": "Any",
+        "stars": "{{count}} ★",
+        "reset": "Reset filters"
+      },
+      "filterValues": {
+        "answered": {
+          "all": "All",
+          "no": "Unanswered",
+          "yes": "Answered"
+        },
+        "period": {
+          "all": "All time",
+          "7d": "7 days",
+          "30d": "30 days",
+          "90d": "90 days",
+          "365d": "A year"
+        },
+        "rating": {
+          "1": "1 ★",
+          "2": "2 ★",
+          "3": "3 ★",
+          "4": "4 ★",
+          "5": "5 ★"
+        }
+      },
+      "emptyNoFilters": "Nothing has been imported yet. The mp:reviews script runs the import.",
+      "emptyFiltered": "Nothing matches the filters: {{filters}}. Clear a filter or widen the period — this is an empty FILTER result, not an empty marketplace.",
+      "emptyImportHint": "Our database holds no row of this kind at all: either the import has not run, or the marketplace returned nothing. The last imports are listed on the «Marketplaces» screen.",
+      "draft": {
+        "label": "Answer draft — stored here, never sent to the marketplace",
+        "placeholder": "Write the answer, then copy it into the marketplace cabinet",
+        "save": "Save draft",
+        "generate": "Generate",
+        "saved": "Draft saved",
+        "generated": "Draft written — read it and save",
+        "savedAt": "Draft saved {{at}}"
+      }
+    }
+  },
+  "marketplaceOrders": {
+    "title": "Marketplace orders",
+    "navLabel": "Marketplace orders",
+    "subtitle": "Shop, Wildberries and Ozon orders in one feed. The screen only shows them: it changes nothing on a marketplace.",
+    "loading": "Loading…",
+    "export": "Download CSV ({{count}})",
+    "more": "Show more",
+    "shown": "Showing {{shown}} of {{count}}",
+    "empty": "No orders in the selected period ({{from}} — {{to}}).",
+    "period": {
+      "default": "Default period: the last {{days}} days ({{from}} — {{to}}). Pick your own below.",
+      "chosen": "Period: {{from}} — {{to}}",
+      "undated": "{{count}} more order(s) arrived without a date, so they fall in no period."
+    },
+    "filters": {
+      "source": "Source",
+      "scheme": "Scheme",
+      "status": "Status",
+      "from": "From",
+      "to": "To",
+      "reset": "Reset filters",
+      "nothingToFilter": "Nothing to filter in this period."
+    },
+    "columns": {
+      "source": "Source",
+      "number": "Number",
+      "date": "Ordered",
+      "scheme": "Scheme",
+      "status": "Status",
+      "region": "Region",
+      "total": "Total"
+    },
+    "connection": {
+      "missing": "{{marketplace}}: no connection — no key is stored, so this marketplace has no orders in the feed at all.",
+      "never_run": "{{marketplace}}: connected, but the order import has never run.",
+      "failed": "{{marketplace}}: the last order import failed — {{error}}. An empty row for this marketplace means a failed import, not an absence of orders.",
+      "rate_limited": "{{marketplace}}: the marketplace refused to serve orders right now (rate limit). That is neither a failure nor an absence of orders — some orders of the period may not be imported yet. Run the import again later.",
+      "noErrorText": "the marketplace sent no error text",
+      "fixture": "{{marketplace}}: these rows come from recorded answers (fixtures), not from the marketplace."
+    },
+    "detail": {
+      "readOnly": "View only. Change the order in the marketplace's own cabinet.",
+      "statusRaw": "Marketplace status",
+      "statusChangedAt": "Marketplace changed the status",
+      "statusChangedUnknown": "the marketplace does not say when",
+      "syncedAt": "Imported at",
+      "warehouse": "Warehouse",
+      "lines": "Items",
+      "noLines": "This order has no lines, which is an import defect rather than an empty order. Check the last import.",
+      "vendorCode": "Article",
+      "product": "Shop product",
+      "qty": "Qty",
+      "notInShop": "not in the shop",
+      "history": "Status history",
+      "historyHint": "What we saw at each import. Neither Wildberries nor Ozon hands out a status log, so the time here is ours.",
+      "observedAt": "Seen at"
+    }
+  },
   "wildberries": {
     "title": "Wildberries",
     "subtitle": "the seller cabinet: the key, what it may do, and what is already mirrored here",
@@ -4114,7 +4379,9 @@
       "feedbacks": "Feedbacks",
       "sales": "Sales and returns",
       "questions": "Customer questions",
-      "analytics": "Funnel by listing"
+      "analytics": "Funnel by listing",
+      "supplies": "FBS supplies",
+      "fbs_orders": "FBS assembly orders"
     },
     "statuses": {
       "running": "running",
@@ -4258,6 +4525,96 @@
       "orderedSum": "Order value",
       "buyouts": "Bought out",
       "empty": "no funnel data — either the import has not run, or WB returned nothing"
+    },
+    "tabs": {
+      "connection": "Connection",
+      "fbs": "FBS orders"
+    },
+    "fbs": {
+      "title": "FBS orders",
+      "hint": "assembly orders and supplies from the Wildberries cabinet. This is our copy: the list comes from our own database, so reloading the page does not spend the shop's request budget.",
+      "empty": "no orders in this status",
+      "sync": {
+        "line": "{{kind}}: {{status}}, {{rows}} rows, {{when}}",
+        "howTo": "the import is a script: WB_KIND=supplies,fbs_orders pnpm --filter backend wb:sync"
+      },
+      "filters": {
+        "new": "New",
+        "confirm": "In assembly",
+        "complete": "In delivery",
+        "cancel": "Cancelled",
+        "all": "All"
+      },
+      "columns": {
+        "order": "Assembly order",
+        "created": "Created",
+        "article": "Item",
+        "price": "Price",
+        "status": "Status",
+        "supply": "Supply"
+      },
+      "supplierStatuses": {
+        "new": "new",
+        "confirm": "in assembly",
+        "complete": "in delivery",
+        "cancel": "cancelled by the seller",
+        "cancel_carrier": "cancelled by the carrier"
+      },
+      "wbStatuses": {
+        "waiting": "waiting at Wildberries",
+        "sorted": "sorted at the WB warehouse",
+        "sold": "sold",
+        "canceled": "cancelled",
+        "canceled_by_client": "cancelled by the buyer on receipt",
+        "declined_by_client": "cancelled by the buyer within the hour",
+        "defect": "defect",
+        "ready_for_pickup": "waiting at the pickup point",
+        "postponed_delivery": "delivery postponed",
+        "accepted_by_carrier": "accepted by the carrier",
+        "sent_to_carrier": "dispatched to the carrier",
+        "canceled_by_carrier": "cancelled by the carrier"
+      },
+      "assemble": {
+        "button": "Assemble ({{count}})",
+        "title": "Assemble {{count}} order(s)",
+        "intoSupply": "The orders are added to the supply «{{supply}}» and move to the in-assembly status. Wildberries has no separate confirm method: adding an order to a supply IS confirming it. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "newSupply": "No supply is chosen, so a new one is created first and {{count}} order(s) are then added to it and moved to the in-assembly status. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Assemble"
+      },
+      "cancel": {
+        "button": "Cancel ({{count}})",
+        "title": "Cancel {{count}} order(s)",
+        "body": "Orders {{orders}} move to the cancelled-by-the-seller status. Cancelling is possible only before the order is handed over to Wildberries. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Cancel the orders"
+      },
+      "deliver": {
+        "button": "Hand over for delivery",
+        "title": "Hand the supply «{{supply}}» over for delivery",
+        "body": "The supply closes and all {{count}} order(s) move to the in-delivery status. Nothing can be added to it afterwards, and Wildberries calls the action irreversible. Nothing leaves this process today, the live mode is off and the attempt is journalled as a dry run.",
+        "confirm": "Hand over for delivery"
+      },
+      "supply": {
+        "title": "Open supplies",
+        "empty": "no open supplies",
+        "newOne": "Create a new supply",
+        "orders": "{{count}} orders"
+      },
+      "blocked": {
+        "assemble": "Order {{order}} cannot be assembled: {{reason}}.",
+        "cancel": "Order {{order}} cannot be cancelled: {{reason}}."
+      },
+      "gates": {
+        "consentGiven": "The consent for the FBS orders class was given on the Connection tab.",
+        "consentMissing": "The consent for the FBS orders class has not been given. It can be confirmed on the Connection tab; without it every attempt is refused at the consent gate."
+      },
+      "result": {
+        "dryRun": "Dry run: nothing left this process",
+        "sent": "Sent to Wildberries",
+        "journalled": "journalled, payload fingerprint {{sha}}…",
+        "refusedAt": "refused at the «{{gate}}» gate: {{message}}",
+        "dryRunToast": "The attempt is in the journal. Nothing was sent to Wildberries.",
+        "sentToast": "Sent to Wildberries."
+      }
     },
     "preview": {
       "title": "What would change on WB",

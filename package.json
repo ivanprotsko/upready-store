@@ -25,6 +25,7 @@
     "backend:seed": "turbo seed --filter=@dtc/gorgo-medusa-backend",
     "check:backend-build": "cd apps/backend && npx medusa build --lint false",
     "check:backend-fixtures": "cd apps/backend && npx tsc -p scripts/fixtures/tsconfig.json",
+    "check:shared-markdown": "node scripts/check-shared-markdown.mjs",
     "backend:dev": "turbo dev --filter=@dtc/gorgo-medusa-backend",
     "storefront:dev": "turbo dev --filter=@dtc/gorgo-medusa-storefront"
   },

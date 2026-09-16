@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "Close",
+    "counter": "Image {index} of {total}",
     "goToImage": "Go to image {index}",
-    "openFullImage": "Open full image"
+    "nextImage": "Next image",
+    "openFullImage": "Open full image",
+    "previousImage": "Previous image",
+    "showImage": "Show image {index}",
+    "thumbnails": "Product thumbnails"
   },
   "Journal": {
     "navLabel": "Journal",
@@ -430,7 +436,14 @@
     "previous": "Previous",
     "next": "Next",
     "pageOf": "Page {page} of {lastPage}",
-    "pagination": "Journal pages"
+    "pagination": "Journal pages",
+    "readingTime": "{minutes} min read",
+    "related": "Read next",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "allCategories": "All topics",
+    "categories": "Journal topics"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "No",
     "title": "Specifications",
     "yes": "Yes"
+  },
+  "ProductInfo": {
+    "description": "Description"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "Continue setup in admin",

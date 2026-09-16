@@ -418,8 +418,14 @@
     }
   },
   "ImageGallery": {
+    "close": "סגירה",
+    "counter": "תמונה {index} מתוך {total}",
     "goToImage": "מעבר לתמונה {index}",
-    "openFullImage": "פתיחת התמונה המלאה"
+    "nextImage": "התמונה הבאה",
+    "openFullImage": "פתיחת התמונה המלאה",
+    "previousImage": "התמונה הקודמת",
+    "showImage": "הצגת תמונה {index}",
+    "thumbnails": "תמונות ממוזערות של המוצר"
   },
   "Journal": {
     "navLabel": "מגזין",
@@ -430,7 +436,14 @@
     "previous": "הקודם",
     "next": "הבא",
     "pageOf": "עמוד {page} מתוך {lastPage}",
-    "pagination": "עמודי המגזין"
+    "pagination": "עמודי המגזין",
+    "readingTime": "{minutes} דק׳ קריאה",
+    "related": "כדאי לקרוא גם",
+    "share": "שיתוף",
+    "copyLink": "העתקת קישור",
+    "linkCopied": "הקישור הועתק",
+    "allCategories": "כל הנושאים",
+    "categories": "נושאים"
   },
   "LanguageSelect": {
     "locales": {
@@ -730,6 +743,9 @@
     "no": "לא",
     "title": "מפרט",
     "yes": "כן"
+  },
+  "ProductInfo": {
+    "description": "תיאור"
   },
   "ProductOnboardingCta": {
     "continueInAdmin": "המשך ההגדרה בממשק הניהול",
