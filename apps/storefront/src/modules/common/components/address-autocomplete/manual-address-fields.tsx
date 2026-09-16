@@ -98,6 +98,11 @@ const ManualAddressFields = ({
           ))}
         </NativeSelect>
       ) : (
+        // The free-text fallback: no region list for this country, or a saved
+        // province that is not in it. It also stands here for the first moments
+        // of a country that HAS a list, while `listShippingRegions` is still in
+        // flight — its own testid, never the select's, so a test that waits for
+        // the select does not accept this input in its place.
         <Input
           label={t("fieldProvince")}
           name="province"
@@ -105,6 +110,7 @@ const ManualAddressFields = ({
           value={values.province}
           onChange={handleChange}
           required={provinceRequired}
+          data-testid="address-province-input"
         />
       )}
     </>
