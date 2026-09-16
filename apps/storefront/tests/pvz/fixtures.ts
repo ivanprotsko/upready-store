@@ -100,14 +100,17 @@ export async function mockCdek(page: Page): Promise<SuggestCounter> {
  * test can assert what was drawn and can fire a marker click without a key, a
  * network or a canvas.
  */
-export async function mockYandexMaps(page: Page) {
-  await page.route("https://api-maps.yandex.ru/**", (route) =>
-    route.fulfill({
+export async function mockYandexMaps(page: Page): Promise<{ loads: number }> {
+  const counter = { loads: 0 }
+  await page.route("https://api-maps.yandex.ru/**", (route) => {
+    counter.loads += 1
+    return route.fulfill({
       status: 200,
       contentType: "application/javascript",
       body: YMAPS_STUB,
     })
-  )
+  })
+  return counter
 }
 
 const YMAPS_STUB = `

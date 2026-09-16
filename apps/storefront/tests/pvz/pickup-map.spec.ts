@@ -23,7 +23,7 @@ const waitForMapStub = (page: import("@playwright/test").Page) =>
 test.describe("checkout pickup map", () => {
   test("draws the city's points, clusters them, and a marker click previews one", async ({ page }) => {
     await mockCdek(page)
-    await mockYandexMaps(page)
+    const loader = await mockYandexMaps(page)
     await reachShippingStep(page)
     await openCdekPointSheet(page)
     await waitForMapStub(page)
@@ -56,10 +56,24 @@ test.describe("checkout pickup map", () => {
       (code) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(code),
       POINT_FIXTURES[1].code
     )
-    const card = page.getByTestId("cdek-point-card")
-    await expect(card).toBeVisible()
-    await expect(card).toContainText(POINT_FIXTURES[1].name)
-    await expect(card).toContainText(POINT_FIXTURES[1].address)
+    const pointCard = page.getByTestId("cdek-point-card")
+    await expect(pointCard).toBeVisible()
+    await expect(pointCard).toContainText(POINT_FIXTURES[1].name)
+    await expect(pointCard).toContainText(POINT_FIXTURES[1].address)
+
+    // The loader script is added once for the life of the page: choosing a
+    // point, then reopening the picker through «Сменить пункт», rebuilds the map
+    // from the API already in memory and never fetches it again.
+    await page.getByTestId("cdek-point-card-choose").click()
+    await expect(page.getByTestId("cdek-point-city")).toBeHidden({ timeout: 30_000 })
+
+    const change = page.getByTestId("delivery-option-cdek-change")
+    await expect(change, "no way back into the picker after a point was chosen").toBeVisible({
+      timeout: 30_000,
+    })
+    await change.click()
+    await expect(page.getByTestId("pickup-map")).toBeVisible()
+    expect(loader.loads, "the Yandex loader was requested more than once").toBe(1)
   })
 
   test("choosing a point on the card sets the shipping method", async ({ page }) => {
@@ -102,5 +116,35 @@ test.describe("checkout pickup map", () => {
     await page.getByTestId("cdek-point-tab-map").click()
     await expect(page.getByTestId("pickup-map")).toBeVisible()
     await expect(page.getByTestId("cdek-point-list")).toBeHidden()
+  })
+})
+
+/**
+ * `prefers-reduced-motion`: the only animation the map has is the flight to a
+ * chosen point, so honouring the setting means the map jumps instead of gliding.
+ * Measured through the stub, which records the duration the component asked for.
+ */
+test.describe("checkout pickup map, reduced motion", () => {
+  test.use({ reducedMotion: "reduce" })
+
+  test("flies to the chosen point with no animation", async ({ page }) => {
+    await mockCdek(page)
+    await mockYandexMaps(page)
+    await reachShippingStep(page)
+    await openCdekPointSheet(page)
+    await waitForMapStub(page)
+
+    await page.evaluate(
+      (code) => (window as never as { __ymapsClick: (id: string) => void }).__ymapsClick(code),
+      POINT_FIXTURES[1].code
+    )
+    await expect(page.getByTestId("cdek-point-card")).toBeVisible()
+
+    const flights = await page.evaluate(
+      () =>
+        (window as never as { __ymaps: { flights: { duration?: number }[] } }).__ymaps.flights
+    )
+    expect(flights.length, "the map never flew to the chosen point").toBeGreaterThan(0)
+    expect(flights[flights.length - 1].duration).toBe(0)
   })
 })

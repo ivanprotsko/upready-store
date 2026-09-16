@@ -107,6 +107,7 @@ export default function CheckoutShippingSection({
   currentCountry,
 }: CheckoutShippingSectionProps) {
   const t = useTranslations("CheckoutPage")
+  const tCdek = useTranslations("CdekPoint")
   const dir = useLocaleDirection()
   const getErrorMessage = useErrorMessage()
   const locale = useLocale()
@@ -566,6 +567,25 @@ export default function CheckoutShippingSection({
                     >
                       {cdekTerm}
                     </span>
+                  )}
+                  {/*
+                    The way back into the picker (i03-checkout-pvz-map-address-suggest).
+                    Clicking the card again cannot do it: `RadioGroup` fires
+                    `onValueChange` on a CHANGE of value, and the card is already
+                    the chosen one — so a buyer who picked the wrong point had no
+                    way at all to pick another (measured 2026-09-16 on the i03
+                    stand). It sits above the radio's own full-card hit area,
+                    which is `absolute inset-0 z-10`.
+                  */}
+                  {isSelected && cdekNeedsPoint(option) && cdekChosen && (
+                    <button
+                      type="button"
+                      onClick={() => setCdekSheetOptionId(option.id)}
+                      className="relative z-20 w-fit txt-compact-xsmall text-ui-fg-interactive underline focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                      data-testid="delivery-option-cdek-change"
+                    >
+                      {tCdek("change")}
+                    </button>
                   )}
                   <div className="flex flex-col gap-y-1">
                     <div className="min-h-[20px]">
