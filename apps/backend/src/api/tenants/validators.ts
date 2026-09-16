@@ -465,3 +465,32 @@ export const PutTenantRequisitesSchema = z.strictObject({
   bank_details: optionalText(1000),
 });
 export type PutTenantRequisitesBody = z.infer<typeof PutTenantRequisitesSchema>;
+
+/**
+ * `PUT /tenants/delivery-settings` (i02-apiship-cdek-shipping) — the shop's CDEK
+ * account and what it ships with. A password absent from the body keeps the
+ * stored one, the same rule the Robokassa form follows, so the panel can show a
+ * masked value and save the rest of the form without re-typing it.
+ */
+export const PutTenantDeliverySettingsSchema = z.strictObject({
+  provider: z.literal("cdek"),
+  is_test: z.boolean().optional(),
+  is_enabled: z.boolean().optional(),
+  account: z.string().trim().max(200).optional(),
+  test_account: z.string().trim().max(200).optional(),
+  password: optionalSecret,
+  test_password: optionalSecret,
+  sender_mode: z.enum(["door", "warehouse"]).optional(),
+  sender_city_code: z.number().int().positive().nullable().optional(),
+  sender_city_name: optionalText(200),
+  sender_address: optionalText(500),
+  sender_name: optionalText(200),
+  sender_phone: optionalText(50),
+  shipment_point: optionalText(50),
+  /** Which delivery kinds the shop offers; an empty list switches CDEK off at the checkout. */
+  kinds: z.array(z.enum(["courier", "pickup", "postamat"])).max(3).optional(),
+  markup_amount: z.number().min(0).max(1_000_000).optional(),
+  markup_percent: z.number().min(0).max(100).optional(),
+  free_above_total: z.number().min(0).max(100_000_000).nullable().optional(),
+});
+export type PutTenantDeliverySettingsBody = z.infer<typeof PutTenantDeliverySettingsSchema>;
