@@ -26,3 +26,14 @@
   padding: var(--card-pad); gap: var(--space-3);
 }
 .grid-products[data-framed] .card .media { border-radius: var(--r-sm); }
+
+/* Быстрый просмотр: появляется при наведении и при фокусе с клавиатуры.
+   На мобиле стоит всегда — навести там нечем. */
+.card-media-wrap { position: relative; }
+.card-qv {
+  position: absolute; inset-inline: var(--space-3); inset-block-end: var(--space-3);
+  background: var(--background); opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.card-media-wrap:hover .card-qv, .card-qv:focus-visible { opacity: 1; }
+@media (hover: none) { .card-qv { opacity: 1; position: static; margin-block-start: var(--space-2); width: 100%; } }

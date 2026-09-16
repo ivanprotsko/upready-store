@@ -3,7 +3,7 @@
       <stop offset="0" stop-color="#f1efe8"/><stop offset="1" stop-color="#ffffff"/>
     </linearGradient></defs>
     <rect width="1600" height="900" fill="url(#g64549)"/>
-    <circle cx="1215.92" cy="270.63" r="329.9" fill="#b8652f" opacity="0.28"/>
-    <circle cx="435.84" cy="570.12" r="131.06" fill="#4a6650" opacity="0.4"/>
-    <path d="M0 268.56 Q 480 222.49 880 268.56 T 1600 250.13" fill="none" stroke="#cfc9ba" stroke-width="3.16" opacity="0.51"/><path d="M0 386.16 Q 480 301.46 880 386.16 T 1600 352.28" fill="none" stroke="#cfc9ba" stroke-width="2.52" opacity="0.32"/><path d="M0 469.92 Q 480 419.11 880 469.92 T 1600 449.6" fill="none" stroke="#cfc9ba" stroke-width="3.18" opacity="0.52"/><path d="M0 603.38 Q 480 538.48 880 603.38 T 1600 577.42" fill="none" stroke="#cfc9ba" stroke-width="2.05" opacity="0.38"/><path d="M0 683.04 Q 480 604.33 880 683.04 T 1600 651.56" fill="none" stroke="#cfc9ba" stroke-width="1.58" opacity="0.29"/>
+    <circle cx="1152" cy="331.38" r="135" fill="#b8652f" opacity="0.5"/>
+      <circle cx="269.13" cy="565.38" r="248.45" fill="#cfc9ba" opacity="0.4"/><circle cx="845.38" cy="565.38" r="258.86" fill="#4a6650" opacity="0.35"/><circle cx="1205.54" cy="565.38" r="181.67" fill="#cfc9ba" opacity="0.32"/><rect y="565.38" width="1600" height="334.62" fill="#ffffff" opacity="0.55"/>
+      <rect y="564.38" width="1600" height="2" fill="#cfc9ba" opacity="0.5"/>
   </svg>

@@ -219,8 +219,19 @@ export const KIND_BY_CATEGORY = {
   мыло: "soap", парфюм: "bottle", набор: "box",
   стулья: "chair", светильники: "lamp", диваны: "sofa", столы: "table", хранение: "box",
   футболки: "shirt", платья: "dress", обувь: "shoe", сумки: "bag", аксессуары: "bag",
-  книги: "book", техника: "device", электроника: "device", кухня: "appliance",
-  инструмент: "box", хозтовары: "canister", упаковка: "canister", опт: "canister",
+  книги: "book", техника: "device", электроника: "device",
+  кухня: "appliance", инструмент: "box",
+  хозтовары: "canister", упаковка: "canister", опт: "canister",
+}
+
+/**
+ * Категория может назвать НЕСКОЛЬКО предметов: три одинаковых планшета в ряду
+ * читаются как ошибка выгрузки. Выбор детерминированный по имени товара.
+ */
+export function pickKind(category, seed, fallback = "box") {
+  const v = KIND_BY_CATEGORY[String(category || "").toLowerCase()] || fallback
+  if (!Array.isArray(v)) return v
+  return v[Math.floor(rng(seed)() * v.length) % v.length]
 }
 
 /** Паккшот: силуэт с полем. 400×500, прозрачный фон — подложку даёт .media. */
@@ -252,37 +263,102 @@ export function scene({ seed, kind, tones, w = 400, h = 500 }) {
   </svg>`
 }
 
-/** Hero-графика: крупная абстракция в палитре, единственное место для градиента (канон Geist). */
-export function heroArt({ seed, tones, w = 1600, h = 900 }) {
+/**
+ * Hero-графика: ШЕСТЬ композиций. Одна на все шаблоны читалась как обои, перекрашенные
+ * семь раз (поймано глазами на контрольном листе первых экранов) — язык общий,
+ * но рисунок у каждого магазина свой. Единственное место, где канон Geist разрешает
+ * градиент, — это оно.
+ */
+const HERO = {
+  // круги и волны: мягкий, «продуктовый»
+  orbits: (t, r, w, h, id) => {
+    const bands = Array.from({ length: 5 }, (_, i) => {
+      const y = n2(h * (0.3 + i * 0.12) + lerp(-40, 40, r()))
+      const amp = n2(lerp(30, 90, r()))
+      return `<path d="M0 ${y} Q ${n2(w * 0.3)} ${n2(y - amp)} ${n2(w * 0.55)} ${y} T ${w} ${n2(y - amp * 0.4)}" fill="none" stroke="${t.line}" stroke-width="${n2(lerp(1.5, 3.5, r()))}" opacity="${n2(lerp(0.25, 0.6, r()))}"/>`
+    }).join("")
+    return `<circle cx="${n2(w * lerp(0.62, 0.8, r()))}" cy="${n2(h * lerp(0.3, 0.5, r()))}" r="${n2(h * lerp(0.28, 0.4, r()))}" fill="${t.accent}" opacity="0.28"/>
+      <circle cx="${n2(w * lerp(0.18, 0.34, r()))}" cy="${n2(h * lerp(0.55, 0.78, r()))}" r="${n2(h * lerp(0.14, 0.24, r()))}" fill="${t.soft}" opacity="0.4"/>${bands}`
+  },
+  // диагональные полосы: технично, «складской»
+  diagonals: (t, r, w, h) => Array.from({ length: 9 }, (_, i) => {
+    const x = n2(w * (i / 9) - w * 0.2 + lerp(-20, 20, r()))
+    const wd = n2(lerp(w * 0.03, w * 0.09, r()))
+    const fill = i % 3 === 0 ? t.accent : i % 3 === 1 ? t.soft : t.line
+    return `<path d="M${x} ${h} L${n2(x + h * 0.55)} 0 h${wd} L${n2(x + wd)} ${h} z" fill="${fill}" opacity="${n2(lerp(0.12, 0.34, r()))}"/>`
+  }).join(""),
+  // сетка дуг: редакционно, «модный»
+  arcs: (t, r, w, h) => {
+    const cx = n2(w * 0.5), cy = n2(h * 1.02)
+    return Array.from({ length: 7 }, (_, i) => {
+      const rad = n2(h * (0.22 + i * 0.16))
+      return `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${i % 2 ? t.accent : t.line}" stroke-width="${n2(lerp(1.2, 3, r()))}" opacity="${n2(lerp(0.2, 0.5, r()))}"/>`
+    }).join("") + `<circle cx="${n2(w * 0.74)}" cy="${n2(h * 0.3)}" r="${n2(h * 0.17)}" fill="${t.soft}" opacity="0.32"/>`
+  },
+  // вертикальные колонны: архитектурно, «мебельный»
+  columns: (t, r, w, h) => Array.from({ length: 11 }, (_, i) => {
+    const x = n2(w * (i / 11)), wd = n2(w / 11 - 6)
+    const top = n2(h * lerp(0.12, 0.6, r()))
+    return `<rect x="${x}" y="${top}" width="${wd}" height="${n2(h - top)}" fill="${i % 4 === 0 ? t.accent : t.soft}" opacity="${n2(lerp(0.1, 0.3, r()))}"/>`
+  }).join(""),
+  // горизонт и солнце: тёплое, «фермерское»
+  horizon: (t, r, w, h) => {
+    const hz = n2(h * lerp(0.58, 0.68, r()))
+    const hills = Array.from({ length: 3 }, (_, i) => {
+      const cx = n2(w * lerp(0.12 + i * 0.3, 0.3 + i * 0.3, r()))
+      const rad = n2(h * lerp(0.16, 0.3, r()))
+      return `<circle cx="${cx}" cy="${hz}" r="${rad}" fill="${i === 1 ? t.soft : t.line}" opacity="${n2(lerp(0.25, 0.45, r()))}"/>`
+    }).join("")
+    return `<circle cx="${n2(w * 0.72)}" cy="${n2(hz - h * 0.26)}" r="${n2(h * 0.15)}" fill="${t.accent}" opacity="0.5"/>
+      ${hills}<rect y="${hz}" width="${w}" height="${n2(h - hz)}" fill="${t.light}" opacity="0.55"/>
+      <rect y="${n2(hz - 1)}" width="${w}" height="2" fill="${t.line}" opacity="0.5"/>`
+  },
+  // сетка карточек: «каталожное», много позиций
+  tiles: (t, r, w, h) => {
+    const cols = 8, rows = 4
+    let d = ""
+    for (let i = 0; i < cols; i += 1) for (let j = 0; j < rows; j += 1) {
+      if (r() > 0.72) continue
+      const cw = n2(w / cols - 10), ch = n2(h / rows - 10)
+      d += `<rect x="${n2(i * (w / cols) + 5)}" y="${n2(j * (h / rows) + 5)}" width="${cw}" height="${ch}" rx="10" fill="${r() > 0.75 ? t.accent : t.soft}" opacity="${n2(lerp(0.1, 0.28, r()))}"/>`
+    }
+    return d
+  },
+  // рассыпанная сетка коробов: складское, «оптовое»
+  grain: (t, r, w, h) => {
+    const cols = 14, rows = 7
+    let d = ""
+    for (let i = 0; i < cols; i += 1) for (let j = 0; j < rows; j += 1) {
+      const sz = n2(lerp(w * 0.012, w * 0.028, r()))
+      d += `<rect x="${n2(i * (w / cols) + lerp(4, 18, r()))}" y="${n2(j * (h / rows) + lerp(4, 18, r()))}" width="${sz}" height="${sz}" rx="${n2(sz * 0.22)}" fill="${r() > 0.82 ? t.accent : t.soft}" opacity="${n2(lerp(0.12, 0.4, r()))}"/>`
+    }
+    return d
+  },
+}
+export const HERO_VARIANTS = Object.keys(HERO)
+
+export function heroArt({ seed, tones, w = 1600, h = 900, variant = "orbits" }) {
   const r = rng(seed)
   const id = `g${Math.floor(r() * 100000)}`
-  const bands = Array.from({ length: 5 }, (_, i) => {
-    const y = n2(h * (0.3 + i * 0.12) + lerp(-40, 40, r()))
-    const amp = n2(lerp(30, 90, r()))
-    return `<path d="M0 ${y} Q ${n2(w * 0.3)} ${n2(y - amp)} ${n2(w * 0.55)} ${y} T ${w} ${n2(y - amp * 0.4)}" fill="none" stroke="${tones.line}" stroke-width="${n2(lerp(1.5, 3.5, r()))}" opacity="${n2(lerp(0.25, 0.6, r()))}"/>`
-  }).join("")
+  const draw = HERO[variant] || HERO.orbits
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img">
     <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="${tones.bg}"/><stop offset="1" stop-color="${tones.light}"/>
     </linearGradient></defs>
     <rect width="${w}" height="${h}" fill="url(#${id})"/>
-    <circle cx="${n2(w * lerp(0.62, 0.8, r()))}" cy="${n2(h * lerp(0.3, 0.5, r()))}" r="${n2(h * lerp(0.28, 0.4, r()))}" fill="${tones.accent}" opacity="0.28"/>
-    <circle cx="${n2(w * lerp(0.18, 0.34, r()))}" cy="${n2(h * lerp(0.55, 0.78, r()))}" r="${n2(h * lerp(0.14, 0.24, r()))}" fill="${tones.soft}" opacity="0.4"/>
-    ${bands}
+    ${draw(tones, r, w, h, id)}
   </svg>`
 }
 
-/** Плитка категории: знак категории крупно, без предметной привязки. */
-export function tileArt({ seed, tones, w = 600, h = 400 }) {
+/** Плитка категории: крупный силуэт предмета на подложке — знак раздела, а не абстракция. */
+export function tileArt({ seed, tones, kind, w = 600, h = 400 }) {
   const r = rng(seed)
-  const n = 3 + Math.floor(r() * 3)
-  const marks = Array.from({ length: n }, () => {
-    const cx = n2(lerp(w * 0.15, w * 0.85, r())), cy = n2(lerp(h * 0.2, h * 0.8, r()))
-    const rad = n2(lerp(h * 0.12, h * 0.3, r()))
-    return r() > 0.5
-      ? `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="${tones.accent}" stroke-width="${n2(lerp(2, 6, r()))}" opacity="0.55"/>`
-      : `<rect x="${n2(cx - rad)}" y="${n2(cy - rad)}" width="${n2(rad * 2)}" height="${n2(rad * 2)}" rx="${n2(rad * 0.3)}" fill="${tones.soft}" opacity="0.5"/>`
-  }).join("")
+  const draw = SHAPES[kind] || SHAPES.box
+  const scale = (h / 500) * lerp(0.86, 0.98, r())
+  const tx = n2(w / 2 - 200 * scale), ty = n2(h - 470 * scale)
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img">
-    <rect width="${w}" height="${h}" fill="${tones.bg}"/>${marks}</svg>`
+    <rect width="${w}" height="${h}" fill="${tones.bg}"/>
+    <circle cx="${n2(w * lerp(0.2, 0.34, r()))}" cy="${n2(h * lerp(0.22, 0.38, r()))}" r="${n2(h * lerp(0.16, 0.26, r()))}" fill="${tones.accent}" opacity="0.2"/>
+    <g transform="translate(${tx} ${ty}) scale(${n2(scale)})">${draw(tones, r)}</g>
+  </svg>`
 }

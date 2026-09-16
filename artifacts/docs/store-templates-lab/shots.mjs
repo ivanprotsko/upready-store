@@ -41,8 +41,17 @@ for (const t of list) {
       const webp = png.replace(/\.png$/, ".webp")
       // десктоп отдаём в натуральную ширину, мобиль ужимаем с 2× до 640 — текст остаётся читаемым,
       // а кадр укладывается в 200 КБ (критерий приёмки)
-      const cap = vp === "mobile" ? "640x>" : "1280x>"
-      execFileSync("magick", [png, "-resize", cap, "-quality", "68", "-define", "webp:method=6", webp])
+      // Потолок 200 КБ — критерий приёмки, поэтому качество подбирается ЛЕСТНИЦЕЙ,
+      // а не подбирается на глаз: длинная мобильная страница ужимается сильнее.
+      // Потолок 200 КБ — критерий приёмки, поэтому ступени подбираются ЛЕСТНИЦЕЙ,
+      // а не на глаз: очень длинная мобильная страница теряет и качество, и ширину.
+      const ladder = vp === "mobile"
+        ? [["640x>", "68"], ["640x>", "54"], ["560x>", "50"], ["480x>", "46"]]
+        : [["1280x>", "68"], ["1280x>", "56"], ["1100x>", "52"]]
+      for (const [cap, q] of ladder) {
+        execFileSync("magick", [png, "-resize", cap, "-quality", q, "-define", "webp:method=6", webp])
+        if (statSync(webp).size <= 200 * 1024) break
+      }
       execFileSync("rm", ["-f", png])
       const kb = statSync(webp).size / 1024
       if (kb > 200) { big += 1; console.log(`  ! ${webp.split("/").pop()} ${kb.toFixed(0)} КБ > 200`) }

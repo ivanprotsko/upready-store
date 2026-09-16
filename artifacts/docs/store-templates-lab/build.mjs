@@ -13,7 +13,7 @@ import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync, rmSync
 import { dirname, join } from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import { esc, map } from "./src/lib/html.mjs"
-import { packshot, scene, heroArt, tileArt, KIND_BY_CATEGORY } from "./src/lib/media.mjs"
+import { packshot, scene, heroArt, tileArt, pickKind } from "./src/lib/media.mjs"
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const SRC = join(HERE, "src")
@@ -82,6 +82,7 @@ function expandProduct(line, i) {
     short: f.short || "",
     sku: f.sku || `ART-${2100 + i}`,
     moq: f.moq ? Number(f.moq) : null,
+    kind: f.kind || null,   // предмет силуэта, когда категория по умолчанию не подходит
     alt: `${name.trim()} — ${(category || "товар").trim()}`,
   }
 }
@@ -91,6 +92,7 @@ const files = readdirSync(join(SRC, "templates")).filter((f) => f.endsWith(".jso
 const templates = files
   .map((f) => JSON.parse(readFileSync(join(SRC, "templates", f), "utf8")))
   .filter((t) => !argv.length || argv.includes(t.id))
+  .sort((a, b) => (a.order || 99) - (b.order || 99))   // порядок задания, не алфавит файлов
 
 const index = []
 for (const tpl of templates) {
@@ -103,7 +105,7 @@ for (const tpl of templates) {
     media.set(path, svg)
     return `../../assets/${path}`
   }
-  const kindOf = (p) => KIND_BY_CATEGORY[(p.category || "").toLowerCase()] || tpl.media.kind || "box"
+  const kindOf = (p) => p.kind || pickKind(p.category, `${tpl.id}-${p.name}`, tpl.media.kind || "box")
   const artFor = (p, seed) =>
     tpl.media.fit === "cover"
       ? scene({ seed, kind: kindOf(p), tones, w: 400, h: 500 })
@@ -120,10 +122,13 @@ for (const tpl of templates) {
       return pool.slice(0, limit || pool.length)
     },
     img: (p) => reg(`p-${p.id}`, artFor(p, `${tpl.id}-${p.name}`)),
-    tileImg: (c) => reg(`t-${c.id}`, tileArt({ seed: `${tpl.id}-${c.name}`, tones, w: 600, h: 400 })),
-    heroImg: (b) => reg(`hero-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-hero-${b.art || 1}`, tones })),
-    storyImg: (b) => reg(`story-${b.art || "1"}`, tileArt({ seed: `${tpl.id}-story-${b.art || 1}`, tones, w: 600, h: 400 })),
-    lookImg: (l, i) => reg(`look-${i}`, heroArt({ seed: `${tpl.id}-look-${i}-${l.title}`, tones, w: 1600, h: 900 })),
+    tileImg: (c) => reg(`t-${c.id}`, tileArt({ seed: `${tpl.id}-${c.name}`, kind: c.kind || pickKind(c.name, `${tpl.id}-${c.name}`, tpl.media.kind || "box"), tones, w: 600, h: 400 })),
+    heroImg: (b) => reg(`hero-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-hero-${b.art || 1}`, tones, variant: tpl.heroArt })),
+    storyImg: (b) => reg(`story-${b.art || "1"}`, heroArt({ seed: `${tpl.id}-story-${b.art || 1}`, tones, variant: tpl.heroArt, w: 900, h: 600 })),
+    // Образ лукбука — сцена С ФИГУРОЙ: абстракция без силуэта читается как
+    // незагрузившаяся картинка, а не как редакционный кадр.
+    lookImg: (l, i) => reg(`look-${i}`, scene({ seed: `${tpl.id}-look-${i}-${l.title}`, kind: l.kind || tpl.media.kind, tones,
+      w: i === 0 ? 1600 : 900, h: i === 0 ? 900 : 675 })),
     galleryImg: (s, i) => {
       const p = tpl.products.find((x) => x.id === s.of) || tpl.products[0]
       return reg(`g-${p.id}-${i}`, artFor(p, `${tpl.id}-${p.name}-кадр-${i}`))
@@ -200,7 +205,7 @@ ${body}
   index.push({
     id: tpl.id, name: tpl.name, subtitle: tpl.subtitle, audience: tpl.audience,
     fonts: tpl.fonts, density: tpl.density, gridCols: tpl.gridCols, media: tpl.media,
-    tokens: Object.keys(overrides), products: tpl.products.length, art: tpl.art,
+    order: tpl.order, heroArt: tpl.heroArt, tokens: Object.keys(overrides), tokensValues: tpl.tokens, products: tpl.products.length, art: tpl.art,
   })
 }
 

@@ -16,6 +16,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img, svg { display: block; max-width: 100%; }
+/* Атрибут hidden проигрывает классу по специфичности: .qv{display:grid}
+   перекрывал его, и модалка рисовалась поверх героя при загрузке. */
+[hidden] { display: none !important; }
 button, input, select, textarea { font: inherit; color: inherit; }
 /* Браузерные значения по умолчанию ломают шкалу отступов (checkbox — margin 3px)
    и потолок веса (th — bold 700). Проверка QR-SPACE-SCALE/QR-WEIGHT поймала оба. */
@@ -89,8 +92,11 @@ p[data-role="meta"], p[data-role="body"], p[data-role="lead"] { max-width: var(-
 /* Полоса — свойство БЛОКА СТРАНИЦЫ, а не всего, у чего есть имя: карточка внутри
    выкладки тоже «блок» по смыслу, и общий селектор [data-block] выдавал ей 96 px
    band-отступа (пойман замером на ferma). Компоненты носят data-component. */
-[data-block] { padding-block: var(--band-y); }
-[data-block][data-tight] { padding-block: var(--band-y-tight); }
+/* Полоса берёт ПОЛОВИНУ ритма с каждой стороны: отступы соседних блоков
+   складываются, и зазор между секциями равен ровно --band-y, а не двум.
+   Замерено на moda (spacious): между героем и лукбуком стояла дыра в 256px. */
+[data-block] { padding-block: calc(var(--band-y) / 2); }
+[data-block][data-tight] { padding-block: calc(var(--band-y-tight) / 2); }
 [data-block][data-flush] { padding-block: var(--space-0); }
 [data-bleed] { width: 100%; }
 

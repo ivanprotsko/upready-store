@@ -213,6 +213,18 @@ for (const t of templates) {
           .map((c) => Math.round(c.getBoundingClientRect().left)))]
         // фокус меряется снаружи настоящим Tab: :focus-visible не встаёт от .focus()
         out.focusRing = null
+        // QR-OCCLUSION: текст, который ЛЕЖИТ ПОД другим элементом. Контраст считается
+        // по DOM и такого не видит — а на экране надписи просто нет.
+        out.occluded = []
+        for (const el of document.querySelectorAll('[data-role="display"],[data-role="page-title"],[data-role="section-title"],[data-role="lead"],[data-role="price"],.btn')) {
+          const r = el.getBoundingClientRect()
+          if (r.width < 8 || r.height < 8) continue
+          if (r.bottom < 0 || r.top > innerHeight) continue          // вне экрана — не предмет проверки
+          const hit = document.elementFromPoint(Math.round(r.left + r.width / 2), Math.round(r.top + Math.min(r.height / 2, 12)))
+          if (!hit) continue
+          if (hit === el || el.contains(hit) || hit.contains(el)) continue
+          out.occluded.push(`${el.getAttribute("data-role") || el.className} «${(el.textContent || "").trim().slice(0, 32)}» перекрыт ${hit.tagName.toLowerCase()}.${(hit.className || "").toString().split(" ")[0]}`)
+        }
         // самый длинный текстовый блок и ширина его колонки
         let longest = null
         for (const el of document.querySelectorAll("p,li,div")) {
@@ -364,6 +376,9 @@ for (const t of templates) {
       if (page === "product" && vp === "desktop" && a.density.pageHeight > 6000) {
         add("QR-GALLERY", where, `страница товара ${a.density.pageHeight}px > 6000`)
       }
+      // QR-OCCLUSION
+      for (const o of x.occluded) add("QR-OCCLUSION", where, o)
+
       // QR-CONTROL-DENSITY
       for (const n of x.iconRuns) if (n > 4) add("QR-CONTROL-DENSITY", where, `иконок подряд в шапке: ${n} > 4`)
       // QR-MEASURE / QR-COLUMN-RANK / QR-DENSITY — только десктоп

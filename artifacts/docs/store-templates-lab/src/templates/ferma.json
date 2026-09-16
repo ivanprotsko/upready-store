@@ -68,37 +68,43 @@
    "id": "myod",
    "name": "Мёд",
    "count": 12,
-   "countWord": "товара"
+   "countWord": "товара",
+   "kind": "jar"
   },
   {
    "id": "masla",
    "name": "Масла",
    "count": 9,
-   "countWord": "товаров"
+   "countWord": "товаров",
+   "kind": "bottle"
   },
   {
    "id": "dobavki",
    "name": "Добавки",
    "count": 16,
-   "countWord": "товаров"
+   "countWord": "товаров",
+   "kind": "box"
   },
   {
    "id": "fito",
    "name": "Фито-свечи",
    "count": 6,
-   "countWord": "товаров"
+   "countWord": "товаров",
+   "kind": "candle"
   },
   {
    "id": "steviya",
    "name": "Стевия",
    "count": 4,
-   "countWord": "товара"
+   "countWord": "товара",
+   "kind": "box"
   },
   {
    "id": "multivarki",
    "name": "Мультиварки",
    "count": 3,
-   "countWord": "товара"
+   "countWord": "товара",
+   "kind": "appliance"
   }
  ],
  "products": [
@@ -774,5 +780,7 @@
     "note": "Доставка считается на следующем шаге."
    }
   ]
- }
+ },
+ "order": 1,
+ "heroArt": "horizon"
 }

@@ -15,7 +15,7 @@ export function render(b, ctx) {
         <button class="icon-btn" type="button" data-cart-close aria-label="Закрыть корзину">${icons.close}</button>
       </header>
       <ul class="cart-list">${map(items, (p) => `<li class="cart-row">
-        <span class="media cart-thumb" data-img-role="thumb"${ctx.tpl.media.pad ? " data-media-pad" : ""}>
+        <span class="media cart-thumb" data-img-role="thumb"${p.image === null ? " data-empty" : ""}${ctx.tpl.media.pad ? " data-media-pad" : ""}>
           ${p.image === null
             ? `<span class="empty-initial" aria-hidden="true">${esc(initial(p.name))}</span>`
             : `<img src="${esc(ctx.img(p))}" alt="" data-decorative loading="lazy" width="400" height="500">`}

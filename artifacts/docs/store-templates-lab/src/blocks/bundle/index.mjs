@@ -13,7 +13,7 @@ export function render(b, ctx) {
       <div class="band-head"><h2 data-role="section-title">${esc(b.title)}</h2></div>
       <div class="bundle">
         <ul class="bundle-items">${map(items, (p, i) => `<li class="bundle-item">
-          <span class="media bundle-thumb" data-img-role="card"${ctx.tpl.media.pad ? " data-media-pad" : ""}>
+          <span class="media bundle-thumb" data-img-role="card"${p.image === null ? " data-empty" : ""}${ctx.tpl.media.pad ? " data-media-pad" : ""}>
             ${p.image === null
               ? `<span class="empty-initial" aria-hidden="true">${esc(initial(p.name))}</span>`
               : `<img src="${esc(ctx.img(p))}" alt="${esc(p.alt || p.name)}" loading="lazy" width="400" height="500">`}

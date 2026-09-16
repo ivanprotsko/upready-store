@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img">
-    <defs><linearGradient id="g60170" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#efeae3"/><stop offset="1" stop-color="#faf8f5"/>
-    </linearGradient></defs>
-    <rect width="1600" height="900" fill="url(#g60170)"/>
-    <circle cx="1095.05" cy="399.64" r="336.7" fill="#8a6b45" opacity="0.28"/>
-    <circle cx="307.17" cy="583.47" r="180.41" fill="#8c7f6d" opacity="0.4"/>
-    <path d="M0 284.84 Q 480 197.88 880 284.84 T 1600 250.06" fill="none" stroke="#cfc5b6" stroke-width="1.52" opacity="0.44"/><path d="M0 343.02 Q 480 274.79 880 343.02 T 1600 315.73" fill="none" stroke="#cfc5b6" stroke-width="3.38" opacity="0.4"/><path d="M0 508.04 Q 480 448.72 880 508.04 T 1600 484.31" fill="none" stroke="#cfc5b6" stroke-width="3.32" opacity="0.29"/><path d="M0 600.9 Q 480 535.22 880 600.9 T 1600 574.63" fill="none" stroke="#cfc5b6" stroke-width="3.34" opacity="0.58"/><path d="M0 688.88 Q 480 603.9 880 688.88 T 1600 654.89" fill="none" stroke="#cfc5b6" stroke-width="2.38" opacity="0.39"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675" width="900" height="675" role="img">
+    <rect width="900" height="675" fill="#efeae3"/>
+    <rect y="415.98" width="900" height="259.02" fill="#faf8f5"/>
+    <circle cx="579.43" cy="349.61" r="276.53" fill="#8a6b45" opacity="0.22"/>
+    <g transform="translate(228.26 -53.51) scale(1.11)">
+      <path d="M134.56 244 v-34 a65.44 46 0 0 1 130.88 0 v34" fill="none" stroke="#14110e" stroke-width="12"/>
+      <rect x="100.56" y="240" width="198.88" height="196" rx="14" fill="#8c7f6d"/>
+      <rect x="128.56" y="316" width="142.88" height="12" rx="6" fill="#8a6b45"/></g>
+    <rect y="414.98" width="900" height="2" fill="#cfc5b6" opacity="0.5"/>
   </svg>

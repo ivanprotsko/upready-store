@@ -10,7 +10,7 @@ export function render(b, ctx) {
     <div class="qv-veil" data-qv-close></div>
     <div class="qv-panel surface" role="dialog" aria-label="Быстрый просмотр" aria-modal="true">
       <button class="icon-btn qv-close" type="button" data-qv-close aria-label="Закрыть">${icons.close}</button>
-      <div class="media qv-media" data-img-role="gallery"${ctx.tpl.media.pad ? " data-media-pad" : ""}>
+      <div class="media qv-media" data-img-role="gallery"${p.image === null ? " data-empty" : ""}${ctx.tpl.media.pad ? " data-media-pad" : ""}>
         ${p.image === null
           ? `<span class="empty-initial" aria-hidden="true">${esc(initial(p.name))}</span>`
           : `<img src="${esc(ctx.img(p))}" alt="${esc(p.alt || p.name)}" width="400" height="500">`}

@@ -1,2 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img">
-    <rect width="600" height="400" fill="#f6eff1"/><circle cx="213.77" cy="158.86" r="62.34" fill="none" stroke="#c58a6a" stroke-width="5.06" opacity="0.55"/><rect x="373.18" y="196.58" width="138.4" height="138.4" rx="20.76" fill="#a97f95" opacity="0.5"/><circle cx="128.64" cy="256.38" r="98.67" fill="none" stroke="#c58a6a" stroke-width="4.94" opacity="0.55"/><rect x="367.52" y="156.43" width="118.48" height="118.48" rx="17.77" fill="#a97f95" opacity="0.5"/></svg>
+    <rect width="600" height="400" fill="#f6eff1"/>
+    <circle cx="144.75" cy="109.03" r="71.96" fill="#c58a6a" opacity="0.2"/>
+    <g transform="translate(155.08 59.43) scale(0.72)">
+      <rect x="177" y="112" width="46" height="30" rx="7" fill="#5c3550"/>
+      <rect x="181" y="138" width="38" height="76" fill="#a97f95"/>
+      <path d="M181 188 q0 26 44.88 26 h127.77 q-44.88 0 -44.88 -26 z" fill="none"/>
+      <path d="M136.12 458 v-222 q0 -30 44.88 -40 h38 q44.88 10 44.88 40 v222 a10 10 0 0 1 -10 10 h-107.77 a10 10 0 0 1 -10 -10 z" fill="#a97f95"/>
+      <rect x="146.12" y="308" width="107.77" height="96" rx="5" fill="#ffffff"/>
+      <rect x="162.12" y="336" width="75.77" height="10" rx="5" fill="#c58a6a"/>
+      <rect x="162.12" y="358" width="45.46" height="8" rx="4" fill="#ddc9d1"/></g>
+  </svg>

@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="34 96 332 392" width="332" height="392" role="img"><ellipse cx="200" cy="466" rx="135.29" ry="13" fill="#ddc9d1" opacity="0.35"/>
-      <rect x="96.96" y="303.6" width="206.07" height="122.4" rx="18" fill="#a97f95"/>
-      <rect x="122.96" y="386" width="154.07" height="64" rx="8" fill="#ffffff"/>
-      <rect x="142.96" y="408" width="114.07" height="9" rx="4" fill="#c58a6a"/>
-      <circle cx="200" cy="355.6" r="26" fill="#ddc9d1" opacity="0.5"/></svg>
+      <rect x="177" y="112" width="46" height="30" rx="7" fill="#5c3550"/>
+      <rect x="181" y="138" width="38" height="76" fill="#a97f95"/>
+      <path d="M181 188 q0 26 37.68 26 h113.35 q-37.68 0 -37.68 -26 z" fill="none"/>
+      <path d="M143.32 458 v-222 q0 -30 37.68 -40 h38 q37.68 10 37.68 40 v222 a10 10 0 0 1 -10 10 h-93.35 a10 10 0 0 1 -10 -10 z" fill="#a97f95"/>
+      <rect x="153.32" y="308" width="93.35" height="96" rx="5" fill="#ffffff"/>
+      <rect x="169.32" y="336" width="61.35" height="10" rx="5" fill="#c58a6a"/>
+      <rect x="169.32" y="358" width="36.81" height="8" rx="4" fill="#ddc9d1"/></svg>
