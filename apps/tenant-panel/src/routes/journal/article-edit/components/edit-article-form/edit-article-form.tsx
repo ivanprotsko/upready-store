@@ -24,16 +24,9 @@ type EditArticleFormProps = {
   article: TenantArticle
   /** Host of the shop, for the «открыть на сайте» link and the address hint. */
   publicHost?: string
-  /** Called with the new slug after a rename, so the route can follow it. */
-  onRenamed?: (slug: string) => void
 }
 
-export const EditArticleForm = ({
-  slug,
-  article,
-  publicHost,
-  onRenamed,
-}: EditArticleFormProps) => {
+export const EditArticleForm = ({ slug, article, publicHost }: EditArticleFormProps) => {
   const { handleSuccess } = useRouteModal()
 
   const form = useForm<ArticleFormValues>({
@@ -88,11 +81,13 @@ export const EditArticleForm = ({
           toast.success(
             renamed ? `Статья сохранена, новый адрес /journal/${values.slug}` : "Статья сохранена"
           )
-          if (renamed) {
-            onRenamed?.(values.slug)
-            return
-          }
-          handleSuccess()
+          // A rename leaves the URL this modal is mounted on naming nothing,
+          // so it goes to the NEW address. Through `handleSuccess` either way:
+          // a bare `navigate` skips the modal's own «unsaved changes» release
+          // and the owner is asked to confirm leaving a form she just saved
+          // (measured on the stand, accept round 1 — the dialog blocked the
+          // whole create flow).
+          handleSuccess(renamed ? `/journal/${values.slug}` : undefined)
         },
       }
     )

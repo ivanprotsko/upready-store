@@ -5,7 +5,7 @@ import * as zod from "zod"
 
 import { Form } from "../../../components/common/form"
 import { sdk } from "../../../lib/client"
-import { toSlugWhileTyping } from "../../../lib/slugify"
+import { toSlug, toSlugWhileTyping } from "../../../lib/slugify"
 import { useTenantArticleCategories } from "../../../hooks/api/articles"
 import { ARTICLE_STATUSES } from "../article-locales"
 import { MarkdownEditor } from "./markdown-editor"
@@ -142,7 +142,14 @@ export const ArticleFields = ({ form, autoSlug = false, publicUrl }: Props) => {
                   // The address follows the title until the owner takes it
                   // over — typing a URL is not how a person starts an article.
                   if (!slugTouched) {
-                    form.setValue("slug", toSlugWhileTyping(event.target.value), {
+                    // `toSlug`, not `toSlugWhileTyping`: that one keeps a
+                    // trailing hyphen while the owner is typing INTO the
+                    // address field, and a Russian title ends in a letter that
+                    // is not `[a-z0-9]`, so every derived address came out as
+                    // `…-rabotayut-` and the backend refused the save
+                    // (measured on the stand, accept round 1: three articles
+                    // created, zero saved).
+                    form.setValue("slug", toSlug(event.target.value), {
                       shouldDirty: true,
                       shouldValidate: false,
                     })
@@ -174,7 +181,7 @@ export const ArticleFields = ({ form, autoSlug = false, publicUrl }: Props) => {
         )}
       />
 
-      <div className="grid grid-cols-1 gap-6 large:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Form.Field
           control={form.control}
           name="status"
@@ -293,7 +300,7 @@ export const ArticleFields = ({ form, autoSlug = false, publicUrl }: Props) => {
         )}
       />
 
-      <div className="grid grid-cols-1 gap-6 large:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Form.Field
           control={form.control}
           name="category"
@@ -401,7 +408,7 @@ export const ArticleFields = ({ form, autoSlug = false, publicUrl }: Props) => {
         )}
       />
 
-      <div className="grid grid-cols-1 gap-6 large:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Form.Field
           control={form.control}
           name="seo_title"

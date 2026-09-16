@@ -1,0 +1,35 @@
+{
+  "steps": [
+    "вошли в панель как owner-cherkashino@example.test",
+    "shot 01-panel-journal-empty",
+    "shot 02-panel-new-article-empty",
+    "shot 03-panel-editor-with-preview",
+    "shot 04-panel-editor-filled",
+    "shot 05-panel-after-save",
+    "создана статья «Черновик про сон» (draft)",
+    "создана статья «Новости магазина: осенние поставки» (Опубликована)",
+    "shot 06-panel-list-three-articles",
+    "shot 07-panel-list-filtered-drafts",
+    "shot 08-panel-list-search"
+  ],
+  "checks": {
+    "empty-state": "Статей пока нет. Нажмите «Новая статья» — откроется страница, где можно сразу писать.",
+    "new-button-visible": true,
+    "editor-url": "http://localhost:5118/journal/new",
+    "first-field-is-title": true,
+    "slug-derived-from-title": "peptidy-havinsona-chto-eto-i-kak-rabotayut",
+    "preview-rendered-blocks": 8,
+    "inline-image-inserted": true,
+    "inline-image-markdown": "![inline-900x500](http://localhost:9118/static/tenants/ten_01M29Q4KYQHC70JZBENWZ8Z88M/1789521989003-inline-900x500.png)",
+    "preview-has-img": 1,
+    "cover-preview-visible": true,
+    "status-selected": "Опубликована",
+    "after-save-url": "http://localhost:5118/journal/peptidy-havinsona-chto-eto-i-kak-rabotayut",
+    "rows-total": 3,
+    "rows-drafts-only": 1,
+    "rows-search-osennie": 1
+  },
+  "console": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+  ]
+}

@@ -1,9 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Heading, Text, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
 
-import { RouteFocusModal } from "../../../components/modals"
+import { RouteFocusModal, useRouteModal } from "../../../components/modals"
 import { KeyboundForm } from "../../../components/utilities/keybound-form"
 import { useCreateTenantArticle } from "../../../hooks/api/articles"
 import { useDomains } from "../../../hooks/api/domains"
@@ -28,16 +27,30 @@ import { ARTICLE_LOCALES, fromDateTimeInput, localeLabel } from "../article-loca
  * (`artifacts/docs/b18-blog-full/diagnosis.md`).
  *
  * This screen is the whole article — title first, address derived from it — and
- * one save. It writes through `POST /tenants/articles`, which now accepts the
- * whole body rather than minting an empty row.
+ * one save, through `POST /tenants/articles`, which now accepts the whole body
+ * rather than minting an empty row.
  *
  * The language it writes is the shop's own `default_locale`, not a literal
  * `en`: a Russian shop's owner must not have to know the panel had a default
  * (the t11 lesson, `upready-store-t11-seo-locale-fallback-and-cache-trap`).
  */
 
-export const ArticleNew = () => {
-  const navigate = useNavigate()
+export const ArticleNew = () => (
+  <RouteFocusModal>
+    <NewArticleForm />
+  </RouteFocusModal>
+)
+
+/**
+ * Inside the modal on purpose: `useRouteModal` only exists under
+ * `RouteFocusModal`'s own provider, and it is what releases the «unsaved
+ * changes» guard on a successful save. Navigating with a bare `navigate`
+ * instead left the owner confirming that she wanted to leave a form she had
+ * just saved — measured on the stand, accept round 1, and it blocked the whole
+ * create flow.
+ */
+const NewArticleForm = () => {
+  const { handleSuccess } = useRouteModal()
   const { locale_settings: localeSettings } = useTenantLocaleSettings()
   const { primary_host: primaryHost } = useDomains()
   const { mutateAsync: createArticle, isPending } = useCreateTenantArticle()
@@ -96,14 +109,14 @@ export const ArticleNew = () => {
           )
           // Straight into the editor of the article just written, so the next
           // thing the owner does — add a language, fix a typo — is one click.
-          navigate(`/journal/${data.article.slug}`, { replace: true })
+          handleSuccess(`/journal/${data.article.slug}`)
         },
       }
     )
   })
 
   return (
-    <RouteFocusModal>
+    <>
       <RouteFocusModal.Header>
         <div className="flex flex-1 flex-col items-start">
           <RouteFocusModal.Title asChild>
@@ -125,9 +138,11 @@ export const ArticleNew = () => {
           </RouteFocusModal.Body>
           <RouteFocusModal.Footer>
             <div className="flex items-center gap-x-2">
-              <Button size="small" variant="secondary" type="button" onClick={() => navigate("/journal")}>
-                Отмена
-              </Button>
+              <RouteFocusModal.Close asChild>
+                <Button size="small" variant="secondary">
+                  Отмена
+                </Button>
+              </RouteFocusModal.Close>
               <Button size="small" type="submit" isLoading={isPending} data-testid="article-save">
                 Сохранить
               </Button>
@@ -135,6 +150,6 @@ export const ArticleNew = () => {
           </RouteFocusModal.Footer>
         </KeyboundForm>
       </RouteFocusModal.Form>
-    </RouteFocusModal>
+    </>
   )
 }

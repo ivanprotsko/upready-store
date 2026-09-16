@@ -140,7 +140,7 @@ export const MarkdownEditor = ({ value, onChange, onBlur, invalid }: Props) => {
         </Button>
       </div>
 
-      <div className={showPreview ? "grid grid-cols-1 gap-3 large:grid-cols-2" : ""}>
+      <div className={showPreview ? "grid grid-cols-1 gap-3 lg:grid-cols-2" : ""}>
         <Textarea
           ref={areaRef}
           value={value}
