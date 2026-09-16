@@ -1,6 +1,9 @@
 # w16-mp-scheduler-ops — планировщик синхронизации маркетплейсов
 
 Ветка `feat/day16-mp-scheduler-ops`, база `dev`. Отчёт написан 2026-09-16 10:18 WITA.
+В ветку влит `origin/dev` до PR (b100cf5a, w18-mp-reviews-desk). Два конфликта, оба в панели и оба
+«обе стороны добавили свой пункт»: маршрут и ссылка на экран — оставлены ОБА, `/settings/marketplaces/sync`
+рядом с `/settings/marketplaces/reviews`. Все проверки ниже прогнаны ПОСЛЕ мержа.
 Живой хост не трогался. Инвариант «только чтение» (приказ Ивана 2026-09-16 02:46 WITA) не менялся:
 планировщик зовёт `adapter.runSync`, тот зовёт только зарегистрированные чтения. Ни одного нового
 места сетевого вызова, ни одного пути записи.
@@ -87,15 +90,15 @@
 $ cd apps/backend && npx tsc --noEmit
 rc=0
 $ TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules npx jest --silent --runInBand --forceExit
-Test Suites: 65 passed, 65 total
-Tests:       816 passed, 816 total
+Test Suites: 67 passed, 67 total
+Tests:       839 passed, 839 total
 $ npx medusa lint
-rc=0 (0 errors, 92 warnings — их было 91 до задачи; +1 это намеренный
+rc=0 (0 errors, 93 warnings — их было 92 до задачи; +1 это намеренный
       `@medusajs/no-service-mutation-in-route` в новом маршруте, ровно как в status-payload.ts:
       это одна учётная строка о запросе, который САМ этот обработчик и отправил)
 $ pnpm check:backend-build      # ровно то, что делает Dockerfile бэкенда
-Backend build completed successfully (10.13s)
-Frontend build completed successfully (21.48s)   rc=0
+Backend build completed successfully (16.06s)
+Frontend build completed successfully (21.64s)   rc=0
 $ pnpm check:backend-fixtures
 rc=0
 $ cd apps/tenant-panel && npx tsc --noEmit && npx eslint src
