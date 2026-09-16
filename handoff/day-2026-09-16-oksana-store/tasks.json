@@ -1675,6 +1675,40 @@
       "acceptance": "Живой хост: pg_dump до изменений (путь и размер); список новых env по именам (secretRef) и применённых миграций; маркер новой сборки в ответе бэкенда; на https://cherkashino.shipshift.dev страница товара с галереей b17, /ru/journal и статья, на чекауте подсказки адреса, карта ПВЗ CDEK ≥20 точек, тарифы CDEK курьер и ПВЗ с ценой и сроком, тестовый платёж Robokassa доходит до страницы Robokassa и страницы возврата без реальных денег; в панели /settings/marketplaces, /settings/wildberries с формой ключа и «не сохранён» (ключ WB на хосте НЕ установлен), /journal редактор; настройки Robokassa/CDEK тенанта заданы через панель в тестовом режиме; скриншоты 1280×900 и 390×844; разрушающих команд на хосте нет; ни одного вызова WB/Ozon с хоста; §Экономия",
       "why": "приказы Ивана 2026-09-16 08:31 (интеграции настроены и отражены на чекауте, карта ПВЗ и подсказки) и 11:37 (ключи через поле в панели — ключ WB на хост не ставим); критерий дня — деплой на живой хост",
       "source": "prompts/d08-deploy-wave6.md"
+    },
+    {
+      "id": "p01-settings-integrations-restructure",
+      "title": "Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем #",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-settings-integrations-restructure",
+      "deps": [],
+      "softDeps": [],
+      "priority": 99,
+      "prompt": "p01-settings-integrations-restructure.md",
+      "acceptance": "На стенде /settings/integrations показывает пять сервисов с состоянием; каждая /settings/integrations/<сервис> — только форма реквизитов (save/delete, маска); ключ WB из слота виден без повторного ввода на хабе, странице интеграции и /settings/marketplaces/wildberries (Playwright); старые адреса перенаправляют; в сайдбаре ни одного `to` с `#` (vitest + git grep = 0); Robokassa/СДЭК поведенческие настройки остались на /settings/payments и /settings/delivery без реквизитов; спека /tenants/apiship/key зелёная, литерал токена в логах = 0; скриншоты; report.md с §Экономия",
+      "why": "Приказ Ивана 2026-09-16 20:22 WITA: пункты навигации с якорем #wb — неправильно; «подключение площадок» → «подключение» только с полями ключей; Robokassa/доставка/СДЭК/ApiShip внутри маркетплейсов — неправильно; все подключения на /settings/integrations/[robokassa, wildberries, ozon, apiship, cdek]; страницы WB и Ozon на /settings/marketplaces/wildberries и /settings/marketplaces/ozon",
+      "source": "prompts/p01-settings-integrations-restructure.md"
+    },
+    {
+      "id": "d09-deploy-integrations",
+      "title": "Деплой волны p01 (реорганизация настроек) на живой хост cherkashino.shipshift.dev / panel-store.upready.dev с сохранением ключа WB, введённого Иваном",
+      "kind": "deploy",
+      "lane": "deploy",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day16-deploy-integrations",
+      "deps": [
+        "p01-settings-integrations-restructure"
+      ],
+      "softDeps": [],
+      "priority": 99,
+      "prompt": "d09-deploy-integrations.md",
+      "acceptance": "pg_dump до изменений (размер, gunzip -t rc=0); миграции применены; строки tenant_integration_secret cherkashino до/после по count+provider; живая панель как владелец: /settings/integrations показывает Wildberries «подключено ••••last4» без повторного ввода, старые адреса перенаправляют, в сайдбаре нет якорей; витрина /ru и страница товара 200 до и после; кадры вне git; report.md §9/§10/§Экономия",
+      "why": "Правки p01 должен увидеть Иван на живой панели; ключ WB, введённый им ~20:00 WITA, должен пережить деплой",
+      "source": "prompts/d09-deploy-integrations.md"
     }
   ]
 }
