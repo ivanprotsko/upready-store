@@ -1,0 +1,108 @@
+{
+  "task": "r04-out-of-the-box-onboarding",
+  "branch": "feat/day16-out-of-the-box-onboarding",
+  "pr": {
+    "number": 97,
+    "url": "https://github.com/ivanprotsko/upready-store/pull/97"
+  },
+  "done": [
+    {
+      "item": "Ответил по первоисточникам на четыре вопроса по пяти сервисам плюс ApiShip: партнёрские программы, путь клиента по шагам, куда идут деньги, что можно и нельзя делать с доступами.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/report.md"
+      ]
+    },
+    {
+      "item": "Подтвердил платёж 1 рубль у Robokassa: это подпись под договором, с точной формулировкой назначения платежа и только с расчётного счёта магазина — а самозанятым он не нужен вообще.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/kits/robokassa.md"
+      ]
+    },
+    {
+      "item": "Нашёл две готовые точки «из коробки»: виджет регистрации клиента Robokassa прямо в нашей панели и агентский аккаунт ApiShip, которому официально разрешено заводить и настраивать кабинеты клиентов.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/report.md"
+      ]
+    },
+    {
+      "item": "Нашёл прямые запреты, которые ломают модель «отдадим клиенту логины и пароли»: СДЭК запрещает передачу логина и пароля третьим лицам, Почта России — тоже, а её ключ API это просто зашифрованный пароль клиента.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/kits/cdek.md",
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/kits/pochta-rossii.md"
+      ]
+    },
+    {
+      "item": "Два пункта из приказа Ивана в источниках не подтвердились: менеджер СДЭК и пополнение счёта Почты России — оба помечены «не найдено в источниках» с замером.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/raw/_izmereniya/zakrytye-istochniki.md"
+      ]
+    },
+    {
+      "item": "Написал пять наборов инструкций для клиента: пошаговый текст с пометкой, кто что делает, и покадровый план видео до трёх минут.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/kits"
+      ]
+    },
+    {
+      "item": "Написал черновик пункта оферты §6А об услуге подключения и передаче доступов с шестью вопросами юристу.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/offer-clause-draft.md"
+      ]
+    },
+    {
+      "item": "Завёл бэклог из 12 задач ob01–ob12 с пометками «что даёт клиенту», «что нужно от сервиса», «нужен ли договор».",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/onboarding-tasks.json"
+      ]
+    },
+    {
+      "item": "Поставил четыре проверки в коде: цитата обязана находиться в сырье дословно, ссылки на цитаты обязаны быть живыми, в артефакте не должно быть значений ключей и паролей.",
+      "links": [
+        "artifacts/research/2026-09-16-out-of-the-box-onboarding/scripts/verify-claims.mjs"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Главный отчёт для Ивана (начинать с него)",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/report.md",
+      "note": "раздел 1 — ответ в семи строках, раздел 7 — три модели передачи доступов, раздел 9 — развилки"
+    },
+    {
+      "label": "Отчёт для приёмки и тело PR",
+      "path": "artifacts/docs/r04-out-of-the-box-onboarding/report.md"
+    },
+    {
+      "label": "PR #97",
+      "url": "https://github.com/ivanprotsko/upready-store/pull/97"
+    },
+    {
+      "label": "Сводка по сервисам машиночитаемо",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/services.json"
+    },
+    {
+      "label": "60 цитат из первоисточников",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/claims.json"
+    },
+    {
+      "label": "Пять наборов инструкций и планов видео",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/kits"
+    },
+    {
+      "label": "Черновик пункта оферты (требует юриста)",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/offer-clause-draft.md"
+    },
+    {
+      "label": "Бэклог из 12 задач",
+      "path": "artifacts/research/2026-09-16-out-of-the-box-onboarding/onboarding-tasks.json"
+    }
+  ],
+  "notes": [
+    "Решение о модели передачи доступов намеренно не принято — это развилка Ивана, раздел 7 отчёта.",
+    "Модель из приказа «мы заводим кабинеты и отдаём логины и пароли» в чистом виде не подходит ни одному сервису целиком.",
+    "Развилка: чьё приложение Яндекс ID — одно на все витрины или на каждого клиента (верификацию проходит лично директор).",
+    "Живые сайты cdek.ru и www.pochta.ru для наших машин закрыты; по СДЭК цитаты из сохранённых копий от 2026-08-31.",
+    "Весь правовой блок помечен «требует юриста»; шесть вопросов выписаны в offer-clause-draft.md.",
+    "Противоречие в брифе: раздел про экономию предписывал сабагентов на sonnet, раздел Binding mechanics их запрещает. Выбрал запрет."
+  ]
+}

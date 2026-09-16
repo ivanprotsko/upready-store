@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "services.schema.json",
+  "title": "Сводка по сервисам «всё из коробки» (r04)",
+  "type": "object",
+  "required": ["task", "generated", "services"],
+  "additionalProperties": false,
+  "properties": {
+    "task": { "type": "string" },
+    "generated": { "type": "string", "description": "YYYY-MM-DD HH:MM WITA, момент записи" },
+    "claimsFile": { "type": "string" },
+    "services": {
+      "type": "array", "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "kind", "partnerProgram", "onboarding", "moneyFlow", "credentials"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string", "minLength": 2 },
+          "kind": { "enum": ["payment", "delivery", "identity", "aggregator"] },
+          "partnerProgram": {
+            "type": "object",
+            "required": ["exists", "onBehalfRegistration", "claims"],
+            "additionalProperties": false,
+            "properties": {
+              "exists": { "enum": [true, false, "не найдено в источниках"] },
+              "type": { "enum": ["referral", "agency", "platform", "agency+platform", "нет"] },
+              "url": { "type": "string" },
+              "entry": { "type": "string", "description": "как войти в программу" },
+              "reward": { "type": "string" },
+              "onBehalfRegistration": {
+                "enum": ["разрешено прямо", "не запрещено, но риск на клиенте", "запрещено прямо", "не найдено в источниках"],
+                "description": "может ли платформа регистрировать/настраивать кабинет клиента"
+              },
+              "claims": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "onboarding": {
+            "type": "object", "required": ["steps"], "additionalProperties": false,
+            "properties": {
+              "timing": { "type": "string" },
+              "steps": {
+                "type": "array", "minItems": 3,
+                "items": {
+                  "type": "object", "required": ["n", "title", "who"], "additionalProperties": false,
+                  "properties": {
+                    "n": { "type": "integer", "minimum": 1 },
+                    "title": { "type": "string", "minLength": 5 },
+                    "who": { "enum": ["делает клиент", "можем сделать мы", "только клиент"] },
+                    "why": { "type": "string" },
+                    "claims": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          },
+          "moneyFlow": {
+            "type": "object", "required": ["throughUs", "note", "claims"], "additionalProperties": false,
+            "properties": {
+              "throughUs": { "enum": [true, false, "неприменимо", "не найдено в источниках"] },
+              "note": { "type": "string" },
+              "claims": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "credentials": {
+            "type": "object", "required": ["model", "sharingRule", "claims"], "additionalProperties": false,
+            "properties": {
+              "model": { "type": "string", "description": "чем входят в кабинет" },
+              "sharingRule": { "enum": ["запрещено прямо", "не запрещено, риск на клиенте", "не найдено в источниках"] },
+              "claims": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "sourcesClosed": { "type": "array", "items": { "type": "string" } },
+          "gaps": { "type": "array", "items": { "type": "string" }, "description": "вопросы, на которые источники не отвечают" }
+        }
+      }
+    }
+  }
+}
