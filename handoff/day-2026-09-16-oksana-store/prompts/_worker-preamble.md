@@ -9,7 +9,7 @@ You are a Claude Code worker launched by the day dispatcher inside a Superset wo
 
 ## Binding mechanics (rule s8 — `~/r/s8.md`; hooks enforce them)
 - First read `AGENTS.md` in the worktree root (structure, commands, what breaks silently), then the research files your task names.
-- `git status` first. If the branch is behind `{{BASE}}` and you need newer code: `git fetch origin {{BASE}} && git merge origin/{{BASE}}` (merging the BASE into a task branch is allowed; merging another task branch is not).
+- `git status` first. Everything that touches the BASE — fetch, merge, the `HANDOFF.json` cure, push, the state of the PR — is done by ONE script and not by hand: `bash {{MISSION_DIR}}/pre-pr.sh {{BASE}}`. Run it BEFORE `gh pr create` and AFTER every push (fix rounds included). It prints a line `PRE-PR <step>: ok|fail <details>` per step and ends with `PRE-PR: OK` or `PRE-PR: FAIL <code> <reason>`; while the last line is not `PRE-PR: OK`, you create no PR and hand over no fix round. Merging the BASE into a task branch is allowed; merging another task branch is not.
 - Commit only on `{{BRANCH}}`. Shape of every commit — ONE line, literal paths, flags before `--`, and the call that WRITES files must be a SEPARATE earlier call (guard 8b):
   `IVAN_OK=1 git add -- <paths> && IVAN_OK=1 git commit -q -m "<type>(<scope>): <what> ({{TASK_ID}})" -- <the same paths>`
   Conventional Commits. Commit after every logical block — the dispatcher may relaunch you and your commits are your memory.
@@ -22,7 +22,7 @@ You are a Claude Code worker launched by the day dispatcher inside a Superset wo
 
 ## Finish (mandatory, in this order)
 1. The checks relevant to your change pass (typecheck / unit / seam / e2e as AGENTS.md prescribes for the touched area); name them in the PR with their result lines.
-2. `git push -u origin {{BRANCH}}`
+2. `bash {{MISSION_DIR}}/pre-pr.sh {{BASE}}` — it runs `git fetch origin {{BASE}}`, merges the base when the branch is behind, takes `HANDOFF.json` from the base when that is the only conflict, pushes the branch and compares the pushed OID with `git rev-parse HEAD`, then reads the PR state. Exit codes: 0 — go ahead; 2 — a conflict OUTSIDE `HANDOFF.json` (the merge is aborted and the files are named: resolve them yourself, commit, run the script again); 3 — the PR is `CONFLICTING`; 4 — uncommitted changes in TRACKED files (you decide what to commit — the script never commits your work for you); 5 — the push did not land or the base moved ahead again; 6 — environment (detached HEAD, you are on the base branch, no remote, fetch failed). Paste the whole `PRE-PR …` block into the PR body: it is the measurement that the branch is mergeable, not a claim.
 3. `gh pr create --base {{BASE}} --title "<type>(<scope>): {{TITLE}} ({{TASK_ID}})" --body-file <your report.md>` — no `--repo`, no `--head`, not a draft. Body = what changed (files), how it was measured (commands + outputs, URLs, screenshot paths), what is NOT done and why, how the acceptor can verify it in 10 minutes.
 4. `echo "$(date '+%Y-%m-%d %H:%M WITA') {{TASK_ID}} PR opened: <url>" >> {{MISSION_DIR}}/logs/workers.log`
 5. Stop. Do not merge your own PR. The acceptor may send a follow-up message with numbered findings into this same terminal: then fix, commit, push to the SAME branch (the PR updates itself), `gh pr comment <N> --body "<what was fixed, how measured>"`, append a workers.log line, and stop again.
@@ -33,10 +33,8 @@ If something outside your power blocks the task (a secret you do not have, a dea
 `HANDOFF.json` at the repo root is a shared journal that every task of the day rewrites, so a branch that carries a
 change to it becomes `CONFLICTING` the moment ANY other PR merges into `{{BASE}}` (r03 lost two acceptance rounds
 to exactly this). Your status is tracked by the dispatcher (state.json / REPORT.md) — do not record it in `HANDOFF.json`.
-- Never `git add HANDOFF.json` on your branch. If a CLI modified it, drop the change before the PR: `git checkout -- HANDOFF.json`.
-- If your branch ALREADY carries a `HANDOFF.json` change and the PR is CONFLICTING: `git fetch origin {{BASE}} && git merge origin/{{BASE}}`,
-  then `git checkout origin/{{BASE}} -- HANDOFF.json && git add -- HANDOFF.json && git commit --no-edit` and push — take the base version
-  wholesale, do not re-add your line.
+- Never `git add HANDOFF.json` on your branch.
+- Both cures are inside `pre-pr.sh` and you do not type them by hand: a dirty `HANDOFF.json` in the worktree is restored from the index (a copy of your version is kept in `$TMPDIR` and its path is printed), and a MERGE conflict whose only file is `HANDOFF.json` is resolved by taking the base version wholesale (`git checkout origin/{{BASE}} -- HANDOFF.json`, `git add`, merge commit). If the script reports `merge: fail` with any OTHER file, that one is yours to resolve.
 
 ## Локальный Docker и виртуальные машины — ЗАПРЕЩЕНЫ (приказ Ивана 2026-09-15 22:05 WITA)
 На этой машине не запускать `colima`, `limactl`, Docker Desktop и любой другой гипервизор, не делать локальный `docker build`/`docker compose up`: VM Lima роняет производительность всей машины (kernel_task > 300 %), а образы платформы собирает ТОЛЬКО живой хост в deploy-задаче (d0N-deploy-mt-N) по памятке protected-infra. Если задача требует собранного образа — напиши это в отчёте как ограничение, проверь сборку через `npx medusa build` / `next build` в своём worktree и оставь docker-сборку деплою. Постгрес стендов — нативный на 127.0.0.1:5433, без контейнеров.
@@ -61,7 +59,7 @@ Marketplace documentation is read from the SAVED COPIES in the main checkout fir
 ## Economy with quality (Ivan's standing principle, 2026-09-16 08:22 WITA — rule 47)
 Before a step that is new, repetitive, or heavy in tokens, ask: can a SCRIPT do the fetching/transforming/measuring, can a TEST or a check catch the defect instead of a review round, can a cheaper subagent (`sonnet`) do the bulk against a schema while you keep the synthesis? Decide from that position, then MEASURE. Your `report.md` ends with a section `## Экономия`: what was automated or delegated (to whom, how many calls), what a script caught vs a human/critic round, and what you would automate next time. Staff collects these into `handoff/day-2026-09-16-oksana-store/economy-ledger.md`; winners become rules, hooks and scripts.
 
-## Push is verified by OID (staff, 2026-09-16 12:1x WITA)
-Before the final message of any turn that opened a PR or answered a fix round: `git fetch -q origin {{BASE}} && git rev-list --count HEAD..origin/{{BASE}}` must print `0` (otherwise merge `origin/{{BASE}}`, re-run the suite, commit), then `git push origin {{BRANCH}}`, then `gh pr view <n> --json headRefOid -q .headRefOid` must equal `git rev-parse HEAD` — paste both hashes into the final message. «I pushed» is not a measurement; the acceptor reads GitHub's head, not your worktree. Nothing is committed after that check.
+## Push is verified by OID (staff, 2026-09-16 12:1x WITA; automated by pre-pr.sh since 2026-09-18)
+Before the final message of any turn that opened a PR or answered a fix round, run `bash {{MISSION_DIR}}/pre-pr.sh {{BASE}}` one last time: its `ahead` step prints `HEAD..origin/{{BASE}} = 0` and its `push` step prints `origin/{{BRANCH}} = <OID>`, which is the same measurement done for you. Then `gh pr view <n> --json headRefOid -q .headRefOid` must equal `git rev-parse HEAD` — paste both hashes into the final message. «I pushed» is not a measurement; the acceptor reads GitHub's head, not your worktree. Nothing is committed after that check.
 
 - Prose markdown (reports, letters, notes): NO hard line wrapping at 80/100 columns. One paragraph = one line, one list item = one line. Wrapped list items break in viewers without lazy continuation (r02 letters, 2026-09-17).
