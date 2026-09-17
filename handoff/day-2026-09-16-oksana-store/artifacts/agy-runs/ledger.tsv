@@ -6,3 +6,6 @@ pf01-upready-dev-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	1	4	
 o01-ozon-key-instruction	o01-ozon-key-instruction-opus	claude-opus-5	claude-sonnet-5	2	ACCEPT	0	0	1	799.22	231000			2026-09-18 07:28 WITA
 pf02-ivanprotsko-com-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	0	2	2	186.99	732542	56		2026-09-18 07:31 WITA
 pf01-upready-dev-portfolio-texts	pf01-upready-dev-portfolio-texts-opus	claude-sonnet-5	claude-sonnet-5	2	ACCEPT	0	1	1	373.0	31023			2026-09-18 07:36 WITA
+pf02-ivanprotsko-com-portfolio-texts	claude	sonnet	sonnet	2	REJECT	2	1	1	420.6	n/a	n/a	n/a	2026-09-18 07:42 WITA
+e01-email-and-phone-auth-research	claude	opus	sonnet	2	REJECT	1	0	0	1723.3	n/a	n/a	n/a	2026-09-18 07:48 WITA
+gx01-gpt-oss-probe	agy	gpt-oss-120b-medium	-	1	REJECT-unavailable	0	0	0	2.9	11969	100	100	2026-09-18 07:50 WITA
