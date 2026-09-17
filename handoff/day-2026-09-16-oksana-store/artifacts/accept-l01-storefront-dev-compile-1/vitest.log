@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day17-storefront-dev-compile/apps/storefront
+
+
+ Test Files  27 passed (27)
+      Tests  267 passed (267)
+   Start at  21:32:01
+   Duration  1.36s (transform 1.33s, setup 0ms, import 2.07s, tests 1.33s, environment 2ms)
+

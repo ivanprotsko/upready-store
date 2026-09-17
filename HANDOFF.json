@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-17T21:20:05+08:00",
-  "status": "2026-09-17 21:20 WITA: штаб дня Оксаны — l01 (витрина: type re-export в use server) запущен на sonnet по повторному указанию Ивана; после merge — pull в основном чекауте и проверка :8000/ru; Gemini CLI: ждём /auth и «делай e01 на gemini»; бэклог q04/y01/r04/k01 ждёт слова",
+  "updated": "2026-09-17T21:40:20+08:00",
+  "status": "2026-09-17 21:40 WITA: штаб дня Оксаны — l01 смержен (PR #102, dev 07151c3b), витрина http://localhost:8000/ru → 200 без Build Error, каталог пуст (локальная БД без тенантов); очередь пуста, 10 blocked ждут «делай»; сторож вышел по DONE",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

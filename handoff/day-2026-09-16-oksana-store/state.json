@@ -3,10 +3,10 @@
     "paused": false,
     "limitUntil": null,
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-17T13:19:59.302Z",
+    "lastTick": "2026-09-17T13:37:04.391Z",
     "pid": 59625,
-    "ticks": 2428,
-    "allTerminalTicks": 0
+    "ticks": 2445,
+    "allTerminalTicks": 3
   },
   "tasks": {
     "t01-checkout-thankyou": {
@@ -4512,9 +4512,14 @@
       "note": "после e01 и OK Ивана на изменение хоста"
     },
     "l01-storefront-dev-compile": {
-      "status": "running",
+      "status": "merged",
       "attempt": 1,
-      "artifacts": [],
+      "artifacts": [
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/report.md",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/dev-8047.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/next-build.tail.log",
+        "file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/vitest.log"
+      ],
       "error": null,
       "note": "заказ Ивана от 2026-09-17 21:18 WITA: ошибка витрины названа второй раз — запуск на sonnet/low; после merge штаб делает git pull в основном чекауте и проверяет http://localhost:8000/ru",
       "ws": "317f4157-fa3b-4937-a67d-1f3ace54d8f5",
@@ -4525,8 +4530,32 @@
       "nudges": 0,
       "relaunched": false,
       "force": false,
-      "lastScreen": "                      \n                                                                                                                        \n  ⎿  UserPromptSubmit says: 🕐 21:19:58 GMT+8 · твой промпт\n\n  Running 1 shell command…\n\n✻ Fiddle-faddling… (4s · ↓ 45 tokens · thinking with low effort)\n                                                                                                       ○ low · /effort\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day17-storefront-dev-compile (feat/day17-storefront-dev-compile) | Sonnet 5\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
-      "lastScreenAt": "2026-09-17T13:20:04.285Z"
+      "lastScreen": "npm install, не относится к задаче. Откатываю его.\n  \n  Ran 2 shell commands \n\n⏺ Коммит создан. Теперь push и PR.\n \n⏺ Running 2 shell commands…\n  ⎿  $ cd /Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day17-storefront-dev-compile\n     git fetch -q origin dev\n     git rev-list --count HEAD..origin/dev\n\n✳ Fiddle-faddling… (4m 10s · ↓ 6.8k tokens · thinking with low effort)\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day17-storefront-dev-compile (feat/day17-storefront-dev-compile) | Sonnet 5 | ctx 87%\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-17T13:24:10.015Z",
+      "pr": {
+        "number": 102,
+        "url": "https://github.com/ivanprotsko/upready-store/pull/102",
+        "state": "MERGED",
+        "mergedAt": "2026-09-17T13:32:56Z",
+        "isDraft": false
+      },
+      "prOpenedAt": "2026-09-17T13:25:05.037Z",
+      "acceptance": [
+        {
+          "n": 1,
+          "pid": 27882,
+          "log": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-l01-storefront-dev-compile-1.log",
+          "findings": "/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/accept-l01-storefront-dev-compile-1.findings.md",
+          "startedAt": "2026-09-17T13:29:08.704Z",
+          "session": "879ebf95-1244-4eb9-b3ae-1569506b31a1",
+          "sessionPool": "accept@/Users/ivanprotsko/upready/projects/upready-store",
+          "headOid": "01f39981bcd79d7cc964fef569497513e84023d8",
+          "sessionReleased": true,
+          "verdict": "MERGED"
+        }
+      ],
+      "finishedAt": "2026-09-17T13:34:05.178Z",
+      "compactSentAt": "2026-09-17T13:34:07.371Z"
     },
     "r04-robokassa-result-pages": {
       "status": "blocked",
@@ -4542,36 +4571,6 @@
     }
   },
   "events": [
-    {
-      "ts": "2026-09-15T18:15:27.028Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:16:29.343Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:17:26.398Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:18:25.789Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:19:27.689Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
     {
       "ts": "2026-09-15T18:20:26.379Z",
       "type": "limit",
@@ -6928,6 +6927,35 @@
       "task": "l01-storefront-dev-compile",
       "type": "launched",
       "msg": "ws 317f4157-fa3b-4937-a67d-1f3ace54d8f5 · sonnet/low · feat/day17-storefront-dev-compile"
+    },
+    {
+      "ts": "2026-09-17T13:25:05.037Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "pr-open",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/102"
+    },
+    {
+      "ts": "2026-09-17T13:29:08.704Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "accept-started",
+      "msg": "раунд 1, PR #102, pid 27882"
+    },
+    {
+      "ts": "2026-09-17T13:34:07.371Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "compact-sent",
+      "msg": "терминал 446b70a4-0760-4d24-a26d-4c0d8b0be735, ветка feat/day17-storefront-dev-compile"
+    },
+    {
+      "ts": "2026-09-17T13:34:07.374Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "merged",
+      "msg": "https://github.com/ivanprotsko/upready-store/pull/102 (приёмка раунд 1)"
+    },
+    {
+      "ts": "2026-09-17T13:36:06.584Z",
+      "type": "all-terminal",
+      "msg": "DONE"
     }
   ],
   "sessions": {
@@ -6941,10 +6969,10 @@
       },
       {
         "id": "879ebf95-1244-4eb9-b3ae-1569506b31a1",
-        "uses": 1,
+        "uses": 2,
         "createdAt": "2026-09-16T04:47:55.090Z",
         "inUse": false,
-        "lastUsed": "2026-09-16T04:47:55.090Z"
+        "lastUsed": "2026-09-17T13:29:08.702Z"
       }
     ],
     "run:deploy@/Users/ivanprotsko/upready/projects/upready-store": [
