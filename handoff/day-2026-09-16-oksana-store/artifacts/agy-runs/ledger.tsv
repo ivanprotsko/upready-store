@@ -1,0 +1,5 @@
+task	executor	executor_model	acceptor_model	round	verdict	blockers	majors	minors	duration_s	tokens_total	quota_before_pct	quota_after_pct	ts_wita
+o01-ozon-key-instruction	gemini	gemini-3.1-pro-high	opus	1	REJECT	1	3	3	240.09	212518	87		2026-09-18 07:10 WITA
+g01-store-glossary	g01-store-glossary-gem	gemini-3.8-flash-high	claude-opus-5	1	REJECT	2	4	3	356.96	581711	86	n/a	2026-09-18 07:14 WITA
+e01-email-and-phone-auth-research	agy	gemini-3.8-flash-high	opus	1	REJECT	2	5	3	555.41	944288	86		2026-09-18 07:16 WITA
+pf01-upready-dev-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	1	4	4	248.38	606994	65		2026-09-18 07:23 WITA
