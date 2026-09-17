@@ -63,3 +63,5 @@ Before a step that is new, repetitive, or heavy in tokens, ask: can a SCRIPT do 
 
 ## Push is verified by OID (staff, 2026-09-16 12:1x WITA)
 Before the final message of any turn that opened a PR or answered a fix round: `git fetch -q origin {{BASE}} && git rev-list --count HEAD..origin/{{BASE}}` must print `0` (otherwise merge `origin/{{BASE}}`, re-run the suite, commit), then `git push origin {{BRANCH}}`, then `gh pr view <n> --json headRefOid -q .headRefOid` must equal `git rev-parse HEAD` — paste both hashes into the final message. «I pushed» is not a measurement; the acceptor reads GitHub's head, not your worktree. Nothing is committed after that check.
+
+- Prose markdown (reports, letters, notes): NO hard line wrapping at 80/100 columns. One paragraph = one line, one list item = one line. Wrapped list items break in viewers without lazy continuation (r02 letters, 2026-09-17).

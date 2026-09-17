@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-17T01:51:15+08:00",
-  "status": "2026-09-17 01:51 WITA: штаб дня Оксаны — заказы Ивана от 01:35/01:44: UI штаба отдаёт кадры из worktrees; локальный upready-store поднят LaunchAgent-ами KeepAlive (storefront 8000, панель 5180, бэкенд после миграций); страница ссылок/логинов/статусов в .private (links.html); бэклог 7 задач blocked с причинами (q04, y01, r03, p03, o01, e01, s01); режим экономии подписки: lanes build 2/accept 1, maxSlots 3, память upready-store-budget-regime-2026-09-17.md; очередь DONE",
+  "updated": "2026-09-17T20:29:51+08:00",
+  "status": "2026-09-17 20:29 WITA: штаб дня Оксаны — ответ Ивана 20:22 разобран: Яндекс OAuth ключи есть в .env.cherkashino (y01 ждёт INFRA_OK), панель локально смотрела на 9023 → .env на 9022, письма r02 развёрнуты + for-oksana-v2 (только реквизиты), заведены r04 (экраны Robokassa) и k01 (аудит утечки ключей) blocked, 3 записи ai-err; ждём «делай l01/q04/y01/r04/k01», ответ поддержки Robokassa",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",
