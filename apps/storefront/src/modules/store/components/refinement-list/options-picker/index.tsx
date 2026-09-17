@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 
-import type { ProductOptionFilterGroup } from "@lib/data/products"
+import type { ProductOptionFilterGroup } from "@lib/util/option-filter-groups"
 import FilterCombobox from "../filter-combobox"
 
 type OptionsPickerProps = {

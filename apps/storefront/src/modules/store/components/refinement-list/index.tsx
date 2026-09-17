@@ -7,7 +7,7 @@ import {
   OPTION_VALUE_QUERY_KEY,
   parseOptionValueIds,
 } from "@lib/util/product-option-filters"
-import type { ProductOptionFilterGroup } from "@lib/data/products"
+import type { ProductOptionFilterGroup } from "@lib/util/option-filter-groups"
 import type { AttributeFacet } from "@lib/data/product-attributes"
 import {
   applyAttributeValues,
