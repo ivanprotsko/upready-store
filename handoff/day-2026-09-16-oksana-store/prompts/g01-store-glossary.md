@@ -22,3 +22,7 @@ id · термин (ru) · идентификатор в коде/UI (en) · к�
 - скрипт `glossary/check.mjs` (node, без зависимостей): проверяет схему записей и существование путей, зелёный на твоём наборе; запусти и приложи вывод в PR;
 - в PR — таблица «термин → как называется сейчас на экране панели → предложенная подпись» для 10 самых частых расхождений (подписи экранов в этой задаче НЕ менять — это отдельные задачи).
 Последняя строка — `RESULT: OK <PR url>` или `RESULT: FAIL <причина>`.
+
+## Парный дизайн m04 (штаб, 2026-09-18 06:00 WITA)
+
+Before writing anything, read `{{MISSION_DIR}}/artifacts/agy-runs/g01-store-glossary-gem/findings-opus-1.md` (acceptance of the Gemini draft) and, when its verdict is ACCEPT, take the draft in that folder (`glossary/…`) as your base: fix every listed defect, verify each entry against the code yourself, then ship through the normal branch/PR route. When the verdict is REJECT, write the glossary yourself using the findings as a list of traps. Either way the PR description names the executor of the draft and what you changed.

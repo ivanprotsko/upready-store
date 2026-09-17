@@ -1,0 +1,9 @@
+## Brief — task pf01-upready-dev-portfolio-texts (pair design m04: execution by claude/opus (pair comparison after a REJECT of the Gemini run))
+
+You are the pair comparison: the same brief was executed by gemini-3.8-flash-high and rejected by the acceptor. Do NOT open its folder or findings (`/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/agy-runs/pf01-upready-dev-portfolio-texts-gem/`) — the comparison must be independent. Your working folder `{{CWD}}` IS the artifacts folder for this task: write deliverables there (not into `{{MISSION_DIR}}/artifacts/{{TASK_ID}}/`) and do not commit anything.
+
+Full brief: read `{{MISSION_DIR}}/prompts/pf01-upready-dev-portfolio-texts.md` first. It was written for a claude worker with git access — follow its SUBSTANCE and IGNORE everything in it about branches, worktrees, commits, PRs, HANDOFF/handoff.mjs, resume blocks, hooks/escapes and Superset: this run has no git and writes no journals. Where the brief names an output path (a report under `~/upready/research/reports/`, files under `artifacts/…`, `glossary/…`), write the SAME relative layout inside the current working folder instead (`{{CWD}}/reports/…`, `{{CWD}}/artifacts/…`, `{{CWD}}/glossary/…`); downloaded or copied sources go to `{{CWD}}/raw/`. An acceptor (another model) will diff this folder against the brief and move accepted files into the canon — nothing written here is final, so never write into the repository, into `~/upready/research/` or into other projects.
+
+Acceptance the acceptor will check: artifacts/portfolio-texts/<дата>/cases.md с 6–8 кейсами EN+RU и sources.md с источником каждого факта; сайт не менять; отбор текстов — Иван (человеческие глаза)
+
+Also write `{{CWD}}/SUMMARY.md`: what was done, the deliverables with relative paths, what could not be done and why, every source used (path or URL).

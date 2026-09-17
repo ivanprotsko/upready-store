@@ -211,7 +211,9 @@ export function buildWorkerPrompt(cfg, task) {
   return renderTemplate(pre + '\n\n---\n\n' + loadPromptText(task), taskVars(cfg, task));
 }
 export function buildRunPrompt(cfg, task, extra = {}) {
-  const pre = fs.existsSync(path.join(P.prompts, '_run-preamble.md')) ? fs.readFileSync(path.join(P.prompts, '_run-preamble.md'), 'utf8') : '';
+  // runner agy (Gemini) получает свою преамбулу — две строки-лекарства из замера ag01 (2026-09-18): без подагентов, запись только относительно cwd.
+  const preName = task.runner === 'agy' ? '_agy-preamble.md' : '_run-preamble.md';
+  const pre = fs.existsSync(path.join(P.prompts, preName)) ? fs.readFileSync(path.join(P.prompts, preName), 'utf8') : '';
   return renderTemplate(pre + '\n\n---\n\n' + loadPromptText(task), taskVars(cfg, task, extra));
 }
 export function buildTemplatePrompt(cfg, name, task, extra = {}) {
