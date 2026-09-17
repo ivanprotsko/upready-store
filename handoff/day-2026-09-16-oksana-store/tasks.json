@@ -21,7 +21,7 @@
     "maxAttempts": 3
   },
   "acceptor": {
-    "model": "sonnet",
+    "model": "opus",
     "effort": "medium",
     "maxMin": 90,
     "maxRounds": 2,
@@ -2009,6 +2009,99 @@
       "source": "INTAKE.md 03:59",
       "status": "backlog",
       "applyTo": "диспетчер дня (допуск моделей), правило 5e"
+    },
+    {
+      "id": "ag01-antigravity-capabilities",
+      "title": "Тест максимума возможностей моделей Gemini через Antigravity CLI agy: модели, инструменты, форматы, продолжение сессии, пилот тестов/моков на копии движка, журнал квоты /usage до и после — отчёт к пробуждению Ивана",
+      "kind": "research",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "deps": [],
+      "softDeps": [],
+      "priority": 10,
+      "prompt": "ag01-antigravity-capabilities.md",
+      "acceptance": "отчёт ~/upready/research/reports/<дата>-antigravity-gemini-capabilities.md: выводы для Ивана, таблица возможностей по замерам, пилот тестов/моков с diff и зелёным node --test в копии, журнал usage до/после каждого вызова, рекомендация для runner agy; сырые выводы в research/raw/ag01-antigravity-capabilities/",
+      "why": "заказ Ивана 2026-09-18 05:36 WITA, п. 4.1",
+      "source": "INTAKE.md 05:36",
+      "status": "queued",
+      "maxMin": 170,
+      "applyTo": "движок дня (runner agy), выбор модели для тестов/моков"
+    },
+    {
+      "id": "pp01-pre-pr-and-stage0",
+      "title": "pre-pr.sh (fetch/merge origin/dev, HANDOFF.json из базы, push, ahead=0, mergeable) + accept-stage0.sh (машинный этап 0 приёмки: конфликт, секреты, выключенные тесты, lint/tsc/tests по diff) + правки _worker-preamble/_acceptor + тесты на временных git-репо",
+      "kind": "build",
+      "lane": "build",
+      "model": "opus",
+      "effort": "high",
+      "branch": "feat/day18-pre-pr-stage0",
+      "deps": [],
+      "softDeps": [],
+      "priority": 12,
+      "prompt": "pp01-pre-pr-and-stage0.md",
+      "acceptance": "pre-pr.sh и accept-stage0.sh в handoff/day-2026-09-16-oksana-store/, тесты ui/pre-pr.test.mjs и ui/stage0.test.mjs зелёные вместе с op/report/quota (node --test ui/), _worker-preamble.md и _acceptor.md вызывают скрипты, PR на dev создан после прогона pre-pr.sh на своей ветке, в PR раздел «Предложение к движку» (спутник каталогов)",
+      "why": "заказ Ивана 2026-09-18 05:36 WITA, п. 2 и 04:53 п. 1.1 (этап 0)",
+      "source": "INTAKE.md 05:36",
+      "status": "queued",
+      "applyTo": "воркеры build-задач, приёмщик"
+    },
+    {
+      "id": "kb01-defect-registry",
+      "title": "Реестр дефектов приёмки (JSON по 18b): классы из 34 раундов findings и q01–q03, теги стек/область/тип файла, script/model, атрибуция дефекта после мержа автору и приёмщику (git blame → PR → task → модели), выборка чек-листа по diff PR; фаза 2 — старые проекты",
+      "kind": "data",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "deps": [],
+      "softDeps": [
+        "ag01-antigravity-capabilities"
+      ],
+      "priority": 14,
+      "prompt": "kb01-defect-registry.md",
+      "acceptance": "registry.json + schema.json + scripts extract/attribute/for-diff по месту из storage-registry, ≥15 классов с примерами и тегами, атрибуция всех дефектов после мержа из q01–q03 прогнана, for-diff даёт чек-лист для одного смерженного PR, отчёт в research/reports/ с числами из прогона",
+      "why": "Иван 2026-09-18 05:14 п. 3, 3.1.1 и 05:36 п. 2.1, 3.2",
+      "source": "INTAKE.md 05:14/05:36",
+      "status": "queued",
+      "applyTo": "приёмщик (чек-лист по diff), рейтинг моделей m04"
+    },
+    {
+      "id": "m05-external-catalogs-research",
+      "title": "Исследование внешних каталогов накопленного опыта по всем классам наших задач (CWE, OWASP, semgrep registry, ESLint-плагины, CodeQL, официальные pitfalls Next.js/React/Medusa/Postgres/Playwright, SEO, OAuth BCP, секреты) + механизм задачи-спутника при новом классе",
+      "kind": "research",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "deps": [],
+      "softDeps": [
+        "kb01-defect-registry"
+      ],
+      "priority": 16,
+      "prompt": "m05-external-catalogs-research.md",
+      "acceptance": "отчёт research/reports/<дата>-m05-external-catalogs.md: класс → ≥2 каталога с URL/датой/лицензией/применением, топ-5 внедрить первыми с командами прогона по diff, раздел «Механизм спутника»; catalogs.json и сырые копии в research/raw/m05-external-catalogs/",
+      "why": "Иван 2026-09-18 05:14 п. 3.1 и 05:36 п. 3; 04:53 п. 1.1.1",
+      "source": "INTAKE.md 05:36",
+      "status": "queued",
+      "applyTo": "этап 0 приёмки (script-каталоги), чек-лист приёмщика, движок (спутник)"
+    },
+    {
+      "id": "be01-bench-env-plan",
+      "title": "План bench-env: замер эффективности окружения Ивана против чистого Claude Code на эталонном приложении со всеми классами работ — изоляция профиля, оператор-скрипт с FAQ, скрытые e2e, метрики по requestId, ≥3 прогона на руку, аблация, публичный репозиторий, смета",
+      "kind": "research",
+      "lane": "data",
+      "model": "opus",
+      "effort": "medium",
+      "deps": [],
+      "softDeps": [
+        "m05-external-catalogs-research"
+      ],
+      "priority": 18,
+      "prompt": "be01-bench-env-plan.md",
+      "acceptance": "отчёт research/reports/<дата>-be01-bench-env-plan.md с разделами 1–6, таблицей 8–12 подзадач эталонного приложения со скрытыми тестами, структурой репозитория и сметой; факты об инструментах с URL из research/raw/be01-bench-env/",
+      "why": "Иван 2026-09-18 04:53 п. 2 и 05:36 п. 3.2",
+      "source": "INTAKE.md 04:53/05:36",
+      "status": "queued",
+      "applyTo": "регулярный замер окружения, маркетинг обучения"
     }
   ],
   "budget": {
@@ -2017,15 +2110,11 @@
     "rule": "50 % недельного лимита подписки на 6 дней: воркеры/приёмка sonnet, opus только чекаут/оплата/доставка по OK Ивана, Fable только эскалации; задачи вне минимума первого релиза cherkashino — blocked в бэклоге",
     "memory": "/Users/ivanprotsko/upready/memory/upready-store-budget-regime-2026-09-17.md"
   },
-  "night": {
-    "since": "заказ Ивана 2026-09-18 05:36 WITA («модели не выше sonnet», пока Иван спит)",
-    "acceptorDay": {
-      "model": "opus",
-      "effort": "medium"
-    },
-    "revert": "утром по слову Ивана: cfg.acceptor.model → opus (значение из cfg.night.acceptorDay), cfg.night удалить"
-  },
   "quotaMinPct": 10,
   "fallbackModel": "sonnet",
-  "agyNote": "раннер agy (заказ 0.1): runner:\"agy\" в задаче, model = id из `agy models` (тесты/моки), waitOk/fallbackModel в задаче; порог cfg.quotaMinPct по пятичасовому остатку пула"
+  "agyNote": "раннер agy (заказ 0.1): runner:\"agy\" в задаче, model = id из `agy models` (тесты/моки), waitOk/fallbackModel в задаче; порог cfg.quotaMinPct по пятичасовому остатку пула",
+  "nightOrder": {
+    "since": "заказ Ивана 2026-09-18 06:00 WITA (отменяет «не выше sonnet» от 05:36)",
+    "rule": "агенты не ниже opus и любые gemini через agy; 10–12 часов автономно; после изучения gemini — проверка gpt-oss; приёмщик opus/medium"
+  }
 }
