@@ -180,7 +180,7 @@ export function runCwd(cfg, task) {
 }
 
 // ---------- report ----------
-const TERMINAL = new Set(['merged', 'done', 'failed', 'skipped', 'blocked', 'needs-ivan']);
+const TERMINAL = new Set(['merged', 'done', 'failed', 'skipped', 'blocked', 'needs-ivan', 'backlog']); // backlog (заказ Ивана 2026-09-18 03:59): задача заведена, но не в очереди — в работу только cmd launch
 export const isTerminal = (st) => TERMINAL.has(st);
 export function writeReport(cfg, tasks, state) {
   const S = state.tasks; const rows = tasks.tasks;

@@ -1,8 +1,8 @@
 # Отчёт дня — магазин Оксаны Черкашиной на upready-store
-Обновлено 2026-09-16 21:49 WITA диспетчером (тик 2359; работает). UI: http://localhost:5390
+Обновлено 2026-09-18 04:21 WITA диспетчером (тик 2446; работает). UI: http://localhost:5390
 
 ## Сводка
-merged: 80 · done: 17 · blocked: 1
+merged: 82 · done: 17 · blocked: 8 · backlog: 9
 
 ## Что посмотреть Ивану
 - t01-checkout-thankyou «Чинить «Application error» на странице «Спасибо» после оплаты» — PR https://github.com/ivanprotsko/upready-store/pull/22 (merged)
@@ -752,6 +752,13 @@ merged: 80 · done: 17 · blocked: 1
 - d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/health-post.txt
 - d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/markers.txt
 - d09-deploy-integrations: file:///Users/ivanprotsko/upready/projects/upready-store/artifacts/docs/d09-deploy-integrations/backend-boot.log
+- p02-operator-v1 «Оператор Э1: Иван пишет в UI очереди дня, скрипты отвечают документом с источниками (индекс корпуса FTS5, ask/gate, разбор промпта haiku по схеме, страница «Оператор», LaunchAgent)» — PR https://github.com/ivanprotsko/upready-store/pull/101 (merged)
+- p02-operator-v1: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-p02-operator-v1-1/measurements.md
+- l01-storefront-dev-compile «Локальный стенд: витрина в dev-режиме падает на компиляции — apps/storefront/src/lib/data/products.ts:101 «export type {…}» в файле серверных действий (Turbopack: Ecmascript file had an error), /ru отвечает 500; вынести type-реэкспорт из файла «use server»» — PR https://github.com/ivanprotsko/upready-store/pull/102 (merged)
+- l01-storefront-dev-compile: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/report.md
+- l01-storefront-dev-compile: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/dev-8047.log
+- l01-storefront-dev-compile: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/next-build.tail.log
+- l01-storefront-dev-compile: file:///Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/accept-l01-storefront-dev-compile-1/vitest.log
 - живой адрес: https://cherkashino.shipshift.dev/ru — витрина магазина Оксаны (после x01; сейчас 502, тенанта ещё нет)
 - живой адрес: https://panel-store.upready.dev — панель владельца магазина
 - живой адрес: https://start.upready.dev/start/onboarding — мастер создания магазина
@@ -760,6 +767,13 @@ merged: 80 · done: 17 · blocked: 1
 
 ## Требует внимания
 - b16-media-and-backup «Пачка: медиа магазина без бэкапа и без S3, 30 клонов базы съели диск машины разработки» — blocked: ждёт Ивана: бакет R2 (needs-ivan B2) и OK на удаление клонов баз upready_store_* (правило 9); снять — cmd launch b16-media-and-backup
+- q04-live-checkout-check «Минимум релиза: живая проверка глазами покупателя на cherkashino.shipshift.dev — каталог → товар → корзина → чекаут → Robokassa (тест) → СДЭК → страница успешного заказа → личный кабинет; список дефектов» — blocked: бэклог минимума релиза: ждёт «делай q04» Ивана и промпта штаба (sonnet)
+- y01-yandex-id-prod «Минимум релиза: включить вход через Яндекс ID на проде (YANDEX_LOGIN_ENABLED и ключи OAuth-приложения в окружении стенда, redirect URI, перезапуск mt-storefront/mt-backend по OK Ивана)» — blocked: ключи ЕСТЬ: YANDEX_CLIENT_ID и YANDEX_CLIENT_SECRET лежат в .env.cherkashino (ответ Ивана от 2026-09-17 20:22 WITA, п. 7.1; штаб ранее ошибочно писал «не найдено»); ждёт «делай y01» + OK на перезапуск контейнеров стенда (INFRA_OK); в промпт — redirect URI прода для OAuth-приложения
+- r03-requisites-oksana «Реквизиты для боевого контура: Robokassa (боевой магазин), СДЭК (договор, боевые ключи; тестовые дают 401), реальный e-mail Оксаны, ключ Ozon — по письму artifacts/r02-handover/for-oksana.md» — blocked: ответ Ивана от 2026-09-17 21:11 WITA: писем Оксане не пишем (заказа не было, r02 — инициатива штаба); реквизиты для оферты и правовых страниц даст Иван сам; задача ждёт его данных, воркеру делать нечего
+- p03-wb-card-matching «Сопоставление карточек WB с каталогом по штрихкоду и названию с ручным выбором (сейчас 0 из 423) + двойной заголовок /settings/marketplaces/wildberries» — blocked: вне минимума первого релиза (заказ Ивана от 01:44) — по слову Ивана
+- s01-smtp-self-hosted «SMTP на своём сервере (Postfix + DKIM/SPF/DMARC, rDNS Contabo) и тестовое письмо Ивану — после решения e01, изменения хоста только по OK Ивана» — blocked: после e01 и OK Ивана на изменение хоста
+- r04-robokassa-result-pages «Экраны результата оплаты Robokassa: страницы успеха и неуспеха после редиректа с robokassa.ru — по-русски, полные по содержанию, в стиле витрины (проверка на тестовых платежах)» — blocked: ждёт «делай r04»: сначала Иван прогоняет тестовые оплаты (ответ Ивана от 2026-09-17 20:22 WITA, п. 6.5.2); модель sonnet, opus только по OK Ивана (оплата)
+- k01-ui-keys-leak-audit «Аудит утечки секретов из UI: ключ WB и другие ключи, введённые в панели владельца или админке, не должны возвращаться на фронт, в store-API и в логи (панель, витрина, бэкенд)» — blocked: ждёт «делай k01» (заказ Ивана от 2026-09-17 20:22 WITA, п. 6.6.1: проверить, что ключ WB и другие ключи из UI не утекают)
 
 ## Задачи (порядок = приоритет; зависимости в скобках)
 | # | id | задача | полоса | модель/усилие | ветка | статус | PR | попытки | начало |
@@ -862,49 +876,65 @@ merged: 80 · done: 17 · blocked: 1
 | 99 | d08-deploy-wave6 | Деплой волны дня на живой хост: маркетплейсы, страница товара, блог, Robokassa, ApiShip/CDEK, карта ПВЗ и подсказки адреса, форма ключей; настройка cherkashino через панель в тестовом режиме (после w24-integration-keys-self-service, i02-apiship-cdek-shipping, i03-checkout-pvz-map-address-suggest, b18-blog-full, i01-robokassa-checkout, b17-pdp-gallery-info-layout, w21-wb-write-stocks-prices, w22-wb-write-feedback-answers, w19-mp-analytics) | deploy | opus/high | feat/day16-deploy-wave6 | **merged** | [#99](https://github.com/ivanprotsko/upready-store/pull/99) | 1 | 2026-09-16 13:44 WITA |
 | 99 | p01-settings-integrations-restructure | Реорганизация настроек панели: «Подключение» = /settings/integrations/{wildberries,ozon,robokassa,apiship,cdek} только с реквизитами; страницы маркетплейсов /settings/marketplaces/{wildberries,ozon}; в сайдбаре ни одного пункта с якорем # | build | opus/high | feat/day16-settings-integrations-restructure | **merged** | [#100](https://github.com/ivanprotsko/upready-store/pull/100) | 1 | 2026-09-16 20:25 WITA |
 | 99 | d09-deploy-integrations | Деплой волны p01 (реорганизация настроек) на живой хост cherkashino.shipshift.dev / panel-store.upready.dev с сохранением ключа WB, введённого Иваном (после p01-settings-integrations-restructure) | deploy | opus/high | feat/day16-deploy-integrations | **done** |  | 1 | 2026-09-16 21:27 WITA |
+| 99 | p02-operator-v1 | Оператор Э1: Иван пишет в UI очереди дня, скрипты отвечают документом с источниками (индекс корпуса FTS5, ask/gate, разбор промпта haiku по схеме, страница «Оператор», LaunchAgent) | build | opus/high | feat/day16-operator-v1 | **merged** | [#101](https://github.com/ivanprotsko/upready-store/pull/101) | 1 | 2026-09-16 23:29 WITA |
+| 96 | q04-live-checkout-check | Минимум релиза: живая проверка глазами покупателя на cherkashino.shipshift.dev — каталог → товар → корзина → чекаут → Robokassa (тест) → СДЭК → страница успешного заказа → личный кабинет; список дефектов | qa | sonnet/medium | feat/day17-live-checkout-check | **blocked** |  | 0 |  |
+| 95 | y01-yandex-id-prod | Минимум релиза: включить вход через Яндекс ID на проде (YANDEX_LOGIN_ENABLED и ключи OAuth-приложения в окружении стенда, redirect URI, перезапуск mt-storefront/mt-backend по OK Ивана) | deploy | sonnet/medium | feat/day17-yandex-id-prod | **blocked** |  | 0 |  |
+| 94 | r03-requisites-oksana | Реквизиты для боевого контура: Robokassa (боевой магазин), СДЭК (договор, боевые ключи; тестовые дают 401), реальный e-mail Оксаны, ключ Ozon — по письму artifacts/r02-handover/for-oksana.md | data | haiku/low | feat/day17-requisites | **blocked** |  | 0 |  |
+| 60 | p03-wb-card-matching | Сопоставление карточек WB с каталогом по штрихкоду и названию с ручным выбором (сейчас 0 из 423) + двойной заголовок /settings/marketplaces/wildberries | build | sonnet/high | feat/day17-wb-card-matching | **blocked** |  | 0 |  |
+| 58 | o01-ozon-key-instruction | Инструкция для Оксаны (нетехническая, как для Wildberries): где взять ключ API Ozon и какие настройки выбрать при создании — HTML в artifacts/docs | data | sonnet/medium | feat/day17-ozon-key-instruction | **backlog** |  | 0 |  |
+| 56 | e01-email-and-phone-auth-research | Исследование: сервисы рассылок РФ (в т.ч. sendsay.ru — партнёрские условия с подписью в письмах и разделом «партнёры», оплата постфактум), сервис с бесплатными письмами авторизации, нужны ли письма о заказе при чеках Robokassa, авторизация по номеру телефона: сервисы, цена, подключение | data | sonnet/medium | feat/day17-email-research | **backlog** |  | 0 |  |
+| 54 | s01-smtp-self-hosted | SMTP на своём сервере (Postfix + DKIM/SPF/DMARC, rDNS Contabo) и тестовое письмо Ивану — после решения e01, изменения хоста только по OK Ивана (после e01-email-and-phone-auth-research) | build | sonnet/high | feat/day17-smtp-self-hosted | **blocked** |  | 0 |  |
+| 97 | l01-storefront-dev-compile | Локальный стенд: витрина в dev-режиме падает на компиляции — apps/storefront/src/lib/data/products.ts:101 «export type {…}» в файле серверных действий (Turbopack: Ecmascript file had an error), /ru отвечает 500; вынести type-реэкспорт из файла «use server» | build | sonnet/low | feat/day17-storefront-dev-compile | **merged** | [#102](https://github.com/ivanprotsko/upready-store/pull/102) | 1 | 2026-09-17 21:19 WITA |
+| 93 | r04-robokassa-result-pages | Экраны результата оплаты Robokassa: страницы успеха и неуспеха после редиректа с robokassa.ru — по-русски, полные по содержанию, в стиле витрины (проверка на тестовых платежах) | build | sonnet/high | feat/day17-storefront-dev-compile | **blocked** |  | 0 |  |
+| 90 | k01-ui-keys-leak-audit | Аудит утечки секретов из UI: ключ WB и другие ключи, введённые в панели владельца или админке, не должны возвращаться на фронт, в store-API и в логи (панель, витрина, бэкенд) | qa | sonnet/medium | feat/day17-storefront-dev-compile | **blocked** |  | 0 |  |
+| 60 | g01-store-glossary | Глоссарий upready-store по стандарту словарей: glossary/index.md + файл на термин, ≥40 записей из кода, панели и документов дня; таблица расхождений подписей панели → применение: подписи панели (18e), инструкции Оксане, Terminus, промпты воркеров | build | sonnet/medium | feat/day18-store-glossary | **backlog** |  | 0 |  |
+| 62 | pf01-upready-dev-portfolio-texts | Тексты портфолио upready.dev: 6–8 кейсов (EN+RU) из памяти и HANDOFF проектов, только измеренные результаты с источниками → применение: раздел портфолио upready.dev | data | sonnet/high | /Users/ivanprotsko/upready/projects/upready.dev | **backlog** |  | 0 |  |
+| 63 | pf02-ivanprotsko-com-portfolio-texts | Тексты портфолио ivanprotsko.com: 4 оффера по сегментам, 4–6 кейсов, текст диагностики /start (EN+RU) по оффер-архитектуре из памяти → применение: ivanprotsko.com | data | sonnet/high | /Users/ivanprotsko/upready/projects/ivanprotsko.com | **backlog** |  | 0 |  |
+| 64 | m01-models-landscape-research | Исследование: какие модели (openai, deepseek, gemini, коммерческие, open-weight) полезны для 6 типов наших задач — таблица цена/контекст/доступ/подтверждение по первоисточникам → применение: поле model в tasks.json, приёмщик, исследования | data | sonnet/medium |  | **backlog** |  | 0 |  |
+| 65 | m02-subscription-quota-vs-api-research | Исследование: подписки (ChatGPT/Codex, Google AI Pro/Ultra, Copilot, Cursor, Windsurf, xAI, Mistral, DeepSeek, Kimi) с квотой значительно выше API-эквивалента — цена, что входит, CLI/API по подписке, эквивалент по цене API → применение: раннер диспетчера claude/agy/codex | data | sonnet/medium |  | **backlog** |  | 0 |  |
+| 66 | m03-local-opensource-models-m1-research | Исследование: локальные open-weight модели против sonnet/opus/fable и какие из них запустятся на MacBook Pro M1 16" 16 GB для ночных прогонов (фаза A кабинетная; фаза B замер на машине — по слову Ивана) → применение: тесты и моки, классификация, черновики | data | sonnet/medium |  | **backlog** |  | 0 |  |
+| 61 | m04-model-eval-plan | План теста моделей на наборе 30 задач дня в изолированном окружении (worktree + клон БД + машинная приёмка + фиксированный приёмщик), расчёт объёма набора, правило допуска модели в tasks.json — обязателен для будущих deepseek/openai/gemini → применение: диспетчер, правило 5e | data | sonnet/medium |  | **backlog** |  | 0 |  |
 
 ## Последние события
-- 2026-09-16 21:48 WITA ·  · all-terminal: DONE
-- 2026-09-16 21:46 WITA · d09-deploy-integrations · done: RESULT: OK деплой 3859e6b8 (p01, PR #100) — ключ WB Ивана пережил деплой и показан как «подключено ••••c6Sg, только чтение, до 17.03.2027»; миграция apiship применена, секретов 3 до и 3 после, старые 
-- 2026-09-16 21:36 WITA · p01-settings-integrations-restructure · worker-closed: терминал 3460d974-16b2-4c22-9c3f-17c7b176e646 закрыт по таймауту /compact (8 мин); хвост экрана: ────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-settings-integrations-restructure (feat/day16-settings-integrations-restructure) | Opus 5 | ctx 54% ⏎   ⏵⏵ bypass permissions on · 1 shell · ← 4 agents
-- 2026-09-16 21:27 WITA · d09-deploy-integrations · launched: claude -p pid 1889 · opus/high · cwd /Users/ivanprotsko/upready/projects/upready-store
-- 2026-09-16 21:27 WITA · p01-settings-integrations-restructure · merged: https://github.com/ivanprotsko/upready-store/pull/100 (приёмка раунд 1)
-- 2026-09-16 21:27 WITA · p01-settings-integrations-restructure · compact-sent: терминал 3460d974-16b2-4c22-9c3f-17c7b176e646, ветка feat/day16-settings-integrations-restructure
-- 2026-09-16 21:20 WITA · p01-settings-integrations-restructure · accept-started: раунд 1, PR #100, pid 41773
-- 2026-09-16 21:17 WITA · p01-settings-integrations-restructure · pr-open: https://github.com/ivanprotsko/upready-store/pull/100
-- 2026-09-16 20:25 WITA · p01-settings-integrations-restructure · launched: ws 6704755b-ecae-4fa8-9a54-4a19e5c82599 · opus/high · feat/day16-settings-integrations-restructure
-- 2026-09-16 20:25 WITA · d08-deploy-wave6 · worker-closed: терминал ab093b2b-b788-44dc-8a63-1022c2927576 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-deploy-wave6 (feat/day16-deploy-wave6) | Opus 5 | ctx 64% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 15:01 WITA ·  · all-terminal: DONE
-- 2026-09-16 14:59 WITA · d08-deploy-wave6 · merged: https://github.com/ivanprotsko/upready-store/pull/99 (приёмка раунд 1)
-- 2026-09-16 14:59 WITA · d08-deploy-wave6 · compact-sent: терминал ab093b2b-b788-44dc-8a63-1022c2927576, ветка feat/day16-deploy-wave6
-- 2026-09-16 14:51 WITA · d08-deploy-wave6 · accept-started: раунд 1, PR #99, pid 16438
-- 2026-09-16 14:48 WITA · d08-deploy-wave6 · pr-open: https://github.com/ivanprotsko/upready-store/pull/99
-- 2026-09-16 13:49 WITA · i03-checkout-pvz-map-address-suggest · worker-closed: терминал 7f3058c4-b895-4a13-bc24-db417507c875 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-checkout-pvz-map-suggest (feat/day16-checkout-pvz-map-suggest) | Opus 5 | ctx 61% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 13:44 WITA · d08-deploy-wave6 · launched: ws 7a8a31a3-edd6-4115-944f-4c678491a4d4 · opus/high · feat/day16-deploy-wave6
-- 2026-09-16 13:42 WITA ·  · all-terminal: DONE
-- 2026-09-16 13:40 WITA · i03-checkout-pvz-map-address-suggest · merged: https://github.com/ivanprotsko/upready-store/pull/98 (приёмка раунд 1)
-- 2026-09-16 13:40 WITA · i03-checkout-pvz-map-address-suggest · compact-sent: терминал 7f3058c4-b895-4a13-bc24-db417507c875, ветка feat/day16-checkout-pvz-map-suggest
-- 2026-09-16 13:31 WITA · i03-checkout-pvz-map-address-suggest · accept-started: раунд 1, PR #98, pid 99121
-- 2026-09-16 13:29 WITA · i03-checkout-pvz-map-address-suggest · pr-open: https://github.com/ivanprotsko/upready-store/pull/98
-- 2026-09-16 13:00 WITA · r04-out-of-the-box-onboarding · worker-closed: терминал c322cc01-f872-489d-aaf3-d607d79ad99b закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-out-of-the-box-onboarding (feat/day16-out-of-the-box-onboarding) | Opus 5 | ctx 63% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:57 WITA · w24-integration-keys-self-service · worker-closed: терминал 604ad303-a5fd-4fcf-8e71-e7e996d8ec57 закрыт по таймауту /compact (8 мин); хвост экрана: ─────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-integration-keys-self-service (feat/day16-integration-keys-self-service) | Opus 5 | ctx 59% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:51 WITA · r04-out-of-the-box-onboarding · merged: https://github.com/ivanprotsko/upready-store/pull/97 (приёмка раунд 1)
-- 2026-09-16 12:51 WITA · r04-out-of-the-box-onboarding · compact-sent: терминал c322cc01-f872-489d-aaf3-d607d79ad99b, ветка feat/day16-out-of-the-box-onboarding
-- 2026-09-16 12:49 WITA · w24-integration-keys-self-service · merged: https://github.com/ivanprotsko/upready-store/pull/96 (приёмка раунд 1)
-- 2026-09-16 12:49 WITA · w24-integration-keys-self-service · compact-sent: терминал 604ad303-a5fd-4fcf-8e71-e7e996d8ec57, ветка feat/day16-integration-keys-self-service
-- 2026-09-16 12:47 WITA · r04-out-of-the-box-onboarding · accept-started: раунд 1, PR #97, pid 37890
-- 2026-09-16 12:42 WITA · r04-out-of-the-box-onboarding · pr-open: https://github.com/ivanprotsko/upready-store/pull/97
-- 2026-09-16 12:40 WITA · w24-integration-keys-self-service · accept-started: раунд 1, PR #96, pid 78251
-- 2026-09-16 12:40 WITA · w24-integration-keys-self-service · pr-open: https://github.com/ivanprotsko/upready-store/pull/96
-- 2026-09-16 12:39 WITA · i02-apiship-cdek-shipping · worker-closed: терминал 1643ff88-d34e-40f1-bbf3-694ce53fb7c8 закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-apiship-cdek-shipping (feat/day16-apiship-cdek-shipping) | Opus 5 | ctx 46% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:31 WITA · i03-checkout-pvz-map-address-suggest · launched: ws c6d62feb-e9f8-4d86-af43-aed937ce28e3 · opus/high · feat/day16-checkout-pvz-map-suggest
-- 2026-09-16 12:30 WITA · i02-apiship-cdek-shipping · merged: https://github.com/ivanprotsko/upready-store/pull/94 (приёмка раунд 1)
-- 2026-09-16 12:30 WITA · i02-apiship-cdek-shipping · compact-sent: терминал 1643ff88-d34e-40f1-bbf3-694ce53fb7c8, ветка feat/day16-apiship-cdek-shipping
-- 2026-09-16 12:26 WITA · w19-mp-analytics · worker-closed: терминал e9736c9c-4742-4359-b6ea-cf523bc15eda закрыт после /compact (по экрану)
-- 2026-09-16 12:23 WITA · w21-wb-write-stocks-prices · worker-closed: терминал 3b5a6da5-603e-43f6-829d-ec3dc0649319 закрыт по таймауту /compact (8 мин); хвост экрана: ───────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-wb-write-stocks-prices (feat/day16-wb-write-stocks-prices) | Opus 5 | ctx 44% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
-- 2026-09-16 12:23 WITA · w19-mp-analytics · merged: https://github.com/ivanprotsko/upready-store/pull/95 (приёмка раунд 1)
-- 2026-09-16 12:23 WITA · w19-mp-analytics · compact-sent: терминал e9736c9c-4742-4359-b6ea-cf523bc15eda, ветка feat/day16-mp-analytics
+- 2026-09-18 04:21 WITA ·  · all-terminal: DONE
+- 2026-09-18 04:21 WITA · l01-storefront-dev-compile · worker-closed: терминал 446b70a4-0760-4d24-a26d-4c0d8b0be735 закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day17-storefront-dev-compile (feat/day17-storefront-dev-compile) | Sonnet 5 | ctx 85% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
+- 2026-09-18 04:21 WITA · o01-ozon-key-instruction · command: set-task
+- 2026-09-18 04:21 WITA · o01-ozon-key-instruction · set-task: правка по команде: status, error, note
+- 2026-09-18 04:21 WITA · e01-email-and-phone-auth-research · command: set-task
+- 2026-09-18 04:21 WITA · e01-email-and-phone-auth-research · set-task: правка по команде: status, error, note
+- 2026-09-17 21:36 WITA ·  · all-terminal: DONE
+- 2026-09-17 21:34 WITA · l01-storefront-dev-compile · merged: https://github.com/ivanprotsko/upready-store/pull/102 (приёмка раунд 1)
+- 2026-09-17 21:34 WITA · l01-storefront-dev-compile · compact-sent: терминал 446b70a4-0760-4d24-a26d-4c0d8b0be735, ветка feat/day17-storefront-dev-compile
+- 2026-09-17 21:29 WITA · l01-storefront-dev-compile · accept-started: раунд 1, PR #102, pid 27882
+- 2026-09-17 21:25 WITA · l01-storefront-dev-compile · pr-open: https://github.com/ivanprotsko/upready-store/pull/102
+- 2026-09-17 21:19 WITA · l01-storefront-dev-compile · launched: ws 317f4157-fa3b-4937-a67d-1f3ace54d8f5 · sonnet/low · feat/day17-storefront-dev-compile
+- 2026-09-17 21:19 WITA · l01-storefront-dev-compile · command: set-task
+- 2026-09-17 21:19 WITA · l01-storefront-dev-compile · set-task: правка по команде: status, note
+- 2026-09-17 21:14 WITA ·  · all-terminal: DONE
+- 2026-09-17 21:14 WITA ·  · command: resume
+- 2026-09-17 21:14 WITA ·  · all-terminal: DONE
+- 2026-09-17 21:14 WITA · r03-requisites-oksana · command: set-task
+- 2026-09-17 21:14 WITA · r03-requisites-oksana · set-task: правка по команде: note
+- 2026-09-17 20:29 WITA ·  · all-terminal: DONE
+- 2026-09-17 20:29 WITA ·  · command: resume
+- 2026-09-17 20:29 WITA ·  · all-terminal: DONE
+- 2026-09-17 20:29 WITA · r03-requisites-oksana · command: set-task
+- 2026-09-17 20:29 WITA · r03-requisites-oksana · set-task: правка по команде: note
+- 2026-09-17 20:29 WITA · y01-yandex-id-prod · command: set-task
+- 2026-09-17 20:29 WITA · y01-yandex-id-prod · set-task: правка по команде: note
+- 2026-09-17 20:29 WITA · k01-ui-keys-leak-audit · command: set-task
+- 2026-09-17 20:29 WITA · k01-ui-keys-leak-audit · set-task: правка по команде: status, note
+- 2026-09-17 20:29 WITA · r04-robokassa-result-pages · command: set-task
+- 2026-09-17 20:29 WITA · r04-robokassa-result-pages · set-task: правка по команде: status, note
+- 2026-09-17 01:55 WITA ·  · all-terminal: DONE
+- 2026-09-17 01:55 WITA ·  · command: resume
+- 2026-09-17 01:55 WITA ·  · all-terminal: DONE
+- 2026-09-17 01:55 WITA · l01-storefront-dev-compile · command: set-task
+- 2026-09-17 01:55 WITA · l01-storefront-dev-compile · set-task: правка по команде: status, error, note
+- 2026-09-17 01:50 WITA ·  · all-terminal: DONE
+- 2026-09-17 01:50 WITA ·  · command: resume
+- 2026-09-17 01:50 WITA ·  · all-terminal: DONE
+- 2026-09-17 01:50 WITA · p02-operator-v1 · worker-closed: терминал 06e7b09e-954b-466b-be21-ce057fec4f12 закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────────────────────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day16-operator-v1 (feat/day16-operator-v1) | Opus 5 | ctx 64% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents
+- 2026-09-17 01:50 WITA · q04-live-checkout-check · command: set-task
 
 Журнал: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/logs/dispatcher.jsonl · состояние: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/state.json · очередь: /Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/tasks.json
-
-- 2026-09-16 21:51 WITA: p01 смёржен (PR #100, приёмка раунд 1), d09 задеплоил 3859e6b8: ключ WB Ивана пережил деплой («подключено ••••c6Sg», только чтение, до 17.03.2027), миграция apiship применена, секретов тенанта 3 → 3; старые копии двух переименованных файлов панели сняты с хоста после сверки md5 с блобами коммита (rsync без --delete не переносит переименование — сухой прогон `rsync -anv --delete` теперь часть процедуры деплоя). Сторож очереди вышел по DONE: merged 80, done 17, blocked 1 (b16 — у Ивана). Штаб посмотрел кадры 05 и 03 глазами: хаб /settings/integrations — пять служб, «Подключение» отдельным пунктом сайдбара, якорей нет. Находки на живом экране /settings/marketplaces/wildberries: (а) сопоставление карточек WB с каталогом 0 из 423 — артикулы площадки не равны SKU каталога Оксаны, нужна отдельная задача (сопоставление по штрихкоду/названию или ручной выбор); (б) заголовок «Wildberries — данные едут только в одну сторону» показан дважды подряд (шапка страницы и шапка карточки) — мелкий дефект вёрстки. Отчёт: artifacts/docs/d09-deploy-integrations/report.md (§4 rsync, §9 не доказано, §10 Ивану).

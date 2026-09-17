@@ -3,10 +3,10 @@
     "paused": false,
     "limitUntil": null,
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-17T13:37:04.391Z",
-    "pid": 59625,
-    "ticks": 2445,
-    "allTerminalTicks": 3
+    "lastTick": "2026-09-17T20:21:05.082Z",
+    "pid": 32349,
+    "ticks": 2446,
+    "allTerminalTicks": 4
   },
   "tasks": {
     "t01-checkout-thankyou": {
@@ -4491,18 +4491,18 @@
       "note": "вне минимума первого релиза (заказ Ивана от 01:44) — по слову Ивана"
     },
     "o01-ozon-key-instruction": {
-      "status": "blocked",
+      "status": "backlog",
       "attempt": 0,
       "artifacts": [],
       "error": null,
-      "note": "вне минимума первого релиза (заказ Ивана от 01:44) — по слову Ивана"
+      "note": "бэклог исследований и документов (заказ Ивана от 2026-09-18 03:59 WITA, п. 1.1); прежняя причина: вне минимума первого релиза (заказ от 01:44) — запуск по слову Ивана"
     },
     "e01-email-and-phone-auth-research": {
-      "status": "blocked",
+      "status": "backlog",
       "attempt": 0,
       "artifacts": [],
       "error": null,
-      "note": "вне минимума первого релиза (заказ Ивана от 01:44) — по слову Ивана"
+      "note": "бэклог исследований и документов (заказ Ивана от 2026-09-18 03:59 WITA, п. 1.1); прежняя причина: вне минимума первого релиза (заказ от 01:44) — запуск по слову Ивана"
     },
     "s01-smtp-self-hosted": {
       "status": "blocked",
@@ -4555,7 +4555,8 @@
         }
       ],
       "finishedAt": "2026-09-17T13:34:05.178Z",
-      "compactSentAt": "2026-09-17T13:34:07.371Z"
+      "compactSentAt": "2026-09-17T13:34:07.371Z",
+      "closedAt": "2026-09-17T20:21:07.669Z"
     },
     "r04-robokassa-result-pages": {
       "status": "blocked",
@@ -4568,45 +4569,44 @@
       "attempt": 0,
       "artifacts": [],
       "note": "ждёт «делай k01» (заказ Ивана от 2026-09-17 20:22 WITA, п. 6.6.1: проверить, что ключ WB и другие ключи из UI не утекают)"
+    },
+    "g01-store-glossary": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "pf01-upready-dev-portfolio-texts": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "pf02-ivanprotsko-com-portfolio-texts": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "m01-models-landscape-research": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "m02-subscription-quota-vs-api-research": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "m03-local-opensource-models-m1-research": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
+    },
+    "m04-model-eval-plan": {
+      "status": "backlog",
+      "attempt": 0,
+      "artifacts": []
     }
   },
   "events": [
-    {
-      "ts": "2026-09-15T18:20:26.379Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:21:26.195Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:22:26.305Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:23:26.589Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:24:26.205Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:25:26.574Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
     {
       "ts": "2026-09-15T18:26:26.803Z",
       "type": "limit",
@@ -6954,6 +6954,41 @@
     },
     {
       "ts": "2026-09-17T13:36:06.584Z",
+      "type": "all-terminal",
+      "msg": "DONE"
+    },
+    {
+      "ts": "2026-09-17T20:21:05.084Z",
+      "task": "e01-email-and-phone-auth-research",
+      "type": "set-task",
+      "msg": "правка по команде: status, error, note"
+    },
+    {
+      "ts": "2026-09-17T20:21:05.085Z",
+      "type": "command",
+      "task": "e01-email-and-phone-auth-research",
+      "msg": "set-task"
+    },
+    {
+      "ts": "2026-09-17T20:21:05.085Z",
+      "task": "o01-ozon-key-instruction",
+      "type": "set-task",
+      "msg": "правка по команде: status, error, note"
+    },
+    {
+      "ts": "2026-09-17T20:21:05.085Z",
+      "type": "command",
+      "task": "o01-ozon-key-instruction",
+      "msg": "set-task"
+    },
+    {
+      "ts": "2026-09-17T20:21:07.670Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "worker-closed",
+      "msg": "терминал 446b70a4-0760-4d24-a26d-4c0d8b0be735 закрыт по таймауту /compact (8 мин); хвост экрана: ─────────────────── ⏎ ❯  ⏎ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏎   day17-storefront-dev-compile (feat/day17-storefront-dev-compile) | Sonnet 5 | ctx 85% ⏎   ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents"
+    },
+    {
+      "ts": "2026-09-17T20:21:07.791Z",
       "type": "all-terminal",
       "msg": "DONE"
     }
