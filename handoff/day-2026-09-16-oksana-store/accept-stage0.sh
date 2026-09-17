@@ -136,6 +136,7 @@ PR_BODY="$(node -e 'const fs=require("node:fs");const j=JSON.parse(fs.readFileSy
 
 with_timeout "$GH_TIMEOUT" gh pr diff "$PR_NUMBER" > "$OUT/pr.diff" 2>"$OUT/checks/gh-diff.err"
 DIFF_RC=$?
+DIFF_SRC="gh pr diff $PR_NUMBER"
 
 # ── проверка pr: не CONFLICTING и не позади базы ──────────────────────────────────────────────
 PR_DETAILS="mergeable=$MERGEABLE mergeStateStatus=$MERGE_STATE head=$HEAD_REF base=$BASE"
@@ -159,8 +160,18 @@ fi
 rec pr "$PR_STATUS" "$PR_DETAILS"
 
 if [ "$DIFF_RC" -ne 0 ]; then
-  rec diff fail "gh pr diff $PR_NUMBER: rc=$DIFF_RC, $(tr '\n' ' ' <"$OUT/checks/gh-diff.err" | cut -c1-200)"
-  finish
+  # Квота GitHub API — одна на все инструменты и бывает исчерпана целиком (замер 2026-09-18 06:24 WITA:
+  # `gh pr diff` → HTTP 403 «API rate limit exceeded» при живом `gh pr view`). Дифф PR — это ровно
+  # `git diff <base>...<head>` (merge-base..head), его берём локально и в квоту API не ходим.
+  GH_ERR="$(tr '\n' ' ' <"$OUT/checks/gh-diff.err" | cut -c1-160)"
+  if with_timeout "$FETCH_TIMEOUT" git fetch --quiet "$REMOTE" "$BASE" "$HEAD_REF" >/dev/null 2>&1 &&
+     with_timeout 120 git diff "$REMOTE/$BASE...$REMOTE/$HEAD_REF" > "$OUT/pr.diff" 2>>"$OUT/checks/gh-diff.err"; then
+    DIFF_RC=0
+    DIFF_SRC="git diff $REMOTE/$BASE...$REMOTE/$HEAD_REF (gh pr diff недоступен: $GH_ERR)"
+  else
+    rec diff fail "ни gh pr diff, ни git diff $REMOTE/$BASE...$REMOTE/$HEAD_REF не дали дифф: $GH_ERR"
+    finish
+  fi
 fi
 
 SCAN="$OUT/.stage0-scan.json"
@@ -170,7 +181,7 @@ if ! node "$HERE/stage0-scan.mjs" "$OUT/pr.diff" > "$SCAN" 2>"$OUT/checks/scan.e
 fi
 FILES="$(node -e 'const j=require(process.argv[1]);process.stdout.write(j.files.join("\n"))' "$SCAN")"
 ADDED="$(node -e 'const j=require(process.argv[1]);process.stdout.write(String(j.added))' "$SCAN")"
-rec diff pass "файлов $(printf '%s\n' "$FILES" | grep -c . | tr -d ' '), добавленных строк $ADDED"
+rec diff pass "источник: $DIFF_SRC · файлов $(printf '%s\n' "$FILES" | grep -c . | tr -d ' '), добавленных строк $ADDED"
 
 # ── проверка forbidden: общий журнал дня и файлы движка ───────────────────────────────────────
 FORBIDDEN="$(printf '%s\n' "$FILES" | grep -E '(^|/)HANDOFF\.json$|^handoff/[^/]+/(state|tasks)\.json$' || true)"

@@ -85,12 +85,12 @@ const MERGEABLE = (n = 11, extra = {}) => ({
   body: 'обычное тело PR', url: `https://example.invalid/pr/${n}`, ...extra,
 })
 
-function world(tag, { diff, view }) {
+function world(tag, { diff, view, diffFails = false }) {
   const w = makeWorld(tag)
   commit(w.work, 'apps/feature.txt', 'работа воркера\n', 'feat: работа')
   git(w.work, ['push', '--quiet', '-u', 'origin', w.branch])
   const head = git(w.work, ['rev-parse', 'HEAD'])
-  const stub = ghStub(w, { views: [{ ...view, headRefOid: head }], diff })
+  const stub = ghStub(w, { views: [{ ...view, headRefOid: head }], diff, diffFails })
   const out = path.join(w.root, 'round-1')
   return { w, stub, out, head }
 }
@@ -220,5 +220,17 @@ test('PR не читается (gh отвечает ошибкой) — это F
   assert.match(r.out, /STAGE0: FAIL pr/)
   const doc = JSON.parse(fs.readFileSync(path.join(ctx.out, 'stage0.json'), 'utf8'))
   assert.equal(doc.result, 'FAIL')
+  cleanup(ctx.w)
+})
+
+test('квота GitHub API исчерпана — дифф берётся локально из git, а не выдумывается', () => {
+  const ctx = world('stage0-api-limit', { diff: '', view: MERGEABLE(), diffFails: true })
+  const r = stage0(ctx)
+  assert.equal(r.rc, 0, r.out)
+  assert.match(r.out, /STAGE0 diff: pass источник: git diff origin\/dev\.\.\.origin\/feat\/pp01-fixture \(gh pr diff недоступен: .*rate limit/)
+  assert.match(r.out, /файлов 1, добавленных строк 1/)
+  assert.match(r.out, /STAGE0: PASS/)
+  const doc = JSON.parse(fs.readFileSync(path.join(ctx.out, 'stage0.json'), 'utf8'))
+  assert.equal(doc.checks.find((c) => c.check === 'diff').status, 'pass')
   cleanup(ctx.w)
 })

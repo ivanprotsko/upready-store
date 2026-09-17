@@ -78,12 +78,13 @@ export function advanceBase(world, rel, text, message = 'chore: база уех�
 
 // Шим `gh`: отвечает заготовленным JSON на `gh pr view` и заготовленным диффом на `gh pr diff`.
 // Несколько ответов подряд (views[]) моделируют GitHub, который сперва отдаёт mergeable=UNKNOWN.
-export function ghStub(world, { views = [], diff = '', noPr = false } = {}) {
+export function ghStub(world, { views = [], diff = '', noPr = false, diffFails = false } = {}) {
   const dir = path.join(world.root, 'gh-stub')
   const bin = path.join(world.root, 'bin')
   fs.mkdirSync(dir, { recursive: true })
   fs.mkdirSync(bin, { recursive: true })
   if (noPr) fs.writeFileSync(path.join(dir, 'no-pr'), '')
+  if (diffFails) fs.writeFileSync(path.join(dir, 'diff-fail'), '')
   views.forEach((v, i) => fs.writeFileSync(path.join(dir, `view-${i + 1}.json`), typeof v === 'string' ? v : JSON.stringify(v)))
   fs.writeFileSync(path.join(dir, 'diff.txt'), diff)
   const gh = path.join(bin, 'gh')
@@ -102,7 +103,11 @@ if [ "$1" = "pr" ] && [ "$2" = "view" ]; then
   cat "$f"
   exit 0
 fi
-if [ "$1" = "pr" ] && [ "$2" = "diff" ]; then cat "$D/diff.txt"; exit 0; fi
+if [ "$1" = "pr" ] && [ "$2" = "diff" ]; then
+  if [ -f "$D/diff-fail" ]; then printf 'could not find pull request diff: HTTP 403: API rate limit exceeded\\n' >&2; exit 1; fi
+  cat "$D/diff.txt"
+  exit 0
+fi
 printf 'gh stub: не поддержано: %s\\n' "$*" >&2
 exit 1
 `)
