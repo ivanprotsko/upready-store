@@ -117,10 +117,15 @@ exit 1
 
 export function runScript(script, args, { cwd, env = {}, binDir = null }) {
   const PATH = binDir ? `${binDir}:${process.env.PATH}` : process.env.PATH
+  // Семейства STAGE0_*/PRE_PR_*/GH_STUB_* вычищаются из унаследованного окружения: иначе сценарий
+  // «переменная не задана» мерит окружение ЗАПУСКАЮЩЕГО, а не сценарий. Поймано прогоном
+  // accept-stage0.sh над своим же PR: STAGE0_WORKTREE вызывающего утёк внутрь фикстуры и тест
+  // «worktree не задан» увидел чужой worktree (правило 19c — правил инструмент, прогони его).
+  const inherited = Object.fromEntries(Object.entries(process.env).filter(([k]) => !/^(?:STAGE0_|PRE_PR_|GH_STUB_)/.test(k)))
   const r = spawnSync('bash', [script, ...args], {
     cwd,
     encoding: 'utf8',
-    env: { ...process.env, ...IDENT, PATH, ...env },
+    env: { ...inherited, ...IDENT, PATH, ...env },
   })
   return { rc: r.status, out: `${r.stdout}${r.stderr}`, stdout: r.stdout, stderr: r.stderr }
 }
