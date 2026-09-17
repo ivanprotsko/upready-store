@@ -3,3 +3,6 @@ o01-ozon-key-instruction	gemini	gemini-3.1-pro-high	opus	1	REJECT	1	3	3	240.09	2
 g01-store-glossary	g01-store-glossary-gem	gemini-3.8-flash-high	claude-opus-5	1	REJECT	2	4	3	356.96	581711	86	n/a	2026-09-18 07:14 WITA
 e01-email-and-phone-auth-research	agy	gemini-3.8-flash-high	opus	1	REJECT	2	5	3	555.41	944288	86		2026-09-18 07:16 WITA
 pf01-upready-dev-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	1	4	4	248.38	606994	65		2026-09-18 07:23 WITA
+o01-ozon-key-instruction	o01-ozon-key-instruction-opus	claude-opus-5	claude-sonnet-5	2	ACCEPT	0	0	1	799.22	231000			2026-09-18 07:28 WITA
+pf02-ivanprotsko-com-portfolio-texts	gemini	gemini-3.8-flash-high	opus	1	REJECT	0	2	2	186.99	732542	56		2026-09-18 07:31 WITA
+pf01-upready-dev-portfolio-texts	pf01-upready-dev-portfolio-texts-opus	claude-sonnet-5	claude-sonnet-5	2	ACCEPT	0	1	1	373.0	31023			2026-09-18 07:36 WITA

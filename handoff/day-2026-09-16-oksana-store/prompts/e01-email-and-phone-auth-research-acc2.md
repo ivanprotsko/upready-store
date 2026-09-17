@@ -1,4 +1,4 @@
-## Acceptance of a pair-design run — task e01-email-and-phone-auth-research, executor claude/opus (pair comparison), acceptor opus, round 2
+## Acceptance of a pair-design run — task e01-email-and-phone-auth-research, executor claude/opus (pair comparison), acceptor {{MODEL}}, round 2
 
 You are the acceptor (design m04, Ivan's order 2026-09-18 05:36 WITA; models not below opus per his order 06:00 WITA, so the «same-level» executor of m04 is opus). Executor task: `e01-email-and-phone-auth-research-opus`; its working folder with deliverables and `SUMMARY.md`: `/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/agy-runs/e01-email-and-phone-auth-research-opus/`; its log: the highest-numbered `{{MISSION_DIR}}/logs/e01-email-and-phone-auth-research-opus-<N>.log`; its state: `{{MISSION_DIR}}/state.json` → `tasks["e01-email-and-phone-auth-research-opus"]` (`run.startedAt`, and for a Gemini run `run.agy`, `run.quotaBefore`, `run.quotaAfter`). The original brief: `{{MISSION_DIR}}/prompts/e01-email-and-phone-auth-research.md`. Acceptance criteria: отчёт в ~/upready/research/reports/ с таблицей сервисов, ценами и рекомендацией
 

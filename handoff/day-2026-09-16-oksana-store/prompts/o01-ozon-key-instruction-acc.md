@@ -1,4 +1,4 @@
-## Acceptance of a pair-design run — task o01-ozon-key-instruction, executor gemini-3.1-pro-high via agy, acceptor opus, round 1
+## Acceptance of a pair-design run — task o01-ozon-key-instruction, executor gemini-3.1-pro-high via agy, acceptor {{MODEL}}, round 1
 
 You are the acceptor (design m04, Ivan's order 2026-09-18 05:36 WITA; models not below opus per his order 06:00 WITA, so the «same-level» executor of m04 is opus). Executor task: `o01-ozon-key-instruction-gem`; its working folder with deliverables and `SUMMARY.md`: `/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/agy-runs/o01-ozon-key-instruction-gem/`; its log: the highest-numbered `{{MISSION_DIR}}/logs/o01-ozon-key-instruction-gem-<N>.log`; its state: `{{MISSION_DIR}}/state.json` → `tasks["o01-ozon-key-instruction-gem"]` (`run.startedAt`, and for a Gemini run `run.agy`, `run.quotaBefore`, `run.quotaAfter`). The original brief: `{{MISSION_DIR}}/prompts/o01-ozon-key-instruction.md`. Acceptance criteria: HTML открывается, шаги с названиями экранов из сохранённых копий документации (без походов на сайт документации)
 

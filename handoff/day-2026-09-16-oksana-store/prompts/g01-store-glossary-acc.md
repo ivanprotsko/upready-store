@@ -1,4 +1,4 @@
-## Acceptance of a pair-design run — task g01-store-glossary, executor gemini-3.8-flash-high via agy, acceptor opus, round 1
+## Acceptance of a pair-design run — task g01-store-glossary, executor gemini-3.8-flash-high via agy, acceptor {{MODEL}}, round 1
 
 You are the acceptor (design m04, Ivan's order 2026-09-18 05:36 WITA; models not below opus per his order 06:00 WITA, so the «same-level» executor of m04 is opus). Executor task: `g01-store-glossary-gem`; its working folder with deliverables and `SUMMARY.md`: `/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store/artifacts/agy-runs/g01-store-glossary-gem/`; its log: the highest-numbered `{{MISSION_DIR}}/logs/g01-store-glossary-gem-<N>.log`; its state: `{{MISSION_DIR}}/state.json` → `tasks["g01-store-glossary-gem"]` (`run.startedAt`, and for a Gemini run `run.agy`, `run.quotaBefore`, `run.quotaAfter`). The original brief: `{{MISSION_DIR}}/prompts/g01-store-glossary.md`. Acceptance criteria: glossary/index.md и ≥40 записей со всеми полями, «где используется» ведёт на существующий путь; glossary/check.mjs зелёный; в PR таблица 10 расхождений подписей панели
 
