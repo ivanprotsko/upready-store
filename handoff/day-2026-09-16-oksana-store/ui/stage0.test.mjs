@@ -38,14 +38,14 @@ test('сканер: подсаженный ключ в добавленной с
 })
 
 test('сканер: имя переменной без значения, подстановка и .env.example находкой не считаются', () => {
-  assert.equal(scan(diffOf('apps/backend/.env', ['YANDEX_ID_PASSWORD='])).secrets.length, 0)
+  assert.equal(scan(diffOf('apps/backend/.env', ['YANDEX_ID_PASSWORD='])).secrets.length, 0) // stage0:allow подсаженное значение для проверки сканера
   assert.equal(scan(diffOf('apps/backend/.env', ['ROBOKASSA_SECRET=${ROBOKASSA_SECRET}'])).secrets.length, 0)
   assert.equal(scan(diffOf('apps/backend/.env', ['ADMIN_PASSWORD=supersecret'])).secrets.length, 0)
-  assert.equal(scan(diffOf('.env.example', ['ADMIN_PASSWORD=RealLookingValue123'])).secrets.length, 0)
+  assert.equal(scan(diffOf('.env.example', ['ADMIN_PASSWORD=RealLookingValue123'])).secrets.length, 0) // stage0:allow подсаженное значение для проверки сканера
 })
 
 test('сканер: настоящее значение у секретной переменной — находка, маркер stage0:allow её снимает', () => {
-  assert.equal(scan(diffOf('apps/backend/.env', ['YANDEX_ID_PASSWORD=Pa55wordFromLive'])).secrets.length, 1)
+  assert.equal(scan(diffOf('apps/backend/.env', ['YANDEX_ID_PASSWORD=Pa55wordFromLive'])).secrets.length, 1) // stage0:allow подсаженное значение для проверки сканера
   assert.equal(scan(diffOf('apps/backend/.env', ['YANDEX_ID_PASSWORD=Pa55wordFromLive # stage0:allow образец из документации'])).secrets.length, 0)
 })
 
@@ -233,4 +233,20 @@ test('квота GitHub API исчерпана — дифф берётся ло�
   const doc = JSON.parse(fs.readFileSync(path.join(ctx.out, 'stage0.json'), 'utf8'))
   assert.equal(doc.checks.find((c) => c.check === 'diff').status, 'pass')
   cleanup(ctx.w)
+})
+
+test('пакет без зависимостей (handoff/<день>/ui) проверяется по-настоящему: node --test запускается', () => {
+  const w = makeWorld('stage0-ui-pkg')
+  const rel = 'handoff/day-2026-09-16-oksana-store/ui/sample.test.mjs'
+  commit(w.work, rel, "import test from 'node:test'\nimport assert from 'node:assert/strict'\ntest('живой', () => assert.equal(1, 1))\n", 'test: образец')
+  git(w.work, ['push', '--quiet', '-u', 'origin', w.branch])
+  const head = git(w.work, ['rev-parse', 'HEAD'])
+  const stub = ghStub(w, { views: [{ ...MERGEABLE(), headRefOid: head }], diff: diffOf(rel, ["test('живой', () => assert.equal(1, 1))"]) })
+  const out = path.join(w.root, 'round-1')
+  const r = runScript(SCRIPT, ['pp01-pre-pr-and-stage0', '11', out], {
+    cwd: w.work, binDir: stub.bin, env: { GH_STUB_DIR: stub.dir, STAGE0_WORKTREE: w.work },
+  })
+  assert.equal(r.rc, 0, r.out)
+  assert.match(r.out, /STAGE0 checks:handoff\/day-2026-09-16-oksana-store\/ui: pass rc=0 · node --test/)
+  cleanup(w)
 })

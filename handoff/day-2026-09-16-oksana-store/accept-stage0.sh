@@ -246,14 +246,17 @@ if [ -z "$PKGS" ]; then
   rec checks skip "diff не трогает пакетов monorepo (только документы/скрипты штаба)"
 elif [ -z "$WT" ]; then
   rec checks skip "STAGE0_WORKTREE не задан — lint/tsc мерили бы базу, а не PR (правило 18f); пакеты в diff: $PKGS"
-elif [ ! -d "$WT/node_modules" ]; then
-  rec checks skip "в $WT нет node_modules — зависимости не установлены; пакеты в diff: $PKGS"
 else
   WT_HEAD="$(cd "$WT" && git rev-parse HEAD 2>/dev/null || echo '')"
   if [ -n "$HEAD_OID" ] && [ "$WT_HEAD" != "$HEAD_OID" ]; then
     rec checks skip "worktree $WT стоит на $WT_HEAD, а голова PR — $HEAD_OID: проверки мерили бы не тот код (правило 18f)"
   else
     for p in $PKGS; do
+      # node_modules нужны пакетам, которые зовут npx/npm; `node --test` в handoff/<день>/ui — нет.
+      case "$p" in
+        */ui) ;;
+        *) if [ ! -d "$WT/node_modules" ]; then rec "checks:$p" skip "в $WT нет node_modules — зависимости не установлены"; continue; fi ;;
+      esac
       case "$p" in
         apps/backend)
           run_check "checks:backend:tsc" "$WT/apps/backend" npx tsc --noEmit
