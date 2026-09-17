@@ -1,8 +1,8 @@
 {
   "schema": "upready.handoff/v1",
   "project": "upready-store",
-  "updated": "2026-09-18T03:30:01+08:00",
-  "status": "2026-09-18 03:30 WITA: штаб дня Оксаны — очередь пуста (merged 82, blocked 10); agy 1.2.5 управляется снаружи: agy -p '/usage' и '/model' в print mode, /context и меню через tmux send-keys; первый замер квоты — два пула, остаток Gemini 99 % неделя / 95 % пять часов, Claude+GPT 97 % / 91 %; память antigravity-cli-agy-2026-09-17.md дополнена (коммит b98ff0a); ждём слова Ивана (пилот e01 на gemini, q04/y01/r04/k01, INFRA_OK, Robokassa).",
+  "updated": "2026-09-18T03:35:43+08:00",
+  "status": "2026-09-18 03:35 WITA: штаб дня Оксаны — очередь пуста (merged 82, blocked 10); дозамер agy /usage после границы: пятичасовое окно фиксированное и циклическое (Gemini 95 % → 100 % ровно на границе, следующая граница +5 ч без запросов), память antigravity-cli-agy-2026-09-17.md дополнена (коммит d7f394a); ждём слова Ивана (пилот e01 на gemini, q04/y01/r04/k01, INFRA_OK, Robokassa).",
   "tasks": [
     {
       "id": "t-port-stale-cart-fix",

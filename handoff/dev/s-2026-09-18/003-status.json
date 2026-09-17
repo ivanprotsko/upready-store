@@ -1,0 +1,10 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-18",
+  "index": 3,
+  "action": "status-set",
+  "ts": "2026-09-18T03:35:43+08:00",
+  "status": "2026-09-18 03:35 WITA: штаб дня Оксаны — очередь пуста (merged 82, blocked 10); дозамер agy /usage после границы: пятичасовое окно фиксированное и циклическое (Gemini 95 % → 100 % ровно на границе, следующая граница +5 ч без запросов), память antigravity-cli-agy-2026-09-17.md дополнена (коммит d7f394a); ждём слова Ивана (пилот e01 на gemini, q04/y01/r04/k01, INFRA_OK, Robokassa)."
+}
