@@ -3,10 +3,10 @@
     "paused": false,
     "limitUntil": null,
     "startedAt": "2026-09-14T18:58:22.905Z",
-    "lastTick": "2026-09-17T13:14:14.841Z",
-    "pid": 5180,
-    "ticks": 2426,
-    "allTerminalTicks": 11
+    "lastTick": "2026-09-17T13:19:59.302Z",
+    "pid": 59625,
+    "ticks": 2428,
+    "allTerminalTicks": 0
   },
   "tasks": {
     "t01-checkout-thankyou": {
@@ -4512,11 +4512,21 @@
       "note": "после e01 и OK Ивана на изменение хоста"
     },
     "l01-storefront-dev-compile": {
-      "status": "blocked",
-      "attempt": 0,
+      "status": "running",
+      "attempt": 1,
       "artifacts": [],
       "error": null,
-      "note": "минимум локального стенда: ждёт «делай l01» Ивана (sonnet/low, правка одного файла)"
+      "note": "заказ Ивана от 2026-09-17 21:18 WITA: ошибка витрины названа второй раз — запуск на sonnet/low; после merge штаб делает git pull в основном чекауте и проверяет http://localhost:8000/ru",
+      "ws": "317f4157-fa3b-4937-a67d-1f3ace54d8f5",
+      "worktree": "/Users/ivanprotsko/upready/worktrees/b29f7dd2-d35c-442d-9636-3c55da1eccf7/feat/day17-storefront-dev-compile",
+      "terminalId": "446b70a4-0760-4d24-a26d-4c0d8b0be735",
+      "launchedAt": "2026-09-17T13:19:56.167Z",
+      "startedAt": "2026-09-17T13:19:56.167Z",
+      "nudges": 0,
+      "relaunched": false,
+      "force": false,
+      "lastScreen": "                      \n                                                                                                                        \n  ⎿  UserPromptSubmit says: 🕐 21:19:58 GMT+8 · твой промпт\n\n  Running 1 shell command…\n\n✻ Fiddle-faddling… (4s · ↓ 45 tokens · thinking with low effort)\n                                                                                                       ○ low · /effort\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n❯ \n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n  day17-storefront-dev-compile (feat/day17-storefront-dev-compile) | Sonnet 5\n  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← 4 agents",
+      "lastScreenAt": "2026-09-17T13:20:04.285Z"
     },
     "r04-robokassa-result-pages": {
       "status": "blocked",
@@ -4532,24 +4542,6 @@
     }
   },
   "events": [
-    {
-      "ts": "2026-09-15T18:12:27.598Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:13:26.378Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
-    {
-      "ts": "2026-09-15T18:14:26.866Z",
-      "type": "limit",
-      "task": "b10-panel-gaps",
-      "msg": " удалила → адрес снова 404. Скриншот экрана 1280×900; - вставила код верификации → `curl -s <главная магазина> | grep <код>` находит его в `<head>`. Скриншот; - удалила страницу из панели → `/ru/pages/<ключ>` отдаёт 404."
-    },
     {
       "ts": "2026-09-15T18:15:27.028Z",
       "type": "limit",
@@ -6918,6 +6910,24 @@
       "ts": "2026-09-17T13:14:14.885Z",
       "type": "all-terminal",
       "msg": "DONE"
+    },
+    {
+      "ts": "2026-09-17T13:19:47.891Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "set-task",
+      "msg": "правка по команде: status, note"
+    },
+    {
+      "ts": "2026-09-17T13:19:47.891Z",
+      "type": "command",
+      "task": "l01-storefront-dev-compile",
+      "msg": "set-task"
+    },
+    {
+      "ts": "2026-09-17T13:19:56.167Z",
+      "task": "l01-storefront-dev-compile",
+      "type": "launched",
+      "msg": "ws 317f4157-fa3b-4937-a67d-1f3ace54d8f5 · sonnet/low · feat/day17-storefront-dev-compile"
     }
   ],
   "sessions": {
