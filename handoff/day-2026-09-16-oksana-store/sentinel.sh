@@ -1,6 +1,6 @@
 #!/bin/bash
 # sentinel.sh — будильник штабной сессии: печатает СТРОКУ только когда нужно вмешательство
-# (новая задача в needs-ivan/failed/blocked, файл blocked-*.md, DONE, мёртвый диспетчер, затянувшийся лимит)
+# (новая задача в needs-ivan/failed/blocked, файл blocked-*.md, DONE, мёртвый диспетчер, затянувшийся лимит, изменение числа done/merged/waiting-quota — ночь 18.09)
 # плюс пульс раз в 3 часа. Каждая строка stdout = уведомление сессии (Monitor persistent).
 D="/Users/ivanprotsko/upready/projects/upready-store/handoff/day-2026-09-16-oksana-store"
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
@@ -19,7 +19,7 @@ while true; do
     console.log(JSON.stringify({bad,blocked,done,dead,limited,cnt,tickAge:Math.round(tickAge)}));
   ' "$D" 2>/dev/null)
   now=$(date +%s)
-  key=$(printf '%s' "$sig" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log(JSON.stringify([j.bad,j.blocked,j.done,j.dead]))}catch{console.log(s)}})')
+  key=$(printf '%s' "$sig" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log(JSON.stringify([j.bad,j.blocked,j.done,j.dead,j.cnt.done||0,j.cnt.merged||0,j.cnt["waiting-quota"]||0]))}catch{console.log(s)}})')
   if [ "$key" != "$last_sig" ]; then
     [ -n "$last_sig" ] && echo "[sentinel $(date '+%Y-%m-%d %H:%M WITA')] ВНИМАНИЕ: $sig"
     last_sig="$key"
