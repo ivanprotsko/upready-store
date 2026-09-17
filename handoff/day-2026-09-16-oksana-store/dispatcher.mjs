@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // dispatcher.mjs — планировщик дня (спека ~/upready/specs/task-dispatcher/SPEC.md §3, полосы по типу задачи).
 // Команды: run (цикл) · tick (один проход) · status · cmd <op> [id] · add-task <file.json>
+// Поля задачи для раннера agy (заказ 0.1): runner:"agy", model = id из `agy models`, waitOk (ждать сброса пятичасовой квоты), fallbackModel (делегирование claude); cfg.quotaMinPct, cfg.fallbackModel.
 import fs from 'node:fs';
 import path from 'node:path';
 import * as L from './lib.mjs';
@@ -52,10 +53,20 @@ function launchRun(cfg, state, t) {
   const cwd = L.runCwd(cfg, t);
   if (!fs.existsSync(cwd)) { s.status = 'failed'; s.error = 'cwd не существует: ' + cwd; L.event(state, { task: t.id, type: 'run-failed', msg: s.error }); return false; }
   const prompt = L.buildRunPrompt(cfg, t, { LOG_FILE: log, ATTEMPT: n, CWD: cwd });
-  const pool = `run:${t.lane || 'run'}@${cwd}`; const sess = L.acquireSession(state, pool, cfg.lanes?.[t.lane] || 1, cfg.persistent?.maxUses || 8);
-  const pid = L.runClaude({ cwd, prompt, model: t.model, effort: t.effort, logFile: log, name: t.id, session: sess });
-  s.status = 'running'; s.attempt = n; s.run = { pid, log, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool }; s.startedAt ||= s.run.startedAt; s.error = null;
-  L.event(state, { task: t.id, type: 'launched', msg: `claude -p pid ${pid} · ${t.model || 'default'}/${t.effort || 'default'} · cwd ${cwd}` });
+  // Раннер agy (заказ 0.1): до запуска — прибор `agy -p "/usage"` по пулу модели; ниже cfg.quotaMinPct → waitOk ? waiting-quota + wakeAt : делегирование claude/fallbackModel.
+  let runner = t.runner || 'claude', model = t.model, effort = t.effort, quota = null;
+  if (runner === 'agy') {
+    const u = L.agyUsage(); const qpool = L.agyPool(model); const q = u.pools[qpool]?.fiveHour || {};
+    quota = { pool: qpool, pct: q.pct ?? null, resetAt: q.resetAt || null, usageRc: u.rc, at: L.nowIso() };
+    const d = L.agyQuotaDecision({ pct: q.pct, resetAt: q.resetAt, minPct: cfg.quotaMinPct ?? 10, waitOk: !!t.waitOk });
+    if (d.action === 'wait') { s.status = 'waiting-quota'; s.wakeAt = d.wakeAt; s.error = null; s.note = `agy ${qpool}: ${d.reason}; next wake ${d.wakeAt}`; s.quota = quota; L.event(state, { task: t.id, type: 'waiting-quota', msg: s.note }); return false; }
+    if (d.action === 'delegate') { runner = 'claude'; model = t.fallbackModel || cfg.fallbackModel || 'sonnet'; s.note = `делегировано claude/${model}: agy ${qpool} — ${d.reason}`; L.event(state, { task: t.id, type: 'quota-delegated', msg: s.note }); }
+    else if (u.rc) L.event(state, { task: t.id, type: 'quota-unread', msg: `agy -p /usage rc=${u.rc}: ${u.raw.slice(0, 200)}` });
+  }
+  const pool = `run:${t.lane || 'run'}@${cwd}`; const sess = runner === 'claude' ? L.acquireSession(state, pool, cfg.lanes?.[t.lane] || 1, cfg.persistent?.maxUses || 8) : null;
+  const pid = runner === 'agy' ? L.runAgy({ cwd, prompt, model, logFile: log, name: t.id, timeoutMin: t.maxMin || 150 }) : L.runClaude({ cwd, prompt, model, effort, logFile: log, name: t.id, session: sess });
+  s.status = 'running'; s.attempt = n; s.run = { pid, log, startedAt: L.nowIso(), session: sess?.id || null, sessionPool: pool, runner, model, ...(quota ? { quotaBefore: quota } : {}) }; s.startedAt ||= s.run.startedAt; s.error = null; delete s.wakeAt;
+  L.event(state, { task: t.id, type: 'launched', msg: `${runner === 'agy' ? 'agy -p' : 'claude -p'} pid ${pid} · ${model || 'default'}/${runner === 'agy' ? '-' : (effort || 'default')} · cwd ${cwd}${quota ? ` · квота ${quota.pool} ${quota.pct ?? '?'}%` : ''}` });
   return true;
 }
 function launchAccept(cfg, state, t, headOid = null) {
@@ -203,12 +214,25 @@ function checkAccepting(cfg, state, t) {
 }
 function checkRun(cfg, state, t) {
   const s = state.tasks[t.id]; const r = s.run;
-  if (L.pidAlive(r.pid)) { if (L.minutesSince(r.startedAt) > (t.maxMin || 150)) { try { process.kill(r.pid, 'SIGTERM'); } catch { } r.timeout = true; } else return; }
-  const tail = L.tailFile(r.log, 300);
+  if (L.pidAlive(r.pid)) { if (L.minutesSince(r.startedAt) > (t.maxMin || 150)) { try { process.kill(r.runner === 'agy' ? -r.pid : r.pid, 'SIGTERM'); } catch { } r.timeout = true; } else return; }
+  let tail = L.tailFile(r.log, 300);
+  if (r.runner === 'agy') { const a = L.agyParseLog(tail); tail = a.text; if (a.meta) r.agy = a.meta; }
   if (r.session && !r.sessionReleased) { const broken = L.SESSION_BROKEN_RE.test(tail) || !!r.timeout; L.releaseSession(state, r.sessionPool, r.session, broken); r.sessionReleased = true; if (broken) L.event(state, { task: t.id, type: 'session-rotated', msg: `постоянная run-сессия ${r.session} снята (${r.timeout ? 'timeout' : 'resume/context error'})` }); }
   const m = tail.match(/RESULT:\s*(OK|FAIL)[^\n]*/g); const last = m ? m[m.length - 1] : null;
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
-  if (!last && L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'queued'; s.attempt = Math.max(0, s.attempt - 1); L.event(state, { task: t.id, type: 'run-limit', msg: 'лимит — вернул в очередь' }); return; }
+  if (!last && r.runner === 'agy') {
+    // agy: строка ошибки исчерпания не замерена — прибор /usage сразу после выхода: пул ниже порога → квота (waitOk ? ждать сброса : в очередь, launchRun делегирует claude), иначе обычный failed/retry.
+    const rcm = tail.match(/AGY_RC=(\d+)/g); const agyRc = rcm ? Number(rcm[rcm.length - 1].slice(7)) : null;
+    const u = L.agyUsage(); const qpool = L.agyPool(r.model); const q = u.pools[qpool]?.fiveHour || {};
+    r.quotaAfter = { pool: qpool, pct: q.pct ?? null, resetAt: q.resetAt || null, usageRc: u.rc, agyRc, at: L.nowIso() };
+    if (q.pct != null && q.pct < (cfg.quotaMinPct ?? 10)) {
+      s.attempt = Math.max(0, s.attempt - 1);
+      const d = L.agyQuotaDecision({ pct: q.pct, resetAt: q.resetAt, minPct: cfg.quotaMinPct ?? 10, waitOk: !!t.waitOk });
+      if (d.action === 'wait') { s.status = 'waiting-quota'; s.wakeAt = d.wakeAt; s.note = `agy ${qpool}: квота кончилась в работе (rc=${agyRc}); ${d.reason}; next wake ${d.wakeAt}`; L.event(state, { task: t.id, type: 'waiting-quota', msg: s.note }); return; }
+      s.status = 'queued'; s.error = `agy ${qpool}: квота ${q.pct}% кончилась в работе (rc=${agyRc}) — повтор с делегированием`; L.event(state, { task: t.id, type: 'run-quota', msg: s.error }); return;
+    }
+  }
+  if (!last && r.runner !== 'agy' && L.LIMIT_RE.test(tail)) { setLimit(state, tail, t.id); s.status = 'queued'; s.attempt = Math.max(0, s.attempt - 1); L.event(state, { task: t.id, type: 'run-limit', msg: 'лимит — вернул в очередь' }); return; }
   let ok = !!last && /RESULT:\s*OK/.test(last);
   if (!last && /✓ safe to \/clear/.test(tail) && /ARTIFACT:|file:\/\//.test(tail)) { ok = true; s.note = 'финал по маркеру auto-save (✓ safe to /clear) — RESULT не напечатан'; L.event(state, { task: t.id, type: 'result-by-autosave-marker', msg: 'RESULT отсутствует, принят по ✓ safe to /clear + артефакты' }); }
   if (ok && t.doneCheck?.url) {
@@ -264,6 +288,7 @@ export function tick() {
     } catch (e) { L.event(state, { task: t.id, type: 'monitor-error', msg: String(e.stack || e.message).slice(0, 400) }); }
   }
   for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s.status === 'queued' && !s.force) { const bad = depsFailed(state, t); if (bad.length) { s.status = 'blocked'; s.error = 'зависимость провалена: ' + bad.join(', '); L.event(state, { task: t.id, type: 'blocked', msg: s.error }); } } }
+  for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s.status === 'waiting-quota' && s.wakeAt && Date.parse(s.wakeAt) <= Date.now()) { s.status = 'queued'; s.force = true; L.event(state, { task: t.id, type: 'quota-wake', msg: `плановый сброс квоты ${s.wakeAt} наступил — в очередь` }); } }
   let counts = laneCounts(cfg, state);
   for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (t.kind === 'build' && s.status === 'pr_open') { try { maybeAccept(cfg, state, t, counts); } catch (e) { L.event(state, { task: t.id, type: 'accept-error', msg: String(e.message).slice(0, 300) }); } } }
   for (const t of cfg.tasks) { const s = state.tasks[t.id]; if (s?.compactSentAt && !s.closedAt) { try { closeAfterCompact(cfg, state, t, s); } catch (e) { L.event(state, { task: t.id, type: 'close-error', msg: String(e.message).slice(0, 200) }); } } }

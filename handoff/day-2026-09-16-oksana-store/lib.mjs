@@ -137,6 +137,52 @@ export function runClaude({ cwd, prompt, model, effort, logFile, name, session }
   child.unref();
   return child.pid;
 }
+// ---------- Antigravity CLI (agy) — раннер задач тестов/моков (заказ Ивана 0.1, 2026-09-18 04:53 WITA; план в INTAKE «Заказ 0.1 — план внедрения штаба») ----------
+export const AGY = path.join(HOME, '.local/bin/agy');
+// Разбор вывода `agy -p "/usage"` (TSV: <пул>\t<лимит>\t<N%>\t<ISO сброса>; замер 2026-09-18 05:49 WITA). Чужие строки пропускаются.
+export function parseAgyUsage(text) {
+  const pools = {};
+  for (const line of String(text || '').split('\n')) {
+    const f = line.split('\t'); if (f.length < 4) continue;
+    const pct = parseInt(f[2], 10); if (!/^\s*\d+\s*%\s*$/.test(f[2]) || Number.isNaN(pct)) continue;
+    const key = /five hour/i.test(f[1]) ? 'fiveHour' : /weekly/i.test(f[1]) ? 'weekly' : f[1].trim();
+    (pools[f[0].trim()] ||= {})[key] = { pct, resetAt: f[3].trim() };
+  }
+  return pools;
+}
+// Пул квоты по id модели agy: gemini-* → «Gemini Models», остальное (claude-*, gpt-oss-*) → «Claude and GPT models».
+export function agyPool(model) { return /^gemini/i.test(String(model || '')) ? 'Gemini Models' : 'Claude and GPT models'; }
+export function agyUsage() { const r = sh(AGY, ['-p', '/usage'], { timeout: 90e3 }); return { rc: r.rc, pools: r.rc ? {} : parseAgyUsage(r.out), raw: String(r.out || r.err || '').slice(0, 600) }; }
+// Решение до запуска: run — квота ≥ порога или прибор молчит; wait — ниже порога и задача может ждать (wakeAt = плановый сброс, а если он уже в прошлом — через 10 мин);
+// delegate — ниже порога, ждать нельзя → раннер claude с fallbackModel.
+export function agyQuotaDecision({ pct, resetAt, minPct = 10, waitOk = false, now = Date.now() }) {
+  if (pct == null) return { action: 'run', reason: 'квота не прочитана — запускаю' };
+  if (pct >= minPct) return { action: 'run', reason: `квота ${pct}% ≥ ${minPct}%` };
+  if (waitOk) { const t = resetAt ? Date.parse(resetAt) : NaN; const wakeAt = (t > now ? new Date(t) : new Date(now + 10 * 60e3)).toISOString(); return { action: 'wait', wakeAt, reason: `квота ${pct}% < ${minPct}%, жду сброса ${resetAt || '(момент неизвестен)'}` }; }
+  return { action: 'delegate', reason: `квота ${pct}% < ${minPct}%, ждать нельзя` };
+}
+// Запуск agy неинтерактивно. Код выхода detached-процесса теряется, поэтому sh ждёт agy и дописывает AGY_RC=<rc> в лог; группа процессов = pid sh (detached) — убивать группой (kill -pid).
+// --effort не передаём: у gemini-моделей усилие зашито в id (gemini-3.1-pro-high), совместимость флага с таким id не замерена.
+export function runAgy({ cwd, prompt, model, logFile, name, timeoutMin }) {
+  fs.mkdirSync(path.dirname(logFile), { recursive: true });
+  const args = ['-p', prompt, '--dangerously-skip-permissions', '--output-format', 'json', '--print-timeout', `${timeoutMin || 150}m`];
+  if (model) args.push('--model', model);
+  const out = fs.openSync(logFile, 'a');
+  fs.writeSync(out, `\n===== ${nowIso()} start ${name} runner=agy cwd=${cwd} model=${model || 'default'} =====\n`);
+  const child = spawn('/bin/sh', ['-c', '"$0" "$@"; rc=$?; echo; echo "AGY_RC=$rc"; exit $rc', AGY, ...args], { cwd, detached: true, stdio: ['ignore', out, out], env: { ...ENV, DISPATCHER_TASK: name, DISPATCHER_RUNNER: 'agy' } });
+  child.unref();
+  return child.pid;
+}
+// Лог agy в print-режиме json — одна JSON-строка {conversation_id,status,response,duration_seconds,num_turns,usage:{input_tokens,output_tokens,thinking_tokens,cache_read_tokens,total_tokens}} (замер 2026-09-18 05:55 WITA).
+// Для разбора RESULT/ARTIFACT отдаём текст ответа вместо JSON, метаданные — отдельно (в state.run.agy).
+export function agyParseLog(tail) {
+  let meta = null; const lines = [];
+  for (const line of String(tail || '').split('\n')) {
+    if (line.startsWith('{') && line.includes('"response"')) { try { const o = JSON.parse(line); meta = { conversation: o.conversation_id || null, status: o.status || null, durationSec: o.duration_seconds ?? null, turns: o.num_turns ?? null, usage: o.usage || null }; lines.push(`[agy status=${meta.status} conversation=${meta.conversation} tokens=${meta.usage?.total_tokens ?? '?'}]`, String(o.response || '')); continue; } catch { } }
+    lines.push(line);
+  }
+  return { text: lines.join('\n'), meta };
+}
 // ---------- постоянные headless-сессии: пул на лейн, чтобы приёмки/run-задачи не плодили файлы-сессии (depth) ----------
 export function transcriptPath(cwd, id) { return path.join(HOME, '.claude/projects', cwd.replace(/[^A-Za-z0-9]/g, '-'), id + '.jsonl'); }
 export function acquireSession(state, pool, max, maxUses = 8) {
@@ -198,7 +244,7 @@ export function writeReport(cfg, tasks, state) {
   for (const u of (cfg.live?.links || [])) look.push(`- живой адрес: ${u}`);
   L.push(...(look.length ? look : ['- пока нечего: ни одного PR/артефакта']));
   L.push('');
-  const needs = rows.filter(t => ['needs-ivan', 'failed', 'blocked'].includes(S[t.id]?.status));
+  const needs = rows.filter(t => ['needs-ivan', 'failed', 'blocked', 'waiting-quota'].includes(S[t.id]?.status));
   if (needs.length) { L.push(`## Требует внимания`); for (const t of needs) L.push(`- ${t.id} «${t.title}» — ${S[t.id].status}: ${S[t.id].error || S[t.id].note || ''}`); L.push(''); }
   L.push(`## Задачи (порядок = приоритет; зависимости в скобках)`);
   L.push('| # | id | задача | полоса | модель/усилие | ветка | статус | PR | попытки | начало |');

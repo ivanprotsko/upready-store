@@ -21,7 +21,7 @@
     "maxAttempts": 3
   },
   "acceptor": {
-    "model": "opus",
+    "model": "sonnet",
     "effort": "medium",
     "maxMin": 90,
     "maxRounds": 2,
@@ -2016,5 +2016,16 @@
     "since": "заказ Ивана от 2026-09-17 01:44 WITA",
     "rule": "50 % недельного лимита подписки на 6 дней: воркеры/приёмка sonnet, opus только чекаут/оплата/доставка по OK Ивана, Fable только эскалации; задачи вне минимума первого релиза cherkashino — blocked в бэклоге",
     "memory": "/Users/ivanprotsko/upready/memory/upready-store-budget-regime-2026-09-17.md"
-  }
+  },
+  "night": {
+    "since": "заказ Ивана 2026-09-18 05:36 WITA («модели не выше sonnet», пока Иван спит)",
+    "acceptorDay": {
+      "model": "opus",
+      "effort": "medium"
+    },
+    "revert": "утром по слову Ивана: cfg.acceptor.model → opus (значение из cfg.night.acceptorDay), cfg.night удалить"
+  },
+  "quotaMinPct": 10,
+  "fallbackModel": "sonnet",
+  "agyNote": "раннер agy (заказ 0.1): runner:\"agy\" в задаче, model = id из `agy models` (тесты/моки), waitOk/fallbackModel в задаче; порог cfg.quotaMinPct по пятичасовому остатку пула"
 }
