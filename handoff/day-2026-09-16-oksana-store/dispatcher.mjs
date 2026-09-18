@@ -220,12 +220,12 @@ function checkRun(cfg, state, t) {
   if (r.session && !r.sessionReleased) { const broken = L.SESSION_BROKEN_RE.test(tail) || !!r.timeout; L.releaseSession(state, r.sessionPool, r.session, broken); r.sessionReleased = true; if (broken) L.event(state, { task: t.id, type: 'session-rotated', msg: `постоянная run-сессия ${r.session} снята (${r.timeout ? 'timeout' : 'resume/context error'})` }); }
   const m = tail.match(/RESULT:\s*(OK|FAIL)[^\n]*/g); const last = m ? m[m.length - 1] : null;
   for (const x of (tail.match(/ARTIFACT:\s*(\S+)/g) || [])) s.artifacts.push(x.replace(/ARTIFACT:\s*/, ''));
-  if (!last && r.runner === 'agy') {
-    // agy: строка ошибки исчерпания не замерена — прибор /usage сразу после выхода: пул ниже порога → квота (waitOk ? ждать сброса : в очередь, launchRun делегирует claude), иначе обычный failed/retry.
+  if (r.runner === 'agy') {
+    // agy: прибор /usage сразу после выхода у КАЖДОГО прогона (2026-09-18 08:5x: раньше только без RESULT — у успешных прогонов конца замера не было); без RESULT и пул ниже порога → квота (waitOk ? ждать сброса : в очередь, launchRun делегирует claude), иначе обычный failed/retry.
     const rcm = tail.match(/AGY_RC=(\d+)/g); const agyRc = rcm ? Number(rcm[rcm.length - 1].slice(7)) : null;
     const u = L.agyUsage(); const qpool = L.agyPool(r.model); const q = u.pools[qpool]?.fiveHour || {};
     r.quotaAfter = { pool: qpool, pct: q.pct ?? null, resetAt: q.resetAt || null, usageRc: u.rc, agyRc, at: L.nowIso() };
-    if (q.pct != null && q.pct < (cfg.quotaMinPct ?? 10)) {
+    if (!last && q.pct != null && q.pct < (cfg.quotaMinPct ?? 10)) {
       s.attempt = Math.max(0, s.attempt - 1);
       const d = L.agyQuotaDecision({ pct: q.pct, resetAt: q.resetAt, minPct: cfg.quotaMinPct ?? 10, waitOk: !!t.waitOk });
       if (d.action === 'wait') { s.status = 'waiting-quota'; s.wakeAt = d.wakeAt; s.note = `agy ${qpool}: квота кончилась в работе (rc=${agyRc}); ${d.reason}; next wake ${d.wakeAt}`; L.event(state, { task: t.id, type: 'waiting-quota', msg: s.note }); return; }
@@ -239,7 +239,7 @@ function checkRun(cfg, state, t) {
     const rr = L.sh('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}', '--max-time', '30', '-L', t.doneCheck.url]);
     if (rr.out.trim() !== String(t.doneCheck.expect || 200)) { ok = false; s.error = `doneCheck ${t.doneCheck.url} → ${rr.out.trim() || 'нет ответа'}`; }
   }
-  if (ok) { s.status = 'done'; s.finishedAt = L.nowIso(); s.note = last.slice(0, 200); L.event(state, { task: t.id, type: 'done', msg: last.slice(0, 200) }); return; }
+  if (ok) { const fin = last ? last.slice(0, 200) : (s.note || 'финал по маркеру auto-save'); s.status = 'done'; s.finishedAt = L.nowIso(); s.note = fin; L.event(state, { task: t.id, type: 'done', msg: fin }); return; }
   const reason = s.error || (last ? last.slice(0, 200) : (r.timeout ? 'таймаут' : 'нет строки RESULT в логе'));
   if (s.attempt < (t.maxAttempts || 2)) { s.status = 'queued'; s.error = reason; L.event(state, { task: t.id, type: 'run-retry', msg: reason }); }
   else { s.status = 'failed'; s.error = reason; L.event(state, { task: t.id, type: 'failed', msg: reason }); }

@@ -10,7 +10,7 @@
   "maxSlots": 6,
   "lanes": {
     "build": 2,
-    "data": 1,
+    "data": 4,
     "deploy": 1,
     "qa": 1,
     "accept": 1,
