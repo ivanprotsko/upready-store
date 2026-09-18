@@ -14,3 +14,9 @@ gw13-competitor-onboarding-review	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	
 gw11-storefront-e2e-test-plan	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	146.97	133121	100	78	2026-09-18 10:12 WITA
 gw12-backend-api-docs-digest	agy	gemini-3.8-flash-high	sonnet	1	ACCEPT	0	0	0	434.783991	1341015	100	64	2026-09-18 10:13 WITA
 gw08-telegram-mini-app-store-research	agy	gemini-3.8-flash-high	sonnet	1	REJECT	2	1	1	367.350861	773000	99	64	2026-09-18 10:13 WITA
+gw10-ui-strings-audit-ru	agy	gemini-3.8-flash-high	sonnet	1	ACCEPT	0	0	1	491.924019	1288331	100	59	2026-09-18 10:16 WITA
+gw14-medusa-owner-glossary	agy	gemini-3.8-flash-high	sonnet	1	REJECT	1	1	0	521.370703	715194	100	59	2026-09-18 10:17 WITA
+gw02-storefront-owner-faq	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	0	101.581904	77713	52	42	2026-09-18 10:18 WITA
+gw09-onboarding-email-sequence	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	2	101.86	78724	99	84	2026-09-18 10:19 WITA
+gw05-legal-docs-rf-checklist	agy	gemini-3.1-pro-high	sonnet	1	REJECT	0	2	0	196.210644	118200	59	42	2026-09-18 10:20 WITA
+gw03-payment-providers-rf	agy	gemini-3.1-pro-high	sonnet	1	REJECT	2	1	1	189.835172	109188	57	39	2026-09-18 10:20 WITA
