@@ -9,3 +9,8 @@ pf01-upready-dev-portfolio-texts	pf01-upready-dev-portfolio-texts-opus	claude-so
 pf02-ivanprotsko-com-portfolio-texts	claude	sonnet	sonnet	2	REJECT	2	1	1	420.6	n/a	n/a	n/a	2026-09-18 07:42 WITA
 e01-email-and-phone-auth-research	claude	opus	sonnet	2	REJECT	1	0	0	1723.3	n/a	n/a	n/a	2026-09-18 07:48 WITA
 gx01-gpt-oss-probe	agy	gpt-oss-120b-medium	-	1	REJECT-unavailable	0	0	0	2.9	11969	100	100	2026-09-18 07:50 WITA
+gw07-metrika-ecommerce-events-spec	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	0	2	217.483722	171588	98	74	2026-09-18 10:10 WITA
+gw13-competitor-onboarding-review	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	196.818271	104383	100	77	2026-09-18 10:11 WITA
+gw11-storefront-e2e-test-plan	agy	gemini-3.1-pro-high	sonnet	1	ACCEPT	0	1	2	146.97	133121	100	78	2026-09-18 10:12 WITA
+gw12-backend-api-docs-digest	agy	gemini-3.8-flash-high	sonnet	1	ACCEPT	0	0	0	434.783991	1341015	100	64	2026-09-18 10:13 WITA
+gw08-telegram-mini-app-store-research	agy	gemini-3.8-flash-high	sonnet	1	REJECT	2	1	1	367.350861	773000	99	64	2026-09-18 10:13 WITA

@@ -1,0 +1,40 @@
+{
+  "task": "gw08-telegram-mini-app-store-research-acc",
+  "done": [
+    {
+      "item": "Проверен этап 0 (машинный): все ARTIFACT-пути исполнителя внутри его папки, чужих записей вне окна прогона нет.",
+      "links": ["artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/findings-sonnet-1.md"]
+    },
+    {
+      "item": "Сверены факты про платежи/Stars/CloudStorage с сохранёнными выдержками core.telegram.org — совпадают дословно.",
+      "links": ["artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/sources"]
+    },
+    {
+      "item": "Найден и подтверждён блокер: список платёжных провайдеров для РФ (ЮKassa/Сбербанк/PayMaster) процитирован со ссылкой на раздел, где этих имён нет вообще ни в одном из 9 сохранённых источников.",
+      "links": ["artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/report.md"]
+    },
+    {
+      "item": "Найден и подтверждён второй блокер: раздел про apps/bot описывает код как бота магазина Оксаны, а по package.json/plans.ts это бот upready.dev с тарифами на платформу, не связанный с тенантом cherkashino.",
+      "links": ["../../../apps/bot/package.json", "../../../apps/bot/src/plans.ts"]
+    },
+    {
+      "item": "Записан вердикт REJECT с разбором находок в findings-sonnet-1.md, добавлена строка в общий ledger.",
+      "links": ["artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/findings-sonnet-1.md", "artifacts/agy-runs/ledger.tsv"]
+    }
+  ],
+  "results": [
+    {
+      "label": "Вердикт приёмки (findings-sonnet-1.md)",
+      "path": "artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/findings-sonnet-1.md",
+      "note": "REJECT: 2 блокера, 1 мажор, 1 минор"
+    },
+    {
+      "label": "Отчёт исполнителя (что проверялось)",
+      "path": "artifacts/agy-runs/gw08-telegram-mini-app-store-research-gem/report.md"
+    }
+  ],
+  "notes": [
+    "На REJECT: в этом режиме (без claude-двойника) копирования в ~/upready/research не было и коммитов не делалось — по инструкции задачи это верно только для ACCEPT.",
+    "Регулярное расхождение у gemini-3.8-flash-high в этой волне: правдоподобная выдумка вместо честного «не найдено», когда прямой цитаты под рукой нет — стоит вынести в оценку модели на будущее."
+  ]
+}
