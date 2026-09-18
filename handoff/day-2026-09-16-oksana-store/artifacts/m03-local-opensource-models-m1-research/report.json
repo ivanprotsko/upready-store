@@ -1,0 +1,42 @@
+{
+  "task": "m03-local-opensource-models-m1-research",
+  "done": [
+    {
+      "item": "Замерены характеристики машины (16 GiB unified memory, M1 Pro 10 ядер, 39 GiB свободно на диске из 926 GiB) — команды sysctl/df, не по памяти.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-m03-local-opensource-models-m1.md"]
+    },
+    {
+      "item": "Собраны первоисточники (model cards, Ollama, Hugging Face, официальные лицензии) по Qwen2.5-Coder, DeepSeek-R1-Distill, Llama-3.1-8B, gemma-3, gpt-oss-20b, Codestral/Mistral-Small, Phi-4.",
+      "links": ["file:///Users/ivanprotsko/upready/research/raw/m03-local-models-m1/sources.md"]
+    },
+    {
+      "item": "Составлена таблица модель/квант/вес/память/помещается в 16 GB/лицензия/задачи/URL с честными пробелами там, где первоисточник не найден.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-m03-local-opensource-models-m1.md"]
+    },
+    {
+      "item": "Проверено (реальным вызовом agy models и чтением lib.mjs), что существующие раннеры диспетчера (runClaude/runAgy) не подключают локальный OpenAI-совместимый сервер напрямую — нужен отдельный клиент.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-m03-local-opensource-models-m1.md"]
+    },
+    {
+      "item": "Описан план фазы B (установка, загрузка 2-3 моделей, замер tokens/s и памяти, мини-задача с машинной приёмкой) без выполнения — ничего не установлено и не скачано.",
+      "links": ["file:///Users/ivanprotsko/upready/research/reports/2026-09-18-m03-local-opensource-models-m1.md"]
+    }
+  ],
+  "results": [
+    {
+      "label": "Отчёт фазы A: локальные модели для M1 16GB",
+      "path": "file:///Users/ivanprotsko/upready/research/reports/2026-09-18-m03-local-opensource-models-m1.md",
+      "note": "Таблица кандидатов, лицензии, инструменты запуска, план фазы B, открытые вопросы"
+    },
+    {
+      "label": "Сырые источники (URL + цитаты)",
+      "path": "file:///Users/ivanprotsko/upready/research/raw/m03-local-models-m1/sources.md"
+    }
+  ],
+  "notes": [
+    "Свободно всего 39 GiB на диске — до фазы B нужно решить, куда грузить модели.",
+    "Подключение локальной модели к ночному раннеру диспетчера требует новой функции runLocal в lib.mjs (OpenAI-совместимый HTTP) — отдельная задача разработки, не сделано здесь.",
+    "Количественные официальные бенчмарки sonnet/opus/fable не извлечены (таблица на сайте Anthropic — картинка, не текст) — для точного сравнения нужен план m04-model-eval-plan или отдельный заход.",
+    "DeepSeek-Coder-V2-Lite и точные размеры GGUF-квантов Phi-4 не найдены в этом прогоне — честный пробел, не выдумано."
+  ]
+}
