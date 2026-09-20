@@ -13,6 +13,7 @@ import {
 import { createPortal } from "react-dom"
 
 import { FRAME_ASPECT } from "@modules/products/components/product-media"
+import ProductMediaBackdrop from "@modules/products/components/product-media/backdrop"
 
 import GalleryDots from "./dots"
 import {
@@ -342,18 +343,7 @@ const Gallery = ({ items, title }: GalleryProps) => {
           onDragStart={(event) => event.preventDefault()}
           data-testid="product-gallery-hero"
         >
-          <Image
-            key={`backdrop-${active.id}`}
-            src={active.url}
-            alt=""
-            aria-hidden
-            fill
-            quality={30}
-            sizes="16px"
-            draggable={false}
-            data-product-media-backdrop=""
-            className="object-fill"
-          />
+          <ProductMediaBackdrop key={`backdrop-${active.id}`} src={active.url} />
           <Image
             key={active.id}
             src={active.url}

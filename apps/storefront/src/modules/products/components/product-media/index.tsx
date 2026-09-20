@@ -1,6 +1,7 @@
 import { clx } from "@medusajs/ui"
 import Image from "next/image"
 
+import ProductMediaBackdrop from "./backdrop"
 import HoverImage from "./hover-image"
 import ProductMediaPlaceholder from "./placeholder"
 
@@ -16,15 +17,10 @@ import ProductMediaPlaceholder from "./placeholder"
  * 2. Product media is never cropped. The picture is `object-fit: contain`, centred, with
  *    no inner padding: a picture whose ratio equals the frame fills it edge to edge under
  *    the frame's own radius. What is left of the frame around a picture of another ratio
- *    continues that picture's own EDGE: behind it lies the same file, 16px wide, stretched
- *    to the frame with `object-fit: fill`. Stretching maps the picture's left edge onto the
- *    frame's left edge, so a strip beside a white packshot is white and a strip beside a
- *    full-bleed infographic carries the colours the infographic ends with. There is no CSS
- *    blur and no zoom: a blurred, zoomed copy dragged the dark product from the centre into
- *    the strips and painted grey bands beside white packshots. The 16px file is smooth
- *    enough once the browser scales it up. A uniform 3% veil over the whole frame gives
- *    every tile the same edge against the page, so mixed photos read as one grid.
- *    The backdrop is decoration only (`data-product-media-backdrop`).
+ *    continues that picture's own EDGE (`./backdrop`): a strip beside a white packshot is
+ *    white and a strip beside a full-bleed infographic repeats the colours the infographic
+ *    ends with. A uniform 3% veil over the whole frame gives every tile the same edge
+ *    against the page, so mixed photos read as one grid.
  * 3. A product without photos keeps the same frame and shows a designed placeholder in
  *    it. A missing photo never changes a card's height.
  *
@@ -97,17 +93,7 @@ export default function ProductMedia({
     >
       {src ? (
         <>
-          <Image
-            src={src}
-            alt=""
-            aria-hidden
-            fill
-            quality={30}
-            sizes="16px"
-            draggable={false}
-            data-product-media-backdrop=""
-            className="object-fill"
-          />
+          <ProductMediaBackdrop src={src} />
           <Image
             src={src}
             alt={alt}
