@@ -72,6 +72,7 @@ export const OWNER_ROUTES = [
   { path: "/orders/:order_id/fulfillment", core: true, kind: "overlay" },
   { path: "/orders/:fulfilled_order_id/:fulfillment_id/create-shipment", kind: "overlay" },
   { path: "/orders/:order_id/returns", kind: "placeholder" },
+  { path: "/orders/:order_id/returns/:return_id/receive", kind: "placeholder" },
   { path: "/orders/:order_id/claims", kind: "placeholder" },
   { path: "/orders/:order_id/exchanges", kind: "placeholder" },
   { path: "/orders/:order_id/edits", kind: "placeholder" },
@@ -96,7 +97,7 @@ export const OWNER_ROUTES = [
   { path: "/promotions/:promotion_id" },
   { path: "/promotions/:promotion_id/edit", kind: "overlay" },
   { path: "/promotions/:promotion_id/add-to-campaign", kind: "overlay" },
-  { path: "/promotions/:promotion_id/rules/edit", kind: "overlay" },
+  { path: "/promotions/:promotion_id/:rule_type/edit", kind: "overlay" },
   { path: "/campaigns" },
   { path: "/campaigns/create", kind: "overlay" },
   { path: "/campaigns/:campaign_id" },
@@ -249,6 +250,13 @@ export const PARAM_RESOLVERS = {
     }
     return mp.id
   },
+  // The panel never creates a return, so there is no real id to read. The route
+  // renders the "not built" placeholder whatever the id is, and the walker only
+  // needs to see what that placeholder tells the owner.
+  return_id: async () => "return-placeholder",
+  // The router takes the rule group as a param; "rules" is the first of the
+  // three the promotion screens link to (rules, target-rules, buy-rules).
+  rule_type: async () => "rules",
   customer_id: async (api) => {
     const { customers } = await api("/tenants/customers?limit=1")
     return first(customers, "customers").id
