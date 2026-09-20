@@ -138,7 +138,29 @@ const walkWidth = async (browser, width) => {
   const record = async (route, url) => {
     const slug = slugOf(route.path)
     const m = await measure(page)
+    // The shell scrolls an inner container, not the document, so a "full page"
+    // screenshot stops at the fold. Grow the viewport by what that container
+    // hides, shoot, and put the viewport back. The overflow figures above were
+    // taken at the real viewport, before this.
+    const hidden = await page.evaluate(() => {
+      let most = 0
+      for (const el of document.querySelectorAll("*")) {
+        const oy = getComputedStyle(el).overflowY
+        if ((oy === "auto" || oy === "scroll") && el.scrollHeight > el.clientHeight) {
+          most = Math.max(most, el.scrollHeight - el.clientHeight)
+        }
+      }
+      return most
+    })
+    const base = heightFor(width)
+    if (hidden > 0) {
+      await page.setViewportSize({ width, height: Math.min(base + hidden, 12_000) })
+      await page.waitForTimeout(200)
+    }
     await page.screenshot({ path: join(dir, `${slug}.png`), fullPage: true })
+    if (hidden > 0) {
+      await page.setViewportSize({ width, height: base })
+    }
     writeFileSync(join(dir, `${slug}.txt`), m.text)
     const row = {
       route: route.path,
