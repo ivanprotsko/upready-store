@@ -9,7 +9,8 @@
 //   - a product image is clipped (cover into a box of another ratio, or an image overflowing
 //     a frame that hides overflow),
 //   - the frames inside one grid differ in aspect ratio,
-//   - the cards inside one grid row differ in height.
+//   - the cards inside one grid row differ in height, or their titles or prices do not stand
+//     on one line across the row.
 //
 //   BASE_URL=http://cherkashino.localhost:8121 node apps/storefront/e2e/image-framing.e2e.mjs
 //
@@ -76,6 +77,8 @@ const measure = () => {
   }
 
   const images = [...new Set(document.querySelectorAll(MEDIA))]
+    // The blurred backdrop of a frame is decoration behind the picture, not the picture.
+    .filter((img) => !img.hasAttribute("data-product-media-backdrop"))
     .filter((img) => {
       const rect = img.getBoundingClientRect()
       const style = getComputedStyle(img)
@@ -123,15 +126,23 @@ const measure = () => {
         if (!rows.has(key)) rows.set(key, [])
         // The card's own content box: what a shopper reads as "the card".
         const inner = card.querySelector('[data-testid="product-wrapper"]').getBoundingClientRect()
-        rows.get(key).push(round(inner.height))
+        const topOf = (selector) => {
+          const node = card.querySelector(selector)
+          return node ? round(node.getBoundingClientRect().top + window.scrollY) : null
+        }
+        rows.get(key).push({
+          height: round(inner.height),
+          title: topOf('[data-testid="product-title"]'),
+          price: topOf('[data-testid="price"]'),
+        })
       }
       const frames = cards
         .map((card) => card.querySelector('[data-product-media], [data-testid="product-wrapper"] > :first-child'))
         .filter(Boolean)
-        .map((frame) => {
-          const rect = frame.getBoundingClientRect()
-          return round(rect.width / rect.height)
-        })
+        .map((frame) => frame.getBoundingClientRect())
+        // A card a breakpoint hides (a home section's row budget) has no box to measure.
+        .filter((rect) => rect.width >= 1 && rect.height >= 1)
+        .map((rect) => round(rect.width / rect.height))
       return { index, columns: Math.max(...[...rows.values()].map((r) => r.length)), rows: [...rows.values()], frames }
     })
     .filter(Boolean)
@@ -173,9 +184,23 @@ async function report(page, where, { shot }) {
     console.log(`  grid#${grid.index} columns=${grid.columns} frame ratios=${ratios.join(",")}`)
     if (ratios.length > 1) fail(where, `grid#${grid.index} mixes frame ratios ${ratios.join(", ")}`)
     grid.rows.forEach((row, i) => {
-      const spread = Math.max(...row) - Math.min(...row)
-      console.log(`    row ${i + 1}: card heights ${row.join(" ")}${spread > 1 ? "  <- uneven" : ""}`)
-      if (spread > 1) fail(where, `grid#${grid.index} row ${i + 1} card heights differ by ${spread.toFixed(1)}px`)
+      const spreadOf = (values) => {
+        const known = values.filter((v) => v !== null)
+        return known.length ? Math.max(...known) - Math.min(...known) : 0
+      }
+      const heights = spreadOf(row.map((card) => card.height))
+      // What a shopper reads across a row: every title starts on one line, every price
+      // stands on one line.
+      const titles = spreadOf(row.map((card) => card.title))
+      const prices = spreadOf(row.map((card) => card.price))
+      const uneven = heights > 1 || titles > 1 || prices > 1
+      console.log(
+        `    row ${i + 1}: card heights ${row.map((card) => card.height).join(" ")}` +
+          ` | title line spread ${titles.toFixed(1)} | price line spread ${prices.toFixed(1)}${uneven ? "  <- uneven" : ""}`
+      )
+      if (heights > 1) fail(where, `grid#${grid.index} row ${i + 1} card heights differ by ${heights.toFixed(1)}px`)
+      if (titles > 1) fail(where, `grid#${grid.index} row ${i + 1} titles start ${titles.toFixed(1)}px apart`)
+      if (prices > 1) fail(where, `grid#${grid.index} row ${i + 1} prices stand ${prices.toFixed(1)}px apart`)
     })
   }
   if (SHOTS && shot) {
