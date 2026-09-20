@@ -60,11 +60,11 @@ const call = async (method, path, { body, token, key } = {}) => {
 }
 
 const SHOPPERS = [
-  { first: "Мария", last: "Кузнецова", city: "Казань", street: "ул. Баумана, 12, кв. 40", zip: "420111", phone: "+79170000101" },
-  { first: "Алексей", last: "Смирнов", city: "Новосибирск", street: "Красный проспект, 77, кв. 5", zip: "630099", phone: "+79130000102" },
-  { first: "Екатерина", last: "Волкова", city: "Самара", street: "ул. Ленинградская, 3", zip: "443010", phone: "+79270000103" },
-  { first: "Дмитрий", last: "Соколов", city: "Екатеринбург", street: "ул. Малышева, 51, оф. 210", zip: "620075", phone: "+79220000104" },
-  { first: "Анна-Виктория", last: "Константинопольская-Задунайская", city: "Петропавловск-Камчатский", street: "проспект 50 лет Октября, 15/2, корпус 3, квартира 118", zip: "683024", phone: "+79140000105" },
+  { first: "Мария", last: "Кузнецова", city: "Казань", province: "Республика Татарстан", street: "ул. Баумана, 12, кв. 40", zip: "420111", phone: "+79170000101" },
+  { first: "Алексей", last: "Смирнов", city: "Новосибирск", province: "Новосибирская область", street: "Красный проспект, 77, кв. 5", zip: "630099", phone: "+79130000102" },
+  { first: "Екатерина", last: "Волкова", city: "Самара", province: "Самарская область", street: "ул. Ленинградская, 3", zip: "443010", phone: "+79270000103" },
+  { first: "Дмитрий", last: "Соколов", city: "Екатеринбург", province: "Свердловская область", street: "ул. Малышева, 51, оф. 210", zip: "620075", phone: "+79220000104" },
+  { first: "Анна-Виктория", last: "Константинопольская-Задунайская", city: "Петропавловск-Камчатский", province: "Камчатский край", street: "проспект 50 лет Октября, 15/2, корпус 3, квартира 118", zip: "683024", phone: "+79140000105" },
 ]
 
 /** What the owner does with each order after it lands, in order of creation. */
@@ -159,6 +159,7 @@ const main = async () => {
         last_name: shopper.last,
         address_1: shopper.street,
         city: shopper.city,
+        province: shopper.province,
         country_code: country,
         postal_code: shopper.zip,
         phone: shopper.phone,
@@ -199,7 +200,8 @@ const main = async () => {
       })
       if (done.data.type === "order") {
         placed.push({ id: done.data.order.id, productId: product.id, customerToken, shopper })
-      } else {
+      } else if (done.ok) {
+        // A 200 that is not an order: the cart came back with a payment error.
         failures += 1
         console.log(`FAIL the cart did not complete into an order: ${JSON.stringify(done.data).slice(0, 240)}`)
       }
@@ -235,8 +237,18 @@ const main = async () => {
       token: owner,
       body: { items },
     })
-    const fulfillment = (packed.data.order?.fulfillments ?? []).at(-1)
-    if (fate === "pack" || !fulfillment) continue
+    if (fate === "pack" || !packed.ok) continue
+    // The answer to the packing call carries no fulfillments (measured on the
+    // stand), so the order is read again. A packed order without one is a
+    // failure, never a reason to skip quietly: the first version of this script
+    // skipped here and reported a clean run with no order ever shipped.
+    const after = await call("GET", `/tenants/orders/${order.id}?fields=id,*fulfillments`, { token: owner })
+    const fulfillment = (after.data.order?.fulfillments ?? []).find((f) => !f.shipped_at && !f.canceled_at)
+    if (!fulfillment) {
+      failures += 1
+      console.log(`FAIL order ${order.id} was packed but shows no open fulfillment; it cannot be shipped`)
+      continue
+    }
     await call("POST", `/tenants/orders/${order.id}/fulfillments/${fulfillment.id}/shipments`, {
       token: owner,
       body: { items, labels: [{ tracking_number: `8004${1000 + i}`, tracking_url: "#", label_url: "#" }] },
