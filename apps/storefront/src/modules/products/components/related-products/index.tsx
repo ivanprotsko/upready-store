@@ -2,6 +2,7 @@ import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import type { HttpTypes } from "@medusajs/types"
 import { getTranslations } from "next-intl/server"
+import { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
 import Product from "../product-preview"
 
 type RelatedProductsProps = {
@@ -54,9 +55,9 @@ export default async function RelatedProducts({
         <h2 className="h3-webs text-ui-fg-base">{t("title")}</h2>
       </div>
 
-      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-2 small:gap-x-6 gap-y-8">
+      <ul className={PRODUCT_GRID_CLASS}>
         {products.map((product) => (
-          <li key={product.id}>
+          <li key={product.id} className="min-w-0">
             <Product region={region} product={product} />
           </li>
         ))}

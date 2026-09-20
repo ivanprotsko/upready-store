@@ -8,6 +8,7 @@ import { getHomeRegion, resolveHomeListing } from "@lib/data/home"
 import type { HomeListingProps } from "@modules/home/variants/types"
 import Thumbnail from "@modules/products/components/thumbnail"
 import AddToBagButton from "@modules/home/components/add-to-bag-button"
+import { HOME_SECTION_CLASS, ListingSectionHeader } from "@modules/home/components/listing-section"
 
 /** Colour-option-value count and variant count for one product, the same option-value
  *  bookkeeping `ProductPreview` already does for its colour chips
@@ -37,8 +38,9 @@ function specCounts(product: HttpTypes.StoreProduct) {
  * Lead collection, 6 products. Returns a single `<li>`.
  */
 export default async function ListingP3({ products: source }: HomeListingProps = {}) {
-  const [t, locale, region] = await Promise.all([
+  const [t, tStore, locale, region] = await Promise.all([
     getTranslations("HomeListing"),
+    getTranslations("Store"),
     getLocale(),
     getHomeRegion(),
   ])
@@ -56,20 +58,12 @@ export default async function ListingP3({ products: source }: HomeListingProps =
   const { products, heading, href } = block
 
   return (
-    <li className="content-container py-12 small:py-24" data-testid="home-listing-p3">
-      <div className="mb-6 flex items-baseline justify-between gap-4 small:mb-8">
-        <h2 className="text-lg font-semibold tracking-[-0.02em] text-ui-fg-base small:text-xl">
-          {heading}
-        </h2>
-        {href ? (
-          <Link
-            href={href}
-            className="flex shrink-0 items-center gap-1 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-          >
-            {t("seeAll")}
-          </Link>
-        ) : null}
-      </div>
+    <li className={HOME_SECTION_CLASS} data-testid="home-listing-p3">
+      <ListingSectionHeader
+        heading={heading ?? t("p4.heading")}
+        href={href ?? "/store"}
+        linkLabel={href ? t("seeAll") : tStore("allProducts")}
+      />
       <ul className="flex flex-col border-t border-ui-border-base">
         {products.map((product) => {
           const { cheapestPrice } = getProductPrice({ product, locale })
