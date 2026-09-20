@@ -1,5 +1,7 @@
 # Merge report — landing port `apps/homepage/port` (2026-09-13 00:58 WITA)
 
+> **СНЯТО С ДОМЕНА 2026-09-14 21:52 WITA.** upready.dev теперь отдаёт другую страницу (репозиторий `~/upready/projects/upready-dev`, деплой `62ebca64`). Эта сборка не удалена и открывается на https://fbdb8855.upready-landing.pages.dev/ — подробности и запрет на повторный выкат: `apps/homepage/port/OFFLINE-NOTICE.md`.
+
 Merger pass over the 16 section ports, per
 `artifacts/docs/2026-09-12-homepage-landing-port-brief.md` §4.
 
