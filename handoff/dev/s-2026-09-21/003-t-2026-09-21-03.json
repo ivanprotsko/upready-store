@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-21",
+  "index": 3,
+  "action": "task-add",
+  "ts": "2026-09-21T02:13:12+08:00",
+  "status": "2026-09-18 11:25 WITA: разбор по заказу Ивана 11:18 — (1) сторож дня остановлен в 10:18, через 16 мин день закрылся DONE (10:34) с 9 blocked + 1 failed, диспетчер 49437 мёртв, никто не уведомлён; (2) замер knowledge-index.md: 353 КБ / 1064 строки, 30 блоков large-file-edit-guard в 30 сессиях без единой эскалации, обход через Bash >>; ошибка записана aie-20260918-112458-f930 | 2026-09-19 03:44 WITA: штаб-движок перенесён в devops/staff (PR #1 смёржен); копия в handoff/day-2026-09-16-oksana-store — образец, armed:false; см. INTAKE.md пометку штаба unsubbed.co",
+  "task": {
+    "id": "t-2026-09-21-03",
+    "title": "Движок: закрыть записанные дефекты данных и кэша, ревью архитектуры платформы с ранжированными рисками, рефакторинг без смены поведения, зелёный dev",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Order o-20260921-01 (Ivan via HQ, 2026-09-21), approved by order o-20260921-01. Ivan verbatim: «пусть запустить задачи, которые нужно было выполнить, проведут ревью архитектуры, сделают рефакторинг если нужно». Folds in outstanding tasks: t-2026-09-12-tenant-home-revalidate-missing, t-port-stale-inventory-fix, t-revalidate-product-type-gap, t-port-stale-cart-fix, t-2026-09-12-turbopack-use-server-type-export, t-e2e-funnel-unblock, the catalog-enrich dry-run counter defect (apps/backend/src/catalog-enrich/apply.ts:465, question q-zavesti-zadachey-defekt-naydennyy-dvazhdy), cross-shop order visibility (q-ogranichivat-li-get-store-orders, q-priemka-f03-pr-42-smerzhen). Off limits for this unit: apps/storefront/src/modules, apps/storefront/src/styles, apps/tenant-panel/src/routes and components (owned by t-2026-09-21-01 and -02). Branch refactor/o21-architecture-review, worker model fable.",
+    "tags": [
+      "o-20260921-01",
+      "architecture",
+      "backend",
+      "refactor"
+    ],
+    "project": "upready-store",
+    "created": "2026-09-21T02:13:12+08:00",
+    "updated": "2026-09-21T02:13:12+08:00"
+  }
+}

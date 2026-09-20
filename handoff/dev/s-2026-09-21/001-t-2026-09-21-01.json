@@ -1,0 +1,26 @@
+{
+  "schema": "upready.handoff/v1-scope",
+  "project": "upready-store",
+  "branch": "dev",
+  "session": "s-2026-09-21",
+  "index": 1,
+  "action": "task-add",
+  "ts": "2026-09-21T02:13:12+08:00",
+  "status": "2026-09-18 11:25 WITA: разбор по заказу Ивана 11:18 — (1) сторож дня остановлен в 10:18, через 16 мин день закрылся DONE (10:34) с 9 blocked + 1 failed, диспетчер 49437 мёртв, никто не уведомлён; (2) замер knowledge-index.md: 353 КБ / 1064 строки, 30 блоков large-file-edit-guard в 30 сессиях без единой эскалации, обход через Bash >>; ошибка записана aie-20260918-112458-f930 | 2026-09-19 03:44 WITA: штаб-движок перенесён в devops/staff (PR #1 смёржен); копия в handoff/day-2026-09-16-oksana-store — образец, armed:false; см. INTAKE.md пометку штаба unsubbed.co",
+  "task": {
+    "id": "t-2026-09-21-01",
+    "title": "Витрина магазина клиента cherkashino: система кадрирования фото без обрезки, ровные сетки, PDP, фильтры, подвал, мобильная — и открытые дефекты интерфейса витрины",
+    "state": "backlog",
+    "priority": "high",
+    "details": "Order o-20260921-01 (Ivan via HQ, 2026-09-21), approved by order o-20260921-01. Ivan verbatim: «качественный сайт cherkashino созданный на upready-store для реального клиента, с классным визуалом, аккуратно оформленными картинками, а не обрезаными как попало»; «с UI там все очень плохо … нужно предпринять всё что можно, чтобы исправить неудобства интерфейса». Lead measurement 2026-09-21 02:09 WITA on https://cherkashino.shipshift.dev: product photos 3:4 rendered into 1:1 frames with object-fit cover (9 of 9 on /ru/store), infographic captions cut, card heights uneven, no-photo products render a taller empty frame, six raw facet selects, empty footer brand block. Folds in outstanding tasks: t-2026-09-12-seed-option-filter-duplicates, t-2026-09-12-seeded-hosts-no-locale-controls, t-header-not-a-landmark, t-select-allowlist-gap, t-port-account-info-alignment, t-2026-09-08-02, t-2026-09-10-02. Branch feat/o21-storefront-visual-cherkashino, worker model fable.",
+    "tags": [
+      "o-20260921-01",
+      "storefront",
+      "cherkashino",
+      "ui"
+    ],
+    "project": "upready-store",
+    "created": "2026-09-21T02:13:12+08:00",
+    "updated": "2026-09-21T02:13:12+08:00"
+  }
+}
