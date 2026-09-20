@@ -756,7 +756,8 @@
     "addToCart": "Tambah ke troli",
     "outOfStock": "Kehabisan stok",
     "selectOptions": "Pilih Opsyen",
-    "selectVariant": "Pilih varian"
+    "selectVariant": "Pilih varian",
+    "inStock": "Ada stok"
   },
   "ProductAttributes": {
     "no": "Tidak",

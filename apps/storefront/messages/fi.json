@@ -756,7 +756,8 @@
     "addToCart": "Lisää ostoskoriin",
     "outOfStock": "Ei varastossa",
     "selectOptions": "Valitse vaihtoehdot",
-    "selectVariant": "Valitse versio"
+    "selectVariant": "Valitse versio",
+    "inStock": "Varastossa"
   },
   "ProductAttributes": {
     "no": "Ei",

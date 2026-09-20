@@ -756,7 +756,8 @@
     "addToCart": "Thêm vào giỏ hàng",
     "outOfStock": "Hết hàng",
     "selectOptions": "Chọn tùy chọn",
-    "selectVariant": "Chọn phiên bản"
+    "selectVariant": "Chọn phiên bản",
+    "inStock": "Còn hàng"
   },
   "ProductAttributes": {
     "no": "Không",

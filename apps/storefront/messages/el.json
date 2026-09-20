@@ -756,7 +756,8 @@
     "addToCart": "Προσθήκη στο καλάθι",
     "outOfStock": "Εξαντλήθηκε",
     "selectOptions": "Επιλέξτε επιλογές",
-    "selectVariant": "Επιλέξτε παραλλαγή"
+    "selectVariant": "Επιλέξτε παραλλαγή",
+    "inStock": "Σε απόθεμα"
   },
   "ProductAttributes": {
     "no": "Όχι",

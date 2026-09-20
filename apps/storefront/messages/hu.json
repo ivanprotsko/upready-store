@@ -756,7 +756,8 @@
     "addToCart": "Kosárba",
     "outOfStock": "Elfogyott",
     "selectOptions": "Opciók kiválasztása",
-    "selectVariant": "Válasszon variánst"
+    "selectVariant": "Válasszon variánst",
+    "inStock": "Raktáron"
   },
   "ProductAttributes": {
     "no": "Nem",

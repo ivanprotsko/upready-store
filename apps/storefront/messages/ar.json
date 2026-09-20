@@ -756,7 +756,8 @@
     "addToCart": "أضف إلى السلة",
     "outOfStock": "غير متوفر",
     "selectOptions": "اختر الخيارات",
-    "selectVariant": "اختر الخيار"
+    "selectVariant": "اختر الخيار",
+    "inStock": "متوفر"
   },
   "ProductAttributes": {
     "no": "لا",

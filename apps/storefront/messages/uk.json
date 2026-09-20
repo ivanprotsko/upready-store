@@ -756,7 +756,8 @@
     "addToCart": "У кошик",
     "outOfStock": "Немає в наявності",
     "selectOptions": "Обрати опції",
-    "selectVariant": "Оберіть варіант"
+    "selectVariant": "Оберіть варіант",
+    "inStock": "Є в наявності"
   },
   "ProductAttributes": {
     "no": "Ні",

@@ -756,7 +756,8 @@
     "addToCart": "カートに追加",
     "outOfStock": "在庫切れ",
     "selectOptions": "オプションを選択",
-    "selectVariant": "バリエーションを選択"
+    "selectVariant": "バリエーションを選択",
+    "inStock": "在庫あり"
   },
   "ProductAttributes": {
     "no": "いいえ",

@@ -756,7 +756,8 @@
     "addToCart": "В корзину",
     "outOfStock": "Нет в наличии",
     "selectOptions": "Выбрать опции",
-    "selectVariant": "Выбрать вариант"
+    "selectVariant": "Выбрать вариант",
+    "inStock": "В наличии"
   },
   "ProductAttributes": {
     "no": "Нет",

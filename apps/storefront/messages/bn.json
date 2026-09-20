@@ -756,7 +756,8 @@
     "addToCart": "কার্টে যোগ করুন",
     "outOfStock": "স্টকে নেই",
     "selectOptions": "অপশন নির্বাচন করুন",
-    "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন"
+    "selectVariant": "ভ্যারিয়েন্ট নির্বাচন করুন",
+    "inStock": "স্টকে আছে"
   },
   "ProductAttributes": {
     "no": "না",

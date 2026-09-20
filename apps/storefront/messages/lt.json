@@ -756,7 +756,8 @@
     "addToCart": "Į krepšelį",
     "outOfStock": "Nėra sandėlyje",
     "selectOptions": "Pasirinkti parinktis",
-    "selectVariant": "Pasirinkite variantą"
+    "selectVariant": "Pasirinkite variantą",
+    "inStock": "Turime sandėlyje"
   },
   "ProductAttributes": {
     "no": "Ne",

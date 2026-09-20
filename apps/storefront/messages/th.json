@@ -756,7 +756,8 @@
     "addToCart": "เพิ่มลงตะกร้า",
     "outOfStock": "สินค้าหมด",
     "selectOptions": "เลือกตัวเลือก",
-    "selectVariant": "เลือกตัวเลือกสินค้า"
+    "selectVariant": "เลือกตัวเลือกสินค้า",
+    "inStock": "มีสินค้า"
   },
   "ProductAttributes": {
     "no": "ไม่ใช่",

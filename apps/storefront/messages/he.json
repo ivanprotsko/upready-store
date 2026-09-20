@@ -756,7 +756,8 @@
     "addToCart": "הוספה לעגלה",
     "outOfStock": "אזל מהמלאי",
     "selectOptions": "בחירת אפשרויות",
-    "selectVariant": "בחר וריאציה"
+    "selectVariant": "בחר וריאציה",
+    "inStock": "במלאי"
   },
   "ProductAttributes": {
     "no": "לא",

@@ -756,7 +756,8 @@
     "addToCart": "Idagdag sa cart",
     "outOfStock": "Wala nang stock",
     "selectOptions": "Pumili ng Opsyon",
-    "selectVariant": "Pumili ng variant"
+    "selectVariant": "Pumili ng variant",
+    "inStock": "May stock"
   },
   "ProductAttributes": {
     "no": "Hindi",

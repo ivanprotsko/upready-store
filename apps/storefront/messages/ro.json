@@ -756,7 +756,8 @@
     "addToCart": "Adaugă în coș",
     "outOfStock": "Stoc epuizat",
     "selectOptions": "Selectează opțiunile",
-    "selectVariant": "Selectează varianta"
+    "selectVariant": "Selectează varianta",
+    "inStock": "În stoc"
   },
   "ProductAttributes": {
     "no": "Nu",

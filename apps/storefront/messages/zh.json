@@ -756,7 +756,8 @@
     "addToCart": "加入购物车",
     "outOfStock": "缺货",
     "selectOptions": "选择选项",
-    "selectVariant": "选择规格"
+    "selectVariant": "选择规格",
+    "inStock": "有货"
   },
   "ProductAttributes": {
     "no": "否",

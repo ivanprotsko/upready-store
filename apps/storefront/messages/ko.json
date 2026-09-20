@@ -756,7 +756,8 @@
     "addToCart": "장바구니에 담기",
     "outOfStock": "품절",
     "selectOptions": "옵션 선택",
-    "selectVariant": "옵션 선택"
+    "selectVariant": "옵션 선택",
+    "inStock": "재고 있음"
   },
   "ProductAttributes": {
     "no": "아니오",

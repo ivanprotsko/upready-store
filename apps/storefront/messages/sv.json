@@ -756,7 +756,8 @@
     "addToCart": "Lägg i varukorgen",
     "outOfStock": "Slut i lager",
     "selectOptions": "Välj alternativ",
-    "selectVariant": "Välj variant"
+    "selectVariant": "Välj variant",
+    "inStock": "I lager"
   },
   "ProductAttributes": {
     "no": "Nej",

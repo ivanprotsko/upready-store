@@ -756,7 +756,8 @@
     "addToCart": "Sepete ekle",
     "outOfStock": "Stokta yok",
     "selectOptions": "Seçenekleri Seç",
-    "selectVariant": "Varyant seçin"
+    "selectVariant": "Varyant seçin",
+    "inStock": "Stokta"
   },
   "ProductAttributes": {
     "no": "Hayır",

@@ -756,7 +756,8 @@
     "addToCart": "Pridať do košíka",
     "outOfStock": "Nie je skladom",
     "selectOptions": "Vybrať možnosti",
-    "selectVariant": "Vyberte variant"
+    "selectVariant": "Vyberte variant",
+    "inStock": "Skladom"
   },
   "ProductAttributes": {
     "no": "Nie",

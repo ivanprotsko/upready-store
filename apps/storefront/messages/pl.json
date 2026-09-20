@@ -756,7 +756,8 @@
     "addToCart": "Dodaj do koszyka",
     "outOfStock": "Brak w magazynie",
     "selectOptions": "Wybierz opcje",
-    "selectVariant": "Wybierz wariant"
+    "selectVariant": "Wybierz wariant",
+    "inStock": "W magazynie"
   },
   "ProductAttributes": {
     "no": "Nie",

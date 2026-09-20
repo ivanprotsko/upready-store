@@ -756,7 +756,8 @@
     "addToCart": "კალათაში დამატება",
     "outOfStock": "არ არის მარაგში",
     "selectOptions": "აირჩიეთ ოფციები",
-    "selectVariant": "აირჩიეთ ვარიანტი"
+    "selectVariant": "აირჩიეთ ვარიანტი",
+    "inStock": "მარაგშია"
   },
   "ProductAttributes": {
     "no": "არა",

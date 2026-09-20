@@ -756,7 +756,8 @@
     "addToCart": "Добави в кошницата",
     "outOfStock": "Изчерпан",
     "selectOptions": "Избери опции",
-    "selectVariant": "Избери вариант"
+    "selectVariant": "Избери вариант",
+    "inStock": "В наличност"
   },
   "ProductAttributes": {
     "no": "Не",
