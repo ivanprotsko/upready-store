@@ -14,11 +14,10 @@ import { listProductAttributes } from "@lib/data/product-attributes"
  * A server component with its own fetch, so a product page that carries no
  * characteristics costs the same as before.
  *
- * b17: the block sits where the chrxnasdmds page puts its «О товаре» table —
- * directly under the title and the rating, in the column beside the gallery,
- * which is the first thing a buyer reads after the photo. It took that table's
- * shape too: a heading, then one hairline row per characteristic with the name
- * on the left and the value on the right. `#product-attributes` is an anchor,
+ * The block sits under the description, across the page, as a table in two columns
+ * from 1024 (one on a phone): one hairline row per characteristic, the name on the left
+ * and the value on the right. Beside the gallery it pushed the buy button off the first
+ * screen for a product with a dozen characteristics. `#product-attributes` is an anchor,
  * so a link can point at it.
  */
 const ProductAttributes = async ({ productId }: { productId: string }) => {
@@ -47,21 +46,21 @@ const ProductAttributes = async ({ productId }: { productId: string }) => {
   return (
     <div
       id="product-attributes"
-      className="scroll-mt-24 w-full flex flex-col gap-y-2"
+      className="scroll-mt-24 w-full flex flex-col gap-y-4"
       data-testid="product-attributes"
     >
-      <h2 className="text-lg font-medium leading-tight text-ui-fg-base">
+      <h2 className="text-xl small:text-2xl font-medium leading-tight text-ui-fg-base">
         {t("title")}
       </h2>
-      <dl className="flex flex-col">
+      <dl className="grid grid-cols-1 gap-x-12 small:grid-cols-2">
         {rows.map((row) => (
           <div
             key={row.key}
-            className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-4 py-2 border-b border-ui-border-base last:border-b-0"
+            className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-4 border-b border-ui-border-base py-2.5"
             data-testid={`product-attribute-${row.key}`}
           >
             <dt className="txt-medium text-ui-fg-subtle">{row.name}</dt>
-            <dd className="txt-medium text-ui-fg-base">{displayValue(row)}</dd>
+            <dd className="txt-medium break-words text-ui-fg-base">{displayValue(row)}</dd>
           </div>
         ))}
       </dl>

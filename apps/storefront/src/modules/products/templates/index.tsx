@@ -91,37 +91,18 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
       >
         <Breadcrumb items={breadcrumbItems} />
 
-        {/* b17: the frame of the chrxnasdmds product page.
-              base   (<512)      one column, everything stacked
-              xsmall (512–1023)  gallery | summary, the buy card below both
-              small  (1024+)     gallery | summary | sticky buy card
-            The gallery column is the narrow one on purpose: a hero sized to
-            half the page is what turned the old layout into a column of
-            full-width photos with the text pushed off the first screen. The
-            description and the characteristics span the first two columns
-            under the gallery, which is where that page puts them. */}
-        <div className="grid grid-cols-1 xsmall:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] small:grid-cols-[minmax(0,1fr)_minmax(240px,1fr)_minmax(260px,22rem)] gap-6 small:gap-x-8 small:gap-y-10 items-start">
-          <div className="w-full min-w-0 self-start">
-            <ImageGallery
-              images={images}
-              aspectRatio={
-                (product.metadata as Record<string, unknown> | null)
-                  ?.aspect_ratio as string | undefined
-              }
-            />
+        {/* Two columns from 1024: the gallery, and the buy box that stays in view beside it.
+            The gallery column is capped so the 4:5 main frame fits a laptop screen with
+            the header above it. It used to be three columns (gallery | summary | buy
+            card) with the gallery in the narrowest one, which left a small photo and a
+            void under the two short columns. On a phone everything stacks, gallery first. */}
+        <div className="grid grid-cols-1 items-start gap-x-8 gap-y-6 small:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] medium:gap-x-12">
+          <div className="w-full min-w-0 small:max-w-[660px]">
+            <ImageGallery images={images} title={product.title} />
           </div>
 
-          <div className="min-w-0 flex flex-col gap-y-6 self-start xsmall:col-start-2 small:col-start-2">
+          <aside className="flex min-w-0 flex-col gap-y-6 small:sticky small:top-20 small:max-w-[520px]">
             <ProductInfo product={product} reviews={reviews.summary} />
-            {/* t15-product-attributes, in the place the chrxnasdmds page keeps
-                its «О товаре» table: right under the rating, so the first
-                thing after the photo is what the product actually is. */}
-            <Suspense fallback={null}>
-              <ProductAttributes productId={product.id} />
-            </Suspense>
-          </div>
-
-          <aside className="min-w-0 flex flex-col gap-y-6 xsmall:col-span-2 small:col-span-1 small:col-start-3 small:row-start-1 small:sticky small:top-20 small:self-start">
             <ProductOnboardingCta />
             <Suspense
               fallback={
@@ -136,13 +117,16 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             </Suspense>
             <ProductTabs product={product} />
           </aside>
+        </div>
 
-          {/* The description spans the gallery and the summary columns, under
-              both — the longest text on the page, at the width that makes it
-              readable. A product with none renders nothing here. */}
-          <div className="min-w-0 xsmall:col-span-2 small:col-start-1 small:col-end-3 small:row-start-2">
-            <ProductDescription product={product} />
-          </div>
+        {/* Under both columns, on one spacing scale: what the product is (the longest text
+            on the page, at a measure that reads), then its characteristics as a table. A
+            product with neither renders neither, and no empty heading. */}
+        <div className="flex flex-col gap-y-10 pt-4 small:gap-y-12 small:pt-8">
+          <ProductDescription product={product} />
+          <Suspense fallback={null}>
+            <ProductAttributes productId={product.id} />
+          </Suspense>
         </div>
       </div>
 
@@ -154,7 +138,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
       />
 
       <div
-        className="content-container my-16 small:my-32"
+        className="content-container my-12 small:my-16"
         data-testid="related-products-container"
       >
         <Suspense fallback={<SkeletonRelatedProducts />}>

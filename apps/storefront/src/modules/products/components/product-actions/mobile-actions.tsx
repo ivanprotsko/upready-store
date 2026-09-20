@@ -60,8 +60,13 @@ const MobileActions: React.FC<MobileActionsProps> = ({
 
   return (
     <>
+      {/* The sticky buy bar of a phone. It stands ON the bottom navigation (`bottom-16`,
+          the nav's own height) instead of sliding under it with 80px of padding, and it is
+          one row: the price, the variant picker when there is one, the button. The title
+          is not repeated here; the page's own heading is a scroll away and the bar is
+          what covers content, so it stays as low as a button. */}
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed z-30", {
+        className={clx("lg:hidden inset-x-0 bottom-16 fixed z-30", {
           "pointer-events-none": !show,
         })}
       >
@@ -69,75 +74,70 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           as={Fragment}
           show={show}
           enter="ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+          enterFrom="opacity-0 translate-y-2"
+          enterTo="opacity-100 translate-y-0"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-2"
         >
           <div
-            className="bg-ui-bg-base flex flex-col gap-y-3 justify-center items-center text-large-regular px-4 pt-4 pb-20 w-full border-t border-ui-border-base"
+            className="flex w-full items-center gap-x-3 border-t border-ui-border-base bg-ui-bg-base px-4 py-2.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
+            <span className="sr-only" data-testid="mobile-title">
+              {product.title}
+            </span>
+            <div className="flex min-w-0 shrink-0 flex-col leading-tight tabular-nums">
               {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
-                  {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through text-small-regular">
-                        {selectedPrice.original_price}
-                      </span>
-                    </p>
-                  )}
+                <>
                   <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
+                    className={clx("text-base font-semibold", {
+                      "text-ui-fg-error": selectedPrice.price_type === "sale",
+                      "text-ui-fg-base": selectedPrice.price_type !== "sale",
                     })}
                   >
                     {selectedPrice.calculated_price}
                   </span>
-                </div>
-              ) : (
-                <div></div>
-              )}
+                  {selectedPrice.price_type === "sale" && (
+                    <span className="text-xs text-ui-fg-muted line-through">
+                      {selectedPrice.original_price}
+                    </span>
+                  )}
+                </>
+              ) : null}
             </div>
-            <div className={clx("grid grid-cols-2 w-full gap-x-4", {
-              "!grid-cols-1": isSimple
-            })}>
-              {!isSimple && <Button
+            {!isSimple && (
+              <Button
                 onClick={open}
                 size="large"
                 variant="secondary"
-                className="w-full"
+                className="min-w-0 flex-1"
                 data-testid="mobile-actions-button"
               >
-                <div className="flex items-center justify-between w-full">
-                  <span>
+                <span className="flex w-full min-w-0 items-center justify-between gap-x-1">
+                  <span className="truncate">
                     {variant
                       ? Object.values(options).join(" / ")
                       : t("selectOptions")}
                   </span>
                   <ChevronDown />
-                </div>
-              </Button>}
-              <Button
-                onClick={handleAddToCart}
-                size="large"
-                disabled={!inStock || !variant}
-                className="w-full"
-                isLoading={isAdding}
-                data-testid="mobile-cart-button"
-              >
-                {!variant
-                  ? t("selectVariant")
-                  : !inStock
-                  ? t("outOfStock")
-                  : t("addToCart")}
+                </span>
               </Button>
-            </div>
+            )}
+            <Button
+              onClick={handleAddToCart}
+              size="large"
+              disabled={!inStock || !variant}
+              className="min-w-0 flex-1"
+              isLoading={isAdding}
+              data-testid="mobile-cart-button"
+            >
+              {!variant
+                ? t("selectVariant")
+                : !inStock
+                ? t("outOfStock")
+                : t("addToCart")}
+            </Button>
           </div>
         </Transition>
       </div>
