@@ -219,9 +219,19 @@ try {
 
       await page.goto(`${BASE_URL}/${LOCALE}`, { waitUntil: "domcontentloaded", timeout: 90_000 })
       if (mode === "dark") {
-        const toggle = page.locator('[data-testid="nav-mode-toggle"]').filter({ visible: true }).first()
-        if (await toggle.count()) await toggle.click()
-        const actual = await page.evaluate(() => document.documentElement.getAttribute("data-mode"))
+        // The switch a visitor presses: the header's on a desktop, the bottom nav's on a
+        // phone. A click that lands before hydration does nothing, so it is repeated until
+        // `<html>` really carries the mode.
+        const toggle = page
+          .locator('[data-testid="nav-mode-toggle"], [data-testid="bottom-nav-mode-toggle"]')
+          .filter({ visible: true })
+          .first()
+        const readMode = () => page.evaluate(() => document.documentElement.getAttribute("data-mode"))
+        for (let attempt = 0; attempt < 20 && (await readMode()) !== "dark"; attempt += 1) {
+          if (await toggle.count()) await toggle.click({ timeout: 5_000 }).catch(() => {})
+          await page.waitForTimeout(750)
+        }
+        const actual = await readMode()
         console.log(`  mode toggle pressed, html[data-mode]=${actual}`)
         if (actual !== "dark") fail("home", `dark mode was asked for but html[data-mode] is ${actual}`)
       }
