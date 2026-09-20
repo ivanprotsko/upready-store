@@ -2,13 +2,13 @@
 
 import { MagnifyingGlass, XMarkMini, MagnifierAlert } from "@medusajs/icons"
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react"
-import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import type { HttpTypes } from "@medusajs/types"
 import { searchProducts } from "@lib/data/products"
 import { getProductPrice } from "@lib/util/get-product-price"
+import ProductMedia from "@modules/products/components/product-media"
 
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
@@ -162,17 +162,13 @@ const Search = ({
                       onClick={() => handleSelect(product.handle)}
                       className="flex w-full items-center gap-3 px-4 py-2 text-start transition-colors hover:bg-ui-bg-base-hover"
                     >
-                      <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md bg-ui-bg-component">
-                        {product.thumbnail && (
-                          <Image
-                            src={product.thumbnail}
-                            alt={product.title ?? ""}
-                            width={40}
-                            height={40}
-                            className="h-full w-full object-cover"
-                          />
-                        )}
-                      </div>
+                      <ProductMedia
+                        src={product.thumbnail}
+                        alt={product.title ?? ""}
+                        context="line"
+                        sizes="40px"
+                        className="w-10 shrink-0"
+                      />
                       <span className="min-w-0 flex-1 truncate txt-compact-small text-ui-fg-base">
                         {highlightMatch(product.title ?? "", trimmed)}
                       </span>
