@@ -2,7 +2,10 @@ import type { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 
 import { Link } from "@i18n/navigation"
-import ProductCard, { PRODUCT_GRID_CLASS } from "@modules/products/components/product-card"
+import ProductCard, {
+  PRODUCT_GRID_CLASS,
+  PRODUCT_GRID_ROW_BUDGET,
+} from "@modules/products/components/product-card"
 
 /**
  * One vertical rhythm for every listing section of the home page. The section used to
@@ -41,16 +44,10 @@ export function ListingSectionHeader({
 
 /**
  * The grid itself is the catalog's: the same card, the same columns, the same gaps. What
- * a home section adds is a row budget, so the grid never ends on a ragged row: twelve
- * products are four full rows of three and three of four, and a phone shows the first
- * eight (four rows of two) instead of a six-row scroll. `rows="short"` is the eight-card
- * section, which shows six at three columns for the same reason.
+ * a home section adds is a row budget (`PRODUCT_GRID_ROW_BUDGET`), so the grid never ends
+ * on a ragged row.
  */
-const ROW_BUDGET = {
-  long: "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block",
-  short:
-    "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block",
-} as const
+const ROW_BUDGET = PRODUCT_GRID_ROW_BUDGET
 
 export default function ListingSection({
   heading,

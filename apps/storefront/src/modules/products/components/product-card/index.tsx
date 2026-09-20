@@ -23,6 +23,17 @@ import ProductMedia from "@modules/products/components/product-media"
 export const PRODUCT_GRID_CLASS =
   "grid w-full grid-cols-2 gap-x-3 gap-y-8 small:grid-cols-3 small:gap-x-6 small:gap-y-10 large:grid-cols-4"
 
+/**
+ * A row budget for a grid that is a teaser, not a listing (a home section, the related
+ * products): it never ends on a ragged row. `long` is for twelve cards: four rows of
+ * three, three of four, and the first eight (four rows of two) on a phone. `short` is for
+ * eight: two rows of four, four of two, and six at three columns.
+ */
+export const PRODUCT_GRID_ROW_BUDGET = {
+  long: "[&>li:nth-child(n+9)]:hidden small:[&>li:nth-child(n+9)]:block",
+  short: "small:[&>li:nth-child(n+7)]:hidden large:[&>li:nth-child(n+7)]:block",
+} as const
+
 const MAX_SWATCHES = 5
 
 export default async function ProductCard({
