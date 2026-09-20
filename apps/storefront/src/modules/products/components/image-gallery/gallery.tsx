@@ -349,10 +349,10 @@ const Gallery = ({ items, title }: GalleryProps) => {
             aria-hidden
             fill
             quality={30}
-            sizes="64px"
+            sizes="16px"
             draggable={false}
             data-product-media-backdrop=""
-            className="scale-125 object-cover object-center blur-2xl"
+            className="object-fill"
           />
           <Image
             key={active.id}

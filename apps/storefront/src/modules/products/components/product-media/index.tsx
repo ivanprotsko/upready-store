@@ -1,6 +1,7 @@
 import { clx } from "@medusajs/ui"
 import Image from "next/image"
 
+import HoverImage from "./hover-image"
 import ProductMediaPlaceholder from "./placeholder"
 
 /**
@@ -14,14 +15,16 @@ import ProductMediaPlaceholder from "./placeholder"
  *    whatever the owner uploaded.
  * 2. Product media is never cropped. The picture is `object-fit: contain`, centred, with
  *    no inner padding: a picture whose ratio equals the frame fills it edge to edge under
- *    the frame's own radius. What is left of the frame around any other picture is filled
- *    by a blurred copy of the same picture, so the letterbox of a white packshot is white,
- *    that of a tinted photo is tinted and that of a full-bleed marketplace infographic
- *    continues its own edge. On a flat surface the same three looked like stickers with
- *    stripes beside them (measured on the reference shop: 3:4 photos in the 4:5 frame
- *    leave a 3% strip on each side). A uniform 3% veil over the whole frame then gives
+ *    the frame's own radius. What is left of the frame around a picture of another ratio
+ *    continues that picture's own EDGE: behind it lies the same file, 16px wide, stretched
+ *    to the frame with `object-fit: fill`. Stretching maps the picture's left edge onto the
+ *    frame's left edge, so a strip beside a white packshot is white and a strip beside a
+ *    full-bleed infographic carries the colours the infographic ends with. There is no CSS
+ *    blur and no zoom: a blurred, zoomed copy dragged the dark product from the centre into
+ *    the strips and painted grey bands beside white packshots. The 16px file is smooth
+ *    enough once the browser scales it up. A uniform 3% veil over the whole frame gives
  *    every tile the same edge against the page, so mixed photos read as one grid.
- *    The backdrop is a 64px file and decoration only (`data-product-media-backdrop`).
+ *    The backdrop is decoration only (`data-product-media-backdrop`).
  * 3. A product without photos keeps the same frame and shows a designed placeholder in
  *    it. A missing photo never changes a card's height.
  *
@@ -31,15 +34,15 @@ import ProductMediaPlaceholder from "./placeholder"
 export type ProductMediaContext = "card" | "gallery" | "line"
 
 /**
- * Cards are 4:5. The gallery is 4:5 as well, on the phone and on the desktop: the
- * marketplace photos this storefront was measured against are 3:4 (479 of 483 files of
- * the reference shop), and a 3:4 picture covers 94% of a 4:5 frame's width but only 75%
- * of a 1:1 frame's. Cart and order lines are square, because a line is a row of text
- * with a small mark next to it, not a showcase.
+ * Cards and the gallery are 3:4, the marketplace standard: 479 of the 483 files of the
+ * reference shop are 3:4, so almost every photo fills its frame with no letterbox at all.
+ * A theme may override the ratio with `--product-media-ratio`; 3 / 4 is the platform
+ * default. Cart and order lines are square, because a line is a row of text with a small
+ * mark next to it, not a showcase.
  */
 export const FRAME_ASPECT: Record<ProductMediaContext, string> = {
-  card: "4 / 5",
-  gallery: "4 / 5",
+  card: "var(--product-media-ratio, 3 / 4)",
+  gallery: "var(--product-media-ratio, 3 / 4)",
   line: "1 / 1",
 }
 
@@ -54,7 +57,7 @@ type ProductMediaProps = {
   src?: string | null
   alt: string
   context?: ProductMediaContext
-  /** Cross-faded in on hover, on devices that hover. Cards only. */
+  /** Shown while a mouse is over the frame; fetched on the first hover. Cards only. */
   secondSrc?: string | null
   priority?: boolean
   /** Overrides `FRAME_SIZES[context]` when the slot is not the context's usual one. */
@@ -100,10 +103,10 @@ export default function ProductMedia({
             aria-hidden
             fill
             quality={30}
-            sizes="64px"
+            sizes="16px"
             draggable={false}
             data-product-media-backdrop=""
-            className="scale-125 object-cover object-center blur-2xl"
+            className="object-fill"
           />
           <Image
             src={src}
@@ -113,24 +116,9 @@ export default function ProductMedia({
             quality={quality}
             sizes={slot}
             draggable={false}
-            className={clx(
-              "object-contain object-center",
-              showSecond &&
-                "transition-opacity duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/media:opacity-0"
-            )}
+            className="object-contain object-center"
           />
-          {showSecond ? (
-            <Image
-              src={secondSrc as string}
-              alt=""
-              aria-hidden
-              fill
-              quality={quality}
-              sizes={slot}
-              draggable={false}
-              className="object-contain object-center opacity-0 transition-opacity duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:group-hover/media:opacity-100"
-            />
-          ) : null}
+          {showSecond ? <HoverImage src={secondSrc as string} sizes={slot} quality={quality} /> : null}
         </>
       ) : (
         <ProductMediaPlaceholder compact={context === "line"} />

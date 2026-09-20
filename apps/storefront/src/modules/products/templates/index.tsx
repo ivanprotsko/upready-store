@@ -92,12 +92,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         <Breadcrumb items={breadcrumbItems} />
 
         {/* Two columns from 1024: the gallery, and the buy box that stays in view beside it.
-            The gallery column is capped so the 4:5 main frame fits a laptop screen with
+            The gallery column is capped so the 3:4 main frame fits a laptop screen with
             the header above it. It used to be three columns (gallery | summary | buy
             card) with the gallery in the narrowest one, which left a small photo and a
             void under the two short columns. On a phone everything stacks, gallery first. */}
         <div className="grid grid-cols-1 items-start gap-x-8 gap-y-6 small:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] medium:gap-x-12">
-          <div className="w-full min-w-0 small:max-w-[660px]">
+          <div className="w-full min-w-0 small:max-w-[600px]">
             <ImageGallery images={images} title={product.title} />
           </div>
 
